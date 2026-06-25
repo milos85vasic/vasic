@@ -1,0 +1,5 @@
+[2026-06-25 19:17:26] INFO: Starting API-based translation | provider=gemini model=gpt-4
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 403): {"code":403,"reason":"NOT_ENOUGH_BALANCE","message":"not enough balance","metadata":{}}
+[LLM_ERROR] Text length: 98 bytes, Context: Ebook content
+[2026-06-25 19:17:27] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 403): {"code":403,"reason":"NOT_ENOUGH_BALANCE","message":"not enough balance","metadata":{}} session_id=tx-1782404246878027000
+Session report generated: /tmp/before.gemini.ru_session_report.md

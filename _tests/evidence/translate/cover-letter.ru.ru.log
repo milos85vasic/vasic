@@ -1,0 +1,41 @@
+[2026-06-25T19:40:33+0300] === translate-pipeline run ===
+[2026-06-25T19:40:33+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/src/cover-letter.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/src/cover-letter.ru.md lang=ru script=cyrillic article=0
+[2026-06-25T19:40:33+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/3
+[2026-06-25 19:40:33] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:40:33] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98765, Requested 3041. Please try again in 26m0.384s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[LLM_ERROR] Text length: 3560 bytes, Context: Ebook content
+[2026-06-25 19:40:49] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98765, Requested 3041. Please try again in 26m0.384s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+ session_id=tx-1782405633834336000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Bqz7mIeFoN/whole.out_session_report.md
+[2026-06-25T19:40:49+0300] engine FAILED (provider=groq try=1)
+[2026-06-25T19:41:04+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/3
+[2026-06-25 19:41:04] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:41:04] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98727, Requested 2707. Please try again in 20m38.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[LLM_ERROR] Text length: 3560 bytes, Context: Ebook content
+[2026-06-25 19:41:15] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98727, Requested 2707. Please try again in 20m38.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+ session_id=tx-1782405664670592000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Bqz7mIeFoN/whole.out_session_report.md
+[2026-06-25T19:41:15+0300] engine FAILED (provider=groq try=2)
+[2026-06-25T19:42:15+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=3/3
+[2026-06-25 19:42:15] INFO: Starting API-based translation | provider_explicit=true provider=groq
+[2026-06-25 19:42:15] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98657, Requested 2842. Please try again in 21m35.136s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[LLM_ERROR] Text length: 3560 bytes, Context: Ebook content
+[2026-06-25 19:42:16] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98657, Requested 2842. Please try again in 21m35.136s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+ session_id=tx-1782405735731093000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Bqz7mIeFoN/whole.out_session_report.md
+[2026-06-25T19:42:16+0300] engine FAILED (provider=groq try=3)
+[2026-06-25T19:44:31+0300] provider=groq exhausted; trying next provider
+[2026-06-25T19:44:31+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/3
+[2026-06-25 19:44:31] INFO: Starting API-based translation | provider=mistral provider_explicit=true
+[2026-06-25 19:44:31] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 19:44:57] INFO: Translation completed successfully | input=/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/src/cover-letter.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Bqz7mIeFoN/whole.out.md provider=mistral duration=26.264112084s session_id=tx-1782405871101304000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Bqz7mIeFoN/whole.out_session_report.md
+[2026-06-25T19:44:57+0300] engine SUCCESS via mistral:mistral-large-latest (output     6486 bytes)
+[2026-06-25T19:44:57+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/downloads/src/cover-letter.ru.md (whole file) provider=mistral:mistral-large-latest
+[2026-06-25T19:44:57+0300] === done ===

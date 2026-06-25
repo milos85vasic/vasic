@@ -1,0 +1,4 @@
+[2026-06-25 19:17:08] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:17:08] INFO: Translator selected | selected_provider=llm-groq
+[2026-06-25 19:17:08] INFO: Translation completed successfully | output=/Volumes/T7/Projects/vasic/_tests/evidence/helixtranslate/proof.en2ru.cyrillic.md provider=groq duration=464.229833ms session_id=tx-1782404228312430000 input=/tmp/proof.md
+Session report generated: /Volumes/T7/Projects/vasic/_tests/evidence/helixtranslate/proof.en2ru.cyrillic_session_report.md

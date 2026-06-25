@@ -13,7 +13,7 @@ test.describe('milosvasic.ru — personal CV site', () => {
     await expect(page.locator('h1')).toContainText('Milos');
     await expect(page.locator('h1')).toContainText('Vasic');
     await expect(page.locator('.role')).toBeVisible();
-    const cvBtn = page.locator('a[href*="Milos_Vasic_CV.pdf"]').first();
+    const cvBtn = page.locator('button[data-dl="cv"]').first();
     await expect(cvBtn).toBeVisible();
     await expect(cvBtn).toContainText('Download CV');
   });
@@ -145,13 +145,15 @@ test.describe('milosvasic.ru — personal CV site', () => {
     expect(chipCount).toBeGreaterThan(10);
   });
 
-  test('download CV link returns 200', async ({ page }) => {
+  test('download popup opens and EN CV link returns 200', async ({ page }) => {
     await page.goto(BASE);
-    const downloadLinks = page.locator('a[download]');
-    const href = await downloadLinks.first().getAttribute('href');
-    expect(href).toBeTruthy();
-    const fullUrl = new URL(href, BASE).toString();
-    const resp = await page.request.get(fullUrl);
+    await page.locator('button[data-dl="cv"]').first().click();
+    const modal = page.locator('#dl-modal');
+    await expect(modal).toBeVisible();
+    const en = modal.locator('.dl-lang[data-lang="EN"]');
+    const href = await en.getAttribute('href');
+    expect(href).toMatch(/Milos_Vasic_CV_EN\.pdf$/);
+    const resp = await page.request.get(new URL(href, BASE).toString());
     expect(resp.status()).toBe(200);
   });
 

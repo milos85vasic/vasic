@@ -14,12 +14,12 @@ module.exports = defineConfig({
   ],
   webServer: [
     {
-      command: 'python3 -m http.server 8081 --directory /Volumes/T7/Projects/vasic/vasic.digital',
-      port: 8081, reuseExistingServer: true, timeout: 30000,
+      command: 'python3 -m http.server 8401 --directory /Volumes/T7/Projects/vasic/vasic.digital',
+      port: 8401, reuseExistingServer: false, timeout: 30000,
     },
     {
       command: 'python3 -m http.server 8082 --directory /Volumes/T7/Projects/vasic/milosvasic.ru/_site',
-      port: 8082, reuseExistingServer: true, timeout: 30000,
+      port: 8082, reuseExistingServer: false, timeout: 30000,
     },
   ],
 });

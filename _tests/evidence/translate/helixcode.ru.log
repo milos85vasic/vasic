@@ -1,0 +1,10 @@
+[2026-06-25T19:35:28+0300] === translate-pipeline run ===
+[2026-06-25T19:35:28+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ru/helixcode.md lang=ru script=cyrillic article=1
+[2026-06-25T19:35:28+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/3
+[2026-06-25 19:35:28] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:35:28] INFO: Translator selected | selected_provider=llm-groq
+[2026-06-25 19:35:45] INFO: Translation completed successfully | input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PRxZMCl0NW/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PRxZMCl0NW/body.out.md provider=groq duration=17.353268375s session_id=tx-1782405328298276000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PRxZMCl0NW/body.out_session_report.md
+[2026-06-25T19:35:45+0300] engine SUCCESS via groq:llama-3.3-70b-versatile (output     6546 bytes)
+[2026-06-25T19:35:45+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ru/helixcode.md (frontmatter preserved + translated body) provider=groq:llama-3.3-70b-versatile
+[2026-06-25T19:35:45+0300] === done ===

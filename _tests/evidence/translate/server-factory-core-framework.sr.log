@@ -1,0 +1,41 @@
+[2026-06-25T19:37:58+0300] === translate-pipeline run ===
+[2026-06-25T19:37:58+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/sr/server-factory-core-framework.md lang=sr script=latin article=1
+[2026-06-25T19:37:58+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/3
+[2026-06-25 19:37:58] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:37:58] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 10217, Requested 2399. Please try again in 3.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[LLM_ERROR] Text length: 2798 bytes, Context: Ebook content
+[2026-06-25 19:38:11] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 10217, Requested 2399. Please try again in 3.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+ session_id=tx-1782405478077440000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7bTVjI4qN7/body.out_session_report.md
+[2026-06-25T19:38:11+0300] engine FAILED (provider=groq try=1)
+[2026-06-25T19:38:26+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/3
+[2026-06-25 19:38:26] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:38:26] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98910, Requested 2529. Please try again in 20m43.296s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[LLM_ERROR] Text length: 2798 bytes, Context: Ebook content
+[2026-06-25 19:38:41] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98910, Requested 2529. Please try again in 20m43.296s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+ session_id=tx-1782405506047379000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7bTVjI4qN7/body.out_session_report.md
+[2026-06-25T19:38:41+0300] engine FAILED (provider=groq try=2)
+[2026-06-25T19:39:41+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=3/3
+[2026-06-25 19:39:41] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:39:41] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98835, Requested 2529. Please try again in 19m38.495999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+[LLM_ERROR] Text length: 2798 bytes, Context: Ebook content
+[2026-06-25 19:39:42] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98835, Requested 2529. Please try again in 19m38.495999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+ session_id=tx-1782405581621105000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7bTVjI4qN7/body.out_session_report.md
+[2026-06-25T19:39:42+0300] engine FAILED (provider=groq try=3)
+[2026-06-25T19:41:57+0300] provider=groq exhausted; trying next provider
+[2026-06-25T19:41:57+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/3
+[2026-06-25 19:41:57] INFO: Starting API-based translation | provider_explicit=true provider=mistral
+[2026-06-25 19:41:57] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 19:42:29] INFO: Translation completed successfully | input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7bTVjI4qN7/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7bTVjI4qN7/body.out.md provider=mistral duration=31.9943955s session_id=tx-1782405717161384000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7bTVjI4qN7/body.out_session_report.md
+[2026-06-25T19:42:29+0300] engine SUCCESS via mistral:mistral-large-latest (output     3011 bytes)
+[2026-06-25T19:42:29+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/sr/server-factory-core-framework.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-25T19:42:29+0300] === done ===

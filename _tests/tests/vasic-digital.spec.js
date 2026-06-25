@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const BASE = 'http://localhost:8081';
+const BASE = 'http://localhost:8401';
 
 test.describe('vasic.digital — company site', () => {
 

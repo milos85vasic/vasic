@@ -1,0 +1,41 @@
+=== RUN   TestBridge_NumericProviderID_HTTPPath
+--- PASS: TestBridge_NumericProviderID_HTTPPath (0.00s)
+=== RUN   TestBridge_BestClient_ProviderNameIsModelProvider
+--- PASS: TestBridge_BestClient_ProviderNameIsModelProvider (0.00s)
+=== RUN   TestBridge_ProviderDiverseClients_OnePerProviderRankedByScore
+--- PASS: TestBridge_ProviderDiverseClients_OnePerProviderRankedByScore (0.00s)
+=== RUN   TestBridge_ProviderDiverseTranslators_OnePerProviderRankedByScore
+--- PASS: TestBridge_ProviderDiverseTranslators_OnePerProviderRankedByScore (0.00s)
+=== RUN   TestBridge_ProviderDiverse_EmptyRegistryHonestError
+--- PASS: TestBridge_ProviderDiverse_EmptyRegistryHonestError (0.00s)
+=== RUN   TestBridge_ProviderDiverseClients_SingleProviderStillReturnsOne
+--- PASS: TestBridge_ProviderDiverseClients_SingleProviderStillReturnsOne (0.00s)
+=== RUN   TestBridge_EnsembleFactory_YieldsProviderDiverse
+--- PASS: TestBridge_EnsembleFactory_YieldsProviderDiverse (0.00s)
+=== RUN   TestClientForProvider_RoutesToRequestedProvider
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/novita_bare_provider_picks_its_strongest_verified_model_+_base
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/mistral_bare_provider
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/groq_bare_provider
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/deepseek_bare_provider
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/zhipu_bare_provider
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/gemini_routes_to_Google's_OpenAI-compatible_endpoint,_NOT_OpenAI
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/explicit_-model_overrides_the_verified_model
+=== RUN   TestClientForProvider_RoutesToRequestedProvider/explicit_-base-url_overrides_the_resolved_base
+--- PASS: TestClientForProvider_RoutesToRequestedProvider (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/novita_bare_provider_picks_its_strongest_verified_model_+_base (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/mistral_bare_provider (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/groq_bare_provider (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/deepseek_bare_provider (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/zhipu_bare_provider (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/gemini_routes_to_Google's_OpenAI-compatible_endpoint,_NOT_OpenAI (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/explicit_-model_overrides_the_verified_model (0.00s)
+    --- PASS: TestClientForProvider_RoutesToRequestedProvider/explicit_-base-url_overrides_the_resolved_base (0.00s)
+=== RUN   TestClientForProvider_NoSilentFallback
+--- PASS: TestClientForProvider_NoSilentFallback (0.00s)
+=== RUN   TestClientForProvider_MissingKeyHonestError
+--- PASS: TestClientForProvider_MissingKeyHonestError (0.00s)
+=== RUN   TestTranslatorForProvider_WrapsClient
+--- PASS: TestTranslatorForProvider_WrapsClient (0.00s)
+PASS
+ok  	digital.vasic.translator/pkg/bridge	2.890s
+=== go test (provider routing) exit code: 0 ===

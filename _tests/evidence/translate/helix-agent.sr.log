@@ -1,0 +1,10 @@
+[2026-06-25T19:30:27+0300] === translate-pipeline run ===
+[2026-06-25T19:30:27+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/sr/helix-agent.md lang=sr script=latin article=1
+[2026-06-25T19:30:27+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/3
+[2026-06-25 19:30:27] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:32:35] INFO: Translator selected | selected_provider=llm-groq
+[2026-06-25 19:32:44] INFO: Translation completed successfully | output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GEnxIsbMv5/body.out.md provider=groq duration=2m16.759843667s session_id=tx-1782405027897166000 input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GEnxIsbMv5/body.md
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GEnxIsbMv5/body.out_session_report.md
+[2026-06-25T19:32:44+0300] engine SUCCESS via groq:llama-3.3-70b-versatile (output     5413 bytes)
+[2026-06-25T19:32:44+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/sr/helix-agent.md (frontmatter preserved + translated body) provider=groq:llama-3.3-70b-versatile
+[2026-06-25T19:32:44+0300] === done ===

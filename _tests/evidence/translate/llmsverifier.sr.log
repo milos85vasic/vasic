@@ -1,0 +1,10 @@
+[2026-06-25T19:37:17+0300] === translate-pipeline run ===
+[2026-06-25T19:37:17+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/sr/llmsverifier.md lang=sr script=latin article=1
+[2026-06-25T19:37:17+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/3
+[2026-06-25 19:37:17] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:37:17] INFO: Translator selected | selected_provider=llm-groq
+[2026-06-25 19:37:44] INFO: Translation completed successfully | duration=27.679128583s session_id=tx-1782405437253784000 input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ssWwRSsbWi/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ssWwRSsbWi/body.out.md provider=groq
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ssWwRSsbWi/body.out_session_report.md
+[2026-06-25T19:37:44+0300] engine SUCCESS via groq:llama-3.3-70b-versatile (output     3485 bytes)
+[2026-06-25T19:37:44+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/sr/llmsverifier.md (frontmatter preserved + translated body) provider=groq:llama-3.3-70b-versatile
+[2026-06-25T19:37:44+0300] === done ===

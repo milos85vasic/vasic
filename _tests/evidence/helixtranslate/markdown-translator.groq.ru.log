@@ -1,0 +1,21 @@
+ℹ️  -provider=groq is honored (explicit); routing to that provider.
+🚀 Markdown-Based Translation Pipeline
+
+Input:  /tmp/md_test.md (format: .md)
+Output: /tmp/md_out.md (format: md)
+
+ℹ️  Using markdown input directly: /tmp/md_test.md
+
+🔧 Step 1/2: Initializing translator...
+✓ Using bridge source: in-process
+
+🌍 Step 2/2: Translating markdown content...
+✓ Translated markdown saved: Books/md_out_translated.md
+
+✓ Final markdown created: /tmp/md_out.md
+
+✅ Translation complete!
+
+Files generated:
+  - Translated MD:  Books/md_out_translated.md
+  - Final Markdown: /tmp/md_out.md

@@ -1,0 +1,4 @@
+[2026-06-25 19:17:16] INFO: Starting API-based translation | provider=mistral provider_explicit=true
+[2026-06-25 19:17:16] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 19:17:19] INFO: Translation completed successfully | input=/tmp/proof.md output=/Volumes/T7/Projects/vasic/_tests/evidence/helixtranslate/proof.en2ru.mistral.md provider=mistral duration=2.995823125s session_id=tx-1782404236696857000
+Session report generated: /Volumes/T7/Projects/vasic/_tests/evidence/helixtranslate/proof.en2ru.mistral_session_report.md

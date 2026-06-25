@@ -1,0 +1,18 @@
+[2026-06-25T19:35:55+0300] === translate-pipeline run ===
+[2026-06-25T19:35:55+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/sr/helixtrack-core.md lang=sr script=latin article=1
+[2026-06-25T19:35:55+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/3
+[2026-06-25 19:35:55] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:35:55] INFO: Translator selected | selected_provider=llm-groq
+[LLM_ERROR] Translation failed: LLM translation failed: failed to send request: Post "https://api.groq.com/openai/v1/chat/completions": net/http: TLS handshake timeout
+[LLM_ERROR] Text length: 2873 bytes, Context: Ebook content
+[2026-06-25 19:36:11] ERROR: Translation failed | error=Translation failed: API translation failed: LLM translation failed: failed to send request: Post "https://api.groq.com/openai/v1/chat/completions": net/http: TLS handshake timeout session_id=tx-1782405355995599000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hTinAs24rA/body.out_session_report.md
+[2026-06-25T19:36:11+0300] engine FAILED (provider=groq try=1)
+[2026-06-25T19:36:26+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/3
+[2026-06-25 19:36:26] INFO: Starting API-based translation | provider=groq provider_explicit=true
+[2026-06-25 19:36:26] INFO: Translator selected | selected_provider=llm-groq
+[2026-06-25 19:36:47] INFO: Translation completed successfully | duration=20.507569708s session_id=tx-1782405386783904000 input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hTinAs24rA/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hTinAs24rA/body.out.md provider=groq
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hTinAs24rA/body.out_session_report.md
+[2026-06-25T19:36:47+0300] engine SUCCESS via groq:llama-3.3-70b-versatile (output     2928 bytes)
+[2026-06-25T19:36:47+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/sr/helixtrack-core.md (frontmatter preserved + translated body) provider=groq:llama-3.3-70b-versatile
+[2026-06-25T19:36:47+0300] === done ===

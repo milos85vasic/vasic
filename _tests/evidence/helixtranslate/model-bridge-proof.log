@@ -1,0 +1,30 @@
+### model-bridge build+prove @ 2026-06-25T15:45:51Z
+## go build ./cmd/model-bridge
+BUILD_OK
+## providers visible (names only): DEEPSEEK/ZHIPU/GEMINI present in env
+## best-model (max 1 per provider, 6m verify budget):
+{
+  "fallback_chain": [
+    "novita/Sao10K/L3-8B-Stheno-v3.2",
+    "mistral/codestral-2508",
+    "mistral/codestral-latest",
+    "groq/allam-2-7b",
+    "mistral/devstral-2512",
+    "groq/groq/compound",
+    "siliconflow/ByteDance-Seed/Seed-OSS-36B-Instruct"
+  ],
+  "source": "in-process",
+  "strongest": {
+    "provider_id": "novita",
+    "factory_provider": "openai",
+    "model_id": "Sao10K/L3-8B-Stheno-v3.2",
+    "model_name": "Sao10K/L3-8B-Stheno-v3.2",
+    "score": 0.91875,
+    "fallback_order": 1,
+    "capabilities": {
+      "streaming": true,
+      "vision": true
+    },
+    "base_url": "https://api.novita.ai/v3/openai"
+  }
+}
