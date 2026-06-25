@@ -1,0 +1,418 @@
+# ATMOSphere Android 15 (Orange Pi 5 Max)
+
+**Revision:** 3
+**Last modified:** 2026-05-20T08:30:00Z
+**Status:** Always-sync per Constitution §11.4.59 (HTML + PDF refreshed via `scripts/testing/sync_readme_export.sh`)
+
+Custom Android 15 (API level 35, Baklava) firmware for **Orange Pi 5 Max (RK3588)**, built from AOSP source with **135+ applied fixes** and optimizations. Repository optimized for GitHub hosting (~18GB compressed from 303GB).
+
+**This project exclusively targets Orange Pi 5 Max. No other devices or build targets are supported.**
+
+## Governance
+
+This project inherits the **HelixConstitution** at `constitution/` (submodule).
+[`constitution/Constitution.md`](constitution/Constitution.md) is the canonical authority for all universal rules
+(anti-bluff covenant §11.4, no-guessing mandate §11.4.6, host-session safety §12, data safety §9,
+mutation-paired gates §1.1, etc.). Project-specific rules extend it via [`CLAUDE.md`](CLAUDE.md)
+and [`AGENTS.md`](AGENTS.md) at this repo's root.
+
+When this repo's CLAUDE.md/AGENTS.md disagrees with the constitution submodule, the constitution wins
+(per §11.4.35 canonical-root inheritance clarity).
+
+## Supported Device
+
+| Device | SoC | Status | Documentation |
+|--------|-----|--------|---------------|
+| Orange Pi 5 Max | RK3588 | **Fully Working (135+ fixes applied)** | [docs/orange-pi-5-max/](docs/orange-pi-5-max/) |
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone --recurse-submodules git@github.com:vasic-digital/Android-15-AOSP.git
+cd Android-15-AOSP
+
+# Extract compressed toolchains and binaries (~40 directories, ~50GB)
+./scripts/setup.sh --parallel 8
+
+# Build (MUST use official build script — see docs/scripts/build.md)
+rm -f rockdev/*.img && rm -f RKTools/linux/Linux_Pack_Firmware/rockdev/*.img
+bash scripts/build.sh --skip-pull --skip-tests --skip-ota
+
+# Containerized build (Constitution §12.9 — bypasses user.slice oomd)
+bash scripts/build_containerized.sh --skip-pull --skip-tests --skip-ota
+
+# Flash (device in MASKROM mode: hold RECOVERY → USB → power → 5s → release)
+sudo bash scripts/enable_flashing_capabilities.sh
+bash scripts/flash.sh --quick
+sudo bash scripts/enable_flashing_capabilities.sh --restore
+```
+
+## Documentation Map
+
+Find what you need by audience:
+
+### For end users
+- [`docs/guides/USER_GUIDE.md`](docs/guides/USER_GUIDE.md) — apps, audio, WiFi, BT, troubleshooting
+- [`docs/guides/FLASHING_GUIDE.md`](docs/guides/FLASHING_GUIDE.md) — firmware flashing (Linux primary)
+- [`docs/guides/MULTICHANNEL_AUDIO_USER_GUIDE.md`](docs/guides/MULTICHANNEL_AUDIO_USER_GUIDE.md) — 5.1/7.1 LPCM HDMI output
+- [`docs/guides/DRM_USER_GUIDE.md`](docs/guides/DRM_USER_GUIDE.md) — Widevine L3 streaming
+- [`docs/guides/NETFLIX_DOLBY_AUDIO.md`](docs/guides/NETFLIX_DOLBY_AUDIO.md) — Netflix + Dolby pipeline
+
+### For developers
+- [`docs/guides/SYSTEM_ARCHITECTURE.md`](docs/guides/SYSTEM_ARCHITECTURE.md) — 19-section system architecture
+- [`docs/guides/BUILD_GUIDE.md`](docs/guides/BUILD_GUIDE.md) — build + test procedures
+- [`docs/guides/CONTAINERIZED_VALIDATION.md`](docs/guides/CONTAINERIZED_VALIDATION.md) — §12.9 containerized AOSP build
+- [`docs/guides/PARALLEL_DEVELOPMENT_METHODOLOGY.md`](docs/guides/PARALLEL_DEVELOPMENT_METHODOLOGY.md) — multi-agent workflow
+- [`docs/guides/DRM_ARCHITECTURE.md`](docs/guides/DRM_ARCHITECTURE.md) — Widevine L3 dual-variant DRM
+- [`docs/guides/MULTICHANNEL_AUDIO_ARCHITECTURE.md`](docs/guides/MULTICHANNEL_AUDIO_ARCHITECTURE.md) — multichannel pipeline
+- [`docs/guides/ARVUS_HDMI_INTEGRATION.md`](docs/guides/ARVUS_HDMI_INTEGRATION.md) — sink-side captured-evidence per §11.4.13
+- [`docs/guides/SMARTTUBE_INTEGRATION.md`](docs/guides/SMARTTUBE_INTEGRATION.md) — ATMOSphere SmartTube fork
+- [`docs/guides/LAMPA_INTEGRATION.md`](docs/guides/LAMPA_INTEGRATION.md) — ATMOSphere Lampa fork
+- [`docs/guides/NEXT_RELEASE_PLAN.md`](docs/guides/NEXT_RELEASE_PLAN.md) — HelixQA LLM testing roadmap
+- [`docs/scripts/`](docs/scripts/) — per-script user guides (build, commit, flash, sync_issues_docs, ...)
+- [`docs/research/`](docs/research/) — foundational research (e.g. `Hdmi2_Enforcing.md`)
+- [`docs/orange-pi-5-max/`](docs/orange-pi-5-max/) — device-specific BUILD / FLASH / TROUBLESHOOTING
+
+### For QA / test operators
+- [`docs/Issues.md`](docs/Issues.md) — open / in-flight bug + work tracker (§11.4.15 status, §11.4.16 type)
+- [`docs/Issues_Summary.md`](docs/Issues_Summary.md) — auto-generated short-form summary (§11.4.12)
+- [`docs/Fixed.md`](docs/Fixed.md) — closed bug archive with captured evidence
+- [`docs/Fixed_Summary.md`](docs/Fixed_Summary.md) — closed-item summary (§11.4.53)
+- [`docs/CONTINUATION.md`](docs/CONTINUATION.md) — live handoff document (§12.10 always-sync)
+- [`docs/guides/TESTING_PROTOCOL_11_4_4.md`](docs/guides/TESTING_PROTOCOL_11_4_4.md) — §11.4.4 test protocol
+- [`docs/guides/QA_REPROCESS_GUIDE.md`](docs/guides/QA_REPROCESS_GUIDE.md) — QA reprocess workflow
+- **Test Catalog** (BG-006 — 1811-record derived corpus catalog; Revision 1, last modified 2026-06-09T13:34:58Z; §11.4.86 corpus-fingerprint freshness gate `CM-TEST-CATALOG-FRESH`) — [`Catalog.md`](docs/research/test_catalog/catalog/Catalog.md) · [`.html`](docs/research/test_catalog/catalog/Catalog.html) · [`.pdf`](docs/research/test_catalog/catalog/Catalog.pdf) · [`.docx`](docs/research/test_catalog/catalog/Catalog.docx) · [interactive `index.html`](docs/research/test_catalog/catalog/index.html) (search + facet filters, offline `file://`)
+
+### Integration status (Status.md + Status_Summary.md docs per §11.4.45 + §11.4.56)
+
+Per Constitution §11.4.45 (integration-status-doc maintenance) + §11.4.56
+(Status_Summary parity + two-audience format) + §11.4.65 (universal MD
+export), every integration domain carries a `Status.md` (full detail) +
+`Status_Summary.md` (short-form, condensed) pair with synchronized HTML
++ PDF exports. Both files MUST be in sync at all times — enforced by
+pre-build gates.
+
+| Domain | Detail | Summary |
+|---|---|---|
+| Devices / DX inventory (D1–D5 Orange Pi 5 Max — serials, topology, firmware) | [`docs/devices/Status.md`](docs/devices/Status.md) | [`docs/devices/Status_Summary.md`](docs/devices/Status_Summary.md) |
+| Audio / HiFi | [`docs/audio/hifi/Status.md`](docs/audio/hifi/Status.md) | [`docs/audio/hifi/Status_Summary.md`](docs/audio/hifi/Status_Summary.md) |
+| Apps / TV apps | [`docs/apps/tv-apps/Status.md`](docs/apps/tv-apps/Status.md) | [`docs/apps/tv-apps/Status_Summary.md`](docs/apps/tv-apps/Status_Summary.md) |
+| Dolby / Arvus HDMI sink | [`docs/dolby/arvus/Status.md`](docs/dolby/arvus/Status.md) | [`docs/dolby/arvus/Status_Summary.md`](docs/dolby/arvus/Status_Summary.md) |
+| Dolby / AC-3 + E-AC-3 | [`docs/dolby/ac3/Status.md`](docs/dolby/ac3/Status.md) | [`docs/dolby/ac3/Status_Summary.md`](docs/dolby/ac3/Status_Summary.md) |
+| Dolby / Test assets (corpus + per-player results) | [`docs/dolby/test_assets/Status.md`](docs/dolby/test_assets/Status.md) | [`docs/dolby/test_assets/Status_Summary.md`](docs/dolby/test_assets/Status_Summary.md) |
+| Players / Capability + test matrix (audio + video × stereo/5.1/7.1/Dolby) | [`docs/players/Status.md`](docs/players/Status.md) | [`docs/players/Status_Summary.md`](docs/players/Status_Summary.md) |
+| Sonos / Sonos framework | [`docs/sonos/sonos-framework/Status.md`](docs/sonos/sonos-framework/Status.md) | [`docs/sonos/sonos-framework/Status_Summary.md`](docs/sonos/sonos-framework/Status_Summary.md) |
+| Google Stack / Apps + services | [`docs/google-stack/apps-and-services/Status.md`](docs/google-stack/apps-and-services/Status.md) | [`docs/google-stack/apps-and-services/Status_Summary.md`](docs/google-stack/apps-and-services/Status_Summary.md) |
+| Google / Licenses (Play certification) | [`docs/google/licenses/Status.md`](docs/google/licenses/Status.md) | [`docs/google/licenses/Status_Summary.md`](docs/google/licenses/Status_Summary.md) |
+| Research / AMD platform | [`docs/research/amd/Status.md`](docs/research/amd/Status.md) | [`docs/research/amd/Status_Summary.md`](docs/research/amd/Status_Summary.md) |
+
+### Specs and implementation plans
+- [`docs/superpowers/specs/`](docs/superpowers/specs/) — design specs (TDD per §11.4.43)
+- [`docs/superpowers/plans/`](docs/superpowers/plans/) — implementation plans (per §11.4.42)
+
+### Release history
+- [`docs/changelogs/`](docs/changelogs/) — per-version changelogs (`<tag>.md` + .html + .pdf)
+- [`docs/changelogs/CHANGELOG.md`](docs/changelogs/CHANGELOG.md) — index of releases
+
+### Governance reference
+- [`constitution/Constitution.md`](constitution/Constitution.md) — canonical universal rules
+- [`constitution/CLAUDE.md`](constitution/CLAUDE.md) — agent instructions (universal)
+- [`constitution/AGENTS.md`](constitution/AGENTS.md) — agent instructions (universal)
+- [`CLAUDE.md`](CLAUDE.md) — project-specific agent instructions (extends constitution)
+- [`AGENTS.md`](AGENTS.md) — project-specific agent instructions (extends constitution)
+
+## Repository Structure
+
+This repository uses a hybrid storage approach to work within GitHub's constraints:
+
+| Category | Storage Method | Size |
+|----------|---------------|------|
+| Source code | Direct git | ~1GB |
+| Large toolchains | Compressed archives | ~17GB (compressed from ~54GB) |
+| Build outputs | Excluded (.gitignore) | N/A |
+| Repo metadata | Excluded (.gitignore) | N/A |
+
+**Migration Statistics:**
+- Original AOSP size: 303GB
+- Excluded (.repo + out): 211GB
+- Compressed directories: 40
+- Total repository size: ~18GB
+- Compression ratio: ~3:1
+
+### Compressed Directories
+
+The following directories are stored as multi-part `.tar.xz` archives in `.compressed/` and extracted by `setup.sh`:
+
+- **prebuilts/clang/** — Clang/LLVM toolchains (~14GB)
+- **prebuilts/rust/** — Rust toolchains (~14GB)
+- **prebuilts/sdk/** — Android SDK versions (~5GB)
+- **prebuilts/abi-dumps/** — ABI snapshots (~5.5GB)
+- **external/deqp/** — Graphics test suite (~1.6GB)
+- **device/google/*-kernels/** — Pre-built device kernels (~8GB)
+- And more — see `scripts/config/directories.conf`
+
+## Requirements
+
+### System Requirements
+
+- **Disk Space**: 150GB minimum (after extraction)
+- **RAM**: 32GB minimum (Constitution §12.6 caps build memory at 60% — `m -j` is hard-capped at -j2 per §12.7)
+- **OS**: Linux (Ubuntu 22.04+ recommended; containerized build supports any podman/docker host)
+
+### Required Packages
+
+```bash
+# Ubuntu/Debian (host)
+sudo apt-get install xz-utils jq git coreutils bc \
+    git-core gnupg flex bison build-essential \
+    zip curl zlib1g-dev libc6-dev-i386 libncurses5 \
+    x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev \
+    libxml2-utils xsltproc unzip fontconfig
+
+# Doc-export pipeline (pandoc + weasyprint)
+sudo apt-get install pandoc python3-pip
+pip3 install --user weasyprint
+```
+
+## Scripts Reference
+
+**Comprehensive script documentation lives under [`docs/scripts/`](docs/scripts/)** — every authoritative shell script in this repository ships with a paired user guide. Per Constitution §11.4.18, when a script source changes, its companion `docs/scripts/<name>.md` is updated in the same commit; the `CM-SCRIPT-DOCS-SYNC` pre-build gate enforces this invariant.
+
+Quick links to the most-used scripts:
+
+| Script | User guide | Purpose |
+|---|---|---|
+| `scripts/commit_all.sh` | [docs/scripts/commit_all.md](docs/scripts/commit_all.md) | ONLY authorized commit + multi-remote push wrapper |
+| `scripts/build.sh` | [docs/scripts/build.md](docs/scripts/build.md) | ONLY authorized build script (kernel rebuild + image packaging) |
+| `scripts/build_containerized.sh` | [docs/scripts/build_containerized.md](docs/scripts/build_containerized.md) | Containerized AOSP build (§12.9 — bypasses user.slice oomd) |
+| `scripts/flash.sh` | [docs/scripts/flash.md](docs/scripts/flash.md) | ONLY authorized flash script (DDR init + retry + MASKROM handling) |
+| `scripts/testing/sync_issues_docs.sh` | [docs/scripts/sync_issues_docs.md](docs/scripts/sync_issues_docs.md) | Auto-sync wrapper for Issues / Issues_Summary / Fixed / Fixed_Summary / CONTINUATION / README (md + html + pdf) per §11.4.12 / §11.4.53 / §11.4.59 |
+| `scripts/testing/sync_readme_export.sh` | (this script) | Refresh README.html + README.pdf per §11.4.59 |
+
+For the legacy quick-recipe table below (setup / compress / build / flash), see also the per-script guides above for full options, edge cases, and internal behaviour.
+
+### setup.sh — Extract Archives
+
+```bash
+./scripts/setup.sh                # default 4 parallel jobs
+./scripts/setup.sh --parallel 8   # faster extraction
+./scripts/setup.sh --no-verify    # skip checksum verification
+./scripts/setup.sh --status       # check extraction status
+```
+
+### compress.sh — Compress Directories
+
+```bash
+./scripts/compress.sh                                # changed only
+./scripts/compress.sh --force                        # all
+./scripts/compress.sh --directory prebuilts/clang    # specific
+./scripts/compress.sh --dry-run                      # preview
+```
+
+## Development Workflow
+
+```bash
+# Make changes, then commit and push using the MANDATORY script:
+bash scripts/commit_all.sh "Description of changes"
+
+# NEVER use git add/commit/push directly — commit_all.sh handles
+# compression, staging, committing, and pushing to ALL remotes.
+```
+
+Per Constitution §11.4.42 iteration discipline, work proceeds in priority-ordered cycles:
+select TOP+MIDDLE critical items → batch implementation per §11.4.9 (source-side batching with §11.4.4
+four-layer coverage) → smoke-test gate (<30 min) → §11.4.40 full-system retest (12-48 h) → release-ready.
+
+## Testing
+
+Per Constitution §11.4 anti-bluff covenant, every PASS carries positive captured evidence:
+
+```bash
+# Pre-build verification (~1698 PASS / 0 FAIL / 1 WARN — see Issues_Summary for live count)
+bash device/rockchip/rk3588/tests/pre_build_verification.sh
+
+# Post-build verification (validates generated images before flashing)
+bash device/rockchip/rk3588/tests/post_build_verification.sh
+
+# Post-flash 4-phase verification (immediate → reboot → factory reset → reboot)
+bash device/rockchip/rk3588/tests/test_all_fixes.sh
+
+# Meta-test mutation sweep (proves no gate is itself a bluff gate)
+bash scripts/testing/meta_test_false_positive_proof.sh
+
+# Doc sync (Issues + Issues_Summary + Fixed + Fixed_Summary + CONTINUATION + README — md/html/pdf)
+bash scripts/testing/sync_issues_docs.sh
+```
+
+Per §11.4.49 dual-approach + §11.4.48 UI-driven mandates, every feature test ships in TWO variants
+(UI-driven + Intent/Broadcast-driven). Per §11.4.50 deterministic consistency, every PASS is run
+N=3 (10 for cycle-validation) and asserted identical across iterations.
+
+Per §11.4.52 autonomous-validation mandate, every user-facing feature MUST have at least one
+autonomous validation path (operator-attended tests are SUPPLEMENTARY, never PRIMARY).
+
+## Troubleshooting
+
+### Setup fails with "Checksum verification failed"
+
+Archive may be corrupted during transfer. Re-extract:
+
+```bash
+rm -rf path/to/extracted/dir
+./scripts/setup.sh --extract archive-name
+```
+
+### Build fails with missing prebuilt
+
+```bash
+./scripts/setup.sh --status
+```
+
+### Build OOM-kills the host session
+
+Constitution §12.6/§12.7/§12.8/§12.9 guard the host against this. Use containerized build:
+
+```bash
+bash scripts/build_containerized.sh --skip-pull --skip-tests --skip-ota
+```
+
+### Out of disk space during extraction
+
+Estimated space needed: ~150GB. Free up space or use external storage.
+
+### Device boots to recovery (no display)
+
+See [`docs/orange-pi-5-max/TROUBLESHOOTING.md`](docs/orange-pi-5-max/TROUBLESHOOTING.md).
+
+## Architecture
+
+```
+Android_15/
+├── .compressed/           # Compressed archives (multi-part .tar.xz <95MB each)
+├── constitution/          # HelixConstitution submodule (canonical authority)
+├── scripts/               # Build / commit / flash / setup / compress
+│   ├── lib/               # Shared shell libraries (host_session_safety.sh, ...)
+│   └── testing/           # sync_issues_docs.sh, sync_readme_export.sh, meta-test
+├── docs/                  # Project documentation (always-sync per §11.4.12/53/59)
+│   ├── guides/            # User + developer guides
+│   ├── scripts/           # Per-script companion docs (§11.4.18)
+│   ├── changelogs/        # Per-version changelogs
+│   ├── research/          # Foundational design docs
+│   ├── orange-pi-5-max/   # Device-specific guides
+│   ├── superpowers/       # specs/ + plans/
+│   ├── dolby/             # Dolby Status.md docs
+│   ├── sonos/             # Sonos Status.md docs
+│   ├── google-stack/      # Google stack Status.md docs
+│   ├── audio/             # Audio Status.md docs
+│   └── apps/              # App integration Status.md docs
+├── device/rockchip/       # Device config + init + tests + prebuilt apps
+│   ├── rk3588/            # Board files, tests/, bin/, prebuilt_apps/
+│   └── atmosphere/        # 10 owned submodules (presenter, smarttube-player, ...)
+├── kernel-5.10/           # Custom kernel (BBR, HZ1000, FQ, hrtimer, THP)
+├── u-boot/                # U-Boot source (DO NOT rebuild — see CLAUDE.md)
+├── build/                 # AOSP build system
+├── frameworks/            # Android framework (modified per Fix #88/#107/#111)
+├── packages/modules/      # Mainline modules (Connectivity, Wifi, ...)
+├── hardware/rockchip/     # Audio HAL, HWC2 dual-display
+├── prebuilts/             # Compressed toolchains (extracted by setup.sh)
+├── external/              # Third-party (incl. ffmpeg_codec2)
+├── vendor/                # Widevine L3 (konsta + rockchip variants)
+├── qa-results/            # Forensic captures + per-phase artifacts
+├── releases/              # Per-app per-version release artifacts
+└── logs/                  # Captured logs (forensic)
+```
+
+## License
+
+The Android Open Source Project is licensed under the Apache License 2.0.
+See [LICENSE](https://source.android.com/docs/setup/about/licenses) for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make changes per Constitution §11.4.43 TDD (RED test FIRST)
+4. Run pre-build tests: `bash device/rockchip/rk3588/tests/pre_build_verification.sh`
+5. Build: `bash scripts/build.sh --skip-pull --skip-tests --skip-ota`
+6. Flash and run post-flash tests: `bash device/rockchip/rk3588/tests/test_all_fixes.sh`
+7. Sync docs: `bash scripts/testing/sync_issues_docs.sh`
+8. Commit: `bash scripts/commit_all.sh "Description"`
+9. Submit pull request
+
+For large changes affecting compressed directories, please coordinate to avoid conflicts.
+
+## Generated Images
+
+| Image | Size | Description |
+|-------|------|-------------|
+| update_spi_nvme.img | ~6.1GB | Combined SPI NOR + NVMe firmware (flash this) |
+| super.img | ~6.0GB | Dynamic partitions (system, vendor, product) |
+| boot.img | ~42MB | Kernel and ramdisk |
+| recovery.img | ~53MB | Recovery mode |
+
+## Features
+
+### Hardware
+- RK3588 octa-core CPU with CPU2 exclusive audio isolation
+- Mali-G610 GPU with OpenGL ES 3.2
+- Dual HDMI output (HDMI-A-1 / HDMI-A-2) — TV + touch screen routing per Fix #80
+- NVMe SSD storage + SPI NOR flash bootloader
+- RTL8125 2.5GbE Ethernet (Fix #79)
+- Wired touch panel (WCH.cn USB2IIC_CTP_CONTROL) IDC + 90° rotation (Fix #130 / #133)
+
+### Audio
+- ES8388 analog codec with always-both-outputs routing (Fix #104) and kernel DAPM mixer fix (Fix #105)
+- Bluetooth A2DP with 400ms buffer chain, CPU2 IRQ affinity, UART flow control (Fix #63 / #72)
+- USB audio and USB microphone support
+- FFmpeg Codec2 AC-3 / E-AC-3 / DTS / DTS-HD / TrueHD / MLP decoders (Fix #106 / #112)
+- 5.1 / 7.1 multichannel LPCM HDMI output (Fix #112) — see `docs/guides/MULTICHANNEL_AUDIO_USER_GUIDE.md`
+
+### Networking
+- WiFi (**Synaptics SYN43711 / Broadcom BCM43711**, WiFi 6) via `bcmdhd.ko`
+- WiFi roaming daemon **v14.0** with safe 5GHz band steering, BTCOEXMODE preemption, wpa_cli roam (Fix #59 / #72 / #77)
+- BSSID blocklist tuning (Fix #37)
+- TCP buffer tuning: rmem/wmem 8MB, BBR congestion control (Fix #26)
+- Captive portal disable for RU region (Fix #113)
+
+### Video & DRM
+- HW video codecs: 8 decoders + 3 encoders (c2.rk Codec 2.0; HW AVC disabled per Fix #94)
+- SW codecs (c2.android.*) for 4K AVC, 8K HEVC/VP9/AV1 (Fix #107)
+- Widevine L3 dual-variant DRM: KonstaKANG A15 arm64 CDM + Rockchip A13 32-bit fallback (Fix #114)
+- Universal HDMI2 video enforcing — framework MediaCodec.configure() hook + NDK hook redirects video to secondary display (Fix #88 / #99 / #107 / #111)
+- Subtitle routing to secondary display (Fix #115)
+
+### Apps (60+ prebuilt apps)
+- Google Apps (MindTheGapps, 21 APKs, toggle-able)
+- ATMOSphere forks: SmartTube, Lampa, TorrServe, VLC, MPV (5 platform-signed forks; see `docs/guides/*_INTEGRATION.md`)
+- Streaming: Netflix, Disney+, Prime Video, HBO Max, Hulu (L3 SD), Kinopoisk, RuTube, Wink, Premier, IVI (60+ apps total)
+- Local: Kodi, AIMP, HiByMusic, Vimeo, Telegram, ...
+
+### System
+- Linux flashing via flash.sh (upgrade_tool with DDR retry, MASKROM auto-detect)
+- **135+ applied fixes** for Android 15 on RK3588 (see CLAUDE.md "Applied Fixes Reference")
+- Comprehensive test suite per §11.4 anti-bluff covenant:
+  - **1698+ pre-build tests** (CM-* gates with paired mutations)
+  - **post-build image gates** (sparse images, LPM metadata, vendor libs, multichannel codec registrant)
+  - **45+ post-flash test suites** with 4-phase verification (boot → reboot → factory reset → reboot)
+  - **dual-approach** per §11.4.49 (UI-driven + Intent/Broadcast-driven variants for every feature)
+  - **autonomous-validation** per §11.4.52 (no test requires operator presence to PASS)
+- Zero power saving (always-on appliance) — see CLAUDE.md "MANDATORY POWER SAVING CONSTRAINTS"
+- Per-display UI density override (Fix #131, current 295 dpi on display 0)
+- Idle-dim daemon (Fix #132, 1s poll, Option A backlight soft-dim preserves Fix #65 always-on)
+
+### Known Limitations
+
+- Camera disabled (no hardware on Orange Pi 5 Max)
+- SELinux in permissive mode (userdebug builds)
+- Widevine L1 keybox NOT shipped (TA is in-tree; L1 enablement requires castlabs/third-party licensing — see `docs/guides/CASTLABS_L1_FIRST_CONTACT.md`)
+- Some streaming apps geo-restricted in certain regions (e.g. YouTube in RU needs VPN) — see CLAUDE.md "Video app geo-restriction" rule
+
+## Links
+
+- [AOSP Documentation](https://source.android.com/docs)
+- [Android Build System](https://source.android.com/docs/setup/build)
+- [Orange Pi Official Site](http://www.orangepi.org/)
+- [HelixConstitution canonical reference](https://github.com/HelixDevelopment/HelixConstitution)
+- [CLAUDE.md](CLAUDE.md) — AI assistant guidance (project-specific)
+- [AGENTS.md](AGENTS.md) — AI assistant guidance (project-specific)

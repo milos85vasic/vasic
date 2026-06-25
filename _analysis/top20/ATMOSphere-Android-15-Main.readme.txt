@@ -1,0 +1,305 @@
+# ATMOSphere Android 15 (Orange Pi 5 Max)
+
+Custom Android 15 (API level 35, Baklava) firmware for **Orange Pi 5 Max (RK3588)**, built from AOSP source with 60+ fixes and optimizations. Repository optimized for GitHub hosting (~18GB compressed from 303GB).
+
+**This project exclusively targets Orange Pi 5 Max. No other devices or build targets are supported.**
+
+## Supported Device
+
+| Device | SoC | Status | Documentation |
+|--------|-----|--------|---------------|
+| Orange Pi 5 Max | RK3588 | **Fully Working (60+ fixes)** | [Documentation](docs/orange-pi-5-max/) |
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone git@github.com:vasic-digital/Android-15-AOSP.git
+cd Android-15-AOSP
+
+# Extract compressed toolchains and binaries (~40 directories, ~50GB)
+./scripts/setup.sh --parallel 8
+
+# Build (MUST use official build script)
+rm -f rockdev/*.img && rm -f RKTools/linux/Linux_Pack_Firmware/rockdev/*.img
+bash scripts/build.sh --skip-pull --skip-tests --skip-ota
+
+# Flash (device in MASKROM mode: hold RECOVERY → USB → power → 5s → release)
+sudo bash scripts/enable_flashing_capabilities.sh
+bash scripts/flash.sh
+sudo bash scripts/enable_flashing_capabilities.sh --restore
+```
+
+## Repository Structure
+
+This repository uses a hybrid storage approach to work within GitHub's constraints:
+
+| Category | Storage Method | Size |
+|----------|---------------|------|
+| Source code | Direct git | ~1GB |
+| Large toolchains | Compressed archives | ~17GB (compressed from ~54GB) |
+| Build outputs | Excluded (.gitignore) | N/A |
+| Repo metadata | Excluded (.gitignore) | N/A |
+
+**Migration Statistics:**
+- Original AOSP size: 303GB
+- Excluded (.repo + out): 211GB
+- Compressed directories: 40
+- Total repository size: ~18GB
+- Compression ratio: ~3:1
+
+### Compressed Directories
+
+The following directories are stored as multi-part `.tar.xz` archives in `.compressed/` and extracted by `setup.sh`:
+
+- **prebuilts/clang/** - Clang/LLVM toolchains (~14GB)
+- **prebuilts/rust/** - Rust toolchains (~14GB)
+- **prebuilts/sdk/** - Android SDK versions (~5GB)
+- **prebuilts/abi-dumps/** - ABI snapshots (~5.5GB)
+- **external/deqp/** - Graphics test suite (~1.6GB)
+- **device/google/*-kernels/** - Pre-built device kernels (~8GB)
+- And more... (see `scripts/config/directories.conf`)
+
+## Requirements
+
+### System Requirements
+
+- **Disk Space**: 150GB minimum (after extraction)
+- **RAM**: 16GB minimum (32GB+ recommended for building)
+- **OS**: Linux (Ubuntu 20.04+ recommended)
+
+### Required Packages
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install xz-utils jq git coreutils bc
+
+# For building AOSP (additional)
+sudo apt-get install git-core gnupg flex bison build-essential \
+    zip curl zlib1g-dev libc6-dev-i386 libncurses5 \
+    x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev \
+    libxml2-utils xsltproc unzip fontconfig
+```
+
+## Scripts Reference
+
+### setup.sh - Extract Archives
+
+```bash
+# Extract all archives (default: 4 parallel jobs)
+./scripts/setup.sh
+
+# Use more parallel jobs for faster extraction
+./scripts/setup.sh --parallel 8
+
+# Skip checksum verification (faster but less safe)
+./scripts/setup.sh --no-verify
+
+# Check extraction status
+./scripts/setup.sh --status
+
+# Extract specific archive only
+./scripts/setup.sh --extract clang-r536225
+```
+
+### compress.sh - Compress Directories
+
+```bash
+# Compress changed directories
+./scripts/compress.sh
+
+# Force recompress all
+./scripts/compress.sh --force
+
+# Compress specific directory
+./scripts/compress.sh --directory prebuilts/clang
+
+# Preview what would be compressed
+./scripts/compress.sh --dry-run
+
+# List all configured directories
+./scripts/compress.sh --list
+```
+
+### init-repo.sh - Initialize Git Repository
+
+```bash
+# Initialize with default remote
+./scripts/init-repo.sh
+
+# Use custom remote
+./scripts/init-repo.sh --remote git@github.com:myorg/android15.git
+```
+
+### resume-push.sh - Phased Push
+
+```bash
+# Start push from phase 1
+./scripts/resume-push.sh --phase 1
+
+# Continue from last checkpoint
+./scripts/resume-push.sh --continue
+
+# Check progress
+./scripts/resume-push.sh --status
+```
+
+## Development Workflow
+
+```bash
+# Make changes, then commit and push using the MANDATORY script:
+bash scripts/commit_all.sh "Description of changes"
+
+# NEVER use git add/commit/push directly — commit_all.sh handles
+# compression, staging, committing, and pushing to ALL remotes
+```
+
+### Updating Compressed Directories
+
+```bash
+# Compression is handled automatically by commit_all.sh
+# For manual recompression:
+./scripts/compress.sh --directory prebuilts/clang/host/linux-x86/clang-r536225
+```
+
+## Testing
+
+```bash
+# Pre-build verification (938+ tests, validates source correctness)
+bash device/rockchip/rk3588/tests/pre_build_verification.sh
+
+# Post-build verification (validates generated images before flashing)
+bash device/rockchip/rk3588/tests/post_build_verification.sh
+
+# Post-flash 4-phase verification (immediate → reboot → factory reset → reboot)
+bash device/rockchip/rk3588/tests/test_all_fixes.sh
+```
+
+## Troubleshooting
+
+### Setup fails with "Checksum verification failed"
+
+Archive may be corrupted during transfer. Re-clone or re-download:
+
+```bash
+# Re-extract specific archive
+rm -rf path/to/extracted/dir
+./scripts/setup.sh --extract archive-name
+```
+
+### Build fails with missing prebuilt
+
+Ensure setup.sh completed successfully:
+
+```bash
+./scripts/setup.sh --status
+```
+
+### Out of disk space during extraction
+
+Estimated space needed: ~150GB. Free up space or use external storage.
+
+## Architecture
+
+```
+Android_15/
+├── .compressed/           # Compressed archives storage
+│   ├── archives/          # Multi-part .tar.xz files (<95MB each)
+│   ├── manifests/         # JSON manifests with SHA256 checksums
+│   └── cache/             # Change detection hash cache
+├── scripts/               # Migration and maintenance scripts
+│   ├── setup.sh           # Extract archives after clone
+│   ├── compress.sh        # Compress directories
+│   ├── init-repo.sh       # Initialize git repository
+│   └── resume-push.sh     # Phased push to GitHub
+├── build/                 # AOSP build system
+├── frameworks/            # Android framework
+├── prebuilts/             # Pre-built toolchains (partially compressed)
+├── external/              # Third-party libraries (partially compressed)
+└── ...                    # Other AOSP directories
+```
+
+## License
+
+The Android Open Source Project is licensed under the Apache License 2.0.
+See [LICENSE](https://source.android.com/docs/setup/about/licenses) for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make changes
+4. Run pre-build tests: `bash device/rockchip/rk3588/tests/pre_build_verification.sh`
+5. Build: `bash scripts/build.sh --skip-pull --skip-tests --skip-ota`
+6. Flash and run post-flash tests: `bash device/rockchip/rk3588/tests/test_all_fixes.sh`
+7. Commit: `bash scripts/commit_all.sh "Description"`
+8. Submit pull request
+
+For large changes affecting compressed directories, please coordinate to avoid conflicts.
+
+## Generated Images
+
+| Image | Size | Description |
+|-------|------|-------------|
+| update_spi_nvme.img | ~6.1GB | Combined SPI NOR + NVMe firmware (flash this) |
+| super.img | ~6.0GB | Dynamic partitions (system, vendor, product) |
+| boot.img | ~42MB | Kernel and ramdisk |
+| recovery.img | ~53MB | Recovery mode |
+
+## Documentation
+
+- **[BUILD.md](docs/orange-pi-5-max/BUILD.md)** - Complete build instructions
+- **[FLASH.md](docs/orange-pi-5-max/FLASH.md)** - Flashing guide (Linux and Windows)
+- **[TROUBLESHOOTING.md](docs/orange-pi-5-max/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[PROGRESS.md](docs/orange-pi-5-max/PROGRESS.md)** - Development progress tracking
+- **[CHANGELOG](docs/changelogs/CHANGELOG.md)** - Release changelog for all versions
+- **[USER_GUIDE.md](docs/USER_GUIDE.md)** - End-user guide
+
+## Features
+
+### Hardware
+- RK3588 octa-core CPU with CPU2 exclusive audio isolation
+- Mali-G610 GPU with OpenGL ES 3.2 (VNDK v33 fix)
+- HDMI 2.1 output (1920x1080@60Hz)
+- NVMe SSD storage + SPI NOR flash bootloader
+
+### Audio
+- ES8388 analog codec with headphone/speaker routing and automatic jack detection
+- Bluetooth A2DP with 400ms buffer chain, CPU2 IRQ affinity, UART flow control
+- USB audio and USB microphone support
+- HiFi audio pipeline with bit-perfect dithering and high-quality resampling
+
+### Networking
+- WiFi (AIC8800 SDIO) with power save disabled, BBR congestion control, 8MB TCP buffers
+- WiFi roaming daemon v11.0 with safe 5GHz band steering and failure tracking
+- BSSID blocklist tuning for multi-AP mesh networks
+- 5GHz RSSI scoring preference and +2dBm TX power boost
+
+### Video & DRM
+- HW video codecs: 8 decoders + 3 encoders (c2.rk Codec 2.0)
+- Widevine L3 DRM for protected streaming content
+- 4K/8K HEVC, VP9, AV1 hardware decoding
+
+### Apps
+- Google Apps (MindTheGapps, 21 APKs, toggle-able)
+- 30+ prebuilt apps (Lawnchair, Kodi, AIMP, Spotify, YouTube, Telegram, etc.)
+- Kodi with internal storage redirect (bypasses Android 15 FUSE issues)
+- Auto factory reset on new firmware (toggle-able)
+
+### System
+- Linux flashing support via flash.sh (upgrade_tool with DDR retry)
+- 60+ applied fixes for Android 15 on RK3588
+- Comprehensive test suite: 950+ pre-build tests, 45+ post-flash test suites, 4-phase verification
+
+### Known Limitations
+
+- Camera disabled (no hardware on Orange Pi 5 Max)
+- SELinux in permissive mode (userdebug builds)
+- Widevine L3 only (SD quality for protected content; L1 requires TEE support)
+
+## Links
+
+- [AOSP Documentation](https://source.android.com/docs)
+- [Android Build System](https://source.android.com/docs/setup/build)
+- [Orange Pi Official Site](http://www.orangepi.org/)
+- [CLAUDE.md](CLAUDE.md) - AI assistant guidance for this repository

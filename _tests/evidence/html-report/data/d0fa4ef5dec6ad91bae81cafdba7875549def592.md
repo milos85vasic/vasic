@@ -1,0 +1,133 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: milosvasic-ru-a11y.spec.js >> milosvasic.ru — accessibility >> axe-core accessibility scan (no critical/serious violations)
+- Location: tests/milosvasic-ru-a11y.spec.js:7:3
+
+# Error details
+
+```
+Error: page.goto: Could not connect to the server.
+Call log:
+  - navigating to "http://localhost:8082/", waiting until "load"
+
+```
+
+# Test source
+
+```ts
+  1   | const { test, expect } = require('@playwright/test');
+  2   | const { AxeBuilder } = require('@axe-core/playwright');
+  3   | const BASE = 'http://localhost:8082';
+  4   | 
+  5   | test.describe('milosvasic.ru — accessibility', () => {
+  6   | 
+  7   |   test('axe-core accessibility scan (no critical/serious violations)', async ({ page }) => {
+> 8   |     await page.goto(BASE);
+      |                ^ Error: page.goto: Could not connect to the server.
+  9   |     // Disable heading-order because the skills section intentionally uses h4
+  10  |     // under h2 as sub-headings (Mobile, Backend, Desktop & Web, etc.)
+  11  |     const results = await new AxeBuilder({ page })
+  12  |       .disableRules(['heading-order'])
+  13  |       .analyze();
+  14  |     const critical = results.violations.filter(v => v.impact === 'critical' || v.impact === 'serious');
+  15  |     expect(critical).toEqual([]);
+  16  |     // Allow minor/moderate violations to be non-blocking
+  17  |     if (results.violations.length > 0) {
+  18  |       console.log('INFO: Non-critical violations:', JSON.stringify(results.violations.map(v => ({id: v.id, impact: v.impact, help: v.help}))));
+  19  |     }
+  20  |   });
+  21  | 
+  22  |   test('heading hierarchy is reasonable (no deep skips)', async ({ page }) => {
+  23  |     await page.goto(BASE);
+  24  |     const headingLevels = await page.evaluate(() => {
+  25  |       const els = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  26  |       return Array.from(els).map((el) => parseInt(el.tagName.substring(1)));
+  27  |     });
+  28  |     expect(headingLevels.length).toBeGreaterThan(0);
+  29  |     // First heading should be h1
+  30  |     expect(headingLevels[0]).toBe(1);
+  31  |     // Only flag major skips (level jumps > 2), since h4 is used intentionally
+  32  |     // as skill-group sub-heading under h2 section headings.
+  33  |     let prev = headingLevels[0];
+  34  |     for (let i = 1; i < headingLevels.length; i++) {
+  35  |       const level = headingLevels[i];
+  36  |       if (level <= prev) { prev = level; continue; }
+  37  |       // Allow increase by up to 2 levels (h1→h3, h2→h4 are intentional)
+  38  |       if (level - prev > 2) {
+  39  |         // For h1→h4+ or h2→h5+ skips, check if this is an edge case
+  40  |         expect(level - prev).toBeLessThanOrEqual(3); // Allow h1→h4 in some layouts
+  41  |       }
+  42  |       prev = level;
+  43  |     }
+  44  |   });
+  45  | 
+  46  |   test('focus indicators are visible when tabbing', async ({ page }) => {
+  47  |     await page.goto(BASE);
+  48  |     let foundVisibleFocus = false;
+  49  |     let attempts = 15;
+  50  |     // Some elements (skip-link, nav links) might not be tab-visible until scrolled
+  51  |     // Try tabbing, and also try Shift+Tab to reach the skip link
+  52  |     for (let i = 0; i < attempts; i++) {
+  53  |       await page.keyboard.press('Tab');
+  54  |       await page.waitForTimeout(50);
+  55  |       const hasFocusIndicator = await page.evaluate(() => {
+  56  |         const el = document.activeElement;
+  57  |         if (!el || el === document.body) return false;
+  58  |         const style = getComputedStyle(el);
+  59  |         // Check outline (standard focus indicator)
+  60  |         const outlineW = parseFloat(style.outlineWidth);
+  61  |         const outlineColor = style.outlineColor;
+  62  |         const outlineStyle = style.outlineStyle;
+  63  |         if (outlineW > 0 && outlineStyle !== 'none' && outlineColor &&
+  64  |             outlineColor !== 'transparent' && outlineColor !== 'rgba(0, 0, 0, 0)') {
+  65  |           return true;
+  66  |         }
+  67  |         // Check box-shadow as alternative
+  68  |         const boxShadow = style.boxShadow;
+  69  |         if (boxShadow && boxShadow !== 'none') return true;
+  70  |         // Check border changes
+  71  |         const bw = parseFloat(style.borderTopWidth);
+  72  |         if (bw > 2 && style.borderTopStyle !== 'none') return true;
+  73  |         // Check for custom focus ring via outline-offset
+  74  |         const offset = parseFloat(style.outlineOffset);
+  75  |         if (offset > 0) return true;
+  76  |         return false;
+  77  |       });
+  78  |       if (hasFocusIndicator) { foundVisibleFocus = true; break; }
+  79  |     }
+  80  |     // If standard Tab didn't find it, try initial focus (skip link might be focused)
+  81  |     if (!foundVisibleFocus) {
+  82  |       foundVisibleFocus = await page.evaluate(() => {
+  83  |         const el = document.activeElement;
+  84  |         if (!el || el === document.body) return false;
+  85  |         const style = getComputedStyle(el);
+  86  |         return parseFloat(style.outlineWidth) > 0 || (style.boxShadow && style.boxShadow !== 'none');
+  87  |       });
+  88  |     }
+  89  |     expect(foundVisibleFocus).toBeTruthy();
+  90  |   });
+  91  | 
+  92  |   test('prefers-reduced-motion is respected', async ({ page }) => {
+  93  |     // Check that the stylesheet contains a @media (prefers-reduced-motion: reduce) rule
+  94  |     await page.goto(BASE);
+  95  |     const hasReducedMotionRule = await page.evaluate(() => {
+  96  |       for (const sheet of document.styleSheets) {
+  97  |         try {
+  98  |           for (const rule of sheet.cssRules) {
+  99  |             if (rule.media && rule.media.mediaText.includes('prefers-reduced-motion')) {
+  100 |               return true;
+  101 |             }
+  102 |           }
+  103 |         } catch (e) {
+  104 |           // Cross-origin stylesheets may throw — skip them
+  105 |         }
+  106 |       }
+  107 |       return false;
+  108 |     });
+```

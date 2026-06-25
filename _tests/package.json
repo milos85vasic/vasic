@@ -1,0 +1,14 @@
+{
+  "name": "vasic-sites-tests",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.0"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.11.3"
+  }
+}
