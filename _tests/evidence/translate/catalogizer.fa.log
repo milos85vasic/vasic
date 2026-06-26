@@ -34,3 +34,15 @@ container shim: remote translation failed on thinker.local (podman) provider=gro
 [2026-06-26T13:01:09+0300] engine SUCCESS via mistral:mistral-large-latest (output     6396 bytes)
 [2026-06-26T13:01:09+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
 [2026-06-26T13:01:09+0300] === done ===
+[2026-06-26T13:23:18+0300] === translate-pipeline run ===
+[2026-06-26T13:23:18+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/catalogizer.md lang=fa script=arabic article=1
+[2026-06-26T13:23:18+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T13:23:57+0300] engine SUCCESS via mistral:mistral-large-latest (output     8768 bytes)
+[2026-06-26T13:23:57+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:23:57+0300] === done ===
+[2026-06-26T13:32:11+0300] === translate-pipeline run ===
+[2026-06-26T13:32:11+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/catalogizer.md lang=fa script=arabic article=1
+[2026-06-26T13:32:11+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T13:32:48+0300] engine SUCCESS via mistral:mistral-large-latest (output     6495 bytes)
+[2026-06-26T13:32:48+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:32:48+0300] === done ===

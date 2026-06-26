@@ -8,3 +8,9 @@ Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.j
 [2026-06-25T23:33:28+0300] engine SUCCESS via mistral:mistral-large-latest (output    10817 bytes)
 [2026-06-25T23:33:28+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-track-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
 [2026-06-25T23:33:28+0300] === done ===
+[2026-06-26T13:18:53+0300] === translate-pipeline run ===
+[2026-06-26T13:18:53+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-track-core.md lang=be script=cyrillic article=1
+[2026-06-26T13:18:53+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T13:19:55+0300] engine SUCCESS via mistral:mistral-large-latest (output     9433 bytes)
+[2026-06-26T13:19:55+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-track-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:19:55+0300] === done ===

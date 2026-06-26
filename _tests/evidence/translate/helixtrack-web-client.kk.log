@@ -6,3 +6,9 @@
 [2026-06-26T12:18:49+0300] engine SUCCESS via mistral:mistral-large-latest (output     5182 bytes)
 [2026-06-26T12:18:50+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-web-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
 [2026-06-26T12:18:50+0300] === done ===
+[2026-06-26T13:30:35+0300] === translate-pipeline run ===
+[2026-06-26T13:30:35+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-web-client.md lang=kk script=cyrillic article=1
+[2026-06-26T13:30:35+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T13:31:14+0300] engine SUCCESS via mistral:mistral-large-latest (output     5016 bytes)
+[2026-06-26T13:31:14+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-web-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:31:14+0300] === done ===

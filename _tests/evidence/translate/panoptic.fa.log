@@ -34,3 +34,18 @@ container shim: remote translation failed on thinker.local (podman) provider=gro
 [2026-06-26T13:01:46+0300] engine SUCCESS via mistral:mistral-large-latest (output     4926 bytes)
 [2026-06-26T13:01:46+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
 [2026-06-26T13:01:46+0300] === done ===
+[2026-06-26T13:24:58+0300] === translate-pipeline run ===
+[2026-06-26T13:24:58+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/panoptic.md lang=fa script=arabic article=1
+[2026-06-26T13:24:58+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T13:24:59+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T13:25:07+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T13:26:00+0300] engine SUCCESS via mistral:mistral-large-latest (output     8950 bytes)
+[2026-06-26T13:26:01+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:26:01+0300] === done ===
+[2026-06-26T13:33:59+0300] === translate-pipeline run ===
+[2026-06-26T13:33:59+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/panoptic.md lang=fa script=arabic article=1
+[2026-06-26T13:33:59+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T13:34:24+0300] engine SUCCESS via mistral:mistral-large-latest (output     4814 bytes)
+[2026-06-26T13:34:24+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:34:24+0300] === done ===
