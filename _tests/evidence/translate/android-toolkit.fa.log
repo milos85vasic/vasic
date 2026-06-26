@@ -1,0 +1,19 @@
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/android-toolkit.md lang=fa script=arabic article=1
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/android-toolkit.md lang=fa script=arabic article=1
+[2026-06-26T12:00:54+0300] === translate-pipeline run ===
+[2026-06-26T12:00:54+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/android-toolkit.md lang=fa script=arabic article=1
+[2026-06-26T12:00:54+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:00:55+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:01:03+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:02:00+0300] engine SUCCESS via mistral:mistral-large-latest (output     9055 bytes)
+[2026-06-26T12:02:00+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:02:00+0300] === done ===
+[2026-06-26T12:47:24+0300] === translate-pipeline run ===
+[2026-06-26T12:47:24+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/android-toolkit.md lang=fa script=arabic article=1
+[2026-06-26T12:47:24+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:47:47+0300] engine SUCCESS via mistral:mistral-large-latest (output     4976 bytes)
+[2026-06-26T12:47:47+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:47:47+0300] === done ===

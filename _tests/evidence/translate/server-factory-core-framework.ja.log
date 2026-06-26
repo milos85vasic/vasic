@@ -1,0 +1,25 @@
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/server-factory-core-framework.md lang=ja script=default article=1
+[2026-06-26T12:24:42+0300] === translate-pipeline run ===
+[2026-06-26T12:24:42+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/server-factory-core-framework.md lang=ja script=default article=1
+[2026-06-26T12:24:42+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:24:43+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:24:51+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:24:52+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:25:08+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:25:08+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:25:09+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:25:17+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:25:18+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:25:34+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:25:34+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/server-factory-core-framework.md (all providers exhausted)
+[2026-06-26T12:41:20+0300] === translate-pipeline run ===
+[2026-06-26T12:41:20+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/server-factory-core-framework.md lang=ja script=default article=1
+[2026-06-26T12:41:20+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:41:42+0300] engine SUCCESS via mistral:mistral-large-latest (output     4007 bytes)
+[2026-06-26T12:41:42+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/server-factory-core-framework.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:41:42+0300] === done ===

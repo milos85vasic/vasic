@@ -1,0 +1,18 @@
+[2026-06-25T23:23:57+0300] === translate-pipeline run ===
+[2026-06-25T23:23:57+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/mail-server-factory.md lang=fr script=latin article=1
+[2026-06-25T23:23:57+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25 23:23:57] INFO: Starting API-based translation | provider_explicit=true provider=mistral
+[2026-06-25 23:23:57] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 23:24:24] INFO: Translation completed successfully | input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.xMFIgEVrPx/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.xMFIgEVrPx/body.out.md provider=mistral duration=26.91226725s session_id=tx-1782419037596622000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.xMFIgEVrPx/body.out_session_report.md
+[2026-06-25T23:24:24+0300] engine SUCCESS via mistral:mistral-large-latest (output     7263 bytes)
+[2026-06-25T23:24:24+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-25T23:24:24+0300] === done ===
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/mail-server-factory.md lang=fr script=latin article=1
+[2026-06-26T12:13:27+0300] === translate-pipeline run ===
+[2026-06-26T12:13:27+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/mail-server-factory.md lang=fr script=latin article=1
+[2026-06-26T12:13:27+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:13:42+0300] engine SUCCESS via mistral:mistral-large-latest (output     3887 bytes)
+[2026-06-26T12:13:42+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:13:42+0300] === done ===

@@ -1,0 +1,42 @@
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md lang=de script=latin article=1
+[2026-06-26T12:07:39+0300] === translate-pipeline run ===
+[2026-06-26T12:07:39+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md lang=de script=latin article=1
+[2026-06-26T12:07:39+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:07:40+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:07:48+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:07:49+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:08:05+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:08:05+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:08:06+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:08:14+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:08:15+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:08:31+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:08:31+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md (all providers exhausted)
+[2026-06-26T12:34:20+0300] === translate-pipeline run ===
+[2026-06-26T12:34:20+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md lang=de script=latin article=1
+[2026-06-26T12:34:20+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:34:21+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:34:29+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:34:30+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:34:46+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:34:46+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:34:47+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:34:55+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:34:56+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:35:12+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:35:12+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md (all providers exhausted)
+[2026-06-26T12:52:05+0300] === translate-pipeline run ===
+[2026-06-26T12:52:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md lang=de script=latin article=1
+[2026-06-26T12:52:05+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:21+0300] engine SUCCESS via mistral:mistral-large-latest (output     3364 bytes)
+[2026-06-26T12:52:21+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:52:21+0300] === done ===

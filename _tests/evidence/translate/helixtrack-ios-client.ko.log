@@ -1,0 +1,76 @@
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T12:26:39+0300] === translate-pipeline run ===
+[2026-06-26T12:26:39+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T12:26:39+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:26:40+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:26:49+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:26:50+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:27:06+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:27:06+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:27:07+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:27:15+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:27:16+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:27:32+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:27:32+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md (all providers exhausted)
+[2026-06-26T12:41:42+0300] === translate-pipeline run ===
+[2026-06-26T12:41:42+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T12:41:42+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:41:43+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:41:51+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:41:52+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:42:08+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:42:08+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:42:09+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:42:17+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:42:18+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:42:34+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:42:34+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md (all providers exhausted)
+[2026-06-26T12:55:37+0300] === translate-pipeline run ===
+[2026-06-26T12:55:37+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T12:55:37+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:55:38+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:55:46+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:55:47+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:56:03+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:56:03+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:56:04+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:56:12+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:56:13+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:56:29+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:56:29+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md (all providers exhausted)
+[2026-06-26T12:59:34+0300] === translate-pipeline run ===
+[2026-06-26T12:59:34+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T12:59:34+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:59:35+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:59:43+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:59:45+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T13:00:01+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T13:00:01+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T13:00:02+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T13:00:10+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T13:00:11+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T13:00:27+0300] provider=groq exhausted; trying next provider
+[2026-06-26T13:00:27+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md (all providers exhausted)
+[2026-06-26T13:03:08+0300] === translate-pipeline run ===
+[2026-06-26T13:03:08+0300] in=vasic.digital/_article_src/en/helixtrack-ios-client.md out=vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T13:03:08+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T13:03:30+0300] engine SUCCESS via mistral:mistral-large-latest (output     3534 bytes)
+[2026-06-26T13:03:30+0300] wrote vasic.digital/_article_src/ko/helixtrack-ios-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T13:03:30+0300] === done ===

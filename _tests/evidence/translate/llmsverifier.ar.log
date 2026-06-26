@@ -1,0 +1,25 @@
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md lang=ar script=arabic article=1
+[2026-06-26T12:43:47+0300] === translate-pipeline run ===
+[2026-06-26T12:43:47+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md lang=ar script=arabic article=1
+[2026-06-26T12:43:47+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:43:48+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:43:56+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:43:57+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:44:13+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:44:13+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:44:14+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:44:22+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:44:23+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:44:39+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:44:39+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md (all providers exhausted)
+[2026-06-26T12:56:36+0300] === translate-pipeline run ===
+[2026-06-26T12:56:36+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md lang=ar script=arabic article=1
+[2026-06-26T12:56:36+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:57:13+0300] engine SUCCESS via mistral:mistral-large-latest (output     5512 bytes)
+[2026-06-26T12:57:13+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:57:13+0300] === done ===

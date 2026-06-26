@@ -1,0 +1,35 @@
+[2026-06-25T23:20:03+0300] === translate-pipeline run ===
+[2026-06-25T23:20:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/catalogizer.md lang=fr script=latin article=1
+[2026-06-25T23:20:03+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25 23:20:03] INFO: Starting API-based translation | provider=mistral provider_explicit=true
+[2026-06-25 23:20:03] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 23:20:29] INFO: Translation completed successfully | output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mU54bwurjC/body.out.md provider=mistral duration=25.406979666s session_id=tx-1782418803947366000 input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mU54bwurjC/body.md
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mU54bwurjC/body.out_session_report.md
+[2026-06-25T23:20:29+0300] engine SUCCESS via mistral:mistral-large-latest (output     6452 bytes)
+[2026-06-25T23:20:29+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-25T23:20:29+0300] === done ===
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/catalogizer.md lang=fr script=latin article=1
+[2026-06-26T12:11:37+0300] === translate-pipeline run ===
+[2026-06-26T12:11:37+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/catalogizer.md lang=fr script=latin article=1
+[2026-06-26T12:11:37+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:11:38+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:11:46+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:11:47+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:12:03+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:12:03+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:12:04+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:12:12+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:12:13+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:12:29+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:12:29+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/catalogizer.md (all providers exhausted)
+[2026-06-26T12:36:18+0300] === translate-pipeline run ===
+[2026-06-26T12:36:18+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/catalogizer.md lang=fr script=latin article=1
+[2026-06-26T12:36:18+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:36:38+0300] engine SUCCESS via mistral:mistral-large-latest (output     4589 bytes)
+[2026-06-26T12:36:38+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:36:38+0300] === done ===

@@ -1,0 +1,25 @@
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-track-core.md lang=ja script=default article=1
+[2026-06-26T11:52:41+0300] === translate-pipeline run ===
+[2026-06-26T11:52:41+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-track-core.md lang=ja script=default article=1
+[2026-06-26T11:52:41+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T11:52:42+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T11:52:50+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T11:52:51+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T11:53:07+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T11:53:07+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T11:53:08+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T11:53:16+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T11:53:17+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T11:53:33+0300] provider=groq exhausted; trying next provider
+[2026-06-26T11:53:33+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md -> /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-track-core.md (all providers exhausted)
+[2026-06-26T12:30:32+0300] === translate-pipeline run ===
+[2026-06-26T12:30:32+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-track-core.md lang=ja script=default article=1
+[2026-06-26T12:30:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:31:19+0300] engine SUCCESS via mistral:mistral-large-latest (output     7778 bytes)
+[2026-06-26T12:31:19+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-track-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:31:19+0300] === done ===

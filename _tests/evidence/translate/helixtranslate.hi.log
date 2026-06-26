@@ -1,0 +1,8 @@
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtranslate.md lang=hi script=default article=1
+[2026-06-26T12:21:35+0300] === translate-pipeline run ===
+[2026-06-26T12:21:35+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtranslate.md lang=hi script=default article=1
+[2026-06-26T12:21:35+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:22:02+0300] engine SUCCESS via mistral:mistral-large-latest (output     7168 bytes)
+[2026-06-26T12:22:02+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtranslate.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:22:02+0300] === done ===

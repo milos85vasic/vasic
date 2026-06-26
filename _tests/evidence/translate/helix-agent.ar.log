@@ -1,0 +1,25 @@
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-agent.md lang=ar script=arabic article=1
+[2026-06-26T11:56:40+0300] === translate-pipeline run ===
+[2026-06-26T11:56:40+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-agent.md lang=ar script=arabic article=1
+[2026-06-26T11:56:40+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T11:56:41+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T11:56:49+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T11:56:50+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T11:57:06+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T11:57:06+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T11:57:07+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T11:57:15+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T11:57:15+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T11:57:31+0300] provider=groq exhausted; trying next provider
+[2026-06-26T11:57:31+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md -> /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-agent.md (all providers exhausted)
+[2026-06-26T12:31:32+0300] === translate-pipeline run ===
+[2026-06-26T12:31:32+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-agent.md lang=ar script=arabic article=1
+[2026-06-26T12:31:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:32:18+0300] engine SUCCESS via mistral:mistral-large-latest (output     8427 bytes)
+[2026-06-26T12:32:18+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-agent.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:32:18+0300] === done ===

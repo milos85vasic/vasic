@@ -1,0 +1,21 @@
+[2026-06-25T23:32:11+0300] === translate-pipeline run ===
+[2026-06-25T23:32:11+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-flow-platform.md lang=be script=cyrillic article=1
+[2026-06-25T23:32:11+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25 23:32:11] INFO: Starting API-based translation | provider=mistral provider_explicit=true
+[2026-06-25 23:32:11] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 23:32:46] INFO: Translation completed successfully | session_id=tx-1782419531199372000 input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.1hmYNqZ2Pc/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.1hmYNqZ2Pc/body.out.md provider=mistral duration=35.18506475s
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.1hmYNqZ2Pc/body.out_session_report.md
+[2026-06-25T23:32:46+0300] engine SUCCESS via mistral:mistral-large-latest (output     9193 bytes)
+[2026-06-25T23:32:46+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-flow-platform.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-25T23:32:46+0300] === done ===
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helix-flow-platform.md lang=be script=cyrillic article=1
+[2026-06-26T12:03:55+0300] === translate-pipeline run ===
+[2026-06-26T12:03:55+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helix-flow-platform.md lang=be script=cyrillic article=1
+[2026-06-26T12:03:55+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:03:56+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:04:04+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:04:34+0300] engine SUCCESS via mistral:mistral-large-latest (output     5349 bytes)
+[2026-06-26T12:04:35+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helix-flow-platform.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:04:35+0300] === done ===

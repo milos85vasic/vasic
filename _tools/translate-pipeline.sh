@@ -39,11 +39,13 @@ set -euo pipefail
 ENGINE="${HELIX_TRANSLATE_BIN:-/Volumes/T7/Projects/helix_translate/build/unified-translator}"
 EVIDENCE_DIR="${TRANSLATE_EVIDENCE_DIR:-/Volumes/T7/Projects/vasic/_tests/evidence/translate}"
 SOURCE_LANG="en"
-PRIMARY_PROVIDER="groq"
-PRIMARY_MODEL="llama-3.3-70b-versatile"
-FALLBACK_PROVIDER="mistral"
-FALLBACK_MODEL="mistral-large-latest"
-MAX_RETRIES=3
+# Mistral first (more available / less aggressively rate-limited in practice),
+# Groq as fallback. Both are proven to have balance and produce quality output.
+PRIMARY_PROVIDER="${TRANSLATE_PRIMARY_PROVIDER:-mistral}"
+PRIMARY_MODEL="${TRANSLATE_PRIMARY_MODEL:-mistral-large-latest}"
+FALLBACK_PROVIDER="${TRANSLATE_FALLBACK_PROVIDER:-groq}"
+FALLBACK_MODEL="${TRANSLATE_FALLBACK_MODEL:-llama-3.3-70b-versatile}"
+MAX_RETRIES=2
 
 # ---- Arg parsing ------------------------------------------------------------
 IN="" OUT="" LANG="" ARTICLE=0
@@ -65,9 +67,11 @@ done
 [ -x "$ENGINE" ] || { echo "ERROR: engine not executable: $ENGINE" >&2; exit 2; }
 
 case "$LANG" in
-  ru) SCRIPT="cyrillic" ;;
-  sr) SCRIPT="latin" ;;
-  *)  echo "ERROR: --lang must be ru or sr (got: $LANG)" >&2; exit 2 ;;
+  ru|be|kk|bg|mk|sr_cyrl)  SCRIPT="cyrillic" ;;   # Cyrillic-script languages (RU, Belarusian, Kazakh, ...)
+  ar|fa)                   SCRIPT="arabic" ;;      # Arabic / Persian
+  zh|ja|ko|hi)             SCRIPT="default" ;;     # Han / Kana-Kanji / Hangul / Devanagari (model emits native script)
+  uk|hr|sq)                echo "ERROR: language $LANG is explicitly excluded" >&2; exit 2 ;;
+  *)                       SCRIPT="latin" ;;       # sr (Latin), de, es, fr, tr, and other Latin-script langs
 esac
 
 mkdir -p "$EVIDENCE_DIR"
@@ -101,7 +105,7 @@ run_engine() {
         return 0
       fi
       log "engine FAILED (provider=$provider try=$attempt)"
-      sleep $(( attempt * attempt * 15 ))   # quadratic backoff: 15s,60s,135s (clears rate-limit windows)
+      sleep $(( attempt * 8 ))   # short backoff: 8s,16s — fail fast to the other provider
       attempt=$(( attempt + 1 ))
     done
     log "provider=$provider exhausted; trying next provider"
@@ -117,6 +121,18 @@ run_engine() {
 # English sources have no such heading. Strip exactly that leading artifact
 # line (and the blank lines immediately following it) if present. Real content
 # below is untouched. Idempotent: a no-op when the artifact is absent.
+# Article bodies ALWAYS begin with a Markdown heading (the article template
+# opens with "## Why it's interesting" etc.). The engine sometimes prepends a
+# localized standalone "Contents" word ("Contenu", "コンテンツ", "目录", "목차",
+# "المحتويات", …) that the keyword list below cannot enumerate per-language.
+# So for article bodies we drop EVERYTHING before the first heading line — a
+# language-agnostic, content-preserving cleanup (real content starts at the
+# first '#'). No-op when the body already starts with a heading.
+strip_pre_heading() {
+  local f="$1"
+  awk 'started{print;next} /^#/{started=1;print}' "$f" > "$f.ph" && mv "$f.ph" "$f"
+}
+
 strip_artifact() {
   local f="$1"
   awk '
@@ -164,6 +180,7 @@ if [ "$ARTICLE" -eq 1 ]; then
 
   # Reassemble: original frontmatter + blank line + translated body.
   strip_artifact "$TMP_DIR/body.out.md"
+  strip_pre_heading "$TMP_DIR/body.out.md"
   mkdir -p "$(dirname "$OUT")"
   { cat "$TMP_DIR/front.md"; echo; cat "$TMP_DIR/body.out.md"; } > "$OUT"
   log "wrote $OUT (frontmatter preserved + translated body) provider=$PROVIDER_USED"

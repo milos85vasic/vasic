@@ -1,0 +1,1513 @@
+SKIP(exists) milosvasic.ru/de/android-toolkit
+SKIP(exists) milosvasic.ru/de/catalogizer
+SKIP(exists) milosvasic.ru/de/grab-tube
+SKIP(exists) milosvasic.ru/de/helix-agent
+SKIP(exists) milosvasic.ru/de/helix-code
+SKIP(exists) milosvasic.ru/de/helix-flow-platform
+SKIP(exists) milosvasic.ru/de/helix-track-core
+SKIP(exists) milosvasic.ru/de/helix-translate
+SKIP(exists) milosvasic.ru/de/llms-verifier
+SKIP(exists) milosvasic.ru/de/mail-server-factory
+SKIP(exists) milosvasic.ru/de/panoptic
+SKIP(exists) milosvasic.ru/de/share-connect
+SKIP(exists) milosvasic.ru/es/android-toolkit
+SKIP(exists) milosvasic.ru/es/catalogizer
+SKIP(exists) milosvasic.ru/es/grab-tube
+SKIP(exists) milosvasic.ru/es/helix-agent
+SKIP(exists) milosvasic.ru/es/helix-code
+SKIP(exists) milosvasic.ru/es/helix-flow-platform
+SKIP(exists) milosvasic.ru/es/helix-track-core
+SKIP(exists) milosvasic.ru/es/helix-translate
+SKIP(exists) milosvasic.ru/es/llms-verifier
+SKIP(exists) milosvasic.ru/es/mail-server-factory
+SKIP(exists) milosvasic.ru/es/panoptic
+[2026-06-25T23:19:15+0300] === translate-pipeline run ===
+[2026-06-25T23:19:15+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/es/share-connect.md lang=es script=latin article=1
+[2026-06-25T23:19:15+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:19:39+0300] engine SUCCESS via mistral:mistral-large-latest (output     6035 bytes)
+[2026-06-25T23:19:39+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/es/share-connect.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/es/share-connect.md
+[2026-06-25T23:19:39+0300] === done ===
+OK milosvasic.ru/es/share-connect
+[2026-06-25T23:19:39+0300] === translate-pipeline run ===
+[2026-06-25T23:19:39+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/android-toolkit.md lang=fr script=latin article=1
+[2026-06-25T23:19:39+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:20:03+0300] engine SUCCESS via mistral:mistral-large-latest (output     6497 bytes)
+[2026-06-25T23:20:03+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/android-toolkit.md
+[2026-06-25T23:20:03+0300] === done ===
+OK milosvasic.ru/fr/android-toolkit
+[2026-06-25T23:20:03+0300] === translate-pipeline run ===
+[2026-06-25T23:20:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/catalogizer.md lang=fr script=latin article=1
+[2026-06-25T23:20:03+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:20:29+0300] engine SUCCESS via mistral:mistral-large-latest (output     6452 bytes)
+[2026-06-25T23:20:29+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/catalogizer.md
+[2026-06-25T23:20:29+0300] === done ===
+OK milosvasic.ru/fr/catalogizer
+[2026-06-25T23:20:29+0300] === translate-pipeline run ===
+[2026-06-25T23:20:29+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/grab-tube.md lang=fr script=latin article=1
+[2026-06-25T23:20:29+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:20:53+0300] engine SUCCESS via mistral:mistral-large-latest (output     6821 bytes)
+[2026-06-25T23:20:53+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/grab-tube.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/grab-tube.md
+[2026-06-25T23:20:53+0300] === done ===
+OK milosvasic.ru/fr/grab-tube
+[2026-06-25T23:20:53+0300] === translate-pipeline run ===
+[2026-06-25T23:20:53+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-agent.md lang=fr script=latin article=1
+[2026-06-25T23:20:53+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:21:16+0300] engine SUCCESS via mistral:mistral-large-latest (output     6509 bytes)
+[2026-06-25T23:21:16+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-agent.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-agent.md
+[2026-06-25T23:21:16+0300] === done ===
+OK milosvasic.ru/fr/helix-agent
+[2026-06-25T23:21:17+0300] === translate-pipeline run ===
+[2026-06-25T23:21:17+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-code.md lang=fr script=latin article=1
+[2026-06-25T23:21:17+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:21:45+0300] engine SUCCESS via mistral:mistral-large-latest (output     6487 bytes)
+[2026-06-25T23:21:45+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-code.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-code.md
+[2026-06-25T23:21:45+0300] === done ===
+OK milosvasic.ru/fr/helix-code
+[2026-06-25T23:21:46+0300] === translate-pipeline run ===
+[2026-06-25T23:21:46+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-flow-platform.md lang=fr script=latin article=1
+[2026-06-25T23:21:46+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:22:16+0300] engine SUCCESS via mistral:mistral-large-latest (output     6158 bytes)
+[2026-06-25T23:22:16+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-flow-platform.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-flow-platform.md
+[2026-06-25T23:22:16+0300] === done ===
+OK milosvasic.ru/fr/helix-flow-platform
+[2026-06-25T23:22:17+0300] === translate-pipeline run ===
+[2026-06-25T23:22:17+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-track-core.md lang=fr script=latin article=1
+[2026-06-25T23:22:17+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:22:54+0300] engine SUCCESS via mistral:mistral-large-latest (output     6855 bytes)
+[2026-06-25T23:22:54+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-track-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-track-core.md
+[2026-06-25T23:22:54+0300] === done ===
+OK milosvasic.ru/fr/helix-track-core
+[2026-06-25T23:22:54+0300] === translate-pipeline run ===
+[2026-06-25T23:22:54+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-translate.md lang=fr script=latin article=1
+[2026-06-25T23:22:54+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:23:21+0300] engine SUCCESS via mistral:mistral-large-latest (output     6477 bytes)
+[2026-06-25T23:23:21+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-translate.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/helix-translate.md
+[2026-06-25T23:23:21+0300] === done ===
+OK milosvasic.ru/fr/helix-translate
+[2026-06-25T23:23:21+0300] === translate-pipeline run ===
+[2026-06-25T23:23:21+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/llms-verifier.md lang=fr script=latin article=1
+[2026-06-25T23:23:22+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:23:57+0300] engine SUCCESS via mistral:mistral-large-latest (output     7393 bytes)
+[2026-06-25T23:23:57+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/llms-verifier.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/llms-verifier.md
+[2026-06-25T23:23:57+0300] === done ===
+OK milosvasic.ru/fr/llms-verifier
+[2026-06-25T23:23:57+0300] === translate-pipeline run ===
+[2026-06-25T23:23:57+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/mail-server-factory.md lang=fr script=latin article=1
+[2026-06-25T23:23:57+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:24:24+0300] engine SUCCESS via mistral:mistral-large-latest (output     7263 bytes)
+[2026-06-25T23:24:24+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/mail-server-factory.md
+[2026-06-25T23:24:24+0300] === done ===
+OK milosvasic.ru/fr/mail-server-factory
+[2026-06-25T23:24:24+0300] === translate-pipeline run ===
+[2026-06-25T23:24:24+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/panoptic.md lang=fr script=latin article=1
+[2026-06-25T23:24:24+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:24:49+0300] engine SUCCESS via mistral:mistral-large-latest (output     6723 bytes)
+[2026-06-25T23:24:49+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/panoptic.md
+[2026-06-25T23:24:49+0300] === done ===
+OK milosvasic.ru/fr/panoptic
+[2026-06-25T23:24:49+0300] === translate-pipeline run ===
+[2026-06-25T23:24:49+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/share-connect.md lang=fr script=latin article=1
+[2026-06-25T23:24:49+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:25:12+0300] engine SUCCESS via mistral:mistral-large-latest (output     6595 bytes)
+[2026-06-25T23:25:12+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/share-connect.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/share-connect.md
+[2026-06-25T23:25:12+0300] === done ===
+OK milosvasic.ru/fr/share-connect
+[2026-06-25T23:25:13+0300] === translate-pipeline run ===
+[2026-06-25T23:25:13+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/android-toolkit.md lang=be script=cyrillic article=1
+[2026-06-25T23:25:13+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:27:58+0300] engine FAILED (provider=mistral try=1)
+[2026-06-25T23:28:06+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-25T23:28:50+0300] engine SUCCESS via mistral:mistral-large-latest (output     9542 bytes)
+[2026-06-25T23:28:50+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/android-toolkit.md
+[2026-06-25T23:28:50+0300] === done ===
+OK milosvasic.ru/be/android-toolkit
+[2026-06-25T23:28:50+0300] === translate-pipeline run ===
+[2026-06-25T23:28:50+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/catalogizer.md lang=be script=cyrillic article=1
+[2026-06-25T23:28:50+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:29:29+0300] engine SUCCESS via mistral:mistral-large-latest (output     9739 bytes)
+[2026-06-25T23:29:29+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/catalogizer.md
+[2026-06-25T23:29:29+0300] === done ===
+OK milosvasic.ru/be/catalogizer
+[2026-06-25T23:29:29+0300] === translate-pipeline run ===
+[2026-06-25T23:29:29+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/grab-tube.md lang=be script=cyrillic article=1
+[2026-06-25T23:29:29+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:30:19+0300] engine SUCCESS via mistral:mistral-large-latest (output     9268 bytes)
+[2026-06-25T23:30:19+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/grab-tube.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/grab-tube.md
+[2026-06-25T23:30:19+0300] === done ===
+OK milosvasic.ru/be/grab-tube
+[2026-06-25T23:30:19+0300] === translate-pipeline run ===
+[2026-06-25T23:30:19+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-agent.md lang=be script=cyrillic article=1
+[2026-06-25T23:30:19+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:31:10+0300] engine SUCCESS via mistral:mistral-large-latest (output     9483 bytes)
+[2026-06-25T23:31:10+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-agent.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-agent.md
+[2026-06-25T23:31:10+0300] === done ===
+OK milosvasic.ru/be/helix-agent
+[2026-06-25T23:31:10+0300] === translate-pipeline run ===
+[2026-06-25T23:31:10+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-code.md lang=be script=cyrillic article=1
+[2026-06-25T23:31:10+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:32:11+0300] engine SUCCESS via mistral:mistral-large-latest (output     9724 bytes)
+[2026-06-25T23:32:11+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-code.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-code.md
+[2026-06-25T23:32:11+0300] === done ===
+OK milosvasic.ru/be/helix-code
+[2026-06-25T23:32:11+0300] === translate-pipeline run ===
+[2026-06-25T23:32:11+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-flow-platform.md lang=be script=cyrillic article=1
+[2026-06-25T23:32:11+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:32:46+0300] engine SUCCESS via mistral:mistral-large-latest (output     9193 bytes)
+[2026-06-25T23:32:46+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-flow-platform.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-flow-platform.md
+[2026-06-25T23:32:46+0300] === done ===
+OK milosvasic.ru/be/helix-flow-platform
+[2026-06-25T23:32:46+0300] === translate-pipeline run ===
+[2026-06-25T23:32:46+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-track-core.md lang=be script=cyrillic article=1
+[2026-06-25T23:32:46+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:33:28+0300] engine SUCCESS via mistral:mistral-large-latest (output    10817 bytes)
+[2026-06-25T23:33:28+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-track-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-track-core.md
+[2026-06-25T23:33:28+0300] === done ===
+OK milosvasic.ru/be/helix-track-core
+[2026-06-25T23:33:28+0300] === translate-pipeline run ===
+[2026-06-25T23:33:28+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-translate.md lang=be script=cyrillic article=1
+[2026-06-25T23:33:28+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:34:19+0300] engine SUCCESS via mistral:mistral-large-latest (output     9760 bytes)
+[2026-06-25T23:34:19+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-translate.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/helix-translate.md
+[2026-06-25T23:34:19+0300] === done ===
+OK milosvasic.ru/be/helix-translate
+[2026-06-25T23:34:19+0300] === translate-pipeline run ===
+[2026-06-25T23:34:19+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/llms-verifier.md lang=be script=cyrillic article=1
+[2026-06-25T23:34:19+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25T23:35:13+0300] engine FAILED (provider=mistral try=1)
+[2026-06-25T23:35:21+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-25T23:35:21+0300] engine FAILED (provider=mistral try=2)
+[2026-06-25T23:35:37+0300] provider=mistral exhausted; trying next provider
+[2026-06-25T23:35:37+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-25T23:35:37+0300] engine FAILED (provider=groq try=1)
+[2026-06-25T23:35:45+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-25T23:35:45+0300] engine FAILED (provider=groq try=2)
+[2026-06-25T23:36:01+0300] provider=groq exhausted; trying next provider
+[2026-06-25T23:36:01+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md -> /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/llms-verifier.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md
+FAIL milosvasic.ru/be/llms-verifier
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mvGBcJ2lY3: No space left on device
+FAIL milosvasic.ru/be/mail-server-factory
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/panoptic.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.fSWetyCueW: No space left on device
+FAIL milosvasic.ru/be/panoptic
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/share-connect.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.klzWzgAlKR: No space left on device
+FAIL milosvasic.ru/be/share-connect
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/android-toolkit.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Jf3g7pBUPf: No space left on device
+FAIL milosvasic.ru/zh/android-toolkit
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/catalogizer.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.y1LJ34sNKc: No space left on device
+FAIL milosvasic.ru/zh/catalogizer
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/grab-tube.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.RtDk3G1ONj: No space left on device
+FAIL milosvasic.ru/zh/grab-tube
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/helix-agent.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.FP4mQ2bzzj: No space left on device
+FAIL milosvasic.ru/zh/helix-agent
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/helix-code.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.VWI8gqngQ5: No space left on device
+FAIL milosvasic.ru/zh/helix-code
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/helix-flow-platform.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XtklXhc4Ff: No space left on device
+FAIL milosvasic.ru/zh/helix-flow-platform
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/helix-track-core.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.K6KzsPgBNM: No space left on device
+FAIL milosvasic.ru/zh/helix-track-core
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/helix-translate.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.M9v8DfYr8J: No space left on device
+FAIL milosvasic.ru/zh/helix-translate
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/llms-verifier.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hB6FcCYRHC: No space left on device
+FAIL milosvasic.ru/zh/llms-verifier
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/mail-server-factory.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.INr6ps4SpJ: No space left on device
+FAIL milosvasic.ru/zh/mail-server-factory
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/panoptic.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.91SHZNWzal: No space left on device
+FAIL milosvasic.ru/zh/panoptic
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/share-connect.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.h2vXxCLdru: No space left on device
+FAIL milosvasic.ru/zh/share-connect
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/android-toolkit.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.2GiWpLShWG: No space left on device
+FAIL milosvasic.ru/kk/android-toolkit
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/catalogizer.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GafqUDopJF: No space left on device
+FAIL milosvasic.ru/kk/catalogizer
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/grab-tube.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Xn4b49vFJd: No space left on device
+FAIL milosvasic.ru/kk/grab-tube
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/helix-agent.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.MVRUq7MQ1M: No space left on device
+FAIL milosvasic.ru/kk/helix-agent
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/helix-code.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.0dVSuIfXYB: No space left on device
+FAIL milosvasic.ru/kk/helix-code
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/helix-flow-platform.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.BevVFCPk5y: No space left on device
+FAIL milosvasic.ru/kk/helix-flow-platform
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/helix-track-core.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.RHUVHEwRGH: No space left on device
+FAIL milosvasic.ru/kk/helix-track-core
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/helix-translate.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ATmPbPIT0f: No space left on device
+FAIL milosvasic.ru/kk/helix-translate
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/llms-verifier.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.AYmfsibi71: No space left on device
+FAIL milosvasic.ru/kk/llms-verifier
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/mail-server-factory.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GQ9Dw9wIVW: No space left on device
+FAIL milosvasic.ru/kk/mail-server-factory
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/panoptic.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Scy0u5QMrk: No space left on device
+FAIL milosvasic.ru/kk/panoptic
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/share-connect.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Li50VxzRil: No space left on device
+FAIL milosvasic.ru/kk/share-connect
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/android-toolkit.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.w5Rj5EUI4O: No space left on device
+FAIL milosvasic.ru/hi/android-toolkit
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/catalogizer.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.cYtw5jPGn3: No space left on device
+FAIL milosvasic.ru/hi/catalogizer
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/grab-tube.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ePtHXpVAmz: No space left on device
+FAIL milosvasic.ru/hi/grab-tube
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/helix-agent.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ioXyVvnMYG: No space left on device
+FAIL milosvasic.ru/hi/helix-agent
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/helix-code.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.gJSN4AbKDz: No space left on device
+FAIL milosvasic.ru/hi/helix-code
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/helix-flow-platform.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.G034Tr2yT2: No space left on device
+FAIL milosvasic.ru/hi/helix-flow-platform
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/helix-track-core.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.lvZbqSVcfc: No space left on device
+FAIL milosvasic.ru/hi/helix-track-core
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/helix-translate.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.SyOZh8Nj9U: No space left on device
+FAIL milosvasic.ru/hi/helix-translate
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/llms-verifier.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.iTLoWKaipX: No space left on device
+FAIL milosvasic.ru/hi/llms-verifier
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/mail-server-factory.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.MAky4VWDxA: No space left on device
+FAIL milosvasic.ru/hi/mail-server-factory
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/panoptic.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.IvXKGWtuPT: No space left on device
+FAIL milosvasic.ru/hi/panoptic
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/hi/share-connect.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.aqm9cxheNS: No space left on device
+FAIL milosvasic.ru/hi/share-connect
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ydD5NjVCAE: No space left on device
+FAIL milosvasic.ru/ja/android-toolkit
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/catalogizer.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6VCZw6ThGW: No space left on device
+FAIL milosvasic.ru/ja/catalogizer
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/grab-tube.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.FVdc0MPqhi: No space left on device
+FAIL milosvasic.ru/ja/grab-tube
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-agent.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.2fLGtKUxX0: No space left on device
+FAIL milosvasic.ru/ja/helix-agent
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-code.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.zn6NnxOlvY: No space left on device
+FAIL milosvasic.ru/ja/helix-code
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-flow-platform.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.kIDDJFbvmh: No space left on device
+FAIL milosvasic.ru/ja/helix-flow-platform
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-track-core.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.VOqb2JxYLu: No space left on device
+FAIL milosvasic.ru/ja/helix-track-core
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/helix-translate.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GkQ6TZaDYz: No space left on device
+FAIL milosvasic.ru/ja/helix-translate
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/llms-verifier.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.xP0S6sI3i3: No space left on device
+FAIL milosvasic.ru/ja/llms-verifier
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/mail-server-factory.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.5NBnuLXgs2: No space left on device
+FAIL milosvasic.ru/ja/mail-server-factory
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/panoptic.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.LiNifxM5Pm: No space left on device
+FAIL milosvasic.ru/ja/panoptic
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/share-connect.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ftFUjSpcGo: No space left on device
+FAIL milosvasic.ru/ja/share-connect
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/android-toolkit.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.m1T0KyKljd: No space left on device
+FAIL milosvasic.ru/ko/android-toolkit
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/catalogizer.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.aeszSLbbr2: No space left on device
+FAIL milosvasic.ru/ko/catalogizer
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/grab-tube.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.QIRGZgEz6D: No space left on device
+FAIL milosvasic.ru/ko/grab-tube
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/helix-agent.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mB24e3IVq1: No space left on device
+FAIL milosvasic.ru/ko/helix-agent
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/helix-code.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.17LnmksI1D: No space left on device
+FAIL milosvasic.ru/ko/helix-code
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/helix-flow-platform.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.pqcmImiA6x: No space left on device
+FAIL milosvasic.ru/ko/helix-flow-platform
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/helix-track-core.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.uNJr2ontVs: No space left on device
+FAIL milosvasic.ru/ko/helix-track-core
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/helix-translate.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.APo3RJEQAf: No space left on device
+FAIL milosvasic.ru/ko/helix-translate
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/llms-verifier.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.vH0yr8O6Dt: No space left on device
+FAIL milosvasic.ru/ko/llms-verifier
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/mail-server-factory.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6QI9nnSqDd: No space left on device
+FAIL milosvasic.ru/ko/mail-server-factory
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/panoptic.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.zODCCdKPvP: No space left on device
+FAIL milosvasic.ru/ko/panoptic
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/share-connect.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.671Mf4cDEJ: No space left on device
+FAIL milosvasic.ru/ko/share-connect
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/android-toolkit.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.fBbAWWqQaN: No space left on device
+FAIL milosvasic.ru/ar/android-toolkit
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/catalogizer.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.fmwdtnYEzq: No space left on device
+FAIL milosvasic.ru/ar/catalogizer
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/grab-tube.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.aVKe7tu7b1: No space left on device
+FAIL milosvasic.ru/ar/grab-tube
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-agent.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.yTQaGXg6lU: No space left on device
+FAIL milosvasic.ru/ar/helix-agent
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-code.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.MrHz3omPFV: No space left on device
+FAIL milosvasic.ru/ar/helix-code
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-flow-platform.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.nxBmnDFq6k: No space left on device
+FAIL milosvasic.ru/ar/helix-flow-platform
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-track-core.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Jxj9CrMl9A: No space left on device
+FAIL milosvasic.ru/ar/helix-track-core
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/helix-translate.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.JCMAUNU0zl: No space left on device
+FAIL milosvasic.ru/ar/helix-translate
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/llms-verifier.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.yKEZeg7Gi1: No space left on device
+FAIL milosvasic.ru/ar/llms-verifier
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/mail-server-factory.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.NYh9yDIaUc: No space left on device
+FAIL milosvasic.ru/ar/mail-server-factory
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/panoptic.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7W2dIpHw0m: No space left on device
+FAIL milosvasic.ru/ar/panoptic
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/share-connect.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WgIe9etodh: No space left on device
+FAIL milosvasic.ru/ar/share-connect
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/android-toolkit.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.cKCxxtgrp6: No space left on device
+FAIL milosvasic.ru/tr/android-toolkit
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/catalogizer.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.IgueeXkUwX: No space left on device
+FAIL milosvasic.ru/tr/catalogizer
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/grab-tube.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WOSpjrdkCi: No space left on device
+FAIL milosvasic.ru/tr/grab-tube
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/helix-agent.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sqzqxgHLbK: No space left on device
+FAIL milosvasic.ru/tr/helix-agent
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/helix-code.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.vpEeCi5Yfn: No space left on device
+FAIL milosvasic.ru/tr/helix-code
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/helix-flow-platform.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.igBQEUge0e: No space left on device
+FAIL milosvasic.ru/tr/helix-flow-platform
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/helix-track-core.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.OArgrz3YpA: No space left on device
+FAIL milosvasic.ru/tr/helix-track-core
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/helix-translate.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.kRqEqvsvaw: No space left on device
+FAIL milosvasic.ru/tr/helix-translate
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/llms-verifier.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.FA1BsJ7LcL: No space left on device
+FAIL milosvasic.ru/tr/llms-verifier
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/mail-server-factory.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.x3k6CoCM8r: No space left on device
+FAIL milosvasic.ru/tr/mail-server-factory
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/panoptic.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7G8exTGJqc: No space left on device
+FAIL milosvasic.ru/tr/panoptic
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/tr/share-connect.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.gMIO3rZ2XO: No space left on device
+FAIL milosvasic.ru/tr/share-connect
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/android-toolkit.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KIVBISGV4f: No space left on device
+FAIL milosvasic.ru/fa/android-toolkit
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/catalogizer.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.5xxDDh7ya0: No space left on device
+FAIL milosvasic.ru/fa/catalogizer
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/grab-tube.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sWI3ZkqtNg: No space left on device
+FAIL milosvasic.ru/fa/grab-tube
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-agent.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/helix-agent.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ek6CwjcsMH: No space left on device
+FAIL milosvasic.ru/fa/helix-agent
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/helix-code.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6skzTm5nYp: No space left on device
+FAIL milosvasic.ru/fa/helix-code
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/helix-flow-platform.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.4cyZS1rUGO: No space left on device
+FAIL milosvasic.ru/fa/helix-flow-platform
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/helix-track-core.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.8QZ7jBXFji: No space left on device
+FAIL milosvasic.ru/fa/helix-track-core
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-translate.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/helix-translate.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.f0MuV0k7YP: No space left on device
+FAIL milosvasic.ru/fa/helix-translate
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/llms-verifier.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.f68YV9TuwQ: No space left on device
+FAIL milosvasic.ru/fa/llms-verifier
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/mail-server-factory.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.x33KlsyLNU: No space left on device
+FAIL milosvasic.ru/fa/mail-server-factory
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/panoptic.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KHM11LVMYp: No space left on device
+FAIL milosvasic.ru/fa/panoptic
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fa/share-connect.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Wykz1ufdRf: No space left on device
+FAIL milosvasic.ru/fa/share-connect
+pandoc: Uncaught exception ghc-internal:GHC.Internal.IO.Exception.IOException:
+
+/tmp/_art_body.html: withFile: resource exhausted (No space left on device)
+
+HasCallStack backtrace:
+  ioError, called at libraries/ghc-internal/src/GHC/Internal/Foreign/C/Error.hs:291:5 in ghc-internal:GHC.Internal.Foreign.C.Error
+
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/android-toolkit.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.V2cjzTngN7: No space left on device
+FAIL vasic.digital/de/android-toolkit
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/asinka.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.bl1eU3on6a: No space left on device
+FAIL vasic.digital/de/asinka
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/catalogizer.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.AScUz3d8YD: No space left on device
+FAIL vasic.digital/de/catalogizer
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/grabtube.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.QxejbXgnnM: No space left on device
+FAIL vasic.digital/de/grabtube
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helix-flow-platform.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.DXTxgTtfyk: No space left on device
+FAIL vasic.digital/de/helix-flow-platform
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixcode.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.bADgFPoP7w: No space left on device
+FAIL vasic.digital/de/helixcode
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-android-client.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.i8PKvVF5Z9: No space left on device
+FAIL vasic.digital/de/helixtrack-android-client
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-core.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.gFbxs4KtzB: No space left on device
+FAIL vasic.digital/de/helixtrack-core
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-desktop-client.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.T3ESyB47xB: No space left on device
+FAIL vasic.digital/de/helixtrack-desktop-client
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-ios-client.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.wL0Pzv15ZO: No space left on device
+FAIL vasic.digital/de/helixtrack-ios-client
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XLsyfmnsFe: No space left on device
+FAIL vasic.digital/de/helixtrack-web-client
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtranslate.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Ef9Ee3dKIm: No space left on device
+FAIL vasic.digital/de/helixtranslate
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/llmsverifier.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ZEmnxz4rII: No space left on device
+FAIL vasic.digital/de/llmsverifier
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/mail-server-factory.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.3wHsQL2dvV: No space left on device
+FAIL vasic.digital/de/mail-server-factory
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/panoptic.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.MCvVaDkn4T: No space left on device
+FAIL vasic.digital/de/panoptic
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/server-factory-core-framework.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ue7sN9b5ol: No space left on device
+FAIL vasic.digital/de/server-factory-core-framework
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/shareconnect.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GTb2tdF7Um: No space left on device
+FAIL vasic.digital/de/shareconnect
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/yole.md lang=de script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.e836q5YKJm: No space left on device
+FAIL vasic.digital/de/yole
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/android-toolkit.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.qcc7WRLROu: No space left on device
+FAIL vasic.digital/es/android-toolkit
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/asinka.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Jm3pTusCdf: No space left on device
+FAIL vasic.digital/es/asinka
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/catalogizer.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.HFgiSAu7ON: No space left on device
+FAIL vasic.digital/es/catalogizer
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/grabtube.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.F5X1vI5eHq: No space left on device
+FAIL vasic.digital/es/grabtube
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helix-flow-platform.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.GRlJTgufrh: No space left on device
+FAIL vasic.digital/es/helix-flow-platform
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixcode.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.OMSTgqMRLG: No space left on device
+FAIL vasic.digital/es/helixcode
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixtrack-android-client.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.f2iYhpDpDb: No space left on device
+FAIL vasic.digital/es/helixtrack-android-client
+[2026-06-25T23:36:04+0300] === translate-pipeline run ===
+[2026-06-25T23:36:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixtrack-core.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.NlGmfpHZoS: No space left on device
+FAIL vasic.digital/es/helixtrack-core
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixtrack-desktop-client.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.bbO5jfkXgN: No space left on device
+FAIL vasic.digital/es/helixtrack-desktop-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixtrack-ios-client.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.8fxjSslroQ: No space left on device
+FAIL vasic.digital/es/helixtrack-ios-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixtrack-web-client.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.xwst0hHD0d: No space left on device
+FAIL vasic.digital/es/helixtrack-web-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/helixtranslate.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6Pk3Bt3uMH: No space left on device
+FAIL vasic.digital/es/helixtranslate
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/llmsverifier.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.8oC9d1QTmB: No space left on device
+FAIL vasic.digital/es/llmsverifier
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/mail-server-factory.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.W5ohX4ck9L: No space left on device
+FAIL vasic.digital/es/mail-server-factory
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/panoptic.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7ckpevExlY: No space left on device
+FAIL vasic.digital/es/panoptic
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/server-factory-core-framework.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.eTq2Mop3bw: No space left on device
+FAIL vasic.digital/es/server-factory-core-framework
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/shareconnect.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.jh5i03lp9i: No space left on device
+FAIL vasic.digital/es/shareconnect
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/yole.md lang=es script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mE1UHhqtec: No space left on device
+FAIL vasic.digital/es/yole
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/android-toolkit.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.5sHIx7vEPH: No space left on device
+FAIL vasic.digital/fr/android-toolkit
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/asinka.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.2SOQ0Falxh: No space left on device
+FAIL vasic.digital/fr/asinka
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/catalogizer.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.4n638j2kiL: No space left on device
+FAIL vasic.digital/fr/catalogizer
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/grabtube.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.8dtUJP5CMw: No space left on device
+FAIL vasic.digital/fr/grabtube
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helix-flow-platform.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.yynd83SrGU: No space left on device
+FAIL vasic.digital/fr/helix-flow-platform
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixcode.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.lkvYaw4OEi: No space left on device
+FAIL vasic.digital/fr/helixcode
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-android-client.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.TTYN2c4Shp: No space left on device
+FAIL vasic.digital/fr/helixtrack-android-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-core.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WzXeXJWMxx: No space left on device
+FAIL vasic.digital/fr/helixtrack-core
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-desktop-client.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.pwva6GfW46: No space left on device
+FAIL vasic.digital/fr/helixtrack-desktop-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-ios-client.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PpyicUad7N: No space left on device
+FAIL vasic.digital/fr/helixtrack-ios-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-web-client.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.q0NV7QMsxT: No space left on device
+FAIL vasic.digital/fr/helixtrack-web-client
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtranslate.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.T3V2vrfXHT: No space left on device
+FAIL vasic.digital/fr/helixtranslate
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/llmsverifier.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.bOrdzHk75L: No space left on device
+FAIL vasic.digital/fr/llmsverifier
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/mail-server-factory.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.SG97xsTFVy: No space left on device
+FAIL vasic.digital/fr/mail-server-factory
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/panoptic.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XWGoGDwTmo: No space left on device
+FAIL vasic.digital/fr/panoptic
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/server-factory-core-framework.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.n1u72ZZfmC: No space left on device
+FAIL vasic.digital/fr/server-factory-core-framework
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/shareconnect.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.SNMpCGn1KM: No space left on device
+FAIL vasic.digital/fr/shareconnect
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/yole.md lang=fr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PQLUVc1PJb: No space left on device
+FAIL vasic.digital/fr/yole
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/android-toolkit.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.JTZVxLBk6C: No space left on device
+FAIL vasic.digital/be/android-toolkit
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/asinka.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.poQynnKRNp: No space left on device
+FAIL vasic.digital/be/asinka
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/catalogizer.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.cwXRwYp3UF: No space left on device
+FAIL vasic.digital/be/catalogizer
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/grabtube.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.FhKVDRJizY: No space left on device
+FAIL vasic.digital/be/grabtube
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helix-flow-platform.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.cYcR0u1AKf: No space left on device
+FAIL vasic.digital/be/helix-flow-platform
+[2026-06-25T23:36:05+0300] === translate-pipeline run ===
+[2026-06-25T23:36:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixcode.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ANmUmJ1Nhv: No space left on device
+FAIL vasic.digital/be/helixcode
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixtrack-android-client.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.1gD3yUzlA4: No space left on device
+FAIL vasic.digital/be/helixtrack-android-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixtrack-core.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.taVnM1FT4m: No space left on device
+FAIL vasic.digital/be/helixtrack-core
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixtrack-desktop-client.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WyO8aP1VTT: No space left on device
+FAIL vasic.digital/be/helixtrack-desktop-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixtrack-ios-client.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Md5VOrgeaJ: No space left on device
+FAIL vasic.digital/be/helixtrack-ios-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixtrack-web-client.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.w8oQIgpsmx: No space left on device
+FAIL vasic.digital/be/helixtrack-web-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/helixtranslate.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XW0K45xw2w: No space left on device
+FAIL vasic.digital/be/helixtranslate
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/llmsverifier.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WvDaZZfU9O: No space left on device
+FAIL vasic.digital/be/llmsverifier
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KdspfAVS10: No space left on device
+FAIL vasic.digital/be/mail-server-factory
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/panoptic.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Kl21jkWpVu: No space left on device
+FAIL vasic.digital/be/panoptic
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/server-factory-core-framework.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.n5EFZxVY7E: No space left on device
+FAIL vasic.digital/be/server-factory-core-framework
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/shareconnect.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.5X1js5BleT: No space left on device
+FAIL vasic.digital/be/shareconnect
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/yole.md lang=be script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.nrYEvBxOS6: No space left on device
+FAIL vasic.digital/be/yole
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/android-toolkit.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KLWnZynndK: No space left on device
+FAIL vasic.digital/zh/android-toolkit
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/asinka.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.UI2jCZj93S: No space left on device
+FAIL vasic.digital/zh/asinka
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/catalogizer.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mqz6yE6xuF: No space left on device
+FAIL vasic.digital/zh/catalogizer
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/grabtube.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.q79F9RUqNl: No space left on device
+FAIL vasic.digital/zh/grabtube
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helix-flow-platform.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.q3kRaWw0sf: No space left on device
+FAIL vasic.digital/zh/helix-flow-platform
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixcode.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.onyN8AWJ69: No space left on device
+FAIL vasic.digital/zh/helixcode
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixtrack-android-client.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ZcTGKtVIN6: No space left on device
+FAIL vasic.digital/zh/helixtrack-android-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixtrack-core.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.skrT8aZgn4: No space left on device
+FAIL vasic.digital/zh/helixtrack-core
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixtrack-desktop-client.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.CtPjiiqk5W: No space left on device
+FAIL vasic.digital/zh/helixtrack-desktop-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixtrack-ios-client.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ZgvA4cIXjY: No space left on device
+FAIL vasic.digital/zh/helixtrack-ios-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixtrack-web-client.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.JTDgPia1r1: No space left on device
+FAIL vasic.digital/zh/helixtrack-web-client
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/helixtranslate.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.yDMns5kXV8: No space left on device
+FAIL vasic.digital/zh/helixtranslate
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/llmsverifier.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.p6OKGRj6Tv: No space left on device
+FAIL vasic.digital/zh/llmsverifier
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/mail-server-factory.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WcILs4MKzo: No space left on device
+FAIL vasic.digital/zh/mail-server-factory
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/panoptic.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.nJ2u6qiqc0: No space left on device
+FAIL vasic.digital/zh/panoptic
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/server-factory-core-framework.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.i3lUs3f6vh: No space left on device
+FAIL vasic.digital/zh/server-factory-core-framework
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/shareconnect.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.qjw3EN07WY: No space left on device
+FAIL vasic.digital/zh/shareconnect
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/yole.md lang=zh script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.593tlJnO9y: No space left on device
+FAIL vasic.digital/zh/yole
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/android-toolkit.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.3xFRcsxUfW: No space left on device
+FAIL vasic.digital/kk/android-toolkit
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/asinka.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.blqiI0wJ1M: No space left on device
+FAIL vasic.digital/kk/asinka
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/catalogizer.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ijRgd11z7p: No space left on device
+FAIL vasic.digital/kk/catalogizer
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/grabtube.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XFcYnKkyFY: No space left on device
+FAIL vasic.digital/kk/grabtube
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helix-flow-platform.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.snMr9nMjd6: No space left on device
+FAIL vasic.digital/kk/helix-flow-platform
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixcode.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.FPyCOOe1Xi: No space left on device
+FAIL vasic.digital/kk/helixcode
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-android-client.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.HZKc8pPZAB: No space left on device
+FAIL vasic.digital/kk/helixtrack-android-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-core.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.P4V7ZWwdXl: No space left on device
+FAIL vasic.digital/kk/helixtrack-core
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-desktop-client.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.RbpSfYXvpU: No space left on device
+FAIL vasic.digital/kk/helixtrack-desktop-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-ios-client.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.BA9Dx6SrPN: No space left on device
+FAIL vasic.digital/kk/helixtrack-ios-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-web-client.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.OU2HrF4dUP: No space left on device
+FAIL vasic.digital/kk/helixtrack-web-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtranslate.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.D3p1RKIUX5: No space left on device
+FAIL vasic.digital/kk/helixtranslate
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/llmsverifier.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.CpMPcG8DeM: No space left on device
+FAIL vasic.digital/kk/llmsverifier
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/mail-server-factory.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.UlPxJ8cEpm: No space left on device
+FAIL vasic.digital/kk/mail-server-factory
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/panoptic.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.UaGu4wWnLe: No space left on device
+FAIL vasic.digital/kk/panoptic
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/server-factory-core-framework.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sJA9UStYrl: No space left on device
+FAIL vasic.digital/kk/server-factory-core-framework
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/shareconnect.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.UqCnRqTr6F: No space left on device
+FAIL vasic.digital/kk/shareconnect
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/yole.md lang=kk script=cyrillic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.v8fo70Wad0: No space left on device
+FAIL vasic.digital/kk/yole
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/android-toolkit.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sHoPEMzxq1: No space left on device
+FAIL vasic.digital/hi/android-toolkit
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/asinka.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ahTNuijAV5: No space left on device
+FAIL vasic.digital/hi/asinka
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/catalogizer.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.bTPd09qMtD: No space left on device
+FAIL vasic.digital/hi/catalogizer
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/grabtube.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ZwualXHUuc: No space left on device
+FAIL vasic.digital/hi/grabtube
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helix-flow-platform.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.X5SldZRQj6: No space left on device
+FAIL vasic.digital/hi/helix-flow-platform
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixcode.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.YwYafljhVf: No space left on device
+FAIL vasic.digital/hi/helixcode
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-android-client.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.R8TNNTrVJN: No space left on device
+FAIL vasic.digital/hi/helixtrack-android-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-core.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.DW34LaMADX: No space left on device
+FAIL vasic.digital/hi/helixtrack-core
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-desktop-client.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WQSwvlxlbN: No space left on device
+FAIL vasic.digital/hi/helixtrack-desktop-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-ios-client.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.0opwHAS7Kh: No space left on device
+FAIL vasic.digital/hi/helixtrack-ios-client
+[2026-06-25T23:36:07+0300] === translate-pipeline run ===
+[2026-06-25T23:36:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-web-client.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ExtzvtCYap: No space left on device
+FAIL vasic.digital/hi/helixtrack-web-client
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtranslate.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XvJMXurqYc: No space left on device
+FAIL vasic.digital/hi/helixtranslate
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/llmsverifier.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sVIwHHpdQL: No space left on device
+FAIL vasic.digital/hi/llmsverifier
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/mail-server-factory.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.a9oaifZHBi: No space left on device
+FAIL vasic.digital/hi/mail-server-factory
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/panoptic.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.qATorqKq69: No space left on device
+FAIL vasic.digital/hi/panoptic
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/server-factory-core-framework.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.9OZHSfyHuN: No space left on device
+FAIL vasic.digital/hi/server-factory-core-framework
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/shareconnect.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mlM1Qc4hIy: No space left on device
+FAIL vasic.digital/hi/shareconnect
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/yole.md lang=hi script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mtsvSPm2aX: No space left on device
+FAIL vasic.digital/hi/yole
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PxSRUPf9hl: No space left on device
+FAIL vasic.digital/ja/android-toolkit
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/asinka.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.O9xcviez93: No space left on device
+FAIL vasic.digital/ja/asinka
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/catalogizer.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.zQRHWAc18b: No space left on device
+FAIL vasic.digital/ja/catalogizer
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/grabtube.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.2w7FdUp8J8: No space left on device
+FAIL vasic.digital/ja/grabtube
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helix-flow-platform.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.f5JstsqZvp: No space left on device
+FAIL vasic.digital/ja/helix-flow-platform
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixcode.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7CIe8cX0Jv: No space left on device
+FAIL vasic.digital/ja/helixcode
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-android-client.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.JsGV64Ywoe: No space left on device
+FAIL vasic.digital/ja/helixtrack-android-client
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-core.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hD0kDU3gSA: No space left on device
+FAIL vasic.digital/ja/helixtrack-core
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-desktop-client.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.EEuVGvtyc8: No space left on device
+FAIL vasic.digital/ja/helixtrack-desktop-client
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-ios-client.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sEiyvXdYmx: No space left on device
+FAIL vasic.digital/ja/helixtrack-ios-client
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-web-client.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.uMGLmWFOLh: No space left on device
+FAIL vasic.digital/ja/helixtrack-web-client
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtranslate.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.yLaypFjqg4: No space left on device
+FAIL vasic.digital/ja/helixtranslate
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/llmsverifier.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.YBoYRPTq1e: No space left on device
+FAIL vasic.digital/ja/llmsverifier
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/mail-server-factory.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.9BYu2WcAXB: No space left on device
+FAIL vasic.digital/ja/mail-server-factory
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/panoptic.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.JDRBeQszQf: No space left on device
+FAIL vasic.digital/ja/panoptic
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/server-factory-core-framework.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.bGHAm6sH1h: No space left on device
+FAIL vasic.digital/ja/server-factory-core-framework
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/shareconnect.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ArBw5hQcE0: No space left on device
+FAIL vasic.digital/ja/shareconnect
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/yole.md lang=ja script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.FOZ5LEA1An: No space left on device
+FAIL vasic.digital/ja/yole
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/android-toolkit.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6wBlWGAmhb: No space left on device
+FAIL vasic.digital/ko/android-toolkit
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/asinka.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.toq0IxK8tK: No space left on device
+FAIL vasic.digital/ko/asinka
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/catalogizer.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.swr2ZqAwIM: No space left on device
+FAIL vasic.digital/ko/catalogizer
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/grabtube.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.uNNewBgarp: No space left on device
+FAIL vasic.digital/ko/grabtube
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helix-flow-platform.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ofW42caa8m: No space left on device
+FAIL vasic.digital/ko/helix-flow-platform
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixcode.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.wci2zC2xTl: No space left on device
+FAIL vasic.digital/ko/helixcode
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-android-client.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6MT7N41KLn: No space left on device
+FAIL vasic.digital/ko/helixtrack-android-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-core.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.V2ZIsQqXZp: No space left on device
+FAIL vasic.digital/ko/helixtrack-core
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-desktop-client.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.o9BFkGvdS9: No space left on device
+FAIL vasic.digital/ko/helixtrack-desktop-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.oaeVGLYhy6: No space left on device
+FAIL vasic.digital/ko/helixtrack-ios-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-web-client.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.YC5UDyvq4G: No space left on device
+FAIL vasic.digital/ko/helixtrack-web-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtranslate.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.NoNXnKWaNU: No space left on device
+FAIL vasic.digital/ko/helixtranslate
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/llmsverifier.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.sOGwHqa4WO: No space left on device
+FAIL vasic.digital/ko/llmsverifier
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/mail-server-factory.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.i3KuM6UHBc: No space left on device
+FAIL vasic.digital/ko/mail-server-factory
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/panoptic.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.30LDESECy9: No space left on device
+FAIL vasic.digital/ko/panoptic
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/server-factory-core-framework.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.PT05DX8kn6: No space left on device
+FAIL vasic.digital/ko/server-factory-core-framework
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/shareconnect.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.kXOXuHcFEa: No space left on device
+FAIL vasic.digital/ko/shareconnect
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/yole.md lang=ko script=default article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.vrMqP3wISO: No space left on device
+FAIL vasic.digital/ko/yole
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/android-toolkit.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ATfUKe9J4T: No space left on device
+FAIL vasic.digital/ar/android-toolkit
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/asinka.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.k8D3sqbM2C: No space left on device
+FAIL vasic.digital/ar/asinka
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/catalogizer.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.lXVsVe8XPK: No space left on device
+FAIL vasic.digital/ar/catalogizer
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/grabtube.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.edRUS5PqRO: No space left on device
+FAIL vasic.digital/ar/grabtube
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helix-flow-platform.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.tjetLdoAqn: No space left on device
+FAIL vasic.digital/ar/helix-flow-platform
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.WkifFOWIze: No space left on device
+FAIL vasic.digital/ar/helixcode
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-android-client.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.slPEgbTFUB: No space left on device
+FAIL vasic.digital/ar/helixtrack-android-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-core.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.YwnG2ByTJo: No space left on device
+FAIL vasic.digital/ar/helixtrack-core
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-desktop-client.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.32DoQqS7AZ: No space left on device
+FAIL vasic.digital/ar/helixtrack-desktop-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-ios-client.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.nGLmotTNU4: No space left on device
+FAIL vasic.digital/ar/helixtrack-ios-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-web-client.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.VGIQUEpl5U: No space left on device
+FAIL vasic.digital/ar/helixtrack-web-client
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtranslate.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.VYOfJc7FeZ: No space left on device
+FAIL vasic.digital/ar/helixtranslate
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.4MpvER66LS: No space left on device
+FAIL vasic.digital/ar/llmsverifier
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/mail-server-factory.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7KMWjny2eF: No space left on device
+FAIL vasic.digital/ar/mail-server-factory
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/panoptic.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.H23fllXCYP: No space left on device
+FAIL vasic.digital/ar/panoptic
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/server-factory-core-framework.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.mjc0ImdeGu: No space left on device
+FAIL vasic.digital/ar/server-factory-core-framework
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/shareconnect.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.xddCN1OgDW: No space left on device
+FAIL vasic.digital/ar/shareconnect
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/yole.md lang=ar script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ybIW1iW6Vj: No space left on device
+FAIL vasic.digital/ar/yole
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/android-toolkit.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.gHGr601uql: No space left on device
+FAIL vasic.digital/tr/android-toolkit
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/asinka.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.6t8Xa3RAn6: No space left on device
+FAIL vasic.digital/tr/asinka
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/catalogizer.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.s1OZi5tVeS: No space left on device
+FAIL vasic.digital/tr/catalogizer
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/grabtube.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.XGrcsMGTFp: No space left on device
+FAIL vasic.digital/tr/grabtube
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helix-flow-platform.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Cdy6rX6Egx: No space left on device
+FAIL vasic.digital/tr/helix-flow-platform
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixcode.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.75RbPyL7Gw: No space left on device
+FAIL vasic.digital/tr/helixcode
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-android-client.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.R7kdxtukbD: No space left on device
+FAIL vasic.digital/tr/helixtrack-android-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-core.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.lQtnKWxWGk: No space left on device
+FAIL vasic.digital/tr/helixtrack-core
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-desktop-client.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Ito4FP0WeV: No space left on device
+FAIL vasic.digital/tr/helixtrack-desktop-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-ios-client.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.8aSTColWKB: No space left on device
+FAIL vasic.digital/tr/helixtrack-ios-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-web-client.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Sm3tYKyFaH: No space left on device
+FAIL vasic.digital/tr/helixtrack-web-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtranslate.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.9kwzfpKF7S: No space left on device
+FAIL vasic.digital/tr/helixtranslate
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/llmsverifier.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.5ECSoMKoUq: No space left on device
+FAIL vasic.digital/tr/llmsverifier
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/mail-server-factory.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.UJDgYE2Gzm: No space left on device
+FAIL vasic.digital/tr/mail-server-factory
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/panoptic.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.0nPauxVebu: No space left on device
+FAIL vasic.digital/tr/panoptic
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/server-factory-core-framework.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.jw0VvLI30H: No space left on device
+FAIL vasic.digital/tr/server-factory-core-framework
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/shareconnect.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.SC8KjQqEQb: No space left on device
+FAIL vasic.digital/tr/shareconnect
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/yole.md lang=tr script=latin article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.Qzu0H7N6Oc: No space left on device
+FAIL vasic.digital/tr/yole
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/android-toolkit.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.TcjWIzjVHp: No space left on device
+FAIL vasic.digital/fa/android-toolkit
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/asinka.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.B0oSoLkyaV: No space left on device
+FAIL vasic.digital/fa/asinka
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/catalogizer.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.L5P6gtfak6: No space left on device
+FAIL vasic.digital/fa/catalogizer
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/grabtube.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.YPzcomPGaW: No space left on device
+FAIL vasic.digital/fa/grabtube
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helix-flow-platform.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.7HgQ2y23BR: No space left on device
+FAIL vasic.digital/fa/helix-flow-platform
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixcode.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.ojwn4qRhVO: No space left on device
+FAIL vasic.digital/fa/helixcode
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixtrack-android-client.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.cuNRSOAClE: No space left on device
+FAIL vasic.digital/fa/helixtrack-android-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixtrack-core.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.OaAyi4Lk7P: No space left on device
+FAIL vasic.digital/fa/helixtrack-core
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixtrack-desktop-client.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.vX9pSiVqJ3: No space left on device
+FAIL vasic.digital/fa/helixtrack-desktop-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixtrack-ios-client.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.EPquSoEQDD: No space left on device
+FAIL vasic.digital/fa/helixtrack-ios-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixtrack-web-client.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.eQfs1gwWZk: No space left on device
+FAIL vasic.digital/fa/helixtrack-web-client
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtranslate.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helixtranslate.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.eimMYcOFfP: No space left on device
+FAIL vasic.digital/fa/helixtranslate
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/llmsverifier.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.SzJ6trAFnQ: No space left on device
+FAIL vasic.digital/fa/llmsverifier
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/mail-server-factory.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.j685p0WtK9: No space left on device
+FAIL vasic.digital/fa/mail-server-factory
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/panoptic.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.UFqkpHPU6k: No space left on device
+FAIL vasic.digital/fa/panoptic
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/server-factory-core-framework.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.kE8yLnEAvp: No space left on device
+FAIL vasic.digital/fa/server-factory-core-framework
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/shareconnect.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.df11sGsHal: No space left on device
+FAIL vasic.digital/fa/shareconnect
+[2026-06-25T23:36:10+0300] === translate-pipeline run ===
+[2026-06-25T23:36:10+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/yole.md lang=fa script=arabic article=1
+mktemp: mkdtemp failed on /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.08ZTTIVjqe: No space left on device
+FAIL vasic.digital/fa/yole
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/es
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/be
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr
+skip (no src dir): /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa
+SUMMARY tag=master langs=[de es fr be zh kk hi ja ko ar tr fa] ok=44 fail=316
+milosvasic.ru/de md=      12 html=       0
+milosvasic.ru/es md=      12 html=       0
+milosvasic.ru/fr md=      12 html=       0
+milosvasic.ru/be md=       8 html=       0
+milosvasic.ru/zh md=       0 html=       0
+milosvasic.ru/kk md=       0 html=       0
+milosvasic.ru/hi md=       0 html=       0
+milosvasic.ru/ja md=       0 html=       0
+milosvasic.ru/ko md=       0 html=       0
+milosvasic.ru/ar md=       0 html=       0
+milosvasic.ru/tr md=       0 html=       0
+milosvasic.ru/fa md=       0 html=       0
+vasic.digital/de md=       0 html=       0
+vasic.digital/es md=       0 html=       0
+vasic.digital/fr md=       0 html=       0
+vasic.digital/be md=       0 html=       0
+vasic.digital/zh md=       0 html=       0
+vasic.digital/kk md=       0 html=       0
+vasic.digital/hi md=       0 html=       0
+vasic.digital/ja md=       0 html=       0
+vasic.digital/ko md=       0 html=       0
+vasic.digital/ar md=       0 html=       0
+vasic.digital/tr md=       0 html=       0
+vasic.digital/fa md=       0 html=       0
+DONE

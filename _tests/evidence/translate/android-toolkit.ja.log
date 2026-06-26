@@ -1,0 +1,36 @@
+[2026-06-25T23:36:02+0300] === translate-pipeline run ===
+[2026-06-25T23:36:02+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+[2026-06-25T23:36:08+0300] === translate-pipeline run ===
+[2026-06-25T23:36:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+[2026-06-26T11:51:51+0300] === translate-pipeline run ===
+[2026-06-26T11:51:51+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+[2026-06-26T11:51:51+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T11:51:52+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T11:52:00+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T11:52:37+0300] engine SUCCESS via mistral:mistral-large-latest (output     6888 bytes)
+[2026-06-26T11:52:37+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ja/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T11:52:37+0300] === done ===
+[2026-06-26T12:22:31+0300] === translate-pipeline run ===
+[2026-06-26T12:22:31+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+[2026-06-26T12:22:31+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:22:32+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:22:40+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T12:22:41+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:22:57+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:22:57+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:22:58+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:23:06+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T12:23:07+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:23:23+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:23:23+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/android-toolkit.md (all providers exhausted)
+[2026-06-26T12:40:15+0300] === translate-pipeline run ===
+[2026-06-26T12:40:15+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/android-toolkit.md lang=ja script=default article=1
+[2026-06-26T12:40:15+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:40:40+0300] engine SUCCESS via mistral:mistral-large-latest (output     3670 bytes)
+[2026-06-26T12:40:40+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:40:40+0300] === done ===

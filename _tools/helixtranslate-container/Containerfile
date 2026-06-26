@@ -1,0 +1,9 @@
+# HelixTranslate CLI image — minimal, runs the unified-translator engine.
+# Build context carries a prebuilt static linux/amd64 binary (CGO-free), so no
+# Go toolchain / module resolution is needed on the host: alpine + CA certs only.
+# CA certs are required for outbound HTTPS to the LLM providers (Mistral/Groq/Cohere).
+FROM docker.io/library/alpine:3.20
+RUN apk add --no-cache ca-certificates && update-ca-certificates
+COPY unified-translator /usr/local/bin/unified-translator
+RUN chmod +x /usr/local/bin/unified-translator
+ENTRYPOINT ["/usr/local/bin/unified-translator"]

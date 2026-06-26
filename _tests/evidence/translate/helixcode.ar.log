@@ -1,0 +1,36 @@
+[2026-06-25T23:36:09+0300] === translate-pipeline run ===
+[2026-06-25T23:36:09+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md lang=ar script=arabic article=1
+[2026-06-26T12:28:34+0300] === translate-pipeline run ===
+[2026-06-26T12:28:34+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md lang=ar script=arabic article=1
+[2026-06-26T12:28:34+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:28:35+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:28:43+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:28:44+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:42:34+0300] === translate-pipeline run ===
+[2026-06-26T12:42:34+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md lang=ar script=arabic article=1
+[2026-06-26T12:42:34+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:42:35+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:42:43+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:42:44+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:43:01+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:43:01+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:43:01+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:43:09+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:43:11+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:43:27+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:43:27+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md (all providers exhausted)
+[2026-06-26T12:55:55+0300] === translate-pipeline run ===
+[2026-06-26T12:55:55+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md lang=ar script=arabic article=1
+[2026-06-26T12:55:55+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:55:56+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:56:04+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:56:29+0300] engine SUCCESS via mistral:mistral-large-latest (output     5141 bytes)
+[2026-06-26T12:56:29+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:56:29+0300] === done ===

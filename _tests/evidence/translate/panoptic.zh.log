@@ -1,0 +1,33 @@
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/panoptic.md lang=zh script=default article=1
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/panoptic.md lang=zh script=default article=1
+[2026-06-26T11:45:44+0300] === translate-pipeline run ===
+[2026-06-26T11:45:44+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/panoptic.md lang=zh script=default article=1
+[2026-06-26T11:45:44+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T11:45:45+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T11:45:53+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=mistral
+[2026-06-26T11:45:54+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T11:46:10+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T11:46:10+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T11:46:11+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T11:46:19+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on thinker.local (podman) provider=groq
+[2026-06-26T11:46:20+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T11:46:36+0300] provider=groq exhausted; trying next provider
+[2026-06-26T11:46:36+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md -> /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/panoptic.md (all providers exhausted)
+[2026-06-26T12:16:14+0300] === translate-pipeline run ===
+[2026-06-26T12:16:14+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/panoptic.md lang=zh script=default article=1
+[2026-06-26T12:16:14+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:16:33+0300] engine SUCCESS via mistral:mistral-large-latest (output     2432 bytes)
+[2026-06-26T12:16:33+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:16:33+0300] === done ===
+[2026-06-26T12:29:54+0300] === translate-pipeline run ===
+[2026-06-26T12:29:54+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/panoptic.md lang=zh script=default article=1
+[2026-06-26T12:29:54+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:30:32+0300] engine SUCCESS via mistral:mistral-large-latest (output     4852 bytes)
+[2026-06-26T12:30:32+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/zh/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:30:32+0300] === done ===

@@ -1,0 +1,8 @@
+[2026-06-25T23:36:03+0300] === translate-pipeline run ===
+[2026-06-25T23:36:03+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/grab-tube.md lang=ar script=arabic article=1
+[2026-06-26T11:56:32+0300] === translate-pipeline run ===
+[2026-06-26T11:56:32+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/grab-tube.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/grab-tube.md lang=ar script=arabic article=1
+[2026-06-26T11:56:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T11:57:15+0300] engine SUCCESS via mistral:mistral-large-latest (output     8578 bytes)
+[2026-06-26T11:57:15+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/grab-tube.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T11:57:15+0300] === done ===

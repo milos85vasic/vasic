@@ -1,0 +1,21 @@
+# Multi-stage cgo build of the HelixTranslate unified-translator engine.
+# Built natively on thinker.local (linux/amd64), then replicated to amber.local
+# via `podman save | ssh ... docker load`. cgo is REQUIRED: the bridge opens a
+# go-sqlite3 verified-models store at startup (CGO_ENABLED=0 ships a stub that
+# fatals on ping), so the runtime image keeps sqlite-libs + musl.
+FROM docker.io/library/golang:1.26-alpine AS builder
+RUN apk add --no-cache git ca-certificates gcc musl-dev sqlite-dev
+WORKDIR /build
+COPY . .
+RUN CGO_ENABLED=1 go build -trimpath -ldflags="-s -w" \
+        -o /unified-translator ./cmd/unified-translator
+
+FROM docker.io/library/alpine:3.20
+RUN apk add --no-cache ca-certificates sqlite-libs && update-ca-certificates
+COPY --from=builder /unified-translator /usr/local/bin/unified-translator
+# /data holds the verified-models sqlite store (./data/verified_models.db);
+# mount a persistent volume here so the one-time startup verification is paid
+# once, not on every ephemeral --rm run.
+RUN mkdir -p /data
+WORKDIR /
+ENTRYPOINT ["/usr/local/bin/unified-translator"]

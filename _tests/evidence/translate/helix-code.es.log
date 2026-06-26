@@ -1,0 +1,10 @@
+[2026-06-25T23:14:32+0300] === translate-pipeline run ===
+[2026-06-25T23:14:32+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-code.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/es/helix-code.md lang=es script=latin article=1
+[2026-06-25T23:14:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25 23:14:32] INFO: Starting API-based translation | provider=mistral provider_explicit=true
+[2026-06-25 23:14:32] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 23:15:07] INFO: Translation completed successfully | input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hqRq8BL12j/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hqRq8BL12j/body.out.md provider=mistral duration=35.038697333s session_id=tx-1782418472835182000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.hqRq8BL12j/body.out_session_report.md
+[2026-06-25T23:15:07+0300] engine SUCCESS via mistral:mistral-large-latest (output     6066 bytes)
+[2026-06-25T23:15:07+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/es/helix-code.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-25T23:15:07+0300] === done ===

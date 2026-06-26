@@ -1,0 +1,10 @@
+[2026-06-25T23:24:49+0300] === translate-pipeline run ===
+[2026-06-25T23:24:49+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/share-connect.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/share-connect.md lang=fr script=latin article=1
+[2026-06-25T23:24:49+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-25 23:24:49] INFO: Starting API-based translation | provider_explicit=true provider=mistral
+[2026-06-25 23:24:49] INFO: Translator selected | selected_provider=llm-mistral
+[2026-06-25 23:25:12] INFO: Translation completed successfully | input=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KRXggrrL3w/body.md output=/var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KRXggrrL3w/body.out.md provider=mistral duration=23.239080583s session_id=tx-1782419089675346000
+Session report generated: /var/folders/t3/dmp1fb1d61xbl27trnjtr0_c0000gn/T/tmp.KRXggrrL3w/body.out_session_report.md
+[2026-06-25T23:25:12+0300] engine SUCCESS via mistral:mistral-large-latest (output     6595 bytes)
+[2026-06-25T23:25:12+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/fr/share-connect.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-25T23:25:12+0300] === done ===

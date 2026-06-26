@@ -1,0 +1,676 @@
+SKIP(exists) milosvasic.ru/be/android-toolkit
+SKIP(exists) milosvasic.ru/be/catalogizer
+SKIP(exists) milosvasic.ru/be/grab-tube
+SKIP(exists) milosvasic.ru/be/helix-agent
+SKIP(exists) milosvasic.ru/be/helix-code
+SKIP(exists) milosvasic.ru/be/helix-flow-platform
+SKIP(exists) milosvasic.ru/be/helix-track-core
+SKIP(exists) milosvasic.ru/be/helix-translate
+SKIP(exists) milosvasic.ru/be/llms-verifier
+SKIP(exists) milosvasic.ru/be/mail-server-factory
+SKIP(exists) milosvasic.ru/be/panoptic
+SKIP(exists) milosvasic.ru/be/share-connect
+SKIP(exists) milosvasic.ru/de/android-toolkit
+SKIP(exists) milosvasic.ru/de/catalogizer
+SKIP(exists) milosvasic.ru/de/grab-tube
+SKIP(exists) milosvasic.ru/de/helix-agent
+SKIP(exists) milosvasic.ru/de/helix-code
+SKIP(exists) milosvasic.ru/de/helix-flow-platform
+SKIP(exists) milosvasic.ru/de/helix-track-core
+SKIP(exists) milosvasic.ru/de/helix-translate
+SKIP(exists) milosvasic.ru/de/llms-verifier
+SKIP(exists) milosvasic.ru/de/mail-server-factory
+SKIP(exists) milosvasic.ru/de/panoptic
+SKIP(exists) milosvasic.ru/de/share-connect
+SKIP(exists) milosvasic.ru/es/android-toolkit
+SKIP(exists) milosvasic.ru/es/catalogizer
+SKIP(exists) milosvasic.ru/es/grab-tube
+SKIP(exists) milosvasic.ru/es/helix-agent
+SKIP(exists) milosvasic.ru/es/helix-code
+SKIP(exists) milosvasic.ru/es/helix-flow-platform
+SKIP(exists) milosvasic.ru/es/helix-track-core
+SKIP(exists) milosvasic.ru/es/helix-translate
+SKIP(exists) milosvasic.ru/es/llms-verifier
+SKIP(exists) milosvasic.ru/es/mail-server-factory
+SKIP(exists) milosvasic.ru/es/panoptic
+SKIP(exists) milosvasic.ru/es/share-connect
+SKIP(exists) milosvasic.ru/fr/android-toolkit
+SKIP(exists) milosvasic.ru/fr/catalogizer
+SKIP(exists) milosvasic.ru/fr/grab-tube
+SKIP(exists) milosvasic.ru/fr/helix-agent
+SKIP(exists) milosvasic.ru/fr/helix-code
+SKIP(exists) milosvasic.ru/fr/helix-flow-platform
+SKIP(exists) milosvasic.ru/fr/helix-track-core
+SKIP(exists) milosvasic.ru/fr/helix-translate
+SKIP(exists) milosvasic.ru/fr/llms-verifier
+SKIP(exists) milosvasic.ru/fr/mail-server-factory
+SKIP(exists) milosvasic.ru/fr/panoptic
+SKIP(exists) milosvasic.ru/fr/share-connect
+SKIP(exists) milosvasic.ru/zh/android-toolkit
+SKIP(exists) milosvasic.ru/zh/catalogizer
+SKIP(exists) milosvasic.ru/zh/grab-tube
+SKIP(exists) milosvasic.ru/zh/helix-agent
+SKIP(exists) milosvasic.ru/zh/helix-code
+SKIP(exists) milosvasic.ru/zh/helix-flow-platform
+SKIP(exists) milosvasic.ru/zh/helix-track-core
+SKIP(exists) milosvasic.ru/zh/helix-translate
+SKIP(exists) milosvasic.ru/zh/llms-verifier
+SKIP(exists) milosvasic.ru/zh/mail-server-factory
+SKIP(exists) milosvasic.ru/zh/panoptic
+SKIP(exists) milosvasic.ru/zh/share-connect
+SKIP(exists) milosvasic.ru/kk/android-toolkit
+SKIP(exists) milosvasic.ru/kk/catalogizer
+SKIP(exists) milosvasic.ru/kk/grab-tube
+SKIP(exists) milosvasic.ru/kk/helix-agent
+SKIP(exists) milosvasic.ru/kk/helix-code
+SKIP(exists) milosvasic.ru/kk/helix-flow-platform
+SKIP(exists) milosvasic.ru/kk/helix-track-core
+SKIP(exists) milosvasic.ru/kk/helix-translate
+SKIP(exists) milosvasic.ru/kk/llms-verifier
+SKIP(exists) milosvasic.ru/kk/mail-server-factory
+SKIP(exists) milosvasic.ru/kk/panoptic
+SKIP(exists) milosvasic.ru/kk/share-connect
+SKIP(exists) milosvasic.ru/hi/android-toolkit
+SKIP(exists) milosvasic.ru/hi/catalogizer
+SKIP(exists) milosvasic.ru/hi/grab-tube
+SKIP(exists) milosvasic.ru/hi/helix-agent
+SKIP(exists) milosvasic.ru/hi/helix-code
+SKIP(exists) milosvasic.ru/hi/helix-flow-platform
+SKIP(exists) milosvasic.ru/hi/helix-track-core
+SKIP(exists) milosvasic.ru/hi/helix-translate
+SKIP(exists) milosvasic.ru/hi/llms-verifier
+SKIP(exists) milosvasic.ru/hi/mail-server-factory
+SKIP(exists) milosvasic.ru/hi/panoptic
+SKIP(exists) milosvasic.ru/hi/share-connect
+SKIP(exists) milosvasic.ru/ja/android-toolkit
+SKIP(exists) milosvasic.ru/ja/catalogizer
+SKIP(exists) milosvasic.ru/ja/grab-tube
+SKIP(exists) milosvasic.ru/ja/helix-agent
+SKIP(exists) milosvasic.ru/ja/helix-code
+SKIP(exists) milosvasic.ru/ja/helix-flow-platform
+SKIP(exists) milosvasic.ru/ja/helix-track-core
+SKIP(exists) milosvasic.ru/ja/helix-translate
+SKIP(exists) milosvasic.ru/ja/llms-verifier
+SKIP(exists) milosvasic.ru/ja/mail-server-factory
+SKIP(exists) milosvasic.ru/ja/panoptic
+SKIP(exists) milosvasic.ru/ja/share-connect
+SKIP(exists) milosvasic.ru/ko/android-toolkit
+SKIP(exists) milosvasic.ru/ko/catalogizer
+SKIP(exists) milosvasic.ru/ko/grab-tube
+SKIP(exists) milosvasic.ru/ko/helix-agent
+SKIP(exists) milosvasic.ru/ko/helix-code
+SKIP(exists) milosvasic.ru/ko/helix-flow-platform
+SKIP(exists) milosvasic.ru/ko/helix-track-core
+SKIP(exists) milosvasic.ru/ko/helix-translate
+SKIP(exists) milosvasic.ru/ko/llms-verifier
+SKIP(exists) milosvasic.ru/ko/mail-server-factory
+SKIP(exists) milosvasic.ru/ko/panoptic
+SKIP(exists) milosvasic.ru/ko/share-connect
+SKIP(exists) milosvasic.ru/ar/android-toolkit
+SKIP(exists) milosvasic.ru/ar/catalogizer
+SKIP(exists) milosvasic.ru/ar/grab-tube
+SKIP(exists) milosvasic.ru/ar/helix-agent
+SKIP(exists) milosvasic.ru/ar/helix-code
+SKIP(exists) milosvasic.ru/ar/helix-flow-platform
+SKIP(exists) milosvasic.ru/ar/helix-track-core
+SKIP(exists) milosvasic.ru/ar/helix-translate
+SKIP(exists) milosvasic.ru/ar/mail-server-factory
+SKIP(exists) milosvasic.ru/ar/panoptic
+SKIP(exists) milosvasic.ru/ar/share-connect
+SKIP(exists) milosvasic.ru/tr/android-toolkit
+SKIP(exists) milosvasic.ru/tr/catalogizer
+SKIP(exists) milosvasic.ru/tr/grab-tube
+SKIP(exists) milosvasic.ru/tr/helix-agent
+SKIP(exists) milosvasic.ru/tr/helix-code
+SKIP(exists) milosvasic.ru/tr/helix-flow-platform
+SKIP(exists) milosvasic.ru/tr/helix-track-core
+SKIP(exists) milosvasic.ru/tr/helix-translate
+SKIP(exists) milosvasic.ru/tr/llms-verifier
+SKIP(exists) milosvasic.ru/tr/mail-server-factory
+SKIP(exists) milosvasic.ru/tr/panoptic
+SKIP(exists) milosvasic.ru/tr/share-connect
+SKIP(exists) milosvasic.ru/fa/android-toolkit
+SKIP(exists) milosvasic.ru/fa/catalogizer
+SKIP(exists) milosvasic.ru/fa/grab-tube
+SKIP(exists) milosvasic.ru/fa/helix-agent
+SKIP(exists) milosvasic.ru/fa/helix-code
+SKIP(exists) milosvasic.ru/fa/helix-flow-platform
+SKIP(exists) milosvasic.ru/fa/helix-track-core
+SKIP(exists) milosvasic.ru/fa/helix-translate
+SKIP(exists) milosvasic.ru/fa/llms-verifier
+SKIP(exists) milosvasic.ru/fa/mail-server-factory
+SKIP(exists) milosvasic.ru/fa/panoptic
+SKIP(exists) milosvasic.ru/fa/share-connect
+SKIP(exists) vasic.digital/be/android-toolkit
+SKIP(exists) vasic.digital/be/grabtube
+SKIP(exists) vasic.digital/be/helix-flow-platform
+SKIP(exists) vasic.digital/be/helixcode
+SKIP(exists) vasic.digital/be/helixtrack-android-client
+SKIP(exists) vasic.digital/be/helixtrack-core
+SKIP(exists) vasic.digital/be/helixtrack-desktop-client
+SKIP(exists) vasic.digital/be/helixtrack-ios-client
+SKIP(exists) vasic.digital/be/helixtrack-web-client
+SKIP(exists) vasic.digital/be/helixtranslate
+SKIP(exists) vasic.digital/be/llmsverifier
+SKIP(exists) vasic.digital/be/mail-server-factory
+SKIP(exists) vasic.digital/be/panoptic
+SKIP(exists) vasic.digital/be/server-factory-core-framework
+SKIP(exists) vasic.digital/be/shareconnect
+SKIP(exists) vasic.digital/be/yole
+SKIP(exists) vasic.digital/de/android-toolkit
+SKIP(exists) vasic.digital/de/catalogizer
+SKIP(exists) vasic.digital/de/grabtube
+SKIP(exists) vasic.digital/de/helix-flow-platform
+SKIP(exists) vasic.digital/de/helixcode
+SKIP(exists) vasic.digital/de/helixtrack-android-client
+SKIP(exists) vasic.digital/de/helixtrack-core
+SKIP(exists) vasic.digital/de/helixtrack-desktop-client
+SKIP(exists) vasic.digital/de/helixtrack-ios-client
+SKIP(exists) vasic.digital/de/helixtranslate
+SKIP(exists) vasic.digital/de/llmsverifier
+SKIP(exists) vasic.digital/de/mail-server-factory
+SKIP(exists) vasic.digital/de/panoptic
+SKIP(exists) vasic.digital/es/android-toolkit
+SKIP(exists) vasic.digital/es/asinka
+SKIP(exists) vasic.digital/es/catalogizer
+SKIP(exists) vasic.digital/es/grabtube
+SKIP(exists) vasic.digital/es/helix-flow-platform
+SKIP(exists) vasic.digital/es/helixcode
+SKIP(exists) vasic.digital/es/helixtrack-android-client
+SKIP(exists) vasic.digital/es/helixtrack-core
+SKIP(exists) vasic.digital/es/helixtrack-desktop-client
+SKIP(exists) vasic.digital/es/helixtrack-ios-client
+SKIP(exists) vasic.digital/es/helixtrack-web-client
+SKIP(exists) vasic.digital/es/helixtranslate
+SKIP(exists) vasic.digital/es/panoptic
+SKIP(exists) vasic.digital/es/server-factory-core-framework
+SKIP(exists) vasic.digital/es/shareconnect
+SKIP(exists) vasic.digital/es/yole
+SKIP(exists) vasic.digital/fr/catalogizer
+SKIP(exists) vasic.digital/fr/grabtube
+SKIP(exists) vasic.digital/fr/helix-flow-platform
+SKIP(exists) vasic.digital/fr/helixcode
+SKIP(exists) vasic.digital/fr/helixtrack-android-client
+SKIP(exists) vasic.digital/fr/helixtrack-core
+SKIP(exists) vasic.digital/fr/helixtrack-desktop-client
+SKIP(exists) vasic.digital/fr/helixtrack-ios-client
+SKIP(exists) vasic.digital/fr/helixtranslate
+SKIP(exists) vasic.digital/fr/llmsverifier
+SKIP(exists) vasic.digital/fr/mail-server-factory
+SKIP(exists) vasic.digital/fr/panoptic
+SKIP(exists) vasic.digital/zh/android-toolkit
+SKIP(exists) vasic.digital/zh/asinka
+SKIP(exists) vasic.digital/zh/catalogizer
+SKIP(exists) vasic.digital/zh/grabtube
+SKIP(exists) vasic.digital/zh/helix-flow-platform
+SKIP(exists) vasic.digital/zh/helixcode
+SKIP(exists) vasic.digital/zh/helixtrack-android-client
+SKIP(exists) vasic.digital/zh/helixtrack-core
+SKIP(exists) vasic.digital/zh/helixtrack-desktop-client
+SKIP(exists) vasic.digital/zh/helixtrack-ios-client
+SKIP(exists) vasic.digital/zh/helixtrack-web-client
+SKIP(exists) vasic.digital/zh/helixtranslate
+SKIP(exists) vasic.digital/zh/mail-server-factory
+SKIP(exists) vasic.digital/zh/panoptic
+SKIP(exists) vasic.digital/zh/server-factory-core-framework
+SKIP(exists) vasic.digital/zh/shareconnect
+SKIP(exists) vasic.digital/zh/yole
+SKIP(exists) vasic.digital/kk/android-toolkit
+SKIP(exists) vasic.digital/kk/asinka
+SKIP(exists) vasic.digital/kk/catalogizer
+SKIP(exists) vasic.digital/kk/grabtube
+SKIP(exists) vasic.digital/kk/helix-flow-platform
+SKIP(exists) vasic.digital/kk/helixcode
+SKIP(exists) vasic.digital/kk/helixtrack-android-client
+SKIP(exists) vasic.digital/kk/helixtrack-desktop-client
+SKIP(exists) vasic.digital/kk/helixtrack-ios-client
+SKIP(exists) vasic.digital/kk/helixtrack-web-client
+SKIP(exists) vasic.digital/kk/helixtranslate
+SKIP(exists) vasic.digital/kk/panoptic
+SKIP(exists) vasic.digital/kk/server-factory-core-framework
+SKIP(exists) vasic.digital/kk/shareconnect
+SKIP(exists) vasic.digital/kk/yole
+SKIP(exists) vasic.digital/hi/android-toolkit
+SKIP(exists) vasic.digital/hi/asinka
+SKIP(exists) vasic.digital/hi/catalogizer
+SKIP(exists) vasic.digital/hi/grabtube
+SKIP(exists) vasic.digital/hi/helix-flow-platform
+SKIP(exists) vasic.digital/hi/helixcode
+SKIP(exists) vasic.digital/hi/helixtrack-android-client
+SKIP(exists) vasic.digital/hi/helixtrack-core
+SKIP(exists) vasic.digital/hi/helixtrack-ios-client
+SKIP(exists) vasic.digital/hi/helixtrack-web-client
+SKIP(exists) vasic.digital/hi/helixtranslate
+SKIP(exists) vasic.digital/hi/llmsverifier
+SKIP(exists) vasic.digital/hi/mail-server-factory
+SKIP(exists) vasic.digital/hi/panoptic
+SKIP(exists) vasic.digital/hi/server-factory-core-framework
+SKIP(exists) vasic.digital/hi/shareconnect
+SKIP(exists) vasic.digital/hi/yole
+SKIP(exists) vasic.digital/ja/android-toolkit
+SKIP(exists) vasic.digital/ja/asinka
+SKIP(exists) vasic.digital/ja/catalogizer
+SKIP(exists) vasic.digital/ja/grabtube
+SKIP(exists) vasic.digital/ja/helix-flow-platform
+SKIP(exists) vasic.digital/ja/helixcode
+SKIP(exists) vasic.digital/ja/helixtrack-android-client
+SKIP(exists) vasic.digital/ja/helixtrack-ios-client
+SKIP(exists) vasic.digital/ja/helixtrack-web-client
+SKIP(exists) vasic.digital/ja/helixtranslate
+SKIP(exists) vasic.digital/ja/llmsverifier
+SKIP(exists) vasic.digital/ja/panoptic
+SKIP(exists) vasic.digital/ja/server-factory-core-framework
+SKIP(exists) vasic.digital/ja/shareconnect
+SKIP(exists) vasic.digital/ja/yole
+SKIP(exists) vasic.digital/ko/android-toolkit
+SKIP(exists) vasic.digital/ko/asinka
+SKIP(exists) vasic.digital/ko/catalogizer
+SKIP(exists) vasic.digital/ko/grabtube
+SKIP(exists) vasic.digital/ko/helixcode
+SKIP(exists) vasic.digital/ko/helixtrack-android-client
+SKIP(exists) vasic.digital/ko/helixtrack-core
+SKIP(exists) vasic.digital/ko/helixtrack-desktop-client
+SKIP(exists) vasic.digital/ko/helixtrack-web-client
+SKIP(exists) vasic.digital/ko/helixtranslate
+SKIP(exists) vasic.digital/ko/llmsverifier
+SKIP(exists) vasic.digital/ko/mail-server-factory
+SKIP(exists) vasic.digital/ko/panoptic
+SKIP(exists) vasic.digital/ko/server-factory-core-framework
+SKIP(exists) vasic.digital/ko/shareconnect
+SKIP(exists) vasic.digital/ko/yole
+SKIP(exists) vasic.digital/ar/android-toolkit
+SKIP(exists) vasic.digital/ar/asinka
+SKIP(exists) vasic.digital/ar/catalogizer
+SKIP(exists) vasic.digital/ar/grabtube
+SKIP(exists) vasic.digital/ar/helixtrack-desktop-client
+SKIP(exists) vasic.digital/ar/helixtrack-ios-client
+SKIP(exists) vasic.digital/ar/helixtrack-web-client
+SKIP(exists) vasic.digital/ar/helixtranslate
+SKIP(exists) vasic.digital/ar/mail-server-factory
+SKIP(exists) vasic.digital/ar/panoptic
+SKIP(exists) vasic.digital/ar/server-factory-core-framework
+SKIP(exists) vasic.digital/ar/shareconnect
+SKIP(exists) vasic.digital/tr/grabtube
+SKIP(exists) vasic.digital/tr/helix-flow-platform
+SKIP(exists) vasic.digital/tr/helixcode
+SKIP(exists) vasic.digital/tr/helixtrack-android-client
+SKIP(exists) vasic.digital/tr/helixtrack-ios-client
+SKIP(exists) vasic.digital/tr/helixtrack-web-client
+SKIP(exists) vasic.digital/tr/helixtranslate
+SKIP(exists) vasic.digital/tr/llmsverifier
+SKIP(exists) vasic.digital/tr/server-factory-core-framework
+SKIP(exists) vasic.digital/tr/shareconnect
+SKIP(exists) vasic.digital/tr/yole
+SKIP(exists) vasic.digital/fa/android-toolkit
+SKIP(exists) vasic.digital/fa/helixcode
+SKIP(exists) vasic.digital/fa/helixtrack-android-client
+SKIP(exists) vasic.digital/fa/helixtrack-core
+SKIP(exists) vasic.digital/fa/helixtrack-desktop-client
+SKIP(exists) vasic.digital/fa/helixtrack-web-client
+SKIP(exists) vasic.digital/fa/helixtranslate
+SKIP(exists) vasic.digital/fa/llmsverifier
+SKIP(exists) vasic.digital/fa/mail-server-factory
+SKIP(exists) vasic.digital/fa/yole
+FLEET tag=alllangs3 langs=[be de es fr zh kk hi ja ko ar tr fa] jobs=47 hosts=[thinker.local amber.local] parallel=3
+[2026-06-26T12:51:22+0300] === translate-pipeline run ===
+[2026-06-26T12:51:22+0300] === translate-pipeline run ===
+[2026-06-26T12:51:22+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/llms-verifier.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/llms-verifier.md lang=ar script=arabic article=1
+[2026-06-26T12:51:22+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/asinka.md lang=be script=cyrillic article=1
+[2026-06-26T12:51:22+0300] === translate-pipeline run ===
+[2026-06-26T12:51:22+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/catalogizer.md lang=be script=cyrillic article=1
+[2026-06-26T12:51:22+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:51:22+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:51:22+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:51:53+0300] engine SUCCESS via mistral:mistral-large-latest (output     5248 bytes)
+[2026-06-26T12:51:53+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/asinka.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/asinka.md
+[2026-06-26T12:51:53+0300] === done ===
+[2026-06-26T12:51:53+0300] === translate-pipeline run ===
+[2026-06-26T12:51:53+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/asinka.md lang=de script=latin article=1
+[2026-06-26T12:51:53+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:05+0300] engine SUCCESS via mistral:mistral-large-latest (output     6907 bytes)
+[2026-06-26T12:52:05+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/catalogizer.md
+[2026-06-26T12:52:05+0300] === done ===
+[2026-06-26T12:52:05+0300] === translate-pipeline run ===
+[2026-06-26T12:52:05+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md lang=de script=latin article=1
+[2026-06-26T12:52:05+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:07+0300] engine SUCCESS via mistral:mistral-large-latest (output     8600 bytes)
+[2026-06-26T12:52:07+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/llms-verifier.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/llms-verifier.md
+[2026-06-26T12:52:07+0300] === done ===
+[2026-06-26T12:52:07+0300] === translate-pipeline run ===
+[2026-06-26T12:52:07+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/server-factory-core-framework.md lang=de script=latin article=1
+[2026-06-26T12:52:07+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:07+0300] engine SUCCESS via mistral:mistral-large-latest (output     3086 bytes)
+[2026-06-26T12:52:07+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/asinka.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/asinka.md
+[2026-06-26T12:52:07+0300] === done ===
+[2026-06-26T12:52:07+0300] === translate-pipeline run ===
+[2026-06-26T12:52:08+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/shareconnect.md lang=de script=latin article=1
+[2026-06-26T12:52:08+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:21+0300] engine SUCCESS via mistral:mistral-large-latest (output     3364 bytes)
+[2026-06-26T12:52:21+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/helixtrack-web-client.md
+[2026-06-26T12:52:21+0300] === done ===
+[2026-06-26T12:52:21+0300] === translate-pipeline run ===
+[2026-06-26T12:52:21+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/yole.md lang=de script=latin article=1
+[2026-06-26T12:52:21+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:23+0300] engine SUCCESS via mistral:mistral-large-latest (output     3225 bytes)
+[2026-06-26T12:52:23+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/server-factory-core-framework.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/server-factory-core-framework.md
+[2026-06-26T12:52:23+0300] === done ===
+[2026-06-26T12:52:23+0300] === translate-pipeline run ===
+[2026-06-26T12:52:23+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/llmsverifier.md lang=es script=latin article=1
+[2026-06-26T12:52:23+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:24+0300] engine SUCCESS via mistral:mistral-large-latest (output     3155 bytes)
+[2026-06-26T12:52:24+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/shareconnect.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/shareconnect.md
+[2026-06-26T12:52:24+0300] === done ===
+[2026-06-26T12:52:24+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:52:24+0300] === translate-pipeline run ===
+[2026-06-26T12:52:24+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/mail-server-factory.md lang=es script=latin article=1
+[2026-06-26T12:52:24+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:25+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:52:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:52:33+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:52:33+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:52:34+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:52:38+0300] engine SUCCESS via mistral:mistral-large-latest (output     3538 bytes)
+[2026-06-26T12:52:38+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/yole.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/de/yole.md
+[2026-06-26T12:52:38+0300] === done ===
+[2026-06-26T12:52:38+0300] === translate-pipeline run ===
+[2026-06-26T12:52:38+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/android-toolkit.md lang=fr script=latin article=1
+[2026-06-26T12:52:38+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:52:39+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:52:47+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:52:48+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:52:49+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:52:49+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:52:50+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:52:50+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:52:50+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:52:51+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:52:58+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:52:59+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:52:59+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:53:00+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:53:04+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:53:04+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:53:05+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:53:13+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:53:14+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:53:15+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:53:15+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/llmsverifier.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md
+[2026-06-26T12:53:15+0300] === translate-pipeline run ===
+[2026-06-26T12:53:15+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/asinka.md lang=fr script=latin article=1
+[2026-06-26T12:53:15+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:16+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:53:16+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/es/mail-server-factory.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md
+[2026-06-26T12:53:17+0300] === translate-pipeline run ===
+[2026-06-26T12:53:17+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-web-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-web-client.md lang=fr script=latin article=1
+[2026-06-26T12:53:17+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:30+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:53:30+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/android-toolkit.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md
+[2026-06-26T12:53:30+0300] === translate-pipeline run ===
+[2026-06-26T12:53:30+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/server-factory-core-framework.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/server-factory-core-framework.md lang=fr script=latin article=1
+[2026-06-26T12:53:30+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:32+0300] engine SUCCESS via mistral:mistral-large-latest (output     3325 bytes)
+[2026-06-26T12:53:32+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/asinka.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/asinka.md
+[2026-06-26T12:53:32+0300] === done ===
+[2026-06-26T12:53:32+0300] === translate-pipeline run ===
+[2026-06-26T12:53:32+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/shareconnect.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/shareconnect.md lang=fr script=latin article=1
+[2026-06-26T12:53:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:32+0300] engine SUCCESS via mistral:mistral-large-latest (output     3515 bytes)
+[2026-06-26T12:53:33+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-web-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/helixtrack-web-client.md
+[2026-06-26T12:53:33+0300] === done ===
+[2026-06-26T12:53:33+0300] === translate-pipeline run ===
+[2026-06-26T12:53:33+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/yole.md lang=fr script=latin article=1
+[2026-06-26T12:53:33+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:34+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:53:42+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:53:43+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:53:44+0300] engine SUCCESS via mistral:mistral-large-latest (output     3551 bytes)
+[2026-06-26T12:53:44+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/server-factory-core-framework.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/server-factory-core-framework.md
+[2026-06-26T12:53:44+0300] === done ===
+[2026-06-26T12:53:45+0300] === translate-pipeline run ===
+[2026-06-26T12:53:45+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/llmsverifier.md lang=zh script=default article=1
+[2026-06-26T12:53:45+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:46+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:53:50+0300] engine SUCCESS via mistral:mistral-large-latest (output     3561 bytes)
+[2026-06-26T12:53:50+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/shareconnect.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/shareconnect.md
+[2026-06-26T12:53:50+0300] === done ===
+[2026-06-26T12:53:50+0300] === translate-pipeline run ===
+[2026-06-26T12:53:50+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-core.md lang=kk script=cyrillic article=1
+[2026-06-26T12:53:50+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:53:51+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:53:54+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:53:55+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:53:59+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:53:59+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:53:59+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:53:59+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:54:08+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:54:08+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:54:11+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:54:11+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:54:12+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:54:20+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:54:21+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:54:24+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:54:24+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fr/yole.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md
+[2026-06-26T12:54:24+0300] === translate-pipeline run ===
+[2026-06-26T12:54:24+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/llmsverifier.md lang=kk script=cyrillic article=1
+[2026-06-26T12:54:25+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:54:37+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:54:37+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/zh/llmsverifier.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md
+[2026-06-26T12:54:37+0300] === translate-pipeline run ===
+[2026-06-26T12:54:37+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/mail-server-factory.md lang=kk script=cyrillic article=1
+[2026-06-26T12:54:37+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:54:50+0300] engine SUCCESS via mistral:mistral-large-latest (output     5888 bytes)
+[2026-06-26T12:54:50+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/helixtrack-core.md
+[2026-06-26T12:54:50+0300] === done ===
+[2026-06-26T12:54:50+0300] === translate-pipeline run ===
+[2026-06-26T12:54:50+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-desktop-client.md lang=hi script=default article=1
+[2026-06-26T12:54:50+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:04+0300] engine SUCCESS via mistral:mistral-large-latest (output     6260 bytes)
+[2026-06-26T12:55:04+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/llmsverifier.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/llmsverifier.md
+[2026-06-26T12:55:04+0300] === done ===
+[2026-06-26T12:55:04+0300] === translate-pipeline run ===
+[2026-06-26T12:55:04+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-core.md lang=ja script=default article=1
+[2026-06-26T12:55:05+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:15+0300] engine SUCCESS via mistral:mistral-large-latest (output     6293 bytes)
+[2026-06-26T12:55:16+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/kk/mail-server-factory.md
+[2026-06-26T12:55:16+0300] === done ===
+[2026-06-26T12:55:16+0300] === translate-pipeline run ===
+[2026-06-26T12:55:16+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-desktop-client.md lang=ja script=default article=1
+[2026-06-26T12:55:16+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:18+0300] engine SUCCESS via mistral:mistral-large-latest (output     7352 bytes)
+[2026-06-26T12:55:18+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-desktop-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/hi/helixtrack-desktop-client.md
+[2026-06-26T12:55:18+0300] === done ===
+[2026-06-26T12:55:18+0300] === translate-pipeline run ===
+[2026-06-26T12:55:18+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/mail-server-factory.md lang=ja script=default article=1
+[2026-06-26T12:55:18+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:27+0300] engine SUCCESS via mistral:mistral-large-latest (output     3994 bytes)
+[2026-06-26T12:55:27+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-core.md
+[2026-06-26T12:55:27+0300] === done ===
+[2026-06-26T12:55:27+0300] === translate-pipeline run ===
+[2026-06-26T12:55:27+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helix-flow-platform.md lang=ko script=default article=1
+[2026-06-26T12:55:27+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:36+0300] engine SUCCESS via mistral:mistral-large-latest (output     3929 bytes)
+[2026-06-26T12:55:36+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-desktop-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/helixtrack-desktop-client.md
+[2026-06-26T12:55:36+0300] === done ===
+[2026-06-26T12:55:37+0300] === translate-pipeline run ===
+[2026-06-26T12:55:37+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md lang=ko script=default article=1
+[2026-06-26T12:55:37+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:38+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:55:43+0300] engine SUCCESS via mistral:mistral-large-latest (output     4660 bytes)
+[2026-06-26T12:55:43+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ja/mail-server-factory.md
+[2026-06-26T12:55:43+0300] === done ===
+[2026-06-26T12:55:43+0300] === translate-pipeline run ===
+[2026-06-26T12:55:43+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helix-flow-platform.md lang=ar script=arabic article=1
+[2026-06-26T12:55:43+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:44+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:55:46+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:55:47+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:55:52+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:55:54+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:55:55+0300] engine SUCCESS via mistral:mistral-large-latest (output     3755 bytes)
+[2026-06-26T12:55:55+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helix-flow-platform.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helix-flow-platform.md
+[2026-06-26T12:55:55+0300] === done ===
+[2026-06-26T12:55:55+0300] === translate-pipeline run ===
+[2026-06-26T12:55:55+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixcode.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md lang=ar script=arabic article=1
+[2026-06-26T12:55:55+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:55:56+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:56:03+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:56:03+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:56:04+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:56:04+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:56:10+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:56:10+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:56:11+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:56:12+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:56:13+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:56:19+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:56:20+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:56:29+0300] engine SUCCESS via mistral:mistral-large-latest (output     5141 bytes)
+[2026-06-26T12:56:29+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixcode.md
+[2026-06-26T12:56:29+0300] === done ===
+[2026-06-26T12:56:29+0300] === translate-pipeline run ===
+[2026-06-26T12:56:29+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-android-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-android-client.md lang=ar script=arabic article=1
+[2026-06-26T12:56:29+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:56:29+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:56:29+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ko/helixtrack-ios-client.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-ios-client.md
+[2026-06-26T12:56:29+0300] === translate-pipeline run ===
+[2026-06-26T12:56:29+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-core.md lang=ar script=arabic article=1
+[2026-06-26T12:56:29+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:56:36+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:56:36+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helix-flow-platform.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md
+[2026-06-26T12:56:36+0300] === translate-pipeline run ===
+[2026-06-26T12:56:36+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/llmsverifier.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md lang=ar script=arabic article=1
+[2026-06-26T12:56:36+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:56:49+0300] engine SUCCESS via mistral:mistral-large-latest (output     4397 bytes)
+[2026-06-26T12:56:50+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-android-client.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-android-client.md
+[2026-06-26T12:56:50+0300] === done ===
+[2026-06-26T12:56:50+0300] === translate-pipeline run ===
+[2026-06-26T12:56:50+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/yole.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/yole.md lang=ar script=arabic article=1
+[2026-06-26T12:56:50+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:56:51+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:56:54+0300] engine SUCCESS via mistral:mistral-large-latest (output     4599 bytes)
+[2026-06-26T12:56:54+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-core.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/helixtrack-core.md
+[2026-06-26T12:56:54+0300] === done ===
+[2026-06-26T12:56:55+0300] === translate-pipeline run ===
+[2026-06-26T12:56:55+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/android-toolkit.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/android-toolkit.md lang=tr script=latin article=1
+[2026-06-26T12:56:55+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:56:56+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:56:59+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:57:04+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:57:13+0300] engine SUCCESS via mistral:mistral-large-latest (output     5512 bytes)
+[2026-06-26T12:57:13+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/llmsverifier.md
+[2026-06-26T12:57:13+0300] === done ===
+[2026-06-26T12:57:13+0300] === translate-pipeline run ===
+[2026-06-26T12:57:13+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/asinka.md lang=tr script=latin article=1
+[2026-06-26T12:57:13+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:57:26+0300] engine SUCCESS via mistral:mistral-large-latest (output     3103 bytes)
+[2026-06-26T12:57:26+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/android-toolkit.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/android-toolkit.md
+[2026-06-26T12:57:26+0300] === done ===
+[2026-06-26T12:57:26+0300] === translate-pipeline run ===
+[2026-06-26T12:57:26+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/catalogizer.md lang=tr script=latin article=1
+[2026-06-26T12:57:27+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:57:32+0300] engine SUCCESS via mistral:mistral-large-latest (output     4735 bytes)
+[2026-06-26T12:57:32+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/yole.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/ar/yole.md
+[2026-06-26T12:57:32+0300] === done ===
+[2026-06-26T12:57:32+0300] === translate-pipeline run ===
+[2026-06-26T12:57:32+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-core.md lang=tr script=latin article=1
+[2026-06-26T12:57:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:57:33+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:57:39+0300] engine SUCCESS via mistral:mistral-large-latest (output     3034 bytes)
+[2026-06-26T12:57:39+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/asinka.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/asinka.md
+[2026-06-26T12:57:39+0300] === done ===
+[2026-06-26T12:57:39+0300] === translate-pipeline run ===
+[2026-06-26T12:57:39+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-desktop-client.md lang=tr script=latin article=1
+[2026-06-26T12:57:39+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:57:40+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:57:41+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:57:42+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:57:48+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+[2026-06-26T12:57:49+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:57:58+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:57:58+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:57:59+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:58:00+0300] engine SUCCESS via mistral:mistral-large-latest (output     4342 bytes)
+[2026-06-26T12:58:00+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/catalogizer.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/catalogizer.md
+[2026-06-26T12:58:00+0300] === done ===
+[2026-06-26T12:58:00+0300] === translate-pipeline run ===
+[2026-06-26T12:58:00+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/mail-server-factory.md lang=tr script=latin article=1
+[2026-06-26T12:58:00+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:58:05+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:58:05+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+[2026-06-26T12:58:06+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:58:07+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:58:08+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:58:14+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+[2026-06-26T12:58:15+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:58:24+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:58:24+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-core.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-core.md
+[2026-06-26T12:58:24+0300] === translate-pipeline run ===
+[2026-06-26T12:58:24+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/panoptic.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/panoptic.md lang=tr script=latin article=1
+[2026-06-26T12:58:24+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:58:31+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:58:31+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/helixtrack-desktop-client.md (all providers exhausted)
+TRANSLATION FAILED: /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helixtrack-desktop-client.md
+[2026-06-26T12:58:31+0300] === translate-pipeline run ===
+[2026-06-26T12:58:31+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/asinka.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/asinka.md lang=fa script=arabic article=1
+[2026-06-26T12:58:31+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:58:37+0300] engine SUCCESS via mistral:mistral-large-latest (output     3857 bytes)
+[2026-06-26T12:58:37+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/mail-server-factory.md
+[2026-06-26T12:58:37+0300] === done ===
+[2026-06-26T12:58:37+0300] === translate-pipeline run ===
+[2026-06-26T12:58:37+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/catalogizer.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/catalogizer.md lang=fa script=arabic article=1
+[2026-06-26T12:58:37+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:58:52+0300] engine SUCCESS via mistral:mistral-large-latest (output     3218 bytes)
+[2026-06-26T12:58:52+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/tr/panoptic.md
+[2026-06-26T12:58:52+0300] === done ===
+[2026-06-26T12:58:52+0300] === translate-pipeline run ===
+[2026-06-26T12:58:52+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/grabtube.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/grabtube.md lang=fa script=arabic article=1
+[2026-06-26T12:58:52+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:58:53+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:58:53+0300] engine SUCCESS via mistral:mistral-large-latest (output     4820 bytes)
+[2026-06-26T12:58:54+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/asinka.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+PROVIDER_USED=mistral:mistral-large-latest OUT=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/asinka.md
+[2026-06-26T12:58:54+0300] === done ===
+[2026-06-26T12:58:54+0300] === translate-pipeline run ===
+[2026-06-26T12:58:54+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/helix-flow-platform.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/fa/helix-flow-platform.md lang=fa script=arabic article=1
+[2026-06-26T12:58:54+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:58:55+0300] engine FAILED (provider=mistral try=1)

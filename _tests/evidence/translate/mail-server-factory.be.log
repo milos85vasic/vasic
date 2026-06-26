@@ -1,0 +1,33 @@
+[2026-06-25T23:36:01+0300] === translate-pipeline run ===
+[2026-06-25T23:36:01+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+[2026-06-25T23:36:06+0300] === translate-pipeline run ===
+[2026-06-25T23:36:06+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+[2026-06-26T11:43:47+0300] === translate-pipeline run ===
+[2026-06-26T11:43:47+0300] in=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+[2026-06-26T11:43:47+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T11:44:30+0300] engine SUCCESS via mistral:mistral-large-latest (output    10239 bytes)
+[2026-06-26T11:44:30+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/be/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T11:44:30+0300] === done ===
+[2026-06-26T12:05:29+0300] === translate-pipeline run ===
+[2026-06-26T12:05:29+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+[2026-06-26T12:05:29+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:05:30+0300] engine FAILED (provider=mistral try=1)
+[2026-06-26T12:05:38+0300] engine attempt: provider=mistral model=mistral-large-latest try=2/2
+container shim: remote translation failed on amber.local (docker) provider=mistral
+[2026-06-26T12:05:39+0300] engine FAILED (provider=mistral try=2)
+[2026-06-26T12:05:55+0300] provider=mistral exhausted; trying next provider
+[2026-06-26T12:05:55+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=1/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:05:56+0300] engine FAILED (provider=groq try=1)
+[2026-06-26T12:06:04+0300] engine attempt: provider=groq model=llama-3.3-70b-versatile try=2/2
+container shim: remote translation failed on amber.local (docker) provider=groq
+[2026-06-26T12:06:05+0300] engine FAILED (provider=groq try=2)
+[2026-06-26T12:06:21+0300] provider=groq exhausted; trying next provider
+[2026-06-26T12:06:21+0300] TRANSLATION FAILED for /Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md -> /Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/mail-server-factory.md (all providers exhausted)
+[2026-06-26T12:33:31+0300] === translate-pipeline run ===
+[2026-06-26T12:33:32+0300] in=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/en/mail-server-factory.md out=/Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/mail-server-factory.md lang=be script=cyrillic article=1
+[2026-06-26T12:33:32+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T12:34:06+0300] engine SUCCESS via mistral:mistral-large-latest (output     6022 bytes)
+[2026-06-26T12:34:06+0300] wrote /Volumes/T7/Projects/vasic/vasic.digital/_article_src/be/mail-server-factory.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T12:34:06+0300] === done ===
