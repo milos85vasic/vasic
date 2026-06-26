@@ -12,3 +12,9 @@
 [2026-06-26T13:22:28+0300] engine SUCCESS via mistral:mistral-large-latest (output     8758 bytes)
 [2026-06-26T13:22:28+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/kk/helix-translate.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
 [2026-06-26T13:22:28+0300] === done ===
+[2026-06-26T14:18:05+0300] === translate-pipeline run ===
+[2026-06-26T14:18:05+0300] in=milosvasic.ru/_article_src/en/helix-translate.md out=milosvasic.ru/_article_src/kk/helix-translate.md lang=kk script=cyrillic article=1
+[2026-06-26T14:18:05+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T14:19:26+0300] engine SUCCESS via mistral:mistral-large-latest (output     8809 bytes)
+[2026-06-26T14:19:26+0300] wrote milosvasic.ru/_article_src/kk/helix-translate.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T14:19:26+0300] === done ===

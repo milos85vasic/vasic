@@ -1,0 +1,534 @@
+
+Running 51 tests using 5 workers
+
+  ✘   1 [chromium] › tests/i18n-completeness.spec.js:31:3 › i18n dictionary completeness (milosvasic.ru) › new feature keys are present in all languages (17ms)
+  ✘   2 [chromium] › tests/i18n-completeness.spec.js:10:3 › i18n dictionary completeness (milosvasic.ru) › every EN key exists in ru/sr/de/es/fr (16ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:05] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓   7 [chromium] › tests/milosvasic-ru-a11y.spec.js:122:3 › milosvasic.ru — accessibility › color contrast on key elements is sufficient (1.5s)
+  ✓   5 [chromium] › tests/milosvasic-ru-a11y.spec.js:24:3 › milosvasic.ru — accessibility › heading hierarchy is reasonable (no deep skips) (1.7s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓   6 [chromium] › tests/milosvasic-ru-a11y.spec.js:94:3 › milosvasic.ru — accessibility › prefers-reduced-motion is respected (1.6s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓   3 [chromium] › tests/milosvasic-ru-a11y.spec.js:48:3 › milosvasic.ru — accessibility › focus indicators are visible when tabbing (1.8s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓   4 [chromium] › tests/milosvasic-ru-a11y.spec.js:7:3 › milosvasic.ru — accessibility › axe-core accessibility scan (no critical/serious violations) (2.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:07] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓   8 [chromium] › tests/milosvasic-ru-features.spec.js:6:3 › milosvasic.ru — download popup (EN/SR/RU chooser) › popup offers EN/SR/RU and builds correct CV hrefs (1.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /downloads/Milos_Vasic_CV_EN.pdf HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /downloads/Milos_Vasic_Cover_Letter_EN.pdf HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /downloads/Milos_Vasic_Cover_Letter_SR.pdf HTTP/1.1" 200 -
+  ✓  11 [chromium] › tests/milosvasic-ru-features.spec.js:35:3 › milosvasic.ru — download popup (EN/SR/RU chooser) › EN CV and EN/SR Cover Letter PDFs return 200 (1.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /assets/css/style.css HTTP/1.1" 200 -
+  ✓  12 [chromium] › tests/milosvasic-ru-features.spec.js:46:3 › milosvasic.ru — read-more article modal › every project card has a read-more trigger (1.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+  ✓  10 [chromium] › tests/milosvasic-ru-features.spec.js:26:3 › milosvasic.ru — download popup (EN/SR/RU chooser) › popup closes on Escape (1.8s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/helix-track-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/helix-code.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/helix-translate.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/helix-agent.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/helix-flow-platform.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/llms-verifier.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/panoptic.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:08] "GET /articles/en/mail-server-factory.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/en/share-connect.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/en/grab-tube.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/en/android-toolkit.html HTTP/1.1" 200 -
+  ✓   9 [chromium] › tests/milosvasic-ru-features.spec.js:17:3 › milosvasic.ru — download popup (EN/SR/RU chooser) › popup switches to Cover Letter hrefs (1.9s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/helix-track-core.html HTTP/1.1" 200 -
+  ✓  14 [chromium] › tests/milosvasic-ru-features.spec.js:68:3 › milosvasic.ru — read-more article modal › all 12 article fragments return 200 (692ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/helix-code.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/helix-translate.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/helix-agent.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/helix-track-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/helix-flow-platform.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/helix-track-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/llms-verifier.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/panoptic.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/mail-server-factory.html HTTP/1.1" 200 -
+  ✓  15 [chromium] › tests/milosvasic-ru-i18n-articles.spec.js:16:3 › milosvasic.ru — localized article fragments (RU/SR) › RU fragment is Cyrillic, SR fragment is Latin (284ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/share-connect.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/grab-tube.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/ru/android-toolkit.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/helix-track-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/helix-code.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/helix-translate.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/helix-agent.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/helix-flow-platform.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/llms-verifier.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/panoptic.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/mail-server-factory.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/share-connect.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/grab-tube.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/sr/android-toolkit.html HTTP/1.1" 200 -
+  ✓  16 [chromium] › tests/milosvasic-ru-i18n-articles.spec.js:7:3 › milosvasic.ru — localized article fragments (RU/SR) › all 12 RU and 12 SR fragments return 200 (433ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /articles/en/helix-track-core.html HTTP/1.1" 200 -
+  ✓  13 [chromium] › tests/milosvasic-ru-features.spec.js:52:3 › milosvasic.ru — read-more article modal › clicking read-more opens dialog with the article content (1.5s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:09] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /articles/ru/helix-track-core.html HTTP/1.1" 200 -
+  ✓  18 [chromium] › tests/milosvasic-ru.spec.js:6:3 › milosvasic.ru — personal CV site › loads with correct title (1.5s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓  19 [chromium] › tests/milosvasic-ru.spec.js:11:3 › milosvasic.ru — personal CV site › hero section displays name, role, CV download button (1.5s)
+  ✓  17 [chromium] › tests/milosvasic-ru-i18n-articles.spec.js:25:3 › milosvasic.ru — localized article fragments (RU/SR) › switching to RU then opening an article shows Cyrillic content (1.7s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓  20 [chromium] › tests/milosvasic-ru.spec.js:21:3 › milosvasic.ru — personal CV site › profile portrait image loads (naturalWidth > 0) (1.5s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:10] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓  21 [chromium] › tests/milosvasic-ru.spec.js:29:3 › milosvasic.ru — personal CV site › no-flash theme: data-theme set on html before anything else (1.3s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:11] "GET / HTTP/1.1" 304 -
+  ✓  22 [chromium] › tests/milosvasic-ru.spec.js:35:3 › milosvasic.ru — personal CV site › theme toggle switches dark/light and persists across reload (1.4s)
+  ✓  23 [chromium] › tests/milosvasic-ru.spec.js:52:3 › milosvasic.ru — personal CV site › language switcher exists and changes content (RU/SR/DE) (1.4s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/main.js HTTP/1.1" 200 -
+  ✓  26 [chromium] › tests/milosvasic-ru.spec.js:125:3 › milosvasic.ru — personal CV site › experience timeline renders with correct entries (1.1s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:12] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓  27 [chromium] › tests/milosvasic-ru.spec.js:138:3 › milosvasic.ru — personal CV site › skills sections have chip items (969ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+  ✓  29 [chromium] › tests/milosvasic-ru.spec.js:160:3 › milosvasic.ru — personal CV site › responsive: no horizontal overflow on mobile (375px) (859ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /downloads/Milos_Vasic_CV_EN.pdf HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/articles.js HTTP/1.1" 200 -
+  ✓  25 [chromium] › tests/milosvasic-ru.spec.js:103:3 › milosvasic.ru — personal CV site › featured work cards have working external links (should not 404) (2.4s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+  ✓  28 [chromium] › tests/milosvasic-ru.spec.js:148:3 › milosvasic.ru — personal CV site › download popup opens and EN CV link returns 200 (1.1s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/images/profile-400.jpg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/i18n.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/main.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /assets/js/downloads.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:13] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  30 [chromium] › tests/milosvasic-ru.spec.js:169:3 › milosvasic.ru — personal CV site › check footer has correct year (2026) and social links (936ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  33 [chromium] › tests/vasic-digital-features.spec.js:8:3 › vasic.digital — read-more article modal › all 18 portfolio cards have a read-more trigger (1.0s)
+  ✓  31 [chromium] › tests/milosvasic-ru.spec.js:186:3 › milosvasic.ru — personal CV site › verify html lang attribute updates when language changed (1.4s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/grabtube.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/shareconnect.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/panoptic.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/android-toolkit.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/asinka.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixtrack-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixcode.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixtranslate.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helix-flow-platform.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/llmsverifier.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/server-factory-core-framework.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/mail-server-factory.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixtrack-web-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixtrack-desktop-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixtrack-android-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/helixtrack-ios-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/en/yole.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET / HTTP/1.1" 304 -
+  ✓  35 [chromium] › tests/vasic-digital-features.spec.js:21:3 › vasic.digital — read-more article modal › all 18 article fragments return 200 (374ms)
+  ✓  24 [chromium] › tests/milosvasic-ru.spec.js:82:3 › milosvasic.ru — personal CV site › all navigation links work (scroll to sections) (4.1s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/grabtube.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/shareconnect.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/panoptic.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/android-toolkit.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/asinka.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:14] "GET /articles/ru/helixtrack-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helixcode.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helixtranslate.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helix-flow-platform.html HTTP/1.1" 200 -
+  ✓  38 [chromium] › tests/vasic-digital-i18n-articles.spec.js:15:3 › vasic.digital — localized article fragments (RU/SR) › RU fragment is Cyrillic (167ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/llmsverifier.html HTTP/1.1" 200 -
+  ✓  32 [chromium] › tests/milosvasic-ru.spec.js:209:3 › milosvasic.ru — personal CV site › evidence screenshots: desktop-light, desktop-dark, mobile (1.8s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/en/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/server-factory-core-framework.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/mail-server-factory.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helixtrack-web-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helixtrack-desktop-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helixtrack-android-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/helixtrack-ios-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/ru/yole.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/catalogizer.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/grabtube.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/shareconnect.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/panoptic.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/android-toolkit.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/asinka.html HTTP/1.1" 200 -
+  ✓  34 [chromium] › tests/vasic-digital-features.spec.js:13:3 › vasic.digital — read-more article modal › clicking read-more opens a dialog with article content (1.4s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixtrack-core.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixcode.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixtranslate.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helix-flow-platform.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/llmsverifier.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/server-factory-core-framework.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/mail-server-factory.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixtrack-web-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixtrack-desktop-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixtrack-android-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/helixtrack-ios-client.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /articles/sr/yole.html HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/translations.js HTTP/1.1" 200 -
+  ✓  37 [chromium] › tests/vasic-digital-i18n-articles.spec.js:6:3 › vasic.digital — localized article fragments (RU/SR) › all 18 RU and 18 SR fragments return 200 (649ms)
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  36 [chromium] › tests/vasic-digital-features.spec.js:28:3 › vasic.digital — read-more article modal › articles.css and articles.js are linked and load (1.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:15] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  40 [chromium] › tests/vasic-digital.spec.js:6:3 › vasic.digital — company site › loads with correct title and logo (1.1s)
+  ✓  39 [chromium] › tests/vasic-digital.spec.js:15:3 › vasic.digital — company site › no-flash theme: data-theme set before paint (1.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET / HTTP/1.1" 304 -
+  ✓  41 [chromium] › tests/vasic-digital.spec.js:21:3 › vasic.digital — company site › theme toggle switches and persists across reload (1.4s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /css/articles.css HTTP/1.1" 200 -
+  ✓  43 [chromium] › tests/vasic-digital.spec.js:41:3 › vasic.digital — company site › corrected stats and footer year render (1.1s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:16] "GET /js/articles.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  42 [chromium] › tests/vasic-digital.spec.js:32:3 › vasic.digital — company site › language switch to Russian updates content + persists (1.6s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  44 [chromium] › tests/vasic-digital.spec.js:48:3 › vasic.digital — company site › no portfolio links point to known-private repos (no 404 deep links) (1.1s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  45 [chromium] › tests/vasic-digital.spec.js:58:3 › vasic.digital — company site › responsive: no horizontal overflow on mobile (375px) (1.2s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:17] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  46 [chromium] › tests/vasic-digital.spec.js:66:3 › vasic.digital — company site › all service cards exist and have content (1.5s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET / HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /css/style.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /css/articles.css HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /Assets/Logo.jpeg HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /js/translations.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /js/language-switcher.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /js/script.js HTTP/1.1" 200 -
+[WebServer] ::1 - - [26/Jun/2026 14:27:18] "GET /js/articles.js HTTP/1.1" 200 -
+  ✓  47 [chromium] › tests/vasic-digital.spec.js:82:3 › vasic.digital — company site › portfolio section renders project cards (1.6s)
+  ✓  48 [chromium] › tests/vasic-digital.spec.js:97:3 › vasic.digital — company site › contact section exists and has contact methods (1.8s)
+  ✓  49 [chromium] › tests/vasic-digital.spec.js:110:3 › vasic.digital — company site › hero buttons are clickable (2.0s)
+  ✓  50 [chromium] › tests/vasic-digital.spec.js:122:3 › vasic.digital — company site › mobile hamburger menu toggles (1.9s)
+[WebServer] ::1 - - [26/Jun/2026 14:27:20] "GET / HTTP/1.1" 304 -
+  ✓  51 [chromium] › tests/vasic-digital.spec.js:139:3 › vasic.digital — company site › evidence screenshots for each browser (2.9s)
+
+
+  1) [chromium] › tests/i18n-completeness.spec.js:10:3 › i18n dictionary completeness (milosvasic.ru) › every EN key exists in ru/sr/de/es/fr 
+
+    Error: language table "be" exists
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      23 |
+      24 |     for (const code of langs) {
+    > 25 |       expect(dict[code], `language table "${code}" exists`).toBeTruthy();
+         |                                                             ^
+      26 |       const missing = enKeys.filter((k) => !(k in dict[code]));
+      27 |       expect(missing, `"${code}" is missing keys`).toEqual([]);
+      28 |     }
+        at /Volumes/T7/Projects/vasic/_tests/tests/i18n-completeness.spec.js:25:61
+
+    Error Context: test-results/i18n-completeness-i18n-dic-a37de-ey-exists-in-ru-sr-de-es-fr-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/i18n-completeness-i18n-dic-a37de-ey-exists-in-ru-sr-de-es-fr-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/i18n-completeness-i18n-dic-a37de-ey-exists-in-ru-sr-de-es-fr-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/i18n-completeness.spec.js:31:3 › i18n dictionary completeness (milosvasic.ru) › new feature keys are present in all languages 
+
+    TypeError: Cannot read properties of undefined (reading 'ds.based_v')
+
+      40 |     for (const code of langs) {
+      41 |       for (const key of required) {
+    > 42 |         expect(dict[code][key], `${code}.${key}`).toBeTruthy();
+         |                          ^
+      43 |       }
+      44 |     }
+      45 |   });
+        at /Volumes/T7/Projects/vasic/_tests/tests/i18n-completeness.spec.js:42:26
+
+    Error Context: test-results/i18n-completeness-i18n-dic-4941f-re-present-in-all-languages-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/i18n-completeness-i18n-dic-4941f-re-present-in-all-languages-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/i18n-completeness-i18n-dic-4941f-re-present-in-all-languages-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/i18n-completeness.spec.js:10:3 › i18n dictionary completeness (milosvasic.ru) › every EN key exists in ru/sr/de/es/fr 
+    [chromium] › tests/i18n-completeness.spec.js:31:3 › i18n dictionary completeness (milosvasic.ru) › new feature keys are present in all languages 
+  49 passed (16.9s)
+EXIT=1

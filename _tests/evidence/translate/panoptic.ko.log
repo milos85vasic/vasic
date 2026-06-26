@@ -31,3 +31,9 @@ container shim: remote translation failed on thinker.local (podman) provider=gro
 [2026-06-26T12:31:56+0300] engine SUCCESS via mistral:mistral-large-latest (output     6463 bytes)
 [2026-06-26T12:31:57+0300] wrote /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ko/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
 [2026-06-26T12:31:57+0300] === done ===
+[2026-06-26T14:18:05+0300] === translate-pipeline run ===
+[2026-06-26T14:18:05+0300] in=milosvasic.ru/_article_src/en/panoptic.md out=milosvasic.ru/_article_src/ko/panoptic.md lang=ko script=default article=1
+[2026-06-26T14:18:05+0300] engine attempt: provider=mistral model=mistral-large-latest try=1/2
+[2026-06-26T14:18:43+0300] engine SUCCESS via mistral:mistral-large-latest (output     6399 bytes)
+[2026-06-26T14:18:43+0300] wrote milosvasic.ru/_article_src/ko/panoptic.md (frontmatter preserved + translated body) provider=mistral:mistral-large-latest
+[2026-06-26T14:18:43+0300] === done ===
