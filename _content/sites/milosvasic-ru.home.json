@@ -1,0 +1,145 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "en",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": { "i18n": "mv2.hero.eyebrow", "text": "// AI engineer" },
+      "title": { "text": "Miloš Vasić" },
+      "lede": { "i18n": "mv2.hero.lede", "text": "AI engineer building verifiable AI-development systems: multi-provider LLM infrastructure, autonomous agents and orchestration, and the governance and QA layers that keep them honest." },
+      "ctas": [
+        { "dl": "cv", "icon": "i-download", "variant": "primary", "i18n": "hero.cv", "label": "Download CV" },
+        { "dl": "cl", "variant": "secondary", "i18n": "hero.cl", "label": "Cover Letter" },
+        { "dl": "portfolio", "variant": "secondary", "i18n": "mv2.hero.portfolio", "label": "Portfolio (PDF)" },
+        { "variant": "ghost", "href": "{{ '/portfolio/' | relative_url }}", "i18n": "mv2.hero.portfolio_site", "label": "Portfolio site" }
+      ],
+      "stats": [
+        { "value": "Go", "i18n": "mv2.stat.lang", "label": "backbone language" },
+        { "value": "140+", "i18n": "mv2.stat.repos", "label": "repositories, one constitution" },
+        { "value": "33", "i18n": "mv2.stat.products", "label": "products, evidence-backed" }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": { "i18n": "mv2.summary.eyebrow", "text": "// summary" },
+      "title": { "i18n": "mv2.summary.title", "text": "I design and build the software that turns LLMs into dependable products." },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            { "class": "mvx-lede", "i18n": "mv2.summary.body1", "text": "I work primarily in Go, with Kotlin / Kotlin Multiplatform, TypeScript/React, Python, Swift, and Shell as the job demands. My output is organized as a fleet rather than a pile of one-off apps: large product applications sitting on top of dozens of small, decoupled, independently-tested modules, all inheriting a shared engineering Constitution as a Git submodule." },
+            { "class": "mvx-lede mvx-muted", "i18n": "mv2.summary.body2", "text": "That means fixes propagate across everything, new products assemble from proven parts, and every advertised capability is backed by an evidence-producing test. My north star is a single rule — a feature is finished only when a real user can use it and there is captured evidence to prove it. This page moves from the overview to the individual projects; each links to its full product page." }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": { "i18n": "mv2.work.eyebrow", "text": "// my work across the Helix family" },
+          "title": { "i18n": "mv2.work.title", "text": "The Helix line, in priority order." },
+          "lede": { "i18n": "mv2.work.lede", "text": "The Helix line spans the AI-development lifecycle. Each card links to its full product page." },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            { "slug": "helixtrack", "name": "HelixTrack", "tech": ["Go", "Gin", "HTTP/3 QUIC", "PostgreSQL", "+8"], "blurb": { "i18n": "mv2.p.helixtrack", "text": "A free-world JIRA alternative; the flagship of the Helix-Track line." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "helixagent", "name": "HelixAgent", "tech": ["Go", "Gin", "LLMsVerifier", "Prometheus", "+6"], "blurb": { "i18n": "mv2.p.helixagent", "text": "An ensemble LLM service with multi-round model debate and verification-based provider selection." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "helixcode", "name": "HelixCode", "tech": ["Go", "Redis", "SSH", "MCP", "+2"], "blurb": { "i18n": "mv2.p.helixcode", "text": "A distributed AI development platform that divides work across SSH-managed workers with automatic checkpoint/rollback." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "helixllm", "name": "HelixLLM", "tech": ["Go", "HTTP/3 QUIC", "llama.cpp", "+5"], "blurb": { "i18n": "mv2.p.helixllm", "text": "A single binary with six modes serving OpenAI- and Anthropic-compatible APIs over HTTP/3, with local llama.cpp inference and a scored fallback chain." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "helixcluster", "name": "HelixCluster", "tech": ["Go", "Zig", "gRPC", "Raft + SWIM", "+7"], "blurb": { "i18n": "mv2.p.helixcluster", "text": "A distributed operating system for AI compute, from datacenter GPUs to edge handhelds." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "llmprovider", "name": "LLMProvider", "tech": ["Go", "net/http", "logrus", "+2"], "blurb": { "i18n": "mv2.p.llmprovider", "text": "One interface over 43 providers with circuit breakers, retries, and health baked in." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "llmorchestrator", "name": "LLMOrchestrator", "tech": ["Go", "JSON-lines / stdio", "Circuit breaker", "+2"], "blurb": { "i18n": "mv2.p.llmorchestrator", "text": "One control plane for every headless CLI coding agent." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "llmsverifier", "name": "LLMsVerifier", "tech": ["Go", "Gin", "SQLite + SQLCipher", "+6"], "blurb": { "i18n": "mv2.p.llmsverifier", "text": "Verify, monitor, optimize: the single source of truth for LLM/provider/verification metadata." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } }
+          ]
+        },
+        {
+          "eyebrow": { "i18n": "mv2.utils.eyebrow", "text": "// my work across vasic-digital utils" },
+          "title": { "i18n": "mv2.utils.title", "text": "Product-grade tools I built and maintain." },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            { "slug": "catalogizer", "name": "Catalogizer", "tech": ["Go", "Gin", "React", "+10"], "blurb": { "i18n": "mv2.p.catalogizer", "text": "Multi-protocol (SMB/FTP/NFS/WebDAV/local), encrypted, self-hostable media collection management with a Go/Gin API and React UI." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "courses-creator", "name": "Courses-Creator", "tech": ["Go", "React", "Electron", "+8"], "blurb": { "i18n": "mv2.p.coursescreator", "text": "A markdown-to-video course pipeline with multi-LLM enrichment, TTS, and desktop/mobile/web players." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "visionengine", "name": "VisionEngine", "tech": ["Go", "GoCV / OpenCV", "LLM vision"], "blurb": { "i18n": "mv2.p.visionengine", "text": "A decoupled Go toolkit fusing classic computer vision with multi-provider LLM vision for UI analysis and navigation graphs." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "docprocessor", "name": "DocProcessor", "tech": ["Go", "LLM agents", "Heuristic parser"], "blurb": { "i18n": "mv2.p.docprocessor", "text": "Turns documentation into a verifiable feature map for QA automation (LLM or heuristic extraction)." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "docs-chain", "name": "Docs Chain", "tech": ["Go", "DAG", "SQLite", "fsnotify"], "blurb": { "i18n": "mv2.p.docschain", "text": "A content-hashed, bidirectional, atomic document/DB sync engine." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "herald", "name": "Herald", "tech": ["Go", "Shell", "LLM intent"], "blurb": { "i18n": "mv2.p.herald", "text": "Reliable multi-channel notifications with natural-language, three-tier intent resolution." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "task-bridge", "name": "task_bridge", "tech": ["Go", "SQLite", "webhooks"], "blurb": { "i18n": "mv2.p.taskbridge", "text": "A decoupled, bidirectional task/board sync engine (P1 scaffold; sync logic in progress)." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "vasic-digital-reusable-module-suite", "name": "Reusable Module Suite", "tech": ["Go (digital.vasic.*)", "KMP", "+1"], "blurb": { "i18n": "mv2.p.rms", "text": "The digital.vasic.* \"standard library\" of infrastructure, AI-primitive, and guardrail modules." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } }
+          ]
+        },
+        {
+          "eyebrow": { "i18n": "mv2.sf.eyebrow", "text": "// infrastructure heritage (Server Factory)" },
+          "title": { "i18n": "mv2.sf.title", "text": "Predating the AI line — my DevOps toolchain." },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            { "slug": "mail-server-factory", "name": "Mail Server Factory", "tech": ["Kotlin", "Shell", "Docker", "+4"], "blurb": { "i18n": "mv2.p.msf", "text": "Declarative JSON → fully-provisioned Dockerized mail servers, reporting 439 passing tests and a clean SonarQube gate." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "server-factory-core-framework", "name": "Server Factory Core", "tech": ["Kotlin", "Shell", "Gradle"], "blurb": { "i18n": "mv2.p.sfcore", "text": "The Server Factory Core Framework every service factory builds on." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "qemu-utils", "name": "Qemu-Utils", "tech": ["Shell", "QEMU", "ISO images"], "blurb": { "i18n": "mv2.p.qemu", "text": "QEMU VM-image tooling — download, run, network, and publish machine images as artifacts." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "parallels-utils", "name": "Parallels-Utils", "tech": ["Shell", "Python 3", "Parallels"], "blurb": { "i18n": "mv2.p.parallels", "text": "Compress, publish, and reuse Parallels VM images across every machine." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        { "i18n": "mv2.work.portfolio_cta", "label": "See the full portfolio", "href": "{{ '/portfolio/' | relative_url }}", "variant": "primary" }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": { "i18n": "mv2.gov.eyebrow", "text": "// how I work — governance and QA first" },
+      "title": { "i18n": "mv2.gov.title", "text": "The discipline that underpins the products." },
+      "lede": { "i18n": "mv2.gov.lede", "text": "Before the products, the discipline: I don't ship green checkmarks — I ship AI systems with the evidence that they actually work." },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            { "slug": "helixconstitution", "name": "HelixConstitution", "blurb": { "i18n": "mv2.gov.constitution", "text": "A universal, inheritable engineering rulebook, distributed as a Git submodule across a 140+-repository fleet. It codifies anti-bluff evidence gates, false-positive immunity, data/host safety, and coverage rules; projects may tighten but never weaken it, and each governance gate is paired with a mutation test that proves the gate itself works." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } },
+            { "slug": "helixqa", "name": "HelixQA", "blurb": { "i18n": "mv2.gov.qa", "text": "Anti-bluff QA orchestration that runs written test banks and fully-autonomous, LLM-and-vision-driven QA sessions across Android, Android TV, Web, and Desktop, scoring a PASS only when it has captured runtime evidence." }, "readmore": { "i18n": "mv2.readmore", "text": "Read more" } }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": { "i18n": "mv2.skills.eyebrow", "text": "// technologies" },
+      "title": { "i18n": "mv2.skills.title", "text": "The stack I actually build on." },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            { "nameI18n": "mv2.skills.lang", "name": "Languages", "tech": ["Go", "Kotlin / KMP", "TypeScript", "Python", "Swift", "Shell"] },
+            { "nameI18n": "mv2.skills.ai", "name": "AI / LLM", "tech": ["43+ providers", "MCP", "RAG", "Vector DBs", "Agent orchestration"] },
+            { "nameI18n": "mv2.skills.backend", "name": "Backend", "tech": ["Gin", "gRPC + Protobuf", "HTTP/3 (QUIC)", "WebSockets"] },
+            { "nameI18n": "mv2.skills.data", "name": "Data & Infra", "tech": ["PostgreSQL", "SQLite / SQLCipher", "Redis", "Docker / K8s", "Prometheus"] }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": { "i18n": "mv2.contact.eyebrow", "text": "// contact" },
+      "title": { "i18n": "mv2.contact.title", "text": "In one line." },
+      "lede": { "i18n": "mv2.contact.lead", "text": "I don't ship green checkmarks — I ship AI systems with the evidence that they actually work, and the governance that keeps them that way. Open to senior AI/platform engineering roles worldwide." },
+      "contacts": [
+        { "i18n": "mv2.contact.email_label", "label": "Email", "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>" },
+        { "i18n": "mv2.contact.gh_label", "label": "GitHub", "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>" },
+        { "i18n": "mv2.contact.tg_label", "label": "Telegram", "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>" }
+      ]
+    }
+  ]
+}
