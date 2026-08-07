@@ -1,0 +1,62 @@
+MILOS VASIC PORTFOLIO.
+
++ HelixCluster — a distributed operating system for Al compute, from datacenter GPUs to edge
+handhelds, under one control plane.
+
++ HelixBuilder — an Al-powered pipeline for building applications, one category at a time.
+
++ HelixSkills — a governed, constitution-backed skills system for CLI Al agents (skills, MCP tool
+servers, Claude Code plugins).
+
++ HelixSpecifier — spec-driven development that scales its ceremony to the work.
+
++ HelixMemory — one memory brain for Al agents, fusing four best-in-class engines.
+
++ HelixTranslate — verified-model book translation; honest by design, never a silent fallback.
+
++ HelixTerminator — a zero-trust terminal platform: every SSH session secured, shared, and Al-
+assisted.
+
++ HelixGitpx — federated Git across a dozen hosts; one source of truth, mirrored everywhere.
+
++ HelixOTA — universal, decoupled over-the-air updates; zero-brick by design.
+
++ HelixPlay — turn any GPU machine into your own cloud-gaming appliance.
+
+* Helix-Flow — Helix-platform inference product. UNVERIFIED / blocked on source: its public repo
+currently has only a one-line README; presented at product depth only when real documentation
+exists.
+
+| 4. LLM infrastructure
+
++ HelixLLM — one binary, six modes: OpenAl- and Anthropic-compatible inference over HTTP/3, local
+llama.cpp, scored fallback chain, RAG pipeline, ReAct agents.
+
+* LLMProvider — one interface, 43 providers, with circuit breakers, retries, and health built in.
+
++ LLMOrchestrator — one control plane for every headless CLI coding agent (OpenCode, Claude
+Code, Gemini, Junie, Qwen Code).
+
++ LLMsVerifier — verify, monitor, optimize: the single source of truth for LLM/provider/verification
+metadata, with a mandatory model comprehension gate.
+
+| 5. vasic-digital utilities
+
+* Catalogizer — multi-protocol (SMB/FTP/NFS/WebDAV/local), encrypted, self-hostable media
+collection management; Go/Gin API + React UI; resilient offline-tolerant monitoring; built on 21
+
+digital.vasic.* submodules.
+
++ Courses-Creator — markdown-to-video course pipeline; multi-LLM enrichment, TTS (Bark/
+SpeechT5), desktop/mobile/web players; graceful no-API-key mode.
+
++ VisionEngine — decoupled Go toolkit fusing classic CV with multi-provider LLM vision; navigation
+graphs with BFS + DOT/JSON/Mermaid export; OpenCV build-tag-gated.
+
++ DocProcessor — documentation-to-feature-map with verification-coverage tracking; LLM or heuristic/
+offline extraction; Apache-2.0.
+
++ Docs Chain — content-hashed, bidirectional, atomic doc/DB sync (Salsa-style incremental recompute
+over a DAG). Phases 1-5 GREEN; Phases 6-7 PLANNED.
+
+milosvasic.ru - vasic.digital 3/7

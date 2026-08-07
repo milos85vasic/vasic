@@ -1,0 +1,10 @@
+# validate.mjs mutation test
+# real validator: _tools/portfolio/validate.mjs
+# real data:      _content/portfolio/portfolio.json
+
+[OK  ] clean portfolio.json                       -> PASS (exit 0) (expected PASS)
+[OK  ] excluded project injected (grabtube)       -> FAIL (exit 1) (expected FAIL)
+[OK  ] private:true entry leaks repo URLs         -> FAIL (exit 1) (expected FAIL)
+[OK  ] tier order not strictly increasing         -> FAIL (exit 1) (expected FAIL)
+
+RESULT: PASS — validator caught every mutation and accepted the clean file (4/4).

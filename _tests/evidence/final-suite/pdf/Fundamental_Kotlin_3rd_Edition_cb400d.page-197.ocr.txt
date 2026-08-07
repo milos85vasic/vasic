@@ -1,0 +1,28 @@
+val maps = listOf(
+mapOf(1 to "First", 2 to "Second"),
+mapOfi
+"ohn" to "Smith",
+"John" to "Doe",
+"Lorem" to "Ipsum"), // <-- "John" to "Doe"
+// overwrites "John" to "Smith"
+// pair because of same key:
+// "John"
+mapOf(1 to true, 2 to false, 3 to false, 4 to true)
+)
+If we execute the “traverse” function on the “maps” list:
+traverse(maps)
+The following program output will be produced:
+1 -> First
+2 -> Second
+John -> Doe
+Lorem -> Ipsum
+1 -> true
+2-> false
+3 -> false
+4-> true
+Predicates
+Predicates are very powerful features of the Kotlin programming language
+used in the filtering of collections. Simply said, predicates represent the lambda
+function used to filter collection items. We will demonstrate its usage on
+examples provided in “Predicates.kt”. Let's open it and go through examples
+step by step.

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 540" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">VisionEngine — four-layer stack</text>
+<text class="lbl" x="300" y="72">Layered engine</text>
+<text class="lbl" x="720" y="72">Vision provider fallback</text>
+<text class="lbl" x="40" y="312">Build-tag split</text>
+<rect class="accent" x="300" y="90" width="380" height="64" rx="10"/>
+<text class="t" x="490" y="124">Analyzer</text>
+<text class="s" x="490" y="144">screen understanding</text>
+<rect class="box" x="300" y="170" width="380" height="64" rx="10"/>
+<text class="t" x="490" y="204">NavigationGraph</text>
+<text class="s" x="490" y="224">BFS pathfinding</text>
+<rect class="box" x="300" y="250" width="380" height="64" rx="10"/>
+<text class="t" x="490" y="284">LLM Vision</text>
+<text class="s" x="490" y="304">provider fallback chain</text>
+<rect class="box" x="300" y="330" width="380" height="64" rx="10"/>
+<text class="t" x="490" y="364">Config</text>
+<text class="s" x="490" y="384">i18n Translator seam</text>
+<rect class="box" x="720" y="90" width="220" height="50" rx="10"/>
+<text class="t" x="830" y="120">GPT-4o</text>
+<rect class="box" x="720" y="150" width="220" height="50" rx="10"/>
+<text class="t" x="830" y="180">Claude · Gemini</text>
+<rect class="box" x="720" y="210" width="220" height="50" rx="10"/>
+<text class="t" x="830" y="240">Qwen-VL · Kimi</text>
+<rect class="box" x="720" y="270" width="220" height="50" rx="10"/>
+<text class="t" x="830" y="300">StepGUI · Astica · Ollama</text>
+<rect class="dash" x="40" y="330" width="220" height="64" rx="10"/>
+<text class="t" x="150" y="364">default build</text>
+<text class="s" x="150" y="384">stub (no OpenCV)</text>
+<rect class="box" x="40" y="410" width="220" height="64" rx="10"/>
+<text class="t" x="150" y="444">-tags vision</text>
+<text class="s" x="150" y="464">GoCV / OpenCV</text>
+<rect class="good" x="300" y="430" width="380" height="64" rx="10"/>
+<text class="gt" x="490" y="464">Exporters</text>
+<text class="s" x="490" y="484">DOT · JSON · Mermaid</text>
+<path class="conn" marker-end="url(#a)" d="M490,154 L490,168"/>
+<path class="conn" marker-end="url(#a)" d="M490,234 L490,248"/>
+<path class="conn" marker-end="url(#a)" d="M490,314 L490,328"/>
+<path class="conn" marker-end="url(#a)" d="M680,270 L718,120"/>
+<path class="conn" marker-end="url(#a)" d="M830,140 L830,148"/>
+<path class="conn" marker-end="url(#a)" d="M830,200 L830,208"/>
+<path class="conn" marker-end="url(#a)" d="M830,260 L830,268"/>
+<path class="conn" marker-end="url(#a)" d="M490,394 L490,428"/>
+</svg>

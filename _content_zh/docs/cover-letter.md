@@ -1,0 +1,30 @@
+---
+doc: cover-letter
+title: Cover Letter — Miloš Vasić, AI Engineer
+contact:
+  email: milos85vasic@gmail.com
+  site: https://milosvasic.ru
+sources:
+  - _analysis/content-briefs/*.md
+  - _analysis/content-briefs/_TECH-STACK.md
+note: General-purpose letter — no employer, project outcome, or metric is fabricated. The published edition is placeholder-free; per-application tailoring (specific role/company) is done from this master in a separate, unpublished copy.
+---
+
+尊敬的招聘团队：
+
+我写这封信是为了表达对贵公司专注于构建AI生产系统工程岗位的浓厚兴趣。我是一名AI工程师，专注于打造AI软件中那些不显眼却承重的部分：LLM基础设施、自主代理与编排系统，以及确保它们在生产环境中可靠运行的质量保证与治理层。
+
+过去几年里，我设计并交付了一系列相互关联的AI开发产品。Helix产品线覆盖了完整的生命周期——包括HelixAgent（一个多模型协同服务，多个模型通过辩论达成共识后交付结果）、HelixCode（一个分布式AI开发平台，通过SSH管理的工作节点分配任务，支持检查点/回滚）、HelixLLM（一个单一二进制文件，可在HTTP/3上提供兼容OpenAI和Anthropic的推理服务），以及LLM基础设施三件套：LLMProvider、LLMOrchestrator和LLMsVerifier（分别为43家供应商提供统一接口、无界面CLI代理的控制平面，以及验证真值来源）。围绕这些核心，我还构建了多款产品级工具，如Catalogizer（支持多协议、加密的媒体管理系统）和Courses-Creator（一个将AI Markdown转换为视频课程的流水线），所有这些均基于一系列小型、解耦且独立测试的Go与Kotlin Multiplatform模块。
+
+我认为我的工作之所以与众不同，源于我严格践行的一项原则：**反虚假工程**。我维护着一个通用的工程Constitution，以Git子模块形式分发，并被140多个代码库继承。它通过机械化的规则确保一条铁律——功能不是在测试通过时完成，而是在真实用户能够使用且有证据证明其可用时才算完成。为此，我还开发了HelixQA，一个反虚假的质量保证编排器，它能在Android、Web和桌面端自动运行LLM与计算机视觉会话，且在未获取截图、日志或视频等证据前，绝不判定为"通过"。我构建的系统不仅看起来完整，更能切实证明其完整性。
+
+技术上，我主要使用Go，结合Kotlin/KMP、TypeScript/React、Python、Swift和Shell，横跨REST/gRPC/HTTP/3服务、PostgreSQL/SQLite/Redis/ClickHouse数据层，以及Docker/Kubernetes/Prometheus运维。我能够全面负责一个系统，从供应商抽象与数据检索，到证明其有效运行的证据链。
+
+期待有机会将这种深度AI系统工程能力与真正可验证的质量标准带到贵团队。感谢您的考虑，我的作品集与公开代码库可在milosvasic.ru和vasic.digital查阅。
+
+此致
+敬礼
+
+Miloš Vasić
+milos85vasic@gmail.com
+

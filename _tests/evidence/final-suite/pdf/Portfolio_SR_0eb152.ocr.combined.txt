@@ -1,0 +1,269 @@
+
+VASIC DIGITAL - EVIDENCE-BASED PORTFOLIO
+
+‘a HOS Vasic
+
+i a ¥ Portfolio - Helix family - vasic-digital - Server
+
+¢ Factory
+.’ )
+
+A unified, evidence-based portfolio — the Helix product
+family, the vasic-digital utility fleet, and the Server Factory
+toolchain, on a shared engineering Constitution.
+
+milosvasic.ru - vasic.digital - github.com/HelixDevelopment - github.com/vasic-digital
+
+MILOS VASIC PORTFOLIO.
+140+ 43 25 439
+REPOSITORY FLEET LLM PROVIDERS LINUX DISTROS PASSING TESTS - MAIL
+PROVISIONED SERVER FACTORY
+
+| 1. Pregled — slika u celini
+Ovo je jedinstven, ujedinjen portfolio koji koriste i vasic.digital i milosvasic.ru. Ne opisuje razbacane sporedne
+projekte, ve¢ namerno projektovanu flotu: velike aplikacije koje se oslanjaju na desetine malih, odvojenih,
+nezavisno testiranih modula, a sve je podredeno zajednickoj inzenjerskoj Constitution i provereno anti-
+bluf QA disciplinom. Ta struktura je ono Sto ga izdvaja. Vecina portfolia je samo spisak onoga Sto je
+napravljeno; ovo je sistem u kojem se svaki proizvod sastavlja od dokazanih, viSekratno upotrebljivih delova,
+svaki deo poStuje iste nepregovorive pravila, a iza svake reklamirane moguénosti stoji prikupljen dokaz.
+Dominantan jezik je Go, uz Kotlin/KMP, TypeScript/React, Python, Swift i Shell tamo gde svaki zaista najbolje
+pristaje — Go za usluge i biblioteke visokog protoka, Kotlin za provizioniranje i multiplatformske mobilne
+aplikacije, TypeScript za tipizovane front-endove, Python za povezivanje Al/ML.
+Ono Sto ovom radu daje koherentnost jeste Ginjenica da je disciplina mehanicka, a ne samo Zeljena.
+Zajedniéka Constitution isporu¢uje se kao Git podmodul i nasleduje se u floti od preko 140 repozitorijuma,
+tako da svaka promena pravila automatski stize svuda; anti-bluf QA sloj odbija da zabelezi prolaz bez dokaza
+u vreme izvrSavanja. Porodica Helix, flota pomoénih alata i Server Factory alati su tri izraza jedne ideje —
+napravi jednom, koristi svuda i dokazi da radi pre nego Sto to proglasis gotovim.
+Sve Sto sledi prikazano je po prioritetu:
+
+1. Piloni upravijanja i QA — HelixConstitution, HelixQA (disciplina koja sve ostalo Cini pouzdanim).
+
+2. Porodica proizvoda Helix — Zivotni ciklus razvoja Al (HelixTrack na prvom mestu).
+
+3. LLM infrastruktura — apstrakcija provajdera, orkestracija, verifikacija.
+
+4. Vasic-digital pomoéni alati — samostalni alati na nivou proizvoda.
+
+5. Server Factory — naslede automatizacije infrastrukture (rangirano poslednje).
+Ujedinjujuca teza: funkcionalnost je gotova tek kada je stvarni korisnik moze da koristi i kada postoji
+prikupljen dokaz koji to potvrduje.
+| 2. Piloni upravijanja i QA
+Ova dva segmenta dolaze na prvo mesto jer sve ostalo u ovom portfoliju pozajmljuje svoju kredibilnost od
+njih. Zajedno pretvaraju ,verujte mi, radi” u proverljivu cinjenicu — Constitution kodira pravila, a HelixQA
+dokazuje da su postovana.
+
++ HelixConstitution — univerzalni, projektno-agnostiéki inZenjerski pravilnik isporucivan kao Git
+podmodul i nasleden u floti od preko 140 repozitorijuma. Anti-bluf kontrolne tacke, imunitet na lazno
+pozitivne rezultate, sigurnost podataka i hostova, disciplina pokrivenosti; nasledivanje s mogu¢noséu
+progirenja, ali bez slabljenja; kontrolni mehanizmi koji pretraZuju sve repozitorijume u floti trazeci
+obavezne odredbe; svaka kontroina taéka uparena s mutacionim testom koji dokazuje da nije lazna.
+
+milosvasic.ru - vasic.digital 2/8
+
+MILOS VASIC PORTFOLIO.
+
++ HelixQA — anti-bluf orkestracija QA (Go). Pisani YAML testovi plus potpuno autonomne QA sesije na
+Androidu, Android TV-u, vebu i desktopu, uz kori8¢enje LLM i ra¢unarskog vida; nema PROLAZA bez
+prikupljenih dokaza (snimci ekrana, logcat, video, stack trace-ovi). Obavezan tip QA testa prema
+Constitution (§11.4.169).
+
+| 3. Porodica proizvoda Helix
+
+Linija Helix predstavlja zastavni deo: porodicu medusobno povezanih proizvoda koja obuhvata ceo ciklus
+razvoja Al, od planiranja i specifikacije, preko izgradnje, memorije, prevodenja, do isporuke. Svaki od njih je
+sam po sebi pravi proizvod, ali je osnovna zamisao da se medusobno dopunjuju — sa istom upravljackom
+strukturom, istim modulima za ponovnu upotrebu i istom disciplinom dokazivanja koja stoji iza svih njih.
+
++ HelixTrack — alternativa JIRA za slobodan svet; zastavni proizvod linije Helix-Track.
+
++ HelixAgent — ansambl usluga LLM: viSe modela raspravija i isporucuje odgovor na koji se sloze, uz
+izbor provajdera zasnovan na verifikaciji.
+
++ HelixCode — preduzetni¢ka platforma za distribuirani razvoj Al; deli posao na radnike kojima upravlja
+SSH, sa automatskim Gekpointima i povratkom na prethodno stanje; interfejsi REST, CLI, TUI, MCP.
+
++ HelixCluster — distribuirani operativni sistem za racunanje zasnovano na Al, od GPU-ova u
+podatkovnim centrima do ruénih uredaja na ivici mreze, pod jednim kontrolnim ravnima.
+
++ HelixBuilder — pipeline pokretan Al za izgradnju aplikacija, kategoriju po kategoriju.
+
++ HelixSkills — sistem veStina za agente CLI zasnovane na Al, regulisan ustavom (ve&tine, serverski
+alati MCP, dodaci Claude Code).
+
++ HelixSpecifier — razvoj voden specifikacijama koji prilagodava ceremonijal obimu posla.
+
++ HelixMemory — jedan memorijski mozak za agente Al, koji spaja Cetiri vrhunska motora.
+
++ HelixTranslate — prevodenje knjiga zasnovano na verifikovanim modelima; po dizajnu iskreno, nikada
+sa tihim povratkom na rezervni rezim.
+
++ HelixTerminator — terminalska platforma sa nultim poverenjem: svaka sesija SSH osigurana, deljena i
+asistirana od strane Al.
+
++ HelixGitpx — federisani Git na desetak hostova; jedan izvor istine, ogledalo svuda.
+
++ HelixOTA — univerzalna, odvojena azuriranja ,over-the-air’; dizajnirana da nikada ne blokiraju uredaj.
+
++ HelixPlay — pretvorite bilo koju maSinu GPU u sopstveni uredaj za cloud-igranje.
+
++ Helix-Flow — proizvod za inferenciju na platformi Helix. NEVERIFIKOVANO / blokirano zbog izvora:
+Jjavni repozitorijum trenutno sadrzi samo jednolinijski README; prikazano na nivou proizvoda tek kada
+postoji prava dokumentacija.
+
+| 4. Infrastruktura LLM
+
+Ispod proizvoda nalazi se podloga koja ih ini nezavisnim od provajdera i pouzdanim: jedan interfejs preko
+desetina provajdera LLM, jedna kontrolna ravan za agente za kodiranje bez grafi¢kog interfejsa i jedan izvor
+milosvasic.ru - vasic.digital 3/8
+
+MILOS VASIC PORTFOLIO.
+istine za verifikaciju. Ovo je sloj koji omogucava svemu iznad da menja modele, preZivi prekide u radu
+provajdera i odbije da veruje LLM koji ne moze da dokaze da razume zadatak.
+
++ HelixLLM — jedan binarni fajl, Sest rezima: inferencija kompatibilna sa OpenAl i Anthropic preko HTTP/
+3, lokalni llama.cpp, lanac ocene rezervnih opcija, pipeline RAG, ReAct agenti.
+
++ LLMProvider — jedan interfejs, 43 provajdera, sa ugradenim prekidacima strujnog kola, ponovnim
+pokuSajima i monitoringom zdravlja.
+
++ LLMOrchestrator — jedna kontrolna ravan za svakog agenta za kodiranje bez grafickog interfejsa
+(OpenCode, Claude Code, Gemini, Junie, Qwen Code).
+
++ LLMsVerifier — verifikujte, nadgledajte, optimizujte: jedini izvor istine za metapodatke o LLM/
+provajderima/verifikaciji, sa obaveznom proverom razumevanja modela.
+
+| 5. vasic-digital alati
+
+Samostalni alati na nivou gotovog proizvoda, od kojih svaki reSava slozen problem na svoj nacin — a ne
+sluéajno, istovremeno testirajuci modularnu flotu u praksi. Raspon im je od otpornog multimedijalnog sistema
+sa vise protokola do toka obrade kursa od markdown-a do videa, pa sve do motora za sinhronizaciju
+dokumentacije i baza podataka sa heSiranim sadrzajem; nekoliko njih otvoreno govori 0 svojoj zrelosti, a te
+oznake ostaju vidljive, a ne skrivene.
+
++ Catalogizer — multimedijalni sistem za upravljanje kolekcijama sa viSe protokola (SMB/FTP/NFS/
+WebDAV/lokalno), Sifrovan, samostalno hostovan; Go/Gin API + React interfejs; otporno pracenje sa
+podrSkom za offline rezim; izgraden na 21 digital.vasic.* potmodulu.
+
++ Courses-Creator — tok obrade kursa od markdown-a do videa; obogacivanje sa vise LLM, TTS
+(Bark/SpeechT5), plejeri za desktop/mobilni/web; elegantan rezim rada bez kljuéa API.
+
++ VisionEngine — nezavisni Go alat koji spaja klasiéni racunarski vid sa LLM videnjem vise dobavljaéa;
+navigacioni grafovi sa BFS + izvozom u DOT/JSON/Mermaid; OpenCV sa uslovnim oznakama za
+izgradnju.
+
++ DocProcessor — mapa funkcionalnosti iz dokumentacije sa pracenjem pokrivenosti verifikacijom;
+LLM ili heuristiéko/offline izdvajanje; licenca Apache-2.0.
+
++ Docs Chain — dvosmerna, atomska sinhronizacija dokumentacije i baza podataka sa heSiranim
+sadrzajem (inkrementalno preracunavanje u stilu Salse preko DAG-a). Faze 1-5 ZELENE; Faze 6-7 U
+PLANU.
+
++ Herald — pouzdane obaveStenja preko vise kanala sa razreSavanjem namere u tri nivoa (komanda >
+LLM — poja&njenje) na prirodnom jeziku; prvi korisnik Docs Chain.
+
+* task_bridge — nezavisna, dvosmerna sinhronizacija zadataka i tabela (SQLite jedini izvor istine
+dokumentacija (2) ClickUp). Skelet P1 — logika sinhronizacije jos nije implementirana.
+
++ Vasic Digital Paket ponovijivo upotrebljivin modula — ,standardna biblioteka” digital.vasic.*:
+infrastrukturni primitivi, gradivni blokovi Al i odbrambeni mehanizmi LLM, uz ogledalo Kotlin
+Multiplatform. Nekoliko repozitorijuma organizacije je U SKELETU/RAZVOJU — oznaéeno, a ne
+objavijeno.
+
+milosvasic.ru - vasic.digital 4/8
+
+MILOS VASIC PORTFOLIO
+6. Server Factory (naslede automatizacije infrastrukture — poslednje
+rangiran)
+
+Rangiran poslednji po zamisli, a ne po kvalitetu: Server Factory alatni lanac prethodi liniji Al i pokazuje gde je
+
+filozofija ,izgradi jednom, koristi svuda” prvi put zaZivela. Njegov vodeci proizvod — mail server koji opiSete u
+
+JSON i postavite bilo gde — zreo je, dobro testiran proizvod; prateci alati prikazani su u svojoj stvarnoj,
+
+razlicitoj zrelosti, a ne uljepSani.
+
++ Mail Server Factory — deklarativni JSON — potpuno postavljen, dokeraizovan mail server za 12
+vrsta veza i 25 Linux distribucija; preduzetnicka sigurnost; izveStava 0 439 uspe§no polozenih testova i
+Cistoj SonarQube kapiji. Vodeci proizvod Server-Factory organizacije.
+
++ Server Factory Osnovni okvir — zajedni¢ki Kotlin pogon na kojem se grade sve fabrike.
+
++ Qemu-Utils — VM slike QEMU upravljane kao artefakti: preuzimanje/keSiranje/pokretanje, kompresija/
+objavijivanje, mrezno povezivanje preko bridge/TAP, ISO instalacije; Linux + macOS.
+
++ Parallels-Utils — kompresija, objavljivanje i preuzimanje VM slika Parallels (macOS) putem
+jednostavnih fajlova sa podeSavanjima.
+
++ Server Factory — Dodatne komponente — fabrike servisa (Web/SonarQube/Caching-Proxy), paketi
+definicija i pomoéni alati. Fabrike servisa su dokumentovane kao placeholderi— NEVERIFIKOVANO /
+u ranoj fazi.
+
+| 7. TehnoloSki indeks (baziran na dokazima)
+
++ Jezici: Go (dominantan), Kotlin i Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL;
+TLA+ (formaline specifikacije u helix_cluster).
+
++ Al/ LLM: pristup preko 40 provajdera, MCP, RAG, baze podataka vector i embeddings, planiranje
+(HiPlan/MCTS/Tree-of-Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), TTS
+(Bark/SpeechT5), racunarski vid + LLM-vizija, zaStitne mere/red-tim.
+
++ Backend: Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
+
++ Podaci: PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, Minl|O/S3/GCS/Azure.
+
++ Infra / DevOps: Docker i Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMU/Libvirt/Parallels; GitHub Actions, Gradle, Make.
+
++ Testiranje / KA: HelixQA, okviri za izazove sa mutacionim kapijama, go test -race , alati za vizuelnu
+regresiju, testiranje na ADB uredajima, SonarQube, skeniranje sigurnosti (semgrep/gosec/trivy/snyk/
+gitleaks/nancy), provera modela TLA+.
+
+milosvasic.ru - vasic.digital 5/8
+
+MILOS VASIC PORTFOLIO.
+| Selected architecture
+HelixAgent — ensemble debate flow
+Provider ensemble - scored by LLMsVerifier
+Claude
+Erombt [cate |
+one question
+Debate Orchestrato: Synthesized Answer
+mesh / star / chain the answer they agree on
+Debate protocel
+“ness
+HelixAgent — an ensemble LLM service where providers debate under a four-stage protocol and ship the answer they agree
+on, scored by LLMsVerifier.
+milosvasic.ru - vasic.digital 6/8
+
+MILOS VASIC PORTFOLIO.
+HelixCluster — seven-layer stack
+14 control-plane
+microservices L7 - Federation & Observability
+L6 - Security & Attestation (SPIFFE, PQ-E2EE)
+L5 - Sessions & Interactive Terminal
+L4- Al Inference Routing
+L3 - Omega Scheduler (two-level)
+L2- Consensus & Membership (Raft + SWIM)
+L1 - Node Runtime & Transport (gRPC, WireGuard)
+heterogeneous LO - Hardware Substrate (GPU > edge SBC)
+nodes T1-T8
+Node tiers T1 (datacenter GPU) ~> T8 (handheld), unified under one control plane
+HelixCluster — a distributed operating system for Al compute, from datacenter GPUs to edge handhelds, under one control
+plane.
+milosvasic.ru  vasic.digital 7/8
+
+MILOS VASIC PORTFOLIO.
+LLMsVerifier — mandatory verification gate
+Verified & usable
+PASS, (llmsvd) suffix
+Candidate model Do you see my code?
+provider API real HTTP comprehension test
+Verified-only export
+OpenCode - Crush - Claude Code
+FAIL
+Rejected
+never exported
+LLMsVerifier — verify, monitor, optimize: the single source of truth for LLM/provider/verification metadata, gated by a mandatory
+model-comprehension check.
+milosvasic.ru  vasic.digital 8/8

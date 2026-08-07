@@ -1,0 +1,28 @@
+fun sumSimplified(x: Int, y: Int) = x +y
+We introduced a function with an expression body and inferred return type.
+In the same file we have a function that does not return a value, for that
+purpose we use Unit type:
+fun printSum(x: Int, y: Int): Unit {
+printin("Sum is ${x + y}")
+}
+Since our function does not return anything, we can leave out the Unit return
+type:
+fun printSumSimplified(x: Int, y: Int) {
+printin("Sum is ${x + y}")
+}
+Passing arguments to functions
+In this section, we will show how to pass arguments to functions. We will
+present a couple of simple examples of this. Open “PassingArguments.kt” from
+the book code examples:
+// Function accepts 2 Integer arguments and returns
+// its multiplication:
+fun multiply(a: Int, b: Int) =a * b
+// Accepts 2 Integer arguments and returns its division:
+fun divide(a: Int, b: Int)=a/b
+// Main program function receives arguments from command line:
+fun main(args: Array<String>) {
+valx=5
+val y=7
+// We are passing values of 'x' and 'y' constants as
+// parameters to ‘multiply’ function:
+val z = multiply(x, y)

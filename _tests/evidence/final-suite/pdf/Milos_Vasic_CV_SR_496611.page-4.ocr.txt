@@ -1,0 +1,53 @@
+MILOS VASIC CURRICULUM VITAE
+
++ LLMProvider / LLMOrchestrator / LLMsVerifier — kiéma LLM infrastrukture: jedan interfejs preko 43
+provajdera sa prekidacima kola, monitoringom zdravlja, ponovnim pokuSajima sa eksponencijalnim
+odlaganjem i iskrenim (bez unapred definisanih rezervnih reSenja) otkrivanjem modela; thread-safe
+kontroina ravan koja pokreée i upravlja headless CLI agentima (OpenCode, Claude Code, Gemini,
+Junie, Qwen Code) preko hibridnog cevovodnog i fajl protokola; i izvor istine za verifikaciju Ciji
+obavezni filter ,Da li vidiS moj kod?” zna¢i da se kao upotrebijivi ili za izvoz oznaéavaju samo modeli za
+koje je dokazano da stvarno rade.
+
++ HelixMemory / HelixSpecifier — objedinjeni kognitivno-memorijski pogon koji spaja Cetiri vodeca
+backend-a (Mem0, Cognee, Letta, Graphiti) iza jednog interfejsa sa paralelnim pretrazivanjem i
+ponovnim rangiranjem rezultata iz vise izvora; i pogon za razvoj zasnovan na specifikacijama koji
+prilagodava sopstvenu proceduru obimu posla i podrzava specifikacije visestrukom agentskom
+debatnom.
+
++ HelixTrack — alternativa JIRA + Confluence-u otvorenog sveta (zastavni projekat Helix-Track linije):
+Go mikroservisi sa jedinstvenim API interfejsom usmerenim akcijama preko HTTP/3, SQLCipher
+enkripcijom u mirovanju i klijentima za Web/Desktop/Android/iOS.
+
+Alati profesionalnog nivoa (vasic-digital utils)
+
++ Catalogizer — viSeprotokolni, enkriptovani, samostalno hostovani sistem za upravljanje medijskim
+kolekcijama (Go/Gin + React), otporan na nestabilne mrezne skladi$ne sisteme, izgraden na 21
+ponovo upotrebljivom potmodulu.
+
++ Courses-Creator — pipeline za konverziju markdown-a u video (Al) sa TTS i plejerima za desktop,
+mobilne i veb platforme.
+
++ VisionEngine — ra¢unarski vid + viSekorisnicki LLM interfejs percepcije sa navigacionim grafovima.
+
++ DocProcessor - Docs Chain - Herald - task_bridge - Vasic Digital Paket ponovo upotrebljivih
+modula — mapiranje funkcija za kontrolu kvaliteta, sinhronizacija dokumenata/baza podataka sa
+heSiranim sadrzajem, obaveStenja na prirodnom jeziku, sinhronizacija zadataka/tabli i flota standardne
+biblioteke digital.vasic.*.
+
+Automatizacija infrastrukture (Server Factory)
+
++ Mail Server Factory — deklarativni JSON — potpuno konfigurisani, dokeraizovani mej! serveri za 12
+tipova konekcija i 25 Linux distribucija; izveStava 0 439 uspeSno polozenih testova i Cistoj SonarQube
+kapiji.
+
++ Server Factory Osnovni okvir, Qemu-Utils, Parallels-Utils — zajednicki provisioning pogon i alati
+za kreiranje VM slika.
+
+| Jezici i alati (kratka lista)
+
+Go - Kotlin - Kotlin Multiplatform - TypeScript - JavaScript - Python - Swift - Java - Rust - Shell - PL/pgSQL -
+TLA+ - Gin: gRPC - HTTP/3 - React - Angular - Electron - React Native : PostgreSQL - SQLite - SQLCipher -
+Redis - Neo4j : ClickHouse - Docker - Kubernetes - Prometheus - Grafana - OpenTelemetry - QEMU - GitHub
+Actions : Gradle - Make
+
+milosvasic.ru - vasic.digital 4/5

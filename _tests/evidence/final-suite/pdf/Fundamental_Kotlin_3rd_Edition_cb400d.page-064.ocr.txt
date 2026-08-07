@@ -1,0 +1,35 @@
+val items = listOf(2, 4, 6, 0, -2, -4, -6)
+items.forEach {
+
+try{
+
+process(it)
+} catch (t: Throwable) {
+fail(t)
+
+}
+}
+This example illustrates the use of the “Throwable” data type. As you can see,
+the way we use it and the way we handle it is very similar to the way that we use
+the “Exceptions” data type. Executing our program will produce the following
+output:
+Processing: 2
+Processing: 4
+Processing: 6
+Processing: 0
+Error
+Note:
+The throw is an expression in Kotlin, so you can use it, for example, as part of
+an Elvis expression:
+val model = car.model ?: throw IllegalArgumentException(
+
+"Model is mandatory"
+)
+Try / Catch / Finally block
+The “try/catch/finally” block helps in writing the program code which may throw
+exceptions in its runtime. By using it gives us a chance to recover from
+exceptions by executing alternate program logic or handle the exception
+gracefully. Most important, it helps in preventing ugly application crashes.
+Comparing to Java, there is only one difference: a try expression is truly an
+expression in Kotlin. That practically means that you can assign its result to a
+variable.

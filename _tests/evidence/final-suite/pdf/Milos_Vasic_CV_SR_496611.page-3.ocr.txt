@@ -1,0 +1,54 @@
+MILOS VASIC CURRICULUM VITAE
+
++ Frontend / cross-platform: TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular, Electron,
+React Native, Kotlin Multiplatform, Android/Android TV (Kotlin), iOS (Swift), Tauri/Rust.
+
++ Infra / DevOps: Docker i Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMUJ/Libvirt/Parallels; Cl/CD preko GitHub Actions, Gradle, Make.
+
++ QA] inzenjering kvaliteta: QA zasnovan na dokazima koji elimini8e varanje (HelixQA), okviri za
+izazove sa mutacionim kapijama, go test -race , vizuelno-regresiono testiranje, testiranje uredaja
+preko ADB-a, SonarQube, skeniranje sigurnosti (semgrep/gosec/trivy/snyk/gitleaks/nancy).
+
++ Upravljanje inzZenjeringom: Constitution kao podmodul; kapije nasledivanja i propagacije; disciplina
+dokumentacije i pokrivenosti kroz flotu od 140+ repozitorijuma.
+
+| Izabrani projekti
+Upravljanje i kontrola kvaliteta
+
++ HelixConstitution — univerzalni inZenjerski prirucnik distribuiran kao Git podmodul i nasleden u preko
+140 repozitorijuma: inzZenjerski zakon isporucuje se i verzionira taéno kao kod. Jedan update
+podmodula nadograduje pravila za ceo sistem, a propagacioni filteri doslovno pretraZuju svaki
+repozitorijum koji ga koristi kako bi pronasli obaveznu klauzulu — svaki filter uparen je sa mutacionim
+metatestom koji dokazuje da sam filter nije lazan. Pretvara ,najbolje prakse koje ljudi Zele da prate” u
+nasledeno, proverljivo, mehanicki sprovodivo antiblef-pravilo.
+
++ HelixQA — antiblef orkestracija kontrole kvaliteta (Go) zasnovana na jednom nepopustljivom pravilu:
+merilo nije ,testovi prolaze”, vec ,korisnici mogu da koriste funkciju”. Pokrece pisane YAML test-banke /
+potpuno autonomne LLM-i-vizuelne sesije kontrole kvaliteta koje otvaraju pravi softver, proveravaju
+svaku dokumentovanu funkciju, tragaju za nedokumentovanim greskama na Androidu/Android TV/
+Webu/desktopu i odbijaju da ocene prolazak bez snimljenih dokaza u realnom vremenu — snimaka
+ekrana, logcat-a, video-zapisa, stack trace-ova — plus Al-ticketa spremnih za ispravku.
+
+Razvoj Al i LLM infrastruktura
+
++ HelixAgent — produkcijski ansambl LLM servisa (Go/Gin) koji odbija da veruje jednom modelu: Salje
+prompt na vise provajdera, vodi strukturiranu visestepenu debatu (Predlog — Kritika + Pregled >
+Sinteza) i usmerava prema rezultatima verifikacije uzivo sa postupnim padom performansi — sve iza
+OpenAl-kompatibilnog API interfejsa sa HA slojem podataka, opservabilnoS¢u i zastitnim
+mehanizmima. Go, Gin, PostgreSQL, Redis, Prometheus/Grafana/OpenTelemetry, MCP, Neo4j/
+ClickHouse/Kafka.
+
++ HelixCode — distribuirana platforma za razvoj Al koja deli posao na inteligentne, zavisne zadatke
+rasporedene na radniékoj mrezi pod upravom SSH, a zatim cuva kontrolne tacke i vraca se unazad
+tako da niSta nikada ne bude izgubljeno ako se zadatak prekine; izbor modela svesnih hardvera i ceo
+ciklus planiranja/izrade/testiranja/refaktorisanja iza REST/CLI/TUI/MCP. Go, Gin, PostgreSQL, Redis,
+SSH, MCP, Ilama.cpp/Ollama.
+
++ HelixLLM — jedan binarni fajl, Sest rezima implementacije: OpenAl- i Anthropic-kompatibilno
+Zakljucivanje preko HTTP/3 koje se skaluje od laptopa do visemodulskog klastera, sa lokalnim
+Zakljucivanjem preko llama.cpp (CUDA/Metal/ROCm) i automatski otkrivenim, verifikaciono ocenjenim
+lancem rezervnih reSenja u oblaku koji uvek degradira na garantovani lokalni model. Go, HTTP/3
+QUIC, gRPC/SSE/Kafka, llama.cpp.
+
+milosvasic.ru - vasic.digital 3/5

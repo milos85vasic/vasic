@@ -1,0 +1,46 @@
+can be dangerous. In Java, it is really easy to have variables (or constants) that
+have a null value. Let’s have a look at the example (“NullExamples.java” from the
+book's code examples):
+
+String nullStringVariable;
+
+Boolean b;
+
+Both lines of code produce variables with null values. However, once we
+initialize these variables they do not have null value anymore:
+
+nullStringVariable = “My string”;
+
+b = true;
+
+To make these variables null again we will assign null to them again:
+nullStringVariable = null;
+
+b= null;
+
+Trying to invoke function on variable that has null value will produce
+“NullPointerException”. The following code will crash your application:
+nullStringVariable = null;
+
+int size = nullStringVariable.length();
+
+Calling the “length()” function will crash the application since
+“nullStringVariable” is null and does not point to any particular instance of the
+class.
+
+In Kotlin working with nulls is safe. Kotlin's type system protects us from getting
+null pointer exceptions.
+
+To get a null pointer exception you must do one of the following:
+
+- Explicitly throw NullPointerException
+
+- Use !! operator (we will talk more about this later) with null variable (or
+constant)
+
+- Use Java code that is not guarded against it
+
+- Inconsistence with initialization
+
+In the following example, we are returning a null value by intention. Open
+“Nulls.kt":

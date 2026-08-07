@@ -1,0 +1,50 @@
+val s1 = Single
+
+val s2 = Single
+
+val s3 = Single
+
+$1.print()
+
+s2.print()
+
+$3.print()
+
+S1.value = 100
+
+$1.print()
+
+s2.print()
+
+$3.print()
+
+Executing this will produce the following output:
+
+Value: 0, Hash: 1872034366
+
+Value: 0, Hash: 1872034366
+
+Value: 0, Hash: 1872034366
+
+Value: 100, Hash: 1872034366
+
+Value: 100, Hash: 1872034366
+
+Value: 100, Hash: 1872034366
+
+You will notice that each constant (“s1”, “s2”, and “s3”) has the same hash code
+which means that it points to the same reference. Objects occupy memory as a
+single instance which makes them a perfect candidate for singleton pattern
+implementation.
+
+Lazy initialization
+
+Lazy initialization represents a delaying of instance creation, the calculation of a
+value, or some other expensive process until the first time it is needed (access
+to the variable for example).
+
+Kotlin supports lazy initialization. We will illustrate this with two simple
+examples. From book code examples open our first example of “lazy”
+initialization “DbManager.kt”:
+
+object DoManager {

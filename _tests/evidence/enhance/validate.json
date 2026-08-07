@@ -1,0 +1,36 @@
+{
+  "sites": {
+    "vasic.digital": {
+      "sitemap": {
+        "urls": 35,
+        "missing": [],
+        "robotsPointsToSitemap": true
+      },
+      "hreflang": {
+        "pagesChecked": 3,
+        "problems": []
+      },
+      "jsonld": {
+        "blocks": 3,
+        "problems": []
+      }
+    },
+    "milosvasic.ru": {
+      "sitemap": {
+        "urls": 35,
+        "missing": [],
+        "robotsPointsToSitemap": true
+      },
+      "hreflang": {
+        "pagesChecked": 3,
+        "problems": []
+      },
+      "jsonld": {
+        "blocks": 3,
+        "problems": []
+      }
+    }
+  },
+  "verdict": "PASS",
+  "failures": 0
+}

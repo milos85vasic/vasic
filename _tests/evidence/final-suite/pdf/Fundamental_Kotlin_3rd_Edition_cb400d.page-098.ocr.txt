@@ -1,0 +1,33 @@
+Please go through the example’s source code line by line and compare
+expressions with the program's output result. You will see that the “Or” and
+“And” operators behave exactly as we described them. Also, you can see that we
+can combine them to get more complex expressions like in the last “mixed”
+example.
+Operator overloading
+In Kotlin it is possible to create our implementations for operators. For example
+for “+" operator, for “-" operator, and so on. To make this happen, it is required
+to provide a member function or an extension function with a fixed name, for
+the corresponding type. Each function that overloads the operator must be
+marked with the “operator” modifier.
+Let's show you a simple example of “+” operator overloading. From book code
+examples open "OperatorOverloading.kt":
+class Example(var value: String) {
+
+operator fun plus(what: Example): Example {
+
+return Example("$value, ${what.value}")
+}
+operator fun plus(what: String): Example {
+return Example("$value, $what")
+
+}
+
+override fun toString() = value
+}
+We have defined the implementation for “+” operator that can work with
+“Examples” class type itself and strings. Let's try it out:
+val a = Example("A")
+val b = Example("B")
+val c = Example("C")
+valab=at+b
+valabc=a+b+c

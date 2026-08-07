@@ -1,0 +1,57 @@
+MILOS VASIC PORTFOLIO.
+
+* LLMProvider — one interface, 43 providers, with circuit breakers, retries, and health built in.
+
++ LLMOrchestrator — one control plane for every headless CLI coding agent (OpenCode, Claude
+Code, Gemini, Junie, Qwen Code).
+
++ LLMsVerifier — verify, monitor, optimize: the single source of truth for LLM/provider/verification
+metadata, with a mandatory model comprehension gate.
+
+| 5. vasic-digital utilities
+
+* Catalogizer — multi-protocol (SMB/FTP/NFS/WebDAV/local), encrypted, self-hostable media
+collection management; Go/Gin API + React UI; resilient offline-tolerant monitoring; built on 21
+digital.vasic.* submodules.
+
++ Courses-Creator — markdown-to-video course pipeline; multi-LLM enrichment, TTS (Bark/
+SpeechT5), desktop/mobile/web players; graceful no-API-key mode.
+
++ VisionEngine — decoupled Go toolkit fusing classic CV with multi-provider LLM vision; navigation
+graphs with BFS + DOT/JSON/Mermaid export; OpenCV build-tag-gated.
+
++ DocProcessor — documentation-to-feature-map with verification-coverage tracking; LLM or heuristic/
+offline extraction; Apache-2.0.
+
++ Docs Chain — content-hashed, bidirectional, atomic doc/DB sync (Salsa-style incremental recompute
+over a DAG). Phases 1-5 GREEN; Phases 6-7 PLANNED.
+
++ Herald — reliable multi-channel notifications with natural-language, three-tier intent resolution
+(command — LLM -— clarify); first Docs Chain consumer.
+
++ task_bridge — decoupled, bidirectional task/board sync (SQLite SSoT (@) docs (2) ClickUp). P7
+scaffold — sync logic not yet implemented.
+
++ Vasic Digital Reusable Module Suite — the digital.vasic.* “standard library”: infrastructure
+primitives, Al building blocks, and defensive-LLM guardrails, plus a Kotlin Multiplatform mirror. Several
+org repos are SCAFFOLD/WIP — flagged, not shipped.
+
+| 6. Server Factory (infrastructure-automation heritage — ranked last)
+
++ Mail Server Factory — declarative JSON — fully-provisioned, Dockerized mail server across 12
+connection types and 25 Linux distributions; enterprise security; reports 439 passing tests and a clean
+SonarQube gate. Flagship of the Server-Factory org.
+
++ Server Factory Core Framework — the shared Kotlin engine every factory builds on.
+
+* Qemu-Utils — QEMU VM images managed like artifacts: download/cache/run, compress/publish,
+bridge/TAP networking, ISO installs; Linux + macOS.
+
++ Parallels-Utils — Parallels (macOS) VM image compression, publishing, and retrieval via simple
+settings files.
+
++ Server Factory — Additional Components — service factories (Web/SonarQube/Caching-Proxy),
+Definitions packs, and Utils. Service factories are placeholder-documented — UNVERIFIED / early-
+stage.
+
+milosvasic.ru - vasic.digital 4/7

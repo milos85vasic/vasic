@@ -1,0 +1,27 @@
+}
+override fun stopEngine() {
+super.stopEngine()
+printin($model: stop")
+}
+override fun drive() {
+super.drive()
+printin("$model: drive")
+}
+}
+So, let’s play a bit with our Mercedeses:
+val m1 = Mercedes("Mercedes-Benz AMG A 35")
+val m2 = Mercedes("Mercedes-Benz AMG C 63")
+val m3 = Mercedes("Mercedes-Benz AMG C 63 S")
+val m4 = Mercedes("Mercedes-Benz CLA 250")
+val scooter = object : Vehicle {
+override fun startEngine() {
+printin("Scooter: start")
+}
+override fun stopEngine() {
+printin("Scooter: stop")
+}
+override fun drive() {
+printin("Scooter: drive")
+}
+}
+val vehicles = listOf(m1, m2, m3, m4, scooter)

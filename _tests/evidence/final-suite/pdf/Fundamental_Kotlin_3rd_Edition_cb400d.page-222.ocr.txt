@@ -1,0 +1,32 @@
+class MercedesFactory : CarFactory<Mercedes>() {
+
+override fun forgeCar(model: String): Mercedes {
+
+return Mercedes(model)
+
+}
+}
+Let's try this out:
+val bmwFactory = BmwFactory()
+val mercedesFactory = MercedesFactory()
+val bmw = bmwFactory.forgeCar("M4")
+val mercedes = mercedesFactory.forgeCar("AMG GT")
+val bnwCarWasher: CarWash<Bmw> = CarWash()
+val mercedesCarWasher: CarWash<Mercedes> = CarWash()
+val generalCarWasher: CarWash<Car> = CarWash()
+bmwCarWasher.washCar(bmw)
+mercedesCarWasher.washCar(mercedes)
+generalCarWasher.washCar(bmw)
+generalCarWasher.washCar(mercedes)
+If we run this and we “wash” our cars, the following output will be produced by
+the program:
+Washing Bmw M4
+Washing Mercedes AMG GT
+Washing Bmw M4
+Washing Mercedes AMG GT
+Generic functions
+“Generic functions” are functions capable of working with any data type
+(“generic”) or subtypes of some super-type. We will illustrate this Kotlin feature
+through a_ simple example. From book code examples open
+“GenericFunctions.kt":
+abstract class Engine {

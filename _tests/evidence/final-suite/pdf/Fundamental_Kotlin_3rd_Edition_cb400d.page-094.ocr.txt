@@ -1,0 +1,50 @@
+val minusA = -1
+
+val notB = !b
+
+printin("a: $a, minus a: $minusA")
+
+printin("b: $b, not b: $notB")
+
+In this example, we have defined Integer and Boolean constants. By using
+unary operators “-" on Integer and “!” (negation) on Boolean we have inverted
+its values. If we run this program the following output will be printed out:
+
+a: 1, minus a: -1
+
+b: true, not b: false
+
+Most common unary operators are:
+
+- “+": Unary plus, with expression: “+a” that is translated to: “a.unaryPlus()”
+
+- “"" Unary minus, with expression: “-a” (inverts sign) that is translated to:
+“a.unaryMinus()”
+
+- “I”: Not, with expression: “la” (inverts value) that is translated to: “a.not()”.
+Increment and decrement operators
+
+To increase or to decrease value by one Kotlin gives two operators:
+
+- “++", Increment with expression: “++a” (or “++a") that is translated to: “a.inc()”
+-“. -", Decrement wit expression: “- -a” (or “- -a”) that is translated to: “a.dec()”
+Open “IncrementDecrement.kt” source code file from book code examples:
+vara=10
+
+printin("a: $a")
+
+printin("a: ${a++}")
+
+printin("a: ${++a}")
+
+printin("a: ${a--}")
+
+printin("a: ${--a}")
+
+We have defined variable “a” with the value of 10. Then, we will increment it
+twice and decrement it twice too. Running this program will give the following
+output:
+
+a: 10
+
+a: 10

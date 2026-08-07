@@ -1,0 +1,59 @@
+SITE milosvasic-ru: 60 unique translatable strings
+SITE vasic-digital: 82 unique translatable strings
+=== milosvasic-ru / ru (Russian) — already complete, skipping ===
+=== milosvasic-ru / sr (Serbian (Cyrillic script)) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=1 retried=5 still_bad=1
+=== milosvasic-ru / de (German) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=0 retried=0 still_bad=0
+=== milosvasic-ru / es (Spanish) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=0 retried=0 still_bad=0
+=== milosvasic-ru / fr (French) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=0 retried=1 still_bad=0
+=== milosvasic-ru / be (Belarusian) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=11 retried=11 still_bad=0
+=== milosvasic-ru / zh (Simplified Chinese) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=1 retried=1 still_bad=0
+=== milosvasic-ru / kk (Kazakh (Cyrillic script)) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=1 retried=5 still_bad=1
+=== milosvasic-ru / hi (Hindi) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=1 retried=1 still_bad=0
+=== milosvasic-ru / ja (Japanese) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=1 retried=2 still_bad=1
+=== milosvasic-ru / ko (Korean) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=1 retried=1 still_bad=0
+=== milosvasic-ru / ar (Arabic) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=1 retried=1 still_bad=0
+=== milosvasic-ru / tr (Turkish) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=0 retried=1 still_bad=0
+=== milosvasic-ru / fa (Persian (Farsi)) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=0 retried=0 still_bad=0
+=== vasic-digital / ru (Russian) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=15 retried=15 still_bad=0
+=== vasic-digital / sr (Serbian (Cyrillic script)) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=2 retried=8 still_bad=1
+=== vasic-digital / de (German) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=0 retried=2 still_bad=0
+=== vasic-digital / es (Spanish) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=0 retried=6 still_bad=0
+=== vasic-digital / fr (French) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=0 retried=2 still_bad=0
+=== vasic-digital / be (Belarusian) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=60 retried=78 still_bad=0
+=== vasic-digital / zh (Simplified Chinese) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=10 retried=10 still_bad=0
+=== vasic-digital / kk (Kazakh (Cyrillic script)) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=18 retried=18 still_bad=0
+=== vasic-digital / hi (Hindi) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=10 retried=10 still_bad=0
+=== vasic-digital / ja (Japanese) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=10 retried=11 still_bad=0
+=== vasic-digital / ko (Korean) ===
+   verdict=FAIL translator=gpt-oss-120b script_flagged=10 retried=10 still_bad=1
+=== vasic-digital / ar (Arabic) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=1 retried=1 still_bad=0
+=== vasic-digital / tr (Turkish) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=0 retried=0 still_bad=0
+=== vasic-digital / fa (Persian (Farsi)) ===
+   verdict=PASS translator=gpt-oss-120b script_flagged=1 retried=1 still_bad=0
+
+COMPLETE (site,lang) pairs: 28

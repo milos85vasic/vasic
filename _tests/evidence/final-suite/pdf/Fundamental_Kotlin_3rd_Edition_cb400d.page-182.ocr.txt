@@ -1,0 +1,45 @@
+Examples that we have shown represent the very basics of work with lists. The
+“List” class has many member functions that you can use to achieve important
+tasks. A complete list of all members can be found on official Kotlin language
+documentation for lists:
+https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/
+
+There you will see everything that we have mentioned and a lot more. You don't
+have to learn all of these functions at once since you will probably learn them all
+as you need them and as you use them in everyday work.
+
+Immutable maps
+
+The map represents a collection that holds pairs of objects. The first one is the
+key and the second is the value for each map entry. Map data type supports
+efficiently retrieving the value corresponding to each key. All map keys are
+unique. That means the map holds only one value for each key. As we are
+talking about immutable maps, functions in this interface support only read-
+only access to the map. Reading and writing access is supported through the
+“MutableMap” interface.
+
+Let's create some immutable maps. Open “Collections.kt’ and locate the
+following code snippet:
+
+val immutableMap = mapOf(something" to 1, "else" to 2)
+
+val immutableMap2 = mapOf(Pair(1, "Plane"), Pair(2, "Car"))
+
+As you can see we have used two different ways of instantiating immutable
+maps. “mapOf” function creates a read-only map with the specified content.
+Both ways that we are using to instantiate map accept a list of pairs where the
+first value is the key and the second is the value.
+
+Accessing map elements is performed by key:
+
+val user = "john.smith"
+
+val id = userIds[user]
+
+val credentials = userCredentials[user]
+
+printin("User: $user, Id: $id, Credentials: $credentials")
+
+We have obtained Id and credentials for the user by providing the key with the
+value “john.smith” to each of these two maps. Then we have printed out these
+values:

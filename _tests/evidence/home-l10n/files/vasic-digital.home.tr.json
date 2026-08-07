@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "tr",
+  "title": "Vasic Digital — AI‑Yerel Yazılım Mühendisliği",
+  "description": "Vasic Digital, AI geliştirme sistemleri oluşturur — çoklu sağlayıcı LLM altyapısı, ajan orkestrasyonu ve onları güvenilir kılan kanıt‑plus‑anayasa yönetişimi.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — OpenDesign sistemi üzerine inşa edilmiştir.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI‑yerel yazılım mühendisliği"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "AI‑yerel yazılım mühendisliği, güvenilir olacak şekilde inşa edilmiştir."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "AI geliştirme sistemleri — büyük dil modellerini güvenilir yazılımlara dönüştüren modeller, ajanlar, orkestrasyon ve altyapı — bunları dürüst tutan yönetişim katmanı ile birlikte oluşturuyoruz."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "Ürünleri keşfedin",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "Portföyü görüntüle",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "Portföyü İndir (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM sağlayıcıları, tek bir arayüz"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "depolar, tek bir anayasa"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "üç katmanda ürünler"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// hakkında"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "Bir filo, monolit değil."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital, AI‑geliştirme ürünleri ve yeniden kullanılabilir modüllerden oluşan birbirine bağlı bir aileyi inşa eden odaklı bir mühendislik pratiğidir. Tek bir monolit yerine, çalışma bir filo olarak düzenlenir: onlarca küçük, bağımsız‑test edilmiş, ayrık modülün üzerine büyük ürün uygulamaları — böylece kanıtlanmış parçalar her ürün içinde yeniden kullanılır, yeniden inşa edilmez."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "Omurgadaki dil Go'dur, Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift ve Shell ile tamamlanır — iş gereksinimine göre seçilir. Filoyu bir arada tutan şey, mekanik hâle getirilen disiplin: her proje, bir Git alt modülü olarak paylaşılan bir mühendislik Anayasasını devralır ve bir ürünün reklam ettiği her yetenek, otomatik, kanıt üreten bir test tarafından desteklenmelidir. Bir özellik, testler geçtiğinde \"tamam\" değildir; gerçek bir kullanıcı gerçekten kullanabildiğinde ve bunu kanıtlayan kanıt yakalandığında tamamdır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// ne yapıyoruz"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "AI‑tabanlı geliştirme, uçtan uca."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "AI sistemleri için altyapıyı inşa ediyoruz — uygulamanın altındaki zor kısım."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "Çoklu sağlayıcı LLM erişimi",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "40+ sağlayıcı üzerinde birinci‑taraf soyutlama — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok ve yedek olarak yerel Ollama — tek bir arayüzde, yeniden denemeler, devre kesiciler ve sağlık kontrolleri ile."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "Ajan orkestrasyonu",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "Kafasız CLI kod‑ajanı kontrol düzlemleri, grafik‑tabanlı ajan‑odaklı iş akışları, çok‑turlu \"AI tartışması\" mutabakatı ve DAG/boru hattı çalışma zamanları."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM doğrulaması",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "Modelleri zorunlu bir kavrama kapısı (\"Kodumu görüyor musun?\") ve gecikme, akış, fonksiyon‑çağrısı, görsel ve gömme testleri ile puanlayan bir güven katmanı — yalnızca doğrulanmış yapılandırma dışa aktarır."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "Getirme & bellek",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, vektör veritabanları, gömmeler ve birleşik ajan‑bellek motorları (Mem0 + Cognee + Letta) sınırsız‑bağlam sıkıştırması ile."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "Savunmalı LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "Koruma hatları, KVK tespiti, adversarial kırmızı‑takım senaryoları ve girdi standartlaştırması — güvenlik altyapıya yerleşiktir, sonradan eklenmez."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// seviye 1 — amiral gemisi"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Helix ürün ailesi & LLM altyapısı"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "Amiral gemisi serimiz, AI‑geliştirme yaşam döngüsünün tamamını kapsar. Öncelik sırasına göre."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "JIRA'ya özgür bir alternatif — Helix-Track serisinin amiral gemisi."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "Birden fazla modelin tartışmasına izin veren ve üzerinde anlaştıkları cevabı sunan bir topluluk LLM hizmeti."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "İşleri SSH‑yönetimli çalışanlar arasında kontrol noktası/geri dönüş ile bölen dağıtık bir AI geliştirme platformu."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "Tek ikili, altı mod: laptop’tan kümeye, HTTP/3 üzerinden OpenAI ve Anthropic uyumlu çıkarım."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "Veri merkezi GPU'larından kenar cihazlarına kadar AI hesaplama için dağıtık bir işletim sistemi."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "Tek arayüz, 43 sağlayıcı — devre kesiciler, yeniden denemeler ve sağlık kontrolleri dahil."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "Her kafasız CLI kod‑ajanı için tek kontrol düzlemi."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "Doğrula. İzle. Optimize et. LLM ve sağlayıcı doğrulama meta verileri için tek gerçek kaynağı."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "AI ajanları için tek bellek beyni — dört sınıfının en iyisi motor, birleşik."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// kalite & yönetişim — bizim ayırt edicimiz"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "Yönetişim, denetlenebilir bir gerçek, bir hedef değil."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "İki sütun, tüm filoyu tutarlı ve güvenilir kılar."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "140+ depoludan oluşan bir filo boyunca her proje tarafından devralınan, Git alt modülü olarak gönderilen evrensel, proje‑agnostik bir mühendislik kural kitabı. Tartışılmaz disiplin kodlar — anti‑bluff kanıt kapıları, yanlış‑pozitif bağışıklığı, veri ve ana bilgisayar güvenliği — bir proje bunları genişletebilir ancak asla zayıflatamaz. Tek bir alt modül yükseltmesi kuralları her yerde günceller ve her kapı, kapının kendisinin sahte olmadığını kanıtlayan bir mutasyon testiyle eşleştirilir."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "Anti‑bluff QA orkestrasyonu. Yazılmış YAML test bankalarını ve Android, Android TV, Web ve Desktop üzerinde tam‑özerk, LLM‑plus‑bilgisayar‑görüşü QA oturumlarını çalıştırır — ve yakalanmış çalışma zamanı kanıtı olmadan (ekran görüntüleri, logcat, video, yığın izleri) bir PASS puanı vermeyi reddeder: \"Biz test ettik\" yerine \"işte video, logcat ve bilet\" olur."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// seviye 2 — yardımcı programlar"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital yardımcı programları"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "Kendi başına durabilen ürün‑seviyesi araçlar."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "Gelişmiş çok‑protokollü, şifreli medya koleksiyon yönetimi — sahip olduğunuz her şeyi algıla, katalogla ve zenginleştir."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown girişi, profesyonel video kurs çıkışı — AI‑geliştirilmiş, çok‑platformlu."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "Kullanıcı gibi UI'yi gör — analiz ve gezinme için bilgisayar görüsü + LLM görüsü."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "Dokümantasyonu, QA otomasyonu için doğrulanabilir bir özellik haritasına dönüştür."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "Takip edilen hiçbir belge senkron dışına çıkamaz — içerik‑hashli, çift yönlü, atomik."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "Her uyarı doğru hedefe ulaşır — komut sözdizimi gerekmez."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "Görev panonuz ve gerçek‑kaynağınız kusursuz senkronize — iki yönlü."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "Bir kez inşa edin, her yerde yeniden kullanın — küçük, ayrık, bağımsız‑test edilmiş Go ve KMP modüllerinden oluşan bir filo."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// seviye 3 — miras"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — altyapı otomasyonu"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "DevOps mirasımız: deklaratif JSON tam olarak sağlanan, Docker‑laştırılmış sunuculara dönüştürülür."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "Mail sunucunuzu patron gibi çalıştırın — JSON ile tanımlayın, istediğiniz yere dağıtın."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "Her Server Factory'nin arkasındaki ortak motor."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "QEMU VM imajları, artefakt gibi yönetilir — indirin, çalıştırın, ağlayın, yayınlayın."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "Parallels VM imajlarınızı sıkıştırın, yayınlayın ve her makinede yeniden kullanın."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Daha fazla oku"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// teknolojiler"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "Gerçek yığınımıza dayanıyor."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "Diller",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "AI / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "Arka uç",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "Veri",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "Altyapı / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "Test / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// portföy"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "Tek filo, tek disiplin — tüm 33 ürünü görün."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Helix ailesi, vasic-digital yardımcı programları ve Server Factory araç zincirinin birleşik, kanıta dayalı portföyü."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "Portföyü aç",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// iletişim"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "Doğrulanabilir bir şey inşa edelim."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "Herkes bir uygulamayı bir LLM'ye bağlayabilir. Biz zor kısmı inşa ediyoruz: doğrulanabilir, yeniden kullanılabilir ve dürüst AI sistemleri. Yeşil onay işaretine güvenmenizi istemiyoruz — onun arkasındaki kanıtı gösteriyoruz."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "E-posta",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

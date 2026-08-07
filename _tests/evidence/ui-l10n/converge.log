@@ -1,0 +1,93 @@
+########## PASS 1 ##########
+[ru] 30 missing -> batch translate
+[ru] 1/30 keys; still-missing=['nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[sr] complete, skip
+[es] complete, skip
+[fr] 12 missing -> batch translate
+[fr] 30/30 keys; still-missing=[]
+[be] 13 missing -> batch translate
+[be] 30/30 keys; still-missing=[]
+[zh] 12 missing -> batch translate
+[zh] 30/30 keys; still-missing=[]
+[kk] 30 missing -> batch translate
+Terminated: 15             python3 translate_ui_batch.py ru sr es fr be zh kk hi ja ko ar tr fa de
+########## PASS 2 ##########
+[ru] 29 missing -> batch translate
+  !! [ru] engine failed for ru: msc/in.md output=/Volumes/T7/tmp/tmp02fcemsc/out.md provider=zhipu duration=56.667687625s session_id=tx-1786009261274830000
+Session report generated: /Volumes/T7/tmp/tmp02fcemsc/out_session_report.md
+
+[ru] 1/30 keys; still-missing=['nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[sr] complete, skip
+[es] complete, skip
+[fr] complete, skip
+[be] complete, skip
+[zh] complete, skip
+[kk] 30 missing -> batch translate
+Terminated: 15             python3 translate_ui_batch.py ru sr es fr be zh kk hi ja ko ar tr fa de
+########## PASS 3 ##########
+[ru] 29 missing -> batch translate
+Terminated: 15             python3 translate_ui_batch.py ru sr es fr be zh kk hi ja ko ar tr fa de
+########## PASS 4 ##########
+[ru] 29 missing -> batch translate
+[ru] 17/30 keys; still-missing=['tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[sr] complete, skip
+[es] complete, skip
+[fr] complete, skip
+[be] complete, skip
+[zh] complete, skip
+[kk] 30 missing -> batch translate
+  !! [kk] engine failed for kk: bny/in.md output=/Volumes/T7/tmp/tmp5hgztbny/out.md provider=zhipu duration=52.572111083s session_id=tx-1786009860970759000
+Session report generated: /Volumes/T7/tmp/tmp5hgztbny/out_session_report.md
+
+[kk] 0/30 keys; still-missing=['skip', 'nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[hi] 30 missing -> batch translate
+  !! [hi] engine failed for hi: 00 input=/Volumes/T7/tmp/tmpdvfazvo3/in.md output=/Volumes/T7/tmp/tmpdvfazvo3/out.md provider=zhipu duration=1m3.594095292s
+Session report generated: /Volumes/T7/tmp/tmpdvfazvo3/out_session_report.md
+
+[hi] 0/30 keys; still-missing=['skip', 'nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[ja] 30 missing -> batch translate
+  !! [ja] engine failed for ja: RROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"code":"1302","message":"您的账户已达到速率限制，请您控制请求频率"}}
+[LLM_ERROR] Text length: 1328 bytes, Context: Ebook content
+
+[ja] 0/30 keys; still-missing=['skip', 'nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[ko] 30 missing -> batch translate
+[ko] 7/30 keys; still-missing=['pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[ar] 3 missing -> batch translate
+Terminated: 15             python3 translate_ui_batch.py ru sr es fr be zh kk hi ja ko ar tr fa de
+########## PASS 5 ##########
+[ru] 1 missing -> batch translate
+  !! [ru] engine failed for ru: 000 input=/Volumes/T7/tmp/tmpi9bfjqqi/in.md output=/Volumes/T7/tmp/tmpi9bfjqqi/out.md provider=zhipu duration=56.030224542s
+Session report generated: /Volumes/T7/tmp/tmpi9bfjqqi/out_session_report.md
+
+[ru] 29/30 keys; still-missing=['pf.summary']
+[sr] complete, skip
+[es] complete, skip
+[fr] complete, skip
+[be] complete, skip
+[zh] complete, skip
+[kk] 14 missing -> batch translate
+  !! [kk] engine failed for kk: erqa/in.md output=/Volumes/T7/tmp/tmpjhglerqa/out.md provider=zhipu duration=43.14677575s session_id=tx-1786010889505528000
+Session report generated: /Volumes/T7/tmp/tmpjhglerqa/out_session_report.md
+
+[kk] 16/30 keys; still-missing=['pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[hi] 26 missing -> batch translate
+  !! [hi] engine failed for hi: hw/out.md provider=zhipu duration=1m10.853317834s session_id=tx-1786011120865973000 input=/Volumes/T7/tmp/tmpy6itcohw/in.md
+Session report generated: /Volumes/T7/tmp/tmpy6itcohw/out_session_report.md
+
+[hi] 4/30 keys; still-missing=['toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[ja] 15 missing -> batch translate
+[ja] 22/30 keys; still-missing=['tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[ko] 23 missing -> batch translate
+  !! [ko] engine failed for ko: t0b/in.md output=/Volumes/T7/tmp/tmpy0j2st0b/out.md provider=zhipu duration=42.094762083s session_id=tx-1786011510184269000
+Session report generated: /Volumes/T7/tmp/tmpy0j2st0b/out_session_report.md
+
+[ko] 7/30 keys; still-missing=['pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[ar] 3 missing -> batch translate
+[ar] 28/30 keys; still-missing=['pf.summary', 'kw.milos']
+[tr] complete, skip
+[fa] 30 missing -> batch translate
+[fa] 1/30 keys; still-missing=['nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[de] 1 missing -> batch translate
+[de] 30/30 keys; still-missing=[]
+BATCH-DONE
+CONVERGE-DONE

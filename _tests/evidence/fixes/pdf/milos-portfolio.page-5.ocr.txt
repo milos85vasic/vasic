@@ -1,0 +1,31 @@
+MILOS VASIC PORTFOLIO.
+| 7. Technology index (evidence-based)
+
++ Languages: Go (dominant), Kotlin & Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL;
+TLA+ (formal specs in helix_cluster).
+
++ Al/ LLM: 40+ provider access, MCP, RAG, vector DBs & embeddings, planning (HiPlan/MCTS/Tree-
+of-Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), TTS (Bark/SpeechT5),
+computer-vision + LLM-vision, guardrails/red-team.
+
++ Backend: Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
+
++ Data: PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, Minl|O/S3/GCS/Azure.
+
++ Infra / DevOps: Docker & Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMU/Libvirt/Parallels; GitHub Actions, Gradle, Make.
+
+* Testing / QA: HelixQA, Challenge harnesses with mutation gates, go test -race , visual-regression
+tooling, ADB device testing, SonarQube, security scanning (semgrep/gosecitrivy/snyk/gitleaks/nancy),
+TLA+ model checking.
+
+| Selected architecture
+HelixAgent — ensemble debate flow
+Provider ensemble - scored by LLMsVerifier
+one question
+Debate Orchestrato! Synthesized Answer
+mesh / star / chain the answer they agree on
+Debate protoccl
+HelixAgent — an ensemble LLM service where providers debate under a four-stage protocol and ship the answer they agree
+on, scored by LLMsVerifier.
+milosvasic.ru - vasic.digital 8/7

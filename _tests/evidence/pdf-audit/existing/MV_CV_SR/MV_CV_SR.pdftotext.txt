@@ -1,0 +1,92 @@
+Miloš Vasić
+Viši softverski inženjer — SDK i platformsko inženjerstvo
+Beograd, Srbija ⇄ Dubna, Ruska Federacija Email: i@mvasic.ru · Telefon: +381 69 25 35 718 · +7
+966 323 77 17 GitHub: github.com/milos85vasic · Web: https://milosvasic.ru Govorni jezici: srpski
+(maternji), engleski (C2), ruski (osnovni)
+
+REZIME
+Softverski inženjer sa 16+ godina profesionalnog iskustva (od 2009) u celom životnom ciklusu
+razvoja softvera — planiranje, razvoj, vođenje tima i implementacija. Duboko specijalizovan za SDK i
+platformsko inženjerstvo za mobilne, backend, desktop i veb aplikacije. Dokazan rekord u isporuci
+stabilnog, visokoperformansnog softvera namenjenog programerima za preduzeća i partnere
+uključujući AWS, Google, Bosch i Leica Geosystems. Autor knjige Fundamental Kotlin i tvorac preko
+240 open-source repozitorijuma u okviru pet organizacija.
+
+ZAŠTO ME ZAPOSLITI — PREDNOSTI
+ • Pravi multi-stack inženjer. Android/Kotlin i C++ su mi srž, ali sa istom samopouzdanošću
+   isporučujem produkcioni kod u Go, Swift, Java, Dart, Python, Ruby i TypeScript — na mobilnim,
+   backend, desktop i veb platformama. Moja javna repozitorijuma to potvrđuju: Go servisi
+   (HelixTranslate, Catalogizer, LLMsVerifier, Panoptic), Kotlin aplikacije (ShareConnect, Android-
+   Toolkit) i Flutter (GrabTube).
+ • Arhitekta platformi, ne samo funkcionalnosti. Dizajnirao sam SDK-ove i okvire na kojima drugi
+   inženjeri grade — stabilni javni API-ji, robusno testiranje, jasna dokumentacija, predvidljive
+   performanse. HelixTrack (open-source alternativa za JIRA) i HelixCode (distribuirana multi-LLM
+   platforma za razvoj) su potpuni proizvodi, a ne samo demonstracije.
+ • Kvalitet se meri, ne proglašava. Razvoj sprovodim po strogom standardu „bez skraćenica,
+   potpuno testirano” i čak kreiram alate koji to nameću: LLMsVerifier (benchmarking i verifikacija
+   LLM-ova) i Panoptic (automatizovano UI testiranje na više platformi).
+ • Vlasnik celog životnog ciklusa. Paket Server Factory (npr. Mail Server Factory) deklarativno
+   postavlja kompletnu, otpornu infrastrukturu — od prvog komita do produkcijskog
+   implementiranja i operativnog održavanja osećam se podjednako udobno.
+ • Komunikator i autor. Napisao sam Fundamental Kotlin (3. izdanje) i objavljivao za Packt
+   Publishing UK; dokumentujem temeljno i rado mentorujem.
+
+KLJUČNE VEŠTINE
+ • Mobilne aplikacije: Android, Kotlin, Java, Jetpack Compose, Kotlin Multiplatform, Coroutines/
+   Flow, Retrofit/OkHttp, Dagger/Hilt; React Native, Expo; iOS (Swift, SwiftUI); Flutter (Dart)
+ • Backend: Go (Gin), Kotlin/Java (Spring Boot), Python (Flask/Pyramid), Ruby on Rails, C++
+   (Drogon), Docker/Compose
+ • Desktop: C++ (Qt, CMake/Ninja), Electron, Kotlin Multiplatform, Java (Swing/JavaFX), macOS
+   (Swift)
+ • Veb: React, Angular, TypeScript/JavaScript, HTML, CSS
+ • Podaci: PostgreSQL, MySQL, SQLite, MongoDB, Redis, Firebase, Apache Kafka, RabbitMQ
+ • Praksa i alati: REST, WebSockets, gRPC, SIP, Matrix, QUIC; CI/CD (GitHub Actions, Jenkins,
+   CircleCI, Harness); Git; SonarQube; razvoj uz pomoć veštačke inteligencije
+
+PROFESIONALNO ISKUSTVO
+
+Razvoj SDK-a — Harness (Beograd, Srbija) | mart 2020 – decembar 2024
+Vodio sam razvoj porodice Feature Flag SDK-ova za sve glavne platforme (Android, iOS, Flutter,
+React Native, TypeScript/JavaScript, Java, Kotlin, Swift, Go, Ruby). Isporučio i održavao
+produkcione SDK-ove koji su dostigli milione implementacija za preduzeća i partnere uključujući
+AWS i Google.
+
+Softverski inženjer — Leica Geosystems (Herbrugg, Švajcarska) | februar 2016 – februar
+2020
+Razvijao sam softver u realnom vremenu za iOS i Android za Leicine skenere sledeće generacije:
+komunikaciju sa hardverom na niskom nivou, obradu tačkastih oblaka u realnom vremenu i
+sinhronizaciju. Sarađivao sam sa partnerima uključujući Autodesk.
+
+Voditelj razvoja SDK-a — Bosch (Beograd, Srbija) | januar 2010 – januar 2016
+Vodio sam razvoj SDK-a za povezana vozila: komunikaciju u realnom vremenu preko Bluetooth-a na
+OBD-II sabirnici, visokoperformansno prikupljanje podataka, obradu signala i čuvanje na uređaju.
+
+Izabrani honorarni i ugovorni angažmani
+ • TN-TECH (Novi Sad, Srbija), od 2017 — Android/Kotlin/C++/Qt; proizvodi uključujući Sekur
+   paket za sigurnu komunikaciju kompanije Globex Data (SekurMessenger, SekurMail, SekurSuite)
+   i platformu BusRide.
+ • Increment Loop (Beograd, Srbija), od 2023 — Android/Kotlin (Yuno aplikacija).
+
+IZABRANI OPEN-SOURCE PROJEKTI
+ • HelixTrack Core (Go) — open-source preduzetnička alternativa za JIRA za praćenje projekata i
+   zadataka. github.com/Helix-Track/Core
+ • HelixCode (Go) — distribuirana, multi-LLM platforma za razvoj veštačke inteligencije.
+   github.com/HelixDevelopment/HelixCode
+ • HelixTranslate (Go) — univerzalni alat za prevođenje e-knjiga (REST + HTTP/3, WebSocket u
+   realnom vremenu). github.com/HelixDevelopment/HelixTranslate
+ • LLMsVerifier (Go) — platforma za sistematsko testiranje i verifikaciju LLM-ova. github.com/vasic-
+   digital/LLMsVerifier
+ • Catalogizer (Go) — napredno upravljanje multimedijalnim kolekcijama na više protokola.
+   github.com/vasic-digital/Catalogizer
+ • Mail Server Factory (Shell/Kotlin) — deklarativno postavljanje otpornih mail servera na više Linux
+   distribucija. github.com/Server-Factory/Mail-Server-Factory
+ • Android-Toolkit (Kotlin) — ponovljive Android apstrakcije i implementacije. github.com/vasic-
+   digital/Android-Toolkit
+
+PUBLIKACIJE
+ • Fundamental Kotlin — samostalno objavljen autor, 3. revidirano izdanje (2022). Takođe
+   objavljivao za Packt Publishing UK.
+OBRAZOVANJE
+• M.Sc., Savremene informacione tehnologije — Univerzitet Singidunum, Beograd (2014)
+• B.Sc., Informatika i računarstvo — Univerzitet Singidunum, Beograd (2008)
+

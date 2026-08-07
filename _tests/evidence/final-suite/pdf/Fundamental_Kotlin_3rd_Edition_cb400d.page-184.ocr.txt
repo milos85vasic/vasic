@@ -1,0 +1,30 @@
+printin("$wordPairs contains value $it")
+}else{
+printin("$wordPairs does not contain value $it")
+}
+}
+In these examples we have used map member functions “containsKey” and
+“containsValue”. The first one returns true if the map contains the specified key.
+If the map maps one or more keys to the specified value the second one
+returns true.
+Let's run these code snippets. For key check we will have the following output of
+the program:
+guest is not in the system
+john.doe is in the system
+Value check code snippet output:
+{Hello=World, Lorem=Ipsum} does not contain value Elephant
+{Hello=World, Lorem=Ipsum} does not contain value Hello
+{Hello=World, Lorem=Ipsum} contains value World
+{Hello=World, Lorem=Ipsum} does not contain value Car
+As you can see checking maps for keys and values is simple. You do not have to
+iterate through the map to find out if the key or value is contained. You just
+need “containsKey” and “containsValue” functions for this purpose.
+Checking if map is (not) empty:
+val maps = listOf(mapOf(), wordPairs)
+maps.forEach {
+if(it.isNotEmpty()) {
+printin("Map: $it")
+}else{
+printin("Map: empty")
+}
+}

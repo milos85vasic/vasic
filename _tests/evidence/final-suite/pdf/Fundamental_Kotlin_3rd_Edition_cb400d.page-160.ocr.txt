@@ -1,0 +1,33 @@
+@Throws(IllegalArgumentException::class)
+fun calculator2(a: Int, b: Int, calculationType: Int): Int {
+
+val calculation = calculationProvider(calculationType)
+
+return calculation(a, b)
+}
+“calculator2” function accepts numbers that will be used in the calculation
+(Integers) and identifiers based on which proper calculation will be performed.
+Helper function “calculationProvider” is the one that will return the lambda
+function based on this id.
+Let's try all this:
+vala=1
+val b=2
+val c = lambda1(a, b)
+val d = lambda2(a, b)
+val e = calculator(lambda1, a, b)
+val f = calculator(lambdaz, a, b)
+val g = calculator2(a, b, 0)
+val h = calculator2(a, b, 1)
+printin("$a + $b with lambda: $c")
+printin("$a + $b with lambda2: $d")
+printin(‘calculator with $a, $b and lambda1: $e")
+printin("calculator with $a, $b and lambda2: $f")
+printin(“calculator2 with $a, $b and calculation type 0: $g")
+printin(“calculator2 with $a, $b and calculation type 1: $h")
+If we run our little program the following output will be produced:
+1 +2 with lambda?: 3
+1 +2 with lambda2: 3
+calculator with 1, 2 and lambdat: 3
+calculator with 1, 2 and lambda2: 3
+calculator2 with 1, 2 and calculation type 0: 3
+calculator2 with 1, 2 and calculation type 1: 3

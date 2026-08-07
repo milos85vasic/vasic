@@ -1,0 +1,32 @@
+As you can see “When” matched all “supported” models and thrown exception
+for the first model that we do not recognize.
+Next example that we will play with is with validating user types in some
+imagined system:
+val user? = "john.smith"
+val user2 = "dr.cooper"
+val admin = "root"
+val guest = "guest"
+val systemUsers = mapOf(user1 to 0, user2 to 0, admin to 1)
+val challenges = listOf(user1, user2, guest, admin)
+printin()
+printin("Checking users:")
+challenges.forEach {
+var userType = -1
+systemUsers/it]?.let { type ->
+userType = type
+}
+printin("Checking user: $it")
+tryt
+validateUserType(userType)
+} catch (e: IllegalArgumentException) {
+printin(e.message)
+}
+printin()
+}
+If we execute this code snippet, we will see that users “john.smith”, “dr.cooper”
+and “root” are recognized as valid in the system, where “guest” user is not:
+Checking users:
+Checking user: john.smith
+Registered user
+Checking user: dr.cooper
+Registered user

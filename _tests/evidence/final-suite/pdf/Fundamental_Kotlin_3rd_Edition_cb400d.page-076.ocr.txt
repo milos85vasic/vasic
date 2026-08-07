@@ -1,0 +1,35 @@
+Raw string example ...
+
+We have multiline here!
+""" trimIndent()
+In the case of margin that is formed with the beginning of each line you can use
+the “trimMargin” function:
+val s5 ="
+
+|Raw string example...
+
+| We have multiline here!
+""" trimMargin()
+Printing both (“s4” and “s5") constants will give us the same output:
+Raw string example ...
+We have multiline here!
+Since we already mentioned that you can do with strings all that you do with
+any array, let's print each letter of one simple word:
+fun stringIsArray(word: String) {
+
+word.forEach {
+printin(it)
+}
+
+}
+fun main() = stringIsArray("Elephant")
+“stringIsArray” function will print each character of the word “Elephant”:
+E
+/
+e
+p
+h
+a
+n
+t
+We will work more with strings in upcoming sections of this book.

@@ -1,0 +1,22 @@
+{
+  "site": "milosvasic-ru",
+  "lang": "hi",
+  "name": "Hindi",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "PASS",
+  "strings_total": 60,
+  "reviewer_bad_keys": [],
+  "script_flagged": [
+    "AI / LLM"
+  ],
+  "english_leftover_flagged": [
+    "AI / LLM"
+  ],
+  "retried": [
+    "AI / LLM"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "All translations are complete, use Hindi script appropriately, preserve required Latin terms, and read naturally."
+}

@@ -1,0 +1,38 @@
+https://gradle.org/
+
+Gradle is a build automation tool for multi-language software development.
+Kotlin is one of the languages that Gradle supports. Gradle controls the
+development process in the tasks of compiling, packaging, testing, deployment,
+and publishing.
+
+Gradle is licensed under Apache License 2.0 and it is written pure Java, Groovy,
+and Kotlin.
+
+Maven
+
+https://maven.apache.org/
+
+Maven is a build automation tool. It is used primarily for Java development.
+However, Maven supports projects written in C#, Ruby, Scala, and others. The
+Apache Software Foundation hosts the Maven project:
+
+https://www.apache.org/
+
+Maven was there formerly part of the Jakarta Project. Maven is licensed under
+Apache License 2.0 and it is written in Java.
+
+Apache Ant
+
+http://ant.apache.org/
+
+Apache Ant is another Apache Foundation project licensed under Apache
+License 2.0. Apache Ant is a tool for automating software build processes. It
+originates from the Apache Tomcat project. Apache Ant is developed as a
+replacement for the Make build tool. It has similarities with Make, however, it is
+implemented using pure Java language and requires the Java platform to run.
+Griffon
+
+http://griffon-framework.org/
+
+Griffon is a desktop application development platform for the JVM inspired by
+the Grails framework. Griffon is written in Java and licensed under Apache

@@ -1,0 +1,34 @@
+User: john.smith, Id: 1, Credentials: 12345
+We can check the size of the map the same way as we did with lists:
+printin("Users count in the system is: ${userIds.size}")
+Which will produce the following output:
+Users count in the system is: 2
+Besides these functionalities, there are some others very important in everyday
+work with maps that you need. With maps we can:
+- check if the map contains key or value
+- get all keys or all values of the map
+- check if the map is empty
+- perform filtering
+- perform “+” and “-” operations
+To better understand these functionalities we will illustrate them one by one
+same as we did for lists.
+Checking if map contains a key:
+listOf(‘john.smith", "guest", "john.doe").forEach {
+
+val hasUser = userCredentials.containsKey(it)
+
+if (hasUser) {
+
+printin("$it is in the system")
+}else{
+printin("$it is not in the system")
+
+}
+}
+Checking if map contains a value:
+val wordPairs = mapOf("Hello" to "World", "Lorem" to "Ipsum")
+listOf(Elephant", "Hello", "World", "Car").forEach {
+
+val containsWord = wordPairs.containsValue(it)
+
+if (containsWord) {

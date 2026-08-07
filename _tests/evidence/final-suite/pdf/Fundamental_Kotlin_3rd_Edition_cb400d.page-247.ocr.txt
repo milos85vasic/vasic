@@ -1,0 +1,27 @@
+Let's access these functions:
+Example.printA()
+Example.printB()
+Executing this code snippet will produce the following output:
+A: 10
+B: 20
+The next that we are going to demonstrate is how to extend objects as class
+members. From book code examples open “ExtendingObjects. kt”:
+interface Drawing {
+fun draw()
+}
+class Objects {
+val circle = object : Drawing {
+override fun draw() {
+printin("Circle")
+}
+}
+}
+val Objects.square: Drawing
+get() = object : Drawing {
+override fun draw() {
+printin(Square")
+}
+}
+We have defined a simple interface “Drawing” which will be implemented by
+object class members. Class “Objects” defines one object called “circle” which
+implements this interface. Then, we are extending the “Objects” class with

@@ -1,0 +1,30 @@
+---
+doc: cover-letter
+title: Cover Letter — Miloš Vasić, AI Engineer
+contact:
+  email: milos85vasic@gmail.com
+  site: https://milosvasic.ru
+sources:
+  - _analysis/content-briefs/*.md
+  - _analysis/content-briefs/_TECH-STACK.md
+note: General-purpose letter — no employer, project outcome, or metric is fabricated. The published edition is placeholder-free; per-application tailoring (specific role/company) is done from this master in a separate, unpublished copy.
+---
+
+# Anschreiben
+
+Sehr geehrtes Einstellungsteam,
+
+mit diesem Schreiben möchte ich mein Interesse an Ingenieurspositionen bekunden, die sich auf den Aufbau von Produktionssystemen für AI konzentrieren. Ich bin AI-Ingenieur und baue die unscheinbaren, aber tragenden Komponenten von AI-Software: die LLM-Infrastruktur, autonome Agenten und Orchestrierung sowie die QA- und Governance-Ebenen, die diese Systeme in der Produktion zuverlässig machen.
+
+In den letzten Jahren habe ich eine vernetzte Familie von AI-Entwicklungsprodukten entworfen und ausgeliefert. Die Helix-Produktlinie deckt den gesamten Lebenszyklus ab – von HelixAgent (einem Ensemble-LLM-Dienst, bei dem mehrere Modelle diskutieren und die Antwort liefern, auf die sie sich einigen) über HelixCode (eine verteilte AI-Entwicklungsplattform, die Aufgaben auf SSH-gesteuerte Worker mit Checkpoint/Rollback-Funktion verteilt) bis hin zu HelixLLM (einem einzelnen Binary, das OpenAI- und Anthropic-kompatible Inferenz über HTTP/3 bereitstellt) sowie das LLM-Infrastruktur-Trio LLMProvider, LLMOrchestrator und LLMsVerifier (eine Schnittstelle für 43 Anbieter, eine Steuerungsebene für kopflose CLI-Agenten und eine verifizierbare Quelle der Wahrheit). Um diese Systeme herum habe ich produktionsreife Tools entwickelt, darunter Catalogizer (Multi-Protokoll-verschlüsseltes Medienmanagement) und Courses-Creator (eine AI-Markdown-zu-Video-Kurs-Pipeline), die alle auf einer Flotte kleiner, entkoppelter und unabhängig getesteter Go- und Kotlin Multiplatform-Module aufbauen.
+
+Was meine Arbeit meiner Meinung nach auszeichnet, ist eine Disziplin, die ich ernst nehme: **Anti-Bluff-Engineering**. Ich pflege ein universelles Ingenieurs-Constitution, das als Git-Submodul verteilt wird und über eine Flotte von mehr als 140 Repositories hinweg vererbt wird. Es setzt eine einzige Regel mechanisch durch: Ein Feature ist nicht fertig, wenn die Tests bestanden sind, sondern erst, wenn ein echter Nutzer es verwenden kann und es nachweisbare Belege dafür gibt. Ergänzt wird dies durch HelixQA, einen Anti-Bluff-QA-Orchestrator, der autonome LLM- und Computer-Vision-Sessions auf Android, Web und Desktop durchführt und erst dann ein „BESTANDEN" vergibt, wenn ein Screenshot, ein Logcat oder ein Video vorliegt. Ich baue Systeme, die nicht nur fertig *aussehen*, sondern es nachweislich *sind*.
+
+Technisch arbeite ich hauptsächlich mit Go, kombiniert mit Kotlin/KMP, TypeScript/React, Python, Swift und Shell, über REST/gRPC/HTTP/3-Dienste, PostgreSQL/SQLite/Redis/ClickHouse-Datenschichten sowie Docker/Kubernetes/Prometheus-Operationen. Ich bin es gewohnt, ein System von der Anbieterabstraktion und Datenabfrage bis hin zum Nachweis seiner Funktionsfähigkeit vollständig zu verantworten.
+
+Ich würde mich freuen, diese Kombination – tiefgreifende AI-Systemtechnik gepaart mit einer echten, nachprüfbaren Qualitätsdisziplin – in Ihr Team einzubringen. Vielen Dank für Ihre Aufmerksamkeit; mein Portfolio und meine öffentlichen Repositories finden Sie unter milosvasic.ru und vasic.digital.
+
+Mit freundlichen Grüßen,
+Miloš Vasić
+milos85vasic@gmail.com
+

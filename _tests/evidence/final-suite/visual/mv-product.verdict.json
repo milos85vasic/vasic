@@ -1,0 +1,339 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T19:44:09.167Z",
+  "input": "http://localhost:8502/products/helixtrack.html",
+  "name": "mv-product",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/mv-product.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/mv-product.light.ocr.txt",
+        "wordCount": 1489,
+        "sample": "milos.vasic Work Experience Skills Contact EN TIER: HELIX-PRIMARY ORDER 1 HelixTrack license:"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 38,
+          "controls": 21,
+          "textChars": 4538
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-0]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=2107 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 2031,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-1]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=2343 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 2267,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-2]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=2760 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 2684,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-3]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=3483 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 3407,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-4]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=4207 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 4131,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-5]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=5357 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 5281,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[GitHub]",
+            "detail": "control escapes viewport on: bottom (rect right=170 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 124,
+              "y": 5888,
+              "w": 46,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[GitFlic]",
+            "detail": "control escapes viewport on: bottom (rect right=228 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 186,
+              "y": 5888,
+              "w": 42,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[GitLab]",
+            "detail": "control escapes viewport on: bottom (rect right=287 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 244,
+              "y": 5888,
+              "w": 43,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Telegram]",
+            "detail": "control escapes viewport on: bottom (rect right=365 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 303,
+              "y": 5888,
+              "w": 62,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[i@mvasic.ru]",
+            "detail": "control escapes viewport on: bottom (rect right=462 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 381,
+              "y": 5888,
+              "w": 81,
+              "h": 21
+            }
+          }
+        ]
+      },
+      "errorCount": 11,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    },
+    "dark": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/mv-product.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/mv-product.dark.ocr.txt",
+        "wordCount": 1495,
+        "sample": "milos.vasic Work Experience Skills Contact EN TIER: HELIX-PRIMARY ORDER 1 HelixTrack 8)"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 38,
+          "controls": 21,
+          "textChars": 4538
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-0]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=2107 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 2031,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-1]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=2343 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 2267,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-2]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=2760 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 2684,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-3]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=3483 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 3407,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-4]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=4207 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 4131,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-5]",
+            "detail": "control escapes viewport on: bottom (rect right=983 bottom=5357 vs 1280x800)",
+            "rect": {
+              "x": 297,
+              "y": 5281,
+              "w": 685,
+              "h": 76
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[GitHub]",
+            "detail": "control escapes viewport on: bottom (rect right=170 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 124,
+              "y": 5888,
+              "w": 46,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[GitFlic]",
+            "detail": "control escapes viewport on: bottom (rect right=228 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 186,
+              "y": 5888,
+              "w": 42,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[GitLab]",
+            "detail": "control escapes viewport on: bottom (rect right=287 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 244,
+              "y": 5888,
+              "w": 43,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Telegram]",
+            "detail": "control escapes viewport on: bottom (rect right=365 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 303,
+              "y": 5888,
+              "w": 62,
+              "h": 21
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[i@mvasic.ru]",
+            "detail": "control escapes viewport on: bottom (rect right=462 bottom=5909 vs 1280x800)",
+            "rect": {
+              "x": 381,
+              "y": 5888,
+              "w": 81,
+              "h": 21
+            }
+          }
+        ]
+      },
+      "errorCount": 11,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    }
+  },
+  "verdict": "FAIL"
+}

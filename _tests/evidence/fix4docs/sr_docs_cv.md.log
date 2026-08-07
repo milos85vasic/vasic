@@ -1,0 +1,167 @@
+===== attempt 1/10  sr  docs/cv.md  14:39:57 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 129 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, embeddings, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3582 chars)
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+      chunk 4 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 4 attempt 2/7 failed (likely rate-limit); backoff 20s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 103=OBD2
+attempt 1 exit=nonzero (retrying)
+===== attempt 2/10  sr  docs/cv.md  14:42:09 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 129 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, embeddings, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3582 chars)
+    chunk 2/4 (    3847 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 40=Bluetooth
+attempt 2 exit=nonzero (retrying)
+===== attempt 3/10  sr  docs/cv.md  14:44:08 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 129 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, embeddings, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3582 chars)
+    chunk 2/4 (    3847 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/4 (    3028 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 4/4 (    1028 chars)
+      chunk 4 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 4 attempt 2/7 failed (likely rate-limit); backoff 20s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 40=Bluetooth
+attempt 3 exit=nonzero (retrying)
+===== attempt 4/10  sr  docs/cv.md  14:47:24 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 129 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, embeddings, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3582 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 1 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 2/4 (    3847 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/4 (    3028 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 4/4 (    1028 chars)
+      chunk 4 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 4 attempt 2/7 failed (likely rate-limit); backoff 20s
+      chunk 4 attempt 3/7 failed (likely rate-limit); backoff 45s
+      chunk 4 attempt 4/7 failed (likely rate-limit); backoff 60s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 40=Bluetooth
+attempt 4 exit=nonzero (retrying)
+===== attempt 5/10  sr  docs/cv.md  14:53:24 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 129 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, embeddings, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3582 chars)
+    chunk 2/4 (    3847 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+      chunk 2 attempt 3/7 failed (likely rate-limit); backoff 45s
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+      chunk 4 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 4 attempt 2/7 failed (likely rate-limit); backoff 20s
+      chunk 4 attempt 3/7 failed (likely rate-limit); backoff 45s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 40=Bluetooth
+attempt 5 exit=nonzero (retrying)
+===== attempt 6/10  sr  docs/cv.md  14:57:54 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 127 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3576 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+[restore] 127 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_sr/docs/cv.md (   12185 bytes; body src=   10405 out=   11487)
+--- review: provider=groq model=llama-3.3-70b-versatile (translator was mistral)
+{"verdict": "ERROR", "error": "HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens ", "_lang": "sr", "_provider": "groq", "_model": "llama-3.3-70b-versatile", "_translated": "/Volumes/T7/Projects/vasic/_content_sr/docs/cv.md"}
+--- verdict=ERROR (rc=2)  acc= flu= comp= script_ok= leftovers=
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/sr/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+docs/cv.md	written	ERROR					
+SOME FILES DID NOT PASS
+attempt 6 exit=nonzero (retrying)
+===== attempt 7/10  sr  docs/cv.md  15:05:08 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 127 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3576 chars)
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 39=Bluetooth
+attempt 7 exit=nonzero (retrying)
+===== attempt 8/10  sr  docs/cv.md  15:06:59 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 127 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3576 chars)
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 4/4 (    1028 chars)
+      chunk 4 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 4 attempt 2/7 failed (likely rate-limit); backoff 20s
+      chunk 4 attempt 3/7 failed (likely rate-limit); backoff 45s
+[restore] 127 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_sr/docs/cv.md (   12273 bytes; body src=   10405 out=   11575)
+--- review: provider=groq model=llama-3.3-70b-versatile (translator was mistral)
+{"verdict": "ERROR", "error": "HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens ", "_lang": "sr", "_provider": "groq", "_model": "llama-3.3-70b-versatile", "_translated": "/Volumes/T7/Projects/vasic/_content_sr/docs/cv.md"}
+--- verdict=ERROR (rc=2)  acc= flu= comp= script_ok= leftovers=
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/sr/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+docs/cv.md	written	ERROR					
+SOME FILES DID NOT PASS
+attempt 8 exit=nonzero (retrying)
+===== attempt 9/10  sr  docs/cv.md  15:15:40 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 127 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3576 chars)
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 101=OBD2
+attempt 9 exit=nonzero (retrying)
+===== attempt 10/10  sr  docs/cv.md  15:17:24 =====
+==============================================================
+>>> docs/cv.md  (en -> sr, script=latin)
+[protect] 127 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3576 chars)
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+[restore] 127 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_sr/docs/cv.md (   12219 bytes; body src=   10405 out=   11521)
+--- review: provider=groq model=llama-3.3-70b-versatile (translator was mistral)
+{"verdict": "ERROR", "error": "HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kcw0jfc9emfasxwz5bfydtcj` service tier `on_demand` on tokens ", "_lang": "sr", "_provider": "groq", "_model": "llama-3.3-70b-versatile", "_translated": "/Volumes/T7/Projects/vasic/_content_sr/docs/cv.md"}
+--- verdict=ERROR (rc=2)  acc= flu= comp= script_ok= leftovers=
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/sr/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+docs/cv.md	written	ERROR					
+SOME FILES DID NOT PASS
+attempt 10 exit=nonzero (retrying)
+RESULT: FAIL after 10 attempts

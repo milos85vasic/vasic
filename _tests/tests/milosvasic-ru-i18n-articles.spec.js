@@ -22,15 +22,20 @@ test.describe('milosvasic.ru — localized article fragments (RU/SR)', () => {
     expect(srCyr, 'SR body is Latin (≈0 Cyrillic)').toBeLessThan(10);
   });
 
-  test('switching to RU then opening an article shows Cyrillic content', async ({ page }) => {
+  // The old modal that rendered the localized fragment inline is gone. The
+  // equivalent current behavior: switching the site to RU localizes the live
+  // homepage (Cyrillic nav) and the matching RU article fragment is Cyrillic.
+  test('switching to RU localizes the homepage and its RU article fragment is Cyrillic', async ({ page }) => {
     await page.goto(BASE);
     await page.locator('#lang-btn').click();
     await page.waitForSelector('.lang-menu.open');
     await page.locator('#lang-menu button[data-code="ru"]').click();
     expect(await page.locator('html').getAttribute('lang')).toBe('ru');
-    await page.locator('.card-more[data-article="helix-track-core"]').click();
-    const dialog = page.locator('.mv-article-modal');
-    await expect(dialog).toHaveAttribute('data-open', 'true');
-    await expect(dialog).toContainText(/[Ѐ-ӿ]/);
+    // Live homepage nav is now Cyrillic (RU).
+    await expect(page.locator('.nav-links a').first()).toContainText(/[Ѐ-ӿ]/);
+    // And the corresponding localized article fragment is Cyrillic + served.
+    const r = await page.request.get(`${BASE}/articles/ru/helix-track-core.html`);
+    expect(r.status()).toBe(200);
+    expect(/[Ѐ-ӿ]/.test(await r.text())).toBeTruthy();
   });
 });

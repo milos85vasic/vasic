@@ -1,0 +1,22 @@
+{
+  "site": "vasic-digital",
+  "lang": "fa",
+  "name": "Persian (Farsi)",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "PASS",
+  "strings_total": 82,
+  "reviewer_bad_keys": [],
+  "script_flagged": [
+    "AI / LLM"
+  ],
+  "english_leftover_flagged": [
+    "AI / LLM"
+  ],
+  "retried": [
+    "AI / LLM"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "All translations are complete, natural, preserve required Latin terms, and use correct Persian script."
+}

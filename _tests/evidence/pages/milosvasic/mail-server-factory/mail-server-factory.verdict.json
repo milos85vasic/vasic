@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:35:23.463Z",
+  "input": "file:///Volumes/T7/Projects/vasic/milosvasic.ru/products/mail-server-factory.html",
+  "name": "mail-server-factory",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/pages/milosvasic/mail-server-factory/mail-server-factory.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/milosvasic/mail-server-factory/mail-server-factory.light.ocr.txt",
+        "wordCount": 662,
+        "sample": "Milos Vasié Home Products G TIER: SERVERFACTORY-TERTIARY ORDER 29 Mail Server Factory"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 26,
+          "controls": 7,
+          "textChars": 3424
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/pages/milosvasic/mail-server-factory/mail-server-factory.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/milosvasic/mail-server-factory/mail-server-factory.dark.ocr.txt",
+        "wordCount": 662,
+        "sample": "Milos Vasié Home Products 8: TIER: SERVERFACTORY-TERTIARY ORDER 29 Mail Server Factory"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 26,
+          "controls": 7,
+          "textChars": 3424
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

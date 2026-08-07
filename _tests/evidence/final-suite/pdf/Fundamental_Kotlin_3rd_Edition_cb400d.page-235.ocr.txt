@@ -1,0 +1,29 @@
+In this section, we will mention a few of the most frequently used annotations
+and their purpose in everyday development. As most of them come directly
+from Java it is important to note that Java annotations are completely
+compatible with Kotlin.
+Some of them are:
+- "SuppressWarnings”: used to suppress warnings issued by the compiler
+- “Deprecated”: used to mark that the function or class are deprecated.
+Compiler prints warning for all marked classes and functions. Its main purpose
+is to inform the developer that marked function or class may be removed in
+future versions of the product.
+- “Generated”: used to mark source code that has been generated. It can be
+specified on a class, function, or field. It can also be used to differentiate user-
+written code from generated code in a single file.
+- "Resource”: used to declare a reference to a resource. It can be specified on a
+class, function, or field.
+- "Resources": used to declare a reference to a resource. This annotation acts as
+a container for multiple resource declarations.
+And many others such as “PostConstruct”, “PreDestroy” etc.
+How to use annotations
+In this section, we will show you how you can use your annotations.
+Note:
+To be able to work with your annotation (like with this one that we will present
+in this section's example) it is required to add Kotlin reflection dependency to
+your “build.gradle” configuration:
+dependencies {
+
+implementation
+
+“org.jetbrains.kotlin:kotlin-reflect:1.7.10"

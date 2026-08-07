@@ -1,0 +1,30 @@
+- Exact number of positive values in the list.
+Let's see what are our results by printing them out:
+printin("Collection $numbers: ")
+printin("- has at least one positive: $atLeastOnePositive")
+printin("- has all items positive: $hasAllItemsPositive")
+printin("- number of positive numbers: $numberOfPositiveNumbers")
+The following output will be produced:
+Collection [-3, -2, -1, 0, 1, 2, 3, 4, 5]:
+- has at least one positive: true
+- has all items positive: false
+- number of positive numbers: 5
+Mapping
+Mapping is used when we might have to do some operations to modify a
+collection according to our requirements using certain conditions. “map”
+function returns a list containing the results of applying a certain set of
+transformations to each element in the original collection. To better understand
+this we will show you a proper example. Open “Map.kt” from book code
+examples:
+val numbers = listOf(0, 1, 2, 3, 4, 5)
+val squares = numbers.map { it * it }
+This is such an easy way to produce a list of squares! Let’s iterate through the
+list:
+numbers.forEachIndexed { index, it ->
+printin("Square of $it is: ${squares[index]}")
+}
+If we execute our program the following output will be produced:
+Square of 0 is: 0
+Square of 1 is: 1
+Square of 2 is: 4
+Square of 3 is: 9

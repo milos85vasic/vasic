@@ -1,0 +1,31 @@
+fun process(products: List<Product>) {
+products.forEach {
+var described = false
+val annotations = it::class.annotations
+annotations.forEach { ann ->
+if (ann is Descriptor) {
+described = true
+printin(
+"Processing: ${it::class.simpleName},
+${ann.description}")
+}
+}
+if (Idescribed) {
+printin(Processing: ${it::class.simpleName}")
+}
+}
+}
+}
+The “Processor” class is responsible for processing items in the shopping cart. It
+has only one function: to “process”. “process” function iterates through items in
+the shopping cart and accesses to annotations assigned to each item:
+val annotations = it::class.annotations
+Then, the function iterates through all annotations. Since we are only interested
+in “Descriptor” annotation, if the annotation is present we are obtaining the
+“description” field value and we are using it further. All other annotations (if
+present) are ignored.
+Let's try our processor:
+val products = listOf(
+Tv),
+Car(),
+Computer(),

@@ -1,0 +1,46 @@
+Immutable lists
+
+The immutable list represents a generic ordered collection of elements.
+Functions in its interface support only read-only access to the list’s members.
+Let's take a look at the instantiation of immutable collections. In the following
+examples, we will be using "Collections.kt” from book code examples as
+guidelines. The first example that we are going to show is the instantiation of
+immutable lists:
+
+val numbers = listOf(2, 4, 6)
+
+val words = listOf("Some", "Word")
+
+As you can see we have defined two immutable lists. “numbers”, which contains
+Integer members, and “words” which contains strings. Once again, we will note
+that we cannot add new members to immutable lists.
+
+Let's have a look at the late initialization example of one immutable list:
+
+lateinit var doubles: List<Double>
+
+“doubles” variable will be the data type of immutable list (“List”) that contains
+Double data type elements. “lateinit” means that late initialization will be
+performed. Variable will not consume memory until it is initialized:
+
+doubles = listOf(3.14, 2.16, 1.0)
+
+Accessing immutable list members is performed by its position in the list:
+
+val number = numbers[0]
+
+val word = words[1]
+
+val double = doubles[2]
+
+val lastNumber = numbers[numbers.lastIndex]
+
+Let's see what we got:
+
+printin("Number: $number")
+
+printin("Word: $word")
+
+printin(Double: $double")
+
+printin("Last number: $lastNumber")

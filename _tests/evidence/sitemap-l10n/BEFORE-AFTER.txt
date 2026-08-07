@@ -1,0 +1,27 @@
+Issue #41 — localized routes missing from sitemap.xml
+
+ROOT CAUSE
+  main.go wrote sitemap.xml only during the EN full build (langSeg == "").
+  In a from-scratch build order (en -> ru -> sr -> ...), the EN run wrote the
+  sitemap BEFORE the localized products/<lang>/ + portfolio/<lang>/ HTML existed;
+  later localized runs emitted the HTML but never refreshed the sitemap. Result:
+  sitemap stranded at EN-only routes while ~288 translated pages sat unlisted.
+
+FIX (generator-only)
+  _tools/gen/main.go: rebuild sitemap.xml + robots.txt on EVERY full ("all")
+  build, not just the EN run. writeSitemapRobots() walks the current output tree
+  and indexes only real .html files (per-language dirs included), so whichever
+  full build runs last captures the complete multilingual set with zero 404s.
+  Languages authored but not yet emitted (hi/ja/ko) are naturally excluded.
+
+REPRODUCTION (fresh temp out, order en -> ru -> sr)
+  BEFORE fix: sitemap <loc> = 35   (on-disk indexable html = 103; ru=0, sr=0 in sitemap)
+  AFTER  fix: sitemap <loc> = 103  (== on-disk html; ru=34, sr=34; 0 broken locs)
+
+FULL BUILD (en + be,de,es,fr,kk,ru,sr,zh) — both sites
+  vasic.digital : 307 <loc> = 35 canonical EN + 272 localized, 0 broken, XML well-formed
+  milosvasic.ru : 307 <loc> = 35 canonical EN + 272 localized, 0 broken, XML well-formed
+  Sample added localized <loc> (verified to resolve to real files on disk):
+    https://vasic.digital/products/ru/helixtrack.html
+    https://vasic.digital/products/de/helixtrack.html
+    https://vasic.digital/portfolio/sr/

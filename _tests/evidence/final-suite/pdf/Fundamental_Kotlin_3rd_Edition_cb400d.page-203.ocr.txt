@@ -1,0 +1,46 @@
+printiIn(manufacturers)
+
+Which will produce the following content:
+
+[Bmw, Mercedes, Toyota, Solaris, Champion, Ikarbus]
+
+Finally, we can sort our list:
+
+printin(manufacturers.sorted())
+
+And have the following output of program execution:
+
+[Bmw, Champion, Ikarbus, Mercedes, Solaris, Toyota]
+
+Finding maximum and minimum
+
+If we need to determine maximal or minimal value of some list “maxOrNull” and
+“minOrNull” functions are used. From book code examples open “MaxMin.kt”
+and take a look at the lines:
+
+val items = listOf(2, 4, 6, 8, 10)
+
+val max = items.maxOrNull()
+
+val min = items.minOrNull()
+
+As you can see we have obtained maximal and minimal values and it is very
+simple. Max function returns the largest element or null (if there are no
+elements in the list). Min returns the smallest element (or null if there are no
+elements in the list).
+
+Let's see what are our results:
+
+printin(For: $items")
+
+printin("Max. is: $max")
+
+printin("Min. is: $min")
+
+Which will produce the following results output:
+
+For: [2, 4, 6, 8, 10]
+
+Max. is: 10
+
+Min. is: 2

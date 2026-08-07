@@ -1,0 +1,31 @@
+To be able to invoke the “gradle” command Gradle must be installed on your
+computer and its binaries added to your system path. For more information on
+how to install Gradle on your computer take a look at the official documentation
+at the following address:
+https://gradle.org/install/
+Wizard is interactive and it will ask you a couple of questions:
+Select type of project to generate:
+1: basic
+2: application
+3: library
+4: Gradle plugin
+Enter selection (default: basic) [1..4]
+We choose option number 2.
+Select implementation language:
+1: C++
+2: Groovy
+3: Java
+4: Kotlin
+5: Swift
+Enter selection (default: Java) [1..5]
+We choose option number 4.
+Select build script DSL:
+1: Groovy
+2: Kotlin
+Enter selection (default: Kotlin) [1..2]
+This one is tricky! We choose option number 1 because previous Gradle
+configurations files examples were written in Groovy. Groovy is the default
+language for writing Gradle scripts. If you like you may choose Kotlin instead of
+Groovy.
+Project name (default: my_funny_project): my_funny_project
+Source package (default: my funny_project): examples

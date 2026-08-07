@@ -1,0 +1,40 @@
+{
+  "site": "vasic-digital",
+  "lang": "sr",
+  "name": "Serbian (Cyrillic script)",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 82,
+  "reviewer_bad_keys": [
+    31,
+    32,
+    36,
+    53,
+    66,
+    78
+  ],
+  "script_flagged": [
+    "Vasic Digital utilities",
+    "AI / LLM"
+  ],
+  "english_leftover_flagged": [
+    "Vasic Digital utilities",
+    "AI / LLM"
+  ],
+  "retried": [
+    "Our flagship line spans the full AI-development lifecycle. In priority order.",
+    "AI / LLM",
+    "One binary, six modes: OpenAI- and Anthropic-compatible inference from laptop to cluster, over HTTP/3.",
+    "Grounded in our actual stack.",
+    "Vasic Digital utilities",
+    "Turn documentation into a verifiable feature map for QA automation.",
+    "Let's build something verifiable.",
+    "A free-world alternative to JIRA — the flagship of the Helix-Track line."
+  ],
+  "still_bad_after_retry": [
+    "AI / LLM"
+  ],
+  "notes": "Key 31 and 32 mix English 'flagship' with Serbian, unnatural. Key 36 uses non‑standard term 'Inferenca' instead of proper Serbian 'инференца'. Key 53 contains a typo 'верифицируему' which is not correct Serbian. Key 66 has awkward phrasing 'технологијској стеку' instead of a natural expression. Key 78 uses mixed script 'верифицируемо' and should be fully Cyrillic."
+}

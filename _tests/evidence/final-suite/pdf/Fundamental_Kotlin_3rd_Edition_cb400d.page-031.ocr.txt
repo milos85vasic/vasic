@@ -1,0 +1,39 @@
+"PlainProject” folder from Fundamental Kotlin examples root directory.
+Directory content represents raw projects ready for importing and building.
+
+We will import it into IntelliJ IDEA and explain each important file and directory.
+Open IntelliJ Idea IDE and then choose:
+
+File > Open
+
+locate this directory, confirm opening by clicking on the Open button.
+
+IntelliJ Idea will show you a dialog titled “Import Project from Gradle”. Then,
+select the option: “Use Gradle wrapper task configuration”. By selecting this
+option Gradle Wrapper will be initialized.
+
+Gradle Wrapper is recommended way to execute any Gradle build. It is a script
+that invokes a declared version of Gradle configured in our files, performing
+dependencies download (it if necessary) and executing build procedure.
+Because of this developers can get up and running with a Gradle project quickly
+without having to follow manual installation processes.
+
+Confirm by clicking the OK button.
+
+It will take some time for IDE to import files. The next dialog you will see is the
+dialog with the title: “Gradle Project Data To Import”. Select each item and
+confirm by clicking OK.
+
+As you can see project consists of several important files and directories. Inside
+the root of the project, we see several important files. Let’s take a look at them.
+settings.gradle: file containing a list of project modules that we will build:
+include ':WelcomeToKotlin'
+
+This project has one main module named “WelcomeToKotlin”. Modules
+represent sub-units of your main Gradle project. Thanks to this it is possible to
+better organize the code and achieve better separation. For example, we may
+have the main application module and several additional modules for various
+purposes, such as libraries or plugins.
+
+-gitignore: configuration file for Git, it has the purpose of preventing versioning
+of trash files

@@ -1,0 +1,16 @@
+
+===== reducedMotion = false =====
+console errors/warnings: NONE
+scrollHeight: 2709 scrollWidth: 1280 innerWidth: 1280
+reveals visible: 6/10 firstOpacity: 1
+lottie: [{"mounted":false,"hasSvg":false,"shapes":0},{"mounted":false,"hasSvg":false,"shapes":0},{"mounted":false,"hasSvg":false,"shapes":0}]
+accordion initial open: true after toggle #2: {"expanded":"true","panelHidden":false}
+select state after clicking B: [false,true,false]
+
+===== reducedMotion = true =====
+console errors/warnings: NONE
+scrollHeight: 2709 scrollWidth: 1280 innerWidth: 1280
+reveals visible: 10/10 firstOpacity: 1
+lottie: [{"mounted":true,"hasSvg":true,"shapes":6},{"mounted":true,"hasSvg":true,"shapes":6},{"mounted":true,"hasSvg":true,"shapes":6}]
+accordion initial open: true after toggle #2: {"expanded":"true","panelHidden":false}
+select state after clicking B: [false,true,false]

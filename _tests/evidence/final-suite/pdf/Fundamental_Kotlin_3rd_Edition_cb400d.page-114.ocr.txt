@@ -1,0 +1,29 @@
+It is required to call the primary constructor from the secondary constructor
+explicitly. It is important to note too that the property of the class can't be
+declared inside the secondary constructor.
+Class members
+In Kotlin classes can have the following members:
+- Constructors
+- Initialization blocks
+- Functions
+- Properties
+- Nested classes
+- Inner classes
+- Misc object declarations - for example: “companion object”.
+We will talk about all of these in the upcoming sections of this book.
+Class properties
+One of the most important ideas behind work with classes is the concept of
+“encapsulation”. This idea is used to encapsulate code and data into a single
+entity. A property in a class is declared the same as declaring a variable with
+“val” and “var” keywords. A property declared as var is mutable and thus, can be
+changed.
+Let's have a look at a simple example that illustrates this. From book code
+examples open “Properties. kt":
+class Coordinate {
+var x: Int = 0
+var y: Int=0
+var z: Int =0
+fun print( = printin('Coordinate(x=$x, y=$y, 2=$2z)")
+}
+val center = Coordinate()
+center.print()

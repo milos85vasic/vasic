@@ -1,0 +1,254 @@
+{
+  "milosvasic-ru": {
+    "ru": {
+      "status": "done",
+      "strings": 60,
+      "skipped": true
+    },
+    "sr": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 5,
+      "still_bad": 1
+    },
+    "de": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 0,
+      "still_bad": 0
+    },
+    "es": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 0,
+      "still_bad": 0
+    },
+    "fr": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "be": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 11,
+      "retried": 11,
+      "still_bad": 0
+    },
+    "zh": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "kk": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 5,
+      "still_bad": 1
+    },
+    "hi": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "ja": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 2,
+      "still_bad": 1
+    },
+    "ko": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "ar": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "tr": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "fa": {
+      "status": "done",
+      "strings": 60,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 0,
+      "still_bad": 0
+    }
+  },
+  "vasic-digital": {
+    "ru": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 15,
+      "retried": 15,
+      "still_bad": 0
+    },
+    "sr": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 2,
+      "retried": 8,
+      "still_bad": 1
+    },
+    "de": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 2,
+      "still_bad": 0
+    },
+    "es": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 6,
+      "still_bad": 0
+    },
+    "fr": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 2,
+      "still_bad": 0
+    },
+    "be": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 60,
+      "retried": 78,
+      "still_bad": 0
+    },
+    "zh": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 10,
+      "retried": 10,
+      "still_bad": 0
+    },
+    "kk": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 18,
+      "retried": 18,
+      "still_bad": 0
+    },
+    "hi": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 10,
+      "retried": 10,
+      "still_bad": 0
+    },
+    "ja": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 10,
+      "retried": 11,
+      "still_bad": 0
+    },
+    "ko": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "FAIL",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 10,
+      "retried": 10,
+      "still_bad": 1
+    },
+    "ar": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 1,
+      "still_bad": 0
+    },
+    "tr": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 0,
+      "retried": 0,
+      "still_bad": 0
+    },
+    "fa": {
+      "status": "done",
+      "strings": 82,
+      "verdict": "PASS",
+      "translator": "gpt-oss-120b",
+      "script_flagged": 1,
+      "retried": 1,
+      "still_bad": 0
+    }
+  }
+}

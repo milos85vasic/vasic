@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">HelixTranslate — no silent fallback</text>
+<text class="lbl" x="40" y="214">Local runtimes — removed</text>
+<text class="note" x="612" y="200">if unavailable</text>
+<text class="note" x="620" y="268">if none verified</text>
+<rect class="accent" x="330" y="48" width="230" height="58" rx="10"/>
+<text class="t" x="445" y="82">Translation request</text>
+<rect class="box" x="330" y="132" width="230" height="72" rx="10"/>
+<text class="t" x="445" y="166">Explicit provider requested?</text>
+<rect class="box" x="330" y="236" width="230" height="72" rx="10"/>
+<text class="t" x="445" y="270">Verified model available?</text>
+<rect class="box" x="330" y="340" width="230" height="64" rx="10"/>
+<text class="t" x="445" y="374">Select strongest-verified</text>
+<rect class="box" x="330" y="432" width="230" height="58" rx="10"/>
+<text class="t" x="445" y="466">Deterministic fallback chain</text>
+<rect class="good" x="330" y="516" width="230" height="64" rx="10"/>
+<text class="gt" x="445" y="550">Translate on verified model</text>
+<rect class="tint" x="660" y="236" width="250" height="100" rx="10"/>
+<text class="t" x="785" y="270">Honest hard error</text>
+<text class="s" x="785" y="290">no silent fallback · no local runtime</text>
+<rect class="box" x="40" y="236" width="230" height="72" rx="10"/>
+<text class="t" x="155" y="270">Ollama · llama.cpp</text>
+<text class="s" x="155" y="290">removed from default path</text>
+<path class="conn" marker-end="url(#a)" d="M445,106 L445,130"/>
+<path class="conn" marker-end="url(#a)" d="M445,204 L445,234"/>
+<path class="conn" marker-end="url(#a)" d="M445,308 L445,338"/>
+<path class="conn" marker-end="url(#a)" d="M445,404 L445,430"/>
+<path class="conn" marker-end="url(#a)" d="M445,490 L445,514"/>
+<path class="conn" marker-end="url(#a)" d="M560,168 L658,270"/>
+<path class="conn" marker-end="url(#a)" d="M560,272 L658,300"/>
+<line class="strike" x1="40" y1="236" x2="270" y2="308"/>
+<line class="strike" x1="270" y1="236" x2="40" y2="308"/>
+</svg>

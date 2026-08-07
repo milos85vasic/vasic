@@ -1,0 +1,114 @@
+milos.vasic Work Experience Skills Contact EN +
+// AL ENGINEER aes >
+Milos Vasi¢ a Cet
+Lv. / Ss
+Al engineer building verifiable Al-development systems: ys a
+multi-provider LLM infrastructure, autonomous agents and .
+orchestration, and the governance and QA layers that keep i
+them honest. Ss
+Ul
+Cover Letter Portfolio (PDF) Portfolio site
+Go 140+ 33
+backbone language repositories, one constitution products, evidence-backed
+77 SUMMARY
+I design and build the software that turns LLMs into dependable products.
+| work primarily in Go, with Kotlin / Kotlin Multiplatform, TypeScript/React, Python, Swift, and
+Shell as the job demands. My output is organized as a fleet rather than a pile of one-off apps:
+large product applications sitting on top of dozens of small, decoupled, independently-tested
+modules, all inheriting a shared engineering Constitution as a Git submodule.
+That means fixes propagate across everything, new products assemble from proven parts, and
+every advertised capability is backed by an evidence-producing test. My north star is a single
+rule — a feature is finished only when a real user can use it and there is captured evidence to
+prove it. This page moves from the overview to the individual projects; each links to its full
+product page.
+7/ WY WORK ACROSS THE HELIX FAMILY
+The Helix line, in priority order.
+The Helix line spans the Al-development lifecycle. Each card links to its full product page.
+HelixTrack beta HelixAgent beta HelixCode | beta
+Go Gin HTTP/3 QUIC Go Gin LLMsVerifier Go Redis_ SSH MCP 42
+poses” Ge ome Gs A distributed Al development
+A free-world JIRA alternative; the An ensemble LLM service with multi- (eltetiotnin inet ites work CEOSS
+flagship of the Helix-Track line. round model debate and SSH-managed workers with
+verification-based provider automatic checkpoint/rollback.
+selection.
+Read more Read more Read more
+HelixLLM (beta) HelixCluster LLMProvider (Beta)
+Go HTTP/3QUIC —llama.cpp +5 Go Zig gRPC_——Raft + SWIM Go net/http — logrus_ +2
+A single binary with six modes ae One interface over 43 providers with
+serving OpenAl- and Anthropic-_ A distributed operating system for Al circuit breakers, retries, and health
+compatible As over HTTP/3, with compute, from datacenter GPUs to baked in.
+local llama.cpp inference and a edge handhelds.
+scored fallback chain.
+Read more Read more Read more
+LLMOrchestrator (Geta) LLMsVerifier (Beta)
+Go JSON-lines / stdio Go Gin SQLite+SQLCipher +6
+cies G2 Verify, monitor, optimize: the single
+One control plane for every headless source of truth for .
+CLI coding agent. LLM/provider/verification metadata.
+Read more Read more
+// WY WORK ACROSS VASIC-DIGITAL UTILS
+Product-grade tools | built and maintain.
+Catalogizer | production Courses-Creator "production VisionEngine - active |
+Go Gin React. © +10 Go React Electron +8 Go GoCV/OpencV LLM vision
+Multi-protocol A markdown-to-video course A decoupled Go toolkit fusing classic
+(SMB/FTP/NFS/WebDAV/local), pipeline with multi-LLM enrichment, computer vision with multi-provider
+encrypted, self-hostable media TTS, and desktop/mobile/web LLM vision for UI analysis and
+collection management with a players. navigation graphs.
+Go/Gin API and React UI.
+Read more Read more Read more
+DocProcessor (active) Docs Chain (Getive) Herald (Getive))
+Go LLMagents Heuristic parser Go DAG = SQLite fsnotify Go Shell LLMintent
+Turns documentation into a verifiable Acontent-hashed, bidirectional, Reliable multi-channel notifications
+feature map for QA automation (LLM atomic document/DB sync engine. with natural-language, three-tier
+or heuristic extraction). intent resolution.
+Read more Read more Read more
+task_bridge  scatfold Reusable Module Suite | scaffold
+Go SQLite webhooks Go (digitalvasic.*) KMP #1
+A decoupled, bidirectional The digital.vasic.* "standard library"
+task/board sync engine (P1 scaffold; of infrastructure, Al-primitive, and
+sync logic in progress). guardrail modules.
+Read more Read more
+// INFRASTRUCTURE HERITAGE (SERVER FACTORY)
+Predating the Al line — my DevOps toolchain.
+Mail Server Factory | production Server Factory Core - stable Qemu-Utils - active
+Kotlin Shell Docker +4 Kotlin Shell Gradle Shell  QEMU ISO images
+Declarative JSON — fully- The Server Factory Core Framework QEMU VM-image tooling —
+provisioned Dockerized mail servers, every service factory builds on. download, run, network, and publish
+reporting 439 passing tests anda machine images as artifacts.
+clean SonarQube gate.
+Read more Read more Read more
+Parallels-Utils (etve)
+Shell Python3 Parallels
+Compress, publish, and reuse
+Parallels VM images across every
+machine.
+Read more
+// HOW T WORK ~ GOVERNANCE AND QA FIRST
+The discipline that underpins the products.
+Before the products, the discipline: | don't ship green checkmarks — | ship Al systems with the
+evidence that they actually work.
+HelixConstitution | shipped HelixQA beta
+A universal, inheritable engineering rulebook, distributed as Anti-bluff QA orchestration that runs written test banks and
+a Git submodule across a 140+-repository fleet. It codifies fully-autonomous, LLM-and-vision-driven QA sessions
+anti-bluff evidence gates, false-positive immunity, data/host across Android, Android TV, Web, and Desktop, scoring a
+safety, and coverage rules; projects may tighten but never PASS only when it has captured runtime evidence.
+weaken it, and each governance gate is paired with a
+mutation test that proves the gate itself works.
+Read more Read more
+// TECHNOLOGIES
+The stack | actually build on.
+Languages AL/LLM Backend
+Go Kotlin/KMP __TypeScript 43+ providers. MCP RAG Gin gRPC + Protobuf
+Python Swift Shell Vector DBs Agent orchestration HTTP/3 (QUIC) _ WebSockets
+Data & Infra
+PostgreSQL SQLite / SQLCipher
+Redis  Docker/K8s Prometheus
+// CONTACT
+In one line.
+| don't ship green checkmarks — | ship Al systems with the evidence that they actually work,
+and the governance that keeps them that way. Open to senior Al/platform engineering roles
+worldwide.
+Email GitHub Telegram
+i@mvasic.ru - milos85vasic@gmail.com milos85vasic 4 @milos85vasic
+GitHub GitFlic GitLab Telegram i@mvasic.ru
+© 2026 Milos Vasié - Belgrade - Dubna. Built as a static site, deployed on GitHub Pages.

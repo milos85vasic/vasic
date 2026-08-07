@@ -1,0 +1,56 @@
+MILOS VASIC CURRICULUM VITAE
+| Selected projects
+Governance & QA
+
++ HelixConstitution — a universal engineering rulebook distributed as a Git submodule and inherited
+across 140+ repositories; mechanically-enforced anti-bluff law with propagation gates and mutation
+meta-tests.
+
++ HelixQA — anti-bluff QA orchestration (Go): written test banks plus fully-autonomous LLM-and-vision
+QA sessions across Android/Android TV/Web/Desktop; no PASS without captured evidence.
+
+Al development & LLM infrastructure
+
++ HelixAgent — ensemble LLM service with multi-round model debate and verification-based provider
+selection.
+
++ HelixCode — distributed Al development platform dividing work across SSH-managed workers with
+checkpoint/rollback.
+
++ HelixLLM — single binary, six modes; OpenAl-/Anthropic-compatible inference over HTTP/3 with local
+llama.cpp and a scored fallback chain.
+
+* LLMProvider / LLMOrchestrator / LLMsVerifier — one interface over 43 providers; a control plane
+for headless CLI agents; a verification source of truth with a mandatory model-comprehension gate.
+
++ HelixTrack — a free-world JIRA alternative (flagship of the Helix-Track line).
+
+Product-grade tools (vasic-digital utils)
+
++ Catalogizer — multi-protocol, encrypted, self-hostable media collection management (Go/Gin +
+React), resilient to flaky network storage, built on 21 reusable submodules.
+
++ Courses-Creator — markdown-to-video Al course pipeline with TTS and desktop/mobile/web players.
+
++ VisionEngine — computer-vision + multi-provider LLM-vision UI perception with navigation graphs.
+
++ DocProcessor : Docs Chain - Herald - task_bridge - Vasic Digital Reusable Module Suite — QA
+feature-mapping, content-hashed doc/DB sync, natural-language notifications, task/board sync, and
+the digital.vasic.* standard-library fleet.
+
+Infrastructure automation (Server Factory)
+
++ Mail Server Factory — declarative JSON — fully-provisioned, Dockerized mail servers across 12
+connection types and 25 Linux distributions; reports 439 passing tests and a clean SonarQube gate.
+
++ Server Factory Core Framework, Qemu-Utils, Parallels-Utils — the shared provisioning engine and
+VM-image tooling.
+
+| Languages & tools (quick list)
+
+Go - Kotlin - Kotlin Multiplatform - TypeScript - JavaScript - Python - Swift - Java - Rust - Shell - PL/pgSQL -
+TLA+ - Gin: gRPC - HTTP/3 - React - Angular - Electron - React Native : PostgreSQL - SQLite - SQLCipher -
+Redis - Neo4j : ClickHouse - Docker - Kubernetes - Prometheus - Grafana - OpenTelemetry - QEMU -
+GitHub Actions - Gradle - Make
+
+milosvasic.ru - vasic.digital 3/4

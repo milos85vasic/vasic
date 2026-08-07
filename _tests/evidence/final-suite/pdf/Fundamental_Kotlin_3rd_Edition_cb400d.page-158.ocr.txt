@@ -1,0 +1,30 @@
+Hello!
+Beyond the hood, all compiler magic has been performed and the final result
+achieved.
+Now, let's consider the following situation: we are using inline function, which
+accepts another function that should not be inlined. Open “Nolnline.kt” from
+book code examples:
+inline fun noInlined(f1: () -> Unit, noinline f2: () -> Unit) {
+
+f10)
+
+£20
+}
+fun main( {
+
+fun hello() = printin("Hello")
+
+fun world() = printin("World")
+
+noInlined(::hello, ::world)
+}
+As you can see, by using the “noinline” modifier second argument function will
+not be inlined. Executing this simple example will produce the following output:
+Hello
+World
+As we just saw we ignored inlining using the “noinline” modifier. Again, all
+magic is done by the Kotlin compiler.
+Note:
+The inline modifier affects both the function and the lambda arguments.
+Everything will be inlined in the call and it will gain us better performance.
+Lambdas

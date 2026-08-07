@@ -1,0 +1,56 @@
+Observe the output of program execution:
+
+a === b: false
+
+a ===: true
+
+a !== b: true
+
+a!==c: false
+
+a == b: true
+
+a==c: true
+
+If our class is not a data class comparing using == (equality by structure) would
+return us false instead of true.
+
+Arithmetic operators
+
+Kotlin supports the following arithmetic operators:
+- “+": Addition (used for string concatenation too)
+-“-"" Subtraction
+
+-"*"" Multiplication
+
+- "7" Division
+
+-"%"; Modulus
+
+To see how we can use these operators open “Arithmetic.kt” from book's
+code examples:
+
+vala=1
+
+val b=2
+
+valc=3
+
+val hello = "Hello"
+
+val world = "World"
+
+//'"+"~ Addition:
+
+valsum=a+b+c
+
+printin("a + b +c = $sum")
+
+val concatenation = hello + "" + world
+
+// or converted into the template:
+
+// concatenation = "$hello $world"
+printin(concatenation)
+
+//"-"~ Subtraction:

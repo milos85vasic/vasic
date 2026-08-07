@@ -1,0 +1,195 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T19:46:29.456Z",
+  "input": "file:///Volumes/T7/Projects/vasic/_tests/visual/fixtures/bad.html",
+  "name": "golden-bad",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-bad.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-bad.light.ocr.txt",
+        "wordCount": 2,
+        "sample": "Discard everything"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 2420,
+        "counts": {
+          "meaningful": 4,
+          "controls": 2,
+          "textChars": 75
+        },
+        "findings": [
+          {
+            "type": "giant-widget",
+            "severity": "error",
+            "element": "button[giant-btn]",
+            "detail": "control 2400x640px exceeds sane fraction of 1280x800 viewport (width>85%vw) (height>60%vh)",
+            "rect": {
+              "x": 20,
+              "y": 260,
+              "w": 2400,
+              "h": 640
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[clipped-btn]",
+            "detail": "control escapes viewport on: right, bottom (rect right=1420 bottom=830 vs 1280x800)",
+            "rect": {
+              "x": 1160,
+              "y": 700,
+              "w": 260,
+              "h": 130
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[giant-btn]",
+            "detail": "control escapes viewport on: right, bottom (rect right=2420 bottom=900 vs 1280x800)",
+            "rect": {
+              "x": 20,
+              "y": 260,
+              "w": 2400,
+              "h": 640
+            }
+          },
+          {
+            "type": "overlap",
+            "severity": "error",
+            "element": "p[overlap-a] <> p[overlap-b]",
+            "detail": "elements overlap 100% of the smaller box",
+            "rect": {
+              "x": 60,
+              "y": 90,
+              "w": 260,
+              "h": 39
+            }
+          },
+          {
+            "type": "overlap",
+            "severity": "error",
+            "element": "button[clipped-btn] <> button[giant-btn]",
+            "detail": "elements overlap 100% of the smaller box",
+            "rect": {
+              "x": 1160,
+              "y": 700,
+              "w": 260,
+              "h": 130
+            }
+          }
+        ]
+      },
+      "errorCount": 5,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    },
+    "dark": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-bad.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-bad.dark.ocr.txt",
+        "wordCount": 3,
+        "sample": "GIANT UNBOUNDED BUTTON"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 2420,
+        "counts": {
+          "meaningful": 4,
+          "controls": 2,
+          "textChars": 75
+        },
+        "findings": [
+          {
+            "type": "giant-widget",
+            "severity": "error",
+            "element": "button[giant-btn]",
+            "detail": "control 2400x640px exceeds sane fraction of 1280x800 viewport (width>85%vw) (height>60%vh)",
+            "rect": {
+              "x": 20,
+              "y": 260,
+              "w": 2400,
+              "h": 640
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[clipped-btn]",
+            "detail": "control escapes viewport on: right, bottom (rect right=1420 bottom=830 vs 1280x800)",
+            "rect": {
+              "x": 1160,
+              "y": 700,
+              "w": 260,
+              "h": 130
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[giant-btn]",
+            "detail": "control escapes viewport on: right, bottom (rect right=2420 bottom=900 vs 1280x800)",
+            "rect": {
+              "x": 20,
+              "y": 260,
+              "w": 2400,
+              "h": 640
+            }
+          },
+          {
+            "type": "overlap",
+            "severity": "error",
+            "element": "p[overlap-a] <> p[overlap-b]",
+            "detail": "elements overlap 100% of the smaller box",
+            "rect": {
+              "x": 60,
+              "y": 90,
+              "w": 260,
+              "h": 39
+            }
+          },
+          {
+            "type": "overlap",
+            "severity": "error",
+            "element": "button[clipped-btn] <> button[giant-btn]",
+            "detail": "elements overlap 100% of the smaller box",
+            "rect": {
+              "x": 1160,
+              "y": 700,
+              "w": 260,
+              "h": 130
+            }
+          }
+        ]
+      },
+      "errorCount": 5,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    }
+  },
+  "verdict": "FAIL"
+}

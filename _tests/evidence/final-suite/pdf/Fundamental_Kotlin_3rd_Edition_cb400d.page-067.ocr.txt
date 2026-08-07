@@ -1,0 +1,27 @@
+0
+}
+if (price > 0) {
+printin("Price obtained: $price")
+}else{
+printin("Price is not available")
+}
+printin("- - -")
+}
+As you can see constant “price” will receive the returned value of the
+“getCarPrice” function unless it throws an exception. If that happens, after we
+catch the exception, zero is set as the value. Executing this code snippet will
+produce the following output:
+Getting price for: 'Fiat'
+Price is not available
+Getting price for: 'BMW'
+Price obtained: 200
+Getting price for: ‘Opel’
+Price obtained: 300
+Getting price for: ‘Audi’
+Price is not available
+The most frequently used exception types
+In this section, we will highlight some of the most commonly used exceptions
+and explain their purposes.
+Some of the most commonly used exceptions are:
+- IllegalArgumentException
+- IllegalStateException

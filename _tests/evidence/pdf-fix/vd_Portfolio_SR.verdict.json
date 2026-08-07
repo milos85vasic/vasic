@@ -1,0 +1,47 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T19:21:12.460Z",
+  "pdf": "/Volumes/T7/Projects/vasic/vasic.digital/downloads/Portfolio_SR.pdf",
+  "name": "vd_Portfolio_SR",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 40,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": []
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 1566 words (min 40)"
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "PASS",
+      "detail": "no raw markup / mermaid source found in body text"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "pdfimages found 4 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 8 rendered page(s) recovered 1688 legible words (min 15)"
+    }
+  ],
+  "verdict": "PASS",
+  "pdftotextFile": "_tests/evidence/pdf-fix/vd_Portfolio_SR.pdftotext.txt",
+  "ocrPages": 8
+}

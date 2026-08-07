@@ -1,0 +1,18 @@
+{
+  "lang": "es",
+  "name": "Spanish",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "pf.lede",
+    "tier1.eyebrow"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "tier1.eyebrow",
+    "pf.lede"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "In 'pf.lede' the proper name 'Vasic Digital' should be capitalized and preserved; the translation uses lower‑case 'vasic-digital'. In 'tier1.eyebrow' the term 'flagship' was incorrectly translated as 'insignia' instead of a more appropriate equivalent such as 'estrella' or 'principal'."
+}

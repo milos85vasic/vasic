@@ -1,0 +1,53 @@
+The base interface that can be used for implementing property delegates of
+read-only properties.
+
+- ReadWriteProperty,
+
+interface ReadWriteProperty<in R, T>
+
+The base interface that can be used for implementing property delegates of
+read-write properties.
+
+Let's try now classes from our last example:
+
+val x = Data()
+
+val y = Data()
+
+val z = Data()
+
+x.value = 100
+
+y.value = 200
+
+z.value = 300
+
+printin('x's val: ${x.value}")
+
+printin("y's val: ${y.value}")
+
+printin("z's val: ${z.value}")
+
+Executing example code will produce the following output:
+
+Value SET: value -> 100
+
+Value SET: value -> 200
+
+Value SET: value -> 300
+
+Value GET: value -> 100
+
+x's val: 100
+
+Value GET: value -> 200
+
+y's val: 200
+
+Value GET: value -> 300
+
+z's val: 300
+
+Property delegation requirements
+
+To be able to delegate objects we must fulfill the following requirements:

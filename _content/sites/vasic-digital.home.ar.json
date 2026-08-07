@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "ar",
+  "title": "Vasic Digital — هندسة برمجيات AI-Native",
+  "description": "Vasic Digital تبني أنظمة تطوير الذكاء الاصطناعي — بنية تحتية متعددة المزودين للـ LLM، تنسيق الوكلاء، وحكم الدستور‑plus‑الأدلة الذي يجعلها موثوقة.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — مبنية على نظام OpenDesign.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// هندسة برمجيات AI-native"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "هندسة برمجيات AI-native، مبنية لتكون موثوقة."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "نحن نبني أنظمة تطوير الذكاء الاصطناعي — النماذج، الوكلاء، التنسيق، والبنية التحتية التي تحول نماذج اللغة الكبيرة إلى برمجيات يمكن الاعتماد عليها — مع طبقة الحوكمة التي تحافظ على نزاهتها."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "استكشف المنتجات",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "عرض الحافظة",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "تحميل الحافظة (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "مزودو LLM، واجهة واحدة"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "المستودعات، دستور واحد"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "منتجات عبر ثلاث مستويات"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// حول"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "أسطول، ليس مونوليث."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital هي ممارسة هندسية مركزة تبني عائلة مترابطة من منتجات تطوير الذكاء الاصطناعي والوحدات القابلة لإعادة الاستخدام. بدلاً من مونوليث واحد، يُنظم العمل كأسطول: تطبيقات منتجات كبيرة فوق عشرات الوحدات الصغيرة، المختبرة بشكل مستقل، المفصولة — بحيث تُعاد استخدام الأجزاء المثبتة عبر كل منتج بدلاً من إعادة بنائها."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "اللغة الأساسية هي Go، مكملة بـ Kotlin & Kotlin Multiplatform، TypeScript/React، Python، Swift، وShell — تُختار حسب المهمة. ما يربط الأسطول معًا هو الانضباط الميكانيكي: كل مشروع يرث دستور هندسي مشترك كـ Git submodule، وكل قدرة يعلن عنها المنتج يجب أن تكون مدعومة باختبار آلي ينتج أدلة. الميزة لا تُعتبر \"منجزة\" عندما تجتاز الاختبارات؛ تُعتبر منجزة عندما يستطيع مستخدم حقيقي استخدامها فعليًا، وتُلتقط أدلة لإثبات ذلك."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// ما نقوم به"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "تطوير قائم على الذكاء الاصطناعي، من البداية إلى النهاية."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "نحن نبني الطبقة السفلية لأنظمة الذكاء الاصطناعي — الجزء الصعب تحت التطبيق."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "وصول متعدد المزودين للـ LLM",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "تجريد من الطرف الأول فوق 40+ مزود — Anthropic/Claude، OpenAI، DeepSeek، Gemini، Mistral، Groq، xAI/Grok، وOllama المحلي كخيار احتياطي — عبر واجهة واحدة مع محاولات إعادة، قواطع دوائر، وفحوصات صحة."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "تنسيق الوكلاء",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "طائرات تحكم CLI بدون رأس، تدفقات عمل وكيلية قائمة على الرسم البياني، مناظرات \"AI debate\" متعددة الجولات، وبيئات تشغيل DAG/خط أنابيب."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "التحقق من LLM",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "طبقة ثقة تقيم النماذج ببوابة فهم إلزامية (\"هل ترى شفراتي؟\") بالإضافة إلى اختبارات الكمون، البث، استدعاء الدوال، الرؤية، والتمثيلات — تصدر تكوينًا يقتصر على المُتحقق."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "الاسترجاع والذاكرة",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG، قواعد بيانات متجهية، تمثيلات، ومحركات ذاكرة وكيل مدمجة (Mem0 + Cognee + Letta) مع ضغط سياق لا نهائي."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "LLM دفاعي",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "حواجز أمان، كشف PII، سيناريوهات فريق الأحمر العدائي، وتوحيد المدخلات — أمان مدمج في الطبقة السفلية، لا يُضاف لاحقًا."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// المستوى 1 — الرائد"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "عائلة منتجات Helix وبنية LLM التحتية"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "خطنا الرائد يغطي دورة حياة تطوير الذكاء الاصطناعي بالكامل. بترتيب الأولوية."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "بديل مجاني لـ JIRA — الرائد في خط Helix-Track."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "خدمة LLM جماعية تسمح لعدة نماذج بالمناقشة وتُرسل الإجابة التي يتفقون عليها."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "منصة تطوير ذكاء اصطناعي موزعة تقسم العمل عبر عمال مديريهم عبر SSH مع نقاط تفتيش/تراجع."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "ملف واحد، ستة أوضاع: استدلال متوافق مع OpenAI وAnthropic من اللابتوب إلى الكلاستر، عبر HTTP/3."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "نظام تشغيل موزع لحوسبة الذكاء الاصطناعي، من وحدات معالجة الرسوميات في مراكز البيانات إلى الأجهزة المحمولة الطرفية."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "واجهة واحدة، 43 مزودًا — مع قواطع دوائر، محاولات إعادة، وصحة مدمجة."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "طائرة تحكم واحدة لكل وكيل CLI بدون رأس."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "تحقق. راقب. حسّن. المصدر الوحيد للحقائق لبيانات التحقق من LLM والمزودين."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "دماغ ذاكرة واحد للوكلاء الذكاء الاصطناعي — أربعة محركات من الدرجة الأولى، مدمجة."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// الجودة والحوكمة — ما يميزنا"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "الحوكمة كحقيقة قابلة للتدقيق، لا كطموح."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "عمودان يجعلان الأسطول بأكمله متماسكًا وموثوقًا."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "دليل قواعد هندسية عالمي غير مرتبط بالمشروع يُشحن كـ Git submodule ويُورث من قبل كل مشروع عبر أسطول يضم 140+ مستودع. يرمّز الانضباط غير القابل للتفاوض — بوابات دليل مضادة للغش، مناعة من الإيجابيات الكاذبة، أمان البيانات والمضيف — يمكن للمشروع توسيعه لكنه لا يمكن أن يضعفه. ترقية واحدة للـ submodule تُحدّث القواعد في كل مكان، وكل بوابة مُقترنة باختبار طفرات يثبت أن البوابة نفسها ليست زائفة."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "تنسيق QA مضاد للغش. يشغّل بنوك اختبارات YAML مكتوبة وجلسات QA ذاتية بالكامل، LLM‑plus‑computer‑vision عبر Android، Android TV، Web، وDesktop — ويرفض إعطاء علامة PASS دون أدلة تشغيلية مُلتقطة: لقطات شاشة، logcat، فيديو، تتبعات المكدس. \"اختبرناها\" تصبح \"هذا هو الفيديو، logcat، والتذكرة.\""
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// المستوى 2 — الأدوات المساعدة"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "أدوات Vasic Digital المساعدة"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "أدوات من مستوى المنتج تقف بمفردها."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "إدارة مجموعة وسائط متعددة البروتوكولات المتقدمة، مشفرة — اكتشف، صنّف، وأثّر كل ما تملكه."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown داخل، دورة فيديو احترافية خارج — معززة بالذكاء الاصطناعي، متعددة المنصات."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "شاهد الواجهة كما يراها المستخدم — رؤية حاسوبية زائد رؤية LLM للتحليل والتنقل."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "حوّل الوثائق إلى خريطة ميزات قابلة للتحقق لأتمتة QA."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "لا يمكن لأي مستند مُتتبَع أن يخرج عن التزامن — مُشفر بالمحتوى، ثنائي الاتجاه، ذري."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "كل تنبيه يصل إلى الوجهة الصحيحة — لا حاجة لصياغة أوامر."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "لوحة مهامك ومصدر الحقيقة الخاص بك، متزامنان بلا عيوب — بطريقتين."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "ابنِ مرة واحدة، أعد الاستخدام في كل مكان — أسطول من الوحدات الصغيرة، المفصولة، المختبرة بشكل مستقل بـ Go وKMP."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// المستوى 3 — التراث"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — أتمتة البنية التحتية"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "تراث DevOps لدينا: JSON إعلاني يتحول إلى خوادم مُعبأة بالكامل، Dockerized."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "شغّل خادم البريد الخاص بك كالمحترفين — صِفه بـ JSON، وانشره في أي مكان."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "المحرك المشترك وراء كل Server Factory."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "صور QEMU VM، تُدار كملفات أثرية — تحميل، تشغيل، شبكة، نشر."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "ضغط، نشر، وإعادة استخدام صور Parallels VM عبر كل جهاز."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "اقرأ المزيد"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// التقنيات"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "مستند إلى مجموعتنا الفعلية."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "اللغات",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "الذكاء الاصطناعي / نماذج اللغة الكبيرة",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "الخلفية",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "البيانات",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "البنية التحتية / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "الاختبار / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// الحافظة"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "أسطول واحد، انضباط واحد — شاهد جميع الـ 33 منتجًا."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "حافظة موحدة، قائمة على الأدلة لعائلة Helix، أدوات Vasic Digital المساعدة، وسلسلة أدوات Server Factory."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "افتح الحافظة",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// الاتصال"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "لنُنشئ شيئًا قابلًا للتحقق."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "يمكن لأي شخص ربط تطبيق بـ LLM. نحن نبني الجزء الصعب: أنظمة ذكاء اصطناعي قابلة للتحقق، قابلة لإعادة الاستخدام، وصادقة. لا نطلب منك أن تثق في علامة الاختبار الخضراء — نُظهر لك الأدلة وراءها."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "البريد الإلكتروني",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

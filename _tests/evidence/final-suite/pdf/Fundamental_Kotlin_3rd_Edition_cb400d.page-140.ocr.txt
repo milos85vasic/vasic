@@ -1,0 +1,27 @@
+fun doSomething() {
+val hello = hello()
+printin(hello)
+}
+fun hello(): String
+}
+interface IDummy2 {
+fun doSomething() {
+val hello = hello()
+printin(hello.reversed())
+}
+fun hello() = "Hello world"
+}
+We have defined two interfaces: “IDummy1” and “IDummy2"”. Both interfaces
+have functions with the same signatures. Then, we will implement them:
+class Dummy! : IDummy1 {
+override fun hello() = "Lorem ipsum"
+}
+class Dummy2 : IDummy2
+class Dummy3 : IDummy1, IDummy2 {
+override fun doSomething() {
+super<IDummy1>.doSomething()
+super<IDummy2>.doSomething()
+}
+override fun hello(): String {
+return super.hello()
+}

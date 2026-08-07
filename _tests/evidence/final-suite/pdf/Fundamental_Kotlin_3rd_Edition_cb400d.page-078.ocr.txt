@@ -1,0 +1,55 @@
+${profession.capitalize()} $firstName $lastName
+
+($bornDay $bornMonth $bornYear - $diedDay $diedMonth $diedYear),
+
+Admiral of New England, was an English soldier, explorer, and author.
+
+He was knighted for his services to Sigismund Bathory, Prince of Transylvania, and
+his friend Mozes Székely.
+
+His books and maps were important in encouraging and supporting English
+colonization of the New World.
+
+He gave the name New England to the region and noted:
+
+"Here every man may be master and owner of his own labour and land...
+
+If he have nothing but his hands, he may...by industries quickly grow rich."
+
+Running “StringTemplates.kt” from the book code examples will give us the
+following output:
+
+We called John Snow to come.
+
+He is: captain.
+
+Captain John Snow
+
+(6 June 1580 - 21 June 1631),
+
+Admiral of New England, was an English soldier, explorer, and author.
+
+He was knighted for his services to Sigismund Bathory, Prince of Transylvania, and
+his friend Mozes Székely.
+
+His books and maps were important in encouraging and supporting English
+colonization of the New World.
+
+He gave the name New England to the region and noted:
+
+"Here every man may be master and owner of his own labour and land...
+
+If he have nothing but his hands, he may...by industries quickly grow rich."
+Nullability
+
+We have already mentioned “null” in previous sections of this book. Now we will
+explain its purpose. Every variable or constant that we create should point to a
+certain class instance. Before we go any further we will explain shortly the
+meaning of the “class” and the “instance”. A “class” is the blueprint (definition)
+which you use to create objects in memory. An object is an instance of a class.
+“object” and the “instance” are the same thing, but the word “instance” indicates
+the relationship of an object to its class. To better illustrate this let's use a real-
+world example. For example “wolf” is a “class” of animals. But, in a herd, every
+wolf (member) of the herd is one instance of that class.
+Variables (or constants) that do not point to anything yet have default “null”
+type. Using constants and variables that do not point to any particular instance

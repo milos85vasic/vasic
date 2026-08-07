@@ -1,0 +1,30 @@
+example2(numbers)
+Console output is:
+Item: 1
+Item: 3
+Item: 5
+Item: 7
+Item: 9
+We can achieve the same as with “example2” implementation by using the
+default label for “forEach”. Take a look at our next example:
+fun example3(numbers: List<Int>) {
+numbers.forEach { item ->
+if (item % 2 == 0) {
+return@forEach
+}
+printin("Item: $item")
+}
+}
+Let's see if it works any different than “example2” function implementation:
+example3(numbers)
+Console output:
+Item: 1
+Item: 3
+Item: 5
+Item: 7
+Item: 9
+As you can see we got the completely same result. Finally, one last possibility
+when it comes to “returning”, we can replace lambda expression with
+anonymous function and return from there:
+fun example4(numbers: List<Int>) {
+numbers.forEach(

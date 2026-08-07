@@ -1,0 +1,31 @@
+To be able to apply the annotation to the constructor it is required that
+“AnnotationTarget.CONSTRUCTOR” is present in annotation’s “@Target”
+definition.
+Property accessors can be also annotated:
+class Annotated3 {
+
+var number: Int? = null
+
+@Marker set
+
+}
+To be able to apply the annotation to the property accessors it is required that
+“AnnotationTarget.PROPERTY_SETTER”
+(or “AnnotationTarget.PROPERTY_GETTER’”)
+is present in annotation’s “@Target” definition.
+Annotation constructors
+Annotations can have parameterized constructors. Let's illustrate this with a
+simple example. From book code examples open “AnnotationConstructors.kt”
+and take a look:
+annotation class Description(val desc: String)
+@Description("I.am a dummy class") class Dummy
+We have defined “Description” annotation which accepts one string argument in
+its constructor. Then, we have used our annotation to “describe” the “Dummy”
+class.
+Annotation constructors can have the following types of parameters:
+- Other annotations
+- Number data types: “Int”, “Long” and others
+- Strings
+- Classes, for example, “Dummy::class”
+- Enums
+- Arrays of any of these data types.

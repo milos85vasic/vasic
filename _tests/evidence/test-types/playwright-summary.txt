@@ -1,0 +1,28 @@
+# Playwright full suite — 3 browsers (chromium, firefox, webkit)
+# config: _tests/playwright.config.js (projects: chromium / firefox / webkit)
+# webServer: vasic.digital @ :8401, milosvasic.ru/_site @ :8082
+# date (UTC): 2026-08-05
+
+## Final tally (authoritative, `npx playwright test --reporter=line`)
+  329 passed
+  0 failed
+  4 skipped        (chromium-only evidence-screenshot tests, skipped on firefox+webkit: 2 sites x 2 browsers)
+  runtime ~57s–1.1m
+
+## Baseline before this change: 140 passed / 0 failed / 4 skipped
+## After: 140 + 189 new = 329 passed / 0 failed / 4 skipped  -> existing suite still GREEN, no regression.
+
+## New specs added by this change (per browser x3):
+  link-integrity.spec.js      : 2 tests x 2 sites            =  4 x3 =  12
+  seo-meta.spec.js            : (6 pages x 5) + (5 hreflang) = 35 x3 = 105
+  perf-budget.spec.js         : 4 pages x 1                  =  4 x3 =  12
+  security-hardening.spec.js  : 5 tests x 4 pages            = 20 x3 =  60
+  ------------------------------------------------------------------------
+  total new                                                          = 189
+
+## Real perf-budget numbers (chromium, from perf-budget.json):
+  vasic.digital/               : 221,252 B / 10 req / LCP 28 ms
+  vasic.digital/products/...   : 204,746 B / 10 req / LCP 36 ms
+  milosvasic.ru/               : 402,316 B / 18 req / LCP 484 ms
+  milosvasic.ru/products/...   : 308,720 B / 12 req / LCP 32 ms
+  budget ceilings: 1,500,000 B transferred, 45 requests  -> all PASS with wide margin.

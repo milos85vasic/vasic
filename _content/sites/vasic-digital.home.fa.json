@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "fa",
+  "title": "Vasic Digital — مهندسی نرم‌افزار بومی هوش مصنوعی",
+  "description": "Vasic Digital سیستم‌های توسعه هوش مصنوعی را می‌سازد — زیرساخت چند‑ارائه‌کننده LLM، ارکستراسیون عامل‌ها، و حاکمیتی constitution‑plus‑evidence که آن‌ها را قابل اعتماد می‌کند.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — ساخته شده بر پایه سیستم OpenDesign.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// مهندسی نرم‌افزار بومی هوش مصنوعی"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "مهندسی نرم‌افزار بومی هوش مصنوعی، ساخته شده برای قابل اعتماد بودن."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "ما سیستم‌های توسعه هوش مصنوعی را می‌سازیم — مدل‌ها، عامل‌ها، ارکستراسیون و زیرساخت‌هایی که مدل‌های زبانی بزرگ را به نرم‌افزارهای قابل اطمینان تبدیل می‌کنند — به همراه لایه حاکمیتی که آن‌ها را صادق نگه می‌دارد."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "کاوش محصولات",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "مشاهده پرتفولیو",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "دانلود پرتفولیو (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "ارائه‌کنندگان LLM، یک رابط"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "مخازن، یک constitution"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "محصولات در سه سطح"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// درباره"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "یک ناو، نه یک تک‌قطعه."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital یک عمل مهندسی متمرکز است که یک خانوادهٔ متصل از محصولات توسعه هوش مصنوعی و ماژول‌های قابل استفاده مجدد می‌سازد. به جای یک تک‌قطعه، کار به صورت ناو سازماندهی می‌شود: برنامه‌های بزرگ محصول بر پایهٔ ده‌ها ماژول کوچک، به‌صورت مستقل تست‌شده و جداگانه — به‌طوری که بخش‌های ثابت در هر محصول دوباره استفاده می‌شوند نه اینکه دوباره ساخته شوند."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "زبان اصلی پشتوانه Go است که با Kotlin و Kotlin Multiplatform، TypeScript/React، Python، Swift و Shell تکمیل می‌شود — بسته به کار. آنچه ناو را به هم می‌پیوندد، انضباطی مکانیکی است: هر پروژه یک Constitution مهندسی مشترک به‌صورت Git submodule به ارث می‌برد و هر قابلیت محصول باید توسط تست خودکار تولید شواهد پشتیبانی شود. یک ویژگی زمانی \"تمام\" نیست که تست‌ها پاس شوند؛ زمانی تمام می‌شود که کاربر واقعی بتواند از آن استفاده کند و شواهد ضبط‌شده برای اثبات آن موجود باشد."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// آنچه ما انجام می‌دهیم"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "توسعه مبتنی بر هوش مصنوعی، از ابتدا تا انتها."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "ما زیرلایهٔ سیستم‌های هوش مصنوعی را می‌سازیم — بخش سخت زیر برنامه."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "دسترسی چند‑ارائه‌کننده LLM",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "یک انتزاع سطح اول بر بیش از 40 ارائه‌کننده — Anthropic/Claude، OpenAI، DeepSeek، Gemini، Mistral، Groq، xAI/Grok، و Ollama محلی به‌عنوان پشتیبان — پشت یک رابط با تلاش‌های مجدد، قطع‌کننده‌های مدار و بررسی‌های سلامت."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "ارکستراسیون عامل",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "سطوح کنترل عامل‑کدینگ CLI بدون سر، گردش‌کارهای گراف‑محور عامل‑محور، توافق‌نامهٔ \"مناظره AI\" چند‑دور، و زمان‌اجرای DAG/خط لوله."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "تأیید LLM",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "یک لایهٔ اعتماد که مدل‌ها را با یک دروازهٔ درک اجباری (\"آیا کد من را می‌بینی؟\") به‌علاوه تست‌های تأخیر، استریم، فراخوانی تابع، بینایی و تعبیه‌ها امتیاز می‌دهد — صادر کردن یک پیکربندی فقط تأییدشده."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "بازیابی و حافظه",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG، پایگاه‌های دادهٔ برداری، تعبیه‌ها، و موتورهای حافظهٔ ترکیبی عامل (Mem0 + Cognee + Letta) با فشرده‌سازی بی‌نهایت‑متن."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "LLM دفاعی",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "راه‌بان‌ها، تشخیص PII، سناریوهای تیم قرمز خصمانه، و نرمال‌سازی ورودی — ایمنی در زیرلایه نه به‌صورت افزوده."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// سطح 1 — پرچم‌دار"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "خانوادهٔ محصول Helix و زیرساخت LLM"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "خط پرچم‌دار ما تمام چرخهٔ حیات توسعه هوش مصنوعی را پوشش می‌دهد. به ترتیب اولویت."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "یک جایگزین رایگان برای JIRA — پرچم‌دار خط Helix-Track."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "یک سرویس LLM ترکیبی که به مدل‌های متعدد اجازه مناظره می‌دهد و پاسخ توافق‌شده را ارائه می‌کند."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "یک پلتفرم توزیع‌شده برای توسعه هوش مصنوعی که کار را بین کارگرهای مدیریت‌شده از طریق SSH با نقطهٔ بازگشت/بازگردانی تقسیم می‌کند."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "یک باینری، شش حالت: استنتاج سازگار با OpenAI و Anthropic از لپ‌تاپ تا خوشه، از طریق HTTP/3."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "یک سیستم‌عامل توزیع‌شده برای محاسبهٔ هوش مصنوعی، از GPUهای دیتاسنتر تا دستگاه‌های لبهٔ دستی."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "یک رابط، 43 ارائه‌کننده — با قطع‌کننده‌های مدار، تلاش‌های مجدد و سلامت از پیش‌ساخته."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "یک صفحهٔ کنترل برای هر عامل کدینگ CLI بدون سر."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "تأیید. نظارت. بهینه‌سازی. منبع تک حقیقت برای متادیتای تأیید LLM و ارائه‌کننده."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "یک مغز حافظه برای عامل‌های AI — چهار موتور برتر، ترکیبی."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// کیفیت و حاکمیت — تمایز ما"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "حاکمیت به‌عنوان یک واقعیت قابل حسابرسی، نه یک آرمان."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "دو ستون کل ناو را هم‌ساز و قابل اعتماد می‌سازند."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "یک کتاب‌قواعد مهندسی عمومی، مستقل از پروژه، به‌صورت Git submodule تحویل داده می‌شود و توسط هر پروژه در ناو با بیش از 140+ مخزن به ارث می‌رسد. این کتاب‌قواعد انضباط غیرقابل مذاکره را رمزگذاری می‌کند — دروازه‌های شواهد ضد‑تقلب، ایمنی در برابر مثبت‑کاذب، امنیت داده و میزبان — که پروژه می‌تواند گسترش دهد اما هرگز تضعیف نکند. یک ارتقاء submodule قوانین را در همه جا به‌روز می‌کند و هر دروازه با یک تست جهش همراه است که ثابت می‌کند دروازه خود تقلبی نیست."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "ارکستراسیون QA ضد‑تقلب. این سرویس بانک‌های تست YAML نوشته‌شده و جلسات QA خودکار، ترکیبی LLM‑plus‑computer‑vision را بر روی Android، Android TV، وب و Desktop اجرا می‌کند — و بدون شواهد زمان اجرا (اسکرین‌شات، logcat، ویدئو، ردیابی پشته) امتیاز PASS نمی‌دهد. \"ما آن را تست کردیم\" به \"این ویدئو، logcat و تیکت است\" تبدیل می‌شود."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// سطح 2 — ابزارها"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "ابزارهای Vasic Digital"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "ابزارهای سطح محصول که به‌تنهایی می‌درخشند."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "مدیریت پیشرفتهٔ مجموعهٔ رسانه‌ای چند‑پروتکل، رمزنگاری‌شده — شناسایی، فهرست‌بندی و غنی‌سازی همهٔ آنچه دارید."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown ورودی، دورهٔ ویدئویی حرفه‌ای خروجی — تقویت‌شده با AI، چند‑پلتفرم."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "UI را همانند کاربر ببینید — بینایی کامپیوتری به‌علاوه بینایی LLM برای تحلیل و ناوبری."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "مستندات را به نقشهٔ ویژگی قابل تأیید برای خودکارسازی QA تبدیل کنید."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "هیچ سندی که ردیابی می‌شود نمی‌تواند از هم‌زمانی خارج شود — هش‑محتوا، دو‑طرفه، اتمیک."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "هر هشدار به مقصد صحیح می‌رسد — بدون نیاز به سینتکس دستور."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "تابلوی کار شما و منبع حقیقت شما، به‌طور بی‌نقص همگام — در هر دو جهت."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "یک بار بسازید، در همه‌جا دوباره استفاده کنید — ناوئی از ماژول‌های کوچک، جداگانه و به‌صورت مستقل تست‌شده Go و KMP."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// سطح 3 — میراث"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — خودکارسازی زیرساخت"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "میراث DevOps ما: JSON اعلان‑شده به سرورهای Dockerized کاملاً فراهم‌شده تبدیل می‌شود."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "سرور ایمیل خود را مانند رئیس اجرا کنید — آن را در JSON توصیف کنید، هرجایی مستقر کنید."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "موتور مشترک پشت هر Server Factory."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "تصاویر VM QEMU، مانند artefacts مدیریت می‌شوند — دانلود، اجرا، شبکه، انتشار."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "فشرده‌سازی، انتشار و استفاده مجدد از تصاویر VM Parallels در هر ماشین."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// فناوری‌ها"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "بر پایهٔ استک واقعی ما."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "زبان‌ها",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "هوش مصنوعی / مدل‌های زبانی بزرگ",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "پشت‌صحنه",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "داده",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "زیرساخت / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "آزمون / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// پرتفولیو"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "یک ناو، یک انضباط — تمام 33 محصول را ببینید."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "یک پرتفولیو یکپارچه، مبتنی بر شواهد از خانواده Helix، ابزارهای vasic-digital و زنجیره ابزار Server Factory."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "باز کردن پرتفولیو",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// تماس"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "بیایید چیزی قابل تأیید بسازیم."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "هر کسی می‌تواند یک برنامه را به LLM وصل کند. ما بخشی را می‌سازیم که سخت است: سیستم‌های هوش مصنوعی که قابل تأیید، قابل استفاده مجدد و صادق هستند. ما از شما نمی‌خواهیم به علامت سبز اعتماد کنید — شواهد پشت آن را نشان می‌دهیم."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "ایمیل",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

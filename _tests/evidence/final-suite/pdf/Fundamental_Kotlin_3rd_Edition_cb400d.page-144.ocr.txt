@@ -1,0 +1,32 @@
+of potential memory leaks. Let's take a look at the example. From book code
+example open “Inner.kt”:
+class A{
+
+val a = 100
+
+inner class B {
+
+val b=a
+
+}
+}
+We have defined a class “A” with a member constant “a”. Inside the “A” class we
+have defined “inner” “B” class which has a member constant “b”. The “b”
+constant takes a value of “A” class “a” constant. To be able to work with the
+“inner” class, both instances must be created. “A” and “B”:
+val v = A().B()
+If we print the value of “B” “inner” class “b” constant:
+printin(Value of b is: ${v.b}")
+The following output will be produced:
+Value of b is: 100
+Functions
+In upcoming sections, we will regain our learning focus on Kotlin functions. We
+will direct our attention to some more advanced functions related topics, such
+as:
+- Functions invoking
+- Understanding functions types
+- Using named arguments
+- Single-Expression functions
+- Variable argument functions
+- Use of spread operator
+- Local functions

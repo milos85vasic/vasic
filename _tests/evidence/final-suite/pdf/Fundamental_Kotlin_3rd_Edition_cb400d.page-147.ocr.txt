@@ -1,0 +1,33 @@
+“calculate” function is: “(Int, Int) -> Int’. That means that we are passing a
+function that expects two Integer arguments and returns Integer as well.
+What if we want to return a function from another function instead of the usual
+data types? As we already mentioned, that can be done too:
+@Throws(IllegalArgumentException::class)
+fun getCalculationStrategy(strategyld: Int): (Int, Int) -> Int
+{
+
+val strategies = getCalculationStrategies()
+
+if (strategyld >= strategies.size) {
+
+throw IllegalArgumentException(
+"No strategy available for id: $strategyId"
+)
+
+}
+
+return strategies[strategyld]
+}
+Where “getCalculationStrategies” is defined like this:
+fun getCalculationStrategies() = listOf(::sum, ::diff)
+Our “getCalculationStrategy” function will return us a proper calculation
+strategy function based on the "strategyId” that we provide. If “strategyld” is
+invalid, an exception will be thrown.
+Let's try it:
+val strategy = getCalculationStrategy(0)
+val result = strategy(a, b)
+printin("Calculation result is: $result")
+Executing our program will obtain proper calculation strategy, perform strategy
+on “a” and “b” constants and finally print out the result:
+Calculation result is: 3
+Named arguments

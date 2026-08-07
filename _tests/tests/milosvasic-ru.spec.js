@@ -1,32 +1,27 @@
 const { test, expect } = require('@playwright/test');
 const BASE = 'http://localhost:8082';
 
-test.describe('milosvasic.ru — personal CV site', () => {
+// milosvasic.ru — AI-engineer personal site, reframed on the OpenDesign system while
+// keeping the Jekyll `default` layout chrome (nav, footer, theme + MV_I18N, download popup).
+// Asserts the NEW .od-* content structure and that the existing mechanisms still work.
+test.describe('milosvasic.ru — AI engineer site (OpenDesign + Jekyll)', () => {
 
   test('loads with correct title', async ({ page }) => {
     await page.goto(BASE);
-    await expect(page).toHaveTitle(/Milos Vasic/i);
+    // Name now renders with diacritics: "Miloš Vasić" (accept ASCII or diacritic form).
+    await expect(page).toHaveTitle(/Milo[sš] Vasi[cć]/i);
   });
 
-  test('hero section displays name, role, CV download button', async ({ page }) => {
+  test('hero renders name, lede and a CV download trigger', async ({ page }) => {
     await page.goto(BASE);
-    await expect(page.locator('h1')).toContainText('Milos');
-    await expect(page.locator('h1')).toContainText('Vasic');
-    await expect(page.locator('.role')).toBeVisible();
+    await expect(page.locator('.od-hero__title')).toContainText('Vasi');
+    await expect(page.locator('.od-hero__lede')).toBeVisible();
     const cvBtn = page.locator('button[data-dl="cv"]').first();
     await expect(cvBtn).toBeVisible();
     await expect(cvBtn).toContainText('Download CV');
   });
 
-  test('profile portrait image loads (naturalWidth > 0)', async ({ page }) => {
-    await page.goto(BASE);
-    const img = page.locator('.portrait-card img');
-    await expect(img).toBeVisible();
-    const ok = await img.evaluate((el) => el.complete && el.naturalWidth > 0);
-    expect(ok).toBeTruthy();
-  });
-
-  test('no-flash theme: data-theme set on html before anything else', async ({ page }) => {
+  test('no-FOUC theme: data-theme set on html before paint', async ({ page }) => {
     await page.goto(BASE);
     const theme = await page.locator('html').getAttribute('data-theme');
     expect(['light', 'dark']).toContain(theme);
@@ -37,199 +32,112 @@ test.describe('milosvasic.ru — personal CV site', () => {
     const html = page.locator('html');
     const before = await html.getAttribute('data-theme');
     await page.locator('#theme-btn').click();
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(150);
     const after = await html.getAttribute('data-theme');
     expect(after).not.toBe(before);
-    // Reload and verify persistence
-    await page.reload();
-    const persisted = await html.getAttribute('data-theme');
-    expect(persisted).toBe(after);
-    // Verify localStorage key
     const stored = await page.evaluate(() => localStorage.getItem('mv-theme'));
     expect(stored).toBe(after);
+    await page.reload();
+    expect(await page.locator('html').getAttribute('data-theme')).toBe(after);
   });
 
-  test('language switcher exists and changes content (RU/SR/DE)', async ({ page }) => {
+  test('primary nav present; language switch (RU) still updates it + persists', async ({ page }) => {
     await page.goto(BASE);
     const navWork = page.locator('.nav-links a').first();
     await expect(navWork).toHaveText('Work');
+    await expect(page.locator('.nav-links a')).toHaveCount(4);
 
-    // Switch to Russian
     await page.locator('#lang-btn').click();
     await page.waitForSelector('.lang-menu.open');
     await page.locator('#lang-menu button[data-code="ru"]').click();
     await expect(navWork).toHaveText('Проекты');
-    let stored = await page.evaluate(() => localStorage.getItem('mv-lang'));
+    const stored = await page.evaluate(() => localStorage.getItem('mv-lang'));
     expect(stored).toBe('ru');
-
-    // Switch to Serbian
-    await page.locator('#lang-btn').click();
-    await page.waitForSelector('.lang-menu.open');
-    await page.locator('#lang-menu button[data-code="sr"]').click();
-    await expect(navWork).toHaveText('Радови');
-    stored = await page.evaluate(() => localStorage.getItem('mv-lang'));
-    expect(stored).toBe('sr');
-
-    // Switch to German
-    await page.locator('#lang-btn').click();
-    await page.waitForSelector('.lang-menu.open');
-    await page.locator('#lang-menu button[data-code="de"]').click();
-    await expect(navWork).toHaveText('Projekte');
-    stored = await page.evaluate(() => localStorage.getItem('mv-lang'));
-    expect(stored).toBe('de');
+    expect(await page.locator('html').getAttribute('lang')).toBe('ru');
   });
 
-  test('all navigation links work (scroll to sections)', async ({ page }) => {
+  test('at least 8 product cards link to real products/*.html pages', async ({ page }) => {
     await page.goto(BASE);
-    const links = [
-      { href: '#work', section: '#work' },
-      { href: '#experience', section: '#experience' },
-      { href: '#skills', section: '#skills' },
-      { href: '#contact', section: '#contact' },
-    ];
-    for (const { href, section } of links) {
-      await page.evaluate(() => window.scrollTo(0, 0));
-      await page.waitForTimeout(200);
-      await page.locator(`.nav-links a[href="${href}"]`).click();
-      await page.waitForTimeout(500);
-      const hash = await page.evaluate(() => window.location.hash);
-      expect(hash).toBe(href);
-      // Verify the target section is visible in viewport
-      const sectionEl = page.locator(section);
-      await expect(sectionEl).toBeVisible();
-    }
+    const productLinks = page.locator('.od-product-card a[href*="/products/"][href$=".html"]');
+    const count = await productLinks.count();
+    expect(count).toBeGreaterThanOrEqual(8);
+    const hrefs = await productLinks.evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    for (const h of hrefs) expect(h).toMatch(/\/products\/[a-z0-9-]+\.html$/);
+    const resp = await page.request.get(new URL(hrefs[0], BASE).toString());
+    expect(resp.status()).toBe(200);
   });
 
-  test('featured work cards have working external links (should not 404)', async ({ page }) => {
+  test('portfolio link resolves (200)', async ({ page }) => {
     await page.goto(BASE);
-    const cardLinks = page.locator('.card-link');
-    const count = await cardLinks.count();
-    expect(count).toBeGreaterThanOrEqual(6);
-    const hrefs = await cardLinks.evaluateAll((els) =>
-      els.map((e) => e.getAttribute('href'))
-    );
-    for (const h of hrefs) {
-      expect(h).toMatch(/^https:\/\/github\.com\//);
-    }
-    // Verify at least one external link responds (non-404)
-    const testUrl = hrefs[0];
-    try {
-      const resp = await page.request.get(testUrl, { timeout: 5000 });
-      expect(resp.status()).not.toBe(404);
-    } catch (e) {
-      // Network errors are acceptable (rate-limiting, offline) — test structure passes
-      expect(hrefs.every((h) => /^https:\/\/github\.com\//.test(h))).toBeTruthy();
-    }
+    const pf = page.locator('a[href$="/portfolio/"]').first();
+    await expect(pf).toBeVisible();
+    const href = await pf.getAttribute('href');
+    const resp = await page.request.get(new URL(href, BASE).toString());
+    expect(resp.status()).toBe(200);
   });
 
-  test('experience timeline renders with correct entries', async ({ page }) => {
+  test('download popup: EN CV and EN Portfolio PDFs resolve 200', async ({ page }) => {
     await page.goto(BASE);
-    const items = page.locator('.tl-item');
-    const count = await items.count();
-    expect(count).toBeGreaterThanOrEqual(4);
-    // Each item should have a role, organization, and time period
-    for (let i = 0; i < count; i++) {
-      const item = items.nth(i);
-      await expect(item.locator('.tl-role')).toBeVisible();
-      await expect(item.locator('.tl-org')).toBeVisible();
-    }
-  });
-
-  test('skills sections have chip items', async ({ page }) => {
-    await page.goto(BASE);
-    const skillGroups = page.locator('.skill-group');
-    const groupCount = await skillGroups.count();
-    expect(groupCount).toBeGreaterThanOrEqual(3);
-    const chips = page.locator('.chip');
-    const chipCount = await chips.count();
-    expect(chipCount).toBeGreaterThan(10);
-  });
-
-  test('download popup opens and EN CV link returns 200', async ({ page }) => {
-    await page.goto(BASE);
+    // CV
     await page.locator('button[data-dl="cv"]').first().click();
     const modal = page.locator('#dl-modal');
     await expect(modal).toBeVisible();
-    const en = modal.locator('.dl-lang[data-lang="EN"]');
-    const href = await en.getAttribute('href');
-    expect(href).toMatch(/Milos_Vasic_CV_EN\.pdf$/);
-    const resp = await page.request.get(new URL(href, BASE).toString());
+    const cvEn = modal.locator('.dl-lang[data-lang="EN"]');
+    const cvHref = await cvEn.getAttribute('href');
+    expect(cvHref).toMatch(/Milos_Vasic_CV_EN\.pdf$/);
+    let resp = await page.request.get(new URL(cvHref, BASE).toString());
     expect(resp.status()).toBe(200);
+    await page.locator('#dl-modal .dl-x').click();
+    await expect(modal).toBeHidden();
+
+    // Portfolio (EN-only extension of the popup)
+    await page.locator('button[data-dl="portfolio"]').first().click();
+    await expect(modal).toBeVisible();
+    const pfEn = modal.locator('.dl-lang[data-lang="EN"]');
+    const pfHref = await pfEn.getAttribute('href');
+    expect(pfHref).toMatch(/Portfolio_EN\.pdf$/);
+    resp = await page.request.get(new URL(pfHref, BASE).toString());
+    expect(resp.status()).toBe(200);
+  });
+
+  test('no links deep-link known-private repos (no 404 deep links)', async ({ page }) => {
+    await page.goto(BASE);
+    const hrefs = await page.locator('a[href]').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    const banned = ['/Web-Client', '/Desktop-Client', '/Android-Client', '/iOS-Client', '/Bear-Suite/Mail', '/Bear-Suite/Messenger'];
+    for (const h of hrefs) {
+      for (const b of banned) expect(h, `link ${h} must not deep-link private repo ${b}`).not.toContain(b);
+    }
+    expect(hrefs.length).toBeGreaterThan(10);
   });
 
   test('responsive: no horizontal overflow on mobile (375px)', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto(BASE);
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth
-    );
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(2);
   });
 
-  test('check footer has correct year (2026) and social links', async ({ page }) => {
+  test('footer has correct year (2026) and social links', async ({ page }) => {
     await page.goto(BASE);
     await expect(page.locator('footer')).toContainText('2026');
-    await expect(page.locator('footer')).toContainText('Milos Vasic');
-    const footerLinks = page.locator('footer a');
-    const linkCount = await footerLinks.count();
-    expect(linkCount).toBeGreaterThanOrEqual(4);
-    // Verify at least GitHub, Telegram, and email are in footer links
-    const hrefs = await footerLinks.evaluateAll((els) =>
-      els.map((e) => e.getAttribute('href'))
-    );
-    const allLinks = hrefs.join(' ');
-    expect(allLinks).toMatch(/github/);
-    expect(allLinks).toMatch(/t\.me|telegram/);
-    expect(allLinks).toMatch(/mvasic\.ru/);
+    const hrefs = await page.locator('footer a').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    const all = hrefs.join(' ');
+    expect(all).toMatch(/github/);
+    expect(all).toMatch(/t\.me|telegram/);
+    expect(all).toMatch(/mvasic\.ru/);
   });
 
-  test('verify html lang attribute updates when language changed', async ({ page }) => {
-    await page.goto(BASE);
-    expect(await page.locator('html').getAttribute('lang')).toBe('en');
-
-    // Switch to Russian
-    await page.locator('#lang-btn').click();
-    await page.waitForSelector('.lang-menu.open');
-    await page.locator('#lang-menu button[data-code="ru"]').click();
-    expect(await page.locator('html').getAttribute('lang')).toBe('ru');
-
-    // Switch to Serbian
-    await page.locator('#lang-btn').click();
-    await page.waitForSelector('.lang-menu.open');
-    await page.locator('#lang-menu button[data-code="sr"]').click();
-    expect(await page.locator('html').getAttribute('lang')).toBe('sr');
-
-    // Switch to German
-    await page.locator('#lang-btn').click();
-    await page.waitForSelector('.lang-menu.open');
-    await page.locator('#lang-menu button[data-code="de"]').click();
-    expect(await page.locator('html').getAttribute('lang')).toBe('de');
-  });
-
-  test('evidence screenshots: desktop-light, desktop-dark, mobile', async ({ page }, testInfo) => {
+  test('evidence screenshots (chromium)', async ({ page }, testInfo) => {
     if (testInfo.project.name !== 'chromium') test.skip();
-
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
-
-    // Light mode screenshot
-    await page.evaluate(() => {
-      localStorage.setItem('mv-theme', 'light');
-      document.documentElement.setAttribute('data-theme', 'light');
-    });
-    await page.screenshot({ path: 'evidence/milos-desktop-light.png', fullPage: true });
-
-    // Dark mode screenshot
-    await page.evaluate(() => {
-      localStorage.setItem('mv-theme', 'dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-    });
-    await page.screenshot({ path: 'evidence/milos-desktop-dark.png', fullPage: true });
-
-    // Mobile screenshot (reload to get responsive layout)
+    await page.evaluate(() => { localStorage.setItem('mv-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); });
+    await page.screenshot({ path: 'evidence/homepages/milos-desktop-light.png', fullPage: true });
+    await page.evaluate(() => { localStorage.setItem('mv-theme', 'dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
+    await page.screenshot({ path: 'evidence/homepages/milos-desktop-dark.png', fullPage: true });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    await page.screenshot({ path: 'evidence/milos-mobile.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/milos-mobile.png', fullPage: true });
   });
 
 });

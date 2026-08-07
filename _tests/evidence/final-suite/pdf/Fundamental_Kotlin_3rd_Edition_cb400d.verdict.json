@@ -1,0 +1,47 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T19:46:57.555Z",
+  "pdf": "/Volumes/T7/Projects/vasic/milosvasic.ru/_site/assets/pdf/Fundamental_Kotlin_3rd_Edition.pdf",
+  "name": "Fundamental_Kotlin_3rd_Edition_cb400d",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 40,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": []
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 46430 words (min 40)"
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "FAIL",
+      "detail": "raw markup/mermaid source leaked as body text: mermaid:pie/journey(\"journey\")"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "FAIL",
+      "detail": "pdfimages found 0 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 281 rendered page(s) recovered 46390 legible words (min 15)"
+    }
+  ],
+  "verdict": "FAIL",
+  "pdftotextFile": "_tests/evidence/final-suite/pdf/Fundamental_Kotlin_3rd_Edition_cb400d.pdftotext.txt",
+  "ocrPages": 281
+}

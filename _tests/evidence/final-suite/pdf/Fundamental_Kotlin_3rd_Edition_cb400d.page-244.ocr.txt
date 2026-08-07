@@ -1,0 +1,29 @@
+We have created the “Hello” class that has only one function: “world”. Then, we
+are extending with three additional functions: “everybody”, “repeat”, and
+“stranger”. As you can see, the “Hello” class has been extended without
+inheritance or the “Decorator” pattern.
+Let's try these functions:
+val hello = Hello()
+hello.world()
+hello.everybody()
+hello.repeat(3, "Woo-hoo")
+hello.stranger()
+Executing our program will produce the following output:
+Hello world
+Hello world
+Hello everybody
+Woo-hoo
+Woo-hoo
+Woo-hoo
+Hello stranger
+Let's see another example. Imagine that you are working on an Android
+application project. Instead of extending some “BaseActivity” class to give
+certain functionality to all your activities, you can add functionality to the
+“Activity” class itself. Let's say that you need functionality to go back to the
+previous UI location, you can create an extension for this purpose.
+From book code examples open “AndroidExtension.kt”:
+fun Activity.goBack() {
+// We will pop back stack here...
+}
+All activities (classes that extend the “Activity” class) in your application will have
+access to the "goBack” function.

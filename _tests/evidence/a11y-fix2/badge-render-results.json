@@ -1,0 +1,818 @@
+{
+  "totalAxeBadgeColorContrastNodes": 0,
+  "minBadgeRatioMeasured": 4.53,
+  "perTarget": [
+    {
+      "target": "vd-home",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#8f1d2d",
+          "ratio": 8.82,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#ffc107",
+          "ratio": 10.68,
+          "text": "in-development"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "shipped"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#1a1c1e",
+          "bg": "#e9ecef",
+          "ratio": 14.41,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "stable"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-home",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#121212",
+          "bg": "#e06b73",
+          "ratio": 5.82,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#e6b800",
+          "ratio": 9.3,
+          "text": "in-development"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "shipped"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#f8f9fa",
+          "bg": "#2d2d2d",
+          "ratio": 13.07,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "stable"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-portfolio",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#8f1d2d",
+          "ratio": 8.82,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#ffc107",
+          "ratio": 10.68,
+          "text": "in-development"
+        },
+        {
+          "status": "roadmap",
+          "fg": "#1a1c1e",
+          "bg": "#e9ecef",
+          "ratio": 14.41,
+          "text": "roadmap"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "shipped"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#1a1c1e",
+          "bg": "#e9ecef",
+          "ratio": 14.41,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "stable"
+        },
+        {
+          "status": "mixed",
+          "fg": "#1a1c1e",
+          "bg": "#e9ecef",
+          "ratio": 14.41,
+          "text": "mixed"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-portfolio",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#121212",
+          "bg": "#e06b73",
+          "ratio": 5.82,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#e6b800",
+          "ratio": 9.3,
+          "text": "in-development"
+        },
+        {
+          "status": "roadmap",
+          "fg": "#f8f9fa",
+          "bg": "#2d2d2d",
+          "ratio": 13.07,
+          "text": "roadmap"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "shipped"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#f8f9fa",
+          "bg": "#2d2d2d",
+          "ratio": 13.07,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "stable"
+        },
+        {
+          "status": "mixed",
+          "fg": "#f8f9fa",
+          "bg": "#2d2d2d",
+          "ratio": 13.07,
+          "text": "mixed"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-catalogizer(production)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "production"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-catalogizer(production)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "production"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-docprocessor(active)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "active"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-docprocessor(active)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "active"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-helixconstitution(shipped)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "shipped"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-helixconstitution(shipped)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "shipped"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-sfcf(stable)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "stable"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-sfcf(stable)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#1e7e34",
+          "ratio": 5.14,
+          "text": "stable"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-helixtrack(beta)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#8f1d2d",
+          "ratio": 8.82,
+          "text": "beta"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "vd-helixtrack(beta)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#121212",
+          "bg": "#e06b73",
+          "ratio": 5.82,
+          "text": "beta"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-home",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#ffc107",
+          "ratio": 10.68,
+          "text": "in-development"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#212529",
+          "bg": "#e9ecef",
+          "ratio": 13.01,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "stable"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "shipped"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-home",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#ffc107",
+          "ratio": 10.68,
+          "text": "in-development"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#e0e0e0",
+          "bg": "#2d2d2d",
+          "ratio": 10.43,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "stable"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "shipped"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-portfolio",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#ffc107",
+          "ratio": 10.68,
+          "text": "in-development"
+        },
+        {
+          "status": "roadmap",
+          "fg": "#a31e39",
+          "bg": "#f0e2e4",
+          "ratio": 5.96,
+          "text": "roadmap"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "shipped"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#212529",
+          "bg": "#e9ecef",
+          "ratio": 13.01,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "stable"
+        },
+        {
+          "status": "mixed",
+          "fg": "#212529",
+          "bg": "#e9ecef",
+          "ratio": 13.01,
+          "text": "mixed"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-portfolio",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "beta"
+        },
+        {
+          "status": "in-development",
+          "fg": "#1a1a1a",
+          "bg": "#ffc107",
+          "ratio": 10.68,
+          "text": "in-development"
+        },
+        {
+          "status": "roadmap",
+          "fg": "#a31e39",
+          "bg": "#f0e2e4",
+          "ratio": 5.96,
+          "text": "roadmap"
+        },
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "shipped"
+        },
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "production"
+        },
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "active"
+        },
+        {
+          "status": "scaffold",
+          "fg": "#e0e0e0",
+          "bg": "#2d2d2d",
+          "ratio": 10.43,
+          "text": "scaffold"
+        },
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "stable"
+        },
+        {
+          "status": "mixed",
+          "fg": "#e0e0e0",
+          "bg": "#2d2d2d",
+          "ratio": 10.43,
+          "text": "mixed"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-catalogizer(production)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "production"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-catalogizer(production)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "production",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "production"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-docprocessor(active)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "active"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-docprocessor(active)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "active",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "active"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-helixconstitution(shipped)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "shipped"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-helixconstitution(shipped)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "shipped",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "shipped"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-sfcf(stable)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "stable"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-sfcf(stable)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "stable",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "stable"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-helixtrack(beta)",
+      "theme": "light",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "beta"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    },
+    {
+      "target": "mv-helixtrack(beta)",
+      "theme": "dark",
+      "badges": [
+        {
+          "status": "beta",
+          "fg": "#ffffff",
+          "bg": "#198754",
+          "ratio": 4.53,
+          "text": "beta"
+        }
+      ],
+      "axeBadgeContrastNodes": 0,
+      "axeBadgeSamples": []
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">Server Factory — Additional Components</text>
+<text class="lbl" x="400" y="52">Family tree</text>
+<text class="lbl" x="60" y="350">Data vs engine · bootstrap</text>
+<text class="note" x="500" y="512">Maturity: solid = flagship (Mail) · dashed = early-stage service factories (UNVERIFIED)</text>
+<rect class="accent" x="390" y="70" width="220" height="80" rx="10"/>
+<text class="t" x="490" y="104">Core Framework</text>
+<text class="s" x="490" y="124">Kotlin engine</text>
+<rect class="good" x="60" y="220" width="200" height="80" rx="10"/>
+<text class="gt" x="160" y="264">Mail Factory</text>
+<text class="s" x="160" y="284">flagship</text>
+<rect class="dash" x="290" y="220" width="200" height="80" rx="10"/>
+<text class="t" x="390" y="264">Web Service Factory</text>
+<text class="s" x="390" y="284">early-stage</text>
+<rect class="dash" x="520" y="220" width="200" height="80" rx="10"/>
+<text class="t" x="620" y="264">SonarQube Factory</text>
+<text class="s" x="620" y="284">early-stage</text>
+<rect class="dash" x="750" y="220" width="200" height="80" rx="10"/>
+<text class="t" x="850" y="264">Caching-Proxy Factory</text>
+<text class="s" x="850" y="284">early-stage</text>
+<rect class="box" x="60" y="370" width="270" height="70" rx="10"/>
+<text class="t" x="195" y="414">Definitions packs</text>
+<text class="s" x="195" y="434">Docker · Stack · Software</text>
+<rect class="box" x="360" y="370" width="270" height="70" rx="10"/>
+<text class="t" x="495" y="414">Utils</text>
+<text class="s" x="495" y="434">init_ssh_access.sh bootstrap</text>
+<path class="conn" marker-end="url(#a)" d="M470,150 L160,218"/>
+<path class="conn" marker-end="url(#a)" d="M490,150 L390,218"/>
+<path class="conn" marker-end="url(#a)" d="M510,150 L620,218"/>
+<path class="conn" marker-end="url(#a)" d="M540,150 L850,218"/>
+<path class="conn" marker-end="url(#a)" d="M195,368 L460,152"/>
+<path class="conn" marker-end="url(#a)" d="M495,368 L520,152"/>
+</svg>

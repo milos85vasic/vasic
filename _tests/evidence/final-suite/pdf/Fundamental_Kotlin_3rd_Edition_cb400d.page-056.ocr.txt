@@ -1,0 +1,43 @@
+Constants and variables
+
+Constants and variables are the names that you give to computer memory
+locations that are used to store the values of a computer program. Constants
+do not change their value over time. A variable, on the other hand, changes its
+value. In Kotlin we can define a variable and constant values both.
+
+Each constant or variable belongs to its parent scope. The scope of a variable
+(or constant) is the region of a program in which that variable (or constant) is
+visible. In parent scope variables (or constants) are accessible by their name
+and can be used. If we try to access variables outside of their scope compiler
+will complain and report an error.
+
+Variables (and constants) can be local or global. A local variable is a variable that
+is given local scope. Local variables reference in the function or a block in which
+it is declared. Global variables are declared outside any function, and they can
+be accessed (used) on any function in the program.
+
+Let's have a look at some examples. Open “Values.kt” source code file.
+
+The first example in this section is an example of defining a constant. We will
+assign the value that can be only read:
+
+// We provide the type and the value:
+
+val x: Int =1
+
+This statement consists of several parts. Reserved word “val” tells the compiler
+that we will define a constant, which is then followed by the constant’s name. In
+our case name of this constant is “x”. The data type of the constant is specified
+after the constant’s name with “:” character followed by the data type. In this
+case, it is anumber (Integer). Finally, we assign the value like in math: “= 1”. We
+have defined a constant named “x” with the value of 1” (which is an Integer
+data type).
+
+Value for x cannot be reassigned. We can make this statement simpler because
+the Integer type can be inferred from the value that we are passing to a
+constant. Let's define another constant:
+
+valy =1
+
+“y" constant follows the same rule. As you can see, since type is inferred we do
+not have to mention it explicitly.

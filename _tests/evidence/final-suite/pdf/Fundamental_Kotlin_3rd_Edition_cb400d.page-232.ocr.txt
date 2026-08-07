@@ -1,0 +1,44 @@
+Determines that an annotation is applicable twice or more on a single code
+element.
+-"“@MustBeDocumented”:
+Determines that an annotation is a part of public API. Therefore it should be
+included in the generated documentation for the element to which the
+annotation is applied.
+We will illustrate use of annotations on the example from book code examples
+“Annotations.kt":
+@Target(
+
+AnnotationTarget.CLASS,
+
+AnnotationTarget.CONSTRUCTOR,
+
+AnnotationTarget.FUNCTION,
+
+AnnotationTarget. FIELD,
+
+AnnotationTarget. TYPE_PARAMETER,
+
+AnnotationTarget. VALUE_PARAMETER,
+
+AnnotationTarget.EXPRESSION,
+
+AnnotationTarget.PROPERTY_ SETTER,
+
+AnnotationTarget.PROPERTY_GETTER
+)
+@Retention(AnnotationRetention.SOURCE)
+@MustBeDocumented
+annotation class Marker
+And now we can use it to annotate our classes:
+@Marker class Annotated {
+
+@Marker fun hello(@Marker who: String): String {
+
+return (@Marker "Hello $who")
+
+}
+}
+Annotating the primary constructor of the class is achievable by adding the
+constructor keyword to the constructor declaration and by adding the
+annotations before it. Like in this example:
+class Annotated2 @Marker constructor()

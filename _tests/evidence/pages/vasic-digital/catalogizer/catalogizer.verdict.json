@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:34:38.136Z",
+  "input": "file:///Volumes/T7/Projects/vasic/vasic.digital/products/catalogizer.html",
+  "name": "catalogizer",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/pages/vasic-digital/catalogizer/catalogizer.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/vasic-digital/catalogizer/catalogizer.light.ocr.txt",
+        "wordCount": 686,
+        "sample": "Vasic Digital Home Products TIER: VASIC-UTIL-SECONDARY ORDER 21 Catalogizer production license: UNVERIFIED"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 31,
+          "controls": 13,
+          "textChars": 3608
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/pages/vasic-digital/catalogizer/catalogizer.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/vasic-digital/catalogizer/catalogizer.dark.ocr.txt",
+        "wordCount": 687,
+        "sample": "Vasic Digital Home Products “6: TIER: VASIC-UTIL-SECONDARY ORDER 21 Catalogizer production license:"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 31,
+          "controls": 13,
+          "textChars": 3608
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

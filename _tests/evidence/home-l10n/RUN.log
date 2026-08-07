@@ -1,0 +1,7 @@
+HOME-page localization — FINAL
+Sites: milosvasic-ru (60 strings), vasic-digital (82 strings)
+Langs (14): ru sr de es fr be zh kk hi ja ko ar tr fa
+Pairs complete: 28/28  (files: _content/sites/<site>.home.<lang>.json)
+Translator: Cerebras gpt-oss-120b | Reviewer: Cerebras gpt-oss-120b (independent @ temp0)
+Hard gate: target-script check (non-Latin) + strict leftover-English repair (Latin) => 0 missing, 0 residual
+Evidence: reviews/ (28), files/ (28 copies), coverage_report.json, coverage.json

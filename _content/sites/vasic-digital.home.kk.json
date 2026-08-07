@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "kk",
+  "title": "Vasic Digital — AI-туған бағдарламалық инженерия",
+  "description": "Vasic Digital AI әзірлеу жүйелерін құрады — көп провайдерлі LLM инфрақұрылымы, агенттерді оркестрлеу және сенімділікті қамтамасыз ететін конституция‑плюс‑дәлелдер басқару қабаты.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — OpenDesign жүйесі негізінде жасалған.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI-туған бағдарламалық инженерия"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "AI-туған бағдарламалық инженерия, сенімді болу үшін жасалған."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "Біз AI әзірлеу жүйелерін құрамыз — модельдер, агенттер, оркестрлеу және инфрақұрылым, үлкен тіл модельдерін сенімді бағдарламалық қамтамасыз етуге айналдырады — сонымен қатар оларды адал ұстайтын басқару қабаты."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "Өнімдерді зерттеу",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "Портфолионы қарау",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "Портфолионы жүктеп алу (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM провайдерлері, бір интерфейс"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "репозиторийлер, бір конституция"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "үш деңгейдегі өнімдер"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// туралы"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "Флот, монолит емес."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital AI‑әзірлеу өнімдері мен қайта пайдаланылатын модульдердің өзара байланысты отбасын құратын мамандандырылған инженерлік практика. Бір монолит орнына жұмыс флот ретінде ұйымдастырылған: ондай өнімдер ондай кішкентай, тәуелсіз‑тексерілген, ажыратылған модульдер үстінде — сондықтан дәлелденген бөліктер әр өнімде қайта пайдаланылады, қайта құрастырылмай."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "Негізгі тіл Go, оған Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift және Shell қосылады — әр жұмысқа сәйкес таңдалады. Флотты байланыстыратын нәрсе механикалық тәртіп: әр жоба Git субмодулі ретінде ортақ инженерлік Конституцияны мұраға алады, және өнім жарнамалайтын әр мүмкіндікті автоматтандырылған, дәлел‑шығарушы тест қолдайды. Функция тесттер өткенде «аяқталды» деп саналмайды; ол нақты пайдаланушы оны пайдалана алғанда, және дәлелдер тіркелгенде аяқталады."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// біз не істейміз"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "AI‑негізделген әзірлеу, соңынан соңға дейін."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "Біз AI жүйелерінің субстратын құрамыз — қолданба астындағы қиын бөлік."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "Көп провайдерлі LLM қолжетімділігі",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "40‑тан астам провайдерлерге бірінші‑жақты абстракция — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok және жергілікті Ollama резерв ретінде — бір интерфейсте, қайта әрекеттену, сұлулық үзілістері және денсаулық тексерулерімен."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "Агенттерді үйлестіру",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "Headless CLI кодтау‑агенті басқару жазықтықтары, граф‑негізіндегі агенттік жұмыс ағындары, көпкезеңді \"AI дебат\" консенсус, және DAG/конвейер орындау уақыты."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM тексеру",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "Модельдерді міндетті түсіну қақпасы (\"Кодымды көресіз бе?\") плюс кідіріс, ағындық, функция‑шақыру, көру және эмбеддинг тесттері арқылы бағалайтын сенім қабаты — тексерілген конфигурацияны экспорттайды."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "Қалпына келтіру және жад",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, векторлық дерекқорлар, эмбеддингтер және біріктірілген агент‑жад қозғалтқыштары (Mem0 + Cognee + Letta) шексіз‑контекст сығуымен."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "Қорғаныс LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "Қорғаныс шекаралары, PII анықтау, қарсы‑жарқын команда сценарийлері және кіріс канонизациясы — қауіпсіздік субстратқа енгізілген, қосымша емес."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// tier 1 — негізгі"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Helix өнім отбасылығы & LLM инфрақұрылымы"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "Біздің басты желіміз AI‑әзірлеу өмірлік циклінің толық спектрін қамтиды. Приоритет бойынша."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "JIRA‑ға тегін әлемдік балама — Helix-Track желісінің басты өнімі."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "Көптеген модельдер таласып, келісілген жауапты жеткізетін ансамбль LLM қызметі."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "SSH‑мен басқарылатын жұмысшылар арасында жұмысты бөледі, чекпоинт/қайтару мүмкіндігі бар таралған AI әзірлеу платформасы."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "Бір бинарлық, алты режим: OpenAI‑ және Anthropic‑үйлесімді инференс ноутбук‑тен кластерге, HTTP/3 арқылы."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "AI есептеулер үшін таралған операциялық жүйе, дерекқор GPU‑лардан шеткі қолдаушылыққа дейін."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "Бір интерфейс, 43 провайдер — сұлулық үзілістері, қайта әрекеттену және денсаулық тексерулері енгізілген."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "Әр headless CLI кодтау агенті үшін бір басқару жазықтығы."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "Тексеру. Мониторинг. Оптимизация. LLM және провайдер тексеру метадеректері үшін бір ғана шындық көзі."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "AI агенттері үшін бір жад миы — төрт үздік‑класс қозғалтқыш, біріктірілген."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// сапа және басқару — біздің айырмашылығымыз"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "Басқару тексерілетін факт ретінде, ұмтылыс ретінде емес."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "Екі тірек флоттың тұтастығын және сенімділігін қамтамасыз етеді."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "Жоба‑агностикалық әмбебап инженерлік ереже жинағы Git субмодулі ретінде жеткізіледі және 140‑тан астам репозиторий флотындағы әр жоба мұраға алады. Ол келісілмейтін тәртіпті кодтайды — анти‑блюфф дәлел қақпалары, жалған‑оң нәтиже иммунитеті, дерек және хост қауіпсіздігі — жоба оны кеңейте алады, бірақ әлсірете алмайды. Бір субмодуль жаңартуы ережелерді барлық жерде жаңартады, және әр қақпа мутант тестімен жұпталады, ол қақпаның жалған еместігін дәлелдейді."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "Анти‑блюфф QA оркестрлеу. Ол YAML тест банктерін іске қосып, Android, Android TV, Web және Desktop бойынша толық автономды, LLM‑плюс‑компьютер‑көрініс QA сессияларын өткізеді — және тіркелген жұмыс уақыты дәлелі жоқ PASS ұпайын бермейді: скриншоттар, logcat, видео, стек трассалары. \"Біз оны тестістік\" \"мұнда видео, logcat және билет\" болып өзгереді."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// tier 2 — утилиталар"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital утилиталары"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "Өнім‑деңгейлі құралдар, өздігінен тұрады."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "Көппротоколды, шифрланған медиа жинау басқармасы — иеленген барлық нәрсені анықтау, каталогтау және байыту."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown кіріс, кәсіби видео курс шығыс — AI‑жақсартылған, көпплатформалы."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "UI‑ны пайдаланушы сияқты көру — компьютерлік көру плюс LLM көруі талдау және навигация үшін."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "Құжаттаманы QA автоматизациясы үшін тексерілетін функция картасына айналдыру."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "Бақыланатын құжат синхроннан шыға алмайды — мазмұн‑хешті, екіжақты, атомдық."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "Әр ескерту дұрыс орынға жетеді — командалық синтаксис қажет емес."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "Сіздің тапсырма тақтаңыз және шындық көзіңіз мінсіз синхронда — екі жақты."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "Бір рет құрып, барлық жерде қайта пайдалану — кішкентай, ажыратылған, тәуелсіз‑тексерілген Go және KMP модульдер флоты."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// tier 3 — мұра"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — инфрақұрылым автоматтандыруы"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "Біздің DevOps мұрасы: декларативті JSON толық‑провизияланған, Docker‑ленген серверлерге айналады."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "Mail Server Factory‑ны босқа емес, JSON‑де сипаттап, кез келген жерде орналастырыңыз."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "Әр Server Factory артындағы ортақ қозғалтқыш."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "QEMU VM бейнелері, артефакт ретінде басқарылатын — жүктеп алу, іске қосу, желі, жариялау."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "Parallels VM бейнелерін барлық машиналарда сығу, жариялау және қайта пайдалану."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Көбірек оқу"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// технологиялар"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "Біздің нақты стек негізінде."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "Тілдер",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "ЖИ / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "Бэкенд",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "Деректер",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "Инфрақұрылым / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "Тестілеу / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// портфолио"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "Бір флот, бір тәртіп — барлық 33 өнімді қараңыз."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Helix отбасылығы, vasic-digital утилиталары және Server Factory құралдар тізбегінің дәлел‑негізделген біртұтас портфолиосы."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "Портфолионы ашу",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// байланыс"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "Келіңіз, тексерілетін нәрсе құрайық."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "Кез келген адам қосымшаны LLM‑ге қосып жібере алады. Біз қиын бөлігін құрамыз: тексерілетін, қайта пайдаланылатын және адал AI жүйелері. Біз сізге жасыл белгішеге сенуді сұрамаймыз — оның артындағы дәлелді көрсетеміз."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "Электрондық пошта",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

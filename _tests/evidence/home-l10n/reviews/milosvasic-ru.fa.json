@@ -1,0 +1,16 @@
+{
+  "site": "milosvasic-ru",
+  "lang": "fa",
+  "name": "Persian (Farsi)",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "PASS",
+  "strings_total": 60,
+  "reviewer_bad_keys": [],
+  "script_flagged": [],
+  "english_leftover_flagged": [],
+  "retried": [],
+  "still_bad_after_retry": [],
+  "notes": "All translations are accurate, natural, complete, use correct Persian script, and preserve required Latin terms."
+}

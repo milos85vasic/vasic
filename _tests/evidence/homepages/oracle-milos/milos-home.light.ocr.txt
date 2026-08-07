@@ -1,0 +1,86 @@
+Skip to main content
+milos.vasic
+Work Experience Skills Contact
+[EN]
+[e]
+// AL engineer
+Milo8 Vasié
+Al engineer building verifiable AI-development systems: multi-provider LLM infrastructure, autonomous agents and orchestration, and the governance and QA layers that keep them honest.
+[_& Download CV | Cover Letter | Portfolio (PDF) [Portfolio site
+Go 140+ 33
+backbone language repositories, one constitution products, evidence-backed
+// summary
+I design and build the software that turns LLMs into dependable products.
+I work primarily in Go, with Kotlin / Kotlin Multiplatform, TypeScript/React, Python,
+Swift, and Shell as the job demands. My output is organized as a fleet rather than a pile of
+one-off apps: large product applications sitting on top of dozens of small, decoupled,
+independently-tested modules, all inheriting a shared engineering Constitution as a Git
+submodule.
+‘That means fixes propagate across everything, new products assemble from proven parts,
+and every advertised capability is backed by an evidence-producing test. My north star is,
+asingle rule — a feature is finished only when a real user can use it and there is captured
+evidence to prove it. This page moves from the overview to the individual projects; each
+links to its full product page.
+// my work across the Helix family
+The Helix line, in priority order.
+‘The Helix line spans the Al-development lifecycle. Each card links to its full product
+page.
+HelixTrack beta HelixAgent beta HelixCode beta HelixLLM beta
+GoGinHTTP/3 QUICPostgreSQL+8 GoGinLLMsVerifierPrometheus+6 GoRedisSSHMCP+2 GoHTTP/3 QUICIama.cpp+5
+A free-world JIRA alternative; the flagship of the An ensemble LLM service with multi-round A distributed AI development platform that Asingle binary with six modes serving OpenAI-
+Helix-Track line. model debate and verification-based provider _ divides work across SSH-managed workers with and Anthropic-compatible APIs over HTTP/3,
+Read more selection. automatic checkpoint/rollback. with local lama.cpp inference and a scored
+Read more Read more fallback chain.
+Read more
+HelixCluster in-development LLMProvider beta LLMOrchestrator beta LLMsVerifier beta
+GoZiggRPCRaft + SWIM+7 Gonet/httplogrus+2 GoJSON-lines / stdioCircuit breaker+2 GoGinSQLite + SQLCipher+6
+A distributed operating system for AI compute, One interface over 43 providers with circuit One control plane for every headless CLI coding Verify, monitor, optimize: the single source of
+from datacenter GPUs to edge handhelds. breakers, retries, and health baked in. agent. truth for LLM/provider/verification metadata.
+Read more Read more Read more Read more
+// my work across vasic-digital utils
+Product-grade tools I built and maintain.
+Catalogizer production Courses-Creator production VisionEngine active DocProcessor active
+GoGinReact+10 GoReactElectron+8 GoGoCV / OpenCVLLM vision GoLLM agentsHeuristic parser
+Multi-protocol (SMB/FTP/NFS/WebDAV/local), A markdown-to-video course pipeline with A decoupled Go toolkit fusing classic computer Turns documentation into a verifiable feature
+encrypted, self-hostable media collection multi-LLM enrichment, TTS, and vision with multi-provider LLM vision for UI map for QA automation (LLM or heuristic
+management with a Go/Gin API and React UI. _desktop/mobile/web players. analysis and navigation graphs. extraction).
+Read more Read more Read more Read more
+Docs Chain active Herald active task_bridge scaffold Reusable Module Suite scaffold
+GoDAGSQLitefsnotify GoShellLLM intent GoSQLitewebhooks Go (digital.vasic.*)KMP+1
+Acontent-hashed, bidirectional, atomic Reliable multi-channel notifications with natural-A decoupled, bidirectional task/board sync The digital.vasic.* "standard library" of
+document/DB sync engine. language, three-tier intent resolution. engine (P1 scaffold; syne logic in progress). _infrastructure, Al-primitive, and guardrail
+Read more Read more Read more modules.
+Read more
+// infrastructure heritage (Server Factory)
+Predating the AI line — my DevOps toolchain.
+Mail Server Factory production Server Factory Core stable Qemu-Utils active Parallels-Utils active
+KotlinShellDocker+4 KotlinShellGradle ShellQEMUISO images ShellPython 3Parallels
+Declarative JSON — fully-provisioned The Server Factory Core Framework every QEMU VM-image tooling — download, run, | Compress, publish, and reuse Parallels VM
+Dockerized mail servers, reporting 439 passing service factory builds on. network, and publish machine images as images across every machine.
+tests and a clean SonarQube gate. Read more artifacts. Read more
+Read more Read more
+See the full portfolio
+// how I work — governance and QA first
+The discipline that underpins the products.
+Before the products, the discipline: I don't ship green checkmarks — I ship Al systems
+with the evidence that they actually work.
+HelixConstitution shipped HelixQA beta
+A universal, inheritable engineering rulebook, distributed as a Git submodule across a 140+- Anti-bluff QA orchestration that runs written test banks and fully-autonomous, LLM-and-vision-
+repository fleet. It codifies anti-bluff evidence gates, false-positive immunity, data/host safety, and driven QA sessions across Android, Android TV, Web, and Desktop, scoring a PASS only when it
+coverage rules; projects may tighten but never weaken it, and each governance gate is paired with has captured runtime evidence.
+a mutation test that proves the gate itself works. Read more
+Read more
+// technologies
+The stack I actually build on.
+Languages AI/LLM Backend Data & Infra
+GoKotlin / KMPTypeScriptPythonSwiftShell 43+ providersMCPRAGVector DBs GingRPC + ProtobufHTTP/3 (QUIC) PostgreSQLSQLite / SQLCipherRedis
+Agent orchestration ‘WebSockets Docker / K8sPrometheus
+// contact
+In one line.
+I don't ship green checkmarks — I ship AI systems with the evidence that they actually
+work, and the governance that keeps them that way. Open to senior Al/platform
+engineering roles worldwide.
+Email GitHub Telegram
+i@mvasic.rumilos85vasic % @milos85vasic
+GitHub GitFlic GitLab Telegram i@mvasic.ru
+© 2026 Milos Vasic — Belgrade - Dubna. Built as a static site, deployed on GitHub Pages.

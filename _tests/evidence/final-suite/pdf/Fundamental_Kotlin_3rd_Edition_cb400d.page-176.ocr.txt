@@ -1,0 +1,33 @@
+fun(value: Int) {
+if (value % 2 == 0) {
+return
+}
+printin("Item: $value")
+}
+)
+
+}
+Let's try it:
+numbers = arrayListOf(1, 3, 5, 7, 9)
+example4(numbers)
+Console output:
+Item: 1
+Item: 3
+Item: 5
+Item: 7
+Item: 9
+Collections
+A collection represents a group of objects, known as its elements. Some
+collections allow duplicate elements and others do not. In Kotlin, some
+collections are mutable and some are immutable. Collections can be ordered or
+unordered as well.
+The most significant categorization in Kotlin is between mutable and immutable
+collections.
+Differences between mutable and immutable collections are the easiest to
+explain in the example of lists. Immutable lists implement interface “List<out
+T>" which gives the class the following functionalities: “size” and “get”, access to
+elements by position. Mutable functionalities are gained by implementing the
+“MutableList<T>" interface, which gives “add”, “addAll” and “remove”
+functionalities.
+In upcoming sections, we will give examples of the use of each of these
+collections and illustrate some basic operations that can be performed on them.

@@ -1,0 +1,47 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T20:23:21.909Z",
+  "pdf": "/Volumes/T7/Projects/vasic/milosvasic.ru/_site/downloads/Milos_Vasic_CV_EN.pdf",
+  "name": "mv_CV_EN",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 40,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": []
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 1300 words (min 40)"
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "PASS",
+      "detail": "no raw markup / mermaid source found in body text"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "pdfimages found 1 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 5 rendered page(s) recovered 1311 legible words (min 15)"
+    }
+  ],
+  "verdict": "PASS",
+  "pdftotextFile": "evidence/final-suite-2/pdf/mv_CV_EN.pdftotext.txt",
+  "ocrPages": 5
+}

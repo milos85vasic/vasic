@@ -1,0 +1,31 @@
+reference that refers to the given object is created. A referent is an object to
+which a new weak reference will refer.
+Obtaining access to referent is achieved via the “get” function. The function
+returns this reference object's referent. This function returns null if this
+reference object has been cleared, either by the program or by the garbage
+collector.
+Finally, we are calling “clear”. “clear” function clears this reference object.
+Invoking this function will not cause this object to be enqueued. This function is
+invoked only by our code. However, when the garbage collector clears
+references it does so directly, without invoking this function.
+Let's run our program:
+Dummy: 491044090
+As you can see, the “hello” function has been executed only once since for the
+second execution there was no referent pointed by our weak reference.
+Soft references
+A soft reference object can be cleared by the Garbage Collector in response to a
+a memory demand. When a Garbage Collector is called, it iterates over all
+elements in the heap. GC keeps reference-type objects in a special type of
+queue. GC determines which instances should be removed by removing objects
+from that queue after all objects in the heap have been checked. It is
+guaranteed to be cleared soft references to softly-reachable objects before a
+JVM throws an OutOfMemoryError.
+Because of this, the time when a soft reference gets cleared is not guaranteed
+or the order in which a set of such references to different objects gets cleared.
+To demonstrate the practical use of soft references through the code open
+"Soft.kt” from book code examples:
+class Dummy {
+
+fun hello() = printin("Dummy: ${hashCode()}")
+}
+val dummy = Dummy()

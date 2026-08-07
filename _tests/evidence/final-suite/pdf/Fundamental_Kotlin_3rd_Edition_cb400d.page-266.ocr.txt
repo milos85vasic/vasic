@@ -1,0 +1,38 @@
+value: old='No value’, new='Hello world!’
+value: old='Hello world!', new='Lorem ipsum...
+value: old='Lorem ipsum...', new='And so on...'
+Builders
+In this section, we will show you the two most frequently used building
+mechanisms. They are used to build strings and to build maps. We will cover
+them through sections:
+- String builder
+- and map builders.
+String builder
+String builder is used for performing multiple string manipulation operations.
+To better understand possibilities of the string builder open “StringBuilder.kt”
+from book code examples:
+val builder = StringBuilder()
+
+-append("Hello world!")
+
+-append("\n")
+
+-append("Numbers: ")
+val numbers = StringBuilder()
+for (number in 1..3) {
+
+numbers.append(number)
+
+-append(" ")
+
+}
+val text = builder.append(numbers,
+
+-append("\n")
+
+-append("Lore ipsum...")
+
+.toString()
+printin(text)
+We have created the “StringBuilder” class instance on which we are chaining
+“append” function calls. Since the “append” function returns the current

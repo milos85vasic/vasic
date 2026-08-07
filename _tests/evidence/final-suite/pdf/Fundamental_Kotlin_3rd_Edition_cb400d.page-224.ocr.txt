@@ -1,0 +1,28 @@
+val diagnostics = EngineDiagnostics()
+diagnostics.checkEngine(truckEngine)
+diagnostics.checkEngine(rocketEngine)
+Running “engine checks” on “Engine” instances will produce the following result:
+Engine(power=100)
+Engine(power=1000)
+Generics wildcards
+Generics wildcards are used to indicate that input or output data types are
+subtypes of some super-type, which means that some type that we use must
+inherit some other super-type. Let's have a look at the example that illustrates
+how we can do this. From book code examples open “Extends.kt”:
+abstract class Airplane {
+abstract fun describe()
+}
+class Boeing : Airplane() {
+override fun describe() {
+printin("Being")
+}
+}
+class Airbus : Airplane() {
+override fun describe() {
+printin("Airbus")
+}
+}
+class AirplaneDescriptor {
+fun <T:: Airplane> describe(airplane: T) {
+airplane.describe()
+}

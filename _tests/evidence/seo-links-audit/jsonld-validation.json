@@ -1,0 +1,1264 @@
+{
+  "totals": {
+    "blocks": 105,
+    "parseErrors": 0,
+    "structuralIssues": 35
+  },
+  "results": [
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebSite"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "WebPage"
+      ],
+      "issues": [
+        "@type=WebPage missing required field 'name'"
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "block": 2,
+      "valid": true,
+      "types": [
+        "Person",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/portfolio/index.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/courses-creator.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/docprocessor.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/docs-chain.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helix-flow.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixagent.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixbuilder.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixcluster.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixcode.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixconstitution.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixgitpx.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixllm.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixmemory.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixota.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixplay.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixqa.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixskills.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixspecifier.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixterminator.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixtrack.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixtranslate.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/herald.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmorchestrator.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmprovider.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmsverifier.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/mail-server-factory.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/parallels-utils.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/qemu-utils.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-core-framework.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/task-bridge.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/vasic-digital-reusable-module-suite.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/visionengine.html",
+      "block": 1,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication"
+      ],
+      "issues": []
+    }
+  ]
+}

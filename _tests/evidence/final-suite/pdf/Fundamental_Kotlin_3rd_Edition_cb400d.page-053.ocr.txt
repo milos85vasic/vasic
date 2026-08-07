@@ -1,0 +1,52 @@
+com.notes.models
+
+com.notes.models.actions
+
+com.notes.connectivity
+
+com.notes.utils
+
+and so on.
+
+Note:
+
+If the package is not specified in the source code file, the contents of such a file
+belong to the default package that has no name.
+As you can see, it is not difficult to organize source code. As you gain more
+experience with Kotlin programming you will be more clever in making
+decisions where to put your source code.
+
+Importing source code
+
+Source code is imported by using the “import” keyword. “import” is used along
+with importing name (scope) passed to it. We can import a single name or all
+the accessible contents of scope, such as:
+
+- package
+
+- class
+
+- object
+
+and so on.
+
+In Kotlin certain number of packages is imported by default:
+
+- kotlin.*
+
+- kotlin.annotation.*
+
+- kotlin.collections.*
+
+- kotlin.comparisons.*
+
+- kotlin.io.*
+
+- kotlin.ranges.*
+
+- kotlin.sequences.*
+
+- kotlin.text.*
+
+Depending on the targeting platform there are a few additional packages that
+are imported. If your project is targeting JVM:

@@ -1,0 +1,17 @@
+What is Kotlin?
+
+Kotlin is a statically typed programming language running on Java Virtual
+Machine, Android, web browser, or even native as a binary.
+
+Kotlin is concise: drastically reduces source code boilerplate. It is safe: (almost)
+impossible to get NullPointerException (NPE). We will learn about NPEs in
+upcoming sections of this book. Kotlin is versatile: it is a general-purpose
+programming language. Finally, it is interoperable. That means that we can
+use existing JVM libs and frameworks in Kotlin, or use Kotlin developed libraries
+in other JVM languages.
+
+A team at JetBrains (creators of IntelliJ) Idea IDE) developed Kotlin, an open-
+source language with an army of external contributors.
+
+Kotlin is licensed under Apache 2 Open-Source License. The current version of
+Kotlin is 1.7.10.

@@ -1,0 +1,107 @@
+SPEC FIXES — matching INTENTIONAL site changes (not regressions)
+================================================================
+NOTE: `git diff` against HEAD is noisy because the test suite already had
+unrelated uncommitted work in the tree and download-switcher-perlang.spec.js
+is an untracked (new) file. The four edits below are exactly what THIS task
+changed — nothing else was touched.
+
+Intentional site changes being matched:
+  (a) German (de) download PDFs REMOVED (were EN mislabeled as German).
+      Switcher AVAIL is now {cv:[EN,SR,RU], cl:[EN,SR,RU], portfolio:[EN,SR,RU]};
+      a `de` UI falls back to the EN PDF; no DE row is ever offered.
+  (b) Name renders with diacritics "Miloš Vasić"; home <title> is
+      "Miloš Vasić | AI Engineer — Verifiable AI-Development Systems".
+
+
+EDIT 1 — tests/download-switcher-perlang.spec.js  (test @ line 15)
+------------------------------------------------------------------
+Title: "UI lang = de → CV popup marks DE as the current choice ..."
+   ->  "UI lang = de (no DE PDF) → CV popup falls back to EN as the current choice ..."
+
+- await expect(current).toHaveAttribute('data-lang', 'DE');
+- await expect(current).toHaveAttribute('href', /Milos_Vasic_CV_DE\.pdf$/);
++ await expect(current).toHaveAttribute('data-lang', 'EN');
++ await expect(current).toHaveAttribute('href', /Milos_Vasic_CV_EN\.pdf$/);
++ await expect(modal.locator('.dl-lang[data-lang="DE"]')).toHaveCount(0);
+(the trailing `resp.status() === 200` check is kept — now proves the EN
+ fallback PDF resolves 200)
+
+
+EDIT 2a — tests/download-switcher-perlang.spec.js  (test @ line 52)
+------------------------------------------------------------------
+Title: "de PDFs (CV, Cover Letter, Portfolio) return 200"
+   ->  "EN/SR/RU PDFs (CV, Cover Letter, Portfolio) return 200; DE was removed"
+
+- for (const f of ['Milos_Vasic_CV_DE.pdf', 'Milos_Vasic_Cover_Letter_DE.pdf', 'Portfolio_DE.pdf']) {
+-   const resp = await page.request.get(`${MV}/downloads/${f}`);
+-   expect(resp.status(), f).toBe(200);
+- }
++ for (const f of [
++   'Milos_Vasic_CV_EN.pdf', 'Milos_Vasic_CV_SR.pdf', 'Milos_Vasic_CV_RU.pdf',
++   'Milos_Vasic_Cover_Letter_EN.pdf', 'Milos_Vasic_Cover_Letter_SR.pdf', 'Milos_Vasic_Cover_Letter_RU.pdf',
++   'Portfolio_EN.pdf', 'Portfolio_SR.pdf', 'Portfolio_RU.pdf',
++ ]) {
++   const resp = await page.request.get(`${MV}/downloads/${f}`);
++   expect(resp.status(), f).toBe(200);
++ }
++ const de = await page.request.get(`${MV}/downloads/Milos_Vasic_CV_DE.pdf`);
++ expect(de.status(), 'Milos_Vasic_CV_DE.pdf should be absent').toBe(404);
+
+
+EDIT 2b — tests/download-switcher-perlang.spec.js  (test @ line 71)
+------------------------------------------------------------------
+Title: "company Portfolio_DE.pdf resolves 200"
+   ->  "company Portfolio EN/SR/RU resolve 200; DE was removed"
+
+- const resp = await page.request.get(`${VD}/downloads/Portfolio_DE.pdf`);
+- expect(resp.status()).toBe(200);
++ for (const f of ['Portfolio_EN.pdf', 'Portfolio_SR.pdf', 'Portfolio_RU.pdf']) {
++   const resp = await page.request.get(`${VD}/downloads/${f}`);
++   expect(resp.status(), f).toBe(200);
++ }
++ const de = await page.request.get(`${VD}/downloads/Portfolio_DE.pdf`);
++ expect(de.status(), 'Portfolio_DE.pdf should be absent').toBe(404);
+
+Also updated the file header comment (lines 5-8) that claimed `de` PDFs are
+built and "must resolve 200" — now states DE has no PDF and `de` falls back
+to EN.
+
+
+EDIT 3 — tests/milosvasic-ru-features.spec.js  (test @ line 6)
+--------------------------------------------------------------
+Title: "popup offers EN/SR/RU/DE and builds correct CV hrefs"
+   ->  "popup offers EN/SR/RU and builds correct CV hrefs"
+
+- await expect(modal.locator('.dl-lang')).toHaveCount(4);
++ await expect(modal.locator('.dl-lang')).toHaveCount(3);
+  ... EN / SR / RU href assertions kept ...
+- await expect(modal.locator('.dl-lang[data-lang="DE"]')).toHaveAttribute('href', /Milos_Vasic_CV_DE\.pdf$/);
++ await expect(modal.locator('.dl-lang[data-lang="DE"]')).toHaveCount(0);
+
+
+EDIT 4 — tests/milosvasic-ru.spec.js  (test @ line 9)
+-----------------------------------------------------
+- await expect(page).toHaveTitle(/Milos Vasic/i);
++ await expect(page).toHaveTitle(/Milo[sš] Vasi[cć]/i);   // accept diacritic form "Miloš Vasić"
+
+
+LEGACY PDFs DELETED (stale, unreferenced, 0-image text-only duplicates)
+-----------------------------------------------------------------------
+  milosvasic.ru/pages/Cover_Letter.pdf
+  milosvasic.ru/pages/Milos_Vasic_CL.pdf
+  (+ their built copies under milosvasic.ru/_site/pages/ so the served tree
+   is also clean)
+Canonical downloads live in */downloads/*. Grep confirmed no page (html/md/
+liquid/js/json) links these files — only _analysis docs and old test-evidence
+logs mention them. Fundamental_Kotlin_3rd_Edition.pdf (real published book)
+was NOT touched — it lives at milosvasic.ru/assets/pdf/ and its validate-pdf
+FAIL is a known mermaid-"journey"-regex false positive.
+
+
+TEST RUN — 3 affected specs, all 3 browsers (see run-all-3browsers.log)
+-----------------------------------------------------------------------
+  Running 72 tests using 5 workers
+  2 skipped        (chromium-only evidence-screenshot test skips on ff/webkit)
+  70 passed (15.6s)
+  0 failed
+  Per-browser test lines: chromium 24, firefox 24, webkit 24

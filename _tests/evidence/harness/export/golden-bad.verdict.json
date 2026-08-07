@@ -1,0 +1,62 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T13:18:24.095Z",
+  "pdf": "/Volumes/T7/Projects/vasic/_tests/export/fixtures/golden-bad.pdf",
+  "name": "golden-bad",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 40,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": [
+      "Shipped",
+      "Release Q4"
+    ]
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 79 words (min 40)"
+    },
+    {
+      "id": "content.faithful[Shipped]",
+      "family": "CONTENT",
+      "status": "FAIL",
+      "detail": "required phrase MISSING (content unfaithful/truncated): \"Shipped\""
+    },
+    {
+      "id": "content.faithful[Release Q4]",
+      "family": "CONTENT",
+      "status": "FAIL",
+      "detail": "required phrase MISSING (content unfaithful/truncated): \"Release Q4\""
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "FAIL",
+      "detail": "raw markup/mermaid source leaked as body text: mermaid:gantt(\"gantt\"), mermaid:dateFormat(\"dateFormat\"), mermaid:section(\"section F\"), mermaid:task-done(\":done,\"), mermaid:task-active(\":active,\"), mermaid:task-crit(\":crit,\")"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "FAIL",
+      "detail": "pdfimages found 0 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 1 rendered page(s) recovered 79 legible words (min 15)"
+    }
+  ],
+  "verdict": "FAIL",
+  "pdftotextFile": "/Volumes/T7/Projects/vasic/_tests/evidence/harness/export/golden-bad.pdftotext.txt",
+  "ocrPages": 1
+}

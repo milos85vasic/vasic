@@ -1,0 +1,54 @@
+# Polish evidence — AFTER — 2026-08-06T12:38:14Z
+
+## #38 PERF
+
+### (a) Deferred scripts — milosvasic.ru/_site/index.html (built)
+  <script src="/assets/js/i18n.js" defer>
+  <script src="/assets/js/main.js" defer>
+  <script src="/assets/js/articles.js" defer>
+  <script src="/assets/js/downloads.js" defer>
+  (i18n.js + main.js now defer; order preserved i18n->main; articles/downloads already defer)
+  vasic.digital home external scripts:
+    <script defer src="assets/od/motion.js"></script>
+    <script defer src="assets/od/od-i18n.js"></script>
+
+### (b) Minification — SKIPPED
+  No minifier installed (esbuild/terser/cssnano absent; 'npx --no-install esbuild' fails).
+  build.sh re-copies raw design-system CSS/JS on every build, so a minify step would
+  require a persistent network-download stage + destructive rewrite of hand-authored JS
+  (motion.js/od-i18n.js: regex/ASI naive-strip breakage risk). Correctness over bytes -> skipped.
+
+### (c) Pruned rasters
+  profile.jpg (192968 B): 0 refs anywhere (site uses profile-{400,600,800}.{webp,jpg}) -> REMOVED (source + _site).
+    source: ls: milosvasic.ru/assets/images/profile.jpg: No such file or directory
+    _site:  ls: milosvasic.ru/_site/assets/images/profile.jpg: No such file or directory
+  milosvasic.png (178506 B): referenced by milosvasic.ru/README.md -> KEPT (per 'keep if referenced anywhere').
+    unreferenced by any served HTML/CSS/JS; could be _config.yml-excluded from _site as a follow-up.
+  Served-weight removed: ~188 KiB (188 KB from _site/assets/images/profile.jpg).
+  assets/images total: BEFORE 1.2M -> AFTER 1.1M
+
+## #41 hreflang-on-home
+
+### Investigation
+  Localized homes are NOT generated (main.go skips 'home' for langSeg!=''); the home's
+  language switcher swaps chrome text client-side and stays on the same URL. Only the EN
+  home route exists. => home hreflang scoped to en + x-default (both -> EN root).
+
+### BEFORE
+  vasic.digital/index.html: 16 alternates, 14 non-EN -> /de/ /sr/ ... = 404 (no such dirs)
+  milosvasic.ru/index.html: 0 hreflang tags
+
+### AFTER — vasic.digital/index.html
+  hreflang="en" href="https://vasic.digital/"
+  hreflang="x-default" href="https://vasic.digital/"
+### AFTER — milosvasic.ru/_site/index.html (rendered)
+  hreflang="en" href="https://milosvasic.ru/"
+  hreflang="x-default" href="https://milosvasic.ru/"
+
+### Target resolution (0 -> 404)
+  https://vasic.digital/   -> vasic.digital/index.html            OK
+  https://milosvasic.ru/   -> milosvasic.ru/_site/index.html      OK
+
+### Unaffected (out of #41 scope): product/portfolio full matrices intact
+  vasic.digital product alternates: 16
+  milosvasic.ru product alternates: 16

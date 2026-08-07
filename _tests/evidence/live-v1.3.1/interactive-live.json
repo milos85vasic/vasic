@@ -1,0 +1,134 @@
+[
+  {
+    "site": "vasic-home",
+    "check": "no-hoverflow@375",
+    "pass": true,
+    "detail": "scrollW=375 clientW=375"
+  },
+  {
+    "site": "vasic-home",
+    "check": "no-hoverflow@768",
+    "pass": true,
+    "detail": "scrollW=768 clientW=768"
+  },
+  {
+    "site": "vasic-home",
+    "check": "no-hoverflow@1280",
+    "pass": true,
+    "detail": "scrollW=1280 clientW=1280"
+  },
+  {
+    "site": "vasic-home",
+    "check": "no-broken-imgs",
+    "pass": true,
+    "detail": "imgs=2 broken=[]"
+  },
+  {
+    "site": "vasic-home",
+    "check": "backtotop-reveal-on-scroll",
+    "pass": true,
+    "detail": "before={\"vis\":\"visible\",\"op\":\"0\",\"cls\":\"od-to-top\",\"ah\":null} after={\"vis\":\"visible\",\"op\":\"1\",\"cls\":\"od-to-top is-visible\",\"ah\":null}"
+  },
+  {
+    "site": "vasic-portfolio-ru",
+    "check": "no-hoverflow@375",
+    "pass": true,
+    "detail": "scrollW=375 clientW=375"
+  },
+  {
+    "site": "vasic-portfolio-ru",
+    "check": "no-hoverflow@768",
+    "pass": true,
+    "detail": "scrollW=768 clientW=768"
+  },
+  {
+    "site": "vasic-portfolio-ru",
+    "check": "no-hoverflow@1280",
+    "pass": true,
+    "detail": "scrollW=1280 clientW=1280"
+  },
+  {
+    "site": "vasic-portfolio-ru",
+    "check": "no-broken-imgs",
+    "pass": true,
+    "detail": "imgs=0 broken=[]"
+  },
+  {
+    "site": "vasic-portfolio-ru",
+    "check": "backtotop-reveal-on-scroll",
+    "pass": false,
+    "detail": "before={\"vis\":\"visible\",\"op\":\"1\",\"cls\":\"od-to-top\",\"ah\":null} after={\"vis\":\"visible\",\"op\":\"1\",\"cls\":\"od-to-top\",\"ah\":null}"
+  },
+  {
+    "site": "milos-home",
+    "check": "no-hoverflow@375",
+    "pass": true,
+    "detail": "scrollW=375 clientW=375"
+  },
+  {
+    "site": "milos-home",
+    "check": "no-hoverflow@768",
+    "pass": true,
+    "detail": "scrollW=768 clientW=768"
+  },
+  {
+    "site": "milos-home",
+    "check": "no-hoverflow@1280",
+    "pass": true,
+    "detail": "scrollW=1280 clientW=1280"
+  },
+  {
+    "site": "milos-home",
+    "check": "no-broken-imgs",
+    "pass": true,
+    "detail": "imgs=1 broken=[]"
+  },
+  {
+    "site": "milos-home",
+    "check": "backtotop-reveal-on-scroll",
+    "pass": true,
+    "detail": "before={\"vis\":\"visible\",\"op\":\"0\",\"cls\":\"od-to-top\",\"ah\":null} after={\"vis\":\"visible\",\"op\":\"1\",\"cls\":\"od-to-top is-visible\",\"ah\":null}"
+  },
+  {
+    "site": "milos-portfolio-ru",
+    "check": "no-hoverflow@375",
+    "pass": true,
+    "detail": "scrollW=375 clientW=375"
+  },
+  {
+    "site": "milos-portfolio-ru",
+    "check": "no-hoverflow@768",
+    "pass": true,
+    "detail": "scrollW=768 clientW=768"
+  },
+  {
+    "site": "milos-portfolio-ru",
+    "check": "no-hoverflow@1280",
+    "pass": true,
+    "detail": "scrollW=1280 clientW=1280"
+  },
+  {
+    "site": "milos-portfolio-ru",
+    "check": "no-broken-imgs",
+    "pass": true,
+    "detail": "imgs=0 broken=[]"
+  },
+  {
+    "site": "milos-portfolio-ru",
+    "check": "backtotop-reveal-on-scroll",
+    "pass": true,
+    "detail": "before={\"vis\":\"visible\",\"op\":\"0\",\"cls\":\"od-to-top\",\"ah\":null} after={\"vis\":\"visible\",\"op\":\"1\",\"cls\":\"od-to-top is-visible\",\"ah\":null}"
+  },
+  {
+    "site": "vasic-home",
+    "check": "nav-click-portfolio-navigates",
+    "pass": true,
+    "detail": "landed=https://vasic.digital/portfolio/"
+  },
+  {
+    "site": "milos-portfolio-ru",
+    "check": "nav-click-work-navigates-to-home",
+    "pass": true,
+    "detail": "landed=https://milosvasic.ru/#work"
+  }
+]

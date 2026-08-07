@@ -1,0 +1,16 @@
+run-batch: langs=[ru sr de es fr be zh kk hi ja ko ar tr fa] docs=38 MAXPAR=1 RETRIES=2
+[ru] DONE  docs=38 PASS=32 FAIL=6 ERROR=0
+[sr] DONE  docs=38 PASS=37 FAIL=1 ERROR=0
+[de] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[es] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[fr] DONE  docs=38 PASS=37 FAIL=1 ERROR=0
+[be] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[zh] DONE  docs=38 PASS=37 FAIL=1 ERROR=0
+[kk] DONE  docs=38 PASS=37 FAIL=1 ERROR=0
+[hi] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[ja] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[ko] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[ar] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[tr] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+[fa] DONE  docs=38 PASS=38 FAIL=0 ERROR=0
+run-batch: ALL LANGUAGES PROCESSED

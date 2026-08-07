@@ -1,0 +1,28 @@
+Square of 4 is: 16
+Square of 5 is: 25
+Flattening
+We will play now with Kotlin flat map. Kotlin's “flatMap” function returns a single
+list of all elements yielded from the results of the transform function being
+invoked on each element of the original collection. Open “FlatMap.kt” from book
+code examples and take a look at the first example:
+val animals = mapOf(
+0 to "Elephant", 1 to "Lion", 2 to "Snake", 3 to "Ape"
+)
+val animalsList = animals.flatMap { listOf(it.value) }
+As it is obvious we have defined a list that contains a map of Integer identifiers
+to the name of an animal. Then, we are mapping map values (animal names)
+into the list. If we print out the contents of the map and the list:
+printin(animals)
+printin(animalsList)
+The following output will be generated:
+{0=Elephant, 1=Lion, 2=Snake, 3=Ape}
+[Elephant, Lion, Snake, Ape]
+Let's have a look into another example of “flatMap” usage:
+val words = listOf(
+"Hello", "World", "Airplane", "Car",
+"Beethoven", "Lorem", "Ipsum"
+)
+val allLetters = words.flatMap { it.toLowerCase().toList() }
+We have created a list of some words. Then, we are mapping each word's letter
+into the “allLettersList”. If we print it out:
+printin(allLetters)

@@ -1,0 +1,29 @@
+systems such as Fedora or CentOS installation is performed by executing the
+following command:
+$ yum install ncurses-compat-libs
+Debian based distributions can install “ncurses-compat-libs” by executing the
+following command:
+$ apt install libncurses5S
+Once requirements are met we are ready to build Kotlin/Native. Cd into the
+directory where you have extracted Kotlin/Native and update dependencies:
+$ ./gradlew dependencies:update
+It will take some time for dependencies to be updated. Please wait until the
+process is complete. It may take a couple of minutes for this step. Then, start
+the build:
+$ ./gradlew bundle
+The time needed for the build to complete may take more than one hour! After
+the build is done add your Kotlin/Native “bin” directory to the system path. After
+that, you will be ready to compile your first Kotlin/Native program.
+Compiling to native
+In this section, we will demonstrate Kotlin/Native compiling. If you didn’t clone
+book examples, please do so.
+Cd into “Native” directory. Inside you will see the file called "HelloNative.kt”. The
+content of the file is almost the same as “First.kt" from our first compiling
+example:
+fun main(args: Array<String>) {
+
+printin("My first Kotlin/Native application.")
+}
+You may notice that we did not define the package for this example. Let’s
+compile it. Open a terminal and execute the following command to compile .kt
+file:

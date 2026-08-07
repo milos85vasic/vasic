@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OpenDesign — Motion &amp; interaction preview</title>
+<link rel="stylesheet" href="../brand-milosvasic/milosvasic.css"/>
+<link rel="stylesheet" href="./animations.css"/>
+<style>
+  body { padding: 0; }
+  .wrap { max-width: 900px; margin-inline: auto; padding: 0 var(--od-space-6) var(--od-space-12); }
+  .od-section { padding-block: var(--od-space-10); border-bottom: 1px solid var(--od-border); }
+  .od-section h2 { font-family: var(--od-font-display); font-size: var(--od-fs-2xl); margin: 0 0 var(--od-space-2); }
+  .od-section p.lede { color: var(--od-text-muted); margin: 0 0 var(--od-space-6); max-width: 60ch; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--od-space-4); }
+  .row { display: flex; gap: var(--od-space-4); flex-wrap: wrap; align-items: center; }
+  .stack { display: flex; flex-direction: column; gap: var(--od-space-3); }
+  .note { background: var(--od-surface); border: 1px solid var(--od-border); border-left: 4px solid var(--od-accent);
+          border-radius: var(--od-radius-md); padding: var(--od-space-4) var(--od-space-5); }
+  .lottie-row { display: flex; gap: var(--od-space-8); flex-wrap: wrap; }
+  .lottie-cell { text-align: center; }
+  .lottie-cell figcaption { font-size: var(--od-fs-sm); color: var(--od-text-muted); margin-top: var(--od-space-2); }
+  .brand { font-family: var(--od-font-display); font-weight: 700; }
+  .od-header.od-sticky { padding-inline: var(--od-space-6); }
+  .swatch { height: 120px; border-radius: var(--od-radius-md); display: grid; place-items: center;
+            color: var(--od-on-accent); font-weight: 600; }
+  .chip-row { display: flex; gap: var(--od-space-3); flex-wrap: wrap; align-items: center; }
+  /* Keep the skip link on-screen-but-hidden (opacity) so it is revealed on
+     keyboard focus without being positioned off the viewport. */
+  .od-skip-link { top: 0; opacity: 0; pointer-events: none; transition: opacity var(--od-dur-base) var(--od-ease-standard); }
+  .od-skip-link:focus { opacity: 1; pointer-events: auto; }
+</style>
+</head>
+<body>
+<a class="od-skip-link" href="#main">Skip to content</a>
+
+<!-- Sticky header with active-section nav highlight -->
+<header class="od-header od-sticky" data-od-sticky-nav>
+  <span class="brand">OpenDesign · Motion</span>
+  <nav class="od-nav" aria-label="Sections">
+    <a class="od-nav__link od-navlink" data-od-vt href="#reveal">Reveal</a>
+    <a class="od-nav__link od-navlink" data-od-vt href="#stagger">Stagger</a>
+    <a class="od-nav__link od-navlink" data-od-vt href="#feedback">Feedback</a>
+    <a class="od-nav__link od-navlink" data-od-vt href="#accordion">Accordion</a>
+    <a class="od-nav__link od-navlink" data-od-vt href="#lottie">Lottie</a>
+  </nav>
+</header>
+
+<main class="wrap" id="main">
+
+  <section class="od-section od-reveal" aria-labelledby="intro-h">
+    <h2 id="intro-h">Animation &amp; interaction module</h2>
+    <p class="lede">Every effect below is driven by OpenDesign motion tokens
+      (<code>--od-dur-*</code>, <code>--od-ease-*</code>) and animates only
+      <strong>transform</strong> and <strong>opacity</strong> for smooth,
+      compositor-friendly motion.</p>
+    <div class="note" role="note">
+      <strong>Reduced motion:</strong> this page fully respects
+      <code>prefers-reduced-motion: reduce</code>. With it enabled, all reveals,
+      staggers, bounces, blinks, hovers, the accordion height animation, view
+      transitions and the Lottie accents are neutralized — content appears
+      instantly in its final state, with no looping motion.
+    </div>
+  </section>
+
+  <!-- SCROLL REVEAL -->
+  <section class="od-section od-reveal" id="reveal" aria-labelledby="reveal-h">
+    <h2 id="reveal-h">Scroll reveal</h2>
+    <p class="lede">Elements fade and slide up as they enter the viewport
+      (<code>.od-reveal → .is-visible</code>). Directional variants slide from
+      the left, right, or scale in.</p>
+    <div class="cards">
+      <article class="od-card od-reveal od-lift"><h3>Fade &amp; rise</h3><p>Default reveal.</p></article>
+      <article class="od-card od-reveal od-reveal--left od-lift"><h3>From left</h3><p>Slides in horizontally.</p></article>
+      <article class="od-card od-reveal od-reveal--scale od-lift"><h3>Scale in</h3><p>Grows into place.</p></article>
+    </div>
+  </section>
+
+  <!-- STAGGER -->
+  <section class="od-section od-reveal" id="stagger" aria-labelledby="stagger-h">
+    <h2 id="stagger-h">Staggered children</h2>
+    <p class="lede">A container marked <code>.od-stagger</code> reveals its
+      children one after another; motion.js assigns each child an index so the
+      delay ramps automatically.</p>
+    <div class="cards od-stagger">
+      <div class="swatch" style="background:var(--od-accent-500)">One</div>
+      <div class="swatch" style="background:var(--od-accent-600)">Two</div>
+      <div class="swatch" style="background:var(--od-accent-700)">Three</div>
+      <div class="swatch" style="background:var(--od-accent-800)">Four</div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK: bounce, blink, highlight, hover lift -->
+  <section class="od-section od-reveal" id="feedback" aria-labelledby="feedback-h">
+    <h2 id="feedback-h">Interaction feedback</h2>
+    <p class="lede">Hover-lift on buttons, a continuous bounce and blink for
+      attention, and a selectable highlight group (click a tile — selection
+      pulses and stays marked).</p>
+
+    <div class="stack">
+      <div class="row">
+        <button class="od-btn od-btn--primary od-lift">Hover lift</button>
+        <button class="od-btn od-btn--secondary od-lift">Hover lift</button>
+        <a class="od-btn od-btn--ghost od-lift" href="#feedback" data-od-vt>Ghost</a>
+      </div>
+
+      <div class="chip-row">
+        <span class="od-chip od-bounce">New ↑</span>
+        <span class="od-chip od-blink">Live •</span>
+        <span class="od-chip">Static</span>
+      </div>
+
+      <div class="cards" data-od-select role="group" aria-label="Selectable options">
+        <button type="button" class="od-card od-highlight" aria-pressed="true" style="border-radius:var(--od-radius-lg)">
+          <h3>Option A</h3><p>Click to select.</p>
+        </button>
+        <button type="button" class="od-card od-highlight" aria-pressed="false" style="border-radius:var(--od-radius-lg)">
+          <h3>Option B</h3><p>Click to select.</p>
+        </button>
+        <button type="button" class="od-card od-highlight" aria-pressed="false" style="border-radius:var(--od-radius-lg)">
+          <h3>Option C</h3><p>Click to select.</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCORDION -->
+  <section class="od-section od-reveal" id="accordion" aria-labelledby="accordion-h">
+    <h2 id="accordion-h">Accessible accordion</h2>
+    <p class="lede">Real <code>button[aria-expanded]</code> triggers; height is
+      animated in JS via the Web Animations API (kept out of CSS so the
+      stylesheet stays transform/opacity-only), with content fading in.</p>
+
+    <div class="od-accordion stack">
+      <div class="od-accordion__item od-card" style="padding:0">
+        <h3 style="margin:0">
+          <button class="od-accordion__trigger od-btn od-btn--ghost" aria-expanded="true"
+                  style="width:100%;justify-content:space-between;display:flex">
+            <span>What are motion tokens?</span><span class="od-accordion__icon" aria-hidden="true">▾</span>
+          </button>
+        </h3>
+        <div class="od-accordion__panel">
+          <div class="od-accordion__inner" style="padding:var(--od-space-4)">
+            <p style="margin:0">Durations and easings exposed as CSS custom properties
+              (<code>--od-dur-base</code>, <code>--od-ease-standard</code>) so every
+              animation is consistent and themeable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="od-accordion__item od-card" style="padding:0">
+        <h3 style="margin:0">
+          <button class="od-accordion__trigger od-btn od-btn--ghost" aria-expanded="false"
+                  style="width:100%;justify-content:space-between;display:flex">
+            <span>Is it accessible?</span><span class="od-accordion__icon" aria-hidden="true">▾</span>
+          </button>
+        </h3>
+        <div class="od-accordion__panel" hidden>
+          <div class="od-accordion__inner" style="padding:var(--od-space-4)">
+            <p style="margin:0">Yes — keyboard operable, ARIA-correct, and it collapses
+              instantly under reduced-motion instead of animating.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOTTIE -->
+  <section class="od-section od-reveal" id="lottie" aria-labelledby="lottie-h">
+    <h2 id="lottie-h">Animated Lottie accents</h2>
+    <p class="lede">Three branded Lottie JSON accents rendered by a tiny
+      self-hosted player. The player and JSON are fetched <em>only</em> when the
+      accent scrolls into view, and each animation pauses when off-screen.</p>
+    <div class="lottie-row">
+      <figure class="lottie-cell">
+        <span class="od-lottie" data-src="./lottie/pulse-dot.json" role="img" aria-label="Pulsing accent dot"></span>
+        <figcaption>Pulse dot</figcaption>
+      </figure>
+      <figure class="lottie-cell">
+        <span class="od-lottie" data-src="./lottie/loader-orbit.json" role="img" aria-label="Loading spinner"></span>
+        <figcaption>Loader</figcaption>
+      </figure>
+      <figure class="lottie-cell">
+        <span class="od-lottie" data-src="./lottie/success-check.json" role="img" aria-label="Success check"></span>
+        <figcaption>Success check</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer class="od-footer od-reveal">
+    <p>OpenDesign motion module — GPU-only (transform/opacity), token-driven,
+      reduced-motion safe.</p>
+  </footer>
+</main>
+
+<script defer src="./motion.js"></script>
+</body>
+</html>

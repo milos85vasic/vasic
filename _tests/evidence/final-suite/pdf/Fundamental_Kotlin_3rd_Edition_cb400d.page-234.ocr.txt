@@ -1,0 +1,25 @@
+Note:
+Parameters cannot have nullable types. JVM does not support this.
+Note:
+The name of the annotation should not be prefixed with the “@” character if the
+annotation constructor parameter has the type of another annotation.
+Lambdas in annotations
+Lambdas can be annotated too. Annotation is applied to the “invoke” function.
+“invoke” function is the function into which the body of the lambda is
+generated. We will illustrate this with a simple example. From book code
+examples open “AnnotatingLambdas.kt”:
+val lambda = @Marker {
+
+printin("Do something ...")
+}
+As you can see it is really simple to annotate the lambda function.
+Arrays in annotations
+As we have already mentioned, arrays can be used as the annotation
+parameters. Let's illustrate this with a simple example. From book code
+examples open “AnnotationArrays.kt":
+annotation class Meta(val data: Array<String>)
+@Meta(["Hello", "World"]) class Data
+As you can see here, the “Meta” annotation accepts the array of strings as the
+argument. The “Data” class is annotated with “Meta” annotation. In this case
+array with two strings has been passed as an argument to the annotation.
+Most frequently used annotations

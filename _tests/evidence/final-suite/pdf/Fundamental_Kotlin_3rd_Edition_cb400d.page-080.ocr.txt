@@ -1,0 +1,35 @@
+[**
+* This example returns incremented value
+* if passed parameter is positive number
+* otherwise it returns null.
+7
+fun incrementPositive(x: Int): Int? {
+return if (x > 0)x + 1 else null
+}
+The most important part of this example lies in the “Int?” part where we
+defined our function return type. This means, the returned value type is an
+integer but it may be also null. If we have defined our function return type as
+“Int” instead of “Int?” we could not return null.
+“Int?” type is “optional” type. Every class has its “optional” equivalent. Optional
+is a container class used to contain null or non-null objects. The optional object
+is used to represent null with an absent value. Thanks to facilities that are
+exposed to the user's access to nullable data are safe and guarded.
+Look into the next example:
+[**
+* $1 - cannot assign null values!
+* 52 - can assign null values
+7
+var $1: String = "this variable cannot store null references"
+var s2: String? = null
+We control whether or not we accept nulls!
+Let's consider the following scenario: what if we have or maybe we do not have
+null assigned to our variable (or constant) and we are not sure about it? Well, in
+that case, we will deal with it like in the last example from “Nulls.kt”:
+[**
+* If word is not null print it.
+7
+fun printer(word: String?) {
+word?.let {
+val uppercase = word.toUpperCase()
+printin(Word [ $uppercase ]")
+}

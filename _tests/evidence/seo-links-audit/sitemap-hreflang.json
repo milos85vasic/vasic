@@ -1,0 +1,729 @@
+{
+  "sitemapReports": [
+    {
+      "site": "milosvasic.ru",
+      "sitemap": {
+        "exists": true,
+        "path": "milosvasic.ru/_site/sitemap.xml",
+        "hasUrlset": true,
+        "locCount": 35,
+        "brokenLocs": [],
+        "wellFormed": true
+      },
+      "robots": {
+        "exists": true,
+        "path": "milosvasic.ru/_site/robots.txt",
+        "content": "User-agent: *\nAllow: /\n\nSitemap: https://milosvasic.ru/sitemap.xml",
+        "sitemapRef": "https://milosvasic.ru/sitemap.xml",
+        "referencesSitemap": true,
+        "hasUserAgent": true
+      }
+    },
+    {
+      "site": "vasic.digital",
+      "sitemap": {
+        "exists": true,
+        "path": "vasic.digital/sitemap.xml",
+        "hasUrlset": true,
+        "locCount": 35,
+        "brokenLocs": [],
+        "wellFormed": true
+      },
+      "robots": {
+        "exists": true,
+        "path": "vasic.digital/robots.txt",
+        "content": "User-agent: *\nAllow: /\n\nSitemap: https://vasic.digital/sitemap.xml",
+        "sitemapRef": "https://vasic.digital/sitemap.xml",
+        "referencesSitemap": true,
+        "hasUserAgent": true
+      }
+    }
+  ],
+  "hreflangReport": {
+    "pages": 69,
+    "xDefaultMissing": [],
+    "nonReciprocal": [
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/portfolio/index.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/portfolio/ru/"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/catalogizer.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/catalogizer.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/courses-creator.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/courses-creator.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/docprocessor.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/docprocessor.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/docs-chain.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/docs-chain.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helix-flow.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helix-flow.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixagent.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixagent.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixbuilder.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixbuilder.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixcluster.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixcluster.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixcode.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixcode.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixconstitution.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixconstitution.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixgitpx.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixgitpx.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixllm.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixllm.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixmemory.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixmemory.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixota.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixota.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixplay.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixplay.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixqa.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixqa.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixskills.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixskills.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixspecifier.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixspecifier.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixterminator.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixterminator.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixtrack.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixtrack.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/helixtranslate.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/helixtranslate.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/herald.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/herald.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/llmorchestrator.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/llmprovider.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/llmprovider.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/llmsverifier.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/llmsverifier.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/mail-server-factory.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/parallels-utils.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/parallels-utils.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/qemu-utils.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/qemu-utils.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/server-factory-additional-components.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/server-factory-core-framework.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/task-bridge.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/task-bridge.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/vasic-digital-reusable-module-suite.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "milosvasic.ru",
+        "page": "milosvasic.ru/_site/products/visionengine.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/visionengine.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/index.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/ru/"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/portfolio/index.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/portfolio/ru/"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/catalogizer.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/catalogizer.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/courses-creator.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/courses-creator.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/docprocessor.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/docprocessor.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/docs-chain.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/docs-chain.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helix-flow.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helix-flow.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixagent.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixagent.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixbuilder.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixbuilder.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixcluster.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixcluster.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixcode.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixcode.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixconstitution.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixconstitution.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixgitpx.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixgitpx.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixllm.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixllm.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixmemory.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixmemory.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixota.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixota.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixplay.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixplay.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixqa.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixqa.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixskills.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixskills.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixspecifier.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixspecifier.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixterminator.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixterminator.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixtrack.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixtrack.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/helixtranslate.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/helixtranslate.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/herald.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/herald.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/llmorchestrator.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/llmorchestrator.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/llmprovider.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/llmprovider.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/llmsverifier.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/llmsverifier.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/mail-server-factory.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/mail-server-factory.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/parallels-utils.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/parallels-utils.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/qemu-utils.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/qemu-utils.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/server-factory-additional-components.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/server-factory-additional-components.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/server-factory-core-framework.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/server-factory-core-framework.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/task-bridge.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/task-bridge.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/vasic-digital-reusable-module-suite.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/vasic-digital-reusable-module-suite.html"
+        },
+        "reason": "alternate target file not found on disk"
+      },
+      {
+        "site": "vasic.digital",
+        "page": "vasic.digital/products/visionengine.html",
+        "alternate": {
+          "hreflang": "ru",
+          "href": "https://vasic.digital/products/ru/visionengine.html"
+        },
+        "reason": "alternate target file not found on disk"
+      }
+    ],
+    "selfMissing": []
+  },
+  "hreflangPagesSample": [
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "canonical": "https://milosvasic.ru/portfolio/",
+      "alternates": [
+        {
+          "hreflang": "en",
+          "href": "https://milosvasic.ru/portfolio/"
+        },
+        {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/portfolio/ru/"
+        },
+        {
+          "hreflang": "x-default",
+          "href": "https://milosvasic.ru/portfolio/"
+        }
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "canonical": "https://milosvasic.ru/products/catalogizer.html",
+      "alternates": [
+        {
+          "hreflang": "en",
+          "href": "https://milosvasic.ru/products/catalogizer.html"
+        },
+        {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/catalogizer.html"
+        },
+        {
+          "hreflang": "x-default",
+          "href": "https://milosvasic.ru/products/catalogizer.html"
+        }
+      ]
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "canonical": "https://milosvasic.ru/products/courses-creator.html",
+      "alternates": [
+        {
+          "hreflang": "en",
+          "href": "https://milosvasic.ru/products/courses-creator.html"
+        },
+        {
+          "hreflang": "ru",
+          "href": "https://milosvasic.ru/products/ru/courses-creator.html"
+        },
+        {
+          "hreflang": "x-default",
+          "href": "https://milosvasic.ru/products/courses-creator.html"
+        }
+      ]
+    }
+  ]
+}

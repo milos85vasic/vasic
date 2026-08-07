@@ -1,0 +1,28 @@
+This time “john.doe” is the user that satisfied our filtering criteria.
+userCredentials, filter {
+it.key.contains("smith")
+| | it.value.toInt() > 20 * 100
+}.forEach { (key, value) ->
+printin("User matched: $key, Id: $value")
+}
+“filter” function operates on the "Map.Entry” data type which holds key and
+value both. Thanks to this we are able to filter all users that contain “smith” or
+all users whose Id is bigger than “20 000”. Running this source code snippet will
+give us the following output:
+User matched: john.smith, Id: 12345
+User matched: john.doe, Id: 24680
+We can do the same with negation using “filterNot” function:
+userCredentials
+-filterNot { it.key.contains("doe") }
+forEach {
+printin("User '${it.key}' does not contain 'doe")
+}
+This will filter all users whose map key does not contain the word “doe”:
+User ‘john.smith' does not contain ‘doe’
+Performing “+” and “-” operations:
+val mix = userCredentials +
+mapOfi
+"somebody.else" to "11111",
+"lorem.ipsum" to "22222"
+)
+printin("'+': $mix")

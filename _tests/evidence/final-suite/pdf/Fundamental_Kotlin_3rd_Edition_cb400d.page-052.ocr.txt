@@ -1,0 +1,32 @@
+package net.milosvasic.fundamental.kotlin
+A package is a group of similar types of classes, interfaces, and sub-packages.
+Packages represent the basic level of organization of our source code. Every
+“kt” file must belong to some package. We should define our package at the
+top of our “.kt” files.
+The structure of directories containing this is the following:
+net
+
+milosvasic
+
+fundamental
+kotlin
+
+Note:
+It is not required to match directories and packages. Placing the source files in
+the filesystem can be arbitrary.
+Naming conventions for package names are the following:
+- to avoid conflicts with the names of classes, objects, or interfaces all letters
+are written in lower case letters
+- root package is usually reversed internet domain name, like for example:
+com.google
+- in some cases, reversed internet domain name may not be a valid package
+name This can happen if the domain name contains a hyphen or other special
+character or if the package name begins with a digit or other character that is
+illegal to use or if the package name contains a reserved keyword. In such
+situations, it is recommended to use the underscore character: “_”.
+Let's have a look at an example of the organization of the code. Let's assume
+that we have a simple notes application that can create, edit and delete notes.
+The main package where all code resides could be called:
+com.notes
+Then, inside this package we will expand our organization hierarchy to support
+various code responsibilities:

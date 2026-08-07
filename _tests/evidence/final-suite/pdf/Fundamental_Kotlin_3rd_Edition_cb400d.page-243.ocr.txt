@@ -1,0 +1,36 @@
+Hello
+Worldtors
+Extensions
+Kotlin provides a mechanism for extending classes with new functionalities
+without inheriting them or using any type of design pattern such as Decorator.
+This mechanism is called “extensions”.
+“Extensions” do not modify parent classes. They are just extending it.
+Extensions do not insert a new function to a class but create a “callable” inside a
+class where we are extending.
+From book code examples open “Extensions.kt”:
+class Hello {
+
+fun world() {
+
+printin("Hello world")
+
+}
+}
+fun Hello.everybody() {
+
+world()
+
+printin("Hello everybody")
+}
+fun Hello.repeat(count: Int, what: String) {
+
+for (x in 0 until count) {
+
+printin(what)
+
+}
+}
+fun Hello.stranger() {
+
+printin("Hello stranger")
+}

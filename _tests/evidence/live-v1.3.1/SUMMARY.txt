@@ -1,0 +1,55 @@
+LIVE PRODUCTION VERIFICATION — v1.3.1 (READ-ONLY against deployed sites)
+Date: 2026-08-06 | Method: raw curl -sSL + Playwright/axe-core vs LIVE URLs. No generator run, no source edits.
+
+SITES:
+- vasic.digital: https://vasic-digital.github.io 301-> https://vasic.digital (identical bytes; root 200, 45663B)
+- milosvasic.ru: https://milosvasic.ru (root 200, 37073B)
+
+PASS/FAIL MATRIX
+#  Check                                                 vasic.digital            milosvasic.ru           Artifact
+1  Root reachable (200)                                  PASS                     PASS                    reach-*.txt
+1  github.io -> apex redirect                            PASS (301)               n/a                     -
+1  sitemap.xml present+parses                            PASS (200,511 URLs)      PASS (200,511 URLs)     sitemap-*.xml
+1  Sampled routes 200 (31 targeted + 30 spread)          PASS (0 non-200)         PASS (0 non-200)        reach-*.txt
+2  <html lang=xx> for 14 non-EN langs                    PASS 14/14               PASS 14/14              l10n-grid-*.txt
+2  dir=rtl on ar+fa (ltr elsewhere)                      PASS                     PASS                    l10n-grid-*.txt
+2  Localized nav labels (no EN leak)                     PASS                     PASS                    l10n-grid-*.txt
+2  Localized aria-labels (menu/back-to-top)              PASS                     PASS                    html/*
+2  Footer no-EN-leak on non-EN                           PASS                     PASS                    html/*
+3  .od-to-top present in served HTML                     PASS (all pages)         PASS (all pages)        html/*
+3  nav-toggle hamburger                                  n/a                      PASS id=nav-toggle      html/milos-home-en.html
+3  Root-absolute /#work on subpages                      n/a                      PASS (no bare #work)    html/milos-portfolio-ru.html
+3  Original logo <picture> not monogram                  PASS (assets 200)        n/a                     html/vasic-home-en.html
+4  Per-lang PDFs 200+application/pdf+size                 PASS Portfolio EN/RU/SR/DE  PASS 9/9 CV+Cover+Portf x EN/SR/RU  pdf-check.txt
+5  axe-core 0 serious/critical (home/ar/ru)              PASS 0/0/0               PASS 0/0/0              axe-*.json
+6  No horiz overflow @375/768/1280                       PASS                     PASS                    interactive-live-summary.txt
+6  No broken <img>                                       PASS                     PASS                    interactive-live.json
+6  Nav click navigates                                   PASS                     PASS                    interactive-live.json
+6  Back-to-top reveals on scroll                         FAIL localized (D1)      PASS                    btt-probe*, interactive-live-summary.txt
+-  Localized subpage CSS/JS assets load (200)            FAIL (D1)                PASS (immune)           render-check.txt, portfolio-css-404-clean.txt
+
+DEFECTS
+D1 CRITICAL: All localized vasic.digital subpages served UNSTYLED (every CSS+JS 404).
+  Localized subpages are depth-2 (/products/<lang>/, /portfolio/<lang>/) but emit depth-1 EN relative paths href="../assets/od/...".
+  From depth-2, ../assets/ resolves to /products/assets/ or /portfolio/assets/ -> 404. Real files at /assets/od/... -> 200.
+  Browser (render-check.txt): /products/ru/catalogizer.html logs 7x 404 (5 CSS+2 JS), body bg transparent (unstyled).
+    EN sibling /products/catalogizer.html: 0 404s, white bg. milosvasic.ru/portfolio/ru/: 0 404s (root-absolute /assets/).
+  Scope: 14/14 localized portfolio (portfolio-css-404-clean.txt) + 462 localized products (broken-assets-scope.txt) ~= 476 pages.
+    EN depth-1 pages fine. milosvasic.ru NOT affected.
+  Back-to-top reveal FAIL is a symptom: .od-to-top{opacity:0} never loads -> button permanently opacity:1.
+  axe/overflow/img "pass" on these pages because they don't exercise CSS loading.
+
+D2 HIGH: "Home" nav link on every localized vasic.digital portfolio page 404s.
+  /portfolio/<lang>/ Home anchor href="../../<lang>/" -> https://vasic.digital/<lang>/ = 404 for all 14 langs (localized roots don't exist).
+  Evidence: l10n-grid-vasic.txt home_http=404 x14; curl /ru/ and /de/ -> 404. Served: <a class=od-nav__link href="../../ru/">Главная</a>.
+  milosvasic.ru immune (subpage nav uses root-absolute /#work to the single existing home).
+
+NOTES / NON-DEFECTS
+- Both sitemaps byte-parallel (same 511 paths, differ only in hostname); milos /products/+/portfolio/ paths resolve 200.
+- broken-assets-scope.txt portfolio rows show false cssHttp=200 due to bash dirname quirk on trailing-slash dir URLs;
+  authoritative portfolio result = portfolio-css-404-clean.txt (browser-accurate -> 404 x10). Product rows are correct.
+- axe scope: WCAG 2.0/2.1 A+AA on 6 pages -> 0 violations of any impact.
+
+ARTIFACT INDEX: reach-*.txt, sitemap-*.xml, l10n-grid-*.txt, html/, pdf-check.txt, milos-downloads.js,
+  axe-*.json + axe-summary.txt, interactive-live.json + -summary.txt, render-check.txt, portfolio-css-404-clean.txt,
+  broken-assets-scope.txt, scripts/ (repro).

@@ -1,0 +1,9 @@
+
+[export-validator] pdf=/Volumes/T7/Projects/vasic/vasic.digital/downloads/Portfolio_RU.pdf
+[export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=ok
+  [PASS] CONTENT/content.nonempty — extracted 429 words (min 40)
+  [PASS] TEXTUAL/textual.no-leak — no raw markup / mermaid source found in body text
+  [PASS] FULL-VISUAL/visual.images — pdfimages found 4 embedded image(s) (min 1)
+  [PASS] FULL-VISUAL/visual.ocr — OCR of 8 rendered page(s) recovered 1603 legible words (min 15)
+[export-validator] verdict=PASS  report=_tests/evidence/final-suite/pdf/Portfolio_RU_0f7a1d.verdict.json
+

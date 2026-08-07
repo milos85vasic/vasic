@@ -1,0 +1,28 @@
+We will first define a function for some kind of check. For example, we will check
+if the passed number is positive. The function will be assigned to a variable.
+Check is illustrated by the code snippet:
+val check: (Int) -> Boolean = { it > 0}
+Then, we will use “check” to get what is important to us. Let's assume that we
+will be interested if we have at least one positive number as a member of the
+list, or if we have all numbers positive or exact number of positive items. We
+would create something like this:
+fun atLeastOnePositive(items: List<Int>): Boolean
+{
+return items.any(check)
+}
+fun hasAllItemsPositive(items: List<Int>): Boolean
+{
+return items.all(check)
+}
+fun numberOfPositiveNumbers(items: List<Int>): Int {
+return items.count(check)
+}
+To try out these three functions we will define simple list of numbers:
+val numbers = listOf(-3, -2, -1, 0, 1, 2, 3, 4, 5)
+Then, we will obtain results using them:
+val atLeastOnePositive = atLeastOnePositive(numbers)
+val hasAllItemsPositive = hasAllItemsPositive(numbers)
+val numberOfPositiveNumbers = numberOfPositiveNumbers(numbers)
+As you can see we have obtained information:
+- If at least any list member has a positive value
+- If the list has all positive values

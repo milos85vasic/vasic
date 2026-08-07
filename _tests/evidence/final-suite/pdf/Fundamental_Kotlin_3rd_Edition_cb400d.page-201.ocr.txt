@@ -1,0 +1,28 @@
+The content of the “allLetters” list is the following:
+[
+he, 1, 10,w,0, 1,1, d,4,i,r,p,14,n, ec
+a,r,b,e,e,t,h,0,v,e,n, 1, 0,4, em, i, p, S,
+u,m
+J
+As you can see we have created a list that contains only letters used in these
+words. However, there is a lot of duplicates in the list which is annoying. To get
+a rid of duplicates we will sort the list (because we want to have all letters
+sorted in alphabetical order) and add all members into the set which will
+remove our duplicates:
+val letters = mutableSetOf<Char>()
+val sortedLetters = mutableListOf<Char>()
+letters.addAll(allLetters)
+sortedLetters.addAli(letters)
+sortedLetters.sort()
+If we print out the content of the set:
+printin(sortedLetters)
+The following output will be produced:
+lab¢dehilmnop,5s,t u,v, w]
+Another more easy way to get rid of duplicates is to use “distinct” function:
+val sortedLetters = allLetters.distinct().sorted()
+Which will produce exactly the same results.
+Combining “map” and “flatMap”
+In the following example, we will combine “map” and “flatMap”. From book code
+examples open “Mapping.kt”. The example illustrates how we can combine both
+functions in other to achieve the desired goal:
+class Vehicle(val name: String)

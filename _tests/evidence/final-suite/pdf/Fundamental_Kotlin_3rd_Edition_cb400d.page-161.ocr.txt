@@ -1,0 +1,31 @@
+As you can see using lambda functions may significantly increase productivity
+by giving great flexibility in our everyday development. Take your time and play
+a little bit with lambdas as using them can help you a lot regularly in the future.
+Closures
+A lambda expression, an anonymous function, a local function, and an object
+expression can access its closure. The variables are declared in the outer scope.
+Let's take a look at the following example that perfectly shows this. From book
+code examples open “Closures.kt” and observe it:
+val values = listOf(2, 4, 6, 8, 10)
+fun calculate(): Int {
+
+var result = 0
+
+values.forEach {
+
+result += it
+
+}
+
+return result
+}
+As you can see calculate function can access its outer scope and iterate through
+the “values”. The same happens within the “foreach” block. From this block, we
+can access to outer scope and modify the “result” variable.
+Executing:
+printin("Result is: ${calculate()}")
+Will give us the following output:
+Result is: 30
+Control flow
+In this section, we will continue with “control flow’. “Control flow” represents
+the order in which individual statements, instructions or function calls of an

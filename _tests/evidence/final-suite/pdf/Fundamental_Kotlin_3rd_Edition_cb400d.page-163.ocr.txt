@@ -1,0 +1,32 @@
+If you choose to use “If’ as an expression rather than a statement, your “If”
+expression must provide the “Else” part.
+Loops
+One of the main control flow features that we will cover is loops. Loops
+represent a sequential set of instructions that is repeated until a certain
+condition is met. Once the operation is performed, some condition is checked,
+for example, whether a variable has a certain value.
+Kotlin has the following looping mechanisms:
+- For
+- While
+- Do / While.
+Each of these has its benefits and use cases. We will present to you simple
+examples for each so you get a feeling of how and when to use them.
+For
+“For” loop is a statement for specifying iteration, which allows code to be
+executed repeatedly. “For” loop iterates through everything that provides an
+“iterator” and has a member, or extension-function “iterator”. It must be
+“Iterator” whose return type has a member, or extension-function “next”,
+“hasNext” that returns boolean. All of these three functions need to be marked
+as operators.
+In this section, we will show some examples of “for” looping. From book code
+examples open “For.kt":
+fun counter(to: Int) {
+
+for (x in 0..to) {
+
+printin("x: $x ")
+
+}
+}
+“counter” function counts from zero to the number that we sent as a parameter.
+In each iteration, it prints the current value. So, for the parameter of five:

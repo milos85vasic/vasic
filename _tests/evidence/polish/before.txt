@@ -1,0 +1,35 @@
+# Polish evidence — captured 2026-08-06T12:36:14Z
+
+## BEFORE — flagged rasters (perf-audit #38)
+-rw-r--r--@ 1 milosvasic  staff  178506 Jun 17 07:29 milosvasic.ru/assets/images/milosvasic.png
+-rw-r--r--@ 1 milosvasic  staff  192968 Jun 17 13:16 milosvasic.ru/assets/images/profile.jpg
+
+## BEFORE — milosvasic.ru/assets/images total
+1.2M	milosvasic.ru/assets/images
+
+## BEFORE — home hreflang (vasic.digital/index.html)
+  hreflang="en" href="https://vasic.digital/"
+  hreflang="ar" href="https://vasic.digital/ar/"
+  hreflang="be" href="https://vasic.digital/be/"
+  hreflang="de" href="https://vasic.digital/de/"
+  hreflang="es" href="https://vasic.digital/es/"
+  hreflang="fa" href="https://vasic.digital/fa/"
+  hreflang="fr" href="https://vasic.digital/fr/"
+  hreflang="hi" href="https://vasic.digital/hi/"
+  hreflang="ja" href="https://vasic.digital/ja/"
+  hreflang="kk" href="https://vasic.digital/kk/"
+  hreflang="ko" href="https://vasic.digital/ko/"
+  hreflang="ru" href="https://vasic.digital/ru/"
+  hreflang="sr" href="https://vasic.digital/sr/"
+  hreflang="tr" href="https://vasic.digital/tr/"
+  hreflang="zh" href="https://vasic.digital/zh/"
+  hreflang="x-default" href="https://vasic.digital/"
+
+## BEFORE — home hreflang (milosvasic.ru/index.html): 
+  hreflang tag count: 0
+
+## BEFORE — default.html script defer state
+  93:  <script src="{{ '/assets/js/i18n.js' | relative_url }}" defer></script>
+  94:  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+  95:  <script src="{{ '/assets/js/articles.js' | relative_url }}" defer></script>
+  96:  <script src="{{ '/assets/js/downloads.js' | relative_url }}" defer></script>

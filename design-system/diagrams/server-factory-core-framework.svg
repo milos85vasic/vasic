@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<path class="conn" marker-end="url(#a)" d="M450,240 L450,126"/>
+<path class="conn" marker-end="url(#a)" d="M370,260 L262,182"/>
+<path class="conn" marker-end="url(#a)" d="M530,260 L638,182"/>
+<path class="conn" marker-end="url(#a)" d="M380,350 L200,400"/>
+<path class="conn" marker-end="url(#a)" d="M520,350 L700,400"/>
+<path class="conn" marker-end="url(#a)" d="M450,350 L450,438"/>
+<rect class="accent" x="350" y="240" width="200" height="110" rx="10"/>
+<text class="t" x="450" y="274">Core Framework</text>
+<text class="s" x="450" y="294">Kotlin shared engine</text>
+<rect class="box" x="350" y="60" width="200" height="64" rx="10"/>
+<text class="t" x="450" y="92">Mail Factory</text>
+<rect class="box" x="60" y="150" width="200" height="64" rx="10"/>
+<text class="t" x="160" y="182">Web Factory</text>
+<rect class="box" x="640" y="150" width="200" height="64" rx="10"/>
+<text class="t" x="740" y="182">SonarQube Factory</text>
+<rect class="box" x="60" y="400" width="200" height="64" rx="10"/>
+<text class="t" x="160" y="432">Caching-Proxy Factory</text>
+<rect class="box" x="640" y="400" width="200" height="64" rx="10"/>
+<text class="t" x="740" y="432">…future factories</text>
+<rect class="good" x="350" y="440" width="200" height="64" rx="10"/>
+<text class="gt" x="450" y="472">Target system</text>
+<text class="s" x="450" y="492">installed product</text>
+<text class="h" x="32" y="44">Server Factory Core Framework — shared engine hub</text>
+<text class="lbl" x="350" y="42">Factories as spokes</text>
+<text class="note" x="60" y="540">One fix in Core → propagates to every factory</text>
+</svg>

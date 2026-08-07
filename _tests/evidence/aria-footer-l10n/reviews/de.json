@@ -1,0 +1,12 @@
+{
+  "lang": "de",
+  "name": "German",
+  "translator": "zai-glm-4.7",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "PASS",
+  "reviewer_bad_keys": [],
+  "script_flagged": [],
+  "retried_keys": [],
+  "still_bad_after_retry": [],
+  "notes": "All translations are in German, use correct Latin script, preserve required proper nouns, and are natural and complete. Minor stylistic nuance in footer.text does not constitute a failure."
+}

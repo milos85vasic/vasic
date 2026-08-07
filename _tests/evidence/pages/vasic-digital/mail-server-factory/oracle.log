@@ -1,0 +1,7 @@
+
+[visual-oracle] input=file:///Volumes/T7/Projects/vasic/vasic.digital/products/mail-server-factory.html
+[visual-oracle] tesseract=present  viewport=1280x800  themes=light,dark
+  - light : PASS  (errors=0 warnings=0) png=mail-server-factory.light.png ocrWords=670
+  - dark  : PASS  (errors=0 warnings=0) png=mail-server-factory.dark.png ocrWords=671
+[visual-oracle] verdict=PASS  report=_tests/evidence/pages/vasic-digital/mail-server-factory/mail-server-factory.verdict.json
+

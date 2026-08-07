@@ -1,0 +1,40 @@
+This and It
+
+Inside the lambda of a scope function, we can access to the context object by a
+short reference instead of its actual name. There are two ways to access the
+context object:
+
+- As a lambda receiver by using “this”
+
+- As alambda argument by using “it”.
+
+In both cases same capabilities are available.
+
+Using “this”
+
+Scope functions “run”, “with”, and “apply” access the context object as a lambda
+receiver by using the keyword “this”. In lambdas of these scope functions, the
+object is available the same way as it would be in the ordinary class functions.
+Generally, you can leave out the “this” keyword when accessing the members of
+the receiver object. By doing so you will simplify your code.
+
+Using “it”
+
+Scope functions “let” and “also” have their context object as a lambda argument.
+If we do not specify the argument name, the object is accessed by the implicit
+default name.
+
+Scope functions return value
+
+One of the differences between scope functions is by the result they are
+returning. “apply” and “also” scope functions are returning the context object.
+Thanks to this, these functions can be included in the call chains. “apply” and
+“also” scope functions also can be used as return results of functions that are
+returning the context object. “let”, “run”, and “with” scope functions are
+returning the lambda result. These functions can be used when assigning the
+result to a variable or a constant, for chaining of operations on the result, etc. It
+is also possible to ignore the return value and use the function to create a
+temporary scope for variables.
+
+Based on this you can make the decision depending on what you need to do in
+your code block.

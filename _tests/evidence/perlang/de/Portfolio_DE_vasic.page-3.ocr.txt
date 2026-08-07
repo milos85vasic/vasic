@@ -1,0 +1,60 @@
+VASIC DIGITAL PORTFOLIO
+
++ HelixQA — anti-bluff QA orchestration (Go). Written YAML test banks plus fully-autonomous LLM-and-
+computer-vision QA sessions across Android, Android TV, Web, and Desktop; no PASS without
+captured evidence (screenshots, logcat, video, stack traces). The Constitution's mandated QA test-
+type (§11.4.169).
+
+| 3. The Helix product family
+
+The Helix line is the flagship: an interlocking family of products that spans the entire Al-development lifecycle,
+from planning and specification through building, memory, translation, and delivery. Each is a real product in
+its own right, but the design intent is that they compose — the same governance, the same reusable
+modules, the same evidence discipline underneath all of them.
+
++ HelixTrack — a JIRA alternative for the free world; flagship of the Helix-Track line.
+
++ HelixAgent — ensemble LLM service: multiple models debate and ship the answer they agree on,
+with verification-based provider selection.
+
++ HelixCode — enterprise-grade distributed Al development platform; divides work across SSH-
+managed workers with automatic checkpoint/rollback; REST, CLI, TUI, MCP interfaces.
+
++ HelixCluster — a distributed operating system for Al compute, from datacenter GPUs to edge
+handhelds, under one control plane.
+
++ HelixBuilder — an Al-powered pipeline for building applications, one category at a time.
+
++ HelixSkills — a governed, constitution-backed skills system for CLI Al agents (skills, MCP tool
+servers, Claude Code plugins).
+
++ HelixSpecifier — spec-driven development that scales its ceremony to the work.
+
++ HelixMemory — one memory brain for Al agents, fusing four best-in-class engines.
+
++ HelixTranslate — verified-model book translation; honest by design, never a silent fallback.
+
++ HelixTerminator — a zero-trust terminal platform: every SSH session secured, shared, and Al-
+assisted.
+
++ HelixGitpx — federated Git across a dozen hosts; one source of truth, mirrored everywhere.
+
++ HelixOTA — universal, decoupled over-the-air updates; zero-brick by design.
+
++ HelixPlay — turn any GPU machine into your own cloud-gaming appliance.
+
++ Helix-Flow — Helix-platform inference product. UNVERIFIED / blocked on source: its public repo
+currently has only a one-line README; presented at product depth only when real documentation
+exists.
+
+| 4. LLM infrastructure
+
+Beneath the products sits the substrate that makes them provider-agnostic and dependable: one interface
+over dozens of LLM providers, one control plane for headless coding agents, and one verification source of
+truth. This is the layer that lets everything above swap models, survive provider outages, and refuse to trust
+an LLM that can’t prove it understands the task.
+
++ HelixLLM — one binary, six modes: OpenAl- and Anthropic-compatible inference over HTTP/3, local
+llama.cpp, scored fallback chain, RAG pipeline, ReAct agents.
+
+milosvasic.ru - vasic.digital 3/8

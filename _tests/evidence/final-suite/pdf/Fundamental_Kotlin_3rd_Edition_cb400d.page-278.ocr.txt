@@ -1,0 +1,40 @@
+Job 0, count no. 0 at: 1621087584784
+Job 1, count no. 0 at: 1621087584787
+Job 2, count no. 0 at: 1621087584787
+Job 3, count no. 0 at: 1621087584787
+Job 0, count no. 1 at: 1621087585784
+Job 1, count no. 1 at: 1621087585787
+Job 2, count no. 1 at: 1621087585787
+Job 3, count no. 1 at: 1621087585787
+Job 0, count no. 2 at: 1621087586788
+Job 1, count no. 2 at: 1621087586788
+Job 2, count no. 2 at: 1621087586788
+Job 3, count no. 2 at: 1621087586789
+Job 0, count no. 3 at: 1621087587792
+Job 1, count no. 3 at: 1621087587792
+Job 2, count no. 3 at: 1621087587793
+Job 3, count no. 3 at: 1621087587793
+Job 0, count no. 4 at: 1621087588793
+Job 1, count no. 4 at: 1621087588793
+Job 2, count no. 4 at: 1621087588793
+Job 3, count no. 4 at: 1621087588793
+Job 0, count no. 5 at: 1621087589795
+Job 1, count no. 5 at: 1621087589796
+Job 2, count no. 5 at: 1621087589796
+Job 3, count no. 5 at: 1621087589796
+Completed
+Coroutine job
+In this section dedicated to coroutines, we will show you how coroutines “Job” is
+used. The coroutine builder launch returns an instance of the “Job” class. “Job”
+represents an access mechanism to the launched coroutine. Thanks to this it
+can be used to explicitly wait for execution completion.
+Let's demonstrate this. From book code examples open “CoroutinesJob. kt”:
+fun main() = runBlocking {
+
+// We are launching a new coroutine
+
+// and keep a reference to coroutine’s “Job”:
+
+val job = launch {
+
+for (x in 0..5) {

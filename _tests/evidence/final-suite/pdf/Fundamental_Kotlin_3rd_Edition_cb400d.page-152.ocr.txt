@@ -1,0 +1,30 @@
+return sum
+}
+Instead of having repeated code in the “sumAndMultiply” function, we will pass
+all our variable arguments to the “sum” function. Then, we will multiply the
+value as we did in the previous section:
+fun sumAndMultiply(multiply: Int, vararg args: Int) {
+val sum = sum(*args)
+val result = sum * multiply
+printin("Sum: $sum, and multiply: $result")
+}
+To pass all variable arguments to other functions that are also accepting
+variable arguments we have used spread operator, prefix parameter with “*”.
+Let's try new version of the function:
+val multiply = 100
+sumAndMultiply(multiply)
+sumAndMultiply(multiply, 1)
+sumAndMultiply(multiply, 1, 2)
+sumAndMultiply(multiply, 1, 2, 3)
+sumAndMultiply(multiply, 1, 2, 3, 4)
+Which will give us the following output when it is executed:
+Sum: 0, and multiply: 0
+Sum: 1, and multiply: 100
+Sum: 3, and multiply: 300
+Sum: 6, and multiply: 600
+Sum: 10, and multiply: 1000
+Let's have a look at another use case of spread operator:
+val numbers = intArrayOf(1, 2, 3, 4, 5)
+sumAndMultiply(multiply, *numbers)
+Spread operator can be used with arrays too. If we execute this source code
+snippet, the output of the program will be:

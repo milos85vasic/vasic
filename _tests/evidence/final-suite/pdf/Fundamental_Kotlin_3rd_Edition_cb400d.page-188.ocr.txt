@@ -1,0 +1,28 @@
+val first = numbersSet.elementAt(0)
+printin("First set element is: $first")
+Which will give us the following output:
+First set element is: 2
+Accessing to the first and the last element of the set:
+val first = numbersSet.first()
+val last = numbersSet.last()
+Accessing set elements by condition:
+val cars = setOf("Fiat", "Bmw", "Audi", "Porsche", "Renault")
+val findFirst = cars.first { it.length == 3 }
+val findLast = cars,last { it.startsWith("Por") }
+We have defined a new set of strings that represent car brand names. Then, we
+are accessing the first element that has a length of three characters and to the
+last element which name starts with “Por”. Let's print out our results:
+printin("First car that has three letters is: $findFirst")
+printin("Last car which name starts with ‘Por’: $findLast")
+Which will produce the following output:
+First car that has three letters is: Bnw
+Last car which name starts with 'Por': Porsche
+As you can see when it comes to work with collections, sets in this particular
+case, Kotlin is extremely powerful! Both functions throw exceptions if no
+elements match the predicate. To avoid them, use “firstOrNull” and “lastOrNull”
+functions instead: they return null if no matching elements are found:
+var findFirstOrNull = cars.firstOrNull { it.length == 3 }
+var findLastOrNull = cars.lastOrNull { it.startsWith(Por") }
+printin(
+"First car that has three letters is: $findFirstOrNull"
+)

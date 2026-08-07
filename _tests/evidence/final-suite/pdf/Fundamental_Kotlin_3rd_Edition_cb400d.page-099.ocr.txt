@@ -1,0 +1,59 @@
+val a2 =a + "Hello"
+
+val a3 =a + "Hello" + "World"
+
+val bc = b + "Hello" +c
+
+val bc2 = b +c + "Hello"
+
+printin("a + b = $ab")
+
+printin("a + b +c = $abc")
+printin("a + 'Hello' = $a2")
+printin("a + 'Hello' + 'World' = $a3")
+printin("b + 'Hello' + c = $bc")
+printin("b + c + 'Hello' = $bc2")
+
+If we execute this the following result will be generated:
+a+b=AB
+
+a+b+c=A B,C
+
+a+ 'Hello' =A, Hello
+
+a+ 'Hello' + 'World' = A, Hello, World
+b + 'Hello' + c = B, Hello, C
+
+b +c + 'Hello' = B, C, Hello
+
+The following list contains pairs of expression name to operator function name:
++a > a.unaryPlus()
+
+-a > a.unaryMinus()
+
+!a > a.not()
+
+at+ > a.inc()
+
+a-- > a.dec()
+
+a+b-—a.plus(b)
+a-b-a.minus(b)
+a*b-—a.times(b)
+
+a/b-a.div(b)
+
+a % b> a.mod(b)
+
+ain b > b.contains(a)
+
+alin b > !b.contains(a)
+
+a[i] > a.get(i)
+
+ali, jl > a.get(, j)
+
+a{i_1, ..., in] > a.get(i_1, ..., in)
+a[i] = b > a.set(i, b)
+
+ali, j] = b > a.set(i, j, b)

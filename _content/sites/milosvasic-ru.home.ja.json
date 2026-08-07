@@ -1,0 +1,660 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "ja",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "mv2.hero.eyebrow",
+        "text": "// AIエンジニア"
+      },
+      "title": {
+        "text": "Miloš Vasić"
+      },
+      "lede": {
+        "i18n": "mv2.hero.lede",
+        "text": "検証可能なAI開発システムを構築するAIエンジニア：マルチプロバイダーLLMインフラストラクチャ、自治エージェントとオーケストレーション、そしてそれらを正しく保つガバナンスとQA層。"
+      },
+      "ctas": [
+        {
+          "dl": "cv",
+          "icon": "i-download",
+          "variant": "primary",
+          "i18n": "hero.cv",
+          "label": "履歴書をダウンロード"
+        },
+        {
+          "dl": "cl",
+          "variant": "secondary",
+          "i18n": "hero.cl",
+          "label": "カバーレター"
+        },
+        {
+          "dl": "portfolio",
+          "variant": "secondary",
+          "i18n": "mv2.hero.portfolio",
+          "label": "ポートフォリオ（PDF）"
+        },
+        {
+          "variant": "ghost",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "i18n": "mv2.hero.portfolio_site",
+          "label": "ポートフォリオサイト"
+        }
+      ],
+      "stats": [
+        {
+          "value": "Go",
+          "i18n": "mv2.stat.lang",
+          "label": "基盤言語"
+        },
+        {
+          "value": "140+",
+          "i18n": "mv2.stat.repos",
+          "label": "リポジトリ、ひとつの憲章"
+        },
+        {
+          "value": "33",
+          "i18n": "mv2.stat.products",
+          "label": "製品、証拠に裏付けられた"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": {
+        "i18n": "mv2.summary.eyebrow",
+        "text": "// 概要"
+      },
+      "title": {
+        "i18n": "mv2.summary.title",
+        "text": "LLMを信頼できる製品に変えるソフトウェアを設計・構築します。"
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "mvx-lede",
+              "i18n": "mv2.summary.body1",
+              "text": "主にGoで作業し、業務に応じてKotlin / Kotlin Multiplatform、TypeScript/React、Python、Swift、Shellも使用します。成果物は単発アプリの山ではなく、艦隊として整理されます。多数の小さく、分離され、独立テストされたモジュールの上に大規模な製品アプリケーションが乗り、すべてがGitサブモジュールとして共有エンジニアリング憲章を継承しています。"
+            },
+            {
+              "class": "mvx-lede mvx-muted",
+              "i18n": "mv2.summary.body2",
+              "text": "つまり、修正はすべてに伝播し、新しい製品は実証済みの部品から組み立てられ、宣伝されたすべての機能は証拠を生成するテストで裏付けられます。私の指針は一つのルールです――実際のユーザーが使用でき、かつそれを証明する証拠が取得できたときにのみ機能は完了とみなします。このページは概要から個別プロジェクトへと移行し、各プロジェクトはその完全な製品ページへリンクしています。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": {
+            "i18n": "mv2.work.eyebrow",
+            "text": "// Helixファミリー全体の私の仕事"
+          },
+          "title": {
+            "i18n": "mv2.work.title",
+            "text": "Helixライン、優先順位順。"
+          },
+          "lede": {
+            "i18n": "mv2.work.lede",
+            "text": "HelixラインはAI開発ライフサイクル全体にわたります。各カードは完全な製品ページへリンクしています。"
+          },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixtrack",
+                "text": "自由な世界のJIRA代替；Helix-Trackラインの旗艦です。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "LLMsVerifier",
+                "Prometheus",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixagent",
+                "text": "マルチラウンドモデルディベートと検証ベースのプロバイダー選択を備えたアンサンブルLLMサービス。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Redis",
+                "SSH",
+                "MCP",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcode",
+                "text": "SSH管理されたワーカーに作業を分散し、自動チェックポイント/ロールバックを行う分散型AI開発プラットフォーム。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixllm",
+                "text": "6モードを持つ単一バイナリで、HTTP/3上でOpenAIおよびAnthropic互換APIを提供し、ローカルのllama.cpp推論とスコア付きフォールバックチェーンを備えています。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcluster",
+                "text": "データセンターGPUからエッジハンドヘルドまで、AI計算用の分散オペレーティングシステム。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmprovider",
+                "text": "回路ブレーカー、リトライ、ヘルスチェックを組み込んだ43プロバイダー対応の単一インターフェース。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines / stdio",
+                "Circuit breaker",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmorchestrator",
+                "text": "ヘッドレスCLIコーディングエージェントすべてに対する単一コントロールプレーン。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmsverifier",
+                "text": "検証、モニタリング、最適化：LLM/プロバイダー/検証メタデータの唯一の真実の情報源。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.utils.eyebrow",
+            "text": "// vasic-digitalユーティリティ全体の私の仕事"
+          },
+          "title": {
+            "i18n": "mv2.utils.title",
+            "text": "私が構築・維持する製品レベルのツール。"
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.catalogizer",
+                "text": "マルチプロトコル（SMB/FTP/NFS/WebDAV/ローカル）、暗号化、自己ホスト可能なメディアコレクション管理。Go/Gin APIとReact UIを使用。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.coursescreator",
+                "text": "マークダウンからビデオへ変換するコースパイプライン。マルチLLM強化、TTS、デスクトップ/モバイル/ウェブプレーヤーを搭載。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.visionengine",
+                "text": "古典的コンピュータビジョンとマルチプロバイダーLLMビジョンを融合し、UI分析とナビゲーショングラフを提供する分離型Goツールキット。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docprocessor",
+                "text": "ドキュメントをQA自動化用の検証可能な機能マップに変換します（LLMまたはヒューリスティック抽出）。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docschain",
+                "text": "コンテンツハッシュ化された双方向・原子的なドキュメント/DB同期エンジン。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.herald",
+                "text": "自然言語と三層インテント解決を備えた信頼性の高いマルチチャネル通知。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "webhooks"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.taskbridge",
+                "text": "分離型双方向タスク/ボード同期エンジン（P1スキャフォールド；同期ロジックは進行中）。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "KMP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.rms",
+                "text": "digital.vasic.* のインフラ、AIプリミティブ、ガードレールモジュールの「標準ライブラリ」。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.sf.eyebrow",
+            "text": "// インフラ遺産（Server Factory）"
+          },
+          "title": {
+            "i18n": "mv2.sf.title",
+            "text": "AIライン以前の私のDevOpsツールチェーン。"
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.msf",
+                "text": "宣言的JSON → 完全にプロビジョニングされたDocker化メールサーバー、439件の合格テストとクリーンなSonarQubeゲートを報告。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.sfcore",
+                "text": "すべてのサービスファクトリーが構築するServer Factory Core Framework。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.qemu",
+                "text": "QEMU VMイメージツール — ダウンロード、実行、ネットワーク設定、機械イメージをアーティファクトとして公開。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.parallels",
+                "text": "Parallels VMイメージを圧縮、公開、再利用し、すべてのマシンで活用。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        {
+          "i18n": "mv2.work.portfolio_cta",
+          "label": "全ポートフォリオを見る",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": {
+        "i18n": "mv2.gov.eyebrow",
+        "text": "// 私の働き方 — ガバナンスとQAを最優先"
+      },
+      "title": {
+        "i18n": "mv2.gov.title",
+        "text": "製品を支える規律。"
+      },
+      "lede": {
+        "i18n": "mv2.gov.lede",
+        "text": "製品より先に規律：私は緑のチェックマークを出荷しません — 実際に機能する証拠を伴うAIシステムを出荷します。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "mv2.gov.constitution",
+                "text": "140以上のリポジトリ艦隊にわたってGitサブモジュールとして配布される、普遍的で継承可能なエンジニアリング規則集。詐称防止の証拠ゲート、偽陽性免疫、データ/ホスト安全性、カバレッジ規則をコード化しています。プロジェクトは規則を強化できますが、決して緩めることはできず、各ガバナンスゲートはそのゲート自体が機能することを証明するミューテーションテストとペアになっています。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "mv2.gov.qa",
+                "text": "詐称防止のQAオーケストレーションは、書かれたテストバンクと完全自律的なLLMとビジョン駆動のQAセッションをAndroid、Android TV、Web、Desktopで実行し、ランタイム証拠が捕捉されたときのみPASSとスコア付けします。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "続きを読む"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": {
+        "i18n": "mv2.skills.eyebrow",
+        "text": "// テクノロジー"
+      },
+      "title": {
+        "i18n": "mv2.skills.title",
+        "text": "実際に構築しているスタック。"
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "nameI18n": "mv2.skills.lang",
+              "name": "言語",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.ai",
+              "name": "AI / LLM",
+              "tech": [
+                "43+ providers",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "Agent orchestration"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.backend",
+              "name": "バックエンド",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.data",
+              "name": "データ＆インフラ",
+              "tech": [
+                "PostgreSQL",
+                "SQLite / SQLCipher",
+                "Redis",
+                "Docker / K8s",
+                "Prometheus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "mv2.contact.eyebrow",
+        "text": "// 連絡先"
+      },
+      "title": {
+        "i18n": "mv2.contact.title",
+        "text": "一行で。"
+      },
+      "lede": {
+        "i18n": "mv2.contact.lead",
+        "text": "私は緑のチェックマークを出荷しません — 実際に機能する証拠を伴うAIシステムと、それを維持するガバナンスを出荷します。世界中のシニアAI/プラットフォームエンジニアリング職にオープンです。"
+      },
+      "contacts": [
+        {
+          "i18n": "mv2.contact.email_label",
+          "label": "メール",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a> · <a href=\"mailto:milos85vasic@gmail.com\">milos85vasic@gmail.com</a>"
+        },
+        {
+          "i18n": "mv2.contact.gh_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        },
+        {
+          "i18n": "mv2.contact.tg_label",
+          "label": "Telegram",
+          "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>"
+        }
+      ]
+    }
+  ]
+}

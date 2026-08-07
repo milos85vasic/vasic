@@ -1,0 +1,36 @@
+Function “isNotEmpty” returns Boolean true if the map contains any keys with
+values. Opposite to that “isEmpty” function returns Boolean true if there are no
+keys with values in the map.
+If we execute this example the following output will be printed out:
+Map: empty
+Map: {Hello=World, Lorem=Ipsum}
+Performing filtering:
+userCredentials
+
+.filterKeys { it.contains("smith") }
+
+forEach {
+
+printin("Smith: ${it.key}")
+
+}
+We will start by filtering map keys. In this example we will filter our user
+credentials map by keys containing the last name “smith” as the part of the key.
+The “filterKeys” function returns a map containing all key-value pairs with the
+values based on matching of the given predicate. In our case, if the key contains
+“smith”. Let's run this simple code snippet:
+Smith: john.smith
+As you can see only “john.smith” matches our criteria.
+To filter values we can use “filterValues” function:
+userCredentials
+
+-filterValues { it.toInt() > 20 * 1000 }
+
+forEach {
+
+printin("User ${it.key}, Id: ${it.value}")
+
+}
+This works on exactly the same principle. This time we have filtered all users
+whose Id is bigger than “20 000”. Running this will give us the following output:
+User john.doe, Id: 24680

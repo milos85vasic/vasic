@@ -10,30 +10,80 @@
   "blocks": [
     {
       "type": "hero",
-      "eyebrow": { "i18n": "hero.eyebrow", "text": "// AI-native software engineering" },
-      "title": { "i18n": "hero.title", "text": "AI-native software engineering, built to be trusted." },
-      "lede": { "i18n": "hero.lede", "text": "We build AI development systems — the models, agents, orchestration, and infrastructure that turn large language models into dependable software — together with the governance layer that keeps them honest." },
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI-native software engineering"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "AI-native software engineering, built to be trusted."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "We build AI development systems — the models, agents, orchestration, and infrastructure that turn large language models into dependable software — together with the governance layer that keeps them honest."
+      },
       "ctas": [
-        { "i18n": "hero.cta_products", "label": "Explore the products", "href": "#products", "variant": "primary" },
-        { "i18n": "hero.cta_portfolio", "label": "View the portfolio", "href": "portfolio/", "variant": "secondary" }
+        {
+          "i18n": "hero.cta_products",
+          "label": "Explore the products",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "View the portfolio",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "Download Portfolio (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
       ],
       "stats": [
-        { "value": "40+", "i18n": "stat.providers", "label": "LLM providers, one interface" },
-        { "value": "140+", "i18n": "stat.repos", "label": "repositories, one constitution" },
-        { "value": "33", "i18n": "stat.products", "label": "products across three tiers" }
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM providers, one interface"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "repositories, one constitution"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "products across three tiers"
+        }
       ]
     },
     {
       "type": "section",
       "id": "about",
-      "eyebrow": { "i18n": "about.eyebrow", "text": "// about" },
-      "title": { "i18n": "about.title", "text": "A fleet, not a monolith." },
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// about"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "A fleet, not a monolith."
+      },
       "groups": [
         {
           "kind": "prose",
           "paras": [
-            { "class": "vd-lede", "i18n": "about.body1", "text": "Vasic Digital is a focused engineering practice building an interconnected family of AI-development products and reusable modules. Rather than one monolith, the work is organized as a fleet: large product applications on top of dozens of small, independently-tested, decoupled modules — so proven parts are reused across every product instead of rebuilt." },
-            { "class": "vd-lede vd-muted", "i18n": "about.body2", "text": "The backbone language is Go, complemented by Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift, and Shell — chosen per job. What ties the fleet together is discipline made mechanical: every project inherits a shared engineering Constitution as a Git submodule, and every capability a product advertises must be backed by an automated, evidence-producing test. A feature is not \"done\" when the tests pass; it is done when a real user can actually use it, and there is captured evidence to prove it." }
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital is a focused engineering practice building an interconnected family of AI-development products and reusable modules. Rather than one monolith, the work is organized as a fleet: large product applications on top of dozens of small, independently-tested, decoupled modules — so proven parts are reused across every product instead of rebuilt."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "The backbone language is Go, complemented by Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift, and Shell — chosen per job. What ties the fleet together is discipline made mechanical: every project inherits a shared engineering Constitution as a Git submodule, and every capability a product advertises must be backed by an automated, evidence-producing test. A feature is not \"done\" when the tests pass; it is done when a real user can actually use it, and there is captured evidence to prove it."
+            }
           ]
         }
       ]
@@ -41,19 +91,63 @@
     {
       "type": "section",
       "id": "work",
-      "eyebrow": { "i18n": "work.eyebrow", "text": "// what we do" },
-      "title": { "i18n": "work.title", "text": "AI-based development, end to end." },
-      "lede": { "i18n": "work.lede", "text": "We build the substrate for AI systems — the hard part beneath the app." },
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// what we do"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "AI-based development, end to end."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "We build the substrate for AI systems — the hard part beneath the app."
+      },
       "groups": [
         {
           "kind": "cards",
           "grid": "vd-grid vd-grid--two",
           "cards": [
-            { "nameI18n": "wd.llm.title", "name": "Multi-provider LLM access", "blurb": { "i18n": "wd.llm.body", "text": "A first-party abstraction over 40+ providers — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok, and local Ollama as a fallback — behind one interface with retries, circuit breakers, and health checks." } },
-            { "nameI18n": "wd.agents.title", "name": "Agent orchestration", "blurb": { "i18n": "wd.agents.body", "text": "Headless CLI coding-agent control planes, graph-based agentic workflows, multi-round \"AI debate\" consensus, and DAG/pipeline runtimes." } },
-            { "nameI18n": "wd.verify.title", "name": "LLM verification", "blurb": { "i18n": "wd.verify.body", "text": "A trust layer that scores models with a mandatory comprehension gate (\"Do you see my code?\") plus latency, streaming, function-calling, vision, and embeddings tests — exporting a verified-only configuration." } },
-            { "nameI18n": "wd.memory.title", "name": "Retrieval & memory", "blurb": { "i18n": "wd.memory.body", "text": "RAG, vector databases, embeddings, and fused agent-memory engines (Mem0 + Cognee + Letta) with infinite-context compression." } },
-            { "nameI18n": "wd.defensive.title", "name": "Defensive LLM", "blurb": { "i18n": "wd.defensive.body", "text": "Guardrails, PII detection, adversarial red-team fixtures, and input canonicalisation — safety built into the substrate, not bolted on." } }
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "Multi-provider LLM access",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "A first-party abstraction over 40+ providers — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok, and local Ollama as a fallback — behind one interface with retries, circuit breakers, and health checks."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "Agent orchestration",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "Headless CLI coding-agent control planes, graph-based agentic workflows, multi-round \"AI debate\" consensus, and DAG/pipeline runtimes."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM verification",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "A trust layer that scores models with a mandatory comprehension gate (\"Do you see my code?\") plus latency, streaming, function-calling, vision, and embeddings tests — exporting a verified-only configuration."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "Retrieval & memory",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, vector databases, embeddings, and fused agent-memory engines (Mem0 + Cognee + Letta) with infinite-context compression."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "Defensive LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "Guardrails, PII detection, adversarial red-team fixtures, and input canonicalisation — safety built into the substrate, not bolted on."
+              }
+            }
           ]
         }
       ]
@@ -61,23 +155,194 @@
     {
       "type": "section",
       "id": "products",
-      "eyebrow": { "i18n": "products.eyebrow", "text": "// tier 1 — flagship" },
-      "title": { "i18n": "products.title", "text": "The Helix product family & LLM infrastructure" },
-      "lede": { "i18n": "products.lede", "text": "Our flagship line spans the full AI-development lifecycle. In priority order." },
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// tier 1 — flagship"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "The Helix product family & LLM infrastructure"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "Our flagship line spans the full AI-development lifecycle. In priority order."
+      },
       "groups": [
         {
           "kind": "cards",
           "grid": "vd-grid",
           "cards": [
-            { "slug": "helixtrack", "name": "HelixTrack", "tech": ["Go", "Gin", "HTTP/3 QUIC", "PostgreSQL", "+8"], "blurb": { "i18n": "p.helixtrack", "text": "A free-world alternative to JIRA — the flagship of the Helix-Track line." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "helixagent", "name": "HelixAgent", "tech": ["Go", "Gin", "PostgreSQL", "LLMsVerifier", "+6"], "blurb": { "i18n": "p.helixagent", "text": "An ensemble LLM service that lets multiple models debate and ships the answer they agree on." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "helixcode", "name": "HelixCode", "tech": ["Go", "Gin", "SSH", "Model Context Protocol", "+2"], "blurb": { "i18n": "p.helixcode", "text": "A distributed AI development platform that divides work across SSH-managed workers with checkpoint/rollback." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "helixllm", "name": "HelixLLM", "tech": ["Go", "HTTP/3 QUIC", "llama.cpp", "LLMsVerifier", "+5"], "blurb": { "i18n": "p.helixllm", "text": "One binary, six modes: OpenAI- and Anthropic-compatible inference from laptop to cluster, over HTTP/3." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "helixcluster", "name": "HelixCluster", "tech": ["Go", "Zig", "gRPC", "Raft + SWIM", "+7"], "blurb": { "i18n": "p.helixcluster", "text": "A distributed operating system for AI compute, from datacenter GPUs to edge handhelds." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "llmprovider", "name": "LLMProvider", "tech": ["Go", "net/http", "logrus", "digital.vasic.models", "+2"], "blurb": { "i18n": "p.llmprovider", "text": "One interface, 43 providers — with circuit breakers, retries, and health baked in." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "llmorchestrator", "name": "LLMOrchestrator", "tech": ["Go", "JSON-lines over stdio", "Circuit breaker", "HealthMonitor", "+2"], "blurb": { "i18n": "p.llmorchestrator", "text": "One control plane for every headless CLI coding agent." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "llmsverifier", "name": "LLMsVerifier", "tech": ["Go", "Gin", "SQLite + SQLCipher", "gRPC", "+6"], "blurb": { "i18n": "p.llmsverifier", "text": "Verify. Monitor. Optimize. The single source of truth for LLM and provider verification metadata." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "helixmemory", "name": "HelixMemory", "tech": ["Go", "Mem0", "Cognee", "Letta", "+3"], "blurb": { "i18n": "p.helixmemory", "text": "One memory brain for AI agents — four best-in-class engines, fused." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } }
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "A free-world alternative to JIRA — the flagship of the Helix-Track line."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "An ensemble LLM service that lets multiple models debate and ships the answer they agree on."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "A distributed AI development platform that divides work across SSH-managed workers with checkpoint/rollback."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "One binary, six modes: OpenAI- and Anthropic-compatible inference from laptop to cluster, over HTTP/3."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "A distributed operating system for AI compute, from datacenter GPUs to edge handhelds."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "One interface, 43 providers — with circuit breakers, retries, and health baked in."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "One control plane for every headless CLI coding agent."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "Verify. Monitor. Optimize. The single source of truth for LLM and provider verification metadata."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "One memory brain for AI agents — four best-in-class engines, fused."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            }
           ]
         }
       ]
@@ -85,16 +350,47 @@
     {
       "type": "section",
       "id": "governance",
-      "eyebrow": { "i18n": "gov.eyebrow", "text": "// quality & governance — our differentiator" },
-      "title": { "i18n": "gov.title", "text": "Governance as an auditable fact, not an aspiration." },
-      "lede": { "i18n": "gov.lede", "text": "Two pillars make the whole fleet coherent and trustworthy." },
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// quality & governance — our differentiator"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "Governance as an auditable fact, not an aspiration."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "Two pillars make the whole fleet coherent and trustworthy."
+      },
       "groups": [
         {
           "kind": "cards",
           "grid": "vd-grid vd-grid--two",
           "cards": [
-            { "slug": "helixconstitution", "name": "HelixConstitution", "blurb": { "i18n": "gov.constitution", "text": "A universal, project-agnostic engineering rulebook shipped as a Git submodule and inherited by every project across a 140+-repository fleet. It encodes non-negotiable discipline — anti-bluff evidence gates, false-positive immunity, data and host safety — that a project may extend but never weaken. One submodule bump upgrades the rules everywhere, and every gate is paired with a mutation test that proves the gate itself isn't a sham." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "helixqa", "name": "HelixQA", "blurb": { "i18n": "gov.qa", "text": "Anti-bluff QA orchestration. It runs written YAML test banks and fully-autonomous, LLM-plus-computer-vision QA sessions across Android, Android TV, Web, and Desktop — and it refuses to score a PASS without captured runtime evidence: screenshots, logcat, video, stack traces. \"We tested it\" becomes \"here is the video, the logcat, and the ticket.\"" }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } }
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "A universal, project-agnostic engineering rulebook shipped as a Git submodule and inherited by every project across a 140+-repository fleet. It encodes non-negotiable discipline — anti-bluff evidence gates, false-positive immunity, data and host safety — that a project may extend but never weaken. One submodule bump upgrades the rules everywhere, and every gate is paired with a mutation test that proves the gate itself isn't a sham."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "Anti-bluff QA orchestration. It runs written YAML test banks and fully-autonomous, LLM-plus-computer-vision QA sessions across Android, Android TV, Web, and Desktop — and it refuses to score a PASS without captured runtime evidence: screenshots, logcat, video, stack traces. \"We tested it\" becomes \"here is the video, the logcat, and the ticket.\""
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            }
           ]
         }
       ]
@@ -102,22 +398,169 @@
     {
       "type": "section",
       "id": "utilities",
-      "eyebrow": { "i18n": "utils.eyebrow", "text": "// tier 2 — utilities" },
-      "title": { "i18n": "utils.title", "text": "Vasic Digital utilities" },
-      "lede": { "i18n": "utils.lede", "text": "Product-grade tools that stand on their own." },
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// tier 2 — utilities"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital utilities"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "Product-grade tools that stand on their own."
+      },
       "groups": [
         {
           "kind": "cards",
           "grid": "vd-grid",
           "cards": [
-            { "slug": "catalogizer", "name": "Catalogizer", "tech": ["Go", "Gin", "React", "WebSockets", "+10"], "blurb": { "i18n": "p.catalogizer", "text": "Advanced multi-protocol, encrypted media collection management — detect, catalog, and enrich everything you own." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "courses-creator", "name": "Courses-Creator", "tech": ["Go", "React", "Electron", "React Native", "+8"], "blurb": { "i18n": "p.coursescreator", "text": "Markdown in, professional video course out — AI-enhanced, multi-platform." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "visionengine", "name": "VisionEngine", "tech": ["Go", "GoCV / OpenCV", "LLM vision", "Graph algorithms"], "blurb": { "i18n": "p.visionengine", "text": "See the UI like a user — computer vision plus LLM vision for analysis and navigation." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "docprocessor", "name": "DocProcessor", "tech": ["Go", "LLM agents", "Heuristic parser", "i18n"], "blurb": { "i18n": "p.docprocessor", "text": "Turn documentation into a verifiable feature map for QA automation." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "docs-chain", "name": "Docs Chain", "tech": ["Go", "DAG", "SQLite", "fsnotify"], "blurb": { "i18n": "p.docschain", "text": "No tracked document can fall out of sync — content-hashed, bidirectional, atomic." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "herald", "name": "Herald", "tech": ["Go", "Shell", "LLM intent inference", "Docs Chain"], "blurb": { "i18n": "p.herald", "text": "Every alert reaches the right destination — no command syntax required." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "task-bridge", "name": "task_bridge", "tech": ["Go", "SQLite", "HMAC-SHA256", "cron + webhooks"], "blurb": { "i18n": "p.taskbridge", "text": "Your task board and your source-of-truth, impeccably in sync — both ways." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "vasic-digital-reusable-module-suite", "name": "Reusable Module Suite", "tech": ["Go (digital.vasic.*)", "Kotlin Multiplatform", "Vector DB / RAG / MCP", "+1"], "blurb": { "i18n": "p.rms", "text": "Build once, reuse everywhere — a fleet of small, decoupled, independently-tested Go and KMP modules." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } }
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "Advanced multi-protocol, encrypted media collection management — detect, catalog, and enrich everything you own."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown in, professional video course out — AI-enhanced, multi-platform."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "See the UI like a user — computer vision plus LLM vision for analysis and navigation."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "Turn documentation into a verifiable feature map for QA automation."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "No tracked document can fall out of sync — content-hashed, bidirectional, atomic."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "Every alert reaches the right destination — no command syntax required."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "Your task board and your source-of-truth, impeccably in sync — both ways."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "Build once, reuse everywhere — a fleet of small, decoupled, independently-tested Go and KMP modules."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            }
           ]
         }
       ]
@@ -125,18 +568,94 @@
     {
       "type": "section",
       "id": "server-factory",
-      "eyebrow": { "i18n": "sf.eyebrow", "text": "// tier 3 — heritage" },
-      "title": { "i18n": "sf.title", "text": "Server Factory — infrastructure automation" },
-      "lede": { "i18n": "sf.lede", "text": "Our DevOps heritage: declarative JSON turned into fully-provisioned, Dockerized servers." },
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// tier 3 — heritage"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — infrastructure automation"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "Our DevOps heritage: declarative JSON turned into fully-provisioned, Dockerized servers."
+      },
       "groups": [
         {
           "kind": "cards",
           "grid": "vd-grid",
           "cards": [
-            { "slug": "mail-server-factory", "name": "Mail Server Factory", "tech": ["Kotlin", "Shell", "Docker", "QEMU", "+4"], "blurb": { "i18n": "p.msf", "text": "Run your mail server like the boss — describe it in JSON, deploy it anywhere." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "server-factory-core-framework", "name": "Server Factory Core Framework", "tech": ["Kotlin", "Shell", "Gradle"], "blurb": { "i18n": "p.sfcore", "text": "The shared engine behind every Server Factory." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "qemu-utils", "name": "Qemu-Utils", "tech": ["Shell", "QEMU", "Bridge / TAP", "ISO images"], "blurb": { "i18n": "p.qemu", "text": "QEMU VM images, managed like artifacts — download, run, network, publish." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } },
-            { "slug": "parallels-utils", "name": "Parallels-Utils", "tech": ["Shell", "Python 3", "Parallels"], "blurb": { "i18n": "p.parallels", "text": "Compress, publish, and reuse your Parallels VM images across every machine." }, "readmore": { "i18n": "cta.readmore", "text": "Read more" } }
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "Run your mail server like the boss — describe it in JSON, deploy it anywhere."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "The shared engine behind every Server Factory."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "QEMU VM images, managed like artifacts — download, run, network, publish."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "Compress, publish, and reuse your Parallels VM images across every machine."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Read more"
+              }
+            }
           ]
         }
       ]
@@ -144,19 +663,93 @@
     {
       "type": "section",
       "id": "technologies",
-      "eyebrow": { "i18n": "tech.eyebrow", "text": "// technologies" },
-      "title": { "i18n": "tech.title", "text": "Grounded in our actual stack." },
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// technologies"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "Grounded in our actual stack."
+      },
       "groups": [
         {
           "kind": "tech",
           "grid": "vd-grid vd-grid--two",
           "cards": [
-            { "nameI18n": "tech.lang.title", "name": "Languages", "tech": ["Go", "Kotlin / KMP", "TypeScript", "Python", "Swift", "Shell", "PL/pgSQL", "TLA+"] },
-            { "nameI18n": "tech.ai.title", "name": "AI / LLM", "tech": ["43+ provider adapters", "MCP", "RAG", "Vector DBs", "HiPlan / MCTS / ToT", "SWE-bench / HumanEval / MMLU"] },
-            { "nameI18n": "tech.backend.title", "name": "Backend", "tech": ["Gin", "gRPC + Protobuf", "HTTP/3 (QUIC)", "WebSockets", "Angular / React", "Kafka / RabbitMQ"] },
-            { "nameI18n": "tech.data.title", "name": "Data", "tech": ["PostgreSQL", "SQLite", "SQLCipher", "Redis", "Neo4j", "ClickHouse", "MinIO / S3"] },
-            { "nameI18n": "tech.infra.title", "name": "Infra / DevOps", "tech": ["Docker & Compose", "Kubernetes + Helm", "Prometheus + Grafana", "OpenTelemetry", "QEMU / Libvirt", "GitHub Actions"] },
-            { "nameI18n": "tech.qa.title", "name": "Testing / QA", "tech": ["HelixQA (anti-bluff)", "Challenge harnesses", "go test -race", "SonarQube", "semgrep / gosec / trivy / snyk"] }
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "Languages",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "AI / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "Backend",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "Data",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "Infra / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "Testing / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
           ]
         }
       ]
@@ -164,23 +757,54 @@
     {
       "type": "section",
       "id": "portfolio-cta",
-      "eyebrow": { "i18n": "pf.eyebrow", "text": "// portfolio" },
-      "title": { "i18n": "pf.title", "text": "One fleet, one discipline — see all 33 products." },
-      "lede": { "i18n": "pf.lede", "text": "A unified, evidence-based portfolio of the Helix family, the vasic-digital utilities, and the Server Factory toolchain." },
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// portfolio"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "One fleet, one discipline — see all 33 products."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "A unified, evidence-based portfolio of the Helix family, the vasic-digital utilities, and the Server Factory toolchain."
+      },
       "ctaStyle": "justify-content:flex-start",
       "ctas": [
-        { "i18n": "pf.cta", "label": "Open the portfolio", "href": "portfolio/", "variant": "primary" }
+        {
+          "i18n": "pf.cta",
+          "label": "Open the portfolio",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
       ]
     },
     {
       "type": "contact",
       "id": "contact",
-      "eyebrow": { "i18n": "contact.eyebrow", "text": "// contact" },
-      "title": { "i18n": "contact.title", "text": "Let's build something verifiable." },
-      "lede": { "i18n": "contact.lede", "text": "Anyone can wire an app to an LLM. We build the part that is hard: AI systems that are verifiable, reusable, and honest. We don't ask you to trust the green checkmark — we show you the evidence behind it." },
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// contact"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "Let's build something verifiable."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "Anyone can wire an app to an LLM. We build the part that is hard: AI systems that are verifiable, reusable, and honest. We don't ask you to trust the green checkmark — we show you the evidence behind it."
+      },
       "contacts": [
-        { "i18n": "contact.email_label", "label": "Email", "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>" },
-        { "i18n": "contact.github_label", "label": "GitHub", "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>" }
+        {
+          "i18n": "contact.email_label",
+          "label": "Email",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
       ]
     }
   ]

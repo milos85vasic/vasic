@@ -1,0 +1,105 @@
+/* =============================================================================
+ * OpenDesign — Layered overlay backdrops (blur + eased/subtle-bounce entrance)
+ * design-system/motion/overlays.css
+ *
+ * Layered on top of components-extended.css. Gives dialog / toast / popover /
+ * menu / tooltip backdrops a frosted `backdrop-filter: blur()` and a compositor-
+ * only (transform + opacity) entrance built from OpenDesign motion tokens.
+ *
+ *   - `@supports (backdrop-filter: blur(1px))` is the progressive-enhancement
+ *     gate: browsers without it get a slightly stronger solid scrim instead of
+ *     a see-through one (never an unreadable transparent overlay).
+ *   - A single `@media (prefers-reduced-motion: reduce)` block disables BOTH the
+ *     blur and the entrance motion (instant, opaque, no transform).
+ *
+ * Timing/easing come from brand tokens with safe fallbacks:
+ *   --od-dur-base | --od-ease-emphasized
+ * ========================================================================== */
+
+:root {
+  --od-overlay-blur: 8px;
+  --od-overlay-scrim: color-mix(in srgb, var(--od-bg, #000) 55%, transparent);
+  --od-overlay-scrim-solid: color-mix(in srgb, var(--od-bg, #000) 78%, transparent);
+  /* subtle-bounce entrance easing (overshoot, then settle) */
+  --od-ease-bounce: cubic-bezier(0.22, 1.4, 0.4, 1);
+}
+@supports not (color: var(--od-dur-base)) {
+  :root { --od-dur-base: 250ms; --od-ease-emphasized: cubic-bezier(0.2, 0, 0, 1); }
+}
+
+/* -----------------------------------------------------------------------------
+ * 1. Modal / dialog backdrop — the frosted scrim behind an .od-dialog.
+ *    Works for a sibling `.od-dialog__backdrop`, the native <dialog>::backdrop,
+ *    and any element opting in with .od-overlay-backdrop.
+ * -------------------------------------------------------------------------- */
+.od-overlay-backdrop,
+.od-dialog__backdrop,
+dialog.od-dialog::backdrop {
+  background: var(--od-overlay-scrim-solid);
+  animation: od-overlay-fade var(--od-dur-base) var(--od-ease-emphasized) both;
+}
+
+/* -----------------------------------------------------------------------------
+ * 2. Floating surfaces — the panels themselves get the frost + entrance.
+ * -------------------------------------------------------------------------- */
+.od-dialog__panel,
+.od-toast,
+.od-popover,
+.od-menu,
+.od-dropdown__menu,
+.od-tooltip__bubble {
+  animation: od-overlay-pop var(--od-dur-base) var(--od-ease-bounce) both;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .od-overlay-backdrop,
+  .od-dialog__backdrop,
+  dialog.od-dialog::backdrop {
+    background: var(--od-overlay-scrim);
+    -webkit-backdrop-filter: blur(var(--od-overlay-blur));
+    backdrop-filter: blur(var(--od-overlay-blur));
+  }
+  /* A whisper of blur on the floating surface edges reads as depth without cost. */
+  .od-toast,
+  .od-popover,
+  .od-menu,
+  .od-dropdown__menu {
+    -webkit-backdrop-filter: blur(calc(var(--od-overlay-blur) / 2));
+    backdrop-filter: blur(calc(var(--od-overlay-blur) / 2));
+  }
+}
+
+@keyframes od-overlay-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes od-overlay-pop {
+  from { opacity: 0; transform: translate3d(0, 8px, 0) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* -----------------------------------------------------------------------------
+ * Reduced motion — no blur, no entrance motion, fully opaque scrim (legible).
+ * -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .od-overlay-backdrop,
+  .od-dialog__backdrop,
+  dialog.od-dialog::backdrop {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: var(--od-overlay-scrim-solid) !important;
+    animation: none !important;
+  }
+  .od-dialog__panel,
+  .od-toast,
+  .od-popover,
+  .od-menu,
+  .od-dropdown__menu,
+  .od-tooltip__bubble {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

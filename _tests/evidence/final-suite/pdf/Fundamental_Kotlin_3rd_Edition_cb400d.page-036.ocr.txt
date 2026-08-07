@@ -1,0 +1,31 @@
+You will be asked to set the project name and the package. After that Gradle will
+perform the initial build:
+BUILD SUCCESSFUL in 27s
+2 actionable tasks: 2 executed
+Your project is initialized and ready. Depending on the version of Gradle that
+you have installed and the DSL language that you chose in initialization wizard
+generated files may differ when compared to examples that we have shown
+previously. Take a look at them closely and chose the configuration that you
+more prefer. For the scope of this book, you must be now ready to write, build
+and run your code.
+Converting Java source code to Kotlin
+If you have a legacy project written in Java it is possible to convert its code into
+Kotlin. Intelli) Idea offers a very powerful feature: Java to Kotlin conversion.
+For example, if you paste some Java code into a .kt file IDE will ask you to
+perform the conversion. This is great because you do not have to rewrite the
+code snippet. All you have to do after conversion is to do some cleanup and
+adjust formatting.
+Also, if you have a significant amount of Java classes you can convert them. To
+do code conversion, locate your Java source code (.java) file the chose:
+Code -> Convert Java File to Kotlin File.
+Let's try this. Import the "CodeExamples” directory containing book code
+examples Kotlin project into your “IntelliJ Idea” IDE if you did not already. Locate
+the “ConvertMePlease.java” file from Fundamental Kotlin examples:
+public class ConvertMePlease {
+
+private String myFieldToBEConverted;
+
+public ConvertMePlease(String myFieldToBEConverted) {
+
+this.myFieldToBEConverted = myFieldToBEConverted;
+}

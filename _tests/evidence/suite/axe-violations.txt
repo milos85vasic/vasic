@@ -1,0 +1,237 @@
+
+==== homepage (http://localhost:8399/) ====
+critical/serious count: 1
+  [serious] color-contrast — Elements must meet minimum color contrast ratio thresholds
+     target=["div[data-i18n=\"mv2.stat.lang\"]"]
+       Fix any of the following:   Element has insufficient color contrast of 4.44 (foreground color: #6c757d, background color: #f8f9fa, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["div[data-i18n=\"mv2.stat.repos\"]"]
+       Fix any of the following:   Element has insufficient color contrast of 4.44 (foreground color: #6c757d, background color: #f8f9fa, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["div[data-i18n=\"mv2.stat.products\"]"]
+       Fix any of the following:   Element has insufficient color contrast of 4.44 (foreground color: #6c757d, background color: #f8f9fa, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(4) > article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(5) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(6) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(7) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(7) > article:nth-child(8) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid:nth-child(10) > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(1) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(6)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(2) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(3) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".mvx-grid--two.mvx-grid > article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["article:nth-child(4) > .od-product-card__tech > .od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+
+==== product (http://localhost:8399/products/helixtrack.html) ====
+critical/serious count: 1
+  [serious] color-contrast — Elements must meet minimum color contrast ratio thresholds
+     target=[".od-tag--license"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(1)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(2)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(3)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(4)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(5)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(6)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(7)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(8)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(9)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(10)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(11)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=[".od-chip:nth-child(12)"]
+       Fix any of the following:   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+     target=["figcaption"]
+       Fix any of the following:   Element has insufficient color contrast of 4.44 (foreground color: #6c757d, background color: #f8f9fa, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1
+
+==== portfolio (http://localhost:8399/portfolio/) ====
+critical/serious count: 0

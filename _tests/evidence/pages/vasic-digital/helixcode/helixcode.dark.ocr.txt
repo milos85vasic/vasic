@@ -1,0 +1,137 @@
+Vasic Digital Home Products “6:
+
+// TIER: HELIX-PRIMARY + ORDER 2
+HelixCode icense: MIT
+
+Go Gin PostgreSQL Redis SSH
+
+Model Context Protocol llama.cpp Ollama
+Source
+
+HelixDevelopment/HelixCode
+// architecture diagram for helixcode
+— injected in a later pass
+
+The distributed Al development platform that divides work,
+preserves it, and never loses your place.
+Summary
+HelixCode is an enterprise-grade, Go-based distributed Al
+development platform that splits development work into intelligently-
+divided tasks across a network of SSH-managed workers, with
+automatic checkpointing and rollback so no work is ever lost. It
+unifies multi-provider LLM integration, full development-lifecycle
+workflows, and cross-platform delivery behind REST, CLI, TUI, and
+MCP interfaces.
+Short description
+HelixCode is a distributed Al development platform written in Go. It
+divides work into intelligent tasks across SSH-based worker
+networks, preserves progress with automatic checkpointing and
+rollback, integrates multiple LLM providers, and drives the full
+development lifecycle through REST, CLI, TUI, and MCP interfaces.
+Long description
+HelixCode is an enterprise-grade distributed Al development
+platform ( dev. helix. code , MIT) designed for intelligent task
+division, work preservation, and cross-platform development
+workflows. Built in Go for scalability, it provides a foundation for
+distributed computing with automatic checkpointing, rollback, and
+real-time monitoring.
+Its architecture layers a REST + WebSocket + MCP API surface
+over core services — JWT authentication and session management,
+SSH-based worker-pool management with health monitoring, task
+management with checkpointing and dependency handling, project
+and workflow management, and a unified LLM provider layer —
+persisted on PostgreSQL (with optional Redis). Distributed workers
+auto-install across a network, and multi-client interfaces span CLI,
+terminal UI, REST, and mobile frameworks.
+HelixCode drives a complete development lifecycle: planning,
+building, testing, and refactoring workflows execute automatically
+with dependency awareness and multi-session context tracking. It
+integrates multiple LLM providers (Ilama.cpp, Ollama, OpenAl)
+behind one interface, adds hardware-aware model selection
+(CPU/GPU/memory detection), and supports advanced reasoning
+strategies such as chain-of-thought and tree-of-thoughts. The Model
+Context Protocol is implemented across multiple transports, and
+multi-channel notifications (Slack, Discord, Email, Telegram) keep
+teams informed. It targets Linux, macOS, Windows, Aurora OS, and
+SymphonyOS.
+Why we built it
+Distributed and Al-assisted development typically loses context and
+progress when tasks are split across machines or interrupted
+HelixCode was built to make task division intelligent and work
+preservation automatic — so a large development effort can be
+broken down, distributed across a worker network, checkpointed,
+and resumed or rolled back without losing state.
+Why it's a game-changer
+It combines three things teams usually stitch together from separate
+tools: distributed compute (SSH worker networks with auto-
+installation and health monitoring), Al development assistance
+(multi-provider LLMs with reasoning and tool calling), and full
+lifecycle workflow automation — all with database-backed
+checkpointing so distributed work is durable rather than fragile.
+What's innovative
+
+« Work preservation via automatic checkpointing and rollback applied to
+distributed development tasks.
+
++ Hardware-aware model selection that matches models to detected
+CPU/GPU/memory capabilities.
+
+* Asingle platform exposing REST, WebSocket, CLI, TUI, and MCP, plus
+multi-transport MCP support.
+
+* Cross-platform reach extending to Aurora OS and SymphonyOS.
+beyond the usual desktop trio.
+
+Biggest technical challenges & how we
+solved them
+
++ Not losing work across distributed, interruptible tasks — solved
+with a task model carrying checkpoints and dependencies, persisted in
+PostgreSQL, enabling rollback and resumption.
+
+« Managing a heterogeneous worker fleet — solved with SSH-based
+worker registration, auto-installation, and health monitoring in a
+dedicated worker-pool service.
+
++ Provider and hardware heterogeneity — solved with a unified LLM
+provider interface plus hardware detection driving intelligent model
+selection.
+
+Tech stack
+
+* Go (1.26+ inner module) — chosen for concurrency and single-binary
+distribution suited to distributed workers; used across all core services
+and CLl/server binaries.
+
++ Gin (HTTP framework) — chosen for a fast, minimal REST layer; used
+to serve the /api/v1 endpoints (auth, workers, tasks, projects).
+
+« PostgreSQL 15+ (via pgx/v5) — chosen as the durable system of
+record; used for the 11-table distributed-computing schema (users,
+workers, tasks, projects, sessions, llm_providers, notifications).
+
+« Redis 7+ (optional, go-redis/v9) — chosen for caching/coordination;
+used as an optional performance layer.
+
+« SSH — chosen as a ubiquitous, secure transport for worker control;
+used for worker registration, auto-installation, and command execution
+across the pool.
+
++ Model Context Protocol (MCP) — chosen for standardized
+tool/context exchange; implemented with multi-transport support.
+
++ LLM providers (llama.cpp, Ollama, OpenAl) — chosen to span local
+and hosted inference; used behind a unified provider interface with
+hardware-aware selection.
+
+Status & honesty notes
+
++ Status: beta. The README self-reports a "FULLY COMPLETE / all 5
+phases" state; that completeness is project-stated rather than
+independently verified, so the page treats it as beta.
+
+« All specifics above trace to the repository README; marketing
+phrasings (taglines) are editorial rather than source metrics.
+
+Priority tier: Helix-primary.
+© 2026 Vasic Digital — built on the OpenDesign system.

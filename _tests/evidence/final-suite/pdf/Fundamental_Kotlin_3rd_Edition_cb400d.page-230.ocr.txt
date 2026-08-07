@@ -1,0 +1,27 @@
+sealed class Specie {
+class Human(val race: String) : Specie()
+class Animal(
+val specie: String, val legsCount: Int
+): Specie()
+object Bacteria : Specie()
+}
+We have defined a simple “sealed class” to describe nature’s species. Species
+may be “human”, “animal” or like in our example “bacteria” which is an object.
+Now we will define a simple function that will work with “species”:
+fun describe(specie: Specie) = when (specie) {
+is Specie.Human -> "Human ${specie.race}"
+is Specie.Animal ->
+"${specie.specie}, it has ${specie.legsCount} legs."
+is Specie.Bacteria -> "Some micro organism..."
+}
+Depending of the “specie” type it will return proper description string. Let's try
+it:
+val indian = describe(Specie.Human("Indian"))
+val asian = describe(Specie.Human("Asian"))
+printin(indian)
+printin(asian)
+val monkey = describe(Specie.Animal("Monkey", 2))
+val horse = describe(Specie.Animal("Horse", 4))
+printin(monkey)
+printin(horse)
+val bacteria = describe(Specie.Bacteria)

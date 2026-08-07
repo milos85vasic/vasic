@@ -1,0 +1,38 @@
+delay(1000L)
+printin("Count: $x")
+}
+
+}
+
+printin("Start")
+
+// Wait for coroutine to finish:
+
+job.joinQ
+
+printin("End")
+}
+As you can see the “join” function suspends the coroutine until this job is
+complete. This invocation resumes normally when the job is complete for any
+reason. The Job of the invoking coroutine is still active. If the Job was still in a
+new state, this function also starts the corresponding coroutine.
+The job becomes complete only when all of its children are complete! This
+suspending function is cancellable. It always checks for a cancellation of the
+invoking coroutine's Job. If the Job of the invoking coroutine is canceled or
+completed when this suspending function is invoked or while it is suspended,
+this function throws “CancellationException”.
+It means that a parent coroutine invoking join on a child coroutine that was
+started using:
+launch(coroutineContext) {
+
+i
+}
+builder throws “CancellationException” if the child had crashed unless a non-
+standard “CoroutineExceptionHandler’” is installed in the context.
+This function can be used in select invocation with the “onjoin” clause. Use
+“isCompleted” to check for the completion of this job without waiting. Also,
+there is the “cancelAndJoin” function that combines an invocation of cancel and
+the join.
+Let's run our program:
+Start
+Count: 0

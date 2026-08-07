@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:34:52.205Z",
+  "input": "file:///Volumes/T7/Projects/vasic/milosvasic.ru/products/helixtrack.html",
+  "name": "helixtrack",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/pages/milosvasic/helixtrack/helixtrack.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/milosvasic/helixtrack/helixtrack.light.ocr.txt",
+        "wordCount": 869,
+        "sample": "Milos Vasié Home Products TIER: HELIX-PRIMARY ORDER 1 HelixTrack license: TED Go"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 27,
+          "controls": 7,
+          "textChars": 3044
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/pages/milosvasic/helixtrack/helixtrack.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/milosvasic/helixtrack/helixtrack.dark.ocr.txt",
+        "wordCount": 871,
+        "sample": "Milos Vasié Home Products 9: TIER: HELIX-PRIMARY ORDER 1 HelixTrack (a) ice"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 27,
+          "controls": 7,
+          "textChars": 3044
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

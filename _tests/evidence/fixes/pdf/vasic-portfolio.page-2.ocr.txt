@@ -1,0 +1,46 @@
+VASIC DIGITAL PORTFOLIO
+140+ 43 25 439
+REPOSITORY FLEET LLM PROVIDERS LINUX DISTROS PASSING TESTS - MAIL
+PROVISIONED SERVER FACTORY
+
+| 1. Overview — the whole picture first
+This is a single, unified portfolio used by both vasic.digital and milosvasic.ru. It describes not a scattering of
+side projects but a deliberately-engineered fleet: large product applications sitting on top of dozens of
+small, decoupled, independently-tested modules, the whole thing governed by a shared engineering
+Constitution and verified by an anti-bluff QA discipline. That structure is the differentiator. Most portfolios
+are a list of things that were built; this is a system in which every product is assembled from proven, reusable
+parts, every part is held to the same non-negotiable rules, and every advertised capability has captured
+evidence behind it. The dominant language is Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and
+Shell used where each genuinely fits best — Go for high-throughput services and libraries, Kotlin for
+provisioning and cross-platform mobile, TypeScript for typed frontends, Python for Al/ML glue.
+What makes the body of work cohere is that the discipline is mechanical, not aspirational. A shared
+Constitution ships as a Git submodule and is inherited across a 140+-repository fleet, so a single rule change
+propagates everywhere; an anti-bluff QA layer refuses to record a pass without runtime proof. The Helix
+family, the utility fleet, and the Server Factory toolchain are three expressions of one idea — build once,
+reuse everywhere, and prove it works before calling it done.
+Everything below is presented in priority order:
+
+1. Governance & QA pillars — HelixConstitution, HelixQA (the discipline that makes the rest
+
+trustworthy).
+
+2. The Helix product family — the Al-development lifecycle (HelixTrack first).
+
+3. LLM infrastructure — provider abstraction, orchestration, verification.
+
+4. vasic-digital utilities — product-grade standalone tools.
+
+5. Server Factory — infrastructure-automation heritage (ranked last).
+The unifying thesis: a feature is done only when a real user can use it and there is captured evidence to
+prove it.
+| 2. Governance & QA pillars
+These two come first because everything else in this portfolio borrows its credibility from them. Together they
+turn “trust me, it works” into an auditable fact — the Constitution encodes the rules, HelixQA proves they
+were followed.
+
++ HelixConstitution — a universal, project-agnostic engineering rulebook shipped as a Git submodule
+and inherited across a 140+-repository fleet. Anti-bluff evidence gates, false-positive immunity, data/
+host safety, coverage discipline; extend-but-never-weaken inheritance; propagation gates that grep for
+required clauses fleet-wide; every gate paired with a mutation test proving it isn’t a sham.
+
+milosvasic.ru - vasic.digital 2/7

@@ -1,0 +1,28 @@
+Visibility modifiers
+In Kotlin classes, objects, interfaces, constructors, functions, properties, and
+their setter functions can have “visibility modifiers”. “visibility modifiers” are
+used to set the visibility or access rights. Getter functions always have the same
+visibility as the property.
+In Kotlin, the following “visibility modifiers” are available:
+- “private”: visible only inside the current scope
+- “protected”: visible for the current scope and all that extend it
+- “public”: visible everywhere
+- “internal”: visible everywhere inside the current module
+If not “visibility modifier” is specified, the default visibility is used which is
+“public”.
+Let's demonstrate “visibility modifiers” use. From book code examples open
+“‘VisibilityModifiers.kt":
+open class A{
+fun hello() = printin("Hello")
+protected fun world() = printin("World")
+private fun helloWorld() = printin("Hello world")
+open fun greeting() {
+helloWorld()
+}
+}
+class B: AQ) {
+override fun greeting() {
+hello()
+world()
+}
+}

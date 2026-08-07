@@ -1,0 +1,27 @@
+printin("A: ${extended.a}")
+printin("B: ${extended.b}")
+Executing this small code snippet will produce the following output:
+A: 15
+B: 25
+Extending objects
+In the same way that we have extended the class properties, we can extend
+objects and companion objects.
+We will start with the example of companion object extending. We show you
+how to do this in the book code example “ExtendingCompanionObject. kt":
+class Example {
+companion object {
+const val a = 10
+fun printAQ {
+printin("A: $a")
+}
+}
+}
+val Example.Companion.b: Int
+get() = 20
+fun Example.Companion.printB() {
+printin("B: $b")
+}
+We have defined a simple class called “Example”. “Example” has one constant
+“a” and one function that prints the value of “a” called “printA”. To introduce the
+constant “b” and “printB” function without inheritance we are extending the
+companion object as it is presented in underlined text.

@@ -1,0 +1,19 @@
+# Self-hosted brand typeface files — family / weight support / subset / bytes
+# Each family is a VARIABLE woff2: one file per subset covers all listed weights.
+
+FAMILY           WEIGHTS            SUBSET              BYTES  FILE
+Inter            400/500/600/700    latin               48256  design-system/fonts/inter/inter-latin.woff2
+Inter            400/500/600/700    latin-ext           85068  design-system/fonts/inter/inter-latin-ext.woff2
+Inter            400/500/600/700    cyrillic            18748  design-system/fonts/inter/inter-cyrillic.woff2
+Inter            400/500/600/700    cyrillic-ext        25960  design-system/fonts/inter/inter-cyrillic-ext.woff2
+Space Grotesk    500/600/700        latin               22288  design-system/fonts/space-grotesk/space-grotesk-latin.woff2
+Space Grotesk    500/600/700        latin-ext           18940  design-system/fonts/space-grotesk/space-grotesk-latin-ext.woff2
+JetBrains Mono   400/500            latin               31432  design-system/fonts/jetbrains-mono/jetbrains-mono-latin.woff2
+JetBrains Mono   400/500            latin-ext           11624  design-system/fonts/jetbrains-mono/jetbrains-mono-latin-ext.woff2
+JetBrains Mono   400/500            cyrillic             8872  design-system/fonts/jetbrains-mono/jetbrains-mono-cyrillic.woff2
+JetBrains Mono   400/500            cyrillic-ext         1640  design-system/fonts/jetbrains-mono/jetbrains-mono-cyrillic-ext.woff2
+
+Total woff2 files: 10
+Total woff2 bytes: 272828
+@font-face rules in fonts.css: 30
+Licenses: design-system/fonts/{inter,space-grotesk,jetbrains-mono}/OFL.txt (SIL OFL 1.1)

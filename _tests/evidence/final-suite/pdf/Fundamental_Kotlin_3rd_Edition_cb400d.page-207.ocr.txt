@@ -1,0 +1,35 @@
+printin(folded)
+The following output is produced:
+[2, 4, 6, 8, 10, -20]
+10
+If you still do not understand how these works take a closer look into he source
+code of the “fold” function:
+public inline fun <T, R> Iterable<T>.fold(
+
+initial: R,
+
+operation: (acc: R, T)->R
+)ER{
+
+var accumulator = initial
+
+for (element in this) accumulator =
+
+operation(accumulator, element)
+
+return accumulator
+}
+This example uses an inline generic data type. We will talk about generics in
+upcoming sections of this book.
+References
+In this section, we will talk about references. We will explain the purpose of
+references and guide you through each type of them.
+References represent data types that contain addresses (references) of
+dynamically created objects. In Kotlin (and Java) there are four different kinds
+of references based on the way how the data is garbage collected:
+- Strong references
+- Weak references
+- Soft references
+- Phantom references
+- Atomic references (they are not actually in this group, however, we will cover
+them because they provide atomic access to wrapped objects).

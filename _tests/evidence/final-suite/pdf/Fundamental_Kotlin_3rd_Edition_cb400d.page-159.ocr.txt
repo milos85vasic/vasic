@@ -1,0 +1,37 @@
+The Lambda function is essentially an anonymous function that can be treated
+as a value. Lambda function can be passed as an argument to other functions
+or returned as a result. In fact, with the lambda function, we can do anything
+that we usually do with a regular object.
+So, how do we define lambda function? Let's give a simple example. Open
+source code file from book code examples “Lambda.kt”:
+val lambdat: (Int, Int) -> Int ={x, y->x+y}
+Where “(Int, Int) -> Int” is data type for constant “lambda1” and “{ x, y -> x + y }”
+is lambda function definition.
+We can rewrite this a little bit into the second version of the function that will
+deduce data type from lambda function:
+val lambda2 = { x: Int, y: Int-> x + y}
+As you can see we did not specify the data type for constant “lambda2”
+explicitly. Both constants can be invoked like any other function or passed to
+other functions as arguments:
+fun calculator(calculation: (Int, Int) -> Int, a: Int, b: Int)
+
+= calculation(a, b)
+The “calculator” function accepts three arguments: lambda function that will be
+used to perform calculation, and two integers that will be used by the
+calculation.
+If we extend this example we can introduce another function that will give us a
+calculation mechanism and return us lambda as a result:
+@Throws(IllegalArgumentException::class)
+fun calculationProvider(type: Int) = when(type) {
+
+0 -> lambda1
+
+1 -> lambda2
+
+else -> throw IllegalArgumentException(
+
+"Unknown type: $type"
+
+)
+
+}

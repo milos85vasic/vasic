@@ -1,0 +1,660 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "ru",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "mv2.hero.eyebrow",
+        "text": "// AI инженер"
+      },
+      "title": {
+        "text": "Miloš Vasić"
+      },
+      "lede": {
+        "i18n": "mv2.hero.lede",
+        "text": "AI инженер, создающий проверяемые системы разработки ИИ: инфраструктуру LLM от нескольких провайдеров, автономные агенты и оркестрацию, а также слои управления и QA, которые обеспечивают их честность."
+      },
+      "ctas": [
+        {
+          "dl": "cv",
+          "icon": "i-download",
+          "variant": "primary",
+          "i18n": "hero.cv",
+          "label": "Скачать резюме"
+        },
+        {
+          "dl": "cl",
+          "variant": "secondary",
+          "i18n": "hero.cl",
+          "label": "Сопроводительное письмо"
+        },
+        {
+          "dl": "portfolio",
+          "variant": "secondary",
+          "i18n": "mv2.hero.portfolio",
+          "label": "Портфолио (PDF)"
+        },
+        {
+          "variant": "ghost",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "i18n": "mv2.hero.portfolio_site",
+          "label": "Сайт портфолио"
+        }
+      ],
+      "stats": [
+        {
+          "value": "Go",
+          "i18n": "mv2.stat.lang",
+          "label": "язык‑основа"
+        },
+        {
+          "value": "140+",
+          "i18n": "mv2.stat.repos",
+          "label": "репозитории, одна конституция"
+        },
+        {
+          "value": "33",
+          "i18n": "mv2.stat.products",
+          "label": "продукты, подтверждённые доказательствами"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": {
+        "i18n": "mv2.summary.eyebrow",
+        "text": "// резюме"
+      },
+      "title": {
+        "i18n": "mv2.summary.title",
+        "text": "Я проектирую и создаю программное обеспечение, которое превращает LLM в надёжные продукты."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "mvx-lede",
+              "i18n": "mv2.summary.body1",
+              "text": "Я в основном работаю на Go, с Kotlin / Kotlin Multiplatform, TypeScript/React, Python, Swift и Shell в зависимости от задачи. Мой вывод организован как флот, а не как куча разовых приложений: крупные продуктовые приложения, построенные поверх десятков небольших, разобщённых, независимо протестированных модулей, все наследуют общую инженерную Конституцию как Git‑подмодуль."
+            },
+            {
+              "class": "mvx-lede mvx-muted",
+              "i18n": "mv2.summary.body2",
+              "text": "Это значит, что исправления распространяются на всё, новые продукты собираются из проверенных частей, и каждая заявленная возможность подкреплена тестом, генерирующим доказательства. Моя путеводная звезда — единственное правило: функция считается завершённой только тогда, когда реальный пользователь может её использовать и есть зафиксированные доказательства её работы. Эта страница переходит от обзора к отдельным проектам; каждый из них ссылается на полную страницу продукта."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": {
+            "i18n": "mv2.work.eyebrow",
+            "text": "// моя работа в семье Helix"
+          },
+          "title": {
+            "i18n": "mv2.work.title",
+            "text": "Линия Helix в порядке приоритета."
+          },
+          "lede": {
+            "i18n": "mv2.work.lede",
+            "text": "Линия Helix охватывает весь жизненный цикл разработки ИИ. Каждая карточка ведёт к полной странице продукта."
+          },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixtrack",
+                "text": "Free‑world альтернатива JIRA; флагманская модель Helix-Track."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "LLMsVerifier",
+                "Prometheus",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixagent",
+                "text": "Сервис LLM‑ансамбля с многократными дебатами моделей и проверкой выбора провайдера."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Redis",
+                "SSH",
+                "MCP",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcode",
+                "text": "Распределённая платформа разработки ИИ, распределяющая работу между SSH‑управляемыми воркерами с автоматическим чекпоинтом/откатом."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixllm",
+                "text": "Один бинарный файл с шестью режимами, обслуживающий совместимые с OpenAI и Anthropic API через HTTP/3, с локальной инференцией llama.cpp и цепочкой резервных вариантов с оценкой."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcluster",
+                "text": "Распределённая операционная система для AI‑вычислений, от дата‑центровых GPU до edge‑устройств."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmprovider",
+                "text": "Один интерфейс для 43 провайдеров с автоматическими circuit breakers, повторными попытками и встроенным health‑monitoring."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines / stdio",
+                "Circuit breaker",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmorchestrator",
+                "text": "Один control plane для каждого безголового CLI‑агента кодинга."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmsverifier",
+                "text": "Проверка, мониторинг, оптимизация: единый источник правды для метаданных LLM/провайдер/верификация."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.utils.eyebrow",
+            "text": "// моя работа с утилитами vasic-digital"
+          },
+          "title": {
+            "i18n": "mv2.utils.title",
+            "text": "Инструменты уровня продукта, которые я создал и поддерживаю."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.catalogizer",
+                "text": "Мультипротокольное (SMB/FTP/NFS/WebDAV/local), зашифрованное, самохостируемое управление медиаколлекцией с API на Go/Gin и UI на React."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.coursescreator",
+                "text": "Конвейер markdown‑в‑видео курс с обогащением несколькими LLM, TTS и плеерами для десктопа/мобила/веб."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.visionengine",
+                "text": "Разобщённый Go‑toolkit, объединяющий классическое компьютерное зрение с мульти‑провайдерным LLM‑видением для анализа UI и построения навигационных графов."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docprocessor",
+                "text": "Преобразует документацию в проверяемую карту функций для автоматизации QA (LLM или эвристическое извлечение)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docschain",
+                "text": "Контент‑хешированный, двунаправленный, атомарный движок синхронизации документов/БД."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.herald",
+                "text": "Надёжные мульти‑канальные уведомления с естественным языком, трёхуровневым разрешением намерений."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "webhooks"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.taskbridge",
+                "text": "Разобщённый, двунаправленный движок синхронизации задач/досок (скелет P1; логика синхронизации в разработке)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "KMP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.rms",
+                "text": "Стандартная библиотека digital.vasic.* инфраструктуры, AI‑примитивов и модулей‑охранителей."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.sf.eyebrow",
+            "text": "// наследие инфраструктуры (Server Factory)"
+          },
+          "title": {
+            "i18n": "mv2.sf.title",
+            "text": "Предшествующая AI‑линии — мой DevOps‑инструментарий."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.msf",
+                "text": "Декларативный JSON → полностью развернутые Docker‑почтовые серверы, с 439 прошедшими тестами и чистым SonarQube‑воротами."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.sfcore",
+                "text": "Server Factory Core Framework, на котором строятся все фабрики сервисов."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.qemu",
+                "text": "Инструменты QEMU VM‑image — загрузка, запуск, сеть и публикация образов машин как артефактов."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.parallels",
+                "text": "Сжатие, публикация и повторное использование образов Parallels VM на всех машинах."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        {
+          "i18n": "mv2.work.portfolio_cta",
+          "label": "Посмотреть полное портфолио",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": {
+        "i18n": "mv2.gov.eyebrow",
+        "text": "// как я работаю — управление и QA в первую очередь"
+      },
+      "title": {
+        "i18n": "mv2.gov.title",
+        "text": "Дисциплина, лежащая в основе продуктов."
+      },
+      "lede": {
+        "i18n": "mv2.gov.lede",
+        "text": "Перед продуктами — дисциплина: я не выпускаю «зелёные галочки», я выпускаю AI‑системы с доказательствами их реальной работы."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "mv2.gov.constitution",
+                "text": "Универсальная, наследуемая инженерная книга правил, распределённая как Git‑подмодуль в флоте из более чем 140 репозиториев. Она кодирует ворота анти‑блюфа, иммунитет к ложноположительным результатам, безопасность данных/хостов и правила покрытий; проекты могут ужесточать, но никогда не ослаблять их, и каждый ворота управления сопровождается мутативным тестом, доказывающим, что ворота работают."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "mv2.gov.qa",
+                "text": "Оркестрация QA против блефа, запускающая написанные тест‑банки и полностью автономные, LLM‑и‑vision‑управляемые QA‑сессии на Android, Android TV, Web и Desktop, присваивая PASS только при наличии зафиксированных доказательств выполнения."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Читать дальше"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": {
+        "i18n": "mv2.skills.eyebrow",
+        "text": "// технологии"
+      },
+      "title": {
+        "i18n": "mv2.skills.title",
+        "text": "Стек, на котором я действительно строю."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "nameI18n": "mv2.skills.lang",
+              "name": "Языки",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.ai",
+              "name": "ИИ / LLM",
+              "tech": [
+                "43+ providers",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "Agent orchestration"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.backend",
+              "name": "Бэкенд",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.data",
+              "name": "Данные и инфраструктура",
+              "tech": [
+                "PostgreSQL",
+                "SQLite / SQLCipher",
+                "Redis",
+                "Docker / K8s",
+                "Prometheus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "mv2.contact.eyebrow",
+        "text": "// контакт"
+      },
+      "title": {
+        "i18n": "mv2.contact.title",
+        "text": "В одной строке."
+      },
+      "lede": {
+        "i18n": "mv2.contact.lead",
+        "text": "Я не выпускаю «зелёные галочки» — я выпускаю AI‑системы с доказательствами их реальной работы и управлением, которое сохраняет их в таком виде. Открыт к старшим ролям AI/платформенной инженерии по всему миру."
+      },
+      "contacts": [
+        {
+          "i18n": "mv2.contact.email_label",
+          "label": "Электронная почта",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a> · <a href=\"mailto:milos85vasic@gmail.com\">milos85vasic@gmail.com</a>"
+        },
+        {
+          "i18n": "mv2.contact.gh_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        },
+        {
+          "i18n": "mv2.contact.tg_label",
+          "label": "Telegram",
+          "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+Optional types have been introduced in Java since version 8.
+Multiple assignment
+Another useful feature of Kotlin is multiple assignment. Multiple assignment
+allows developers to assign multiple values in one expression. Let's have a look
+at examples to illustrate this. From the book's code examples open the
+“MultipleAssignement.kt” source code file and take a look at the first example:
+val (first, second) = arrayOf(1, 2)
+printin("First: $first")
+printin("Second: $second")
+The output of executed code snippet is:
+First: 1
+Second: 2
+As you can see, “first” and “second” constants have “1” and “2” as assigned
+values.
+Let's have a look at the second example:
+fun parameters(): List<Int> {
+return listOf(3, 5, 7)
+}
+val (parameter1, parameter2, parameter3) = parameters()
+printin("Parameters: $parameter1, $parameter2, $parameter3")
+Thanks to the same principle we have assigned values to constants
+“parameter1”, “parameter2”, and “parameter3”.
+The output of executed code snippet is:
+Parameters: 3, 5, 7

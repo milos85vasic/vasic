@@ -1,0 +1,18 @@
+{
+  "lang": "tr",
+  "name": "Turkish",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "toggle",
+    "pf.summary"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "pf.summary",
+    "toggle"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "The translation for \"Toggle theme\" is unnatural; a more natural phrasing would be \"Temayı değiştir\". The \"pf.summary\" translation deviates significantly from the source meaning, omitting key details and altering the nuance, thus it is inaccurate."
+}

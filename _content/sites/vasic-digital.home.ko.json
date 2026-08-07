@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "ko",
+  "title": "Vasic Digital — AI-네이티브 소프트웨어 엔지니어링",
+  "description": "Vasic Digital은 AI 개발 시스템을 구축합니다 — 멀티 제공자 LLM 인프라, 에이전트 오케스트레이션, 그리고 신뢰성을 보장하는 헌법‑플러스‑증거 거버넌스.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — OpenDesign 시스템 위에 구축되었습니다.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI-네이티브 소프트웨어 엔지니어링"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "신뢰할 수 있도록 설계된 AI-네이티브 소프트웨어 엔지니어링."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "우리는 AI 개발 시스템을 구축합니다 — 대형 언어 모델을 신뢰할 수 있는 소프트웨어로 전환하는 모델, 에이전트, 오케스트레이션 및 인프라와, 이를 정직하게 유지하는 거버넌스 레이어를 함께 제공합니다."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "제품 살펴보기",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "포트폴리오 보기",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "포트폴리오 다운로드 (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM 제공자, 하나의 인터페이스"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "리포지토리, 하나의 헌법"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "세 단계에 걸친 제품"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// 소개"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "단일 시스템이 아닌 함대."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital은 AI‑개발 제품과 재사용 가능한 모듈의 상호 연결된 패밀리를 구축하는 집중 엔지니어링 실무입니다. 하나의 거대한 시스템 대신, 작업은 함대로 조직됩니다: 수십 개의 작고 독립적으로 테스트된, 분리된 모듈 위에 구축된 대형 제품 애플리케이션 — 검증된 부품이 모든 제품에 재사용됩니다."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "핵심 언어는 Go이며, 작업에 따라 Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift, Shell이 보완됩니다. 함대를 묶는 것은 기계적으로 만든 규율입니다: 모든 프로젝트는 Git 서브모듈로 공유 엔지니어링 헌법을 상속하고, 제품이 광고하는 모든 기능은 자동화된 증거 생성 테스트에 의해 뒷받침됩니다. 테스트가 통과했다고 해서 기능이 \"완료\"된 것이 아니라, 실제 사용자가 사용할 수 있고, 이를 증명할 증거가 캡처될 때 완료됩니다."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// 우리가 하는 일"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "AI 기반 개발, 엔드‑투‑엔드."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "우리는 AI 시스템을 위한 기반을 구축합니다 — 앱 아래의 어려운 부분."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "멀티 제공자 LLM 접근",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "40개 이상의 제공자를 아우르는 1차 추상화 — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok, 로컬 Ollama를 백업으로 제공 — 하나의 인터페이스에 재시도, 회로 차단기, 헬스 체크가 포함됩니다."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "에이전트 오케스트레이션",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "헤드리스 CLI 코딩‑에이전트 제어 플레인, 그래프 기반 에이전트 워크플로, 다중 라운드 \"AI 토론\" 합의, 그리고 DAG/파이프라인 런타임."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM 검증",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "모델을 필수 이해도 게이트(\"내 코드를 보시나요?\")와 지연, 스트리밍, 함수 호출, 비전, 임베딩 테스트로 평가하는 신뢰 레이어 — 검증된 구성만 내보냅니다."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "검색 및 메모리",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, 벡터 데이터베이스, 임베딩, 그리고 무한 컨텍스트 압축을 제공하는 융합 에이전트‑메모리 엔진(Mem0 + Cognee + Letta)."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "방어형 LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "가드레일, PII 탐지, 적대적 레드팀 피처, 입력 정규화 — 안전성이 기반에 내장되어 있어 별도 부착이 필요 없습니다."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// 티어 1 — 플래그십"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Helix 제품군 및 LLM 인프라"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "우리의 플래그십 라인은 AI‑개발 전체 수명 주기를 포괄합니다. 우선순위 순서대로."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "JIRA에 대한 자유 세계 대안 — Helix-Track 라인의 플래그십."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "여러 모델이 토론하고 합의한 답을 제공하는 앙상블 LLM 서비스."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "SSH‑관리 워커와 체크포인트/롤백을 통해 작업을 분산하는 AI 개발 플랫폼."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "하나의 바이너리, 여섯 가지 모드: 노트북부터 클러스터까지 OpenAI‑ 및 Anthropic‑호환 추론, HTTP/3 지원."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "데이터센터 GPU부터 엣지 핸드헬드까지 AI 컴퓨팅을 위한 분산 운영 체제."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "하나의 인터페이스, 43개 제공자 — 회로 차단기, 재시도, 헬스 체크 내장."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "모든 헤드리스 CLI 코딩 에이전트를 위한 하나의 제어 플레인."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "검증. 모니터링. 최적화. LLM 및 제공자 검증 메타데이터의 단일 진실 원천."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "AI 에이전트를 위한 하나의 메모리 엔진 — 네 가지 최고 수준 엔진이 융합됨."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// 품질 및 거버넌스 — 우리의 차별점"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "거버넌스는 목표가 아닌 감사 가능한 사실입니다."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "두 개의 기둥이 함전체를 일관되고 신뢰할 수 있게 합니다."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "140개 이상의 리포지토리 함대를 아우르는 프로젝트‑무관 엔지니어링 규칙집을 Git 서브모듈로 제공하고 모든 프로젝트가 상속합니다. 이는 협상 불가 규율을 인코딩합니다 — 블러프 방지 증거 게이트, 오탐 면역, 데이터 및 호스트 안전성 — 프로젝트가 확장할 수는 있지만 약화시킬 수는 없습니다. 서브모듈 하나만 업데이트하면 규칙이 전체에 적용되고, 각 게이트는 변이 테스트와 짝을 이루어 게이트 자체가 허위가 아님을 증명합니다."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "블러프 방지 QA 오케스트레이션. 작성된 YAML 테스트 뱅크와 완전 자동화된 LLM‑플러스‑컴퓨터‑비전 QA 세션을 Android, Android TV, Web, Desktop에서 실행합니다 — 그리고 캡처된 런타임 증거(스크린샷, logcat, 비디오, 스택 트레이스) 없이 PASS 점수를 주지 않습니다. \"우리는 테스트했습니다\"가 \"여기 비디오와 logcat, 티켓이 있습니다\"가 됩니다."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// 티어 2 — 유틸리티"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital 유틸리티"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "독립적으로 사용할 수 있는 제품 수준 도구."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "고급 멀티‑프로토콜, 암호화된 미디어 컬렉션 관리 — 보유한 모든 것을 탐지, 카탈로그화, 풍부하게 만듭니다."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown 입력, 전문 비디오 코스 출력 — AI‑강화, 멀티‑플랫폼."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "사용자처럼 UI 보기 — 컴퓨터 비전과 LLM 비전을 결합한 분석 및 탐색."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "문서를 QA 자동화를 위한 검증 가능한 기능 맵으로 전환합니다."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "추적된 문서가 동기화에서 벗어날 수 없습니다 — 콘텐츠 해시, 양방향, 원자성 보장."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "모든 알림이 올바른 목적지에 도달합니다 — 명령 구문 불필요."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "당신의 작업 보드와 진실의 원천이 완벽히 동기화됩니다 — 양방향."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "한 번 빌드하고 어디서든 재사용 — 작고 분리된, 독립 테스트된 Go 및 KMP 모듈 함대."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// 티어 3 — 헤리티지"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — 인프라 자동화"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "우리의 DevOps 유산: 선언적 JSON을 완전 프로비저닝된 Dockerized 서버로 변환."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "메일 서버를 보스처럼 운영하세요 — JSON으로 정의하고 어디서든 배포."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "모든 Server Factory 뒤에 있는 공유 엔진."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "아티팩트처럼 관리되는 QEMU VM 이미지 — 다운로드, 실행, 네트워크, 배포."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "Parallels VM 이미지를 모든 머신에 압축, 배포, 재사용."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "자세히 보기"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// 기술"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "우리 실제 스택에 기반함."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "언어",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "AI / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "백엔드",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "데이터",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "인프라 / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "테스트 / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// 포트폴리오"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "하나의 함대, 하나의 규율 — 33개 제품 모두 보기."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Helix 패밀리, vasic-digital 유틸리티, Server Factory 툴체인의 통합된 증거 기반 포트폴리오."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "포트폴리오 열기",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// 연락처"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "검증 가능한 무언가를 함께 만들어요."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "누구나 앱을 LLM에 연결할 수 있습니다. 우리는 어려운 부분, 즉 검증 가능하고 재사용 가능하며 정직한 AI 시스템을 구축합니다. 우리는 초록 체크마크를 믿으라고 요구하지 않습니다 — 그 뒤에 있는 증거를 보여드립니다."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "이메일",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

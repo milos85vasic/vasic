@@ -1,0 +1,30 @@
+Sum: 15, and multiply: 1500
+All array members are used as variable arguments by the “sumAndMultiply”
+function. As you can see from this example, the spread operator is a great way
+to increase your flexibility when it comes to working with functions that are
+accepting a variable number of arguments.
+Local functions
+If we need to define a function inside the scope of one existing function, we can
+do it. This is possible to do in Kotlin. To illustrate how to do this we will examine
+an example from the “LocalFunctions.kt” source code file from book code
+examples:
+fun worker(vararg jobs: String) {
+fun doWork(work: String) {
+printin(“Job '$work' is starting")
+printin(“Job '$work' is executing")
+printin(“Job '$work' is completed")
+}
+jobs.forEach {
+doWork(it)
+}
+}
+We have defined the function “work” that accepts a variable number of
+arguments that represent jobs. The function executes each job by invoking a
+local function named “doWork". “doWork” is local, therefore can be used only
+inside the “worker” function scope. If we run this small program the following
+output will be printed out:
+Job ‘Importing user data' is starting
+Job ‘Importing user data' is executing
+Job ‘Importing user data’ is completed
+Job 'Processing user data’ is starting
+Job 'Processing user data’ is executing

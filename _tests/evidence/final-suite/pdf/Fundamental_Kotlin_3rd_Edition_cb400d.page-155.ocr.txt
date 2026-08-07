@@ -1,0 +1,28 @@
+val result = it powerPI 5
+One of the most frequent use cases for Infix functions is their use in unit tests.
+Tail-recursive functions
+Kotlin comes with support for “tail-recursion”. "Tail-recursion” is a replacement
+for loops (comes from the functional programming world). To achieve the best
+performance some algorithms are implemented recursively. However, with
+“tail-recursion”, there is a risk of a stack overflow. Stack overflow is is an error
+that cannot be caught and which happens when the JVM stack runs out of
+space. Usually, this is caused when a recursive function doesn't have the correct
+termination condition.
+Tail recursion is a technique where the compiler can imperatively rewrite a
+recursive function, assuming that certain rules are met: the recursive call must
+be the last call of the function.
+Let's take a look at one simple example that illustrates this. Open
+“TailRecursive.kt” from book code examples:
+tailrec fun tailRecursiveExample(word: String) {
+if (word.length == 1) {
+printin(word)
+}else{
+printin(word)
+tailRecursiveExample(
+word.substring(0..(word.length - 2))
+)
+}
+}
+In each iteration “tailRecursiveExample” function will print out one letter less of
+the passed argument. Let's try it:
+tailRecursiveExample("Hello world")

@@ -1,0 +1,28 @@
+String
+‘there’ is:
+String
+'1' is:
+Number
+'10' is:
+Number
+1.1 is:
+Unknown
+‘true’ is:
+Boolean, true
+Next example uses “getCarPrice” function to determine and print price for
+various car models:
+printin("Car prices:")
+listOf("Mercedes", "BMW", "Opel", "Fiat").forEach {
+tryt
+val price = getCarPrice(it)
+printin("Price for $it car is: $price")
+} catch (e: IllegalArgumentException) {
+printin("$it: ${e.message}")
+}
+}
+Running the code snippet will print out the following:
+Car prices:
+Price for Mercedes car is: 100
+Price for BMW car is: 200
+Price for Opel car is: 300
+Fiat: We do not recognize this model

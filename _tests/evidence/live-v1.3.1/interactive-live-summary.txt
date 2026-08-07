@@ -1,0 +1,23 @@
+total=22 pass=21 fail=1
+PASS [vasic-home] no-hoverflow@375 scrollW=375 clientW=375
+PASS [vasic-home] no-hoverflow@768 scrollW=768 clientW=768
+PASS [vasic-home] no-hoverflow@1280 scrollW=1280 clientW=1280
+PASS [vasic-home] no-broken-imgs imgs=2 broken=[]
+PASS [vasic-home] backtotop-reveal-on-scroll before={"vis":"visible","op":"0","cls":"od-to-top","ah":null} after={"vis":"visible","op":"1","cls":"od-to-top is-visible","ah":null}
+PASS [vasic-portfolio-ru] no-hoverflow@375 scrollW=375 clientW=375
+PASS [vasic-portfolio-ru] no-hoverflow@768 scrollW=768 clientW=768
+PASS [vasic-portfolio-ru] no-hoverflow@1280 scrollW=1280 clientW=1280
+PASS [vasic-portfolio-ru] no-broken-imgs imgs=0 broken=[]
+FAIL [vasic-portfolio-ru] backtotop-reveal-on-scroll before={"vis":"visible","op":"1","cls":"od-to-top","ah":null} after={"vis":"visible","op":"1","cls":"od-to-top","ah":null}
+PASS [milos-home] no-hoverflow@375 scrollW=375 clientW=375
+PASS [milos-home] no-hoverflow@768 scrollW=768 clientW=768
+PASS [milos-home] no-hoverflow@1280 scrollW=1280 clientW=1280
+PASS [milos-home] no-broken-imgs imgs=1 broken=[]
+PASS [milos-home] backtotop-reveal-on-scroll before={"vis":"visible","op":"0","cls":"od-to-top","ah":null} after={"vis":"visible","op":"1","cls":"od-to-top is-visible","ah":null}
+PASS [milos-portfolio-ru] no-hoverflow@375 scrollW=375 clientW=375
+PASS [milos-portfolio-ru] no-hoverflow@768 scrollW=768 clientW=768
+PASS [milos-portfolio-ru] no-hoverflow@1280 scrollW=1280 clientW=1280
+PASS [milos-portfolio-ru] no-broken-imgs imgs=0 broken=[]
+PASS [milos-portfolio-ru] backtotop-reveal-on-scroll before={"vis":"visible","op":"0","cls":"od-to-top","ah":null} after={"vis":"visible","op":"1","cls":"od-to-top is-visible","ah":null}
+PASS [vasic-home] nav-click-portfolio-navigates landed=https://vasic.digital/portfolio/
+PASS [milos-portfolio-ru] nav-click-work-navigates-to-home landed=https://milosvasic.ru/#work

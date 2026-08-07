@@ -1,0 +1,76 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T13:41:08.738Z",
+  "pdf": "/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/Portfolio_EN.pdf",
+  "name": "portfolio",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 40,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": [
+      "HelixConstitution",
+      "Mail Server Factory",
+      "LLMsVerifier",
+      "Miloš Vasić"
+    ]
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 1000 words (min 40)"
+    },
+    {
+      "id": "content.faithful[HelixConstitution]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"HelixConstitution\""
+    },
+    {
+      "id": "content.faithful[Mail Server Factory]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"Mail Server Factory\""
+    },
+    {
+      "id": "content.faithful[LLMsVerifier]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"LLMsVerifier\""
+    },
+    {
+      "id": "content.faithful[Miloš Vasić]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"Miloš Vasić\""
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "PASS",
+      "detail": "no raw markup / mermaid source found in body text"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "pdfimages found 4 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 7 rendered page(s) recovered 1123 legible words (min 15)"
+    }
+  ],
+  "verdict": "PASS",
+  "pdftotextFile": "_tests/evidence/pdf/portfolio.pdftotext.txt",
+  "ocrPages": 7
+}

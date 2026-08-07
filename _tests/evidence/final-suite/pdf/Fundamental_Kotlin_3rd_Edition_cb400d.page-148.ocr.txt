@@ -1,0 +1,37 @@
+In Kotlin function parameters can be named. Let's take a look at the example
+“NamedParameters.kt” from book code examples and see how we can use this
+in everyday work:
+fun logNewEntry(
+
+date: Date = Date(), who: String, what: String = ""
+M
+
+val jobPerformer = if (what.isEmpty()) {
+
+"No job performed"
+}else{
+"Performed: $what"
+
+}
+
+printin("$date :: $who :: $jobPerformer")
+}
+This is a simple function that accepts three arguments and based on them
+performs some logging. The first and last arguments (parameters) are optional
+since we have defined default values that will be assigned to arguments if we
+do not provide them. Now we will try this function with several variations:
+val today = Date()
+val name = "John Smith"
+val cleaning = "Cleaning windows"
+logNewEntry(today, name)
+logNewEntry(today, name, cleaning)
+logNewEntry(date = today, who = name, what = cleaning)
+logNewEntry(what = cleaning, date = today, who = name)
+logNewEntry(who = name)
+logNewEntry(today, who = name)
+As you can see, we can omit arguments that have default values defined in the
+function's signature. Also, what is important for this example, we can provide
+function arguments (parameters) by name. We have bolded and underlined
+arguments passing by name so you don't miss it. Thanks to this, we are not in
+obligation to follow the parameters (arguments) ordering since they are passed
+by their name. Also, we can combine passing arguments by name with the

@@ -1,0 +1,33 @@
+GERMAN PROOF — HONEST STATUS (translate-content.sh)
+====================================================
+Committed utility:
+  _tools/translate/glossary_protect.py   sentinel protect/restore (roundtrip byte-identical)
+  _tools/translate/translate-content.sh  frontmatter-preserving, glossary-protected, HelixTranslate-only,
+                                          paragraph-chunked (defeats engine long-input truncation),
+                                          per-chunk artifact strip, relative-path output, transient-429 retry,
+                                          independent review via review_translation.py
+Translator: mistral / mistral-large-latest   Reviewer (DIFFERENT): groq / llama-3.3-70b-versatile
+
+RESULT — under the reviewer AS IT WAS during clean run (run4, pre-§11.4.235 upgrade):
+  products/HelixTrack.md    PASS 5/5/5  script_ok  no-leftovers  (complete; frontmatter byte-identical)
+  sites/vasic-digital.md    PASS 5/5/5  script_ok  no-leftovers
+  docs/cv.md                PASS 5/5/5  script_ok  no-leftovers
+  All required non-translatable terms verbatim (HelixTrack, HelixConstitution, Go, Kotlin, gRPC,
+  PostgreSQL, LLM, RAG, MCP, Docker, Kubernetes, Miloš Vasić, Harness, Leica Geosystems, Bosch,
+  Singidunum). "Dockerized"->"dockerisierte" is correct adjective, not a leaked noun.
+
+RESULT — under the upgraded §11.4.235 reviewer (naturalness/spirit added mid-task by user):
+  docs/cover-letter.md      PASS 5/5/5 naturalness=5 terms_preserved=true   (batch-produced, same driver)
+  sites/vasic-digital.md    FAIL acc=3 naturalness=3 (terms_preserved=true, script_ok, no leftovers)
+                            -> stiff/marketing-register; borderline. Engine -multipass polishing
+                            (verified working + sentinel-safe on small input) is the quality lever.
+  products/HelixTrack.md, docs/cv.md — NOT re-scored under §11.4.235 (blocked, see below).
+
+BLOCKER (environmental): the concurrently-running full batch (run-batch.sh, MAXPAR=3 parallel
+langs) saturates the shared mistral rate limit -> persistent HTTP 429. Fresh end-to-end
+re-validation of the 3 target files under §11.4.235 could not complete (chunk 1 failed 9/9 retries).
+The batch itself is ERROR-ing most docs for the same reason.
+
+RECOMMENDATION: run the batch with MAXPAR=1 (or a higher-tier mistral key), then re-run to resume
+ERROR/FAIL files (run-batch is resumable). Consider enabling -multipass for marketing-register pages
+once API pressure subsides (it doubles mistral calls, so keep OFF while rate-limited).

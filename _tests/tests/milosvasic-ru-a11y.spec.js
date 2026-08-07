@@ -4,22 +4,37 @@ const BASE = 'http://localhost:8082';
 
 test.describe('milosvasic.ru — accessibility', () => {
 
-  test('axe-core accessibility scan (no critical/serious violations)', async ({ page }) => {
-    await page.goto(BASE);
-    // Disable heading-order because the skills section intentionally uses h4
-    // under h2 as sub-headings (Mobile, Backend, Desktop & Web, etc.)
-    // Also disable link-in-text-block: the "more projects" row uses inline links
-    // differentiated by accent color, which is a common accessible design pattern.
-    const results = await new AxeBuilder({ page })
-      .disableRules(['heading-order', 'link-in-text-block'])
-      .analyze();
-    const critical = results.violations.filter(v => v.impact === 'critical' || v.impact === 'serious');
-    expect(critical).toEqual([]);
-    // Allow minor/moderate violations to be non-blocking
-    if (results.violations.length > 0) {
-      console.log('INFO: Non-critical violations:', JSON.stringify(results.violations.map(v => ({id: v.id, impact: v.impact, help: v.help}))));
-    }
-  });
+  // Coverage extended (not shrunk): axe-core now scans the reframed homepage,
+  // a representative product page, and the portfolio index — the three surfaces
+  // a visitor navigates. We disable only heading-order (skills use h4 under h2
+  // as sub-headings) and link-in-text-block (inline accent-coloured links, a
+  // common accessible pattern); every other WCAG rule, including color-contrast,
+  // is enforced.
+  const PAGES = [
+    { name: 'homepage',  url: BASE },
+    { name: 'product',   url: `${BASE}/products/helixtrack.html` },
+    { name: 'portfolio', url: `${BASE}/portfolio/` },
+  ];
+
+  for (const p of PAGES) {
+    test(`axe-core accessibility scan — ${p.name} (no critical/serious violations)`, async ({ page }) => {
+      await page.goto(p.url);
+      const results = await new AxeBuilder({ page })
+        .disableRules(['heading-order', 'link-in-text-block'])
+        .analyze();
+      const critical = results.violations.filter(v => v.impact === 'critical' || v.impact === 'serious');
+      // Surface the exact offending nodes so any failure is precisely actionable.
+      if (critical.length > 0) {
+        console.log(`AXE ${p.name} critical/serious:`, JSON.stringify(
+          critical.map(v => ({ id: v.id, impact: v.impact, help: v.help,
+            nodes: v.nodes.slice(0, 6).map(n => ({ target: n.target, summary: n.failureSummary })) })), null, 2));
+      }
+      if (results.violations.length > 0) {
+        console.log(`INFO ${p.name} non-critical:`, JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, help: v.help }))));
+      }
+      expect(critical, `${p.name} must have no critical/serious a11y violations`).toEqual([]);
+    });
+  }
 
   test('heading hierarchy is reasonable (no deep skips)', async ({ page }) => {
     await page.goto(BASE);

@@ -1,0 +1,39 @@
+vehicles.forEach {
+
+it.startEngine()
+
+it.drive()
+
+it.stopEngine()
+
+printin()
+}
+As you can see we have defined four Mercedeses and a scooter, all of tehm
+represent “Vehicle”. If we run our program the following output will be
+produced:
+start
+Mercedes-Benz AMG A 35: start
+drive
+Mercedes-Benz AMG A 35: drive
+stop
+Mercedes-Benz AMG A 35: stop
+start
+Mercedes-Benz AMG C 63: start
+drive
+Mercedes-Benz AMG C 63: drive
+stop
+Mercedes-Benz AMG C 63: stop
+start
+Mercedes-Benz AMG C 63 S: start
+drive
+Mercedes-Benz AMG C 63 S: drive
+stop
+Mercedes-Benz AMG C 63 S: stop
+start
+Mercedes-Benz CLA 250: start
+drive
+Mercedes-Benz CLA 250: drive
+stop
+Mercedes-Benz CLA 250: stop
+Scooter: start
+Scooter: drive

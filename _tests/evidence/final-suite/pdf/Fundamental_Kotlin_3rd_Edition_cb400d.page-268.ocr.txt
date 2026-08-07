@@ -1,0 +1,27 @@
+val map5 = linkedMapOf(
+"hello" to "world", "lorem" to "ipsum", "abc" to "def"
+)
+As you can see we have created maps by using every of these five functions.
+Every function creates a different map. Let's see the content of each map:
+printin(“mapOf=$map1")
+printin(“mutableMapOf=$map2")
+printin(sortedMapOf=$map3")
+printin("hashMapOf=$map4")
+printin(“linkedMapOf=$map5")
+Executing this code snippet will produce the following output:
+mapOf={hello=world, lorem=ipsum, abc=def}
+mutableMapOf={hello=world, lorem=ipsum, abc=def}
+sortedMapOf={abc=def, hello=world, lorem=ipsum}
+hashMapOf={lorem=ipsum, hello=world, abc=def}
+linkedMapOf={hello=world, lorem=ipsum, abc=def}
+Destructuring
+In Kotlin it is possible to “destructure” class into several variables. For example:
+val (brand, model) = car
+This can be very convenient if we want to return multiple results from the
+function. Let's say we define a data class holding values representing function
+result, we may use it like this:
+val (a, b, c) = myFunction()
+Also, we can use the same approach for loops:
+for ((a, b) in collection)
+or
+for((key, value) in map)

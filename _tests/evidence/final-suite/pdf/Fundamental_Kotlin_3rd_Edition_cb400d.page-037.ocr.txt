@@ -1,0 +1,12 @@
+}
+Then right-click to file, choose Code -> Convert Java File to Kotlin File.
+Take a look at the code you have now:
+class ConvertMePlease(
+private val myFieldToBEConverted: String
+)
+Note:
+You may be asked by IDE to accept corrections (meaning removing the java file
+and putting .kt file in its place). Feel free to respond positively to this.
+As you can see the code is not just converted, but that the amount of the code is
+significantly reduced. This is one of the great treats that Kotlin gives to you! We
+will talk about that in later sections of this book.

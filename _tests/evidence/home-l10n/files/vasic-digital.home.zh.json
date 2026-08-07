@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "zh",
+  "title": "Vasic Digital — AI原生软件工程",
+  "description": "Vasic Digital 构建 AI 开发系统——多供应商 LLM 基础设施、代理编排以及宪法加证据治理，使其值得信赖。",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — 基于 OpenDesign 系统构建。",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI原生软件工程"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "AI原生软件工程，旨在获得信任。"
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "我们构建 AI 开发系统——模型、代理、编排和基础设施，将大语言模型转化为可靠的软件——并配以保持其诚实的治理层。"
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "探索产品",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "查看作品集",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "下载作品集 (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM 提供商，一个接口"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "仓库，一个宪法"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "三层级产品"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// 关于"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "一支舰队，而非单体。"
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital 是一家专注的工程实践，构建互联的 AI 开发产品族和可复用模块。工作不是单体，而是舰队：在数十个小型、独立测试、解耦的模块之上构建大型产品应用——因此经验证的部件在每个产品中复用，而不是重新构建。"
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "核心语言是 Go，辅以 Kotlin 与 Kotlin Multiplatform、TypeScript/React、Python、Swift 和 Shell——根据任务选择。将舰队连结在一起的是机械化的纪律：每个项目继承作为 Git 子模块的共享工程宪法，每项产品宣传的能力必须由自动化、产出证据的测试支撑。特性不是在测试通过时“完成”，而是在真实用户能够实际使用并捕获证据证明时才算完成。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// 我们的业务"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "基于 AI 的端到端开发。"
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "我们构建 AI 系统的基底——应用之下的硬核部分。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "多供应商 LLM 接入",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "首方抽象层，覆盖 40+ 供应商——Anthropic/Claude、OpenAI、DeepSeek、Gemini、Mistral、Groq、xAI/Grok，以及本地 Ollama 作为后备——统一接口，具备重试、断路器和健康检查。"
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "代理编排",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "无头 CLI 编码代理控制平面、基于图的代理工作流、多轮“AI 辩论”共识以及 DAG/流水线运行时。"
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM 验证",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "信任层，通过强制理解门（“你看到我的代码了吗？”）以及延迟、流式、函数调用、视觉和嵌入测试为模型打分——导出仅已验证的配置。"
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "检索与记忆",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG、向量数据库、嵌入以及融合的代理记忆引擎（Mem0 + Cognee + Letta），具备无限上下文压缩。"
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "防御性 LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "护栏、PII 检测、对抗性红队夹具和输入规范化——安全内置于基底，而非后加。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// 第1层 — 旗舰"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Helix 产品族与 LLM 基础设施"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "我们的旗舰系列覆盖完整的 AI 开发生命周期。按优先级顺序。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "JIRA 的自由世界替代方案——Helix-Track 系列的旗舰产品。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "一个集合式 LLM 服务，允许多个模型辩论并输出它们一致的答案。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "分布式 AI 开发平台，将工作划分到通过 SSH 管理的工作节点，支持检查点/回滚。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "单一二进制，六种模式：从笔记本到集群的 OpenAI 与 Anthropic 兼容推理，基于 HTTP/3。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "面向 AI 计算的分布式操作系统，从数据中心 GPU 到边缘手持设备。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "单一接口，43 家供应商——内置断路器、重试和健康检查。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "每个无头 CLI 编码代理的统一控制平面。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "验证。监控。优化。LLM 与供应商验证元数据的唯一真实来源。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "AI 代理的统一记忆大脑——四大最佳引擎融合。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// 质量与治理 — 我们的差异化优势"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "治理是可审计的事实，而非愿景。"
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "两大支柱让整支舰队保持一致且可信。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "一个通用、项目无关的工程规则册，以 Git 子模块形式发布，所有项目在 140+ 仓库舰队中继承。它编码不可协商的纪律——反欺诈证据门、误报免疫、数据与主机安全——项目可以扩展但绝不能削弱。一次子模块升级即全局升级规则，每个门都配有突变测试，证明门本身不为虚设。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "反欺诈 QA 编排。它运行 YAML 测试库和全自动的 LLM 加计算机视觉 QA 会话，覆盖 Android、Android TV、Web 与 Desktop——且在未捕获运行时证据（截图、logcat、视频、堆栈跟踪）前不计为 PASS。\"我们测试过它\" 变为 \"这里是视频、logcat 和工单\"。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// 第2层 — 实用工具"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital 实用工具"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "具备产品级别的独立工具。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "高级多协议、加密媒体收集管理——检测、编目并丰富您拥有的一切。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown 输入，专业视频课程输出——AI 增强，多平台。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "像用户一样查看 UI——计算机视觉加 LLM 视觉用于分析和导航。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "将文档转化为可验证的特性映射，以实现 QA 自动化。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "任何受跟踪的文档都不会不同步——内容哈希、双向、原子化。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "每个警报都送达正确的目的地——无需命令语法。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "您的任务板和真相源完美同步——双向同步。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "一次构建，处处复用——一支由小型、解耦、独立测试的 Go 与 KMP 模块组成的舰队。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// 第3层 — 传统"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — 基础设施自动化"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "我们的 DevOps 传统：声明式 JSON 转化为全配备、Docker 化的服务器。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "像老板一样运行您的邮件服务器——用 JSON 描述，随处部署。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "每个 Server Factory 背后的共享引擎。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "QEMU 虚拟机镜像，像制品一样管理——下载、运行、网络、发布。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "压缩、发布并在每台机器上复用您的 Parallels 虚拟机镜像。"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// 技术"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "基于我们的真实技术栈。"
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "语言",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "人工智能 / 大语言模型",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "后端",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "数据",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "基础设施 / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "测试 / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// 投资组合"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "一支舰队，一套纪律——查看全部 33 款产品。"
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Helix 系列、vasic-digital 实用工具以及 Server Factory 工具链的统一、基于证据的作品集。"
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "打开作品集",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// 联系"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "让我们一起构建可验证的东西。"
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "任何人都可以将应用接入 LLM。我们构建最难的部分：可验证、可复用且诚实的 AI 系统。我们不要求您相信绿色勾选——我们会展示背后的证据。"
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "电子邮件",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

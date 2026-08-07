@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OpenDesign — Extended components preview</title>
+<link rel="stylesheet" href="../brand-milosvasic/milosvasic.css"/>
+<link rel="stylesheet" href="../components-extended.css"/>
+<link rel="stylesheet" href="../motion/animations.css"/>
+<style>
+  /* Gallery CHROME ONLY (layout of the proof page). Components themselves are
+     100% from components-extended.css. These rules render fixed/absolute
+     overlay components in-flow so the whole set is visible in one static shot. */
+  body{ padding: var(--od-space-8); }
+  .wrap{ max-width: var(--od-container-max); margin-inline:auto; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:var(--od-space-5); align-items:start; }
+  .demo{ background:var(--od-surface); border:1px solid var(--od-border); border-radius:var(--od-radius-lg); padding:var(--od-space-5); }
+  .demo > h3{ font-family:var(--od-font-mono); font-size:var(--od-fs-xs); text-transform:uppercase; letter-spacing:var(--od-tracking-wide); color:var(--od-text-muted); margin:0 0 var(--od-space-4); }
+  .row{ display:flex; gap:var(--od-space-4); flex-wrap:wrap; align-items:center; }
+  .stack{ display:flex; flex-direction:column; gap:var(--od-space-3); }
+  .range-demo{ max-width:280px; }
+  /* Render overlay components in normal flow for the static proof */
+  .demo .od-menu,
+  .demo .od-popover{ position:static; box-shadow:var(--od-shadow-md); }
+  .demo .od-fab{ position:static; }
+  .tip-demo .od-tooltip__bubble{ position:static; opacity:1; transform:none; pointer-events:auto; display:inline-block; margin-top:var(--od-space-2); }
+  .scrollbox{ max-height:120px; overflow:auto; border:1px solid var(--od-border); border-radius:var(--od-radius-md); padding:var(--od-space-3); }
+  /* Static proof: render the trailing clear button in flow (its real placement
+     is an absolute overlay inside the field — shown side-by-side here so the
+     layout oracle can see both controls without a by-design overlap). */
+  .demo .od-search__clear{ position:static; }
+</style>
+</head>
+<body class="od-scroll">
+<div class="wrap" id="main">
+  <header class="od-header">
+    <strong style="font-family:var(--od-font-display)">OpenDesign — Extended components</strong>
+    <nav class="od-nav">
+      <a class="od-nav__link" href="#overlays">Overlays</a>
+      <a class="od-nav__link" href="#forms">Forms</a>
+      <a class="od-nav__link" href="#navfb">Nav + Feedback</a>
+    </nav>
+  </header>
+
+  <section class="od-hero">
+    <p class="od-section__eyebrow">// components-extended.css</p>
+    <h1 class="od-hero__title">Reusable widget library</h1>
+    <p class="od-hero__lede">Every widget below is token-driven — correct in light and dark, both brands, from one stylesheet.</p>
+  </section>
+
+  <!-- ============================ OVERLAYS ============================ -->
+  <section class="od-section" id="overlays">
+    <p class="od-section__eyebrow">// batch 1</p>
+    <h2 class="od-section__title">Overlays</h2>
+    <div class="grid">
+
+      <div class="demo">
+        <h3>Toast / notification</h3>
+        <div class="stack">
+          <div class="od-toast od-toast--success" role="status"><span class="od-toast__icon" aria-hidden="true">✓</span><div class="od-toast__body"><span class="od-toast__title">Saved</span><span class="od-toast__msg">Your changes were stored.</span></div><button class="od-toast__close" aria-label="Dismiss">✕</button></div>
+          <div class="od-toast od-toast--warning" role="status"><span class="od-toast__icon" aria-hidden="true">!</span><div class="od-toast__body"><span class="od-toast__title">Heads up</span><span class="od-toast__msg">Token nearly expired.</span></div><button class="od-toast__close" aria-label="Dismiss">✕</button></div>
+          <div class="od-toast od-toast--danger" role="alert"><span class="od-toast__icon" aria-hidden="true">✕</span><div class="od-toast__body"><span class="od-toast__title">Failed</span><span class="od-toast__msg">Could not reach the server.</span></div><button class="od-toast__close" aria-label="Dismiss">✕</button></div>
+          <div class="od-toast od-toast--info" role="status"><span class="od-toast__icon" aria-hidden="true">i</span><div class="od-toast__body"><span class="od-toast__title">Deploying</span><span class="od-toast__msg">Build queued for release.</span></div><button class="od-toast__close" aria-label="Dismiss">✕</button></div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Menu / dropdown</h3>
+        <div class="od-dropdown">
+          <div class="od-menu" role="menu">
+            <div class="od-menu__label">Account</div>
+            <div class="od-menu__item" role="menuitem" tabindex="0">Profile</div>
+            <div class="od-menu__item" role="menuitem" tabindex="0">Settings</div>
+            <div class="od-menu__separator" role="separator"></div>
+            <div class="od-menu__item" role="menuitem" aria-disabled="true">Billing (soon)</div>
+            <div class="od-menu__item" role="menuitem" tabindex="0">Sign out</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Select</h3>
+        <div class="od-select">
+          <div class="od-select__control" role="button" tabindex="0" aria-expanded="false">
+            <span>Choose a language</span><span class="od-select__chevron" aria-hidden="true">▾</span>
+          </div>
+        </div>
+        <div style="height:var(--od-space-4)"></div>
+        <div class="od-select">
+          <div class="od-select__control" role="button" tabindex="0" aria-expanded="true">
+            <span>English</span><span class="od-select__chevron" aria-hidden="true">▾</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo tip-demo">
+        <h3>Tooltip &amp; Popover</h3>
+        <div class="od-tooltip">
+          <button class="od-btn od-btn--secondary">Hover me</button>
+          <span class="od-tooltip__bubble" role="tooltip" data-placement="bottom">Helpful hint text</span>
+        </div>
+        <div style="height:var(--od-space-4)"></div>
+        <div class="od-popover" role="dialog" aria-label="More info">
+          <div class="od-popover__title">Popover title</div>
+          <div class="od-popover__body">A small floating panel anchored to a trigger, built from surface + border tokens.</div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Floating action button</h3>
+        <div class="row">
+          <button class="od-fab" aria-label="Create">＋</button>
+          <button class="od-fab od-fab--sm" aria-label="Edit">✎</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================ FORMS ============================ -->
+  <section class="od-section" id="forms">
+    <p class="od-section__eyebrow">// batch 2</p>
+    <h2 class="od-section__title">Forms</h2>
+    <div class="grid">
+
+      <div class="demo">
+        <h3>Switch / toggle</h3>
+        <div class="stack">
+          <label class="od-switch"><input class="od-switch__input" type="checkbox" checked/><span class="od-switch__track"><span class="od-switch__thumb"></span></span> Notifications</label>
+          <label class="od-switch"><input class="od-switch__input" type="checkbox"/><span class="od-switch__track"><span class="od-switch__thumb"></span></span> Beta features</label>
+          <label class="od-switch"><input class="od-switch__input" type="checkbox" disabled/><span class="od-switch__track"><span class="od-switch__thumb"></span></span> Locked</label>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Checkbox &amp; radio</h3>
+        <div class="stack">
+          <label class="od-checkbox"><input class="od-checkbox__input" type="checkbox" checked/><span class="od-checkbox__box"></span> Checked</label>
+          <label class="od-checkbox"><input class="od-checkbox__input" type="checkbox"/><span class="od-checkbox__box"></span> Unchecked</label>
+          <label class="od-checkbox"><input class="od-checkbox__input" type="checkbox" id="ind"/><span class="od-checkbox__box"></span> Indeterminate</label>
+          <label class="od-radio"><input class="od-radio__input" type="radio" name="r" checked/><span class="od-radio__dot"></span> Option A</label>
+          <label class="od-radio"><input class="od-radio__input" type="radio" name="r"/><span class="od-radio__dot"></span> Option B</label>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Range / slider</h3>
+        <div class="range-demo">
+          <input class="od-range" type="range" min="0" max="100" value="60" aria-label="Volume"/>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Segmented control</h3>
+        <div class="od-segmented" role="tablist" aria-label="View">
+          <button class="od-segmented__option" aria-selected="true">Day</button>
+          <button class="od-segmented__option">Week</button>
+          <button class="od-segmented__option">Month</button>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Search input</h3>
+        <div class="od-search">
+          <span class="od-search__icon" aria-hidden="true">⌕</span>
+          <input class="od-search__input" type="search" placeholder="Search projects" aria-label="Search"/>
+          <button class="od-search__clear" aria-label="Clear">✕</button>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Number stepper</h3>
+        <div class="od-stepper">
+          <button class="od-stepper__btn" aria-label="Decrease">−</button>
+          <input class="od-stepper__input" type="number" value="3" aria-label="Quantity"/>
+          <button class="od-stepper__btn" aria-label="Increase">+</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================= NAV + FEEDBACK ======================= -->
+  <section class="od-section" id="navfb">
+    <p class="od-section__eyebrow">// batch 3</p>
+    <h2 class="od-section__title">Navigation &amp; feedback</h2>
+    <div class="grid">
+
+      <div class="demo">
+        <h3>Tabs</h3>
+        <div class="od-tabs">
+          <div class="od-tabs__list" role="tablist">
+            <button class="od-tabs__tab" role="tab" aria-selected="true">Overview</button>
+            <button class="od-tabs__tab" role="tab" aria-selected="false">Specs</button>
+            <button class="od-tabs__tab" role="tab" aria-selected="false">Changelog</button>
+          </div>
+          <div class="od-tabs__panel" role="tabpanel">The selected tab panel content renders here.</div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Breadcrumb</h3>
+        <nav class="od-breadcrumb" aria-label="Breadcrumb">
+          <ol class="od-breadcrumb__list">
+            <li class="od-breadcrumb__item"><a class="od-breadcrumb__link" href="#">Home</a></li>
+            <li class="od-breadcrumb__item"><a class="od-breadcrumb__link" href="#">Products</a></li>
+            <li class="od-breadcrumb__item" aria-current="page"><a class="od-breadcrumb__link" href="#">HelixTrack</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="demo">
+        <h3>Pagination</h3>
+        <nav class="od-pagination" aria-label="Pagination">
+          <a class="od-pagination__link" href="#" aria-disabled="true" aria-label="Previous">‹</a>
+          <a class="od-pagination__link" href="#">1</a>
+          <a class="od-pagination__link" href="#" aria-current="page">2</a>
+          <a class="od-pagination__link" href="#">3</a>
+          <a class="od-pagination__link" href="#" aria-label="Next">›</a>
+        </nav>
+      </div>
+
+      <div class="demo">
+        <h3>Progress</h3>
+        <div class="stack">
+          <div class="od-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="od-progress__bar" style="width:65%"></div></div>
+          <div class="od-progress od-progress--indeterminate" role="progressbar" aria-label="Loading"><div class="od-progress__bar"></div></div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Spinner</h3>
+        <div class="row">
+          <span class="od-spinner od-spinner--sm" role="status"><span class="od-visually-hidden">Loading</span></span>
+          <span class="od-spinner" role="status"><span class="od-visually-hidden">Loading</span></span>
+          <span class="od-spinner od-spinner--lg" role="status"><span class="od-visually-hidden">Loading</span></span>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Skeleton loader</h3>
+        <div class="stack">
+          <span class="od-skeleton" style="height:var(--od-space-8)"></span>
+          <span class="od-skeleton od-skeleton--text"></span>
+          <span class="od-skeleton od-skeleton--text"></span>
+          <span class="od-skeleton od-skeleton--circle"></span>
+        </div>
+      </div>
+
+      <div class="demo" style="grid-column:1 / -1">
+        <h3>Alerts / callouts / banner</h3>
+        <div class="stack">
+          <div class="od-alert od-alert--success" role="status"><span class="od-alert__icon" aria-hidden="true">✓</span><div><div class="od-alert__title">Deployment succeeded</div><div class="od-alert__body">Release v2.4.0 is live in production.</div></div></div>
+          <div class="od-alert od-alert--warning" role="status"><span class="od-alert__icon" aria-hidden="true">!</span><div><div class="od-alert__title">Quota approaching</div><div class="od-alert__body">You have used 85% of your monthly build minutes.</div></div></div>
+          <div class="od-alert od-alert--danger" role="alert"><span class="od-alert__icon" aria-hidden="true">✕</span><div><div class="od-alert__title">Pipeline failed</div><div class="od-alert__body">Step "integration-tests" exited with code 1.</div></div></div>
+          <div class="od-alert od-alert--info od-banner" role="status"><span class="od-alert__icon" aria-hidden="true">i</span><div><div class="od-alert__title">Full-width banner</div><div class="od-alert__body">Scheduled maintenance this weekend.</div></div></div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Avatar</h3>
+        <div class="row">
+          <span class="od-avatar od-avatar--sm"><span class="od-avatar__initials">MV</span></span>
+          <span class="od-avatar"><span class="od-avatar__initials">MV</span></span>
+          <span class="od-avatar od-avatar--lg od-avatar--ring"><span class="od-avatar__initials">MV</span></span>
+          <span class="od-avatar-group">
+            <span class="od-avatar"><span class="od-avatar__initials">A</span></span>
+            <span class="od-avatar"><span class="od-avatar__initials">B</span></span>
+            <span class="od-avatar"><span class="od-avatar__initials">C</span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3>Empty state</h3>
+        <div class="od-empty-state">
+          <div class="od-empty-state__icon" aria-hidden="true">◍</div>
+          <div class="od-empty-state__title">No results</div>
+          <div class="od-empty-state__msg">Try adjusting your filters or search terms.</div>
+          <div class="od-empty-state__action"><button class="od-btn od-btn--primary">Reset filters</button></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================= SCROLLBAR ======================= -->
+  <section class="od-section">
+    <p class="od-section__eyebrow">// batch 4</p>
+    <h2 class="od-section__title">Custom scrollbar</h2>
+    <div class="grid">
+      <div class="demo">
+        <h3>.od-scroll container</h3>
+        <div class="scrollbox od-scroll">
+          <p style="margin-top:0">Scroll this box to see the tasteful, token-driven scrollbar thumb (surface-2 → border on hover). The page itself and any <code>.od-scroll</code> element share the same styling in both themes.</p>
+          <p>Line 2 — more content to force overflow.</p>
+          <p>Line 3 — more content to force overflow.</p>
+          <p>Line 4 — more content to force overflow.</p>
+          <p style="margin-bottom:0">Line 5 — end of the scroll region.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="od-footer">© 2026 Milos Vasic — OpenDesign extended components (token-driven, both themes)</footer>
+</div>
+</body>
+</html>

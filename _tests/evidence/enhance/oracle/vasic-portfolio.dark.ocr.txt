@@ -1,0 +1,198 @@
+Vasic Digital Home Portfolio theme
+// UNIFIED PORTFOLIO
+Portfolio
+A unified, evidence-based portfolio of the Helix family, vasic-digital utilities, and
+the Server Factory toolchain.
+33 3 20
+Products Tiers Helix products
+// OVERVIEW
+One fleet, one discipline
+One fleet: large product applications on top of dozens of small, decoupled, independently-
+tested modules — governed by a shared engineering Constitution and verified by anti-bluff
+QA. The dominant language is Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and
+Shell where they fit best. The unifying thesis: a feature is done only when a real user can use
+it and there is captured evidence to prove it.
+// TIER 1 — FLAGSHIP
+Helix family & LLM infrastructure 20
+HelixTrack HelixCode HelixAgent HelixLLM
+Go Gin  HTTP/3 QUIC Go Gin PostgreSQL Go Gin PostgreSQL Go Gin  HTTP/3 QUIC
+PostgreSQL SQLite Redis SSH Redis  LLMsVerifier TLS 1.3. Llama.cpp
+SQLCipher +6 Model Context Protocol Prometheus +6 LLMsVerifier +5
+JIRA alternative for the free +2 Don't pick one model — let them One binary, six modes —
+world. debate, and ship the answer the: OpenAl- and Anthropic-
+The distributed Al development : P ¥ iB on 2
+aa agree on. compatible inference from your
+platform that divides work, .
+‘ laptop to a multi-host cluster.
+preserves it, and never loses MIT
+your place.
+MIT
+Read more Read more Read more Read more
+HelixSkills HelixMemory HelixSpecifier HelixTerminator
+Shell Git submodules Go MemO Cognee Letta Go ‘logrus Go microservices
+Model Context Protocol Graphiti PostgreSQL +3 SpecKit pillar Flutter / Dart (BLoC)
+Claude Code plugins One memory brain for Al agents Superpowers pillar PostgreSQL Kafka
+Reusable engines — four best-in-class engines, GSD pillar RabbitM@ Redis +7
+(continuum, fused.
+token_optimizer) Spec memory store The zero-trust terminal platform
+P for teams — every SSH session,
+itution- Spec-driven development that "
+A governed, constitution-backed Ps hoe pI i Secured) shared) and/Alvaelsted
+skills system for CLI Al agents. scales its own ceremony to the
+work. Apache-2.0
+Apache-2.0
+Read more Read more Read more Read more
+HellxOTA) HelixTranslate LLMsVerifier LLMOrchestrator
+Go Gin Kotlin / KMP Go W Gin = Cn Go (1.25)
+HTTP/3 QUIC PostgreSQL QUIC / HTTP/3 (quic-go) SQLite + SQLCipher = Redis Go stdlib (+ testify,
+i 1L.v3)
+MinIO / S30 +4 GRPC + Protocol Buffers RabbitMQ + Kafka ETL eH)
+Pipe transport (JSON-lines
+Universal, decoupled over-the- Gorilla WebSocket RPC + Protocol Buffers a TERE
+eR mere over stdio)
+air updates — zero-brick by
+design. Boseaneso Go #6 File transport
+READ Verified-model book translation Verify. Monitor. Optimize. Cinbox/outbox/shared)
+pache-2. ,
+— honest by design, never a sync.Mutex / sync.Cond
+silent fallback.
+Circuit breaker +
+HealthMonitor
++2
+One control plane for every
+headless CLI coding agent.
+Apache-2.0
+Readmore Read more Read more Read more
+LLMProvider HelixCluster Helix-Flow roadmap HelixBuilder
+Go (1.25.3) Go Python Shell Shell
+Go (1.25 / toolchai
+net/http (stdlib) — logrus oe 5 / toolchain PostgreSQl / PL/pgSQl Category toolchains
+. — (General / Coder / Tester /
+testify  yaml.v3 ig 2 Wis Terraform / HCL Translation / Generative)
+digital.vasic.models +2 HTML / CSS / JavaScript on
+u gRPC + Protocol Buffers D An Al-powered pipeline for
+One interface, 43 providers — Raft (etcd-raft) + SWIM One platform for all your Al building applications, one
+with circuit breakers, retries, and gossip inference needs — run powerful category at a time.
+health baked in. Al models faster, smarter, at any
+GOSEpOSTS 83 Cea Yo scale, with predictable costs. ates
+etcd v3.5 / SQLite J Pp .
+NATS / Kafka / RabbitMg
++7
+A distributed operating system
+for Al compute — from
+datacenter GPUs to edge
+handhelds, under one control
+plane.
+Read more Read more Read more Read more
+HelixGitpx HelixPlay HelixConstitution HelixQA
+Go monorepo Go (1.26 root / 1.25+ Go 1.24+
+submodules) it- i i
+Angular 19 + Nx GS crEnEENO Snlneresenea YAML test banks
+Wails v2 Flutter 3.29+ find_constitution.sh (pkg/testbank)
+KORE GDSEI > ¢ arent walk + superproject
+Compose Angular 17+ (Go = WASM) PELL: CHAR) Crash/ANR detectors (ADB,
+recursion) Rarer)
+Kubernetes + Helm + Argo CD WebRTC / Pion v4 :
+° install_upstreams.sh - .
++ Kustomize ; ; ; Evidence collection
+- ; QUIC / quic-go +5 (multi-provider push) (screenshots/logcat/video/stack
+OPA (Rego Docusaurus
+i B traces)
+Turn any GPU machine into your Soi GIDE CEMERuaSiS
+2 own cloud-gaming appliance. Propagation gates (CM- Autonomous session (LLM +
+~ -NNN- computer vision,
+One source of truth, mirrored proPnenriony Wt) E 2
+everywhere — federated Git LLMsVerifier +4
+across a dozen hosts. submodules-catalogue.md
+Anti-bluff QA orchestration —
++1 autonomous, cross-platform
+. . . sessions where every PASS
+The universal engineering ‘ -
+ae . . . carries captured evidence that a
+constitution every project inherits
+. real user can use the feature.
+— anti-bluff law, enforced
+mechanically, shared as one Git Apache-2.0
+submodule.
+Read more Read more Read more Read more
+// TIER 2 — UTILITIES
+Vasic Digital utilities «
+Catalogizer Courses-Creator VisionEngine DocProcessor
+Go Gin  TypeScript Go (1.25+) Go (1.25+)
+G TypeScript React
+React Tailwind 7 eae GoCV / OpenCV (build-tag- LLM agents (optional
+i gated) extraction)
+WebSockets +10 Electron React Native
+PostgreSQL +8 LLM vision providers (GPT- Heuristic parser (offline
+Advanced multi-protocol media 40, Claude, Gemini, Qwen- fallback)
+collection management — detect, Markdown in, professional video VL, Kimi, StepGUI, Astica, "ey lator (pkg/it8n)
+catalog, and enrich everything course out — Al-enhanced, OLLama) SD WS er ee
+you own. multi-platform. Graph algorithms (BFS) Challenge harness
+DOT / JSON / Mermaid Turn documentation into a
+exporters verifiable feature map for QA
+il8n Translator seam automation.
+Apache-2.0
+See the UI like a user — acne
+computer vision plus LLM vision
+for analysis and navigation.
+Read more Read more Read more Read more
+Docs Chain task_bridge scaffold Herald Vasic Digital Reusable
+Go @ Go Shett Module Suite | scatfoid
+DAG + Kahn topological sort SQLite (workable-items Claude Code (LLM intent (3 (CHEER EHO.)
+SSoT) inference) i i -
+SQLite (pure-Go modernc) Kotlin Multiplatform (x.
+raksul/go-clickup (MIT Messenger channel adapters kMP)
+fsnotify | YAML config ccocucea) . .
+Dees Chain Redis / PostgreSQL / SQLite
+exec transforms (Markdown + AMACESHAZESIwebheok SR 0 Cae
+HTML/PDF/DOCX) verification Helix Constitution
+submodule WebSocket / HTTP/3 (quic-
+No tracked document can fall out cron + webhooks go) / mONS
+of sync — content-hashed, . . Every alert reaches the right
+bidirectional, atomic. pkg/config ouikerT) destination — no command Vector DB / Embeddings /
+injection boundary . RAG / MCP
+syntax required.
+Your task board and your source- +1
+of-truth, impeccably in sync —
+both ways. Build once, reuse everywhere —
+a fleet of small, decoupled,
+independently-tested Go and
+KMP modules.
+Read more Read more Read more Read more
+// TIER 3 — HERITAGE
+Server Factory 5
+Mail Server Factory Server Factory Core Qemu-Utils Parallels-Utils
+Framework (=) Shell (~79.5K bytes) Shell (~5.3K bytes)
+Kotli 2.0.21. Shell Kotlin (~990K byt
+otlin ( ) e CHL KAD) QEMU Python 3 (~3K bytes)
+Dock EMU Shell (minimal ti
+coe cet SARDINES Bridge / TAP networking Parallels (mac0S)
+JSON (declarati Fi
+(declarative config) IS0 images Settings files (.settings)
+Gradle
+Gradle 8.14.3 / Java 17 ; ; ;
+The shared engine behind every QEMU VM images, managed like Compress, Publish, and reuse
++4 artifacts — download, run, your Parallels VM images across
+Server Factory. . .
+7 , network, publish. every machine.
+Run your mail server like the
+boss — describe it in JSON,
+deploy it anywhere.
+Read more Read more Read more Read more
+Server Factory —
+Additional Components
+mixed
+Kotlin (service factories,
+on Core Framework)
+Shell (Utils, Definitions
+packs)
+Gradle
+Docker (target runtime)
+SSH / OpenSSH (Utils
+bootstrap)
+SonarQube
+The supporting cast of the
+Server Factory provisioning
+toolchain.
+Read more
+© 2026 Vasic Digital — built on the OpenDesign system

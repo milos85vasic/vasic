@@ -1,0 +1,28 @@
+Class can't be inherited until it is defined as “open”. By default, all Kotlin classes
+are closed for inheritance. Also, it is possible to inherit only one superclass. On
+the other hand, multiple interfaces can be implemented. We will explain this in
+upcoming sections of this book.
+Overriding
+If a subclass provides the specific implementation of the function that has been
+declared by its parent class, this is called function (function) overriding.
+Function overriding is used to provide the specific implementation of a function
+that is already provided by its superclass.
+Note:
+The function must have the same name as in the parent class and it must have
+the same parameter as in the parent class
+In Kotlin to override function in the class we must define it as “open” in our
+“super” (parent) class. Let's have a look at an example that illustrates this. From
+book code examples open “Overriding.kt”:
+open class Engine(protected val model: String) {
+open fun turnOn() = printin("$model: Turning on")
+open fun turnOff() = printin("$model: Turning off")
+}
+class CarEngine(model: String) : Engine(model) {
+override fun turnOn() {
+super.turnOn()
+printin("$model: Car is starting")
+}
+override fun turnOff() {
+super.turnOff()
+printin("$model: Car is stopping")
+}

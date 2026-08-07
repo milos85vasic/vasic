@@ -1,0 +1,26 @@
+Slice: [2, 4]
+Getting list indexes:
+val indices = numbers. indices
+“indices” collection member represents the Integer range of the valid indexes
+for the collection. If we use it with “numbers” list for example:
+indices.forEach {
+printin("Index: $it -> ${numbers[it]}")
+}
+We will have the following output:
+Index: 0 -> 2
+Index: 1 ->4
+Index: 2 -> 6
+As you can see we have printed out pairs index - values for each of the indexes.
+Getting list iterator and perform iteration through all list members:
+val iterator = numbers.iterator()
+while (iterator.hasNext()) {
+val item = iterator.next()
+printin("Number: $item")
+}
+“iterator” function returns “Iterator” object which enables sequentially access to
+collection elements. We iterate through the collection as long there is a next
+element available. Once we have obtained the “item”, we print out the element's
+value. Executing this code snippet will produce the following result:
+Number: 2
+Number: 4
+Number: 6

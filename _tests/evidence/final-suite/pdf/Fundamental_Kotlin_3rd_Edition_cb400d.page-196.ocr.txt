@@ -1,0 +1,32 @@
+printin(mutableList)
+printin(mutableList2)
+printin(mutableMap)
+printin(mutableSet)
+Each of the collections will be empty:
+a
+a
+G
+a
+Traversing
+As you remember from previous sections we have traversed (iterated) through
+our collections. Let's do one more example of traversing. We will traverse a list
+and a map. Open “Traverse.kt” from book code examples:
+fun traverse(map: Map<*, *>) {
+map.forEach { (key, value) ->
+printin("$key -> $value")
+}
+}
+fun traverse(list: List<Map<*, *>>) {
+list.forEach {
+traverse(it)
+if (list.indexOf(it) != list.lastIndex) {
+printin("- - -")
+}
+}
+}
+Both “traverse” functions iterate through the collection that has been passed as
+the function parameter. The second version of the “traverse” function traverses
+a map. For each keyset, it prints our values for the kay and for the value. The
+first version of the “traverse” function traverses through the list of maps and
+calls “traverse” that will traverse a map. Let’s define some collections (list and
+maps):

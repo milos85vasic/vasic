@@ -1,0 +1,31 @@
+We can rewrite this same example to the second approach:
+class Counter2(private val count: Int) ; Runnable {
+override fun run() {
+for (x in 0..count) {
+printin("Count no. $x (2)")
+// Sleep for one second:
+Thread.sleep(1000)
+}
+}
+}
+We have defined the class “Counter2” which inherits the “Runnable” interface.
+Everything else is straightforward. The “run” function performs the same
+operation as in our previous example. Let's try it:
+val counter2 = Counter2(10)
+val thread = Thread(counter2)
+thread.start()
+// We will wait until counter finishes:
+while (thread. isAlive) {
+Thread. yield()
+}
+As you can see we have created a new object of the “Thread” class and passed a
+new counter as the constructor’s parameter. Then, instead of calling the “start”
+function on the counter object, we have called on the thread directly. Executing
+this code snippet will give us the same behavior as in the previous example:
+Count no. 0 (2)
+Count no. 1 (2)
+Count no. 2 (2)
+Count no. 3 (2)
+Count no. 4 (2)
+Count no. 5 (2)
+Count no. 6 (2)

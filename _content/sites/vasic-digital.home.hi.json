@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "hi",
+  "title": "Vasic Digital — AI-नेटिव सॉफ़्टवेयर इंजीनियरिंग",
+  "description": "Vasic Digital AI विकास प्रणालियों का निर्माण करता है — मल्टी-प्रोवाइडर LLM इन्फ्रास्ट्रक्चर, एजेंट ऑर्केस्ट्रेशन, और संविधान‑प्लस‑एविडेंस गवर्नेंस जो उन्हें भरोसेमंद बनाता है।",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — OpenDesign सिस्टम पर निर्मित।",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI-नेटिव सॉफ़्टवेयर इंजीनियरिंग"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "AI-नेटिव सॉफ़्टवेयर इंजीनियरिंग, भरोसेमंद बनने के लिए निर्मित।"
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "हम AI विकास प्रणालियों का निर्माण करते हैं — मॉडल, एजेंट, ऑर्केस्ट्रेशन, और इन्फ्रास्ट्रक्चर जो बड़े भाषा मॉडलों को भरोसेमंद सॉफ़्टवेयर में बदलते हैं — साथ ही गवर्नेंस लेयर जो उन्हें ईमानदार रखती है।"
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "उत्पादों का अन्वेषण करें",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "पोर्टफ़ोलियो देखें",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "पोर्टफ़ोलियो डाउनलोड करें (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM प्रदाता, एक इंटरफ़ेस"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "रिपॉज़िटरी, एक संविधान"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "तीन स्तरों में उत्पाद"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// परिचय"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "एक बेड़ा, न कि एक मोनोलिथ।"
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital एक केंद्रित इंजीनियरिंग प्रैक्टिस है जो AI‑विकास उत्पादों और पुन: उपयोग योग्य मॉड्यूलों का आपस में जुड़ा परिवार बनाती है। एक मोनोलिथ के बजाय, काम को एक बेड़े के रूप में व्यवस्थित किया गया है: बड़े उत्पाद अनुप्रयोगों के ऊपर दर्जनों छोटे, स्वतंत्र‑परीक्षित, डीकपल्ड मॉड्यूल — ताकि सिद्ध भाग हर उत्पाद में पुन: उपयोग हों, न कि फिर से बनाए जाएँ।"
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "बैकबोन भाषा Go है, जिसे Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift, और Shell द्वारा पूरक किया गया है — कार्य के अनुसार चुना गया। बेड़े को जोड़ने वाला तत्व यांत्रिक अनुशासन है: हर प्रोजेक्ट एक साझा इंजीनियरिंग संविधान को Git सबमॉड्यूल के रूप में विरासत में पाता है, और हर क्षमता जिसे उत्पाद विज्ञापित करता है, उसे स्वचालित, प्रमाण‑उत्पादन परीक्षण द्वारा समर्थित होना चाहिए। एक फीचर \"पूरा\" तब नहीं माना जाता जब परीक्षण पास हो जाता है; यह तब पूरा माना जाता है जब वास्तविक उपयोगकर्ता वास्तव में इसका उपयोग कर सके, और इसका प्रमाण कैप्चर किया गया हो।"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// हम क्या करते हैं"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "AI‑आधारित विकास, अंत‑से‑अंत।"
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "हम AI प्रणालियों के लिए सब्सट्रेट बनाते हैं — ऐप के नीचे का कठिन हिस्सा।"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "मल्टी‑प्रोवाइडर LLM एक्सेस",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "40+ प्रोवाइडरों पर पहला‑पक्ष एब्स्ट्रैक्शन — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok, और स्थानीय Ollama बैकअप के रूप में — एक ही इंटरफ़ेस के पीछे रिट्राइज़, सर्किट ब्रेकर, और हेल्थ चेक के साथ।"
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "एजेंट ऑर्केस्ट्रेशन",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "हेडलेस CLI कोडिंग‑एजेंट कंट्रोल प्लेन, ग्राफ‑आधारित एजेंटिक वर्कफ़्लो, मल्टी‑राउंड \"AI debate\" कंसेंसस, और DAG/पाइपलाइन रनटाइम।"
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM सत्यापन",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "एक भरोसे का लेयर जो मॉडलों को अनिवार्य समझ‑गेट (\"क्या आप मेरा कोड देख रहे हैं?\") के साथ स्कोर करता है, साथ ही लेटेंसी, स्ट्रीमिंग, फ़ंक्शन‑कॉलिंग, विज़न, और एम्बेडिंग परीक्षण — केवल सत्यापित‑केवल कॉन्फ़िगरेशन निर्यात करता है।"
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "रिट्रीवल और मेमोरी",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, वेक्टर डेटाबेस, एम्बेडिंग, और फ्यूज़्ड एजेंट‑मेमोरी इंजन (Mem0 + Cognee + Letta) अनंत‑संदर्भ संपीड़न के साथ।"
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "डिफेंसिव LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "गार्डरेल्स, PII डिटेक्शन, एडवर्सेरियल रेड‑टीम फ़िक्स्चर, और इनपुट कैनोनिकलाइज़ेशन — सुरक्षा सब्सट्रेट में निर्मित, बॉल्ट‑ऑन नहीं।"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// स्तर 1 — प्रमुख"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Helix उत्पाद परिवार & LLM इन्फ्रास्ट्रक्चर"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "हमारी फ़्लैगशिप लाइन AI‑विकास जीवन‑चक्र के पूरे चरण को कवर करती है। प्राथमिकता क्रम में।"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "JIRA का एक फ्री‑वर्ल्ड विकल्प — Helix-Track लाइन की फ़्लैगशिप।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "एक एन्सेम्बल LLM सेवा जो कई मॉडलों को बहस करने देती है और वह उत्तर शिप करती है जिस पर वे सहमत होते हैं।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "एक वितरित AI विकास प्लेटफ़ॉर्म जो काम को SSH‑प्रबंधित वर्कर्स में चेकपॉइंट/रोलबैक के साथ विभाजित करता है।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "एक बाइनरी, छह मोड: लैपटॉप से क्लस्टर तक OpenAI‑ और Anthropic‑संगत इनफ़रेंस, HTTP/3 पर।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "AI कंप्यूट के लिए एक वितरित ऑपरेटिंग सिस्टम, डेटा‑सेंटर GPU से एज हैंडहेल्ड तक।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "एक इंटरफ़ेस, 43 प्रोवाइडर — सर्किट ब्रेकर, रिट्राइज़, और हेल्थ बेक्ड इन।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "हर हेडलेस CLI कोडिंग एजेंट के लिए एक कंट्रोल प्लेन।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "सत्यापित करें। मॉनिटर करें। अनुकूलित करें। LLM और प्रोवाइडर सत्यापन मेटाडेटा के लिए एकल सत्य स्रोत।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "AI एजेंटों के लिए एक मेमोरी ब्रेन — चार बेस्ट‑इन‑क्लास इंजन, फ्यूज़्ड।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// गुणवत्ता और शासन — हमारा भेद"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "गवर्नेंस एक ऑडिटेबल तथ्य है, न कि एक आकांक्षा।"
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "दो स्तंभ पूरे बेड़े को सुसंगत और भरोसेमंद बनाते हैं।"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "एक सार्वभौमिक, प्रोजेक्ट‑अज्ञेय इंजीनियरिंग नियम पुस्तक जो Git सबमॉड्यूल के रूप में शिप की गई है और 140+-रिपॉज़िटरी बेड़े के हर प्रोजेक्ट द्वारा विरासत में ली जाती है। यह अनिवार्य अनुशासन को एन्कोड करती है — एंटी‑ब्लफ़ एविडेंस गेट, फॉल्स‑पॉज़िटिव इम्यूनिटी, डेटा और होस्ट सुरक्षा — जिसे प्रोजेक्ट विस्तारित कर सकता है लेकिन कभी कमजोर नहीं कर सकता। एक सबमॉड्यूल बम्प सभी नियमों को अपग्रेड करता है, और हर गेट एक म्यूटेशन टेस्ट के साथ जुड़ा होता है जो साबित करता है कि गेट स्वयं शैम नहीं है।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "एंटी‑ब्लफ़ QA ऑर्केस्ट्रेशन। यह लिखे हुए YAML टेस्ट बैंकों और पूरी‑स्वायत्त, LLM‑प्लस‑कंप्यूटर‑विज़न QA सत्रों को Android, Android TV, Web, और Desktop पर चलाता है — और बिना कैप्चर किए गए रनटाइम एविडेंस (स्क्रीनशॉट, logcat, वीडियो, स्टैक ट्रेस) के PASS स्कोर नहीं देता: \"हमने इसे टेस्ट किया\" बन जाता है \"यहाँ वीडियो, logcat, और टिकट है\"।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// स्तर 2 — उपयोगिताएँ"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital यूटिलिटीज़"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "प्रोडक्ट‑ग्रेड टूल्स जो स्वयं में खड़े हैं।"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "उन्नत मल्टी‑प्रोटोकॉल, एन्क्रिप्टेड मीडिया कलेक्शन मैनेजमेंट — डिटेक्ट, कैटलॉग, और आपके सभी कंटेंट को एन्हांस करें।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "मार्कडाउन इन, प्रोफेशनल वीडियो कोर्स आउट — AI‑एन्हांस्ड, मल्टी‑प्लेटफ़ॉर्म।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "UI को यूज़र की तरह देखें — कंप्यूटर विज़न प्लस LLM विज़न के साथ विश्लेषण और नेविगेशन।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "डॉक्यूमेंटेशन को QA ऑटोमेशन के लिए एक वैरिफ़ाइएबल फीचर मैप में बदलें।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "कोई ट्रैक्ड डॉक्यूमेंट सिंक से बाहर नहीं गिर सकता — कंटेंट‑हैश्ड, बिडायरेक्शनल, एटॉमिक।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "हर अलर्ट सही गंतव्य तक पहुंचता है — कोई कमांड सिंटैक्स आवश्यक नहीं।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "आपका टास्क बोर्ड और आपका सोर्स‑ऑफ़‑ट्रुथ, बेमिसाल सिंक में — दोनों दिशाओं में।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "एक बार बनाएं, हर जगह पुन: उपयोग करें — छोटे, डीकपल्ड, स्वतंत्र‑परीक्षित Go और KMP मॉड्यूलों का बेड़ा।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// स्तर 3 — विरासत"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — इन्फ्रास्ट्रक्चर ऑटोमेशन"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "हमारी DevOps विरासत: डिक्लेरेटिव JSON को पूरी‑प्रोविजनड, Dockerized सर्वरों में बदलना।"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "अपने मेल सर्वर को बॉस की तरह चलाएँ — इसे JSON में वर्णित करें, कहीं भी डिप्लॉय करें।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "हर Server Factory के पीछे साझा इंजन।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "QEMU VM इमेजेज, आर्टिफैक्ट्स की तरह मैनेज्ड — डाउनलोड, रन, नेटवर्क, पब्लिश।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "अपने Parallels VM इमेजेज को हर मशीन पर संपीड़ित, पब्लिश, और पुन: उपयोग करें।"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "और पढ़ें"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// प्रौद्योगिकियाँ"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "हमारे वास्तविक स्टैक में ग्राउंडेड।"
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "भाषाएँ",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "एआई / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "बैकएंड",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "डेटा",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "इंफ़्रा / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "टेस्टिंग / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// पोर्टफ़ोलियो"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "एक बेड़ा, एक अनुशासन — सभी 33 उत्पाद देखें।"
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Helix परिवार, vasic-digital यूटिलिटीज़, और Server Factory टूलचेन का एकीकृत, एविडेंस‑बेस्ड पोर्टफ़ोलियो।"
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "पोर्टफ़ोलियो खोलें",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// संपर्क"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "आइए कुछ वैरिफ़ाइएबल बनाते हैं।"
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "कोई भी एक ऐप को LLM से जोड़ सकता है। हम वह भाग बनाते हैं जो कठिन है: वैरिफ़ाइएबल, पुन: उपयोग योग्य, और ईमानदार AI सिस्टम। हम आपसे हरे चेकमार्क पर भरोसा नहीं करने को कहते — हम आपको उसके पीछे का एविडेंस दिखाते हैं।"
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "ईमेल",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+
+[visual-oracle] input=http://localhost:8082/products/helixtrack.html
+[visual-oracle] tesseract=present  viewport=1280x800  themes=light,dark
+  - light : FAIL  (errors=11 warnings=0) png=mv-product.light.png ocrWords=1489
+        [error] offscreen-clipped: button[od-acc-helixtrack-0] — control escapes viewport on: bottom (rect right=983 bottom=2107 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-1] — control escapes viewport on: bottom (rect right=983 bottom=2343 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-2] — control escapes viewport on: bottom (rect right=983 bottom=2760 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-3] — control escapes viewport on: bottom (rect right=983 bottom=3483 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-4] — control escapes viewport on: bottom (rect right=983 bottom=4207 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-5] — control escapes viewport on: bottom (rect right=983 bottom=5357 vs 1280x800)
+        [error] offscreen-clipped: a[GitHub] — control escapes viewport on: bottom (rect right=170 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[GitFlic] — control escapes viewport on: bottom (rect right=228 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[GitLab] — control escapes viewport on: bottom (rect right=287 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[Telegram] — control escapes viewport on: bottom (rect right=365 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[i@mvasic.ru] — control escapes viewport on: bottom (rect right=462 bottom=5909 vs 1280x800)
+  - dark  : FAIL  (errors=11 warnings=0) png=mv-product.dark.png ocrWords=1495
+        [error] offscreen-clipped: button[od-acc-helixtrack-0] — control escapes viewport on: bottom (rect right=983 bottom=2107 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-1] — control escapes viewport on: bottom (rect right=983 bottom=2343 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-2] — control escapes viewport on: bottom (rect right=983 bottom=2760 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-3] — control escapes viewport on: bottom (rect right=983 bottom=3483 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-4] — control escapes viewport on: bottom (rect right=983 bottom=4207 vs 1280x800)
+        [error] offscreen-clipped: button[od-acc-helixtrack-5] — control escapes viewport on: bottom (rect right=983 bottom=5357 vs 1280x800)
+        [error] offscreen-clipped: a[GitHub] — control escapes viewport on: bottom (rect right=170 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[GitFlic] — control escapes viewport on: bottom (rect right=228 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[GitLab] — control escapes viewport on: bottom (rect right=287 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[Telegram] — control escapes viewport on: bottom (rect right=365 bottom=5909 vs 1280x800)
+        [error] offscreen-clipped: a[i@mvasic.ru] — control escapes viewport on: bottom (rect right=462 bottom=5909 vs 1280x800)
+[visual-oracle] verdict=FAIL  report=evidence/final-suite-2/visual/mv-product.verdict.json
+

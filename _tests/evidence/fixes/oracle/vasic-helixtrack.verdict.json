@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T16:35:02.672Z",
+  "input": "http://localhost:8501/products/helixtrack.html",
+  "name": "vasic-helixtrack",
+  "viewport": {
+    "w": 1440,
+    "h": 9000
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/fixes/oracle/vasic-helixtrack.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/fixes/oracle/vasic-helixtrack.light.ocr.txt",
+        "wordCount": 1471,
+        "sample": "Vasic Digital Home Products TIER: HELIX-PRIMARY ORDER 1 HelixTrack license: TBD Go"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 9000
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 23,
+          "controls": 7,
+          "textChars": 4283
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/fixes/oracle/vasic-helixtrack.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/fixes/oracle/vasic-helixtrack.dark.ocr.txt",
+        "wordCount": 1469,
+        "sample": "Vasic Digital Home Products <0: TIER: HELIX-PRIMARY ORDER 1 HelixTrack license: TED"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 9000
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 23,
+          "controls": 7,
+          "textChars": 4283
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

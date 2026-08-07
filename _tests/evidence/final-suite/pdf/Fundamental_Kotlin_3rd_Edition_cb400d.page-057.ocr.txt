@@ -1,0 +1,27 @@
+What will happen if we do not provide the type or we do not provide value for
+the constant? The following line will produce an error:
+val z: Int
+And finally, to define variable instead of constant (to be mutable), we will use
+the “var” word instead of “val”:
+varm=1
+“m" variable can change its value after it has been initialized:
+varm=1
+printin("M is: $m")
+m=2
+printin("M is: $m")
+m=3
+printin("M is: $m")
+The output of the code snippet will be the following:
+Mis: 1
+Mis: 2
+M is: 3
+As you just saw, defining constants and variables is simple. Let's put the scope
+into play (“Scope.kt”):
+fun main( {
+val global = "Global"
+fun myFunction( {
+val local = "Local"
+// We can access to global scope:
+printin("Local: $local")
+printin("Global: $global")
+}

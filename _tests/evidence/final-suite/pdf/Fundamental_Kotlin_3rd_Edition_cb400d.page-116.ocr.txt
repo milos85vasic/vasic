@@ -1,0 +1,30 @@
+to the passed value, while on the other hand “get” function just returns the
+current value of the property. Because of this, in this case, the “get” function is
+redundant. We may get rid of it:
+class Coordinate {
+var reposition: Int = 0
+var x: Int = 0
+set(value) {
+field = reposition(value)
+}
+var y: Int = 0
+set(value) {
+field = reposition(value)
+}
+var z: Int =0
+set(value) {
+field = reposition(value)
+}
+fun print( = printin("Coordinate(x=$x, y=$y, Z=$z)")
+private fun reposition(param: Int) = param + reposition
+}
+Let's try out our new class implementation:
+val center = Coordinate()
+center.print()
+val location = Coordinate()
+location.reposition = 100
+location.x = 10
+location.y = 20
+location.z = 30
+location.print()
+Executing the program will produce the following output:

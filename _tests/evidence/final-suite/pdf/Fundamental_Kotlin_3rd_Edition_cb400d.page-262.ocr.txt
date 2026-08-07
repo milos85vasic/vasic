@@ -1,0 +1,27 @@
+Let's play with this:
+val plane = Plane()
+val zeppelin = Zeppelin()
+val travelByPlane = Traveling(plane)
+val travelByZeppelin = Traveling(zeppelin)
+travelByPlane.fly()
+travelByZeppelin.fly()
+Executing our program will produce the following output:
+PLANE
+ZEPPELIN
+Delegating properties
+In Kotlin we can delegate class properties. There are some cases when we need
+them, for example when we need the “lazy” initialization.
+The mechanism that we are using to achieve this is very similar to one from the
+previous section. From book code examples open “DelegateProperties.kt":
+class Delegator : ReadWriteProperty<Any, Int> {
+var value = 0
+override fun getValue(
+thisRef: Any, property: Kproperty<*>
+): Int £
+printin("Value GET: ${property.name} -> $value")
+return value
+}
+override fun setValue(
+thisRef: Any, property: KProperty<*>, value: Int
+M
+printin("Value SET: ${property.name} -> $value")

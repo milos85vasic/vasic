@@ -1,0 +1,18 @@
+{
+  "lang": "ja",
+  "name": "Japanese",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "skip",
+    "pf.summary"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "skip",
+    "pf.summary"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "‘skip’ translation is unnatural (コンテンツにスキップ). In ‘pf.summary’ the phrase ‘反ブルフ QA’ is a poor translation of ‘anti-bluff QA’, and there is an extra space before 捕獲. Other entries preserve brand terms, use correct script, and are natural."
+}

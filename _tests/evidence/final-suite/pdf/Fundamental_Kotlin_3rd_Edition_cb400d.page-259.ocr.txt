@@ -1,0 +1,28 @@
+private const val dbName = "cars"
+private const val dbVersion = 1
+val database: SQLiteDatabase by lazy {
+DbHelper(dbName, dbVersion).getWritableDatabase()
+}
+}
+The “database” field will not be instantiated until the first time it is accessed. It
+can be direct access to the field or by any function that uses the field.
+Instantiation block will be executed only the first time when we access the
+“database” field.
+Let's have a look at another simple example. From book code examples open
+“Lazy.kt":
+class Example {
+val hello: String by lazy {
+printin("I am initializing this lazy value")
+"Hello"
+}
+}
+Again, we have to define a simple class with the constant which will be lazily
+initialized. Inside its initialization block, we will print simple “log” information
+and return the value that will be assigned to the constant.
+Note:
+The evaluation of lazy properties is synchronized by default. The value is
+produced only in one thread, and all threads will see the same value.
+Let's try our class:
+val example = Example()
+printin(example.hello)
+Executing this code snippet will produce the following output:

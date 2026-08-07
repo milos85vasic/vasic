@@ -1,0 +1,34 @@
+- If two objects are equal according to the equals() function, then calling the
+hashCode function on each of the two objects must produce the same integer
+result.
+“toString” function
+Returns a string representation of the object.
+We will demonstrate inheritance with simple examples. From book code
+examples open “Inheritance.kt”:
+// Class 'Human' Inherits by default: ‘Any’:
+open class Human
+// Class ‘Indian’ inherits Human:
+class Indian : Human()
+// Class with non-empty constructor:
+open class Vehicle(type: String)
+// Class 'Truck' inherits 'Vehicle' and it's constructor:
+class Truck(type: String) : Vehicle(type)
+// Class 'Train' inherits class 'Vehicle'
+// but it has empty constructor.
+// Value is passed to the parent constructor:
+class Train : Vehicle("Civil")
+// Another way to inherit class"
+class Bus : Vehicle {
+
+// Constructor goes here:
+
+constructor(type: String) : super(type)
+
+init {
+
+// Your special initialization code
+a
+
+}
+}
+Note:

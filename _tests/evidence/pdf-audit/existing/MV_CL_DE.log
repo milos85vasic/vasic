@@ -1,0 +1,9 @@
+
+[export-validator] pdf=/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/Milos_Vasic_Cover_Letter_DE.pdf
+[export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=ok
+  [PASS] CONTENT/content.nonempty — extracted 396 words (min 40)
+  [PASS] TEXTUAL/textual.no-leak — no raw markup / mermaid source found in body text
+  [PASS] FULL-VISUAL/visual.images — pdfimages found 1 embedded image(s) (min 1)
+  [PASS] FULL-VISUAL/visual.ocr — OCR of 2 rendered page(s) recovered 388 legible words (min 15)
+[export-validator] verdict=PASS  report=_tests/evidence/pdf-audit/existing/MV_CL_DE/MV_CL_DE.verdict.json
+

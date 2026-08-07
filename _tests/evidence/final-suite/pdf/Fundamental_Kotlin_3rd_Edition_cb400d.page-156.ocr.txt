@@ -1,0 +1,30 @@
+Which will produce the following output:
+Hello world
+Hello worl
+Hello wor
+Hello wo
+Hello w
+Hello
+Hello
+Hell
+Hel
+He
+H
+Note:
+When a function is marked with the "“tailrec” the compiler optimizes the
+recursion. As result, we have a fast and efficient loop.
+Anonymous functions
+An anonymous function is similar to regular functions except that its name is
+omitted. Function’s body can be a block or it can be an expression.
+Let's have a look at book code examples for this “"Anonymous.kt”:
+// As block:
+val f1 = fun(x: Int, y: Int): Int {
+return x+y
+}
+// As expression:
+val f2 = fun(x: Int, y: Int)=x+y
+As you can see we have created two anonymous functions: “f1" and “f2”. If we
+execute them:
+val x = f2(1, 2)
+val y = f1(3, 4)
+printin("x: $x")

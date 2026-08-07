@@ -1,0 +1,32 @@
+As you can see only “a” constant will satisfy type check condition. “b” and “c” will
+not as they are not of Double data type.
+Let's try out “powerLogger” function:
+powerLogger(a)
+powerLogger(b)
+powerLogger(c)
+As most data types can't be directly cast into the other data types this will crash
+our program:
+Power of 2.0 is: 4.0
+Exception in thread "main" java.lang.ClassCastException: java.lang.Integer cannot
+be cast to java.lang.Double ...
+If the cast is not possible, the cast operator throws an exception. Because of
+this, this approach is not safe. If we fix our code a little bit we can execute our
+program without a crash:
+[**
+* Casting into the Double data type
+*/
+@Throws(IllegalArgumentException::class)
+fun powerLogger(value: Any) {
+val converted = when (value) {
+is Int ->{
+value.toDouble()
+}
+is Double -> {
+value as Double // 'as Double’ can be omitted,
+// So no cast needed
+}
+else -> {
+throw IllegalArgumentException(
+"Unsupported data passed: $” +
+"{value::class.simpleName}"
+)

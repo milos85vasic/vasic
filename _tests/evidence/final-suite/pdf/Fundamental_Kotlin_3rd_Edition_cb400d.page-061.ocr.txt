@@ -1,0 +1,39 @@
+// all others will use its default values:
+
+calculate(100, c = 100)
+We have defined function with name ‘calculate’. Function accepts four
+arguments. First argument (“a”) does not have default value. However, the rest
+of arguments have default values: 10, 20 and 30 for “b”, “c” and “d”.
+As you can see in code comments, we may have various combinations in
+function use. In last call of the function we have passed value to the argument
+by its name. This is called “named argument”. We will talk more about named
+arguments in upcoming sections of this book.
+Working with exceptions
+Exception represents the problem that occurs during the execution of a
+program. When an Exception occurs the normal flow of the program is
+disrupted and our program terminates abnormally. To avoid program
+termination exceptions must be handled. The exception can happen for many
+various reasons.
+Some exceptions are caused by user error, some others are caused by
+programmer error, while the others by physical resources that have failed in
+some manner (filesystem access, network, etc).
+From book code examples open “Exceptions.kt”:
+@Throws(IllegalArgumentException::class)
+fun getCarPrice(model: String) = when (model) {
+
+"Mercedes" -> 100
+
+"BMW" -> 200
+
+"Opel" -> 300
+
+else -> throw IllegalArgumentException(
+
+"We do not recognize '$model' car model"
+
+)
+}
+val models = listOf("Mercedes", "Opel", "Fiat")
+models.forEach {
+
+tryt

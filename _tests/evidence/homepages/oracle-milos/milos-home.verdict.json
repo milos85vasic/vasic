@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:54:06.730Z",
+  "input": "file:///Volumes/T7/Projects/vasic/milosvasic.ru/_site/index.html",
+  "name": "milos-home",
+  "viewport": {
+    "w": 1280,
+    "h": 8000
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/homepages/oracle-milos/milos-home.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/homepages/oracle-milos/milos-home.light.ocr.txt",
+        "wordCount": 815,
+        "sample": "Skip to main content milos.vasic Work Experience Skills Contact [EN] [e] AL"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 8000
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 117,
+          "controls": 43,
+          "textChars": 5294
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/homepages/oracle-milos/milos-home.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/homepages/oracle-milos/milos-home.dark.ocr.txt",
+        "wordCount": 815,
+        "sample": "Skip to main content milos.vasic Work Experience Skills Contact [EN] [e] AL"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 8000
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 117,
+          "controls": 43,
+          "textChars": 5294
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,27 @@
+Expand the “src” directory until you notice the "Welcome.kt” source code file:
+package net.milosvasic.fundamental.kotlin
+fun main( {
+
+printin("Welcome to Kotlin.")
+}
+As you can see, this is another “hello world” program. All Kotlin source code files
+are kept in the “main/kotlin” directory. Java source code is usually located in the
+“main/java” directory.
+Right-click on the "Welcome.kt” file and choose Run. After the program is
+executed you should see the following output:
+Welcome to Kotlin.
+You are now ready to extend this project with your code or to create a new one
+from scratch based on this example.
+Creating Gradle project
+In this section, we will show you how to create a Gradle project from zero and
+generate Gradle configuration files. We will demonstrate the use of the Gradle
+initialization wizard that will create the Gradle application project with a flat
+structure (no additional modules). All configuration files will be contained in one
+single directory - the root of the project.
+Create a directory where you want to initialize your project:
+$ mkdir my_funny_project
+Cd into the directory:
+$ cd my_funny_project
+Now invoke Gradle initialization command:
+$ gradle init
+Note:

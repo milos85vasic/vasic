@@ -1,0 +1,295 @@
+{
+  "targets": [
+    {
+      "id": "mv-home-en-light",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "mv-home-en-dark",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "dark"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "mv-home-ru-dark",
+      "kind": "landing",
+      "applied": {
+        "lang": "ru",
+        "dir": "ltr",
+        "theme": "dark"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "mv-home-ar-light",
+      "kind": "landing",
+      "applied": {
+        "lang": "ar",
+        "dir": "rtl",
+        "theme": "light"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "mv-home-ar-dark",
+      "kind": "landing",
+      "applied": {
+        "lang": "ar",
+        "dir": "rtl",
+        "theme": "dark"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "mv-home-ja-light",
+      "kind": "landing",
+      "applied": {
+        "lang": "ja",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "mv-product-en-light",
+      "kind": "product",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "mv-product-en-dark",
+      "kind": "product",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "dark"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "mv-portfolio-en-light",
+      "kind": "portfolio",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "mv-portfolio-en-dark",
+      "kind": "portfolio",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "dark"
+      },
+      "violationNodes": 12,
+      "violationRules": [
+        "color-contrast(serious:12)"
+      ]
+    },
+    {
+      "id": "mv-doc-en-light",
+      "kind": "doc",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 1,
+      "violationRules": [
+        "aria-dialog-name(serious:1)"
+      ]
+    },
+    {
+      "id": "mv-doc-ar-light",
+      "kind": "doc",
+      "applied": {
+        "lang": "ar",
+        "dir": "rtl",
+        "theme": "light"
+      },
+      "violationNodes": 1,
+      "violationRules": [
+        "aria-dialog-name(serious:1)"
+      ]
+    },
+    {
+      "id": "vd-home-en-light",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "light"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "vd-home-en-dark",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "dark"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "vd-home-ru-dark",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "dark"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "vd-home-ar-light",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "light"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "vd-home-ja-light",
+      "kind": "landing",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "light"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "vd-product-en-light",
+      "kind": "product",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "vd-product-en-dark",
+      "kind": "product",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "dark"
+      },
+      "violationNodes": 0,
+      "violationRules": []
+    },
+    {
+      "id": "vd-portfolio-en-light",
+      "kind": "portfolio",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "light"
+      },
+      "violationNodes": 12,
+      "violationRules": [
+        "color-contrast(serious:12)"
+      ]
+    },
+    {
+      "id": "vd-portfolio-en-dark",
+      "kind": "portfolio",
+      "applied": {
+        "lang": "en",
+        "dir": "ltr",
+        "theme": "dark"
+      },
+      "violationNodes": 12,
+      "violationRules": [
+        "color-contrast(serious:12)"
+      ]
+    },
+    {
+      "id": "vd-doc-en-light",
+      "kind": "doc",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "light"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    },
+    {
+      "id": "vd-doc-ar-light",
+      "kind": "doc",
+      "applied": {
+        "lang": "en",
+        "dir": null,
+        "theme": "light"
+      },
+      "violationNodes": 11,
+      "violationRules": [
+        "color-contrast(serious:11)"
+      ]
+    }
+  ],
+  "totals": {
+    "violations": 148,
+    "byImpact": {
+      "serious": 148
+    },
+    "contrastRowsFail": 8,
+    "contrastRowsTotal": 645
+  }
+}

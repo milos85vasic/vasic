@@ -1,0 +1,32 @@
+Let's illustrate the typical use case of the “also” scope function. From book code
+examples open “Also. kt":
+class Hello {
+
+fun execute() = printin("Hello!")
+}
+Hello()
+
+also {
+
+printin("Hey!")
+
+}.execute()
+As you can see using the “also” scope function can be observed like performing
+certain operations before the main one. Or simply: “...and also do the following
+with the instance”.
+In this example, we will print “Hey!” before the “execute” function is triggered.
+Executing this code snippet will produce the following output:
+Hey!
+Hello!
+“takelf” and “takeUnless”
+The “takelf” and “takeUnless” functions allow you to incorporate checks of the
+object state in call chains. “takelf” returns “this” object if it matches the
+predicate when it is called on an object with a predicate provided.
+Otherwise, the “takelf” function returns null. On the other hand, the
+“takeUnless” function returns the object if it doesn't match the predicate
+and null if it does match. The object is available as a lambda argument
+via “it”.
+Let's see simple example of use for these functions. From book code
+examples open “TakelfUnless.kt”:
+val numbers = listOf(-3, -2, -1, 0, 1, 2, 3)
+numbers.forEach {

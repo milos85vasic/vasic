@@ -1,0 +1,59 @@
+[
+  {
+    "site": "vasic",
+    "viewport": 375,
+    "horizontalOverflow": "none",
+    "brokenImages": "none",
+    "imgCount": 2,
+    "backToTop": "visible(op=1)",
+    "backToTopClick": "OK(y=0)"
+  },
+  {
+    "site": "vasic",
+    "viewport": 768,
+    "horizontalOverflow": "none",
+    "brokenImages": "none",
+    "imgCount": 2,
+    "backToTop": "visible(op=1)",
+    "backToTopClick": "OK(y=0)"
+  },
+  {
+    "site": "vasic",
+    "viewport": 1280,
+    "horizontalOverflow": "none",
+    "brokenImages": "none",
+    "imgCount": 2,
+    "backToTop": "visible(op=1)",
+    "backToTopClick": "OK(y=0)",
+    "navClick": "OK(https://vasic.digital/portfolio/)"
+  },
+  {
+    "site": "milos",
+    "viewport": 375,
+    "horizontalOverflow": "none",
+    "brokenImages": "none",
+    "imgCount": 1,
+    "backToTop": "visible(op=1)",
+    "backToTopClick": "OK(y=0)",
+    "hamburger": "expanded false->true, menuVisible=true OK"
+  },
+  {
+    "site": "milos",
+    "viewport": 768,
+    "horizontalOverflow": "none",
+    "brokenImages": "none",
+    "imgCount": 1,
+    "backToTop": "visible(op=1)",
+    "backToTopClick": "OK(y=0)"
+  },
+  {
+    "site": "milos",
+    "viewport": 1280,
+    "horizontalOverflow": "none",
+    "brokenImages": "none",
+    "imgCount": 1,
+    "backToTop": "visible(op=1)",
+    "backToTopClick": "OK(y=0)",
+    "navClick": "OK(https://milosvasic.ru/#work)"
+  }
+]

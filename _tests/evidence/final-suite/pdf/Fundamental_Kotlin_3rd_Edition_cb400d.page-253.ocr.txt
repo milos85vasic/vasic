@@ -1,0 +1,33 @@
+swim()
+jump()
+walk()
+walk()
+talk()
+}
+Executing this program will produce the following output:
+Walking
+Walking
+Walking
+Jumping
+Swimming
+Jumping
+Walking
+Walking
+Talking
+“Run” scope function
+With the “run” scope function the context object is available as a receiver. In this
+case, it is available as a receiver via “this”. The return value of the “run” scope
+function is the lambda result. “run” scope function behaves similar to the “with”
+scope function. The main difference is that it invokes as “let” scope function, as
+an extension function of the context object.
+Let's have a look at an example that illustrates the use of the “run” scope
+function. From book code examples open “Run.kt”:
+class User {
+var firstName = ""
+var lastName ="
+var address = ""
+var email ="
+}
+val user = User()
+user.run {
+firstName = "John"

@@ -1,0 +1,1813 @@
+{
+  "generatedAt": "2026-08-05T18:40:42.137Z",
+  "sites": {
+    "milos": {
+      "label": "milosvasic.ru",
+      "base": "http://localhost:8482",
+      "browsers": {
+        "chromium": {
+          "pages": {
+            "landing": {
+              "url": "http://localhost:8482/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 9,
+                  "count": 11,
+                  "screenshots": {
+                    "before": "milos__landing__reveal__before__chromium.png",
+                    "after": "milos__landing__reveal__after__chromium.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 65,
+                    "visible": true,
+                    "scrollY": 1657
+                  },
+                  "screenshot": "milos__landing__sticky-after-scroll__chromium.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "theme-btn",
+                  "before": {
+                    "theme": "light",
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "milos__landing__theme__before__chromium.png",
+                    "after": "milos__landing__theme__after__chromium.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "works",
+                  "items": 15,
+                  "ariaBefore": "false",
+                  "ariaAfterOpen": "true",
+                  "escapeCloses": true,
+                  "keyboardOpens": true,
+                  "screenshot": "milos__landing__lang__open__chromium.png"
+                },
+                "modal": {
+                  "status": "works",
+                  "openState": {
+                    "visible": true,
+                    "opacity": "1",
+                    "backdropBlur": "blur(4px)"
+                  },
+                  "escapeCloses": true,
+                  "screenshot": "milos__landing__modal__open__chromium.png"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 0)",
+                    "after": "matrix(1, 0, 0, 1, 0, 0)",
+                    "changed": false
+                  }
+                },
+                "longTasks": {
+                  "supported": true,
+                  "count": 0,
+                  "maxMs": 0,
+                  "totalMs": 0,
+                  "over50ms": 0
+                }
+              },
+              "inventory": {
+                "odReveal": 6,
+                "odStagger": 5,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 1,
+                "dlTriggers": 3,
+                "dialogs": 1,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            },
+            "product": {
+              "url": "http://localhost:8482/products/helixtrack.html",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "note": "only reveal target sits above the fold; revealed at load (is-visible set) — no scroll delta to capture",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": false,
+                  "belowFoldCount": 0,
+                  "count": 1,
+                  "screenshots": {
+                    "before": "milos__product__reveal__before__chromium.png",
+                    "after": "milos__product__reveal__after__chromium.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 65,
+                    "visible": true,
+                    "scrollY": 1639
+                  },
+                  "screenshot": "milos__product__sticky-after-scroll__chromium.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "theme-btn",
+                  "before": {
+                    "theme": "light",
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "milos__product__theme__before__chromium.png",
+                    "after": "milos__product__theme__after__chromium.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "works",
+                  "items": 15,
+                  "ariaBefore": "false",
+                  "ariaAfterOpen": "true",
+                  "escapeCloses": true,
+                  "keyboardOpens": true,
+                  "screenshot": "milos__product__lang__open__chromium.png"
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": null
+                },
+                "longTasks": {
+                  "supported": true,
+                  "count": 0,
+                  "maxMs": 0,
+                  "totalMs": 0,
+                  "over50ms": 0
+                }
+              },
+              "inventory": {
+                "odReveal": 1,
+                "odStagger": 0,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 1,
+                "dlTriggers": 0,
+                "dialogs": 1,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            },
+            "portfolio": {
+              "url": "http://localhost:8482/portfolio/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 6,
+                  "count": 8,
+                  "screenshots": {
+                    "before": "milos__portfolio__reveal__before__chromium.png",
+                    "after": "milos__portfolio__reveal__after__chromium.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 65,
+                    "visible": true,
+                    "scrollY": 1625
+                  },
+                  "screenshot": "milos__portfolio__sticky-after-scroll__chromium.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "theme-btn",
+                  "before": {
+                    "theme": "light",
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "milos__portfolio__theme__before__chromium.png",
+                    "after": "milos__portfolio__theme__after__chromium.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "works",
+                  "items": 15,
+                  "ariaBefore": "false",
+                  "ariaAfterOpen": "true",
+                  "escapeCloses": true,
+                  "keyboardOpens": true,
+                  "screenshot": "milos__portfolio__lang__open__chromium.png"
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 0)",
+                    "after": "matrix(1, 0, 0, 1, 0, 0)",
+                    "changed": false
+                  }
+                },
+                "longTasks": {
+                  "supported": true,
+                  "count": 0,
+                  "maxMs": 0,
+                  "totalMs": 0,
+                  "over50ms": 0
+                }
+              },
+              "inventory": {
+                "odReveal": 5,
+                "odStagger": 3,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 1,
+                "dlTriggers": 0,
+                "dialogs": 1,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            }
+          },
+          "reducedMotion": {
+            "landing": {
+              "url": "http://localhost:8482/",
+              "state": {
+                "present": true,
+                "total": 11,
+                "belowFoldCount": 9,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "milos__landing__reduced-motion__chromium.png"
+            },
+            "product": {
+              "url": "http://localhost:8482/products/helixtrack.html",
+              "state": {
+                "present": true,
+                "total": 1,
+                "belowFoldCount": 0,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "milos__product__reduced-motion__chromium.png"
+            },
+            "portfolio": {
+              "url": "http://localhost:8482/portfolio/",
+              "state": {
+                "present": true,
+                "total": 8,
+                "belowFoldCount": 6,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "milos__portfolio__reduced-motion__chromium.png"
+            }
+          }
+        },
+        "firefox": {
+          "pages": {
+            "landing": {
+              "url": "http://localhost:8482/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 9,
+                  "count": 11,
+                  "screenshots": {
+                    "before": "milos__landing__reveal__before__firefox.png",
+                    "after": "milos__landing__reveal__after__firefox.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 65,
+                    "visible": true,
+                    "scrollY": 1651
+                  },
+                  "screenshot": "milos__landing__sticky-after-scroll__firefox.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "theme-btn",
+                  "before": {
+                    "theme": "light",
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "milos__landing__theme__before__firefox.png",
+                    "after": "milos__landing__theme__after__firefox.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "works",
+                  "items": 15,
+                  "ariaBefore": "false",
+                  "ariaAfterOpen": "true",
+                  "escapeCloses": true,
+                  "keyboardOpens": true,
+                  "screenshot": "milos__landing__lang__open__firefox.png"
+                },
+                "modal": {
+                  "status": "works",
+                  "openState": {
+                    "visible": true,
+                    "opacity": "1",
+                    "backdropBlur": "blur(4px)"
+                  },
+                  "escapeCloses": true,
+                  "screenshot": "milos__landing__modal__open__firefox.png"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 16)",
+                    "after": "matrix(1, 0, 0, 1, 0, 1.26759)",
+                    "changed": true
+                  }
+                }
+              },
+              "inventory": {
+                "odReveal": 6,
+                "odStagger": 5,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 1,
+                "dlTriggers": 3,
+                "dialogs": 1,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            }
+          },
+          "reducedMotion": {
+            "landing": {
+              "url": "http://localhost:8482/",
+              "state": {
+                "present": true,
+                "total": 11,
+                "belowFoldCount": 9,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "milos__landing__reduced-motion__firefox.png"
+            }
+          }
+        },
+        "webkit": {
+          "pages": {
+            "landing": {
+              "url": "http://localhost:8482/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 9,
+                  "count": 11,
+                  "screenshots": {
+                    "before": "milos__landing__reveal__before__webkit.png",
+                    "after": "milos__landing__reveal__after__webkit.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 65,
+                    "visible": true,
+                    "scrollY": 1600
+                  },
+                  "screenshot": "milos__landing__sticky-after-scroll__webkit.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "theme-btn",
+                  "before": {
+                    "theme": "light",
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "milos__landing__theme__before__webkit.png",
+                    "after": "milos__landing__theme__after__webkit.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "works",
+                  "items": 15,
+                  "ariaBefore": "false",
+                  "ariaAfterOpen": "true",
+                  "escapeCloses": true,
+                  "keyboardOpens": true,
+                  "screenshot": "milos__landing__lang__open__webkit.png"
+                },
+                "modal": {
+                  "status": "works",
+                  "openState": {
+                    "visible": true,
+                    "opacity": "1",
+                    "backdropBlur": "blur(4px)"
+                  },
+                  "escapeCloses": true,
+                  "screenshot": "milos__landing__modal__open__webkit.png"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 16)",
+                    "after": "matrix(1, 0, 0, 1, 0, 0.488319)",
+                    "changed": true
+                  }
+                }
+              },
+              "inventory": {
+                "odReveal": 6,
+                "odStagger": 5,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 1,
+                "dlTriggers": 3,
+                "dialogs": 1,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            }
+          },
+          "reducedMotion": {
+            "landing": {
+              "url": "http://localhost:8482/",
+              "state": {
+                "present": true,
+                "total": 11,
+                "belowFoldCount": 9,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0.00001s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "milos__landing__reduced-motion__webkit.png"
+            }
+          }
+        }
+      }
+    },
+    "vasic": {
+      "label": "vasic.digital",
+      "base": "http://localhost:8481",
+      "browsers": {
+        "chromium": {
+          "pages": {
+            "landing": {
+              "url": "http://localhost:8481/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 14,
+                  "count": 16,
+                  "screenshots": {
+                    "before": "vasic__landing__reveal__before__chromium.png",
+                    "after": "vasic__landing__reveal__after__chromium.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 70,
+                    "visible": true,
+                    "scrollY": 1600
+                  },
+                  "screenshot": "vasic__landing__sticky-after-scroll__chromium.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "od-theme-toggle",
+                  "before": {
+                    "theme": null,
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "vasic__landing__theme__before__chromium.png",
+                    "after": "vasic__landing__theme__after__chromium.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "absent",
+                  "note": "site has no language switcher control",
+                  "langLikeElements": 0
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 16)",
+                    "after": "matrix(1, 0, 0, 1, 0, 3.93678)",
+                    "changed": true
+                  }
+                },
+                "longTasks": {
+                  "supported": true,
+                  "count": 0,
+                  "maxMs": 0,
+                  "totalMs": 0,
+                  "over50ms": 0
+                }
+              },
+              "inventory": {
+                "odReveal": 10,
+                "odStagger": 6,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 0,
+                "dlTriggers": 0,
+                "dialogs": 0,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            },
+            "product": {
+              "url": "http://localhost:8481/products/catalogizer.html",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 1.16044e-07)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": false,
+                  "belowFoldCount": 0,
+                  "count": 1,
+                  "screenshots": {
+                    "before": "vasic__product__reveal__before__chromium.png",
+                    "after": "vasic__product__reveal__after__chromium.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 70,
+                    "visible": true,
+                    "scrollY": 1609
+                  },
+                  "screenshot": "vasic__product__sticky-after-scroll__chromium.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "od-theme-toggle",
+                  "before": {
+                    "theme": null,
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "vasic__product__theme__before__chromium.png",
+                    "after": "vasic__product__theme__after__chromium.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "absent",
+                  "note": "site has no language switcher control",
+                  "langLikeElements": 0
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": null
+                },
+                "longTasks": {
+                  "supported": true,
+                  "count": 0,
+                  "maxMs": 0,
+                  "totalMs": 0,
+                  "over50ms": 0
+                }
+              },
+              "inventory": {
+                "odReveal": 1,
+                "odStagger": 0,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 0,
+                "dlTriggers": 0,
+                "dialogs": 0,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            },
+            "portfolio": {
+              "url": "http://localhost:8481/portfolio/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 6,
+                  "count": 8,
+                  "screenshots": {
+                    "before": "vasic__portfolio__reveal__before__chromium.png",
+                    "after": "vasic__portfolio__reveal__after__chromium.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 70,
+                    "visible": true,
+                    "scrollY": 1680
+                  },
+                  "screenshot": "vasic__portfolio__sticky-after-scroll__chromium.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "pf-theme-toggle",
+                  "before": {
+                    "theme": null,
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "vasic__portfolio__theme__before__chromium.png",
+                    "after": "vasic__portfolio__theme__after__chromium.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "absent",
+                  "note": "site has no language switcher control",
+                  "langLikeElements": 0
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 16)",
+                    "after": "matrix(1, 0, 0, 1, 0, 3.93675)",
+                    "changed": true
+                  }
+                },
+                "longTasks": {
+                  "supported": true,
+                  "count": 0,
+                  "maxMs": 0,
+                  "totalMs": 0,
+                  "over50ms": 0
+                }
+              },
+              "inventory": {
+                "odReveal": 5,
+                "odStagger": 3,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 0,
+                "dlTriggers": 0,
+                "dialogs": 0,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            }
+          },
+          "reducedMotion": {
+            "landing": {
+              "url": "http://localhost:8481/",
+              "state": {
+                "present": true,
+                "total": 16,
+                "belowFoldCount": 14,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "vasic__landing__reduced-motion__chromium.png"
+            },
+            "product": {
+              "url": "http://localhost:8481/products/catalogizer.html",
+              "state": {
+                "present": true,
+                "total": 1,
+                "belowFoldCount": 0,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "vasic__product__reduced-motion__chromium.png"
+            },
+            "portfolio": {
+              "url": "http://localhost:8481/portfolio/",
+              "state": {
+                "present": true,
+                "total": 8,
+                "belowFoldCount": 6,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "1e-05s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "vasic__portfolio__reduced-motion__chromium.png"
+            }
+          }
+        },
+        "firefox": {
+          "pages": {
+            "landing": {
+              "url": "http://localhost:8481/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 14,
+                  "count": 16,
+                  "screenshots": {
+                    "before": "vasic__landing__reveal__before__firefox.png",
+                    "after": "vasic__landing__reveal__after__firefox.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 70,
+                    "visible": true,
+                    "scrollY": 1577
+                  },
+                  "screenshot": "vasic__landing__sticky-after-scroll__firefox.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "od-theme-toggle",
+                  "before": {
+                    "theme": null,
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "vasic__landing__theme__before__firefox.png",
+                    "after": "vasic__landing__theme__after__firefox.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "absent",
+                  "note": "site has no language switcher control",
+                  "langLikeElements": 0
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 16)",
+                    "after": "matrix(1, 0, 0, 1, 0, 3.57236)",
+                    "changed": true
+                  }
+                }
+              },
+              "inventory": {
+                "odReveal": 10,
+                "odStagger": 6,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 0,
+                "dlTriggers": 0,
+                "dialogs": 0,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            }
+          },
+          "reducedMotion": {
+            "landing": {
+              "url": "http://localhost:8481/",
+              "state": {
+                "present": true,
+                "total": 16,
+                "belowFoldCount": 14,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "vasic__landing__reduced-motion__firefox.png"
+            }
+          }
+        },
+        "webkit": {
+          "pages": {
+            "landing": {
+              "url": "http://localhost:8481/",
+              "checks": {
+                "scrollReveal": {
+                  "status": "works",
+                  "before": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 16)",
+                    "opacity": "1",
+                    "isVisibleClass": false
+                  },
+                  "after": {
+                    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                    "opacity": "1",
+                    "isVisibleClass": true
+                  },
+                  "belowFoldAtLoad": true,
+                  "belowFoldCount": 14,
+                  "count": 16,
+                  "screenshots": {
+                    "before": "vasic__landing__reveal__before__webkit.png",
+                    "after": "vasic__landing__reveal__after__webkit.png"
+                  }
+                },
+                "stickyHeader": {
+                  "status": "works",
+                  "position": "sticky",
+                  "beforeTop": 0,
+                  "afterScroll": {
+                    "top": 0,
+                    "bottom": 70,
+                    "visible": true,
+                    "scrollY": 1600
+                  },
+                  "screenshot": "vasic__landing__sticky-after-scroll__webkit.png"
+                },
+                "accordion": {
+                  "status": "absent",
+                  "note": "no .od-accordion elements on page"
+                },
+                "themeToggle": {
+                  "status": "works",
+                  "persists": true,
+                  "toggleId": "od-theme-toggle",
+                  "before": {
+                    "theme": null,
+                    "bg": "rgb(255, 255, 255)"
+                  },
+                  "after": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)",
+                    "stored": "dark"
+                  },
+                  "afterReload": {
+                    "theme": "dark",
+                    "bg": "rgb(18, 18, 18)"
+                  },
+                  "screenshots": {
+                    "before": "vasic__landing__theme__before__webkit.png",
+                    "after": "vasic__landing__theme__after__webkit.png"
+                  }
+                },
+                "langSwitcher": {
+                  "status": "absent",
+                  "note": "site has no language switcher control",
+                  "langLikeElements": 0
+                },
+                "modal": {
+                  "status": "absent"
+                },
+                "backToTop": {
+                  "status": "absent"
+                },
+                "toasts": {
+                  "status": "absent"
+                },
+                "lottie": {
+                  "status": "absent",
+                  "count": 0,
+                  "note": "no .od-lottie hosts — motion.js Lottie path never engages on this page"
+                },
+                "microInteractions": {
+                  "status": "absent-classes",
+                  "counts": {
+                    "bounce": 0,
+                    "blink": 0,
+                    "highlight": 0
+                  },
+                  "hoverSample": {
+                    "before": "matrix(1, 0, 0, 1, 0, 16)",
+                    "after": "matrix(1, 0, 0, 1, 0, 2.507509)",
+                    "changed": true
+                  }
+                }
+              },
+              "inventory": {
+                "odReveal": 10,
+                "odStagger": 6,
+                "legacyReveal": 0,
+                "accordion": 0,
+                "lottie": 0,
+                "bounce": 0,
+                "blink": 0,
+                "highlight": 0,
+                "stickyNav": 0,
+                "themeBtn": 1,
+                "langBtn": 0,
+                "dlTriggers": 0,
+                "dialogs": 0,
+                "backToTop": 0,
+                "toasts": 0
+              }
+            }
+          },
+          "reducedMotion": {
+            "landing": {
+              "url": "http://localhost:8481/",
+              "state": {
+                "present": true,
+                "total": 16,
+                "belowFoldCount": 14,
+                "allShownImmediately": true,
+                "transitionsNeutralised": true,
+                "samples": [
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  },
+                  {
+                    "transform": "none",
+                    "opacity": "1",
+                    "transitionDuration": "0s",
+                    "shown": true,
+                    "hasVisibleClass": true
+                  }
+                ]
+              },
+              "screenshot": "vasic__landing__reduced-motion__webkit.png"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+And finally, if we want to check if there is (or isn’t) a member in a range we can
+check like in our last ranges example:
+fun checkInRange(what: Int, to: Int) {
+
+if (what in 0..to) {
+
+printIn("$what is in range between 0 and $to")
+}else {
+printIn("$what is NOT in range between 0 and $to")
+
+}
+}
+Note:
+“in” operator can be used to check for negation (in this case, checking if the
+member is not contained in range) by adding “!” (negation):
+if (what fin 0..to) {
+}
+“checkInRange” function checks if provided function argument “what” is missing
+in the range between zero and “to”. If we test some candidates:
+for (x in -5..10) {
+
+checkInRange(x, 5)
+}
+We will get the following output:
+-5 is NOT in range between 0 and 5
+-4 is NOT in range between 0 and 5
+-3 is NOT in range between 0 and 5
+-2 is NOT in range between 0 and 5
+-1 is NOT in range between 0 and 5
+0 is in range between 0 and 5
+1 is in range between 0 and 5
+2 is in range between 0 and 5
+3 is in range between 0 and 5
+4 is in range between 0 and 5

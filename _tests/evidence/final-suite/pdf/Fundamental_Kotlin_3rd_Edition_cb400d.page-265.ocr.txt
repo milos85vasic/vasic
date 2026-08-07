@@ -1,0 +1,34 @@
+- For read-only property delegate has to provide a “getValue” function that takes
+parameters: receiver (the same or a super-type of the property owner) and
+metadata (“KProperty<*>" or its super-type).
+- For mutable property delegate has to provide one more function: “setValue”
+that takes parameters: receiver (same as above), metadata (same as above),
+and new value to be set.
+These functions can be provided in two ways:
+- As member functions of delegated class
+- As extension functions.
+Observable
+The “Observable” delegate is one of the most commonly used delegates in
+everyday development. The “observable” function of the delegate returns a
+property delegate for a read and write property which calls a specified callback
+function when changed. From book code examples open “Observable.kt”:
+class Example {
+
+val default = "No value"
+
+var value: String by Delegates.observable(default) {
+
+property, oldValue, newValue ->
+printin(
+"${property.name}: old='$oldValue’,
+new='$newValue™
+)
+
+}
+}
+Let's try this delegate and see what will be the final output of the program:
+val example = Example()
+example.value = "Hello world!"
+example.value = "Lorem ipsum..."
+example.value = "And so on..."
+Executing the program will produce this:

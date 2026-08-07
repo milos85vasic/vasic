@@ -1,0 +1,26 @@
+In Kotlin classes can be nested inside the other classes. Let's take a look at the
+example from book code examples “Nested.kt”:
+class Nested? {
+vala=0
+class Nested2 {
+vala=1
+class Nested3 {
+vala=2
+}
+}
+}
+We have defined three classes nested into each other: “Nested1”, “Nested2”,
+and “Nested3”. Each class has a constant with the same name “a”, but with a
+different value. Let’s instantiate each class and print the value of the constant:
+val n1 = Nested1()
+val n2 = Nested1.Nested2()
+val n3 = Nested1.Nested2.Nested3()
+printin("Values: ${n1.a}, ${n2.a}, ${n3.a}")
+As you can see, to access nested classes we must go through the parent ones:
+val n3 = Nested1.Nested2.Nested3()
+Now, when we execute this code snippet, the following output will be produced:
+Values: 0, 1,2
+Inner classes
+In situations when we need access to the members of the outer class, we
+should mark our class as “inner”. The “inner” class has a reference to an object
+of an outer class. However, using “inner” classes is not recommended because

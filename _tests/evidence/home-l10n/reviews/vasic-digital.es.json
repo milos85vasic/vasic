@@ -1,0 +1,30 @@
+{
+  "site": "vasic-digital",
+  "lang": "es",
+  "name": "Spanish",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 82,
+  "reviewer_bad_keys": [
+    "3",
+    "12",
+    "16",
+    "29",
+    "42",
+    "65"
+  ],
+  "script_flagged": [],
+  "english_leftover_flagged": [],
+  "retried": [
+    "// tier 1 — flagship",
+    "// quality & governance — our differentiator",
+    "// what we do",
+    "// about",
+    "// technologies",
+    "// AI-native software engineering"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "These entries were left in English instead of Spanish. All other keys contain Spanish translations, preserving required brand/tech terms."
+}

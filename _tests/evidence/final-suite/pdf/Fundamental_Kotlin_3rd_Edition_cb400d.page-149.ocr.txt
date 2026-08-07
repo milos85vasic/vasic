@@ -1,0 +1,32 @@
+standard way of doing this. All arguments that are not passed by name must be
+provided exactly in the same ordering as it is in the function's signature.
+If we run this small program the following output will be printed out:
+Sun Nov 01 12:50:34 CET 2020 :: John Smith :: No job performed
+Sun Nov 01 12:50:34 CET 2020 :: John Smith :: Performed: Cleaning windows
+Sun Nov 01 12:50:34 CET 2020 :: John Smith :: Performed: Cleaning windows
+Sun Nov 01 12:50:34 CET 2020 :: John Smith :: Performed: Cleaning windows
+Sun Nov 01 12:50:34 CET 2020 :: John Smith :: No job performed
+Sun Nov 01 12:50:34 CET 2020 :: John Smith :: No job performed
+Single-Expression functions
+Functions in Kotlin can be declared as single-expression. This can help reduce
+our codebase size and make things simpler in some situations. Let’s have a look
+at “SingleExpression.kt” from book code examples. We will start with regular
+function implementation and then we will make it simpler in a couple of steps
+until we get the simplest single-expression function:
+fun calculate(a: Int, b: Int): Int {
+
+returna+b
+}
+fun calculateAsSingleExpression(
+
+a: Int, b: Int
+): Int=a+b
+fun calculateAsSingleExpressionShortest(
+
+a: Int, b: Int
+d=at+b
+This example illustrates the same function implemented in three different
+(similar) ways. The first version of the function implements the calculation
+function in the usual traditional way. The function has a signature that defines
+two Integer arguments and a function body that performs the calculation and
+returns the result (also Integer type).

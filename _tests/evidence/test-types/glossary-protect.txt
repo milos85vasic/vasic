@@ -1,0 +1,10 @@
+test_longest_term_first (__main__.GlossaryProtectTest) ... ok
+test_restore_fails_loud_on_unknown_sentinel (__main__.GlossaryProtectTest) ... ok
+test_restore_tolerates_llm_case_mutation (__main__.GlossaryProtectTest) ... ok
+test_roundtrip_identity (__main__.GlossaryProtectTest) ... ok
+test_whole_token_case_sensitive_no_false_positive (__main__.GlossaryProtectTest) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.499s
+
+OK

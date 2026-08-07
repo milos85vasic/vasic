@@ -1,0 +1,38 @@
+MILOS VASIC COVER LETTER
+PoStovani [Rukovodilac tima / Tim],
+
+PiSem Vam kako bih se prijavio za poziciju [uloga] u [kompanija]. Ja sam Al inZenjer koji gradi ono Sto je
+neugledno, ali nosivo u Al softveru: LLM infrastrukturu, autonomne agente i orkestraciju, kao i slojeve za
+kontrolu kvaliteta i upravijanje koji ih cine pouzdanim u produkciji.
+
+Tokom proteklih godina dizajnirao sam i isporucio porodicu medusobno povezanih proizvoda za razvoj Al.
+Linija Helix obuhvata ceo Zivotni ciklus — HelixAgent (ansambl LLM servisa u kojem vise modela raspravija i
+isporucuje odgovor na koji se svi slaZu), HelixCode (distribuiranu platformu za razvoj Al koja deli zadatke
+medu radnicima upravijanim od strane SSH sa moguénoscu checkpoint/rollback), HelixLLM (jedan binarni fajl
+koji sluZi za inferenciju kompatibilnu sa OpenAl i Anthropic preko HTTP/3), kao i trio LLM infrastrukture:
+LLMProvider, LLMOrchestrator i LLMsVerifier (jedan interfejs za 43 provajdera, kontrolnu ravan za headless
+CLI agente i verifikacioni izvor istine). Oko svega toga izgradio sam alate za profesionalnu upotrebu kao Sto
+su Catalogizer (viSeprotokolni, enkriptovani sistem za upravljanje medijima) i Courses-Creator (Al pipeline za
+konverziju markdown-a u video kurseve), a sve to stoji na floti malih, odvojenih i nezavisno testiranih Go i
+Kotlin Multiplatform modula.
+
+Ono Sto, po mom miSljenju, izdvaja moj rad jeste disciplina koju ozbiljno shvatam: inzenjering bez
+blefiranja. Odrzavam univerzalni inzenjerski Constitution, distribuiran kao Git submodul i nasleden u floti od
+preko 140 repozitorijuma, koji mehaniéki namece jedno pravilo — funkcionalnost nije gotova kada testovi
+produ, vec kada je stvarni korisnik moze da koristi i kada postoje dokazi koji to potvrduju. U kombinaciji sa tim
+koristim HelixQA, QA orkestrator protiv blefiranja koji pokrece autonomne sesije LLM i racunarskog vida na
+Androidu, Vebu i Desktop platformama i odbija da dodeli status PROSAO bez snimka ekrana, logcat-a ili
+video zapisa. Gradeci sisteme koji ne samo da izgledaju gotovo, vec su dokazivo takvi.
+
+Tehniéki, uglavnom radim u Go, sa Kotlin/KMP, TypeScript/React, Python, Swift i Shell, na REST/gRPC/
+HTTP/3 servisima, PostgreSQL/SQLite/Redis/ClickHouse slojevima podataka i Docker/Kubernetes/
+Prometheus operacijama. Ugodno mi je da posedujem sistem od apstrakcije provajdera i preuzimanja
+podataka sve do tragova dokaza koji potvrduju njegovu funkcionalnost.
+
+Bio bih srecan da tu kombinaciju — duboko Al sistemsko inZenjerstvo i autentiénu, proverljivu disciplinu
+kvaliteta — donesem u [kompanija]. Hvala na razmatranju; moj portfolio i javni repozitorijumi dostupni su na
+milosvasic.ru i vasic.digital.
+
+Srdaéno, Milos Vasi¢é milos85vasic@gmail.com
+
+milosvasic.ru - vasic.digital 2/2

@@ -1,0 +1,46 @@
+// We are passing result(s) of '‘sum' function as arguments
+
+// to ‘divide’ function:
+
+val m = divide(
+
+sum(x, Y),
+sum(1, 2)
+
+)
+
+// We are passing String (a word) as a parameter to
+
+// ‘printin' function:
+
+printin("Z: $z, M: $m")
+}
+The output of the program will be:
+Z: 35, M: 4
+Follow the order and results of functions execution to verify the final result
+(value) of ‘z’ and ‘m’ constants.
+Default arguments
+In Kotlin we can define default values for function arguments (parameters).
+That means that if we do not pass value for the argument, default value will be
+used. Let's see how it works in the following example (“DefaultArguments.kt”
+from book code examples):
+
+fun calculate(
+
+a: Int, b: Int = 10, c: Int = 20, d: Int = 30
+): Int £
+returnat+b+c
+
+}
+
+// We will use all default values for parameters
+
+// (passing value for ‘a’ is mandatory):
+
+calculate(10)
+
+// We will pass value for every argument of the function:
+
+calculate(1, 2, 3, 4)
+
+// We will pass values for ‘a' and 'c' arguments,

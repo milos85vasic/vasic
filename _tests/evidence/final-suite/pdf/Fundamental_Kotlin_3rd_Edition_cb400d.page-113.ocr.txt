@@ -1,0 +1,33 @@
+Note:
+Visibility modifiers are used to restrict the accessibility of classes, objects,
+interfaces, constructors, functions, properties, and their setters to a certain
+level. There is no need to set the visibility of getters. They have the same
+visibility as the property. Kotlin distinguished four visibility modifiers:
+- public: visible everywhere
+- protected: visible inside the same class and its subclasses
+- private: visible inside the same class only
+- internal: visible inside the same module.
+Secondary constructors
+In Kotlin you can use more constructors with a different set of parameters
+along with the primary constructor. We will continue where we left last time and
+illustrate the use of secondary constructors. From book code examples open
+“Classes. kt":
+class Person(val name: String) {
+
+constructor(name: String, year: Int)
+
+: this(name) // < calls primary constructor
+constructor(name: String, year: Int, height: Int)
+: this(name) // < calls primary constructor
+
+}
+val person? = Person(“John Smith")
+val person2 = Person(“John Doe", 1985)
+val person3 = Person("John SomeOther", 1987, 190)
+The code demonstrates the usage of secondary constructors in Kotlin. If we
+didn't define a primary constructor, the class will have a default-empty
+constructor, with no arguments.
+We instantiated three instances of the “Person” class. Each with a different
+constructor is used for instantiation. You can also notice that Kotlin does not
+have the word “new” for instantiation, unlike Java.
+Note:

@@ -1,0 +1,41 @@
+class User {
+
+var firstName = ""
+
+var lastName ="
+
+var address = ""
+
+var email = ""
+
+override fun toString(): String {
+
+return "User(firstName='$firstName’,
+lastName='$lastName', address='$address',
+email='$email')"
+
+}
+}
+val user = User().apply {
+
+firstName = "John"
+
+lastName = "Smith"
+
+address = "5th Avenue"
+
+email = "john.smith@example.com"
+}
+We have extended the “User” class from the previous section to print human-
+readable representations of its instance. Then, we have assigned values to each
+of the “User” class properties by using the “apply” scope function. “user”
+constant has a value of “User” instance with values to its properties assigned.
+Let's check them out:
+printin(user)
+Which will produce the following output:
+User(firstName=‘John', lastName='Smith’,
+
+address='5th Avenue’, email='john.smith@example.com')
+“Also” scope function
+With the “also” scope function the context object is available as an argument via
+“it’. The return value of the “also” scope function is the object itself.

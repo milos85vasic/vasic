@@ -1,0 +1,365 @@
+/* =============================================================================
+ * OpenDesign — Motion & Interaction utilities
+ * design-system/motion/animations.css
+ *
+ * GPU-only: every @keyframes and every `transition` in this file animates ONLY
+ * `transform` and/or `opacity`. No width/height/top/left/box-shadow is animated
+ * here. The accordion height animation is intentionally NOT in CSS — it is done
+ * in motion.js via the Web Animations API (the brief-sanctioned technique), so
+ * this stylesheet stays 100% compositor-friendly.
+ *
+ * All timing comes from OpenDesign motion tokens declared by the brand CSS:
+ *   --od-dur-fast | --od-dur-base | --od-dur-slow
+ *   --od-ease-standard | --od-ease-emphasized
+ * Fallbacks are provided so the file degrades safely if loaded standalone.
+ *
+ * A single `@media (prefers-reduced-motion: reduce)` block at the bottom
+ * neutralizes EVERYTHING (instant final states, no looping motion).
+ * ========================================================================== */
+
+:root {
+  /* Local knobs (do not shadow brand tokens; only add motion-specific ones). */
+  --od-reveal-shift: 16px;   /* slide distance for scroll-reveal */
+  --od-lift-shift: -4px;     /* hover-lift translateY */
+  --od-stagger-step: 60ms;   /* delay between staggered children */
+}
+
+/* Safe fallbacks if the brand stylesheet is not present. */
+@supports not (color: var(--od-dur-base)) {
+  :root {
+    --od-dur-fast: 150ms;
+    --od-dur-base: 250ms;
+    --od-dur-slow: 350ms;
+    --od-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --od-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * 1. Scroll reveal (fade + slide up)  ->  JS adds `.is-visible`
+ * -------------------------------------------------------------------------- */
+/* Reveal is TRANSFORM-ONLY (a GPU slide): the element stays fully opaque, so its
+ * text keeps full colour contrast for assistive tech / axe-core at every moment,
+ * and it is never hidden from Playwright/keyboard even before JS reveals it. The
+ * motion is the slide from `--od-reveal-shift` to rest. (Reduced motion still
+ * neutralises it below.) */
+.od-reveal {
+  transform: translate3d(0, var(--od-reveal-shift), 0);
+  transition: transform var(--od-dur-slow) var(--od-ease-standard);
+  will-change: transform;
+}
+.od-reveal.is-visible {
+  transform: translate3d(0, 0, 0);
+}
+/* Directional variants (all transform-only) */
+.od-reveal--left  { transform: translate3d(calc(-1 * var(--od-reveal-shift)), 0, 0); }
+.od-reveal--right { transform: translate3d(var(--od-reveal-shift), 0, 0); }
+.od-reveal--scale { transform: scale(0.96); }
+.od-reveal--left.is-visible,
+.od-reveal--right.is-visible,
+.od-reveal--scale.is-visible { transform: none; }
+
+/* -----------------------------------------------------------------------------
+ * 2. Staggered children. Container gets `.od-stagger`; JS sets `--od-i` per
+ *    child (0-based). nth-child fallback keeps it working without JS.
+ * -------------------------------------------------------------------------- */
+.od-stagger > * {
+  transform: translate3d(0, var(--od-reveal-shift), 0);
+  transition: transform var(--od-dur-slow) var(--od-ease-standard);
+  transition-delay: calc(var(--od-i, 0) * var(--od-stagger-step));
+  will-change: transform;
+}
+.od-stagger.is-visible > * {
+  transform: translate3d(0, 0, 0);
+}
+/* nth-child fallback delays (used only when JS did not set --od-i) */
+.od-stagger.is-visible > *:nth-child(1) { --od-i: 0; }
+.od-stagger.is-visible > *:nth-child(2) { --od-i: 1; }
+.od-stagger.is-visible > *:nth-child(3) { --od-i: 2; }
+.od-stagger.is-visible > *:nth-child(4) { --od-i: 3; }
+.od-stagger.is-visible > *:nth-child(5) { --od-i: 4; }
+.od-stagger.is-visible > *:nth-child(6) { --od-i: 5; }
+.od-stagger.is-visible > *:nth-child(7) { --od-i: 6; }
+.od-stagger.is-visible > *:nth-child(8) { --od-i: 7; }
+
+/* -----------------------------------------------------------------------------
+ * 3. Bounce (attention). Continuous by default; `.od-bounce--once` plays once.
+ * -------------------------------------------------------------------------- */
+@keyframes od-bounce {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -25%, 0); }
+}
+.od-bounce {
+  animation: od-bounce var(--od-dur-slow) var(--od-ease-emphasized) infinite;
+  animation-duration: 1.2s;
+}
+.od-bounce--once { animation-iteration-count: 1; }
+
+/* -----------------------------------------------------------------------------
+ * 4. Blink (opacity only) — attention/notification pulse.
+ * -------------------------------------------------------------------------- */
+@keyframes od-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+.od-blink {
+  animation: od-blink 1s var(--od-ease-standard) infinite;
+}
+
+/* -----------------------------------------------------------------------------
+ * 5. Highlight — selected item + hover/click feedback.
+ *    Uses an ::after overlay ring; only opacity + transform are animated.
+ *    Persistent selection: `.is-selected`. Hover/press: interaction pseudo.
+ * -------------------------------------------------------------------------- */
+.od-highlight {
+  position: relative;
+  transition: transform var(--od-dur-fast) var(--od-ease-standard);
+}
+.od-highlight::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2px solid var(--od-accent, #d11e39);
+  opacity: 0;
+  transform: scale(0.98);
+  transition:
+    opacity var(--od-dur-base) var(--od-ease-standard),
+    transform var(--od-dur-base) var(--od-ease-standard);
+  pointer-events: none;
+}
+.od-highlight:hover::after { opacity: 0.5; transform: scale(1); }
+.od-highlight.is-selected::after { opacity: 1; transform: scale(1); }
+.od-highlight:active { transform: scale(0.97); }        /* click feedback */
+
+/* A one-shot pulse the JS can trigger by adding `.od-pulse` (auto-removed). */
+@keyframes od-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.od-pulse { animation: od-pulse var(--od-dur-base) var(--od-ease-emphasized) 1; }
+
+/* -----------------------------------------------------------------------------
+ * 6. Sticky section header helper. `.is-stuck` toggled by JS; the only animated
+ *    thing is the opacity of a hairline pseudo (no layout, no box-shadow anim).
+ * -------------------------------------------------------------------------- */
+.od-sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--od-z-nav, 100);
+  background: var(--od-bg, #fff);
+}
+.od-sticky::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--od-border, #dee2e6);
+  opacity: 0;
+  transition: opacity var(--od-dur-base) var(--od-ease-standard);
+  pointer-events: none;
+}
+.od-sticky.is-stuck::after { opacity: 1; }
+
+/* Sticky-nav active link marker (underline via transform scaleX) */
+.od-navlink {
+  position: relative;
+}
+.od-navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--od-accent, #d11e39);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--od-dur-base) var(--od-ease-emphasized);
+}
+.od-navlink.is-active::after { transform: scaleX(1); }
+
+/* -----------------------------------------------------------------------------
+ * 7. Accordion. Height is animated in JS (WAAPI). CSS only rotates the chevron
+ *    and fades the panel — transform/opacity only.
+ * -------------------------------------------------------------------------- */
+.od-accordion__panel {
+  overflow: hidden;
+}
+.od-accordion__panel[hidden] { display: none; }
+.od-accordion__icon {
+  display: inline-block;
+  transition: transform var(--od-dur-base) var(--od-ease-standard);
+}
+.od-accordion__trigger[aria-expanded="true"] .od-accordion__icon {
+  transform: rotate(180deg);
+}
+/* Content fade used by JS while opening */
+.od-accordion__inner {
+  opacity: 0;
+  transform: translate3d(0, -4px, 0);
+  transition:
+    opacity var(--od-dur-base) var(--od-ease-standard),
+    transform var(--od-dur-base) var(--od-ease-standard);
+}
+.od-accordion__panel.is-open .od-accordion__inner {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* -----------------------------------------------------------------------------
+ * 8. Section / page transition helpers (used as View Transitions fallback).
+ * -------------------------------------------------------------------------- */
+@keyframes od-fade-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.od-fade-in {
+  animation: od-fade-in var(--od-dur-slow) var(--od-ease-standard) both;
+}
+.od-page-enter {
+  animation: od-fade-in var(--od-dur-base) var(--od-ease-emphasized) both;
+}
+
+/* Opt-in View Transitions tuning (browsers that support it). Cross-fade only. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--od-dur-base, 250ms);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * 9. Hover lift for cards / buttons (transform only — NOT box-shadow).
+ * -------------------------------------------------------------------------- */
+.od-lift {
+  transition: transform var(--od-dur-base) var(--od-ease-standard);
+  will-change: transform;
+}
+.od-lift:hover  { transform: translate3d(0, var(--od-lift-shift), 0); }
+.od-lift:active { transform: translate3d(0, -1px, 0); }
+
+/* -----------------------------------------------------------------------------
+ * 10. Lottie / animated-accent host box. Fixed footprint so lazy-loaded content
+ *     never causes layout shift.
+ * -------------------------------------------------------------------------- */
+.od-lottie {
+  display: inline-block;
+  width: var(--od-lottie-size, 96px);
+  height: var(--od-lottie-size, 96px);
+  line-height: 0;
+  contain: strict;
+}
+.od-lottie > svg { width: 100%; height: 100%; display: block; }
+
+/* -----------------------------------------------------------------------------
+ * 11. Floating "back to top" button. Compositor-only (opacity + transform);
+ *     hidden AND non-focusable (pointer-events:none) until JS adds `.is-visible`
+ *     after the scroll threshold. Reduced motion drops the transition below.
+ * -------------------------------------------------------------------------- */
+.od-to-top{position:fixed;bottom:var(--od-space-6);right:var(--od-space-6);z-index:90;width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;background-color:var(--od-accent);color:var(--od-on-accent);border-radius:var(--od-radius-pill);box-shadow:var(--od-shadow-lg);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity var(--od-dur-fast) var(--od-ease-standard),transform var(--od-dur-fast) var(--od-ease-standard);}
+.od-to-top.is-visible{opacity:1;transform:none;pointer-events:auto;}
+.od-to-top:hover{transform:translateY(-2px);}
+.od-to-top:focus-visible{outline:2px solid var(--od-focus);outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){.od-to-top{transition:none;}}
+
+/* -----------------------------------------------------------------------------
+ * 12. Accent glow — an opacity-only inner sheen for cards. Lives INSIDE
+ *     overflow:hidden cards, so it is a soft accent that fades in from the top
+ *     edge on hover/focus (compositor-friendly: only `opacity` animates; no
+ *     box-shadow/layout). Colour comes from the brand --od-accent token.
+ * -------------------------------------------------------------------------- */
+.od-glow { position: relative; }
+.od-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(120% 72% at 50% -12%, var(--od-accent, #d11e39) 0%, transparent 58%);
+  opacity: 0;
+  transition: opacity var(--od-dur-base) var(--od-ease-standard);
+}
+.od-glow:hover::after,
+.od-glow:focus-within::after { opacity: 0.14; }
+
+/* -----------------------------------------------------------------------------
+ * 13. Precision divider — a thin accent rule that scales in (scaleX) when it
+ *     enters the viewport (motion.js adds `.is-visible`). Transform-only.
+ * -------------------------------------------------------------------------- */
+.od-divider {
+  height: 2px;
+  border: 0;
+  border-radius: var(--od-radius-pill, 9999px);
+  background: linear-gradient(90deg, transparent, var(--od-accent, #d11e39), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--od-dur-slow) var(--od-ease-standard);
+  will-change: transform;
+}
+.od-divider.is-visible { transform: scaleX(1); }
+
+/* -----------------------------------------------------------------------------
+ * 14. Magnetic — pointer-follow micro-nudge driven by motion.js (fine pointer
+ *     only). A short transition on `transform` gives the reset/settle a springy
+ *     feel; the per-move transform is applied inline. Reduced motion drops it.
+ * -------------------------------------------------------------------------- */
+.od-magnetic {
+  transition: transform var(--od-dur-fast) var(--od-ease-standard);
+  will-change: transform;
+}
+
+/* =============================================================================
+ * REDUCED MOTION — neutralize ALL of the above. Instant final states, no loops.
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .od-reveal,
+  .od-reveal--left,
+  .od-reveal--right,
+  .od-reveal--scale,
+  .od-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .od-bounce,
+  .od-blink,
+  .od-pulse,
+  .od-fade-in,
+  .od-page-enter {
+    animation: none !important;
+  }
+  .od-highlight,
+  .od-highlight::after,
+  .od-highlight:active,
+  .od-navlink::after,
+  .od-accordion__icon,
+  .od-accordion__inner,
+  .od-sticky::after,
+  .od-lift,
+  .od-lift:hover,
+  .od-lift:active {
+    transition: none !important;
+    animation: none !important;
+  }
+  .od-glow::after,
+  .od-magnetic {
+    transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
+  }
+  .od-magnetic { transform: none !important; }
+  .od-divider {
+    transition: none !important;
+    transform: scaleX(1) !important; /* show the rule at rest, no scale-in */
+    will-change: auto !important;
+  }
+  /* Keep semantics visible without motion */
+  .od-accordion__inner { opacity: 1 !important; transform: none !important; }
+  .od-highlight.is-selected::after { opacity: 1 !important; transform: none !important; }
+  .od-navlink.is-active::after { transform: scaleX(1) !important; }
+}

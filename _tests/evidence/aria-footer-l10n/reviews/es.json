@@ -1,0 +1,16 @@
+{
+  "lang": "es",
+  "name": "Spanish",
+  "translator": "zai-glm-4.7",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "aria.backToTop"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "aria.backToTop"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "The translation 'Volver arriba' is unnatural in Spanish; a more natural phrasing would be 'Volver al principio' or 'Ir arriba'. All other keys are correct and preserve required proper nouns."
+}

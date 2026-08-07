@@ -1,0 +1,16 @@
+{
+  "lang": "ar",
+  "name": "Arabic",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "pf.summary"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "pf.summary"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "The Arabic translation for 'pf.summary' contains unnatural phrasing, mixed Chinese characters (QA反-خدعة), and inaccurate rendering of 'anti-bluff QA' and 'captured evidence'. It should be fully natural Arabic without foreign script except preserved terms."
+}

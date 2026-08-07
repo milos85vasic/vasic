@@ -1,0 +1,48 @@
+Coordinate(x=0, y=0, z=0)
+
+Coordinate(x=110, y=120, z=130)
+
+Inheritance
+
+In this section, we will explain and demonstrate what inheritance is. Simply put
+inheritance is the process where one class acquires the properties (functions
+and fields) of another.
+
+The class which inherits the properties of others is known as “subclass”
+(“derived class”, “child class” and so on) and the class whose properties are
+inherited is known as “superclass” (“base class”, "parent class”).
+
+All classes at the top of the hierarchy are inheriting “Any” superclass. From “Any”
+class we inherit the following functions (functions):
+
+- “equals”
+
+- “hashCode”
+
+- “toString”
+
+“equals” function
+
+Indicates whether some other object is "equal to" this one. Implementations
+must fulfill the following requirements:
+
+- Reflexive: for any non-null value x, x.equals(x) should return true.
+
+- Symmetric: for any non-null values x and y, x.equals(y) should return true if
+and only if y.equals(x) returns true.
+
+- Transitive: for any non-null values x, y, and z, if x.equals(y) returns true and
+y.equals(z) returns true, then x.equals(z) should return true.
+
+- Consistent: for any non-null values x and y, multiple invocations of x.equals(y)
+consistently return true or consistently return false, provided no information
+used in equals comparisons on the objects is modified.
+
+- Never equal to null: for any non-null value x, x.equals(null) should return false.
+“hashCode” function
+
+Returns a hash code value for the object. The general contract of hashCode is:
+
+- Whenever it is invoked on the same object more than once, the hashCode
+function must consistently return the same integer, provided no information
+used in equals comparisons on the object is modified.

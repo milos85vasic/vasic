@@ -1,0 +1,36 @@
+printin(
+
+"Last car which name starts with ‘Por’: $findLastOrNull"
+)
+findFirstOrNull = cars.firstOrNull { it.length == 10 }
+findLastOrNull = cars,lastOrNull { it.startsWith("Cry") }
+printin(
+
+"First car that has ten letters is: $findFirstOrNull"
+)
+printin(
+
+"Last car which name starts with 'Cry': $findLastOrNull"
+)
+Let's execute this code snippet:
+First car that has three letters is: Bnw
+Last car which name starts with 'Por': Porsche
+First car that has ten letters is: null
+Last car which name starts with 'Cry': null
+As you can see our set does not car brands with ten characters in the name.
+Also, there is no car brand name that starts with: “Cry”.
+You can use the aliases for this functions if that makes more sense to you:
+findFirstOrNull = cars.find { it.length == 4 }
+findLastOrNull = cars.findLast { it.startsWith("A") }
+printin(
+
+"First car that has four letters is: $findFirstOrNull"
+)
+printin(
+
+"Last car which name starts with 'A': $findLastOrNull"
+)
+If we run this, the following output will be produced as a result:
+First car that has four letters is: Fiat
+Last car which name starts with ‘A’: Audi
+Accessing set elements randomly:

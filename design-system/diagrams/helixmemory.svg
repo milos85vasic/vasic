@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 660" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">HelixMemory — four engines, fused</text>
+<rect class="box" x="40" y="250" width="180" height="92" rx="10"/>
+<text class="t" x="130" y="284">AI Application</text>
+<text class="s" x="130" y="304">MemoryStore interface</text>
+<rect class="box" x="360" y="108" width="210" height="72" rx="10"/>
+<text class="t" x="465" y="144">Mem0</text>
+<text class="s" x="465" y="164">fact extraction</text>
+<rect class="box" x="360" y="194" width="210" height="72" rx="10"/>
+<text class="t" x="465" y="230">Cognee</text>
+<text class="s" x="465" y="250">semantic graph (ECL)</text>
+<rect class="box" x="360" y="280" width="210" height="72" rx="10"/>
+<text class="t" x="465" y="316">Letta</text>
+<text class="s" x="465" y="336">stateful runtime</text>
+<rect class="box" x="360" y="366" width="210" height="72" rx="10"/>
+<text class="t" x="465" y="402">Graphiti</text>
+<text class="s" x="465" y="422">bi-temporal graph</text>
+<rect class="accent" x="660" y="220" width="210" height="110" rx="10"/>
+<text class="t" x="765" y="256">Fusion Router</text>
+<text class="s" x="765" y="276">classify + route</text>
+<rect class="box" x="300" y="480" width="150" height="72" rx="10"/>
+<text class="t" x="375" y="516">Collect</text>
+<rect class="box" x="480" y="480" width="150" height="72" rx="10"/>
+<text class="t" x="555" y="516">Deduplicate</text>
+<rect class="box" x="660" y="480" width="200" height="72" rx="10"/>
+<text class="t" x="760" y="516">Cross-source Re-rank</text>
+<rect class="tint" x="655" y="585" width="205" height="60" rx="10"/>
+<text class="t" x="758" y="612">Unified Result</text>
+<text class="s" x="758" y="632">one ranked memory</text>
+<rect class="dash" x="40" y="470" width="180" height="82" rx="10"/>
+<text class="t" x="130" y="504">Circuit breakers</text>
+<text class="s" x="130" y="524">closed→open→half-open</text>
+<path class="conn" marker-end="url(#a)" d="M220,296 L360,300"/>
+<path class="conn" marker-end="url(#a)" d="M570,144 L655,262"/>
+<path class="conn" marker-end="url(#a)" d="M570,230 L655,268"/>
+<path class="conn" marker-end="url(#a)" d="M570,316 L655,278"/>
+<path class="conn" marker-end="url(#a)" d="M570,402 L655,286"/>
+<path class="conn" marker-end="url(#a)" d="M765,330 L765,430 L375,430 L375,478"/>
+<path class="conn" marker-end="url(#a)" d="M450,516 L478,516"/>
+<path class="conn" marker-end="url(#a)" d="M630,516 L658,516"/>
+<path class="conn" marker-end="url(#a)" d="M760,552 L758,583"/>
+</svg>

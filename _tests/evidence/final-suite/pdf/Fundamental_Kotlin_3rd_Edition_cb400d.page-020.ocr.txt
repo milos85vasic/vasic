@@ -1,0 +1,37 @@
+Building programs
+
+Kotlin supports several major technologies: Kotlin running on JVM, Android,
+JavaScript, or native. To generate the final build from your source code it is
+required to have the Kotlin compiler installed. With each Kotlin release, the
+standalone version of the compiler is shipped. We can download it from GitHub:
+https://github.com/JetBrains/kotlin/releases
+
+Unzip the standalone compiler into a directory and optionally add the bin
+directory to your system path. The bin directory contains the scripts needed to
+compile and run Kotlin on Windows, macOS, and Linux.
+
+Kotlin compiler can be also installed in several other ways.
+
+Installing Kotlin compiler
+
+Below is a couple of nice little ways to install the Kotlin compiler on your system.
+Chose the way that most suits you.
+
+SDKMAN
+
+An easier way to install Kotlin on UNIX-based systems such as macOS, Linux,
+Cygwin, FreeBSD, and Solaris is by using SDKMAN. Simply run the following in a
+terminal and follow instructions:
+
+$ curl -s https://get.sdkman.io | bash
+
+Next, open a new terminal and install Kotlin by executing the following
+command:
+
+$ sdk install kotlin
+
+Homebrew
+
+Alternatively, on macOS, you can install the compiler via Homebrew.
+
+$ brew update

@@ -1,0 +1,50 @@
+Java versions 10 to 15: released between 2018 and 2020: brings new modern
+features to the table and more frequent versions release cycle. We will highlight
+some of the new features:
+
+- New APIs
+
+- Local-Variable Type Inference
+
+- Removed the Java EE and CORBA modules
+
+- Switch expression
+
+- Smart cast
+
+- Multi-line texts
+
+- Records
+
+- Hidden classes
+
+- The Z Garbage Collector (ZGC)
+
+By bringing new features in versions after Java 10, Java started to run side by
+side with JVM languages such as Kotlin, Groovy, and Scala. It will be interesting
+how Java will compete with its main rivals in upcoming years. Most likely, we will
+cover that in the 4" edition of the Fundamental Kotlin book.
+
+What is Java?
+
+What is Java? Let’s be more precise in defining Java as a programming language
+and concept of JVM.
+
+Java is a powerful, general-purpose programming language. Java as we
+mentioned in the previous section exists since 1995. It comprises the Java
+programming language, and the Java Virtual Machine (JVM). So, we distinguish
+two separate parts: language itself and virtual environment (JVM). In the case of
+Kotlin, it is Kotlin as a programming language and JVM as a running
+environment for Kotlin programs. A similar philosophy has been adopted by
+Microsoft for its .NET technology.
+
+Java's ecosystem is a standardized environment controlled and maintained by
+Oracle Corporation (https://www.oracle.com/). Thanks to these standards
+developers and consumers are confident that the technology will be compatible
+with other components, even if they come from different technology vendors.
+
+It is important to note that since Java version 11 Java (Java Development Kit) is
+commercially licensed! For free use of Java OpenjDK (https://openjdk.java.net/)
+port is available. OpenJDK (Open Java Development Kit) is open-source
+implementation of the Java platform. The implementation is licensed under the
+GNU General Public License (GNU GPL) version 2 with a linking exception.

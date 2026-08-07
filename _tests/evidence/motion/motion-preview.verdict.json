@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T13:17:40.473Z",
+  "input": "http://localhost:8477/motion/preview.html",
+  "name": "motion-preview",
+  "viewport": {
+    "w": 1280,
+    "h": 2900
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/motion/motion-preview.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/motion/motion-preview.light.ocr.txt",
+        "wordCount": 279,
+        "sample": "OpenDesign Motion Reveal Stagger Feedback Accordion Lottie Animation interaction module Every effect"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 2900
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 41,
+          "controls": 13,
+          "textChars": 1801
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/motion/motion-preview.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/motion/motion-preview.dark.ocr.txt",
+        "wordCount": 262,
+        "sample": "OpenDesign Motion Reveal Stagger Feedback Accordion Lottie Animation interaction module Every effect"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 2900
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 41,
+          "controls": 13,
+          "textChars": 1801
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

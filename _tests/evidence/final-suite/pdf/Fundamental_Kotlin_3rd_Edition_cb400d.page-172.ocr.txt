@@ -1,0 +1,35 @@
+The “continue” jump operator skips the current iteration of the enclosing loop
+and the control of the program jumps to the end of the loop body. Continue is
+used to stop the execution of the body and control goes back to the next
+iteration of the loop.
+From book code examples open “Continue.kt”:
+for (x in 0..10) {
+
+if (x % 2==0){
+
+continue
+
+}
+
+printin("x: $x")
+}
+In this example, we will print out every “x” value that is odd:
+x7
+x3
+x5
+x7
+x9
+Jump operator labels
+In Kotlin, any expression can be marked with a label that has the following
+form:
+@label expression
+Let's say that we have a “for” loop. Then, we name that “for” loop expression
+with a label. This makes it possible to use the label name for the “for” loop and
+by doing so whenever we want to call the same “for” loop. We can just call it by
+the label name.
+Let's try out labels with break. From book code examples open
+“JumpOperatorLabels.kt”:
+val x = 10
+valy =3
+valz=2
+myLoop@ for (a in 0..x) {

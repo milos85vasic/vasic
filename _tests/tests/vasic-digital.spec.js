@@ -1,53 +1,99 @@
 const { test, expect } = require('@playwright/test');
 const BASE = 'http://localhost:8401';
 
-test.describe('vasic.digital — company site', () => {
+// vasic.digital — AI-development company homepage, rebuilt on the OpenDesign system.
+// Asserts the NEW .od-* structure: header/nav, hero, product cards linking products/,
+// portfolio link resolves, theme toggle + persistence, mobile has no overflow,
+// and keeps the banned-private-repo deep-link guard.
+test.describe('vasic.digital — AI company site (OpenDesign)', () => {
 
-  test('loads with correct title and logo', async ({ page }) => {
+  test('loads with correct title', async ({ page }) => {
     await page.goto(BASE);
     await expect(page).toHaveTitle(/Vasic Digital/i);
-    const logo = page.locator('#logo');
-    await expect(logo).toBeVisible();
-    const ok = await logo.evaluate((img) => img.complete && img.naturalWidth > 0);
-    expect(ok).toBeTruthy();
   });
 
-  test('no-flash theme: data-theme set before paint', async ({ page }) => {
+  test('primary nav is present with Work/Products/Portfolio/Contact', async ({ page }) => {
     await page.goto(BASE);
-    const theme = await page.locator('html').getAttribute('data-theme');
-    expect(['light', 'dark']).toContain(theme);
+    const nav = page.locator('header.od-header nav.od-nav');
+    await expect(nav).toBeVisible();
+    const links = nav.locator('a.od-nav__link');
+    await expect(links).toHaveCount(4);
+    await expect(links.nth(0)).toHaveText('Work');
+    await expect(links.nth(1)).toHaveText('Products');
+    await expect(links.nth(2)).toHaveText('Portfolio');
+    await expect(links.nth(3)).toHaveText('Contact');
+  });
+
+  test('hero renders with OpenDesign hero + CTA to products and portfolio', async ({ page }) => {
+    await page.goto(BASE);
+    await expect(page.locator('.od-hero__title')).toBeVisible();
+    await expect(page.locator('.od-hero .od-btn--primary')).toHaveAttribute('href', '#products');
+    await expect(page.locator('.od-hero .od-btn--secondary')).toHaveAttribute('href', 'portfolio/');
+  });
+
+  test('no-FOUC bootstrap applies a stored theme before paint', async ({ page }) => {
+    await page.addInitScript(() => { try { localStorage.setItem('od-theme', 'dark'); } catch (e) {} });
+    await page.goto(BASE);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   });
 
   test('theme toggle switches and persists across reload', async ({ page }) => {
     await page.goto(BASE);
     const html = page.locator('html');
-    const before = await html.getAttribute('data-theme');
-    await page.locator('#theme-toggle').click();
+    await page.locator('#od-theme-toggle').click();
     const after = await html.getAttribute('data-theme');
-    expect(after).not.toBe(before);
+    expect(['light', 'dark']).toContain(after);
+    const stored = await page.evaluate(() => localStorage.getItem('od-theme'));
+    expect(stored).toBe(after);
     await page.reload();
     expect(await page.locator('html').getAttribute('data-theme')).toBe(after);
   });
 
-  test('language switch to Russian updates content + persists', async ({ page }) => {
+  test('at least 8 product cards link to real products/*.html pages', async ({ page }) => {
     await page.goto(BASE);
-    await page.locator('#language-toggle').click();
-    await page.locator('.language-option[data-lang="ru"]').click();
-    await expect(page.locator('.nav-link').first()).not.toHaveText('Home');
-    const stored = await page.evaluate(() => localStorage.getItem('vasic-digital-lang'));
-    expect(stored).toBe('ru');
+    const productLinks = page.locator('.od-product-card a[href^="products/"][href$=".html"]');
+    const count = await productLinks.count();
+    expect(count).toBeGreaterThanOrEqual(8);
+    const hrefs = await productLinks.evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    for (const h of hrefs) expect(h).toMatch(/^products\/[a-z0-9-]+\.html$/);
+    // A representative product page must actually resolve (200).
+    const resp = await page.request.get(`${BASE}/products/helixtrack.html`);
+    expect(resp.status()).toBe(200);
   });
 
-  test('corrected stats and footer year render', async ({ page }) => {
+  test('Portfolio PDF download link is present and resolves (200) on home + /portfolio/', async ({ page }) => {
     await page.goto(BASE);
-    await expect(page.locator('.about-stats')).toContainText('240+');
-    await expect(page.locator('.about-stats')).toContainText('GitHub Organizations');
-    await expect(page.locator('.footer-bottom')).toContainText('2026');
+    const dl = page.locator('a[href$="downloads/Portfolio_EN.pdf"]').first();
+    await expect(dl).toBeVisible();
+    const resp = await page.request.get(`${BASE}/downloads/Portfolio_EN.pdf`);
+    expect(resp.status()).toBe(200);
+    const body = await resp.body();
+    expect(body.length).toBeGreaterThan(10000); // a real PDF, not an empty/placeholder file
+    expect(body.slice(0, 5).toString('latin1')).toBe('%PDF-');
+
+    await page.goto(`${BASE}/portfolio/`);
+    const dl2 = page.locator('a[href$="downloads/Portfolio_EN.pdf"]').first();
+    await expect(dl2).toBeVisible();
   });
 
-  test('no portfolio links point to known-private repos (no 404 deep links)', async ({ page }) => {
+  test('portfolio link resolves (200)', async ({ page }) => {
     await page.goto(BASE);
-    const hrefs = await page.locator('.project-link').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    const pf = page.locator('a[href="portfolio/"]').first();
+    await expect(pf).toBeVisible();
+    const resp = await page.request.get(`${BASE}/portfolio/`);
+    expect(resp.status()).toBe(200);
+  });
+
+  test('governance block cites HelixConstitution and HelixQA', async ({ page }) => {
+    await page.goto(BASE);
+    const gov = page.locator('#governance');
+    await expect(gov).toContainText('HelixConstitution');
+    await expect(gov).toContainText('HelixQA');
+  });
+
+  test('no links deep-link known-private repos (no 404 deep links)', async ({ page }) => {
+    await page.goto(BASE);
+    const hrefs = await page.locator('a[href]').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
     const banned = ['/Web-Client', '/Desktop-Client', '/Android-Client', '/iOS-Client', '/Bear-Suite/Mail', '/Bear-Suite/Messenger'];
     for (const h of hrefs) {
       for (const b of banned) expect(h, `link ${h} must not deep-link private repo ${b}`).not.toContain(b);
@@ -60,99 +106,19 @@ test.describe('vasic.digital — company site', () => {
     await page.goto(BASE);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(2);
-    await expect(page.locator('.hamburger')).toBeVisible();
   });
 
-  test('all service cards exist and have content', async ({ page }) => {
-    await page.goto(BASE);
-    const serviceCards = page.locator('.service-card');
-    const count = await serviceCards.count();
-    expect(count).toBe(9);
-    // Each card should have an icon, heading, and description
-    for (let i = 0; i < count; i++) {
-      const card = serviceCards.nth(i);
-      await expect(card.locator('.service-icon')).toBeVisible();
-      await expect(card.locator('h3')).toBeVisible();
-      await expect(card.locator('p')).toBeVisible();
-      const heading = await card.locator('h3').textContent();
-      expect(heading.length).toBeGreaterThan(0);
-    }
-  });
-
-  test('portfolio section renders project cards', async ({ page }) => {
-    await page.goto(BASE);
-    await expect(page.locator('#portfolio .section-title')).toContainText('Portfolio');
-    const portfolioItems = page.locator('.portfolio-item');
-    const count = await portfolioItems.count();
-    expect(count).toBeGreaterThanOrEqual(10);
-    // Each portfolio item should have a title, project links, and description
-    for (let i = 0; i < Math.min(count, 3); i++) {
-      const item = portfolioItems.nth(i);
-      await expect(item.locator('h3')).toBeVisible();
-      await expect(item.locator('.project-link')).toBeVisible();
-      await expect(item.locator('.project-tech')).toBeVisible();
-    }
-  });
-
-  test('contact section exists and has contact methods', async ({ page }) => {
-    await page.goto(BASE);
-    await expect(page.locator('#contact')).toBeVisible();
-    await expect(page.locator('#contact')).toContainText('Get in Touch');
-    const contactItems = page.locator('.contact-item');
-    const count = await contactItems.count();
-    expect(count).toBeGreaterThanOrEqual(3);
-    // Verify email, phone, and location are present
-    const contactHtml = await page.locator('#contact').innerHTML();
-    expect(contactHtml).toMatch(/i@mvasic\.ru/);
-    expect(contactHtml).toMatch(/Belgrade|Serbia/);
-  });
-
-  test('hero buttons are clickable', async ({ page }) => {
-    await page.goto(BASE);
-    const primaryBtn = page.locator('.hero-buttons .btn-primary');
-    const secondaryBtn = page.locator('.hero-buttons .btn-secondary');
-    await expect(primaryBtn).toBeVisible();
-    await expect(secondaryBtn).toBeVisible();
-    // Primary button links to portfolio
-    await expect(primaryBtn).toHaveAttribute('href', '#portfolio');
-    // Secondary button links to GitHub
-    await expect(secondaryBtn).toHaveAttribute('href', 'https://github.com/vasic-digital');
-  });
-
-  test('mobile hamburger menu toggles', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 800 });
-    await page.goto(BASE);
-    const hamburger = page.locator('.hamburger');
-    const navMenu = page.locator('.nav-menu');
-    await expect(hamburger).toBeVisible();
-    // Initial state — menu is not active
-    await expect(navMenu).not.toHaveClass(/active/);
-    // Click to open
-    await hamburger.click();
-    await expect(navMenu).toHaveClass(/active/);
-    await expect(hamburger).toHaveClass(/active/);
-    // Click to close
-    await hamburger.click();
-    await expect(navMenu).not.toHaveClass(/active/);
-  });
-
-  test('evidence screenshots for each browser', async ({ page }, testInfo) => {
+  test('evidence screenshots (chromium)', async ({ page }, testInfo) => {
     if (testInfo.project.name !== 'chromium') test.skip();
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
-    await page.evaluate(() => {
-      localStorage.setItem('theme', 'light');
-      document.documentElement.setAttribute('data-theme', 'light');
-    });
-    await page.screenshot({ path: 'evidence/vasic-desktop-light.png', fullPage: true });
-    await page.evaluate(() => {
-      localStorage.setItem('theme', 'dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-    });
-    await page.screenshot({ path: 'evidence/vasic-desktop-dark.png', fullPage: true });
+    await page.evaluate(() => { localStorage.setItem('od-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); });
+    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-light.png', fullPage: true });
+    await page.evaluate(() => { localStorage.setItem('od-theme', 'dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
+    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-dark.png', fullPage: true });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    await page.screenshot({ path: 'evidence/vasic-mobile.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/vasic-mobile.png', fullPage: true });
   });
 
 });

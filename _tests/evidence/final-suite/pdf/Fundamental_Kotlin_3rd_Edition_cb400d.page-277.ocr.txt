@@ -1,0 +1,30 @@
+there is no loss or leak. Outer scopes cannot complete until all of the children
+are complete. The “structured concurrency” also makes ensures that errors that
+may occur are properly reported and that they are not lost.
+Coroutine scope building
+Scope builder is a powerful utility used in any suspending function to execute
+concurrent operations. We will illustrate this with a simple example. From book
+code examples open “CoroutinesScopeBuilder.kt”:
+fun main() = runBlocking {
+fire)
+printin("Completed")
+}
+//'suspend' means that coroutine can be suspended
+// for the later execution
+suspend fun fire() = coroutineScope {
+for (x in 0..3) {
+launch {
+for (y in 0..5) {
+delay(1000L)
+printin(
+"Job $x, count no. $y at
+${System.currentTimeMillis()}"
+)
+}
+}
+}
+printin("Started")
+}
+In this example, each launch block executes concurrently. A “coroutineScope” in
+our “fire” function completes once each “launch” block has finished. Let’s run it:
+Started

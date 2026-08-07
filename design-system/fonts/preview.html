@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-hosted brand typefaces — rendered proof</title>
+<!-- The ONLY stylesheet: our self-hosted fonts. Zero CDN. -->
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root {
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px; max-width: 1180px;
+    background: #ffffff; color: #14161a;
+    font-family: var(--body); font-size: 17px; line-height: 1.6;
+  }
+  h1 { font-family: var(--display); font-weight: 700; font-size: 40px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .sub { color: #667; margin: 0 0 28px; font-size: 15px; }
+  section { border: 1px solid #e4e6ea; border-radius: 14px; padding: 22px 24px; margin: 0 0 20px; }
+  .fam { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0 0 2px; }
+  .meta { font-family: var(--mono); font-size: 12px; color: #7a8; letter-spacing: .02em; margin: 0 0 16px; }
+  .row { margin: 0 0 8px; }
+  .w400 { font-weight: 400; } .w500 { font-weight: 500; } .w600 { font-weight: 600; } .w700 { font-weight: 700; }
+  .disp { font-family: var(--display); }
+  .body { font-family: var(--body); }
+  .mono { font-family: var(--mono); }
+  .lbl { display:inline-block; width: 96px; font-family: var(--mono); font-size: 11px; color:#9aa; }
+  .cyr { color:#334; }
+  code { font-family: var(--mono); background:#f3f4f6; padding:1px 5px; border-radius:5px; font-size:14px; }
+
+  /* Font-load verdict badges, filled in by JS via document.fonts */
+  #verdicts { display:flex; gap:10px; flex-wrap:wrap; margin: 0 0 24px; }
+  .badge { font-family: var(--mono); font-size: 13px; padding: 6px 12px; border-radius: 8px; border:1px solid; }
+  .ok  { background:#e7f7ec; color:#0b6b2e; border-color:#9ad9b1; }
+  .bad { background:#fdeaea; color:#9b1c1c; border-color:#e6a3a3; }
+
+  /* Fallback-comparison proof: same text in the real face vs a forced generic.
+     If the woff2 loaded, the two lines look visibly DIFFERENT. */
+  .cmp { display:grid; grid-template-columns: 96px 1fr; gap:6px 14px; align-items:baseline; }
+  .cmp .lbl { width:auto; }
+  .forced-serif { font-family: 'ZZ No Such Font ZZ', serif !important; }
+  .forced-mono  { font-family: 'ZZ No Such Font ZZ', monospace !important; }
+</style>
+</head>
+<body>
+  <h1>Self-hosted brand typefaces</h1>
+  <p class="sub">Rendered proof for the OpenDesign design system — fonts.css only, no CDN, no external request.</p>
+
+  <div id="verdicts">
+    <span class="badge" id="v-inter">Inter …</span>
+    <span class="badge" id="v-space">Space Grotesk …</span>
+    <span class="badge" id="v-mono">JetBrains Mono …</span>
+  </div>
+
+  <!-- INTER (body) -->
+  <section>
+    <p class="fam">Inter — body</p>
+    <p class="meta">--od-font-body · weights 400 / 500 / 600 / 700 · latin · latin-ext · cyrillic</p>
+    <p class="row body w400"><span class="lbl">400</span>The quick brown fox jumps over the lazy dog — 0123456789</p>
+    <p class="row body w500"><span class="lbl">500</span>The quick brown fox jumps over the lazy dog — Příliš žluťoučký kůň</p>
+    <p class="row body w600"><span class="lbl">600</span>Voix ambiguë d’un cœur qui, au zéphyr, préfère les jattes de kiwis</p>
+    <p class="row body w700"><span class="lbl">700</span>The quick brown fox jumps over the lazy dog</p>
+    <p class="row body w500 cyr"><span class="lbl">cyr 500</span>Съешь же ещё этих мягких французских булок · Национална безбедност</p>
+  </section>
+
+  <!-- SPACE GROTESK (display) -->
+  <section>
+    <p class="fam disp">Space Grotesk — display</p>
+    <p class="meta">--od-font-display · weights 500 / 600 / 700 · latin · latin-ext (Latin-only face — no Cyrillic)</p>
+    <p class="row disp w500" style="font-size:28px"><span class="lbl">500</span>Design System</p>
+    <p class="row disp w600" style="font-size:28px"><span class="lbl">600</span>Milos Vasic · Vasic Digital</p>
+    <p class="row disp w700" style="font-size:28px"><span class="lbl">700</span>Sphinx of black quartz, judge my vow</p>
+  </section>
+
+  <!-- JETBRAINS MONO (mono) -->
+  <section>
+    <p class="fam disp">JetBrains Mono — mono</p>
+    <p class="meta">--od-font-mono · weights 400 / 500 · latin · latin-ext · cyrillic</p>
+    <p class="row mono w400"><span class="lbl">400</span>const od = () =&gt; { return 0x1F + i * 2; }; // 1lI0O &lt;=&gt; !==</p>
+    <p class="row mono w500"><span class="lbl">500</span>git commit -m "feat: self-host fonts" &amp;&amp; make § ± ° µ</p>
+    <p class="row mono w400 cyr"><span class="lbl">cyr 400</span>Программирование · моноширинный шрифт</p>
+  </section>
+
+  <!-- FALLBACK-COMPARISON PROOF -->
+  <section>
+    <p class="fam disp">Fallback comparison (real face vs forced generic)</p>
+    <p class="meta">If the woff2 loaded, each pair reads visibly DIFFERENT. Bottom line forces a non-existent family → generic serif/mono.</p>
+    <div class="cmp">
+      <span class="lbl">Inter</span>       <span class="body w600" style="font-size:22px">Handgloves 1234567890</span>
+      <span class="lbl">Space G.</span>    <span class="disp w700" style="font-size:22px">Handgloves 1234567890</span>
+      <span class="lbl">JetBrains</span>   <span class="mono w500" style="font-size:22px">Handgloves 1234567890</span>
+      <span class="lbl">forced</span>      <span class="forced-serif" style="font-size:22px">Handgloves 1234567890</span>
+    </div>
+  </section>
+
+  <p class="sub">Include on any page: <code>&lt;link rel="stylesheet" href="/design-system/fonts/fonts.css"&gt;</code> before the brand stylesheet.</p>
+
+<script>
+  // Live verdict using the CSS Font Loading API. Written into the DOM so it is
+  // captured in the screenshot too — real proof, not a claim.
+  function verdict(id, family) {
+    var el = document.getElementById(id);
+    var loaded = document.fonts.check("16px '" + family + "'");
+    el.textContent = family + (loaded ? " ✓ loaded" : " ✗ FALLBACK");
+    el.className = "badge " + (loaded ? "ok" : "bad");
+    return loaded;
+  }
+  document.fonts.ready.then(function () {
+    // Force each family to actually resolve before checking.
+    Promise.all([
+      document.fonts.load("400 16px 'Inter'"),
+      document.fonts.load("700 16px 'Inter'"),
+      document.fonts.load("500 16px 'Space Grotesk'"),
+      document.fonts.load("700 16px 'Space Grotesk'"),
+      document.fonts.load("400 16px 'JetBrains Mono'"),
+      document.fonts.load("500 16px 'JetBrains Mono'")
+    ]).then(function () {
+      var a = verdict("v-inter", "Inter");
+      var b = verdict("v-space", "Space Grotesk");
+      var c = verdict("v-mono", "JetBrains Mono");
+      window.__FONT_VERDICT__ = { Inter: a, "Space Grotesk": b, "JetBrains Mono": c };
+      document.documentElement.setAttribute("data-fonts-ready", "1");
+    });
+  });
+</script>
+</body>
+</html>

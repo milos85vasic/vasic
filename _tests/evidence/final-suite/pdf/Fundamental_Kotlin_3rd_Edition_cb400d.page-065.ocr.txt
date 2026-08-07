@@ -1,0 +1,30 @@
+From book code examples open "TryCatchFinally.kt”:
+@Throws(IllegalArgumentException::class)
+fun process(what: Int) {
+if (what < 0) {
+throw IllegalArgumentException(
+"Invalid parameter: $what"
+)
+}
+printin("Processing: $what")
+}
+val items = listOf(2, 4, 6, 0, -2, -4, -6)
+items.forEach {
+printin("Processing started")
+try{
+process(it)
+i catch (t: IllegalArgumentException) {
+printin(t.message)
+i finally {
+printin("Processing completed")
+}
+}
+Pay attention to the “try/catch/finally” block. If we execute this program the
+following output will be produced:
+Processing started
+Processing: 2
+Processing completed
+Processing started
+Processing: 4
+Processing completed
+Processing started

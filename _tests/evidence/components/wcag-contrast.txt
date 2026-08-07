@@ -1,0 +1,14 @@
+WCAG 2.2 AA contrast spot-checks — components-extended.css (brand-milosvasic tokens)
+Threshold: normal text >= 4.5:1
+
+== LIGHT ==
+  PASS  14.63:1  Toast/Alert title (--od-text on --od-surface)
+  PASS  6.33:1  Toast/Alert body (--od-text-muted on --od-surface)
+  PASS  14.63:1  Dropdown item (--od-text on --od-surface)
+  PASS  13.01:1  Dropdown item hover (--od-text on --od-surface-2)
+
+== DARK ==
+  PASS  12.63:1  Toast/Alert title (--od-text on --od-surface)
+  PASS  6.38:1  Toast/Alert body (--od-text-muted on --od-surface)
+  PASS  12.63:1  Dropdown item (--od-text on --od-surface)
+  PASS  10.43:1  Dropdown item hover (--od-text on --od-surface-2)

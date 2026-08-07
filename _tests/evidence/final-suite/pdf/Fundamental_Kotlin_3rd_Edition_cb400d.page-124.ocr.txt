@@ -1,0 +1,36 @@
+val cat = Cat()
+val lion = Lion()
+cat.walk()
+lion.walk()
+Running this code will produce the following output:
+Cat walks
+Lion walks
+As we already mentioned, in Kotlin we can make class fields abstract as well.
+Depending on if these fields are val or var we must implement proper getter or
+getter with a setter in class that is extending:
+abstract class DbProvider {
+
+abstract val database: String
+}
+class PostgresProvider : DbProvider() {
+
+override val database: String
+
+get() = "Postgres"
+
+}
+class MySQLProvider : DbProvider() {
+
+override val database: String
+
+get() = "MySQL"
+
+}
+Let's try them:
+val databases = listOf(
+
+PostgresProvider().database,
+
+MySQLProvider().database
+)
+databases.forEach {

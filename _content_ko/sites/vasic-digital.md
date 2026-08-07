@@ -1,0 +1,88 @@
+---
+site: vasic.digital
+type: company-site
+title: Vasic Digital — AI-Native Software Engineering
+tagline: We build AI development systems — and the governance that makes them trustworthy.
+sources:
+  - _analysis/content-briefs/_TECH-STACK.md
+  - _analysis/content-briefs/*.md
+---
+
+# Vasic Digital
+
+## 히어로
+
+**AI 네이티브 소프트웨어 엔지니어링, 신뢰할 수 있도록 설계되었습니다.**
+
+누구나 오후 한나절이면 앱을 LLM에 연결할 수 있습니다. 하지만 진정한 어려움은—AI 시스템이 단순한 데모인지 아니면 신뢰할 수 있는 제품인지 결정짓는 부분은—모델 그 자체가 아니라 그 주변의 모든 것입니다. 장애 상황에서도 살아남는 프로바이더 추상화, 에이전트를 임무에 집중시키는 오케스트레이션, 모델의 허세를 잡아내는 검증 시스템, 그리고 전체 시스템의 행동이 입증되는 거버넌스까지. 바로 이 어려운 부분을 Vasic Digital가 해결합니다. 우리는 AI 개발 시스템—모델, 에이전트, 오케스트레이션, 인프라를 아우르며 대형 언어 모델을 신뢰할 수 있는 소프트웨어로 탈바꿈시키는 모든 요소—을 설계하고 제공합니다. 여기에 더해 시스템의 정직성을 유지하는 거버넌스 레이어까지 함께 제공합니다.这一切의 기반이 되는 한 가지 원칙은 타협하지 않는 규칙입니다. 기능은 테스트를 통과했다고 '완료’가 아닙니다. 실제 사용자가 실제로 사용할 수 있고, 그 증거가 포착되었을 때 비로소 완료됩니다.
+
+## 소개
+
+Vasic Digital는 AI 개발 제품과 재사용 가능한 모듈로 구성된 상호 연결된 제품군을 구축하는 전문 엔지니어링 조직입니다. 하나의 거대한 모놀리식이 아니라, 수십 개의 작고 독립적으로 테스트된 분리형 모듈로 구성된 '함대’ 형태로 운영됩니다. 검증된 구성 요소는 매번 새로 만들지 않고 모든 제품에 재사용됩니다. 핵심 언어는 **Go**이며, 작업에 따라 **Kotlin / Kotlin Multiplatform**, **TypeScript/React**, **Python**, **Swift**, **Shell** 등이 보완적으로 사용됩니다. Go는 고처리량 서비스와 라이브러리에, Kotlin는 프로비저닝 도구와 크로스플랫폼 모바일에, TypeScript는 타입이 지정된 프론트엔드에, Python는 AI/ML 간의 연결에 활용됩니다.
+
+이 함대를 하나로 묶는 것은 추상적인 목표가 아닌 기계적으로 적용되는 규율입니다. 모든 프로젝트는 공유 엔지니어링 **Constitution**를 Git 서브모듈로 상속받아, 한 번 강화된 규칙이 140개 이상의 저장소에 즉시 전파됩니다. 또한 제품이 제공한다고 광고하는 모든 기능은 자동화된 증거 생성 테스트로 뒷받침되어야만 출시된 것으로 간주됩니다. 이는 단순한 마케팅 문구가 아닙니다. 바로 우리가 실제로 운영하는 모델입니다. 이러한 복리 효과가 진정한 강점입니다. 범용적인 기능이 분리되고 독립적으로 테스트된 모듈에 존재하기 때문에, 한 번의 수정이나 개선으로 모든 제품의 품질이 한꺼번에 향상됩니다. 그리고 새로운 시스템은 이미 신뢰를 얻은 구성 요소들로 조립됩니다.
+
+## 우리가 하는 일
+
+**AI 기반 개발.** 우리는 AI 시스템의 기반을 엔드 투 엔드로 구축합니다.
+
+- **다중 프로바이더 LLM 접근** — 40개 이상의 프로바이더(Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Cohere, Groq, xAI/Grok, Qwen, Perplexity, OpenRouter, Together AI, Replicate, Cerebras, Cloudflare Workers AI, SiliconFlow 및 로컬 Ollama를 대체재로 사용)를 하나의 인터페이스로 통합한 자체 추상화 계층으로, 재시도, 서킷 브레이커, 헬스 체크를 지원합니다.
+- **에이전트 오케스트레이션** — 헤드리스 CLI 코딩 에이전트 컨트롤 플레인, 그래프 기반 에이전틱 워크플로우, 다중 라운드 'AI 토론’ 합의, DAG/파이프라인 런타임.
+- **LLM 검증** — 필수 이해도 게이트("내 코드를 이해하나요?")와 지연 시간, 스트리밍, 함수 호출, 비전, embeddings 테스트로 모델을 평가하는 신뢰 계층으로, 검증된 구성만 내보냅니다.
+- **검색 및 메모리** — RAG, vector 데이터베이스, embeddings, 무한 컨텍스트 압축을 지원하는 융합 에이전트-메모리 엔진(Mem0 + Cognee + Letta).
+- **방어적 LLM** — 가드레일, PII 탐지, 적대적 레드팀 시나리오, 입력 표준화.
+
+**Helix 제품군.** 당사의 플래그십 라인은 AI 개발 라이프사이클 전 영역을 아우릅니다:
+
+- **HelixTrack** — Helix-Track 라인의 플래그십 제품인 JIRA에 대한 자유 세계의 대안.
+- **HelixAgent** — 여러 모델이 토론하고 합의한 답변을 제공하는 앙상블 LLM 서비스.
+- **HelixCode** — SSH로 관리되는 워커에 작업을 분산 처리하며 체크포인트/롤백을 지원하는 분산형 AI 개발 플랫폼.
+- **HelixLLM** — 단일 바이너리, 6가지 모드: OpenAI 및 Anthropic 호환 추론을 랩톱부터 클러스터까지 HTTP/3를 통해 지원.
+- **HelixCluster** — 데이터센터 GPU부터 엣지 핸드헬드 기기까지 AI 컴퓨팅을 위한 분산 운영체제.
+- **LLMProvider / LLMOrchestrator / LLMsVerifier** — 프로바이더 추상화 계층, 에이전트 제어 플레인, 검증의 진실 공급원.
+- **HelixMemory, HelixSkills, HelixSpecifier, HelixBuilder, HelixTranslate, HelixTerminator, HelixGitpx, HelixOTA, HelixPlay** — 메모리 관리, 거버넌스 스킬, 스펙 기반 개발, 애플리케이션 구축, 검증된 번역, 제로 트러스트 터미널, 연합형 Git, 안전한 OTA 업데이트, 셀프 호스팅 클라우드 게임.
+
+**도구 및 유틸리티 (vasic-digital utils).** 독립적으로 활용 가능한 프로덕션급 도구:
+**Catalogizer** (다중 프로토콜 암호화 미디어 컬렉션 관리),
+**Courses-Creator** (마크다운-비디오 AI 강의 제작),
+**VisionEngine** (컴퓨터 비전 + LLM 비전 UI 인식),
+**DocProcessor** (문서-기능 맵 QA용),
+**Docs Chain** (콘텐츠 해시 기반 양방향 문서/DB 동기화),
+**Herald** (자연어 기반 다중 채널 알림),
+**task_bridge** (양방향 작업/보드 동기화),
+그리고 **Vasic Digital 재사용 모듈 스위트** — 인프라, AI 프리미티브, 가드레일 모듈의 `digital.vasic.*` "표준 라이브러리".
+
+**인프라 자동화 (Server Factory).** 당사의 DevOps 유산:
+**Mail Server Factory**와 **Server Factory 코어 프레임워크**는 선언형 JSON을 다양한 연결 방식과 리눅스 배포판에서 완전 프로비저닝된 도커화 서버로 변환하며, VM 이미지 도구(Qemu-Utils, Parallels-Utils)와 지원 서비스 팩토리도 제공합니다.
+
+## 기술 스택
+
+실제 사용 중인 기술 기반:
+
+- **언어:** Go(주력), Kotlin & Kotlin Multiplatform, TypeScript, Python, Swift, Shell, 분산 시스템 작업에는 PL/pgSQL 및 TLA+ 형식 명세 사용.
+- **AI / LLM:** 멀티 프로바이더 접근(43+ 어댑터), Model Context Protocol(MCP), RAG, vector DB 및 embeddings, 계획 알고리즘(HiPlan, MCTS, Tree of Thoughts), LLMOps, 벤치마킹(SWE-bench/HumanEval/MMLU), TTS(Bark, SpeechT5).
+- **백엔드:** Gin(Go), gRPC + Protocol Buffers, HTTP/3(QUIC), WebSocket, Angular 및 React 프론트엔드, Kafka/RabbitMQ 메시징.
+- **데이터:** PostgreSQL, SQLite, SQLCipher(저장 시 암호화), Redis, Neo4j, ClickHouse, 객체 스토리지(MinIO/S3/GCS/Azure).
+- **인프라 / DevOps:** Docker & Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels, CI/CD via GitHub Actions, Gradle, Make.
+- **테스트 / QA:** 블러핑 방지 HelixQA 프레임워크, 변이 게이트가 포함된 모듈별 챌린지 하네스, `go test -race`, 시각적 회귀 테스트 도구, ADB 기기 테스트, SonarQube 게이트, 보안 스캐닝(semgrep, gosec, trivy, snyk, gitleaks, nancy).
+
+콘텐츠
+
+## 품질과 거버넌스 — 우리의 차별화 요소
+
+전체 플릿을 일관되고 신뢰할 수 있게 만드는 두 가지 핵심 요소:
+
+- **HelixConstitution** — 모든 프로젝트에 적용되는 보편적인 엔지니어링 규칙 모음으로, Git 서브모듈 형태로 제공되며 140개 이상의 레포지토리 전체에 상속됩니다. 이는 절대 타협할 수 없는 원칙을 담고 있습니다. 반박 불가능한 증거 게이트, 거짓 양성 면역, 데이터 및 호스트 안전성, 문서화 및 커버리지 규칙 등 프로젝트에서 확장은 가능하지만 약화시킬 수는 없습니다. 하나의 서브모듈 업데이트로 모든 규칙이 일괄 갱신되며, 전파 게이트는 말 그대로 플릿 전체에서 필수 조항을 검색하고, 모든 게이트에는 해당 게이트 자체가 허점이 아님을 증명하는 변이 테스트가 함께 제공됩니다. 거버넌스는 추상적인 목표가 아닌, 검증 가능한 사실입니다.
+- **HelixQA** — 반박 불가능한 QA 오케스트레이션. YAML 테스트 뱅크를 실행하고 Android, Android TV, Web, Desktop에서 완전 자동화된 LLM와 컴퓨터 비전을 활용한 QA 세션을 진행합니다. 런타임 증거(스크린샷, 로그캣, 영상, 스택 트레이스)가 캡처되지 않으면 PASS를 부여하지 않습니다. "테스트를 진행했습니다"가 아닌 "여기 영상, 로그캣, 티켓이 있습니다"로 바뀝니다.
+
+## 포지셔닝 스테이트먼트
+
+누구나 앱을 LLM에 연결할 수 있습니다. Vasic Digital가 만드는 것은 어려운 부분, 즉 검증 가능하고 재사용 가능하며 투명한 **AI** 시스템입니다. 제공자 중립적인 AI 기반 위에 Helix 제품의 라이프사이클을 구축하고, 실제로 출시되는 제품이 작동함을 보장하는 헌법과 증거 기반의 원칙을 적용합니다. 우리는 초록색 체크 표시를 믿으라고 요구하지 않습니다. 그 뒤에 있는 증거를 보여드립니다.
+
+## 연락처
+
+검증 가능한 무언가를 함께 만들어보세요.
+
+- **이메일:** [i@mvasic.ru](mailto:i@mvasic.ru)
+- **GitHub:** [github.com/vasic-digital](https://github.com/vasic-digital)
+

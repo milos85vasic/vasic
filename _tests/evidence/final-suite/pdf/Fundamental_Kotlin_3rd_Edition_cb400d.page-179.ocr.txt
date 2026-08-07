@@ -1,0 +1,38 @@
+if (numbers, contains(x)){
+printin("Numbers collection contains: $x")
+pelse{
+printin(Numbers collection does not contain: $x")
+
+}
+}
+As you can see, we have used the “contains” function that returns Boolean true
+if the function argument is contained in the list. If we execute this small snippet
+we will get the following output:
+Numbers collection does not contain: 0
+Numbers collection does not contain: 1
+Numbers collection contains: 2
+Numbers collection does not contain: 3
+Numbers collection contains: 4
+Numbers collection does not contain: 5
+Numbers collection contains: 6
+Numbers collection does not contain: 7
+Numbers collection does not contain: 8
+Numbers collection does not contain: 9
+Numbers collection does not contain: 10
+Checking if list contains all elements:
+val toCheck = listOf(6, 4, 2)
+val toCheck2 = listOf(1, 3, 5)
+val toCheck3 = listOf(4, 6, 4)
+printin(
+
+"$toCheck in $numbers: ${numbers. containsAll(toCheck)}"
+)
+printin(
+
+"$toCheck2 in $numbers: ${numbers.containsAll(toCheck2)}"
+)
+“containsAll” function will check if provided argument’s members are contained
+in the “numbers” collection which will produce the output:
+[6, 4, 2] in [2, 4, 6]: true
+[1, 3, 5] in [2, 4, 6]: false
+[4, 6, 4] in [2, 4, 6]: true

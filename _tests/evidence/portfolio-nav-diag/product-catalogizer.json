@@ -1,0 +1,92 @@
+{
+  "label": "product-catalogizer",
+  "url": "http://localhost:8099/products/catalogizer.html",
+  "navLinks": [
+    {
+      "text": "Work",
+      "href": "#work",
+      "targetExists": false
+    },
+    {
+      "text": "Experience",
+      "href": "#experience",
+      "targetExists": false
+    },
+    {
+      "text": "Skills",
+      "href": "#skills",
+      "targetExists": false
+    },
+    {
+      "text": "Contact",
+      "href": "#contact",
+      "targetExists": false
+    }
+  ],
+  "brandTargetExists": true,
+  "clickResults": [
+    {
+      "sel": "#work",
+      "targetExists": false,
+      "before": {
+        "y": 0,
+        "hash": ""
+      },
+      "after": {
+        "y": 0,
+        "hash": "#work"
+      },
+      "scrolled": false
+    },
+    {
+      "sel": "#experience",
+      "targetExists": false,
+      "before": {
+        "y": 0,
+        "hash": "#work"
+      },
+      "after": {
+        "y": 0,
+        "hash": "#experience"
+      },
+      "scrolled": false
+    },
+    {
+      "sel": "#skills",
+      "targetExists": false,
+      "before": {
+        "y": 0,
+        "hash": "#experience"
+      },
+      "after": {
+        "y": 0,
+        "hash": "#skills"
+      },
+      "scrolled": false
+    },
+    {
+      "sel": "#contact",
+      "targetExists": false,
+      "before": {
+        "y": 0,
+        "hash": "#skills"
+      },
+      "after": {
+        "y": 0,
+        "hash": "#contact"
+      },
+      "scrolled": false
+    }
+  ],
+  "theme": {
+    "before": "light",
+    "after": "dark",
+    "works": true
+  },
+  "lang": {
+    "expanded": "true",
+    "menuItems": 15
+  },
+  "consoleMsgs": [],
+  "pageErrors": []
+}

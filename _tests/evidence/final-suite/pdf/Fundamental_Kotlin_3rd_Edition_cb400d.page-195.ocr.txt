@@ -1,0 +1,51 @@
+[2, 4, 6, 3, 3, 5, 7]
+
+[Hello, World, New, Some, Word, Another, One]
+{something=-1, else=2, new=3}
+
+{1=Train, 2=Car, 3=Boat}
+
+[2, 3, 4, 5]
+
+Finally, we will perform items removal:
+mutableList.removeAt(0) // Remove element at position
+mutableList2.remove("Word") // Remove object
+mutableMap.remove("new") // Remove by map key
+mutableSet.remove(4) // Remove object
+mutableSet.removeAll(listOf(3, 5)) // Remove all objects
+If we print out the content of collections that we have changed by removing
+items:
+
+printin(mutableList)
+
+printin(mutableList2)
+
+printin(mutableMap)
+
+printin(mutableSet)
+
+We will have the following data:
+
+[4, 6, 3, 3, 5, 7]
+
+[Hello, World, New, Some, Another, One]
+
+{something=-1, else=2}
+
+[2]
+
+As you can see the content of each collection that we have touched by proper
+remove function has been changed.
+
+To remove all items from collection use “clear” function (like in the following
+source code snippet):
+
+mutableList.clear()
+
+mutableList2.clear()
+
+mutableMap.clear()
+
+mutableSet.clear()
+
+If we print the content of each of these collections:

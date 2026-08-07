@@ -1,0 +1,27 @@
+printin(it)
+}
+Printing each database value will produce the following output:
+Postgres
+MySQL
+As you can see, overriding abstract properties is very simple.
+Object
+In the modern development world, one of the most frequently used design
+patterns is “Singleton”. “Singleton” is an object-oriented design pattern where a
+certain class can have only one object (instance).
+Kotlin provides an elegant solution for “singletons”. To create a “singleton” it is
+required to use the “object” declaration. Object declaration is done by using the
+“object” keyword. To better understand this open “Object.kt” from book code
+examples:
+import java.awt.Image
+import java.net.URL
+object ImageManager {
+private val images = mutableListOf<Image>()
+fun download(url: URL): Boolean {
+// Perform image download procedure
+// and add to ‘images’ collection...
+return true
+}
+fun getImages() = images
+}
+Let's try our “object” (“singleton”):
+val url = URL(

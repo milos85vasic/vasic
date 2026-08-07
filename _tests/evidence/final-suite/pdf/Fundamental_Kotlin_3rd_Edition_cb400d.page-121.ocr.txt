@@ -1,0 +1,29 @@
+printin("$model: Preparing")
+super.turnOn()
+printin("$model: Engine is running")
+}
+final override fun turnOff( {
+printin("$model: Preparing")
+super.turnOff()
+printin("$model: Engine has stopped")
+}
+}
+class Scania : TruckEngine("Scania"){
+// We cannot override 'turnOn' and 'turnOff' functions
+// since they are marked with ‘final override’
+}
+As you can see from these simple examples, overriding is one of the most
+important features of object-oriented development. Overriding increases the
+usability of our code and gives us greater flexibility in development.
+Object-oriented features
+In this section, we will continue our journey through the world of object-
+oriented development. We will demonstrate some very important Kotlin
+features such as:
+- Data classes
+- Basics of abstraction
+- Companion object
+- Interfaces.
+Data classes
+Kotlin has a rich set of idioms to offer to developers. One of such is “data
+classes”. “Data classes” are classes whose main purpose is to hold the data. In
+such types of classes, some standard functionalities are provided.

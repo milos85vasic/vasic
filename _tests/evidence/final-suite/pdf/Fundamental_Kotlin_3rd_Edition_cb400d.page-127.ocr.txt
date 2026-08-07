@@ -1,0 +1,27 @@
+Sometimes we need to create an instance of a slight modification of some
+(abstract) class, without explicitly declaring a new subclass for it. Kotlin handles
+this case with object expressions and object declarations. Let's take a look at
+our next example. We will create a couple of “anonymous” objects. From book
+code examples open “AnonymousObject.kt”:
+abstract class Command {
+abstract fun execute()
+}
+class Executor : Command() {
+private val commands = mutableListOf<Command>()
+fun addCommand(command: Command) {
+commands.add(command)
+}
+override fun execute() {
+for (command in commands) {
+command.execute()
+}
+}
+}
+Now when we have defined some basic classes, we will try to define some
+“anonymous” objects:
+// Let's try it:
+val executor = Executor()
+val obj = object : Command() { // — Defining “anonymous”
+// object
+override fun execute() {
+printin("Starting session.")

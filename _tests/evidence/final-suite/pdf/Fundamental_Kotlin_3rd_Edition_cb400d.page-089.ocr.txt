@@ -1,0 +1,47 @@
+In the last example, we don't have to use “as” cast operator. This works for both
+when-expressions and while-loops (we will explain both in upcoming sections of
+the book). However, smart casts do not work when the compiler can't
+guarantee that the variable cannot change between the check and the usage.
+Operators and expressions
+
+In upcoming sections, we will be covering Kotlin operators and expressions. If
+you are not familiar with the meaning of operators let's explain it in short
+terms. Operators represent constructs defined within programming languages
+that have functions like behavior. However, operators differ from functions
+syntactically or semantically. The most common operators are arithmetic,
+assignment, logic, and performing comparisons.
+
+Equality
+
+Kotlin recognizes two types of equality:
+
+- Equality by reference (“===" and “!==”" operators)
+
+- Equality by structure (“==" and “!=" operators)
+
+Let's take a look at "Equality.kt” example:
+
+data class TestEquality(val a: String, val b: Int) {
+
+}
+
+val a = TestEquality("Some string", 2)
+
+val b = TestEquality("Some string", 2)
+
+valc=a
+
+printin("a === b: ${ a === b }")
+
+printin("a === c: ${ a === c }")
+
+printin("a !== b: ${ a !== b }") // Not equal by reference
+
+printin("a !== c: ${ a !== c }") // Not equal by reference
+
+printin("a == b: ${ a == b }")
+
+printin("a == c: ${ a == c }")
+
+For the data type that we are using, we have defined a data class called
+“TestEquality”. We will talk more about data classes later.

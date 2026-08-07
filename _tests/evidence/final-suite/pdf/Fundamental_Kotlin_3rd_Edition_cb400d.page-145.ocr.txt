@@ -1,0 +1,31 @@
+- Infix functions
+- Tail-Recursive functions
+- Anonymous functions
+- Inline functions
+- Lambdas and
+- Closures.
+Invoke
+In Kotlin, all objects with an “invoke” operator defined can be invoked as a
+function. Open “Invoke.kt” from book code examples:
+class Invokable {
+
+operator fun invoke(): Invokable {
+
+printin("I am invoked")
+return this
+
+}
+}
+We have defined the “Invokable” Kotlin class that can be invoked as a function.
+To invoke it, we have to create a new instance of the class and execute (invoke)
+it:
+val invoker = Invokable()
+invoker()
+Invoking our class instance will give us the following output:
+Iam invoked
+Higher-order functions
+In Kotlin function can be used as a data type and passed as a parameter to
+other functions. A function can be returned as a result of some other function
+as well. Let's have a look at the example of passing a function as an argument
+to another function.
+Open “AsType.kt” from book code examples:

@@ -1,0 +1,12 @@
+{
+  "lang": "hi",
+  "name": "Hindi",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "PASS",
+  "reviewer_bad_keys": [],
+  "script_flagged": [],
+  "retried_keys": [],
+  "still_bad_after_retry": [],
+  "notes": "All translations are present, use correct Hindi script, preserve required Latin terms, and sound natural."
+}

@@ -1,0 +1,35 @@
+Time unit: SECOND
+Time unit: MINUTE
+Country vs capital: ITALY -> Rome
+Country vs capital: SPAIN -> Madrid
+Country vs capital: RUSSIA -> Moscow
+Let's take a look at the example in which “enums” can have function
+implementations. From book code examples open “EnumsExtended.kt”:
+enum class CAPABILITIES {
+POWER_ON {
+override fun execute() {
+printin("Powering on")
+}
+i
+POWER_OFF {
+override fun execute() {
+printin("Powering off")
+}
+i
+MUTE {
+override fun execute() {
+printin("Muting audio")
+}
+i
+VOLUME_UP {
+override fun execute() {
+printin("Vol +")
+}
+i
+VOLUME_DOWN {
+override fun execute() {
+printin("Vol -")
+}
+7
+abstract fun execute()
+}

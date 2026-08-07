@@ -1,0 +1,29 @@
+}
+Or, like in the case of our code examples project (within the main “build.gradle”
+file):
+dependencies {
+api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+}
+Without this dependency, your application would crash. With it present, we are
+ready to write and try our example code. From book code examples open
+“AnnotationsTutorial. kt":
+@Target(AnnotationTarget.CLASS)
+annotation class Descriptor(val description: String)
+We will use this annotation to “describe” items in the online store. Then, we will
+define some store products:
+abstract class Product
+@Descriptor("vehicle")
+class Car : Product()
+@Descriptor("office device")
+class Computer : Product()
+@Descriptor("home appliance")
+class Tv : Product()
+// No annotation for this one:
+class VacuumCleaner : Product()
+“Product” represents a basic abstraction for the store products. The “Car”,
+“Computer”, “Tv" and “VacuumCleaner” are the products that will be available in
+the store for purchase. Each of them is “described” with our annotation except
+for “VacuumCleaner”. Let's process products in one shopping cart and handle
+our annotation:
+class Processor {

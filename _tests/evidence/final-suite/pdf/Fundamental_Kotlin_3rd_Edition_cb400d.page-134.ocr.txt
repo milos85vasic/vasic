@@ -1,0 +1,25 @@
+fun startEngine()
+fun stopEngine()
+fun drive()
+}
+We have defined a simple “interface” called “Vehicle”. Each vehicle can:
+- start the engine
+- stop the engine
+- and drive.
+Based on this we can define a class for “Car” as the type of vehicle:
+open class Car : Vehicle {
+override fun startEngine() {
+printin("start")
+}
+override fun stopEngine() {
+printin("stop")
+}
+override fun drive() {
+printin("drive")
+}
+}
+And finally, we will define a concrete car brand called “Mercedes”:
+class Mercedes(private val model: String) : Car() {
+override fun startEngine() {
+super.startEngine()
+printin("$model: start")

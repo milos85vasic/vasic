@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">Catalogizer — layered architecture · multi-protocol fan-out</text>
+<text class="lbl" x="40" y="96">Clients</text>
+<text class="lbl" x="720" y="74">Encrypted data layer</text>
+<text class="lbl" x="250" y="424">Multi-protocol fan-out</text>
+<path class="conn" marker-end="url(#a)" d="M240,140 L378,190"/>
+<path class="conn" marker-end="url(#a)" d="M240,215 L378,210"/>
+<path class="conn" marker-end="url(#a)" d="M240,290 L378,232"/>
+<path class="conn" marker-end="url(#a)" d="M610,175 L718,122"/>
+<path class="conn" marker-end="url(#a)" d="M610,200 L718,198"/>
+<path class="conn" marker-end="url(#a)" d="M610,225 L718,274"/>
+<path class="conn" marker-end="url(#a)" d="M610,262 L718,362"/>
+<path class="conn" marker-end="url(#a)" d="M380,440 L470,292"/>
+<path class="conn" marker-end="url(#a)" d="M620,440 L520,292"/>
+<rect class="box" x="40" y="110" width="200" height="60" rx="10"/>
+<text class="t" x="140" y="144">Web UI · React + Tailwind</text>
+<rect class="box" x="40" y="185" width="200" height="60" rx="10"/>
+<text class="t" x="140" y="219">Desktop · Tauri / Rust</text>
+<rect class="box" x="40" y="260" width="200" height="60" rx="10"/>
+<text class="t" x="140" y="294">Realtime · WebSockets</text>
+<rect class="accent" x="380" y="140" width="230" height="150" rx="10"/>
+<text class="t" x="495" y="174">Catalogizer Core</text>
+<text class="s" x="495" y="194">Go + Gin · unified API</text>
+<rect class="box" x="720" y="90" width="230" height="64" rx="10"/>
+<text class="t" x="835" y="122">SQLCipher</text>
+<text class="s" x="835" y="142">encrypted catalog</text>
+<rect class="box" x="720" y="166" width="230" height="64" rx="10"/>
+<text class="t" x="835" y="198">PostgreSQL</text>
+<rect class="box" x="720" y="242" width="230" height="64" rx="10"/>
+<text class="t" x="835" y="274">Redis cache</text>
+<rect class="box" x="720" y="330" width="230" height="64" rx="10"/>
+<text class="t" x="835" y="362">Prometheus · OTel</text>
+<text class="s" x="835" y="382">metrics · traces</text>
+<rect class="tint" x="250" y="440" width="230" height="72" rx="10"/>
+<text class="t" x="365" y="474">SMB · FTP · NFS · WebDAV</text>
+<text class="s" x="365" y="494">storage sources</text>
+<rect class="tint" x="520" y="440" width="230" height="72" rx="10"/>
+<text class="t" x="635" y="474">S3 · Google Cloud Storage</text>
+<text class="s" x="635" y="494">object storage</text>
+</svg>

@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:34:45.516Z",
+  "input": "file:///Volumes/T7/Projects/vasic/vasic.digital/products/mail-server-factory.html",
+  "name": "mail-server-factory",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/pages/vasic-digital/mail-server-factory/mail-server-factory.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/vasic-digital/mail-server-factory/mail-server-factory.light.ocr.txt",
+        "wordCount": 670,
+        "sample": "Vasic Digital Home Products TIER: SERVERFACTORY-TERTIARY ORDER 29 Mail Server Factory production"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 26,
+          "controls": 7,
+          "textChars": 3426
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/pages/vasic-digital/mail-server-factory/mail-server-factory.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/vasic-digital/mail-server-factory/mail-server-factory.dark.ocr.txt",
+        "wordCount": 671,
+        "sample": "Vasic Digital Home Products “6: TIER: SERVERFACTORY-TERTIARY ORDER 29 Mail Server Factory"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 26,
+          "controls": 7,
+          "textChars": 3426
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

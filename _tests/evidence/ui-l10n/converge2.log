@@ -1,0 +1,12 @@
+########## PASS 1 ##########
+[ru] 29 missing -> batch translate
+  !! [ru] engine failed for ru: RROR] Translation failed: LLM translation failed: OpenAI API error (status 429): {"error":{"code":"1302","message":"您的账户已达到速率限制，请您控制请求频率"}}
+[LLM_ERROR] Text length: 1305 bytes, Context: Ebook content
+
+[ru] 1/30 keys; still-missing=['nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[kk] 30 missing -> batch translate
+  !! [kk] engine failed for kk: jag/in.md output=/Volumes/T7/tmp/tmpz5_4pjag/out.md provider=zhipu duration=43.747707666s session_id=tx-1786009242235901000
+Session report generated: /Volumes/T7/tmp/tmpz5_4pjag/out_session_report.md
+
+[kk] 0/30 keys; still-missing=['skip', 'nav.home', 'nav.products', 'nav.portfolio', 'toggle', 'footer.suffix', 'pf.eyebrow', 'pf.title', 'pf.download', 'pf.stat.products', 'pf.stat.tiers', 'pf.stat.helix', 'pf.overview.eyebrow', 'pf.overview.title', 'pf.readmore', 'pf.lede', 'pf.summary', 'tier1.eyebrow', 'tier1.title', 'tier2.eyebrow', 'tier2.title', 'tier3.eyebrow', 'tier3.title', 'prod.tier', 'prod.order', 'prod.source', 'prod.license', 'prod.architecture', 'kw.vasic', 'kw.milos']
+[hi] 30 missing -> batch translate

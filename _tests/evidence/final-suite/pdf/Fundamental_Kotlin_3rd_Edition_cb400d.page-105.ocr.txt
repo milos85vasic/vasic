@@ -1,0 +1,32 @@
+0 -> printin("Registered user")
+1 -> print("Administrator")
+else ->{
+printin("Error recognizing user type")
+throw IllegalArgumentException(
+"Invalid user type: $userType"
+)
+}
+}
+}
+This function illustrates the use of “When” for validating user types in some
+imagined system. Something similar is demonstrated with our next example
+function (function):
+fun validateAccountType(accountType: Int) {
+when (accountType) {
+0, 1 -> printin("Welcome")
+else -> printin("Permission denied")
+}
+}
+To illustrate everyday use cases we will build on top of validating user types
+example:
+fun filterUserType(userType: Int): Int {
+if (userType in 0..1) {
+return userType
+}
+return -1
+}
+@Throws(IllegalArgumentException::class)
+fun validateUserTypeFiltered(userType: Int) {
+when (userType) {
+filterUserType(userType) -> {
+printin("Ok")

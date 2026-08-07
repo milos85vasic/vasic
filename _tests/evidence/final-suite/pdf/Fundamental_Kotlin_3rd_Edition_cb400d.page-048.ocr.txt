@@ -1,0 +1,42 @@
+MyYconstant = 2
+
+Based on this, in Kotlin “While” and “while” are not the same thing! First may be
+used as a name for the class, or constant, or for the name of the variable. Later
+one is reserved keyword by Kotlin programming language. It cannot be used
+for the naming of classes, constants, or variables.
+
+Whitespace
+
+Kotlin ignores whitespace. Spaces, tabs, newlines, and other whitespace are
+ignored except when it appears within quoted characters and string literals.
+Comments
+
+Comments are human-readable explanations in the source code. They are
+added to make the source code easier for developers to understand. Comments
+are ignored by the Kotlin compiler. In the case of Kotlin, there are four types of
+comments that programmers can write.
+
+Single line comments: begin with the characters “//" and continue until the end
+of the current line.
+// Single-line comment
+
+Multi-line comments: begin with the characters “/*” and continue, over any
+number of lines, until the characters “*/” define its ending. Any text between the
+opening and closing characters is ignored by the Kotlin compiler.
+/* Multi-line
+
+* comment */
+
+Source code documentation comments: begin with “/**", for documentation
+multi-line opening and finish with closing characters: “*/". This type of
+comment is regarded as a special documentation comment. When you write a
+Kotlin class or function that will be delivered to other developers, providing
+proper documentation comments is required so all information is there, such as
+the purpose of the class (or function), parameters, or return data information.
+[**
+
+* Documenting source code.
+
+*
+
+* @param file The file to upload.

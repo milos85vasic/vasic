@@ -1,0 +1,30 @@
+{
+  "target": {
+    "id": "vd-product-en-light",
+    "site": "vd",
+    "url": "http://localhost:8501/products/catalogizer.html",
+    "theme": "light",
+    "lang": "en",
+    "kind": "product",
+    "englishOnly": true
+  },
+  "applied": {
+    "lang": "en",
+    "dir": "ltr",
+    "theme": "light"
+  },
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "aria-valid-attr-value",
+      "impact": "critical",
+      "nodes": 1
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 19
+    }
+  ],
+  "passesCount": 37
+}

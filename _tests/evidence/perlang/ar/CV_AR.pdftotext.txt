@@ -1,0 +1,215 @@
+                                     CURRICULUM        VITAE
+
+
+
+
+                 Miloš Vasić
+             AI Engineer · Software Engineer
+
+
+    LLM infrastructure, autonomous agents, and the
+governance that makes them trustworthy. Fleets over
+        .monoliths; anti-bluff, evidence-gated quality
+
+
+
+
+        milosvasic.ru · vasic.digital · milos85vasic@gmail.com
+       GitHub: vasic-digital · HelixDevelopment · Server-Factory
+MILOŠ VASIĆ                                                                                               CURRICULUM VITAE
+
+
+
+
+                                           +6                     43                 +140                     2009
+                                 CORE LANGUAGES          LLM PROVIDERS            REPOSITORIES       ENGINEERING SINCE
+                                                                UNIFIED              GOVERNED
+
+
+
+
+              AI Engineer — LLM infrastructure, autonomous agents, and the governance that makes them
+                                                                                                              .trustworthy
+
+                                                                                  Email: milos85vasic@gmail.com •
+                                                                   Web: https://milosvasic.ru · https://vasic.digital •
+                                                        GitHub: vasic-digital · HelixDevelopment · Server-Factory •
+
+
+
+
+                                                                                                             Summary
+                   AI/software engineer who builds AI-development systems end to end — from multi-provider LLM
+   infrastructure and autonomous agents to the QA and governance layers that keep them honest. I don’t ship
+    -demos; I ship platforms. Over 15 years of professional engineering (since 2009) across mobile SDKs, real
+       time hardware integration, and distributed backends now converge on one focus: making autonomous AI
+                                                                                       .development trustworthy at scale
+
+            ,I architect fleets, not monoliths — large product applications standing on dozens of small, decoupled
+independently-tested modules, every one of them inheriting a shared engineering Constitution and verified by
+,an anti-bluff, evidence-gated QA discipline. Primary language Go, with Kotlin/KMP, TypeScript/React, Python
+     Swift, and Shell. Guiding principle, enforced mechanically rather than merely stated: a feature is done only
+                                                  .when a real user can use it and there is captured evidence to prove it
+
+            -the ability to take an AI capability from a research idea to a governed, self :What I bring to the table
+  ,verifying, production-shaped system — LLM routing that proves each model actually works before trusting it
+           agents that debate and reach consensus instead of guessing, memory and RAG layers that don’t lose
+      context, and a whole ecosystem wired so that “the tests are green” can never quietly mean “the feature is
+                                                                                                                   ”.broken
+
+
+                                                                                              Core competencies
+  multi-provider LLM abstraction (40+ providers), MCP tool integration, RAG, vector :AI / LLM systems •
+      databases & embeddings, agent orchestration (headless CLI agents, graph workflows, multi-round
+ /debate/consensus), planning (HiPlan/MCTS/Tree-of-Thoughts), LLMOps, benchmarking (SWE-bench
+           .HumanEval/MMLU), LLM verification, defensive-LLM guardrails, computer-vision + LLM-vision
+Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, distributed systems :Backend engineering •
+                                .high-throughput REST services and concurrent workers ,(incl. TLA+ formal specs)
+  PostgreSQL, SQLite, SQLCipher (encryption at rest), Redis, Neo4j, ClickHouse, object storage :Data •
+                                                                                           .(MinIO/S3/GCS/Azure)
+      ,TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular, Electron :Frontend / cross-platform •
+                        .React Native, Kotlin Multiplatform, Android/Android TV (Kotlin), iOS (Swift), Tauri/Rust
+
+
+milosvasic.ru · vasic.digital                                                                                             5/2
+MILOŠ VASIĆ                                                                                           CURRICULUM VITAE
+
+
+
+
+      ,Docker & Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry :Infra / DevOps •
+                                              .QEMU/Libvirt/Parallels; CI/CD via GitHub Actions, Gradle, Make
+anti-bluff evidence-gated QA (HelixQA), Challenge harnesses with mutation :QA / quality engineering •
+    visual-regression testing, ADB device testing, SonarQube, security scanning , go test -race ,gates
+                                                                     .(semgrep/gosec/trivy/snyk/gitleaks/nancy)
+                 ;Constitution-as-submodule; inheritance and propagation gates :Engineering governance •
+                                             .documentation/coverage discipline across a 140+-repository fleet
+
+
+                                                                                              Selected projects
+
+                                                                                                  Governance & QA
+    a universal engineering rulebook distributed as a Git submodule and inherited — HelixConstitution •
+              across 140+ repositories: engineering law shipped and version-pinned exactly like code. One
+       submodule bump upgrades the rules for the entire fleet, and propagation gates literally grep every
+  consuming repo for the required clause — each gate paired with a mutation meta-test that proves the
+              ,gate itself isn’t a sham. It turns “best practices people hope to follow” into inherited, auditable
+                                                                           .mechanically-enforced anti-bluff law
+       anti-bluff QA orchestration (Go) built on one uncompromising rule: the bar is not “tests — HelixQA •
+ -fully-autonomous LLM-and and pass” but “users can use the feature.” It runs written YAML test banks
+    vision QA sessions that open the real app, verify every documented feature, hunt for undocumented
+  bugs across Android/Android TV/Web/Desktop, and refuse to score a PASS without captured runtime
+                                .evidence — screenshots, logcat, video, stack traces — plus AI-fix-ready tickets
+
+                                                                          AI development & LLM infrastructure
+production-grade ensemble LLM service (Go/Gin) that refuses to trust a single model: it — HelixAgent •
+       → fans a prompt across many providers, runs structured multi-round debate (Proposal → Critique
+        Review → Synthesis), and routes by live verification scores with graceful fallback — all behind an
+ ,Go, Gin, PostgreSQL, Redis .OpenAI-compatible API with HA data layer, observability, and guardrails
+                                          .Prometheus/Grafana/OpenTelemetry, MCP, Neo4j/ClickHouse/Kafka
+distributed AI development platform that divides work into intelligent, dependency-aware — HelixCode •
+      tasks across an SSH-managed worker fleet, then checkpoints and rolls back so nothing is ever lost
+     when a task is interrupted; hardware-aware model selection and full plan/build/test/refactor lifecycle
+                     .Go, Gin, PostgreSQL, Redis, SSH, MCP, llama.cpp/Ollama .behind REST/CLI/TUI/MCP
+      one binary, six deployment modes: OpenAI- and Anthropic-compatible inference over — HelixLLM •
+   /HTTP/3 that scales from a laptop to a multi-host cluster, with local llama.cpp inference (CUDA/Metal
+      ROCm) and an auto-discovering, verification-scored cloud fallback chain that always degrades to a
+                                     .Go, HTTP/3 QUIC, gRPC/SSE/Kafka, llama.cpp .guaranteed local model
+   the LLM-infrastructure spine: one interface over — LLMProvider / LLMOrchestrator / LLMsVerifier •
+-providers with circuit breakers, health monitoring, jittered-backoff retries and honest (no-hardcoded 43
+      fallback) model discovery; a thread-safe control plane that spawns and drives headless CLI agents
+             over a hybrid pipe+file protocol; and a (OpenCode, Claude Code, Gemini, Junie, Qwen Code)
+  verification source of truth whose mandatory “Do you see my code?” gate means only models proven
+                                                          .to actually work are ever marked usable or exported
+
+
+
+milosvasic.ru · vasic.digital                                                                                        5/3
+MILOŠ VASIĆ                                                                                        CURRICULUM VITAE
+
+
+
+
+              a unified cognitive-memory engine fusing four best-in-class — HelixMemory / HelixSpecifier •
+ backends (Mem0, Cognee, Letta, Graphiti) behind one interface with parallel search and cross-source
+   re-ranking; and a spec-driven-development fusion engine that scales its own ceremony to the size of
+                                                  .the work and backs specifications with multi-agent debate
+             a free-world JIRA + Confluence alternative (flagship of the Helix-Track line): Go — HelixTrack •
+  microservices with a unified action-routed API over HTTP/3, SQLCipher encryption at rest, and native
+                                                                          .Web/Desktop/Android/iOS clients
+
+                                                                    Product-grade tools (vasic-digital utils)
+          + multi-protocol, encrypted, self-hostable media collection management (Go/Gin — Catalogizer •
+                                 .React), resilient to flaky network storage, built on 21 reusable submodules
+ .markdown-to-video AI course pipeline with TTS and desktop/mobile/web players — Courses-Creator •
+     .computer-vision + multi-provider LLM-vision UI perception with navigation graphs — VisionEngine •
+  QA — Vasic Digital Reusable Module Suite · task_bridge · Herald · Docs Chain · DocProcessor •
+    feature-mapping, content-hashed doc/DB sync, natural-language notifications, task/board sync, and
+                                                                .standard-library fleet *.digital.vasic the
+
+                                                                Infrastructure automation (Server Factory)
+       declarative JSON → fully-provisioned, Dockerized mail servers across 12 — Mail Server Factory •
+    .connection types and 25 Linux distributions; reports 439 passing tests and a clean SonarQube gate
+the shared provisioning engine and — Parallels-Utils ,Qemu-Utils ,Server Factory Core Framework •
+                                                                                           .VM-image tooling
+
+
+                                                                        Languages & tools (quick list)
+   · Go · Kotlin · Kotlin Multiplatform · TypeScript · JavaScript · Python · Swift · Java · Rust · Shell · PL/pgSQL
+· TLA+ · Gin · gRPC · HTTP/3 · React · Angular · Electron · React Native · PostgreSQL · SQLite · SQLCipher
+           · Redis · Neo4j · ClickHouse · Docker · Kubernetes · Prometheus · Grafana · OpenTelemetry · QEMU
+                                                                                    GitHub Actions · Gradle · Make
+
+
+                                                                                                    Experience
+ ,Software engineer since 2009, across the full development lifecycle — planning, development, team leading
+                 .and deployment. Full history below is sourced from the candidate’s verified record (milosvasic.ru)
+
+                                                                                             Full-time positions
+   Belgrade, Serbia · 03/2020 – 12/2024. Lead developer on ,(harness.io) SDK Developer — Harness •
+ the family of SDKs for the company’s Feature Flag division, focused on all major mobile platforms and
+         ,Tech: Android, iOS .beyond. Customers and partners included AWS, Google, and various banks
+                                 .Flutter, React Native, TypeScript, JavaScript, Java, Kotlin, Swift, Go, Ruby
+Heerbrugg, Switzerland · 02/2016 ,(leica-geosystems.com) Software Engineer — Leica Geosystems •
+ — Primarily iOS and Android engineering for Leica Geosystems’ cutting-edge 3D scanners .02/2020 –
+
+
+
+
+milosvasic.ru · vasic.digital                                                                                    5/4
+MILOŠ VASIĆ                                                                                        CURRICULUM VITAE
+
+
+
+
+  .real-time communication with the hardware, data processing, and synchronization. Partner: Autodesk
+                                                                .++Tech: Android, iOS, Java, Kotlin, Swift, C
+ Belgrade, Serbia · 01/2010 – 01/2016. Lead SDK developer for ,(bosch.rs) SDK Developer — Bosch •
+   -the Connected Vehicles SDK project — real-time Bluetooth communication with the OBD2 bus, high
+                                  .Tech: Android, Java, Kotlin .performance data processing and persistence
+
+                                                                                            Other engagements
+   Novi Sad, Serbia · part-time, from 03/2017. Work for Globex Data (Canada ,(tn-tech.co.rs) TN-TECH •
+      .and Switzerland) — Sekur (SekurMessenger), SekurMail, SekurSuite — and the BusRide platform
+                                                                        .Tech: Android, Java, Kotlin, C++, Qt
+               Belgrade, Serbia · part-time, from 09/2023. The Yuno ,(incrementloop.com) Increment Loop •
+                                                                           .Tech: Android, Kotlin .application
+,HelixTrack, Server Factory (Mail Server Factory, Parallels-Utils — Open-source / own organizations •
+        Qemu-Utils), and Vasic Digital (Android-Toolkit, Network-Binder), detailed under Selected projects
+                                                                                                      .above
+
+
+                                                                                                  Publications
+     self-published author; latest revised edition September 2022 (Fundamental — Fundamental Kotlin •
+                                                .Kotlin, 3rd Edition). Also authored for Packt Publishing (UK)
+
+
+                                                                                                     Education
+ .University Singidunum, Belgrade, Serbia · 2014 — M.Sc, Contemporary Information Technologies •
+                      .University Singidunum, Belgrade, Serbia · 2008 — B.Sc, Informatics and Computing •
+
+
+
+
+milosvasic.ru · vasic.digital                                                                                    5/5
+

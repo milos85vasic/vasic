@@ -1,0 +1,30 @@
+printin("Planet: $planetBlah")
+} catch (e: IllegalArgumentException) {
+
+printin(e.message)
+}
+// values() func. returns array containing all enum items:
+printin("Planets count: ${PLANETS.values().size}")
+As you can see “valueOf” function returns the “enum” constant by the name. If
+there is no such constant defined, “IllegalArgumentException” is thrown. Lastly,
+if we ever need an array that contains all of the “enum” constants, we can use
+the “values” function.
+If we run our code example the following output will be produced:
+Value of: PLUTO
+No enum constant net.milosvasic.fundamental.kotlin.object_oriented.PLANETS.BLAH
+Planets count: 3
+Sealed classes
+For representing restricted class hierarchies sealed classes are used. Sealed
+class value can have one of the types defined within a limited set. The set of
+values for an enum type is also restricted, but each enum constant exists only
+as a single instance, whereas a subclass of a sealed class can have multiple
+instances which can contain a state.
+A sealed class can have subclasses. All of them must be nested inside the
+declaration of the sealed class.
+Note that classes that extend subclasses of a sealed class (indirect inheritors)
+can be placed anywhere, not necessarily inside the declaration of the sealed
+class.
+One of the most frequent use cases for the sealed classes is using them in the
+“when” expression. The “else” clause is not needed if it's possible to verify that
+the statement covers all cases.
+From book code examples open “Sealed.kt”:

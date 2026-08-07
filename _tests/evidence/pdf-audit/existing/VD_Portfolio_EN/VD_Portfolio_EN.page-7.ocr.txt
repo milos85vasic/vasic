@@ -1,0 +1,16 @@
+VASIC DIGITAL PORTFOLIO
+HelixCluster — seven-layer stack
+14 control-plane
+microservices L7 - Federation & Observability
+L6 - Security & Attestation (SPIFFE, PQ-E2EE)
+L5 - Sessions & Interactive Terminal
+L4- Al Inference Routing
+L3 - Omega Scheduler (two-level)
+L2- Consensus & Membership (Raft + SWIM)
+L1 - Node Runtime & Transport (gRPC, WireGuard)
+heterogeneous LO - Hardware Substrate (GPU > edge SBC)
+nodes T1-T8
+Node tiers T1 (datacenter GPU) ~> T8 (handheld), unified under one control plane
+HelixCluster — a distributed operating system for Al compute, from datacenter GPUs to edge handhelds, under one control
+plane.
+milosvasic.ru - vasic.digital 1/8

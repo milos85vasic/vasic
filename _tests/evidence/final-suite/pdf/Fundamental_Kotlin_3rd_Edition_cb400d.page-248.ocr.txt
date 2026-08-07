@@ -1,0 +1,32 @@
+another object member called “square”. As you can see “square” implements
+the same interface as “circle”.
+Let's play with this:
+val o = Objects()
+with(o) {
+
+circle.draw()
+
+square.draw()
+}
+Executing the example will produce the following output:
+Circle
+Square
+Note:
+In this example, we have used the “width” inline function which calls the
+specified function block with the given receiver as its receiver and returns its
+result. We will present more examples of “with” in upcoming sections of the
+book.
+Extension function literals
+As you probably remember, In Kotlin there are two commonly used types of
+function literals:
+- Lambdas
+- Anonymous functions.
+Then you can assume that we can create extensions for the function literals.
+This is true. We will illustrate this with a simple example same way as we did
+with other extension types. From book code examples open
+“ExtendingFunctionLiterals.kt”:
+class Printer() {
+
+fun print(what: String) {
+
+printin(what)

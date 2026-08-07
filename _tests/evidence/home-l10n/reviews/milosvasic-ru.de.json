@@ -1,0 +1,16 @@
+{
+  "site": "milosvasic-ru",
+  "lang": "de",
+  "name": "German",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "PASS",
+  "strings_total": 60,
+  "reviewer_bad_keys": [],
+  "script_flagged": [],
+  "english_leftover_flagged": [],
+  "retried": [],
+  "still_bad_after_retry": [],
+  "notes": "All translations are accurate, natural, complete, use correct German script, and preserve required brand/technology terms."
+}

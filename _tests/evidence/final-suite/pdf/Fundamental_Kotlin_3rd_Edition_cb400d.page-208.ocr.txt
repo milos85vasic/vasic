@@ -1,0 +1,41 @@
+Strong references
+
+Strong references are the default type of reference object. An object that has
+active strong reference can't be garbage collected by a JVM garbage collector.
+This can happen in situation when the variable that is strongly referenced
+points to null. Let’s have a look at the example. From book code example open
+“Strong.kt”:
+
+data class Wrapper(val what: Any)
+
+val number = 1
+
+val wrapper = Wrapper(100)
+
+var number2: Int? = null
+
+var wrapper2: Wrapper? = null
+
+“number”, “number2”, “wrapper” and “wrapper2” are all strong references.
+However, “number2” and “wrapper2” have null values.
+
+Working with strong references can sometimes lead to memory leaks. A
+memory leak is a situation when there are objects present in the heap that are
+no longer used, but the garbage collector is unable to remove them from
+memory. Because of this, they are unnecessarily maintained.
+
+A memory leaks block and consumes memory resources. This degrades system
+performance over time and can lead to slack performance or crash of the
+application (program). If it is not dealt with, the application will at some point
+exhaust all resources. Finally, the program will terminate with a_ fatal
+“OutOfMemoryError”.
+
+Types of objects that reside in heap memory are:
+
+- Referenced objects, who have still active references within the program
+
+- Unreferenced objects, who don't have any active references.
+
+The garbage collector removes unreferenced objects periodically.
+Unfortunately, the garbage collector never collects the objects that are still
+being referenced.

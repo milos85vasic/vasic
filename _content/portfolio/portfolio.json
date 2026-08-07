@@ -1,0 +1,886 @@
+{
+  "schema": "portfolio/1",
+  "generatedAt": "2026-08-05",
+  "unified": true,
+  "shared_by": [
+    "vasic.digital",
+    "milosvasic.ru"
+  ],
+  "tiers": [
+    "helix-primary",
+    "vasic-util-secondary",
+    "serverfactory-tertiary"
+  ],
+  "excluded": [
+    "grabtube",
+    "shareconnect",
+    "panoptic",
+    "android-toolkit",
+    "asinka",
+    "yole"
+  ],
+  "count": 33,
+  "entries": [
+    {
+      "name": "HelixTrack",
+      "slug": "helixtrack",
+      "tier": "helix-primary",
+      "order": 1,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "HTTP/3 QUIC",
+        "PostgreSQL",
+        "SQLite",
+        "SQLCipher",
+        "Redis",
+        "Angular 19",
+        "Tauri 2.0",
+        "Kotlin",
+        "Swift",
+        "Docker"
+      ],
+      "repos": [
+        "https://github.com/Helix-Track/Core",
+        "https://github.com/Helix-Track/Website"
+      ],
+      "summary": "HelixTrack is a comprehensive, modern, open-source alternative to JIRA (and, via its Documents extension, Confluence) — a multi-platform project-management and issue-tracking system built on a Go microservices backend with native clients for web, desktop, and mobile.",
+      "tagline": "JIRA alternative for the free world.",
+      "source": "_content/products/HelixTrack.md"
+    },
+    {
+      "name": "HelixCode",
+      "slug": "helixcode",
+      "tier": "helix-primary",
+      "order": 2,
+      "status": "beta",
+      "license": "MIT",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "PostgreSQL",
+        "Redis",
+        "SSH",
+        "Model Context Protocol",
+        "llama.cpp",
+        "Ollama"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixCode"
+      ],
+      "summary": "HelixCode is an enterprise-grade, Go-based distributed AI development platform that splits development work into intelligently-divided tasks across a network of SSH-managed workers, with automatic checkpointing and rollback so no work is ever lost. It unifies multi-provider LLM integration, full development-lifecycle workflows, and cross-platform delivery behind REST, CLI, TUI, and MCP interfaces.",
+      "tagline": "The distributed AI development platform that divides work, preserves it, and never loses your place.",
+      "source": "_content/products/HelixCode.md"
+    },
+    {
+      "name": "HelixAgent",
+      "slug": "helixagent",
+      "tier": "helix-primary",
+      "order": 3,
+      "status": "beta",
+      "license": "MIT",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "PostgreSQL",
+        "Redis",
+        "LLMsVerifier",
+        "Prometheus",
+        "Grafana",
+        "OpenTelemetry",
+        "Model Context Protocol",
+        "Neo4j",
+        "ClickHouse",
+        "Kafka"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixAgent"
+      ],
+      "summary": "HelixAgent is a production-ready, AI-powered ensemble LLM service in Go that intelligently combines responses from many language models — including a multi-round AI debate system and dynamic verification-based provider selection — to produce the most accurate and reliable output.",
+      "tagline": "Don't pick one model — let them debate, and ship the answer they agree on.",
+      "source": "_content/products/HelixAgent.md"
+    },
+    {
+      "name": "HelixLLM",
+      "slug": "helixllm",
+      "tier": "helix-primary",
+      "order": 4,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "HTTP/3 QUIC",
+        "TLS 1.3",
+        "llama.cpp",
+        "LLMsVerifier",
+        "gRPC",
+        "SSE",
+        "Kafka",
+        "Prometheus",
+        "OpenTelemetry"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixLLM"
+      ],
+      "summary": "HelixLLM is an enterprise-grade distributed LLM system in Go: a single binary with a mode system that scales from single-host development to multi-host production. It serves fully OpenAI- and Anthropic-compatible APIs over HTTP/3, with local llama.cpp inference, a scored multi-provider fallback chain, a RAG pipeline, and a ReAct agent system.",
+      "tagline": "One binary, six modes — OpenAI- and Anthropic-compatible inference from your laptop to a multi-host cluster.",
+      "source": "_content/products/HelixLLM.md"
+    },
+    {
+      "name": "HelixSkills",
+      "slug": "helixskills",
+      "tier": "helix-primary",
+      "order": 5,
+      "status": "beta",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Shell",
+        "Git submodules",
+        "Model Context Protocol",
+        "Claude Code plugins",
+        "Reusable engines (continuum, token_optimizer)"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/skills",
+        "https://github.com/HelixDevelopment/HelixConstitution"
+      ],
+      "summary": "HelixSkills is a skills system for CLI AI agents that inherits the Helix Constitution as a submodule, so every universal governance rule applies unconditionally. It packages installable agent skills, MCP tool servers, Claude Code plugins, and reusable engines behind a registerable, documented catalog.",
+      "tagline": "A governed, constitution-backed skills system for CLI AI agents.",
+      "source": "_content/products/HelixSkills.md"
+    },
+    {
+      "name": "HelixMemory",
+      "slug": "helixmemory",
+      "tier": "helix-primary",
+      "order": 6,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "Mem0",
+        "Cognee",
+        "Letta",
+        "Graphiti",
+        "PostgreSQL",
+        "Neo4j",
+        "Redis",
+        "Prometheus"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/memory"
+      ],
+      "summary": "HelixMemory is a Go SDK that unifies four leading memory systems (Mem0, Cognee, Letta, Graphiti) into a single cognitive memory engine that searches them in parallel and fuses the results. It gives AI applications one durable, deduplicated, re-ranked memory layer instead of four disconnected ones.",
+      "tagline": "One memory brain for AI agents — four best-in-class engines, fused.",
+      "source": "_content/products/HelixMemory.md"
+    },
+    {
+      "name": "HelixSpecifier",
+      "slug": "helixspecifier",
+      "tier": "helix-primary",
+      "order": 7,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "logrus",
+        "SpecKit pillar",
+        "Superpowers pillar",
+        "GSD pillar",
+        "Spec memory store"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/specifier"
+      ],
+      "summary": "HelixSpecifier is a Go engine that fuses three development methodologies — SpecKit's spec-driven workflow, Superpowers' TDD discipline, and GSD's milestone lifecycle — into one adaptive flow. It classifies each task by effort and scales the amount of process up or down accordingly.",
+      "tagline": "Spec-driven development that scales its own ceremony to the work.",
+      "source": "_content/products/HelixSpecifier.md"
+    },
+    {
+      "name": "HelixTerminator",
+      "slug": "helixterminator",
+      "tier": "helix-primary",
+      "order": 8,
+      "status": "beta",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Go microservices",
+        "Flutter / Dart (BLoC)",
+        "PostgreSQL",
+        "Kafka",
+        "RabbitMQ",
+        "Redis",
+        "SPIFFE/SPIRE + mTLS",
+        "Ed25519",
+        "Kubernetes + Helm + Terraform",
+        "OpenTelemetry",
+        "Grafana",
+        "Jaeger",
+        "Loki"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/terminator"
+      ],
+      "summary": "HelixTerminator is an enterprise terminal and SSH session-management platform built as a Go microservices system with cross-platform Flutter clients. It brokers, records, and secures remote sessions under a zero-trust model, adds real-time collaboration, and layers AI assistance over the terminal.",
+      "tagline": "The zero-trust terminal platform for teams — every SSH session, secured, shared, and AI-assisted.",
+      "source": "_content/products/HelixTerminator.md"
+    },
+    {
+      "name": "HelixOTA",
+      "slug": "helixota",
+      "tier": "helix-primary",
+      "order": 9,
+      "status": "in-development",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "Kotlin / KMP",
+        "HTTP/3 QUIC",
+        "PostgreSQL",
+        "MinIO / S3",
+        "AOSP update_engine + AVB/dm-verity",
+        "React",
+        "OpenTelemetry",
+        "Prometheus / Grafana"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/helix_ota"
+      ],
+      "summary": "Helix OTA is a universal, deeply decoupled over-the-air update system: a Go control plane plus per-OS client agents, designed to deliver safe, staged firmware/app updates to fleets ranging from a single board to millions of devices. Its first target is Android 15 on the Orange Pi 5 Max.",
+      "tagline": "Universal, decoupled over-the-air updates — zero-brick by design.",
+      "source": "_content/products/HelixOTA.md"
+    },
+    {
+      "name": "HelixTranslate",
+      "slug": "helixtranslate",
+      "tier": "helix-primary",
+      "order": 10,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "QUIC / HTTP/3 (quic-go)",
+        "gRPC + Protocol Buffers",
+        "Gorilla WebSocket",
+        "PostgreSQL",
+        "SQLite",
+        "Redis",
+        "unidoc/unioffice + unipdf",
+        "Cobra",
+        "LLMsVerifier bridge",
+        "Docker / Podman"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixTranslate",
+        "https://github.com/HelixDevelopment/HelixConstitution"
+      ],
+      "summary": "HelixTranslate is a high-performance, Go-based ebook translation platform that translates books between 100+ languages using verified LLM providers, with real-time WebSocket monitoring and a strict no-silent-fallback routing policy that fails loudly rather than degrade quietly.",
+      "tagline": "Verified-model book translation — honest by design, never a silent fallback.",
+      "source": "_content/products/HelixTranslate.md"
+    },
+    {
+      "name": "LLMsVerifier",
+      "slug": "llmsverifier",
+      "tier": "helix-primary",
+      "order": 11,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "SQLite + SQLCipher",
+        "Redis",
+        "RabbitMQ + Kafka",
+        "gRPC + Protocol Buffers",
+        "QUIC / HTTP-3 (quic-go)",
+        "JWT + LDAP/NTLM",
+        "Angular",
+        "Python + JavaScript SDKs",
+        "Docker / Kubernetes / Helm",
+        "Prometheus + Grafana"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital/LLMsVerifier"
+      ],
+      "summary": "LLMsVerifier is an enterprise-grade platform for verifying, monitoring, and optimizing Large Language Models across many providers, built on a mandatory \"Do you see my code?\" verification test so that only models proven to actually work are ever marked usable or exported.",
+      "tagline": "Verify. Monitor. Optimize.",
+      "source": "_content/products/LLMsVerifier.md"
+    },
+    {
+      "name": "LLMOrchestrator",
+      "slug": "llmorchestrator",
+      "tier": "helix-primary",
+      "order": 12,
+      "status": "beta",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Go (1.25)",
+        "Go stdlib (+ testify, yaml.v3)",
+        "Pipe transport (JSON-lines over stdio)",
+        "File transport (inbox/outbox/shared)",
+        "sync.Mutex / sync.Cond",
+        "Circuit breaker + HealthMonitor",
+        "pkg/i18n Translator",
+        "Challenge harness"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/LLMOrchestrator",
+        "https://github.com/HelixDevelopment/HelixConstitution"
+      ],
+      "summary": "LLMOrchestrator is a standalone, reusable Go module for spawning, managing, and communicating with headless CLI agents (OpenCode, Claude Code, Gemini, Junie, Qwen Code) over a hybrid pipe+file protocol, with per-agent circuit breakers, pluggable multi-provider selection, a decoupled i18n abstraction, and anti-bluff test guarantees.",
+      "tagline": "One control plane for every headless CLI coding agent.",
+      "source": "_content/products/LLMOrchestrator.md"
+    },
+    {
+      "name": "LLMProvider",
+      "slug": "llmprovider",
+      "tier": "helix-primary",
+      "order": 13,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go (1.25.3)",
+        "net/http (stdlib)",
+        "logrus",
+        "testify",
+        "yaml.v3",
+        "digital.vasic.models",
+        "circuit / health / retry / apikeys / discovery packages",
+        "43 provider adapters + generic OpenAI-compatible adapter"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/LLMProvider",
+        "https://github.com/HelixDevelopment/HelixConstitution"
+      ],
+      "summary": "LLMProvider is a generic, reusable Go module that defines a unified `LLMProvider` interface plus the production resilience patterns around it — circuit breaker, health monitoring, retry with backoff, lazy loading — and ships 43 concrete provider implementations behind that one contract, with an OpenAI-compatible generic adapter and honest, no-hardcoded-fallback model discovery.",
+      "tagline": "One interface, 43 providers — with circuit breakers, retries, and health baked in.",
+      "source": "_content/products/LLMProvider.md"
+    },
+    {
+      "name": "HelixCluster",
+      "slug": "helixcluster",
+      "tier": "helix-primary",
+      "order": 14,
+      "status": "in-development",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go (1.25 / toolchain 1.26.4)",
+        "Zig + C/C++",
+        "gRPC + Protocol Buffers",
+        "Raft (etcd-raft) + SWIM gossip",
+        "PostgreSQL 16 / Redis 7 / etcd v3.5 / SQLite",
+        "NATS / Kafka / RabbitMQ",
+        "WireGuard + ML-KEM-768/X25519 + AEAD",
+        "SPIFFE + JWT + OPA",
+        "Prometheus / Grafana / Jaeger",
+        "HashiCorp Vault",
+        "Kubernetes + Helm",
+        "React + TypeScript + Vite",
+        "TLA+"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/helix_cluster",
+        "https://github.com/HelixDevelopment/HelixConstitution"
+      ],
+      "summary": "Helix Cluster OS is a next-generation distributed operating system that orchestrates compute across heterogeneous nodes — from datacenter GPUs down to edge SBCs and handhelds — unifying HPC scheduling, container orchestration, AI/ML inference, federated multi-cluster operation, and secure multi-tenant sessions under a single control plane.",
+      "tagline": "A distributed operating system for AI compute — from datacenter GPUs to edge handhelds, under one control plane.",
+      "source": "_content/products/HelixCluster.md"
+    },
+    {
+      "name": "Helix-Flow",
+      "slug": "helix-flow",
+      "tier": "helix-primary",
+      "order": 15,
+      "status": "roadmap",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go",
+        "Python",
+        "Shell",
+        "PostgreSQL / PL/pgSQL",
+        "Terraform / HCL",
+        "HTML / CSS / JavaScript"
+      ],
+      "repos": [
+        "https://github.com/Helix-Flow/Platform"
+      ],
+      "summary": "Helix-Flow Platform is positioned as a unified AI-inference platform for running AI models at scale with predictable costs. *(Positioning is sourced from the tagline; concrete capabilities are not documented in any available source.)*",
+      "tagline": "One platform for all your AI inference needs — run powerful AI models faster, smarter, at any scale, with predictable costs.",
+      "source": "_content/products/Helix-Flow.md"
+    },
+    {
+      "name": "HelixBuilder",
+      "slug": "helixbuilder",
+      "tier": "helix-primary",
+      "order": 16,
+      "status": "beta",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Shell",
+        "Category toolchains (General / Coder / Tester / Translation / Generative)"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixBuilder"
+      ],
+      "summary": "HelixBuilder is an AI-powered application-building pipeline installed and driven from the shell. It provisions category-specific toolchains — from coding and testing to generative media (animation, audio, images) — via a single install script.",
+      "tagline": "An AI-powered pipeline for building applications, one category at a time.",
+      "source": "_content/products/HelixBuilder.md"
+    },
+    {
+      "name": "HelixGitpx",
+      "slug": "helixgitpx",
+      "tier": "helix-primary",
+      "order": 17,
+      "status": "shipped",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go monorepo",
+        "Angular 19 + Nx",
+        "Kotlin Multiplatform + Compose",
+        "Kubernetes + Helm + Argo CD + Kustomize",
+        "OPA (Rego)",
+        "Docusaurus",
+        "Astro",
+        "mise"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixGitpx"
+      ],
+      "summary": "HelixGitpx (Helix Git Proxy eXtended) is a federated Git proxy that keeps a single source of truth mirrored across many upstream Git hosts and resolves the inevitable conflicts with policy- and AI-assisted flows. It reached v1.0.0 GA.",
+      "tagline": "One source of truth, mirrored everywhere — federated Git across a dozen hosts.",
+      "source": "_content/products/HelixGitpx.md"
+    },
+    {
+      "name": "HelixPlay",
+      "slug": "helixplay",
+      "tier": "helix-primary",
+      "order": 18,
+      "status": "beta",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Go (1.26 root / 1.25+ submodules)",
+        "Wails v2",
+        "Flutter 3.29+",
+        "Angular 17+ (Go → WASM)",
+        "WebRTC / Pion v4",
+        "QUIC / quic-go",
+        "Custom UDP",
+        "Hardware encoders (NVENC / QSV / AMF / VideoToolbox)",
+        "Platform capture (DXGI / ScreenCaptureKit / PipeWire)",
+        "Docker / Podman",
+        "mDNS / rendezvous"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixPlay"
+      ],
+      "summary": "HelixPlay is a self-hostable cloud-gaming platform that turns any GPU-equipped machine into a remote streaming host, delivering console-class gameplay to desktop, mobile, TV, and browser clients. It is built as a Go-centric monorepo of 46 submodules with a triple-stack client and is white-labellable for partners.",
+      "tagline": "Turn any GPU machine into your own cloud-gaming appliance.",
+      "source": "_content/products/HelixPlay.md"
+    },
+    {
+      "name": "HelixConstitution",
+      "slug": "helixconstitution",
+      "tier": "helix-primary",
+      "order": 19,
+      "status": "shipped",
+      "license": "TBD",
+      "private": false,
+      "tech": [
+        "Git-submodule inheritance",
+        "find_constitution.sh (parent-walk + superproject recursion)",
+        "install_upstreams.sh (multi-provider push)",
+        "§1.1 mutation meta-tests",
+        "Propagation gates (CM-COVENANT-114-NNN-PROPAGATION)",
+        "submodules-catalogue.md",
+        "Multi-format export (md/html/pdf/docx)"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/HelixConstitution",
+        "https://github.com/vasic-digital/HelixConstitution"
+      ],
+      "summary": "HelixConstitution is the single, project-agnostic rulebook — added as a Git submodule by every Helix/vasic-digital project — that encodes non-negotiable engineering discipline (anti-bluff, evidence-only validation, data/host safety, documentation and test coverage) and propagates it to a fleet of 140+ repositories. It is the governance backbone that makes the whole family coherent.",
+      "tagline": "The universal engineering constitution every project inherits — anti-bluff law, enforced mechanically, shared as one Git submodule.",
+      "source": "_content/products/HelixConstitution.md"
+    },
+    {
+      "name": "HelixQA",
+      "slug": "helixqa",
+      "tier": "helix-primary",
+      "order": 20,
+      "status": "beta",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Go 1.24+",
+        "YAML test banks (pkg/testbank)",
+        "Crash/ANR detectors (ADB, pgrep)",
+        "Evidence collection (screenshots/logcat/video/stack traces)",
+        "Autonomous session (LLM + computer vision)",
+        "LLMsVerifier",
+        "LLMOrchestrator",
+        "VisionEngine (GoCV + LLM Vision)",
+        "DocProcessor",
+        "Anti-bluff gates + mutation ratchet"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/helixqa",
+        "https://github.com/vasic-digital/HelixQA"
+      ],
+      "summary": "HelixQA is an anti-bluff QA orchestration framework for cross-platform testing (Android, Android TV, Web, Desktop) that combines YAML test banks, real-time crash detection, step-by-step evidence capture, and LLM-plus-computer-vision autonomous QA sessions to prove features genuinely work end-to-end. It is the Constitution's mandated QA test-type (§11.4.169).",
+      "tagline": "Anti-bluff QA orchestration — autonomous, cross-platform sessions where every PASS carries captured evidence that a real user can use the feature.",
+      "source": "_content/products/HelixQA.md"
+    },
+    {
+      "name": "Catalogizer",
+      "slug": "catalogizer",
+      "tier": "vasic-util-secondary",
+      "order": 21,
+      "status": "production",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Go",
+        "Gin",
+        "TypeScript",
+        "React",
+        "Tailwind",
+        "WebSockets",
+        "SQLCipher",
+        "PostgreSQL",
+        "Redis",
+        "SMB/FTP/NFS/WebDAV",
+        "Prometheus",
+        "OpenTelemetry",
+        "Docker",
+        "Tauri/Rust",
+        "S3",
+        "Google Cloud Storage"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital/Catalogizer",
+        "https://github.com/vasic-digital/Media-Types-TS",
+        "https://github.com/vasic-digital/Catalogizer-API-Client-TS",
+        "https://github.com/vasic-digital/Media-Player-React",
+        "https://github.com/vasic-digital/Media-Browser-React",
+        "https://github.com/vasic-digital/Collection-Manager-React",
+        "https://github.com/vasic-digital/Dashboard-Analytics-React",
+        "https://github.com/vasic-digital/Auth-Context-React"
+      ],
+      "summary": "Catalogizer is a self-hostable media collection management system that automatically detects, categorizes, and organizes media across SMB, FTP, NFS, WebDAV, and local filesystems, with real-time monitoring, encrypted storage, external metadata enrichment, and a modern React UI backed by a high-performance Go API.",
+      "tagline": "Advanced multi-protocol media collection management — detect, catalog, and enrich everything you own.",
+      "source": "_content/products/Catalogizer.md"
+    },
+    {
+      "name": "Courses-Creator",
+      "slug": "courses-creator",
+      "tier": "vasic-util-secondary",
+      "order": 22,
+      "status": "production",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Go",
+        "TypeScript",
+        "React",
+        "Electron",
+        "React Native",
+        "PostgreSQL",
+        "Python",
+        "LLM providers (OpenAI, Anthropic, Ollama)",
+        "TTS (Bark, SpeechT5)",
+        "MCP",
+        "Docker Compose",
+        "nginx",
+        "Prometheus",
+        "Grafana"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital/Courses-Creator"
+      ],
+      "summary": "Courses-Creator is a toolkit that converts markdown scripts into professional video courses with AI-powered enhancements: multi-LLM content enrichment (OpenAI/Anthropic/Ollama), high-quality TTS and background music, and desktop, mobile, and web players — all Docker-deployed with Prometheus/Grafana monitoring.",
+      "tagline": "Markdown in, professional video course out — AI-enhanced, multi-platform.",
+      "source": "_content/products/Courses-Creator.md"
+    },
+    {
+      "name": "VisionEngine",
+      "slug": "visionengine",
+      "tier": "vasic-util-secondary",
+      "order": 23,
+      "status": "active",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Go (1.25+)",
+        "GoCV / OpenCV (build-tag-gated)",
+        "LLM vision providers (GPT-4o, Claude, Gemini, Qwen-VL, Kimi, StepGUI, Astica, Ollama)",
+        "Graph algorithms (BFS)",
+        "DOT / JSON / Mermaid exporters",
+        "i18n Translator seam"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/VisionEngine",
+        "https://github.com/vasic-digital/VisionEngine"
+      ],
+      "summary": "VisionEngine is a decoupled Go toolkit that combines classic computer vision with LLM-based vision to analyze user interfaces, detect UI elements and visual issues, and build navigation graphs of app screen transitions — with pluggable multi-provider vision backends and OpenCV gated behind a build tag.",
+      "tagline": "See the UI like a user — computer vision plus LLM vision for analysis and navigation.",
+      "source": "_content/products/VisionEngine.md"
+    },
+    {
+      "name": "DocProcessor",
+      "slug": "docprocessor",
+      "tier": "vasic-util-secondary",
+      "order": 24,
+      "status": "active",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": [
+        "Go (1.25+)",
+        "LLM agents (optional extraction)",
+        "Heuristic parser (offline fallback)",
+        "i18n Translator (pkg/i18n)",
+        "Challenge harness"
+      ],
+      "repos": [
+        "https://github.com/HelixDevelopment/DocProcessor",
+        "https://github.com/vasic-digital/DocProcessor"
+      ],
+      "summary": "DocProcessor is a standalone, fully decoupled Go module that loads project documentation, builds structured feature maps, and tracks verification coverage. It is designed to work with LLM agents for intelligent feature extraction but also includes heuristic extraction for offline use.",
+      "tagline": "Turn documentation into a verifiable feature map for QA automation.",
+      "source": "_content/products/DocProcessor.md"
+    },
+    {
+      "name": "Docs Chain",
+      "slug": "docs-chain",
+      "tier": "vasic-util-secondary",
+      "order": 25,
+      "status": "active",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Go",
+        "DAG + Kahn topological sort",
+        "SQLite (pure-Go modernc)",
+        "fsnotify",
+        "YAML config",
+        "exec transforms (Markdown → HTML/PDF/DOCX)"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital/docs_chain"
+      ],
+      "summary": "Docs Chain is a universal, Go-implemented bidirectional document-and-database dependency-propagation engine. When any member of a registered chain changes — Markdown source, an HTML/PDF/DOCX export, or a SQLite database — it detects the change by content hash and propagates it through every connected member atomically.",
+      "tagline": "No tracked document can fall out of sync — content-hashed, bidirectional, atomic.",
+      "source": "_content/products/docs_chain.md"
+    },
+    {
+      "name": "task_bridge",
+      "slug": "task-bridge",
+      "tier": "vasic-util-secondary",
+      "order": 26,
+      "status": "scaffold",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Go",
+        "SQLite (workable-items SSoT)",
+        "raksul/go-clickup (MIT dependency)",
+        "HMAC-SHA256 webhook verification",
+        "cron + webhooks",
+        "pkg/config runtime injection boundary"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital/task_bridge"
+      ],
+      "summary": "task_bridge is a generic, decoupled, bidirectional task/board sync engine in Go. It keeps a project's workable-items SQLite source-of-truth in sync with its tracker docs and a remote board (first target: ClickUp; Jira/Linear planned) using deterministic last-edit-wins, dry-run-first, never-corrupt semantics.",
+      "tagline": "Your task board and your source-of-truth, impeccably in sync — both ways.",
+      "source": "_content/products/task_bridge.md"
+    },
+    {
+      "name": "Herald",
+      "slug": "herald",
+      "tier": "vasic-util-secondary",
+      "order": 27,
+      "status": "active",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Go",
+        "Shell",
+        "Claude Code (LLM intent inference)",
+        "Messenger channel adapters",
+        "Docs Chain",
+        "Helix Constitution submodule"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital/Herald"
+      ],
+      "summary": "Herald ingests system events and reliably fans them out to multiple notification channels so every alert reaches the right place. Subscribers interact in plain natural language; Herald infers intent via a three-tier discipline (command fast-path → LLM intent inference → clarify fallback).",
+      "tagline": "Every alert reaches the right destination — no command syntax required.",
+      "source": "_content/products/Herald.md"
+    },
+    {
+      "name": "Vasic Digital Reusable Module Suite",
+      "slug": "vasic-digital-reusable-module-suite",
+      "tier": "vasic-util-secondary",
+      "order": 28,
+      "status": "scaffold",
+      "license": "UNVERIFIED (varies per module)",
+      "private": false,
+      "tech": [
+        "Go (digital.vasic.*)",
+        "Kotlin Multiplatform (*-KMP)",
+        "Redis / PostgreSQL / SQLite",
+        "Prometheus / OpenTelemetry",
+        "WebSocket / HTTP/3 (quic-go) / mDNS",
+        "Vector DB / Embeddings / RAG / MCP",
+        "YAML (RedTeam fixtures, config)"
+      ],
+      "repos": [
+        "https://github.com/vasic-digital"
+      ],
+      "summary": "A large family of generic, reusable modules published under the `digital.vasic.*` (Go) and Kotlin Multiplatform namespaces. Every module is standalone, independently tested and versioned, and consumed as an equal-codebase submodule by larger products (Catalogizer, HelixAgent, and the wider fleet). This page consolidates the many small utilities that would be noise as individual pages.",
+      "tagline": "Build once, reuse everywhere — a fleet of small, decoupled, independently-tested Go and KMP modules.",
+      "source": "_content/products/Vasic-Digital-Reusable-Module-Suite.md"
+    },
+    {
+      "name": "Mail Server Factory",
+      "slug": "mail-server-factory",
+      "tier": "serverfactory-tertiary",
+      "order": 29,
+      "status": "production",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Kotlin (2.0.21)",
+        "Shell",
+        "Docker",
+        "QEMU",
+        "JSON (declarative config)",
+        "Gradle 8.14.3 / Java 17",
+        "Caffeine",
+        "G1GC-tuned JVM",
+        "Prometheus-compatible metrics",
+        "Sieve"
+      ],
+      "repos": [
+        "https://github.com/Server-Factory/Mail-Server-Factory",
+        "https://github.com/Server-Factory/Mail-Server-Factory-Website"
+      ],
+      "summary": "Mail Server Factory is a production-ready, automated mail-server provisioning tool. The user writes a simple JSON configuration; the Factory interprets it and performs all installations and initializations on the target OS, deploying a Docker-based, loosely-coupled mail stack across 12 connection types.",
+      "tagline": "Run your mail server like the boss — describe it in JSON, deploy it anywhere.",
+      "source": "_content/products/Mail-Server-Factory.md"
+    },
+    {
+      "name": "Server Factory Core Framework",
+      "slug": "server-factory-core-framework",
+      "tier": "serverfactory-tertiary",
+      "order": 30,
+      "status": "stable",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Kotlin (~990K bytes)",
+        "Shell (minimal supporting scripts)",
+        "Gradle"
+      ],
+      "repos": [
+        "https://github.com/Server-Factory/Core-Framework"
+      ],
+      "summary": "Core Framework is the Kotlin framework that underpins the Server Factory family of provisioning tools. It provides the common engine and abstractions that projects such as Mail Server Factory build upon, so each \"factory\" reuses one battle-tested foundation rather than re-implementing provisioning primitives.",
+      "tagline": "The shared engine behind every Server Factory.",
+      "source": "_content/products/Server-Factory-Core-Framework.md"
+    },
+    {
+      "name": "Qemu-Utils",
+      "slug": "qemu-utils",
+      "tier": "serverfactory-tertiary",
+      "order": 31,
+      "status": "active",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Shell (~79.5K bytes)",
+        "QEMU",
+        "Bridge / TAP networking",
+        "ISO images"
+      ],
+      "repos": [
+        "https://github.com/Server-Factory/Qemu-Utils"
+      ],
+      "summary": "Qemu-Utils is a Server Factory toolkit for comprehensive QEMU virtualization management: automated VM image distribution and compression, local caching, bridge/TAP network configuration, ISO-based OS installation, and cross-platform (Linux/macOS) execution with hardware acceleration. Usable standalone or within Server Factory.",
+      "tagline": "QEMU VM images, managed like artifacts — download, run, network, publish.",
+      "source": "_content/products/Qemu-Utils.md"
+    },
+    {
+      "name": "Parallels-Utils",
+      "slug": "parallels-utils",
+      "tier": "serverfactory-tertiary",
+      "order": 32,
+      "status": "active",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Shell (~5.3K bytes)",
+        "Python 3 (~3K bytes)",
+        "Parallels (macOS)",
+        "Settings files (.settings)"
+      ],
+      "repos": [
+        "https://github.com/Server-Factory/Parallels-Utils"
+      ],
+      "summary": "Parallels-Utils is a Server Factory toolkit for managing Parallels (macOS) virtual-machine images: compressing and synchronizing image \"matrices\" used for development and testing, publishing them to a remote endpoint, and retrieving/running them on multiple workstations or servers. Usable standalone or as part of Server Factory.",
+      "tagline": "Compress, publish, and reuse your Parallels VM images across every machine.",
+      "source": "_content/products/Parallels-Utils.md"
+    },
+    {
+      "name": "Server Factory — Additional Components",
+      "slug": "server-factory-additional-components",
+      "tier": "serverfactory-tertiary",
+      "order": 33,
+      "status": "mixed",
+      "license": "UNVERIFIED",
+      "private": false,
+      "tech": [
+        "Kotlin (service factories, on Core Framework)",
+        "Shell (Utils, Definitions packs)",
+        "Gradle",
+        "Docker (target runtime)",
+        "SSH / OpenSSH (Utils bootstrap)",
+        "SonarQube"
+      ],
+      "repos": [
+        "https://github.com/Server-Factory/Web-Service-Factory",
+        "https://github.com/Server-Factory/SonarQube-Factory",
+        "https://github.com/Server-Factory/Caching-Proxy-Factory",
+        "https://github.com/Server-Factory/Docker-Definitions",
+        "https://github.com/Server-Factory/Stack-Definitions",
+        "https://github.com/Server-Factory/Software-Definitions",
+        "https://github.com/Server-Factory/Utils"
+      ],
+      "summary": "Beyond Mail Server Factory and the Core Framework, the Server-Factory org contains several smaller components: per-service \"factories\" (Web Service, SonarQube, Caching Proxy), declarative configuration packs (Docker/Stack/Software Definitions), and shared Utils. This consolidated page covers them honestly — several are early-stage or stub-documented — rather than as fully specified products.",
+      "tagline": "The supporting cast of the Server Factory provisioning toolchain.",
+      "source": "_content/products/Server-Factory-Additional-Components.md"
+    }
+  ]
+}

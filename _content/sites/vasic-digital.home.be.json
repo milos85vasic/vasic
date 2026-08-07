@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "be",
+  "title": "Vasic Digital — AI‑натуральнае праграмаванне",
+  "description": "Vasic Digital стварае сістэмы распрацоўкі ШІ — мультыправайдаравую інфраструктуру LLM, аркестрацыю агентаў і кіраванне «канстытуцыя + доказы», якое робіць іх надзейнымі.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — пабудавана на сістэме OpenDesign.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// AI‑натуральнае праграмаванне"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "AI‑натуральнае праграмаванне, створанае для даверу."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "Мы ствараем сістэмы распрацоўкі ШІ — мадэлі, агенты, аркестрацыю і інфраструктуру, якія ператвараюць вялікія моўныя мадэлі ў надзейнае праграмнае забеспячэнне — разам з узроўнем кіравання, які захоўвае іх сумленнасць."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "Даследуйце прадукты",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "Прагледзець партфель",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "Спампаваць партфель (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "Пастаўшчыкі LLM — адзін інтэрфейс"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "рэпазіторыі, адна Канстытуцыя"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "прадукты па трох узроўнях"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// аб"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "Флот, а не маналіт."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital — гэта сфакусаваная інжынерная практыка, якая стварае ўзаемазвязаныя сям'і AI‑распрацоўчых прадуктаў і паўторна выкарыстоўвальных модуляў. Замест аднаго маналіту праца арганізавана як флот: вялікія прыкладанні над дзясяткамі маленькіх, незалежна правераных, адключаных модуляў — так што правераныя часткі паўторна выкарыстоўваюцца ва ўсіх прадуктах, а не перабудоўваюцца."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "Асноўная мова — Go, дапоўнена Kotlin і Kotlin Multiplatform, TypeScript/React, Python, Swift і Shell — выбіраецца пад задачу. Што звязвае флот, так гэта дысцыпліна, механізаваная: кожны праект успадкоўвае агульную інжынерную Канстытуцыю як Git‑submodule, і кожная функцыя, якую прадугледжвае прадукт, павінна мець аўтаматызаваны, доказны тэст. Функцыя не \"зроблена\", пакуль тэсты не пройдуць; яна завершана, калі рэальны карыстальнік можа яе выкарыстоўваць, і ёсць захаваныя доказы гэтага."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// што мы робім"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "AI‑аснаванае распрацоўванне, ад пачатку да канца."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "Мы будуем субстрат для AI‑сістэм — цяжкую частку пад прыкладаннем."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "Мульты‑пастаўшчык доступу да LLM",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "Першы‑партыйны абстракцыя над 40+ пастаўшчыкамі — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok і лакальны Ollama у якасці запаснога — праз адзін інтэрфейс з паўторнымі спробамі, аўтаматычнымі раз'емнікамі і праверкамі здароўя."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "Аркестрацыя агентаў",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "Безгаловныя CLI‑агенты кіравання, графавыя агентныя працоўныя патокі, шматкругавыя \"AI‑дэбаты\" кансэнсус, і DAG/канвейерныя выканальнікі."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "Праверка LLM",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "Пласт даверу, які ацэньвае мадэлі з абавязковай праверкай разумення (\"Ці бачыце вы мой код?\") плюс праверкі затрымкі, струменевага транслявання, выкліку функцый, бачання і ўбудаванняў — экспартуючы толькі правераную канфігурацыю."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "Атрыманне і памяць",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, вектарныя базы даных, убудовы і злітыя рухавікі памяці агентаў (Mem0 + Cognee + Letta) з бясконцай кампрэсіяй кантэксту."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "Абарончы LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "Ахоўныя бар'еры, выяўленне PII, адрэсныя red‑team сцэнары і кананічная нармалізацыя ўваходаў — бяспека, убудаваная ў субстрат, а не наддадзеная."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// tier 1 — флагман"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Сям'я прадуктаў Helix і інфраструктура LLM"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "Наша флагманская лінейка ахоплівае поўны цыкл AI‑распрацоўкі. У парадку прыярытэту."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "Бясплатная альтэрнатыва JIRA — флагман лінейкі Helix-Track."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "Ансамблевая LLM‑служба, якая дазваляе некалькім мадэлям дэбатаваць і выдае адказ, на які яны пагадзіліся."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "Размеркаваная AI‑платформа распрацоўкі, якая дзяліць працу паміж SSH‑кіраванымі працоўнікамі з кантрольнымі пунктамі/адкатамі."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "Адна бінарка, шэсць рэжымаў: сумяшчальная з OpenAI і Anthropic інферэнцыя ад ноўтбука да кластара, праз HTTP/3."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "Размеркаваная аперацыйная сістэма для AI‑вылічэнняў, ад цэнтральных GPU‑дач да краявых прылад."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "Адзін інтэрфейс, 43 пастаўшчыкі — з аўтаматычнымі раз'емнікамі, паўторнымі спробамі і праверкай здароўя."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "Адна плоскасць кіравання для кожнага безгаловнага CLI‑агента кода."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "Правярайце. Маніторце. Аптымізуйце. Адзінкавая крыніца праўды для метададзеных праверкі LLM і пастаўшчыкоў."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "Адна памяць мозгу для AI‑агентаў — чатыры лепшыя рухавікі, злітыя ў адзін."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// quality & governance — наш адрознік"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "Кіраванне як аўдытабельны факт, а не як імкненне."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "Два слупа робяць увесь флот узгоджаным і надзейным."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "Універсальны, праектна‑агностычны інжынерны правілы, пастаўленыя як Git‑submodule і успадкаваныя кожным праектам у флоце з больш чым 140 рэпазіторыямі. Яны кодуць непарушную дысцыпліну — бар'еры супраць падману, імунітэт ад хібных пазітыўных вынікаў, бяспеку даных і хастаў — якія праект можа пашыраць, але ніколі не аслабляць. Адна абнаўленне submodule абнаўляе правілы ўсюды, і кожны бар'ер спалучаецца з тэстам‑мутацыяй, які даказвае, што бар'ер не падробка."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "Аркестрацыя AI‑QA без падману. Запускае напісаныя YAML‑тэставыя банкі і цалкам аўтаномныя сесіі QA з LLM і кампутарным бачэннем на Android, Android TV, Web і Desktop — і адмаўляецца даваць АДЗІНКУ без захаваных доказаў у часе выканання: скрыншоты, logcat, відэа, трасіроўкі стэка. \"Мы гэта праверылі\" становіцца \"вось відэа, logcat і білет\"."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// tier 2 — утыліты"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Утыліты Vasic Digital"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "Інструменты прадуктовага ўзроўню, якія стаяць самастойна."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "Пашыранае мультыпратакольнае, зашыфраванае кіраванне медыя‑калекцыямі — выяўленне, каталогізацыя і ўзбагачэнне ўсяго, што вам належыць."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown у, прафесійны відэакурс на выхадзе — AI‑павышаны, мультыплатформенны."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "Бачыць UI як карыстальнік — кампутарнае бачанне плюс LLM‑бачанне для аналізу і навігацыі."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "Пераўтварыце дакументацыю ў правяраемую карту функцый для аўтаматызацыі QA."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "Ні адзін адсочваны дакумент не можа выйсці з сінхранізацыі — хэшаваны па змесце, двухбаковы, атамарны."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "Кожнае апавяшчэнне даходзіць да правільнага атрымальніка — без неабходнасці сінтаксісу каманд."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "Ваша дошка задач і ваш крыніца праўды, бездакорна сінхранізаваныя — у абодва бакі."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "Стварайце адзін раз, паўторна выкарыстоўвайце ўсюды — флот маленькіх, адключаных, незалежна правераных модуляў Go і KMP."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// tier 3 — спадчына"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — аўтаматызацыя інфраструктуры"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "Наша спадчына DevOps: дэкларатыўны JSON, ператвораны ў поўнасцю прадастаўленыя Docker‑серверы."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "Кіруйце вашым Mail Server Factory як бос — апішыце яго ў JSON, разгортвайце дзе заўгодна."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "Агульны рухавік за кожным Server Factory."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "Вобразі QEMU VM, кіраваныя як артэфакты — спампаваць, запусціць, сеткаваць, публікаваць."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "Сцісніце, публікуйце і паўторна выкарыстоўвайце вашыя Parallels VM‑вобразы на любой машыне."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Чытаць далей"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// тэхналогіі"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "Заснавана на нашым рэальным стэку."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "Мовы",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "ШІ / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "Бэкэнд",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "Даныя",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "Інфраструктура / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "Тэставанне / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// партфель"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "Адзін флот, адна дысцыпліна — глядзіце ўсе 33 прадукты."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Адназлучны, доказны партфель сям'і Helix, утылітаў vasic-digital і інструментаў Server Factory."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "Адкрыць партфель",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// кантакт"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "Давайце будзем нешта правяраемае."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "Кожны можа падключыць прыкладанне да LLM. Мы будзем тое, што цяжка: AI‑сістэмы, якія правяраюцца, паўторна выкарыстоўваюцца і сумленныя. Мы не просім вас давяраць зялёнай галочцы — мы паказваем доказы за ёй."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "Электронная пошта",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

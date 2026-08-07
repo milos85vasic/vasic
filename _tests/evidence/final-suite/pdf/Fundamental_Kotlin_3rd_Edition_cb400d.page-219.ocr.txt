@@ -1,0 +1,29 @@
+Follow the source code comments to better understand every step of this
+simple example. Executing this program will give us output similar to this one:
+Time 1: 5197247991885
+Is d1: true
+Is d2: false
+Time 2: 5197248336431
+Is d1: false
+Is d2: true
+Time 3: 5197258452231
+Is d1: false
+Is d2: true
+This reference
+“this” is a reference variable that refers to the current object. From book code
+examples open “This.kt”:
+class Wrapper(private val value: Int) {
+fun sum(value: Int) {
+val sum = this.value + value
+printin("Sum: $sum")
+}
+
+}
+val wrapper = Wrapper(1)
+wrapper.sum(3)
+In this example, the crucial part is the “sum” function. To differentiate between
+function's argument named “value” and class constant with the same name we
+have used “this” reference. Thanks to that, we are accessing the current object
+and all current object members. In this case, “value” is constant.
+Executing the program will produce the following output:
+Sum: 4

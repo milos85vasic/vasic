@@ -1,0 +1,9 @@
+
+=== RED-PROOF: gate catches the original bugs on a reconstructed buggy fixture ===
+DETECTED/OK  | nav "Work" on subpage detected as dead no-op | DEAD in-page link: no #work on this page (no-op)
+DETECTED/OK  | back-to-top control absent on subpage (count===0) | count=0
+DETECTED/OK  | broken image detected (naturalWidth 0) | http://localhost:8467/portfolio/does-not-exist.png
+DETECTED/OK  | home nav "Work" acts (control, should be OK) | anchor exists
+DETECTED/OK  | home has back-to-top (control, count===1) | count=1
+
+All detectors behaved as expected: true

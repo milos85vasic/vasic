@@ -1,0 +1,26 @@
+Scooter: stop
+Properties in Interfaces
+In interfaces, properties can be declared. Property can be abstract or it can
+provide implementations for accessors. It is important to note that properties
+declared in interfaces can't have backing fields. Because of this accessors
+declared in interfaces can't reference them.
+From book code examples open “InterfaceProperties. kt”:
+interface Process {
+val cores: Int
+val memory: Int
+get() = 64
+fun execute()
+fun getUsedResources() = "cores=$cores, memory=$memory"
+}
+As you can see “Process” interface has two properties: “cores” and “memory”,
+both Integer data type. Let's implement our interface:
+class Download(val what: URL) : Process {
+override val cores: Int
+get()=4
+override fun execute() {
+printin(
+"Downloading: $what, using(${getUsedResources()})"
+)
+}
+}
+class Encrypt(val what: String) : Process {

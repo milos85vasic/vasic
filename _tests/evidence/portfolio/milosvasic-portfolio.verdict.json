@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:34:12.766Z",
+  "input": "file:///Volumes/T7/Projects/vasic/milosvasic.ru/portfolio/index.html",
+  "name": "milosvasic-portfolio",
+  "viewport": {
+    "w": 1280,
+    "h": 9000
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/portfolio/milosvasic-portfolio.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/portfolio/milosvasic-portfolio.light.ocr.txt",
+        "wordCount": 1061,
+        "sample": "Home Portfolio Milo’ Vasié Theme UNIFIED PORTFOLIO A unified, evidence-based portfolio of"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 9000
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 115,
+          "controls": 37,
+          "textChars": 4359
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/portfolio/milosvasic-portfolio.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/portfolio/milosvasic-portfolio.dark.ocr.txt",
+        "wordCount": 1090,
+        "sample": "Home Portfolio Milo& Vasié Theme UNIFIED PORTFOLIO A unified, evidence-based portfolio of"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 9000
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 115,
+          "controls": 37,
+          "textChars": 4359
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

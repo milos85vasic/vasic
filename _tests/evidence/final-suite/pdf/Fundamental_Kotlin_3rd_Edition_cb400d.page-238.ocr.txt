@@ -1,0 +1,28 @@
+VacuumCleaner()
+)
+val processor = Processor()
+processor.process(products)
+Executing our program will produce the following output:
+Processing: Tv, home appliance
+Processing: Car, vehicle
+Processing: Computer, office device
+Processing: VacuumCleaner
+Any
+In this section, we will explain the meaning of “Any” data type. “Any” is a
+superclass for any class that we may define in our programs, it is the root of the
+Kotlin class hierarchy.
+Besides default “<init>()” (default constructor) “Any” provides mandatory
+functionalities that all derived classes are inheriting. We will mention each.
+“equals” function
+Tells us whether some other object is "equal to" the current one.
+Implementations must fulfill the following requirements:
+- Reflexive: for any non-null value “x, x.equals(x)” should return true
+- Symmetric: for any non-null values "x" and “y, x.equals(y)” should return true if
+and only if y.equals(x) returns true
+- Transitive: for any non-null values "x", “y”, and "z”, if “x.equals(y)” returns true
+and “y.equals(z)” returns true, then “x.equals(z) ” should return true.
+- Consistent: for any non-null values "x" and “y", multiple invocations of
+“xequals(y)” consistently return true or consistently return false, provided no
+information used in equals comparisons on the objects is modified.
+- Never equal to “null”: for any “non-null” value “x, x.equals(null)” should return
+false.

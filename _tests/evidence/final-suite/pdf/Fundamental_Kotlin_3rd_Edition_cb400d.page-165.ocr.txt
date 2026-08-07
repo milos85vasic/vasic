@@ -1,0 +1,31 @@
+printin("Car '${cars[index]}' index is: $index")
+}
+}
+This example shows direct access to indexes of collection. However, in practice,
+we will need more than that. We usually need more flexibility. Very frequently
+we will need to iterate through elements of some collection and access it more
+directly. Take a look at the following example:
+fun cities(cities: List<String>) {
+for (city in cities) {
+printin("City: ${city.capitalize()}")
+}
+}
+“cities” function iterates through the collection using Java's “foreach”. Let's
+rewrite it Kotlin way:
+fun citieskt(clubs: List<String>) {
+clubs.forEach { city ->
+printin("City: ${city.capitalize()}")
+}
+}
+“citiesKt” function iterates and prints each element:
+val cities = listOf("Belgrade", "Rome", "Moscow", "New York")
+citiesKt(cities)
+Both functions “cities” and “citiesKt” will produce the same output with “cities”
+collection passed as argument. If we run it we will see the following output:
+City: Belgrade
+City: Rome
+City: Moscow
+City: New York
+As you can see, in “citiesKt” we have used lambda expression with values for the
+item itself. There is also a version of the foreEach as function without lambda
+expression:

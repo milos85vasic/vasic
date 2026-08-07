@@ -1,0 +1,24 @@
+“hashCode” function
+Returns a “hash code” value for the object. The general contract of “hashCode”
+is:
+- The function must consistently return the same integer whenever it is invoked
+on the same object more than once
+- Calling the “hashCode” function on each of the two objects must produce the
+same integer result if the two objects are equal according to the “equals”
+function.
+“toString” function
+Returns a string representation of the object.
+Unit
+“Unit” is a special data type. It has only one purpose, it represents the void
+return type as a class. “Unit” cannot be instantiated since its only constructor is
+private.
+Functions that are returning “Unit” may be represented like this:
+fun hello(: Unit {
+Mo.
+}
+or
+fun hello(@ {
+Mo.
+}
+As you can see the “Unit” return type declaration is optional.
+Nothing

@@ -1,0 +1,29 @@
+Sorting
+Sorting is a common need for every developer. In Kotlin, performing sorting
+operation on collections is really easy. Open “Sort.kt” from book code examples:
+val numbers = listOf(1, 8, 9, 4, 5, 22, 44, 645, 67).sorted()
+printin(Sorted numbers: $numbers")
+val stringNumbers = listOf("1", "-3", "5")
+-SortedBy { it.toInt() }
+
+printin("Sorted string numbers: $stringNumbers")
+val words = mapOf("Yin" to "Yang", "Lorem" to "Ipsum",
+
+"Hello" to "World").toSortedMap()
+printin("Sorted map: $words")
+val set = setOf(2, 4, 4, 2, 0, 1, 3, 6, 4, 5).sorted()
+printin("Sorted set: $set")
+val resorted = set.sortedBy { it % 2 == 0}
+printin("Re-sorted set: $resorted")
+To sort these collections we have used two functions:
+- “sorted”: returns a list of all elements that are sorted according to their natural
+order
+- “sortedBy”: returns a list of all elements that are sorted according to the
+natural order of the value returned by the provided selector function.
+Executing our little program will reveal the following results:
+Sorted numbers: [1, 4, 5, 8, 9, 22, 44, 67, 645]
+Sorted string numbers: [-3, 1, 5]
+Sorted map: {Hello=World, Lorem=Ipsum, Yin=Yang}
+Sorted set: [0, 1, 2, 3, 4, 5, 6]
+Re-sorted set: [1, 3, 5, 0, 2, 4, 6]
+sum

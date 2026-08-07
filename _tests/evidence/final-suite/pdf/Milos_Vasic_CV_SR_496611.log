@@ -1,0 +1,9 @@
+
+[export-validator] pdf=/Volumes/T7/Projects/vasic/milosvasic.ru/_site/downloads/Milos_Vasic_CV_SR.pdf
+[export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=ok
+  [PASS] CONTENT/content.nonempty — extracted 1401 words (min 40)
+  [PASS] TEXTUAL/textual.no-leak — no raw markup / mermaid source found in body text
+  [PASS] FULL-VISUAL/visual.images — pdfimages found 1 embedded image(s) (min 1)
+  [PASS] FULL-VISUAL/visual.ocr — OCR of 5 rendered page(s) recovered 1414 legible words (min 15)
+[export-validator] verdict=PASS  report=_tests/evidence/final-suite/pdf/Milos_Vasic_CV_SR_496611.verdict.json
+

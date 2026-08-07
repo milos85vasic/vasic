@@ -1,0 +1,32 @@
+fun calculate(
+
+a: Int, b: Int,
+
+operation: (Int, Int) -> Int
+): Int £
+
+return operation(a, b)
+}
+A function that can accept other functions as a parameter or returns them is
+called the "Higher-Order function”. Instead of usual data types as a parameter
+to a function, we will pass other functions, anonymous function or lambda (we
+will talk more about lambdas later).
+Let's try it:
+fun sum(a: Int, b: Int) = a+b
+fun diff(a: Int, b: Int) =a-b
+vala=1
+valb=2
+val calculateSum = calculate(a, b, ::sum)
+val calculateDiff = calculate(a, b, ::diff)
+printin("calculate(a, b, sum) == $calculateSum")
+printin(‘calculate(a, b, diff) == $calculateDiff")
+We will call the “calculate” function and pass “a” and “b” with values of 1 and 2
+(Integer) as arguments along with the reference to another function that will be
+executed and its returned value returned as a result. As you can see we will try
+this with “sum” and “diff” functions that will perform different math operations
+on “a” and “b” constants. Running our program will result in the following
+output:
+calculate(a, b, ::sum) == 3
+calculate(a, b, ::diff) == -1
+“sum” and “::diff” represents a reference to a function that we are passing as
+the last argument to “calculate” function. Type of both passed functions to

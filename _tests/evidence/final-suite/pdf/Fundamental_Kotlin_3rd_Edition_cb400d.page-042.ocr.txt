@@ -1,0 +1,38 @@
+Java is considered to be easy to read and write. Java has solid grammar and a
+simple program structure. Java is based on experience with languages like C
+and C++. Compared to C and C++ Java simplifies its features and makes it easier
+for every-day use for the developers. The syntax of Java is very similar to C and
+C++, but it does not have focus on a low-level programming.
+
+Java programming language is object-oriented, class-based, and designed to
+have as few dependencies as possible. The main philosophy behind Java is that
+developers write code once and run that code everywhere (thanks to JVM). Java
+programs are compiled to bytecode that can run on any JVM regardless of the
+underlying computer architecture.
+
+As we mentioned in the previous section, Java has been released in 14 major
+releases for the last 25 years bringing the joy of everyday development to more
+than 9 million developers who use it every day!
+
+Java Runtime Environment
+
+Java Runtime Environment (JRE), is a set of the minimum components necessary
+to create and run Java programs and it is a part of a Java Development Kit (JDK).
+
+JRE is made up of the Java Virtual Machine (JVM), Java class libraries, and the Java
+class loader. The purpose of JDK is to help developers to write Java programs,
+while JRE has the purpose of only running it.
+
+What is JVM?
+
+We can think of JVM as some kind of computer within a computer. The purpose
+of JVM is to execute JVM programs. Java, Groovy, Kotlin, and other JVM
+languages (its programs) are all executed on JVM.
+
+The main characteristic of all JVM languages is that its source code gets
+compiled to Java bytecode, and then that bytecode is loaded and executed by
+JVM. Thanks to this, developers do not need to write different codes for
+different platforms. All platform-specific things are handled by JVM itself. Each
+particular host operating system needs its implementation of the JVM and Java
+runtime environment. Each of them interprets bytecode the same way even
+though its implementations may be different due to platform specificities.

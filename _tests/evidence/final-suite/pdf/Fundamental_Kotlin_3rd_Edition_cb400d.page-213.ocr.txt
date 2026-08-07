@@ -1,0 +1,37 @@
+Fortunately, if we just declare the nested class as static our problem is solved.
+Both Java and Kotlin support nested classes, but some important differences
+are worth keeping in mind. As we have illustrated in the explanation of this
+memory leakage type, in Java, nested classes declare (implicitly) a reference to
+the surrounding class. On the other hand, nested classes in Kotlin do not
+declare any implicit reference to surrounding classes. So they could be
+considered safer by default. By removing this reference, we get rid of possible
+memory leaks and other possible issues.
+In Kotlin, if we need to access the external class, we have to apply the “inner”
+modifier in the nested class declaration. Let's illustrate this. From book code
+examples open “InnerClassLeak.kt”:
+class Wrapper(private var data: String) {
+inner class Inner {
+fun print( {
+
+// We are accessing to outer
+
+// class reference and its field:
+
+printin("Data: $data")
+
+}
+}
+
+}
+Nested classes in both programming languages have the same semantics, but
+they behave differently. In Java, nested classes have access by default to
+external classes. On the contrary, Kotlin classes do not have it, so we apply the
+“inner” modifier to get the “default Java behavior” (and create in our program a
+potential memory leak).
+Weak references
+A weak reference is a reference made that is not strong enough to make the
+object (instance) remain in memory. So, weak references can let the garbage
+collector decide an object's reachability and whether the object in question
+should be kept in memory or not.
+Weak references need to be declared explicitly as by default Kotlin marks a
+reference as a strong (hard) reference. It means that an object has neither

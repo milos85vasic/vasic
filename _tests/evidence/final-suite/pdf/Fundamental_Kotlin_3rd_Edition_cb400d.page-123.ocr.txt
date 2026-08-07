@@ -1,0 +1,34 @@
+You may see now that the “toString” function produced the human-readable
+form of every “User” class instance.
+Abstraction
+“Abstract class” represents the class that cannot be instantiated and can be only
+inherited. Properties and functions of “abstract class” are non-abstract unless
+you explicitly declare them as “abstract” by using the “abstract” keyword. Each
+“abstract” member doesn't have an implementation in its mother class.
+Note:
+We do not need to annotate an abstract class or function with an “open”
+modifier. It comes without saying. The same applies to “interfaces”. Also, we can
+override a non-abstract open member with an abstract one.
+Let's have a look at a simple abstraction example. From book code examples
+open “Abstraction.kt”:
+abstract class Animal {
+
+abstract fun walk()
+}
+open class Cat : Animal() {
+
+override fun walk() {
+
+printin("Cat walks")
+
+}
+}
+class Lion : Cat() {
+
+override fun walk() {
+
+printin("Lion walks")
+
+}
+}
+Let instantiate our cats and let them walk:

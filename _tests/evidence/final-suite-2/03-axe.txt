@@ -1,0 +1,21 @@
+vasic  home       light  serious=0 total=0 badgeContrast=0 dialogName=0
+vasic  home       dark   serious=0 total=0 badgeContrast=0 dialogName=0
+vasic  product    light  serious=0 total=0 badgeContrast=0 dialogName=0
+vasic  product    dark   serious=0 total=0 badgeContrast=0 dialogName=0
+vasic  portfolio  light  serious=0 total=0 badgeContrast=0 dialogName=0
+vasic  portfolio  dark   serious=0 total=0 badgeContrast=0 dialogName=0
+mv     home       light  serious=0 total=0 badgeContrast=0 dialogName=0
+mv     home       dark   serious=1 total=1 badgeContrast=0 dialogName=0  -> [{"id":"color-contrast","impact":"serious","nodes":3}]
+mv     product    light  serious=0 total=0 badgeContrast=0 dialogName=0
+mv     product    dark   serious=0 total=0 badgeContrast=0 dialogName=0
+mv     portfolio  light  serious=0 total=0 badgeContrast=0 dialogName=0
+mv     portfolio  dark   serious=0 total=0 badgeContrast=0 dialogName=0
+mv     modal      light  serious=0 dialogName=0 nameAttrs={"labelledby":"dl-title","label":null,"open":null}
+mv     modal      dark   serious=1 dialogName=0 nameAttrs={"labelledby":"dl-title","label":null,"open":null}  -> [{"id":"color-contrast","impact":"serious","nodes":27}]
+vasic  modal      light  serious=3 dialogName=1 nameAttrs={"labelledby":null,"label":null,"open":"true"}  -> [{"id":"aria-dialog-name","impact":"serious","nodes":1},{"id":"button-name","impact":"critical","nodes":1},{"id":"color-contrast","impact":"serious","nodes":33}]
+vasic  modal      dark   serious=3 dialogName=1 nameAttrs={"labelledby":null,"label":null,"open":"true"}  -> [{"id":"aria-dialog-name","impact":"serious","nodes":1},{"id":"button-name","impact":"critical","nodes":1},{"id":"color-contrast","impact":"serious","nodes":4}]
+
+=== TOTALS ===
+serious/critical violations across all page+theme runs: 8
+badge color-contrast violations: 0
+aria-dialog-name violations: 2

@@ -1,0 +1,7 @@
+
+[visual-oracle] input=file:///Volumes/T7/Projects/vasic/vasic.digital/products/helixcode.html
+[visual-oracle] tesseract=present  viewport=1280x800  themes=light,dark
+  - light : PASS  (errors=0 warnings=0) png=helixcode.light.png ocrWords=747
+  - dark  : PASS  (errors=0 warnings=0) png=helixcode.dark.png ocrWords=750
+[visual-oracle] verdict=PASS  report=_tests/evidence/pages/vasic-digital/helixcode/helixcode.verdict.json
+

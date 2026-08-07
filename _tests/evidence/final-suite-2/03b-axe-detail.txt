@@ -1,0 +1,9 @@
+=== MV HOME DARK color-contrast nodes ===
+{"target":["span[data-i18n=\"hero.cv\"]"],"summary":"Fix any of the following:\n  Element has insufficient color contrast of 1.66 (foreground color: #afabac, background color: #e0525f, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"}
+{"target":["span[data-i18n=\"hero.cl\"]"],"summary":"Fix any of the following:\n  Element has insufficient color contrast of 2.8 (foreground color: #626467, background color: #1e1e1e, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"}
+{"target":["span[data-i18n=\"mv2.hero.portfolio\"]"],"summary":"Fix any of the following:\n  Element has insufficient color contrast of 2.8 (foreground color: #626467, background color: #1e1e1e, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"}
+
+=== VASIC LEGACY MODAL violations ===
+aria-dialog-name -> [{"target":[".vd-article-modal"],"html":"<div class=\"vd-article-modal\" role=\"dialog\" aria-modal=\"true\" aria-hidden=\"false\" data-open=\"true\">"}]
+button-name -> [{"target":["#theme-toggle"],"html":"<button id=\"theme-toggle\" class=\"theme-toggle\">\n                            <i class=\"fas fa-moon\"></i>\n                "}]
+vasic dialog attrs: {"tag":"DIV","cls":"vd-article-modal","labelledby":null,"label":null,"role":"dialog"}

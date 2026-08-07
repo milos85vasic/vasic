@@ -1,0 +1,42 @@
+compiler (Kotlin has its compiler for this purpose). Bytecode is then loaded into
+JVM and its instructions are executed.
+
+The lifecycle of a typical JVM program looks like this:
+
+- source code for the program
+
+- compiler creates Java bytecode from program source code
+
+- JVM loads bytecode that has been created by the compiler
+
+- JVM converts bytecode into machine code (language)
+
+- instructions are executed by computer hardware.
+
+Note:
+
+If you are not familiar with Java at all we will explain some of its concepts in the
+“Legacy of Java” section of this book.
+
+Basic characteristics of Kotlin
+
+Kotlin has many powerful characteristics. We will highlight some of the most
+important ones.
+
+As we previously mentioned Kotlin runs on JVM (Java Virtual Machine) meaning
+that it is cross-platform compatible. For you who don't know, Kotlin is also
+available in its Kotlin native and JavaScript flavors. That practically means that
+we can write the code that will be compiled directly for the execution on
+computer hardware or we can write Kotlin programs for the web.
+
+Kotlin is statically typed, the type of a variable is known at compile time.
+
+Kotlin is functional too. With first-class functions, you can store functions as
+variables or pass as parameters to other functions as parameters.
+Immutability: It is guaranteed that the state of an immutable object can't
+change over time.
+
+Kotlin has coroutines. Thanks to coroutines support Kotlin makes your life
+easier when comes to asynchronous or non-blocking programming. We will
+cover coroutines in a separate section of this book. Other previously mentioned
+features will be covered in separate sections as well.

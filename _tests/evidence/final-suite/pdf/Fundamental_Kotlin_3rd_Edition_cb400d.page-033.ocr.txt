@@ -1,0 +1,36 @@
+Take a look at the “allprojects” block. This block is used to add configuration
+items that will be applied to all modules and the root project as well. Besides
+the “allprojects” block we may have defined the “subprojects” block too. This
+block can be used to add configuration stuff for all modules only. These blocks
+can be used as many times as we want in the root project (root “build.gradle”
+configuration file).
+We will apply the “kotlin” plugin and add the dependency to the standard Kotlin
+library. This will be enough for us to write Kotlin code in all of our modules. It is
+important to note that in most cases dependencies can be added with “api” and
+“implementation” directives. The difference between “api” and “implementation”
+directives is that if you are using “api” all other modules that depend on the
+parent module will inherit the dependency. In the case of “implementation”, it is
+required to provide your dependency for the particular library for each module.
+Each Gradle module has its own "build.gradle” configuration file that defines
+additional plugins that will be applied and dependencies for libraries that will be
+used specifically for that module. The same applies for “build.gradle”
+configuration located under the “WelcomeTokKotlin” directory (module):
+apply plugin: ‘application’
+application {
+
+mainClassName =
+
+"net.milosvasic.fundamental.kotlin.WelcomeKt"
+
+}
+dependencies {
+
+// Your dependencies go here
+}
+You can see from this configuration file that our application module will use the
+“application” plugin with the fully-qualified main class name defined. This is the
+entry point of our application. We will talk more about fully qualified naming in
+later sections of the book.
+Note:
+If you are not familiar with Gradle invest some time to learn it, you will need it
+for more advanced project setups.

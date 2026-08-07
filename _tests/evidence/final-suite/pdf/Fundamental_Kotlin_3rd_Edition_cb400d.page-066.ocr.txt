@@ -1,0 +1,30 @@
+Processing: 6
+Processing completed
+Processing started
+Processing: 0
+Processing completed
+Processing started
+Invalid parameter: -2
+Processing completed
+Processing started
+Invalid parameter: -4
+Processing completed
+Processing started
+Invalid parameter: -6
+Processing completed
+Let's have a look at example of “try / catch” used as expression:
+@Throws(IllegalArgumentException::class)
+fun getCarPrice(model: String) = when (model) {
+"Mercedes" -> 100
+"BMW" -> 200
+"Opel" -> 300
+else -> throw IllegalArgumentException(
+"We do not recognize '$model' car model"
+)
+}
+val models = listOf(Fiat", "BMW", "Opel", "Audi")
+models.forEach {
+printin("Getting price for: '$it'")
+val price = try {
+getCarPrice(it)
+} catch (e: IllegalArgumentException) {

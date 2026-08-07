@@ -1,0 +1,455 @@
+{
+  "target": {
+    "id": "vd-portfolio-en-dark",
+    "site": "vd",
+    "url": "http://localhost:8501/portfolio/",
+    "theme": "dark",
+    "lang": "en",
+    "kind": "portfolio",
+    "englishOnly": true
+  },
+  "applied": {
+    "lang": "en",
+    "dir": "ltr",
+    "theme": "dark"
+  },
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--shipped\">shipped</span>",
+                  "target": [
+                    "article:nth-child(17) > h3 > .od-badge--status--shipped.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--shipped\">shipped</span>",
+          "target": [
+            "article:nth-child(17) > h3 > .od-badge--status--shipped.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--shipped\">shipped</span>",
+                  "target": [
+                    "article:nth-child(19) > h3 > .od-badge--status--shipped.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--shipped\">shipped</span>",
+          "target": [
+            "article:nth-child(19) > h3 > .od-badge--status--shipped.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--production\">production</span>",
+                  "target": [
+                    ".od-section:nth-child(4) > .pf-grid.od-stagger > article:nth-child(1) > h3 > .od-badge--status--production.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--production\">production</span>",
+          "target": [
+            ".od-section:nth-child(4) > .pf-grid.od-stagger > article:nth-child(1) > h3 > .od-badge--status--production.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--production\">production</span>",
+                  "target": [
+                    "article:nth-child(2) > h3 > .od-badge--status--production.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--production\">production</span>",
+          "target": [
+            "article:nth-child(2) > h3 > .od-badge--status--production.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+                  "target": [
+                    ".od-section:nth-child(4) > .pf-grid.od-stagger > article:nth-child(3) > h3 > .od-badge--status--active.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+          "target": [
+            ".od-section:nth-child(4) > .pf-grid.od-stagger > article:nth-child(3) > h3 > .od-badge--status--active.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+                  "target": [
+                    ".od-section:nth-child(4) > .pf-grid.od-stagger > article:nth-child(4) > h3 > .od-badge--status--active.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+          "target": [
+            ".od-section:nth-child(4) > .pf-grid.od-stagger > article:nth-child(4) > h3 > .od-badge--status--active.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+                  "target": [
+                    "article:nth-child(5) > h3 > .od-badge--status--active.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+          "target": [
+            "article:nth-child(5) > h3 > .od-badge--status--active.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+                  "target": [
+                    "article:nth-child(7) > h3 > .od-badge--status--active.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+          "target": [
+            "article:nth-child(7) > h3 > .od-badge--status--active.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--production\">production</span>",
+                  "target": [
+                    ".od-section:nth-child(5) > .pf-grid.od-stagger > article:nth-child(1) > h3 > .od-badge--status--production.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--production\">production</span>",
+          "target": [
+            ".od-section:nth-child(5) > .pf-grid.od-stagger > article:nth-child(1) > h3 > .od-badge--status--production.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--stable\">stable</span>",
+                  "target": [
+                    ".od-badge--status--stable"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--stable\">stable</span>",
+          "target": [
+            ".od-badge--status--stable"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+                  "target": [
+                    ".od-section:nth-child(5) > .pf-grid.od-stagger > article:nth-child(3) > h3 > .od-badge--status--active.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+          "target": [
+            ".od-section:nth-child(5) > .pf-grid.od-stagger > article:nth-child(3) > h3 > .od-badge--status--active.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#121212",
+                "bgColor": "#2b8a3e",
+                "contrastRatio": 4.28,
+                "fontSize": "11.6pt (15.52px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+                  "target": [
+                    ".od-section:nth-child(5) > .pf-grid.od-stagger > article:nth-child(4) > h3 > .od-badge--status--active.od-badge--status"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"od-badge--status od-badge--status--active\">active</span>",
+          "target": [
+            ".od-section:nth-child(5) > .pf-grid.od-stagger > article:nth-child(4) > h3 > .od-badge--status--active.od-badge--status"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.28 (foreground color: #121212, background color: #2b8a3e, font size: 11.6pt (15.52px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "aria-valid-attr-value",
+      "impact": "critical",
+      "nodes": 1
+    }
+  ],
+  "passesCount": 33
+}

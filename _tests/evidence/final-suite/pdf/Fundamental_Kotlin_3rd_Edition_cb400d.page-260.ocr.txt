@@ -1,0 +1,29 @@
+Iam initializing this lazy value
+Hello
+Properties with late initialization
+Properties can be late-initialized. The main difference when it comes to
+comparing with lazy initialization is that late-initialized properties are variables.
+Let's take a look at the example and see how properties can be late-initialized.
+From book code examples open “LatelInit.kt”:
+class X {
+init {
+printin("I am late initialized")
+}
+fun doSomething() = print("Hello")
+}
+class Y {
+lateinit var x: X
+fun doSomething() {
+x=X()
+x.doSomething()
+print(" World!")
+}
+}
+Since it is expected that properties are initialized in the constructor, sometimes
+that is not what we want. For that particular situation, we mark our property
+with the “lateinit” keyword. The “lateinit” may be only used with var properties
+that are defined in the class body with no custom getter and setter. The type of
+property must not be non-null or primitive.
+Let's check how this works:
+val y = Y()
+y.doSomething()

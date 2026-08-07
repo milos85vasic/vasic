@@ -1,0 +1,47 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T16:27:57.315Z",
+  "pdf": "/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/Portfolio_EN.pdf",
+  "name": "milos-portfolio",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 200,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": []
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 1308 words (min 200)"
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "PASS",
+      "detail": "no raw markup / mermaid source found in body text"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "pdfimages found 4 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 7 rendered page(s) recovered 1427 legible words (min 15)"
+    }
+  ],
+  "verdict": "PASS",
+  "pdftotextFile": "_tests/evidence/fixes/pdf/milos-portfolio.pdftotext.txt",
+  "ocrPages": 7
+}

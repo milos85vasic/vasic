@@ -1,0 +1,33 @@
+printin("Exiting with success")
+
+exitProcess(0)
+}
+This program prints a message and exits with zero, meaning that it is
+completed with success. “exitProcess” function terminates the program and
+returns 0 as a result of its execution. Now open “SystemExitFailure.kt” example
+file:
+package net.milosvasic.fundamental.kotlin. lifecycle
+import kotlin.system.exitProcess
+fun main( {
+
+printin("Something went wrong!")
+
+exitProcess(1)
+}
+Besides different message that is printed out, this programs returns “1” as
+execution result. This means that the program has finished with failure.
+Basic syntax
+Since we have introduced you to basic Java legacy and explained to you some
+basics of Kotlin JVM) programs it is time to go further with Kotlin basics. It is
+time for us to start with Kotlin programming language syntax.
+Programming language syntax refers to the spelling and grammar of a
+language. Computers are different than people. They will understand what you
+type only if you type it in the exact form that the computer expects. This form is
+called the programming language syntax. Every programming language has its
+syntax. Some of them are similar, but some of them are quite different. Kotlin
+has similarities with multiple programming languages by which designers of
+the Kotlin programming language have been inspired. The most obvious syntax
+similarity comes from Java. However, some other languages influenced the
+design and syntax of Kotlin:
+- Scala: https://www.scala-lang.org/
+- Groovy: https://groovy-lang.org/

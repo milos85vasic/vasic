@@ -1,0 +1,49 @@
+We have defined two classes: “A” and “B”, where “B” inherits “A”. Both classes
+define functions with “visibility modifiers”.
+
+“A" class defines the following functions:
+
+- “hello”: it is publicly visible and can be accessed within its scope, from inherited
+classes, and through the class instance.
+
+- “world”: it is “protected”, which means that can be accessed within its scope
+and from inherited classes.
+
+- “helloWorld”: it is “private” which means that can be accessed only within its
+scope.
+
+- “greeting”: is publicly visible, and that means that it has the same rules
+associated with it as the “hello” function.
+
+“B" class inherits all functions from class “A” and overrides the “greeting”
+function.
+
+Let's play with these classes:
+
+vala=A()
+
+val b = B()
+
+printin("A:")
+
+a.hello()
+
+a.greeting()
+
+printin("B:")
+
+b.hello()
+
+b.greeting()
+
+If we run this example, the following output will be produced:
+
+A:
+
+Hello
+
+Hello world
+
+B:
+
+Hello

@@ -1,0 +1,190 @@
+Vasic Digital Work Products Portfolio Contact @ EN G
+// AI-NATIVE SOFTWARE ENGINEERING
+Al-native software engineering, built to be trusted.
+We build Al development systems — the models, agents, orchestration, and
+infrastructure that turn large language models into dependable software —
+together with the governance layer that keeps them honest.
+Explore the products View the portfolio Download Portfolio (PDF)
+40+ 140+ 33
+LLM providers, one interface repositories, one constitution products across three tiers
+// ABOUT
+A fleet, not a monolith.
+Vasic Digital is a focused engineering practice building an interconnected family of Al-
+development products and reusable modules. Rather than one monolith, the work is organized
+as a fleet: large product applications on top of dozens of small, independently-tested,
+decoupled modules — so proven parts are reused across every product instead of rebuilt.
+The backbone language is Go, complemented by Kotlin & Kotlin Multiplatform,
+TypeScript/React, Python, Swift, and Shell — chosen per job. What ties the fleet together is
+discipline made mechanical: every project inherits a shared engineering Constitution as a Git
+submodule, and every capability a product advertises must be backed by an automated,
+evidence-producing test. A feature is not "done" when the tests pass; it is done when a real
+user can actually use it, and there is captured evidence to prove it.
+// WHAT WE DO
+Al-based development, end to end.
+We build the substrate for Al systems — the hard part beneath the app.
+Multi-provider LLM access Agent orchestration LLM verification
+A first-party abstraction over 40+ Headless CLI coding-agent control A trust layer that scores models with a
+providers — Anthropic/Claude, OpenAl, planes, graph-based agentic mandatory comprehension gate ("Do
+DeepSeek, Gemini, Mistral, Grog, workflows, multi-round "Al debate" you see my code?") plus latency,
+xAl/Grok, and local Ollama as a fallback consensus, and DAG/pipeline runtimes. streaming, function-calling, vision, and
+— behind one interface with retries, embeddings tests — exporting a
+circuit breakers, and health checks. verified-only configuration.
+Retrieval & memory Defensive LLM
+RAG, vector databases, embeddings, Guardrails, Pll detection, adversarial
+and fused agent-memory engines red-team fixtures, and input
+(Mem0 + Cognee + Letta) with infinite- canonicalisation — safety built into the
+context compression. substrate, not bolted on.
+// TIER 1 - FLAGSHIP
+The Helix product family & LLM infrastructure
+Our flagship line spans the full Al-development lifecycle. In priority order.
+HelixTrack HelixAgent HelixCode HelixLLM
+
+Go Gin Go Gin PostgreSQL Go Gin SSH Go -HTTP/3 QUIc
+
+HTTP/3 QUIC LLMsVerifier +6 Model Context Protocol ‘Llama.cpp
+
+PostgreSQl +8 ‘An ensemble LLM service +2 LLMsVerifier +5
+
+that lets multiple models
+A free-world alternative to debate and ne s the A distributed Al One binary, six modes:
+JIRA — the flagship of the answer they a ion on development platform that OpenAl- and Anthropic-
+Helix-Track line. y agi / divides work across SSH- compatible inference from
+managed workers with laptop to cluster, over
+checkpoint/rollback. HTTP/3.
+
+Read more Read more Read more Read more
+HelixCluster LLMProvider LLMOrchestrator LLMsVerifier
+| in-development Go net/nttp Go Gin
+
+Go Zig  gRPC Go . .
+
+Logrus SQLite + SQLCipher
+
+Raft + SWIM +7 digital vasic nodels JSON-Lines over stdio gRee) (Ge
+
+istril 4 Circuit breaker
+A ee +2 Verify. Monitor. Optimize.
+System Tor Al compute, , , HealthMonitor = +2 The single source of truth
+from datacenter GPUs to One interface, 43 providers for LLM and provider
+edge handhelds. — with circuit breakers, One control plane for every cps ge Pp
+. . verification metadata.
+
+retries, and health baked headless CLI coding agent.
+
+in.
+
+Read more Read more Read more Read more
+HelixMemory
+
+Go  Memd — Cognee
+
+Letta +3
+One memory brain for Al
+agents — four best-in-
+class engines, fused.
+
+Read more
+
+// QUALITY & GOVERNANCE - OUR DIFFERENTIATOR
+Governance as an auditable fact, not an aspiration.
+Two pillars make the whole fleet coherent and trustworthy.
+HelixConstitution HelixQA
+A universal, project-agnostic engineering rulebook shipped as a Anti-bluff QA orchestration. It runs written YAML test banks and
+Git submodule and inherited by every project across a 140+- fully-autonomous, LLM-plus-computer-vision QA sessions
+repository fleet. It encodes non-negotiable discipline — anti- across Android, Android TV, Web, and Desktop — and it refuses
+bluff evidence gates, false-positive immunity, data and host to score a PASS without captured runtime evidence:
+safety — that a project may extend but never weaken. One screenshots, logcat, video, stack traces. "We tested it"
+submodule bump upgrades the rules everywhere, and every becomes "here is the video, the logcat, and the ticket."
+gate is paired with a mutation test that proves the gate itself
+isn't a sham.
+Read more Read more
+// TIER 2 - UTILITIES
+Vasic Digital utilities
+Product-grade tools that stand on their own.
+Catalogizer Courses-Creator VisionEngine DocProcessor
+Go Got / Opencv Go LLM agents
+Go Gin React Go React Electron ces cas
+LLM vision Heuristic parser
+
+WebSockets +10 React Native +8 Graph algorithms disn
+Advanced multi-protocol, Markdown in, professional See the UI like a user — Turn documentation into a
+encrypted media collection video course out — Al- ce of
+
+. computer vision plus LLM verifiable feature map for
+management — detect, enhanced, multi-platform. a . .
+. vision for analysis and QA automation.
+catalog, and enrich ce
+navigation.
+everything you own.
+
+Read more Read more Read more Read more
+Docs Chain Herald task_bridge scaffold Reusable Module
+
+Go DAG SQLite Go Shett Go SQLite Suite scattold
+
+; ; ; Go (digital.vasic.*)
+fsnotify LLM intent inference HMAC-SHA256
+. Kotlin Multiplatform
+Noftrackedidocumenticant Docs Chain cron + webhooks
+fall out of sync — content- Vector DB / RAG / MCP
+. ui . Every alert reaches the Your task board and your
+hashed, bidirectional, . nae 4
+canta right destination — no source-of-truth, *
+. command synt ired. it bly i — both
+yntax require: impeccably in sync — bo BunelonceNretise
+ways.
+everywhere — a fleet of
+small, decoupled,
+independently-tested Go
+and KMP modules.
+Read more Read more Read more Read more
+// TIER 3 - HERITAGE
+Server Factory — infrastructure automation
+Our DevOps heritage: declarative JSON turned into fully-provisioned, Dockerized servers.
+Mail Server Factory Server Factory Core Qemu-Utils Parallels-Utils
+Framework Shell — QeEMU Shell Python 3
+Kotlin Shell Kotlin Shell .
+Bridge / TAP Parallels
+Docker QEMU +4 Gradle ;
+Is0 images Compress, publish, and
+i i i i reuse your Parallels VM
+Run your mail server like The shared engine behind QEMU VM images, i y
+the boss — describe it in every Server Factory. 7 ; images across every
+JSON, deploy it anywhere. managed lke artifacts — machine.
+ncepicy v1 ° download, run, network, .
+publish.
+Read more Read more Read more Read more
+// TECHNOLOGIES
+Grounded in our actual stack.
+Languages Al/LLM Backend
+
+Go Kotlin / KMP — TypeScript 43+ provider adapters MCP Gin gRPC + Protobuf
+
+Python Swift Shell RAG Vector DBs HTTP/3 (QUIC) — WebSockets
+
+PL/pgSQL = TLA+ HiPlan / MCTS / ToT Angular / React
+
+SWE-bench / HumanEval / MMLU Kafka / RabbitMg
+Data Infra / DevOps Testing /QA
+
+PostgreSQL SQLite  SQLCipher Docker & Compose HelixQA (anti-bluff)
+
+Redis Neo4j — ClickHouse Kubernetes + Helm Challenge harnesses
+
+MinIo / $3 Prometheus + Grafana go test -race  SonarQube
+
+OpenTelemetry  QEMU / Libvirt semgrep / gosec / trivy / snyk
+GitHub Actions
+// PORTFOLIO
+One fleet, one discipline — see all 35 products.
+A unified, evidence-based portfolio of the Helix family, the vasic-digital utilities, and the Server
+Factory toolchain.
+Open the portfolio
+// CONTACT
+Let’s build something verifiable.
+Anyone can wire an app to an LLM. We build the part that is hard: Al systems that are verifiable,
+reusable, and honest. We don't ask you to trust the green checkmark — we show you the
+evidence behind it.
+Email GitHub
+i@mvasic.ru _github.com/vasic-digital 4
+© 2026 Vasic Digital — built on the OpenDesign system

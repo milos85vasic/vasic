@@ -59,6 +59,13 @@ func esc(s string) string {
 	return r.Replace(s)
 }
 
+// yamlQuote returns s as a YAML double-quoted scalar, safe for use as a Jekyll
+// front-matter value (title/description). Backslashes and double quotes are
+// escaped per the YAML double-quoted flow-scalar rules.
+func yamlQuote(s string) string {
+	return `"` + strings.NewReplacer(`\`, `\\`, `"`, `\"`).Replace(s) + `"`
+}
+
 var fmRe = regexp.MustCompile(`(?s)^---\n(.*?)\n---\n(.*)$`)
 
 // frontmatter is the minimal YAML subset used by product .md files

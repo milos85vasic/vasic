@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T16:29:35.911Z",
+  "input": "http://localhost:8082/",
+  "name": "milos-home",
+  "viewport": {
+    "w": 1440,
+    "h": 8200
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/fixes/oracle/milos-home.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/fixes/oracle/milos-home.light.ocr.txt",
+        "wordCount": 847,
+        "sample": "milos.vasic Work Experience Skills Contact EN AL ENGINEER Milos Vasi¢ Al engineer"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 8200
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 117,
+          "controls": 43,
+          "textChars": 5294
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/fixes/oracle/milos-home.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/fixes/oracle/milos-home.dark.ocr.txt",
+        "wordCount": 868,
+        "sample": "milos.vasic Work Experience Skills Contact EN» AT ENGINEER SD \"bg ae Milo&"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 8200
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 117,
+          "controls": 43,
+          "textChars": 5294
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

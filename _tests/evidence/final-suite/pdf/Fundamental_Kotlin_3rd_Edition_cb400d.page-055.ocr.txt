@@ -1,0 +1,30 @@
+makes up a complete unit of execution. We will start with very basic statements
+in this section and progress towards more complex examples.
+Let's have a look at few statements:
+val result=5* 5
+In this example, we have defined a statement in which multiplication operation
+is resolved into the value that is assigned to a variable.
+Any valid unit of code that resolves to a value represents expression.
+Expressions are part of statements.
+printin(“Hello!”)
+varx=5
+val parameter = if (x > y) 10 else 100
+Al these are statements.
+Grouping multiple statements (none or more) between braces “{ }" is called a
+block of code. Blocks represent basic scopes in which values are defined and to
+which we can access. We will talk more about scopes and values in the next
+section.
+Let's make some code blocks (“Blocks.kt” source code file):
+fun main(args: Array<String>) { // <- Main function block
+// start
+if (args.size == 2) { // <-Start of ‘if’ block
+
+// Statements:
+
+print("1st argument: ${args[0]}")
+
+print("2nd argument: ${args[0]}")
+
+}// <- End of ‘if’ block
+
+}// <- Main function block end

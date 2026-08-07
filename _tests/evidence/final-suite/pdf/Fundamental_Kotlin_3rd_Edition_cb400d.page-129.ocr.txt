@@ -1,0 +1,28 @@
+override fun execute() {
+printin("Stopping session")
+}
+}
+executor.addCommand(obj6)
+executor.execute()
+Executing this program will produce the following output:
+Starting session.
+Logging in.
+Launch app 1
+Launch app 2
+Logging out
+Stopping session
+“Class companion object” can have a name. From book code examples open
+“NamedCompanion.kt” and have a look:
+class Database(val type: String) {
+companion object Factory {
+fun createInMemoryDatabase() = Database("InMemory")
+fun createFilesystemDatabase() =
+Database("Filesystem")
+}
+fun describe() = printin("This is '$type' database")
+}
+Let's create some “Database” instances:
+val inMemory = Database.Factory.createInMemoryDatabase()
+val filesystem = Database.Factory.createFilesystemDatabase()
+which can be simplified to:
+val inMemory = Database.createInMemoryDatabase()

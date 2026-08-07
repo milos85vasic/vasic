@@ -1,0 +1,30 @@
+As you can see getting the instance of the single-threaded pool is
+straightforward. Besides the “newSingleThreadExecutor” function there are
+others as well required to create other types of thread pools:
+- “newCachedThreadPool”: creates a cached thread pool
+- “newFixedThreadPool”: creates a thread pool that reuses a fixed number of
+threads.
+Let's schedule some work for our thread pool:
+for (x in 0..10) {
+executor.execute {
+printin("Count no. $x")
+// Sleep for one second:
+Thread.sleep(1000)
+if (x == 10) {
+// We terminate the executor:
+executor.shutdown()
+}
+}
+}
+And let's wait for it to finish:
+// We wait for the executor to be terminated
+// and to finish all tasks:
+while (lexecutor.isShutdown) {
+Thread. yield()
+}
+Executing our program will count to ten and produce the following output
+(writing the output line per second):
+Count no. 0
+Count no. 7
+Count no. 2
+Count no. 3

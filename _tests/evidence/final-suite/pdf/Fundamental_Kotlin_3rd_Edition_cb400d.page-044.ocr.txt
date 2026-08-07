@@ -1,0 +1,31 @@
+Each program that we run has its entry point. The entry point for every JVM
+program is the “main” function. Kotlin typical “main” function looks like this:
+package net.milosvasic.fundamental.kotlin
+fun main(args: Array<String>) {
+
+// Your program starts from here
+}
+Arguments can be left out:
+package net.milosvasic.fundamental.kotlin
+fun main() {
+
+// Your program starts from here
+}
+The main function in Kotlin must be placed in ordinary .kt file under the
+package. Arguments (“args: Array<String>”) contain everything that we pass to
+our program from the command line (terminal). This data can be used later as
+parameters in our programs. You will learn more about function arguments in
+upcoming sections of this book. When the main function is entered execution of
+our program begins.
+After the program finishes with the execution proper exit code is returned as
+the result. The default return value of every JVM program is zero. Zero means
+that the program has been executed with success. Non-zero codes mean that
+our program had abnormal termination. Non-zero values can be positive and
+negative. Positive values are usually returned from our code (defined by the
+user) to indicate a particular exception. Negative status codes are system-
+generated error codes. Such error codes are generated as a result of
+unanticipated exceptions, system errors, or forced termination of our program.
+Take a look at file “SystemExitSuccess.kt” form book's code examples:
+package net.milosvasic.fundamental.kotlin. lifecycle
+import kotlin.system.exitProcess
+fun main( {

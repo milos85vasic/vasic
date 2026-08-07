@@ -1,0 +1,38 @@
+$ kotlinc HelloNative.kt -o hello -opt
+
+Flag at the end “-opt” stands for optimized compilation. Now run “hello”
+program:
+
+$ hello
+
+The output of execution will be:
+
+My first Kotlin/Native application.
+
+Build automation tools
+
+Compiling Kotlin programs by directly executing compiler in practical everyday
+development is not something that software developers are doing really. For
+purpose of building and packaging our programs, various build automation
+tools are available. To make our lives easier build automation tools are
+automating the creation of executable applications from the source code.
+
+What is automated?
+
+Build automation tools prepare and download all dependencies used by our
+projects. For example, all libraries are downloaded and stored for later use. The
+user does not have to worry about providing dependency files. Build
+automation tools perform all custom scripted tasks that users defined such as
+copying files or any project-specific activities. Tasks can be executed before or
+after compiling the project.
+
+Build automation tools perform compiling and proper packaging of our
+projects, executing tests, and finally deploying projects to production systems.
+As we already mentioned you can build your Kotlin code using the Kotlin
+compiler. However, it is more convenient to use one of the most popular build
+automation tools.
+
+To build Kotlin projects you can use various build automation tools that support
+Kotlin out of the box. Let’s mention some of them.
+
+Gradle

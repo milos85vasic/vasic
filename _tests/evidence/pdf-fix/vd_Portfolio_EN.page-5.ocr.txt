@@ -1,0 +1,33 @@
+VASIC DIGITAL PORTFOLIO
+
++ Qemu-Utils — QEMU VM images managed like artifacts: download/cache/run, compress/publish,
+bridge/TAP networking, ISO installs; Linux + macOS.
+
++ Parallels-Utils — Parallels (macOS) VM image compression, publishing, and retrieval via simple
+settings files.
+
++ Server Factory — Additional Components — service factories (Web/SonarQube/Caching-Proxy),
+Definitions packs, and Utils. Service factories are placeholder-documented — UNVERIFIED / early-
+stage.
+
+| 7. Technology index (evidence-based)
+
++ Languages: Go (dominant), Kotlin & Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL;
+TLA+ (formal specs in helix_cluster).
+
++ Al/ LLM: 40+ provider access, MCP, RAG, vector DBs & embeddings, planning (HiPlan/MCTS/Tree-
+of-Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), TTS (Bark/SpeechT5),
+computer-vision + LLM-vision, guardrails/red-team.
+
++ Backend: Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
+
++ Data: PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, Minl|O/S3/GCS/Azure.
+
++ Infra / DevOps: Docker & Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMUJ/Libvirt/Parallels; GitHub Actions, Gradle, Make.
+
+* Testing / QA: HelixQA, Challenge harnesses with mutation gates, go test -race , visual-regression
+tooling, ADB device testing, SonarQube, security scanning (semgrep/gosecitrivy/snyk/gitleaks/nancy),
+TLA+ model checking.
+
+milosvasic.ru - vasic.digital 5/8

@@ -1,0 +1,30 @@
+Cpu cores: 4, memory: 32GB
+Displaying image
+Playing sound
+Cpu cores: 8, memory: 64GB
+Performing hardware processing
+Displaying image
+Perform sound equalization
+Playing sound
+And, our last but not least objects example, from book code examples
+‘VariablesAccess.kt” will illustrate access to variables of enclosed scope:
+var countLeft =0
+var countRight = 0
+val executor = Executor()
+val left = object: Command(){
+override fun execute() {
+printin("Executing: LEFT")
+countLeft++
+}
+}
+val right = object: Command(){
+override fun execute() {
+printin("Executing: RIGHT")
+countRight++
+}
+}
+As you can see “left” and “right” objects can access to “counter” variables and
+increase its values. If we play a little to demonstrate this:
+executor.addCommand(left)
+executor.addCommand(left)
+executor.addCommand(left)

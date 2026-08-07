@@ -1,0 +1,30 @@
+override val cores: Int
+get()=8
+override val memory: Int
+get() = 128
+override fun execute() {
+printin(
+"Encrypting: $what, using(${getUsedResources()})"
+)
+}
+}
+We have implemented the interface in two classes: “Download” and “Encrypt”.
+Overriding “cores” property is mandatory since the property is abstract.
+However, for the “memory” property we have a default value defined which
+means that we do not have to override it.
+Interfaces inheritance
+In Kotlin interface can inherit from other interfaces. Because of this, both
+provide implementations and both declare new properties and functions.
+Classes that implement these interfaces are required to define the missing
+implementations. Let's take a look at a proper example that demonstrates this.
+From book code examples open “InterfaceInheritance.kt”:
+interface Device {
+val model: String
+}
+interface AudioDevice : Device {
+val brand: String
+val serialNumber: Long
+override val model: String
+get() = "$brand::$serialNumber"
+fun play()
+}

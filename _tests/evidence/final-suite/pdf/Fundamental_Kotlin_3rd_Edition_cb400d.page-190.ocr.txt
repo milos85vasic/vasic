@@ -1,0 +1,32 @@
+for (x in 0..5) {
+val random = cars,random()
+printin("Random chosen car model: $random")
+}
+In this example, we will choose a car brand randomly five times and print out its
+name. Obviously, the “random” function retrieves one of the set members
+randomly. If you execute this code you will have output similar (not the same)
+like this:
+Random chosen car model: Audi
+Random chosen car model: Bmw
+Random chosen car model: Audi
+Random chosen car model: Fiat
+Random chosen car model: Audi
+Random chosen car model: Porsche
+If we execute this program several times in the row, with each execution we will
+have different output:
+Random chosen car model: Renault
+Random chosen car model: Renault
+Random chosen car model: Renault
+Random chosen car model: Audi
+Random chosen car model: Audi
+Random chosen car model: Renault
+You may notice that the “random” function may return the same item in
+consecutive execution.
+Besides these functionalities, there are some others very important in everyday
+work with sets that you need. With sets we can:
+- check if the set contains the element
+- check if the set contains all elements
+- check if the set is empty
+- perform filtering
+- perform “+” and “-” operations.
+To better understand these functionalities we will illustrate them one by one.

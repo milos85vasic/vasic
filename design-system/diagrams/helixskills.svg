@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<path class="conn" marker-end="url(#a)" d="M480,150 L480,198"/>
+<path class="conn" marker-end="url(#a)" d="M420,280 L200,338"/>
+<path class="conn" marker-end="url(#a)" d="M480,280 L400,338"/>
+<path class="conn" marker-end="url(#a)" d="M540,280 L640,338"/>
+<path class="conn" marker-end="url(#a)" d="M400,410 L340,458"/>
+<path class="conn" marker-end="url(#a)" d="M640,410 L600,458"/>
+<rect class="accent" x="360" y="70" width="240" height="80" rx="10"/>
+<text class="t" x="480" y="104">HelixConstitution</text>
+<text class="s" x="480" y="124">universal rules (submodule)</text>
+<rect class="box" x="360" y="200" width="240" height="80" rx="10"/>
+<text class="t" x="480" y="234">HelixSkills</text>
+<text class="s" x="480" y="254">mounts + cascades</text>
+<rect class="box" x="60" y="340" width="200" height="70" rx="10"/>
+<text class="t" x="160" y="375">7 Constitution skills</text>
+<rect class="box" x="300" y="340" width="200" height="70" rx="10"/>
+<text class="t" x="400" y="375">4 draft skills</text>
+<rect class="box" x="540" y="340" width="220" height="70" rx="10"/>
+<text class="t" x="650" y="375">Reusable engines</text>
+<text class="s" x="650" y="395">continuum · token_optimizer</text>
+<rect class="tint" x="200" y="460" width="240" height="70" rx="10"/>
+<text class="t" x="320" y="495">MCP tool servers</text>
+<rect class="tint" x="500" y="460" width="240" height="70" rx="10"/>
+<text class="t" x="620" y="495">Claude Code plugins</text>
+<text class="h" x="32" y="44">HelixSkills — governance inheritance</text>
+<text class="lbl" x="360" y="52">Rules cascade ↓</text>
+<text class="lbl" x="60" y="322">Skill catalog</text>
+<text class="note" x="200" y="540">Universal rules reach every registered skill + consuming agent</text>
+</svg>

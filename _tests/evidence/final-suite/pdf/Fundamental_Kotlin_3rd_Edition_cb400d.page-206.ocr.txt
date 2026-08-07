@@ -1,0 +1,31 @@
+“partition” function splits the original collection into pair of lists. First list
+contains elements for which predicate is true. Second list contains elements for
+which predicate is false. We demonstrate use of “partition” function in
+“Partition.kt” from book code examples example:
+val numbers = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+val partitioned = numbers.partition { it % 2 == 0}
+“partitioned” constant is instance of “Pair” data type. Let's print out the content
+of original collection and partitioned data:
+printin("Original: $numbers")
+printin("Partitioned: $partitioned")
+Which will produce the following output:
+Original: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Partitioned: ([0, 2, 4, 6, 8, 10], [1, 3, 5, 7, 9])
+As you can see we have two lists as members of the Pair. Members of the first
+list are the numbers who satisfied the condition with boolean True. The others
+are on the second list.
+Folding
+“fold” function groups elements in a way that the grouping is performed from
+the grouping source by key and applies the operation to the elements of each
+group sequentially. It passes the previously accumulated value and the current
+element as argument, and stores the results in a newly created map.
+From book code examples open “Fold.kt”:
+val numbers = listOf(2, 4, 6, 8, 10, -20)
+val folded = numbers.fold(
+
+initial = 0,
+
+operation = { part, element -> part + element }
+)
+The folded result will be an integer with a value of exactly ten. Let's check this:
+printin(numbers)

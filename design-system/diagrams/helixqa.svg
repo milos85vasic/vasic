@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<path class="conn" marker-end="url(#a)" d="M570,102 L745,102 L745,248"/>
+<path class="conn" marker-end="url(#a)" d="M745,334 L745,512 L572,512"/>
+<path class="conn" marker-end="url(#a)" d="M330,512 L155,512 L155,336"/>
+<path class="conn" marker-end="url(#a)" d="M155,250 L155,102 L328,102"/>
+<path class="conn" marker-end="url(#a)" d="M450,144 L450,266"/>
+<path class="conn" marker-end="url(#a)" d="M618,292 L562,306"/>
+<path class="conn" marker-end="url(#a)" d="M450,470 L450,374"/>
+<path class="conn" marker-end="url(#a)" d="M280,292 L338,306"/>
+<rect class="box" x="330" y="60" width="240" height="84" rx="10"/>
+<text class="t" x="450" y="94">1 · Setup</text>
+<text class="s" x="450" y="114">select LLMs · feature map</text>
+<rect class="box" x="620" y="250" width="250" height="84" rx="10"/>
+<text class="t" x="745" y="284">2 · Doc-Driven Verification</text>
+<text class="s" x="745" y="304">every documented feature</text>
+<rect class="box" x="330" y="470" width="240" height="84" rx="10"/>
+<text class="t" x="450" y="504">3 · Curiosity Exploration</text>
+<text class="s" x="450" y="524">edge cases · undocumented</text>
+<rect class="box" x="30" y="250" width="250" height="84" rx="10"/>
+<text class="t" x="155" y="284">4 · Report &amp; Cleanup</text>
+<text class="s" x="155" y="304">MD / HTML / JSON</text>
+<rect class="accent" x="340" y="268" width="220" height="104" rx="10"/>
+<text class="t" x="450" y="302">Captured evidence</text>
+<text class="s" x="450" y="322">screenshot · logcat · video</text>
+<text class="h" x="32" y="44">HelixQA — autonomous QA-session loop</text>
+</svg>

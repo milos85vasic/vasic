@@ -1,0 +1,48 @@
+String templates
+
+Let's go back to a file Second.kt and the function called printSum. Take a look at
+the following:
+
+printin("Sum is ${x + y}")
+
+You will notice that we used the “${ ... }” string template expression. We reduced
+the code boilerplate we would have in Java. We avoided String concatenation
+with + operator.
+
+The following examples will show how powerful string templates are in Kotlin.
+Open “StringTemplates.kt” and take a look carefully into string templates usage:
+val firstName = "John"
+
+val lastName = "Snow"
+
+val title = "We called $firstName $lastName to come."
+
+As you can see, it is really easy to inject values into the text. After $ sign put the
+name of the value that you are interested in.
+
+val profession = "captain"
+
+val subtitle = "He is: ${if (firstName == "/ohn") profession else "sailor"}."
+
+Any expression can be used.
+
+Kotlin supports multiline text. There is no need for escaping when using
+multiline text. If you plan to write some regex patterns it may be very useful to
+you. You don't need to escape a backslash by a backslash too!
+
+Take a look at the example of multiline text. String template entries may be
+used here as in previous examples:
+
+val bornDay = 6
+
+val bornYear = 1580
+
+val bornMonth = "June"
+
+val diedDay = 21
+
+val diedYear = 1631
+
+val diedMonth = "June"
+
+val body = """

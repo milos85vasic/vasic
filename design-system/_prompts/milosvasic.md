@@ -1,0 +1,14 @@
+You are OpenDesign generating a production, enterprise-grade DESIGN SYSTEM stylesheet. Output a SINGLE complete CSS file and NOTHING else — no HTML, no Markdown, no commentary, no code fences.
+
+Brand: "Milos Vasic" — a senior AI / software engineer's personal portfolio & CV site. Tone: precise, technical, editorial, cutting-edge, trustworthy, refined.
+Primary accent: crimson #a31e39 in light theme; a slightly brighter crimson (~#ec3b58) in dark. Typography (assume self-hosted; reference via CSS vars only, do NOT @import): display "Space Grotesk", body "Inter", mono "JetBrains Mono".
+
+REQUIREMENTS:
+1) Design tokens as CSS custom properties on :root for the LIGHT theme, with a COMPLETE dark override in BOTH `:root[data-theme="dark"]` AND `@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ ... } }`. Tokens MUST include:
+   - Color: crimson ramp --od-accent-50..--od-accent-900; semantic --od-bg, --od-surface, --od-surface-2, --od-text, --od-text-muted, --od-border, --od-accent, --od-accent-hover, --od-accent-active, --od-on-accent, --od-focus, --od-success, --od-warning, --od-danger, --od-shadow-color.
+   - Typography: --od-font-display/-body/-mono; fluid scale --od-fs-xs..--od-fs-3xl via clamp(); --od-lh-tight/-normal/-loose; --od-tracking-tight/-normal/-wide.
+   - Spacing --od-space-1..--od-space-12 (4px base); radius --od-radius-sm/-md/-lg/-xl/-pill; shadow --od-shadow-sm/-md/-lg; motion --od-dur-fast/-base/-slow + --od-ease-standard/-emphasized; z-index --od-z-nav/-modal/-toast; --od-container-max.
+2) Component classes, ALL prefixed `od-`, styled ONLY via the tokens above (no hard-coded colors or px sizes except where a token cannot apply), correct in BOTH themes, WCAG 2.2 AA contrast, a visible :focus-visible ring using --od-focus, and a global `@media (prefers-reduced-motion: reduce)` block that disables transitions/animations. Include: od-skip-link; od-btn with --primary/--secondary/--ghost and :hover/:active/:focus-visible/[disabled]; od-card; od-chip (tech badge); od-field/od-label/od-input/od-textarea; od-header/od-nav/od-nav__link; od-footer; od-hero/od-hero__title/od-hero__lede; od-stat/od-stat__value/od-stat__label; od-section/od-section__eyebrow (mono uppercase)/od-section__title; od-product-card/od-product-card__title/od-product-card__tech; od-product-detail (article typography for h1/h2/h3/p/ul/ol/a/code/pre/blockquote using tokens); od-table; od-dialog with od-dialog__backdrop and od-dialog__panel (accessible modal); od-badge--status for roadmap / in-development / beta labels; od-tag--license.
+3) Base reset (box-sizing:border-box; body uses token font/bg/color; sensible line-height). Prefer logical properties (margin-inline, padding-block, inset-inline) for RTL safety.
+4) NO external font @import, NO JavaScript, NO images. Valid, complete CSS only. End the file cleanly.
+Make it genuinely elegant and modern — this represents a cutting-edge AI engineer, not a template.

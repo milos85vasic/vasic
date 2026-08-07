@@ -1,0 +1,44 @@
+In this section, we will explain what concurrency is and how concurrency can be
+performed in Kotlin. The definition of concurrency is the ability of different parts
+of our program to be executed unordered or at the same time simultaneously
+or in a partial order, without affecting the outcome of the execution. Thanks to
+this our programs can significantly improve speed on multi-processor and
+multi-core machines.
+
+We will demonstrate two approaches to concurrency:
+
+- by using “threads”, the classical approach
+
+- and by using Kotlin “coroutines”.
+
+We will explain how to use each of these two, what are their strengths and what
+their weaknesses are.
+
+Threads
+
+A “thread” represents a thread of execution in our programs. The JVM allows
+that our programs run multiple threads at the same time. All threads of our
+program have a priority. This means that the threads with high priority are
+executed in preference to the lower priority ones. Another thing that is possible
+is to mark the thread as a daemon.
+
+When the JVM starts a single non-daemon thread is started. It calls the main
+function of our program. Then, the JVM continues to execute our program
+threads until one of the conditions happen:
+
+- The “exit” function of the “Runtime” class has been called (with the “security
+manager” permitted the exit operation)
+
+- All threads that are not daemon threads have died.
+
+We will present you two ways to create and run threads:
+
+- Declaring a class as a subclass of the “Thread” and starting it
+
+- Declaring a class that implements the “Runnable” interface which then
+implements the “run” function and using it as a parameter to the “Thread” class
+constructor.
+
+From book code examples open “Threads.kt”:
+
+class Counter(private val count: Int) : Thread() {

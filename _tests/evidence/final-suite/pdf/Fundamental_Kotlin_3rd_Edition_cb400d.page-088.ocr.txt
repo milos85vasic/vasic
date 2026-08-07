@@ -1,0 +1,39 @@
+}
+}
+
+val pow = power(converted)
+
+printin("Power of $converted is: $pow")
+}
+Running a new modified version will give the following output:
+try{
+
+powerLogger(a)
+
+powerLogger(b)
+
+powerLogger(c)
+} catch (e: IllegalArgumentException) {
+
+printin("Error: ${e.message}")
+}
+Power of 2.0 is: 4.0
+Power of 3.0 is: 9.0
+Error: Unsupported data passed: String
+The key is to use the data type conversion function. In our case, we have
+executed the “toDouble” function that will convert the Integer instance into a
+Double data type. All basic data types have conversion functions for other basic
+data types. You probably remember that we have already presented this in the
+“Numbers in Kotlin” section.
+Let's have a look at a couple more examples:
+if (a is String) // If a is instance of String
+if (a fis String) // If a is not instance of String
+fun printIfString(a: Any) {
+
+if (a is String) {
+
+printin(a) // a is automatically cast to String
+
+}
+
+}

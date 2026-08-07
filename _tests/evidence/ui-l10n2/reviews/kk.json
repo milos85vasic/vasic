@@ -1,0 +1,18 @@
+{
+  "lang": "kk",
+  "name": "Kazakh (Cyrillic script)",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "tier1.eyebrow",
+    "prod.order"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "prod.order",
+    "tier1.eyebrow"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "tier1.eyebrow translation '1-деңгей — туынды' does not convey the meaning of 'flagship' and sounds unnatural. prod.order translation 'рәсім' is incorrect; a more appropriate term would be 'тапсырыс' or similar. All other entries are in Cyrillic script, preserve required Latin brand terms, and are natural."
+}

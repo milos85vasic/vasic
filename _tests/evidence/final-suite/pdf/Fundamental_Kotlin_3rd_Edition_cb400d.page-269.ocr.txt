@@ -1,0 +1,26 @@
+As you can see "destructuring” is one nice little functionality given to you by
+Kotlin.
+Mapped properties
+In Kotlin we might want to store our properties in a map. This can be easily
+achieved. From the book code examples open “MappedProperties. kt":
+class Employee(map: Map<String, Any?>) {
+val firstName: String by map
+val lastName: String by map
+val yearOfBirth: Int by map
+}
+val e = Employee(
+mapOfi
+"firstName" to "John",
+"lastName" to "Smith",
+"yearOfBirth" to 1985
+)
+)
+Let's check if values have been assigned properly:
+printin(
+"Employee: ${e.firstName}, ${e.lastName},
+${e.yearOfBirth}"
+)
+Executing this verification code snippet will confirm that everything has been
+assigned as we have expected:
+Employee: John, Smith, 1985
+Concurrency

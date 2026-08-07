@@ -1,0 +1,49 @@
+VASIC DIGITAL PORTFOLIO
+6. Server Factory (naslede automatizacije infrastrukture — poslednje
+rangiran)
+
+Rangiran poslednji po zamisli, a ne po kvalitetu: Server Factory alatni lanac prethodi liniji Al i pokazuje gde je
+
+filozofija ,izgradi jednom, koristi svuda” prvi put zazivela. Njegov vodeci proizvod — mail server koji opiSete u
+
+JSON i postavite bilo gde — zreo je, dobro testiran proizvod; prateci alati prikazani su u svojoj stvarnoj,
+
+razlicitoj zrelosti, a ne uljepSani.
+
++ Mail Server Factory — deklarativni JSON — potpuno postavljen, dokeraizovan mail server za 12
+vrsta veza i 25 Linux distribucija; preduzetnicka sigurnost; izveStava 0 439 uspe$no polozenih testova i
+Cistoj SonarQube kapiji. Vodeci proizvod Server-Factory organizacije.
+
++ Server Factory Osnovni okvir — zajedni¢ki Kotlin pogon na kojem se grade sve fabrike.
+
++ Qemu-Utils — VM slike QEMU upravljane kao artefakti: preuzimanje/keSiranje/pokretanje, kompresija/
+objavijivanje, mrezZno povezivanje preko bridge/TAP, ISO instalacije; Linux + macOS.
+
++ Parallels-Utils — kompresija, objavijivanje i preuzimanje VM slika Parallels (macOS) putem
+jednostavnih fajlova sa podeSavanjima.
+
++ Server Factory — Dodatne komponente — fabrike servisa (Web/SonarQube/Caching-Proxy), paketi
+definicija i pomoéni alati. Fabrike servisa su dokumentovane kao placeholderi— NEVERIFIKOVANO /
+u ranoj fazi.
+
+| 7. TehnoloSki indeks (baziran na dokazima)
+
++ Jezici: Go (dominantan), Kotlin i Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL;
+TLA+ (formaline specifikacije u helix_cluster).
+
++ Al/ LLM: pristup preko 40 provajdera, MCP, RAG, baze podataka vector i embeddings, planiranje
+(HiPlan/MCTS/ Tree-of-Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), TTS
+(Bark/SpeechT5), racunarski vid + LLM-vizija, zaStitne mere/red-tim.
+
++ Backend: Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
+
++ Podaci: PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, Minl|O/S3/GCS/Azure.
+
++ Infra / DevOps: Docker i Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMUJ/Libvirt/Parallels; GitHub Actions, Gradle, Make.
+
++ Testiranje / KA: HelixQA, okviri za izazove sa mutacionim kapijama, go test -race , alati za vizuelnu
+regresiju, testiranje na ADB uredajima, SonarQube, skeniranje sigurnosti (semgrep/gosec/trivy/snyk/
+gitleaks/nancy), provera modela TLA+.
+
+milosvasic.ru - vasic.digital 5/8

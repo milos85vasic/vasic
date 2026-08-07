@@ -1,0 +1,37 @@
+Kotlin is the main programming language for writing Android applications. It is
+unimaginable by many Android developers to do their regular programming in
+anything different than Kotlin. To find out more about Android you can visit the
+official Android developer's page:
+
+https://developer.android.com.
+
+On market, some tools go beyond the standard language features. One of them
+is Android KTX, the set of Kotlin extensions for Android development:
+https://developer.android.com/kotlin/ktx.
+
+JavaScript development
+
+Kotlin provides us with the ability to produce JavaScript builds. It does so by
+translating Kotlin source code to JavaScript. The current implementation targets
+ECMAScript 5.1 but there are plans to eventually target ECMAScript 2015 too.
+When you choose the JavaScript target, any Kotlin code that is part of the
+project as well as the standard library that ships with Kotlin are translated to
+JavaScript. This excludes the JDK and any JVM or Java framework or library used.
+Any file that is not Kotlin will be ignored during compilation.
+
+Native development
+
+Kotlin can be compiled to run directly on computer hardware. For this purpose
+team at JetBrains developed Kotlin/Native technology that is developed side by
+side with the main Kotlin language. It is really easy to write Kotlin applications
+that will be delivered as native platform binaries. We will talk more about
+Kotlin/Native in upcoming sections.
+
+Kotlin for data science
+
+Kotlin found its place even in data science. Kotlin supports integration with
+some very popular platforms used by data scientists. We will mention some of
+the most popular.
+
+Apache Zeppelin (comes shipped with Kotlin interpreter):
+https://zeppelin.apache.org/

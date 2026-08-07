@@ -1,0 +1,33 @@
+- Python: https://www.python.org/
+- C#: https://docs.microsoft.com/en-us/dotnet/csharp/
+- Gosu: https://gosu-lang.github.io/
+- ML: https://en.wikipedia.org/wiki/ML_(programming_language).
+The lexical structure of Kotlin programs
+The lexical structure represents a set of basic rules that define how you write
+programs. In this section, we will explain the lexical structure of the Kotlin
+programming language.
+We will cover:
+- Unicode character set
+- Case sensitivity
+- Whitespace
+- Comments
+- Identifiers
+- Literals
+- Reserved words.
+Unicode character set
+Unicode represents a standard for the consistent encoding, representation, and
+handling of text. Unicode is expressed in most writing systems. Kotlin programs
+are written using Unicode. In Kotlin you can use Unicode characters
+everywhere. For example for giving names to your constants and variables, for
+comments, and so on. What makes Unicode so powerful is that it can represent
+virtually every written language in common use on the planet! To illustrate to
+you that this can be done, we have created one simple example. Open
+“unicode_example.kt” from the book's code examples and take a look at them:
+package net.milosvasic.fundamental.kotlin.lexical_structure
+class MojaKaacaHahupunuuu {
+
+val noz0pae = "lo30pae Ha hupunuuu!"
+}
+fun main( {
+
+val unicodeClass = MojaKnacaHahupunuuu()

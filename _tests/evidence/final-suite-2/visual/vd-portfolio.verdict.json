@@ -1,0 +1,867 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T20:25:29.740Z",
+  "input": "http://localhost:8401/portfolio/",
+  "name": "vd-portfolio",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "evidence/final-suite-2/visual/vd-portfolio.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "evidence/final-suite-2/visual/vd-portfolio.light.ocr.txt",
+        "wordCount": 1102,
+        "sample": "Vasic Digital Home Portfolio ey G& UNIFIED PORTFOLIO Portfolio A unified, evidence-based"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 117,
+          "controls": 39,
+          "textChars": 4382
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=1480 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 1435,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=1480 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 1435,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=1480 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 1435,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=1956 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 1912,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=1956 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 1912,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=1956 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 1912,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=2436 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 2392,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=2436 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 2392,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=2436 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 2392,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 3009,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 3009,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 3009,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=3630 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 3586,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=3630 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 3586,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=3630 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 3586,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=4115 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 4070,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=4115 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 4070,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=4115 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 4070,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=4795 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 4751,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=4795 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 4751,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=5561 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 5517,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=5561 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 5517,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=5561 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 5517,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=6108 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 6064,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=6108 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 6064,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=6108 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 6064,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=6748 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 6704,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=6748 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 6704,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=7373 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 7329,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=7373 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 7329,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=7373 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 7329,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=7885 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 7841,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=7885 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 7841,
+              "w": 119,
+              "h": 44
+            }
+          }
+        ]
+      },
+      "errorCount": 33,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    },
+    "dark": {
+      "screenshot": "evidence/final-suite-2/visual/vd-portfolio.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "evidence/final-suite-2/visual/vd-portfolio.dark.ocr.txt",
+        "wordCount": 1115,
+        "sample": "Vasie Digital Home Portfolio ey 8 UNIFIED PORTFOLIO Portfolio A unified, evidence-based"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 117,
+          "controls": 39,
+          "textChars": 4382
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=1480 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 1435,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=1480 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 1435,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=1480 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 1435,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=1956 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 1912,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=1956 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 1912,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=1956 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 1912,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=2436 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 2392,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=2436 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 2392,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=2436 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 2392,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 3009,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 3009,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 3009,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=3630 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 3586,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=3630 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 3586,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=3630 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 3586,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=4115 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 4070,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=4115 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 4070,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=4115 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 4070,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=4795 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 4751,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=4795 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 4751,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=5561 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 5517,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=5561 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 5517,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=5561 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 5517,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=6108 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 6064,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=6108 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 6064,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=6108 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 6064,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=6748 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 6704,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=6748 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 6704,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=7373 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 7329,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=7373 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 7329,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=997 bottom=7373 vs 1280x800)",
+            "rect": {
+              "x": 877,
+              "y": 7329,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=191 bottom=7885 vs 1280x800)",
+            "rect": {
+              "x": 72,
+              "y": 7841,
+              "w": 119,
+              "h": 44
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "a[Read more]",
+            "detail": "control escapes viewport on: bottom (rect right=594 bottom=7885 vs 1280x800)",
+            "rect": {
+              "x": 475,
+              "y": 7841,
+              "w": 119,
+              "h": 44
+            }
+          }
+        ]
+      },
+      "errorCount": 33,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    }
+  },
+  "verdict": "FAIL"
+}

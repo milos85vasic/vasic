@@ -1,0 +1,42 @@
+{
+  "site": "vasic.digital (server-rendered chrome via Go T())",
+  "before_en": {
+    "product": {
+      "lang": "en",
+      "dir": "ltr",
+      "nav": "Home Products"
+    },
+    "portfolio": {
+      "lang": "en",
+      "dir": "ltr",
+      "nav": "Home Portfolio"
+    }
+  },
+  "after": {
+    "ru_product": {
+      "lang": "ru",
+      "dir": "ltr",
+      "nav": "Главная Продукты"
+    },
+    "ru_portfolio": {
+      "lang": "ru",
+      "dir": "ltr",
+      "nav": "Главная Портфолио"
+    },
+    "zh_product": {
+      "lang": "zh",
+      "dir": "ltr",
+      "nav": "首页 产品"
+    },
+    "ar_product": {
+      "lang": "ar",
+      "dir": "rtl",
+      "nav": "الصفحة الرئيسية المنتجات"
+    },
+    "ar_portfolio": {
+      "lang": "ar",
+      "dir": "rtl",
+      "nav": "الصفحة الرئيسية المحفظة"
+    }
+  }
+}

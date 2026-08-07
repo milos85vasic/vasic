@@ -1,0 +1,32 @@
+a+=b//Is equivalent to:a=atb,
+
+// translates to: a.plusAssign(b)
+printin("a += b: $a")
+b -=a//Is equivalent to: a =a - b,
+
+// translates to: a.minusAssign(b)
+printin("b -= a: $b")
+a *= b //Is equivalent to: a =a * b,
+
+// translates to: a.timesAssign(b)
+printin("a *= b: $a")
+a/= b//Is equivalent to: a =a/b,
+
+// translates to: a.divAssign(b)
+printin("a /= b: $a")
+a %= b // Is equivalent to: a =a % b,
+
+// translates to: a.modAssign(b)
+printin("a %= b: $a")
+Running this example will give us the following output:
+a: 3,b:5
+a+=b:8
+b-=a:-3
+a *= b: -24
+a/=b:8
+a %= b:2
+Unary operators
+Let's demonstrate unary operators with a simple example. Open “Unary.kt”
+source code file from book code examples:
+vala=1
+val b = true

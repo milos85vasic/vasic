@@ -1,0 +1,28 @@
+"Unknown"
+}
+}
+We have defined a function that will accept the user's id as an argument of
+Integer type and return associated type with that Id. Let's try it:
+val ids = listOf(0, 1, 2, 3, 4)
+ids.forEach {
+val memberTyeld = getMemberTypeByld(it)
+printin("Id: $it -> $memberTyeld")
+}
+We have defined a list with Ids from 0 to 4. We will iterate through the list and
+print member types for each of Ids. Executing the program will give us the
+following output:
+Id: 0 -> Unregistered
+Id: 1 -> Registered
+Id: 2 -> Admin
+Id: 3 -> Unknown
+Id: 4 -> Unknown
+Same function can be written with less code:
+fun getMemberTypeByld(id: Int) = if (id == 0) {
+"Unregistered"
+} else if (id == 1) {
+"Registered"
+} else if (id == 2) {
+"Admin"
+pelse{
+"Unknown"
+}

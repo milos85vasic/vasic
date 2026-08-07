@@ -1,0 +1,676 @@
+[hi] RUN attempt 1/3 docs/cover-letter.md
+==============================================================
+>>> docs/cover-letter.md  (en -> hi, script=default)
+[protect] 39 glossary terms protected: Kotlin Multiplatform, Courses-Creator, LLMOrchestrator, milosvasic.ru, vasic.digital, Constitution, LLMsVerifier, Catalogizer, LLMProvider, Miloš Vasić, ClickHouse, HelixAgent, Kubernetes, PostgreSQL, Prometheus, TypeScript, Anthropic, HelixCode, HelixLLM, HelixQA, Docker, HTTP/3, Kotlin, OpenAI, Python, SQLite, Helix, React, Redis, Shell, Swift, REST, gRPC, CLI, KMP, LLM, SSH, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/1 (    2843 chars)
+[restore] 39 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/docs/cover-letter.md (    7203 bytes; body src=    2635 out=    6728)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8431887866841875, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Kotlin Multiplatform", "Courses-Creator", "LLMOrchestrator", "milosvasic.ru", "vasic.digital", "Constitution", "LLMsVerifier", "Catalogizer", "LLMProvider", "Miloš Vasić", "ClickHouse", "HelixAgent", "Kubernetes", "PostgreSQL", "Prometheus", "TypeScript", "Anthropic", "HelixCode", "HelixLLM", "HelixQA", "Docker", "HTTP/3", "Kotlin", "OpenAI", "Python", "SQLite", "Helix", "React", "Redis", "Shell", "Swift", "REST", "gRPC", "CLI", "KMP", "LLM", "SSH", "AI", "Go"], "terms_verified": 39, "terms_required": 39, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/docs/cover-letter.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+docs/cover-letter.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 docs/cv.md
+==============================================================
+>>> docs/cv.md  (en -> hi, script=default)
+[protect] 129 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, HelixDevelopment, Leica Geosystems, Courses-Creator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, Increment Loop, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, LLMsVerifier, React Native, VisionEngine, Catalogizer, HelixMemory, LLMProvider, Miloš Vasić, task_bridge, ClickHouse, Docs Chain, HelixAgent, HelixTrack, JavaScript, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, Singidunum, TypeScript, embeddings, Anthropic, Bluetooth, HelixCode, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, Autodesk, Electron, Graphiti, HelixLLM, PL/pgSQL, Protobuf, gitleaks, Angular, Flutter, Grafana, Harness, HelixQA, Libvirt, TN-TECH, semgrep, Claude, Cognee, Docker, Gemini, GitHub, Google, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, Bosch, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, Packt, React, Redis, Shell, Swift, Tauri, gosec, nancy, trivy, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, OBD2, QEMU, QUIC, Qwen, REST, Ruby, Rust, TLA+, YAML, gRPC, snyk, API, AWS, C++, CLI, GCS, Gin, KMP, LLM, MCP, RAG, SDK, SSH, TTS, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3582 chars)
+    chunk 2/4 (    3847 chars)
+    chunk 3/4 (    3028 chars)
+    chunk 4/4 (    1028 chars)
+[restore] 129 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/docs/cv.md (   23469 bytes; body src=   10405 out=   22771)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.7552447552447552, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Kotlin Multiplatform", "Mail Server Factory", "HelixConstitution", "HelixDevelopment", "Leica Geosystems", "Courses-Creator", "LLMOrchestrator", "Parallels-Utils", "GitHub Actions", "HelixSpecifier", "Increment Loop", "Server Factory", "OpenTelemetry", "Vasic Digital", "milosvasic.ru", "vasic.digital", "Constitution", "DocProcessor", "LLMsVerifier", "React Native", "VisionEngine", "Catalogizer", "HelixMemory", "LLMProvider", "Miloš Vasić", "task_bridge", "ClickHouse", "Docs Chain", "HelixAgent", "HelixTrack", "JavaScript", "Kubernetes", "PostgreSQL", "Prometheus", "Qemu-Utils", "Singidunum", "TypeScript", "embeddings", "Anthropic", "Bluetooth", "HelixCode", "HumanEval", "Parallels", "SQLCipher", "SWE-bench", "SonarQube", "Autodesk", "Electron", "Graphiti", "HelixLLM", "PL/pgSQL", "Protobuf", "gitleaks", "Angular", "Flutter", "Grafana", "Harness", "HelixQA", "Libvirt", "TN-TECH", "semgrep", "Claude", "Cognee", "Docker", "Gemini", "GitHub", "Google", "Gradle", "HTTP/3", "Herald", "HiPlan", "Kotlin", "LLMOps", "Ollama", "OpenAI", "Python", "SQLite", "vector", "Azure", "Bosch", "CI/CD", "Helix", "Kafka", "Letta", "MinIO", "Neo4j", "Packt", "React", "Redis", "Shell", "Swift", "Tauri", "gosec", "nancy", "trivy", "Helm", "JIRA", "JSON", "MCTS", "MMLU", "Make", "Mem0", "OBD2", "QEMU", "QUIC", "Qwen", "REST", "Ruby", "Rust", "TLA+", "YAML", "gRPC", "snyk", "API", "AWS", "C++", "CLI", "GCS", "Gin", "KMP", "LLM", "MCP", "RAG", "SDK", "SSH", "TTS", "AI", "Go", "S3"], "terms_verified": 129, "terms_required": 129, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/docs/cv.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+docs/cv.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 docs/portfolio.md
+==============================================================
+>>> docs/portfolio.md  (en -> hi, script=default)
+[protect] 113 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, milosvasic.ru, vasic.digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, task_bridge, ClickHouse, Docs Chain, Helix-Flow, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, SQLCipher, SWE-bench, SonarQube, HelixLLM, HelixOTA, PL/pgSQL, Protobuf, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, semgrep, Claude, Docker, Gemini, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, OpenAI, Python, SQLite, vector, Azure, Helix, Kafka, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Helm, JIRA, JSON, MCTS, MMLU, Make, QEMU, QUIC, Qwen, REST, TLA+, YAML, gRPC, snyk, API, CLI, GCS, GPU, Gin, KMP, LLM, MCP, RAG, SSH, TTS, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3229 chars)
+    chunk 2/4 (    3271 chars)
+    chunk 3/4 (    3702 chars)
+    chunk 4/4 (    1295 chars)
+[restore] 113 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/docs/portfolio.md (   24537 bytes; body src=   10690 out=   24081)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.7846320346320347, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Kotlin Multiplatform", "Mail Server Factory", "HelixConstitution", "Courses-Creator", "HelixTerminator", "LLMOrchestrator", "Parallels-Utils", "GitHub Actions", "HelixSpecifier", "HelixTranslate", "Server Factory", "OpenTelemetry", "Vasic Digital", "milosvasic.ru", "vasic.digital", "Constitution", "DocProcessor", "HelixBuilder", "HelixCluster", "LLMsVerifier", "VisionEngine", "Catalogizer", "HelixMemory", "HelixSkills", "LLMProvider", "task_bridge", "ClickHouse", "Docs Chain", "Helix-Flow", "HelixAgent", "HelixGitpx", "HelixTrack", "Kubernetes", "PostgreSQL", "Prometheus", "Qemu-Utils", "TypeScript", "embeddings", "Anthropic", "HelixCode", "HelixPlay", "HumanEval", "Parallels", "SQLCipher", "SWE-bench", "SonarQube", "HelixLLM", "HelixOTA", "PL/pgSQL", "Protobuf", "RabbitMQ", "SpeechT5", "gitleaks", "Angular", "Grafana", "HelixQA", "Libvirt", "semgrep", "Claude", "Docker", "Gemini", "GitHub", "Gradle", "HTTP/3", "Herald", "HiPlan", "Kotlin", "LLMOps", "OpenAI", "Python", "SQLite", "vector", "Azure", "Helix", "Kafka", "MinIO", "Neo4j", "React", "Redis", "Shell", "Swift", "gosec", "nancy", "trivy", "Bark", "Helm", "JIRA", "JSON", "MCTS", "MMLU", "Make", "QEMU", "QUIC", "Qwen", "REST", "TLA+", "YAML", "gRPC", "snyk", "API", "CLI", "GCS", "GPU", "Gin", "KMP", "LLM", "MCP", "RAG", "SSH", "TTS", "AI", "Go", "ML", "S3"], "terms_verified": 114, "terms_required": 114, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/docs/portfolio.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+docs/portfolio.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Catalogizer.md
+==============================================================
+>>> products/Catalogizer.md  (en -> hi, script=default)
+[protect] 24 glossary terms protected: OpenTelemetry, Catalogizer, PostgreSQL, Prometheus, TypeScript, SQLCipher, WebSocket, HelixQA, Docker, Google, SQLite, React, Redis, Tauri, HTML, JSON, REST, Rust, API, Gin, JWT, PDF, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3519 chars)
+    chunk 2/2 (    3424 chars)
+[restore] 24 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Catalogizer.md (   18172 bytes; body src=    6657 out=   16984)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.864193147523522, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["OpenTelemetry", "Catalogizer", "PostgreSQL", "Prometheus", "TypeScript", "SQLCipher", "WebSocket", "HelixQA", "Docker", "Google", "SQLite", "React", "Redis", "Tauri", "HTML", "JSON", "REST", "Rust", "API", "Gin", "JWT", "PDF", "Go", "S3"], "terms_verified": 24, "terms_required": 24, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Catalogizer.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Catalogizer.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Courses-Creator.md
+==============================================================
+>>> products/Courses-Creator.md  (en -> hi, script=default)
+[protect] 23 glossary terms protected: Courses-Creator, React Native, PostgreSQL, Prometheus, TypeScript, Anthropic, Electron, SpeechT5, Grafana, Docker, Ollama, OpenAI, React, Bark, REST, API, JWT, LLM, MCP, TTS, URL, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3294 chars)
+    chunk 2/2 (    2257 chars)
+[restore] 23 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Courses-Creator.md (   13159 bytes; body src=    5075 out=   12433)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8640564202334631, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Courses-Creator", "React Native", "PostgreSQL", "Prometheus", "TypeScript", "Anthropic", "Electron", "SpeechT5", "Grafana", "Docker", "Ollama", "OpenAI", "React", "Bark", "REST", "API", "JWT", "LLM", "MCP", "TTS", "URL", "AI", "Go"], "terms_verified": 23, "terms_required": 23, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Courses-Creator.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Courses-Creator.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/DocProcessor.md
+==============================================================
+>>> products/DocProcessor.md  (en -> hi, script=default)
+[protect] 5 glossary terms protected: DocProcessor, HelixQA, LLM, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3013 chars)
+    chunk 2/2 (    1600 chars)
+[restore] 5 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/DocProcessor.md (   12151 bytes; body src=    4516 out=   11477)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9561551433389545, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["DocProcessor", "HelixQA", "LLM", "AI", "Go"], "terms_verified": 5, "terms_required": 5, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/DocProcessor.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/DocProcessor.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/docs_chain.md
+==============================================================
+>>> products/docs_chain.md  (en -> hi, script=default)
+[protect] 10 glossary terms protected: HelixConstitution, Docs Chain, Herald, SQLite, DOCX, HTML, YAML, CLI, PDF, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3256 chars)
+    chunk 2/2 (    2010 chars)
+[restore] 10 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/docs_chain.md (   13185 bytes; body src=    5100 out=   12524)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.896457765667575, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixConstitution", "Docs Chain", "Herald", "SQLite", "DOCX", "HTML", "YAML", "CLI", "PDF", "Go"], "terms_verified": 10, "terms_required": 10, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/docs_chain.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/docs_chain.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Helix-Flow.md
+==============================================================
+>>> products/Helix-Flow.md  (en -> hi, script=default)
+[protect] 14 glossary terms protected: Constitution, Helix-Flow, HelixTrack, JavaScript, PostgreSQL, PL/pgSQL, GitHub, Python, Helix, Shell, HTML, CSS, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3019 chars)
+    chunk 2/2 (    1362 chars)
+[restore] 14 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Helix-Flow.md (   10872 bytes; body src=    4170 out=   10440)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9009223445403154, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Constitution", "Helix-Flow", "HelixTrack", "JavaScript", "PostgreSQL", "PL/pgSQL", "GitHub", "Python", "Helix", "Shell", "HTML", "CSS", "AI", "Go"], "terms_verified": 14, "terms_required": 14, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Helix-Flow.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Helix-Flow.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixAgent.md
+==============================================================
+>>> products/HelixAgent.md  (en -> hi, script=default)
+[protect] 29 glossary terms protected: Model Context Protocol, OpenTelemetry, LLMsVerifier, ClickHouse, HelixAgent, PostgreSQL, Prometheus, DeepSeek, Grafana, Mistral, Claude, Gemini, OpenAI, Helix, Kafka, Neo4j, Redis, Grok, Qwen, API, Gin, JWT, LLM, MCP, PII, RAG, xAI, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3191 chars)
+    chunk 2/3 (    3088 chars)
+    chunk 3/3 (    2472 chars)
+[restore] 29 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixAgent.md (   22148 bytes; body src=    8406 out=   21253)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9077620230960386, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Model Context Protocol", "OpenTelemetry", "LLMsVerifier", "ClickHouse", "HelixAgent", "PostgreSQL", "Prometheus", "DeepSeek", "Grafana", "Mistral", "Claude", "Gemini", "OpenAI", "Helix", "Kafka", "Neo4j", "Redis", "Grok", "Qwen", "API", "Gin", "JWT", "LLM", "MCP", "PII", "RAG", "xAI", "AI", "Go"], "terms_verified": 29, "terms_required": 29, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixAgent.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixAgent.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixBuilder.md
+==============================================================
+>>> products/HelixBuilder.md  (en -> hi, script=default)
+[protect] 8 glossary terms protected: HelixDevelopment, HelixBuilder, GitHub, Helix, Shell, API, SVG, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3378 chars)
+    chunk 2/2 (    1333 chars)
+[restore] 8 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixBuilder.md (   11477 bytes; body src=    4554 out=   10982)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9014959074230878, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixDevelopment", "HelixBuilder", "GitHub", "Helix", "Shell", "API", "SVG", "AI"], "terms_verified": 8, "terms_required": 8, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixBuilder.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixBuilder.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixCluster.md
+==============================================================
+>>> products/HelixCluster.md  (en -> hi, script=default)
+[protect] 35 glossary terms protected: Protocol Buffers, LLMOrchestrator, HelixCluster, LLMsVerifier, LLMProvider, HelixTrack, Kubernetes, PostgreSQL, Prometheus, TypeScript, WebSocket, RabbitMQ, Grafana, Docker, SQLite, Azure, Helix, Kafka, React, Redis, DOCX, HTML, Helm, TLA+, gRPC, API, AWS, C++, GPU, JWT, LLM, PDF, AI, Go, ML
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3369 chars)
+    chunk 2/4 (    3443 chars)
+    chunk 3/4 (    4423 chars)
+    chunk 4/4 (     900 chars)
+[restore] 35 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixCluster.md (   31199 bytes; body src=   11767 out=   29806)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9172718661193558, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Protocol Buffers", "LLMOrchestrator", "HelixCluster", "LLMsVerifier", "LLMProvider", "HelixTrack", "Kubernetes", "PostgreSQL", "Prometheus", "TypeScript", "WebSocket", "RabbitMQ", "Grafana", "Docker", "SQLite", "Azure", "Helix", "Kafka", "React", "Redis", "DOCX", "HTML", "Helm", "TLA+", "gRPC", "API", "AWS", "C++", "GPU", "JWT", "LLM", "PDF", "AI", "Go", "ML"], "terms_verified": 35, "terms_required": 35, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixCluster.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixCluster.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixCode.md
+==============================================================
+>>> products/HelixCode.md  (en -> hi, script=default)
+[protect] 19 glossary terms protected: Model Context Protocol, PostgreSQL, HelixCode, WebSocket, Ollama, OpenAI, Helix, Redis, REST, API, CLI, GPU, Gin, JWT, LLM, MCP, SSH, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3365 chars)
+    chunk 2/3 (    3248 chars)
+    chunk 3/3 (    2214 chars)
+[restore] 19 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixCode.md (   22252 bytes; body src=    8410 out=   21338)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9238779700792021, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Model Context Protocol", "PostgreSQL", "HelixCode", "WebSocket", "Ollama", "OpenAI", "Helix", "Redis", "REST", "API", "CLI", "GPU", "Gin", "JWT", "LLM", "MCP", "SSH", "AI", "Go"], "terms_verified": 19, "terms_required": 19, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixCode.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixCode.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixConstitution.md
+==============================================================
+>>> products/HelixConstitution.md  (en -> hi, script=default)
+[protect] 11 glossary terms protected: HelixConstitution, Constitution, GitFlic, Claude, GitHub, GitLab, Helix, Qwen, CLI, URL, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3086 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 2/4 (    4146 chars)
+    chunk 3/4 (    3719 chars)
+    chunk 4/4 (     586 chars)
+[restore] 11 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixConstitution.md (   30110 bytes; body src=   11483 out=   28885)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9037438958220293, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixConstitution", "Constitution", "GitFlic", "Claude", "GitHub", "GitLab", "Helix", "Qwen", "CLI", "URL", "AI"], "terms_verified": 11, "terms_required": 11, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixConstitution.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixConstitution.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixGitpx.md
+==============================================================
+>>> products/HelixGitpx.md  (en -> hi, script=default)
+[protect] 16 glossary terms protected: Kotlin Multiplatform, Constitution, HelixGitpx, Kubernetes, Angular, GitFlic, GitHub, GitLab, Kotlin, Azure, Helix, Helm, API, AWS, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3230 chars)
+    chunk 2/3 (    3399 chars)
+    chunk 3/3 (     601 chars)
+[restore] 16 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixGitpx.md (   18705 bytes; body src=    7008 out=   17944)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8910566298342542, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Kotlin Multiplatform", "Constitution", "HelixGitpx", "Kubernetes", "Angular", "GitFlic", "GitHub", "GitLab", "Kotlin", "Azure", "Helix", "Helm", "API", "AWS", "AI", "Go"], "terms_verified": 16, "terms_required": 16, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixGitpx.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixGitpx.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixLLM.md
+==============================================================
+>>> products/HelixLLM.md  (en -> hi, script=default)
+[protect] 24 glossary terms protected: HelixDevelopment, OpenTelemetry, LLMsVerifier, OpenRouter, Prometheus, embeddings, Anthropic, Cerebras, HelixLLM, HTTP/3, OpenAI, vector, Helix, Kafka, QUIC, gRPC, API, Gin, JWT, LLM, RAG, SDK, TLS, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3256 chars)
+    chunk 2/3 (    3252 chars)
+    chunk 3/3 (    2509 chars)
+[restore] 24 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixLLM.md (   22277 bytes; body src=    8606 out=   21441)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8731534090909091, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixDevelopment", "OpenTelemetry", "LLMsVerifier", "OpenRouter", "Prometheus", "embeddings", "Anthropic", "Cerebras", "HelixLLM", "HTTP/3", "OpenAI", "vector", "Helix", "Kafka", "QUIC", "gRPC", "API", "Gin", "JWT", "LLM", "RAG", "SDK", "TLS", "Go"], "terms_verified": 24, "terms_required": 24, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixLLM.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixLLM.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixMemory.md
+==============================================================
+>>> products/HelixMemory.md  (en -> hi, script=default)
+[protect] 16 glossary terms protected: HelixMemory, HelixAgent, PostgreSQL, Prometheus, Graphiti, Cognee, GitHub, Helix, Letta, Neo4j, Redis, Mem0, API, SDK, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3000 chars)
+    chunk 2/3 (    3036 chars)
+    chunk 3/3 (    2003 chars)
+[restore] 16 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixMemory.md (   21472 bytes; body src=    7737 out=   20802)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9319323892188214, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixMemory", "HelixAgent", "PostgreSQL", "Prometheus", "Graphiti", "Cognee", "GitHub", "Helix", "Letta", "Neo4j", "Redis", "Mem0", "API", "SDK", "AI", "Go"], "terms_verified": 16, "terms_required": 16, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixMemory.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixMemory.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixOTA.md
+==============================================================
+>>> products/HelixOTA.md  (en -> hi, script=default)
+[protect] 19 glossary terms protected: HelixConstitution, HelixDevelopment, OpenTelemetry, PostgreSQL, Prometheus, HelixOTA, Grafana, HTTP/3, Kotlin, Helix, MinIO, React, QUIC, REST, Gin, KMP, OTA, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3097 chars)
+    chunk 2/3 (    3079 chars)
+    chunk 3/3 (    2456 chars)
+[restore] 19 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixOTA.md (   22754 bytes; body src=    8395 out=   21915)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.928221389449409, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixConstitution", "HelixDevelopment", "OpenTelemetry", "PostgreSQL", "Prometheus", "HelixOTA", "Grafana", "HTTP/3", "Kotlin", "Helix", "MinIO", "React", "QUIC", "REST", "Gin", "KMP", "OTA", "Go", "S3"], "terms_verified": 19, "terms_required": 19, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixOTA.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixOTA.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixPlay.md
+==============================================================
+>>> products/HelixPlay.md  (en -> hi, script=default)
+[protect] 12 glossary terms protected: HelixPlay, Angular, Flutter, Docker, GitHub, Podman, Helix, QUIC, API, GPU, UDP, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3098 chars)
+    chunk 2/3 (    3741 chars)
+    chunk 3/3 (     435 chars)
+[restore] 12 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixPlay.md (   18775 bytes; body src=    6965 out=   17866)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9049702485124256, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixPlay", "Angular", "Flutter", "Docker", "GitHub", "Podman", "Helix", "QUIC", "API", "GPU", "UDP", "Go"], "terms_verified": 12, "terms_required": 12, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixPlay.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixPlay.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixQA.md
+==============================================================
+>>> products/HelixQA.md  (en -> hi, script=default)
+[protect] 16 glossary terms protected: LLMOrchestrator, Constitution, DocProcessor, LLMsVerifier, VisionEngine, Playwright, HelixQA, Helix, HTML, JSON, YAML, API, CLI, LLM, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3143 chars)
+    chunk 2/4 (    4056 chars)
+    chunk 3/4 (    4352 chars)
+    chunk 4/4 (     374 chars)
+[restore] 16 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixQA.md (   29616 bytes; body src=   11659 out=   28365)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8828337874659401, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["LLMOrchestrator", "Constitution", "DocProcessor", "LLMsVerifier", "VisionEngine", "Playwright", "HelixQA", "Helix", "HTML", "JSON", "YAML", "API", "CLI", "LLM", "AI", "Go"], "terms_verified": 16, "terms_required": 16, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixQA.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixQA.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixSkills.md
+==============================================================
+>>> products/HelixSkills.md  (en -> hi, script=default)
+[protect] 15 glossary terms protected: Model Context Protocol, HelixDevelopment, Constitution, HelixSkills, LLMProvider, GitFlic, Claude, GitHub, GitLab, Kotlin, Helix, Shell, CLI, MCP, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3202 chars)
+    chunk 2/3 (    3027 chars)
+    chunk 3/3 (    2123 chars)
+[restore] 15 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixSkills.md (   21328 bytes; body src=    8117 out=   20345)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8524783056331814, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Model Context Protocol", "HelixDevelopment", "Constitution", "HelixSkills", "LLMProvider", "GitFlic", "Claude", "GitHub", "GitLab", "Kotlin", "Helix", "Shell", "CLI", "MCP", "AI"], "terms_verified": 15, "terms_required": 15, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixSkills.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixSkills.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixSpecifier.md
+==============================================================
+>>> products/HelixSpecifier.md  (en -> hi, script=default)
+[protect] 8 glossary terms protected: HelixSpecifier, Constitution, HelixAgent, GitHub, Helix, API, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3128 chars)
+    chunk 2/3 (    3703 chars)
+    chunk 3/3 (     323 chars)
+[restore] 8 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixSpecifier.md (   19035 bytes; body src=    7071 out=   18421)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.934715558601782, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixSpecifier", "Constitution", "HelixAgent", "GitHub", "Helix", "API", "AI", "Go"], "terms_verified": 8, "terms_required": 8, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixSpecifier.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixSpecifier.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixTerminator.md
+==============================================================
+>>> products/HelixTerminator.md  (en -> hi, script=default)
+[protect] 24 glossary terms protected: HelixTerminator, OpenTelemetry, Constitution, HelixTrack, Kubernetes, PostgreSQL, WebSocket, Electron, HelixLLM, RabbitMQ, Flutter, Grafana, GitHub, vector, Helix, Kafka, Redis, Dart, Helm, Rust, API, SSH, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3097 chars)
+    chunk 2/3 (    3355 chars)
+    chunk 3/3 (    2272 chars)
+[restore] 24 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixTerminator.md (   22344 bytes; body src=    8416 out=   21499)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9057856009233877, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["HelixTerminator", "OpenTelemetry", "Constitution", "HelixTrack", "Kubernetes", "PostgreSQL", "WebSocket", "Electron", "HelixLLM", "RabbitMQ", "Flutter", "Grafana", "GitHub", "vector", "Helix", "Kafka", "Redis", "Dart", "Helm", "Rust", "API", "SSH", "AI", "Go"], "terms_verified": 24, "terms_required": 24, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixTerminator.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixTerminator.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixTrack.md
+==============================================================
+>>> products/HelixTrack.md  (en -> hi, script=default)
+[protect] 28 glossary terms protected: Server Factory, HelixTrack, Playwright, PostgreSQL, SQLCipher, WebSocket, Angular, SwiftUI, Docker, HTTP/3, Kotlin, Podman, SQLite, Helix, Redis, Swift, Tauri, JIRA, QUIC, REST, Rust, API, Gin, JWT, TCP, UDP, URL, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/4 (    3176 chars)
+    chunk 2/4 (    4282 chars)
+    chunk 3/4 (    3453 chars)
+    chunk 4/4 (     138 chars)
+[restore] 28 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixTrack.md (   27803 bytes; body src=   10555 out=   26773)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.907098121085595, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Server Factory", "HelixTrack", "Playwright", "PostgreSQL", "SQLCipher", "WebSocket", "Angular", "SwiftUI", "Docker", "HTTP/3", "Kotlin", "Podman", "SQLite", "Helix", "Redis", "Swift", "Tauri", "JIRA", "QUIC", "REST", "Rust", "API", "Gin", "JWT", "TCP", "UDP", "URL", "Go"], "terms_verified": 28, "terms_required": 28, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixTrack.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixTrack.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/HelixTranslate.md
+==============================================================
+>>> products/HelixTranslate.md  (en -> hi, script=default)
+[protect] 27 glossary terms protected: Protocol Buffers, HelixTranslate, LLMsVerifier, HelixTrack, PostgreSQL, WebSocket, Docker, HTTP/3, Ollama, Podman, SQLite, Helix, Redis, DOCX, HTML, QUIC, REST, gRPC, API, CLI, Gin, JWT, LLM, PDF, SSH, TLS, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3090 chars)
+    chunk 2/3 (    3726 chars)
+    chunk 3/3 (    2781 chars)
+[restore] 27 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/HelixTranslate.md (   24814 bytes; body src=    9210 out=   23480)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.901953021905516, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Protocol Buffers", "HelixTranslate", "LLMsVerifier", "HelixTrack", "PostgreSQL", "WebSocket", "Docker", "HTTP/3", "Ollama", "Podman", "SQLite", "Helix", "Redis", "DOCX", "HTML", "QUIC", "REST", "gRPC", "API", "CLI", "Gin", "JWT", "LLM", "PDF", "SSH", "TLS", "Go"], "terms_verified": 27, "terms_required": 27, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/HelixTranslate.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/HelixTranslate.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Herald.md
+==============================================================
+>>> products/Herald.md  (en -> hi, script=default)
+[protect] 11 glossary terms protected: Constitution, Docs Chain, Claude, Herald, Helix, Shell, DOCX, HTML, LLM, PDF, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3207 chars)
+    chunk 2/2 (    1789 chars)
+[restore] 11 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Herald.md (   12947 bytes; body src=    4799 out=   12305)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9261727762112278, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Constitution", "Docs Chain", "Claude", "Herald", "Helix", "Shell", "DOCX", "HTML", "LLM", "PDF", "Go"], "terms_verified": 11, "terms_required": 11, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Herald.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Herald.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/LLMOrchestrator.md
+==============================================================
+>>> products/LLMOrchestrator.md  (en -> hi, script=default)
+[protect] 18 glossary terms protected: LLMOrchestrator, DocProcessor, LLMsVerifier, VisionEngine, HelixTrack, PostgreSQL, HelixQA, Claude, Gemini, GitHub, Helix, JSON, Qwen, API, CLI, Gin, LLM, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3299 chars)
+    chunk 2/3 (    3437 chars)
+    chunk 3/3 (    2080 chars)
+[restore] 18 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/LLMOrchestrator.md (   23528 bytes; body src=    8603 out=   22416)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9088128996385877, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["LLMOrchestrator", "DocProcessor", "LLMsVerifier", "VisionEngine", "HelixTrack", "PostgreSQL", "HelixQA", "Claude", "Gemini", "GitHub", "Helix", "JSON", "Qwen", "API", "CLI", "Gin", "LLM", "Go"], "terms_verified": 18, "terms_required": 18, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/LLMOrchestrator.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/LLMOrchestrator.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/LLMProvider.md
+==============================================================
+>>> products/LLMProvider.md  (en -> hi, script=default)
+[protect] 9 glossary terms protected: LLMsVerifier, LLMProvider, HelixTrack, GitHub, OpenAI, Helix, LLM, URL, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3553 chars)
+    chunk 2/3 (    4264 chars)
+    chunk 3/3 (    2372 chars)
+[restore] 9 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/LLMProvider.md (   26247 bytes; body src=   10086 out=   25198)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9080717488789237, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["LLMsVerifier", "LLMProvider", "HelixTrack", "GitHub", "OpenAI", "Helix", "LLM", "URL", "Go"], "terms_verified": 9, "terms_required": 9, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/LLMProvider.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/LLMProvider.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/LLMsVerifier.md
+==============================================================
+>>> products/LLMsVerifier.md  (en -> hi, script=default)
+[protect] 35 glossary terms protected: Protocol Buffers, HelixTranslate, LLMsVerifier, HelixTrack, JavaScript, Kubernetes, Prometheus, embeddings, SQLCipher, WebSocket, RabbitMQ, Angular, Grafana, Claude, Docker, HTTP/3, Python, SQLite, vector, Helix, Kafka, Redis, Helm, JSON, QUIC, REST, gRPC, API, CLI, Gin, JWT, LLM, RAG, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3219 chars)
+    chunk 2/3 (    3493 chars)
+    chunk 3/3 (    3050 chars)
+[restore] 35 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/LLMsVerifier.md (   25668 bytes; body src=    9352 out=   24520)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9184012258970757, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Protocol Buffers", "HelixTranslate", "LLMsVerifier", "HelixTrack", "JavaScript", "Kubernetes", "Prometheus", "embeddings", "SQLCipher", "WebSocket", "RabbitMQ", "Angular", "Grafana", "Claude", "Docker", "HTTP/3", "Python", "SQLite", "vector", "Helix", "Kafka", "Redis", "Helm", "JSON", "QUIC", "REST", "gRPC", "API", "CLI", "Gin", "JWT", "LLM", "RAG", "AI", "Go"], "terms_verified": 35, "terms_required": 35, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/LLMsVerifier.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/LLMsVerifier.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Mail-Server-Factory.md
+==============================================================
+>>> products/Mail-Server-Factory.md  (en -> hi, script=default)
+[protect] 19 glossary terms protected: Mail Server Factory, Kubernetes, Prometheus, SonarQube, Grafana, Libvirt, Docker, GitHub, Gradle, Kotlin, Azure, Shell, JSON, QEMU, AWS, DNS, SSH, TLS, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3013 chars)
+    chunk 2/2 (    2831 chars)
+[restore] 19 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Mail-Server-Factory.md (   14221 bytes; body src=    5545 out=   13328)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.887447892542844, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Mail Server Factory", "Server Factory", "Kubernetes", "Prometheus", "SonarQube", "Grafana", "Libvirt", "Docker", "GitHub", "Gradle", "Kotlin", "Azure", "Shell", "JSON", "QEMU", "AWS", "DNS", "SSH", "TLS", "AI"], "terms_verified": 20, "terms_required": 20, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Mail-Server-Factory.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Mail-Server-Factory.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Parallels-Utils.md
+==============================================================
+>>> products/Parallels-Utils.md  (en -> hi, script=default)
+[protect] 10 glossary terms protected: Parallels-Utils, Server Factory, Qemu-Utils, Parallels, GitHub, Python, Shell, QEMU, URL, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3009 chars)
+    chunk 2/2 (    1163 chars)
+[restore] 10 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Parallels-Utils.md (   10787 bytes; body src=    4114 out=   10202)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8623636899498969, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Parallels-Utils", "Server Factory", "Qemu-Utils", "Parallels", "GitHub", "Python", "Shell", "QEMU", "URL", "AI"], "terms_verified": 10, "terms_required": 10, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Parallels-Utils.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Parallels-Utils.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Qemu-Utils.md
+==============================================================
+>>> products/Qemu-Utils.md  (en -> hi, script=default)
+[protect] 8 glossary terms protected: Parallels-Utils, Server Factory, Qemu-Utils, Parallels, GitHub, Shell, QEMU, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3312 chars)
+    chunk 2/2 (    1141 chars)
+[restore] 8 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Qemu-Utils.md (   11639 bytes; body src=    4355 out=   11051)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9058396200055882, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Parallels-Utils", "Server Factory", "Qemu-Utils", "Parallels", "GitHub", "Shell", "QEMU", "AI"], "terms_verified": 8, "terms_required": 8, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Qemu-Utils.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Qemu-Utils.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Server-Factory-Additional-Components.md
+==============================================================
+>>> products/Server-Factory-Additional-Components.md  (en -> hi, script=default)
+[protect] 8 glossary terms protected: Mail Server Factory, Server Factory, SonarQube, Docker, Gradle, Kotlin, Shell, SSH
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3057 chars)
+    chunk 2/2 (    1777 chars)
+[restore] 8 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Server-Factory-Additional-Components.md (   13549 bytes; body src=    4779 out=   12339)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9180327868852459, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Mail Server Factory", "Server Factory", "SonarQube", "Docker", "Gradle", "Kotlin", "Shell", "SSH"], "terms_verified": 8, "terms_required": 8, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Server-Factory-Additional-Components.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Server-Factory-Additional-Components.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Server-Factory-Core-Framework.md
+==============================================================
+>>> products/Server-Factory-Core-Framework.md  (en -> hi, script=default)
+[protect] 10 glossary terms protected: Mail Server Factory, Parallels-Utils, Server Factory, Qemu-Utils, SonarQube, GitHub, Gradle, Kotlin, Shell, AI
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3352 chars)
+    chunk 2/2 (    1195 chars)
+[restore] 10 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Server-Factory-Core-Framework.md (   12021 bytes; body src=    4515 out=   11425)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9153324287652645, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Mail Server Factory", "Parallels-Utils", "Server Factory", "Qemu-Utils", "Parallels", "SonarQube", "GitHub", "Gradle", "Kotlin", "Shell", "AI"], "terms_verified": 11, "terms_required": 11, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Server-Factory-Core-Framework.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Server-Factory-Core-Framework.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/task_bridge.md
+==============================================================
+>>> products/task_bridge.md  (en -> hi, script=default)
+[protect] 6 glossary terms protected: task_bridge, SQLite, API, CLI, URL, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3104 chars)
+    chunk 2/2 (    1839 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+[restore] 6 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/task_bridge.md (   12959 bytes; body src=    4827 out=   12215)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.9055299539170507, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["task_bridge", "SQLite", "API", "CLI", "URL", "Go"], "terms_verified": 6, "terms_required": 6, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/task_bridge.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/task_bridge.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/Vasic-Digital-Reusable-Module-Suite.md
+==============================================================
+>>> products/Vasic-Digital-Reusable-Module-Suite.md  (en -> hi, script=default)
+[protect] 30 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, HelixConstitution, OpenTelemetry, Catalogizer, HelixAgent, PostgreSQL, Prometheus, embeddings, HumanEval, SWE-bench, WebSocket, HTTP/3, Herald, HiPlan, LLMOps, SQLite, MinIO, Redis, MCTS, MMLU, YAML, JWT, KMP, LLM, MCP, RAG, AI, Go, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3105 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 2/2 (    2648 chars)
+[restore] 30 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/Vasic-Digital-Reusable-Module-Suite.md (   13170 bytes; body src=    5458 out=   12293)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.7871089155492825, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Model Context Protocol", "Kotlin Multiplatform", "HelixConstitution", "OpenTelemetry", "Catalogizer", "HelixAgent", "PostgreSQL", "Prometheus", "embeddings", "HumanEval", "SWE-bench", "WebSocket", "HTTP/3", "Herald", "HiPlan", "Kotlin", "LLMOps", "SQLite", "MinIO", "Redis", "MCTS", "MMLU", "YAML", "JWT", "KMP", "LLM", "MCP", "RAG", "AI", "Go", "S3"], "terms_verified": 31, "terms_required": 31, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/Vasic-Digital-Reusable-Module-Suite.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/Vasic-Digital-Reusable-Module-Suite.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 products/VisionEngine.md
+==============================================================
+>>> products/VisionEngine.md  (en -> hi, script=default)
+[protect] 11 glossary terms protected: VisionEngine, Anthropic, HelixQA, Claude, Gemini, Ollama, OpenAI, JSON, Qwen, LLM, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3347 chars)
+    chunk 2/2 (    2200 chars)
+[restore] 11 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/products/VisionEngine.md (   14044 bytes; body src=    5338 out=   13305)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.8758049678012879, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["VisionEngine", "Anthropic", "HelixQA", "Claude", "Gemini", "Ollama", "OpenAI", "JSON", "Qwen", "LLM", "Go"], "terms_verified": 11, "terms_required": 11, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/products/VisionEngine.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+products/VisionEngine.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 sites/milosvasic-ru.md
+==============================================================
+>>> sites/milosvasic-ru.md  (en -> hi, script=default)
+[protect] 57 glossary terms protected: Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, HelixSpecifier, HelixTranslate, Server Factory, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, Miloš Vasić, task_bridge, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Qemu-Utils, TypeScript, Anthropic, HelixCode, HelixPlay, SonarQube, HelixLLM, HelixOTA, HelixQA, GitHub, HTTP/3, Herald, Kotlin, OpenAI, Python, Helix, React, Shell, Swift, JIRA, JSON, API, CLI, Gin, LLM, OTA, SSH, TTS, AI, Go
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/2 (    3971 chars)
+    chunk 2/2 (    2044 chars)
+[restore] 57 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/sites/milosvasic-ru.md (   13833 bytes; body src=    5729 out=   13568)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.824106364428945, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Kotlin Multiplatform", "Mail Server Factory", "HelixConstitution", "Courses-Creator", "HelixTerminator", "LLMOrchestrator", "Parallels-Utils", "HelixSpecifier", "HelixTranslate", "Server Factory", "Vasic Digital", "Constitution", "DocProcessor", "HelixBuilder", "HelixCluster", "LLMsVerifier", "VisionEngine", "Catalogizer", "HelixMemory", "HelixSkills", "LLMProvider", "Miloš Vasić", "task_bridge", "Docs Chain", "HelixAgent", "HelixGitpx", "HelixTrack", "Qemu-Utils", "TypeScript", "Anthropic", "HelixCode", "HelixPlay", "Parallels", "SonarQube", "HelixLLM", "HelixOTA", "HelixQA", "GitHub", "HTTP/3", "Herald", "Kotlin", "OpenAI", "Python", "Helix", "React", "Shell", "Swift", "JIRA", "JSON", "API", "CLI", "Gin", "LLM", "OTA", "SSH", "TTS", "AI", "Go"], "terms_verified": 58, "terms_required": 58, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/sites/milosvasic-ru.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+sites/milosvasic-ru.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] RUN attempt 1/3 sites/vasic-digital.md
+==============================================================
+>>> sites/vasic-digital.md  (en -> hi, script=default)
+[protect] 129 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3757 chars)
+    chunk 2/3 (    3660 chars)
+    chunk 3/3 (    1733 chars)
+[restore] 129 sentinel classes restored OK
+--- wrote /Volumes/T7/Projects/vasic/_content_hi/sites/vasic-digital.md (   19531 bytes; body src=    8442 out=   19247)
+--- review: provider=cohere model=command-r-plus-08-2024 (translator was mistral)
+{"verdict": "PASS", "accuracy": 5, "fluency": 5, "completeness": 5, "naturalness": 5, "register_appropriate": 5, "spirit_ok": true, "script_ok": true, "untranslated_leftovers": false, "issues": [], "terms_preserved": true, "target_script_ok": true, "target_script_ratio": 0.7897111913357401, "prose_substantiated": true, "false_term_flags_discarded": [], "model_issues": [], "required_terms": ["Model Context Protocol", "Kotlin Multiplatform", "Mail Server Factory", "HelixConstitution", "Protocol Buffers", "Tree of Thoughts", "Courses-Creator", "HelixTerminator", "LLMOrchestrator", "Parallels-Utils", "GitHub Actions", "HelixSpecifier", "HelixTranslate", "Server Factory", "OpenTelemetry", "Vasic Digital", "Constitution", "DocProcessor", "HelixBuilder", "HelixCluster", "LLMsVerifier", "VisionEngine", "Catalogizer", "HelixMemory", "HelixSkills", "LLMProvider", "SiliconFlow", "Together AI", "task_bridge", "ClickHouse", "Cloudflare", "Docs Chain", "HelixAgent", "HelixGitpx", "HelixTrack", "Kubernetes", "OpenRouter", "Perplexity", "PostgreSQL", "Prometheus", "Qemu-Utils", "TypeScript", "embeddings", "Anthropic", "HelixCode", "HelixPlay", "HumanEval", "Parallels", "Replicate", "SQLCipher", "SWE-bench", "SonarQube", "Cerebras", "DeepSeek", "HelixLLM", "HelixOTA", "PL/pgSQL", "RabbitMQ", "SpeechT5", "gitleaks", "Angular", "Grafana", "HelixQA", "Libvirt", "Mistral", "semgrep", "Claude", "Cognee", "Cohere", "Docker", "Gemini", "GitHub", "Gradle", "HTTP/3", "Herald", "HiPlan", "Kotlin", "LLMOps", "Ollama", "OpenAI", "Python", "SQLite", "vector", "Azure", "CI/CD", "Helix", "Kafka", "Letta", "MinIO", "Neo4j", "React", "Redis", "Shell", "Swift", "gosec", "nancy", "trivy", "Bark", "Grok", "Groq", "Helm", "JIRA", "JSON", "MCTS", "MMLU", "Make", "Mem0", "QEMU", "QUIC", "Qwen", "TLA+", "YAML", "gRPC", "snyk", "CLI", "GCS", "Gin", "LLM", "MCP", "OTA", "PII", "RAG", "SSH", "TTS", "xAI", "AI", "Go", "ML", "S3"], "terms_verified": 129, "terms_required": 129, "terms_missing": [], "_lang": "hi", "_provider": "cohere", "_model": "command-r-plus-08-2024", "_translated": "/Volumes/T7/Projects/vasic/_content_hi/sites/vasic-digital.md", "_standard": "11.4.236"}
+--- verdict=PASS (rc=0)  acc=5 flu=5 comp=5 script_ok=True leftovers=False
+==============================================================
+Summary (/Volumes/T7/Projects/vasic/_tests/evidence/translate-new/hi/summary.tsv):
+file	status	verdict	accuracy	fluency	completeness	script_ok	untranslated_leftovers
+sites/vasic-digital.md	written	PASS	5	5	5	True	False
+ALL PASS
+[hi] DONE  docs=38 PASS=38 FAIL=0 ERROR=0

@@ -1,0 +1,53 @@
+“Long” by calling the “toLong()” function, and we converted “b” into “Int” by
+calling the “toInt()” function.
+
+So, the conversation between numbers is done by one of the functions (each
+Kotlin number class has them):
+
+- “toByte()” converts into “Byte” data type
+
+- “toShort()” converts into “Short” data type
+
+- “toInt()” converts into “Int” data type
+
+- “toLong()" converts into “Long” data type
+
+- “toFloat()” converts into “Float” data type
+
+- “toDouble()” converts into “Double” data type
+
+- “toChar()" converts into “Char data type
+
+The type is inferred from the context. Also, the arithmetical operations are
+overloaded for appropriate conversions. For example:
+
+val x = 1L + 1//Long + Int = Long
+
+All arithmetical operations are defined as operators defined in number classes.
+A standard set of arithmetical operations is supported, such as “+”, “-","/", "*"
+etc.
+
+“Int” and”Long” classes also support bitwise operations provided with proper
+functions:
+
+- “shi(bits)”: signed shift left
+
+- “shr(bits)": signed shift right
+
+- “ushr(bits)": unsigned shift right
+
+-“and(bits)”: bitwise and
+
+- “or(bits)”: bitwise or
+
+-“xor(bits)”: bitwise xor
+
+-“inv()": bitwise inversion
+
+Characters in Kotlin
+
+The “Char” data type in Kotlin represents Unicode characters. Characters can be
+converted into numbers. To convert them use “toInt()” function. Each literal
+character goes in single quotes, for example: ‘1’, ‘m’, ‘p’, and so on. Also, there
+are some important escape sequences that we will need: \t, \b,\n, \r,\', \", \\
+and \$. Let’s take a look at the “Characters.kt” example:

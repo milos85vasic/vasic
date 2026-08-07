@@ -1,0 +1,132 @@
+Milos Vasié Home Products 9:
+// TIER: HELIX-PRIMARY + ORDER 1
+HelixTrack (a) ice 120
+Go Gin HTTP/3QUIC PostgreSQL. = SQLite © SQLCipher = Redis — Angular19 = Tauri2.0 _—Kotlin. Swift ~— Docker
+
+Source
+Helix-Track/Core 4
+Helix-Track/Website 4
+
+// architecture diagram for helixtrack — injected in a later pass
+
+JIRA alternative for the free world.
+
+Summary
+
+HelixTrack is a comprehensive, modern, open-source alternative to JIRA (and, via its Documents extension, Confluence) — a multi-platform project-
+
+management and issue-tracking system built on a Go microservices backend with native clients for web, desktop, and mobile.
+
+Short description
+
+Open-source JIRA/Confluence alternative. A Go microservices backend ("HelixTrack Core") exposes a unified REST API for project and issue tracking, plus a
+
+Confluence-style document workspace, served to native Web, Desktop, Android, and iOS clients over HTTP/3 QUIC.
+
+Long description
+
+HelixTrack is an open-source project-management and issue-tracking platform positioned as a free-world alternative to JIRA and Confluence. Its heart is
+
+HelixTrack Core, a REST API microservice written in Go with the Gin framework, offering full issue tracking, agile/scrum boards, team management, and a
+
+hierarchical permissions engine with swappable local or HTTP-backed implementations. Core exposes a distinctive single, action-routed /do endpoint with
+
+a consistent request/response envelope, and integrates with decoupled Authentication, Permissions, and Localization services that communicate over
+
+HTTP/3 QUIC and can run on separate machines or clusters. Data is stored in SQLite for development and PostgreSQL in production, encrypted at rest with
+
+SQLCipher (AES-256). A Documents V2 extension adds a Confluence-style workspace — spaces, pages, version control, templates, real-time WebSocket
+
+collaboration, and analytics. Around Core sit multiple client applications: an Angular web client, a Tauri + Angular desktop client, native Android (Kotlin) and
+
+iOS (Swift) apps, plus HarmonyOS and Aurora OS clients and a screensaver — all talking to the same backend and discoverable on local networks via UDP
+
+broadcast. The client applications are maintained as separate, private repositories and are presented here at the product level only.
+
+Why we built it
+
+To give teams a genuinely open, self-hostable replacement for the JIRA + Confluence stack — "for the free world" — without vendor lock-in, combining
+
+enterprise-grade tracking, documents, and collaboration under one open-source license.
+
+Why it's a game-changer
+
+It collapses two heavyweight commercial products (issue tracking + wiki/documents) into one open, high-performance, self-hostable platform with true multi-
+
+platform native clients. The HTTP/3-everywhere, fully-decoupled microservices design and at-rest SQLCipher encryption target performance and security
+
+levels usually reserved for proprietary SaaS, while remaining open and free to run anywhere.
+
+What's innovative
+
++ Unified action-based /do AP! — one endpoint, action-routed, with a consistent envelope, instead of sprawling REST surface area.
+
++ HTTP/3 QUIC as the default inter-service transport.
+
+* Swappable permissions engine (local or HTTP implementation) and optional, independently-deployable services (Auth, Permissions, Localization).
+
+ Multi-space data isolation viaa —-space-root flag (per-project isolated databases + assets).
+
+* SQLCipher AES-256 encryption at rest.
+
++ Automatic client-to-server discovery via UDP broadcast on local networks.
+
++ Documents V2 "Confluence alternative" with optimistic-locking parallel editing and full change history.
+
+Biggest technical challenges & how we solved them
+
++ Cross-platform native clients on one backend. Solved by a strict single-backend contract (unified /do API + envelope) that every client —
+Web/Angular, Desktop/Tauri, Android/Kotlin, iOS/Swift, HarmonyOS, Aurora — targets identically, with UDP-broadcast service discovery to locate Core.
+
++ Low-latency, decoupled services. Solved by adopting HTTP/3 QUIC across all inter-service calls and allowing each service (Auth, Permissions,
+Localization) to run independently and be disabled in test configs.
+
++ Confluence-grade collaborative documents. Documents V2 adds spaces/pages/versioning with optimistic locking, conflict detection, full change history,
+and real-time WebSocket sync.
+
++ Encryption without killing performance. SQLCipher AES-256 at rest plus multi-layer caching (in-memory LRU + Redis in the Localization service) to
+offset overhead.
+
+Tech stack
+
++ Go + Gin — chosen for high-throughput, low-latency HTTP services; implements Core's REST API, middleware (JWT/CORS), and the /do router.
+
++ HTTP/3 QUIC — used as the transport between Core and its Auth/Permissions/Localization services to cut latency and enable connection resilience.
+
+« PostgreSQL (prod) / SQLite (dev) — relational store for the large tracking + documents schema; SQLite keeps local dev zero-setup, Postgres scales in
+production viaa production compose profile.
+
+* SQLCipher (AES-256) — transparent database-level encryption at rest for sensitive project data.
+
++ Redis — multi-layer caching in the Localization service (in-memory LRU + Redis) for fast multi-language lookups.
+
+« Uber Zap + Lumberjack — structured, rotated logging in Core.
+
+* golang-jwt / JWT — authentication and the jwt field in the API envelope.
+
++ Angular 19 (+ Material, RxJS) — the browser web client.
+
++ Tauri 2.0 + Rust + Angular — the cross-platform desktop client (small footprint, native shell).
+
+« Kotlin (Android) / Swift + SwiftUI (10S) — native mobile clients.
+
++ Docker / Docker Compose (Podman-compatible) — containerized deployment with /health checks.
+
+« Testify (Go); Cypress/Playwright/Karma+Jasmine (clients) — layered automated testing across backend and clients.
+
+Status & honesty notes
+
+« Status: beta. HelixTrack Core is a working REST API microservice; the Documents V2 extension is documented as approximately 95% complete with a
+known database field-mapping issue, so it is not presented as fully shipped.
+
++ License: TBD. CLAUDE.md states MIT, but the core/LICENSE file of record is Apache 2.0 — this discrepancy must be resolved before the license is
+stated definitively.
+
++ Performance figures cited in the project's README (e.g. 50,000+ requests/second, sub-millisecond query times) are stated design/marketing targets, not
+independently published benchmarks, and are therefore omitted from the claims above.
+
++ The client applications (Web, Desktop, Android, iOS, Aurora, HarmonyOS) live in private repositories and are described only at the product level.
+
+Priority tier: Helix-primary and the flagship of the Helix-Track product line — ranked before any Server Factory projects.
+
+© 2026 Milo’ Vasié — built on the OpenDesign system:

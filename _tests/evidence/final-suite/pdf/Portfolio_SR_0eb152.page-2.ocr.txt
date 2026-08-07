@@ -1,0 +1,45 @@
+MILOS VASIC PORTFOLIO.
+140+ 43 25 439
+REPOSITORY FLEET LLM PROVIDERS LINUX DISTROS PASSING TESTS - MAIL
+PROVISIONED SERVER FACTORY
+
+| 1. Pregled — slika u celini
+Ovo je jedinstven, ujedinjen portfolio koji koriste i vasic.digital i milosvasic.ru. Ne opisuje razbacane sporedne
+projekte, ve¢ namerno projektovanu flotu: velike aplikacije koje se oslanjaju na desetine malih, odvojenih,
+nezavisno testiranih modula, a sve je podredeno zajednickoj inzenjerskoj Constitution i provereno anti-
+bluf QA disciplinom. Ta struktura je ono Sto ga izdvaja. Vecina portfolia je samo spisak onoga Sto je
+napravljeno; ovo je sistem u kojem se svaki proizvod sastavlja od dokazanih, viSekratno upotrebljivih delova,
+svaki deo poStuje iste nepregovorive pravila, a iza svake reklamirane moguénosti stoji prikupljen dokaz.
+Dominantan jezik je Go, uz Kotlin/KMP, TypeScript/React, Python, Swift i Shell tamo gde svaki zaista najbolje
+pristaje — Go za usluge i biblioteke visokog protoka, Kotlin za provizioniranje i multiplatformske mobilne
+aplikacije, TypeScript za tipizovane front-endove, Python za povezivanje Al/ML.
+Ono Sto ovom radu daje koherentnost jeste Ginjenica da je disciplina mehanicka, a ne samo Zeljena.
+Zajedniéka Constitution isporu¢uje se kao Git podmodul i nasleduje se u floti od preko 140 repozitorijuma,
+tako da svaka promena pravila automatski stize svuda; anti-bluf QA sloj odbija da zabelezi prolaz bez dokaza
+u vreme izvrSavanja. Porodica Helix, flota pomoénih alata i Server Factory alati su tri izraza jedne ideje —
+napravi jednom, koristi svuda i dokazi da radi pre nego Sto to proglasis gotovim.
+Sve Sto sledi prikazano je po prioritetu:
+
+1. Piloni upravijanja i QA — HelixConstitution, HelixQA (disciplina koja sve ostalo Cini pouzdanim).
+
+2. Porodica proizvoda Helix — Zivotni ciklus razvoja Al (HelixTrack na prvom mestu).
+
+3. LLM infrastruktura — apstrakcija provajdera, orkestracija, verifikacija.
+
+4. Vasic-digital pomoéni alati — samostalni alati na nivou proizvoda.
+
+5. Server Factory — naslede automatizacije infrastrukture (rangirano poslednje).
+Ujedinjujuca teza: funkcionalnost je gotova tek kada je stvarni korisnik moze da koristi i kada postoji
+prikupljen dokaz koji to potvrduje.
+| 2. Piloni upravijanja i QA
+Ova dva segmenta dolaze na prvo mesto jer sve ostalo u ovom portfoliju pozajmljuje svoju kredibilnost od
+njih. Zajedno pretvaraju ,verujte mi, radi” u proverljivu cinjenicu — Constitution kodira pravila, a HelixQA
+dokazuje da su postovana.
+
++ HelixConstitution — univerzalni, projektno-agnostiéki inZenjerski pravilnik isporucivan kao Git
+podmodul i nasleden u floti od preko 140 repozitorijuma. Anti-bluf kontrolne tacke, imunitet na lazno
+pozitivne rezultate, sigurnost podataka i hostova, disciplina pokrivenosti; nasledivanje s mogu¢noséu
+progirenja, ali bez slabljenja; kontrolni mehanizmi koji pretraZuju sve repozitorijume u floti trazeci
+obavezne odredbe; svaka kontroina taéka uparena s mutacionim testom koji dokazuje da nije lazna.
+
+milosvasic.ru - vasic.digital 2/8

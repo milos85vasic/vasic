@@ -1,0 +1,39 @@
+Is an example of a hexadecimal number literal.
+0b01001001
+Is an example of binary literal.
+Note:
+Kotlin does no support octal literals.
+In Kotlin you can use underscores to achieve numbers readability. Take a look
+at the “underscoredNumbers” function inside the “Numbers.kt” file from the
+book's code examples:
+fun underscoredNumbers() {
+
+val millions = 5_000_000
+
+val hexBytes = OxFF_EE_FF_EE
+
+val bigOne = 1111_2222 3333 4444]
+
+val bytes = 0b11001100_11001100_11001100_11001100
+}
+Check out “numbers()” function too:
+fun numbers() {
+
+val a =1//"Int" number type
+
+val b = a.toLong() // Convert "Int" into "Long"
+
+printin("a: $a") // prints: 1
+
+printin("b: $b") // prints: 1
+
+print(a == b.toInt()) // We compare "a" and "b",
+
+// it prints: true,
+// which is Boolean data type.
+
+}
+As you can see we have defined two constants with different data types.
+Constant “a” is a simple Integer (“Int” class) with the value of 1. Constant “b” is
+“Long” but it is initialized with the value of constant “a”. In this example, we
+performed two conversions. We have converted “a” which type is “Int” into

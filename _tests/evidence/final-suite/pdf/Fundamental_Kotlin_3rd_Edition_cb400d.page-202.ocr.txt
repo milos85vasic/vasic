@@ -1,0 +1,40 @@
+val cars = listOf(
+
+Vehicle("Bmw"),
+
+Vehicle("Mercedes"),
+
+Vehicle("Toyota")
+)
+val busses = listOf(
+
+Vehicle("Solaris"),
+
+Vehicle("Champion"),
+
+Vehicle("Ikarbus")
+)
+val vehicles = listOf(cars, busses)
+val manufacturers = vehicles.flatMap {
+
+it
+}.map {
+
+it.name
+}
+Last part can be simplified:
+val manufacturers = vehicles.flatten().map {
+
+it.name
+}
+From all collections, in the given collection the “flatten” function returns a single
+list of all elements.
+We will go step by step through the example. First, we defined a simple class to
+represent a vehicle entity. The only attribute of the vehicle is its name.
+Then, we have created two lists. The first list contains car vehicles, and the
+second one contains bus vehicles. Since we are interested in creating a unique
+list of all vehicle names we are putting all vehicles under one hood, the
+“vehicles” list (the list that contains the vehicle list).
+The last step is mapping everything into a “manufacturers” list that will contain
+only names. To achieve this we have used “map” and “flatMap” (“flatten”)
+functions. Let's print out the content of the final list:

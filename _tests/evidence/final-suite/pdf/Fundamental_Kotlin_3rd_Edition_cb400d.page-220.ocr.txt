@@ -1,0 +1,34 @@
+Generic data types
+“Generic” data type means that the type is parameterized. The core value of
+“generic” data types is to allow types such as “Integer”, “Float”, “String” and so
+on, and user-defined types as well to be parameters to functions, objects,
+classes, and interfaces. By using “generic” data types, it is possible to create
+classes that work with different data types.
+Let's take a look at the example that shows us the simple use of “generics” in
+Kotlin. From book code examples open “Generics. kt":
+class Container<T>(val data: T) {
+
+fun describe() {
+
+printin("Data contained: $data")
+
+}
+}
+We have defined a class for “generic” data type of some “T”. That means that we
+can instantiate the “Container” class and have a “data” field of any type. The
+class contains a “describe” function that will print-line string representation of
+the “data” property. Let's try it out:
+val data? = Container(1)
+val data2 = Container("Hello world!")
+val data3 = Container(true)
+Executing our program will produce the following result:
+Data contained: 1
+Data contained: Hello world!
+Data contained: true
+Ok, here we demonstrated basic usage of generics. Let's introduce more
+precision into the class types. From book code examples open the “Cars.kt”
+source code file:
+abstract class Car(var model: String) {
+
+abstract var name: String
+}

@@ -1,0 +1,31 @@
+or rewritten into “When” expression (Kotlin’s answer to traditional
+“Switch/Case”):
+fun getMemberTypeByld(id: Int) = when (id) {
+0->{
+"Unregistered"
+}
+1->{
+"Registered"
+}
+2->{
+"Admin"
+}
+else ->{
+"Unknown"
+}
+}
+See “When.kt” from book code examples.
+When
+Unlike “If” and "If/Else", the “When” statement can have a number of possible
+execution paths. The “When” statement replaces the traditional “Switch”
+operator that we used in Java. “When” can be used either as an expression or as
+a statement.
+“When” matches its argument against all branches sequentially. Matching is
+performed until a branch condition is satisfied. If it is used as an expression, the
+value of the satisfied branch becomes the value of the overall expression. The
+values of individual branches are ignored if it is used as a statement.
+If none of the other branch conditions are satisfied, the “Else” branch is
+evaluated. If "When" is used as an expression, the “Else” branch is mandatory,
+unless the compiler can prove that all possible cases are covered with branch
+conditions. If many cases should be handled in the same way, the branch
+conditions can be combined with a comma.

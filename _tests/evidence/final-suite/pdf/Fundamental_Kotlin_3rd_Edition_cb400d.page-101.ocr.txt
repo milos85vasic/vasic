@@ -1,0 +1,30 @@
+second parameter function will return a value of 1. If it is smaller, it will return -
+1. If they are equal to each other function will return 0.
+Same function can be simplified as “one-liner”:
+fun compare(x: Int, y: Int) =
+if (x > y) 1 else if (x <y)-1 else 0
+Let's run this function and see what output it will be produced:
+varx=1
+vary=2
+printin(Compare $x vs $y: ${compare(x, y)}")
+x=2
+y=
+printin(Compare $x vs $y: ${compare(x, y)}")
+x=2
+ya2
+printin("Compare $x vs $y: ${compare(x, y)}")
+Execution output of the program is:
+Compare 1 vs 2: -1
+Compare 2 vs 1:1
+Compare 2 vs 2: 0
+If expression
+In Kotlin “If” is an expression and it can return a value. We will examine the use
+of “If” on “If.kt” book's code source example:
+fun getMemberTypeByld(id: Int): String {
+return if (id == 0) {
+"Unregistered"
+} else if (id == 1) {
+"Registered"
+} else if (id == 2) {
+"Admin"
+}else{

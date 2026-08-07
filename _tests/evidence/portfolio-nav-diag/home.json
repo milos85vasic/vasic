@@ -1,0 +1,92 @@
+{
+  "label": "home",
+  "url": "http://localhost:8099/index.html",
+  "navLinks": [
+    {
+      "text": "Work",
+      "href": "#work",
+      "targetExists": true
+    },
+    {
+      "text": "Experience",
+      "href": "#experience",
+      "targetExists": true
+    },
+    {
+      "text": "Skills",
+      "href": "#skills",
+      "targetExists": true
+    },
+    {
+      "text": "Contact",
+      "href": "#contact",
+      "targetExists": true
+    }
+  ],
+  "brandTargetExists": true,
+  "clickResults": [
+    {
+      "sel": "#work",
+      "targetExists": true,
+      "before": {
+        "y": 0,
+        "hash": ""
+      },
+      "after": {
+        "y": 1045,
+        "hash": "#work"
+      },
+      "scrolled": true
+    },
+    {
+      "sel": "#experience",
+      "targetExists": true,
+      "before": {
+        "y": 1045,
+        "hash": "#work"
+      },
+      "after": {
+        "y": 3433,
+        "hash": "#experience"
+      },
+      "scrolled": true
+    },
+    {
+      "sel": "#skills",
+      "targetExists": true,
+      "before": {
+        "y": 3469,
+        "hash": "#experience"
+      },
+      "after": {
+        "y": 4781,
+        "hash": "#skills"
+      },
+      "scrolled": true
+    },
+    {
+      "sel": "#contact",
+      "targetExists": true,
+      "before": {
+        "y": 4793,
+        "hash": "#skills"
+      },
+      "after": {
+        "y": 5372,
+        "hash": "#contact"
+      },
+      "scrolled": true
+    }
+  ],
+  "theme": {
+    "before": "light",
+    "after": "dark",
+    "works": true
+  },
+  "lang": {
+    "expanded": "true",
+    "menuItems": 15
+  },
+  "consoleMsgs": [],
+  "pageErrors": []
+}

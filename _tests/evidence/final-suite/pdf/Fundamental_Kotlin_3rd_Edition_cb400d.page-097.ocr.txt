@@ -1,0 +1,64 @@
+vala=1
+
+val b=2
+
+valc=3
+
+vald=4
+
+//'Or' examples:
+
+val orl =(a>b) || (c>d)
+
+val or2 = (a <b) || (c <a)
+
+val or3 = (a == b) | | (c ==)
+
+val or4 = (a == b) | | (c==d) || (a==0)
+
+printin("($a > $b) | | ($c > $d) -> $or1")
+
+printin("($a < $b) | | ($c < $d) -> $or2")
+
+printin("($a == $b) | | ($c == $d) -> $or3")
+
+printin("($a == $b) | | ($c == $d) | | ($a == $c) -> $or4")
+//‘And' examples:
+
+val and1 = (a > b) && (c > d)
+
+val and2 = (a < b) && (c < d)
+
+val and3 = (a == b) && (c == d)
+
+val and4 = (a == b) && (c == d) && (a == c)
+
+printin("($a > $b) && ($c > $d) -> $and1")
+
+printin("($a < $b) && ($c < $d) -> $and2")
+
+printin("($a == $b) && ($c == $d) -> $and3")
+printin("($a == $b) && ($c == $d) && ($a == $c) -> $and4")
+// Mixed example
+
+val mixed = ((a <b) | | (c<d)) && (a !=c)
+
+printin("(($a < $b) || ($c < $d)) && ($a != $c) -> $mixed")
+Executing the program will give us the following output:
+(1>2) || (3>4)-> false
+
+(1<2) || (3<4)-> true
+
+(1 == 2) || (3 ==4)-> false
+
+(1 == 2) || (8 ==4) || (1 == 3)-> false
+
+(1 > 2) && (3 > 4) -> false
+
+(1 <2) && (3 < 4) -> true
+
+(1 == 2) && (3 == 4) -> false
+
+(1 == 2) && (3 == 4) && (1 == 3) -> false
+
+(1 <2) || 8 <4) && (1 I= 3) -> true

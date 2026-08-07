@@ -1,0 +1,34 @@
+val diff = mix - userCredentials.keys
+printin(""-": $diff")
+We have performed addition to the “userCredentials” map by adding two more
+entries. Then, from the resulting map, we have subtracted “userCredentials”
+which gave us the map that we have added previously. We are printing out each
+of the resulting maps. Let's try this example and see what output it produces:
+lay
+
+john.smith=12345, john.doe=24680,
+
+somebody.else=11111, lorem.ipsum=22222
+}
+'.': {somebody.else=11111, lorem.ipsum=22222}
+Immutable sets
+The set represents a collection that holds a generic unordered collection of
+elements that does not support duplicate elements. Functions in the “Set”
+interface support only read-only access to the set. For reading and write access
+support, "MutableSet” interface is used.
+Let's create some immutable sets. Open “Collections.kt” and locate the following
+code snippet:
+val numbersSet = setOf(2, 2, 3) // It only has members
+
+// 2 and 3, no duplicates
+
+numbersSet.forEach(::printin) // Will output: 2 and 3
+This example creates a set of numbers containing numbers two and three with
+no duplicates. Then, we are printing all set members to the standard output.
+Pay attention to the “:” operator. As you probably remember operator “::”
+represents direct access to function reference.
+Accessing set elements is performed:
+- by element position
+- by condition
+- random.
+Accessing set elements by position:

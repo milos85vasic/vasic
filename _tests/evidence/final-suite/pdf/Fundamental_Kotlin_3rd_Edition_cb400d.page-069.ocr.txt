@@ -1,0 +1,50 @@
+-3
+
+-3.3
+
+0.5
+
+1.1f
+
+OxOF
+
+0b01001001
+
+Each of these belongs to a particular Kotlin number class.
+
+1
+
+100
+
+-3
+
+Are decimal numbers, represented with Kotlin’s “Int” (integer) class. Memory
+consumption by an integer is 32 bits. Minimal value is: -2,147,483,648. Maximal
+value is: 2,147,483,647.
+
+5000000000
+
+10L
+
+Are “Long” decimal numbers with memory consumption of 64 bits. Minimal
+value is: -9,223,372,036,854,775,808. Maximal value is:
+9,223,372,036,854,775,807.
+
+Kotlin also supports “Short” and “Byte” data types. “Short” numbers consume 16
+bits in memory with a minimal value: -32768 and a maximal value: 32767. “Byte”
+type consumes only 8 bits with a minimal value of -128 and maximum: 127.
+
+-3.3
+
+0.5
+
+Are floating point numbers represented by the “Double” Kotlin class. It is the
+default class type for floating-point numbers. It consumes 64 bits of memory.
+1.1f
+
+Is an example of a floating-point that consumes 32 bits and it is represented
+with 32 bits in the memory. Notice the “f” suffix at the end of the literal. It tells
+Kotlin compiler that we want a 32-bit version of a floating-point number, that is
+“Float”.
+
+OxOF

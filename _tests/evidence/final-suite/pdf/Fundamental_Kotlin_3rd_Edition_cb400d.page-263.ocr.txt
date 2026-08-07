@@ -1,0 +1,29 @@
+this.value = value
+
+}
+}
+class Data {
+
+var value: Int by Delegator()
+}
+The “Delegator” class will be responsible for handling read and write operations
+for the integer properties. “Delegator” implements the “ReadWriteProperty”
+interface required for this functionality. We will soon mention the most
+commonly used delegation interfaces. Finally, the “Data” class contains a “value”
+variable. Read and write operations for the variable will be delegated to the
+instance of the “Delegator” class.
+Delegation syntax is the following:
+val/var <property name>: <Type> by <expression>
+The expression after by is the delegate. The get() / set() corresponding to the
+property will be delegated to its getValue() and setValue() functions.
+These are the main delegate types:
+Delegates, object Delegates
+Standard property delegates:
+- ObservableProperty,
+abstract class ObservableProperty<T> :
+
+ReadWriteProperty<Any?, T>
+Implements the core logic of a property delegate for a read/write property that
+calls callback functions when it is changed.
+- ReadOnlyProperty,
+interface ReadOnlyProperty<in R, out T>

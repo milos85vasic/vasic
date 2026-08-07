@@ -1,0 +1,39 @@
+Creating IDE project
+
+Previous examples were built by using only the Kotlin compiler from the
+terminal. In the rest of the book, we will be using IntelliJ Idea IDE (an integrated
+development environment), developed by creators of the Kotlin, JetBrains
+company.
+
+You can download and install IntelliJ) Idea Community Edition. Community
+Edition of IntelliJ Idea is the free version of the IDE. When it is installed, open
+preferences and install support for Kotlin programming language if it is not
+installed already. After this is done, you are ready to write and run some Kotlin
+code.
+
+To create a new Kotlin project in IntelliJ IDEA do the following:
+
+File > New > Project
+
+Then choose:
+
+Kotlin > JVM | IDEA > Next
+
+Name the project, set the file system location, and choose the Java version from
+a dropdown list (Project SDK). After you click on the Finish button new empty
+Kotlin project will be created.
+
+Now, create your first package, the steps are the same, as you would do in Java.
+Right-click on the “src” folder in the project structure tree - New — Package.
+Give some meaningful name to it like:
+
+com.example.kotlin
+
+Finally, create your first Kotlin source code file by right-clicking on a package
+you just created and choosing: New = Kotlin File / Class. Give some name to a
+file, like for example: First. A newly created file will appear in your package.
+Great! We have now an empty Kotlin file. We are ready to add some code!
+Kotlin and Gradle
+
+In this section, we will cover the Kotlin project setup with Gradle. To do that we
+need a plain Kotlin Gradle project for the demonstration purpose. Locate the

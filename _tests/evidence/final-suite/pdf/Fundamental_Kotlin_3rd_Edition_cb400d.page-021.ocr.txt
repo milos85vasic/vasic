@@ -1,0 +1,28 @@
+$ brew install kotlin
+MacPorts
+If you're a MacPorts user, you can install the compiler with:
+$ sudo port install kotlin
+Compiling Kotlin source code
+Let's see now how the build process works in Kotlin.
+All source code is stored in .kt files that are organized in packages (filesystem
+directories organized hierarchically). Kotlin compiler analyzes source code and
+generates .class files. Then, .class files are packaged. How they are packaged
+depends on the kind of project you are working on.
+The following example will demonstrate how we can compile Kotlin source code
+and execute compiled programs.
+Create simple file named “First.kt” with the following content:
+package net.milosvasic.fundamental.kotlin
+fun main(args: Array<String>) {
+
+printin("My first Kotlin application.")
+}
+The first line of the code tells us under which package resides our program.
+More about packages will be discussed in upcoming sections of the book. Then,
+we defined the main program function. The main function and functions, in
+general, will be discussed soon as well. For now, it is important to know that
+main function is the entry point in the execution of our program. Inside the
+body of our main function (body of the program), we are executing “printin”
+function that will print a simple message on our screen.
+In two consecutive commands we will compile and run our code from the
+source code .kt file:
+$ kotlinc First.kt -include-runtime -d First.jar

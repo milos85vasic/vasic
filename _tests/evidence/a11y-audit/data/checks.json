@@ -1,0 +1,5913 @@
+{
+  "mv-home-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-home-en-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-home-ru-dark": {
+    "applied": {
+      "lang": "ru",
+      "dir": "ltr",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Перейти к содержанию",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-home-ar-light": {
+    "applied": {
+      "lang": "ar",
+      "dir": "rtl",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "الانتقال إلى المحتوى الرئيسي",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-home-ar-dark": {
+    "applied": {
+      "lang": "ar",
+      "dir": "rtl",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "الانتقال إلى المحتوى الرئيسي",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-home-ja-light": {
+    "applied": {
+      "lang": "ja",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "メインコンテンツへスキップ",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-product-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "HelixTrack betalicense: TBD"
+        },
+        {
+          "level": 2,
+          "text": "Source"
+        },
+        {
+          "level": 2,
+          "text": "Origin story"
+        },
+        {
+          "level": 2,
+          "text": "What sets it apart"
+        },
+        {
+          "level": 2,
+          "text": "The innovations inside"
+        },
+        {
+          "level": 2,
+          "text": "Engineering the hard bits"
+        },
+        {
+          "level": 2,
+          "text": "Under the hood"
+        },
+        {
+          "level": 2,
+          "text": "The honest status"
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-0",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-1",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-2",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-3",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-4",
+          "cls": "od-accordion__trigger"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-product-en-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "HelixTrack betalicense: TBD"
+        },
+        {
+          "level": 2,
+          "text": "Source"
+        },
+        {
+          "level": 2,
+          "text": "Origin story"
+        },
+        {
+          "level": 2,
+          "text": "What sets it apart"
+        },
+        {
+          "level": 2,
+          "text": "The innovations inside"
+        },
+        {
+          "level": 2,
+          "text": "Engineering the hard bits"
+        },
+        {
+          "level": 2,
+          "text": "Under the hood"
+        },
+        {
+          "level": 2,
+          "text": "The honest status"
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-0",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-1",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-2",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-3",
+          "cls": "od-accordion__trigger"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-helixtrack-4",
+          "cls": "od-accordion__trigger"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-portfolio-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Portfolio"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline"
+        },
+        {
+          "level": 2,
+          "text": "Helix family & LLM infrastructure 20"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSkills beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSpecifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixTerminator beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixOTA in-development"
+        },
+        {
+          "level": 3,
+          "text": "HelixTranslate beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "Helix-Flow roadmap"
+        },
+        {
+          "level": 3,
+          "text": "HelixBuilder beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixGitpx shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixPlay beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities 8"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "Vasic Digital Reusable Module Suite scaf"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory 5"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory — Additional Components m"
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-portfolio-en-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": false,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Portfolio"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline"
+        },
+        {
+          "level": 2,
+          "text": "Helix family & LLM infrastructure 20"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSkills beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSpecifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixTerminator beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixOTA in-development"
+        },
+        {
+          "level": 3,
+          "text": "HelixTranslate beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "Helix-Flow roadmap"
+        },
+        {
+          "level": 3,
+          "text": "HelixBuilder beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixGitpx shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixPlay beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities 8"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "Vasic Digital Reusable Module Suite scaf"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory 5"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory — Additional Components m"
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "lang-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "theme-btn",
+          "cls": "icon-btn"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-doc-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        },
+        {
+          "level": 1,
+          "text": "HelixCode"
+        },
+        {
+          "level": 2,
+          "text": "The hook"
+        },
+        {
+          "level": 2,
+          "text": "Why it’s fascinating"
+        },
+        {
+          "level": 2,
+          "text": "The hard problems"
+        },
+        {
+          "level": 2,
+          "text": "What makes it game-changing"
+        },
+        {
+          "level": 2,
+          "text": "How I solved the hardest\nparts"
+        }
+      ],
+      "h1Count": 2,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": false,
+      "langFocusable": false,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        }
+      ]
+    },
+    "focusTrap": {
+      "modalFound": true,
+      "role": "dialog",
+      "ariaModal": "true",
+      "ariaLabel": "dl-title",
+      "containment": {
+        "inside": 0,
+        "outside": 15
+      }
+    },
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "mv-doc-ar-light": {
+    "applied": {
+      "lang": "ar",
+      "dir": "rtl",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "الانتقال إلى المحتوى الرئيسي",
+        "href": "#top"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Miloš Vasić"
+        },
+        {
+          "level": 2,
+          "text": "I design and build the software that tur"
+        },
+        {
+          "level": 2,
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 2,
+          "text": "Product-grade tools I built and maintain"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Predating the AI line — my DevOps toolch"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "The discipline that underpins the produc"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "The stack I actually build on."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data & Infra"
+        },
+        {
+          "level": 2,
+          "text": "In one line."
+        },
+        {
+          "level": 3,
+          "text": "CV"
+        },
+        {
+          "level": 1,
+          "text": "HelixCode"
+        },
+        {
+          "level": 2,
+          "text": "الخطّاف"
+        },
+        {
+          "level": 2,
+          "text": "لماذا هو مثير للاهتمام"
+        },
+        {
+          "level": 2,
+          "text": "التحديات الصعبة"
+        },
+        {
+          "level": 2,
+          "text": "ما يجعله مغيراً لقواعد اللعبة"
+        },
+        {
+          "level": 2,
+          "text": "كيف حللت أصعب الأجزاء"
+        }
+      ],
+      "h1Count": 2,
+      "imagesNoAlt": [],
+      "imgTotal": 1,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": false,
+      "langFocusable": false,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "mv-article-modal__close"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        }
+      ]
+    },
+    "focusTrap": {
+      "modalFound": true,
+      "role": "dialog",
+      "ariaModal": "true",
+      "ariaLabel": "dl-title",
+      "containment": {
+        "inside": 0,
+        "outside": 15
+      }
+    },
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-home-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-home-en-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-home-ru-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-home-ar-light": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-home-ja-light": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-product-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Catalogizer productionlicense: UNVERIFIE"
+        },
+        {
+          "level": 2,
+          "text": "Source"
+        },
+        {
+          "level": 2,
+          "text": "The problem we set out to solve"
+        },
+        {
+          "level": 2,
+          "text": "Why it changes the game"
+        },
+        {
+          "level": 2,
+          "text": "Where the novelty lives"
+        },
+        {
+          "level": 2,
+          "text": "Hard problems, honest solutions"
+        },
+        {
+          "level": 2,
+          "text": "The stack, and why"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-catalogizer-0",
+          "cls": "od-accordion__trigger"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-product-en-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Catalogizer productionlicense: UNVERIFIE"
+        },
+        {
+          "level": 2,
+          "text": "Source"
+        },
+        {
+          "level": 2,
+          "text": "The problem we set out to solve"
+        },
+        {
+          "level": 2,
+          "text": "Why it changes the game"
+        },
+        {
+          "level": 2,
+          "text": "Where the novelty lives"
+        },
+        {
+          "level": 2,
+          "text": "Hard problems, honest solutions"
+        },
+        {
+          "level": 2,
+          "text": "The stack, and why"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": ""
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-acc-catalogizer-0",
+          "cls": "od-accordion__trigger"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-portfolio-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Portfolio"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline"
+        },
+        {
+          "level": 2,
+          "text": "Helix family & LLM infrastructure 20"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSkills beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSpecifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixTerminator beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixOTA in-development"
+        },
+        {
+          "level": 3,
+          "text": "HelixTranslate beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "Helix-Flow roadmap"
+        },
+        {
+          "level": 3,
+          "text": "HelixBuilder beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixGitpx shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixPlay beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities 8"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "Vasic Digital Reusable Module Suite scaf"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory 5"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory — Additional Components m"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "pf-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-portfolio-en-dark": {
+    "applied": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Portfolio"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline"
+        },
+        {
+          "level": 2,
+          "text": "Helix family & LLM infrastructure 20"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSkills beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixSpecifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixTerminator beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixOTA in-development"
+        },
+        {
+          "level": 3,
+          "text": "HelixTranslate beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "Helix-Flow roadmap"
+        },
+        {
+          "level": 3,
+          "text": "HelixBuilder beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixGitpx shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixPlay beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities 8"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "Vasic Digital Reusable Module Suite scaf"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory 5"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory — Additional Components m"
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 0,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "pf-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": null,
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-doc-en-light": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": {
+      "modalFound": false,
+      "containment": {
+        "inside": 0,
+        "outside": 0
+      }
+    },
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  },
+  "vd-doc-ar-light": {
+    "applied": {
+      "lang": "en",
+      "dir": null,
+      "theme": "light"
+    },
+    "checks": {
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "focusVisibleRule": true,
+      "reducedMotionRule": true,
+      "landmarks": {
+        "header": true,
+        "nav": true,
+        "main": true,
+        "footer": true
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "AI-native software engineering, built to"
+        },
+        {
+          "level": 2,
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "level": 2,
+          "text": "AI-based development, end to end."
+        },
+        {
+          "level": 3,
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "level": 3,
+          "text": "Agent orchestration"
+        },
+        {
+          "level": 3,
+          "text": "LLM verification"
+        },
+        {
+          "level": 3,
+          "text": "Retrieval & memory"
+        },
+        {
+          "level": 3,
+          "text": "Defensive LLM"
+        },
+        {
+          "level": 2,
+          "text": "The Helix product family & LLM infrastru"
+        },
+        {
+          "level": 3,
+          "text": "HelixTrack beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixAgent beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCode beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixLLM beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixCluster in-development"
+        },
+        {
+          "level": 3,
+          "text": "LLMProvider beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "level": 3,
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "level": 3,
+          "text": "HelixMemory beta"
+        },
+        {
+          "level": 2,
+          "text": "Governance as an auditable fact, not an "
+        },
+        {
+          "level": 3,
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "level": 3,
+          "text": "HelixQA beta"
+        },
+        {
+          "level": 2,
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "level": 3,
+          "text": "Catalogizer production"
+        },
+        {
+          "level": 3,
+          "text": "Courses-Creator production"
+        },
+        {
+          "level": 3,
+          "text": "VisionEngine active"
+        },
+        {
+          "level": 3,
+          "text": "DocProcessor active"
+        },
+        {
+          "level": 3,
+          "text": "Docs Chain active"
+        },
+        {
+          "level": 3,
+          "text": "Herald active"
+        },
+        {
+          "level": 3,
+          "text": "task_bridge scaffold"
+        },
+        {
+          "level": 3,
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "level": 2,
+          "text": "Server Factory — infrastructure automati"
+        },
+        {
+          "level": 3,
+          "text": "Mail Server Factory production"
+        },
+        {
+          "level": 3,
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "level": 3,
+          "text": "Qemu-Utils active"
+        },
+        {
+          "level": 3,
+          "text": "Parallels-Utils active"
+        },
+        {
+          "level": 2,
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "level": 3,
+          "text": "Languages"
+        },
+        {
+          "level": 3,
+          "text": "AI / LLM"
+        },
+        {
+          "level": 3,
+          "text": "Backend"
+        },
+        {
+          "level": 3,
+          "text": "Data"
+        },
+        {
+          "level": 3,
+          "text": "Infra / DevOps"
+        },
+        {
+          "level": 3,
+          "text": "Testing / QA"
+        },
+        {
+          "level": 2,
+          "text": "One fleet, one discipline — see all 33 p"
+        },
+        {
+          "level": 2,
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imagesNoAlt": [],
+      "imgTotal": 2,
+      "iconOnlyNoName": [],
+      "controls": {
+        "themeToggle": true,
+        "langSwitcher": true
+      }
+    },
+    "keyboard": {
+      "tabReachesInteractive": true,
+      "themeToggleFocusable": true,
+      "langFocusable": true,
+      "tabbedTags": [
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-skip-link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-brand"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-nav__link"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-lang-btn",
+          "cls": "od-btn od-btn--ghost od-lang__btn"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "od-theme-toggle",
+          "cls": "od-btn od-btn--ghost od-theme-toggle"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--primary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--ghost"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "cls": "od-btn od-btn--secondary"
+        }
+      ]
+    },
+    "focusTrap": {
+      "modalFound": false,
+      "containment": {
+        "inside": 0,
+        "outside": 0
+      }
+    },
+    "reducedMotion": {
+      "reveals": 0,
+      "shown": 0,
+      "anyAnimating": false
+    }
+  }
+}

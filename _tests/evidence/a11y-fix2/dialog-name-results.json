@@ -1,0 +1,65 @@
+{
+  "totalDialogNameNodes": 0,
+  "perTarget": [
+    {
+      "target": "mv-home-en-light",
+      "theme": "light",
+      "slug": "helix-code",
+      "aria": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "ariaHidden": "false",
+        "ariaLabel": null,
+        "ariaLabelledby": "mv-article-modal__title-1",
+        "labelTargetTag": "H1",
+        "accessibleName": "HelixCode"
+      },
+      "axeDialogNameNodes": 0
+    },
+    {
+      "target": "mv-home-en-dark",
+      "theme": "dark",
+      "slug": "catalogizer",
+      "aria": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "ariaHidden": "false",
+        "ariaLabel": null,
+        "ariaLabelledby": "mv-article-modal__title-1",
+        "labelTargetTag": "H1",
+        "accessibleName": "Catalogizer"
+      },
+      "axeDialogNameNodes": 0
+    },
+    {
+      "target": "mv-home-loaded-en-light",
+      "theme": "light",
+      "slug": "helix-track-core",
+      "aria": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "ariaHidden": "false",
+        "ariaLabel": null,
+        "ariaLabelledby": "mv-article-modal__title-1",
+        "labelTargetTag": "H1",
+        "accessibleName": "HelixTrack Core"
+      },
+      "axeDialogNameNodes": 0
+    },
+    {
+      "target": "mv-portfolio-errorstate-light",
+      "theme": "light",
+      "slug": "helix-track-core",
+      "aria": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "ariaHidden": "false",
+        "ariaLabel": "Article",
+        "ariaLabelledby": null,
+        "labelTargetTag": null,
+        "accessibleName": null
+      },
+      "axeDialogNameNodes": 0
+    }
+  ]
+}

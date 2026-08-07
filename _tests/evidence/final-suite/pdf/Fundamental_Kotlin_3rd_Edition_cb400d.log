@@ -1,0 +1,9 @@
+
+[export-validator] pdf=/Volumes/T7/Projects/vasic/milosvasic.ru/_site/assets/pdf/Fundamental_Kotlin_3rd_Edition.pdf
+[export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=ok
+  [PASS] CONTENT/content.nonempty — extracted 46430 words (min 40)
+  [FAIL] TEXTUAL/textual.no-leak — raw markup/mermaid source leaked as body text: mermaid:pie/journey("journey")
+  [FAIL] FULL-VISUAL/visual.images — pdfimages found 0 embedded image(s) (min 1)
+  [PASS] FULL-VISUAL/visual.ocr — OCR of 281 rendered page(s) recovered 46390 legible words (min 15)
+[export-validator] verdict=FAIL  report=_tests/evidence/final-suite/pdf/Fundamental_Kotlin_3rd_Edition_cb400d.verdict.json
+

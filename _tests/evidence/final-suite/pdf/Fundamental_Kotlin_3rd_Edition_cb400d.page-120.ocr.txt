@@ -1,0 +1,29 @@
+}
+class CustomEngine(model: String) : Engine(model) {
+// We override just 'turnOn' function for this class:
+override fun turnOn() {
+// We don't want super class business logic,
+// so we do not call 'super':
+printin("$model: Car is starting")
+}
+}
+Let's play with these classes:
+val carEngine = CarEngine("Fiat")
+carEngine.turnOn()
+carEngine.turnOff()
+val customEngine = CustomEngine("Rocket")
+customEngine.turnOn()
+customEngine.turnOff()
+Executing an example program will produce the following output:
+Fiat: Turning on
+Fiat: Car is starting
+Fiat: Turning off
+Fiat: Car is stopping
+Rocket: Car is starting
+Rocket: Turning off
+Note:
+A member function that is marked with “override” is itself “open”. If you want to
+prohibit re-overriding, use the “final” modifier:
+open class TruckEngine(model: String) : Engine(model) {
+final override fun turnOn() {
+// Executing something before 'super' business logic:

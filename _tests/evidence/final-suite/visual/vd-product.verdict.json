@@ -1,0 +1,195 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T19:44:42.481Z",
+  "input": "http://localhost:8501/products/catalogizer.html",
+  "name": "vd-product",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/vd-product.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/vd-product.light.ocr.txt",
+        "wordCount": 947,
+        "sample": "Vasic Digital Home Products EN G TIER: VASIC-UTIL-SECONDARY ORDER 21 Catalogizer GEZ==D"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 34,
+          "controls": 19,
+          "textChars": 5058
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-0]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=2781 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2707,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-1]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3070 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2996,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-2]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3542 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 3468,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-3]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3946 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 3872,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-4]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=4341 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 4267,
+              "w": 560,
+              "h": 74
+            }
+          }
+        ]
+      },
+      "errorCount": 5,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    },
+    "dark": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/vd-product.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual/vd-product.dark.ocr.txt",
+        "wordCount": 949,
+        "sample": "Vasic Digital Home Products EN 0: TIER: VASIC-UTIL-SECONDARY ORDER 21 Catalogizer (diction)"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 34,
+          "controls": 19,
+          "textChars": 5058
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-0]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=2781 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2707,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-1]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3070 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2996,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-2]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3542 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 3468,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-3]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3946 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 3872,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-catalogizer-4]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=4341 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 4267,
+              "w": 560,
+              "h": 74
+            }
+          }
+        ]
+      },
+      "errorCount": 5,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    }
+  },
+  "verdict": "FAIL"
+}

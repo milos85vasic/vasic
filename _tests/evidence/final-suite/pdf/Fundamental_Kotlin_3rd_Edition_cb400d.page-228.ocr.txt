@@ -1,0 +1,30 @@
+We have defined “enum” called “CAPABILITIES” with abstract function member:
+“execute”. Because of this, each “enum” constant must implement it. Let's try it:
+val capabilities = listOf(
+CAPABILITIES.POWER_ON,
+CAPABILITIES. VOLUME_UP,
+CAPABILITIES. VOLUME_UP,
+CAPABILITIES. VOLUME_DOWN,
+CAPABILITIES. POWER_OFF
+)
+for (capability in capabilities) {
+capability.execute()
+}
+Running this little “enums” program will produce the following output:
+Powering on
+Vol +
+Vol +
+Vol -
+Powering off
+Our last “enums” example will demonstrate the use of two important “enum”
+functions. From book code examples open “EnumConstants.kt":
+enum class PLANETS {
+EARTH,
+MARS,
+PLUTO
+}
+We start this example by defining simple enum. Then, we try these functions:
+// Returns PLUTO enum item:
+printin("Value of: ${PLANETS,valueOf("PLUTO")}")
+try{
+val planetBlah = PLANETS.valueOf("BLAH")

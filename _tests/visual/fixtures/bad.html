@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Golden BAD fixture</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --fg: #1a1d21; --accent: #2f6feb; --accent-fg: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14171c; --fg: #eef1f5; --accent: #5b8dff; --accent-fg: #0b1220; }
+  }
+  [data-theme="dark"] {
+    --bg: #14171c; --fg: #eef1f5; --accent: #5b8dff; --accent-fg: #0b1220;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--fg); min-height: 100vh; position: relative;
+  }
+
+  /* DEFECT 1: two labels stacked at the exact same coordinates -> overlap */
+  .overlap-a, .overlap-b {
+    position: absolute; top: 90px; left: 60px;
+    font-size: 20px; font-weight: 700; padding: 8px 12px; margin: 0;
+    background: var(--accent); color: var(--accent-fg); border-radius: 6px;
+    width: 260px;
+  }
+  .overlap-b { background: #e04141; }
+
+  /* DEFECT 2: control pushed past the right/bottom viewport edge -> clipped / off-screen */
+  #clipped-btn {
+    position: absolute; top: 700px; left: 1160px;
+    width: 260px; height: 130px;
+    font-size: 15px; font-weight: 600;
+    background: var(--accent); color: var(--accent-fg);
+    border: none; border-radius: 8px; cursor: pointer;
+  }
+
+  /* DEFECT 3: unbounded "giant" button far larger than a sane fraction of the viewport */
+  #giant-btn {
+    position: absolute; top: 260px; left: 20px;
+    width: 2400px; height: 640px;
+    font-size: 40px; font-weight: 800;
+    background: var(--accent); color: var(--accent-fg);
+    border: none; border-radius: 8px; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <p class="overlap-a" data-testid="overlap-a">Save changes now</p>
+  <p class="overlap-b" data-testid="overlap-b">Discard everything</p>
+  <button id="clipped-btn" data-testid="clipped-btn">Submit (off-screen)</button>
+  <button id="giant-btn" data-testid="giant-btn">GIANT UNBOUNDED BUTTON</button>
+</body>
+</html>

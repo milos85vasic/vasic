@@ -1,0 +1,29 @@
+fun characters() {
+val tab = '\t'
+val quotes = '\""
+val dollar = '\$'
+val character = 'c'
+print("$character$tab$dollar$tab$quotes")
+}
+Executing this example would give you the following output:
+c $ "
+“c" character, dollar, and quotes are printed separated with tab.
+Booleans in Kotlin
+Class “Boolean” represents boolean data type. “Boolean” has two possible
+values: “true” or “false” which is the base of logic in computer programming.
+There are 3 major operations we can perform on booleans in Kotlin:
+“| |", lazy disjunction, for example, a | | b
+“&&", lazy conjunction, for example, a && b
+“negation, for example: !a | | !b
+Open “Booleans.kt” from code examples of the book:
+fun booleans() {
+val number = 1
+val a = number == 1
+val b = number == 2
+printin("a || b -> ${a || b}")
+printin("a && b -> ${a && b}")
+printin(“la | | !b -> ${!a | | !b}")
+}
+Running this example will give you the following output:
+a||b->true
+a && b -> false

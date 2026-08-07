@@ -1,0 +1,226 @@
+CURRICULUM        VITAE
+
+
+
+
+                            Miloš Vasić
+                            AI Engineer · Software Engineer
+
+
+                            LLM infrastructure, autonomous agents, and the
+                            governance that makes them trustworthy. Fleets over
+                            monoliths; anti-bluff, evidence-gated quality.
+
+
+
+
+milos85vasic@gmail.com · milosvasic.ru · vasic.digital
+GitHub: vasic-digital · HelixDevelopment · Server-Factory
+MILOŠ VASIĆ                                                                                      CURRICULUM VITAE
+
+
+
+
+   2009                           140+                        43                           6+
+   ENGINEERING SINCE              REPOSITORIES                LLM PROVIDERS                CORE LANGUAGES
+                                  GOVERNED                    UNIFIED
+
+
+
+
+Inženjer — LLM infrastruktura, autonomni agenti i upravljanje koje ih čini pouzdanim.
+
+       • Email: milos85vasic@gmail.com
+       • Web: https://milosvasic.ru · https://vasic.digital
+       • GitHub: vasic-digital · HelixDevelopment · Server-Factory
+
+
+
+
+   Sažetak
+AI/inženjer softvera koji gradi sisteme za AI razvoj od početka do kraja — od LLM infrastrukture sa više
+provajdera i autonomnih agenata do slojeva QA i upravljanja koji ih drže pod kontrolom. Ne isporučujem
+demo verzije; isporučujem platforme. Više od 15 godina profesionalnog inženjeringa (od 2009. godine) u
+oblasti mobilnih SDK-ova, integracije hardvera u realnom vremenu i distribuiranih backend sistema sada se
+usredsređuje na jedan cilj: učiniti autonomni AI razvoj pouzdanim na velikoj skali.
+
+Projektujem flote, a ne monolite — velike aplikacije koje se oslanjaju na desetine malih, odvojenih i nezavisno
+testiranih modula, od kojih svaki nasleđuje zajednički inženjerski Constitution i proverava se kroz rigoroznu,
+dokazima zasnovanu QA disciplinu koja eliminiše varanje. Primarni jezik je Go, uz Kotlin/KMP, TypeScript/
+React, Python, Swift i Shell. Vođeno načelo, koje se primenjuje mehanički a ne samo deklarativno:
+funkcionalnost je gotova tek kada je stvarni korisnik može koristiti i kada postoje prikupljeni dokazi koji to
+potvrđuju.
+
+Šta donosim za sto: sposobnost da se AI mogućnost prevede iz istraživačke ideje u upravljani,
+samoverifikujući sistem spreman za produkciju — LLM rutiranje koje dokazuje da svaki model zaista radi pre
+nego što mu se poveruje, agenti koji raspravljaju i postižu konsenzus umesto da nagađaju, slojevi memorije i
+RAG koji ne gube kontekst, i ceo ekosistem povezan tako da „testovi su zeleni” nikada tiho ne znači
+„funkcionalnost je pokvarena”.
+
+
+   Ključne kompetencije
+       • AI / LLM sistemi: apstrakcija LLM infrastrukture sa više provajdera (40+ provajdera), integracija alata
+         za MCP, RAG, vector baze podataka i embeddings, orkestracija agenata (bezglavi CLI agenti,
+         grafovski tokovi poslova, rasprave/konsenzus u više krugova), planiranje (HiPlan/MCTS/Tree-of-
+         Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), verifikacija LLM infrastrukture,
+         odbrambeni LLM mehanizmi, računarski vid + LLM-vid.
+       • Backend inženjering: Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, distribuirani sistemi
+         (uključujući TLA+ formalne specifikacije), visokopropusni REST servisi i konkurentni radnici.
+       • Podaci: PostgreSQL, SQLite, SQLCipher (šifrovanje u mirovanju), Redis, Neo4j, ClickHouse,
+         skladištenje objekata (MinIO/S3/GCS/Azure).
+
+
+
+
+milosvasic.ru · vasic.digital                                                                                    2/5
+MILOŠ VASIĆ                                                                                      CURRICULUM VITAE
+
+
+
+
+       • Frontend / cross-platform: TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular, Electron,
+         React Native, Kotlin Multiplatform, Android/Android TV (Kotlin), iOS (Swift), Tauri/Rust.
+       • Infra / DevOps: Docker i Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+         QEMU/Libvirt/Parallels; CI/CD preko GitHub Actions, Gradle, Make.
+       • QA / inženjering kvaliteta: QA zasnovan na dokazima koji eliminiše varanje (HelixQA), okviri za
+         izazove sa mutacionim kapijama, go test -race , vizuelno-regresiono testiranje, testiranje uređaja
+         preko ADB-a, SonarQube, skeniranje sigurnosti (semgrep/gosec/trivy/snyk/gitleaks/nancy).
+       • Upravljanje inženjeringom: Constitution kao podmodul; kapije nasleđivanja i propagacije; disciplina
+         dokumentacije i pokrivenosti kroz flotu od 140+ repozitorijuma.
+
+
+   Izabrani projekti
+
+Upravljanje i kontrola kvaliteta
+       • HelixConstitution — univerzalni inženjerski priručnik distribuiran kao Git podmodul i nasleđen u preko
+         140 repozitorijuma: inženjerski zakon isporučuje se i verzionira tačno kao kod. Jedan update
+         podmodula nadograđuje pravila za ceo sistem, a propagacioni filteri doslovno pretražuju svaki
+         repozitorijum koji ga koristi kako bi pronašli obaveznu klauzulu — svaki filter uparen je sa mutacionim
+         metatestom koji dokazuje da sam filter nije lažan. Pretvara „najbolje prakse koje ljudi žele da prate” u
+         nasleđeno, proverljivo, mehanički sprovodivo antiblef-pravilo.
+       • HelixQA — antiblef orkestracija kontrole kvaliteta (Go) zasnovana na jednom nepopustljivom pravilu:
+         merilo nije „testovi prolaze”, već „korisnici mogu da koriste funkciju”. Pokreće pisane YAML test-banke i
+         potpuno autonomne LLM-i-vizuelne sesije kontrole kvaliteta koje otvaraju pravi softver, proveravaju
+         svaku dokumentovanu funkciju, tragaju za nedokumentovanim greškama na Androidu/Android TV/
+         Webu/desktopu i odbijaju da ocene prolazak bez snimljenih dokaza u realnom vremenu — snimaka
+         ekrana, logcat-a, video-zapisa, stack trace-ova — plus AI-ticketa spremnih za ispravku.
+
+Razvoj AI i LLM infrastruktura
+       • HelixAgent — produkcijski ansambl LLM servisa (Go/Gin) koji odbija da veruje jednom modelu: šalje
+         prompt na više provajdera, vodi strukturiranu višestepenu debatu (Predlog → Kritika → Pregled →
+         Sinteza) i usmerava prema rezultatima verifikacije uživo sa postupnim padom performansi — sve iza
+         OpenAI-kompatibilnog API interfejsa sa HA slojem podataka, opservabilnošću i zaštitnim
+         mehanizmima. Go, Gin, PostgreSQL, Redis, Prometheus/Grafana/OpenTelemetry, MCP, Neo4j/
+         ClickHouse/Kafka.
+       • HelixCode — distribuirana platforma za razvoj AI koja deli posao na inteligentne, zavisne zadatke
+         raspoređene na radničkoj mreži pod upravom SSH, a zatim čuva kontrolne tačke i vraća se unazad
+         tako da ništa nikada ne bude izgubljeno ako se zadatak prekine; izbor modela svesnih hardvera i ceo
+         ciklus planiranja/izrade/testiranja/refaktorisanja iza REST/CLI/TUI/MCP. Go, Gin, PostgreSQL, Redis,
+         SSH, MCP, llama.cpp/Ollama.
+       • HelixLLM — jedan binarni fajl, šest režima implementacije: OpenAI- i Anthropic-kompatibilno
+         zaključivanje preko HTTP/3 koje se skaluje od laptopa do višemodulskog klastera, sa lokalnim
+         zaključivanjem preko llama.cpp (CUDA/Metal/ROCm) i automatski otkrivenim, verifikaciono ocenjenim
+         lancem rezervnih rešenja u oblaku koji uvek degradira na garantovani lokalni model. Go, HTTP/3
+         QUIC, gRPC/SSE/Kafka, llama.cpp.
+
+
+
+milosvasic.ru · vasic.digital                                                                                   3/5
+MILOŠ VASIĆ                                                                                        CURRICULUM VITAE
+
+
+
+
+       • LLMProvider / LLMOrchestrator / LLMsVerifier — kičma LLM infrastrukture: jedan interfejs preko 43
+         provajdera sa prekidačima kola, monitoringom zdravlja, ponovnim pokušajima sa eksponencijalnim
+         odlaganjem i iskrenim (bez unapred definisanih rezervnih rešenja) otkrivanjem modela; thread-safe
+         kontrolna ravan koja pokreće i upravlja headless CLI agentima (OpenCode, Claude Code, Gemini,
+         Junie, Qwen Code) preko hibridnog cevovodnog i fajl protokola; i izvor istine za verifikaciju čiji
+         obavezni filter „Da li vidiš moj kod?” znači da se kao upotrebljivi ili za izvoz označavaju samo modeli za
+         koje je dokazano da stvarno rade.
+       • HelixMemory / HelixSpecifier — objedinjeni kognitivno-memorijski pogon koji spaja četiri vodeća
+         backend-a (Mem0, Cognee, Letta, Graphiti) iza jednog interfejsa sa paralelnim pretraživanjem i
+         ponovnim rangiranjem rezultata iz više izvora; i pogon za razvoj zasnovan na specifikacijama koji
+         prilagođava sopstvenu proceduru obimu posla i podržava specifikacije višestrukom agentskom
+         debatnom.
+       • HelixTrack — alternativa JIRA + Confluence-u otvorenog sveta (zastavni projekat Helix-Track linije):
+         Go mikroservisi sa jedinstvenim API interfejsom usmerenim akcijama preko HTTP/3, SQLCipher
+         enkripcijom u mirovanju i klijentima za Web/Desktop/Android/iOS.
+
+Alati profesionalnog nivoa (vasic-digital utils)
+       • Catalogizer — višeprotokolni, enkriptovani, samostalno hostovani sistem za upravljanje medijskim
+         kolekcijama (Go/Gin + React), otporan na nestabilne mrežne skladišne sisteme, izgrađen na 21
+         ponovo upotrebljivom potmodulu.
+       • Courses-Creator — pipeline za konverziju markdown-a u video (AI) sa TTS i plejerima za desktop,
+         mobilne i veb platforme.
+       • VisionEngine — računarski vid + višekorisnički LLM interfejs percepcije sa navigacionim grafovima.
+       • DocProcessor · Docs Chain · Herald · task_bridge · Vasic Digital Paket ponovo upotrebljivih
+         modula — mapiranje funkcija za kontrolu kvaliteta, sinhronizacija dokumenata/baza podataka sa
+         heširanim sadržajem, obaveštenja na prirodnom jeziku, sinhronizacija zadataka/tabli i flota standardne
+         biblioteke digital.vasic.* .
+
+Automatizacija infrastrukture (Server Factory)
+       • Mail Server Factory — deklarativni JSON → potpuno konfigurisani, dokeraizovani mejl serveri za 12
+         tipova konekcija i 25 Linux distribucija; izveštava o 439 uspešno položenih testova i čistoj SonarQube
+         kapiji.
+       • Server Factory Osnovni okvir, Qemu-Utils, Parallels-Utils — zajednički provisioning pogon i alati
+         za kreiranje VM slika.
+
+
+   Jezici i alati (kratka lista)
+Go · Kotlin · Kotlin Multiplatform · TypeScript · JavaScript · Python · Swift · Java · Rust · Shell · PL/pgSQL ·
+TLA+ · Gin · gRPC · HTTP/3 · React · Angular · Electron · React Native · PostgreSQL · SQLite · SQLCipher ·
+Redis · Neo4j · ClickHouse · Docker · Kubernetes · Prometheus · Grafana · OpenTelemetry · QEMU · GitHub
+Actions · Gradle · Make
+
+
+
+
+milosvasic.ru · vasic.digital                                                                                   4/5
+MILOŠ VASIĆ                                                                                        CURRICULUM VITAE
+
+
+
+
+   Iskustvo
+Softverski inženjer od 2009. godine, sa iskustvom u celom razvojnom ciklusu — planiranje, razvoj, vođenje
+tima i implementacija. Ceo istorijat u nastavku preuzet je iz potvrđenog zapisa kandidata (milosvasic.ru).
+
+Stalni poslovi
+       • SDK Developer — Harness (harness.io), Beograd, Srbija · 03/2020 – 12/2024. Glavni programer na
+         porodici SDK-ova za odeljenje Feature Flag kompanije, sa fokusom na sve glavne mobilne platforme i
+         šire. Klijenti i partneri uključivali su AWS, Google i razne banke. Tehnologije: Android, iOS, Flutter,
+         React Native, TypeScript, JavaScript, Java, Kotlin, Swift, Go, Ruby.
+       • Softverski inženjer — Leica Geosystems (leica-geosystems.com), Herbrugg, Švajcarska · 02/2016
+         – 02/2020. Primarno iOS i Android razvoj za vrhunske 3D skenere kompanije Leica Geosystems —
+         komunikacija u realnom vremenu sa hardverom, obrada podataka i sinhronizacija. Partner: Autodesk.
+         Tehnologije: Android, iOS, Java, Kotlin, Swift, C++.
+       • SDK Developer — Bosch (bosch.rs), Beograd, Srbija · 01/2010 – 01/2016. Glavni SDK programer na
+         projektu Connected Vehicles SDK — komunikacija u realnom vremenu sa OBD2 magistralom, obrada
+         podataka visokih performansi i njihovo čuvanje. Tehnologije: Android, Java, Kotlin.
+
+Ostale profesionalne aktivnosti
+       • TN-TECH (tn-tech.co.rs), Novi Sad, Srbija · honorarno, od 03/2017. Rad za Globex Data (Kanada i
+         Švajcarska) — Sekur (SekurMessenger), SekurMail, SekurSuite — i platformu BusRide. Tehnologije:
+         Android, Java, Kotlin, C++, Qt.
+       • Increment Loop (incrementloop.com), Beograd, Srbija · honorarno, od 09/2023. Aplikacija Yuno.
+         Tehnologije: Android, Kotlin.
+       • Otvoreni kod / sopstvene organizacije — HelixTrack, Server Factory (Mail Server Factory, Parallels-
+         Utils, Qemu-Utils) i Vasic Digital (Android-Toolkit, Network-Binder), detaljnije opisano u odeljku Izabrani
+         projekti iznad.
+
+
+   Publikacije
+       • Fundamentalni Kotlin — samostalno objavljeni autor; poslednje revidirano izdanje septembar 2022.
+         (Fundamentalni Kotlin, 3. izdanje). Takođe autor za izdavačku kuću Packt Publishing (Velika Britanija).
+
+
+   Obrazovanje
+       • M.Sc, Savremene informacione tehnologije — Univerzitet Singidunum, Beograd, Srbija · 2014.
+       • B.Sc, Informatika i računarstvo — Univerzitet Singidunum, Beograd, Srbija · 2008.
+
+
+
+
+milosvasic.ru · vasic.digital                                                                                      5/5
+

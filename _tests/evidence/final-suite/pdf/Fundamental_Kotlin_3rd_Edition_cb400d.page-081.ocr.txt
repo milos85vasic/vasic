@@ -1,0 +1,43 @@
+}
+
+The parameter of the function can be null and the expected type of the
+parameter is a string, then the type of parameter itself is “String?”, an
+“optional”. To access it safely we will use the “elvis” (“?:”) operator. Use the “elvis”
+operator to access instance’s members. If the instance is null nothing will
+happen. We will not enter “let” code block and execution will not be performed.
+“Let” is a scoping function that lets you declare a variable for a given scope.
+There is the most common use of “let” when applied to a nullable reference like
+in our last example. The “?:" (“elvis”) operator lets you make sure that the code
+in scope is only executed if the expression is not null. If we are dealing with
+variables or function return values that are not “nullable”, “elvis” operator is not
+needed:
+[**
+
+* Word is not null!
+
+7
+fun printer2(word: String) {
+
+val uppercase = word.toUpperCase()
+printin(Word [ $uppercase ]")
+
+}
+
+As you can see, we do not need the “elvis” operator nor the “let” scoping
+function here because the “word” function parameter cannot be null. “word” is
+pure String, not an “optional”.
+
+Let's rewrite our Java code from the previous section (“NullExampleskt.kt”) into
+the Kotlin:
+
+var b: Boolean? = null
+
+var nullStringVariable: String? = null
+
+In this code snippet we have defined two null variables. Now, let's crash the
+app:
+// Calling 'length()' function will crash the application:
+
+val size = nullStringVariable!!. length
+
+printin("Length is: $size")

@@ -1,0 +1,25 @@
+{
+  "target": {
+    "id": "mv-home-ar-light",
+    "site": "mv",
+    "url": "http://localhost:8502/",
+    "theme": "light",
+    "lang": "ar",
+    "kind": "landing",
+    "rtl": true
+  },
+  "applied": {
+    "lang": "ar",
+    "dir": "rtl",
+    "theme": "light"
+  },
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 1
+    }
+  ],
+  "passesCount": 32
+}

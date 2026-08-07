@@ -1,0 +1,25 @@
+Kotlin to JavaScript
+The following example illustrates how Kotlin compiles for JavaScript.
+Clone Fundamental Kotlin examples from GitHub repository. Open your
+terminal and cd to the JavaScript directory. Inside the directory there is file
+JsExampleLibrary.kt located with the following content:
+package net.milosvasic.fundamental.kotlin.javascript
+fun hellofs() {
+printin("Hello from JavaScript!")
+}
+Compile the library using the JavaScript compiler:
+$ kotlinc-js -output library.js -meta-info JsExampleLibrary.kt
+After compilation we will have two new files:
+library.js
+library.meta.js
+You can simply distribute two js files: library.js and library.meta.js. The former
+file contains translated JavaScript code, the latter file contains some meta-
+information about Kotlin code, which is needed by the compiler.
+As a possible option, you can append the content of library.meta.js to the end of
+library.js. The resulting file can then be distributed alone.
+Also, you can create an archive, which can be distributed as a library:
+$ jar cf library.jar *js
+Using library
+Let's see how to use this library. In same directory locate file
+JsExampleLibraryUse.kt:
+package net.milosvasic.fundamental.kotlin.javascript

@@ -1,0 +1,216 @@
+{
+  "models": {
+    "translator": "gpt-oss-120b (Cerebras)",
+    "reviewer": "gpt-oss-120b (Cerebras) — independent pass @ temperature 0",
+    "hard_gate": "programmatic target-script check (non-Latin) + strict leftover-English repair (Latin)"
+  },
+  "provider_fallback_notes": "Groq llama-3.3-70b: per-DAY capped. Groq openai/gpt-oss-120b: HTTP 413 (free-tier per-request budget too small). Cerebras zai-glm-4.7: works but reasoning too slow/overflow-prone at these batch sizes. => both translation and independent review ran on Cerebras gpt-oss-120b.",
+  "coverage": {
+    "milosvasic-ru": {
+      "ru": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "-",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "sr": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "de": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "es": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "fr": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "be": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "zh": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "kk": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "hi": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "ja": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "ko": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "ar": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "tr": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "fa": {
+        "status": "done",
+        "strings_translated": 60,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      }
+    },
+    "vasic-digital": {
+      "ru": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "sr": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "de": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "es": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "fr": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "be": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "zh": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "kk": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "hi": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "ja": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "ko": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "FAIL",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "ar": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "tr": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      },
+      "fa": {
+        "status": "done",
+        "strings_translated": 82,
+        "runtime_review_verdict": "PASS",
+        "missing": 0,
+        "final_script_residual": 0
+      }
+    }
+  },
+  "summary": {
+    "pairs_total": 28,
+    "pairs_complete": 28,
+    "sites": 2,
+    "langs": 14
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "site": "milosvasic-ru",
+  "lang": "sr",
+  "name": "Serbian (Cyrillic script)",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 60,
+  "reviewer_bad_keys": [
+    16,
+    35,
+    41,
+    45
+  ],
+  "script_flagged": [
+    "AI / LLM"
+  ],
+  "english_leftover_flagged": [
+    "AI / LLM"
+  ],
+  "retried": [
+    "Before the products, the discipline: I don't ship green checkmarks — I ship AI systems with the evidence that they actually work.",
+    "AI / LLM",
+    "Compress, publish, and reuse Parallels VM images across every machine.",
+    "The Helix line spans the AI-development lifecycle. Each card links to its full product page.",
+    "The digital.vasic.* \"standard library\" of infrastructure, AI-primitive, and guardrail modules."
+  ],
+  "still_bad_after_retry": [
+    "AI / LLM"
+  ],
+  "notes": "Key 16 contains a Latin character in \"развoја\"; key 35 has mismatched quotation marks and mixed scripts; key 41 uses a Latin 'a' in \"машинaм\"; key 45 has a typo \"Препре\" instead of \"Пре\"."
+}

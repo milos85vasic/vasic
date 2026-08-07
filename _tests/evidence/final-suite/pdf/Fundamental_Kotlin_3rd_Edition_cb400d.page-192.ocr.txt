@@ -1,0 +1,39 @@
+As you can see “containsAll” will return Boolean true only if all elements of the
+collection that we are passing as argument are contained in the set.
+Checking if the set is empty:
+listOf(
+
+setOf(),
+
+setOf(""),
+
+cars
+).forEach {
+
+if (it.isEmptyO){
+
+printin("Set: empty")
+}else{
+printin("Set: $it")
+
+}
+}
+We have defined a list containing three members: one completely empty set,
+set with one member - empty string and cars set that we defined in our
+previous examples. We will check each and print message with proper text
+depending on the state of the set - it is or it is not empty. Let's run our
+program:
+Set: empty
+Set: []
+Set: [Fiat, Bmw, Audi, Porsche, Renault]
+The first set was empty. Pay attention to the second row, we have printed one
+member, empty string, so this set is not empty after all! Finally, the last one has
+“visible” members.
+Performing filtering:
+cars.filter { it.length > 3 }.forEach {
+
+printin("Car (name length > 3): $it")
+}
+cars.filterNot { it.length > 3 }.forEach {
+
+printin("Car (name length <= 3): $it")

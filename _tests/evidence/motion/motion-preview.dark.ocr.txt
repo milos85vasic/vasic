@@ -1,0 +1,40 @@
+OpenDesign - Motion Reveal Stagger Feedback Accordion Lottie
+Animation & interaction module
+Every effect below is driven by OpenDesign motion tokens (--od-dur-*,
+--od-ease-*) and animates only transform and opacity for smooth.
+compositor-friendly motion.
+Reduced motion: this page fully respects prefers-reduced-motion: reduce. With it enabled, all
+reveals, staggers, bounces, blinks, hovers, the accordion height animation, view transitions and the Lottie
+accents are neutralized — content appears instantly in its final state, with no looping motion.
+Scroll reveal
+Elements fade and slide up as they enter the viewport (.od-reveal +
+.is-visible). Directional variants slide from the left, right, or scale in.
+Fade & rise From left Scale in
+Default reveal. Slides in horizontally. Grows into place.
+Staggered children
+Acontainer marked .od-stagger reveals its children one after another;
+motion.js assigns each child an index so the delay ramps automatically.
+Interaction feedback
+Hover-lift on buttons, a continuous bounce and blink for attention, and a
+selectable highlight group (click a tile — selection pulses and stays
+marked).
+| overt Hoveriit | Ghost
+ent Lives | Static
+Accessible accordion
+Real button[aria-expanded] triggers; height is animated in JS via the
+Web Animations API (kept out of CSS so the stylesheet stays
+transform/opacity-only), with content fading in.
+
+What are motion tokens? -
+Durations and easings exposed as CSS custom properties (--od-dur-base, --od-ease-standard) so
+every animation is consistent and themeable.
+
+Is it accessible? ~
+
+Animated Lottie accents
+Three branded Lottie JSON accents rendered by a tiny self-hosted player.
+The player and JSON are fetched only when the accent scrolls into view,
+and each animation pauses when off-screen.
+e v
+Pulse dot Loader Success check
+OpenDesign motion module — GPU-only (transform/opacity), token-driven, reduced-motion safe.

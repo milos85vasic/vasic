@@ -1,0 +1,44 @@
+0 -> 100
+
+1-> 101
+
+2-> 102
+
+3-> 103
+
+4-> 104
+
+To set the value to 1000 to the element at a position at index 2 do the following:
+a[2] = 1000
+
+As you can see, we have access to the third element of “a” array and set a new
+value. The first element of the array is at the index of 0.
+
+Accessing the first member of the array and assigning its value to a constant
+(named “y”) can be done like this:
+
+val y = a[O]
+
+“y" has now a value of “100”.
+
+Array can have members of various types:
+
+val b = arrayOf(2, 4, 6, "Some string", "One more string", 8, 10)
+
+Or to have all “nulls” for the value of its members:
+
+val c = arrayOfNulls<Int>(5)
+
+In this example, the “arrayOfNulls” function creates an array with five null
+elements. The expected type of members (once we assign something to them)
+is “Int” (integer). We will talk about the null type soon. For now, it is enough
+that you understand that all five members of this array do not have values
+assigned.
+
+And finally, an array of integers can be created like this too:
+
+val d = intArrayOf(10, 100, 1000, 10000)
+
+However, this is not the same as:
+
+val e = arrayOf(10, 100, 1000, 10000)

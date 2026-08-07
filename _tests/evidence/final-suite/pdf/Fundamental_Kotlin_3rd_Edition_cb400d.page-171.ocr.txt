@@ -1,0 +1,33 @@
+5 is in range between 0 and 5
+6 is NOT in range between 0 and 5
+7 is NOT in range between 0 and 5
+8 is NOT in range between 0 and 5
+9 is NOT in range between 0 and 5
+10 is NOT in range between 0 and 5
+Jump expressions
+Kotlin has three commonly used jump expressions:
+- “return”: by default it returns a value from the nearest function or anonymous
+function
+- “break”: terminates nearest enclosing loop
+- “continue”: goes to next step of nearest enclosing loop.
+Break operator
+Let's illustrate the "break” jump operator with simple code example. From book
+code examples open “Break.kt”:
+for (x in 0..10) {
+
+if (x == 5) {
+
+break
+
+}
+
+printin("'x: $x")
+}
+As you can see, once “x” gets the value of five, it will break the loop. Executing
+this code snippet will produce the following output:
+x: 0
+x7
+x2
+x3
+x4
+Continue operator

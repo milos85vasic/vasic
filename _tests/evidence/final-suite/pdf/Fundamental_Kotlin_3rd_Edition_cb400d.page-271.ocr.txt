@@ -1,0 +1,33 @@
+override fun run() {
+for (x in 0..count) {
+printin("Count no. $x")
+// Sleep for one second:
+sleep(1000,
+}
+}
+}
+Class “counter” represents the first approach in creating threads. It extends the
+“Thread” superclass and it implements the “run” function which will be executed
+in the background once the “start” function is triggered. What our
+implementation does is simple counting with pauses of one second in between
+print lines.
+Let's see how this works:
+val counter = Counter(10)
+counter.start()
+// We will wait until counter finishes:
+while (counter.isAlive) {
+Thread. yield()
+}
+Once the “start” function is triggered we will count and append lines to the
+output. For all output lines to print out it will take around ten seconds:
+Count no. 0
+Count no. 7
+Count no. 2
+Count no. 3
+Count no. 4
+Count no. 5
+Count no. 6
+Count no. 7
+Count no. 8
+Count no. 9
+Count no. 10

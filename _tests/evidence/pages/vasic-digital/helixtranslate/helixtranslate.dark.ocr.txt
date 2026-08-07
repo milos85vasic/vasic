@@ -1,0 +1,179 @@
+Vasic Digital Home Products “6:
+// TIER: HELIX-PRIMARY - ORDER 10
+HelixTranslate fcense: TED
+
+Go Gin = QUIC/ HTTP/3 (quic-go)_— gRPC + Protocol Buffers
+
+Gorilla WebSocket PostgreSQL SQLite Redis
+
+unidoc/unioffice + unipdf Cobra LLMsVerifier bridge
+Docker / Podman
+
+Source
+
+HelixDevelopment/HelixTranslate
+
+HelixDevelopment/HelixConstitution &
+
+// architecture diagram for
+helixtranslate — injected in a later
+pass
+
+Verified-model book translation — honest by design, never a
+silent fallback.
+Summary
+HelixTranslate is a high-performance, Go-based ebook translation
+platform that translates books between 100+ languages using
+verified LLM providers, with real-time WebSocket monitoring and a
+strict no-silent-fallback routing policy that fails loudly rather than
+degrade quietly.
+Short description
+Go-based universal ebook translation toolkit. Translates FB2,
+EPUB, TXT, HTML, PDF, and DOCX across 100+ languages using
+the strongest verified LLM (via the LLMsVerifier bridge), with
+REST/HTTP-3 and gRPC APIs, distributed processing, and a real-
+time WebSocket monitoring dashboard.
+Long description
+HelixTranslate is an enterprise-grade, Go-based system for
+translating whole books between languages using LLM providers. It
+parses and regenerates multiple ebook formats (FB2, EPUB, TXT,
+HTML, PDF, DOCX), supports 100+ languages with auto-detection,
+and offers both CLI tools and API servers (REST with HTTP/3,
+gRPC, and a WebSocket event stream). Its defining characteristic is
+*how it chooses a model*: rather than hardcoding providers,
+HelixTranslate delegates all model authority to the LLMsVerifier
+bridge ( pkg/bridge ), which selects the strongest *verified* API
+model and a deterministic, score-ordered fallback chain. Model
+eligibility follows a weighted score (responsiveness, code, feature
+richness, reliability).
+Crucially, the system enforces a "no silent fallback" mandate in
+code: if no provider API key is present, or an operator explicitly
+requests an unavailable provider, the pipeline returns an honest
+hard error instead of quietly switching providers or dropping to a
+local runtime — a rule verified by a dedicated pre-build gate and
+mutation test. Local runtimes (Ollama, llama.cpp) were deliberately
+removed from the default path. Around the translation core sits a
+real-time WebSocket monitoring subsystem: a translation CLI emits
+typed events to a monitoring server, which drives a live web
+dashboard, and remote SSH workers enable distributed translation.
+Additional capabilities include multipass polishing, a preparation-
+phase quality analysis, translation caching, and vision-driven QA.
+The platform is governed by an anti-bluff engineering constitution:
+tests must prove real user-visible outcomes, backed by mandatory
+mutation testing.
+Why we built it
+To translate long-form books reliably and *honestly* — never
+shipping a "degraded-but-present" translation. The design premise
+is that a missing or unverifiable translation must be a loud, hard
+error, and that model selection must always resolve to a genuinely
+verified provider rather than a hardcoded guess or a silent local
+fallback.
+Why it's a game-changer
+Most LLM translation pipelines fail silently — they fall back to a
+weaker model, a local runtime, or emit partial output while tests still
+pass green. HelixTranslate makes silent degradation structurally
+impossible: model choice is verification-gated, the fallback chain is
+deterministic and transparent, and "no key / no verified model" is an
+honest error, not a shrug. That turns "did the translation actually
+happen on a capable model?" from a hope into a guarantee
+What's innovative
+
++ Verification-gated model routing via the LLMsVerifier bridge — the
+strongest *verified* model is auto-selected; operators don't have to pick
+a provider.
+
+« No-silent-fallback guarantee enforced in code — four explicit routing
+arms (mock / explicit-verifier / explicit-provider / bridge-default), each of
+which hard-errors rather than silently switching; deliberate removal of
+local runtimes from the default path.
+
++ Mechanical enforcement — a CM-NO-LOCAL-RUNTIME pre-build
+gate plus a paired mutation test asserts no local-runtime client is
+constructed on the default path.
+
++ Deterministic, score-ordered fallback chain — provider-to-provider
+failover among verified models is allowed and transparent (distinct from
+a forbidden silent fallback).
+
+« Real-time WebSocket monitoring — typed translation events
+streamed to a live dashboard; distributed SSH workers.
+
+« Anti-bluff testing regime — mutation testing, negative assertions,
+real-system runs, and vision-driven QA so "tests pass” cannot mask
+“feature doesn't work."
+
+Biggest technical challenges & how we
+solved them
+
+« Guaranteeing an honest translation pipeline (no silent
+degradation). Solved by centralizing all model authority in the
+LLMsVerifier bridge, encoding four explicit routing branches that each
+fail loud, removing local-runtime fallbacks, and enforcing the rule with a
+build gate + mutation test.
+
++ "Green tests, broken features.” The constitution explicitly names the
+problem and solves it with the Anti-Bluff Testing regime: concrete user-
+visible assertions, real systems (mocks only in unit tests), mandatory
+mutation testing (deliberately break the feature — the test must fail),
+and vision-verified QA.
+
+« Long-form, multi-format quality. Multi-pass polishing, a preparation-
+phase analysis, and translation caching address consistency and cost
+over book-length inputs.
+
+Tech stack
+
+* Go — high-concurrency backend for parsing, translating, and
+streaming; module digital.vasic.translator
+
++ Gin — HTTP/REST API server.
+
+* QUIC / HTTP/3 (quic-go) — low-latency, modern transport for the
+REST API.
+
+* gRPC + Protocol Buffers — high-performance service interface
+alongside REST.
+
+* Gorilla WebSocket — real-time translation-event stream to the
+monitoring dashboard.
+
++ PostgreSQL, SQLite, Redis — relational + embedded storage +
+cache; SQLite also backs the bridge's verified-models store
+( data/verified_models.db ).
+
+* unidoc/unioffice + unipdf — DOCX and PDF document processing
+for multi-format ebooks.
+
++ Cobra — CLI framework for the unified-translator and
+companion tools.
+
+* golang-jwt (JWT HS256) — API authentication; plus per-IP token-
+bucket rate limiting and TLS/QUIC security.
+
+« LLMsVerifier bridge ( pkg/bridge )— sources the strongest
+verified model + deterministic fallback chain; the enforcement point for
+no-silent-fallback.
+
++ Testify — Go test suite, including the dedicated
+
+provider_routing_test.go and mutation gates.
+
+« Docker / Podman (rootless) + Compose — containerized, distributed
+deployment ( docker-compose. distributed. yml1 ).
+
+Status & honesty notes
+
++ Status: beta. Functional platform; the version is stated inconsistently
+across VERSION /Makefile/ AGENTS.md , so it is treated as unsettled.
+
++ License: TBD. The README claims MIT but this is not confirmed
+against a LICENSE file — verify before stating.
+
+« The dashboard/monitor endpoints are localhost-only, not public.
+WebSocket performance numbers in the docs are stated targets, not
+verified. ARCHITECTURE.md still lists removed Ollama/local engines
+(stale).
+
+Priority tier: Helix-primary (LLM-infrastructure cluster). Ranks
+within the Helix platform family, after HelixTrack.
+© 2026 Vasic Digital — built on the OpenDesign system.

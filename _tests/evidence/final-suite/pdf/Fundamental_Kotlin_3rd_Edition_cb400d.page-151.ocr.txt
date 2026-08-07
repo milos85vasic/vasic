@@ -1,0 +1,41 @@
+fun sumAndMultiply(multiply: Int, vararg args: Int) {
+
+var sum = 0
+
+for (x in args) {
+
+sum += xX
+
+}
+
+val result = sum * multiply
+
+printin("Sum and multiply: $result")
+}
+This function is very similar to the one from the previous example with one
+difference. We have one “fixed” additional parameter. We will again calculate
+the sum and then multiply it with the value of the “multiply” argument:
+val multiply = 100
+sumAndMultiply(multiply)
+sumAndMultiply(multiply, 1)
+sumAndMultiply(multiply, 1, 2)
+sumAndMultiply(multiply, 1, 2, 3)
+sumAndMultiply(multiply, 1, 2, 3, 4)
+Running this source code snippet will give us the following output:
+Sum and multiply: 0
+Sum and multiply: 100
+Sum and multiply: 300
+Sum and multiply: 600
+Sum and multiply: 1000
+Spread operator
+Let's extend the second example from the previous section and make it more
+flexible. From book code examples open “SpreadOperator.kt”. We have
+modified the “sum” function to return a value:
+fun sum(vararg args: Int): Int {
+
+var sum = 0
+
+for (x in args) {
+
+sum += xX
+}

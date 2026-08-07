@@ -1,0 +1,77 @@
+========================================================================
+LOCALIZED HOME PAGES — rendered proof (body + chrome + switcher paths)
+========================================================================
+
+### vasic.digital (self-contained standalone) ###
+
+-- /ru/index.html --
+  <html>: <html lang="ru" dir="ltr">
+  hero H1: AI‑нативная разработка программного обеспечения, построенная на доверии.
+  section lede: </head>
+<body>
+<a class="od-skip-link" href="#main">Перейти к содержанию</a>
+  <svg xmlns="http://www.w3.org/2
+  nav portfolio: Портфолио
+  footer: © 2026 Vasic Digital — построено на системе OpenDesign.
+  OD_PAGE.paths: window.OD_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/
+
+-- /zh/index.html --
+  <html>: <html lang="zh" dir="ltr">
+  hero H1: AI原生软件工程，旨在获得信任。
+  section lede: </head>
+<body>
+<a class="od-skip-link" href="#main">跳至内容</a>
+  <svg xmlns="http://www.w3.org/2000/svg" style="
+  nav portfolio: 作品集
+  footer: © 2026 Vasic Digital — 基于 OpenDesign 系统构建。
+  OD_PAGE.paths: window.OD_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/
+
+-- /ar/index.html --
+  <html>: <html lang="ar" dir="rtl">
+  hero H1: هندسة برمجيات AI-native، مبنية لتكون موثوقة.
+  section lede: </head>
+<body>
+<a class="od-skip-link" href="#main">تخطى إلى المحتوى</a>
+  <svg xmlns="http://www.w3.org/2000/
+  nav portfolio: المحفظة
+  footer: © 2026 Vasic Digital — مبنية على نظام OpenDesign.
+  OD_PAGE.paths: window.OD_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/
+
+
+### milosvasic.ru — generated Jekyll SOURCE (/<lang>/index.html) ###
+
+-- /ru/index.html --
+  <html>: n/a (jekyll source; layout emits <html>)
+  hero H1: Miloš Vasić
+  section lede: <section class="od-hero od-reveal">
+      <div class="mvx-hero__grid">
+      <div class="mvx-hero__body">
+    
+  card blurb: Free‑world альтернатива JIRA; флагманская модель Helix-Track.
+  MV_PAGE.paths: window.MV_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/
+
+-- /zh/index.html --
+  <html>: n/a (jekyll source; layout emits <html>)
+  hero H1: Miloš Vasić
+  section lede: <section class="od-hero od-reveal">
+      <div class="mvx-hero__grid">
+      <div class="mvx-hero__body">
+    
+  card blurb: 一个自由世界的 JIRA 替代品；Helix-Track 系列的旗舰产品。
+  MV_PAGE.paths: window.MV_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/
+
+-- /ar/index.html --
+  <html>: n/a (jekyll source; layout emits <html>)
+  hero H1: Miloš Vasić
+  section lede: <section class="od-hero od-reveal">
+      <div class="mvx-hero__grid">
+      <div class="mvx-hero__body">
+    
+  card blurb: بديل JIRA حر؛ الرائد في خط Helix-Track.
+  MV_PAGE.paths: window.MV_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/
+
+
+### milosvasic.ru — Jekyll BUILT _site (final <html lang/dir> + localized nav) ###
+  /ru/: <html lang="ru" dir="ltr" data-theme="light"> | nav.work=Проекты
+  /zh/: <html lang="zh" dir="ltr" data-theme="light"> | nav.work=作品
+  /ar/: <html lang="ar" dir="rtl" data-theme="light"> | nav.work=العمل

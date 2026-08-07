@@ -1,0 +1,33 @@
+printin(unicodeClass.no3z0pae)
+}
+This example uses Serbian Cyrillic for the class name, for the name of the class
+field, and the value of the field itself. If you run this program, the following
+output will be printed out:
+llo3zdpae Ha hupunuuu!
+Even though it is possible to write your code in Serbian Cyrillic or in Chinese if
+you want, it is recommended to use only ASCII characters for this purpose. In
+the case of this code proper warning will be seen (check this out in your IDE):
+“Non-ASCII characters in an identifier”.
+Note:
+ASCII is a character encoding standard. ASCII codes are used for representing
+textual content in computers and other devices. ASCII stands for American
+Standard Code for Information Interchange and consists of (only) 128
+characters.
+Case sensitivity
+Kotlin is case sensitive programming language. That means that if you do
+something like this:
+val myConstant = 0
+val myCONSTANT = 1
+val MYconstant = 2
+fun main( {
+
+printin(“myConstant = $myConstant")
+
+printin("myCONSTANT = $myCONSTANT")
+
+printin("MYconstant = $MYconstant")
+}
+You have defined three different constants. The output of this small program is
+the following:
+myConstant = 0
+myCONSTANT = 1

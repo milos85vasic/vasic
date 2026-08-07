@@ -1,0 +1,27 @@
+These will represent foundation for defining simple “computer” configurations:
+val computer! = object : Computer(4, 32), Gpu, SoundCard {
+override fun displayImage() {
+printin("Displaying image")
+}
+override fun playSound() {
+printin("Playing sound")
+}
+}
+val computer2 = object : Computer(8, 64), Gpu, SoundCard {
+override fun displayImage() {
+printin("Performing hardware processing")
+printin("Displaying image")
+}
+override fun playSound() {
+printin("Perform sound equalization")
+printin("Playing sound")
+}
+}
+We have instantiated two unique computer configurations as objects. Let's use
+them now in the rest of our program:
+listOf(computer1, computer2).forEach {
+printin("Cpu cores: ${it.cores}, memory: ${it.memory}GB")
+it.displayImage()
+it.playSound()
+}
+Executing it will produce the following output:

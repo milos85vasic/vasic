@@ -1,0 +1,31 @@
+val location = Coordinate()
+location.x = 10
+location.y = 20
+location.z = 30
+location.print()
+Properties defined as “var” are mutable. Read-only properties are defined as
+“val”.
+Let's go one step further. We will define the means for getting and setting our
+encapsulated properties. From book code examples open “GetterAndSetter.kt”:
+class Coordinate {
+var reposition: Int = 0
+var x: Int = 0
+get() = field
+set(value) {
+field = reposition(value)
+}
+var y: Int = 0
+get() = field
+set(value) {
+field = reposition(value)
+}
+var z: Int =0
+get() = field
+set(value) {
+field = reposition(value)
+}
+fun print( = printin('Coordinate(x=$x, y=$y, 2=$2z)")
+private fun reposition(param: Int) = param + reposition
+}
+“get” and “set” functions (functions) define how we will write and read the value
+of our properties. In this example “set” function performs a certain “correction”

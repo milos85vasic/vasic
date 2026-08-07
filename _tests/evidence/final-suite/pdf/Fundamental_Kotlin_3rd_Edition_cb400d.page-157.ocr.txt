@@ -1,0 +1,33 @@
+printin("y: $y")
+We will get the following output:
+x3
+y:7
+Inline Functions
+As you remember we have demonstrated the use of higher-order functions in
+the previous section of the book. However, using higher-order functions has
+certain drawbacks:
+- Each function is an object
+- It captures a closure
+- Memory allocations and virtual calls introduce runtime overhead
+To resolve this shortcoming inline functions are used. So, what are inline
+functions in Kotlin? Inline functions are Kotlin’s feature where the compiler
+inlines the function body. Compiler substitutes the body directly into
+occurrences where the function gets called.
+Let's take a look at example of inline functions from book code examples
+“Inline.kt":
+inline fun inlined(function: () -> Unit) {
+
+function()
+}
+fun main( {
+
+fun hello() {
+
+printin("Hello!")
+
+}
+
+inlined(::hello)
+}
+As you can see we have marked our “inlined” function with the “inline” modifier.
+Once the code snippet is executed the following output will be produced:

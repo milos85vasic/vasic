@@ -1,0 +1,660 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "fa",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "mv2.hero.eyebrow",
+        "text": "// مهندس هوش مصنوعی"
+      },
+      "title": {
+        "text": "Miloš Vasić"
+      },
+      "lede": {
+        "i18n": "mv2.hero.lede",
+        "text": "مهندس هوش مصنوعی که سیستم‌های توسعه هوش مصنوعی قابل‌تأیید را می‌سازد: زیرساخت چند‑ارائه‌کننده LLM، عوامل خودکار و ارکستراسیون، و لایه‌های حاکمیت و QA که آن‌ها را صادق نگه می‌دارند."
+      },
+      "ctas": [
+        {
+          "dl": "cv",
+          "icon": "i-download",
+          "variant": "primary",
+          "i18n": "hero.cv",
+          "label": "دانلود رزومه"
+        },
+        {
+          "dl": "cl",
+          "variant": "secondary",
+          "i18n": "hero.cl",
+          "label": "نامه پوششی"
+        },
+        {
+          "dl": "portfolio",
+          "variant": "secondary",
+          "i18n": "mv2.hero.portfolio",
+          "label": "پورتفولیو (PDF)"
+        },
+        {
+          "variant": "ghost",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "i18n": "mv2.hero.portfolio_site",
+          "label": "سایت پورتفولیو"
+        }
+      ],
+      "stats": [
+        {
+          "value": "Go",
+          "i18n": "mv2.stat.lang",
+          "label": "زبان اصلی"
+        },
+        {
+          "value": "140+",
+          "i18n": "mv2.stat.repos",
+          "label": "مخازن، یک قانون اساسی"
+        },
+        {
+          "value": "33",
+          "i18n": "mv2.stat.products",
+          "label": "محصولات، مبتنی بر شواهد"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": {
+        "i18n": "mv2.summary.eyebrow",
+        "text": "// خلاصه"
+      },
+      "title": {
+        "i18n": "mv2.summary.title",
+        "text": "من نرم‌افزاری را طراحی و می‌سازم که LLMها را به محصولات قابل‌اعتماد تبدیل می‌کند."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "mvx-lede",
+              "i18n": "mv2.summary.body1",
+              "text": "من عمدتاً با Go کار می‌کنم، و بسته به نیاز پروژه با Kotlin / Kotlin Multiplatform، TypeScript/React، Python، Swift و Shell نیز استفاده می‌کنم. خروجی من به شکل یک ناوگان است نه یک انبوه برنامه‌های تک‌بار؛ برنامه‌های بزرگ محصول که بر پایه ده‌ها ماژول کوچک، جداگانه و تست‌شده ساخته می‌شوند، همه یک قانون مهندسی مشترک به عنوان زیرماژول Git را به ارث می‌برند."
+            },
+            {
+              "class": "mvx-lede mvx-muted",
+              "i18n": "mv2.summary.body2",
+              "text": "به این معنی است که اصلاحات در همه جا اعمال می‌شوند، محصولات جدید از قطعات ثابت شده ترکیب می‌شوند، و هر قابلیت تبلیغ‌شده توسط تستی که شواهد تولید می‌کند پشتیبانی می‌شود. ستاره شمالی من یک قاعدهٔ واحد است — ویژگی تنها زمانی تمام می‌شود که کاربر واقعی بتواند از آن استفاده کند و شواهد ضبط‌شده‌ای برای اثبات آن وجود داشته باشد. این صفحه از مرور کلی به پروژه‌های فردی می‌پردازد؛ هر کدام به صفحهٔ کامل محصول خود لینک می‌شوند."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": {
+            "i18n": "mv2.work.eyebrow",
+            "text": "// کارهای من در خانواده Helix"
+          },
+          "title": {
+            "i18n": "mv2.work.title",
+            "text": "خط Helix، به ترتیب اولویت."
+          },
+          "lede": {
+            "i18n": "mv2.work.lede",
+            "text": "خط Helix چرخهٔ حیات توسعه هوش مصنوعی را پوشش می‌دهد. هر کارت به صفحهٔ کامل محصول خود لینک می‌شود."
+          },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixtrack",
+                "text": "یک جایگزین JIRA آزاد؛ پرچم‌دار خط Helix-Track."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "LLMsVerifier",
+                "Prometheus",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixagent",
+                "text": "سرویسی ترکیبی LLM با مناظرهٔ چند‑دوره‌ای مدل و انتخاب ارائه‌کننده بر پایهٔ تأیید."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Redis",
+                "SSH",
+                "MCP",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcode",
+                "text": "یک پلتفرم توزیع‌شده توسعه هوش مصنوعی که کار را بین کارگرهای مدیریت‌شده توسط SSH تقسیم می‌کند با نقطهٔ بررسی/بازگشت خودکار."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixllm",
+                "text": "یک باینری واحد با شش حالت که APIهای سازگار با OpenAI و Anthropic را از طریق HTTP/3 سرو می‌کند، با استنتاج محلی llama.cpp و زنجیرهٔ بازگشت امتیازدار."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcluster",
+                "text": "یک سیستم‌عامل توزیع‌شده برای محاسبهٔ هوش مصنوعی، از GPUهای دیتاسنتر تا دستگاه‌های لبهٔ دست."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmprovider",
+                "text": "یک رابط برای ۴۳ ارائه‌کننده با قطع‌کننده‌های مدار، تلاش‌های مجدد و سلامت داخلی."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines / stdio",
+                "Circuit breaker",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmorchestrator",
+                "text": "یک صفحهٔ کنترل برای هر عامل کدگذاری CLI بدون سر."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmsverifier",
+                "text": "تأیید، نظارت، بهینه‌سازی: منبع تک حقیقت برای متادیتای LLM/ارائه‌کننده/تأیید."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.utils.eyebrow",
+            "text": "// کارهای من در ابزارهای vasic-digital"
+          },
+          "title": {
+            "i18n": "mv2.utils.title",
+            "text": "ابزارهای سطح محصول که من ساخته و نگهداری می‌کنم."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.catalogizer",
+                "text": "مدیریت مجموعهٔ رسانه‌ای چند‌پروتکل (SMB/FTP/NFS/WebDAV/local)، رمزگذاری‌شده، قابل میزبانی خود، با API Go/Gin و UI React."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.coursescreator",
+                "text": "یک خط لولهٔ دورهٔ markdown‑به‑ویدئو با غنی‌سازی چند‑LLM، TTS، و پخش‌کننده‌های دسکتاپ/موبایل/وب."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.visionengine",
+                "text": "یک کیت‌ابزار Go جداگانه که بینایی کامپیوتری کلاسیک را با بینایی چند‑ارائه‌کننده LLM برای تحلیل UI و گراف‌های ناوبری ترکیب می‌کند."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docprocessor",
+                "text": "مستندات را به نقشهٔ ویژگی قابل‌تأیید برای خودکارسازی QA تبدیل می‌کند (استخراج LLM یا هورستیک)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docschain",
+                "text": "یک موتور همگام‌سازی سند/پایگاه‌دادهٔ اتمیک، دو‑طرفه و بر پایهٔ هش محتوا."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.herald",
+                "text": "اعلان‌های چند‑کانالهٔ قابل‌اعتماد با زبان طبیعی، حل نیت سه‑سطحی."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "webhooks"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.taskbridge",
+                "text": "یک موتور همگام‌سازی کار/تخته جداگانه، دو‑طرفه (قالب P1؛ منطق همگام‌سازی در حال پیشرفت)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "KMP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.rms",
+                "text": "«کتابخانهٔ استاندارد» digital.vasic.* از زیرساخت، AI‑primitive، و ماژول‌های حفاظتی."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.sf.eyebrow",
+            "text": "// میراث زیرساخت (Server Factory)"
+          },
+          "title": {
+            "i18n": "mv2.sf.title",
+            "text": "پیش از خط AI — زنجیره ابزار DevOps من."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.msf",
+                "text": "JSON اعلان‌گر → سرورهای ایمیل Dockerized کاملاً فراهم‌شده، گزارش ۴۳۹ تست موفق و دروازهٔ تمیز SonarQube."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.sfcore",
+                "text": "Server Factory Core Framework که هر کارخانهٔ سرویس بر پایهٔ آن می‌سازد."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.qemu",
+                "text": "ابزارهای تصویر VM QEMU — دانلود، اجرا، شبکه و انتشار تصاویر ماشین به‌عنوان آثار."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.parallels",
+                "text": "فشرده‌سازی، انتشار و بازاستفاده از تصاویر VM Parallels در تمام ماشین‌ها."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        {
+          "i18n": "mv2.work.portfolio_cta",
+          "label": "مشاهدهٔ پورتفولیوی کامل",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": {
+        "i18n": "mv2.gov.eyebrow",
+        "text": "// نحوهٔ کار من — حاکمیت و QA اول"
+      },
+      "title": {
+        "i18n": "mv2.gov.title",
+        "text": "انضباطی که پایهٔ محصولات را تشکیل می‌دهد."
+      },
+      "lede": {
+        "i18n": "mv2.gov.lede",
+        "text": "قبل از محصولات، انضباط: من علامت‌های سبز را ارسال نمی‌کنم — من سیستم‌های AI را با شواهدی که واقعاً کار می‌کنند می‌فرستم."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "mv2.gov.constitution",
+                "text": "یک کتابچهٔ قوانین مهندسی جهانی، قابل ارث‌بری، که به‌صورت زیرماژول Git در یک ناوگان ۱۴۰+ مخزن توزیع شده است. این کتابچه دروازه‌های شواهد ضد‑تقلب، ایمنی در برابر مثبت‑کاذب، ایمنی داده/میزبان و قوانین پوشش را کدگذاری می‌کند؛ پروژه‌ها می‌توانند قوانین را سفت‌تر کنند اما هرگز ضعیف‌تر نمی‌سازند، و هر دروازهٔ حاکمیت با یک تست جهش همراه است که ثابت می‌کند خود دروازه کار می‌کند."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "mv2.gov.qa",
+                "text": "ارکستراسیون QA ضد‑تقلب که بانک‌های تست نوشته‌شده و جلسات QA کاملاً خودکار، مبتنی بر LLM و بینایی را در Android، Android TV، وب و دسکتاپ اجرا می‌کند، و تنها زمانی PASS می‌دهد که شواهد زمان اجرا را ضبط کرده باشد."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "بیشتر بخوانید"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": {
+        "i18n": "mv2.skills.eyebrow",
+        "text": "// فناوری‌ها"
+      },
+      "title": {
+        "i18n": "mv2.skills.title",
+        "text": "پشته‌ای که من واقعاً روی آن می‌سازم."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "nameI18n": "mv2.skills.lang",
+              "name": "زبان‌ها",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.ai",
+              "name": "هوش مصنوعی / LLM",
+              "tech": [
+                "43+ providers",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "Agent orchestration"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.backend",
+              "name": "پشت‌صحنه",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.data",
+              "name": "داده‌ها و زیرساخت",
+              "tech": [
+                "PostgreSQL",
+                "SQLite / SQLCipher",
+                "Redis",
+                "Docker / K8s",
+                "Prometheus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "mv2.contact.eyebrow",
+        "text": "// تماس"
+      },
+      "title": {
+        "i18n": "mv2.contact.title",
+        "text": "در یک خط."
+      },
+      "lede": {
+        "i18n": "mv2.contact.lead",
+        "text": "من علامت‌های سبز را ارسال نمی‌کنم — من سیستم‌های AI را با شواهدی که واقعاً کار می‌کنند می‌فرستم، و حاکمیتی که آن‌ها را این‌گونه نگه می‌دارد. برای نقش‌های ارشد مهندسی AI/پلتفرم در سراسر جهان باز هستم."
+      },
+      "contacts": [
+        {
+          "i18n": "mv2.contact.email_label",
+          "label": "ایمیل",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a> · <a href=\"mailto:milos85vasic@gmail.com\">milos85vasic@gmail.com</a>"
+        },
+        {
+          "i18n": "mv2.contact.gh_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        },
+        {
+          "i18n": "mv2.contact.tg_label",
+          "label": "Telegram",
+          "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+- Identifier starts with a letter or underscores followed by zero, letter, and digits
+- Whitespaces are not allowed
+
+- An identifier cannot contain special symbols, such as “@”, “#", “I” and so on
+
+- As we already mentioned, identifiers are case sensitive
+
+Let's take a look at the list of some valid identifiers:
+
+- book
+
+- myClass
+
+- doorsNo1
+
+Opposite to this list, we have a list of invalid ones:
+
+- class
+
+- while
+
+- 1doorNo
+
+- identifier with some spacing
+
+- @!#name
+
+The first two items are invalid because these words are reserved by the Kotlin
+programming language. We will talk more about this soon. The third one starts
+with a number, which is not allowed. As we already mentioned, whitespaces are
+not allowed for identifiers so the fourth item is invalid too. The last one contains
+special characters.
+
+Literals
+
+Literals are sequences of source code characters that directly represent
+constant values. Literals appear as is in Kotlin source code. They include
+integers, floating-point numbers, single characters within single quotes, strings
+of characters within double-quotes. Also reserved “true” and “false” words for
+booleans and null. Let's take a look at some literals:
+
+100
+
+100.0
+
+c!
+
+100L
+
+"hundred"
+
+true
+
+false
+
+null

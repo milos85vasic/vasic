@@ -1,0 +1,34 @@
+"https://fundamental-kotlin.com/images/cover.png"
+)
+// No instantiation needed for the 'ImageManager' data type:
+ImageManager.download(url)
+Here we have only one instance of “ImageManager” in our program memory.
+Class companion object
+If you need to write a function that can be called without having a “class”
+instance but needs access to the internals of a “class”, you can write it as a
+member of an “object” declaration inside that “class”. If you declare a
+“companion object” inside your “class”, you'll be able to call its members with
+the same syntax as calling “static” functions in Java, using only the “class” name
+as a qualifier.
+Let's take a look at “Companion.kt” from book code examples:
+class Greeting {
+
+companion object {
+
+fun hello() = printin("Hello!")
+
+}
+}
+Call the static function:
+fun main( {
+
+// We are accessing to ‘hello' function
+
+// without instantiation needed:
+
+Greeting.hello()
+}
+Console output:
+Hello!
+We have access to the “hello” function without making a new instance of the
+“Greeting” class.

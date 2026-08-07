@@ -1,0 +1,70 @@
+diff --git a/_layouts/default.html b/_layouts/default.html
+index d56a04a..5715e68 100644
+--- a/_layouts/default.html
++++ b/_layouts/default.html
+@@ -1,5 +1,9 @@
+ <!DOCTYPE html>
+-<html lang="{{ page.lang | default: site.lang | default: 'en' }}" data-theme="light">
++{%- comment -%} Server-side text direction so no-JS crawlers get correct RTL for ar/fa/he; i18n.js re-applies the same dir at runtime. {%- endcomment -%}
++{%- assign _pl = page.lang | default: site.lang | default: 'en' -%}
++{%- assign _dir = 'ltr' -%}
++{%- if _pl == 'ar' or _pl == 'fa' or _pl == 'he' -%}{%- assign _dir = 'rtl' -%}{%- endif -%}
++<html lang="{{ _pl }}" dir="{{ _dir }}" data-theme="light">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+@@ -26,16 +30,23 @@
+   <style>:root { --focus-w: 2.5px; --focus-offset: 3px; }</style>
+ </head>
+ <body>
++  {%- comment -%}
++    Server-side chrome localization: render nav/skip-link/download-modal labels in the
++    PAGE's language at Jekyll build time (no-JS crawlers see localized chrome). The
++    data-i18n attributes are kept so assets/js/i18n.js still overrides at runtime,
++    keeping runtime language switching fully intact. Falls back to en per-key.
++  {%- endcomment -%}
++  {%- assign ui = site.data.ui[page.lang] | default: site.data.ui['en'] -%}
+   <!-- WCAG 2.2 AA: Skip navigation link (SC 2.4.1, 2.4.11) -->
+-  <a class="skip-link" href="#top" data-i18n="a11y.skip">Skip to main content</a>
++  <a class="skip-link" href="#top" data-i18n="a11y.skip">{{ ui['a11y.skip'] | default: site.data.ui['en']['a11y.skip'] }}</a>
+   <nav class="nav" aria-label="Primary">
+     <div class="wrap nav-inner">
+       <a class="brand" href="/#top">milos<span class="dot">.</span>vasic</a>
+       <div class="nav-links" id="nav-links">
+-        <a href="/#work" data-i18n="nav.work">Work</a>
+-        <a href="/#experience" data-i18n="nav.experience">Experience</a>
+-        <a href="/#skills" data-i18n="nav.skills">Skills</a>
+-        <a href="/#contact" data-i18n="nav.contact">Contact</a>
++        <a href="/#work" data-i18n="nav.work">{{ ui['nav.work'] | default: site.data.ui['en']['nav.work'] }}</a>
++        <a href="/#experience" data-i18n="nav.experience">{{ ui['nav.experience'] | default: site.data.ui['en']['nav.experience'] }}</a>
++        <a href="/#skills" data-i18n="nav.skills">{{ ui['nav.skills'] | default: site.data.ui['en']['nav.skills'] }}</a>
++        <a href="/#contact" data-i18n="nav.contact">{{ ui['nav.contact'] | default: site.data.ui['en']['nav.contact'] }}</a>
+       </div>
+       <div class="nav-tools">
+         <div class="lang-wrap">
+@@ -73,9 +84,9 @@
+     <div class="dl-backdrop" data-dl-close></div>
+     <div class="dl-card" role="document">
+       <button class="dl-x" type="button" data-dl-close aria-label="Close">×</button>
+-      <p class="eyebrow" data-i18n="dl.heading">Download</p>
++      <p class="eyebrow" data-i18n="dl.heading">{{ ui['dl.heading'] | default: site.data.ui['en']['dl.heading'] }}</p>
+       <h3 id="dl-title" class="dl-doc-name">CV</h3>
+-      <p class="dl-choose" data-i18n="dl.choose">Choose your language</p>
++      <p class="dl-choose" data-i18n="dl.choose">{{ ui['dl.choose'] | default: site.data.ui['en']['dl.choose'] }}</p>
+       <div class="dl-langs">
+         <a class="dl-lang" data-lang="EN" href="#" download><span>English</span><span class="mono">EN · PDF</span></a>
+         <a class="dl-lang" data-lang="SR" href="#" download><span>Српски</span><span class="mono">SR · PDF</span></a>
+@@ -87,8 +98,11 @@
+   <!-- Floating back-to-top: hidden + non-focusable until motion.js reveals it past the scroll threshold -->
+   <button class="od-to-top" type="button" aria-label="Back to top"><svg class="od-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+ 
+-  <script src="{{ '/assets/js/i18n.js' | relative_url }}"></script>
+-  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
++  <!-- defer: non-blocking, downloaded in parallel during parse, executed in
++       document order after the DOM is ready. i18n.js still runs before main.js
++       (defer preserves order), so the language switcher/theme wiring is intact. -->
++  <script src="{{ '/assets/js/i18n.js' | relative_url }}" defer></script>
++  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+   <script src="{{ '/assets/js/articles.js' | relative_url }}" defer></script>
+   <script src="{{ '/assets/js/downloads.js' | relative_url }}" defer></script>
+ </body>

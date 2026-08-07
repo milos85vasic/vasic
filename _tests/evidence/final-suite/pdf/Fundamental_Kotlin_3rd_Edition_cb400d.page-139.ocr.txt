@@ -1,0 +1,38 @@
+class MusicPlayer(
+
+override val brand: String,
+
+override val serialNumber: Long
+) :AudioDevice {
+
+override fun play() {
+
+printin("$model' is playing")
+
+}
+}
+“Device” is our first “interface”. It is really simple. It has only one property:
+“model”. "AudioDevice” device inherits “Device” interface, it overrides the
+“model” property and introduces two new properties and “play” function
+signature. “MusicPlayer” implements all this. It overrides properties in its
+constructor and provides “play” function implementation. Let's instantiate it and
+try out instantiated objects:
+listOf(
+
+MusicPlayer("Sony", 1241),
+
+MusicPlayer("Panasonic", 1001001),
+
+MusicPlayer("Sony", 1242)
+).forEach {
+
+it.play()
+}
+Executing this will produce the following output:
+‘Sony::1241' is playing
+‘Panasonic::1001001' is playing
+'Sony::1242' is playing
+Overriding conflicts
+If we inherit more than one implementation of the same function we conflict
+will occur. From book code examples open “Conflicts.kt”:
+interface IDummy1 {

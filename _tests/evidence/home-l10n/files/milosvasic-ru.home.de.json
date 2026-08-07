@@ -1,0 +1,660 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "de",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "mv2.hero.eyebrow",
+        "text": "// KI-Ingenieur"
+      },
+      "title": {
+        "text": "Miloš Vasić"
+      },
+      "lede": {
+        "i18n": "mv2.hero.lede",
+        "text": "KI-Ingenieur, der nachprüfbare KI-Entwicklungssysteme baut: Multi-Provider-LLM-Infrastruktur, autonome Agenten und Orchestrierung sowie die Governance- und QA-Schichten, die sie ehrlich halten."
+      },
+      "ctas": [
+        {
+          "dl": "cv",
+          "icon": "i-download",
+          "variant": "primary",
+          "i18n": "hero.cv",
+          "label": "Lebenslauf herunterladen"
+        },
+        {
+          "dl": "cl",
+          "variant": "secondary",
+          "i18n": "hero.cl",
+          "label": "Anschreiben"
+        },
+        {
+          "dl": "portfolio",
+          "variant": "secondary",
+          "i18n": "mv2.hero.portfolio",
+          "label": "Portfolio (PDF)"
+        },
+        {
+          "variant": "ghost",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "i18n": "mv2.hero.portfolio_site",
+          "label": "Portfolio‑Website"
+        }
+      ],
+      "stats": [
+        {
+          "value": "Go",
+          "i18n": "mv2.stat.lang",
+          "label": "Rückgrat‑Sprache"
+        },
+        {
+          "value": "140+",
+          "i18n": "mv2.stat.repos",
+          "label": "Repositories, eine Verfassung"
+        },
+        {
+          "value": "33",
+          "i18n": "mv2.stat.products",
+          "label": "Produkte, evidenzbasiert"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": {
+        "i18n": "mv2.summary.eyebrow",
+        "text": "// Zusammenfassung"
+      },
+      "title": {
+        "i18n": "mv2.summary.title",
+        "text": "Ich entwerfe und entwickle die Software, die LLMs in zuverlässige Produkte verwandelt."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "mvx-lede",
+              "i18n": "mv2.summary.body1",
+              "text": "Ich arbeite hauptsächlich in Go, mit Kotlin / Kotlin Multiplatform, TypeScript/React, Python, Swift und Shell, je nach Anforderung. Meine Ergebnisse sind als Flotte organisiert statt als Haufen einzelner Apps: große Produktanwendungen, die auf Dutzenden kleiner, entkoppelter, unabhängig getesteter Module aufbauen, die alle eine gemeinsame Engineering-Verfassung als Git-Submodul erben."
+            },
+            {
+              "class": "mvx-lede mvx-muted",
+              "i18n": "mv2.summary.body2",
+              "text": "Das bedeutet, dass Fixes überall propagieren, neue Produkte aus bewährten Teilen zusammengesetzt werden und jede beworbene Fähigkeit durch einen evidenzproduzierenden Test belegt ist. Mein Leitstern ist eine einzige Regel – ein Feature ist fertig, wenn ein echter Nutzer es verwenden kann und es dafür erfasste Evidenz gibt. Diese Seite führt vom Überblick zu den einzelnen Projekten; jedes verlinkt zur vollständigen Produktseite."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": {
+            "i18n": "mv2.work.eyebrow",
+            "text": "// meine Arbeit über die Helix‑Familie hinweg"
+          },
+          "title": {
+            "i18n": "mv2.work.title",
+            "text": "Die Helix‑Produktlinie, in Prioritätsreihenfolge."
+          },
+          "lede": {
+            "i18n": "mv2.work.lede",
+            "text": "Die Helix‑Linie deckt den gesamten KI-Entwicklungslebenszyklus ab. Jede Karte verlinkt zur vollständigen Produktseite."
+          },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixtrack",
+                "text": "Eine freie JIRA‑Alternative; das Flaggschiff der Helix-Track‑Linie."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "LLMsVerifier",
+                "Prometheus",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixagent",
+                "text": "Ein Ensemble-LLM-Dienst mit mehrstufiger Modell-Debatte und verifizierungsbasierter Provider-Auswahl."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Redis",
+                "SSH",
+                "MCP",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcode",
+                "text": "Eine verteilte KI-Entwicklungsplattform, die Arbeit über SSH-verwaltete Worker mit automatischem Checkpoint/Rollback verteilt."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixllm",
+                "text": "Ein einzelnes Binary mit sechs Modi, das OpenAI- und Anthropic-kompatible APIs über HTTP/3 bereitstellt, mit lokaler llama.cpp-Inference und einer bewerteten Fallback-Kette."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcluster",
+                "text": "Ein verteiltes Betriebssystem für KI-Compute, von Rechenzentrum-GPUs bis zu Edge-Handgeräten."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmprovider",
+                "text": "Eine Schnittstelle über 43 Provider mit Circuit Breakern, Wiederholungen und integrierter Gesundheitsüberwachung."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines / stdio",
+                "Circuit breaker",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmorchestrator",
+                "text": "Eine Steuerungsebene für jeden headless CLI-Coding-Agent."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmsverifier",
+                "text": "Verifizieren, überwachen, optimieren: die einzige Wahrheitsquelle für LLM/Provider/Verifizierungs-Metadaten."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.utils.eyebrow",
+            "text": "// meine Arbeit über vasic-digital-Utils hinweg"
+          },
+          "title": {
+            "i18n": "mv2.utils.title",
+            "text": "Produkt-Qualitätswerkzeuge, die ich gebaut und pflege."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.catalogizer",
+                "text": "Multi-Protokoll (SMB/FTP/NFS/WebDAV/local), verschlüsselte, selbst-hostbare Medien-Sammlungsverwaltung mit einer Go/Gin-API und React-UI."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.coursescreator",
+                "text": "Eine Markdown-zu-Video-Kurs-Pipeline mit Multi-LLM-Anreicherung, TTS und Desktop/Mobile/Web-Playern."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.visionengine",
+                "text": "Ein entkoppeltes Go-Toolkit, das klassische Computer-Vision mit Multi-Provider-LLM-Vision für UI-Analyse und Navigationsgraphen verbindet."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docprocessor",
+                "text": "Wandelt Dokumentation in eine nachprüfbare Feature-Karte für QA-Automatisierung (LLM- oder heuristische Extraktion)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docschain",
+                "text": "Eine inhalt-gehashte, bidirektionale, atomare Dokument/DB-Sync-Engine."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.herald",
+                "text": "Zuverlässige Multi-Channel-Benachrichtigungen mit natürlicher Sprache, dreistufiger Intent-Auflösung."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "webhooks"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.taskbridge",
+                "text": "Eine entkoppelte, bidirektionale Task/Board-Sync-Engine (P1-Gerüst; Sync-Logik in Arbeit)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "KMP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.rms",
+                "text": "Die digital.vasic.*-„Standardbibliothek“ für Infrastruktur, KI-Primitive und Guardrail-Module."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.sf.eyebrow",
+            "text": "// Infrastruktur-Erbe (Server Factory)"
+          },
+          "title": {
+            "i18n": "mv2.sf.title",
+            "text": "Vor der KI-Linie entstanden – meine DevOps-Toolchain."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.msf",
+                "text": "Deklaratives JSON → vollständig bereitgestellte Docker-Mail-Server, mit 439 bestandenen Tests und sauberem SonarQube-Gate."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.sfcore",
+                "text": "Das Server Factory Core Framework, auf dem jede Service-Factory aufbaut."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.qemu",
+                "text": "QEMU-VM-Image-Werkzeuge – herunterladen, ausführen, vernetzen und Maschinen-Images als Artefakte veröffentlichen."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.parallels",
+                "text": "Komprimieren, veröffentlichen und Parallels-VM-Images auf allen Maschinen wiederverwenden."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        {
+          "i18n": "mv2.work.portfolio_cta",
+          "label": "Vollständiges Portfolio ansehen",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": {
+        "i18n": "mv2.gov.eyebrow",
+        "text": "// wie ich arbeite — Governance und QA zuerst"
+      },
+      "title": {
+        "i18n": "mv2.gov.title",
+        "text": "Die Disziplin, die den Produkten zugrunde liegt."
+      },
+      "lede": {
+        "i18n": "mv2.gov.lede",
+        "text": "Vor den Produkten steht die Disziplin: Ich liefere keine grünen Häkchen – ich liefere KI-Systeme mit dem Nachweis, dass sie tatsächlich funktionieren."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "mv2.gov.constitution",
+                "text": "Ein universelles, vererbbares Engineering-Regelwerk, verteilt als Git-Submodul über eine Flotte von 140+ Repositories. Es kodifiziert Anti-Bluff-Evidenz-Gates, Immunität gegen Fehlalarme, Daten/Host-Sicherheit und Abdeckungsregeln; Projekte können es verschärfen, aber nie abschwächen, und jedes Governance-Gate ist mit einem Mutationstest gekoppelt, der beweist, dass das Gate selbst funktioniert."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "mv2.gov.qa",
+                "text": "Anti-Bluff-QA-Orchestrierung, die schriftliche Testbänke ausführt und vollständig autonome, LLM- und vision-gesteuerte QA-Sitzungen über Android, Android TV, Web und Desktop durchführt, wobei ein PASS nur vergeben wird, wenn Laufzeit-Evidenz erfasst wurde."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Mehr lesen"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": {
+        "i18n": "mv2.skills.eyebrow",
+        "text": "// Technologien"
+      },
+      "title": {
+        "i18n": "mv2.skills.title",
+        "text": "Der Stack, auf dem ich tatsächlich aufbaue."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "nameI18n": "mv2.skills.lang",
+              "name": "Sprachen",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.ai",
+              "name": "KI / LLM",
+              "tech": [
+                "43+ providers",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "Agent orchestration"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.backend",
+              "name": "Backend",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.data",
+              "name": "Daten & Infrastruktur",
+              "tech": [
+                "PostgreSQL",
+                "SQLite / SQLCipher",
+                "Redis",
+                "Docker / K8s",
+                "Prometheus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "mv2.contact.eyebrow",
+        "text": "// Kontakt"
+      },
+      "title": {
+        "i18n": "mv2.contact.title",
+        "text": "In einer Zeile."
+      },
+      "lede": {
+        "i18n": "mv2.contact.lead",
+        "text": "Ich liefere keine grünen Häkchen – ich liefere KI-Systeme mit dem Nachweis, dass sie tatsächlich funktionieren, und der Governance, die sie so hält. Offen für Senior-KI/Plattform-Engineering-Rollen weltweit."
+      },
+      "contacts": [
+        {
+          "i18n": "mv2.contact.email_label",
+          "label": "E‑Mail",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a> · <a href=\"mailto:milos85vasic@gmail.com\">milos85vasic@gmail.com</a>"
+        },
+        {
+          "i18n": "mv2.contact.gh_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        },
+        {
+          "i18n": "mv2.contact.tg_label",
+          "label": "Telegram",
+          "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>"
+        }
+      ]
+    }
+  ]
+}

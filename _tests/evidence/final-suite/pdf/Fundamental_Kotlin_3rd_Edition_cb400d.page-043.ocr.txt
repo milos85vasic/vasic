@@ -1,0 +1,40 @@
+During program execution, JVM performs garbage collection. Garbage
+collection is the process by which JVM _ performs automatic memory
+management for running programs. All unused objects in memory of JVM used
+by these programs are released (cleaned up) at a specific point in time.
+
+JVM is precisely specified by the specification that ensures interoperability of
+JVM programs. The garbage collection algorithm used by JVM and any internal
+optimization of JVM instructions is not specified.
+
+It is interesting to note that for Android compiler converts source code written
+in Java or Kotlin into bytecode for the Android Runtime (ART). Android does not
+have classic JVM. JVM and ART work in entirely different ways.
+
+What is the Java ecosystem?
+
+Three basic components that we mentioned until this moment make up the
+Java ecosystem and they are:
+
+- Java Virtual Machine (JVM)
+
+- Java Runtime Environment (JRE)
+
+- Java Development Kit (IDK)
+
+These components are core parts that are shipped by Java implementations. In
+the next section, we will check out how Kotlin fits into this.
+
+How Kotlin relates to Java?
+
+Kotlin is a JVM language. Same way as with Java, we will produce bytecode from
+our source code. As we already mentioned Java bytecode is executed equally on
+all versions of the JVM platform independently from the platform itself.
+
+Kotlin is completely interoperable with Java. You can easily call Kotlin code from
+Java and Java code from Kotlin. Thanks to this adopting Kotlin in the existing
+ecosystem is much easier. As we demonstrated in the previous section of the
+book, the creators of Kotlin provided us with a tool for direct code conversion. It
+is really easy to convert existing java source code into Kotlin.
+
+Lifecycle of the program

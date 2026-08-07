@@ -1,0 +1,97 @@
+{
+  "ru": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  },
+  "sr": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  },
+  "es": {
+    "verdict": "FAIL",
+    "script_flagged": [],
+    "retried": [
+      "tier1.eyebrow",
+      "pf.lede"
+    ],
+    "still_bad": []
+  },
+  "fr": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  },
+  "be": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  },
+  "zh": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  },
+  "kk": {
+    "verdict": "FAIL",
+    "script_flagged": [],
+    "retried": [
+      "prod.order",
+      "tier1.eyebrow"
+    ],
+    "still_bad": []
+  },
+  "hi": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  },
+  "ja": {
+    "verdict": "FAIL",
+    "script_flagged": [],
+    "retried": [
+      "skip",
+      "pf.summary"
+    ],
+    "still_bad": []
+  },
+  "ko": {
+    "verdict": "FAIL",
+    "script_flagged": [],
+    "retried": [
+      "pf.overview.title",
+      "pf.summary"
+    ],
+    "still_bad": []
+  },
+  "ar": {
+    "verdict": "FAIL",
+    "script_flagged": [],
+    "retried": [
+      "pf.summary"
+    ],
+    "still_bad": []
+  },
+  "tr": {
+    "verdict": "FAIL",
+    "script_flagged": [],
+    "retried": [
+      "pf.summary",
+      "toggle"
+    ],
+    "still_bad": []
+  },
+  "fa": {
+    "verdict": "PASS",
+    "script_flagged": [],
+    "retried": [],
+    "still_bad": []
+  }
+}

@@ -1,0 +1,811 @@
+{
+  "site": "vasic.digital",
+  "kind": "standalone",
+  "brand": "Vasic Digital",
+  "lang": "de",
+  "title": "Vasic Digital — KI-natives Software Engineering",
+  "description": "Vasic Digital entwickelt KI-Entwicklungssysteme — Multi‑Provider‑LLM‑Infrastruktur, Agenten‑Orchestrierung und die Verfassung‑plus‑Beweis‑Governance, die sie vertrauenswürdig macht.",
+  "css": "assets/od/vasic-digital.css",
+  "footer": "© 2026 Vasic Digital — gebaut auf dem OpenDesign‑System.",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "hero.eyebrow",
+        "text": "// KI-natives Software Engineering"
+      },
+      "title": {
+        "i18n": "hero.title",
+        "text": "KI-natives Software Engineering, gebaut, um vertrauenswürdig zu sein."
+      },
+      "lede": {
+        "i18n": "hero.lede",
+        "text": "Wir bauen KI‑Entwicklungssysteme — die Modelle, Agenten, Orchestrierung und Infrastruktur, die große Sprachmodelle in zuverlässige Software verwandeln — zusammen mit der Governance‑Schicht, die sie ehrlich hält."
+      },
+      "ctas": [
+        {
+          "i18n": "hero.cta_products",
+          "label": "Entdecken Sie die Produkte",
+          "href": "#products",
+          "variant": "primary"
+        },
+        {
+          "i18n": "hero.cta_portfolio",
+          "label": "Portfolio ansehen",
+          "href": "portfolio/",
+          "variant": "secondary"
+        },
+        {
+          "label": "Portfolio herunterladen (PDF)",
+          "href": "downloads/Portfolio_EN.pdf",
+          "variant": "ghost"
+        }
+      ],
+      "stats": [
+        {
+          "value": "40+",
+          "i18n": "stat.providers",
+          "label": "LLM‑Anbieter, eine Schnittstelle"
+        },
+        {
+          "value": "140+",
+          "i18n": "stat.repos",
+          "label": "Repositorys, eine Verfassung"
+        },
+        {
+          "value": "33",
+          "i18n": "stat.products",
+          "label": "Produkte über drei Stufen"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "about",
+      "eyebrow": {
+        "i18n": "about.eyebrow",
+        "text": "// über"
+      },
+      "title": {
+        "i18n": "about.title",
+        "text": "Eine Flotte, kein Monolith."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "vd-lede",
+              "i18n": "about.body1",
+              "text": "Vasic Digital ist eine fokussierte Engineering‑Praxis, die eine vernetzte Familie von KI‑Entwicklungsprodukten und wiederverwendbaren Modulen baut. Statt eines Monolithen ist die Arbeit als Flotte organisiert: große Produktanwendungen auf Dutzenden kleiner, unabhängig getesteter, entkoppelter Module – sodass bewährte Teile in jedem Produkt wiederverwendet werden, anstatt neu gebaut zu werden."
+            },
+            {
+              "class": "vd-lede vd-muted",
+              "i18n": "about.body2",
+              "text": "Die Kernsprache ist Go, ergänzt durch Kotlin & Kotlin Multiplatform, TypeScript/React, Python, Swift und Shell – je nach Aufgabe gewählt. Was die Flotte zusammenhält, ist disziplinierte Mechanik: jedes Projekt erbt eine gemeinsame Engineering‑Verfassung als Git‑Submodul, und jede Fähigkeit, die ein Produkt bewirbt, muss durch einen automatisierten, beweisführenden Test gestützt werden. Ein Feature ist nicht „fertig“, wenn die Tests bestehen; es ist fertig, wenn ein echter Nutzer es tatsächlich nutzen kann und es dafür erfasste Beweise gibt."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "eyebrow": {
+        "i18n": "work.eyebrow",
+        "text": "// was wir tun"
+      },
+      "title": {
+        "i18n": "work.title",
+        "text": "KI‑basierte Entwicklung, von Anfang bis Ende."
+      },
+      "lede": {
+        "i18n": "work.lede",
+        "text": "Wir bauen das Substrat für KI‑Systeme — den harten Teil unter der Anwendung."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "wd.llm.title",
+              "name": "Multi‑Provider‑LLM‑Zugriff",
+              "blurb": {
+                "i18n": "wd.llm.body",
+                "text": "Eine First‑Party‑Abstraktion über 40+ Anbieter — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok und lokales Ollama als Fallback — hinter einer Schnittstelle mit Wiederholungen, Circuit‑Breakern und Gesundheits‑Checks."
+              }
+            },
+            {
+              "nameI18n": "wd.agents.title",
+              "name": "Agenten‑Orchestrierung",
+              "blurb": {
+                "i18n": "wd.agents.body",
+                "text": "Headless‑CLI‑Coding‑Agent‑Steuerungsebenen, graphbasierte agentische Workflows, mehrstufige „KI‑Debatte“-Konsens und DAG/Pipeline‑Laufzeiten."
+              }
+            },
+            {
+              "nameI18n": "wd.verify.title",
+              "name": "LLM‑Verifizierung",
+              "blurb": {
+                "i18n": "wd.verify.body",
+                "text": "Eine Vertrauensschicht, die Modelle mit einem obligatorischen Verständnis‑Gate („Siehst du meinen Code?“) plus Latenz‑, Streaming‑, Funktions‑Aufruf‑, Vision‑ und Embedding‑Tests bewertet — exportiert eine nur‑verifizierte Konfiguration."
+              }
+            },
+            {
+              "nameI18n": "wd.memory.title",
+              "name": "Abruf‑ & Speicher",
+              "blurb": {
+                "i18n": "wd.memory.body",
+                "text": "RAG, Vektor‑Datenbanken, Embeddings und fusionierte Agent‑Speicher‑Engines (Mem0 + Cognee + Letta) mit unendlicher Kontext‑Kompression."
+              }
+            },
+            {
+              "nameI18n": "wd.defensive.title",
+              "name": "Defensiver LLM",
+              "blurb": {
+                "i18n": "wd.defensive.body",
+                "text": "Schutzschienen, PII‑Erkennung, adversariale Red‑Team‑Fixtures und Eingabe‑Kanonisierung — Sicherheit im Substrat, nicht nachträglich angebracht."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "products",
+      "eyebrow": {
+        "i18n": "products.eyebrow",
+        "text": "// Stufe 1 — Flaggschiff"
+      },
+      "title": {
+        "i18n": "products.title",
+        "text": "Die Helix‑Produktfamilie & LLM‑Infrastruktur"
+      },
+      "lede": {
+        "i18n": "products.lede",
+        "text": "Unsere Flaggschiff‑Linie deckt den gesamten KI‑Entwicklungslebenszyklus ab. In Prioritätsreihenfolge."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.helixtrack",
+                "text": "Eine freie Alternative zu JIRA — das Flaggschiff der Helix‑Track‑Linie."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "PostgreSQL",
+                "LLMsVerifier",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.helixagent",
+                "text": "Ein Ensemble‑LLM‑Dienst, der mehrere Modelle debattieren lässt und die Antwort liefert, auf die sie sich einigen."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Gin",
+                "SSH",
+                "Model Context Protocol",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.helixcode",
+                "text": "Eine verteilte KI‑Entwicklungsplattform, die Arbeit über SSH‑verwaltete Worker mit Checkpoint/Rollback aufteilt."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "LLMsVerifier",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "p.helixllm",
+                "text": "Ein Binary, sechs Modi: OpenAI‑ und Anthropic‑kompatible Inferenz von Laptop bis Cluster, über HTTP/3."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "p.helixcluster",
+                "text": "Ein verteiltes Betriebssystem für KI‑Rechenleistung, von Rechenzentrum‑GPUs bis zu Edge‑Handhelds."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "digital.vasic.models",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmprovider",
+                "text": "Eine Schnittstelle, 43 Anbieter — mit Circuit‑Breakern, Wiederholungen und integrierter Gesundheits‑Überwachung."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines over stdio",
+                "Circuit breaker",
+                "HealthMonitor",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "p.llmorchestrator",
+                "text": "Eine Steuerungsebene für jeden headless CLI‑Coding‑Agent."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "gRPC",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "p.llmsverifier",
+                "text": "Verifizieren. Überwachen. Optimieren. Die einzige Wahrheitsquelle für LLM‑ und Anbieter‑Verifizierungs‑Metadaten."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "helixmemory",
+              "name": "HelixMemory",
+              "tech": [
+                "Go",
+                "Mem0",
+                "Cognee",
+                "Letta",
+                "+3"
+              ],
+              "blurb": {
+                "i18n": "p.helixmemory",
+                "text": "Ein Speicher‑Brain für KI‑Agenten — vier erstklassige Engines, fusioniert."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "governance",
+      "eyebrow": {
+        "i18n": "gov.eyebrow",
+        "text": "// Qualität & Governance — unser Differenzierungsmerkmal"
+      },
+      "title": {
+        "i18n": "gov.title",
+        "text": "Governance als nachprüfbare Tatsache, nicht als Wunschvorstellung."
+      },
+      "lede": {
+        "i18n": "gov.lede",
+        "text": "Zwei Säulen machen die gesamte Flotte kohärent und vertrauenswürdig."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "gov.constitution",
+                "text": "Ein universelles, projekt‑agnostisches Engineering‑Regelwerk, ausgeliefert als Git‑Submodul und von jedem Projekt über eine 140+-Repository‑Flotte geerbt. Es kodiert nicht verhandelbare Disziplin — Anti‑Bluff‑Beweiskontrollen, Immunität gegen Fehlalarme, Daten‑ und Host‑Sicherheit — die ein Projekt erweitern, aber niemals schwächen kann. Ein Submodul‑Update hebt die Regeln überall an, und jedes Gate ist mit einem Mutations‑Test gekoppelt, der beweist, dass das Gate selbst kein Schwindel ist."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "gov.qa",
+                "text": "Anti‑Bluff‑QA‑Orchestrierung. Sie führt geschriebene YAML‑Testbänke und vollautonome, LLM‑plus‑Computer‑Vision‑QA‑Sitzungen über Android, Android TV, Web und Desktop aus — und verweigert einen PASS‑Score ohne erfasste Laufzeit‑Beweise: Screenshots, logcat, Video, Stack‑Traces. „Wir haben es getestet“ wird zu „Hier ist das Video, das logcat und das Ticket.“"
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "utilities",
+      "eyebrow": {
+        "i18n": "utils.eyebrow",
+        "text": "// Stufe 2 — Dienstprogramme"
+      },
+      "title": {
+        "i18n": "utils.title",
+        "text": "Vasic Digital‑Dienstprogramme"
+      },
+      "lede": {
+        "i18n": "utils.lede",
+        "text": "Produkt‑grade Werkzeuge, die eigenständig stehen."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "WebSockets",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "p.catalogizer",
+                "text": "Fortschrittliches Multi‑Protokoll‑, verschlüsseltes Medien‑Sammlungs‑Management — erkennen, katalogisieren und anreichern alles, was Sie besitzen."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "React Native",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "p.coursescreator",
+                "text": "Markdown rein, professioneller Videokurs raus — KI‑verbessert, multi‑plattform."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision",
+                "Graph algorithms"
+              ],
+              "blurb": {
+                "i18n": "p.visionengine",
+                "text": "Sehen Sie die UI wie ein Nutzer — Computer‑Vision plus LLM‑Vision für Analyse und Navigation."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser",
+                "i18n"
+              ],
+              "blurb": {
+                "i18n": "p.docprocessor",
+                "text": "Verwandeln Sie Dokumentation in eine verifizierbare Feature‑Karte für QA‑Automatisierung."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "p.docschain",
+                "text": "Kein verfolgtes Dokument kann aus der Synchronisation fallen — inhaltsgehasht, bidirektional, atomar."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent inference",
+                "Docs Chain"
+              ],
+              "blurb": {
+                "i18n": "p.herald",
+                "text": "Jeder Alarm erreicht das richtige Ziel — keine Befehls‑Syntax nötig."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "HMAC-SHA256",
+                "cron + webhooks"
+              ],
+              "blurb": {
+                "i18n": "p.taskbridge",
+                "text": "Ihr Aufgaben‑Board und Ihre Wahrheits‑Quelle, makellos synchron — in beide Richtungen."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "Kotlin Multiplatform",
+                "Vector DB / RAG / MCP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "p.rms",
+                "text": "Einmal bauen, überall wiederverwenden — eine Flotte kleiner, entkoppelter, unabhängig getesteter Go‑ und KMP‑Module."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "server-factory",
+      "eyebrow": {
+        "i18n": "sf.eyebrow",
+        "text": "// Stufe 3 — Erbe"
+      },
+      "title": {
+        "i18n": "sf.title",
+        "text": "Server Factory — Infrastruktur‑Automatisierung"
+      },
+      "lede": {
+        "i18n": "sf.lede",
+        "text": "Unser DevOps‑Erbe: deklaratives JSON, das zu vollständig bereitgestellten, Docker‑isierten Servern wird."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "vd-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "QEMU",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "p.msf",
+                "text": "Betreiben Sie Ihren Mail Server wie ein Chef — beschreiben Sie ihn in JSON, deployen Sie ihn überall."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core Framework",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "p.sfcore",
+                "text": "Die gemeinsame Engine hinter jedem Server Factory."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "Bridge / TAP",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "p.qemu",
+                "text": "QEMU‑VM‑Images, verwaltet wie Artefakte — herunterladen, ausführen, vernetzen, veröffentlichen."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "p.parallels",
+                "text": "Komprimieren, veröffentlichen und Ihre Parallels‑VM‑Images auf jeder Maschine wiederverwenden."
+              },
+              "readmore": {
+                "i18n": "cta.readmore",
+                "text": "Mehr erfahren"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "technologies",
+      "eyebrow": {
+        "i18n": "tech.eyebrow",
+        "text": "// Technologien"
+      },
+      "title": {
+        "i18n": "tech.title",
+        "text": "Verankert in unserem tatsächlichen Stack."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "vd-grid vd-grid--two",
+          "cards": [
+            {
+              "nameI18n": "tech.lang.title",
+              "name": "Sprachen",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell",
+                "PL/pgSQL",
+                "TLA+"
+              ]
+            },
+            {
+              "nameI18n": "tech.ai.title",
+              "name": "KI / LLM",
+              "tech": [
+                "43+ provider adapters",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "HiPlan / MCTS / ToT",
+                "SWE-bench / HumanEval / MMLU"
+              ]
+            },
+            {
+              "nameI18n": "tech.backend.title",
+              "name": "Backend",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets",
+                "Angular / React",
+                "Kafka / RabbitMQ"
+              ]
+            },
+            {
+              "nameI18n": "tech.data.title",
+              "name": "Daten",
+              "tech": [
+                "PostgreSQL",
+                "SQLite",
+                "SQLCipher",
+                "Redis",
+                "Neo4j",
+                "ClickHouse",
+                "MinIO / S3"
+              ]
+            },
+            {
+              "nameI18n": "tech.infra.title",
+              "name": "Infra / DevOps",
+              "tech": [
+                "Docker & Compose",
+                "Kubernetes + Helm",
+                "Prometheus + Grafana",
+                "OpenTelemetry",
+                "QEMU / Libvirt",
+                "GitHub Actions"
+              ]
+            },
+            {
+              "nameI18n": "tech.qa.title",
+              "name": "Testen / QA",
+              "tech": [
+                "HelixQA (anti-bluff)",
+                "Challenge harnesses",
+                "go test -race",
+                "SonarQube",
+                "semgrep / gosec / trivy / snyk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "portfolio-cta",
+      "eyebrow": {
+        "i18n": "pf.eyebrow",
+        "text": "// Portfolio"
+      },
+      "title": {
+        "i18n": "pf.title",
+        "text": "Eine Flotte, eine Disziplin — sehen Sie alle 33 Produkte."
+      },
+      "lede": {
+        "i18n": "pf.lede",
+        "text": "Ein einheitliches, evidenzbasiertes Portfolio der Helix‑Familie, der vasic-digital‑Dienstprogramme und der Server Factory‑Toolchain."
+      },
+      "ctaStyle": "justify-content:flex-start",
+      "ctas": [
+        {
+          "i18n": "pf.cta",
+          "label": "Portfolio öffnen",
+          "href": "portfolio/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "contact.eyebrow",
+        "text": "// Kontakt"
+      },
+      "title": {
+        "i18n": "contact.title",
+        "text": "Lassen Sie uns etwas Verifizierbares bauen."
+      },
+      "lede": {
+        "i18n": "contact.lede",
+        "text": "Jeder kann eine App an einen LLM anbinden. Wir bauen den Teil, der schwer ist: KI‑Systeme, die verifizierbar, wiederverwendbar und ehrlich sind. Wir verlangen nicht, dass Sie dem grünen Häkchen vertrauen — wir zeigen Ihnen die Beweise dahinter."
+      },
+      "contacts": [
+        {
+          "i18n": "contact.email_label",
+          "label": "E‑Mail",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a>"
+        },
+        {
+          "i18n": "contact.github_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/vasic-digital\" rel=\"noopener noreferrer\" target=\"_blank\">github.com/vasic-digital <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        }
+      ]
+    }
+  ]
+}

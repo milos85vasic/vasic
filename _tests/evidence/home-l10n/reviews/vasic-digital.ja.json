@@ -1,0 +1,61 @@
+{
+  "site": "vasic-digital",
+  "lang": "ja",
+  "name": "Japanese",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 82,
+  "reviewer_bad_keys": [
+    12,
+    16,
+    29,
+    42,
+    47,
+    58,
+    65,
+    73,
+    77,
+    75
+  ],
+  "script_flagged": [
+    "// about",
+    "// what we do",
+    "// tier 1 — flagship",
+    "// quality & governance — our differentiator",
+    "// tier 2 — utilities",
+    "// tier 3 — heritage",
+    "// technologies",
+    "AI / LLM",
+    "// portfolio",
+    "// contact"
+  ],
+  "english_leftover_flagged": [
+    "// about",
+    "// what we do",
+    "// tier 1 — flagship",
+    "// quality & governance — our differentiator",
+    "// tier 2 — utilities",
+    "// tier 3 — heritage",
+    "// technologies",
+    "AI / LLM",
+    "// portfolio",
+    "// contact"
+  ],
+  "retried": [
+    "// tier 2 — utilities",
+    "AI / LLM",
+    "A unified, evidence-based portfolio of the Helix family, the vasic-digital utilities, and the Server Factory toolchain.",
+    "// tier 1 — flagship",
+    "// quality & governance — our differentiator",
+    "// portfolio",
+    "// tier 3 — heritage",
+    "// what we do",
+    "// about",
+    "// technologies",
+    "// contact"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "Several keys retain English placeholders (e.g., \"// about\", \"// what we do\", tier headings, technology sections) which should be fully translated into Japanese. Key 75 uses a lowercase \"vasic-digital\" instead of the proper brand name \"Vasic Digital\"."
+}

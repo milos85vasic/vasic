@@ -1,0 +1,29 @@
+Memory leaks
+As we mentioned in the previous section, sometimes we can create memory
+leaks. In this section, we will provide some examples of memory leaks. Memory
+leaks can happen in various ways. Some common memory leaks are:
+- Memory leaks through static fields
+- Memory leaks through unclosed resources
+- Memory leaks through improper “equals” and “hashCode” functions
+implementations
+- Memory leaks through nested classes that reference outer class.
+There are more different ways for memory leaks to happen. Let's give example
+for each of these cases. We will start with memory leaks that are introduced
+through static (global) fields. Anything static (and global scope) has a life that
+usually matches the entire lifetime of the running program. From book code
+examples open “StaticFieldLeak.kt” and take a look at the code:
+val staticList = mutableListOf<Double>()
+fun main( {
+fun populate() {
+for (x in 0 until 100 * 1000 * 1000) {
+staticList.add(x.toDouble())
+}
+}
+fun printMemoryStats() {
+val heapSize = Runtime.getRuntime().totalMemory()
+printin("Heap size: $heapSize")
+}
+printMemoryStats()
+printin("Populating static list")
+populate()
+printMemoryStats()

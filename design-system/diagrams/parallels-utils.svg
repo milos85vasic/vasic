@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 440" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">Parallels-Utils — image lifecycle (macOS)</text>
+<text class="lbl" x="30" y="122">Image lifecycle</text>
+<text class="lbl" x="360" y="274">One endpoint → many workstations</text>
+<text class="note" x="120" y="418">Settings (.settings): location · provider · sync feed the scripts</text>
+<rect class="box" x="30" y="150" width="150" height="80" rx="10"/>
+<text class="t" x="105" y="194">Build</text>
+<rect class="box" x="200" y="150" width="150" height="80" rx="10"/>
+<text class="t" x="275" y="194">Compress</text>
+<rect class="box" x="370" y="150" width="150" height="80" rx="10"/>
+<text class="t" x="445" y="194">Publish</text>
+<text class="s" x="445" y="214">provider endpoint</text>
+<rect class="box" x="540" y="150" width="150" height="80" rx="10"/>
+<text class="t" x="615" y="194">Retrieve</text>
+<rect class="good" x="710" y="150" width="150" height="80" rx="10"/>
+<text class="gt" x="785" y="194">Run</text>
+<text class="s" x="785" y="214">Parallels VM</text>
+<rect class="accent" x="370" y="290" width="160" height="70" rx="10"/>
+<text class="t" x="450" y="334">Provider endpoint</text>
+<text class="s" x="450" y="354">image matrix</text>
+<rect class="box" x="120" y="300" width="150" height="60" rx="10"/>
+<text class="t" x="195" y="334">Workstation A</text>
+<rect class="box" x="620" y="300" width="150" height="60" rx="10"/>
+<text class="t" x="695" y="334">Workstation B</text>
+<rect class="box" x="820" y="300" width="150" height="60" rx="10"/>
+<text class="t" x="895" y="334">Workstation C</text>
+<path class="conn" marker-end="url(#a)" d="M180,190 L198,190"/>
+<path class="conn" marker-end="url(#a)" d="M350,190 L368,190"/>
+<path class="conn" marker-end="url(#a)" d="M520,190 L538,190"/>
+<path class="conn" marker-end="url(#a)" d="M690,190 L708,190"/>
+<path class="conn" marker-end="url(#a)" d="M445,230 L448,288"/>
+<path class="conn" marker-end="url(#a)" d="M370,325 L272,330"/>
+<path class="conn" marker-end="url(#a)" d="M530,325 L618,330"/>
+<path class="conn" marker-end="url(#a)" d="M530,335 L818,332"/>
+</svg>

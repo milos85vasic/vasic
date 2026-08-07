@@ -1,0 +1,30 @@
+application are executed or evaluated. We will explain the most important Kotlin
+features that are used to create logic for our programs.
+If expression
+As we have already mentioned, in Kotlin “If” is an expression. In Kotlin “If’
+returns value too. Let's play a little with “If’ to remind ourselves about this.
+From the book code example open “If.kt” located under the “control_flow”
+package:
+fun check(x: Int, y: Int) {
+val result = if (x >= y) {
+printin("x >= y")
+true
+}else{
+printin("x is not >= y")
+false
+}
+printin("Result: $result")
+}
+As you can see “result” constant receives the value from the “If” expression. If
+we call the “check” function with the following parameters:
+check(2, 5)
+check(2, 2)
+check(5, 2)
+The following output will be produced thanx to “If’ expression’s logic:
+x is not >=y
+Result: false
+X>=y
+Result: true
+X>=y
+Result: true
+Note:

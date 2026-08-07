@@ -1,0 +1,45 @@
+Count no. 7 (2)
+
+Count no. 8 (2)
+
+Count no. 9 (2)
+
+Count no. 10 (2)
+
+Thread execution
+
+Creating a new thread is an expensive operation. To create a thread operating
+system allocates resources that are needed for the thread. Let's say that you
+pile up a huge amount of threads that are running at the same time. This could
+choke your machine. For this not to happen we execute threads in a controlled
+manner. In practice “thread pools” are used to utilize system resources
+efficiently and gain maximal performance.
+
+The thread pool does not create new threads when a new task arrives. A thread
+pool keeps several idle threads. Once the new task has arrived, these threads
+are ready to execute. Once a thread finishes, the thread pool thread does not
+die. It goes back to the idle state in the pool and it waits for the next task to
+come.
+
+Thanks to limits that we can define, we can limit the number of concurrent
+threads in the pool that are being executed at the same time. Thanks to this we
+can prevent overload and choking of the system. In the situation when all
+threads are busy, the latest arrived tasks are placed in a queue. Once the thread
+becomes available the task is taken from the queue and executed.
+
+There are several types of thread pools commonly used:
+
+- Cached thread pool: it keeps a certain number of alive threads, it creates new
+ones if required
+
+- Fixed thread pool: introduces a limit for the maximum of concurrent threads
+while newly arrived tasks are waiting in a queue
+
+- Single-threaded pool: has only one thread that executes one task at a time
+
+- Fork/Join pool: a special thread pool that uses the “Fork/Join” framework.
+
+We will illustrate the use of thread pools in the example of a single-threaded
+pool. From book code examples open “Executors.kt”:
+
+val executor = Executors.newSingleThreadExecutor()

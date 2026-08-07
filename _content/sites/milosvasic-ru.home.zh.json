@@ -1,0 +1,660 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "zh",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "mv2.hero.eyebrow",
+        "text": "// AI工程师"
+      },
+      "title": {
+        "text": "Miloš Vasić"
+      },
+      "lede": {
+        "i18n": "mv2.hero.lede",
+        "text": "AI工程师，构建可验证的AI开发系统：多供应商LLM基础设施、自治代理和编排，以及保持其诚信的治理和质量保证层。"
+      },
+      "ctas": [
+        {
+          "dl": "cv",
+          "icon": "i-download",
+          "variant": "primary",
+          "i18n": "hero.cv",
+          "label": "下载简历"
+        },
+        {
+          "dl": "cl",
+          "variant": "secondary",
+          "i18n": "hero.cl",
+          "label": "求职信"
+        },
+        {
+          "dl": "portfolio",
+          "variant": "secondary",
+          "i18n": "mv2.hero.portfolio",
+          "label": "作品集 (PDF)"
+        },
+        {
+          "variant": "ghost",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "i18n": "mv2.hero.portfolio_site",
+          "label": "作品集网站"
+        }
+      ],
+      "stats": [
+        {
+          "value": "Go",
+          "i18n": "mv2.stat.lang",
+          "label": "核心语言"
+        },
+        {
+          "value": "140+",
+          "i18n": "mv2.stat.repos",
+          "label": "仓库，一个宪章"
+        },
+        {
+          "value": "33",
+          "i18n": "mv2.stat.products",
+          "label": "产品，基于证据"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": {
+        "i18n": "mv2.summary.eyebrow",
+        "text": "// 摘要"
+      },
+      "title": {
+        "i18n": "mv2.summary.title",
+        "text": "我设计并构建将LLM转化为可靠产品的软件。"
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "mvx-lede",
+              "i18n": "mv2.summary.body1",
+              "text": "我主要使用 Go 工作，同时根据需求使用 Kotlin / Kotlin Multiplatform、TypeScript/React、Python、Swift 和 Shell。我的产出以舰队形式组织，而非零散的单一应用：大型产品应用坐落在数十个小型、解耦、独立测试的模块之上，所有模块共享作为 Git 子模块的工程宪章。"
+            },
+            {
+              "class": "mvx-lede mvx-muted",
+              "i18n": "mv2.summary.body2",
+              "text": "这意味着修复会在所有内容中传播，新产品可以从已验证的部件组装而成，每项宣传的功能都有证据产生的测试支撑。我的北极星是一条规则——功能只有在真实用户能够使用且捕获到证据证明时才算完成。此页从概览切换到各个项目；每个项目链接到其完整的产品页面。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": {
+            "i18n": "mv2.work.eyebrow",
+            "text": "// 我在 Helix 系列中的工作"
+          },
+          "title": {
+            "i18n": "mv2.work.title",
+            "text": "Helix 系列，按优先级排序。"
+          },
+          "lede": {
+            "i18n": "mv2.work.lede",
+            "text": "Helix 系列覆盖 AI 开发生命周期。每张卡片链接到其完整的产品页面。"
+          },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixtrack",
+                "text": "一个自由世界的 JIRA 替代品；Helix-Track 系列的旗舰产品。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "LLMsVerifier",
+                "Prometheus",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixagent",
+                "text": "一个集合式 LLM 服务，具备多轮模型辩论和基于验证的供应商选择。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Redis",
+                "SSH",
+                "MCP",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcode",
+                "text": "一个分布式 AI 开发平台，将工作划分到通过 SSH 管理的工作节点，并具备自动检查点/回滚功能。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixllm",
+                "text": "一个单二进制文件，提供六种模式，支持 OpenAI 和 Anthropic 兼容的 API，使用 HTTP/3，内置本地 llama.cpp 推理并提供评分回退链。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcluster",
+                "text": "面向 AI 计算的分布式操作系统，覆盖从数据中心 GPU 到边缘手持设备。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmprovider",
+                "text": "统一接口，覆盖 43 家供应商，内置熔断、重试和健康检查。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines / stdio",
+                "Circuit breaker",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmorchestrator",
+                "text": "为每个无头 CLI 编码代理提供统一控制平面。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmsverifier",
+                "text": "验证、监控、优化：LLM/供应商/验证元数据的唯一真实来源。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.utils.eyebrow",
+            "text": "// 我在 vasic-digital utils 中的工作"
+          },
+          "title": {
+            "i18n": "mv2.utils.title",
+            "text": "我构建并维护的产品级工具。"
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.catalogizer",
+                "text": "多协议（SMB/FTP/NFS/WebDAV/local）加密、可自托管的媒体集合管理，提供 Go/Gin API 与 React UI。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.coursescreator",
+                "text": "一个 markdown 转视频课程流水线，支持多 LLM 增强、TTS，以及桌面/移动/网页播放器。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.visionengine",
+                "text": "一个解耦的 Go 工具包，将经典计算机视觉与多供应商 LLM 视觉融合，用于 UI 分析和导航图生成。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docprocessor",
+                "text": "将文档转化为可验证的功能映射，以供 QA 自动化（LLM 或启发式提取）。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docschain",
+                "text": "基于内容哈希的双向原子文档/DB 同步引擎。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.herald",
+                "text": "可靠的多渠道通知，具备自然语言、三级意图解析。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "webhooks"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.taskbridge",
+                "text": "一个解耦的、双向的任务/看板同步引擎（P1 框架；同步逻辑正在进行中）。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "KMP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.rms",
+                "text": "digital.vasic.* 基础设施、AI 原语和防护模块的“标准库”。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.sf.eyebrow",
+            "text": "// 基础设施遗产 (Server Factory)"
+          },
+          "title": {
+            "i18n": "mv2.sf.title",
+            "text": "早于 AI 系列——我的 DevOps 工具链。"
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.msf",
+                "text": "声明式 JSON → 完全配置的 Docker 化邮件服务器，报告 439 个通过的测试并通过了干净的 SonarQube 门禁。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.sfcore",
+                "text": "Server Factory Core Framework 所有服务工厂构建的基础。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.qemu",
+                "text": "QEMU VM 镜像工具——下载、运行、网络并将机器镜像作为制品发布。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.parallels",
+                "text": "压缩、发布并在所有机器上复用 Parallels VM 镜像。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        {
+          "i18n": "mv2.work.portfolio_cta",
+          "label": "查看完整作品集",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": {
+        "i18n": "mv2.gov.eyebrow",
+        "text": "// 我的工作方式 — 先治理后 QA"
+      },
+      "title": {
+        "i18n": "mv2.gov.title",
+        "text": "支撑产品的学科。"
+      },
+      "lede": {
+        "i18n": "mv2.gov.lede",
+        "text": "在产品之前，是学科：我不交付绿色勾选——我交付带有实际工作证据的 AI 系统。"
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "mv2.gov.constitution",
+                "text": "一套通用、可继承的工程规则手册，作为 Git 子模块分布在 140+ 仓库舰队中。它编码了防欺诈证据门、误报免疫、数据/主机安全以及覆盖规则；项目可以收紧但永不放宽，每个治理门都配有突变测试，以证明该门本身有效。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "mv2.gov.qa",
+                "text": "防欺诈 QA 编排，运行书面测试库以及跨 Android、Android TV、Web 和 Desktop 的全自动、LLM 与视觉驱动的 QA 会话，仅在捕获运行时证据后才计为 PASS。"
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "了解更多"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": {
+        "i18n": "mv2.skills.eyebrow",
+        "text": "// 技术栈"
+      },
+      "title": {
+        "i18n": "mv2.skills.title",
+        "text": "我实际使用的技术栈。"
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "nameI18n": "mv2.skills.lang",
+              "name": "语言",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.ai",
+              "name": "人工智能 / 大语言模型",
+              "tech": [
+                "43+ providers",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "Agent orchestration"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.backend",
+              "name": "后端",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.data",
+              "name": "数据与基础设施",
+              "tech": [
+                "PostgreSQL",
+                "SQLite / SQLCipher",
+                "Redis",
+                "Docker / K8s",
+                "Prometheus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "mv2.contact.eyebrow",
+        "text": "// 联系方式"
+      },
+      "title": {
+        "i18n": "mv2.contact.title",
+        "text": "一句话概括。"
+      },
+      "lede": {
+        "i18n": "mv2.contact.lead",
+        "text": "我不交付绿色勾选——我交付带有实际工作证据的 AI 系统，并通过治理保持其可靠。开放全球高级 AI/平台工程职位。"
+      },
+      "contacts": [
+        {
+          "i18n": "mv2.contact.email_label",
+          "label": "电子邮件",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a> · <a href=\"mailto:milos85vasic@gmail.com\">milos85vasic@gmail.com</a>"
+        },
+        {
+          "i18n": "mv2.contact.gh_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        },
+        {
+          "i18n": "mv2.contact.tg_label",
+          "label": "Telegram",
+          "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>"
+        }
+      ]
+    }
+  ]
+}

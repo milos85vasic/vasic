@@ -1,0 +1,1035 @@
+[
+  {
+    "site": "milosvasic.ru",
+    "page": "landing",
+    "url": "http://localhost:8082/",
+    "method": "Playwright headless Chromium 1366x900, no throttling, cold cache",
+    "capturedAt": "2026-08-05T17:52:51.343Z",
+    "wallClockMs": 4202,
+    "coreWebVitals": {
+      "LCP_ms": 368,
+      "FCP_ms": 368,
+      "CLS": 0,
+      "approxTBT_ms": 0,
+      "longtaskCount": 0
+    },
+    "navigationTiming": {
+      "responseEnd": 2,
+      "domContentLoaded": 356,
+      "loadEvent": 680,
+      "transferSizeDocument": 35973
+    },
+    "totals": {
+      "requestCount": 18,
+      "totalTransferBytes": 409039,
+      "byInitiatorType": {
+        "link": {
+          "count": 7,
+          "transfer": 86518
+        },
+        "img": {
+          "count": 1,
+          "transfer": 32224
+        },
+        "script": {
+          "count": 5,
+          "transfer": 132208
+        },
+        "css": {
+          "count": 4,
+          "transfer": 122116
+        }
+      }
+    },
+    "renderBlocking": {
+      "headSyncScripts": [],
+      "headStylesheets": [
+        {
+          "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8082/assets/css/style.css",
+          "media": "all"
+        }
+      ]
+    },
+    "remoteHosts": [
+      "https://milosvasic.ru/",
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    ],
+    "images": [
+      {
+        "src": "http://localhost:8082/assets/images/profile-400.webp",
+        "natW": 320,
+        "natH": 480,
+        "dispW": 298,
+        "dispH": 373,
+        "loading": "eager",
+        "hasWH": true
+      }
+    ],
+    "topResources": [
+      {
+        "name": "http://localhost:8082/assets/js/i18n.js",
+        "initiatorType": "script",
+        "transferSize": 102493,
+        "encodedBodySize": 102193,
+        "decodedBodySize": 102193,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/od/inter/inter-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 48556,
+        "encodedBodySize": 48256,
+        "decodedBodySize": 48256,
+        "duration": 28
+      },
+      {
+        "name": "http://localhost:8082/assets/images/profile-400.webp",
+        "initiatorType": "img",
+        "transferSize": 32224,
+        "encodedBodySize": 31924,
+        "decodedBodySize": 31924,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/od/jetbrains-mono/jetbrains-mono-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 31732,
+        "encodedBodySize": 31432,
+        "decodedBodySize": 31432,
+        "duration": 26
+      },
+      {
+        "name": "http://localhost:8082/assets/od/components-extended.css",
+        "initiatorType": "link",
+        "transferSize": 24725,
+        "encodedBodySize": 24425,
+        "decodedBodySize": 24425,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/od/space-grotesk/space-grotesk-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 22588,
+        "encodedBodySize": 22288,
+        "decodedBodySize": 22288,
+        "duration": 26
+      },
+      {
+        "name": "http://localhost:8082/assets/od/space-grotesk/space-grotesk-latin-ext.woff2",
+        "initiatorType": "css",
+        "transferSize": 19240,
+        "encodedBodySize": 18940,
+        "decodedBodySize": 18940,
+        "duration": 18
+      },
+      {
+        "name": "http://localhost:8082/assets/css/style.css",
+        "initiatorType": "link",
+        "transferSize": 16855,
+        "encodedBodySize": 16555,
+        "decodedBodySize": 16555,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/od/milosvasic.css",
+        "initiatorType": "link",
+        "transferSize": 15523,
+        "encodedBodySize": 15223,
+        "decodedBodySize": 15223,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8082/assets/od/motion.js",
+        "initiatorType": "script",
+        "transferSize": 12682,
+        "encodedBodySize": 12382,
+        "decodedBodySize": 12382,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/od/fonts.css",
+        "initiatorType": "link",
+        "transferSize": 12050,
+        "encodedBodySize": 11750,
+        "decodedBodySize": 11750,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8082/assets/od/animations.css",
+        "initiatorType": "link",
+        "transferSize": 11564,
+        "encodedBodySize": 11264,
+        "decodedBodySize": 11264,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8082/assets/js/articles.js",
+        "initiatorType": "script",
+        "transferSize": 8144,
+        "encodedBodySize": 7844,
+        "decodedBodySize": 7844,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/js/downloads.js",
+        "initiatorType": "script",
+        "transferSize": 4812,
+        "encodedBodySize": 4512,
+        "decodedBodySize": 4512,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/od/overlays.css",
+        "initiatorType": "link",
+        "transferSize": 4392,
+        "encodedBodySize": 4092,
+        "decodedBodySize": 4092,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/js/main.js",
+        "initiatorType": "script",
+        "transferSize": 4077,
+        "encodedBodySize": 3777,
+        "decodedBodySize": 3777,
+        "duration": 5
+      },
+      {
+        "name": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+        "initiatorType": "link",
+        "transferSize": 1409,
+        "encodedBodySize": 1109,
+        "decodedBodySize": 21506,
+        "duration": 313
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "page": "product",
+    "url": "http://localhost:8082/products/helixtrack.html",
+    "method": "Playwright headless Chromium 1366x900, no throttling, cold cache",
+    "capturedAt": "2026-08-05T17:52:55.674Z",
+    "wallClockMs": 4276,
+    "coreWebVitals": {
+      "LCP_ms": 452,
+      "FCP_ms": 452,
+      "CLS": 0,
+      "approxTBT_ms": 0,
+      "longtaskCount": 0
+    },
+    "navigationTiming": {
+      "responseEnd": 3,
+      "domContentLoaded": 444,
+      "loadEvent": 761,
+      "transferSizeDocument": 29580
+    },
+    "totals": {
+      "requestCount": 16,
+      "totalTransferBytes": 351182,
+      "byInitiatorType": {
+        "link": {
+          "count": 7,
+          "transfer": 86518
+        },
+        "script": {
+          "count": 5,
+          "transfer": 132208
+        },
+        "css": {
+          "count": 3,
+          "transfer": 102876
+        }
+      }
+    },
+    "renderBlocking": {
+      "headSyncScripts": [],
+      "headStylesheets": [
+        {
+          "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8082/assets/css/style.css",
+          "media": "all"
+        }
+      ]
+    },
+    "remoteHosts": [
+      "https://milosvasic.ru/products/helixtrack.html",
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    ],
+    "images": [],
+    "topResources": [
+      {
+        "name": "http://localhost:8082/assets/js/i18n.js",
+        "initiatorType": "script",
+        "transferSize": 102493,
+        "encodedBodySize": 102193,
+        "decodedBodySize": 102193,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/od/inter/inter-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 48556,
+        "encodedBodySize": 48256,
+        "decodedBodySize": 48256,
+        "duration": 28
+      },
+      {
+        "name": "http://localhost:8082/assets/od/jetbrains-mono/jetbrains-mono-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 31732,
+        "encodedBodySize": 31432,
+        "decodedBodySize": 31432,
+        "duration": 24
+      },
+      {
+        "name": "http://localhost:8082/assets/od/components-extended.css",
+        "initiatorType": "link",
+        "transferSize": 24725,
+        "encodedBodySize": 24425,
+        "decodedBodySize": 24425,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/od/space-grotesk/space-grotesk-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 22588,
+        "encodedBodySize": 22288,
+        "decodedBodySize": 22288,
+        "duration": 24
+      },
+      {
+        "name": "http://localhost:8082/assets/css/style.css",
+        "initiatorType": "link",
+        "transferSize": 16855,
+        "encodedBodySize": 16555,
+        "decodedBodySize": 16555,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/od/milosvasic.css",
+        "initiatorType": "link",
+        "transferSize": 15523,
+        "encodedBodySize": 15223,
+        "decodedBodySize": 15223,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/od/motion.js",
+        "initiatorType": "script",
+        "transferSize": 12682,
+        "encodedBodySize": 12382,
+        "decodedBodySize": 12382,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/od/fonts.css",
+        "initiatorType": "link",
+        "transferSize": 12050,
+        "encodedBodySize": 11750,
+        "decodedBodySize": 11750,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8082/assets/od/animations.css",
+        "initiatorType": "link",
+        "transferSize": 11564,
+        "encodedBodySize": 11264,
+        "decodedBodySize": 11264,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/js/articles.js",
+        "initiatorType": "script",
+        "transferSize": 8144,
+        "encodedBodySize": 7844,
+        "decodedBodySize": 7844,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/js/downloads.js",
+        "initiatorType": "script",
+        "transferSize": 4812,
+        "encodedBodySize": 4512,
+        "decodedBodySize": 4512,
+        "duration": 6
+      },
+      {
+        "name": "http://localhost:8082/assets/od/overlays.css",
+        "initiatorType": "link",
+        "transferSize": 4392,
+        "encodedBodySize": 4092,
+        "decodedBodySize": 4092,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/js/main.js",
+        "initiatorType": "script",
+        "transferSize": 4077,
+        "encodedBodySize": 3777,
+        "decodedBodySize": 3777,
+        "duration": 5
+      },
+      {
+        "name": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+        "initiatorType": "link",
+        "transferSize": 1409,
+        "encodedBodySize": 1109,
+        "decodedBodySize": 21506,
+        "duration": 399
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "page": "portfolio",
+    "url": "http://localhost:8082/portfolio/",
+    "method": "Playwright headless Chromium 1366x900, no throttling, cold cache",
+    "capturedAt": "2026-08-05T17:52:59.927Z",
+    "wallClockMs": 4194,
+    "coreWebVitals": {
+      "LCP_ms": 368,
+      "FCP_ms": 368,
+      "CLS": 0,
+      "approxTBT_ms": 0,
+      "longtaskCount": 0
+    },
+    "navigationTiming": {
+      "responseEnd": 2,
+      "domContentLoaded": 360,
+      "loadEvent": 682,
+      "transferSizeDocument": 41310
+    },
+    "totals": {
+      "requestCount": 16,
+      "totalTransferBytes": 362912,
+      "byInitiatorType": {
+        "link": {
+          "count": 7,
+          "transfer": 86518
+        },
+        "script": {
+          "count": 5,
+          "transfer": 132208
+        },
+        "css": {
+          "count": 3,
+          "transfer": 102876
+        }
+      }
+    },
+    "renderBlocking": {
+      "headSyncScripts": [],
+      "headStylesheets": [
+        {
+          "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8082/assets/css/style.css",
+          "media": "all"
+        }
+      ]
+    },
+    "remoteHosts": [
+      "https://milosvasic.ru/portfolio/",
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    ],
+    "images": [],
+    "topResources": [
+      {
+        "name": "http://localhost:8082/assets/js/i18n.js",
+        "initiatorType": "script",
+        "transferSize": 102493,
+        "encodedBodySize": 102193,
+        "decodedBodySize": 102193,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/od/inter/inter-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 48556,
+        "encodedBodySize": 48256,
+        "decodedBodySize": 48256,
+        "duration": 38
+      },
+      {
+        "name": "http://localhost:8082/assets/od/jetbrains-mono/jetbrains-mono-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 31732,
+        "encodedBodySize": 31432,
+        "decodedBodySize": 31432,
+        "duration": 33
+      },
+      {
+        "name": "http://localhost:8082/assets/od/components-extended.css",
+        "initiatorType": "link",
+        "transferSize": 24725,
+        "encodedBodySize": 24425,
+        "decodedBodySize": 24425,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/od/space-grotesk/space-grotesk-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 22588,
+        "encodedBodySize": 22288,
+        "decodedBodySize": 22288,
+        "duration": 33
+      },
+      {
+        "name": "http://localhost:8082/assets/css/style.css",
+        "initiatorType": "link",
+        "transferSize": 16855,
+        "encodedBodySize": 16555,
+        "decodedBodySize": 16555,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/od/milosvasic.css",
+        "initiatorType": "link",
+        "transferSize": 15523,
+        "encodedBodySize": 15223,
+        "decodedBodySize": 15223,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/od/motion.js",
+        "initiatorType": "script",
+        "transferSize": 12682,
+        "encodedBodySize": 12382,
+        "decodedBodySize": 12382,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/od/fonts.css",
+        "initiatorType": "link",
+        "transferSize": 12050,
+        "encodedBodySize": 11750,
+        "decodedBodySize": 11750,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8082/assets/od/animations.css",
+        "initiatorType": "link",
+        "transferSize": 11564,
+        "encodedBodySize": 11264,
+        "decodedBodySize": 11264,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/js/articles.js",
+        "initiatorType": "script",
+        "transferSize": 8144,
+        "encodedBodySize": 7844,
+        "decodedBodySize": 7844,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8082/assets/js/downloads.js",
+        "initiatorType": "script",
+        "transferSize": 4812,
+        "encodedBodySize": 4512,
+        "decodedBodySize": 4512,
+        "duration": 6
+      },
+      {
+        "name": "http://localhost:8082/assets/od/overlays.css",
+        "initiatorType": "link",
+        "transferSize": 4392,
+        "encodedBodySize": 4092,
+        "decodedBodySize": 4092,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8082/assets/js/main.js",
+        "initiatorType": "script",
+        "transferSize": 4077,
+        "encodedBodySize": 3777,
+        "decodedBodySize": 3777,
+        "duration": 5
+      },
+      {
+        "name": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+        "initiatorType": "link",
+        "transferSize": 1409,
+        "encodedBodySize": 1109,
+        "decodedBodySize": 21506,
+        "duration": 301
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "page": "landing",
+    "url": "http://localhost:8401/",
+    "method": "Playwright headless Chromium 1366x900, no throttling, cold cache",
+    "capturedAt": "2026-08-05T17:53:03.516Z",
+    "wallClockMs": 3538,
+    "coreWebVitals": {
+      "LCP_ms": 28,
+      "FCP_ms": 28,
+      "CLS": 0.006,
+      "approxTBT_ms": 0,
+      "longtaskCount": 0
+    },
+    "navigationTiming": {
+      "responseEnd": 2,
+      "domContentLoaded": 8,
+      "loadEvent": 23,
+      "transferSizeDocument": 39595
+    },
+    "totals": {
+      "requestCount": 11,
+      "totalTransferBytes": 767757,
+      "byInitiatorType": {
+        "link": {
+          "count": 5,
+          "transfer": 68627
+        },
+        "script": {
+          "count": 1,
+          "transfer": 12682
+        },
+        "img": {
+          "count": 1,
+          "transfer": 543977
+        },
+        "css": {
+          "count": 3,
+          "transfer": 102876
+        }
+      }
+    },
+    "renderBlocking": {
+      "headSyncScripts": [],
+      "headStylesheets": [
+        {
+          "href": "http://localhost:8401/assets/od/fonts.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/vasic-digital.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/components-extended.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/animations.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/overlays.css",
+          "media": "all"
+        }
+      ]
+    },
+    "remoteHosts": [
+      "https://vasic.digital/",
+      "https://vasic.digital/ru/"
+    ],
+    "images": [
+      {
+        "src": "http://localhost:8401/Assets/Logo.jpeg",
+        "natW": 1024,
+        "natH": 1024,
+        "dispW": 26,
+        "dispH": 26,
+        "loading": "auto",
+        "hasWH": true
+      },
+      {
+        "src": "http://localhost:8401/Assets/Logo.jpeg",
+        "natW": 1024,
+        "natH": 1024,
+        "dispW": 110,
+        "dispH": 110,
+        "loading": "auto",
+        "hasWH": true
+      }
+    ],
+    "topResources": [
+      {
+        "name": "http://localhost:8401/Assets/Logo.jpeg",
+        "initiatorType": "img",
+        "transferSize": 543977,
+        "encodedBodySize": 543677,
+        "decodedBodySize": 543677,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8401/assets/od/inter/inter-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 48556,
+        "encodedBodySize": 48256,
+        "decodedBodySize": 48256,
+        "duration": 5
+      },
+      {
+        "name": "http://localhost:8401/assets/od/jetbrains-mono/jetbrains-mono-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 31732,
+        "encodedBodySize": 31432,
+        "decodedBodySize": 31432,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/components-extended.css",
+        "initiatorType": "link",
+        "transferSize": 24725,
+        "encodedBodySize": 24425,
+        "decodedBodySize": 24425,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/space-grotesk/space-grotesk-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 22588,
+        "encodedBodySize": 22288,
+        "decodedBodySize": 22288,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/vasic-digital.css",
+        "initiatorType": "link",
+        "transferSize": 15896,
+        "encodedBodySize": 15596,
+        "decodedBodySize": 15596,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/motion.js",
+        "initiatorType": "script",
+        "transferSize": 12682,
+        "encodedBodySize": 12382,
+        "decodedBodySize": 12382,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8401/assets/od/fonts.css",
+        "initiatorType": "link",
+        "transferSize": 12050,
+        "encodedBodySize": 11750,
+        "decodedBodySize": 11750,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/animations.css",
+        "initiatorType": "link",
+        "transferSize": 11564,
+        "encodedBodySize": 11264,
+        "decodedBodySize": 11264,
+        "duration": 4
+      },
+      {
+        "name": "http://localhost:8401/assets/od/overlays.css",
+        "initiatorType": "link",
+        "transferSize": 4392,
+        "encodedBodySize": 4092,
+        "decodedBodySize": 4092,
+        "duration": 4
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "page": "product",
+    "url": "http://localhost:8401/products/helixtrack.html",
+    "method": "Playwright headless Chromium 1366x900, no throttling, cold cache",
+    "capturedAt": "2026-08-05T17:53:07.113Z",
+    "wallClockMs": 3539,
+    "coreWebVitals": {
+      "LCP_ms": 28,
+      "FCP_ms": 28,
+      "CLS": 0.003,
+      "approxTBT_ms": 0,
+      "longtaskCount": 0
+    },
+    "navigationTiming": {
+      "responseEnd": 2,
+      "domContentLoaded": 23,
+      "loadEvent": 25,
+      "transferSizeDocument": 26688
+    },
+    "totals": {
+      "requestCount": 10,
+      "totalTransferBytes": 210873,
+      "byInitiatorType": {
+        "link": {
+          "count": 5,
+          "transfer": 68627
+        },
+        "script": {
+          "count": 1,
+          "transfer": 12682
+        },
+        "css": {
+          "count": 3,
+          "transfer": 102876
+        }
+      }
+    },
+    "renderBlocking": {
+      "headSyncScripts": [],
+      "headStylesheets": [
+        {
+          "href": "http://localhost:8401/assets/od/fonts.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/vasic-digital.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/components-extended.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/animations.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/overlays.css",
+          "media": "all"
+        }
+      ]
+    },
+    "remoteHosts": [
+      "https://vasic.digital/products/helixtrack.html",
+      "https://vasic.digital/products/ru/helixtrack.html"
+    ],
+    "images": [],
+    "topResources": [
+      {
+        "name": "http://localhost:8401/assets/od/inter/inter-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 48556,
+        "encodedBodySize": 48256,
+        "decodedBodySize": 48256,
+        "duration": 13
+      },
+      {
+        "name": "http://localhost:8401/assets/od/jetbrains-mono/jetbrains-mono-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 31732,
+        "encodedBodySize": 31432,
+        "decodedBodySize": 31432,
+        "duration": 11
+      },
+      {
+        "name": "http://localhost:8401/assets/od/components-extended.css",
+        "initiatorType": "link",
+        "transferSize": 24725,
+        "encodedBodySize": 24425,
+        "decodedBodySize": 24425,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/space-grotesk/space-grotesk-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 22588,
+        "encodedBodySize": 22288,
+        "decodedBodySize": 22288,
+        "duration": 11
+      },
+      {
+        "name": "http://localhost:8401/assets/od/vasic-digital.css",
+        "initiatorType": "link",
+        "transferSize": 15896,
+        "encodedBodySize": 15596,
+        "decodedBodySize": 15596,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/motion.js",
+        "initiatorType": "script",
+        "transferSize": 12682,
+        "encodedBodySize": 12382,
+        "decodedBodySize": 12382,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/fonts.css",
+        "initiatorType": "link",
+        "transferSize": 12050,
+        "encodedBodySize": 11750,
+        "decodedBodySize": 11750,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/animations.css",
+        "initiatorType": "link",
+        "transferSize": 11564,
+        "encodedBodySize": 11264,
+        "decodedBodySize": 11264,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/overlays.css",
+        "initiatorType": "link",
+        "transferSize": 4392,
+        "encodedBodySize": 4092,
+        "decodedBodySize": 4092,
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "page": "portfolio",
+    "url": "http://localhost:8401/portfolio/",
+    "method": "Playwright headless Chromium 1366x900, no throttling, cold cache",
+    "capturedAt": "2026-08-05T17:53:10.701Z",
+    "wallClockMs": 3537,
+    "coreWebVitals": {
+      "LCP_ms": 32,
+      "FCP_ms": 32,
+      "CLS": 0,
+      "approxTBT_ms": 0,
+      "longtaskCount": 0
+    },
+    "navigationTiming": {
+      "responseEnd": 2,
+      "domContentLoaded": 28,
+      "loadEvent": 30,
+      "transferSizeDocument": 38411
+    },
+    "totals": {
+      "requestCount": 10,
+      "totalTransferBytes": 222596,
+      "byInitiatorType": {
+        "link": {
+          "count": 5,
+          "transfer": 68627
+        },
+        "script": {
+          "count": 1,
+          "transfer": 12682
+        },
+        "css": {
+          "count": 3,
+          "transfer": 102876
+        }
+      }
+    },
+    "renderBlocking": {
+      "headSyncScripts": [],
+      "headStylesheets": [
+        {
+          "href": "http://localhost:8401/assets/od/fonts.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/vasic-digital.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/components-extended.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/animations.css",
+          "media": "all"
+        },
+        {
+          "href": "http://localhost:8401/assets/od/overlays.css",
+          "media": "all"
+        }
+      ]
+    },
+    "remoteHosts": [
+      "https://vasic.digital/portfolio/",
+      "https://vasic.digital/portfolio/ru/"
+    ],
+    "images": [],
+    "topResources": [
+      {
+        "name": "http://localhost:8401/assets/od/inter/inter-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 48556,
+        "encodedBodySize": 48256,
+        "decodedBodySize": 48256,
+        "duration": 18
+      },
+      {
+        "name": "http://localhost:8401/assets/od/jetbrains-mono/jetbrains-mono-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 31732,
+        "encodedBodySize": 31432,
+        "decodedBodySize": 31432,
+        "duration": 16
+      },
+      {
+        "name": "http://localhost:8401/assets/od/components-extended.css",
+        "initiatorType": "link",
+        "transferSize": 24725,
+        "encodedBodySize": 24425,
+        "decodedBodySize": 24425,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/space-grotesk/space-grotesk-latin.woff2",
+        "initiatorType": "css",
+        "transferSize": 22588,
+        "encodedBodySize": 22288,
+        "decodedBodySize": 22288,
+        "duration": 16
+      },
+      {
+        "name": "http://localhost:8401/assets/od/vasic-digital.css",
+        "initiatorType": "link",
+        "transferSize": 15896,
+        "encodedBodySize": 15596,
+        "decodedBodySize": 15596,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/motion.js",
+        "initiatorType": "script",
+        "transferSize": 12682,
+        "encodedBodySize": 12382,
+        "decodedBodySize": 12382,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/fonts.css",
+        "initiatorType": "link",
+        "transferSize": 12050,
+        "encodedBodySize": 11750,
+        "decodedBodySize": 11750,
+        "duration": 3
+      },
+      {
+        "name": "http://localhost:8401/assets/od/animations.css",
+        "initiatorType": "link",
+        "transferSize": 11564,
+        "encodedBodySize": 11264,
+        "decodedBodySize": 11264,
+        "duration": 2
+      },
+      {
+        "name": "http://localhost:8401/assets/od/overlays.css",
+        "initiatorType": "link",
+        "transferSize": 4392,
+        "encodedBodySize": 4092,
+        "decodedBodySize": 4092,
+        "duration": 2
+      }
+    ]
+  }
+]

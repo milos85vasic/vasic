@@ -1,0 +1,33 @@
+instance (“this”) chaining is possible. We can append any base data type such as
+string, integer, character, and so on. Also, we can append another builder. We
+did that with the “numbers” string builder that concatenated integer numbers.
+Finally, we have converted the builder into the string by calling the “toString”
+function. Executing this code example will produce the following output:
+Hello world!
+Numbers: 1 2 3
+Lore ipsum...
+Map builders
+In this section, we will show you five functions that can be used to instantiate
+maps.
+- “mapOf", creates an immutable map of the key-value pairs that we provide as
+the parameters
+- “mutableMapOf", creates a mutable map of the key-value pairs we provide as
+parameters
+- “sortedMapOf”, creates a map that is ordered by its keys
+- “hashMapOf", creates a hash table based implementation of the map
+- “linkedMapOf", creates a “LinkedHashMap” variant of a hash table
+implementation.
+Let's try each of these. From book code examples open “MapBuilders.kt”:
+val map1 = mapOf(
+"hello" to "world", "lorem" to "ipsum", "abc" to "def"
+)
+val map2 = mutableMapOf(
+"hello" to "world", "lorem" to "ipsum"
+)
+map2["abc"] = "def"
+val map3 = sortedMapOf(
+"hello" to "world", "lorem" to "ipsum", "abc" to "def"
+)
+val map4 = hashMapOf(
+"hello" to "world", "lorem" to "ipsum", "abc" to "def"
+)

@@ -1,0 +1,30 @@
+Count no. 4
+Count no. 5
+Count no. 6
+Count no. 7
+Count no. 8
+Count no. 9
+Count no. 10
+Coroutines
+It is time to face the concurrency in a more Kotlin idiomatic way. We will
+demonstrate the use of Kotlin coroutines. Coroutines represent instances of
+computations that can be paused. Kotlin coroutines are similar to threads. A
+coroutine executes a block of code that runs concurrently with the rest of the
+program. On the other side, a coroutine is not bound to any particular thread. It
+can pause the execution in one thread and resume it some other.
+To be able to use Kotlin coroutines it is required to add coroutines dependency
+into your “build.gradle” configuration:
+implementation
+"org.jetbrains.kotlinx:kotlinx-coroutines-core: 1.3.8"
+or
+api "org.jetbrains.kotlinx:kotlinx-coroutines-core: 1.3.8"
+Let's have a look at a simple coroutine example. From book code examples
+open “Coroutines.kt”:
+// Coroutine scope (class: 'CoroutineScope’):
+runBlocking {
+// Launch a new coroutine and continue:
+launch {
+for (x in 0..10) {
+// Non-blocking delay for one second
+delay(1000L)
+printin("Count no. $x")

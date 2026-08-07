@@ -1,0 +1,40 @@
+Project Jupyter:
+
+https://jupyter.org/
+
+https://github.com/Kotlin/kotlin-jupyter.
+
+It is also worth mentioning that because of Kotlin’s huge popularity developers
+community created a significant number of great libraries for data-related
+tasks. We will list some of them.
+
+JetBrains’s Lets Plot:
+
+https://github.com/JetBrains/lets-plot, an open-source plotting library for
+statistical data.
+
+Kmath:
+
+https://github.com/mipt-npm/kmath, a Kotlin-based analog to Python's
+“numpy’” library. In contrast to "numpy” and “scipy” it is modular and has a
+lightweight core.
+
+Kotlin Statistics:
+
+https://github.com/thomasnield/kotlin-statistics, collection of helpful extension
+functions to perform exploratory and production statistics in a Kotlin-idiomatic
+way.
+
+Krangl:
+
+https://github.com/holgerbrandl/krangl, Kotlin library for data wrangling.
+Kravis:
+
+https://github.com/holgerbrandl/kravis, a Kotlin grammar for data visualization.
+okAlgo:
+
+https://github.com/optimatika/okAlgo, Idiomatic Kotlin extensions for ojAlgo
+(https://www.ojalgo.org/), with some inspirations from PuLP
+(https://github.com/coin-or/pulp).
+
+Data2viz:

@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T14:26:06.781Z",
+  "input": "http://localhost:8501/portfolio/",
+  "name": "vasic-portfolio",
+  "viewport": {
+    "w": 1440,
+    "h": 8000
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/enhance/oracle/vasic-portfolio.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/enhance/oracle/vasic-portfolio.light.ocr.txt",
+        "wordCount": 1140,
+        "sample": "Vasic Digital Home Portfolio theme UNIFIED PORTFOLIO Portfolio A unified, evidence-based portfolio"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 8000
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 115,
+          "controls": 37,
+          "textChars": 4361
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/enhance/oracle/vasic-portfolio.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/enhance/oracle/vasic-portfolio.dark.ocr.txt",
+        "wordCount": 1135,
+        "sample": "Vasic Digital Home Portfolio theme UNIFIED PORTFOLIO Portfolio A unified, evidence-based portfolio"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 8000
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 115,
+          "controls": 37,
+          "textChars": 4361
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

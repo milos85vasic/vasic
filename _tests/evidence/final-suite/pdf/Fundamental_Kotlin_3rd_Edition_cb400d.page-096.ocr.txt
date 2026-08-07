@@ -1,0 +1,56 @@
+a!=b: true
+
+a!=c: false
+
+a>b: false
+
+a>c: false
+
+a<b: true
+
+a<c: false
+
+a>=b: false
+
+a>=c: true
+
+a <=b: true
+
+a<=c: true
+
+In this example we have defined three constants which are compared each
+other. Let's take a look at all of these comparisons that we have performed,
+meaning of each and corresponding functions (functions):
+
+- “>"> Greater than, with expression “a” > “b” that is translated to:
+a.compareTo(b) > 0
+
+- “<": Less than, with expression “a” < “b” that is translated to:
+a.compareTo(b) < 0
+
+- ">=": Greater than or equal to, with expression “a” >= “b” that is translated to:
+a.compareTo(b) >= 0
+
+- "<=": Less than or equal to, with expression “a” <= “b” that is translated to:
+a.compareTo(b) <= 0
+
+- “s="> Equal to, with expression “a” == “b” that is translated to:
+a?.equals(b) ?: (b === null)
+
+- “l=". Not equal to, with expression “a” != “b” that is translated to:
+\(a?.equals(b) ?: (b === null))
+
+Logical operators
+
+Kotlin supports two main logic operators:
+
+- “| |" known as “or” operator and
+
+- “&&" known as “and” operator.
+
+“Or” operator returns true Boolean if either of the Boolean expression is true,
+while on the other hand “And” operator returns true if all Boolean expressions
+are true.
+
+Let's have a look at examples that will illustrate this for us. Open “Logical.kt”
+from book code examples:

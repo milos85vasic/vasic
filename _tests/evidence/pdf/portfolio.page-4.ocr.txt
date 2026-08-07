@@ -1,0 +1,51 @@
+MILOS VASIC PORTFOLIO.
+
++ Herald — reliable multi-channel notifications with natural-language, three-tier intent resolution
+(command — LLM -— clarify); first Docs Chain consumer.
+
+* task_bridge — decoupled, bidirectional task/board sync (SQLite SSoT (@) docs (2) ClickUp). P7
+scaffold — sync logic not yet implemented.
+
++ Vasic Digital Reusable Module Suite — the digital.vasic.* “standard library”: infrastructure
+primitives, Al building blocks, and defensive-LLM guardrails, plus a Kotlin Multiplatform mirror. Several
+org repos are SCAFFOLD/WIP — flagged, not shipped.
+
+| 6. Server Factory (infrastructure-automation heritage — ranked last)
+
++ Mail Server Factory — declarative JSON — fully-provisioned, Dockerized mail server across 12
+connection types and 25 Linux distributions; enterprise security; reports 439 passing tests and a clean
+SonarQube gate. Flagship of the Server-Factory org.
+
++ Server Factory Core Framework — the shared Kotlin engine every factory builds on.
+
+* Qemu-Utils — QEMU VM images managed like artifacts: download/cache/run, compress/publish,
+bridge/TAP networking, ISO installs; Linux + macOS.
+
++ Parallels-Utils — Parallels (macOS) VM image compression, publishing, and retrieval via simple
+settings files.
+
++ Server Factory — Additional Components — service factories (Web/SonarQube/Caching-Proxy),
+Definitions packs, and Utils. Service factories are placeholder-documented — UNVERIFIED / early-
+stage.
+
+| 7. Technology index (evidence-based)
+
++ Languages: Go (dominant), Kotlin & Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL;
+TLA+ (formal specs in helix_cluster).
+
++ Al/ LLM: 40+ provider access, MCP, RAG, vector DBs & embeddings, planning (HiPlan/MCTS/Tree-
+of-Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), TTS (Bark/SpeechT5),
+computer-vision + LLM-vision, guardrails/red-team.
+
++ Backend: Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
+
++ Data: PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, Minl|O/S3/GCS/Azure.
+
++ Infra / DevOps: Docker & Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMU/Libvirt/Parallels; GitHub Actions, Gradle, Make.
+
++ Testing / QA: HelixQA, Challenge harnesses with mutation gates, go test -race , visual-regression
+tooling, ADB device testing, SonarQube, security scanning (semgrep/gosecitrivy/snyk/gitleaks/nancy),
+TLA+ model checking.
+
+milosvasic.ru - vasic.digital 4/7

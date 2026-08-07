@@ -1,0 +1,33 @@
+// We can't access to local scope,
+
+// compiler would complain:
+
+// printin("Local: $local")
+
+printin("Global: $global")
+}
+This example illustrates local vs global scope for the values. Inside the
+program's main function we have defined a constant named “global”. Inside the
+“myFunction” function we have defined a constant named “local”. “myFunction”
+function can access variables and constants of the outer scope. However, the
+outer scope cannot access to “myFunction” function's local scope.
+Working with functions
+Function (or method) is a block of reusable code that is used to perform a
+single, related action. Functions provide better modularity for your application
+and a high degree of code reusing. The function is a named (and callable) piece
+of code that can accept zero or more arguments that will be used inside the
+function's block and can (but don’t have to) return a value as a result of its work.
+Functions in Kotlin are declared using the reserved word “fun”:
+val result = execute(25)
+In this example, we have called a function with the name “execute” that accepts
+one argument of Integer type and returns a result. The result of function
+execution is assigned to a constant named “result”.
+Let's see some functions through examples. Open the file with the name
+“Functions.kt” from the book's code examples.
+This function receives two numbers (Integers) as parameters and returns the
+sum of numbers:
+fun sum(x: Int, y: Int): Int {
+
+returnx+y
+}
+We can simplify it. Take a look at new version of that function:

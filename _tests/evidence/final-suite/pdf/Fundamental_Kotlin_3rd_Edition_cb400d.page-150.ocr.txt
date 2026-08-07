@@ -1,0 +1,37 @@
+The second version of the calculation function implements the same thing as a
+single expression. Instead of having a full function body, we are using just an
+expression that performs the same calculation as in the former version of the
+calculation function.
+The last version of the calculation function removes the return type since it is
+deduced from our calculation which makes our codebase even smaller.
+Variable argument functions
+Defining a function with a variable number of arguments is one of the features
+that have many modern programming languages. Kotlin is not an exception.
+“Vararg.kt” illustrates how we can define such functions:
+fun sum(vararg args: Int) {
+
+var sum =0
+
+for (x in args) {
+
+sum += xX
+
+}
+
+printin("Sum: $sum")
+}
+“Sum” function accepts the variable number of arguments and accumulates the
+total value that is finally printed out. Let's try it:
+sum()
+sum(1)
+sum(1, 2)
+sum(1, 2, 3)
+sum(1, 2, 3, 4)
+Running this source code snippet will give us the following output:
+Sum: 0
+Sum: 1
+Sum: 3
+Sum: 6
+Sum: 10
+Functions with variable arguments can be combined with standard arguments
+too:

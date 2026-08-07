@@ -1,0 +1,28 @@
+Since “d” has the type of “IntArray”, while “e” has the type of “Array”. For arrays
+of other types, there are functions like “charArrayOf()”, “longArrayOf()", and so
+on. Or, you can just use the “arrayOf()” function for everything.
+Strings in Kotlin
+String data type represents a sequence of characters. In Kotlin, Strings are
+immutable. Elements in one String are characters that can be accessed like any
+other array.
+Let's have a look at the “Strings.kt” source code file. We will start with defining
+some simple strings:
+val s1 = "Some string"
+In this example, we have defined a constant named “s1” with the value of:
+“Some string”.
+Then, the next example is with the escaped character. In this example we are
+escaping tab character:
+val s2 = "Some\tstring\n"
+Printing the value of “s2” gives the following output:
+Some string
+Kotlin supports the definition of multi-line strings too:
+Multiline string:
+val 3 ="
+
+Raw string example...
+
+We have multiline here!
+Note:
+Multiline strings preserve all white spacing we define inside the string. To avoid
+that you can use the “trimIndent” function:
+val s4.=""

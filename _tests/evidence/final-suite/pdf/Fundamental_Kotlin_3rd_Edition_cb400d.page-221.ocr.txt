@@ -1,0 +1,37 @@
+class Bmw(model: String) : Car(model) {
+
+override var name: String = "Bmw"
+}
+class Mercedes(model: String) : Car(model) {
+
+override var name: String = "Mercedes"
+}
+“Car”, “Bmw” and “Mercedes” are just simple classes. Now, we will define a class
+for car washing that only deals with “Car” types:
+class CarWash<in C : Car> {
+
+fun washCar(car: ©) {
+
+printin("Washing ${car.name} ${car.model}")
+
+}
+}
+“CarWash” class works with generic data types that inherit super-type “Car”.
+Also, using “in” keyword tells us that we will only consume our generic type “C”.
+We will not produce it as a result of our class operations.
+On the other hand, we can define a class that only produces this data type:
+abstract class CarFactory<out C : Car> {
+
+abstract fun forgeCar(model: String): C
+}
+For each type of car, we will create a separate factory. One factory for Bmws,
+one for Mercedeses:
+class BmwFactory : CarFactory<Bmw>() {
+
+override fun forgeCar(model: String): Bmw {
+
+return Bmw(model)
+
+}
+
+}

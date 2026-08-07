@@ -1,0 +1,34 @@
+Checking if set contains element:
+val hasRenault = cars,contains(“Renault")
+val hasVolvo = cars.contains("Volvo")
+The “contains” function will return Boolean if there is a member in the set that
+we are checking by the passed function parameter. Let's check our results:
+printin("Has Renault: $hasRenault")
+printin("Has Volvo: $hasVolvo")
+Executing this source code snippet will produce the following output:
+Has Renault: true
+Has Volvo: false
+Checking if set contains all elements:
+val checking = listOf(
+
+listOf("Renault", "Bmw",
+
+listOf("Mercedes", "Bmw")
+)
+checking.forEach { check ->
+
+val result = cars.containsAll(check)
+
+if (result) {
+
+printin("$check is in $cars")
+}else{
+printin("$check is NOT in $cars")
+
+}
+}
+In this example, we have created two lists. For each of them we are checking if
+all members of the collection are contained in our set. Depending on the result
+proper output is written:
+[Renault, Bmw] is in [Fiat, Bmw, Audi, Porsche, Renault]
+[Mercedes, Bmw] is NOT in [Fiat, Bmw, Audi, Porsche, Renault]

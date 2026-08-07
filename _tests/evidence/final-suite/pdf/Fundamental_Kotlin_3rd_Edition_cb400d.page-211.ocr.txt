@@ -1,0 +1,30 @@
+Pay attention that the code that closes the resources should not itself have any
+exceptions. That is meant for the “finally” block too.
+Memory leaks that are introduced through improper “equals” and
+“hashCode” functions implementations:
+Not writing properly overridden functions for “equals” and “hashCode”
+functions can be a source of memory leakage. “HashSet” and “HashMap” data
+types use these functions. If they're not overridden properly, then they can
+become a source for potential memory leak problems.
+Let's start with defining a simple class with one field. From book code examples
+open “OverrideLeak.kt”:
+class Wrapper(var data: Int)
+The next thing that we will do is that we will insert duplicate “Vehicle” objects
+into a map that uses this key. As you probably remember, the map cannot
+contain duplicate keys.
+val word = "Kotlin"
+val instances = mutableMapOf<Wrapper, Int>()
+for (x in 0 until 100) {
+
+instances[Wrapper(word)] = x
+}
+In this case, we are using “Wrapper” as the key. Because the map doesn't allow
+duplicated keys, the numerous duplicate objects that we have inserted as the
+key should not increase the memory. However, this does not happen!
+Because we didn’t define proper “equals” function implementation, the
+duplicate objects will pile up and increase the memory consumption. But, if we
+did overridde the “equals” and “hashCode” functions properly, there would be
+only one “Wrapper” class instance in the map.
+Let's take a look at the proper implementations of these functions in the
+“Wrapper” class:
+class Wrapper(var data: String) {

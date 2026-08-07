@@ -1,0 +1,32 @@
+Hello
+world
+“Width” scope function
+“With” scope function represents a non-extension function. The context object
+of the scope function is passed as an argument inside the lambda. In this case,
+it is available as a receiver via “this”. The return value of the scope function is
+the lambda result.
+Let's see how we can use the “with” scope function to access functions of some
+instances. From book code examples open “With.kt":
+class Human {
+fun walk() {
+printin("Walking");
+}
+fun talk {
+printin("Talking");
+}
+fun jump0 {
+printin(‘Jumping");
+}
+fun swim() {
+printin("Swimming");
+}
+}
+“Human” is a simple class with several public functions exposed. We will create
+an instance of “Human” and access to these functions using the “with” scope
+function:
+val human = Human()
+with(human) {
+walk()
+walk()
+walk()
+jump()

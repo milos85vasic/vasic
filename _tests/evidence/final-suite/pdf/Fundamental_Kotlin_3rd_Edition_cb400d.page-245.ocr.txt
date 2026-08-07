@@ -1,0 +1,27 @@
+Let's take a look at the next example. From book code examples open
+“Extensions2.kt":
+fun String.stripDownWithUnderscores(): String {
+return replace("","_")
+}
+Let's try it:
+listOf(
+"Hello world",
+"Lorem ipsum"
+).forEach {
+val stripped = it.stripDownWithUnderscores()
+printin(stripped)
+}
+Which will produce the following output:
+Hello_world
+Lorem_ipsum
+Extending class properties
+In this section, we will show how to extend class properties. From book code
+examples open “ExetendingProperties.kt”:
+class ExtendMe {
+vala=15
+}
+val ExtendMe.b: Int
+get() = 25
+We have defined simple class “ExtendMe” with one property: “a”. Then, we have
+extended it with additional property “b”. Let’s access these properties:
+val extended = ExtendMe()

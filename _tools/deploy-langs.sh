@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# One incremental-deploy cycle: regenerate EN + every COMPLETE language into the
+# live site dirs and push both sites ONLY if something changed. Safe to run
+# repeatedly (idempotent) while the translation batch is still writing
+# _content_<lang>. A language counts as COMPLETE when every source doc has a
+# PASS review verdict. Additive: never removes EN; never pushes with no change.
+set -uo pipefail
+ROOT="/Volumes/T7/Projects/vasic"
+cd "$ROOT"
+GEN="$ROOT/_tools/gen"
+PDF="$ROOT/_tools/pdf/build-pdfs.sh"
+LANGS="ru sr de es fr be zh kk hi ja ko ar tr fa"
+
+# DRY_RUN=1 (or --dry-run/-n): do everything EXCEPT git commit/push. Pages are
+# regenerated and per-language PDFs are (re)built into the live dirs so they can
+# be inspected, but nothing is committed or pushed. Safe for verification while
+# the translation batch is still writing _content_<lang>.
+DRY_RUN="${DRY_RUN:-0}"
+for a in "$@"; do case "$a" in --dry-run|-n) DRY_RUN=1 ;; esac; done
+
+NDOCS=$(find _content/products _content/sites _content/docs -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+COMPLETE=()
+for l in $LANGS; do
+  pass=$(grep -rl '"verdict": "PASS"' "_tests/evidence/translate-new/$l" 2>/dev/null | wc -l | tr -d ' ')
+  [ "${pass:-0}" -ge "$NDOCS" ] && [ "$NDOCS" -gt 0 ] && COMPLETE+=("$l")
+done
+echo "[deploy-langs] NDOCS=$NDOCS complete=[${COMPLETE[*]:-none}]"
+
+# build once
+( cd "$GEN" && go build -o "$GEN/gen" . ) || { echo "gen build failed"; exit 1; }
+# sync assets + regenerate EN (updates hreflang/sitemap to include complete langs)
+bash "$GEN/build.sh" --lang en --no-jekyll >/dev/null 2>&1 || echo "en gen warn"
+# regenerate each COMPLETE language into the live dirs (both sites)
+for l in "${COMPLETE[@]:-}"; do
+  [ -z "$l" ] && continue
+  "$GEN/gen" -site vasic.digital -lang "$l" -root "$ROOT" >/dev/null 2>&1 || echo "gen $l vasic warn"
+  "$GEN/gen" -site milosvasic.ru -lang "$l" -root "$ROOT" >/dev/null 2>&1 || echo "gen $l milos warn"
+done
+# build downloadable PDFs: EN masters + each COMPLETE language, themed with the
+# correct per-language lang/dir. build-pdfs.sh pins SOURCE_DATE_EPOCH from the
+# source-doc mtime, so re-runs with unchanged content are byte-identical (git
+# no-op) — keeping this whole cycle idempotent. Missing pandoc/weasyprint just
+# warns and skips (never a faked artifact).
+if [ -x "$PDF" ] && command -v weasyprint >/dev/null 2>&1 && command -v pandoc >/dev/null 2>&1; then
+  bash "$PDF" en >/dev/null 2>&1 || echo "[deploy-langs] pdf en warn"
+  for l in "${COMPLETE[@]:-}"; do
+    [ -z "$l" ] && continue
+    bash "$PDF" "$l" >/dev/null 2>&1 || echo "[deploy-langs] pdf $l warn"
+    echo "[deploy-langs] pdf built: $l"
+  done
+else
+  echo "[deploy-langs] pdf tooling missing (weasyprint/pandoc) — skipping PDF build"
+fi
+
+# rebuild jekyll _site for milosvasic (picks up freshly built PDFs)
+( cd milosvasic.ru && jekyll build --quiet ) >/dev/null 2>&1 || echo "jekyll warn"
+
+if [ "$DRY_RUN" = "1" ]; then
+  echo "[deploy-langs] DRY-RUN: pages regenerated + PDFs built; SKIPPING commit/push."
+  for s in vasic.digital milosvasic.ru; do
+    git -C "$s" add -A 2>/dev/null
+    git -C "$s" reset -q -- index.legacy.html 2>/dev/null
+    if git -C "$s" diff --cached --quiet 2>/dev/null; then
+      echo "[deploy-langs] $s: no change (would not push)"
+    else
+      echo "[deploy-langs] $s: WOULD commit+push the following:"
+      git -C "$s" diff --cached --name-status 2>/dev/null | sed "s/^/[deploy-langs]   $s: /"
+    fi
+    git -C "$s" reset -q 2>/dev/null   # unstage — in dry mode we never commit
+  done
+  echo "[deploy-langs] DRY-RUN cycle done: ${COMPLETE[*]:-none}"
+  exit 0
+fi
+
+# commit + push each site only if changed
+for s in vasic.digital milosvasic.ru; do
+  git -C "$s" add -A 2>/dev/null
+  git -C "$s" reset -q -- index.legacy.html 2>/dev/null
+  if git -C "$s" diff --cached --quiet 2>/dev/null; then
+    echo "[deploy-langs] $s: no change"
+  else
+    git -C "$s" commit -q \
+      -m "i18n: localized pages + PDFs — languages [${COMPLETE[*]:-}]" \
+      -m "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>" 2>/dev/null
+    for r in $(git -C "$s" remote 2>/dev/null | grep -vxE 'upstream'); do
+      git -C "$s" push "$r" main 2>&1 | tail -1 | sed "s/^/[deploy-langs] $s push $r: /"
+    done
+  fi
+done
+echo "[deploy-langs] cycle done: ${COMPLETE[*]:-none}"

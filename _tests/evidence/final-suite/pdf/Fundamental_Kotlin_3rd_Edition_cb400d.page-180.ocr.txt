@@ -1,0 +1,28 @@
+Checking position of the element in the list:
+numbers.forEach {
+val position = numbers.indexOf(it)
+printin("Position of $it in $numbers is: $position")
+}
+When we execute this “indexOf" function will produce for elements the
+following position values:
+Position of 2 in [2, 4, 6] is: 0
+Position of 4 in [2, 4, 6] is: 1
+Position of 6 in [2, 4, 6] is: 2
+Checking if the list is empty (or full):
+val emptyList = listOf<Int>()
+printin("Is 'emptyList' list empty: ${emptyList.isEmpty()}")
+printin("Is 'numbers' list full: ${numbers.isNotEmpty()}")
+We have two important functions for this: “isEmpty” and “isNotEmpty”. The first
+one returns Boolean true if the list is empty, and the other if it is not. Let’s run
+this snippet:
+Is 'emptyList' list empty: true
+Is 'numbers' list full: true
+Getting slice of the list:
+val slice = numbers.subList(0, 2)
+“subList” function accepts two arguments: from and to index of Integer data
+type. The result is a view of the portion of this list between the specified from
+and to indexes. The returned list is backed by this list, so non-structural
+changes in the returned list are reflected in this list, and vice-versa. Let's try to
+check the “slice”:
+printin("Slice: $slice")
+Which will produce the following output:

@@ -1,0 +1,69 @@
+Per-language auto-publish tooling — verification evidence
+=========================================================
+Generated: 2026-08-05  (proof language: de / German)
+
+WHAT WAS BUILT/CHANGED
+----------------------
+1. _tools/pdf/build-pdfs.sh
+   - Now takes a language:  build-pdfs.sh <lang>   (default en)
+   - Source docs: _content_<lang>/docs/*.md if present, else _content/docs (EN
+     fallback). Output suffixed with UPPERCASE lang:
+       milosvasic.ru/downloads/Milos_Vasic_CV_<LANG>.pdf
+       milosvasic.ru/downloads/Milos_Vasic_Cover_Letter_<LANG>.pdf
+       milosvasic.ru/downloads/Portfolio_<LANG>.pdf
+       vasic.digital/downloads/Portfolio_<LANG>.pdf   (company variant)
+   - Correct <html lang=".." dir=".."> (dir=rtl for ar/fa/he/ur), so WeasyPrint
+     applies the right bidi/hyphenation.
+   - Idempotent: pins SOURCE_DATE_EPOCH to the newest source-doc mtime so
+     unchanged content => byte-identical PDF => git no-op.
+
+2. milosvasic.ru/assets/js/downloads.js  (download switcher)
+   - The popup now serves the CURRENT UI language's PDF, falling back to EN when
+     that language has no PDF yet. The current-language row is marked
+     [data-current="1"] / .dl-lang--current and focused.
+   - AVAIL: cv/cl = EN,SR,RU,DE ; portfolio = EN,DE.
+
+3. _tools/gen/portfolio.go (+ main.go)  (vasic.digital)
+   - renderPortfolio is now lang-aware: localized portfolio pages link to
+     Portfolio_<LANG>.pdf with the correct relative depth, EN as fallback.
+       portfolio/index.html      -> ../downloads/Portfolio_EN.pdf
+       portfolio/<lang>/index.html-> ../../downloads/Portfolio_DE.pdf (etc.)
+
+4. _tools/deploy-langs.sh
+   - Per COMPLETE language it now ALSO (re)builds that language's PDFs (plus EN)
+     before jekyll build + commit. Idempotent (byte-stable PDFs + deterministic
+     gen). New DRY_RUN=1 / --dry-run mode: regenerate + build PDFs but NEVER
+     commit/push (prints the would-be diff). See deploy-dryrun.log.
+
+DE PDF VALIDATION (§11.4.168 via _tests/export/validate-pdf.js) — ALL PASS
+--------------------------------------------------------------------------
+  de/CV_DE.verdict.json              verdict=PASS  (1300 words, 1 img, OCR 1311)
+  de/Cover_Letter_DE.verdict.json    verdict=PASS  (396 words, 1 img, OCR 388)
+  de/Portfolio_DE.verdict.json       verdict=PASS  (1426 words, 4 img, OCR 1549)
+  de/Portfolio_DE_vasic.verdict.json verdict=PASS  (1429 words, 4 img, OCR 1550)
+
+SWITCHER VERIFICATION (Playwright, chromium+firefox+webkit — 15/15 PASS)
+-----------------------------------------------------------------------
+  see playwright-perlang.txt
+  - UI lang=de  -> CV popup current row = DE, href .../Milos_Vasic_CV_DE.pdf, 200
+  - UI lang=fr  -> no DE pdf: current row falls back to EN
+  - de CV/CoverLetter/Portfolio all return 200
+  - vasic.digital EN portfolio -> Portfolio_EN.pdf (200); company Portfolio_DE 200
+
+HONEST LIMITATIONS
+------------------
+* de is NOT yet translated: _content_de/docs does not exist. The DE PDFs were
+  built from the EN masters as a MECHANISM proof (build-pdfs.sh reports the EN
+  fallback on stdout). When real _content_de/docs lands, the same command emits
+  genuinely German PDFs with no code change.
+* RTL (ar/fa) + CJK (zh/ja/ko): dir/lang stamping and the whole pipeline work,
+  but the pinned Liberation/DejaVu safe body stack in default-pdf.css does not
+  carry Arabic/CJK glyphs. WeasyPrint would rely on fontconfig fallback (macOS
+  has .SF Arabic / Noto Nastaliq / CJK faces) which may or may not be complete.
+  Additionally validate-pdf.js OCR uses the 'eng' tessdata only (the box has no
+  ara/jpn packs), so the visual.ocr check would under-count for genuine
+  non-Latin content. These are noted, not faked. Today ar/ja builds PASS only
+  because they fall back to Latin EN content.
+
+NOT PUSHED. Production deploy is left to the operator's watcher (real
+deploy-langs.sh cycle, no --dry-run).

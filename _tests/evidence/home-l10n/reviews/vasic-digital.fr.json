@@ -1,0 +1,22 @@
+{
+  "site": "vasic-digital",
+  "lang": "fr",
+  "name": "French",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 82,
+  "reviewer_bad_keys": [
+    "6",
+    "49"
+  ],
+  "script_flagged": [],
+  "english_leftover_flagged": [],
+  "retried": [
+    "Product-grade tools that stand on their own.",
+    "Explore the products"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "Key 6: 'Explore the products' should be translated as 'Explorez les produits' (imperative form). Key 49: translation is unnatural; 'Outils de niveau produit qui tiennent debout seuls' is awkward. Consider 'Outils de niveau produit autonomes' or similar."
+}

@@ -1,0 +1,33 @@
+Job 'Processing user data’ is completed
+Job ‘Exporting user data' is starting
+Job ‘Exporting user data’ is executing
+Job ‘Exporting user data’ is completed
+Infix functions
+One of the great features of the Kotlin programming language is Infix
+functions. Infix functions give us the ability to call functions with the name but
+by omitting the dot and the parentheses for the call followed by the argument
+of the function. For Infix functions the following requirements must be satisfied:
+- Infix functions must be member functions or extension functions (we will talk
+more about extension functions later in this book)
+- They are limited to a single parameter
+- Function parameter must not accept the variable number of arguments (must
+be without default value too).
+Let's take a look at a simple example from book code examples. Open “Infix.kt”
+source code example:
+infix fun Double.powerPI(x: Int): Double {
+
+return this.pow(Math.PI)
+}
+“powerPI” function extends “Double” data type with an additional function that
+can be used as “Infix”. The function accepts the Integer parameter and returns
+the power of that parameter by Pi (3.14). Infix functions can be used like it is
+illustrated in the rest of this example:
+val array = arrayOf(2.0, 4.0, 6.0, 8.0, 10.0)
+array.forEach {
+
+val result = it powerPI 5
+
+printin("$it powerPI: $result")
+}
+As you can see we have executed our Infix function without dot and
+parentheses:

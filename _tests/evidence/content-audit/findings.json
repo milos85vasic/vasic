@@ -1,0 +1,122 @@
+{
+  "audit": "READ-ONLY content & copy-quality + cross-page consistency audit of milosvasic.ru and vasic.digital",
+  "date": "2026-08-05",
+  "scope": {
+    "read": [
+      "_content/**/*.md (EN source of record)",
+      "milosvasic.ru/_site/**/*.html (generated) — EN pages + en/ articles only",
+      "vasic.digital/**/*.html — EN pages + en/ articles only",
+      "committed PDFs via pdftotext (served EN + legacy orphaned)"
+    ],
+    "excluded_by_instruction": [
+      "machine-translated _content_<lang> and articles/<lang> (non-EN) for copy quality",
+      "no Go generator run; no source edits (read-only)"
+    ]
+  },
+  "totals": {
+    "high": 1,
+    "medium": 1,
+    "low": 4,
+    "info_orphaned": 1,
+    "categories_clean": [
+      "EN prose spelling/grammar/doubled-words/broken-sentences/duplicated-paragraphs",
+      "markdown/render leakage (**,##,](,code-fences)",
+      "mojibake/encoding artifacts",
+      "broken/empty in-prose links and images",
+      "duplicate/empty <title>, missing/multiple <h1>",
+      "stray email addresses (no i@vasic.digital anywhere)"
+    ]
+  },
+  "findings": [
+    {
+      "id": "H1",
+      "severity": "HIGH",
+      "type": "placeholder-leftover-in-published-artifact",
+      "location_served": "milosvasic.ru/downloads/Milos_Vasic_Cover_Letter_EN.pdf (served as the English 'Cover Letter' download via milosvasic.ru/_site/assets/js/downloads.js: FILES.cl='Milos_Vasic_Cover_Letter', AVAIL.cl=['EN','SR','RU','DE'])",
+      "source": "_content/docs/cover-letter.md:15,17,25",
+      "quote": "Dear [Hiring Manager / Team],  ...  I am writing to apply for the [role] position at [company]. ... I would welcome the chance to bring that combination ... to [company].",
+      "evidence": "pdftotext of Milos_Vasic_Cover_Letter_EN.pdf contains literal '[Hiring Manager / Team]', '[role]', and '[company]' (twice).",
+      "note": "The bracket placeholders are intentional-per-application in the markdown (frontmatter note), but they leak into a live, downloadable published PDF.",
+      "suggested_fix": "Ship a placeholder-free general edition for the public download (e.g. 'Dear Hiring Team,' and rephrase the [role]/[company] sentences to be company-agnostic), and keep the bracketed template as a non-published source only."
+    },
+    {
+      "id": "M1",
+      "severity": "MEDIUM",
+      "type": "stale-metadata-contradicts-page-content + name-spelling",
+      "location": "milosvasic.ru/_site/index.html (<head>)",
+      "quote_title": "<title>Milos Vasic | Senior Software Engineer — SDK & Platform Engineering</title>",
+      "quote_og_title": "<meta property=\"og:title\" content=\"Milos Vasic\">",
+      "quote_description": "<meta name=\"description\" content=\"Milos Vasic — Senior Software Engineer specializing in SDK and platform engineering across mobile, backend, desktop, and web. 15+ years building high-performance, developer-facing software. Author of Fundamental Kotlin.\">",
+      "contradicts": "Visible page body is the AI-engineer narrative: eyebrow '// AI engineer', H1 'Miloš Vasić', lede 'AI engineer building verifiable AI-development systems: multi-provider LLM infrastructure, autonomous agents ...'.",
+      "problems": [
+        "Title/description present the LEGACY 'Senior Software Engineer — SDK & Platform Engineering' positioning, contradicting the AI-engineer page content (this is what shows in search results / social shares).",
+        "Name rendered without diacritics ('Milos Vasic') while the H1 and body use 'Miloš Vasić'."
+      ],
+      "suggested_fix": "Regenerate the home <title>, og:title, description, og:description from the AI-engineer source (_content/sites/milosvasic-ru.md), e.g. title 'Miloš Vasić — AI Engineer'."
+    },
+    {
+      "id": "L1",
+      "severity": "LOW",
+      "type": "name-spelling-inconsistency (diacritics)",
+      "location": "milosvasic.ru/_site/index.html + all 36 product pages (footer); product/portfolio <title> tags",
+      "quote_footer": "© 2026 Milos Vasic — Belgrade · Dubna. Built as a static site, deployed on GitHub Pages.",
+      "quote_titles": "e.g. '<title>HelixCode — Miloš Vasić | Milos Vasic</title>', '<title>Portfolio — Miloš Vasić | Milos Vasic</title>'",
+      "evidence": "Footer uses ASCII 'Milos Vasic' (36 files under milosvasic.ru/_site) while hero H1 is 'Miloš Vasić'; product/portfolio titles carry BOTH forms in one string.",
+      "not_a_cross_site_leak": "The personal 'Milos Vasic — Belgrade · Dubna' footer appears ONLY on milosvasic.ru (0 occurrences on vasic.digital, which correctly uses '© 2026 Vasic Digital').",
+      "suggested_fix": "Pick one canonical spelling ('Miloš Vasić') for footer and titles, or intentionally standardize on ASCII everywhere; do not mix both in a single <title>."
+    },
+    {
+      "id": "L2",
+      "severity": "LOW",
+      "type": "product-name-casing (SEO metadata only)",
+      "location": "milosvasic.ru/_site/products/helixcluster.html + vasic.digital/products/helixcluster.html",
+      "quote": "<meta name=\"description\" content=\"Helix Cluster OS is a next-generation ...\"> and JSON-LD \"description\":\"Helix Cluster OS is a next-generation ...\"",
+      "evidence": "Meta description and JSON-LD write 'Helix Cluster' (spaced) while the brand is CamelCase 'HelixCluster' (8 visible occurrences on the same page). Visible body copy is correct; only the SEO metadata is inconsistent.",
+      "suggested_fix": "Use 'HelixCluster' in the meta description and JSON-LD."
+    },
+    {
+      "id": "L3",
+      "severity": "LOW",
+      "type": "numeric-phrasing-inconsistency (soft)",
+      "location": "milosvasic.ru/_site/index.html, vasic.digital/index.html, served CV_EN.pdf, Portfolio_EN.pdf",
+      "quote": "'One interface, 43 providers' (prose) vs '43+ providers' / '43+ provider adapters' (stat chips) vs 'multi-provider LLM abstraction (40+ providers)' / '40+ provider access'.",
+      "evidence": "Three forms of the LLM-provider count coexist: exact '43', chip '43+', and rounded '40+'.",
+      "assessment": "Not a hard contradiction — '40+' is a deliberate rounded/general figure and '43' the exact LLMProvider count — but '43' vs '43+' for the same capability is ambiguous.",
+      "suggested_fix": "Harmonize the LLMProvider count: use '43' (or '43+') consistently; keep '40+' only where the general 'multi-provider abstraction' is meant."
+    },
+    {
+      "id": "L4",
+      "severity": "LOW",
+      "type": "years-figure-inconsistency",
+      "location": "milosvasic.ru/_site/index.html meta ('15+ years') vs served CV_EN.pdf ('Over 15 years ... since 2009') vs legacy orphaned PDFs ('16+ years')",
+      "evidence": "Live-served docs say '15+' / 'Over 15 years'; only the orphaned legacy PDFs say '16+ years'. (2026 − 2009 = 17, so all are conservative/true.)",
+      "suggested_fix": "Standardize on one figure ('15+ years' or 'since 2009') across meta, CV, and any retained legacy artifacts."
+    },
+    {
+      "id": "INFO1",
+      "severity": "INFO (orphaned, committed but not served)",
+      "type": "stale-contradictory-committed-PDFs",
+      "location": "milosvasic.ru/downloads/Milos_Vasic_CV.pdf, milosvasic.ru/downloads/Milos_Vasic_Cover_Letter.pdf, milosvasic.ru/_site/pages/*.pdf",
+      "not_linked": "downloads.js always appends a _LANG suffix (Milos_Vasic_CV_EN.pdf etc.), so these no-suffix base PDFs are NOT reachable from the UI.",
+      "contradictions_vs_current": [
+        "'240+ open-source repositories across five organizations'  vs current '140+ repositories' everywhere (LEGACY_CV.pdf, LEGACY_Cover_Letter.pdf).",
+        "'16+ years' vs current 'Over 15 years / 15+'.",
+        "email i@mvasic.ru + phone numbers vs current milos85vasic@gmail.com on the served CV/CL.",
+        "'Milos Vasic' (no diacritics) and 'Senior Software Engineer — SDK & Platform Engineering' positioning — the same stale identity that leaked into the home <head> (M1)."
+      ],
+      "suggested_fix": "Delete or regenerate the orphaned base PDFs (and _site/pages/*.pdf) so no committed artifact claims 240+ repos / 16+ years / SDK positioning; they are the residue the current narrative replaced."
+    }
+  ],
+  "clean_confirmations": {
+    "emails": {
+      "milosvasic.ru": {"i@mvasic.ru": 72, "milos85vasic@gmail.com": 2, "meets_requirement_both_present": true},
+      "vasic.digital": {"i@mvasic.ru": 2, "meets_requirement_i@mvasic.ru_only": true},
+      "stray_i@vasic.digital_or_other": 0
+    },
+    "product_name_casing_visible_copy": "Consistent CamelCase across both sites + PDFs (HelixCode, HelixTrack, HelixAgent, HelixLLM, HelixQA, HelixMemory, HelixCluster, ...). Only exception: helixcluster.html SEO metadata (L2).",
+    "markdown_render_integrity": "No literal ** / ## / ]( / unclosed code fences in any EN HTML; no mojibake; no broken/empty in-prose links or images.",
+    "titles_h1": "Every full page has exactly one non-empty, unique <title> and one <h1>; no duplicate titles. Article files are fragments (single <h1>, no <title>) injected via articles.js — by design.",
+    "en_source_prose": "_content/docs/*.md, _content/sites/*.md, _content/products/*.md — no spelling/grammar/doubled-word/broken-sentence/duplicated-paragraph defects. 'TBD/UNVERIFIED/PLANNED/SCAFFOLD/placeholder-documented' in product md are deliberate anti-bluff honesty markers, not accidental leftovers.",
+    "stats_that_agree": ["140+ repositories", "439 passing tests", "25 Linux distributions", "12 connection types", "since 2009"]
+  }
+}

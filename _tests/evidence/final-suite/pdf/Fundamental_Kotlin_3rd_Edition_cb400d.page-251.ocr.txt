@@ -1,0 +1,42 @@
+“Let” scope function
+For the “let” scope function context object is available as an argument. The
+default argument name is “it”. The “let” scope function return value is the
+lambda result. Usually “let” can be used to trigger one or multiple functions as a
+result of call chains.
+Let's demonstrate how to use the “let” scope function with a simple example.
+From book code examples open “Let.kt”:
+fun filterShort(text: String): String? {
+
+if (text.length >= 5) {
+
+return text
+
+}
+
+return null
+}
+listOf(
+
+"Hello",
+
+"world",
+
+"am",
+
+"here"
+).forEach { word ->
+
+val filtered = filterShort(word)
+
+filtered?.let {
+
+printin(it)
+
+}
+}
+We have defined a simple function called “filterShort”. The function returns null
+or the value of the passed argument depending on its length. Then, we have
+created a list of the short word through which we are iterating. Each element is
+passed to the ‘filterShort” function. Thanks to the “let” function we are printing
+the “filtered” value only if it is not null.
+If we execute this simple program the following result will be produced:

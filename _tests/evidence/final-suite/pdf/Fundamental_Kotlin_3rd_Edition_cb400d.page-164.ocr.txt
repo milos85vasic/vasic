@@ -1,0 +1,33 @@
+counter(5)
+We get the following output:
+x: 0
+xi 7
+x2
+x3
+x4
+x5
+If we want to achieve the same without the last number (from zero to four) we
+can use the “until” function instead of “..”:
+fun counter2(to: Int) {
+
+for (x in 0 until to) {
+
+printin("x: $x ")
+
+}
+}
+Let's try this version of the function:
+counter2(5)
+And get the following output:
+x: 0
+xi 7
+x2
+x3
+x4
+As you can see these were simple examples of For looping. We could use this
+approach to count from 0 to the last index of collection and then access each
+collection element as we iterate.
+If we need only indexes we can do the following:
+fun cars(cars: List<String>) {
+
+for (index in cars.indices) {

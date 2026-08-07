@@ -1,0 +1,28 @@
+abstract val power: Long
+override fun toString(): String {
+return "Engine(power=$power)"
+}
+}
+class RocketEngine : Engine() {
+override val power: Long
+get() = 1000
+}
+class TruckEngine : Engine() {
+override val power: Long
+get() = 100
+}
+We have defined a few simple classes, basic abstraction with final
+implementations: “Engine”, “RocketEngine”, and “TruckEngine”.
+Then:
+class EngineDiagnostics {
+fun <I: Engine> checkEngine(engine: T) {
+printin(engine)
+}
+}
+We have defined another class that contains a “generic function” capable of
+dealing with “engines”. “checkEngine” is “generic” and it is capable of work with
+all classes that inherit the “Engine” abstract class. That is any data type “T” which
+inherits “Engine” abstraction.
+Let's try it out:
+val truckEngine = TruckEngine()
+val rocketEngine = RocketEngine()

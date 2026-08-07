@@ -1,0 +1,36 @@
+“Nothing” is a special data type (class) in Kotlin. “Nothing” class has no instance
+and its main purpose is to be used as a value that never exists. It is also used to
+represent a return type from a function that will never return anything. For
+example, if a function has the return type of “Nothing”, that means that it never
+returns and that for example always throws an exception.
+Let's cover this with a simple example. From book code examples open
+“Nothing.kt”:
+@Throws(IllegalArgumentException::class)
+fun fail(message: String): Nothing {
+
+throw IllegalArgumentException(message)
+}
+As you probably remember in Kotlin “throw” is an expression and can be used
+as a part of “Elvis” operator. Here we will nest our function:
+@Throws(IllegalArgumentException::class)
+fun printer(vararg what: String?) =
+
+what.forEach {
+
+printin(
+it ?: fail(Invalid input, stopping")
+)
+
+}
+So, if we pass at least one of the arguments to the “printer” function as a “null”,
+it will trigger the “fail” function, and “printer” will stop. Let's try it:
+try{
+
+printer("Hello world", null, "Ok")
+} catch (e: IllegalArgumentException) {
+
+printin("${e.message}")
+}
+Executing our program will produce the following output:
+Hello world
+Invalid input, stopping

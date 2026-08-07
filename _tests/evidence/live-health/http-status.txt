@@ -1,0 +1,22 @@
+# Live production health-check — raw evidence
+# Captured: 2026-08-06 07:23 UTC
+
+## HTTP status (curl -L)
+200 text/html; charset=utf-8  https://vasic.digital
+200 text/html; charset=utf-8  https://milosvasic.ru
+200 text/html; charset=utf-8  https://vasic.digital/products/helixtrack.html
+200 text/html; charset=utf-8  https://milosvasic.ru/products/helixcode.html
+200 text/html; charset=utf-8  https://vasic.digital/products/ru/helixtrack.html
+200 text/html; charset=utf-8  https://vasic.digital/products/de/helixtrack.html
+200 text/html; charset=utf-8  https://vasic.digital/products/zh/helixtrack.html
+200 text/html; charset=utf-8  https://milosvasic.ru/products/ru/helixcode.html
+200 text/html; charset=utf-8  https://milosvasic.ru/products/de/helixcode.html
+200 text/html; charset=utf-8  https://milosvasic.ru/products/zh/helixcode.html
+200 text/html; charset=utf-8  https://vasic.digital/portfolio/ru/
+200 text/html; charset=utf-8  https://vasic.digital/portfolio/kk/
+200 image/svg+xml  https://vasic.digital/Assets/logo.svg
+200 image/jpeg  https://vasic.digital/Assets/Logo.jpeg
+200 application/xml  https://vasic.digital/sitemap.xml
+200 text/plain; charset=utf-8  https://vasic.digital/robots.txt
+200 application/xml  https://milosvasic.ru/sitemap.xml
+200 text/plain; charset=utf-8  https://milosvasic.ru/robots.txt

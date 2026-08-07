@@ -1,0 +1,51 @@
+* @return Result of the upload.
+
+* @author Milos Vasic
+
+7
+
+To generate documentation from source code in some format like HTML
+developers use documentation engines. For Kotlin Dokka documentation
+engine can be used:
+
+https://github.com/Kotlin/dokka
+
+Dokka is a documentation engine for Kotlin and it fully supports mixed-use of
+languages (Java and Kotlin) in parallel. Dokka understands standard Javadoc
+source code documentation comments for Java source code files and KDoc
+comments in Kotlin source code files. Multiple output formats are supported:
+
+- Standard Javadoc,
+
+- HTML
+
+- Markdown
+
+Nested multi-line comments: Unlike Java, Kotlin supports nested multi-line
+comments. Thanks to this you can comment out large blocks of code quickly
+and easily. Even if the code already contains multiline comments!
+
+[*
+
+* /*
+
+* /*
+
+* // Nested multi-line comment!
+
+* af
+
+* af
+
+*/
+
+Identifiers
+
+Identifiers are the names given to constants, variables, classes, functions, and
+so on. For example:
+
+val index = 101.1
+
+In this example,"val” is a keyword, and “index” is the name (identifier) given to it.
+There are certain rules and conventions for naming in Kotlin that we must
+follow or the Kotlin compiler will complain:

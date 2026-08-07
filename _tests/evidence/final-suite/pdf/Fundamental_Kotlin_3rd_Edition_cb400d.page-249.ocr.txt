@@ -1,0 +1,31 @@
+}
+}
+val printQuoted: Printer.(what: String) -> Unit = {
+
+what ->
+
+print("\"$what\"")
+}
+We have defined a simple class called “Printer”. “Printer” class has only one
+function: “print”. “print” function just prints out the value of the parameter.
+However, we want to create a new function that will print the quoted value of
+the parameter. For this purpose, we are extending the “Printer” class with the
+lambda property which accepts a string as an argument and then it prints it in
+quotes. Inside the block of the lambda, we can access the “print” member
+function. Also, we have stated that the return type of the lambda is “Unit” which
+means that there will be no return value.
+Let's try our extension:
+val printer = Printer()
+printer.print("Hello world")
+printer.printQuoted("Lorem ipsum")
+Executing our program will produce the following output:
+Hello world
+"Lorem ipsum"
+Scope functions
+Scope functions are functions whose purpose is to execute a block of code
+within the context of an object. Calling a scope function on the object with a
+lambda expression forms a temporary scope. Inside the temporary scope, we
+can access the object without its name. Scope functions differ between each
+other by the way they refer to the context object and by the return value.
+Scope functions in Kotlin are the following: “let”, “run”, “with”, “apply”, and
+“also”.

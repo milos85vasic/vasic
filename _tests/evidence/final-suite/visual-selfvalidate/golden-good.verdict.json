@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T19:46:27.313Z",
+  "input": "file:///Volumes/T7/Projects/vasic/_tests/visual/fixtures/good.html",
+  "name": "golden-good",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-good.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-good.light.ocr.txt",
+        "wordCount": 21,
+        "sample": "Confirm your subscription You are about to subscribe to the Pro plan."
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 4,
+          "controls": 2,
+          "textChars": 132
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-good.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/final-suite/visual-selfvalidate/golden-good.dark.ocr.txt",
+        "wordCount": 21,
+        "sample": "Confirm your subscription You are about to subscribe to the Pro plan."
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 4,
+          "controls": 2,
+          "textChars": 132
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

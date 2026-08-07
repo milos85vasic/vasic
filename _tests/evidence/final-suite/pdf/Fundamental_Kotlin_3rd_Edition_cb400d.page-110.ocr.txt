@@ -1,0 +1,45 @@
+STRAIGHT IN TARGET
+
+We have validated points range from 10 to 100 and depending on “When”
+conditions matching proper precision status are printed out.
+
+Classes
+
+“Class” represents a "blueprint" for creating objects. Each object is created by
+calling the proper class constructor function which returns an object. In Kotlin
+class is defined using the “class” word.
+
+Let's go through “Classes.kt” from book code examples and see how we can
+define a class and instantiate it.
+
+Simple class definition:
+
+class Dummy {}
+
+Main elements that consist the class are the following:
+
+- the class name,
+
+- the class header (containing its type parameters, the primary constructor, and
+so on),
+
+- the class body, surrounded by curly braces.
+
+Both the header and the body are optional. If there is no class body like in the
+previous example, we can omit braces:
+
+class NoBody
+
+Having instance of these classes can be performed like this:
+
+val d1 = Dummy()
+
+val d2 = Dummy()
+
+val d3 = Dummy()
+
+val nbd1 = NoBody()
+
+val nbd2 = NoBody()
+
+val nbd3 = NoBody()

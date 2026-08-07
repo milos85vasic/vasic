@@ -1,0 +1,32 @@
+“Whenz2.kt" from book code examples illustrates common use cases of “When”:
+fun dataTypeRecognizer(what: Any) {
+when (what) {
+is Float -> printin("Floating point")
+is Int -> printin("Number")
+is String -> printin("String")
+is Boolean -> if (what) {
+printin("Boolean, true")
+pelse{
+printin("Boolean, false")
+}
+else -> printin("Unknown")
+}
+}
+The first function uses “When” to recognize the data type for provided
+argument. Now let's have a look at the example of the “When” statement that
+returns a value:
+@Throws(IllegalArgumentException::class)
+fun getCarPrice(model: String) = when (model) {
+"Mercedes" -> 100
+"BMW" -> 200
+"Opel" -> 300
+else -> throw IllegalArgumentException(
+"We do not recognize this model."
+)
+}
+“When” is used to return the price for a particular car model. If none of the
+recognized models is found exception is thrown.
+More simple examples of “When” use cases:
+@Throws(IllegalArgumentException::class)
+fun validateUserType(userType: Int) {
+when (userType) {

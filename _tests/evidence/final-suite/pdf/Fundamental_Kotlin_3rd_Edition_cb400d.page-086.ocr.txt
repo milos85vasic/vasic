@@ -1,0 +1,28 @@
+}
+}
+Value is cast to String data type using “as” cast operator. Logger function
+accepts any data type and performs explicit conversion to String data type. The
+most upper type for all Kotlin classes is “Any”. Each Kotlin class inherits it. We
+will talk soon about Kotlin classes and inheritance.
+Let's play a little bit with these two functions:
+val a =2.0
+val b = 3
+val c = "not a double"
+val aa = power(a)
+printin("a power is: $aa")
+try{
+val bb = power(b)
+printin("b power is: $bb")
+} catch (e: IllegalArgumentException) {
+printin("Error: ${e.message}")
+}
+try{
+val cc = power(c)
+printin("c power is: $cc")
+} catch (e: IllegalArgumentException) {
+printin("Error: ${e.message}")
+}
+The output of this will be:
+a power is: 4.0
+Error: This function deals only with doubles
+Error: This function deals only with doubles

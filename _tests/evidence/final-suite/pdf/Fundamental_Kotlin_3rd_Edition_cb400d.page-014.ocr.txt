@@ -1,0 +1,39 @@
+Some basic concepts explained
+
+Before we start with Kotlin let's explain a couple of terms that we have
+mentioned in the previous section just in case that you are not yet familiar with
+them.
+
+What is a statically typed programming language?
+
+We said that Kotlin is a statically typed language. We will explain the meaning of
+statically typed programming languages in comparison between statically typed
+and dynamically typed programming languages. Dynamically typed
+programming languages perform type checking on runtime. On the other
+hand, statically typed languages such as Java and Kotlin perform type checking
+at compile time. In Kotlin as an example, variables must be declared before
+values are assigned to them.
+
+What is Java Virtual Machine or JVM?
+
+If you are not experienced with Java, let's take a moment to explain what JVM
+(java Virtual Machine) is. JVM is software running on your system (engine) that is
+responsible for running all Java software. JVM converts Java bytecode (we will
+talk more about it soon) into the machine language. Thanks to this JVM
+applications are the same on all platforms.
+
+Software developers write JVM applications once for all platforms. That code is
+executable on every operating system. All specificity for the particular operating
+system is handled by the version of JVM installed for that system. So, we have
+installations of Java for Linux, macOS, Microsoft Windows, and so on. It is also
+worth mentioning that JVM is part of JRE ava Runtime Environment).
+
+Kotlin fits into this as JVM language, which means, all code that we write in
+Kotlin is compiled into Java bytecode and executed on JVM (Java Virtual
+Machine).
+
+Java bytecode
+
+We will spend one brief moment explaining the meaning of Java bytecode. Java
+bytecode represents the instruction set for JVM. Our source code of the
+program is translated into Java bytecode during compilation by the Java

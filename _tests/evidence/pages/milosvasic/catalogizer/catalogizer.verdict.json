@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:35:16.568Z",
+  "input": "file:///Volumes/T7/Projects/vasic/milosvasic.ru/products/catalogizer.html",
+  "name": "catalogizer",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/pages/milosvasic/catalogizer/catalogizer.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/milosvasic/catalogizer/catalogizer.light.ocr.txt",
+        "wordCount": 697,
+        "sample": "Milos Vasié Home Products TIER: VASIC-UTIL-SECONDARY ORDER 21 Catalogizer sxxsin joeuwerne Go"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 31,
+          "controls": 13,
+          "textChars": 3606
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/pages/milosvasic/catalogizer/catalogizer.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/milosvasic/catalogizer/catalogizer.dark.ocr.txt",
+        "wordCount": 701,
+        "sample": "Milos Vasié Home Products 8: TIER: VASIC-UTIL-SECONDARY ORDER 21 Catalogizer sisin ise"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 31,
+          "controls": 13,
+          "textChars": 3606
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

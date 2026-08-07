@@ -1,0 +1,291 @@
+{
+  "totalSerious": 8,
+  "totalBadgeContrast": 0,
+  "totalDialogName": 2,
+  "pages": [
+    {
+      "site": "vasic",
+      "page": "home",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "vasic",
+      "page": "home",
+      "theme": "dark",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "vasic",
+      "page": "product",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "vasic",
+      "page": "product",
+      "theme": "dark",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "vasic",
+      "page": "portfolio",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "vasic",
+      "page": "portfolio",
+      "theme": "dark",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "home",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "home",
+      "theme": "dark",
+      "total": 1,
+      "serious": 1,
+      "seriousIds": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ],
+      "allIds": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "product",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "product",
+      "theme": "dark",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "portfolio",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "portfolio",
+      "theme": "dark",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0
+    },
+    {
+      "site": "mv",
+      "page": "article-modal(legacy)",
+      "theme": "light",
+      "total": 0,
+      "serious": 0,
+      "seriousIds": [],
+      "allIds": [],
+      "badgeContrast": 0,
+      "dialogName": 0,
+      "dialogNameAttrs": {
+        "labelledby": "dl-title",
+        "label": null,
+        "open": null
+      }
+    },
+    {
+      "site": "mv",
+      "page": "article-modal(legacy)",
+      "theme": "dark",
+      "total": 1,
+      "serious": 1,
+      "seriousIds": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 27
+        }
+      ],
+      "allIds": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 27
+        }
+      ],
+      "badgeContrast": 0,
+      "dialogName": 0,
+      "dialogNameAttrs": {
+        "labelledby": "dl-title",
+        "label": null,
+        "open": null
+      }
+    },
+    {
+      "site": "vasic",
+      "page": "article-modal(legacy)",
+      "theme": "light",
+      "total": 3,
+      "serious": 3,
+      "seriousIds": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 33
+        }
+      ],
+      "allIds": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 33
+        }
+      ],
+      "badgeContrast": 0,
+      "dialogName": 1,
+      "dialogNameAttrs": {
+        "labelledby": null,
+        "label": null,
+        "open": "true"
+      }
+    },
+    {
+      "site": "vasic",
+      "page": "article-modal(legacy)",
+      "theme": "dark",
+      "total": 3,
+      "serious": 3,
+      "seriousIds": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4
+        }
+      ],
+      "allIds": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4
+        }
+      ],
+      "badgeContrast": 0,
+      "dialogName": 1,
+      "dialogNameAttrs": {
+        "labelledby": null,
+        "label": null,
+        "open": "true"
+      }
+    }
+  ]
+}

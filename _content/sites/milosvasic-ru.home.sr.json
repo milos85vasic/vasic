@@ -1,0 +1,660 @@
+{
+  "site": "milosvasic.ru",
+  "kind": "jekyll",
+  "brand": "Miloš Vasić",
+  "lang": "sr",
+  "css": "{{ '/assets/od/milosvasic.css' | relative_url }}",
+  "blocks": [
+    {
+      "type": "hero",
+      "eyebrow": {
+        "i18n": "mv2.hero.eyebrow",
+        "text": "// AI инженер"
+      },
+      "title": {
+        "text": "Miloš Vasić"
+      },
+      "lede": {
+        "i18n": "mv2.hero.lede",
+        "text": "AI инженер који гради проверљиве системе за AI-развој: инфраструктуру LLM‑а са више провајдера, аутономне агенте и оркестрацију, као и слојеве управљања и QA који их држе поштенијим."
+      },
+      "ctas": [
+        {
+          "dl": "cv",
+          "icon": "i-download",
+          "variant": "primary",
+          "i18n": "hero.cv",
+          "label": "Преузми CV"
+        },
+        {
+          "dl": "cl",
+          "variant": "secondary",
+          "i18n": "hero.cl",
+          "label": "Писмо за пријаву"
+        },
+        {
+          "dl": "portfolio",
+          "variant": "secondary",
+          "i18n": "mv2.hero.portfolio",
+          "label": "Портфолио (PDF)"
+        },
+        {
+          "variant": "ghost",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "i18n": "mv2.hero.portfolio_site",
+          "label": "Сајт портфолија"
+        }
+      ],
+      "stats": [
+        {
+          "value": "Go",
+          "i18n": "mv2.stat.lang",
+          "label": "језик кости"
+        },
+        {
+          "value": "140+",
+          "i18n": "mv2.stat.repos",
+          "label": "репозиторијуми, једна конституција"
+        },
+        {
+          "value": "33",
+          "i18n": "mv2.stat.products",
+          "label": "производа, поткрепљено доказима"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "summary",
+      "eyebrow": {
+        "i18n": "mv2.summary.eyebrow",
+        "text": "// резиме"
+      },
+      "title": {
+        "i18n": "mv2.summary.title",
+        "text": "Дизајнирам и градим софтвер који претвара LLM‑ове у поуздане производе."
+      },
+      "groups": [
+        {
+          "kind": "prose",
+          "paras": [
+            {
+              "class": "mvx-lede",
+              "i18n": "mv2.summary.body1",
+              "text": "Првенствено радим у Go, са Kotlin / Kotlin Multiplatform, TypeScript/React, Python, Swift и Shell у складу са захтевима посла. Моји резултати су организовани као флот, а не као гомила једнократних апликација: велики производни програми који стоје изнад десетина малих, одвојених, независно тестираних модула, сви наслеђују заједничку инжењерску Конституцију као Git подмодул."
+            },
+            {
+              "class": "mvx-lede mvx-muted",
+              "i18n": "mv2.summary.body2",
+              "text": "То значи да се исправке шире преко свега, нови производи се састављају од проверених делова, а свака рекламирана могућност је поткрепљена тестом који производи доказе. Моја северна звезда је једно правило — функција је завршена само када је прави корисник у могућности да је користи и када постоје снимљени докази који то потврђују. Ова страница прелази са прегледа на појединачне пројекте; сваки повезује на пуну страницу производа."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "work",
+      "groups": [
+        {
+          "eyebrow": {
+            "i18n": "mv2.work.eyebrow",
+            "text": "// мој рад унутар Helix породице"
+          },
+          "title": {
+            "i18n": "mv2.work.title",
+            "text": "Helix линија, према приоритету."
+          },
+          "lede": {
+            "i18n": "mv2.work.lede",
+            "text": "Helix линија обухвата AI‑развојни циклус. Свака картица води до пуне странице производа."
+          },
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "helixtrack",
+              "name": "HelixTrack",
+              "tech": [
+                "Go",
+                "Gin",
+                "HTTP/3 QUIC",
+                "PostgreSQL",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixtrack",
+                "text": "Бесплатна алтернатива JIRA‑и; врхунски производ Helix-Track линије."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "helixagent",
+              "name": "HelixAgent",
+              "tech": [
+                "Go",
+                "Gin",
+                "LLMsVerifier",
+                "Prometheus",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixagent",
+                "text": "Сервис за LLM‑ове у ансамблу са вишепериходним дебатом модела и избором провајдера заснованим на верификацији."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "helixcode",
+              "name": "HelixCode",
+              "tech": [
+                "Go",
+                "Redis",
+                "SSH",
+                "MCP",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcode",
+                "text": "Дистрибуирана платформа за AI развој која дели посао на SSH‑управљане раднике са аутоматским чекпоинт/повратком."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "helixllm",
+              "name": "HelixLLM",
+              "tech": [
+                "Go",
+                "HTTP/3 QUIC",
+                "llama.cpp",
+                "+5"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixllm",
+                "text": "Један бинарни фајл са шест режима који служи OpenAI‑ и Anthropic‑компатибилне API‑је преко HTTP/3, са локалним llama.cpp инференцом и оцењеним резервним ланцем."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "helixcluster",
+              "name": "HelixCluster",
+              "tech": [
+                "Go",
+                "Zig",
+                "gRPC",
+                "Raft + SWIM",
+                "+7"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.helixcluster",
+                "text": "Дистрибуирани оперативни систем за AI израчунавања, од GPU‑а у датацентру до edge handheld уређаја."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "llmprovider",
+              "name": "LLMProvider",
+              "tech": [
+                "Go",
+                "net/http",
+                "logrus",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmprovider",
+                "text": "Један интерфејс преко 43 провајдера са заштитним прекидачима, поновним покушајима и уграђеном здравственом провером."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "llmorchestrator",
+              "name": "LLMOrchestrator",
+              "tech": [
+                "Go",
+                "JSON-lines / stdio",
+                "Circuit breaker",
+                "+2"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmorchestrator",
+                "text": "Један контролни план за сваки безглави CLI кодирајући агент."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "llmsverifier",
+              "name": "LLMsVerifier",
+              "tech": [
+                "Go",
+                "Gin",
+                "SQLite + SQLCipher",
+                "+6"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.llmsverifier",
+                "text": "Верификуј, надгледај, оптимизуј: једини извор истине за метаподатке LLM/провајдера/верификације."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.utils.eyebrow",
+            "text": "// мој рад унутар vasic-digital алата"
+          },
+          "title": {
+            "i18n": "mv2.utils.title",
+            "text": "Алати квалитета производа које сам изградио и одржавам."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "catalogizer",
+              "name": "Catalogizer",
+              "tech": [
+                "Go",
+                "Gin",
+                "React",
+                "+10"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.catalogizer",
+                "text": "Мулти‑протокол (SMB/FTP/NFS/WebDAV/local), шифрован, самохостабилан управљање медијском колекцијом са Go/Gin API‑јем и React UI‑ем."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "courses-creator",
+              "name": "Courses-Creator",
+              "tech": [
+                "Go",
+                "React",
+                "Electron",
+                "+8"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.coursescreator",
+                "text": "Ток за курсеве од markdown‑а до видеа са обогаћивањем више LLM‑а, TTS и плејерима за десктоп/мобил/веб."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "visionengine",
+              "name": "VisionEngine",
+              "tech": [
+                "Go",
+                "GoCV / OpenCV",
+                "LLM vision"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.visionengine",
+                "text": "Одвојени Go алатски сет који спаја класичну компјутерску визију са визијом више LLM провајдера за анализу UI‑а и графове навигације."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "docprocessor",
+              "name": "DocProcessor",
+              "tech": [
+                "Go",
+                "LLM agents",
+                "Heuristic parser"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docprocessor",
+                "text": "Претвара документацију у проверљиву мапу функција за QA аутоматизацију (LLM или хеуристичко извлачење)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "docs-chain",
+              "name": "Docs Chain",
+              "tech": [
+                "Go",
+                "DAG",
+                "SQLite",
+                "fsnotify"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.docschain",
+                "text": "Синхронизациони мотор за документ/БД који је хеширан по садржају, двосмеран и атомски."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "herald",
+              "name": "Herald",
+              "tech": [
+                "Go",
+                "Shell",
+                "LLM intent"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.herald",
+                "text": "Поуздане вишеканалске обавештења са природним језиком, тростепеном резолуцијом намере."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "task-bridge",
+              "name": "task_bridge",
+              "tech": [
+                "Go",
+                "SQLite",
+                "webhooks"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.taskbridge",
+                "text": "Одвојени, двосмерни мотор за синхронизацију задатака/табла (P1 оквир; логика синхронизације у току)."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "vasic-digital-reusable-module-suite",
+              "name": "Reusable Module Suite",
+              "tech": [
+                "Go (digital.vasic.*)",
+                "KMP",
+                "+1"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.rms",
+                "text": "digital.vasic.* \"стандардна библиотека\" инфраструктуре, AI‑примитивних и модула за заштитне баријере."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            }
+          ]
+        },
+        {
+          "eyebrow": {
+            "i18n": "mv2.sf.eyebrow",
+            "text": "// наслеђе инфраструктуре (Server Factory)"
+          },
+          "title": {
+            "i18n": "mv2.sf.title",
+            "text": "Пре AI линије — мој DevOps алатни ланац."
+          },
+          "marginTop": true,
+          "kind": "cards",
+          "grid": "mvx-grid",
+          "cards": [
+            {
+              "slug": "mail-server-factory",
+              "name": "Mail Server Factory",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Docker",
+                "+4"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.msf",
+                "text": "Декларативни JSON → потпуно обезбеђени Docker‑изоловани мејл сервери, са извештајем о 439 успешно прођених тестова и чистом SonarQube вратом."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "server-factory-core-framework",
+              "name": "Server Factory Core",
+              "tech": [
+                "Kotlin",
+                "Shell",
+                "Gradle"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.sfcore",
+                "text": "Server Factory Core Framework на коме се гради сваки сервис фабрика."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "qemu-utils",
+              "name": "Qemu-Utils",
+              "tech": [
+                "Shell",
+                "QEMU",
+                "ISO images"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.qemu",
+                "text": "QEMU VM‑image алати — преузимање, покретање, мрежа и објављивање машинских имгова као артефакти."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "parallels-utils",
+              "name": "Parallels-Utils",
+              "tech": [
+                "Shell",
+                "Python 3",
+                "Parallels"
+              ],
+              "blurb": {
+                "i18n": "mv2.p.parallels",
+                "text": "Компресујте, објавите и поново користите Parallels VM слике на сваком рачунару."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            }
+          ]
+        }
+      ],
+      "ctaStyle": "justify-content:flex-start;margin-top:var(--od-space-8)",
+      "ctas": [
+        {
+          "i18n": "mv2.work.portfolio_cta",
+          "label": "Погледајте пуну портфолио",
+          "href": "{{ '/portfolio/' | relative_url }}",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "experience",
+      "eyebrow": {
+        "i18n": "mv2.gov.eyebrow",
+        "text": "// како радим — прво управљање и QA"
+      },
+      "title": {
+        "i18n": "mv2.gov.title",
+        "text": "Дисциплина која подржава производе."
+      },
+      "lede": {
+        "i18n": "mv2.gov.lede",
+        "text": "Пре производа, дисциплина: не испоручујем зелене квачице — испоручујем AI системе са доказом да заиста функционишу."
+      },
+      "groups": [
+        {
+          "kind": "cards",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "slug": "helixconstitution",
+              "name": "HelixConstitution",
+              "blurb": {
+                "i18n": "mv2.gov.constitution",
+                "text": "Универзална, наследна инжењерска књига правила, распоређена као Git подмодул преко флота од 140+ репозиторијума. Кодификује anti‑bluff gate‑ове за доказе, имунитет на лажне позитиве, безбедност података/хоста и правила покривености; пројекти могу их ојачати али никада не могу ослабити, а сваки управљачки gate је упарен са тестом мутације који доказује да сам gate функционише."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            },
+            {
+              "slug": "helixqa",
+              "name": "HelixQA",
+              "blurb": {
+                "i18n": "mv2.gov.qa",
+                "text": "Anti‑bluff QA оркестрација која покреће написане тест банке и потпуно аутономне, LLM‑и визију‑покретане QA сесије на Android, Android TV, Web и Desktop, оцењујући PASS само када ухвати доказе у раду."
+              },
+              "readmore": {
+                "i18n": "mv2.readmore",
+                "text": "Прочитај више"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "skills",
+      "eyebrow": {
+        "i18n": "mv2.skills.eyebrow",
+        "text": "// технологије"
+      },
+      "title": {
+        "i18n": "mv2.skills.title",
+        "text": "Технолошки стек на коме заиста градим."
+      },
+      "groups": [
+        {
+          "kind": "tech",
+          "grid": "mvx-grid mvx-grid--two",
+          "cards": [
+            {
+              "nameI18n": "mv2.skills.lang",
+              "name": "Језици",
+              "tech": [
+                "Go",
+                "Kotlin / KMP",
+                "TypeScript",
+                "Python",
+                "Swift",
+                "Shell"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.ai",
+              "name": "AI / LLM",
+              "tech": [
+                "43+ providers",
+                "MCP",
+                "RAG",
+                "Vector DBs",
+                "Agent orchestration"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.backend",
+              "name": "Позадина",
+              "tech": [
+                "Gin",
+                "gRPC + Protobuf",
+                "HTTP/3 (QUIC)",
+                "WebSockets"
+              ]
+            },
+            {
+              "nameI18n": "mv2.skills.data",
+              "name": "Подаци & Инфраструктура",
+              "tech": [
+                "PostgreSQL",
+                "SQLite / SQLCipher",
+                "Redis",
+                "Docker / K8s",
+                "Prometheus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "eyebrow": {
+        "i18n": "mv2.contact.eyebrow",
+        "text": "// контакти"
+      },
+      "title": {
+        "i18n": "mv2.contact.title",
+        "text": "У једној линији."
+      },
+      "lede": {
+        "i18n": "mv2.contact.lead",
+        "text": "Не испоручујем зелене потврде — испоручујем AI системе са доказима да заиста раде, и управљање које их тако држи. Отворен за позиције старих AI/платформских инжењера широм света."
+      },
+      "contacts": [
+        {
+          "i18n": "mv2.contact.email_label",
+          "label": "Е‑пошта",
+          "html": "<a href=\"mailto:i@mvasic.ru\">i@mvasic.ru</a> · <a href=\"mailto:milos85vasic@gmail.com\">milos85vasic@gmail.com</a>"
+        },
+        {
+          "i18n": "mv2.contact.gh_label",
+          "label": "GitHub",
+          "html": "<a href=\"https://github.com/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">milos85vasic <svg class=\"od-icon\" aria-hidden=\"true\"><use href=\"#i-external\"/></svg></a>"
+        },
+        {
+          "i18n": "mv2.contact.tg_label",
+          "label": "Telegram",
+          "html": "<a href=\"https://t.me/milos85vasic\" rel=\"noopener noreferrer\" target=\"_blank\">@milos85vasic</a>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T14:26:37.932Z",
+  "input": "http://localhost:8502/portfolio/",
+  "name": "milos-portfolio",
+  "viewport": {
+    "w": 1440,
+    "h": 8000
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/enhance/oracle/milos-portfolio.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/enhance/oracle/milos-portfolio.light.ocr.txt",
+        "wordCount": 1061,
+        "sample": "Home Portfolio Milo& Vasié Theme UNIFIED PORTFOLIO A unified, evidence-based portfolio of"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 8000
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 115,
+          "controls": 37,
+          "textChars": 4359
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/enhance/oracle/milos-portfolio.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/enhance/oracle/milos-portfolio.dark.ocr.txt",
+        "wordCount": 1084,
+        "sample": "Home Portfolio Milo& Vasié Theme UNIFIED PORTFOLIO A unified, evidence-based portfolio of"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1440,
+          "h": 8000
+        },
+        "scrollW": 1440,
+        "counts": {
+          "meaningful": 115,
+          "controls": 37,
+          "textChars": 4359
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

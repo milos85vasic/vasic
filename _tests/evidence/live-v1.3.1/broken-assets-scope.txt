@@ -1,0 +1,19 @@
+Confirming broken '../assets' CSS ref on localized vasic pages (depth-2).
+A page is BROKEN if it references href="../assets/od/vasic-digital.css" (resolves to 404 at depth-2).
+
+BROKEN   page=/products/ar/catalogizer.html(http 200) brokenCssRef=1 cssHttp=404
+BROKEN   page=/products/de/helixagent.html(http 200) brokenCssRef=1 cssHttp=404
+BROKEN   page=/products/ja/helixcode.html(http 200) brokenCssRef=1 cssHttp=404
+BROKEN   page=/products/zh/helixllm.html(http 200) brokenCssRef=1 cssHttp=404
+BROKEN   page=/products/sr/helixqa.html(http 200) brokenCssRef=1 cssHttp=404
+BROKEN   page=/products/fr/visionengine.html(http 200) brokenCssRef=1 cssHttp=404
+OK       page=/portfolio/be/(http 200) brokenCssRef=1 cssHttp=200
+OK       page=/portfolio/hi/(http 200) brokenCssRef=1 cssHttp=200
+OK       page=/portfolio/ko/(http 200) brokenCssRef=1 cssHttp=200
+OK       page=/portfolio/tr/(http 200) brokenCssRef=1 cssHttp=200
+OK       page=/portfolio/es/(http 200) brokenCssRef=1 cssHttp=200
+OK       page=/portfolio/kk/(http 200) brokenCssRef=1 cssHttp=200
+
+Contrast — depth-1 EN pages (should be OK):
+OK?      page=/products/catalogizer.html cssResolvesTo=https://vasic.digital/products/../assets/od/vasic-digital.css http=200
+OK?      page=/portfolio/ cssResolvesTo=https://vasic.digital/portfolio/../assets/od/vasic-digital.css http=200

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<path class="conn" marker-end="url(#a)" d="M300,144 L180,178"/>
+<path class="conn" marker-end="url(#a)" d="M300,144 L500,178"/>
+<path class="conn" marker-end="url(#a)" d="M700,144 L560,178"/>
+<path class="conn" marker-end="url(#a)" d="M700,144 L820,178"/>
+<rect class="accent" x="200" y="80" width="200" height="64" rx="10"/>
+<rect class="accent" x="600" y="80" width="200" height="64" rx="10"/>
+<rect class="tint" x="40" y="180" width="280" height="60" rx="10"/>
+<rect class="tint" x="360" y="180" width="280" height="60" rx="10"/>
+<rect class="tint" x="680" y="180" width="280" height="60" rx="10"/>
+<rect class="box" x="40" y="255" width="280" height="48" rx="10"/>
+<rect class="box" x="40" y="313" width="280" height="48" rx="10"/>
+<rect class="box" x="40" y="371" width="280" height="48" rx="10"/>
+<rect class="box" x="360" y="255" width="280" height="48" rx="10"/>
+<rect class="box" x="360" y="313" width="280" height="48" rx="10"/>
+<rect class="box" x="360" y="371" width="280" height="48" rx="10"/>
+<rect class="box" x="680" y="255" width="280" height="48" rx="10"/>
+<rect class="box" x="680" y="313" width="280" height="48" rx="10"/>
+<rect class="box" x="680" y="371" width="280" height="48" rx="10"/>
+<rect class="dash" x="40" y="450" width="920" height="56" rx="10"/>
+<text class="t" x="300" y="114">HelixAgent</text>
+<text class="t" x="700" y="114">Catalogizer</text>
+<text class="t" x="180" y="210">Infrastructure</text>
+<text class="t" x="500" y="210">AI primitives</text>
+<text class="t" x="820" y="210">Guardrails</text>
+<text class="t" x="180" y="279">Redis · PostgreSQL · SQLite</text>
+<text class="t" x="180" y="337">WebSocket · HTTP/3 · mDNS</text>
+<text class="t" x="180" y="395">Prometheus · OpenTelemetry</text>
+<text class="t" x="500" y="279">Vector DB · Embeddings</text>
+<text class="t" x="500" y="337">RAG · MCP</text>
+<text class="t" x="500" y="395">Normalize · TOON</text>
+<text class="t" x="820" y="279">RedTeam fixtures (YAML)</text>
+<text class="t" x="820" y="337">Policy engine</text>
+<text class="t" x="820" y="395">Verification / LLMsVerifier</text>
+<text class="t" x="490" y="478">Go (digital.vasic.*) ↔ Kotlin Multiplatform (*-KMP) mirror pairs</text>
+<text class="h" x="32" y="44">Vasic Digital Reusable Module Suite — module map</text>
+<text class="lbl" x="200" y="64">Product apps</text>
+<text class="lbl" x="40" y="164">Reusable modules by cluster</text>
+</svg>

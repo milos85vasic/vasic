@@ -1,0 +1,30 @@
+Once again we will iterate through ranges. For example, We want to iterate
+from zero to the number provided as an argument of the function. From book
+code examples open “Ranges.kt”:
+fun range(to: Int) {
+for (x in 0..to) printin("x: $x")
+}
+Let's try it:
+range(5)
+Which will produce the following output:
+x: 0
+x7
+x2
+x3
+x4
+x5
+Let's revers our counting:
+fun reverseRange(to: Int) {
+for (x in to downTo 0) printin("x: $x")
+}
+Instead of iterating from zero to the number provided as an argument of the
+function, we will iterate from the number provided as an argument to a
+function towards zero:
+reverseRange(5)
+Running this example will produce the following output:
+x5
+x4
+x3
+x2
+x7
+x: 0

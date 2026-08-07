@@ -1,0 +1,27 @@
+The last line of the code snippet will not work! The compiler will complain with
+the following message:
+“Operator call corresponds to a dot-qualified call 'size.plus(number)' which is
+not allowed on a nullable receiver 'size”’
+To make this work we must access operator member on optional type:
+// This will work:
+val sum = size?.plus(number)
+printin("Sum is: $sum")
+The output of the executed snippet will be:
+Sum is: 15
+The type of “sum” constant is “Int?” (optional).
+To reduce unnecessary code boilerplate Kotlin comes up with more great
+features such as null shorthands. Let's take a look at the following example:
+val files = File("./some_directory").listFiles()
+printin(files?.size ?: "empty")
+Print function will print “empty” if there are no files, otherwise, it's size.
+In next example, we will assign value if result is not null, otherwise we throw
+exception:
+val subscribers = data["subscribers"] ?: throw IllegalStateException(
+"There is no any subscribers"
+)
+One more example for not null shorthand use:
+val player = getPlayer()
+player?.play("Uriah Heep - Easy Livin.mp3")
+As you can see, Kotlin simplifies work with instances that can have null as its
+value. Comparing to Java this makes the life of a developer much easier.
+Note:

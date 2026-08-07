@@ -1,0 +1,32 @@
+val price = getCarPrice(it)
+printin("Price of '$it' is $price")
+} catch (e: IllegalArgumentException) {
+printin(e.message)
+}
+
+}
+Let's explain the code from above. “getCarPrice” function returns the price of a
+car based on a model name. If we do not recognize provided model we are
+throwing “IllegalArgumentException”. “IllegalArgumentException” is thrown to
+indicate that a function has been passed an illegal or inappropriate argument.
+Besides this, a frequently used exception is “IllegalStateException” to indicate
+that a function has been invoked at an illegal or inappropriate time. In other
+words, our program is not in an appropriate state for the requested operation.
+In this program, we are printing prices for each car model from the “models”
+collection. To prevent the program from crashing, we are catching an exception
+that may be thrown by “getCarPrice” function.
+Let's run our example:
+Price of 'Mercedes' is 100
+Price of 'Opel' is 300
+We do not recognize 'Fiat' car model
+Note:
+Unlike Java, Kotlin does not support checked exceptions (exceptions that are
+notified by the compiler at compilation time).
+Throwable
+In this section, we will focus on the “Throwable” data type (class) and explain
+some hierarchy that exists behind this kind of data type (class). In Kotlin the
+“Throwable” class is the parent class for all “Exception” classes. Every exception
+has a message, stack trace (a list of frames that starts at the current function
+and extends to when the program started), and an optional cause. Besides than
+“Exception” class, there is another subclass (data type): “Error”. “Error” is derived
+from the “Throwable” class too.

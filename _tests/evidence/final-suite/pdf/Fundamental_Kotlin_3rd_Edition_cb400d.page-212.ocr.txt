@@ -1,0 +1,30 @@
+override fun equals(other: Any?): Boolean {
+if (other === this) {
+return true
+}
+if (other lis Wrapper) {
+return false
+}
+return other.data == data
+}
+override fun hashCode(): Int {
+return Objects.hash(data)
+}
+}
+If we run this program not, there will be only one instance of the “Wrapper”
+class in our map. Let's check this by printing out the size of the map:
+printin(
+"Number of ${Wrapper::class.simpleName} instances is:
+${instances.size}"
+)
+Which will produce the following output:
+Number of Wrapper instances is: 1
+Memory leaks that are introduced through nested classes that reference
+outer classes:
+This is a common problem in classic Java. If we are using anonymous classes
+(non-static nested classes), for its initialization, these classes always require an
+instance of the enclosing class. Every non-static nested class has, by default,
+an implicit reference to its container (its containing class). So how this can cause
+memory leakage? If we use this nested class instance in our application, then
+even after our container class instance goes out of scope, it will not be
+garbage collected.

@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T12:34:29.352Z",
+  "input": "file:///Volumes/T7/Projects/vasic/vasic.digital/products/helixtranslate.html",
+  "name": "helixtranslate",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/pages/vasic-digital/helixtranslate/helixtranslate.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/vasic-digital/helixtranslate/helixtranslate.light.ocr.txt",
+        "wordCount": 941,
+        "sample": "Vasic Digital Home Products TIER: HELIX-PRIMARY ORDER 10 HelixTranslate fcense: TED Go"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 28,
+          "controls": 7,
+          "textChars": 3642
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/pages/vasic-digital/helixtranslate/helixtranslate.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/pages/vasic-digital/helixtranslate/helixtranslate.dark.ocr.txt",
+        "wordCount": 943,
+        "sample": "Vasic Digital Home Products “6: TIER: HELIX-PRIMARY ORDER 10 HelixTranslate fcense: TED"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 28,
+          "controls": 7,
+          "textChars": 3642
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

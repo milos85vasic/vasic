@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 520" font-family="'Inter',system-ui,sans-serif">
+<style>
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/></marker></defs>
+<text class="h" x="32" y="44">Herald — event fan-out to channels</text>
+<text class="lbl" x="660" y="62">Channels (fan-out)</text>
+<text class="note" x="320" y="172">intent ladder: command → LLM inference → clarify</text>
+<text class="lbl" x="40" y="384">Governance + docs</text>
+<rect class="box" x="40" y="220" width="190" height="80" rx="10"/>
+<text class="t" x="135" y="254">Event source</text>
+<text class="s" x="135" y="274">tracker / doc change</text>
+<rect class="accent" x="320" y="190" width="220" height="120" rx="10"/>
+<text class="t" x="430" y="224">Herald</text>
+<text class="s" x="430" y="244">Go · intent inference</text>
+<rect class="box" x="660" y="80" width="260" height="60" rx="10"/>
+<text class="t" x="790" y="114">Slack adapter</text>
+<rect class="box" x="660" y="155" width="260" height="60" rx="10"/>
+<text class="t" x="790" y="189">Telegram adapter</text>
+<rect class="box" x="660" y="230" width="260" height="60" rx="10"/>
+<text class="t" x="790" y="264">Email adapter</text>
+<rect class="box" x="660" y="305" width="260" height="60" rx="10"/>
+<text class="t" x="790" y="339">…messenger adapters</text>
+<rect class="dash" x="40" y="400" width="190" height="64" rx="10"/>
+<text class="t" x="135" y="434">HelixConstitution</text>
+<text class="s" x="135" y="454">governance</text>
+<rect class="dash" x="320" y="400" width="220" height="64" rx="10"/>
+<text class="t" x="430" y="434">Docs Chain</text>
+<text class="s" x="430" y="454">doc corpus</text>
+<path class="conn" marker-end="url(#a)" d="M230,260 L318,250"/>
+<path class="conn" marker-end="url(#a)" d="M540,220 L658,110"/>
+<path class="conn" marker-end="url(#a)" d="M540,240 L658,185"/>
+<path class="conn" marker-end="url(#a)" d="M540,265 L658,260"/>
+<path class="conn" marker-end="url(#a)" d="M540,290 L658,335"/>
+<path class="conn" marker-end="url(#a)" d="M430,310 L430,398"/>
+<path class="conn" marker-end="url(#a)" d="M200,400 L320,300"/>
+</svg>

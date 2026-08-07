@@ -1,0 +1,35 @@
+lastName = "Smith"
+
+address = "5th Avenue"
+
+email = "john.smith@example.com"
+}
+We have defined a simple class called “User” with a couple of publicly visible
+variables. Then, we have accessed them using the “run” scope function and
+assigned them values. As you can see it is quite simple to use the “run” scope
+function.
+There is one more application of the “run” function. You can use the “run” scope
+function as a non-extension function. The non-extension “run” scope function
+makes it possible that you execute a block of several statements where an
+expression is required:
+val example = run {
+
+val param1 = "Hello world"
+
+val param2 = "Lorem ipsum"
+
+val param3 = "Something else"
+
+"$param1, $param2, $param3"
+}
+Let's print the value of the “example”:
+printin(example)
+Which will produce the following output:
+Hello world, Lorem ipsum, Something else
+“Apply” scope function
+With the “apply” scope function context object is available as a receiver via
+“this”. The return value of the “apply” scope function is the object itself. The
+“apply” scope function is commonly used for code blocks that don't return a
+value.
+Let's have a look at an example of the use of the “apply” scope function. From
+book code examples open “Apply.kt”:

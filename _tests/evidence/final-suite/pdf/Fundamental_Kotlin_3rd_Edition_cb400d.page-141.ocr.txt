@@ -1,0 +1,50 @@
+}
+
+Classes “Dummy1” and “Dummy2" do not have any conflicts. However, class
+“Dummy3” implements both interfaces and functions conflict occurred. The
+good thing is that Kotlin has a solution for this. We can decide which “super”
+implementation to call:
+
+super<IDummy1>.doSomething()
+
+super<IDummy2>.doSomething()
+
+In this example, we will use implementation from both parents. Let's try our
+classes:
+
+printin("Dummy 1:")
+
+val dummy1 = Dummy1()
+
+dummy1.doSomething()
+
+printin("Dummy 2:")
+
+val dummy2 = Dummy2()
+
+dummy2.doSomething()
+
+printin("Dummy 3:")
+
+val dummy3 = Dummy3()
+
+dummy3.doSomething()
+
+Instantiating these and executing the “doSomething” function on each instance
+will produce the following results:
+
+Dummy 7:
+
+Lorem ipsum
+
+Dummy 2:
+
+dlrow olleH
+
+Dummy 3:
+
+Hello world
+
+dlrow olleH
+
+Functional interfaces

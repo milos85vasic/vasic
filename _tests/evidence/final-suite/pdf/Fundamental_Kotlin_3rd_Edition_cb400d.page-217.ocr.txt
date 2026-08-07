@@ -1,0 +1,34 @@
+- An object is weakly reachable if it is neither strongly nor softly reachable. It
+can be reached by traversing a weak reference. The object becomes eligible for
+finalization when the weak references to a weakly-reachable object are cleared.
+- An object is phantom reachable if it is neither strongly, softly, nor weakly
+reachable. The object is phantom reachable if it has been finalized, and some
+phantom reference refers to it.
+Finally, when the object is not reachable in any of the above ways it is
+unreachable, and therefore eligible for reclamation.
+Atomic references
+The atomic reference provides operations on an underlying object reference
+that can be read and written thread-safely. Thread-safe code only manipulates
+shared data structures in a manner that ensures that all threads behave
+properly and fulfill their design specifications without unintended interaction.
+Atomic reference contains advanced atomic (concurrent) operations. The ones
+that you will use mostly are “get” and “set”. “get” and “set” functions have a
+purpose of reading and setting of the instance. Atomic reference should be
+used in situations where you need to do simple atomic (thread-safe) operations.
+Let's have a look at the example of “AtomicReference” use in code. From book
+code examples open “Atomic.kt”:
+// We define some stub class:
+class Dummy
+val d1 = Dummy()
+val d2 = Dummy()
+// Atomic wrapper around the Integer:
+val counter = AtomicInteger()
+// Initially it does not point to any instance:
+val reference = AtomicReference<Dummy>()
+val t1 = Thread {
+
+printin("Time 1: ${System.nanoTime()}")
+
+// We are setting new reference:
+
+reference.set(d1)

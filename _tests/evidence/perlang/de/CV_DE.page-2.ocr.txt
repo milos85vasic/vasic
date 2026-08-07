@@ -1,0 +1,37 @@
+MILOS VASIC CURRICULUM VITAE
+2009 140+ 43 6+
+ENGINEERING SINCE REPOSITORIES LLM PROVIDERS CORE LANGUAGES
+GOVERNED UNIFIED
+Al Engineer — LLM infrastructure, autonomous agents, and the governance that makes them
+trustworthy.
++ Email: milos85vasic@gmail.com
++ Web: https://milosvasic.ru - https://vasic.digital
++ GitHub: vasic-digital - HelixDevelopment - Server-Factory
+| Summary
+Al/software engineer who builds Al-development systems end to end — from multi-provider LLM
+infrastructure and autonomous agents to the QA and governance layers that keep them honest. | don’t ship
+demos; | ship platforms. Over 15 years of professional engineering (since 2009) across mobile SDKs, real-
+time hardware integration, and distributed backends now converge on one focus: making autonomous Al
+development trustworthy at scale.
+| architect fleets, not monoliths — large product applications standing on dozens of small, decoupled,
+independently-tested modules, every one of them inheriting a shared engineering Constitution and verified by
+an anti-bluff, evidence-gated QA discipline. Primary language Go, with Kotlin/KMP, TypeScript/React, Python,
+Swift, and Shell. Guiding principle, enforced mechanically rather than merely stated: a feature is done only
+when a real user can use it and there is captured evidence to prove it.
+What | bring to the table: the ability to take an Al capability from a research idea to a governed, self-
+verifying, production-shaped system — LLM routing that proves each model actually works before trusting it,
+agents that debate and reach consensus instead of guessing, memory and RAG layers that don’t lose
+context, and a whole ecosystem wired so that “the tests are green” can never quietly mean “the feature is
+broken.”
+| Core competencies
++ Al/ LLM systems: multi-provider LLM abstraction (40+ providers), MCP tool integration, RAG, vector
+databases & embeddings, agent orchestration (headless CLI agents, graph workflows, multi-round
+debate/consensus), planning (HiPlan/MCTS/Tree-of-Thoughts), LLMOps, benchmarking (SWE-bench/
+HumanEval/MMLU), LLM verification, defensive-LLM guardrails, computer-vision + LLM-vision.
++ Backend engineering: Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, distributed systems
+(incl. TLA+ formal specs), high-throughput REST services and concurrent workers.
++ Data: PostgreSQL, SQLite, SQLCipher (encryption at rest), Redis, Neo4j, ClickHouse, object storage
+(MinlO/S3/GCS/Azure).
++ Frontend / cross-platform: TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular, Electron,
+React Native, Kotlin Multiplatform, Android/Android TV (Kotlin), iOS (Swift), Tauri/Rust.
+milosvasic.ru - vasic.digital 2/5

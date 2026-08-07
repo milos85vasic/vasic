@@ -1,0 +1,31 @@
+fun hellojS(count: Int) {
+
+for (x in 0..count) {
+
+helloJS()
+
+}
+}
+Then, compile it with the library that we just created:
+$ kotlinc-js -output use.js -libraries library.meta.js \ JsExampleLibraryUse.kt
+“use.js” file is available after compiling.
+Both files”library.js” and “library.meta.js” should be present, because translated
+JavaScript file contains meta-information about inlining, which is needed by the
+compiler.
+If you have an archive “library.jar’, which contains “library.js” and
+“library.meta.js”, you can use the following command:
+$ kotlinc-js -output use.js -libraries library.jar \ JsExampleLibraryUse.kt
+Kotlin/Native
+For cutting-edge performance, you may want to consider the use of
+Kotlin/Native. Kotlin/Native is a technology developed by JetBrains that makes it
+possible to compilie Kotlin source code into native binaries.
+Installing Kotlin/Native
+The latest version of Kotlin/Native at the time of writing this book is 1.7.10. To
+install Kotlin/Native download the proper version from the releases page:
+https://github.com/JetBrains/kotlin-native/releases
+Once the proper archive is downloaded, extract it to the desired directory. To be
+able to use Kotlin/Native it is required to build it. To do so you must satisfy
+certain requirements. You must install Java JDK (Java Development
+Environment) instead of Java JRE java Runtime Environment). If you are using
+macOS you must have Xcode version 11.5 installed on your system. For Linux
+users, it is required to have “ncurses-compat-libs” installed. On RedHat based

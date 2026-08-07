@@ -1,0 +1,55 @@
+MILOS VASIC PORTFOLIO.
+
++ HelixQA — anti-bluf orkestracija QA (Go). Pisani YAML testovi plus potpuno autonomne QA sesije na
+Androidu, Android TV-u, vebu i desktopu, uz kori8¢enje LLM i ra¢unarskog vida; nema PROLAZA bez
+prikupljenih dokaza (snimci ekrana, logcat, video, stack trace-ovi). Obavezan tip QA testa prema
+Constitution (§11.4.169).
+
+| 3. Porodica proizvoda Helix
+
+Linija Helix predstavlja zastavni deo: porodicu medusobno povezanih proizvoda koja obuhvata ceo ciklus
+razvoja Al, od planiranja i specifikacije, preko izgradnje, memorije, prevodenja, do isporuke. Svaki od njih je
+sam po sebi pravi proizvod, ali je osnovna zamisao da se medusobno dopunjuju — sa istom upravljackom
+strukturom, istim modulima za ponovnu upotrebu i istom disciplinom dokazivanja koja stoji iza svih njih.
+
++ HelixTrack — alternativa JIRA za slobodan svet; zastavni proizvod linije Helix-Track.
+
++ HelixAgent — ansambl usluga LLM: viSe modela raspravija i isporucuje odgovor na koji se sloze, uz
+izbor provajdera zasnovan na verifikaciji.
+
++ HelixCode — preduzetni¢ka platforma za distribuirani razvoj Al; deli posao na radnike kojima upravlja
+SSH, sa automatskim Gekpointima i povratkom na prethodno stanje; interfejsi REST, CLI, TUI, MCP.
+
++ HelixCluster — distribuirani operativni sistem za racunanje zasnovano na Al, od GPU-ova u
+podatkovnim centrima do ruénih uredaja na ivici mreze, pod jednim kontrolnim ravnima.
+
++ HelixBuilder — pipeline pokretan Al za izgradnju aplikacija, kategoriju po kategoriju.
+
++ HelixSkills — sistem veStina za agente CLI zasnovane na Al, regulisan ustavom (ve&tine, serverski
+alati MCP, dodaci Claude Code).
+
++ HelixSpecifier — razvoj voden specifikacijama koji prilagodava ceremonijal obimu posla.
+
++ HelixMemory — jedan memorijski mozak za agente Al, koji spaja Cetiri vrhunska motora.
+
++ HelixTranslate — prevodenje knjiga zasnovano na verifikovanim modelima; po dizajnu iskreno, nikada
+sa tihim povratkom na rezervni rezim.
+
++ HelixTerminator — terminalska platforma sa nultim poverenjem: svaka sesija SSH osigurana, deljena i
+asistirana od strane Al.
+
++ HelixGitpx — federisani Git na desetak hostova; jedan izvor istine, ogledalo svuda.
+
++ HelixOTA — univerzalna, odvojena azuriranja ,over-the-air’; dizajnirana da nikada ne blokiraju uredaj.
+
++ HelixPlay — pretvorite bilo koju maSinu GPU u sopstveni uredaj za cloud-igranje.
+
++ Helix-Flow — proizvod za inferenciju na platformi Helix. NEVERIFIKOVANO / blokirano zbog izvora:
+Jjavni repozitorijum trenutno sadrzi samo jednolinijski README; prikazano na nivou proizvoda tek kada
+postoji prava dokumentacija.
+
+| 4. Infrastruktura LLM
+
+Ispod proizvoda nalazi se podloga koja ih ini nezavisnim od provajdera i pouzdanim: jedan interfejs preko
+desetina provajdera LLM, jedna kontrolna ravan za agente za kodiranje bez grafi¢kog interfejsa i jedan izvor
+milosvasic.ru - vasic.digital 3/8

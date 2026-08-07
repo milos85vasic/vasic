@@ -1,0 +1,27 @@
+DONE mv-home-en-light  lang=en dir=ltr theme=light  axeNodes=0  contrastFail(sampler)=1
+DONE mv-home-en-dark  lang=en dir=ltr theme=dark  axeNodes=11  contrastFail(sampler)=1
+DONE mv-home-ru-dark  lang=ru dir=ltr theme=dark  axeNodes=11  contrastFail(sampler)=1
+DONE mv-home-ar-light  lang=ar dir=rtl theme=light  axeNodes=0  contrastFail(sampler)=0
+DONE mv-home-ar-dark  lang=ar dir=rtl theme=dark  axeNodes=11  contrastFail(sampler)=0
+DONE mv-home-ja-light  lang=ja dir=ltr theme=light  axeNodes=0  contrastFail(sampler)=0
+DONE mv-product-en-light  lang=en dir=ltr theme=light  axeNodes=0  contrastFail(sampler)=1
+DONE mv-product-en-dark  lang=en dir=ltr theme=dark  axeNodes=0  contrastFail(sampler)=1
+DONE mv-portfolio-en-light  lang=en dir=ltr theme=light  axeNodes=0  contrastFail(sampler)=1
+DONE mv-portfolio-en-dark  lang=en dir=ltr theme=dark  axeNodes=12  contrastFail(sampler)=1
+DONE mv-doc-en-light  lang=en dir=ltr theme=light  axeNodes=1  contrastFail(sampler)=1
+DONE mv-doc-ar-light  lang=ar dir=rtl theme=light  axeNodes=1  contrastFail(sampler)=0
+DONE vd-home-en-light  lang=en dir=ltr theme=light  axeNodes=11  contrastFail(sampler)=0
+DONE vd-home-en-dark  lang=en dir=ltr theme=dark  axeNodes=11  contrastFail(sampler)=0
+DONE vd-home-ru-dark  lang=en dir=ltr theme=dark  axeNodes=11  contrastFail(sampler)=0
+DONE vd-home-ar-light  lang=en dir=ltr theme=light  axeNodes=11  contrastFail(sampler)=0
+DONE vd-home-ja-light  lang=en dir=ltr theme=light  axeNodes=11  contrastFail(sampler)=0
+DONE vd-product-en-light  lang=en dir=ltr theme=light  axeNodes=0  contrastFail(sampler)=0
+DONE vd-product-en-dark  lang=en dir=ltr theme=dark  axeNodes=0  contrastFail(sampler)=0
+DONE vd-portfolio-en-light  lang=en dir=ltr theme=light  axeNodes=12  contrastFail(sampler)=0
+DONE vd-portfolio-en-dark  lang=en dir=ltr theme=dark  axeNodes=12  contrastFail(sampler)=0
+DONE vd-doc-en-light  lang=en dir=ltr theme=light  axeNodes=11  contrastFail(sampler)=0
+DONE vd-doc-ar-light  lang=en dir=ltr theme=light  axeNodes=11  contrastFail(sampler)=0
+
+=== AUDIT COMPLETE ===
+Total axe violation nodes: 148 byImpact: {"serious":148}
+Contrast sampler rows: 645 fails: 8

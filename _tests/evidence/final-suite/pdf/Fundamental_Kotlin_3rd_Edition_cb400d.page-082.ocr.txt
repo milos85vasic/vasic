@@ -1,0 +1,45 @@
+Again, we have tried to access the member of the null instance. As you can see
+we have used optional types of “Boolean?” and “String?”. To explicitly access
+members without using the safe “elvis” operator we will use the not-null
+assertion operator: “!!". Using “!!” tells the Kotlin compiler that we are sure that it
+is safe to access instance members. Doing this may crash the application if we
+are wrong! The operator converts any value to a non-null type. If the value is
+null it throws an exception. This is why the previous snippet will crash our
+program. Let's get back to the “elvis” operator. What happens if we go with the
+safe option and use “elvis”?
+
+//'size' constant gets Int? type:
+
+val size = nullStringVariable?.length
+
+printin("Length is: $size")
+
+As it is mentioned in the comment line, constant “size” will get the optional type
+of “Int?”. In this case, running the snippet will make the following output but it
+will not crash our program:
+
+Length is: null
+
+Update the snippet by assigning value to the “nullStringVariable”:
+nullStringVariable = "Elephant"
+
+val size = nullStringVariable?.length
+
+printin("Length is: $size")
+
+The output of this snippet will be:
+
+Length is: 8
+
+In this example, the “size” constant got “Int?” type too.
+
+If we operate pure “Int” type and its “optional” equivalent what will happen?
+Take a look at our next example:
+
+nullStringVariable = "House"
+
+val number = 10
+
+val size = nullStringVariable?.length
+
+val sum = size + number

@@ -1,0 +1,56 @@
+executor.addCommand(right)
+
+executor.addCommand(right)
+
+executor.addCommand(left)
+
+printin("Executed left: $countLeft")
+
+printin("Executed right: $countRight")
+
+executor.execute()
+
+printin("Executed left: $countLeft")
+
+printin("Executed right: $countRight")
+
+The following result will be produced:
+
+Executed left: 0
+
+Executed right: 0
+
+Executing: LEFT
+
+Executing: LEFT
+
+Executing: LEFT
+
+Executing: RIGHT
+
+Executing: RIGHT
+
+Executing: LEFT
+
+Executed left: 4
+
+Executed right: 2
+
+Interfaces
+
+“Interfaces” are abstract types that are used to specify a behavior that classes
+must implement. Interfaces are declared using the “interface” keyword, and
+may only contain function signature and constant declarations. “Interfaces” can
+contain declarations of abstract functions, as well as function implementations.
+What makes them different from abstract classes is that interfaces cannot store
+states. Interfaces can have properties. However, the properties need to be
+abstract or to provide accessor implementations.
+
+Interfaces cannot be instantiated, but rather are implemented. A class that
+implements an interface must implement all of the non-default functions
+described in the interface, or be an abstract class.
+
+We will demonstrate the usage of “interfaces” by a simple example. From book
+code examples open “Interfaces.kt”:
+
+interface Vehicle {

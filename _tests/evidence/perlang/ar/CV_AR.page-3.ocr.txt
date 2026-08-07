@@ -1,0 +1,42 @@
+MILOS VASIC CURRICULUM VITAE
+,Docker & Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry :Infra / DevOps +
+-QEMU/Libvirt/Parallels; Cl/CD via GitHub Actions, Gradle, Make
+anti-bluff evidence-gated QA (HelixQA), Challenge harnesses with mutation :QA/ quality engineering -
+visual-regression testing, ADB device testing, SonarQube, security scanning , go test -race ,gates
+.(semgrep/gosec/trivy/snyk/gitleaks/nancy)
+;Constitution-as-submodule; inheritance and propagation gates :Engineering governance «
+.documentation/coverage discipline across a 140+-repository fleet
+| Selected projects
+Governance & QA
+a universal engineering rulebook distributed as a Git submodule and inherited — HelixConstitution «
+across 140+ repositories: engineering law shipped and version-pinned exactly like code. One
+submodule bump upgrades the rules for the entire fleet, and propagation gates literally grep every
+consuming repo for the required clause — each gate paired with a mutation meta-test that proves the
+,gate itself isn’t a sham. It turns “best practices people hope to follow” into inherited, auditable
+-mechanically-enforced anti-bluff law
+anti-bluff QA orchestration (Go) built on one uncompromising rule: the bar is not “tests — HelixQA -
+-fully-autonomous LLM-and and pass” but “users can use the feature.” It runs written YAML test banks
+vision QA sessions that open the real app, verify every documented feature, hunt for undocumented
+bugs across Android/Android TV/Web/Desktop, and refuse to score a PASS without captured runtime
+evidence — screenshots, logcat, video, stack traces — plus Al-fix-ready tickets
+Al development & LLM infrastructure
+production-grade ensemble LLM service (Go/Gin) that refuses to trust a single model: it — HelixAgent +
+— fans a prompt across many providers, runs structured multi-round debate (Proposal — Critique
+Review — Synthesis), and routes by live verification scores with graceful fallback — all behind an
+,Go, Gin, PostgreSQL, Redis .OpenAl-compatible API with HA data layer, observability, and guardrails
+.Prometheus/Grafana/Open Telemetry, MCP, Neo4j/ClickHouse/Kafka
+distributed Al development platform that divides work into intelligent, dependency-aware — HelixCode +
+tasks across an SSH-managed worker fleet, then checkpoints and rolls back so nothing is ever lost
+when a task is interrupted; hardware-aware model selection and full plan/build/test/refactor lifecycle
+.Go, Gin, PostgreSQL, Redis, SSH, MCP, llama.cpp/Ollama .behind REST/CLI/TUI/MCP.
+one binary, six deployment modes: OpenAl- and Anthropic-compatible inference over — HelixLLM +
+/HTTP/3 that scales from a laptop to a multi-host cluster, with local llama.cpp inference (CUDA/Metal
+ROCm) and an auto-discovering, verification-scored cloud fallback chain that always degrades to a
+-Go, HTTP/3 QUIC, gRPC/SSE/Katka, llama.cpp .guaranteed local model
+the LLM-infrastructure spine: one interface over — LLMProvider / LLMOrchestrator / LLMsVerifier «
+-providers with circuit breakers, health monitoring, jittered-backoff retries and honest (no-hardcoded 43.
+fallback) model discovery; a thread-safe control plane that spawns and drives headless CLI agents
+over a hybrid pipetfile protocol; and a (OpenCode, Claude Code, Gemini, Junie, Qwen Code)
+verification source of truth whose mandatory “Do you see my code?” gate means only models proven
+.to actually work are ever marked usable or exported
+milosvasic.ru - vasic.digital 5/3

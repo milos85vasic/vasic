@@ -1,0 +1,34 @@
+clubs.forEach(
+
+Consumer { city ->
+
+printin("City: ${city.capitalize()}")
+
+}
+)
+In the “cars” function example we got only indexes that we could use to access
+items if needed. In the “citiesKt” function example we got only items with no
+indexes. So, what if we need both? Well, in Kotlin, it is really easy to have it:
+fun players(players: List<String>) {
+
+players.forEachIndexed { index, item ->
+printin("Player $index: ${item.capitalize()}")
+}
+
+}
+The “players” function accepts collection of a players. Then, it iterates using
+Kotlin “forEachIndexed” function. We used the lambda expression with values
+for item and index. It is important to note that there is a version of the same
+function without lambda expression too.
+Let's try the function:
+val players = listOf(“John Smith", "John Doe", "Peter Pan")
+players(players)
+Running it will produce the following output:
+Player 0: John Smith
+Player 1: John Doe
+Player 2: Peter Pan
+In the next section, we will take a look at While looping which will give us even
+more power when it comes to repeated code execution.
+While loop
+As you may already know While loop is a statement that allows code to be
+executed repeatedly based on a given condition. While is composed of

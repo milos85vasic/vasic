@@ -1,0 +1,54 @@
+Printing out obtained members of the list will give us the following output:
+Number: 2
+
+Word: Word
+
+Double: 1.0
+
+Last number: 6
+
+Next that we will try with immutable lists is to determine its size:
+
+val doublesListSize = doubles.size
+
+val numbersListSize = numbers.size
+
+val wordsListSize = words.size
+
+And we will print size for both immutable lists:
+
+printin(Doubles list size is: $doublesListSize")
+
+printin("Numbers list size is: $numbersListSize")
+
+printin(Words list size is: $wordsListSize")
+
+Which will give us the following output:
+
+Doubles list size is: 3
+
+Numbers list size is: 3
+
+Words list size is: 2
+
+Besides these functionalities, there are some others very important in everyday
+work with lists. We can:
+
+- check if the list contains an element
+
+- check if the list contains all elements
+
+- check the position of an element in the list
+
+- check if the list is empty
+
+- get a slice of the list
+
+- get list indices
+
+- get list iterator and perform iteration through all list members.
+
+To better understand these functionalities we will illustrate them one by one.
+Checking if the list contains elements:
+
+for (x in 0..10) {

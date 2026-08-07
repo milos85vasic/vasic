@@ -1,0 +1,27 @@
+build.gradle: it is located in the root directory of the project. It defines main
+repositories and library (or plugin) dependencies that will be used for modules
+and build script itself. It also defines the version of Kotlin that will be used:
+buildscript {
+ext.kotlin_version = "1.7.10"
+repositories {
+google()
+mavencCentral()
+}
+dependencies {
+classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+}
+}
+allprojects {
+repositories {
+google()
+mavencCentral()
+}
+apply plugin: "kotlin"
+dependencies {
+api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+}
+As its name suggests “buildscript’” block defines dependencies for the build
+script itself. All build script dependencies will be pulled from “Google” and
+“Maven Central”. We will use the same repositories for build dependencies as
+well.

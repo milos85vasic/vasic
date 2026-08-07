@@ -1,0 +1,7 @@
+
+[visual-oracle] input=file:///Volumes/T7/Projects/vasic/vasic.digital/products/catalogizer.html
+[visual-oracle] tesseract=present  viewport=1280x800  themes=light,dark
+  - light : PASS  (errors=0 warnings=0) png=catalogizer.light.png ocrWords=686
+  - dark  : PASS  (errors=0 warnings=0) png=catalogizer.dark.png ocrWords=687
+[visual-oracle] verdict=PASS  report=_tests/evidence/pages/vasic-digital/catalogizer/catalogizer.verdict.json
+

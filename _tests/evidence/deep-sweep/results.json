@@ -1,0 +1,3467 @@
+[
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "1 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Download",
+    "selector": "[data-dl]->#dl-modal",
+    "status": "PASS",
+    "detail": "modal opens; pdf /downloads/Milos_Vasic_CV_EN.pdf => 200"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "hash=#work; scrollY 0->1116; targetTop=62"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "hash=#experience; scrollY 0->3809; targetTop=1075"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "hash=#skills; scrollY 0->4143; targetTop=1377"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "hash=#contact; scrollY 0->4313; targetTop=1759"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "href=/#top; stays home (/)"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Read-more/product",
+    "selector": "/products/helixtrack.html",
+    "status": "PASS",
+    "detail": "-> /products/helixtrack.html"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Download PDF",
+    "selector": "/downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/portfolio/->/)"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Accordion",
+    "selector": "#od-acc-helixcode-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/helixcode.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Accordion",
+    "selector": "#od-acc-catalogizer-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/catalogizer.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Accordion",
+    "selector": "#od-acc-mail-server-factory-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/mail-server-factory.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "MISSING",
+    "detail": "button absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "MISSING",
+    "detail": "absent"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "1 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Download",
+    "selector": "[data-dl]->#dl-modal",
+    "status": "PASS",
+    "detail": "modal opens; pdf /downloads/Milos_Vasic_CV_EN.pdf => 200"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #0 \"Work\"",
+    "selector": "nav.nav .nav-links a[href] [/#work]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "nav.nav .nav-links a[href] [/#experience]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "nav.nav .nav-links a[href] [/#skills]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "nav.nav .nav-links a[href] [/#contact]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "href=/#top; stays home (/)"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Read-more/product",
+    "selector": "/products/helixtrack.html",
+    "status": "PASS",
+    "detail": "-> /products/helixtrack.html"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Download PDF",
+    "selector": "/downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Nav #0 \"Work\"",
+    "selector": "nav.nav .nav-links a[href] [/#work]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "nav.nav .nav-links a[href] [/#experience]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "nav.nav .nav-links a[href] [/#skills]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "nav.nav .nav-links a[href] [/#contact]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/portfolio/->/)"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Accordion",
+    "selector": "#od-acc-helixcode-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Nav #0 \"Work\"",
+    "selector": "nav.nav .nav-links a[href] [/#work]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "nav.nav .nav-links a[href] [/#experience]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "nav.nav .nav-links a[href] [/#skills]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "nav.nav .nav-links a[href] [/#contact]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/helixcode.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Accordion",
+    "selector": "#od-acc-catalogizer-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Nav #0 \"Work\"",
+    "selector": "nav.nav .nav-links a[href] [/#work]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "nav.nav .nav-links a[href] [/#experience]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "nav.nav .nav-links a[href] [/#skills]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "nav.nav .nav-links a[href] [/#contact]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/catalogizer.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Accordion",
+    "selector": "#od-acc-mail-server-factory-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Nav #0 \"Work\"",
+    "selector": "nav.nav .nav-links a[href] [/#work]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "nav.nav .nav-links a[href] [/#experience]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "nav.nav .nav-links a[href] [/#skills]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "nav.nav .nav-links a[href] [/#contact]",
+    "status": "DEAD",
+    "detail": "hidden at mobile; hamburger=0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/mail-server-factory.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "MISSING",
+    "detail": "button absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "MISSING",
+    "detail": "absent"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "1 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Download",
+    "selector": "[data-dl]->#dl-modal",
+    "status": "PASS",
+    "detail": "modal opens; pdf /downloads/Milos_Vasic_CV_EN.pdf => 200"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "hash=#work; scrollY 0->1066; targetTop=60"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "hash=#experience; scrollY 0->3636; targetTop=941"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "hash=#skills; scrollY 0->3965; targetTop=1207"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "hash=#contact; scrollY 0->4083; targetTop=1648"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "href=/#top; stays home (/)"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Read-more/product",
+    "selector": "/products/helixtrack.html",
+    "status": "PASS",
+    "detail": "-> /products/helixtrack.html"
+  },
+  {
+    "site": "milos",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Download PDF",
+    "selector": "/downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/portfolio/->/)"
+  },
+  {
+    "site": "milos",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Accordion",
+    "selector": "#od-acc-helixcode-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/helixcode.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Accordion",
+    "selector": "#od-acc-catalogizer-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/catalogizer.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "PASS",
+    "detail": "light->dark persists reload"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "PASS",
+    "detail": "opens 15 items; lang en->ru (РусскийRU)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Accordion",
+    "selector": "#od-acc-mail-server-factory-0-panel",
+    "status": "PASS",
+    "detail": "aria-expanded true->false; panelVis true->false"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "PASS",
+    "detail": "5 links, all valid href"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Nav #0 \"Work\"",
+    "selector": "/#work",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#work; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Nav #1 \"Experience\"",
+    "selector": "/#experience",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#experience; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Nav #2 \"Skills\"",
+    "selector": "/#skills",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#skills; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "/#contact",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/#contact; targetOnDest=yes"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/mail-server-factory.html->/)"
+  },
+  {
+    "site": "milos",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#theme-btn",
+    "status": "MISSING",
+    "detail": "button absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#lang-btn",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "MISSING",
+    "detail": "absent"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.brand",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "milos",
+    "page": "article",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "2 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-001-vasic-home-tablet-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Download PDF",
+    "selector": "downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #0 \"Work\"",
+    "selector": "#work",
+    "status": "PASS",
+    "detail": "hash=#work; scrollY 0->1213; targetTop=-3"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #1 \"Products\"",
+    "selector": "#products",
+    "status": "PASS",
+    "detail": "hash=#products; scrollY 0->2084; targetTop=138"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #2 \"Portfolio\"",
+    "selector": "portfolio/",
+    "status": "PASS",
+    "detail": "nav /index.html->/portfolio/"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "#contact",
+    "status": "PASS",
+    "detail": "hash=#contact; scrollY 0->5187; targetTop=3219"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "href=index.html; stays home (/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Read-more/product",
+    "selector": "products/helixtrack.html",
+    "status": "PASS",
+    "detail": "-> /products/helixtrack.html"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "MISSING",
+    "detail": "button absent/hidden"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-002-vasic-portfolio-tablet-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Download PDF",
+    "selector": "../downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Nav #1 \"Portfolio\"",
+    "selector": "#main",
+    "status": "PASS",
+    "detail": "hash=#main; scrollY 0->74; targetTop=0"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-003-vasic-prod-helixcode-tablet-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/helixcode.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-004-vasic-prod-catalogizer-tablet-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/catalogizer.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 1024 <= iw 1024"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-005-vasic-prod-mailserver-tablet-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/mail-server-factory.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "tablet",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "2 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-006-vasic-home-mobile-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Download PDF",
+    "selector": "downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #0 \"Work\"",
+    "selector": "#work",
+    "status": "PASS",
+    "detail": "hash=#work; scrollY 0->1952; targetTop=97"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #1 \"Products\"",
+    "selector": "#products",
+    "status": "PASS",
+    "detail": "hash=#products; scrollY 0->3104; targetTop=516"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #2 \"Portfolio\"",
+    "selector": "portfolio/",
+    "status": "PASS",
+    "detail": "nav /index.html->/portfolio/"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "#contact",
+    "status": "PASS",
+    "detail": "hash=#contact; scrollY 0->9627; targetTop=5675"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "href=index.html; stays home (/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Read-more/product",
+    "selector": "products/helixtrack.html",
+    "status": "PASS",
+    "detail": "-> /products/helixtrack.html"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "MISSING",
+    "detail": "button absent/hidden"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-007-vasic-portfolio-mobile-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Download PDF",
+    "selector": "../downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Nav #1 \"Portfolio\"",
+    "selector": "#main",
+    "status": "PASS",
+    "detail": "hash=#main; scrollY 0->81; targetTop=0"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-008-vasic-prod-helixcode-mobile-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/helixcode.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-009-vasic-prod-catalogizer-mobile-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/catalogizer.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "H-overflow",
+    "selector": "html",
+    "status": "PASS",
+    "detail": "sw 390 <= iw 390"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-010-vasic-prod-mailserver-mobile-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/mail-server-factory.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "mobile",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "2 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-011-vasic-home-desktop-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Download PDF",
+    "selector": "downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #0 \"Work\"",
+    "selector": "#work",
+    "status": "PASS",
+    "detail": "hash=#work; scrollY 0->1244; targetTop=-1"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #1 \"Products\"",
+    "selector": "#products",
+    "status": "PASS",
+    "detail": "hash=#products; scrollY 0->2059; targetTop=130"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #2 \"Portfolio\"",
+    "selector": "portfolio/",
+    "status": "PASS",
+    "detail": "nav /index.html->/portfolio/"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Nav #3 \"Contact\"",
+    "selector": "#contact",
+    "status": "PASS",
+    "detail": "hash=#contact; scrollY 0->4807; targetTop=2594"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "href=index.html; stays home (/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Read-more/product",
+    "selector": "products/helixtrack.html",
+    "status": "PASS",
+    "detail": "-> /products/helixtrack.html"
+  },
+  {
+    "site": "vasic",
+    "page": "home",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "MISSING",
+    "detail": "button absent/hidden"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-012-vasic-portfolio-desktop-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Download PDF",
+    "selector": "../downloads/Portfolio_EN.pdf",
+    "status": "PASS",
+    "detail": "1 pdf link(s); first => 200"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /portfolio/->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Nav #1 \"Portfolio\"",
+    "selector": "#main",
+    "status": "PASS",
+    "detail": "hash=#main; scrollY 0->75; targetTop=0"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "MISSING",
+    "detail": "absent/hidden"
+  },
+  {
+    "site": "vasic",
+    "page": "portfolio",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-013-vasic-prod-helixcode-desktop-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/helixcode.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/helixcode.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-helixcode",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-014-vasic-prod-catalogizer-desktop-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/catalogizer.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/catalogizer.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-catalogizer",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Images",
+    "selector": "0 imgs",
+    "status": "PASS",
+    "detail": "all visible imgs naturalWidth>0"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Theme toggle",
+    "selector": "#od-theme-toggle",
+    "status": "PASS",
+    "detail": "null->dark persists reload"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Lang switcher",
+    "selector": "#od-lang-mount",
+    "status": "BROKEN",
+    "detail": "opens(23) lang unchanged=en [fail-015-vasic-prod-mailserver-desktop-lang.png]"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Accordion",
+    "selector": "#od-lang-menu",
+    "status": "PASS",
+    "detail": "aria-expanded false->true; panelVis false->true"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Back-to-top",
+    "selector": "[aria-label=\"Back to top\"]",
+    "status": "PASS",
+    "detail": "hiddenAtTop=false; appears on scroll; click->scrollY=0; name=\"Back to top\""
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Footer links",
+    "selector": "footer a",
+    "status": "MISSING",
+    "detail": "no footer links"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Nav #0 \"Home\"",
+    "selector": "../index.html",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/index.html"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Nav #1 \"Products\"",
+    "selector": "../index.html#products",
+    "status": "PASS",
+    "detail": "nav /products/mail-server-factory.html->/index.html#products; targetOnDest=yes"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Brand/logo",
+    "selector": "a.od-brand",
+    "status": "PASS",
+    "detail": "subpage->home (/products/mail-server-factory.html->/index.html)"
+  },
+  {
+    "site": "vasic",
+    "page": "prod-mailserver",
+    "vp": "desktop",
+    "element": "Console/pageerror",
+    "selector": "",
+    "status": "PASS",
+    "detail": "clean"
+  }
+]

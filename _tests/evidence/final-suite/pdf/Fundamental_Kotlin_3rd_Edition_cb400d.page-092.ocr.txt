@@ -1,0 +1,29 @@
+return MyCustomType(param + what.param)
+
+}
+}
+We have define our custom data type that defines how addition is performed.
+Let's see this in action:
+val a = MyCustomType(5)
+val b = MyCustomType(10)
+valc=at+b
+printin("a + b = ${c.param}")
+The output of the program will be:
+a+b=15
+This is a very simple implementation that gives us very powerful possibilities.
+Assignment operators
+Assignment operators are used for assigning value to a variable or constant. As
+you probably remember we have shown how to assign values to variables and
+constants in previous sections of the book. So let's refresh our memory with a
+few short examples:
+vala=1
+val b=2
+varc=10
+vard=a
+And so on.
+Besides simple assignment using the “=” operator, there are a few more
+assignment operators that we can use. Let's have a look at “Assignment.kt”
+from book code examples:
+vara=3
+varb=5
+printin("a: $a, b: $b")

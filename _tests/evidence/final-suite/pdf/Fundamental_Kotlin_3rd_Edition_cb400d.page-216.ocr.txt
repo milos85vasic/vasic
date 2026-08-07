@@ -1,0 +1,42 @@
+// We are initializing soft reference
+
+// by passing a referent as a parameter
+
+// exactly as we did with weak reference:
+
+val soft = SoftReference(dummy)
+
+soft.get()?.hello()
+
+// Release soft reference:
+
+soft.clear()
+
+soft.get()?.hello()
+
+Phantom references
+
+Phantom references are rarely used in everyday development. However, it is
+worth mentioning that phantom references have two major differences
+compared to weak and soft references:
+
+- A referent of a phantom reference cannot be obtained. The referent is never
+accessible directly through the API. Because of this, we need to work with a
+“ReferenceQueue” class.
+
+- The Garbage Collector adds a phantom reference to a reference queue after
+the finalize function of its referent is executed. It implies that the instance is still
+in the memory.
+
+References summary
+
+Listing the reference types from the strongest to the weakest, the different
+levels of reachability reflect the life cycle of an object. They are defined as
+follows:
+
+- An object is strongly reachable if it can be reached by some thread without
+traversing any reference objects. A newly created object is strongly reachable
+by the thread that has created it.
+
+- An object is softly reachable if it is not strongly reachable but can be reached
+by traversing a soft reference.

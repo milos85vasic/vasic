@@ -1,0 +1,24 @@
+{
+  "target": {
+    "id": "mv-product-en-dark",
+    "site": "mv",
+    "url": "http://localhost:8502/products/helixtrack.html",
+    "theme": "dark",
+    "lang": "en",
+    "kind": "product"
+  },
+  "applied": {
+    "lang": "en",
+    "dir": "ltr",
+    "theme": "dark"
+  },
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "nodes": 17
+    }
+  ],
+  "passesCount": 35
+}

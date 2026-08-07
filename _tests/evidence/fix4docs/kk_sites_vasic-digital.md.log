@@ -1,0 +1,128 @@
+===== attempt 1/10  kk  sites/vasic-digital.md  14:39:57 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 129 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3757 chars)
+    chunk 2/3 (    3660 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/3 (    1733 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 3 attempt 2/7 failed (likely rate-limit); backoff 20s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 60=gitleaks, 66=semgrep, 95=gosec, 96=nancy, 97=trivy, 114=snyk
+attempt 1 exit=nonzero (retrying)
+===== attempt 2/10  kk  sites/vasic-digital.md  14:42:32 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 129 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3757 chars)
+    chunk 2/3 (    3660 chars)
+    chunk 3/3 (    1733 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 3 attempt 2/7 failed (likely rate-limit); backoff 20s
+      chunk 3 attempt 3/7 failed (likely rate-limit); backoff 45s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 60=gitleaks, 66=semgrep, 95=gosec, 96=nancy, 97=trivy, 114=snyk
+attempt 2 exit=nonzero (retrying)
+===== attempt 3/10  kk  sites/vasic-digital.md  14:45:29 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 129 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3757 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 1 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 2/3 (    3660 chars)
+    chunk 3/3 (    1733 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 60=gitleaks, 96=nancy, 97=trivy, 114=snyk
+attempt 3 exit=nonzero (retrying)
+===== attempt 4/10  kk  sites/vasic-digital.md  14:48:38 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 129 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3757 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 1 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 2/3 (    3660 chars)
+    chunk 3/3 (    1733 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 3 attempt 2/7 failed (likely rate-limit); backoff 20s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 60=gitleaks, 95=gosec, 96=nancy, 97=trivy, 114=snyk
+attempt 4 exit=nonzero (retrying)
+===== attempt 5/10  kk  sites/vasic-digital.md  14:51:46 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 129 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, embeddings, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, vector, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3757 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 1 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 2/3 (    3660 chars)
+    chunk 3/3 (    1733 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 3 attempt 2/7 failed (likely rate-limit); backoff 20s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 60=gitleaks, 96=nancy, 97=trivy, 114=snyk
+attempt 5 exit=nonzero (retrying)
+===== attempt 6/10  kk  sites/vasic-digital.md  14:54:44 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 127 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3750 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 1 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 2/3 (    3654 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/3 (    1733 chars)
+      chunk 3 attempt 1/7 failed (likely rate-limit); backoff 5s
+[restore] ERROR: dropped sentinels (engine omitted protected term): 59=gitleaks, 94=nancy, 95=trivy, 112=snyk
+attempt 6 exit=nonzero (retrying)
+===== attempt 7/10  kk  sites/vasic-digital.md  14:57:23 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 127 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3750 chars)
+    chunk 2/3 (    3654 chars)
+    chunk 3/3 (    1733 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 59=gitleaks, 93=gosec, 94=nancy, 95=trivy, 112=snyk
+attempt 7 exit=nonzero (retrying)
+===== attempt 8/10  kk  sites/vasic-digital.md  14:58:56 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 127 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3750 chars)
+      chunk 1 attempt 1/7 failed (likely rate-limit); backoff 5s
+    chunk 2/3 (    3654 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/3 (    1733 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 59=gitleaks, 94=nancy, 112=snyk
+attempt 8 exit=nonzero (retrying)
+===== attempt 9/10  kk  sites/vasic-digital.md  15:01:09 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 127 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3750 chars)
+    chunk 2/3 (    3654 chars)
+      chunk 2 attempt 1/7 failed (likely rate-limit); backoff 5s
+      chunk 2 attempt 2/7 failed (likely rate-limit); backoff 20s
+    chunk 3/3 (    1733 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 59=gitleaks, 94=nancy, 95=trivy, 112=snyk
+attempt 9 exit=nonzero (retrying)
+===== attempt 10/10  kk  sites/vasic-digital.md  15:03:15 =====
+==============================================================
+>>> sites/vasic-digital.md  (en -> kk, script=cyrillic)
+[protect] 127 glossary terms protected: Model Context Protocol, Kotlin Multiplatform, Mail Server Factory, HelixConstitution, Protocol Buffers, Tree of Thoughts, Courses-Creator, HelixTerminator, LLMOrchestrator, Parallels-Utils, GitHub Actions, HelixSpecifier, HelixTranslate, Server Factory, OpenTelemetry, Vasic Digital, Constitution, DocProcessor, HelixBuilder, HelixCluster, LLMsVerifier, VisionEngine, Catalogizer, HelixMemory, HelixSkills, LLMProvider, SiliconFlow, Together AI, task_bridge, ClickHouse, Cloudflare, Docs Chain, HelixAgent, HelixGitpx, HelixTrack, Kubernetes, OpenRouter, Perplexity, PostgreSQL, Prometheus, Qemu-Utils, TypeScript, Anthropic, HelixCode, HelixPlay, HumanEval, Parallels, Replicate, SQLCipher, SWE-bench, SonarQube, Cerebras, DeepSeek, HelixLLM, HelixOTA, PL/pgSQL, RabbitMQ, SpeechT5, gitleaks, Angular, Grafana, HelixQA, Libvirt, Mistral, semgrep, Claude, Cognee, Cohere, Docker, Gemini, GitHub, Gradle, HTTP/3, Herald, HiPlan, Kotlin, LLMOps, Ollama, OpenAI, Python, SQLite, Azure, CI/CD, Helix, Kafka, Letta, MinIO, Neo4j, React, Redis, Shell, Swift, gosec, nancy, trivy, Bark, Grok, Groq, Helm, JIRA, JSON, MCTS, MMLU, Make, Mem0, QEMU, QUIC, Qwen, TLA+, YAML, gRPC, snyk, CLI, GCS, Gin, LLM, MCP, OTA, PII, RAG, SSH, TTS, xAI, AI, Go, ML, S3
+--- HelixTranslate: provider=mistral model=mistral-large-latest (chunked <= 3000 chars)
+    chunk 1/3 (    3750 chars)
+    chunk 2/3 (    3654 chars)
+    chunk 3/3 (    1733 chars)
+[restore] ERROR: dropped sentinels (engine omitted protected term): 59=gitleaks, 94=nancy, 95=trivy, 112=snyk
+attempt 10 exit=nonzero (retrying)
+RESULT: FAIL after 10 attempts

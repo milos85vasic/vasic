@@ -1,0 +1,36 @@
+MILOS VASIC CURRICULUM VITAE
+2009 140+ 43 6+
+ENGINEERING SINCE REPOSITORIES LLM PROVIDERS CORE LANGUAGES
+GOVERNED UNIFIED
+InZenjer — LLM infrastruktura, autonomni agenti i upravijanje koje ih Cini pouzdanim.
++ Email: milos85vasic@gmail.com
++ Web: https://milosvasic.ru - https://vasic.digital
++ GitHub: vasic-digital - HelixDevelopment - Server-Factory
+| Sazetak
+Al/inzenjer softvera koji gradi sisteme za Al razvoj od pocetka do kraja — od LLM infrastrukture sa vise
+provajdera i autonomnih agenata do slojeva QA i upravijanja koji ih drze pod kontrolom. Ne isporuéujem
+demo verzije; isporucujem platforme. Vise od 15 godina profesionalnog inZenjeringa (od 2009. godine) u
+oblasti mobilnih SDK-ova, integracije hardvera u realnom vremenu i distribuiranih backend sistema sada se
+usredsreduje na jedan cilj: uGiniti autonomni Al razvoj pouzdanim na velikoj skali.
+Projektujem flote, a ne monolite — velike aplikacije koje se oslanjaju na desetine malih, odvojenih i nezavisno
+testiranih modula, od kojih svaki nasleduje zajednicki inzenjerski Constitution i proverava se kroz rigoroznu,
+dokazima zasnovanu QA disciplinu koja eliminiSe varanje. Primarni jezik je Go, uz Kotlin/KMP, TypeScript/
+React, Python, Swift i Shell. Vodeno naéelo, koje se primenjuje mehanicki a ne samo deklarativno:
+funkcionalnost je gotova tek kada je stvarni korisnik moze koristiti i kada postoje prikupljeni dokazi koji to
+potvrduju.
+Sta donosim za sto: sposobnost da se Al moguénost prevede iz istrazivaéke ideje u upravijani,
+samoverifikujuci sistem spreman za produkciju — LLM rutiranje koje dokazuje da svaki model zaista radi pre
+nego Sto mu se poveruje, agenti koji raspravljaju i postizu konsenzus umesto da nagadaju, slojevi memorije i
+RAG koji ne gube kontekst, i ceo ekosistem povezan tako da ,testovi su zeleni” nikada tiho ne zna¢i
+»funkcionalnost je pokvarena’”.
+| Kljuéne kompetencije
++ Al/ LLM sistemi: apstrakcija LLM infrastrukture sa viSe provajdera (40+ provajdera), integracija alata
+za MCP, RAG, vector baze podataka i embeddings, orkestracija agenata (bezglavi CLI agenti,
+grafovski tokovi poslova, rasprave/konsenzus u vise krugova), planiranje (HiPlan/MCTS/Tree-of-
+Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), verifikacija LLM infrastrukture,
+odbrambeni LLM mehanizmi, raéunarski vid + LLM-vid.
++ Backend inzenjering: Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, distribuirani sistemi
+(ukljucujuci TLA+ formalne specifikacije), visokopropusni REST servisi i konkurentni radnici.
++ Podaci: PostgreSQL, SQLite, SQLCipher (Sifrovanje u mirovanju), Redis, Neo4j, ClickHouse,
+skladi$tenje objekata (Minl|O/S3/GCS/Azure).
+milosvasic.ru - vasic.digital 2/5

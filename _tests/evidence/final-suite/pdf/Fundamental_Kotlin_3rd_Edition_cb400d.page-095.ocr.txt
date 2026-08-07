@@ -1,0 +1,57 @@
+a: 12
+
+a: 12
+
+a: 10
+
+If the output is not what you have expected it to be, this is because “a++” and “+
++a” do not have the same behavior. “++a” increases the value of a variable first
+and then returns it. While, on the other hand, “a++” returns the value of the
+variable first, and then increases it. The same applies to the decrease operator.
+Comparisons
+
+To compare two instances of certain data types we use comparison operators.
+Compared objects (instances) can be equal, object “a” can be smaller than
+object “b”, and opposite. Objects can be not equal as well. We will illustrate each
+of the commonly used comparison operators with proper examples. Open
+“Comparison.kt” from book code examples:
+
+vala=1
+
+valb=2
+
+valc=1
+
+printin("a: $a, b: $b, c: $c")
+
+printin("a == b: ${a == b}")
+
+printin("a == c: ${a == c}")
+
+printin("a != b: ${a != b}")
+
+printin("a != c: ${a != c}")
+
+printin("a > b: ${a > b}")
+
+printin("a > c: ${a > c}")
+
+printin("a < b: ${a < b}")
+
+printin("a < c: ${a < c}")
+
+printin("a >= b: ${a >= b}")
+
+printin("a >= c: ${a >= c}")
+
+printin("a <= b: ${a <= b}")
+
+printin("a <= c: ${a <= c}")
+
+Executing our program will give us the following results:
+
+a: 1,b:2,c:1
+
+a == b: false
+
+a==c: true

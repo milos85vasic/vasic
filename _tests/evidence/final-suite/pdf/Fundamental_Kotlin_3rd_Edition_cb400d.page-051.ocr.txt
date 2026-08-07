@@ -1,0 +1,67 @@
+Reserved words
+
+All words used by the Kotlin programming language consider being “reserved”.
+That means that these words cannot be used as identifiers of your classes,
+constants, variables, or functions. This is the list of reserved words in the
+current version of the Kotlin:
+
+package
+
+as
+
+typealias
+
+class
+
+this
+
+super
+
+val
+
+var
+
+fun
+
+for
+
+null
+
+true
+
+false
+
+is
+
+in
+
+throw
+
+return
+
+break
+
+continue
+
+object
+
+if
+
+try
+
+else
+
+while
+
+do
+
+when
+
+interface
+
+typeof
+
+Packages and code organization
+
+You probably remember our first example: “First.kt”. The first line of the code in
+that example defines belonging to a package:

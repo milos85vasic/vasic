@@ -1,0 +1,47 @@
+
+COVER LETTER
+ae HOS Vasic
+ee a \ Cover Letter - Al Engineer
+.’ j
+Deep Al-systems engineering paired with a genuine,
+verifiable quality discipline.
+milos85vasic@gmail.com - milosvasic.ru - vasic.digital
+
+MILOS VASIC COVER LETTER
+Dear Hiring Team,
+
+| am writing to express my interest in engineering roles focused on building production Al systems. | am an Al
+engineer who builds the unglamorous, load-bearing part of Al software: the LLM infrastructure, the
+autonomous agents and orchestration, and the QA and governance layers that make them trustworthy in
+production.
+
+Over the past years | have designed and shipped an interconnected family of Al-development products. The
+Helix line spans the full lifecycle — HelixAgent (an ensemble LLM service where multiple models debate and
+ship the answer they agree on), HelixCode (a distributed Al development platform that divides work across
+SSH-managed workers with checkpoint/rollback), HelixLLM (a single binary serving OpenAl- and Anthropic-
+compatible inference over HTTP/3), and the LLM-infrastructure trio LLMProvider, LLMOrchestrator, and
+LLMsVerifier (one interface over 43 providers, a control plane for headless CLI agents, and a verification
+source of truth). Around these | built product-grade tools such as Catalogizer (multi-protocol, encrypted media
+management) and Courses-Creator (an Al markdown-to-video course pipeline), all standing on a fleet of
+small, decoupled, independently-tested Go and Kotlin Multiplatform modules.
+
+What | think sets my work apart is a discipline | take seriously: anti-bluff engineering. | maintain a universal
+engineering Constitution, distributed as a Git submodule and inherited across a 140+-repository fleet, that
+makes one rule mechanically enforceable — a feature is not done when the tests pass, it is done when a real
+user can use it and there is captured evidence to prove it. | pair that with HelixQA, an anti-bluff QA
+orchestrator that runs autonomous LLM-and-computer-vision sessions across Android, Web, and Desktop
+and refuses to score a PASS without a screenshot, a logcat, or a video. | build systems that don’t just look
+finished; they demonstrably are.
+
+Technically | work primarily in Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and Shell, across REST/
+QRPC/HTTP/3 services, PostgreSQL/SQLite/Redis/ClickHouse data layers, and Docker/Kubernetes/
+Prometheus operations. | am comfortable owning a system from provider abstraction and retrieval all the way
+to the evidence trail that proves it works.
+
+| would welcome the chance to bring that combination — deep Al-systems engineering plus a genuine,
+verifiable quality discipline — to your team. Thank you for your consideration; my portfolio and public
+repositories are available at milosvasic.ru and vasic.digital.
+
+Sincerely, Milos Vasié milos85vasic@gmail.com
+
+milosvasic.ru - vasic.digital 2/2

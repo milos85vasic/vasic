@@ -1,0 +1,38 @@
+}
+
+}
+
+// Main coroutine continues,
+
+// a previous one is delayed:
+
+printin("Hello Coroutines!")
+}
+There are several important points to explain in this code snippet:
+- “launch” represents a coroutine builder. Coroutine builder launches a new
+coroutine that runs concurrently with the rest of the code. The rest of the code
+continues to work independently.
+- “delay” is a pausing function. It pauses the coroutine for a specific time in
+milliseconds. This does not block the underlying thread but it allows the other
+coroutines to run.
+- “runBlocking” is another coroutine builder that ties the main program function
+and the coroutine code block. “runBlocking” means that the thread that is
+currently running is blocked, until all the coroutines inside “runBlocking”
+complete their work.
+Let's run our program:
+Hello Coroutines!
+Count no. 0
+Count no. 7
+Count no. 2
+Count no. 3
+Count no. 4
+Count no. 5
+Count no. 6
+Count no. 7
+Count no. 8
+Count no. 9
+Count no. 10
+Coroutines follow a principle of “structured concurrency”. The “structured
+concurrency” principle means that new coroutines can be only launched in a
+specific coroutine scope (“CoroutineScope” is the class). The scope determines
+the lifetime of the coroutine. The “structured concurrency” makes sure that

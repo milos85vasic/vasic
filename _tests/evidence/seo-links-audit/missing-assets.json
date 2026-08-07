@@ -1,0 +1,5680 @@
+{
+  "totals": {
+    "missingAssets": 0,
+    "totalAssetsChecked": 659,
+    "remoteRefs": 810
+  },
+  "missingAssets": [],
+  "remoteRefs": [
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ar/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/be/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/de/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/en/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/es/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fa/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/fr/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/hi/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ja/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/kk/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ko/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/ru/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/sr/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/tr/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/grab-tube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/helix-agent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/helix-code.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/helix-track-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/helix-translate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/llms-verifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/articles/zh/share-connect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/index.legacy.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/portfolio/index.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Media-Types-TS",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer-API-Client-TS",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Media-Player-React",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Media-Browser-React",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Collection-Manager-React",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Dashboard-Analytics-React",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Auth-Context-React",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/catalogizer.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Courses-Creator",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/courses-creator.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/DocProcessor",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/DocProcessor",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docprocessor.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/docs_chain",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/docs-chain.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helix-flow.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixagent.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixBuilder",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixbuilder.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/helix_cluster",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcluster.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixcode.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixconstitution.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixGitpx",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixgitpx.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixLLM",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixllm.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/memory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixmemory.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/helix_ota",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixota.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixPlay",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixplay.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/helixqa",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/HelixQA",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixqa.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/skills",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixskills.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/specifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixspecifier.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/terminator",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixterminator.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Website",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtrack.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/helixtranslate.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Herald",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/herald.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/LLMOrchestrator",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmorchestrator.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/LLMProvider",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmprovider.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/llmsverifier.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory-Website",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/mail-server-factory.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Parallels-Utils",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/parallels-utils.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Qemu-Utils",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/qemu-utils.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Web-Service-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/SonarQube-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Caching-Proxy-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Docker-Definitions",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Stack-Definitions",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Software-Definitions",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Utils",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-additional-components.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/server-factory-core-framework.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/task_bridge",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/task-bridge.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/vasic-digital-reusable-module-suite.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/VisionEngine",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/VisionEngine",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://github.com/milos85vasic",
+      "host": "github.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://gitflic.ru/user/milosvasic",
+      "host": "gitflic.ru"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://gitlab.com/milos85vasic",
+      "host": "gitlab.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://t.me/milos85vasic",
+      "host": "t.me"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.googleapis.com",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "link[rel=preconnect]",
+      "url": "https://fonts.gstatic.com",
+      "host": "fonts.gstatic.com"
+    },
+    {
+      "site": "milosvasic.ru",
+      "page": "milosvasic.ru/_site/products/visionengine.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ar/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/be/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/de/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/en/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/es/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fa/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/fr/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/hi/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ja/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/kk/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ko/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/ru/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/sr/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/tr/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/android-toolkit.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/asinka.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/grabtube.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/helix-flow-platform.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/helixtrack-core.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/panoptic.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/shareconnect.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/articles/zh/yole.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/ShareConnect",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Panoptic",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Android-Toolkit",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Asinka",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Yole",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/GrabTube",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "link[href]",
+      "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/index.legacy.html",
+      "type": "link[href]",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css",
+      "host": "cdnjs.cloudflare.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Media-Types-TS",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Catalogizer-API-Client-TS",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Media-Player-React",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Media-Browser-React",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Collection-Manager-React",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Dashboard-Analytics-React",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/catalogizer.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Auth-Context-React",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/courses-creator.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Courses-Creator",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/DocProcessor",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/docprocessor.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/DocProcessor",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/docs-chain.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/docs_chain",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helix-flow.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Flow/Platform",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixagent.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixAgent",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixbuilder.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixBuilder",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/helix_cluster",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixcluster.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixcode.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixCode",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixconstitution.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixgitpx.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixGitpx",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixllm.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixLLM",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixmemory.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/memory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixota.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/helix_ota",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixplay.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixPlay",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/helixqa",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixqa.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/HelixQA",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/skills",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixskills.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixspecifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/specifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixterminator.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/terminator",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Core",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixtrack.html",
+      "type": "a[href]",
+      "url": "https://github.com/Helix-Track/Website",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixTranslate",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/helixtranslate.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/herald.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/Herald",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/LLMOrchestrator",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmorchestrator.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/LLMProvider",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmprovider.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/HelixConstitution",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/llmsverifier.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/LLMsVerifier",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/mail-server-factory.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Mail-Server-Factory-Website",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/parallels-utils.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Parallels-Utils",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/qemu-utils.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Qemu-Utils",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Web-Service-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/SonarQube-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Caching-Proxy-Factory",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Docker-Definitions",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Stack-Definitions",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Software-Definitions",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-additional-components.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Utils",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/server-factory-core-framework.html",
+      "type": "a[href]",
+      "url": "https://github.com/Server-Factory/Core-Framework",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/task-bridge.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/task_bridge",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/vasic-digital-reusable-module-suite.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://github.com/HelixDevelopment/VisionEngine",
+      "host": "github.com"
+    },
+    {
+      "site": "vasic.digital",
+      "page": "vasic.digital/products/visionengine.html",
+      "type": "a[href]",
+      "url": "https://github.com/vasic-digital/VisionEngine",
+      "host": "github.com"
+    }
+  ]
+}

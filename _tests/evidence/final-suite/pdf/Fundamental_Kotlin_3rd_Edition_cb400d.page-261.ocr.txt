@@ -1,0 +1,34 @@
+Executing this small code snippet will produce the following output:
+Iam late initialized
+Hello World!
+Delegating behavior
+In Kotlin we can delegate class behavior to the other classes. This functionality
+comes supported in Kotlin out of the box. The delegation pattern makes our
+code more flexible and it is proven when it comes to finding the perfect
+alternative to the inheritance.
+Let's take a look at the simple example of behavior delegation. From book code
+examples open “Delegate.kt”:
+interface Flying {
+
+fun fly)
+}
+“Flying” will be our very basic definition of behavior with two implementations:
+class Plane : Flying {
+
+override fun fly() {
+
+printin("PLANE")
+
+}
+}
+class Zeppelin : Flying {
+
+override fun fly() {
+
+printin("ZEPPELIN")
+
+}
+}
+Next that we do is definition of a class that can implement an interface by
+delegating all of its public members to a specified object:
+class Traveling(fly: Flying) : Flying by fly

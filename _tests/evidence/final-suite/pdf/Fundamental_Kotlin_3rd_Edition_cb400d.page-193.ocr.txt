@@ -1,0 +1,28 @@
+}
+In this example, we have filtered all items from the set which have a size bigger
+than three and then, all that don’t have a size bigger than three (they are less or
+equal to three). Let's run this and see what output is produced:
+Car (name length > 3): Fiat
+Car (name length > 3): Audi
+Car (name length > 3): Porsche
+Car (name length > 3): Renault
+Car (name length <= 3): Bmw
+Perform “+” and “-" operations:
+val setA = setOf("Hello", "World", "Who")
+val setB = setOf("Who", "Are", "You")
+val setC = setA + setB
+val setD = setC - setA
+Let's see what do we get when we perform “+” and “-" operations on two sets:
+printin("$setA + $setB = $setC")
+printin("$setC + $setA = $setD")
+Which will produce the following output:
+[Hello, World, Who] + [Who, Are, You] =
+[Hello, World, Who, Are, You]
+[Hello, World, Who, Are, You] + [Hello, World, Who] =
+[Are, You]
+As you can see making a set that contains everything from two or more sets
+(addition) is very simple. The same applies to the subtraction operation.
+Mutable collections
+The main difference between immutable and mutable collections is that
+mutable collections can change. To illustrate this we will present a couple of
+examples for lists, maps, and sets.

@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-08-05T13:45:28.806Z",
+  "fontLoadingApiVerdict": {
+    "Inter": true,
+    "Space Grotesk": true,
+    "JetBrains Mono": true
+  },
+  "woff2FilesFetched": {
+    "Inter": true,
+    "Space Grotesk": true,
+    "JetBrains Mono": true
+  },
+  "widthProof": {
+    "inter": {
+      "real": 1286.53,
+      "fallback": 1218.75
+    },
+    "space": {
+      "real": 1285.08,
+      "fallback": 1218.75
+    },
+    "mono": {
+      "real": 1392,
+      "fallback": 1392.23
+    }
+  },
+  "widthProofNote": "Informational. real != fallback for Inter & Space Grotesk. For mono the generic \"monospace\" shares JetBrains Mono's fixed advance, so width cannot distinguish them — the Font Loading API verdict + the fetched jetbrains-mono woff2 are the proof there.",
+  "totalRequests": 8,
+  "externalRequests": [],
+  "externalRequestCount": 0,
+  "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/fonts/fonts-preview.png"
+}

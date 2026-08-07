@@ -1,0 +1,60 @@
+SERVER-SIDE LOCALIZATION PROOF — aria-labels/titles + footer suffix (no JS)
+Generated: Thu Aug  6 15:37:21 CEST 2026
+
+############ vasic.digital (Go self-contained shells) ############
+== EN product (products/catalogizer.html) — baseline English ==
+aria-label="Back to top"
+aria-label="Primary"
+aria-label="Toggle theme"
+== RU product (products/ru/catalogizer.html) — Russian server-side ==
+aria-label="Вернуться наверх"
+aria-label="Основная навигация"
+aria-label="Переключить тему"
+== AR product (products/ar/catalogizer.html) — RTL + Arabic ==
+<html lang="ar" dir="rtl"
+aria-label="العودة إلى الأعلى"
+aria-label="تبديل الشكل"
+aria-label="الرئيسية"
+== RU portfolio (portfolio/ru/index.html) ==
+aria-label="Вернуться наверх"
+aria-label="Основная навигация"
+aria-label="Переключить тему"
+
+############ milosvasic.ru (Jekyll _site) ############
+== EN (milosvasic.ru/_site/products/catalogizer.html) — baseline ==
+aria-label="Back to top"
+aria-label="Change language"
+aria-label="Close"
+aria-label="Menu"
+aria-label="Primary"
+aria-label="Toggle dark / light theme"
+title="Language"
+title="Theme"
+title="title.language"
+title="title.theme"
+© 2026 Miloš Vasić — <span data-i18n="footer.text">Belgrade · Dubna. Built as a static site, deployed on GitHub Pages.
+== RU (milosvasic.ru/_site/products/ru/catalogizer.html) — Russian server-side ==
+aria-label="Переключить темную / светлую тему"
+aria-label="Вернуться наверх"
+aria-label="Основная навигация"
+aria-label="Сменить язык"
+aria-label="Закрыть"
+aria-label="Меню"
+title="Тема"
+title="Язык"
+title="title.language"
+title="title.theme"
+© 2026 Miloš Vasić — <span data-i18n="footer.text">Belgrade · Dubna. Создан как статический сайт, развернут на GitHub Pages.
+== AR (milosvasic.ru/_site/products/ar/catalogizer.html) — RTL + Arabic ==
+<html lang="ar" dir="rtl"
+aria-label="تبديل السمة الداكنة / الفاتحة"
+aria-label="العودة إلى الأعلى"
+aria-label="تغيير اللغة"
+aria-label="إغلاق"
+aria-label="الرئيسية"
+aria-label="القائمة"
+title="السمة"
+title="اللغة"
+title="title.language"
+title="title.theme"
+© 2026 Miloš Vasić — <span data-i18n="footer.text">Belgrade · Dubna. تم بناؤه كموقع ثابت، تم نشره على GitHub Pages.

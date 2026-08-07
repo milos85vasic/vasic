@@ -1,0 +1,33 @@
+{
+  "site": "milosvasic-ru",
+  "lang": "kk",
+  "name": "Kazakh (Cyrillic script)",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 60,
+  "reviewer_bad_keys": [
+    "0",
+    "2",
+    "15",
+    "35"
+  ],
+  "script_flagged": [
+    "AI / LLM"
+  ],
+  "english_leftover_flagged": [
+    "AI / LLM"
+  ],
+  "retried": [
+    "AI / LLM",
+    "AI engineer building verifiable AI-development systems: multi-provider LLM infrastructure, autonomous agents and orchestration, and the governance and QA layers that keep them honest.",
+    "The Helix line, in priority order.",
+    "The digital.vasic.* \"standard library\" of infrastructure, AI-primitive, and guardrail modules.",
+    "// AI engineer"
+  ],
+  "still_bad_after_retry": [
+    "AI / LLM"
+  ],
+  "notes": "Key 0 and 2 use Russian word 'инженер' instead of Kazakh; key 15 contains Russian 'приоритет' instead of Kazakh; key 35 misspells the preserved term 'digital.vasic.*' as 'digital.vasin.*'."
+}

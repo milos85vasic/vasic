@@ -1,0 +1,73 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T13:37:05.389Z",
+  "input": "file:///Volumes/T7/Projects/vasic/design-system/preview/components.html",
+  "name": "components",
+  "viewport": {
+    "w": 1280,
+    "h": 8000
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "_tests/evidence/components/components.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/components/components.light.ocr.txt",
+        "wordCount": 258,
+        "sample": "OpenDesign Extended components Overlays Forms Nav Feedback COMPONENTS-EXTENDED .CSS Every widget below"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 8000
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 78,
+          "controls": 33,
+          "textChars": 1074
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    },
+    "dark": {
+      "screenshot": "_tests/evidence/components/components.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "_tests/evidence/components/components.dark.ocr.txt",
+        "wordCount": 254,
+        "sample": "OpenDesign Extended components Overlays Forms Nav Feedback COMPONENTS-EXTENDED .CSS Every widget below"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 8000
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 78,
+          "controls": 33,
+          "textChars": 1074
+        },
+        "findings": []
+      },
+      "errorCount": 0,
+      "warningCount": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,36 @@
+printin("Executing garbage collection")
+
+System.gc()
+
+printMemoryStats()
+}
+What this example is illustrating is the following:
+- We have created a global mutable list named “staticList”
+- We are printing the current size of the heap memory (before the list is filled
+with doubles)
+- After the list is filled with objects we are printing again heap memory size
+- Then, we are triggering garbage collection explicitly by calling the “gc”
+function from runtime. Calling this function suggests that the JVM expends
+effort toward recycling unused objects to make the memory they currently
+occupy available for quick reuse. When control returns from the function call,
+the virtual machine has made its best effort to recycle all discarded objects. The
+virtual machine performs this recycling process automatically as needed, in a
+separate thread, even if the “gc” function is not invoked explicitly. The
+“System.gc()" is the standard way of invoking this function.
+- Finally, we are printing again the size of the heap memory.
+As you will see the heap size is increasing through the execution of our
+program. Once the program is executed something similar to this will be
+generated as the final output:
+Heap size: 257425408
+Populating static list
+Heap size: 3669491712
+Executing garbage collection
+Heap size: 3669491712
+Memory leaks that are introduced through unclosed resources:
+When opening a new connection (for example to a database) or a new stream
+causes new memory allocation. If we forget to close any of these resources, this
+can block the memory. For example, in case of an exception that prevents the
+program execution from reaching the statement that's handling the code to
+close these resources.
+To be sure that we don’t get memory leaks caused by unclosed connections or
+streams, always use the “finally” block to close the program's resources.

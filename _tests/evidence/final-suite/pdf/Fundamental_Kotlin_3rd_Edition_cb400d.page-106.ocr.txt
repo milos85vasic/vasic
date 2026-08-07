@@ -1,0 +1,32 @@
+validateUserType(userType)
+}
+else -> print("Not ok")
+}
+}
+And our last example function uses “When” to illustrate how precise player hits
+the target in a computer shooting game:
+fun precisionCheck(points: Int) {
+val max = 100
+when (points) {
+in max /5..max / 4 -> printin("PRECISE")
+in (max / 4) until max -> printin("VERY PRECISE")
+max -> printin("STRAIGHT IN TARGET")
+else -> printin("MISSED")
+}
+}
+Now when we have defined all these functions we will play a little bit with each
+of them. We will start with the first one, to check data type for passed
+argument:
+printin(Data type recognizer:")
+listOf(
+"Hi", "there",
+1, 10, 1.10,
+5 == "5" toInt()
+).forEach {
+printin("$it is:")
+dataTypeRecognizer(it)
+printin()
+}
+When executed this code snippet will give us the following output:
+Data type recognizer:
+'Hi' is:

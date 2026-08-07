@@ -1,0 +1,32 @@
+val filesystem = Database.createFilesystemDatabase()
+Having “companion object” named is mostly important for interoperability with
+Java so access to “companion object” is performed through some friendly name.
+For example (“Companions.java” from book code examples):
+// This class companion object is not named:
+Greeting.Companion. hello();
+// Let's try named one:
+Database database = Database.Factory.createInMemoryDatabase();
+database.describe();
+Finally, let's use our databases:
+inMemory.describe()
+filesystem.describe()
+And see the produced output:
+This is 'InMemory' database
+This is 'Filesystem' database
+We will take a look at another example using objects. From book code examples
+open “MoreObjects.kt”:
+interface Gpu {// We will talk more about interfaces
+// in upcoming sections of the book
+
+fun displayImage()
+}
+interface SoundCard {
+
+fun playSound()
+}
+open class Computer(cpuCores: Int, memoryInGigabytes: Int) {
+
+open val cores: Int = cpuCores
+
+open val memory: Int = memoryInGigabytes
+}

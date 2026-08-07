@@ -1,0 +1,31 @@
+Interfaces with only one abstract function are called “functional interfaces”.
+They can have multiple non-abstract members. Let's take a look at a simple
+example of such an interface.
+Declaring “functional interfaces” is done by using the “fun” interface modifier.
+From book code examples open “FunctionalInterface.kt”:
+fun interface Executable {
+
+fun execute(what: String?): Boolean
+}
+As you can see, we have defined a simple interface with only one abstract
+member.
+You can use a lambda expression instead of creating a class that implements a
+functional interface manually. Based on this, you can write the following code:
+val empty = Executable { it == null | | it.isEmpty() }
+Let's play with it:
+listOf("", null, "Hello", "World").forEach {
+
+if (empty.execute(it)) {
+
+printin('No data")
+}else{
+printin(it)
+
+}
+}
+Executing this code snippet will give us the following results:
+No data
+No data
+Hello
+World
+Nested classes

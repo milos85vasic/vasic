@@ -1,0 +1,57 @@
+{
+  "site": "milosvasic-ru",
+  "lang": "ru",
+  "name": "Russian",
+  "translator": "gpt-oss-120b",
+  "translator_provider": "cerebras",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "strings_total": 60,
+  "reviewer_bad_keys": [
+    10,
+    14,
+    26,
+    36,
+    43,
+    48,
+    54
+  ],
+  "script_flagged": [
+    "// summary",
+    "// my work across the Helix family",
+    "// my work across vasic-digital utils",
+    "// infrastructure heritage (Server Factory)",
+    "// how I work — governance and QA first",
+    "// technologies",
+    "AI / LLM",
+    "Backend",
+    "Data & Infra",
+    "// contact"
+  ],
+  "english_leftover_flagged": [
+    "// summary",
+    "// my work across the Helix family",
+    "// my work across vasic-digital utils",
+    "// infrastructure heritage (Server Factory)",
+    "// how I work — governance and QA first",
+    "// technologies",
+    "AI / LLM",
+    "Backend",
+    "Data & Infra",
+    "// contact"
+  ],
+  "retried": [
+    "Data & Infra",
+    "AI / LLM",
+    "Backend",
+    "// contact",
+    "// summary",
+    "// my work across the Helix family",
+    "// my work across vasic-digital utils",
+    "// how I work — governance and QA first",
+    "// technologies",
+    "// infrastructure heritage (Server Factory)"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "The comment strings (keys 10, 14, 26, 36, 43, 48, 54) remain in English and were not translated into Russian as required for the target language."
+}

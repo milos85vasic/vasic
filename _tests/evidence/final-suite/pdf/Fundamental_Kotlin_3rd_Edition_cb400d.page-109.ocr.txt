@@ -1,0 +1,52 @@
+Checking user: guest
+
+Error recognizing user type
+
+Invalid user type: -1
+
+Checking user: root
+
+Administrator
+
+And last, but not least, our “precisionCheck” example:
+
+printin("Precision check:")
+
+listOf(10, 20, 30, 40, 50, 80, 100).forEach { points ->
+printin("Points: $points, precision: ")
+precisionCheck(points)
+printin()
+
+}
+
+If we run this snippet and validate our points the following result will be printed
+
+out:
+
+Precision check:
+
+Points: 10, precision:
+
+MISSED
+
+Points: 20, precision:
+
+PRECISE
+
+Points: 30, precision:
+
+VERY PRECISE
+
+Points: 40, precision:
+
+VERY PRECISE
+
+Points: 50, precision:
+
+VERY PRECISE
+
+Points: 80, precision:
+
+VERY PRECISE
+
+Points: 100, precision:

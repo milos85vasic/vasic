@@ -1,0 +1,30 @@
+"Data classes” are classes marked with the “data” keyword. For “data classes”
+the compiler automatically derives members from all properties declared in the
+primary constructor. These members are:
+- automatic getters and setters
+- “equals” and “ hashCode” pair
+- “toString” implementation that returns “String” in human-readable form
+- “componentN” functions corresponding to the properties in their order of
+declaration
+- “copy” function.
+The following rules must be fulfilled to utilize “data classes”:
+- The primary constructor must have one or more parameters
+- All primary constructor parameters must be marked as the constants or
+variables
+- “Data classes” cannot be “abstract”, “open”, “sealed” or “inner”
+If you need to create some “DTO” (“Data Transfer Objects”) objects, then “data
+classes” are ideal for you. Let's have a look at the example the illustrates use of
+“data classes”. From book code examples open “Data.kt”:
+data class User(val name: String, val age: Int)
+Let's instantiate a few “users”:
+listOf(
+User("John Doe", 40),
+User("John Lord", 45),
+User("John Smith", 35)
+).forEach {
+printin("$it")
+}
+Executing this code snippet will produce the following output:
+User(name=john Doe, age=40)
+User(name=john Lord, age=45)
+User(name=john Smith, age=35)

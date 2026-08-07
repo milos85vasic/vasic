@@ -1,0 +1,36 @@
+condition or expression. When the condition or expression is evaluated, and if
+the condition or expression is true, the code within the block is executed. This
+repeats until the condition or expression becomes false. Because the while loop
+checks the condition or expression before the block is executed, the control
+structure is often also known as a pre-test loop. Compare this with the do-while
+loop, which tests the condition / or expression after the loop has been
+executed.
+Let's see a simple example using the While loop. Open "While.kt” from book
+code examples:
+fun counter(to: Int) {
+
+var x =0
+
+while (x <= to) {
+
+printin("x: $x")
+Xt+
+
+}
+}
+The “counter” function will count from zero to a provided argument. It works by
+increasing the value of the counter variable “x” by one until “x” becomes less or
+equal to provided argument (“to”). Let's try it:
+counter(5)
+Running this small program will give us the following output:
+x: 0
+x7
+x2
+x3
+x4
+x5
+Do / While loop
+Do / While is very similar to the While loop with one small difference. Do / While
+first performs the operation and then checks for the condition. To better
+understand this take a look at “DoWhile.kt” from book code examples:
+fun counter(to: Int) {

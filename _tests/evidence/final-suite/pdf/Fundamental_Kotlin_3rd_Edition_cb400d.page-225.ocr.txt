@@ -1,0 +1,32 @@
+}
+We have defined a couple of classes. “Airplane” class is the root abstraction
+class for airplanes. “Boeing” and “Airbus” are the implementation classes. For
+us, the key class of this example is the “AirplaneDescriptor” class. The
+“AirplaneDescriptor” class has only one function that works with generic data
+type T which inherits the “Airplane” abstraction. This example, “describes” all
+airplanes. If we try to pass any other data type to the “describe” function
+compiler will complain. Let's try this:
+val airplane? = Airbus()
+val airplane2 = Boeing()
+val descriptor = AirplaneDescriptor()
+descriptor.describe(airplane1)
+descriptor.describe(airplane2)
+Executing the program will produce the following result:
+Airbus
+Being
+Enumeration
+You will sometimes need the data type that can have only certain values. For
+this purpose enumeration was introduced. “Enumeration” represents a named
+list of constants. In Kotlin “enum” has its specialized data type which tells us
+that something has several possible values.
+It is important to note that Kotlin’s “enums” are classes. Because of that,
+“enums” can have properties, functions, etc. Each of the “enum” constants acts
+as a separate instance of the class which cannot be created by the “constructor”
+function. These instances are separated by commas.
+Let's have a look at some “enums” in Kotlin. From book code examples open
+“Enums.kt”:
+enum class TIME {
+
+MICROSECOND,
+
+MILLISECOND,

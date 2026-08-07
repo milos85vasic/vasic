@@ -1,0 +1,62 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T16:27:46.170Z",
+  "pdf": "/Volumes/T7/Projects/vasic/vasic.digital/downloads/Portfolio_EN.pdf",
+  "name": "vasic-portfolio",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 200,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": [
+      "Vasic Digital",
+      "Helix"
+    ]
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 1311 words (min 200)"
+    },
+    {
+      "id": "content.faithful[Vasic Digital]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"Vasic Digital\""
+    },
+    {
+      "id": "content.faithful[Helix]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"Helix\""
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "PASS",
+      "detail": "no raw markup / mermaid source found in body text"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "pdfimages found 4 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 7 rendered page(s) recovered 1430 legible words (min 15)"
+    }
+  ],
+  "verdict": "PASS",
+  "pdftotextFile": "_tests/evidence/fixes/pdf/vasic-portfolio.pdftotext.txt",
+  "ocrPages": 7
+}

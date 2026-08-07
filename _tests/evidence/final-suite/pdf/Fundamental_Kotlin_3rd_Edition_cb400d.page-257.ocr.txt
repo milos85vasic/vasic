@@ -1,0 +1,30 @@
+it.takeUnless { it == 0}
+?.let { nZero ->
+nZero.takelf { nZero > 0}
+?.let { pos ->
+printin(Positive, non zero number: $pos")
+}
+}
+}
+What we are practically doing in this example is filtering of all positive
+non-zero numbers. Executing this example will produce the following
+output:
+Positive, non zero number: 1
+Positive, non zero number: 2
+Positive, non zero number: 3
+Singleton pattern in Kotlin
+Singleton pattern is one of the most frequently used design patterns in modern
+software development. Singleton pattern depends on a single class that is
+responsible to create a class instance (the object) while it makes sure that only
+one instance exists (is created).
+In Kotlin, we can use objects to create singletons. From book code examples
+open “Singleton.kt”:
+object Single {
+var value = 0
+fun print( {
+printin("Value: $value, Hash: ${this.hashCode()}")
+}
+}
+As you can see we have a defined object called “Single”. The object contains one
+variable and one function. Let's assign it to some constants and access these
+object members:

@@ -1,0 +1,48 @@
+- java.lang.*
+
+- kotlin.jvm.*
+
+Or, if your projects are targeting JavaScript:
+
+- kotlin.js.*
+
+Let's have a look at some “import” examples:
+
+// User is now accessible without qualification:
+
+import com.example. User
+
+// Everything in 'com.example' becomes accessible:
+
+import com.example.*
+
+If there is a name clash, we can rely on “as” keyword. “as” has a purpose of
+locally renaming the clashing entity:
+
+// User is accessible:
+
+import com.example.User
+
+// TestUser represents now: “org.tester.User”
+
+import org.tester.User as TestUser
+
+“import” can be also used to import other declarations, such as:
+
+- enum constants
+
+- functions and properties declared in object declarations
+
+- top-level functions and properties.
+
+Note:
+
+If a top-level declaration for the imported entity is marked as “private”, then it
+means that it is “private” to the file in which it is declared. We cannot import
+“private” entities. We will talk more about “private” and other “visibility
+modifiers” in upcoming sections of this book.
+
+The statements and expressions
+
+What is a statement? Statement represents a syntactic unit of programming
+language that expresses some action to be performed. They are everything that

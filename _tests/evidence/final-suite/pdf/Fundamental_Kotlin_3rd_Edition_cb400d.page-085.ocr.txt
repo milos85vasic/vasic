@@ -1,0 +1,31 @@
+Type checks and smart casts
+To test whether the object is an instance of the specified type check operator
+“is” is used. If we are checking an immutable value, there is no need to do the
+casting.
+Open “TypeCheck.kt” from book code examples. Instance check is
+demonstrated in the following example:
+[**
+* Power if double data type, otherwise throw exception
+x
+@Throws(IllegalArgumentException::class)
+fun power(x: Any): Double {
+if (xis Double) {
+return x.pow(2.0)
+}
+throw IllegalArgumentException(
+"This function deals only with doubles"
+)
+}
+Example function accepts arguments of any data type. However, if the passed
+value is Double it will return its power, otherwise, it will throw an exception.
+To cast explicitly into desired data type take a look at the second example:
+[**
+* Casts explicitly into the Double data type
+*/
+fun powerLogger(value: Any) {
+val converted = value as Double
+try{
+val pow = power(converted)
+printin("Power of $converted is: $pow")
+} catch (e: IllegalArgumentException) {
+printin("Error: ${e.message}")

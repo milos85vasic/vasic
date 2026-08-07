@@ -1,0 +1,46 @@
+{
+  "theme": "dark",
+  "buttons": [
+    {
+      "text": "Download CV",
+      "i18n": "",
+      "cls": "od-btn od-btn--primary",
+      "color": "rgb(20, 6, 10)",
+      "bgSelf": "rgb(224, 82, 95)",
+      "bgEffective": "rgb(224, 82, 95)",
+      "opacity": "1",
+      "ratio": 5.227069696397433
+    },
+    {
+      "text": "Cover Letter",
+      "i18n": "",
+      "cls": "od-btn od-btn--secondary",
+      "color": "rgb(224, 224, 224)",
+      "bgSelf": "rgb(30, 30, 30)",
+      "bgEffective": "rgb(30, 30, 30)",
+      "opacity": "1",
+      "ratio": 12.628864949199823
+    },
+    {
+      "text": "Portfolio (PDF)",
+      "i18n": "",
+      "cls": "od-btn od-btn--secondary",
+      "color": "rgb(224, 224, 224)",
+      "bgSelf": "rgb(30, 30, 30)",
+      "bgEffective": "rgb(30, 30, 30)",
+      "opacity": "1",
+      "ratio": 12.628864949199823
+    },
+    {
+      "text": "Portfolio site",
+      "i18n": "mv2.hero.portfolio_site",
+      "cls": "od-btn od-btn--ghost",
+      "color": "rgb(224, 224, 224)",
+      "bgSelf": "rgba(0, 0, 0, 0)",
+      "bgEffective": "rgb(18, 18, 18)",
+      "opacity": "1",
+      "ratio": 14.191271550935179
+    }
+  ],
+  "axeColorContrastNodes": []
+}

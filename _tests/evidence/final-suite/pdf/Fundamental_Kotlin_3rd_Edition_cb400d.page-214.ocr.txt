@@ -1,0 +1,32 @@
+strong nor soft references pointing to it and can only be reached by traversing
+through a weak reference.
+If the object is weakly referenced then the garbage collector removes it from
+memory which clears up more space and makes for better memory
+management.
+After the garbage collector has removed the weak reference, the reference is
+placed in a reference queue, and the formerly weak-reachable objects are
+finalized.
+If the garbage collector determines that an object is weakly reachable. At that
+time it will atomically clear all weak references to that object and all weak
+references to any other weakly-reachable objects from which that object is
+reachable through a chain of strong (hard) and soft references.
+Let's have a look at the example that illustrates the use of weak references.
+From book code examples open “Weak.kt”:
+// Referent definition, some ‘dummy’ class:
+class Dummy {
+
+// Referent's function:
+
+fun hello() = printin("Dummy: ${hashCode()}")
+}
+// Referent:
+val dummy = Dummy()
+// We are initializing weak reference
+// by passing a referent as a parameter:
+val weak = WeakReference(dummy)
+weak.get()?.hello()
+// Release weak reference:
+weak.,clear()
+weak.get()?.hello()
+As you can see we have created a weak reference by calling the
+“WeakReference” class constructor with referent as the argument. A new weak

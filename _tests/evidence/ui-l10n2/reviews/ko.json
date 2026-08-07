@@ -1,0 +1,18 @@
+{
+  "lang": "ko",
+  "name": "Korean",
+  "translator": "llama-3.3-70b-versatile",
+  "reviewer": "gpt-oss-120b",
+  "verdict": "FAIL",
+  "reviewer_bad_keys": [
+    "pf.overview.title",
+    "pf.summary"
+  ],
+  "script_flagged": [],
+  "retried_keys": [
+    "pf.overview.title",
+    "pf.summary"
+  ],
+  "still_bad_after_retry": [],
+  "notes": "The Korean translations for pf.overview.title and pf.summary contain unexpected Chinese characters (e.g., \"舰隊\", \"捕获\") mixing scripts, which is unnatural and incorrect for a Korean target. All other keys are correctly translated, preserve required Latin terms, and use appropriate Korean script."
+}

@@ -1,0 +1,30 @@
+}
+This code can be simplified:
+class Calculator(
+val parameter?: Int,
+val parameter2: Int = parameter1 * 2
+)
+Creating a couple of instances of “Calculator” class:
+val calc = Calculator(2)
+val calc2 = Calculator(3)
+val calc3 = Calculator(2, 4)
+val calc4 = Calculator(3, 5)
+If we print out every instance’s property values:
+printin("${calc.parameter1}, ${calc.parameter2}")
+printin("${calc2.parameter1}, ${calc2.parameter2}")
+printin("${calc3.parameter1}, ${calc3.parameter2}")
+printin("${calc4.parameter1}, ${calc4.parameter2}")
+The following output will be produced:
+2,4
+3,6
+2,4
+3,5
+Let's say that we don't want the class to be constructed publicly, we can do it
+the following way:
+class NotPublicConstructed
+private constructor(val name: String) {
+a
+}
+Class constructor is now private. That means that it is only accessible within the
+class scope and not outside. Private constructors are usually used in singleton
+pattern implementations.

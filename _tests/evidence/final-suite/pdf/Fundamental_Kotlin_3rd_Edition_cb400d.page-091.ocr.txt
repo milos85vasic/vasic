@@ -1,0 +1,30 @@
+val sub=c-b
+printin("c - b = $sub")
+//"*" ~ Multiplication:
+val multi = b *
+printin("b * c = $multi")
+//"/" - Division:
+val div=12/¢
+printin("12 / c = $div")
+//"%" - Modulus:
+val mod=c%b
+printin("c % b = $mod")
+Running example program will output the following:
+a+bt+c=6
+Hello World
+c-b=1
+b*c=6
+12/c=4
+c%b=1
+As you can see, using basic arithmetic operators is very simple and intuitive.
+If you are asking yourselves how operators are working we will explain that
+now. Let's say that you are using the addition arithmetic operator to add two
+numbers “a” and “b”.
+Expression “a + b” calls “plus” member function (“a.plus(b)”). The addition
+operator is overloaded to work with String values and other basic data types.
+Char and Boolean data types are excluded from this. If you want to support
+an addition operator for your custom data types, all that you have to do is
+overload the “plus” function. Let's see this in practice. Open
+“ArithmeticOverloading. kt”:
+class MyCustomType(val param: Int) {
+operator fun plus(what: MyCustomType): MyCustomType {

@@ -1,0 +1,69 @@
+{
+  "schema": "export-validator/1",
+  "generatedAt": "2026-08-05T13:41:07.024Z",
+  "pdf": "/Volumes/T7/Projects/vasic/milosvasic.ru/downloads/Milos_Vasic_Cover_Letter_EN.pdf",
+  "name": "cover-letter",
+  "tools": {
+    "pdftotext": true,
+    "pdfimages": true,
+    "pdftoppm": true,
+    "tesseract": true
+  },
+  "thresholds": {
+    "minWords": 40,
+    "minOcrWords": 15,
+    "minImages": 1,
+    "expect": [
+      "anti-bluff",
+      "HelixQA",
+      "Miloš Vasić"
+    ]
+  },
+  "checks": [
+    {
+      "id": "content.nonempty",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "extracted 396 words (min 40)"
+    },
+    {
+      "id": "content.faithful[anti-bluff]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"anti-bluff\""
+    },
+    {
+      "id": "content.faithful[HelixQA]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"HelixQA\""
+    },
+    {
+      "id": "content.faithful[Miloš Vasić]",
+      "family": "CONTENT",
+      "status": "PASS",
+      "detail": "required phrase present: \"Miloš Vasić\""
+    },
+    {
+      "id": "textual.no-leak",
+      "family": "TEXTUAL",
+      "status": "PASS",
+      "detail": "no raw markup / mermaid source found in body text"
+    },
+    {
+      "id": "visual.images",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "pdfimages found 1 embedded image(s) (min 1)"
+    },
+    {
+      "id": "visual.ocr",
+      "family": "FULL-VISUAL",
+      "status": "PASS",
+      "detail": "OCR of 2 rendered page(s) recovered 388 legible words (min 15)"
+    }
+  ],
+  "verdict": "PASS",
+  "pdftotextFile": "_tests/evidence/pdf/cover-letter.pdftotext.txt",
+  "ocrPages": 2
+}

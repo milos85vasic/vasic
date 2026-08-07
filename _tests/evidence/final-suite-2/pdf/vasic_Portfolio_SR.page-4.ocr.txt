@@ -1,0 +1,54 @@
+VASIC DIGITAL PORTFOLIO
+istine za verifikaciju. Ovo je sloj koji omogucava svemu iznad da menja modele, preZivi prekide u radu
+provajdera i odbije da veruje LLM koji ne moze da dokaze da razume zadatak.
+
++ HelixLLM — jedan binarni fajl, Sest rezima: inferencija kompatibilna sa OpenAl i Anthropic preko HTTP/
+3, lokalni llama.cpp, lanac ocene rezervnih opcija, pipeline RAG, ReAct agenti.
+
++ LLMProvider — jedan interfejs, 43 provajdera, sa ugradenim prekidacima strujnog kola, ponovnim
+pokugajima i monitoringom zdravlja.
+
++ LLMOrchestrator — jedna kontrolna ravan za svakog agenta za kodiranje bez grafickog interfejsa
+(OpenCode, Claude Code, Gemini, Junie, Qwen Code).
+
++ LLMsVerifier — verifikujte, nadgledajte, optimizujte: jedini izvor istine za metapodatke o LLM/
+provajderima/verifikaciji, sa obaveznom proverom razumevanja modela.
+
+| 5. vasic-digital alati
+
+Samostalni alati na nivou gotovog proizvoda, od kojih svaki reSava slozen problem na svoj nacin — a ne
+sluéajno, istovremeno testirajuci modularnu flotu u praksi. Raspon im je od otpornog multimedijalnog sistema
+sa vise protokola do toka obrade kursa od markdown-a do videa, pa sve do motora za sinhronizaciju
+dokumentacije i baza podataka sa heSiranim sadrzajem; nekoliko njih otvoreno govori 0 svojoj zrelosti, a te
+oznake ostaju vidljive, a ne skrivene.
+
++ Catalogizer — multimedijalni sistem za upravijanje kolekcijama sa viSe protokola (SMB/FTP/NFS/
+WebDAV/lokalno), Sifrovan, samostalno hostovan; Go/Gin API + React interfejs; otporno pracenje sa
+podrSkom za offline rezim; izgraden na 21 digital.vasic.* potmodulu.
+
++ Courses-Creator — tok obrade kursa od markdown-a do videa; obogacivanje sa vise LLM, TTS
+(Bark/SpeechT5), plejeri za desktop/mobilni/web; elegantan rezim rada bez kljuca API.
+
++ VisionEngine — nezavisni Go alat koji spaja klasiéni racunarski vid sa LLM videnjem vise dobavljaca;
+navigacioni grafovi sa BFS + izvozom u DOT/JSON/Mermaid; OpenCV sa uslovnim oznakama za
+izgradnju.
+
++ DocProcessor — mapa funkcionalnosti iz dokumentacije sa pracenjem pokrivenosti verifikacijom;
+LLM ili heuristiéko/offline izdvajanje; licenca Apache-2.0.
+
++ Docs Chain — dvosmerna, atomska sinhronizacija dokumentacije i baza podataka sa heSiranim
+sadrzajem (inkrementalno preracunavanje u stilu Salse preko DAG-a). Faze 1-5 ZELENE; Faze 6-7 U
+PLANU.
+
++ Herald — pouzdane obaveStenja preko vise kanala sa razreSavanjem namere u tri nivoa (komanda >
+LLM — poja&njenje) na prirodnom jeziku; prvi korisnik Docs Chain.
+
+* task_bridge — nezavisna, dvosmerna sinhronizacija zadataka i tabela (SQLite jedini izvor istine
+dokumentacija (2) ClickUp). Skelet P1 — logika sinhronizacije jos nije implementirana.
+
++ Vasic Digital Paket ponovijivo upotrebljivin modula — ,standardna biblioteka” digital.vasic.*:
+infrastrukturni primitivi, gradivni blokovi Al i odbrambeni mehanizmi LLM, uz ogledalo Kotlin
+Multiplatform. Nekoliko repozitorijuma organizacije je U SKELETU/RAZVOJU — oznaéeno, a ne
+objavijeno.
+
+milosvasic.ru - vasic.digital 4/8

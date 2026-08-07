@@ -1,0 +1,219 @@
+{
+  "schema": "visual-oracle/1",
+  "generatedAt": "2026-08-05T20:25:03.440Z",
+  "input": "http://localhost:8401/products/helixtrack.html",
+  "name": "vd-product",
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "tesseractPresent": true,
+  "thresholds": {
+    "giantW": 0.85,
+    "giantH": 0.6,
+    "overlapFrac": 0.4
+  },
+  "perTheme": {
+    "light": {
+      "screenshot": "evidence/final-suite-2/visual/vd-product.light.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "evidence/final-suite-2/visual/vd-product.light.ocr.txt",
+        "wordCount": 1478,
+        "sample": "Vasic Digital Home Products EN G TIER: HELIX-PRIMARY ORDER 1 HelixTrack GB"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 30,
+          "controls": 14,
+          "textChars": 4393
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-0]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=2346 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2272,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-1]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=2582 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2508,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-2]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2980,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-3]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3786 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 3712,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-4]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=4565 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 4491,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-5]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=5769 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 5695,
+              "w": 560,
+              "h": 74
+            }
+          }
+        ]
+      },
+      "errorCount": 6,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    },
+    "dark": {
+      "screenshot": "evidence/final-suite-2/visual/vd-product.dark.png",
+      "ocr": {
+        "ran": true,
+        "txtFile": "evidence/final-suite-2/visual/vd-product.dark.ocr.txt",
+        "wordCount": 1477,
+        "sample": "Vasic Digital Home Products EN 0: TIER: HELIX-PRIMARY ORDER 1 HelixTrack license:"
+      },
+      "oracle": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "scrollW": 1280,
+        "counts": {
+          "meaningful": 30,
+          "controls": 14,
+          "textChars": 4393
+        },
+        "findings": [
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-0]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=2346 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2272,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-1]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=2582 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2508,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-2]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3054 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 2980,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-3]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=3786 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 3712,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-4]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=4565 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 4491,
+              "w": 560,
+              "h": 74
+            }
+          },
+          {
+            "type": "offscreen-clipped",
+            "severity": "error",
+            "element": "button[od-acc-helixtrack-5]",
+            "detail": "control escapes viewport on: bottom (rect right=920 bottom=5769 vs 1280x800)",
+            "rect": {
+              "x": 360,
+              "y": 5695,
+              "w": 560,
+              "h": 74
+            }
+          }
+        ]
+      },
+      "errorCount": 6,
+      "warningCount": 0,
+      "verdict": "FAIL"
+    }
+  },
+  "verdict": "FAIL"
+}

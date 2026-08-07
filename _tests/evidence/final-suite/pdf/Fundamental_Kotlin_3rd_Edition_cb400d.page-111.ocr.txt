@@ -1,0 +1,33 @@
+In this example, we have created three unique instances of “Dummy” and
+“NoBody” classes. For each instantiation, we have called fault constructor which
+does not accept any arguments. We will talk about class constructors in the next
+section, so let's see what constructors are and how to use them.
+Constructors
+Constructor represents a special function that is used to initialize objects. The
+constructor is called when an object of a class is instantiated. In Kotlin, the class
+can have a primary constructor and one or more secondary constructors. The
+primary constructor is a part of the class header. The constructor keyword
+can be omitted If the primary constructor does not have any annotations
+or visibility modifiers.
+Let's take a look at a couple of examples. We will continue with the “Classes.kt”
+source code file:
+// Class 'Car' with primary constructor
+// that accepts one argument:
+class Car constructor(val brand: String)
+// ‘constructor’ keyword is omitted for primary constructor:
+class Plane(val brand: String)
+Let's create a few instances of these classes:
+val car = Car("BMW")
+val car2 = Car("Mercedes")
+val plane = Plane("Boeing")
+The primary constructor can't contain any code. Initialization code can be
+placed in initializer blocks. They are prefixed with the “init” keyword.
+The next example illustrates this:
+class Calculator(val parameter?: Int) {
+
+val parameter2: Int
+
+init {
+
+parameter2 = parameter? * 2
+}
