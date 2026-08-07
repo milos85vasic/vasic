@@ -63,6 +63,16 @@ sync_assets() {
     cp "$DS/fonts/$fam/"*.woff2 "$od/$fam/" 2>/dev/null || true
     cp "$DS/fonts/$fam/OFL.txt" "$od/$fam/OFL.txt" 2>/dev/null || true
   done
+
+  # Brand-scoped display faces (e.g. vasic.digital's bold display typeface).
+  # The brand CSS @font-face references them relative to itself as
+  # 'display/<file>.woff2', so they land in <site>/assets/od/display/. No-op for
+  # brands without a brand-<brand>/fonts/ directory (e.g. milosvasic).
+  if [ -d "$DS/brand-$brand/fonts" ]; then
+    mkdir -p "$od/display"
+    cp "$DS/brand-$brand/fonts/"*.woff2 "$od/display/" 2>/dev/null || true
+    cp "$DS/brand-$brand/fonts/"OFL-*.txt "$od/display/" 2>/dev/null || true
+  fi
   echo "[build] synced design-system assets -> $od"
 }
 

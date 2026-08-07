@@ -1,6 +1,44 @@
+/* =============================================================================
+ * VASIC DIGITAL — BOLD RE-STYLE · CANDIDATE A · "MACHINA"
+ * Design-DNA: industrial precision grotesque. Sharp/machined corners, a
+ * blueprint technical grid + hard-edged layered depth, tight uppercase mono
+ * accents, oversized display headings. Brand hue LOCKED to the deep dark-red
+ * ramp (#8f1d2d). Self-hosted display face: Bricolage Grotesque (OFL 1.1).
+ * WCAG 2.2 AA (text ≥4.5:1 / non-text ≥3:1), reduced-motion safe, no external
+ * @import, GPU-only motion (transform/opacity), no horizontal overflow.
+ * ========================================================================== */
+
+/* ---- Self-hosted display face — Bricolage Grotesque (OFL 1.1) -------------
+ * Latin + latin-ext only (Cyrillic display falls back to the body font, as the
+ * shared Space-Grotesk face did). Deployed to assets/od/display/ next to this
+ * stylesheet. font-display:swap → no invisible-text flash, no CLS trap. */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url("display/bricolage-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url("display/bricolage-700-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal; font-weight: 800; font-display: swap;
+  src: url("display/bricolage-800-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal; font-weight: 800; font-display: swap;
+  src: url("display/bricolage-800-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
-  /* Design tokens — DEEP DARK RED (#8f1d2d) accent over black/white/gray
-     neutrals. Light ramp de-pinked (deep-red tints, not salmon/pink). */
+  /* Deep dark-red accent ramp — BRAND-LOCKED hue (unchanged). */
   --od-accent-50: #f7f1f2;
   --od-accent-100: #eddddf;
   --od-accent-200: #d9b3b8;
@@ -12,48 +50,55 @@
   --od-accent-800: #701a26;
   --od-accent-900: #561019;
 
+  /* Neutrals — crisp, slightly cool "machined" light theme. */
   --od-bg: #ffffff;
-  --od-surface: #f8f9fa;
-  --od-surface-2: #e9ecef;
-  --od-text: #1a1c1e;        /* near-black neutral text */
-  --od-text-muted: #565d64; /* darkened to clear WCAG AA (4.5:1) on --od-surface-2 (§11.4.107) */
-  --od-border: #dee2e6;
-  --od-accent: var(--od-accent-700);   /* deep dark red as the primary accent */
+  --od-surface: #f3f4f6;
+  --od-surface-2: #e4e6ea;
+  --od-text: #141519;         /* near-black (AA ≥ 15:1 on bg) */
+  --od-text-muted: #555b63;   /* AA ≥ 4.5:1 on surface-2 */
+  --od-border: #d3d7dd;
+  --od-accent: var(--od-accent-700);
   --od-accent-hover: var(--od-accent-800);
   --od-accent-active: var(--od-accent-900);
   --od-on-accent: #ffffff;
-  --od-focus: rgba(143, 29, 45, 0.55);
+  --od-focus: rgba(143, 29, 45, 0.6);
   --od-success: #28a745;
   --od-warning: #ffc107;
   --od-danger: var(--od-accent-700);
-  --od-shadow-color: rgba(0, 0, 0, 0.1);
-  /* Badge-scoped green: --od-success (#28a745 light / #2b8a3e dark) is a mid
-     green where NEITHER white (3.13/4.37) nor near-black (4.28) reaches AA.
-     This darker green keeps white text at 5.14:1 in BOTH themes without
-     altering the semantic --od-success used for callout/toast foregrounds
-     (§11.4.107 / WCAG 1.4.3). */
+  --od-shadow-color: rgba(20, 21, 25, 0.14);
   --od-badge-success-bg: #1e7e34;
 
-  --od-font-display: var(--od-font-space-grotesk);
-  --od-font-body: var(--od-font-inter);
-  --od-font-mono: var(--od-font-jetbrains-mono);
+  /* MACHINA depth/texture knobs. */
+  --vd-grid-line: rgba(20, 21, 25, 0.10);
+  --vd-hard: rgba(143, 29, 45, 0.9);          /* hard-shadow accent */
+  --vd-hairline: rgba(20, 21, 25, 0.08);
 
-  --od-fs-xs: clamp(0.75rem, 0.725rem + 0.15vw, 0.875rem);
+  /* Type: Bricolage display, Inter body, JetBrains mono. */
+  --od-font-display: "Bricolage Grotesque", "Space Grotesk", system-ui, sans-serif;
+  --od-font-body: "Inter", system-ui, sans-serif;
+  --od-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --od-font-space-grotesk: "Space Grotesk", sans-serif;
+  --od-font-inter: "Inter", sans-serif;
+  --od-font-jetbrains-mono: "JetBrains Mono", monospace;
+
+  /* Type scale — punchier top end for oversized machined headings. */
+  --od-fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
   --od-fs-sm: clamp(0.875rem, 0.85rem + 0.15vw, 1rem);
-  --od-fs-base: clamp(1rem, 0.975rem + 0.15vw, 1.125rem);
-  --od-fs-lg: clamp(1.125rem, 1.075rem + 0.2vw, 1.25rem);
-  --od-fs-xl: clamp(1.25rem, 1.175rem + 0.3vw, 1.5rem);
-  --od-fs-2xl: clamp(1.5rem, 1.325rem + 0.5vw, 1.875rem);
-  --od-fs-3xl: clamp(1.875rem, 1.575rem + 0.8vw, 2.25rem);
+  --od-fs-base: clamp(1rem, 0.97rem + 0.16vw, 1.125rem);
+  --od-fs-lg: clamp(1.125rem, 1.06rem + 0.28vw, 1.35rem);
+  --od-fs-xl: clamp(1.35rem, 1.2rem + 0.7vw, 1.9rem);
+  --od-fs-2xl: clamp(1.9rem, 1.55rem + 1.6vw, 2.9rem);
+  --od-fs-3xl: clamp(2.6rem, 1.9rem + 3.4vw, 4.75rem);
 
-  --od-lh-tight: 1.2;
-  --od-lh-normal: 1.5;
-  --od-lh-loose: 1.8;
+  --od-lh-tight: 1.02;    /* very tight for the display grotesque */
+  --od-lh-normal: 1.6;
+  --od-lh-loose: 1.85;
 
-  --od-tracking-tight: -0.025em;
+  --od-tracking-tight: -0.035em;
   --od-tracking-normal: 0;
-  --od-tracking-wide: 0.025em;
+  --od-tracking-wide: 0.18em;   /* wide uppercase mono eyebrows */
 
+  /* Spacing — denser, disciplined rhythm (minor-third-ish). */
   --od-space-1: 0.25rem;
   --od-space-2: 0.5rem;
   --od-space-3: 0.75rem;
@@ -62,251 +107,188 @@
   --od-space-6: 1.5rem;
   --od-space-7: 1.75rem;
   --od-space-8: 2rem;
-  --od-space-9: 2.25rem;
-  --od-space-10: 2.5rem;
-  --od-space-11: 2.75rem;
-  --od-space-12: 3rem;
+  --od-space-9: 2.5rem;
+  --od-space-10: 3rem;
+  --od-space-11: 3.75rem;
+  --od-space-12: 4.5rem;
 
-  --od-radius-sm: 0.125rem;
-  --od-radius-md: 0.25rem;
-  --od-radius-lg: 0.5rem;
-  --od-radius-xl: 1rem;
+  /* Shape — SHARP / machined. */
+  --od-radius-sm: 0;
+  --od-radius-md: 0;
+  --od-radius-lg: 2px;
+  --od-radius-xl: 4px;
   --od-radius-pill: 9999px;
 
-  --od-shadow-sm: 0 1px 2px 0 var(--od-shadow-color);
-  --od-shadow-md: 0 4px 6px -1px var(--od-shadow-color), 0 2px 4px -1px var(--od-shadow-color);
-  --od-shadow-lg: 0 10px 15px -3px var(--od-shadow-color), 0 4px 6px -2px var(--od-shadow-color);
+  /* Depth — hard-edged, layered. */
+  --od-shadow-sm: 0 0 0 1px var(--vd-hairline);
+  --od-shadow-md: 0 0 0 1px var(--od-border), 0 8px 24px -12px var(--od-shadow-color);
+  --od-shadow-lg: 0 0 0 1px var(--od-border), 10px 10px 0 -1px var(--vd-hard);
 
-  --od-dur-fast: 150ms;
-  --od-dur-base: 300ms;
-  --od-dur-slow: 500ms;
-
+  --od-dur-fast: 140ms;
+  --od-dur-base: 280ms;
+  --od-dur-slow: 520ms;
   --od-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --od-ease-emphasized: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --od-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
 
   --od-z-nav: 1000;
   --od-z-modal: 1100;
   --od-z-toast: 1200;
-
   --od-container-max: 120rem;
-
-  /* Font variables */
-  --od-font-space-grotesk: "Space Grotesk", sans-serif;
-  --od-font-inter: "Inter", sans-serif;
-  --od-font-jetbrains-mono: "JetBrains Mono", monospace;
 }
 
 :root[data-theme="dark"] {
-  --od-bg: #121212;
-  --od-surface: #1e1e1e;
-  --od-surface-2: #2d2d2d;
-  --od-text: #f8f9fa;
-  --od-text-muted: #adb5bd;
-  --od-border: #495057;
-  --od-accent: #e06b73;        /* dark-red family, lighter for AA on near-black (5.8:1) */
+  --od-bg: #0b0c0f;             /* deep near-black */
+  --od-surface: #14161b;
+  --od-surface-2: #1f232a;
+  --od-text: #f3f6f9;
+  --od-text-muted: #aeb6bf;
+  --od-border: #333944;
+  --od-accent: #e06b73;         /* lighter red for AA on near-black (~5.8:1) */
   --od-accent-hover: #e8737b;
   --od-accent-active: #ef999f;
-  --od-on-accent: #121212;
-  --od-focus: rgba(224, 107, 115, 0.55);
+  --od-on-accent: #0b0c0f;
+  --od-focus: rgba(224, 107, 115, 0.6);
   --od-success: #2b8a3e;
   --od-warning: #e6b800;
   --od-danger: #e06b73;
-  --od-shadow-color: rgba(0, 0, 0, 0.2);
+  --od-shadow-color: rgba(0, 0, 0, 0.55);
+  --vd-grid-line: rgba(224, 107, 115, 0.14);
+  --vd-hard: rgba(224, 107, 115, 0.85);
+  --vd-hairline: rgba(255, 255, 255, 0.06);
+  --od-shadow-lg: 0 0 0 1px var(--od-border), 10px 10px 0 -1px var(--vd-hard);
 }
-
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --od-bg: #121212;
-    --od-surface: #1e1e1e;
-    --od-surface-2: #2d2d2d;
-    --od-text: #f8f9fa;
-    --od-text-muted: #adb5bd;
-    --od-border: #495057;
+    --od-bg: #0b0c0f;
+    --od-surface: #14161b;
+    --od-surface-2: #1f232a;
+    --od-text: #f3f6f9;
+    --od-text-muted: #aeb6bf;
+    --od-border: #333944;
     --od-accent: #e06b73;
     --od-accent-hover: #e8737b;
     --od-accent-active: #ef999f;
-    --od-on-accent: #121212;
-    --od-focus: rgba(224, 107, 115, 0.55);
+    --od-on-accent: #0b0c0f;
+    --od-focus: rgba(224, 107, 115, 0.6);
     --od-success: #2b8a3e;
     --od-warning: #e6b800;
     --od-danger: #e06b73;
-    --od-shadow-color: rgba(0, 0, 0, 0.2);
+    --od-shadow-color: rgba(0, 0, 0, 0.55);
+    --vd-grid-line: rgba(224, 107, 115, 0.14);
+    --vd-hairline: rgba(255, 255, 255, 0.06);
   }
 }
 
-/* Base reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
-
+/* ---- Base reset ---------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   font-family: var(--od-font-body);
   line-height: var(--od-lh-normal);
   color: var(--od-text);
   background-color: var(--od-bg);
+  /* Whole-page faint blueprint grid — MACHINA texture, decorative + static. */
+  background-image:
+    linear-gradient(to right, var(--vd-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--vd-grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
   min-height: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Component classes */
+/* ---- Skip link ----------------------------------------------------------- */
 .od-skip-link {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: var(--od-accent);
-  color: var(--od-on-accent);
+  position: absolute; top: 0; left: 0;
+  background: var(--od-accent); color: var(--od-on-accent);
   padding: var(--od-space-2) var(--od-space-4);
   z-index: var(--od-z-nav);
   transform: translateY(-100%);
   transition: transform var(--od-dur-base) var(--od-ease-standard);
 }
+.od-skip-link:focus { transform: translateY(0); }
 
-.od-skip-link:focus {
-  transform: translateY(0);
-}
-
+/* ---- Buttons — rectangular, uppercase, machined -------------------------- */
 .od-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--od-space-2) var(--od-space-4);
-  border: none;
-  border-radius: var(--od-radius-md);
-  font-family: var(--od-font-display);
-  font-size: var(--od-fs-base);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--od-space-2);
+  padding: var(--od-space-3) var(--od-space-6);
+  min-height: 48px;                 /* ≥44px target (AAA) */
+  border: 2px solid transparent;
+  border-radius: 0;
+  font-family: var(--od-font-mono);
+  font-size: var(--od-fs-sm);
   font-weight: 600;
-  line-height: var(--od-lh-normal);
-  letter-spacing: var(--od-tracking-tight);
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--od-dur-fast) var(--od-ease-standard), color var(--od-dur-fast) var(--od-ease-standard);
+  transition: background-color var(--od-dur-fast) var(--od-ease-standard),
+              color var(--od-dur-fast) var(--od-ease-standard),
+              border-color var(--od-dur-fast) var(--od-ease-standard),
+              transform var(--od-dur-fast) var(--od-ease-standard);
 }
+.od-btn--primary { background-color: var(--od-accent); color: var(--od-on-accent); border-color: var(--od-accent); }
+.od-btn--primary:hover { background-color: var(--od-accent-hover); border-color: var(--od-accent-hover); }
+.od-btn--primary:active { background-color: var(--od-accent-active); transform: translateY(1px); }
+.od-btn--primary:focus-visible { outline: 2px solid var(--od-focus); outline-offset: 2px; }
+.od-btn--primary:disabled { background-color: var(--od-surface-2); color: var(--od-text-muted); border-color: var(--od-surface-2); cursor: not-allowed; }
 
-.od-btn--primary {
-  background-color: var(--od-accent);
-  color: var(--od-on-accent);
-}
+.od-btn--secondary { background-color: transparent; color: var(--od-text); border-color: var(--od-text); }
+.od-btn--secondary:hover { background-color: var(--od-text); color: var(--od-bg); }
+.od-btn--secondary:active { transform: translateY(1px); }
+.od-btn--secondary:focus-visible { outline: 2px solid var(--od-focus); outline-offset: 2px; }
+.od-btn--secondary:disabled { color: var(--od-text-muted); border-color: var(--od-border); cursor: not-allowed; }
 
-.od-btn--primary:hover {
-  background-color: var(--od-accent-hover);
-}
+.od-btn--ghost { background-color: transparent; color: var(--od-text); border-color: transparent; }
+.od-btn--ghost:hover { background-color: var(--od-surface-2); }
+.od-btn--ghost:active { transform: translateY(1px); }
+.od-btn--ghost:focus-visible { outline: 2px solid var(--od-focus); outline-offset: 2px; }
+.od-btn--ghost:disabled { color: var(--od-text-muted); cursor: not-allowed; }
 
-.od-btn--primary:active {
-  background-color: var(--od-accent-active);
-}
-
-.od-btn--primary:focus-visible {
-  outline: 2px solid var(--od-focus);
-  outline-offset: 2px;
-}
-
-.od-btn--primary:disabled {
-  background-color: var(--od-surface-2);
-  color: var(--od-text-muted);
-  cursor: not-allowed;
-}
-
-.od-btn--secondary {
-  background-color: var(--od-surface);
-  color: var(--od-text);
-  border: 1px solid var(--od-border);
-}
-
-.od-btn--secondary:hover {
-  background-color: var(--od-surface-2);
-}
-
-.od-btn--secondary:active {
-  background-color: var(--od-surface);
-}
-
-.od-btn--secondary:focus-visible {
-  outline: 2px solid var(--od-focus);
-  outline-offset: 2px;
-}
-
-.od-btn--secondary:disabled {
-  background-color: var(--od-surface);
-  color: var(--od-text-muted);
-  cursor: not-allowed;
-}
-
-.od-btn--ghost {
-  background-color: transparent;
-  color: var(--od-text);
-}
-
-.od-btn--ghost:hover {
-  background-color: var(--od-surface);
-}
-
-.od-btn--ghost:active {
-  background-color: var(--od-surface-2);
-}
-
-.od-btn--ghost:focus-visible {
-  outline: 2px solid var(--od-focus);
-  outline-offset: 2px;
-}
-
-.od-btn--ghost:disabled {
-  color: var(--od-text-muted);
-  cursor: not-allowed;
-}
-
+/* ---- Cards — flat, hairline-framed, accent index tab --------------------- */
 .od-card {
+  position: relative;
   background-color: var(--od-surface);
+  border: 1px solid var(--od-border);
+  border-left: 3px solid var(--od-accent);   /* machined index tab */
   border-radius: var(--od-radius-lg);
-  box-shadow: var(--od-shadow-md);
+  box-shadow: none;
   padding: var(--od-space-6);
-  transition: transform var(--od-dur-base) var(--od-ease-standard), box-shadow var(--od-dur-base) var(--od-ease-standard);
+  transition: transform var(--od-dur-base) var(--od-ease-emphasized),
+              box-shadow var(--od-dur-base) var(--od-ease-standard),
+              border-color var(--od-dur-fast) var(--od-ease-standard);
 }
-
 .od-card:hover {
-  transform: translateY(-2px);
+  transform: translate3d(-4px, -6px, 0);
   box-shadow: var(--od-shadow-lg);
 }
 
+/* ---- Chips — rectangular mono tags --------------------------------------- */
 .od-chip {
-  display: inline-flex;
-  align-items: center;
+  display: inline-flex; align-items: center;
   padding: var(--od-space-1) var(--od-space-3);
-  border-radius: var(--od-radius-pill);
+  border: 1px solid var(--od-border);
+  border-radius: 0;
   background-color: var(--od-surface-2);
   color: var(--od-text);
-  font-size: var(--od-fs-sm);
+  font-family: var(--od-font-mono);
+  font-size: var(--od-fs-xs);
   font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
-.od-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--od-space-2);
-  margin-bottom: var(--od-space-4);
-}
-
-.od-label {
-  font-size: var(--od-fs-sm);
-  font-weight: 500;
-  color: var(--od-text);
-}
-
-.od-input,
-.od-textarea {
-  padding: var(--od-space-2) var(--od-space-3);
+/* ---- Forms --------------------------------------------------------------- */
+.od-field { display: flex; flex-direction: column; gap: var(--od-space-2); margin-bottom: var(--od-space-4); }
+.od-label { font-size: var(--od-fs-sm); font-weight: 600; color: var(--od-text); }
+.od-input, .od-textarea {
+  padding: var(--od-space-3);
   border: 1px solid var(--od-border);
-  border-radius: var(--od-radius-md);
+  border-radius: 0;
   font-family: var(--od-font-body);
   font-size: var(--od-fs-base);
   line-height: var(--od-lh-normal);
@@ -314,153 +296,140 @@ body {
   background-color: var(--od-surface);
   transition: border-color var(--od-dur-fast) var(--od-ease-standard), box-shadow var(--od-dur-fast) var(--od-ease-standard);
 }
+.od-input:focus-visible, .od-textarea:focus-visible { outline: none; border-color: var(--od-accent); box-shadow: 0 0 0 2px var(--od-focus); }
+.od-textarea { min-height: 8rem; resize: vertical; }
 
-.od-input:focus-visible,
-.od-textarea:focus-visible {
-  outline: none;
-  border-color: var(--od-accent);
-  box-shadow: 0 0 0 2px var(--od-focus);
-}
-
-.od-textarea {
-  min-height: 8rem;
-  resize: vertical;
-}
-
+/* ---- Header / nav — precise machined bar -------------------------------- */
 .od-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   padding: var(--od-space-4) var(--od-space-6);
-  background-color: var(--od-surface);
-  box-shadow: var(--od-shadow-sm);
-  position: sticky;
-  top: 0;
-  z-index: var(--od-z-nav);
+  background-color: color-mix(in srgb, var(--od-bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--od-text);
+  box-shadow: none;
+  position: sticky; top: 0; z-index: var(--od-z-nav);
 }
-
-.od-nav {
-  display: flex;
-  gap: var(--od-space-4);
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .od-header { background-color: var(--od-bg); }
 }
-
+.od-nav { display: flex; gap: var(--od-space-5); }
 .od-nav__link {
-  color: var(--od-text);
-  text-decoration: none;
-  font-size: var(--od-fs-base);
-  font-weight: 500;
+  color: var(--od-text); text-decoration: none;
+  font-family: var(--od-font-mono);
+  font-size: var(--od-fs-sm); font-weight: 500;
+  letter-spacing: 0.04em;
   transition: color var(--od-dur-fast) var(--od-ease-standard);
 }
+.od-nav__link:hover, .od-nav__link:focus-visible { color: var(--od-accent); }
 
-.od-nav__link:hover,
-.od-nav__link:focus-visible {
-  color: var(--od-accent);
-}
-
+/* ---- Footer -------------------------------------------------------------- */
 .od-footer {
-  padding: var(--od-space-6) var(--od-space-6) var(--od-space-4);
+  padding: var(--od-space-8) var(--od-space-6) var(--od-space-6);
   background-color: var(--od-surface);
+  border-top: 2px solid var(--od-text);
   text-align: center;
+  font-family: var(--od-font-mono);
   font-size: var(--od-fs-sm);
   color: var(--od-text-muted);
 }
 
+/* ---- Hero ---------------------------------------------------------------- */
 .od-hero {
-  padding: var(--od-space-12) var(--od-space-6);
+  padding: clamp(3rem, 8vw, 6rem) var(--od-space-6) clamp(2.5rem, 6vw, 5rem);
   text-align: center;
   background-color: var(--od-surface);
 }
-
 .od-hero__title {
   font-family: var(--od-font-display);
   font-size: var(--od-fs-3xl);
-  font-weight: 700;
+  font-weight: 800;
   line-height: var(--od-lh-tight);
   letter-spacing: var(--od-tracking-tight);
   color: var(--od-text);
-  margin-bottom: var(--od-space-4);
+  text-wrap: balance;
+  margin: 0 0 var(--od-space-5);
 }
-
 .od-hero__lede {
-  font-size: var(--od-fs-xl);
+  font-size: var(--od-fs-lg);
   line-height: var(--od-lh-normal);
   color: var(--od-text-muted);
-  max-width: 60ch;
-  margin: 0 auto var(--od-space-6);
+  max-width: 62ch; margin: 0 auto var(--od-space-6);
 }
 
-.od-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
+/* ---- Stats — oversized machined figures ---------------------------------- */
+.od-stat { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .od-stat__value {
   font-family: var(--od-font-display);
   font-size: var(--od-fs-2xl);
-  font-weight: 700;
-  line-height: var(--od-lh-tight);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
   color: var(--od-accent);
   margin-bottom: var(--od-space-2);
 }
-
 .od-stat__label {
-  font-size: var(--od-fs-base);
-  font-weight: 500;
-  color: var(--od-text-muted);
-}
-
-.od-section {
-  padding: var(--od-space-12) var(--od-space-6);
-  max-width: var(--od-container-max);
-  margin: 0 auto;
-}
-
-.od-section__eyebrow {
   font-family: var(--od-font-mono);
-  font-size: var(--od-fs-sm);
+  font-size: var(--od-fs-xs);
   font-weight: 500;
   letter-spacing: var(--od-tracking-wide);
   text-transform: uppercase;
   color: var(--od-text-muted);
-  margin-bottom: var(--od-space-2);
 }
 
+/* ---- Section ------------------------------------------------------------- */
+.od-section {
+  padding: clamp(3rem, 7vw, 5.5rem) var(--od-space-6);
+  max-width: var(--od-container-max);
+  margin: 0 auto;
+}
+.od-section__eyebrow {
+  display: inline-flex; align-items: center; gap: var(--od-space-2);
+  font-family: var(--od-font-mono);
+  font-size: var(--od-fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--od-tracking-wide);
+  text-transform: uppercase;
+  color: var(--od-accent);
+  margin-bottom: var(--od-space-3);
+}
+.od-section__eyebrow::before {
+  content: ""; width: 10px; height: 10px;
+  background: var(--od-accent);
+  flex: none;
+}
 .od-section__title {
   font-family: var(--od-font-display);
   font-size: var(--od-fs-2xl);
-  font-weight: 700;
-  line-height: var(--od-lh-tight);
+  font-weight: 800;
+  line-height: 1.04;
   letter-spacing: var(--od-tracking-tight);
   color: var(--od-text);
-  margin-bottom: var(--od-space-6);
+  text-wrap: balance;
+  margin: 0 0 var(--od-space-6);
 }
 
+/* ---- Product cards ------------------------------------------------------- */
 .od-product-card {
-  display: flex;
-  flex-direction: column;
+  display: flex; flex-direction: column;
   background-color: var(--od-surface);
+  border: 1px solid var(--od-border);
+  border-top: 3px solid var(--od-accent);   /* machined index tab (top) */
   border-radius: var(--od-radius-lg);
   overflow: hidden;
-  box-shadow: var(--od-shadow-md);
-  transition: transform var(--od-dur-base) var(--od-ease-standard), box-shadow var(--od-dur-base) var(--od-ease-standard);
+  box-shadow: none;
+  transition: transform var(--od-dur-base) var(--od-ease-emphasized),
+              box-shadow var(--od-dur-base) var(--od-ease-standard);
 }
-
-.od-product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--od-shadow-lg);
-}
-
+.od-product-card:hover { transform: translate3d(-4px, -6px, 0); box-shadow: var(--od-shadow-lg); }
 .od-product-card__title {
   font-family: var(--od-font-display);
   font-size: var(--od-fs-xl);
   font-weight: 700;
-  line-height: var(--od-lh-tight);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   color: var(--od-text);
-  margin-bottom: var(--od-space-2);
+  margin-bottom: var(--od-space-3);
 }
-
 .od-product-card__tech {
   font-family: var(--od-font-mono);
   font-size: var(--od-fs-sm);
@@ -469,287 +438,147 @@ body {
   margin-bottom: var(--od-space-4);
 }
 
-.od-product-detail {
-  max-width: 65ch;
-  margin: 0 auto;
-}
-
+/* ---- Product detail (prose) --------------------------------------------- */
+.od-product-detail { max-width: 68ch; margin: 0 auto; }
 .od-product-detail h1 {
-  font-family: var(--od-font-display);
-  font-size: var(--od-fs-3xl);
-  font-weight: 700;
-  line-height: var(--od-lh-tight);
-  letter-spacing: var(--od-tracking-tight);
-  color: var(--od-text);
-  margin-bottom: var(--od-space-4);
+  font-family: var(--od-font-display); font-size: var(--od-fs-3xl); font-weight: 800;
+  line-height: var(--od-lh-tight); letter-spacing: var(--od-tracking-tight);
+  color: var(--od-text); margin-bottom: var(--od-space-5);
 }
-
 .od-product-detail h2 {
-  font-family: var(--od-font-display);
-  font-size: var(--od-fs-2xl);
-  font-weight: 700;
-  line-height: var(--od-lh-tight);
-  letter-spacing: var(--od-tracking-tight);
-  color: var(--od-text);
-  margin-bottom: var(--od-space-4);
+  font-family: var(--od-font-display); font-size: var(--od-fs-2xl); font-weight: 800;
+  line-height: 1.06; letter-spacing: var(--od-tracking-tight);
+  color: var(--od-text); margin: var(--od-space-10) 0 var(--od-space-4);
 }
-
 .od-product-detail h3 {
-  font-family: var(--od-font-display);
-  font-size: var(--od-fs-xl);
-  font-weight: 700;
-  line-height: var(--od-lh-tight);
-  letter-spacing: var(--od-tracking-tight);
-  color: var(--od-text);
-  margin-bottom: var(--od-space-3);
+  font-family: var(--od-font-display); font-size: var(--od-fs-xl); font-weight: 700;
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--od-text); margin: var(--od-space-8) 0 var(--od-space-3);
 }
+.od-product-detail p { font-size: var(--od-fs-base); line-height: var(--od-lh-loose); color: var(--od-text); margin-bottom: var(--od-space-4); }
+.od-product-detail ul, .od-product-detail ol { margin-bottom: var(--od-space-4); padding-inline-start: var(--od-space-6); }
+.od-product-detail li { margin-bottom: var(--od-space-2); line-height: var(--od-lh-loose); }
+.od-product-detail a { color: var(--od-accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; transition: color var(--od-dur-fast) var(--od-ease-standard); }
+.od-product-detail a:hover, .od-product-detail a:focus-visible { color: var(--od-accent-hover); }
+.od-product-detail code { font-family: var(--od-font-mono); font-size: var(--od-fs-sm); background-color: var(--od-surface-2); padding: var(--od-space-1) var(--od-space-2); border-radius: 0; }
+.od-product-detail pre { font-family: var(--od-font-mono); font-size: var(--od-fs-sm); background-color: var(--od-surface-2); border: 1px solid var(--od-border); border-left: 3px solid var(--od-accent); padding: var(--od-space-4); border-radius: 0; overflow-x: auto; }
+.od-product-detail blockquote { border-inline-start: 3px solid var(--od-accent); padding-inline-start: var(--od-space-4); margin: 0 0 var(--od-space-4); color: var(--od-text-muted); }
 
-.od-product-detail p {
-  font-size: var(--od-fs-base);
-  line-height: var(--od-lh-normal);
-  color: var(--od-text);
-  margin-bottom: var(--od-space-4);
-}
+/* ---- Table --------------------------------------------------------------- */
+.od-table { width: 100%; border-collapse: collapse; margin-bottom: var(--od-space-6); }
+.od-table th, .od-table td { padding: var(--od-space-3); text-align: left; border-bottom: 1px solid var(--od-border); }
+.od-table th { font-family: var(--od-font-mono); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--od-fs-xs); color: var(--od-text); }
+.od-table tr:hover { background-color: var(--od-surface-2); }
 
-.od-product-detail ul,
-.od-product-detail ol {
-  margin-bottom: var(--od-space-4);
-  padding-inline-start: var(--od-space-6);
-}
-
-.od-product-detail li {
-  margin-bottom: var(--od-space-2);
-}
-
-.od-product-detail a {
-  color: var(--od-accent);
-  text-decoration: none;
-  transition: color var(--od-dur-fast) var(--od-ease-standard);
-}
-
-.od-product-detail a:hover,
-.od-product-detail a:focus-visible {
-  color: var(--od-accent-hover);
-}
-
-.od-product-detail code {
-  font-family: var(--od-font-mono);
-  font-size: var(--od-fs-sm);
-  background-color: var(--od-surface-2);
-  padding: var(--od-space-1) var(--od-space-2);
-  border-radius: var(--od-radius-sm);
-}
-
-.od-product-detail pre {
-  font-family: var(--od-font-mono);
-  font-size: var(--od-fs-sm);
-  background-color: var(--od-surface-2);
-  padding: var(--od-space-4);
-  border-radius: var(--od-radius-md);
-  overflow-x: auto;
-}
-
-.od-product-detail blockquote {
-  border-inline-start: 4px solid var(--od-accent);
-  padding-inline-start: var(--od-space-4);
-  margin-bottom: var(--od-space-4);
-  color: var(--od-text-muted);
-}
-
-.od-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: var(--od-space-6);
-}
-
-.od-table th,
-.od-table td {
-  padding: var(--od-space-3);
-  text-align: left;
-  border-bottom: 1px solid var(--od-border);
-}
-
-.od-table th {
-  font-weight: 600;
-  color: var(--od-text);
-}
-
-.od-table tr:hover {
-  background-color: var(--od-surface-2);
-}
-
-.od-dialog__backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: var(--od-z-modal);
-}
-
+/* ---- Dialog -------------------------------------------------------------- */
+.od-dialog__backdrop { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.6); z-index: var(--od-z-modal); }
 .od-dialog__panel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--od-surface);
-  border-radius: var(--od-radius-lg);
-  padding: var(--od-space-6);
-  box-shadow: var(--od-shadow-lg);
-  z-index: var(--od-z-modal);
-  max-width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background-color: var(--od-surface); border: 1px solid var(--od-border); border-radius: var(--od-radius-lg);
+  padding: var(--od-space-6); box-shadow: var(--od-shadow-lg); z-index: var(--od-z-modal);
+  max-width: 90%; max-height: 90vh; overflow-y: auto;
 }
 
+/* ---- Status badges (AA-preserved) --------------------------------------- */
 .od-badge--status {
-  display: inline-flex;
-  align-items: center;
+  display: inline-flex; align-items: center;
   padding: var(--od-space-1) var(--od-space-3);
-  border-radius: var(--od-radius-pill);
-  font-size: var(--od-fs-sm);
-  font-weight: 500;
+  border-radius: 0;
+  font-family: var(--od-font-mono);
+  font-size: var(--od-fs-xs);
+  font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
 }
-
-.od-badge--status--roadmap {
-  background-color: var(--od-surface-2);
-  color: var(--od-text);
-}
-
-.od-badge--status--in-development {
-  background-color: var(--od-warning);
-  color: #1a1a1a; /* fixed dark for AA on yellow in both themes (§11.4.107) */
-}
-
-.od-badge--status--beta {
-  background-color: var(--od-accent);
-  color: var(--od-on-accent);
-}
-
-/* Green "shipped" status pills. Fixed WHITE text (NOT --od-on-accent, which
-   flips white↔near-black per theme so no single --od-success value could pass)
-   on the badge-scoped darker green --od-badge-success-bg. White on #1e7e34 =
-   5.14:1 → AA in BOTH themes (§11.4.107 / WCAG 1.4.3).
-   Double-class specificity (0,2,0) so this beats the single-class (0,1,0)
-   inline critical-CSS override that the home/portfolio shells emit
-   (background:var(--od-success);color:var(--od-on-accent) = 3.13/4.29 FAIL).
-   Source order can't be relied on: the inline <style> follows the <link>. */
+.od-badge--status--roadmap { background-color: var(--od-surface-2); color: var(--od-text); }
+.od-badge--status--in-development { background-color: var(--od-warning); color: #1a1a1a; }
+.od-badge--status--beta { background-color: var(--od-accent); color: var(--od-on-accent); }
+/* Green "shipped" pills: fixed WHITE on darker green (5.14:1 → AA both themes). */
 .od-badge--status.od-badge--status--production,
 .od-badge--status.od-badge--status--shipped,
 .od-badge--status.od-badge--status--active,
 .od-badge--status.od-badge--status--stable {
-  background-color: var(--od-badge-success-bg);
-  color: #ffffff;
+  background-color: var(--od-badge-success-bg); color: #ffffff;
 }
-
 .od-tag--license {
-  display: inline-flex;
-  align-items: center;
+  display: inline-flex; align-items: center;
   padding: var(--od-space-1) var(--od-space-3);
-  border-radius: var(--od-radius-pill);
-  background-color: var(--od-surface-2);
-  color: var(--od-text);
-  font-size: var(--od-fs-sm);
-  font-weight: 500;
+  border-radius: 0; border: 1px solid var(--od-border);
+  background-color: var(--od-surface-2); color: var(--od-text);
+  font-family: var(--od-font-mono); font-size: var(--od-fs-xs); font-weight: 500;
 }
 
-/* Breathing room: guarantee a fluid gutter on every band at every width — the
-   content must never touch the viewport edge (16px floor → 48px ceiling). This
-   override wins over the shorthand paddings above. (fix #1) */
-.od-header,
-.od-footer,
-.od-hero,
-.od-section {
-  padding-inline: clamp(1rem, 5vw, 3rem);
-}
+/* ---- Fluid gutters — never touch the viewport edge ---------------------- */
+.od-header, .od-footer, .od-hero, .od-section { padding-inline: clamp(1rem, 5vw, 3rem); }
 
 /* =============================================================================
- * VASIC DIGITAL — MOTION SIGNATURE ("engineered / precision")
- *
- * A deliberately DISTINCT feel from milosvasic.ru's warm, personal-portrait
- * signature (portrait + crimson corner accents). Here the hero sits over an
- * animated deep-red gradient-mesh "aurora" and a faint technical grid — a
- * systematic, high-tech backdrop for an AI-engineering company — paired with
- * count-up metrics, a precision divider, and accent card-glow (wired in the
- * generated markup). Every effect is GPU-only (transform/opacity) and is fully
- * neutralized by the reduced-motion block at the foot of this file: the aurora
- * freezes to a still gradient, the grid is already static, and count-ups keep
- * their authored final value. Colours are the --od-accent ramp — tokens only
- * (§11.4.162). The backdrop is decorative and aria-hidden, and its opacity is
- * capped so hero text keeps full WCAG AA contrast (§11.4.107) in both themes.
+ * VASIC DIGITAL — MOTION SIGNATURE (MACHINA · "scanning / engineered")
+ * Hero over a drifting deep-red gradient-mesh + a sharp technical grid with a
+ * slow accent scanline sweep. All motion is GPU-only (transform/opacity),
+ * decorative + aria-hidden, contrast-safe, and fully frozen by the reduced-
+ * motion block below.
  * ========================================================================== */
-.vd-hero {
-  position: relative;
-  overflow: hidden;          /* clips the drifting aurora — no scroll/overflow */
-  isolation: isolate;        /* new stacking context for the z-indexed backdrop */
-}
-/* Hero content sits above the decorative backdrop. */
+.vd-hero { position: relative; overflow: hidden; isolation: isolate; }
 .vd-hero > *:not(.vd-hero__fx) { position: relative; z-index: 1; }
+.vd-hero__fx { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 
-.vd-hero__fx {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Aurora: soft, drifting deep-red radial blobs. Transform-only animation. */
+/* Gradient-mesh aurora — sharper, higher-energy blobs. */
 .vd-hero__aurora {
-  position: absolute;
-  inset: -25%;
+  position: absolute; inset: -25%;
   background:
-    radial-gradient(35% 45% at 25% 30%, var(--od-accent-400) 0%, transparent 60%),
-    radial-gradient(30% 40% at 78% 35%, var(--od-accent-700) 0%, transparent 60%),
-    radial-gradient(45% 55% at 55% 88%, var(--od-accent-600) 0%, transparent 62%);
-  opacity: 0.14;
-  animation: vd-aurora-drift 24s ease-in-out infinite alternate;
+    radial-gradient(30% 40% at 22% 26%, var(--od-accent-500) 0%, transparent 58%),
+    radial-gradient(26% 36% at 80% 30%, var(--od-accent-700) 0%, transparent 58%),
+    radial-gradient(40% 48% at 58% 92%, var(--od-accent-600) 0%, transparent 60%),
+    conic-gradient(from 210deg at 68% 18%, transparent 0deg, var(--od-accent-800) 40deg, transparent 90deg);
+  opacity: 0.16;
+  animation: vd-aurora-drift 22s ease-in-out infinite alternate;
   will-change: transform;
 }
-:root[data-theme="dark"] .vd-hero__aurora { opacity: 0.22; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .vd-hero__aurora { opacity: 0.22; }
-}
+:root[data-theme="dark"] .vd-hero__aurora { opacity: 0.30; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .vd-hero__aurora { opacity: 0.30; } }
 @keyframes vd-aurora-drift {
-  0%   { transform: translate3d(-2%, -1%, 0) scale(1); }
-  50%  { transform: translate3d(2%, 2%, 0) scale(1.06); }
-  100% { transform: translate3d(-1%, 1%, 0) scale(1.02); }
+  0%   { transform: translate3d(-2%, -1%, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate3d(2%, 2%, 0) scale(1.06) rotate(1.5deg); }
+  100% { transform: translate3d(-1%, 1%, 0) scale(1.02) rotate(-1deg); }
 }
 
-/* Faint technical grid, masked to fade out toward the edges. Fully static. */
+/* Technical grid — crisper, brand-tinted, edge-masked. */
 .vd-hero__grid {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background-image:
-    linear-gradient(to right, var(--od-border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--od-border) 1px, transparent 1px);
-  background-size: 44px 44px;
-  opacity: 0.35;
-  -webkit-mask-image: radial-gradient(120% 82% at 50% 0%, #000 28%, transparent 76%);
-          mask-image: radial-gradient(120% 82% at 50% 0%, #000 28%, transparent 76%);
+    linear-gradient(to right, var(--vd-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--vd-grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.9;
+  -webkit-mask-image: radial-gradient(130% 88% at 50% 0%, #000 26%, transparent 78%);
+          mask-image: radial-gradient(130% 88% at 50% 0%, #000 26%, transparent 78%);
+}
+/* Slow accent scanline sweeping down the hero (transform-only). */
+.vd-hero__grid::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 42%;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--od-accent) 45%, transparent), transparent);
+  opacity: 0.5;
+  transform: translateY(-120%);
+  animation: vd-scan 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+@keyframes vd-scan {
+  0% { transform: translateY(-120%); }
+  60%, 100% { transform: translateY(340%); }
 }
 
-/* Precision divider sizing (the scaleX reveal itself lives in animations.css). */
-.vd-hero__rule {
-  width: min(220px, 60%);
-  margin: var(--od-space-8) auto 0;
-}
+.vd-hero__rule { width: min(260px, 62%); margin: var(--od-space-8) auto 0; }
+.vd-stats .od-stat__value { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
 
-/* Count-up metrics: fixed-width figures so the number never reflows siblings
-   while it animates (no CLS). */
-.vd-stats .od-stat__value {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
-}
+/* Hero logo chip — machined square frame. */
+.vd-hero__logo img { border-radius: var(--od-radius-xl) !important; }
 
-/* Reduced motion */
+/* ---- Reduced motion — freeze everything --------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  /* Belt-and-braces: pin the aurora to a still frame (no drift). */
   .vd-hero__aurora { animation: none !important; transform: none !important; }
+  .vd-hero__grid::after { animation: none !important; transform: translateY(-120%) !important; opacity: 0 !important; }
 }

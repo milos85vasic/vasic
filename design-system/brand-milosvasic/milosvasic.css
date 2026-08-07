@@ -661,3 +661,84 @@ body {
     scroll-behavior: auto !important;
   }
 }
+/* ============================================================================
+   RESTYLE CANDIDATE A — "TERMINAL BRUTALIST"  (OpenDesign / content layer)
+   Token re-declaration (later :root wins → cascades through every --od-* driven
+   component) + bold overrides. Brand hue crimson #a31e39 preserved. Behavior-safe.
+   ========================================================================== */
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;
+  src:url('/assets/od/anton/anton-latin-400.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;
+  src:url('/assets/od/anton/anton-latin-ext-400.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+:root{
+  --od-bg:#f4f1ea; --od-surface:#ffffff; --od-surface-2:#ece7dc;
+  --od-text:#16130f; --od-text-muted:#5c5751; --od-border:#2a241d;
+  --od-accent:#a31e39; --od-accent-hover:#851a31; --od-accent-active:#671628; --od-on-accent:#ffffff;
+  --od-accent-100:#f0e2e4; --od-accent-700:#a31e39;
+  --od-font-display:"Anton","Space Grotesk",sans-serif;
+  --od-font-body:"Inter",sans-serif;
+  --od-font-mono:"JetBrains Mono",monospace;
+  --od-radius-sm:1px; --od-radius-md:2px; --od-radius-lg:2px; --od-radius-xl:3px; --od-radius-pill:2px;
+  --od-shadow-sm:3px 3px 0 rgba(22,19,15,.14);
+  --od-shadow-md:5px 5px 0 rgba(22,19,15,.16);
+  --od-shadow-lg:8px 8px 0 rgba(163,30,57,.20);
+  --od-container-max:1120px;
+}
+:root[data-theme="dark"]{
+  --od-bg:#14110d; --od-surface:#1c1813; --od-surface-2:#26211a;
+  --od-text:#f2ede3; --od-text-muted:#a89f92; --od-border:#4a4136;
+  --od-accent:#f05a6f; --od-accent-hover:#e8737b; --od-accent-active:#ef8d94; --od-on-accent:#14110d;
+  --od-shadow-sm:3px 3px 0 rgba(0,0,0,.5);
+  --od-shadow-md:5px 5px 0 rgba(0,0,0,.55);
+  --od-shadow-lg:8px 8px 0 rgba(236,59,88,.24);
+}
+
+/* Hero name → monumental Anton slab. */
+.od-hero__title{ font-family:var(--od-font-display); text-transform:uppercase; letter-spacing:.01em;
+  line-height:.9; font-size:clamp(3rem,9vw,6rem); font-weight:400; }
+.od-hero__lede,.mvx-lede{ max-width:64ch; }
+
+/* Eyebrows → crimson index block + uppercase mono. */
+.od-section__eyebrow{ color:var(--od-accent); display:inline-flex; align-items:center; gap:.5rem;
+  text-transform:uppercase; letter-spacing:.14em; font-weight:600; }
+.od-section__eyebrow::before{ content:""; width:14px; height:14px; background:var(--od-accent); flex:none; }
+
+/* Section titles → Anton uppercase with crimson underline slab. */
+.od-section__title,.od-product-detail h1,.od-product-detail h2,.od-product-detail h3{
+  font-family:var(--od-font-display); text-transform:uppercase; letter-spacing:.01em; line-height:.96; }
+.od-section__title{ display:inline-block; }
+.od-section__title::after{ content:""; display:block; height:8px; width:2.4em; margin-top:.4rem; background:var(--od-accent); }
+
+/* Stat values → giant Anton figures. */
+.od-stat__value{ font-family:var(--od-font-display); font-weight:400; font-size:clamp(2.2rem,5vw,3.4rem); line-height:1; }
+
+/* Cards / stats / panels → 2px ink frames + hard offset print shadow; snap-lift. */
+.od-card,.od-product-card,.od-stat{
+  border:2px solid var(--od-border); border-radius:2px; box-shadow:var(--od-shadow-md);
+  transition:transform var(--od-dur-fast) var(--od-ease-standard), box-shadow var(--od-dur-fast) var(--od-ease-standard); }
+.od-card:hover,.od-product-card:hover{ transform:translate(-3px,-3px); box-shadow:7px 7px 0 var(--od-accent); }
+
+/* Buttons → square, 2px frame, hard offset shadow snapping to crimson. */
+.od-btn{ border-radius:2px; border-width:2px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+  box-shadow:3px 3px 0 var(--od-border); }
+.od-btn--primary{ background:var(--od-accent); color:var(--od-on-accent); border-color:var(--od-border); }
+.od-btn--secondary,.od-btn--ghost{ border-color:var(--od-border); }
+.od-btn:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--od-accent); }
+.od-btn:active{ transform:translate(0,0); box-shadow:2px 2px 0 var(--od-border); }
+
+/* Chips / tags / badges → square mono tokens with a hairline frame. */
+.od-chip,.od-tag--license,.od-badge--status{ border-radius:2px; font-family:var(--od-font-mono);
+  text-transform:uppercase; letter-spacing:.04em; border:1px solid var(--od-border); }
+.od-chip{ background:var(--od-surface); color:var(--od-text); }
+
+/* Portrait crimson corner brackets → thicker + hard offset print frame. */
+.mvx-hero__portrait img{ border-radius:2px !important; border:2px solid var(--od-border) !important;
+  box-shadow:9px 9px 0 var(--od-accent) !important; }
+.mvx-hero__portrait::before,.mvx-hero__portrait::after{ border-width:4px !important; opacity:1 !important; border-radius:0 !important; }
+
+/* Accordion (product page) → square, framed. */
+.od-accordion__item{ border-radius:2px; border:2px solid var(--od-border); }
+.od-repo-list a{ border-radius:2px; }
