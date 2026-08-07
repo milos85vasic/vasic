@@ -276,3 +276,69 @@ See `INCORPORATION-PLAN.md` §"Parametric uniqueness layer" for the full pipelin
 - **Immature (≤5★, single author — pilot before standardizing):** coolors-mcp, mcp-color-tools, design-token-bridge-mcp, open-figma-mcp, google-fonts-mcp, sharp-mcp, MCP Image Compare, svgo-mcp.
 - **Unverified licenses to confirm before vendoring:** utopia-core, @mui/mcp package, svgr-mcp, piephai/mcp-image-optimizer, seeded-noise, tailwindcss-palette-generator.
 - **Not what the name implies:** obra/superpowers (no design skills); Style Dictionary / sd-transforms / DTCG (libraries/specs, not MCP servers); layout/grid MCPs (no mature free option — use component/Tailwind servers).
+
+---
+
+## 2026-08-07 EXPANSION — additional shortlist (license-tagged)
+
+A second research pass broadened capability coverage (icons, motion, print, TUI, XR, data-viz, full
+design systems) and surfaced more FREE/no-key MCPs. Everything below is **truly free / OSS / no
+subscription** unless a caveat is stated. This section is **additive** to the shortlist above.
+
+### New generator / library deps (added to `generators/package.json`)
+
+| Item | License | Role |
+|------|---------|------|
+| **Open Props** | **MIT** | Ready-made design-token breadth (color/space/type/easing/shadow/gradient) complementing the seeded generator. |
+| **culori** | **MIT** | Fast, tree-shakeable color-space math (OKLCH/OKLAB/P3/Delta-E) alongside colorjs.io/chroma.js. |
+| **Motion** (motion.dev, formerly Framer Motion) | **MIT** | The **OSS motion engine** we standardize on — replaces **non-OSI GSAP**. |
+| **@iconify/json** + 9-set icon breadth | **MIT** wrapper (each set keeps its own permissive license) | Offline icon-data engine. Concrete permissive sets pinned: **lucide (ISC)**, **@tabler/icons (MIT)**, **@phosphor-icons/core (MIT)** (+ Material Symbols, Heroicons, Feather, Bootstrap, Remix, Iconoir via Iconify data). |
+| **Paged.js** (`pagedjs`) | **MIT** | Print / paged-media (CSS Paged Media polyfill) for PDF/print output. |
+
+**EXCLUDED from deps:** **GSAP** (non-OSI "no-charge" license with redistribution/competitor
+restrictions — not OSS; Motion replaces it), **tints.dev** (fine hosted tool, but prefer local
+culori/chroma ramps), **Animate.css** (MIT but a prebuilt grab-bag that undercuts the seeded/Motion
+approach), **Vivliostyle** (**AGPL-3.0** copyleft — Paged.js is the MIT print path).
+
+### New FREE MCPs (added to `mcp/INSTALL.md` §3b)
+
+| MCP | License | Role |
+|-----|---------|------|
+| **better-icons** | **MIT** | 200k+ icon search/insertion (Iconify-backed) — iconographer. |
+| **mcp-excalidraw-server** | **MIT** | Local editable wireframes/diagrams — ux-flow-designer. |
+| **mcp-image-optimizer** | **MIT** | Local image optimize/resize/convert (Sharp superset) — iconographer. |
+| **hig-mcp** | **MIT** | Apple HIG search + audit (the FREE replacement for the paid Apple-UI MCP) — design-qa-auditor. |
+| **wcag-guidelines-mcp** | **MIT on npm, NO LICENSE file** (CAVEAT — external use only) | WCAG 2.2 success-criteria lookup — design-qa-auditor. |
+| **design-systems** (southleft, hosted HTTP) | **MIT** | Design-systems patterns/components/tokens knowledge — layout-architect/theming-designer. |
+| **tailwindcss-mcp-server** | **MIT** | Tailwind utility/grid/flex guidance — layout-architect. |
+| **@just-every/mcp-screenshot-website-fast** | **MIT** | Fast full-page screenshots — design-qa-auditor. |
+| **@antv/mcp-server-chart** | **MIT (hosted-render default; set `VIS_REQUEST_SERVER` for offline)** | 25+ chart types — ux-flow-designer/design-qa-auditor. |
+| **daisyui-mcp**, **registry-directory-mcp**, **joenorton/comfyui-mcp-server** | **MIT / MIT / Apache-2.0** | Submodule/build-from-source candidates; ComfyUI is local-only (needs your own GPU). |
+
+### New reference / full design-system repos (submodule candidates, `submodules/PLAN.md` §C-bis)
+
+- **Full systems:** Carbon (**Apache-2.0**), Fluent UI (**MIT**), PatternFly (**MIT**), USWDS
+  (**public domain**), GOV.UK Frontend (**MIT**).
+- **Headless quartet:** Radix Primitives (**MIT**), Ark UI (**MIT**), Base UI (**MIT**), Headless UI
+  (**MIT**).
+- **TUI:** Charm lipgloss (**MIT**), bubbletea (**MIT**), Textual (**MIT**).
+- **Print:** Paged.js (**MIT**).
+- **Data-viz:** D3 (**ISC**), Observable Plot (**ISC**), Vega/Vega-Lite (**BSD-3-Clause**), ECharts
+  (**Apache-2.0**), visx (**MIT**).
+- **XR:** A-Frame (**MIT**), react-three-fiber (**MIT**), MRTK (**MIT**).
+- **npm-dep-preferred default:** pin as npm deps where a package exists; submodule only for
+  source-level reference/patching.
+
+### EXCLUDED (2026-08-07 pass) — paid / no-license / copyleft / abandoned
+
+- **Paid / subscription:** Apple UI "design" MCP (paid → use hig-mcp), Figma Dev Mode MCP (paid seat),
+  21st.dev Magic MCP (API key + paid retrieval), paid cloud image APIs (TinyPNG / hosted bg-removal /
+  cloud image-gen).
+- **Copyleft (kept out of vendored tree):** **storybook-mcp-server (AGPL-3.0)**, GPL iconify servers
+  (imjac0b et al.), **Vivliostyle (AGPL-3.0)**, GSAP (non-OSI).
+- **No LICENSE file (all-rights-reserved / caveat):** awssat/mcp-universal-icons, Osmansiddiquer/
+  iconify-mcp, deepakkumardewani/color-scheme-mcp; **wcag-guidelines-mcp** and **material3-style
+  servers** declare MIT on npm but ship no LICENSE file → external process only, do not vendor source.
+- **Abandoned / archived:** agentic-ph/icon-mcp, archived puppeteer MCP, Squoosh-based optimizers.
+- **Hosted-render caveat:** @antv/mcp-server-chart renders remotely unless `VIS_REQUEST_SERVER` is set;
+  local image-generation (ComfyUI) needs your own GPU.
