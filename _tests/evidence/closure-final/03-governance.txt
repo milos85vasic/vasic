@@ -1,0 +1,34 @@
+=== origin/main sha ===
+b0535a506f83c2084b024fa1bd15b882b6c528d9
+
+=== section header counts (as SECTION headers) on origin/main ===
+-- 11.4.236 header lines --
+origin/main:Constitution.md:11049:### §11.4.236 — QA-deploy-readiness gate: no manual-QA hand-off until the mandated validation produced a candidate-fingerprinted PASS verdict; a blocker MUST bind to a seam, never prose (research-derived, 2026-07-31)
+count236_header=1
+-- 11.4.237 header lines --
+origin/main:Constitution.md:11055:### §11.4.237 — Mandatory exhaustive context-and-spirit-aware translation review: every localized artifact independently reviewed for CONTEXT (source) + SPIRIT (target-language idiom/register) + technical/non-translatable fidelity — accuracy necessary, never sufficient (operator mandate, 2026-08-05)
+count237_header=1
+
+=== gate literals on origin/main ===
+CM-COVENANT-114-236-PROPAGATION count=10
+CM-COVENANT-114-237-PROPAGATION count=10
+
+=== design-toolkit in .gitmodules on origin/main ===
+[submodule "submodules/token_optimizer"]
+	path = submodules/token_optimizer
+	url = git@github.com:vasic-digital/token_optimizer.git
+[submodule "submodules/session_orchestrator"]
+	path = submodules/session_orchestrator
+	url = git@github.com:vasic-digital/session_orchestrator.git
+[submodule "submodules/continuum"]
+	path = submodules/continuum
+	url = git@github.com:vasic-digital/continuum.git
+[submodule "submodules/anti_bluff"]
+	path = submodules/anti_bluff
+	url = git@github.com:vasic-digital/anti_bluff.git
+[submodule "submodules/helix_perf_cache"]
+	path = submodules/helix_perf_cache
+	url = git@github.com:HelixDevelopment/helix_perf_cache.git
+[submodule "design-toolkit"]
+	path = design-toolkit
+	url = git@github.com:vasic-digital/design-toolkit.git

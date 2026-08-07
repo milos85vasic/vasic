@@ -1,0 +1,101 @@
+
+/* ============================================================================
+   RESTYLE CANDIDATE B — "LUMINOUS CRIMSON GLASS"  (OpenDesign / content layer)
+   Fraunces display serif, soft large radii, glass surfaces, layered crimson-tinted
+   shadows, glowing accents. Brand hue crimson #a31e39 preserved. Token
+   re-declaration (later :root wins) + overrides. Behavior-safe.
+   ========================================================================== */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-600.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-ext-600.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:900;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-900.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:900;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-ext-900.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+:root{
+  --od-bg:#fbf6f7; --od-surface:#ffffff; --od-surface-2:#f6ecef;
+  --od-text:#1a1216; --od-text-muted:#6b5f64; --od-border:#f0dfe4;
+  --od-accent:#a31e39; --od-accent-hover:#851a31; --od-accent-active:#671628; --od-on-accent:#ffffff;
+  --od-accent-100:#f6e6ea; --od-accent-700:#a31e39;
+  --od-font-display:"Fraunces","Georgia",serif;
+  --od-font-body:"Inter",sans-serif;
+  --od-font-mono:"JetBrains Mono",monospace;
+  --od-radius-sm:8px; --od-radius-md:12px; --od-radius-lg:20px; --od-radius-xl:28px; --od-radius-pill:9999px;
+  --od-shadow-sm:0 2px 8px rgba(163,30,57,.06);
+  --od-shadow-md:0 10px 30px -12px rgba(163,30,57,.22);
+  --od-shadow-lg:0 30px 70px -24px rgba(163,30,57,.34);
+  --od-container-max:1120px;
+}
+:root[data-theme="dark"]{
+  --od-bg:#140d11; --od-surface:#1e151b; --od-surface-2:#2a1e26;
+  --od-text:#f4ecf0; --od-text-muted:#b6a7af; --od-border:#3a2c33;
+  --od-accent:#f05a6f; --od-accent-hover:#f2536b; --od-accent-active:#ff5b73; --od-on-accent:#14060a;
+  --od-shadow-sm:0 2px 10px rgba(0,0,0,.4);
+  --od-shadow-md:0 12px 32px -12px rgba(0,0,0,.55);
+  --od-shadow-lg:0 30px 70px -24px rgba(240,90,111,.30);
+}
+
+/* Hero → radial crimson aurora behind the copy (pseudo layer; axe-invisible). */
+.od-hero{ position:relative; isolation:isolate; }
+.od-hero::before{ content:""; position:absolute; inset:-10% -6% auto -6%; height:150%; z-index:-1; pointer-events:none;
+  background:radial-gradient(50% 60% at 78% 20%, color-mix(in srgb,var(--od-accent) 22%,transparent), transparent 70%); }
+
+/* Hero name → dramatic Fraunces display serif (solid text colour → AA safe). */
+.od-hero__title{ font-family:var(--od-font-display); font-weight:900; letter-spacing:-.02em;
+  line-height:1; font-size:clamp(3rem,8.5vw,5.6rem); }
+
+/* Eyebrows → crimson with a luminous gradient lozenge. */
+.od-section__eyebrow{ color:var(--od-accent); display:inline-flex; align-items:center; gap:.6rem;
+  letter-spacing:.08em; font-weight:600; }
+.od-section__eyebrow::before{ content:""; width:1.9rem; height:4px; border-radius:9999px; flex:none;
+  background:linear-gradient(90deg,var(--od-accent),color-mix(in srgb,var(--od-accent) 25%,transparent)); }
+
+/* Section + product titles → Fraunces serif. */
+.od-section__title,.od-product-detail h1{ font-family:var(--od-font-display); font-weight:900; letter-spacing:-.015em; line-height:1.04; }
+.od-product-detail h2,.od-product-detail h3{ font-family:var(--od-font-display); font-weight:600; letter-spacing:-.01em; }
+.od-section__title{ position:relative; }
+.od-section__title::after{ content:""; display:block; height:4px; width:3em; margin-top:.55rem; border-radius:9999px;
+  background:linear-gradient(90deg,var(--od-accent),color-mix(in srgb,var(--od-accent) 20%,transparent)); }
+
+/* Stat figures → big luminous Fraunces numerals. */
+.od-stat__value{ font-family:var(--od-font-display); font-weight:900; font-size:clamp(2.4rem,5vw,3.6rem); line-height:1; }
+
+/* Cards / stats → soft glass panels with layered crimson depth; float on hover. */
+.od-card,.od-product-card,.od-stat{
+  border-radius:var(--od-radius-xl); border:1px solid var(--od-border);
+  background:color-mix(in srgb,var(--od-surface) 92%,transparent);
+  box-shadow:0 2px 10px rgba(163,30,57,.05), 0 20px 46px -24px rgba(163,30,57,.24);
+  transition:transform var(--od-dur-base) var(--od-ease-emphasized), box-shadow var(--od-dur-base) var(--od-ease-standard), border-color var(--od-dur-base) var(--od-ease-standard); }
+.od-card:hover,.od-product-card:hover{ transform:translateY(-6px);
+  border-color:color-mix(in srgb,var(--od-accent) 42%,var(--od-border));
+  box-shadow:0 12px 26px -10px rgba(163,30,57,.18), 0 34px 70px -26px rgba(163,30,57,.34); }
+
+/* Buttons → pill with a luminous crimson glow. */
+.od-btn{ border-radius:9999px; font-weight:600; }
+.od-btn--primary{ background:var(--od-accent); color:var(--od-on-accent);
+  box-shadow:0 8px 24px -8px color-mix(in srgb,var(--od-accent) 70%,transparent); }
+.od-btn--primary:hover{ transform:translateY(-2px); box-shadow:0 14px 32px -8px color-mix(in srgb,var(--od-accent) 80%,transparent); }
+.od-btn--secondary{ background:color-mix(in srgb,var(--od-surface) 70%,transparent);
+  border-color:color-mix(in srgb,var(--od-accent) 24%,var(--od-border)); }
+.od-btn--ghost{ border-color:color-mix(in srgb,var(--od-accent) 30%,var(--od-border)); }
+
+/* Chips / tags → soft frosted pills. */
+.od-chip,.od-tag--license{ border-radius:9999px; border:1px solid var(--od-border);
+  background:color-mix(in srgb,var(--od-surface-2) 80%,transparent); }
+
+/* Portrait → soft rounded, luminous halo, gentle crimson corner arcs. */
+.mvx-hero__portrait img{ border-radius:28px !important;
+  box-shadow:0 34px 80px -30px color-mix(in srgb,var(--od-accent) 60%,transparent) !important; }
+.mvx-hero__portrait::before,.mvx-hero__portrait::after{ border-width:3px !important; opacity:.75 !important; }
+.mvx-hero__portrait::after{ border-top-right-radius:28px !important; }
+.mvx-hero__portrait::before{ border-bottom-left-radius:28px !important; }
+
+/* Accordion (product page) → rounded soft cards. */
+.od-accordion__item{ border-radius:18px; border:1px solid var(--od-border); }
+.od-repo-list a{ border-radius:12px; }

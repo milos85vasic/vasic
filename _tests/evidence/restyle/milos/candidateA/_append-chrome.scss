@@ -1,0 +1,91 @@
+
+/* ============================================================================
+   RESTYLE CANDIDATE A — "TERMINAL BRUTALIST"  (chrome / style.css layer)
+   Bold crimson dossier: Anton display, hard 2px ink frames, offset print shadows,
+   square geometry, mono index ticks. Keeps brand hue crimson #a31e39.
+   Token re-declaration (later :root wins) + component overrides. Behavior-safe.
+   Reduced-motion is neutralized by the global guard already in this file.
+   ========================================================================== */
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;
+  src:url('/assets/od/anton/anton-latin-400.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;
+  src:url('/assets/od/anton/anton-latin-ext-400.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+:root{
+  --bg:#f4f1ea; --surface:#ffffff; --surface-2:#ece7dc;
+  --text:#16130f; --muted:#5c5751;
+  --accent:#a31e39; --accent-ink:#ffffff; --accent-soft:rgba(163,30,57,.10);
+  --steel:#2b3a42; --border:#2a241d;
+  --radius:2px; --maxw:1120px;
+  --shadow:4px 4px 0 rgba(22,19,15,.16);
+  --font-display:"Anton","Space Grotesk",system-ui,sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+:root[data-theme="dark"]{
+  --bg:#14110d; --surface:#1c1813; --surface-2:#26211a;
+  --text:#f2ede3; --muted:#a89f92;
+  --accent:#f05a6f; --accent-ink:#14110d; --accent-soft:rgba(236,59,88,.16);
+  --border:#4a4136;
+  --shadow:5px 5px 0 rgba(0,0,0,.5);
+}
+
+/* Subtle engineering-grid paper texture behind everything (very low alpha; text
+   always sits on solid surfaces so contrast is unaffected). */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:
+    linear-gradient(color-mix(in srgb,var(--text) 4%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--text) 4%,transparent) 1px,transparent 1px);
+  background-size:34px 34px;
+}
+
+/* Nav: crisp brutalist bar, thick ink baseline, no soft blur. */
+.nav{ background:var(--bg); backdrop-filter:none; border-bottom:2px solid var(--border); }
+.brand{ font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.06em; font-weight:700; }
+.brand .dot{ color:var(--accent); }
+.icon-btn,.nav-toggle{ border-radius:2px; border-width:2px; }
+.icon-btn:hover,.nav-toggle:hover{ background:var(--accent-soft); }
+.lang-menu{ border-radius:2px; border-width:2px; box-shadow:var(--shadow); }
+
+/* Eyebrow → mono label with a solid crimson index block. */
+.eyebrow{ text-transform:uppercase; letter-spacing:.12em; font-weight:600; gap:.5rem; }
+.eyebrow::before{ width:14px; height:14px; background:var(--accent); opacity:1; border-radius:0; }
+
+/* Display headings → Anton, uppercase, tight. */
+.hero h1,.section h2{ font-family:var(--font-display); text-transform:uppercase; letter-spacing:.005em; line-height:.94; }
+.section h2{ display:inline-block; }
+.section h2::after{ content:""; display:block; height:8px; width:2.6em; margin-top:.35rem; background:var(--accent); }
+
+/* Buttons: square, 2px ink frame, hard offset shadow that snaps on hover. */
+.btn{ border-radius:2px; border:2px solid var(--border); box-shadow:3px 3px 0 var(--border); font-weight:700;
+  text-transform:uppercase; letter-spacing:.04em; font-size:.86rem; }
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--accent); }
+.btn-primary{ background:var(--accent); color:var(--accent-ink); border-color:var(--border); }
+.btn-ghost{ background:var(--surface); }
+
+/* Cards: hard frame + print shadow, snap-lift on hover. */
+.card{ border-radius:2px; border:2px solid var(--border); box-shadow:4px 4px 0 var(--border); }
+.card:hover{ border-color:var(--border); transform:translate(-3px,-3px); box-shadow:7px 7px 0 var(--accent); }
+.card .lang{ border-radius:2px; }
+
+/* Datasheet: sharp technical readout. */
+.datasheet{ border-radius:2px; border:2px solid var(--border); box-shadow:4px 4px 0 var(--border); }
+
+/* Timeline: square crimson node. */
+.tl-item::before{ border-radius:0; width:14px; height:14px; box-shadow:0 0 0 4px var(--bg); }
+
+/* Portrait: thick crimson corner brackets + a hard offset print frame. */
+.portrait-card img{ border-radius:2px; border:2px solid var(--border); box-shadow:8px 8px 0 var(--accent); }
+.portrait-card::after{ width:56px; height:56px; border-width:4px; opacity:1; border-radius:0; }
+
+/* Footer: thick ink baseline. */
+.footer{ border-top:2px solid var(--border); }
+.footer .mono{ text-transform:uppercase; letter-spacing:.08em; }
+
+/* Modals / popovers → square hard-framed. */
+.dl-card,.mv-article-modal__panel{ border-radius:2px; border-width:2px; }
+.mv-article-modal__panel::before{ height:6px; background:var(--accent); }
+.mv-article-modal__close,.dl-lang{ border-radius:2px; }

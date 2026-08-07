@@ -1,0 +1,35 @@
+=== umbrella remotes ===
+github	git@github.com:milos85vasic/vasic.git (fetch)
+github	git@github.com:milos85vasic/vasic.git (push)
+origin	git@github.com:milos85vasic/vasic.git (fetch)
+origin	git@github.com:milos85vasic/vasic.git (push)
+upstream	git@github.com:milos85vasic/vasic.git (fetch)
+upstream	git@github.com:milos85vasic/vasic.git (push)
+=== fetch origin (umbrella) ===
+=== rev-parse origin/feat/content-generator ===
+69f7afb48285e292f8f25270f7a8475f5fe53ef4
+=== log -1 of that branch ===
+69f7afb48285e292f8f25270f7a8475f5fe53ef4 2026-08-07 11:15:37 +0200 Bump constitution submodule → §11.4.237 re-mint + nested design-toolkit (b0535a5)
+
+=== .gitmodules at origin/feat/content-generator ===
+[submodule "submodules/constitution"]
+	path = submodules/constitution
+	url = git@github.com:HelixDevelopment/HelixConstitution.git
+[submodule "milosvasic.ru"]
+	path = milosvasic.ru
+	url = git@github.com:milos85vasic/milosvasic.ru.git
+[submodule "vasic.digital"]
+	path = vasic.digital
+	url = git@github.com:vasic-digital/vasic-digital.github.io.git
+[submodule "design-toolkit"]
+	path = design-toolkit
+	url = git@github.com:vasic-digital/design-toolkit.git
+
+=== ls-tree submodule pointers at origin/feat/content-generator ===
+160000 commit baab3a4255bfc0074b61eee84ed0222d68a7a86b	design-toolkit
+160000 commit 00794fb642f308e0358e5ea07033568b1bb0719d	milosvasic.ru
+160000 commit e2f85bc6fe08379e0cca59043c94e75f1e4b364d	vasic.digital
+
+=== constitution pointer at origin/feat/content-generator ===
+160000 commit b0535a506f83c2084b024fa1bd15b882b6c528d9	submodules/constitution
+(expected to match constitution origin/main b0535a5)

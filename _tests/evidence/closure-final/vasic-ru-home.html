@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script>(function(){try{var t=localStorage.getItem('od-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/od/fonts.css"/>
+<link rel="stylesheet" href="../assets/od/vasic-digital.css"/>
+<link rel="stylesheet" href="../assets/od/components-extended.css"/>
+<link rel="stylesheet" href="../assets/od/animations.css"/>
+<link rel="stylesheet" href="../assets/od/overlays.css"/>
+<title>Vasic Digital — AI‑нативная разработка программного обеспечения</title>
+<meta name="description" content="Vasic Digital создает системы разработки ИИ — инфраструктуру LLM от нескольких провайдеров, оркестрацию агентов и конституцию‑плюс‑доказательства, которые делают их надёжными."/>
+<meta name="keywords" content="инженерия программного обеспечения, платформы разработки ИИ, оркестровка LLM, открытый исходный код, инструменты для разработчиков, SDK"/>
+<link rel="canonical" href="https://vasic.digital/"/>
+<meta name="robots" content="index, follow, max-image-preview:large"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Vasic Digital"/>
+<meta property="og:title" content="Vasic Digital — AI‑нативная разработка программного обеспечения"/>
+<meta property="og:description" content="Vasic Digital создает системы разработки ИИ — инфраструктуру LLM от нескольких провайдеров, оркестрацию агентов и конституцию‑плюс‑доказательства, которые делают их надёжными."/>
+<meta property="og:url" content="https://vasic.digital/"/>
+<meta property="og:image" content="https://vasic.digital/Assets/Logo.jpeg"/>
+<meta property="og:locale" content="ru_RU"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Vasic Digital — AI‑нативная разработка программного обеспечения"/>
+<meta name="twitter:description" content="Vasic Digital создает системы разработки ИИ — инфраструктуру LLM от нескольких провайдеров, оркестрацию агентов и конституцию‑плюс‑доказательства, которые делают их надёжными."/>
+<meta name="twitter:image" content="https://vasic.digital/Assets/Logo.jpeg"/>
+<link rel="alternate" hreflang="en" href="https://vasic.digital/"/>
+<link rel="alternate" hreflang="ar" href="https://vasic.digital/ar/"/>
+<link rel="alternate" hreflang="be" href="https://vasic.digital/be/"/>
+<link rel="alternate" hreflang="de" href="https://vasic.digital/de/"/>
+<link rel="alternate" hreflang="es" href="https://vasic.digital/es/"/>
+<link rel="alternate" hreflang="fa" href="https://vasic.digital/fa/"/>
+<link rel="alternate" hreflang="fr" href="https://vasic.digital/fr/"/>
+<link rel="alternate" hreflang="hi" href="https://vasic.digital/hi/"/>
+<link rel="alternate" hreflang="ja" href="https://vasic.digital/ja/"/>
+<link rel="alternate" hreflang="kk" href="https://vasic.digital/kk/"/>
+<link rel="alternate" hreflang="ko" href="https://vasic.digital/ko/"/>
+<link rel="alternate" hreflang="ru" href="https://vasic.digital/ru/"/>
+<link rel="alternate" hreflang="sr" href="https://vasic.digital/sr/"/>
+<link rel="alternate" hreflang="tr" href="https://vasic.digital/tr/"/>
+<link rel="alternate" hreflang="zh" href="https://vasic.digital/zh/"/>
+<link rel="alternate" hreflang="x-default" href="https://vasic.digital/"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://vasic.digital/#identity",
+      "@type": "Organization",
+      "logo": "https://vasic.digital/Assets/Logo.jpeg",
+      "name": "Vasic Digital",
+      "sameAs": [
+        "https://github.com/Helix-Track",
+        "https://github.com/nexu-io"
+      ],
+      "url": "https://vasic.digital/"
+    },
+    {
+      "@id": "https://vasic.digital/#website",
+      "@type": "WebSite",
+      "inLanguage": "ru",
+      "name": "Vasic Digital",
+      "publisher": {
+        "@id": "https://vasic.digital/#identity"
+      },
+      "url": "https://vasic.digital/"
+    }
+  ]
+}
+</script>
+  <style>
+    .od-icon{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+    /* Accessible skip link: on-screen 1px (SR-reachable) instead of transformed off-screen; reveals on focus */
+    .od-skip-link{position:absolute;top:0;left:0;transform:none;width:1px;height:1px;overflow:hidden;white-space:nowrap;clip:rect(0 0 0 0);clip-path:inset(50%);padding:0}
+    .od-skip-link:focus{width:auto;height:auto;overflow:visible;clip:auto;clip-path:none;padding:var(--od-space-2) var(--od-space-4)}
+    .od-brand{display:inline-flex;align-items:center;gap:var(--od-space-2);font-family:var(--od-font-display);font-weight:700;font-size:var(--od-fs-lg);color:var(--od-text);text-decoration:none}
+    .od-brand__logo{width:28px;height:28px;object-fit:contain;background:#fff;border:1px solid var(--od-border);border-radius:var(--od-radius-md);padding:2px;flex:none}
+    /* restored hero logo lockup — rounded white chip reads in light + dark (fix #3) */
+    .vd-hero__logo{display:flex;justify-content:center;margin-bottom:var(--od-space-6)}
+    .vd-hero__logo img{width:112px;height:112px;object-fit:contain;background:#fff;border:1px solid var(--od-border);border-radius:var(--od-radius-xl);padding:var(--od-space-3);box-shadow:var(--od-shadow-md)}
+    /* header/nav wrap so 375px never overflows horizontally */
+    .od-header{flex-wrap:wrap;row-gap:var(--od-space-3)}
+    .od-nav{flex-wrap:wrap;align-items:center}
+    .od-header__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--od-space-4)}
+    .od-theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:var(--od-space-2);padding:var(--od-space-2) var(--od-space-3)}
+    .od-theme-toggle .od-icon--sun{display:none}
+    :root[data-theme="dark"] .od-theme-toggle .od-icon--sun{display:inline-block}
+    :root[data-theme="dark"] .od-theme-toggle .od-icon--moon{display:none}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .od-theme-toggle .od-icon--moon{display:none}:root:not([data-theme="light"]) .od-theme-toggle .od-icon--sun{display:inline-block}}
+    img,svg{max-width:100%}
+    .vd-hero__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--od-space-3);margin-top:var(--od-space-6)}
+    .vd-lede{font-size:var(--od-fs-lg);line-height:var(--od-lh-normal);color:var(--od-text);max-width:72ch;margin:0 0 var(--od-space-4)}
+    .vd-muted{color:var(--od-text-muted)}
+    .vd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:var(--od-space-6);align-items:stretch}
+    .vd-grid--two{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+    .vd-card__blurb{font-size:var(--od-fs-base);line-height:var(--od-lh-normal);color:var(--od-text);margin:0 0 var(--od-space-4)}
+    .vd-card__actions{margin-top:auto;padding-top:var(--od-space-3)}
+    .od-product-card__tech{display:flex;flex-wrap:wrap;gap:var(--od-space-2)}
+    /* grid cards must be allowed to shrink below their min-content (≤320px) */
+    .vd-grid>*,.od-product-card{min-width:0}
+    .od-product-card__title{overflow-wrap:anywhere}
+    .vd-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--od-space-6);max-width:56rem;margin:var(--od-space-8) auto 0}
+    .vd-contact{display:flex;flex-wrap:wrap;gap:var(--od-space-8)}
+    .vd-contact a{color:var(--od-accent)}
+    .od-section__lede{font-size:var(--od-fs-lg);color:var(--od-text-muted);max-width:72ch;margin:0 0 var(--od-space-6)}
+    /* status badge extensions — OpenDesign tokens only (§11.4.162) */
+    .od-badge--status--production,.od-badge--status--shipped,.od-badge--status--active,.od-badge--status--stable{background-color:var(--od-success);color:var(--od-on-accent)}
+    .od-badge--status--scaffold,.od-badge--status--mixed{background-color:var(--od-surface-2);color:var(--od-text)}
+  </style>
+</head>
+<body>
+<a class="od-skip-link" href="#main">Перейти к содержанию</a>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 5h5v5"/><path d="M19 5l-9 9"/><path d="M19 13v6H5V5h6"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.9 4.9l1.4 1.4"/><path d="M17.7 17.7l1.4 1.4"/><path d="M19.1 4.9l-1.4 1.4"/><path d="M6.3 17.7l-1.4 1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></symbol>
+  </svg>
+
+  <header class="od-header">
+    <a class="od-brand" href="index.html"><picture><source srcset="../Assets/logo.webp" type="image/webp"><img class="od-brand__logo" src="../Assets/Logo.jpeg" alt="" width="28" height="28" decoding="async"></picture> Vasic Digital</a>
+    <div class="od-header__actions">
+      <nav class="od-nav" aria-label="Основная навигация" data-i18n-aria="aria.primaryNav">
+        <a class="od-nav__link" href="#work" data-i18n="nav.work">Проекты</a>
+        <a class="od-nav__link" href="#products" data-i18n="nav.products">Продукты</a>
+        <a class="od-nav__link" href="../portfolio/ru/" data-i18n="nav.portfolio">Портфолио</a>
+        <a class="od-nav__link" href="#contact" data-i18n="nav.contact">Контакты</a>
+      </nav>
+      <span id="od-lang-mount"></span>
+      <button id="od-theme-toggle" class="od-btn od-btn--ghost od-theme-toggle" type="button" aria-label="Переключить темную / светлую тему" data-i18n-aria="aria.toggleTheme">
+        <svg class="od-icon od-icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        <svg class="od-icon od-icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="od-hero od-reveal vd-hero">
+      <div class="vd-hero__fx" aria-hidden="true"><span class="vd-hero__aurora"></span><span class="vd-hero__grid"></span></div>
+      <div class="vd-hero__logo"><picture><source srcset="../Assets/logo.webp" type="image/webp"><img src="../Assets/Logo.jpeg" alt="Vasic Digital logo" width="112" height="112" decoding="async"></picture></div>
+      <p class="od-section__eyebrow" data-i18n="hero.eyebrow">// AI‑нативная разработка программного обеспечения</p>
+      <h1 class="od-hero__title" data-i18n="hero.title">AI‑нативная разработка программного обеспечения, построенная на доверии.</h1>
+      <p class="od-hero__lede" data-i18n="hero.lede">Мы создаём системы разработки ИИ — модели, агентов, оркестрацию и инфраструктуру, которые превращают большие языковые модели в надёжное ПО — вместе со слоем управления, который сохраняет их честность.</p>
+      <div class="vd-hero__cta">
+        <a class="od-btn od-btn--primary od-magnetic" href="#products" data-i18n="hero.cta_products">Исследовать продукты</a>
+        <a class="od-btn od-btn--secondary od-magnetic" href="portfolio/" data-i18n="hero.cta_portfolio">Посмотреть портфолио</a>
+        <a class="od-btn od-btn--ghost od-magnetic" href="downloads/Portfolio_EN.pdf">Скачать портфолио (PDF)</a>
+      </div>
+      <div class="vd-stats od-stagger">
+        <div class="od-stat"><div class="od-stat__value od-highlight" data-od-count>40+</div><div class="od-stat__label" data-i18n="stat.providers">Поставщики LLM, один интерфейс</div></div>
+        <div class="od-stat"><div class="od-stat__value od-highlight" data-od-count>140+</div><div class="od-stat__label" data-i18n="stat.repos">репозитории, одна конституция</div></div>
+        <div class="od-stat"><div class="od-stat__value od-highlight" data-od-count>33</div><div class="od-stat__label" data-i18n="stat.products">продукты в трёх уровнях</div></div>
+      </div>
+      <hr class="vd-hero__rule od-divider" aria-hidden="true"/>
+    </section>
+
+    <section class="od-section od-reveal" id="about">
+      <p class="od-section__eyebrow" data-i18n="about.eyebrow">// о нас</p>
+      <h2 class="od-section__title" data-i18n="about.title">Флот, а не монолит.</h2>
+      <p class="vd-lede" data-i18n="about.body1">Vasic Digital — это целенаправленная инженерная практика, создающая взаимосвязанную семью продуктов для разработки ИИ и переиспользуемых модулей. Вместо одного монолита работа организована как флот: крупные продуктовые приложения поверх десятков небольших, независимо протестированных, разобщённых модулей — так проверенные части переиспользуются во всех продуктах, а не перестраиваются заново.</p>
+      <p class="vd-lede vd-muted" data-i18n="about.body2">Основной язык — Go, дополненный Kotlin &amp; Kotlin Multiplatform, TypeScript/React, Python, Swift и Shell — выбираются под задачу. Что связывает флот, — дисциплина, сделанная механической: каждый проект наследует общую инженерную Конституцию как Git‑submodule, и каждая возможность, которую рекламирует продукт, должна быть подтверждена автоматическим тестом, генерирующим доказательства. Фича считается «завершённой» не когда проходят тесты, а когда реальный пользователь действительно может её использовать и есть зафиксированные доказательства.</p>
+    </section>
+
+    <section class="od-section od-reveal" id="work">
+      <p class="od-section__eyebrow" data-i18n="work.eyebrow">// что мы делаем</p>
+      <h2 class="od-section__title" data-i18n="work.title">Разработка на основе ИИ, от начала до конца.</h2>
+      <p class="od-section__lede" data-i18n="work.lede">Мы создаём основу для ИИ‑систем — сложную часть под приложением.</p>
+      <div class="vd-grid vd-grid--two od-stagger">
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="wd.llm.title">Доступ к LLM от нескольких провайдеров</h3>
+          <p class="vd-card__blurb" data-i18n="wd.llm.body">Первичная абстракция над более чем 40 провайдерами — Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral, Groq, xAI/Grok и локальный Ollama как резервный вариант — через один интерфейс с повторными попытками, автоматическими выключателями и проверками состояния.</p>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="wd.agents.title">Оркестрация агентов</h3>
+          <p class="vd-card__blurb" data-i18n="wd.agents.body">Безголовые CLI‑контроллеры‑агенты, графовые агентные рабочие процессы, многократные «AI‑дебаты» для консенсуса и DAG/конвейерные рантаймы.</p>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="wd.verify.title">Проверка LLM</h3>
+          <p class="vd-card__blurb" data-i18n="wd.verify.body">Слой доверия, который оценивает модели обязательным проверочным вопросом («Вы видите мой код?») плюс тесты на задержку, потоковую передачу, вызов функций, зрение и эмбеддинги — экспортируя только проверенную конфигурацию.</p>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="wd.memory.title">Извлечение и память</h3>
+          <p class="vd-card__blurb" data-i18n="wd.memory.body">RAG, векторные базы данных, эмбеддинги и объединённые движки памяти агентов (Mem0 + Cognee + Letta) с компрессией бесконечного контекста.</p>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="wd.defensive.title">Защитный LLM</h3>
+          <p class="vd-card__blurb" data-i18n="wd.defensive.body">Ограничения, обнаружение PII, адверсариальные red‑team‑фикстуры и канонизация ввода — безопасность встроена в основу, а не добавлена сверху.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="products">
+      <p class="od-section__eyebrow" data-i18n="products.eyebrow">// уровень 1 — флагман</p>
+      <h2 class="od-section__title" data-i18n="products.title">Семейство продуктов Helix &amp; инфраструктура LLM</h2>
+      <p class="od-section__lede" data-i18n="products.lede">Наша флагманская линейка охватывает весь жизненный цикл разработки ИИ. В порядке приоритета.</p>
+      <div class="vd-grid od-stagger">
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixTrack <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">HTTP/3 QUIC</span><span class="od-chip">PostgreSQL</span><span class="od-chip">+8</span></div>
+          <p class="vd-card__blurb" data-i18n="p.helixtrack">Альтернатива JIRA без ограничений — флагманская модель линии Helix‑Track.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixtrack.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixAgent <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">PostgreSQL</span><span class="od-chip">LLMsVerifier</span><span class="od-chip">+6</span></div>
+          <p class="vd-card__blurb" data-i18n="p.helixagent">Сервис LLM‑ансамбля, позволяющий нескольким моделям дебатировать и выдающий согласованный ответ.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixagent.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixCode <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">SSH</span><span class="od-chip">Model Context Protocol</span><span class="od-chip">+2</span></div>
+          <p class="vd-card__blurb" data-i18n="p.helixcode">Распределённая платформа разработки ИИ, распределяющая работу между SSH‑управляемыми воркерами с контрольными точками/откатом.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixcode.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixLLM <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">HTTP/3 QUIC</span><span class="od-chip">llama.cpp</span><span class="od-chip">LLMsVerifier</span><span class="od-chip">+5</span></div>
+          <p class="vd-card__blurb" data-i18n="p.helixllm">Один бинарный файл, шесть режимов: совместимый с OpenAI и Anthropic вывод от ноутбука до кластера, через HTTP/3.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixllm.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixCluster <span class="od-badge--status od-badge--status--in-development">in-development</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Zig</span><span class="od-chip">gRPC</span><span class="od-chip">Raft + SWIM</span><span class="od-chip">+7</span></div>
+          <p class="vd-card__blurb" data-i18n="p.helixcluster">Распределённая операционная система для AI‑вычислений, от дата‑центровых GPU до портативных edge‑устройств.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixcluster.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">LLMProvider <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">net/http</span><span class="od-chip">logrus</span><span class="od-chip">digital.vasic.models</span><span class="od-chip">+2</span></div>
+          <p class="vd-card__blurb" data-i18n="p.llmprovider">Один интерфейс, 43 провайдера — с автоматическими выключателями, повторными попытками и встроенными проверками состояния.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/llmprovider.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">LLMOrchestrator <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">JSON-lines over stdio</span><span class="od-chip">Circuit breaker</span><span class="od-chip">HealthMonitor</span><span class="od-chip">+2</span></div>
+          <p class="vd-card__blurb" data-i18n="p.llmorchestrator">Один контрольный план для каждого безголового CLI‑агента‑кодера.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/llmorchestrator.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">LLMsVerifier <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">SQLite + SQLCipher</span><span class="od-chip">gRPC</span><span class="od-chip">+6</span></div>
+          <p class="vd-card__blurb" data-i18n="p.llmsverifier">Проверяйте. Мониторьте. Оптимизируйте. Единственный источник правды для метаданных проверки LLM и провайдеров.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/llmsverifier.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixMemory <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Mem0</span><span class="od-chip">Cognee</span><span class="od-chip">Letta</span><span class="od-chip">+3</span></div>
+          <p class="vd-card__blurb" data-i18n="p.helixmemory">Один мозг памяти для AI‑агентов — четыре лучших движка, объединённые вместе.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixmemory.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="governance">
+      <p class="od-section__eyebrow" data-i18n="gov.eyebrow">// качество и управление — наш дифференциатор</p>
+      <h2 class="od-section__title" data-i18n="gov.title">Управление как проверяемый факт, а не как стремление.</h2>
+      <p class="od-section__lede" data-i18n="gov.lede">Два столпа делают весь флот согласованным и надёжным.</p>
+      <div class="vd-grid vd-grid--two od-stagger">
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixConstitution <span class="od-badge--status od-badge--status--shipped">shipped</span></h3>
+          <p class="vd-card__blurb" data-i18n="gov.constitution">Универсальная, независимая от проекта инженерная книга правил, поставляемая как Git‑submodule и наследуемая каждым проектом в флоте из более чем 140‑репозиториев. Она кодирует неделимую дисциплину — ворота доказательств против обмана, иммунитет к ложноположительным срабатываниям, безопасность данных и хостов — которые проект может расширять, но никогда не ослаблять. Одно обновление submodule повышает правила везде, и каждый ворота сопровождаются тестом‑мутацией, доказывающим, что ворота не являются фиктивными.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixconstitution.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixQA <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <p class="vd-card__blurb" data-i18n="gov.qa">Оркестрация QA без обмана. Запускает написанные YAML‑банки тестов и полностью автономные сессии QA LLM + компьютерного зрения на Android, Android TV, Web и Desktop — и отказывается ставить PASS без зафиксированных доказательств выполнения: скриншоты, logcat, видео, трассировки стека. «Мы протестировали» превращается в «вот видео, logcat и тикет».</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/helixqa.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="utilities">
+      <p class="od-section__eyebrow" data-i18n="utils.eyebrow">// уровень 2 — утилиты</p>
+      <h2 class="od-section__title" data-i18n="utils.title">Утилиты Vasic Digital</h2>
+      <p class="od-section__lede" data-i18n="utils.lede">Инструменты уровня продукта, которые работают самостоятельно.</p>
+      <div class="vd-grid od-stagger">
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Catalogizer <span class="od-badge--status od-badge--status--production">production</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">React</span><span class="od-chip">WebSockets</span><span class="od-chip">+10</span></div>
+          <p class="vd-card__blurb" data-i18n="p.catalogizer">Продвинутое управление зашифрованными медиа‑коллекциями по нескольким протоколам — обнаружение, каталогизация и обогащение всего, что у вас есть.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/catalogizer.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Courses-Creator <span class="od-badge--status od-badge--status--production">production</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">React</span><span class="od-chip">Electron</span><span class="od-chip">React Native</span><span class="od-chip">+8</span></div>
+          <p class="vd-card__blurb" data-i18n="p.coursescreator">Markdown‑вход, профессиональный видеокурс‑выход — с поддержкой ИИ, мультиплатформенный.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/courses-creator.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">VisionEngine <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">GoCV / OpenCV</span><span class="od-chip">LLM vision</span><span class="od-chip">Graph algorithms</span></div>
+          <p class="vd-card__blurb" data-i18n="p.visionengine">Смотрите UI как пользователь — компьютерное зрение плюс зрение LLM для анализа и навигации.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/visionengine.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">DocProcessor <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">LLM agents</span><span class="od-chip">Heuristic parser</span><span class="od-chip">i18n</span></div>
+          <p class="vd-card__blurb" data-i18n="p.docprocessor">Преобразуйте документацию в проверяемую карту функций для автоматизации QA.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/docprocessor.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Docs Chain <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">DAG</span><span class="od-chip">SQLite</span><span class="od-chip">fsnotify</span></div>
+          <p class="vd-card__blurb" data-i18n="p.docschain">Ни один отслеживаемый документ не выйдет из синхронизации — хеш‑контент, двунаправленный, атомарный.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/docs-chain.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Herald <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Shell</span><span class="od-chip">LLM intent inference</span><span class="od-chip">Docs Chain</span></div>
+          <p class="vd-card__blurb" data-i18n="p.herald">Каждое оповещение попадает в нужное место — без необходимости в синтаксисе команд.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/herald.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">task_bridge <span class="od-badge--status od-badge--status--scaffold">scaffold</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">SQLite</span><span class="od-chip">HMAC-SHA256</span><span class="od-chip">cron + webhooks</span></div>
+          <p class="vd-card__blurb" data-i18n="p.taskbridge">Ваша доска задач и ваш источник правды, безупречно синхронны — в обе стороны.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/task-bridge.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Reusable Module Suite <span class="od-badge--status od-badge--status--scaffold">scaffold</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go (digital.vasic.*)</span><span class="od-chip">Kotlin Multiplatform</span><span class="od-chip">Vector DB / RAG / MCP</span><span class="od-chip">+1</span></div>
+          <p class="vd-card__blurb" data-i18n="p.rms">Собирайте один раз, переиспользуйте везде — флот небольших, разобщённых, независимо протестированных модулей Go и KMP.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/vasic-digital-reusable-module-suite.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="server-factory">
+      <p class="od-section__eyebrow" data-i18n="sf.eyebrow">// уровень 3 — наследие</p>
+      <h2 class="od-section__title" data-i18n="sf.title">Server Factory — автоматизация инфраструктуры</h2>
+      <p class="od-section__lede" data-i18n="sf.lede">Наше наследие DevOps: декларативный JSON, превращённый в полностью подготовленные, Docker‑изолированные серверы.</p>
+      <div class="vd-grid od-stagger">
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Mail Server Factory <span class="od-badge--status od-badge--status--production">production</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Kotlin</span><span class="od-chip">Shell</span><span class="od-chip">Docker</span><span class="od-chip">QEMU</span><span class="od-chip">+4</span></div>
+          <p class="vd-card__blurb" data-i18n="p.msf">Запускайте ваш почтовый сервер как босс — опишите его в JSON, разверните где угодно.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/mail-server-factory.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Server Factory Core Framework <span class="od-badge--status od-badge--status--stable">stable</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Kotlin</span><span class="od-chip">Shell</span><span class="od-chip">Gradle</span></div>
+          <p class="vd-card__blurb" data-i18n="p.sfcore">Общий движок за каждым Server Factory.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/server-factory-core-framework.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Qemu-Utils <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Shell</span><span class="od-chip">QEMU</span><span class="od-chip">Bridge / TAP</span><span class="od-chip">ISO images</span></div>
+          <p class="vd-card__blurb" data-i18n="p.qemu">Образы VM QEMU, управляемые как артефакты — скачайте, запустите, настройте сеть, опубликуйте.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/qemu-utils.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Parallels-Utils <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Shell</span><span class="od-chip">Python 3</span><span class="od-chip">Parallels</span></div>
+          <p class="vd-card__blurb" data-i18n="p.parallels">Сжимайте, публикуйте и переиспользуйте ваши образы VM Parallels на любой машине.</p>
+          <div class="vd-card__actions"><a class="od-btn od-btn--secondary" href="../products/ru/parallels-utils.html" data-i18n="cta.readmore">Читать дальше</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="technologies">
+      <p class="od-section__eyebrow" data-i18n="tech.eyebrow">// технологии</p>
+      <h2 class="od-section__title" data-i18n="tech.title">Основано на нашем реальном стеке.</h2>
+      <div class="vd-grid vd-grid--two od-stagger">
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="tech.lang.title">Языки</h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Kotlin / KMP</span><span class="od-chip">TypeScript</span><span class="od-chip">Python</span><span class="od-chip">Swift</span><span class="od-chip">Shell</span><span class="od-chip">PL/pgSQL</span><span class="od-chip">TLA+</span></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="tech.ai.title">ИИ / LLM</h3>
+          <div class="od-product-card__tech"><span class="od-chip">43+ provider adapters</span><span class="od-chip">MCP</span><span class="od-chip">RAG</span><span class="od-chip">Vector DBs</span><span class="od-chip">HiPlan / MCTS / ToT</span><span class="od-chip">SWE-bench / HumanEval / MMLU</span></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="tech.backend.title">Бэкенд</h3>
+          <div class="od-product-card__tech"><span class="od-chip">Gin</span><span class="od-chip">gRPC + Protobuf</span><span class="od-chip">HTTP/3 (QUIC)</span><span class="od-chip">WebSockets</span><span class="od-chip">Angular / React</span><span class="od-chip">Kafka / RabbitMQ</span></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="tech.data.title">Данные</h3>
+          <div class="od-product-card__tech"><span class="od-chip">PostgreSQL</span><span class="od-chip">SQLite</span><span class="od-chip">SQLCipher</span><span class="od-chip">Redis</span><span class="od-chip">Neo4j</span><span class="od-chip">ClickHouse</span><span class="od-chip">MinIO / S3</span></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="tech.infra.title">Инфраструктура / DevOps</h3>
+          <div class="od-product-card__tech"><span class="od-chip">Docker &amp; Compose</span><span class="od-chip">Kubernetes + Helm</span><span class="od-chip">Prometheus + Grafana</span><span class="od-chip">OpenTelemetry</span><span class="od-chip">QEMU / Libvirt</span><span class="od-chip">GitHub Actions</span></div>
+        </article>
+        <article class="od-card od-product-card od-glow" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="tech.qa.title">Тестирование / QA</h3>
+          <div class="od-product-card__tech"><span class="od-chip">HelixQA (anti-bluff)</span><span class="od-chip">Challenge harnesses</span><span class="od-chip">go test -race</span><span class="od-chip">SonarQube</span><span class="od-chip">semgrep / gosec / trivy / snyk</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="portfolio-cta">
+      <p class="od-section__eyebrow" data-i18n="pf.eyebrow">// портфолио</p>
+      <h2 class="od-section__title" data-i18n="pf.title">Один флот, одна дисциплина — смотрите все 33 продукта.</h2>
+      <p class="od-section__lede" data-i18n="pf.lede">Единое, основанное на доказательствах портфолио семейства Helix, утилит vasic-digital и инструментария Server Factory.</p>
+      <div class="vd-hero__cta" style="justify-content:flex-start">
+        <a class="od-btn od-btn--primary" href="portfolio/" data-i18n="pf.cta">Открыть портфолио</a>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="contact">
+      <p class="od-section__eyebrow" data-i18n="contact.eyebrow">// контакты</p>
+      <h2 class="od-section__title" data-i18n="contact.title">Давайте построим что‑то проверяемое.</h2>
+      <p class="od-section__lede" data-i18n="contact.lede">Любой может подключить приложение к LLM. Мы создаём сложную часть: AI‑системы, которые проверяемы, переиспользуемы и честны. Мы не просим вас доверять зелёному галочке — мы показываем доказательства за ней.</p>
+      <div class="vd-contact">
+        <p><strong data-i18n="contact.email_label">Электронная почта</strong><br/><a href="mailto:i@mvasic.ru">i@mvasic.ru</a></p>
+        <p><strong data-i18n="contact.github_label">GitHub</strong><br/><a href="https://github.com/vasic-digital" rel="noopener noreferrer" target="_blank">github.com/vasic-digital <svg class="od-icon" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="od-footer" data-i18n="footer.text">© 2026 Vasic Digital — построено на системе OpenDesign.</footer>
+
+  <button class="od-to-top" type="button" data-i18n-aria="aria.backToTop" aria-label="Вернуться наверх"><svg class="od-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+<script>
+  (function(){
+    var btn=document.getElementById('od-theme-toggle');
+    if(!btn)return;
+    btn.addEventListener('click',function(){
+      var d=document.documentElement;var cur=d.getAttribute('data-theme');
+      var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var next=cur==='dark'?'light':(cur==='light'?'dark':(prefersDark?'light':'dark'));
+      d.setAttribute('data-theme',next);
+      try{localStorage.setItem('od-theme',next);}catch(e){}
+    });
+  })();
+</script>
+<script defer src="../assets/od/motion.js"></script>
+<script>window.OD_LANGS=[{"code":"en","name":"English"},{"code":"ar","name":"العربية"},{"code":"be","name":"Беларуская"},{"code":"de","name":"Deutsch"},{"code":"es","name":"Español"},{"code":"fa","name":"فارسی"},{"code":"fr","name":"Français"},{"code":"hi","name":"हिन्दी"},{"code":"ja","name":"日本語"},{"code":"kk","name":"Қазақша"},{"code":"ko","name":"한국어"},{"code":"ru","name":"Русский"},{"code":"sr","name":"Српски"},{"code":"tr","name":"Türkçe"},{"code":"zh","name":"中文"}];window.OD_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/"},"type":"home"};window.OD_I18N={"ar":{"aria.backToTop":"العودة إلى الأعلى","aria.primaryNav":"الرئيسية","aria.toggleTheme":"تبديل السمة الداكنة / الفاتحة","cta.readmore":"اقرأ المزيد","footer.text":"© 2026 Vasic Digital — مبني على نظام OpenDesign.","nav.portfolio":"المحفظة","nav.products":"المنتجات"},"be":{"aria.backToTop":"Вярнуцца ўверх","aria.primaryNav":"Асноўнае","aria.toggleTheme":"Пераключыць цёмную / светлую тэму","cta.readmore":"Прачытаць далей","footer.text":"© 2026 Vasic Digital — пабудавана на сістэме OpenDesign.","nav.portfolio":"Партфоліа","nav.products":"Прадукты"},"de":{"aria.backToTop":"Zurück nach oben","aria.primaryNav":"Hauptnavigation","aria.toggleTheme":"Dunkles / helles Thema umschalten","cta.readmore":"Weiterlesen","footer.text":"© 2026 Vasic Digital — aufgebaut auf dem OpenDesign System.","nav.portfolio":"Portfolio","nav.products":"Produkte"},"en":{"aria.backToTop":"Back to top","aria.primaryNav":"Primary","aria.toggleTheme":"Toggle dark / light theme","cta.readmore":"Read more","footer.text":"© 2026 Vasic Digital — built on the OpenDesign system.","nav.portfolio":"Portfolio","nav.products":"Products"},"es":{"aria.backToTop":"Volver al principio","aria.primaryNav":"Principal","aria.toggleTheme":"Cambiar tema oscuro / claro","cta.readmore":"Leer más","footer.text":"© 2026 Vasic Digital — construido sobre el sistema OpenDesign.","nav.portfolio":"Portafolio","nav.products":"Productos"},"fa":{"aria.backToTop":"بازگشت به بالا","aria.primaryNav":"اصلی","aria.toggleTheme":"تغییر تم تاریک / روشن","cta.readmore":"خواندن بیشتر","footer.text":"© 2026 Vasic Digital — ساخته شده بر اساس سیستم OpenDesign.","nav.portfolio":"پورتفولیو","nav.products":"محصولات"},"fr":{"aria.backToTop":"Retour en haut","aria.primaryNav":"Principal","aria.toggleTheme":"Basculer le thème sombre / clair","cta.readmore":"Lire la suite","footer.text":"© 2026 Vasic Digital — construit sur le système OpenDesign.","nav.portfolio":"Portfolio","nav.products":"Produits"},"hi":{"aria.backToTop":"शीर्ष पर वापस","aria.primaryNav":"प्राथमिक","aria.toggleTheme":"डार्क / लाइट थीम टॉगल करें","cta.readmore":"और पढ़ें","footer.text":"© 2026 Vasic Digital — OpenDesign सिस्टम पर बनाया गया.","nav.portfolio":"पोर्टफोलियो","nav.products":"उत्पाद"},"ja":{"aria.backToTop":"トップに戻る","aria.primaryNav":"メイン","aria.toggleTheme":"ダーク / ライトテーマの切り替え","cta.readmore":"詳しく見る","footer.text":"© 2026 Vasic Digital — OpenDesign システムで構築.","nav.portfolio":"ポートフォリオ","nav.products":"製品"},"kk":{"aria.backToTop":"Басына оралу","aria.primaryNav":"Негізгі","aria.toggleTheme":"Қараңғы / ақшыл теманы ауыстыру","cta.readmore":"Толығырақ оқу","footer.text":"© 2026 Vasic Digital — OpenDesign жүйесінде жасалған.","nav.portfolio":"Портфолио","nav.products":"Өнімдер"},"ko":{"aria.backToTop":"맨 위로","aria.primaryNav":"주요","aria.toggleTheme":"어두운 / 밝은 테마 전환","cta.readmore":"자세히 보기","footer.text":"© 2026 Vasic Digital — OpenDesign 시스템으로 구축됨.","nav.portfolio":"포트폴리오","nav.products":"제품"},"ru":{"aria.backToTop":"Вернуться наверх","aria.primaryNav":"Основная навигация","aria.toggleTheme":"Переключить темную / светлую тему","cta.readmore":"Читать дальше","footer.text":"© 2026 Vasic Digital — построен на основе системы OpenDesign.","nav.portfolio":"Портфолио","nav.products":"Продукты"},"sr":{"aria.backToTop":"Назад на врх","aria.primaryNav":"Главна","aria.toggleTheme":"Промени тамну / светлу тему","cta.readmore":"Прочитај више","footer.text":"© 2026 Vasic Digital — изграђен на OpenDesign систему.","nav.portfolio":"Портфолио","nav.products":"Продукти"},"tr":{"aria.backToTop":"Başa dön","aria.primaryNav":"Ana","aria.toggleTheme":"Koyu / açık temayı değiştir","cta.readmore":"Daha fazla oku","footer.text":"© 2026 Vasic Digital — OpenDesign sistemi üzerine inşa edilmiştir.","nav.portfolio":"Portföy","nav.products":"Ürünler"},"zh":{"aria.backToTop":"返回顶部","aria.primaryNav":"主导航","aria.toggleTheme":"切换深色 / 浅色主题","cta.readmore":"阅读更多","footer.text":"© 2026 Vasic Digital — 建立在 OpenDesign 系统之上.","nav.portfolio":"作品集","nav.products":"产品"}};</script>
+<script defer src="../assets/od/od-i18n.js"></script>
+</body>
+</html>

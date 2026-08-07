@@ -1,0 +1,67 @@
+=== KNOWN ISSUE #58 verification: §11.4.237 in rendered artifacts on origin/main ===
+-- Constitution.md (source) 11.4.237 header count --
+md: 1
+-- Constitution.html --
+html 11.4.237 occurrences: 0
+html 11.4.236 occurrences: 2
+-- Constitution.pdf (via pandoc/pdftotext) --
+pdf 11.4.237 occurrences: 0
+pdf 11.4.236 occurrences: 1
+-- Constitution.docx (via pandoc to plain) --
+docx 11.4.237 occurrences: 0
+docx 11.4.236 occurrences: 2
+
+=== Tracked-issue lookup ===
+--- HelixDevelopment/HelixConstitution #58 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 58. (repository.issue)
+--- HelixDevelopment/HelixConstitution #43 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 43. (repository.issue)
+--- milos85vasic/vasic #58 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 58. (repository.issue)
+--- milos85vasic/vasic #43 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 43. (repository.issue)
+--- vasic-digital/vasic-digital.github.io #58 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 58. (repository.issue)
+--- vasic-digital/vasic-digital.github.io #43 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 43. (repository.issue)
+--- milos85vasic/milosvasic.ru #58 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 58. (repository.issue)
+--- milos85vasic/milosvasic.ru #43 ---
+GraphQL: Could not resolve to an issue or pull request with the number of 43. (repository.issue)
+
+=== search local tree for tracked-issue references (#58 / #43 / content-quality / stale render) ===
+--- (end search) ---
+
+=== GitLab issue check (design-toolkit / milos / vasic) via glab ===
+          
+   ERROR  
+          
+
+=== search local tree for tracked-issue references ===
+/Volumes/T7/Projects/vasic/_tests/evidence/closure-final/05-known-open.txt:1:=== KNOWN ISSUE #58 verification: §11.4.237 in rendered artifacts on origin/main ===
+/Volumes/T7/Projects/vasic/_tests/evidence/closure-final/05-known-open.txt:32:=== search local tree for tracked-issue references (#58 / #43 / content-quality / stale render) ===
+/Volumes/T7/Projects/vasic/_analysis/constitution-compliance.md:24:| **DE localization content quality** (sink of §11.4.140/141) | Yes | **GAP (content)** | The independent-review **gate works** (that is compliant — see §11.4.141), but it **fails the shipped German content**: `_tests/evidence/translate-new/de/HelixTrack.md.review.json` and `vasic-digital.md.review.json` both report `"verdict":"FAIL"`, `"untranslated_leftovers":true`, completeness 3/5, with issues "incomplete translation of the tech stack section", "missing translation of the 'Status & honesty notes' section". So `_content_de/` is objectively incomplete by its own reviewer. | Re-run `_tools/translate/translate-content.sh de …` until every `*.review.json` is `verdict:PASS`; do not treat `_content_de` as delivered while its reviewer says FAIL. |
+/Volumes/T7/Projects/vasic/_analysis/research-best-practices.md:83:- **SEO:** CWV are a confirmed page-experience ranking factor used largely as a tie-breaker between comparable-quality pages — they help you edge out competitors but don't override content quality. [developers.google.com](https://developers.google.com/search/docs/appearance/page-experience)
+/Volumes/T7/Projects/vasic/_analysis/top20/ATMOSphere-SmartTube.readme.txt:172:You can adjust the playback speed pressing the speed-indicator icon (gauge) in the top row of the player. This is remembered across videos. Some speeds may case frame drops, this is a known issue.
+--- (end) ---
+
+=== #43 content-quality substance: DE review verdicts ===
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/docs_cover-letter.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/docs_cv.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/docs_portfolio.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_Catalogizer.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_Courses-Creator.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_DocProcessor.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_Helix-Flow.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_HelixAgent.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_HelixBuilder.md.review.json
+"verdict": "PASS"  <-  /Volumes/T7/Projects/vasic/_tests/evidence/translate-new/de/products_HelixCluster.md.review.json
+--- distinct verdicts across all de review json ---
+  38 "verdict": "PASS"
+
+=== specific files cited by constitution-compliance.md as FAIL ===
+_tests/evidence/translate-new/de/HelixTrack.md.review.json :: NOT PRESENT (renamed/re-run?)
+_tests/evidence/translate-new/de/vasic-digital.md.review.json :: NOT PRESENT (renamed/re-run?)
+
+=== all de review filenames present ===
+docs_cover-letter.md.review.json docs_cv.md.review.json docs_portfolio.md.review.json products_Catalogizer.md.review.json products_Courses-Creator.md.review.json products_DocProcessor.md.review.json products_docs_chain.md.review.json products_Helix-Flow.md.review.json products_HelixAgent.md.review.json products_HelixBuilder.md.review.json products_HelixCluster.md.review.json products_HelixCode.md.review.json products_HelixConstitution.md.review.json products_HelixGitpx.md.review.json products_HelixLLM.md.review.json products_HelixMemory.md.review.json products_HelixOTA.md.review.json products_HelixPlay.md.review.json products_HelixQA.md.review.json products_HelixSkills.md.review.json products_HelixSpecifier.md.review.json products_HelixTerminator.md.review.json products_HelixTrack.md.review.json products_HelixTranslate.md.review.json products_Herald.md.review.json products_LLMOrchestrator.md.review.json products_LLMProvider.md.review.json products_LLMsVerifier.md.review.json products_Mail-Server-Factory.md.review.json products_Parallels-Utils.md.review.json products_Qemu-Utils.md.review.json products_Server-Factory-Additional-Components.md.review.json products_Server-Factory-Core-Framework.md.review.json products_task_bridge.md.review.json products_Vasic-Digital-Reusable-Module-Suite.md.review.json products_VisionEngine.md.review.json sites_milosvasic-ru.md.review.json sites_vasic-digital.md.review.json 

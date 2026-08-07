@@ -1,0 +1,94 @@
+
+/* ============================================================================
+   RESTYLE CANDIDATE B — "LUMINOUS CRIMSON GLASS"  (chrome / style.css layer)
+   Editorial glass: Fraunces display serif, soft large radii, frosted nav/modals,
+   layered crimson-tinted shadows, glowing crimson gradient accents. Brand hue
+   crimson #a31e39 preserved. Token re-declaration + overrides. Behavior-safe;
+   reduced-motion neutralized by the global guard already in this file.
+   ========================================================================== */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-600.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-ext-600.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:900;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-900.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:900;font-display:swap;
+  src:url('/assets/od/fraunces/fraunces-latin-ext-900.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+:root{
+  --bg:#fbf6f7; --surface:#ffffff; --surface-2:#f6ecef;
+  --text:#1a1216; --muted:#6b5f64;
+  --accent:#a31e39; --accent-ink:#ffffff; --accent-soft:rgba(163,30,57,.09);
+  --steel:#2b3a42; --border:#f0dfe4;
+  --radius:22px; --maxw:1120px;
+  --shadow:0 2px 10px rgba(163,30,57,.06), 0 26px 60px -24px rgba(163,30,57,.26);
+  --font-display:"Fraunces","Georgia",serif;
+  --font-body:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+:root[data-theme="dark"]{
+  --bg:#140d11; --surface:#1e151b; --surface-2:#2a1e26;
+  --text:#f4ecf0; --muted:#b6a7af;
+  --accent:#f05a6f; --accent-ink:#14060a; --accent-soft:rgba(240,90,111,.15);
+  --border:#3a2c33;
+  --shadow:0 2px 12px rgba(0,0,0,.4), 0 30px 70px -26px rgba(240,90,111,.30);
+}
+
+/* Ambient crimson aurora behind everything (pseudo layer; axe-invisible, so text
+   contrast stays deterministic against the solid --bg). */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(60% 45% at 82% 8%, color-mix(in srgb,var(--accent) 20%,transparent), transparent 70%),
+    radial-gradient(55% 40% at 6% 96%, color-mix(in srgb,var(--accent) 14%,transparent), transparent 72%);
+}
+
+/* Nav: frosted glass with a hairline crimson underglow. */
+.nav{ background:color-mix(in srgb,var(--bg) 62%,transparent);
+  backdrop-filter:saturate(170%) blur(18px); -webkit-backdrop-filter:saturate(170%) blur(18px);
+  border-bottom:1px solid color-mix(in srgb,var(--accent) 18%,var(--border)); }
+.brand{ font-family:var(--font-display); font-weight:900; letter-spacing:-.01em; font-size:1.15rem; }
+.brand .dot{ color:var(--accent); }
+.icon-btn,.nav-toggle{ border-radius:14px; }
+
+/* Eyebrow → crimson with a soft gradient lozenge. */
+.eyebrow{ letter-spacing:.06em; font-weight:600; }
+.eyebrow::before{ width:1.9rem; height:4px; border-radius:9999px; opacity:1;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 30%,transparent)); }
+
+/* Display headings → Fraunces, dramatic optical-size serif. */
+.hero h1,.section h2{ font-family:var(--font-display); font-weight:900; letter-spacing:-.015em; line-height:1.02; }
+.hero h1 .accent{ color:var(--accent); }
+.section h2::after{ content:""; display:block; height:4px; width:3em; margin-top:.6rem; border-radius:9999px;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 20%,transparent)); }
+
+/* Buttons: pill, luminous crimson primary with a soft glow that lifts on hover. */
+.btn{ border-radius:9999px; font-weight:600; }
+.btn-primary{ background:var(--accent); color:var(--accent-ink);
+  box-shadow:0 8px 24px -8px color-mix(in srgb,var(--accent) 70%,transparent); }
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -8px color-mix(in srgb,var(--accent) 78%,transparent); }
+.btn-ghost{ border-color:color-mix(in srgb,var(--accent) 26%,var(--border)); background:color-mix(in srgb,var(--surface) 70%,transparent); }
+
+/* Cards: soft glass panels, layered crimson-tinted depth, gentle float on hover. */
+.card{ border-radius:20px; border:1px solid var(--border);
+  box-shadow:0 2px 10px rgba(163,30,57,.05), 0 18px 40px -22px rgba(163,30,57,.22); }
+.card:hover{ border-color:color-mix(in srgb,var(--accent) 40%,var(--border)); transform:translateY(-5px);
+  box-shadow:0 10px 22px -8px rgba(163,30,57,.16), 0 30px 60px -24px rgba(163,30,57,.32); }
+.datasheet{ border-radius:18px; }
+
+/* Timeline node → glowing crimson orb. */
+.tl-item::before{ box-shadow:0 0 0 4px var(--bg), 0 0 16px color-mix(in srgb,var(--accent) 70%,transparent); }
+
+/* Portrait: soft rounded frame with luminous halo + soft crimson corner arcs. */
+.portrait-card img{ border-radius:24px; box-shadow:0 30px 70px -26px color-mix(in srgb,var(--accent) 55%,transparent); }
+.portrait-card::after{ width:70px; height:70px; border-width:3px; opacity:.8;
+  border-top-right-radius:24px; }
+
+/* Footer + modals → rounded, frosted. */
+.footer{ border-top:1px solid color-mix(in srgb,var(--accent) 14%,var(--border)); }
+.dl-card,.mv-article-modal__panel{ border-radius:24px; }
+.mv-article-modal__panel::before{ height:4px; }

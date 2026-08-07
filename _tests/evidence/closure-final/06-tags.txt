@@ -1,0 +1,36 @@
+=== vasic.digital tags ===
+v1.1.0
+v1.1.1
+v1.2.0
+v1.3.0
+v1.3.1
+v1.4.0
+v1.5.0
+--- vasic HEAD & tag shas ---
+HEAD=e2f85bc6fe08379e0cca59043c94e75f1e4b364d  (HEAD -> main, tag: v1.5.0, origin/main, origin/HEAD, gitlab/main, github/main)
+v1.4.0 -> d6575ba8aeb83bfa854e20a5130228f23001d53e
+v1.5.0 -> 9b7ab735b6159e0c089841fea84c688ca986da2d
+v1.5.1 -> fatal: ambiguous argument 'v1.5.1': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+v1.5.1
+=== milosvasic.ru tags ===
+v1.1.0
+v1.1.1
+v1.2.0
+v1.3.0
+v1.3.1
+v1.4.0
+v1.5.0
+v1.5.1
+--- milos HEAD & tag shas ---
+HEAD=00794fb642f308e0358e5ea07033568b1bb0719d  (HEAD -> main, tag: v1.5.1, origin/main, origin/HEAD, gitlab/main, github/main, gitflic/main)
+v1.4.0 -> 058d3bf3b1127301f0c46a7b5a17c0d20ba84adf
+v1.5.0 -> f1be5da3f4eb4484e88f5d0710ea3fc175b77e14
+v1.5.1 -> a7f59967a231a6d4f611b76ef9df8bc235a72626
+
+=== annotated tag dereference (commit the tag points to) ===
+vasic v1.5.0^{} = e2f85bc6fe08379e0cca59043c94e75f1e4b364d  | HEAD = e2f85bc6fe08379e0cca59043c94e75f1e4b364d  | origin/main = e2f85bc6fe08379e0cca59043c94e75f1e4b364d
+milos v1.5.1^{} = 00794fb642f308e0358e5ea07033568b1bb0719d  | HEAD = 00794fb642f308e0358e5ea07033568b1bb0719d  | origin/main = 00794fb642f308e0358e5ea07033568b1bb0719d
+vasic v1.4.0^{} = 93f08f354fc206d8320962187e2275a64e18c8ac
+milos v1.4.0^{} = 65090fbdecbecc5630c98fdf2a9f3d985157e44c
