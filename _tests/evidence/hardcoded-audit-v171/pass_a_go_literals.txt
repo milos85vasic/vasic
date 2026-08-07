@@ -1,0 +1,16 @@
+PASS A — user-visible English literals in _tools/gen/*.go
+All chrome text routed through T(lang,key)/tOr(lang,key,fallback). tOr fallback keys ALL now exist in ui-i18n.json (fallbacks are dead paths -> everything localizes):
+  skip             => "skip": "Skip to content"
+  nav.work         => "nav.work": "Work"
+  nav.products     => "nav.products": "Products"
+  nav.contact      => "nav.contact": "Contact"
+  nav.home         => "nav.home": "Home"
+  nav.portfolio    => "nav.portfolio": "Portfolio"
+  toggle           => "toggle": "Toggle theme"
+  footer.suffix    => "footer.suffix": "built on the OpenDesign system"
+
+seo.go JSON-LD fixed enum/metadata strings (structured data, not rendered copy):
+246:		"applicationCategory": "DeveloperApplication",
+247:		"operatingSystem":     "Cross-platform",
+  applicationCategory=DeveloperApplication -> schema.org enum (stays English by spec). CLEARED.
+  operatingSystem=Cross-platform -> baked per-product claim, not sourced from portfolio.json. MINOR (Pass B).

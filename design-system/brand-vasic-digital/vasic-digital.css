@@ -52,6 +52,10 @@
 
   /* Neutrals — crisp, slightly cool "machined" light theme. */
   --od-bg: #ffffff;
+  /* Fixed WHITE plate behind the brand logo/portrait chip — intentionally constant
+     across light AND dark themes so a logo with a white matte always reads (not
+     theme-driven; inherited into the dark :root by design). §11.4.216 token. */
+  --od-logo-plate: #ffffff;
   --od-surface: #f3f4f6;
   --od-surface-2: #e4e6ea;
   --od-text: #141519;         /* near-black (AA ≥ 15:1 on bg) */

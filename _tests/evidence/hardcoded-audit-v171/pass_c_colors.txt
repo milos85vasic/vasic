@@ -1,0 +1,21 @@
+PASS C — colors / design tokens
+=== _tools/gen/*.go hex literals ===
+_tools/gen/shells.go:32:#fff
+_tools/gen/shells.go:35:#fff
+_tools/gen/shells.go:82:#a31e39
+  shells.go:32,35 -> #fff is the FALLBACK in var(--od-logo-plate,#fff); token IS defined:
+design-system/brand-milosvasic/milosvasic.css:19:  --od-logo-plate: #ffffff;
+design-system/brand-vasic-digital/vasic-digital.css:58:  --od-logo-plate: #ffffff;
+  shells.go:82 -> inside a /* comment */ (#a31e39 via --od-accent); rendered CSS uses var(--od-accent).
+
+=== brand CSS raw hex USAGES (not token defs) ===
+vasic-digital.css:478 rgba(0,0,0,.6) dialog backdrop scrim (MINOR: could be --od-scrim)
+vasic-digital.css:496 #1a1a1a / :503 #ffffff -> DELIBERATE WCAG-AA fixed contrast (§11.4.107), documented in-file. CLEARED.
+milosvasic.css:591 rgba scrim; :624 #1a1a1a / :629,:644 #ffffff -> same documented §11.4.107 AA fixes. CLEARED.
+
+=== milosvasic.ru/_layouts/default.html:10 ===
+10:  <meta name="theme-color" content="#a31e39">
+  meta theme-color needs a literal (#a31e39 = brand --od-accent); cannot use CSS var in meta content. MINOR.
+
+=== milos style.scss: bespoke SCSS palette (pre-OpenDesign) — 31 hex defs; known §11.4.162 OD gap, tracked separately ===
+41

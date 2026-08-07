@@ -24,8 +24,16 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-echo "[build] go build ..."
-( cd "$HERE" && go build -o "$BIN" . )
+# Deterministic footer © year (§11.4.65 render-twin determinism): pin main.buildYear
+# so rebuilds are byte-identical and the year never floats mid-January. Resolution:
+# caller's SOURCE_DATE_EPOCH → last git commit year → current year (ad-hoc builds).
+if [ -n "${SOURCE_DATE_EPOCH:-}" ]; then
+  BUILD_YEAR="$(date -u -r "$SOURCE_DATE_EPOCH" +%Y 2>/dev/null || date -u -d "@$SOURCE_DATE_EPOCH" +%Y 2>/dev/null || date -u +%Y)"
+else
+  BUILD_YEAR="$(git -C "$ROOT" log -1 --format=%cd --date=format:%Y 2>/dev/null || date -u +%Y)"
+fi
+echo "[build] go build (buildYear=$BUILD_YEAR) ..."
+( cd "$HERE" && go build -ldflags "-X main.buildYear=$BUILD_YEAR" -o "$BIN" . )
 echo "[build] built $BIN"
 
 DS="$ROOT/design-system"
@@ -93,7 +101,11 @@ gen_site milosvasic.ru
 
 if [ -z "$OUT" ] && [ "$DO_JEKYLL" -eq 1 ]; then
   echo "[build] rebuilding milosvasic.ru/_site (jekyll) ..."
-  ( cd "$ROOT/milosvasic.ru" && jekyll build --quiet )
+  # Pin the footer © year deterministically (§11.4.65) via an ephemeral,
+  # gitignored config override; falls back to 'now' if absent (ad-hoc builds).
+  printf 'build_year: %s\n' "$BUILD_YEAR" > "$ROOT/milosvasic.ru/_config.deploy.yml"
+  ( cd "$ROOT/milosvasic.ru" && jekyll build --quiet --config _config.yml,_config.deploy.yml )
+  rm -f "$ROOT/milosvasic.ru/_config.deploy.yml"
   echo "[build] _site rebuilt"
 fi
 

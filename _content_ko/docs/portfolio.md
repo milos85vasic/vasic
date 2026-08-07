@@ -85,7 +85,7 @@ Helix 라인은 AI 개발 라이프사이클 전체를 아우르는 플래그십
 
 품질이 아닌 설계에 따라 최하위에 배치된 도구군입니다. Server Factory 툴체인은 AI 라인보다 앞서 개발되었으며, "한 번 만들고 어디서나 재사용한다"는 철학이 처음 구현된 모습을 보여줍니다. 대표 제품인 JSON로 정의하고 어디서든 프로비저닝할 수 있는 메일 서버는 성숙하고 검증된 제품이며, 지원 도구들은 과장 없이 실제 성숙도에 맞춰 소개됩니다.
 
-- **[Mail Server Factory](../products/Mail-Server-Factory.md)** — 선언형 JSON → 12개 연결 유형 및 25개 리눅스 배포판 지원, 완전 프로비저닝된 도커 기반 메일 서버; 엔터프라이즈 보안; 439개 테스트 통과 및 SonarQube 게이트 클린 상태 보고. Server-Factory 조직의 대표 제품.
+- **[Mail Server Factory](../products/Mail-Server-Factory.md)** — 선언형 JSON → 12개 연결 유형 및 25개 Linux 배포판 지원, 완전 프로비저닝된 도커 기반 메일 서버; 엔터프라이즈 보안; 439개 테스트 통과 및 SonarQube 게이트 클린 상태 보고. Server-Factory 조직의 대표 제품.
 - **[Server Factory 코어 프레임워크](../products/Server-Factory-Core-Framework.md)** — 모든 팩토리가 공유하는 Kotlin 엔진.
 - **[Qemu-Utils](../products/Qemu-Utils.md)** — 아티팩트처럼 관리되는 QEMU VM 이미지: 다운로드/캐시/실행, 압축/게시, 브리지/TAP 네트워킹, ISO 설치 지원; Linux 및 macOS.
 - **[Parallels-Utils](../products/Parallels-Utils.md)** — Parallels(macOS) VM 이미지 압축, 게시 및 간단한 설정 파일로 검색.

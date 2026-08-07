@@ -67,7 +67,7 @@ AI/소프트웨어 엔지니어로, 멀티 프로바이더 LLM 인프라와 자�
 - **DocProcessor** · **Docs Chain** · **Herald** · **task_bridge** · **Vasic Digital 재사용 모듈 스위트** — QA 기능 매핑, 콘텐츠 해시 기반 문서/DB 동기화, 자연어 알림, 작업/보드 동기화, `digital.vasic.*` 표준 라이브러리 세트.
 
 ### 인프라 자동화 (Server Factory)
-- **Mail Server Factory** — 선언형 JSON 기반으로 12개 연결 유형 및 25개 리눅스 배포판에 걸쳐 완전 프로비저닝된 도커화 메일 서버 구축. 439개 테스트 통과 및 SonarQube 게이트 클린 상태 보고.
+- **Mail Server Factory** — 선언형 JSON 기반으로 12개 연결 유형 및 25개 Linux 배포판에 걸쳐 완전 프로비저닝된 도커화 메일 서버 구축. 439개 테스트 통과 및 SonarQube 게이트 클린 상태 보고.
 - **Server Factory 코어 프레임워크**, **Qemu-Utils**, **Parallels-Utils** — 공유 프로비저닝 엔진 및 VM 이미지 툴링.
 
 ## 언어 및 도구 (간략 목록)

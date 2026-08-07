@@ -115,7 +115,6 @@ type HomeDoc struct {
 	Title  string      `json:"title"`
 	Desc   string      `json:"description"`
 	CSS    string      `json:"css"`    // stylesheet href
-	Footer string      `json:"footer"` // standalone only
 	Blocks []HomeBlock `json:"blocks"`
 }
 

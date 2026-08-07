@@ -69,7 +69,7 @@ note: Skills and projects are evidence-based (repository READMEs + analysis). Ex
 - **DocProcessor** · **Docs Chain** · **Herald** · **task_bridge** · **Vasic Digital مجموعة الوحدات القابلة لإعادة الاستخدام** — تخطيط ميزات ضمان الجودة، ومزامنة الوثائق/قواعد البيانات ذات التجزئة المحتوية، والإشعارات باللغة الطبيعية، ومزامنة المهام/اللوحات، وأسطول مكتبة المعايير `digital.vasic.*`.
 
 ### أتمتة البنية التحتية (Server Factory)
-- **Mail Server Factory** — خوادم بريد إلكتروني JSON التصريحية → مؤهلة بالكامل ومعبأة في حاويات Docker عبر 12 نوع اتصال و25 توزيعة لينكس؛ سجلت 439 اختبار ناجح وبوابة نظيفة SonarQube.
+- **Mail Server Factory** — خوادم بريد إلكتروني JSON التصريحية → مؤهلة بالكامل ومعبأة في حاويات Docker عبر 12 نوع اتصال و25 توزيعة Linux؛ سجلت 439 اختبار ناجح وبوابة نظيفة SonarQube.
 - **Server Factory الإطار الأساسي**، **Qemu-Utils**، **Parallels-Utils** — محرك التزويد المشترك وأدوات صور الآلات الافتراضية.
 
 ## اللغات والأدوات (قائمة سريعة)

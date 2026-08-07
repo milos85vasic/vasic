@@ -189,25 +189,30 @@ func renderSection(doc *HomeDoc, p *Portfolio, prefix string, blk HomeBlock) str
 
 // mvPortrait is the milosvasic.ru hero portrait — a responsive <picture> using
 // the existing profile-*.{webp,jpg} assets, arranged beside the hero copy
-// (fix #2). Jekyll relative_url resolves the paths under the site baseurl.
-const mvPortrait = `      <figure class="mvx-hero__portrait">
+// (fix #2). Jekyll relative_url resolves the paths under the site baseurl. The
+// alt text is DATA (T(lang,"alt.portrait")), localized for all 15 languages.
+func mvPortrait(lang string) string {
+	return `      <figure class="mvx-hero__portrait">
         <picture>
           <source type="image/webp" srcset="{{ '/assets/images/profile-400.webp' | relative_url }} 400w, {{ '/assets/images/profile-600.webp' | relative_url }} 600w, {{ '/assets/images/profile-800.webp' | relative_url }} 800w" sizes="(max-width: 767px) 66vw, 320px">
-          <img src="{{ '/assets/images/profile-800.jpg' | relative_url }}" srcset="{{ '/assets/images/profile-400.jpg' | relative_url }} 400w, {{ '/assets/images/profile-600.jpg' | relative_url }} 600w, {{ '/assets/images/profile-800.jpg' | relative_url }} 800w" sizes="(max-width: 767px) 66vw, 320px" width="800" height="1000" alt="Portrait of Miloš Vasić" loading="eager" decoding="async" fetchpriority="high">
+          <img src="{{ '/assets/images/profile-800.jpg' | relative_url }}" srcset="{{ '/assets/images/profile-400.jpg' | relative_url }} 400w, {{ '/assets/images/profile-600.jpg' | relative_url }} 600w, {{ '/assets/images/profile-800.jpg' | relative_url }} 800w" sizes="(max-width: 767px) 66vw, 320px" width="800" height="1000" alt="` + esc(T(lang, "alt.portrait")) + `" loading="eager" decoding="async" fetchpriority="high">
         </picture>
       </figure>
 `
+}
 
 // vdHeroLogo is the Vasic Digital hero logo lockup — the restored brand mark
 // (fix #3) on a rounded white chip so its background reads cleanly in light AND
 // dark themes. `prefix` ("" root / "../" localized) hops back to the site root so
-// the brand image resolves from a localized home at /<lang>/index.html too.
-func vdHeroLogo(prefix string) string {
-	return `      <div class="vd-hero__logo"><picture><source srcset="` + prefix + `Assets/logo.webp" type="image/webp"><img src="` + prefix + `Assets/Logo.jpeg" alt="Vasic Digital logo" width="112" height="112" decoding="async"></picture></div>
+// the brand image resolves from a localized home at /<lang>/index.html too. The
+// alt text is DATA (T(lang,"alt.brandLogo")), localized for all 15 languages.
+func vdHeroLogo(prefix, lang string) string {
+	return `      <div class="vd-hero__logo"><picture><source srcset="` + prefix + `Assets/logo.webp" type="image/webp"><img src="` + prefix + `Assets/Logo.jpeg" alt="` + esc(T(lang, "alt.brandLogo")) + `" width="112" height="112" decoding="async"></picture></div>
 `
 }
 
 func renderHero(doc *HomeDoc, prefix string, blk HomeBlock) string {
+	lang := htmlLang(doc.Lang)
 	var body strings.Builder
 	body.WriteString(fmt.Sprintf(`      <p class="od-section__eyebrow"%s>%s</p>`+"\n", i18nAttr(blk.Eyebrow), blk.Eyebrow.render()))
 	body.WriteString(fmt.Sprintf(`      <h1 class="od-hero__title"%s>%s</h1>`+"\n", i18nAttr(blk.Title), blk.Title.render()))
@@ -263,7 +268,7 @@ func renderHero(doc *HomeDoc, prefix string, blk HomeBlock) string {
 		b.WriteString("      <div class=\"mvx-hero__body\">\n")
 		b.WriteString(body.String())
 		b.WriteString("      </div>\n")
-		b.WriteString(mvPortrait)
+		b.WriteString(mvPortrait(lang))
 		b.WriteString("      </div>\n")
 		b.WriteString(stats.String())
 	case "vd": // vasic.digital — engineered backdrop + logo lockup + count-up metrics
@@ -271,7 +276,7 @@ func renderHero(doc *HomeDoc, prefix string, blk HomeBlock) string {
 		// technical grid. Purely presentational (pointer-events:none) and fully
 		// static under prefers-reduced-motion.
 		b.WriteString(`      <div class="vd-hero__fx" aria-hidden="true"><span class="vd-hero__aurora"></span><span class="vd-hero__grid"></span></div>` + "\n")
-		b.WriteString(vdHeroLogo(homeAssetPrefix(doc.Lang)))
+		b.WriteString(vdHeroLogo(homeAssetPrefix(doc.Lang), lang))
 		b.WriteString(body.String())
 		b.WriteString(stats.String())
 		// Precision divider — a thin accent rule that scales in (scaleX) on reveal.
@@ -405,7 +410,7 @@ func renderHomeStandalone(doc *HomeDoc, p *Portfolio, site *Site, langs []string
 		portfolioHref, esc(tOr(lang, "nav.portfolio", "Portfolio")),
 		esc(tOr(lang, "nav.contact", "Contact")),
 		odLangMount(), esc(T(lang, "aria.toggleTheme")),
-		body, esc(doc.Footer), backToTopButton(lang), vasicToggleScript,
+		body, esc(footerText(site, lang)), backToTopButton(lang), vasicToggleScript,
 		motionScript(pfx), odSwitcher(site, langs, "home", "", pfx))
 }
 

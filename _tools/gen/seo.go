@@ -229,14 +229,19 @@ func (site *Site) baseGraphLang(lang string, extra ...map[string]interface{}) st
 // softwareApplicationNode describes a product as a schema.org SoftwareApplication
 // (EN inLanguage). softwareApplicationNodeLang is the language-aware variant.
 func (site *Site) softwareApplicationNode(e *PortfolioEntry) map[string]interface{} {
-	return site.softwareApplicationNodeLang(e, "en")
+	return site.softwareApplicationNodeLang(e, "en", "")
 }
 
-func (site *Site) softwareApplicationNodeLang(e *PortfolioEntry, lang string) map[string]interface{} {
+// softwareApplicationNodeLang builds the JSON-LD SoftwareApplication node. desc
+// is the already-localized description resolved by the caller; when empty it
+// falls back to the EN portfolio.json summary/tagline (used by the "en" path).
+func (site *Site) softwareApplicationNodeLang(e *PortfolioEntry, lang string, desc string) map[string]interface{} {
 	url := site.URL("products/" + e.Slug + ".html")
-	desc := e.Summary
 	if desc == "" {
-		desc = e.Tagline
+		desc = e.Summary
+		if desc == "" {
+			desc = e.Tagline
+		}
 	}
 	node := map[string]interface{}{
 		"@type":               "SoftwareApplication",

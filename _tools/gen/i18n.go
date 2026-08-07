@@ -118,6 +118,14 @@ func langName(code string) string {
 // (milosvasic.ru) pages carry their own switcher in the shared layout.
 func odLangMount() string { return `<span id="od-lang-mount"></span>` }
 
+// footerText builds the footer copyright line — the single source of truth shared
+// by the SSR footer (home.go) and the OD_I18N client dictionary, so the two are
+// byte-identical. The year is deterministic via copyrightYear (§11.4.65) and the
+// brand-suffix is fully translated (no hardcoded copy).
+func footerText(site *Site, lang string) string {
+	return "© " + copyrightYear() + " " + site.Brand + " — " + T(lang, "footer.suffix") + "."
+}
+
 // odSwitcher emits the inline config (OD_LANGS / OD_PAGE / OD_I18N) plus the
 // deferred switcher script. OD_PAGE.paths carries the per-language STATIC URLs
 // (root-absolute) so the switcher NAVIGATES to the real localized page — for
@@ -151,7 +159,7 @@ func odSwitcher(site *Site, langs []string, pageType, enPath, prefix string) str
 				"nav.products":     T(l, "nav.products"),
 				"nav.portfolio":    T(l, "nav.portfolio"),
 				"cta.readmore":     T(l, "pf.readmore"),
-				"footer.text":      "© 2026 " + site.Brand + " — " + T(l, "footer.suffix") + ".",
+				"footer.text":      footerText(site, l),
 				"aria.primaryNav":  T(l, "aria.primaryNav"),
 				"aria.toggleTheme": T(l, "aria.toggleTheme"),
 				"aria.backToTop":   T(l, "aria.backToTop"),

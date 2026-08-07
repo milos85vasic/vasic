@@ -1,0 +1,17 @@
+BLOCKER 2 — localized product meta/og/twitter/JSON-LD description render ENGLISH (both sites, all non-EN langs)
+Root: _tools/gen/product.go:154 desc:=firstNonEmpty(e.Summary,e.Tagline,...) — e.Summary/Tagline are EN-only portfolio.json fields. seo.go:238 softwareApplicationNodeLang desc=e.Summary.
+
+--- ru /products/ru/catalogizer.html ---
+<meta name="description" content="Catalogizer is a self-hostable media collection management system that
+--- de /products/de/catalogizer.html ---
+<meta name="description" content="Catalogizer is a self-hostable media collection management system that
+--- ja /products/ja/catalogizer.html ---
+<meta name="description" content="Catalogizer is a self-hostable media collection management system that
+--- ar /products/ar/catalogizer.html ---
+<meta name="description" content="Catalogizer is a self-hostable media collection management system that
+
+Contrast: RU BODY IS localized (accordion labels in Russian) — only portfolio.json-derived meta leaks:
+od-accordion__label">الملخص
+od-accordion__label">الوصف المختصر
+od-accordion__label">Краткое описание
+od-accordion__label">Короткое описание

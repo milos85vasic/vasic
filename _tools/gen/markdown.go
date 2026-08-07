@@ -204,99 +204,121 @@ func collapse(s string) string {
 	return strings.Join(parts, " ")
 }
 
-// creativeHeadings maps each canonical brief heading to a set of editorial
-// variants. A per-slug hash picks one, so each product page reads bespoke
-// rather than templated, while staying deterministic across rebuilds.
-var creativeHeadings = map[string][]string{
-	"why we built it": {
-		"The problem we set out to solve",
-		"Why this exists",
-		"What drove us to build it",
-		"The itch we had to scratch",
-		"Origin story",
-	},
-	"why it's a game-changer": {
-		"Why it changes the game",
-		"The leap it delivers",
-		"What sets it apart",
-		"Why it matters",
-	},
-	"why it's a game-changer (measured)": {
-		"Why it changes the game",
-		"The leap it delivers",
-		"What sets it apart",
-		"Why it matters",
-	},
-	"what's innovative": {
-		"Where the novelty lives",
-		"What's genuinely new",
-		"The innovations inside",
-		"Ideas worth stealing",
-	},
-	"biggest technical challenges & how we solved them": {
-		"Hard problems, honest solutions",
-		"The tough parts — and the fixes",
-		"Engineering the hard bits",
-		"Where it got hard, and how we won",
-	},
-	"challenges & solutions": {
-		"Hard problems, honest solutions",
-		"The tough parts — and the fixes",
-		"Engineering the hard bits",
-		"Where it got hard, and how we won",
-	},
-	"tech stack (why + how)": {
-		"The stack, and why",
-		"How it's built",
-		"Under the hood",
-		"The engineering stack",
-	},
-	"tech stack": {
-		"The stack, and why",
-		"How it's built",
-		"Under the hood",
-		"The engineering stack",
-	},
-	"status & honesty notes": {
-		"Status, told straight",
-		"Where it really stands",
-		"The honest status",
-		"No-spin status",
-	},
-	"how it is used across all products (the powers it gives)": {
-		"The powers it gives",
-		"What it unlocks across the fleet",
-		"How the fleet leans on it",
-	},
+// headingGroup maps each canonical brief heading (lowercased) to an editorial
+// i18n GROUP key. The visitor-facing editorial heading VARIANTS for each group are
+// DATA, not baked-in English prose: they live in ui-i18n.json under
+// prod.head.<group>.<n> (EN source of truth, reviewer-gated 15-language
+// translations — §11.4.35/§11.4.140/§11.4.216). The English canonical headings
+// below are MATCH KEYS against the source markdown, not rendered content.
+var headingGroup = map[string]string{
+	"why we built it":                    "whywebuilt",
+	"why it's a game-changer":            "gamechanger",
+	"why it's a game-changer (measured)": "gamechanger",
+	"what's innovative":                  "innovative",
+	"biggest technical challenges & how we solved them": "challenges",
+	"challenges & solutions":                            "challenges",
+	"tech stack (why + how)":                            "techstack",
+	"tech stack":                                        "techstack",
+	"status & honesty notes":                            "status",
+	"how it is used across all products (the powers it gives)": "powers",
+}
+
+// headingGroupSet is the reverse-lookup set (used to recognize a translated
+// product .md heading via its localized canonical name, prod.head.<group>.name).
+var headingGroupSet = []string{"whywebuilt", "gamechanger", "innovative", "challenges", "techstack", "status", "powers"}
+
+// editorialGroup resolves a section heading to its i18n group. It matches the
+// English canonical headings (source .md) AND, for a localized doc, the localized
+// canonical name (prod.head.<group>.name in ui-i18n.json) so translated product
+// headings also receive the editorial rewording. Unknown headings return !ok and
+// are kept verbatim.
+func editorialGroup(orig, lang string) (string, bool) {
+	key := strings.ToLower(strings.TrimSpace(orig))
+	if g, ok := headingGroup[key]; ok {
+		return g, true
+	}
+	if lang != "" && lang != "en" {
+		for _, g := range headingGroupSet {
+			name := strings.ToLower(strings.TrimSpace(T(lang, "prod.head."+g+".name")))
+			if name != "" && name == key {
+				return g, true
+			}
+		}
+	}
+	return "", false
+}
+
+// editorialVariantCount returns how many prod.head.<group>.<n> variants exist in
+// the EN source dictionary — the single source of truth for the count, so the
+// deterministic per-slug selection stays stable across languages and rebuilds.
+func editorialVariantCount(group string) int {
+	en := uiDict["en"]
+	n := 0
+	for {
+		if _, ok := en[fmt.Sprintf("prod.head.%s.%d", group, n)]; !ok {
+			return n
+		}
+		n++
+	}
 }
 
 // editorialHeading returns a varied, engaging heading for a canonical brief
-// heading; unknown headings are kept verbatim (robust for all products).
-func editorialHeading(orig, slug string) string {
-	key := strings.ToLower(strings.TrimSpace(orig))
-	variants, ok := creativeHeadings[key]
-	if !ok || len(variants) == 0 {
+// heading, sourced from ui-i18n.json (localized per lang). A per-slug hash picks
+// one variant deterministically. Unknown headings are kept verbatim (robust for
+// all products / any language).
+func editorialHeading(orig, slug, lang string) string {
+	group, ok := editorialGroup(orig, lang)
+	if !ok {
+		return orig
+	}
+	n := editorialVariantCount(group)
+	if n == 0 {
 		return orig
 	}
 	h := fnv.New32a()
 	h.Write([]byte(slug))
-	return variants[int(h.Sum32())%len(variants)]
+	return T(lang, fmt.Sprintf("prod.head.%s.%d", group, int(h.Sum32())%n))
 }
 
-var specialProductSections = map[string]bool{
-	"summary":           true,
-	"short description": true,
-	"long description":  true,
+// specialSectionKey maps the English canonical narrative-section heading to the
+// ui-i18n key carrying its localized name, so the hero-lede / opening-narrative
+// framing is applied on localized product pages too (not only EN).
+var specialSectionKey = map[string]string{
+	"summary":           "prod.sec.summary",
+	"short description": "prod.sec.short",
+	"long description":  "prod.sec.long",
 }
 
-// renderProductBody is the rich product-page body renderer (see doc above).
-func renderProductBody(body, slug string) string {
+// isSpecialSection reports whether a section head is one of the special narrative
+// sections — by English canonical name OR its localized name (T(lang,key)).
+func isSpecialSection(head, lang string) bool {
+	if _, ok := specialSectionKey[strings.ToLower(strings.TrimSpace(head))]; ok {
+		return true
+	}
+	if lang != "" && lang != "en" {
+		for _, k := range specialSectionKey {
+			if strings.EqualFold(strings.TrimSpace(head), T(lang, k)) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// renderProductBody is the rich product-page body renderer (see doc above). lang
+// drives the localized special-section detection and editorial headings so a
+// translated product .md gets the SAME hero-lede framing + editorial rewording EN
+// gets (§11.4.237); an empty lang is treated as EN.
+func renderProductBody(body, slug, lang string) string {
 	preamble, sections := splitSections(body)
 	var out []string
 
-	find := func(name string) (string, bool) {
+	// find a section by its English canonical name OR its localized name.
+	find := func(enName, i18nKey string) (string, bool) {
 		for _, s := range sections {
-			if strings.EqualFold(strings.TrimSpace(s.head), name) {
+			h := strings.TrimSpace(s.head)
+			if strings.EqualFold(h, enName) ||
+				(lang != "" && lang != "en" && strings.EqualFold(h, T(lang, i18nKey))) {
 				return strings.TrimSpace(s.body), true
 			}
 		}
@@ -306,24 +328,24 @@ func renderProductBody(body, slug string) string {
 	if tag := collapse(preamble); tag != "" {
 		out = append(out, `      <p class="od-product-detail__tagline">`+inline(tag)+`</p>`)
 	}
-	if s, ok := find("short description"); ok && s != "" {
+	if s, ok := find("short description", "prod.sec.short"); ok && s != "" {
 		out = append(out, `      <p class="od-product-detail__lede">`+inline(collapse(s))+`</p>`)
 	}
-	if s, ok := find("summary"); ok && s != "" {
+	if s, ok := find("summary", "prod.sec.summary"); ok && s != "" {
 		out = append(out, renderContentBlocks(s))
 	}
-	if s, ok := find("long description"); ok && s != "" {
+	if s, ok := find("long description", "prod.sec.long"); ok && s != "" {
 		out = append(out, renderContentBlocks(s))
 	}
 	var deep []mdSection
 	for _, s := range sections {
-		if specialProductSections[strings.ToLower(strings.TrimSpace(s.head))] {
+		if isSpecialSection(s.head, lang) {
 			continue
 		}
 		deep = append(deep, s)
 	}
 	if len(deep) > 0 {
-		out = append(out, renderProductAccordion(slug, deep))
+		out = append(out, renderProductAccordion(slug, deep, lang))
 	}
 	return strings.Join(out, "\n")
 }
@@ -345,13 +367,13 @@ func renderProductBody(body, slug string) string {
 // keyboard-operable; Enter/Space toggle it). The <h2> is preserved for document
 // outline / SEO; its text lives inside the button. Reduced motion is honored by
 // animations.css (no height/opacity/transform animation; content stays visible).
-func renderProductAccordion(slug string, sections []mdSection) string {
+func renderProductAccordion(slug string, sections []mdSection, lang string) string {
 	var b strings.Builder
 	b.WriteString(`      <div class="od-accordion">` + "\n")
 	for i, s := range sections {
 		tid := fmt.Sprintf("od-acc-%s-%d", slug, i)
 		pid := tid + "-panel"
-		heading := inline(editorialHeading(s.head, slug))
+		heading := inline(editorialHeading(s.head, slug, lang))
 		inner := renderContentBlocks(s.body)
 		b.WriteString(fmt.Sprintf(`        <div class="od-accordion__item">
           <h2 class="od-accordion__heading">

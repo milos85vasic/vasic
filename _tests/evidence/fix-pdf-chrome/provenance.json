@@ -1,0 +1,45 @@
+{
+  "engine": "HelixTranslate (/tmp/helixtranslate) provider=mistral model=mistral-large-latest",
+  "glossary_protection": "_tools/translate/glossary_protect.py (Z9TERM sentinels); reviewer extra proper-noun set {vasic-digital, Linux, Constitution, Helix, Server Factory, Mail Server Factory}",
+  "serbian": "translated in Latin then transliterated to Cyrillic via _tools/translate/cyrillize_sr.py (established #62 path)",
+  "per_value_provenance": "ALL 24 values x 14 langs pipeline-produced (HelixTranslate, glossary-protected). NONE hand-translated.",
+  "call_method_per_lang": {
+    "ru": "blob-sep",
+    "sr": "blob-sep",
+    "de": "blob-sep",
+    "es": "blob-sep",
+    "fr": "blob-sep",
+    "be": "blob-sep",
+    "zh": "blob-sep",
+    "kk": "blob-sep",
+    "hi": "blob-sep",
+    "ja": "blob-sep",
+    "ko": "blob-sep",
+    "ar": "blob-sep",
+    "tr": "blob-sep",
+    "fa": "blob-sep"
+  },
+  "review_gate": "programmatic: target-script residue ratio (review_translation.target_script) + glossary term preservation + no EN content-word leftover. 14/14 PASS.",
+  "flagged_uncertain": [
+    {
+      "key": "cover.eyebrow / cover.role",
+      "langs": [
+        "sr",
+        "ar",
+        "fa",
+        "kk"
+      ],
+      "note": "engine chose a loose/calqued term for 'Cover Letter': sr 'Пријава'(=application), ar 'رسالة التغطية'(calque), fa 'نامه‌ی پوششی'(calque), kk 'Жолдама'(~referral). In-script and understandable but a native maintainer may prefer sr 'Пропратно писмо', ar 'خطاب تقديم', fa 'نامه‌ی انگیزشی'. Passes all gates; not blocking."
+    },
+    {
+      "key": "pf.metric.distros (Linux)",
+      "langs": [
+        "hi",
+        "ko",
+        "ar",
+        "fa"
+      ],
+      "note": "'Linux' transliterated to native script instead of kept Latin (लिनक्स/리눅스/لينكس/لینوکس). 'Linux' is absent from glossary.json (not an enforced protected term); ru/de/es/fr/be/zh/kk/ja/tr kept it Latin. Minor cross-lang inconsistency; common for these scripts."
+    }
+  ]
+}

@@ -40,7 +40,7 @@ func TestPortfolioCardChipCap(t *testing.T) {
 		Status: "beta",
 		Tech:   []string{"a", "b", "c", "d", "e", "f", "g", "h"}, // 8 -> 6 chips + "+2"
 	}
-	card := portfolioCard(e, false, "en")
+	card := portfolioCard("", e, false, "en")
 	if n := strings.Count(card, "od-chip"); n != 7 { // 6 tech chips + 1 "+N" chip
 		t.Errorf("expected 7 chip spans (6 + overflow), got %d\n%s", n, card)
 	}
@@ -59,11 +59,11 @@ func TestPortfolioCardChipCap(t *testing.T) {
 
 func TestPortfolioCardHidesTBDLicense(t *testing.T) {
 	tbd := &PortfolioEntry{Name: "T", Slug: "t", Status: "active", License: "TBD", Tech: []string{"Go"}}
-	if strings.Contains(portfolioCard(tbd, false, "en"), "od-tag--license") {
+	if strings.Contains(portfolioCard("", tbd, false, "en"), "od-tag--license") {
 		t.Errorf("TBD license tag must not render on card")
 	}
 	mit := &PortfolioEntry{Name: "M", Slug: "m", Status: "active", License: "MIT", Tech: []string{"Go"}}
-	if !strings.Contains(portfolioCard(mit, false, "en"), "MIT") {
+	if !strings.Contains(portfolioCard("", mit, false, "en"), "MIT") {
 		t.Errorf("MIT license tag must render on card")
 	}
 }

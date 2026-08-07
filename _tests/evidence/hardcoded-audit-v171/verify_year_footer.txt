@@ -1,0 +1,27 @@
+=== VERIFICATION: gen built with -X main.buildYear=2099, rendered to /tmp/aud ===
+--- footer copyright lines (EN home) ---
+© 2099 Vasic Digital — ساخته شده بر اساس سیستم OpenDesign.
+© 2099 Vasic Digital — построен на основе системы OpenDesign.
+© 2099 Vasic Digital — пабудавана на сістэме OpenDesign.
+© 2099 Vasic Digital — مبني على نظام OpenDesign.
+© 2099 Vasic Digital — изграђен на OpenDesign систему.
+© 2099 Vasic Digital — 建立在 OpenDesign 系统之上.
+© 2099 Vasic Digital — aufgebaut auf dem OpenDesign System.
+© 2099 Vasic Digital — built on the OpenDesign system.
+© 2099 Vasic Digital — construido sobre el sistema OpenDesign.
+© 2099 Vasic Digital — construit sur le système OpenDesign.
+© 2099 Vasic Digital — OpenDesign सिस्टम पर बनाया गया.
+© 2099 Vasic Digital — OpenDesign жүйесінде жасалған.
+© 2099 Vasic Digital — OpenDesign 시스템으로 구축됨.
+© 2099 Vasic Digital — OpenDesign システムで構築.
+© 2099 Vasic Digital — OpenDesign sistemi üzerine inşa edilmiştir.
+--- product page footer sample ---
+<footer class="od-footer">© 2099 Vasic Digital — built on the OpenDesign system.</footer>
+--- ALL '2026' occurrences in built output (should be ONLY sitemap lastmod + real prose dates) ---
+   1 /tmp/aud/products/helix-flow.html -> 2026-04-27
+   1 /tmp/aud/products/helixconstitution.html -> 2026-05-20
+   1 /tmp/aud/products/helixconstitution.html -> 2026-06-25
+   1 /tmp/aud/products/helixterminator.html -> 2026-07-04
+  35 /tmp/aud/sitemap.xml -> 2026-08-07
+--- literal '© 2026' anywhere? (should be NONE) ---
+NONE FOUND (PASS)

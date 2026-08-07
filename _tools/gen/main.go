@@ -15,8 +15,24 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
+	"time"
 )
+
+// buildYear stamps the footer copyright year. It is derived (current year) so it
+// never silently goes stale (§11.4.35 "as data" / §11.4.6 honesty), and is
+// overridable for reproducible builds via -ldflags "-X main.buildYear=YYYY".
+var buildYear = ""
+
+// copyrightYear returns the footer copyright year: the pinned buildYear when set,
+// otherwise the current calendar year.
+func copyrightYear() string {
+	if buildYear != "" {
+		return buildYear
+	}
+	return strconv.Itoa(time.Now().Year())
+}
 
 type Site struct {
 	Key      string
@@ -133,7 +149,7 @@ func main() {
 	}
 
 	if what == "all" || what == "portfolio" {
-		html := renderPortfolio(p, site, langs, lang)
+		html := renderPortfolio(root, p, site, langs, lang)
 		var dest string
 		if langSeg != "" {
 			dest = filepath.Join(out, "portfolio", langSeg, "index.html")

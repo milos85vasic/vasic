@@ -26,8 +26,14 @@ for l in $LANGS; do
 done
 echo "[deploy-langs] NDOCS=$NDOCS complete=[${COMPLETE[*]:-none}]"
 
-# build once
-( cd "$GEN" && go build -o "$GEN/gen" . ) || { echo "gen build failed"; exit 1; }
+# build once — pin the deterministic footer © year (§11.4.65) via ldflags:
+# caller's SOURCE_DATE_EPOCH → last git commit year → current year.
+if [ -n "${SOURCE_DATE_EPOCH:-}" ]; then
+  BUILD_YEAR="$(date -u -r "$SOURCE_DATE_EPOCH" +%Y 2>/dev/null || date -u -d "@$SOURCE_DATE_EPOCH" +%Y 2>/dev/null || date -u +%Y)"
+else
+  BUILD_YEAR="$(git -C "$ROOT" log -1 --format=%cd --date=format:%Y 2>/dev/null || date -u +%Y)"
+fi
+( cd "$GEN" && go build -ldflags "-X main.buildYear=$BUILD_YEAR" -o "$GEN/gen" . ) || { echo "gen build failed"; exit 1; }
 # sync assets + regenerate EN (updates hreflang/sitemap to include complete langs)
 bash "$GEN/build.sh" --lang en --no-jekyll >/dev/null 2>&1 || echo "en gen warn"
 # regenerate each COMPLETE language into the live dirs (both sites)
@@ -53,7 +59,9 @@ else
 fi
 
 # rebuild jekyll _site for milosvasic (picks up freshly built PDFs)
-( cd milosvasic.ru && jekyll build --quiet ) >/dev/null 2>&1 || echo "jekyll warn"
+printf 'build_year: %s\n' "$BUILD_YEAR" > milosvasic.ru/_config.deploy.yml
+( cd milosvasic.ru && jekyll build --quiet --config _config.yml,_config.deploy.yml ) >/dev/null 2>&1 || echo "jekyll warn"
+rm -f milosvasic.ru/_config.deploy.yml
 
 if [ "$DRY_RUN" = "1" ]; then
   echo "[deploy-langs] DRY-RUN: pages regenerated + PDFs built; SKIPPING commit/push."

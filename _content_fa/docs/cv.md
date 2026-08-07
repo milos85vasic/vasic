@@ -69,7 +69,7 @@ note: Skills and projects are evidence-based (repository READMEs + analysis). Ex
 - **DocProcessor** · **Docs Chain** · **Herald** · **task_bridge** · **مجموعهٔ ماژول‌های قابل‌استفاده مجدد Vasic Digital** — نگاشت ویژگی‌های تضمین کیفیت، همگام‌سازی سند/پایگاه‌داده با هش محتوا، اعلان‌های زبان طبیعی، همگام‌سازی وظایف/بوردها و ناوگان کتابخانه استاندارد `digital.vasic.*`.
 
 ### خودکارسازی زیرساخت (Server Factory)
-- **Mail Server Factory** — JSON اعلانی → سرورهای ایمیل داکرایز‌شده و کاملاً تأمین‌شده در ۱۲ نوع اتصال و ۲۵ توزیع لینوکس؛ گزارش ۴۳۹ تست موفق و دروازه SonarQube بدون مشکل.
+- **Mail Server Factory** — JSON اعلانی → سرورهای ایمیل داکرایز‌شده و کاملاً تأمین‌شده در ۱۲ نوع اتصال و ۲۵ توزیع Linux؛ گزارش ۴۳۹ تست موفق و دروازه SonarQube بدون مشکل.
 - **چارچوب اصلی Server Factory**، **Qemu-Utils**، **Parallels-Utils** — موتور تأمین مشترک و ابزارهای ساخت تصویر ماشین مجازی.
 
 ## زبان‌ها و ابزارها (فهرست کوتاه)

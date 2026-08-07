@@ -85,9 +85,9 @@ note: Claims are sourced from repository READMEs and analysis; roadmap/scaffold/
 
 مُصنّف أخيراً عن قصد، وليس لجودة الأدوات: سلسلة أدوات Server Factory سبقت خط AI وتُظهر أين تشكلت فلسفة "ابنِ مرةً، أعد الاستخدام في كل مكان" لأول مرة. منتجها الرائد — خادم بريد تُصفه في JSON وتُنشره في أي مكان — هو منتج ناضج ومُختبر جيداً؛ أما بقية الأدوات المصاحبة فتُقدّم بمستويات نضجها الحقيقية دون تجميل.
 
-- **[Mail Server Factory](../products/Mail-Server-Factory.md)** — خادم بريد Docker مُعد بالكامل عبر JSON التقريرية عبر ١٢ نوع اتصال و٢٥ توزيعة لينكس؛ أمان مؤسسي؛ يُبلغ عن اجتياز ٤٣٩ اختباراً وبوابة SonarQube نظيفة. المنتج الرائد لمنظمة Server-Factory.
+- **[Mail Server Factory](../products/Mail-Server-Factory.md)** — خادم بريد Docker مُعد بالكامل عبر JSON التقريرية عبر ١٢ نوع اتصال و٢٥ توزيعة Linux؛ أمان مؤسسي؛ يُبلغ عن اجتياز ٤٣٩ اختباراً وبوابة SonarQube نظيفة. المنتج الرائد لمنظمة Server-Factory.
 - **[Server Factory الإطار الأساسي](../products/Server-Factory-Core-Framework.md)** — محرك Kotlin المشترك الذي تبنى عليه كل المصانع.
-- **[Qemu-Utils](../products/Qemu-Utils.md)** — صور آلات افتراضية QEMU تُدار كقطع أثرية: تحميل/تخزين مؤقت/تشغيل، ضغط/نشر، شبكات جسرية/TAP، تثبيت عبر ISO؛ لينكس وماك.
+- **[Qemu-Utils](../products/Qemu-Utils.md)** — صور آلات افتراضية QEMU تُدار كقطع أثرية: تحميل/تخزين مؤقت/تشغيل، ضغط/نشر، شبكات جسرية/TAP، تثبيت عبر ISO؛ Linux وماك.
 - **[Parallels-Utils](../products/Parallels-Utils.md)** — ضغط صور الآلات الافتراضية Parallels (ماك)، نشر واسترجاع عبر ملفات إعدادات بسيطة.
 - **[Server Factory — المكونات الإضافية](../products/Server-Factory-Additional-Components.md)** — مصانع خدمات (ويب/SonarQube/وكيل التخزين المؤقت)، حزم التعريفات، وأدوات مساعدة. *مصانع الخدمات موثقة بشكل مؤقت — غير مُتحقق منها/في مراحل مبكرة.*
 

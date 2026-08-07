@@ -109,7 +109,7 @@ func TestRenderProductBodyRichEditorial(t *testing.T) {
 		"## Status & honesty notes",
 		"> Honest note here.",
 	}, "\n")
-	got := renderProductBody(body, "demo-slug")
+	got := renderProductBody(body, "demo-slug", "en")
 
 	// Labels for summary/short/long must NOT appear as headings.
 	for _, banned := range []string{"<h2>Summary</h2>", "Short description", "Long description"} {
@@ -133,7 +133,7 @@ func TestRenderProductBodyRichEditorial(t *testing.T) {
 		t.Errorf("expected an editorial heading for 'Why we built it', got verbatim:\n%s", got)
 	}
 	// Determinism.
-	if renderProductBody(body, "demo-slug") != got {
+	if renderProductBody(body, "demo-slug", "en") != got {
 		t.Errorf("renderProductBody not deterministic for same slug")
 	}
 }
@@ -155,7 +155,7 @@ func TestRenderProductBodyAccordion(t *testing.T) {
 		"- Go",
 		"- HTML",
 	}, "\n")
-	got := renderProductBody(body, "demo")
+	got := renderProductBody(body, "demo", "en")
 
 	for _, want := range []string{
 		`<div class="od-accordion">`,

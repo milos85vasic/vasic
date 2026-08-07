@@ -13,6 +13,10 @@
   --od-accent-900: #671628;
 
   --od-bg: #ffffff;
+  /* Fixed WHITE plate behind the brand logo/portrait chip — intentionally constant
+     across light AND dark themes so a logo with a white matte always reads (not
+     theme-driven; inherited into the dark :root by design). §11.4.216 token. */
+  --od-logo-plate: #ffffff;
   --od-surface: #f8f9fa;
   --od-surface-2: #e9ecef;
   --od-text: #212529;

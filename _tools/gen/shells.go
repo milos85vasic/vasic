@@ -29,10 +29,10 @@ const vasicHeadExtras = `  <style>
     .od-skip-link{position:absolute;top:0;left:0;transform:none;width:1px;height:1px;overflow:hidden;white-space:nowrap;clip:rect(0 0 0 0);clip-path:inset(50%);padding:0}
     .od-skip-link:focus{width:auto;height:auto;overflow:visible;clip:auto;clip-path:none;padding:var(--od-space-2) var(--od-space-4)}
     .od-brand{display:inline-flex;align-items:center;gap:var(--od-space-2);font-family:var(--od-font-display);font-weight:700;font-size:var(--od-fs-lg);color:var(--od-text);text-decoration:none}
-    .od-brand__logo{width:28px;height:28px;object-fit:contain;background:#fff;border:1px solid var(--od-border);border-radius:var(--od-radius-md);padding:2px;flex:none}
+    .od-brand__logo{width:28px;height:28px;object-fit:contain;background:var(--od-logo-plate,#fff);border:1px solid var(--od-border);border-radius:var(--od-radius-md);padding:2px;flex:none}
     /* restored hero logo lockup — rounded white chip reads in light + dark (fix #3) */
     .vd-hero__logo{display:flex;justify-content:center;margin-bottom:var(--od-space-6)}
-    .vd-hero__logo img{width:112px;height:112px;object-fit:contain;background:#fff;border:1px solid var(--od-border);border-radius:var(--od-radius-xl);padding:var(--od-space-3);box-shadow:var(--od-shadow-md)}
+    .vd-hero__logo img{width:112px;height:112px;object-fit:contain;background:var(--od-logo-plate,#fff);border:1px solid var(--od-border);border-radius:var(--od-radius-xl);padding:var(--od-space-3);box-shadow:var(--od-shadow-md)}
     /* header/nav wrap so 375px never overflows horizontally */
     .od-header{flex-wrap:wrap;row-gap:var(--od-space-3)}
     .od-nav{flex-wrap:wrap;align-items:center}

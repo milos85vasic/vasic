@@ -109,6 +109,98 @@ func firstNonEmpty(vals ...string) string {
 	return ""
 }
 
+// blurbMdLinkRe unwraps [text](url) → text for plain-text meta/blurb use.
+var blurbMdLinkRe = regexp.MustCompile(`\[([^\]]+)\]\([^)]+\)`)
+
+// stripInlineMD reduces a markdown line to plain text suitable for a meta
+// description or card blurb (no HTML, no emphasis markers).
+func stripInlineMD(s string) string {
+	s = blurbMdLinkRe.ReplaceAllString(s, "$1")
+	s = strings.ReplaceAll(s, "`", "")
+	s = strings.ReplaceAll(s, "**", "")
+	s = strings.ReplaceAll(s, "*", "")
+	return strings.TrimSpace(s)
+}
+
+// extractBlurb pulls a product's tagline (the first **bold** line, before any
+// "## " heading) and summary (the first paragraph under the first "## " section)
+// from its markdown body. Because it reads the LOCALIZED body, both come back in
+// the page's own language — no separate translation table to maintain.
+func extractBlurb(body string) (tagline, summary string) {
+	lines := strings.Split(body, "\n")
+	i := 0
+	for ; i < len(lines); i++ {
+		s := strings.TrimSpace(lines[i])
+		if strings.HasPrefix(s, "## ") {
+			break
+		}
+		if tagline == "" && strings.HasPrefix(s, "**") && strings.HasSuffix(s, "**") && len(s) > 4 {
+			tagline = stripInlineMD(s)
+		}
+	}
+	for ; i < len(lines); i++ { // advance past the first "## " heading
+		if strings.HasPrefix(strings.TrimSpace(lines[i]), "## ") {
+			i++
+			break
+		}
+	}
+	var para []string
+	for ; i < len(lines); i++ {
+		s := strings.TrimSpace(lines[i])
+		if s == "" {
+			if len(para) > 0 {
+				break
+			}
+			continue
+		}
+		if strings.HasPrefix(s, "#") {
+			break
+		}
+		para = append(para, s)
+	}
+	summary = stripInlineMD(strings.Join(para, " "))
+	return tagline, summary
+}
+
+// blurbCache memoizes localized (tagline, summary) per product slug+lang so the
+// portfolio cards, product meta/OG/JSON-LD, and SEO node don't each re-read the
+// markdown.
+var blurbCache = map[string][2]string{}
+
+// localizedBlurb returns a product's tagline + summary in `lang`, sourced from
+// the localized _content_<lang>/ markdown body, falling back to the EN
+// portfolio.json fields when a localized doc/section is missing. This is what
+// keeps localized portfolio cards and product meta descriptions in the page's
+// own language (§11.4.140/141) instead of leaking English.
+func localizedBlurb(root string, e *PortfolioEntry, lang string) (string, string) {
+	key := e.Slug + "\x00" + lang
+	if v, ok := blurbCache[key]; ok {
+		return v[0], v[1]
+	}
+	tagline, summary := e.Tagline, e.Summary
+	mdPath := filepath.Join(root, e.Source)
+	if lang != "" && lang != "en" {
+		alt := filepath.Join(root, strings.Replace(e.Source, "_content/", "_content_"+lang+"/", 1))
+		if _, statErr := os.Stat(alt); statErr == nil {
+			mdPath = alt
+		}
+	}
+	if md, err := os.ReadFile(mdPath); err == nil {
+		if _, body, ferr := parseFrontmatter(string(md)); ferr == nil {
+			if t, s := extractBlurb(body); true {
+				if t != "" {
+					tagline = t
+				}
+				if s != "" {
+					summary = s
+				}
+			}
+		}
+	}
+	blurbCache[key] = [2]string{tagline, summary}
+	return tagline, summary
+}
+
 // renderProduct renders one product detail page for a site in language `lang`.
 // The BODY is sourced from the localized _content_<lang>/ translation when one
 // exists (read-only; that doc-translation surface is owned elsewhere), else the
@@ -148,11 +240,12 @@ func renderProduct(root string, site *Site, e *PortfolioEntry, langs []string, l
 		figureBlock = "\n" + figure + "\n"
 	}
 
-	bodyHTML := renderProductBody(body, e.Slug)
+	bodyHTML := renderProductBody(body, e.Slug, lang)
 
 	title := e.Name + " — " + site.Brand
-	desc := firstNonEmpty(e.Summary, e.Tagline, e.Name+" — "+site.Brand+" product.")
-	jsonLD := site.baseGraphLang(htmlLang(lang), site.softwareApplicationNodeLang(e, lang))
+	blTag, blSum := localizedBlurb(root, e, lang)
+	desc := firstNonEmpty(blSum, blTag, fmt.Sprintf(T(lang, "prod.desc.fallback"), e.Name, site.Brand))
+	jsonLD := site.baseGraphLang(htmlLang(lang), site.softwareApplicationNodeLang(e, lang, desc))
 
 	// Shared product body (identical markup for both shells). Only the surrounding
 	// chrome differs: the self-contained shell carries its own <header>; the Jekyll
@@ -169,8 +262,8 @@ func renderProduct(root string, site *Site, e *PortfolioEntry, langs []string, l
 %s
 %s
     </article>`,
-		esc(T(lang, "prod.tier")), esc(e.Tier), esc(T(lang, "prod.order")), e.Order,
-		esc(e.Name), esc(e.Status), esc(e.Status), esc(T(lang, "prod.license")), esc(e.License),
+		esc(T(lang, "prod.tier")), esc(T(lang, "tier."+e.Tier)), esc(T(lang, "prod.order")), e.Order,
+		esc(e.Name), esc(e.Status), esc(T(lang, "status."+e.Status)), esc(T(lang, "prod.license")), esc(e.License),
 		chips.String(),
 		esc(T(lang, "prod.source")),
 		repos.String(),
@@ -241,7 +334,7 @@ func renderProduct(root string, site *Site, e *PortfolioEntry, langs []string, l
 %s
   </main>
 
-  <footer class="od-footer">© 2026 %s — %s.</footer>
+  <footer class="od-footer">© %s %s — %s.</footer>
 
 %s
 %s
@@ -263,7 +356,7 @@ func renderProduct(root string, site *Site, e *PortfolioEntry, langs []string, l
 		odLangMount(),
 		esc(T(lang, "toggle")),
 		article,
-		esc(site.Brand), esc(T(lang, "footer.suffix")),
+		copyrightYear(), esc(site.Brand), esc(T(lang, "footer.suffix")),
 		backToTopButton(lang),
 		productToggleScript,
 		motionScript(pfx),

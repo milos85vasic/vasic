@@ -17,9 +17,6 @@ var tierI18nKey = map[string]string{
 	"serverfactory-tertiary": "tier3",
 }
 
-const portfolioLede = "A unified, evidence-based portfolio of the Helix family, vasic-digital utilities, and the Server Factory toolchain."
-const portfolioSummary = "One fleet: large product applications on top of dozens of small, decoupled, independently-tested modules — governed by a shared engineering Constitution and verified by anti-bluff QA. The dominant language is Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and Shell where they fit best. The unifying thesis: a feature is done only when a real user can use it and there is captured evidence to prove it."
-
 // portfolioProductHref resolves the "Read more" target for a card. On the Jekyll
 // site the link is baseurl-resolved from the site root (works at any URL depth,
 // including localized /portfolio/<lang>/); on self-contained sites it is relative
@@ -37,7 +34,7 @@ func portfolioProductHref(jekyll bool, slug, lang string) string {
 	return "../products/" + slug + ".html"
 }
 
-func portfolioCard(e *PortfolioEntry, jekyll bool, lang string) string {
+func portfolioCard(root string, e *PortfolioEntry, jekyll bool, lang string) string {
 	var chips strings.Builder
 	n := len(e.Tech)
 	limit := n
@@ -54,9 +51,10 @@ func portfolioCard(e *PortfolioEntry, jekyll bool, lang string) string {
 	if e.License != "" && !licHideRe.MatchString(e.License) {
 		lic = `<span class="od-tag--license">` + esc(e.License) + `</span>`
 	}
-	blurb := e.Tagline
+	blTag, blSum := localizedBlurb(root, e, lang)
+	blurb := blTag
 	if blurb == "" {
-		blurb = e.Summary
+		blurb = blSum
 	}
 	return fmt.Sprintf(`        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
           <h3 class="od-product-card__title">%s <span class="od-badge--status od-badge--status--%s">%s</span></h3>
@@ -65,11 +63,11 @@ func portfolioCard(e *PortfolioEntry, jekyll bool, lang string) string {
           <div class="pf-card__meta">%s</div>
           <div class="pf-card__actions"><a class="od-btn od-btn--secondary" href="%s">%s</a></div>
         </article>`,
-		esc(e.Name), esc(e.Status), esc(e.Status),
+		esc(e.Name), esc(e.Status), esc(T(lang, "status."+e.Status)),
 		chips.String(), esc(blurb), lic, portfolioProductHref(jekyll, e.Slug, lang), esc(T(lang, "pf.readmore")))
 }
 
-func portfolioTierSection(p *Portfolio, tier string, jekyll bool, lang string) string {
+func portfolioTierSection(root string, p *Portfolio, tier string, jekyll bool, lang string) string {
 	key := tierI18nKey[tier]
 	eyebrow := T(lang, key+".eyebrow")
 	title := T(lang, key+".title")
@@ -77,7 +75,7 @@ func portfolioTierSection(p *Portfolio, tier string, jekyll bool, lang string) s
 	count := 0
 	for i := range p.Entries {
 		if p.Entries[i].Tier == tier {
-			cards = append(cards, portfolioCard(&p.Entries[i], jekyll, lang))
+			cards = append(cards, portfolioCard(root, &p.Entries[i], jekyll, lang))
 			count++
 		}
 	}
@@ -131,7 +129,7 @@ func portfolioMainInner(p *Portfolio, helixCount int, dlHref, sections, lang str
       </div>
       <div class="pf-stats">
         <div class="od-stat"><div class="od-stat__value">%d</div><div class="od-stat__label">%s</div></div>
-        <div class="od-stat"><div class="od-stat__value">3</div><div class="od-stat__label">%s</div></div>
+        <div class="od-stat"><div class="od-stat__value">%d</div><div class="od-stat__label">%s</div></div>
         <div class="od-stat"><div class="od-stat__value">%d</div><div class="od-stat__label">%s</div></div>
       </div>
     </section>
@@ -146,13 +144,13 @@ func portfolioMainInner(p *Portfolio, helixCount int, dlHref, sections, lang str
 		esc(T(lang, "pf.eyebrow")), esc(T(lang, "pf.title")), esc(T(lang, "pf.lede")),
 		dlHref, esc(T(lang, "pf.download")),
 		p.Count, esc(T(lang, "pf.stat.products")),
-		esc(T(lang, "pf.stat.tiers")),
+		len(p.Tiers), esc(T(lang, "pf.stat.tiers")),
 		helixCount, esc(T(lang, "pf.stat.helix")),
 		esc(T(lang, "pf.overview.eyebrow")), esc(T(lang, "pf.overview.title")),
 		esc(T(lang, "pf.summary")), sections)
 }
 
-func renderPortfolio(p *Portfolio, site *Site, langs []string, lang string) string {
+func renderPortfolio(root string, p *Portfolio, site *Site, langs []string, lang string) string {
 	helixCount := 0
 	for i := range p.Entries {
 		if p.Entries[i].Tier == "helix-primary" {
@@ -160,7 +158,7 @@ func renderPortfolio(p *Portfolio, site *Site, langs []string, lang string) stri
 		}
 	}
 	if site.Jekyll {
-		return renderPortfolioJekyll(p, site, langs, lang, helixCount)
+		return renderPortfolioJekyll(root, p, site, langs, lang, helixCount)
 	}
 
 	// Language-aware download wiring: the current page's language serves the
@@ -186,7 +184,7 @@ func renderPortfolio(p *Portfolio, site *Site, langs []string, lang string) stri
 
 	var sections []string
 	for _, tier := range p.Tiers {
-		sections = append(sections, portfolioTierSection(p, tier, false, lang))
+		sections = append(sections, portfolioTierSection(root, p, tier, false, lang))
 	}
 	homeHref := "../index.html"
 	if lang != "" && lang != "en" {
@@ -233,7 +231,7 @@ func renderPortfolio(p *Portfolio, site *Site, langs []string, lang string) stri
 %s
   </main>
 
-  <footer class="od-footer">© 2026 %s — %s</footer>
+  <footer class="od-footer">© %s %s — %s</footer>
   <script>
     (function(){
       var btn=document.getElementById('pf-theme-toggle');
@@ -259,7 +257,7 @@ func renderPortfolio(p *Portfolio, site *Site, langs []string, lang string) stri
 		esc(T(lang, "toggle")),
 		portfolioSymbols,
 		portfolioMainInner(p, helixCount, dlHref, strings.Join(sections, "\n\n"), lang),
-		esc(site.Brand), esc(T(lang, "footer.suffix")),
+		copyrightYear(), esc(site.Brand), esc(T(lang, "footer.suffix")),
 		backToTopButton(lang),
 		motionScript(pfx),
 		odSwitcher(site, langs, "portfolio", "portfolio/", pfx))
@@ -269,7 +267,7 @@ func renderPortfolio(p *Portfolio, site *Site, langs []string, lang string) stri
 // inherits the shared _layouts/default.html chrome (the SAME header/nav/theme/
 // language switcher/downloads as the landing page). Only the OpenDesign portfolio
 // body + its assets/styles live here; the header is a single source of truth.
-func renderPortfolioJekyll(p *Portfolio, site *Site, langs []string, lang string, helixCount int) string {
+func renderPortfolioJekyll(root string, p *Portfolio, site *Site, langs []string, lang string, helixCount int) string {
 	dlLang := "EN"
 	if lang != "" && lang != "en" {
 		dlLang = strings.ToUpper(lang)
@@ -278,7 +276,7 @@ func renderPortfolioJekyll(p *Portfolio, site *Site, langs []string, lang string
 
 	var sections []string
 	for _, tier := range p.Tiers {
-		sections = append(sections, portfolioTierSection(p, tier, true, lang))
+		sections = append(sections, portfolioTierSection(root, p, tier, true, lang))
 	}
 	inner := portfolioMainInner(p, helixCount, dlHref, strings.Join(sections, "\n\n"), lang)
 

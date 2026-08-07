@@ -53,7 +53,7 @@ Vasic Digital는 AI 개발 제품과 재사용 가능한 모듈로 구성된 상
 그리고 **Vasic Digital 재사용 모듈 스위트** — 인프라, AI 프리미티브, 가드레일 모듈의 `digital.vasic.*` "표준 라이브러리".
 
 **인프라 자동화 (Server Factory).** 당사의 DevOps 유산:
-**Mail Server Factory**와 **Server Factory 코어 프레임워크**는 선언형 JSON을 다양한 연결 방식과 리눅스 배포판에서 완전 프로비저닝된 도커화 서버로 변환하며, VM 이미지 도구(Qemu-Utils, Parallels-Utils)와 지원 서비스 팩토리도 제공합니다.
+**Mail Server Factory**와 **Server Factory 코어 프레임워크**는 선언형 JSON을 다양한 연결 방식과 Linux 배포판에서 완전 프로비저닝된 도커화 서버로 변환하며, VM 이미지 도구(Qemu-Utils, Parallels-Utils)와 지원 서비스 팩토리도 제공합니다.
 
 ## 기술 스택
 

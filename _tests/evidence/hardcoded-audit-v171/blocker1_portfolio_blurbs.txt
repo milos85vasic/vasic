@@ -1,0 +1,30 @@
+BLOCKER 1 — localized portfolio card blurbs render ENGLISH (both sites)
+Root: _tools/gen/portfolio.go portfolioCard() uses e.Tagline/e.Summary (portfolio.json, EN-only); renderPortfolio never loads a localized source.
+
+### vasic.digital /portfolio/ru/index.html (built with genaudit) ###
+<p class="pf-card__blurb">JIRA alternative for the free world.</p>
+<p class="pf-card__blurb">The distributed AI development platform that divides work, preserves it, and never loses your place.</p>
+<p class="pf-card__blurb">Don't pick one model — let them debate, and ship the answer they agree on.</p>
+<p class="pf-card__blurb">One binary, six modes — OpenAI- and Anthropic-compatible inference from your laptop to a multi-host cluster.</p>
+<p class="pf-card__blurb">A governed, constitution-backed skills system for CLI AI agents.</p>
+<p class="pf-card__blurb">One memory brain for AI agents — four best-in-class engines, fused.</p>
+
+### milosvasic.ru /portfolio/ru/index.html ###
+<p class="pf-card__blurb">JIRA alternative for the free world.</p>
+<p class="pf-card__blurb">The distributed AI development platform that divides work, preserves it, and never loses your place.</p>
+<p class="pf-card__blurb">Don't pick one model — let them debate, and ship the answer they agree on.</p>
+
+Source (portfolio.go:54-66):
+	blurb := e.Tagline
+	if blurb == "" {
+		blurb = e.Summary
+	}
+	return fmt.Sprintf(`        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">%s <span class="od-badge--status od-badge--status--%s">%s</span></h3>
+          <div class="od-product-card__tech">%s</div>
+          <p class="pf-card__blurb">%s</p>
+          <div class="pf-card__meta">%s</div>
+          <div class="pf-card__actions"><a class="od-btn od-btn--secondary" href="%s">%s</a></div>
+        </article>`,
+		esc(e.Name), esc(e.Status), esc(T(lang, "status."+e.Status)),
+		chips.String(), esc(blurb), lic, portfolioProductHref(jekyll, e.Slug, lang), esc(T(lang, "pf.readmore")))
