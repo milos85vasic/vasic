@@ -71,7 +71,7 @@ func availableLangs(root string) []string {
 // langPath maps an EN root-relative path (e.g. "products/x.html", "portfolio/",
 // "") to its localized variant for `lang`. EN is the canonical (unprefixed) path.
 func langPath(lang, enPath string) string {
-	if lang == "en" {
+	if lang == "" || lang == "en" { // "" is the EN default (pageSEO.lang) — treat as EN
 		return enPath
 	}
 	switch {
@@ -131,7 +131,11 @@ type pageSEO struct {
 // seoHead renders the full data-driven SEO head: title, description, canonical,
 // robots, Open Graph, Twitter Card, reciprocal hreflang, and the JSON-LD graph.
 func seoHead(site *Site, langs []string, s pageSEO) string {
-	canon := site.URL(s.enPath)
+	// Self-referential canonical + og:url: a localized page points at its OWN
+	// localized URL, not the EN one (langPath returns enPath unchanged for en/"").
+	// Cross-language canonicals contradict the hreflang cluster and risk the
+	// localized URLs being dropped from search indexes (D-SEO-1).
+	canon := site.URL(langPath(s.lang, s.enPath))
 	lang := htmlLang(s.lang)
 	var b strings.Builder
 	fmt.Fprintf(&b, "<title>%s</title>\n", esc(s.title))
@@ -261,7 +265,8 @@ func (site *Site) softwareApplicationNodeLang(e *PortfolioEntry, lang string) ma
 // disk are listed, so no <loc> 404s. Called on every full build (see main), so the
 // last localized run refreshes the sitemap with the complete multilingual set.
 func writeSitemapRobots(site *Site, out string) error {
-	var urls []string
+	type smURL struct{ loc, mod string }
+	var urls []smURL
 	err := filepath.Walk(out, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -295,19 +300,21 @@ func writeSitemapRobots(site *Site, out string) error {
 		case strings.HasSuffix(rel, "/index.html"):
 			rel = strings.TrimSuffix(rel, "index.html")
 		}
-		urls = append(urls, site.URL(rel))
+		// <lastmod> = generation date of the file (day granularity keeps churn low
+		// while honestly reflecting the last content refresh).
+		urls = append(urls, smURL{site.URL(rel), info.ModTime().UTC().Format("2006-01-02")})
 		return nil
 	})
 	if err != nil {
 		return err
 	}
-	sort.Strings(urls)
+	sort.Slice(urls, func(i, j int) bool { return urls[i].loc < urls[j].loc })
 
 	var b strings.Builder
 	b.WriteString(`<?xml version="1.0" encoding="UTF-8"?>` + "\n")
 	b.WriteString(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` + "\n")
 	for _, u := range urls {
-		fmt.Fprintf(&b, "  <url><loc>%s</loc></url>\n", esc(u))
+		fmt.Fprintf(&b, "  <url><loc>%s</loc><lastmod>%s</lastmod></url>\n", esc(u.loc), u.mod)
 	}
 	b.WriteString(`</urlset>` + "\n")
 	if err := writeFile(filepath.Join(out, "sitemap.xml"), b.String()); err != nil {
