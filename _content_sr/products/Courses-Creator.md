@@ -30,57 +30,57 @@ diagrams:
   - Optional-AI toggle (basic vs enhanced path by provider keys)
 ---
 
-**Markdown unutra, profesionalni video kurs napolje — poboljšan AI, za više platformi.**
+**Markdown унутра, професионални видео курс напоље — побољшан AI, за више платформи.**
 
-## Sažetak
+## Сажетак
 
-Courses-Creator je alat koji pretvara markdown skripte u profesionalne video kurseve s poboljšanjima pokretanim AI: obogaćivanje sadržaja putem više LLM pružaoca (OpenAI/Anthropic/Ollama), visokokvalitetni TTS i pozadinska muzika, te desktop, mobilni i veb plejeri — sve raspoređeno putem Docker sa Prometheus/Grafana monitoringom.
+Courses-Creator је алат који претвара markdown скрипте у професионалне видео курсеве с побољшањима покретаним AI: обогаћивање садржаја путем више LLM пружаоца (OpenAI/Anthropic/Ollama), висококвалитетни TTS и позадинска музика, те десктоп, мобилни и веб плејери — све распоређено путем Docker са Prometheus/Grafana мониторингом.
 
-## Kratak opis
+## Кратак опис
 
-Pretvara markdown u privlačne video kurseve. Go procesorski motor obogaćuje sadržaj preko više LLM pružaoca, generiše naraciju (Bark/SpeechT5 TTS) i muziku, te isporučuje na Electron desktop, React Native mobilne i React veb plejere, uz potpuno Docker raspoređivanje i monitoring.
+Претвара markdown у привлачне видео курсеве. Go процесорски мотор обогаћује садржај преко више LLM пружаоца, генерише нарацију (Bark/SpeechT5 TTS) и музику, те испоручује на Electron десктоп, React Native мобилне и React веб плејере, уз потпуно Docker распоређивање и мониторинг.
 
-## Detaljan opis
+## Детаљан опис
 
-Proizvodnja video kursa obično zahteva rad cele male produkcijske kuće: pisanje scenarija, snimanje naracije, pronalaženje muzike, montaža, kodiranje, a zatim izrada plejera za svaku platformu koju polaznici mogu koristiti. Courses-Creator ceo taj proces sabija u jedan ulaz — markdown skriptu — i jednu komandu. U njegovom središtu nalazi se Go procesorski jezgro koje pokreće kompletnu video/audio liniju: obogaćuje pisani sadržaj preko više LLM pružaoca (OpenAI, Anthropic i lokalni Ollama), sintetizuje prirodnu naraciju pomoću tekst-u-govor motora (Bark, SpeechT5), dodaje pozadinsku muziku i sastavlja sve delove u gotove video kurseve. Autorov posao ostaje na nivou ideja i reči; sistem se brine o glasu, muzici i produkciji. A budući da kurs ima smisla samo ako ga ljudi mogu gledati, isporuka je dizajnirana za više platformi: Electron desktop aplikacija za kreiranje, React Native mobilni plejer i React veb plejer, svi napajani istim REST API sistemom i pozadinskim procesima — jedan backend, tri vrhunska klijenta, bez ponovne implementacije za svaku platformu.
+Производња видео курса обично захтева рад целе мале продукцијске куће: писање сценарија, снимање нарације, проналажење музике, монтажа, кодирање, а затим израда плејера за сваку платформу коју полазници могу користити. Courses-Creator цео тај процес сабија у један улаз — markdown скрипту — и једну команду. У његовом средишту налази се Go процесорски језгро које покреће комплетну видео/аудио линију: обогаћује писани садржај преко више LLM пружаоца (OpenAI, Anthropic и локални Ollama), синтетизује природну нарацију помоћу текст-у-говор мотора (Bark, SpeechT5), додаје позадинску музику и саставља све делове у готове видео курсеве. Ауторов посао остаје на нивоу идеја и речи; систем се брине о гласу, музици и продукцији. А будући да курс има смисла само ако га људи могу гледати, испорука је дизајнирана за више платформи: Electron десктоп апликација за креирање, React Native мобилни плејер и React веб плејер, сви напајани истим REST API системом и позадинским процесима — један бацкенд, три врхунска клијента, без поновне имплементације за сваку платформу.
 
-Ključno je da se radi o produkcijskoj infrastrukturi, a ne o demo snimku. Backend podržava PostgreSQL perzistenciju, obradu pozadinskih poslova tako da duge TTS/video renderovanje nikada ne blokira API, MCP serverske implementacije za poboljšanja uz pomoć alata, Prometheus metrike, JWT autentifikaciju i nginx reverse proxy — a sve se to isporučuje kao Docker Compose raspoređivanje sa Grafana/Prometheus monitoring profilima koje možete pokrenuti u jednom koraku. AI je sloj za poboljšanje, a ne zavisnost: svaki LLM pružalac je opcioni, tako da linija radi i bez API ključeva za osnovni rad, a premium obogaćenja se aktiviraju čim se ključevi dodaju. Ta jedna odluka čini isti alat pogodnim i za hobiste koji rade offline na laptopu i za preduzeća koja integrišu svog omiljenog pružaoca — a cela medijska linija pokrivena je jediničnim, integracionim i end-to-end testovima, umesto da se sve zasniva na poverenju.
+Кључно је да се ради о продукцијској инфраструктури, а не о демо снимку. Бацкенд подржава PostgreSQL перзистенцију, обраду позадинских послова тако да дуге TTS/видео рендеровање никада не блокира API, MCP серверске имплементације за побољшања уз помоћ алата, Prometheus метрике, JWT аутентификацију и nginx реверсе proxy — а све се то испоручује као Docker Цомпосе распоређивање са Grafana/Prometheus мониторинг профилима које можете покренути у једном кораку. AI је слој за побољшање, а не зависност: сваки LLM пружалац је опциони, тако да линија ради и без API кључева за основни рад, а премиум обогаћења се активирају чим се кључеви додају. Та једна одлука чини исти алат погодним и за хобисте који раде оффлине на лаптопу и за предузећа која интегришу свог омиљеног пружаоца — а цела медијска линија покривена је јединичним, интеграционим и енд-то-енд тестовима, уместо да се све заснива на поверењу.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Ručna proizvodnja video kurseva je spora: pisanje, naracija, muzika i montaža zahtevaju trud i specijalizovane alate. Courses-Creator sve to sabija u markdown liniju vođenu jednim izvorom, gde skripta postaje gotov kurs, a AI popunjava praznine koje bi ljudi inače ručno popunjavali.
+Ручна производња видео курсева је спора: писање, нарација, музика и монтажа захтевају труд и специјализоване алате. Courses-Creator све то сабија у markdown линију вођену једним извором, где скрипта постаје готов курс, а AI попуњава празнине које би људи иначе ручно попуњавали.
 
 
-## Zašto je ovo revolucionarno
+## Зашто је ово револуционарно
 
-Proces izrade kurseva pretvara iz specijalizovanog zanata koji zahteva više alata u ponovljivu softversku cevovodnu strukturu: pisanje, obogaćivanje AI, generisanje naracije i muzike, kao i reprodukcija na više platformi – sve je to integrisano u jedan raspoloživi paket. Elegantno snižavanje performansi pri radu bez ključa API predstavlja tihu nadmoć – isti kodni bazen opslužuje i samostalnog kreatora s ograničenim budžetom i preduzeće s ugovorom o premium uslugama, bez potrebe za prepravkama.
+Процес израде курсева претвара из специјализованог заната који захтева више алата у поновљиву софтверску цевоводну структуру: писање, обогаћивање AI, генерисање нарације и музике, као и репродукција на више платформи – све је то интегрисано у један расположиви пакет. Елегантно снижавање перформанси при раду без кључа API представља тиху надмоћ – исти кодни базен опслужује и самосталног креатора с ограниченим буџетом и предузеће с уговором о премиум услугама, без потребе за преправкама.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Cevovod od Markdowna do videa s priključivim obogaćivanjem LLM (OpenAI/Anthropic/Ollama).
-- Ugrađena generacija TTS (Bark, SpeechT5) i pozadinske muzike.
-- Implementacije MCP servera unutar procesnog motora za poboljšanje uz pomoć alata.
-- Jedan backend koji opslužuje tri primarna klijenta (Electron za desktop, React Native za mobilne uređaje, React za veb).
+- Цевовод од Markdowna до видеа с прикључивим обогаћивањем LLM (OpenAI/Anthropic/Ollama).
+- Уграђена генерација TTS (Bark, SpeechT5) и позадинске музике.
+- Имплементације MCP сервера унутар процесног мотора за побољшање уз помоћ алата.
+- Један бацкенд који опслужује три примарна клијента (Electron за десктоп, React Native за мобилне уређаје, React за веб).
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Zahtevna obrada medija:** rešeno pomoću Go cevovoda i obrade pozadinskih poslova, tako da dugotrajni poslovi TTS/videa ne blokiraju API.
-- **Opciono, ali moćno obogaćivanje AI:** rešeno tako što su provajderi LLM opcioni i priključivi, s elegantnim povratkom na osnovne funkcionalnosti.
-- **Isporuka na više platformi:** rešeno zajedničkim REST API i tri namenska plejer aplikacije.
-- **Operativnost:** rešeno pomoću Docker Compose profila, Prometheus/Grafana i ugrađene JWT autentifikacije.
+- **Захтевна обрада медија:** решено помоћу Go цевовода и обраде позадинских послова, тако да дуготрајни послови TTS/видеа не блокирају API.
+- **Опционо, али моћно обогаћивање AI:** решено тако што су провајдери LLM опциони и прикључиви, с елегантним повратком на основне функционалности.
+- **Испорука на више платформи:** решено заједничким REST API и три наменска плејер апликације.
+- **Оперативност:** решено помоћу Docker Цомпосе профила, Prometheus/Grafana и уграђене JWT аутентификације.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Go** – osnovni procesni motor, REST API, izvršitelj poslova, cevovod (972K+ bajtova, dominantni jezik).
-- **TypeScript / React** – veb plejer i zajednički korisnički interfejs.
-- **Electron** – desktop aplikacija za kreiranje.
-- **React Native** – mobilni plejer.
-- **PostgreSQL** – perzistencija kurseva/poslova.
-- **Provajderi LLM (OpenAI, Anthropic, Ollama)** – poboljšanje sadržaja.
-- **TTS (Bark, SpeechT5)** – sinteza naracije.
-- **MCP serveri** – integracija alata unutar motora.
-- **Docker Compose + nginx** – raspoređivanje celog steka i reverse proxy.
-- **Prometheus + Grafana** – nadgledanje.
+- **Go** – основни процесни мотор, REST API, извршитељ послова, цевовод (972К+ бајтова, доминантни језик).
+- **TypeScript / React** – веб плејер и заједнички кориснички интерфејс.
+- **Electron** – десктоп апликација за креирање.
+- **React Native** – мобилни плејер.
+- **PostgreSQL** – перзистенција курсева/послова.
+- **Провајдери LLM (OpenAI, Anthropic, Ollama)** – побољшање садржаја.
+- **TTS (Bark, SpeechT5)** – синтеза нарације.
+- **MCP сервери** – интеграција алата унутар мотора.
+- **Docker Цомпосе + nginx** – распоређивање целог стека и реверсе proxy.
+- **Prometheus + Grafana** – надгледање.
 
-> Napomena: javni README vodič za brzi početak koristi rezervisani klon `your-org` URL.
+> Напомена: јавни РЕАДМЕ водич за брзи почетак користи резервисани клон `your-org` URL.
 

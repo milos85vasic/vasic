@@ -79,6 +79,32 @@ dialog.od-dialog::backdrop {
 }
 
 /* -----------------------------------------------------------------------------
+ * 3. Tall-content safety — any floating surface that can grow past the viewport
+ *    MUST scroll rather than clip/overflow it (BUG #64). Bounds the panel/menu to
+ *    the viewport (dvh where supported, so the mobile URL bar can't clip it) and
+ *    lets its own body scroll; overscroll-behavior keeps the scroll from chaining
+ *    to the locked page behind. A long list (e.g. the 15-language switcher menu or
+ *    a download/portfolio dialog) is fully reachable at a short viewport.
+ * -------------------------------------------------------------------------- */
+.od-dialog__panel {
+  max-height: min(90vh, 920px);
+  max-height: min(90dvh, 920px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.od-menu,
+.od-dropdown__menu,
+.od-popover,
+.od-lang__menu {
+  max-height: min(70vh, 640px);
+  max-height: min(70dvh, 640px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* -----------------------------------------------------------------------------
  * Reduced motion — no blur, no entrance motion, fully opaque scrim (legible).
  * -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {

@@ -29,74 +29,74 @@ diagrams:
 
 # HelixQA
 
-**Anti-bluff orkestracija QA testa — autonomne, cross-platform sesije u kojima svako USPEŠNO izvršenje nosi prikupljene dokaze da stvarni korisnik može da koristi funkcionalnost.**
+**Анти-блуфф оркестрација QA теста — аутономне, цросс-платформ сесије у којима свако УСПЕШНО извршење носи прикупљене доказе да стварни корисник може да користи функционалност.**
 
-## Sažetak
+## Сажетак
 
-HelixQA je anti-bluff okvir za orkestraciju QA testa na više platformi (Android, Android TV, Web, Desktop) koji kombinuje YAML banke testova, detekciju pada u realnom vremenu, prikupljanje dokaza korak po korak i LLM-plus-računarski-vidom vođene autonomne QA sesije kako bi dokazao da funkcionalnosti zaista rade od početka do kraja. Predstavlja obavezni tip QA testa prema Constitution (§11.4.169).
+HelixQA је анти-блуфф оквир за оркестрацију QA теста на више платформи (Android, Android TV, Web, Десктоп) који комбинује YAML банке тестова, детекцију пада у реалном времену, прикупљање доказа корак по корак и LLM-плус-рачунарски-видом вођене аутономне QA сесије како би доказао да функционалности заиста раде од почетка до краја. Представља обавезни тип QA теста према Constitution (§11.4.169).
 
-## Kratak opis
+## Кратак опис
 
-Anti-bluff QA orkestrator (Go) koji pokreće napisane banke testova i potpuno autonomne, LLM-i-računarskim-vidom vođene QA sesije na različitim platformama — otkriva padove, validira svaki korak u odnosu na prikupljene dokaze (snimke ekrana, logcat, video, stack trace), i automatski generiše tikete bogate dokazima za AI pipeline popravki.
+Анти-блуфф QA оркестратор (Go) који покреће написане банке тестова и потпуно аутономне, LLM-и-рачунарским-видом вођене QA сесије на различитим платформама — открива падове, валидира сваки корак у односу на прикупљене доказе (снимке екрана, логцат, видео, стацк траце), и аутоматски генерише тикете богате доказима за AI пипелине поправки.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixQA je Go okvir čiji jedini, nepopustljivi dizajnerski centar predstavlja §11.4 Operativno pravilo Constitution: kriterijum za isporuku nije „testovi prolaze", već „korisnici mogu da koriste funkcionalnost", pa svako USPEŠNO izvršenje koje emituje mora da nosi pozitivne dokaze prikupljene tokom izvršavanja — bez dokaza, nema zelenog svetla, bez izuzetaka. Radi u dva komplementarna moda koji zajedno pokrivaju i pisane i nepoznate scenarije. Prvo, **pisane banke testova** — YAML paketi `TC-XXX` slučajeva sa ciljanjem na platformu, prioritetima, uređenim koracima (naziv/akcija/očekivano), oznakama i referencama na dokumentaciju — izvršavaju se uz validaciju svakog koraka, detekciju pada/ANR-a u realnom vremenu (ADB za Android, praćenje procesa za web/desktop), centralizovano prikupljanje dokaza i automatski generisane Markdown tikete već prilagođene za downstream AI pipeline popravki. Drugo, **potpuno autonomna QA sesija** koja aplikaciju predaje agentima pokretanim LLM i računarskim vidom i pušta ih da je samostalno kontrolišu kroz četiri disciplinovane faze: podešavanje (izbor LLM-ova, izrada mape funkcionalnosti iz projektnog dokumenta, pokretanje CLI agenata, inicijalizacija motora za vizuelnu analizu), verifikacija vođena dokumentacijom koja prolazi kroz svaku dokumentovanu funkcionalnost, istraživanje vođeno radoznalošću koje namerno testira granične slučajeve i nedokumentovano ponašanje, a zatim izveštavanje i čišćenje u Markdown/HTML/JSON formatu, pri čemu je svaki nalaz povezan sa dokazima označenim vremenskim pečatom u video-zapisu.
+HelixQA је Go оквир чији једини, непопустљиви дизајнерски центар представља §11.4 Оперативно правило Constitution: критеријум за испоруку није „тестови пролазе", већ „корисници могу да користе функционалност", па свако УСПЕШНО извршење које емитује мора да носи позитивне доказе прикупљене током извршавања — без доказа, нема зеленог светла, без изузетака. Ради у два комплементарна мода који заједно покривају и писане и непознате сценарије. Прво, **писане банке тестова** — YAML пакети `TC-XXX` случајева са циљањем на платформу, приоритетима, уређеним корацима (назив/акција/очекивано), ознакама и референцама на документацију — извршавају се уз валидацију сваког корака, детекцију пада/ANR-а у реалном времену (ADB за Android, праћење процеса за web/десктоп), централизовано прикупљање доказа и аутоматски генерисане Markdown тикете већ прилагођене за downstream AI пипелине поправки. Друго, **потпуно аутономна QA сесија** која апликацију предаје агентима покретаним LLM и рачунарским видом и пушта их да је самостално контролишу кроз четири дисциплиноване фазе: подешавање (избор LLM-ова, израда мапе функционалности из пројектног документа, покретање CLI агената, иницијализација мотора за визуелну анализу), верификација вођена документацијом која пролази кроз сваку документовану функционалност, истраживање вођено радозналошћу које намерно тестира граничне случајеве и недокументовано понашање, а затим извештавање и чишћење у Markdown/HTML/JSON формату, при чему је сваки налаз повезан са доказима означеним временским печатом у видео-запису.
 
-Ključno je da ovaj okvir ne ocenjuje sam sebe: integriše četiri spoljna Go potmodula (LLMsVerifier, LLMOrchestrator, VisionEngine, DocProcessor) i koristi zajedničku infrastrukturu `challenges` i `containers`, tako da komponenta koja navigira aplikacijom nije ista kao ona koja ocenjuje da li je sve prošlo kako treba. Njegov sopstveni paket testova podvrgava se istom standardu koji nameće drugima putem `make anti-bluff` (statičko skeniranje + manifest sidrenih ponašanja + mutacioni zupčanik) i Challenge orkestracije u 8 faza sa ugrađenom §1.1 mutacijom. Matrica pokrivenosti tipova testova od 15 redova precizno povezuje svaku reklamiranu mogućnost sa konkretnim izvršnim sredstvom i specifičnim oblikom prikupljenih dokaza — tako da tvrdnje okvira o samom sebi imaju isto toliko dokaza koliko i presude koje donosi za proizvode koje testira.
-
-
-## Zašto smo ga izgradili
-
-Konvencionalni QA daje zeleno svetlo uz obrazloženje „asertacija je prošla", što je upravo način na koji klasa grešaka koju Constitution naziva *blefiranjem* prolazi kroz sistem — funkcija je prijavljena kao funkcionalna, iako je za krajnjeg korisnika neispravna. HelixQA je izgrađen upravo da to spreči u okviru QA procesa: on odbija da dodeli status PROŠAO bez fizičkog dokaza (snimka ekrana, logcat, video, stek trejs, izveštaj) snimljenog tokom stvarnog izvršavanja, a zeleni rezime bez takvog dokaza tretira kao kritičnu grešku ravnu nedostajućoj funkciji. Takođe rešava problem radne snage — sveobuhvatno ručno testiranje na više platformi nije skalabilno — omogućavajući potpuno autonomne sesije.
-
-## Zašto je revolucionarno
-
-Spaja dve stvari koje gotovo nikada nisu deo istog alata: rigoroznu, dokazima potkrepljenu kontrolu kvaliteta i autonomno, samostalno istraživanje. Agent LLM sa vizuelnim modulom otvara *stvarnu* aplikaciju, proverava svaku dokumentovanu funkciju, traga za nedokumentovanim bagovima za koje niko nije napisao test, *i* istovremeno generiše dokazni materijal sudskog kvaliteta — tako da se „testirali smo to" zamenjuje sa „evo snimka, evo logcat-a, evo tiketa". A pošto je deo QA podsistema nazvanog po Constitution, njegovo usvajanje ne unapređuje poštenje QA procesa samo za jedan tim — već podiže standard za svaki proizvod u porodici u jednom potezu.
-
-## Šta je inovativno
-
-- **Ugovor o nedokazivom blefu** — svaki PROŠAO status je vezan za snimljeni dokaz tokom izvršavanja; zelena linija u CI-u smatra se neophodnom, ali nikada dovoljnom, a zeleni rezime bez dokaza ocenjuje se kao kritična greška.
-- **Autonomno istraživanje vođeno dokumentacijom i radoznalošću** — proverava svaku dokumentovanu funkciju *i* zatim skreće sa scenarija, istražujući rubne slučajeve na koje nailaze stvarni korisnici (prazni unosi, brze interakcije, nedokumentovani putevi) koje nijedan ručno napisan set testova nije predvideo.
-- **Vizuelni orakul** — mehanički vid zasnovan na GoCV-u i LLM Vision API bukvalno *vidi* pokrenuti UI na ekranu, otkrivajući vizuelno oštećena stanja koja promiču pored asertacija na nivou tokena i svojstava.
-- **Strukturne, a ne prozne baze testova** — stringovi u bazi opisuju strukturu i generišu pitanja za LLM tokom izvršavanja (CONST-046), tako da jedna baza funkcioniše na svim lokalizacijama umesto da se raspadne čim se UI tekst prevede.
-- **Tiketi prilagođeni AI protoku popravki** — automatski generisani Markdown tiketi stižu sa kompletnim paketom dokaza, spremni za direktno prosleđivanje agentu za popravke umesto ljudskom trijažeru.
-
-## Kako se koristi u svim proizvodima (moći koje pruža)
-
-Kao **obavezni stub kvaliteta** (Constitution §11.4.169 navodi `helix_qa` podsistem kao jedan od obaveznih tipova testova), HelixQA svim proizvodima u porodici pruža isti skup mogućnosti:
-
-- **Autonomne QA sesije:** jedna naredba `helixqa autonomous --project … --platforms android,desktop,web` pušta agenta LLM sa vizuelnim modulom da samostalno testira stvarne aplikacije prema cilju pokrivenosti, generišući izveštaje, tikete i snimke bez ljudske intervencije.
-- **Baze testova / setovi:** baze YAML (nivo 219 sa minimalno 30 testova), ciljane na platforme, rangirane po prioritetu i povezane red po red sa dokumentacijom koju proveravaju.
-- **Snimljeni dokazi:** snimci ekrana, logcat, video, stek trejsovi i kompletna vremenska linija — centralizovani i povezani sa svakim izveštajem, tako da se svaka odluka može reprodukovati i revidirati naknadno.
-- **Nezavisne presude (§11.4.141 princip nezavisnosti):** njegov `issuedetector` i vizuelni orakul na bazi LLM ocenjuju ponašanje pokrenute aplikacije nezavisno od agenta koji ju je navigirao, čime se strukturno eliminiše klasična greška u kojoj sistem sam sebe proglašava ispravnim.
-- **Kontrola i mutacioni mehanizam:** `make qa-all` / `make anti-bluff` i `challenges/scripts/helixqa_orchestrator_challenge.sh` (8 faza, ugrađena §1.1 mutacija) neprestano proveravaju poštenje samog HelixQA — i namerno ne postoji `--skip-helixqa` prečica kojom bi se disciplina mogla isključiti pod pritiskom rokova.
+Кључно је да овај оквир не оцењује сам себе: интегрише четири спољна Go потмодула (LLMsVerifier, LLMOrchestrator, VisionEngine, DocProcessor) и користи заједничку инфраструктуру `challenges` и `containers`, тако да компонента која навигира апликацијом није иста као она која оцењује да ли је све прошло како треба. Његов сопствени пакет тестова подвргава се истом стандарду који намеће другима путем `make anti-bluff` (статичко скенирање + манифест сидрених понашања + мутациони зупчаник) и Цхалленге оркестрације у 8 фаза са уграђеном §1.1 мутацијом. Матрица покривености типова тестова од 15 редова прецизно повезује сваку рекламирану могућност са конкретним извршним средством и специфичним обликом прикупљених доказа — тако да тврдње оквира о самом себи имају исто толико доказа колико и пресуде које доноси за производе које тестира.
 
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Зашто смо га изградили
 
-- **Sprečavanje lažno pozitivnih rezultata u samom QA procesu** — alat koji otkriva blefove ne sme sam postati jedan → svaki korak se validira na osnovu prikupljenih dokaza, prolaz bez dokaza ocenjuje se kao greška, a ne kao prolaz, a manifest ponašajnih sidrišta povezuje svaku reklamiranu funkcionalnost sa izvršnim testom (CONST-035), tako da se nijedna funkcija ne može tvrditi bez nečega što je proverava.
-- **Upravljanje heterogenim platformama iz jednog centra** — Android, Android TV, Web i Desktop nemaju zajednički model unosa → jedan paket `navigator` apstrahuje platformski specifične ActionExecutors (ADB, Playwright, X11) i detektore padova za svaku platformu (android/web/desktop), tako da se logika orkestracije piše jednom, a razlike između platformi ostaju na ivicama sistema.
-- **Korišćenje autonomnih agenata na koristan, a ne haotičan način** — neregulisani LLM u aplikaciji može besciljno lutati večito → LLMsVerifier ocenjuje i bira odgovarajuće modele, LLMOrchestrator upravlja headless CLI agentima (opencode, claude-code, gemini, junie, qwen-code), DocProcessor gradi mapu funkcionalnosti koja istraživanju daje cilj, a VisionEngine svaku odluku zasniva na stvarnim pikselima na ekranu, a ne na mašti modela.
-- **Baze testova bezbedne za lokalizaciju** — paket koji hardkodira engleski tekst korisničkog interfejsa otkazuje u petnaest jezika → baze opisuju samo strukturu, a tekst korisničkog upita se učitava dinamički putem LLM/resursa tokom izvršavanja (CONST-046), tako da ista baza proverava isto ponašanje bez obzira na lokalizaciju.
-- **Dokazivanje da kontrolni mehanizmi nisu lažni** — anti-blef kontrola koja sama ne može da otkaže predstavlja vrhunski blef → upareni §1.1 mutanti uklanjaju prikupljanje dokaza ili anti-blef tvrdnju iz tipa i zahtevaju da kontrola OTKAŽE, a mehanizam za postepeno povećanje zahteva sprečava da se ta garancija vremenom neprimetno naruši.
+Конвенционални QA даје зелено светло уз образложење „асертација је прошла", што је управо начин на који класа грешака коју Constitution назива *блефирањем* пролази кроз систем — функција је пријављена као функционална, иако је за крајњег корисника неисправна. HelixQA је изграђен управо да то спречи у оквиру QA процеса: он одбија да додели статус ПРОШАО без физичког доказа (снимка екрана, логцат, видео, стек трејс, извештај) снимљеног током стварног извршавања, а зелени резиме без таквог доказа третира као критичну грешку равну недостајућој функцији. Такође решава проблем радне снаге — свеобухватно ручно тестирање на више платформи није скалабилно — омогућавајући потпуно аутономне сесије.
 
-## Tehnološki stek
+## Зашто је револуционарно
 
-- **Go 1.24+ orkestrator** — *zašto:* QA mora da radi svuda gde rade i proizvodi, pa jedan statički povezan, brz i prenosiv binarni fajl pobeđuje alternative koje zahtevaju runtime; *kako:* jedan `cmd/helixqa` CLI koji izlaže kompozitne potkomande `run` / `list` / `report` / `autonomous` / `version`.
-- **Baze testova YAML (`pkg/testbank`)** — *zašto:* paketi testova treba da budu deklarativni i čitljivi, menjivi od strane ljudi bez dodirivanja Go; *kako:* `version`/`name`/`test_cases[]` sa `id`, `category`, `priority`, `platforms`, uređenim nizom `steps[]` i `documentation_refs[]` za povratno praćenje do dokumentacije funkcionalnosti.
-- **Detektori padova/ANR-a (`pkg/detector`)** — *zašto:* najvažnije greške su one koje se dešavaju uživo, tokom interakcije, a ne u naknadnoj proveri; *kako:* ADB (`pidof`/`logcat`/`screencap`) za Android i `pgrep` za web/desktop, koji prate proces dok ga test pokreće.
-- **Prikupljanje dokaza (`pkg/evidence`, `pkg/session`)** — *zašto:* ugovor o anti-blefu je stvaran samo ako je svaki PROLAZ podržan fizičkim dokazom; *kako:* snimci ekrana, logcat, video i stack trace-ovi se prikupljaju u vremensku liniju `SessionRecorder`, na koju svaki izveštaj upućuje.
-- **Autonomna sesija (`pkg/autonomous`, `pkg/navigator`, `pkg/issuedetector`)** — *zašto:* sveobuhvatno ručno QA testiranje na četiri platforme ne može da se skalira, pa istraživanje mora da bude samostalno; *kako:* 4-fazni `SessionCoordinator` plus ActionExecutors (ADB/Playwright/X11) i LLM detekcija grešaka koja obuhvata vizuelne, UX, pristupačne i funkcionalne nedostatke.
-- **Spoljašnji potmoduli** — *zašto:* ponovna upotreba i razdvajanje (CONST-051), a — ključno — razdvajanje navigatora od suca; *kako:* LLMsVerifier (ocenjivanje modela), LLMOrchestrator (headless CLI agenti), VisionEngine (GoCV + LLM Vision), DocProcessor (mapa funkcionalnosti/pokrivenost), svaki kao nezavisno vođena komponenta.
-- **Anti-blef kontrole + mehanizam postepenog povećanja zahteva** — *zašto:* da se HelixQA drži tačno onog §1.1 sporazuma koji nameće svemu ostalom; *kako:* skeniranje `make anti-bluff` plus manifest ponašajnih sidrišta i mehanizam postepenog povećanja zahteva, sa `helixqa_orchestrator_challenge.sh` kao 8-faznim validatorom od kraja do kraja.
-- **Matrica pokrivenosti od 15 redova (`docs/test-coverage.md`)** — *zašto:* CONST-050(B) zahteva zatvoren, potpuno obračunat skup tipova testova bez praznina; *kako:* svaki red je vezan za konkretan izvršni resurs i specifičan oblik prikupljenih dokaza, tako da je pokrivenost proverena činjenica, a ne samo tvrdnja.
+Спаја две ствари које готово никада нису део истог алата: ригорозну, доказима поткрепљену контролу квалитета и аутономно, самостално истраживање. Агент LLM са визуелним модулом отвара *стварну* апликацију, проверава сваку документовану функцију, трага за недокументованим баговима за које нико није написао тест, *и* истовремено генерише доказни материјал судског квалитета — тако да се „тестирали смо то" замењује са „ево снимка, ево логцат-а, ево тикета". А пошто је део QA подсистема названог по Constitution, његово усвајање не унапређује поштење QA процеса само за један тим — већ подиже стандард за сваки производ у породици у једном потезу.
+
+## Шта је иновативно
+
+- **Уговор о недоказивом блефу** — сваки ПРОШАО статус је везан за снимљени доказ током извршавања; зелена линија у ЦИ-у сматра се неопходном, али никада довољном, а зелени резиме без доказа оцењује се као критична грешка.
+- **Аутономно истраживање вођено документацијом и радозналошћу** — проверава сваку документовану функцију *и* затим скреће са сценарија, истражујући рубне случајеве на које наилазе стварни корисници (празни уноси, брзе интеракције, недокументовани путеви) које ниједан ручно написан сет тестова није предвидео.
+- **Визуелни оракул** — механички вид заснован на GoCV-у и LLM Висион API буквално *види* покренути UI на екрану, откривајући визуелно оштећена стања која промичу поред асертација на нивоу токена и својстава.
+- **Структурне, а не прозне базе тестова** — стрингови у бази описују структуру и генеришу питања за LLM током извршавања (ЦОНСТ-046), тако да једна база функционише на свим локализацијама уместо да се распадне чим се UI текст преведе.
+- **Тикети прилагођени AI протоку поправки** — аутоматски генерисани Markdown тикети стижу са комплетним пакетом доказа, спремни за директно прослеђивање агенту за поправке уместо људском тријажеру.
+
+## Како се користи у свим производима (моћи које пружа)
+
+Као **обавезни стуб квалитета** (Constitution §11.4.169 наводи `helix_qa` подсистем као један од обавезних типова тестова), HelixQA свим производима у породици пружа исти скуп могућности:
+
+- **Аутономне QA сесије:** једна наредба `helixqa autonomous --project … --platforms android,desktop,web` пушта агента LLM са визуелним модулом да самостално тестира стварне апликације према циљу покривености, генеришући извештаје, тикете и снимке без људске интервенције.
+- **Базе тестова / сетови:** базе YAML (ниво 219 са минимално 30 тестова), циљане на платформе, рангиране по приоритету и повезане ред по ред са документацијом коју проверавају.
+- **Снимљени докази:** снимци екрана, логцат, видео, стек трејсови и комплетна временска линија — централизовани и повезани са сваким извештајем, тако да се свака одлука може репродуковати и ревидирати накнадно.
+- **Независне пресуде (§11.4.141 принцип независности):** његов `issuedetector` и визуелни оракул на бази LLM оцењују понашање покренуте апликације независно од агента који ју је навигирао, чиме се структурно елиминише класична грешка у којој систем сам себе проглашава исправним.
+- **Контрола и мутациони механизам:** `make qa-all` / `make anti-bluff` и `challenges/scripts/helixqa_orchestrator_challenge.sh` (8 фаза, уграђена §1.1 мутација) непрестано проверавају поштење самог HelixQA — и намерно не постоји `--skip-helixqa` пречица којом би се дисциплина могла искључити под притиском рокова.
 
 
-## Napomene o statusu i iskrenosti
+## Највећи технички изазови и како смо их решили
 
-- **Status: beta.** Aktivno u razvoju (README statusna traka, verzija 219). Podvrgava se sopstvenom standardu protiv obmane.
-- **Licenca: Apache-2.0.** Instalacija: `go install digital.vasic.helixqa/cmd/helixqa@latest`.
+- **Спречавање лажно позитивних резултата у самом QA процесу** — алат који открива блефове не сме сам постати један → сваки корак се валидира на основу прикупљених доказа, пролаз без доказа оцењује се као грешка, а не као пролаз, а манифест понашајних сидришта повезује сваку рекламирану функционалност са извршним тестом (ЦОНСТ-035), тако да се ниједна функција не може тврдити без нечега што је проверава.
+- **Управљање хетерогеним платформама из једног центра** — Android, Android TV, Web и Десктоп немају заједнички модел уноса → један пакет `navigator` апстрахује платформски специфичне ActionExecutors (ADB, Playwright, X11) и детекторе падова за сваку платформу (андроид/web/десктоп), тако да се логика оркестрације пише једном, а разлике између платформи остају на ивицама система.
+- **Коришћење аутономних агената на користан, а не хаотичан начин** — нерегулисани LLM у апликацији може бесциљно лутати вечито → LLMsVerifier оцењује и бира одговарајуће моделе, LLMOrchestrator управља хеадлесс CLI агентима (опенцоде, цлауде-цоде, гемини, јуние, qwen-цоде), DocProcessor гради мапу функционалности која истраживању даје циљ, а VisionEngine сваку одлуку заснива на стварним пикселима на екрану, а не на машти модела.
+- **Базе тестова безбедне за локализацију** — пакет који хардкодира енглески текст корисничког интерфејса отказује у петнаест језика → базе описују само структуру, а текст корисничког упита се учитава динамички путем LLM/ресурса током извршавања (ЦОНСТ-046), тако да иста база проверава исто понашање без обзира на локализацију.
+- **Доказивање да контролни механизми нису лажни** — анти-блеф контрола која сама не може да откаже представља врхунски блеф → упарени §1.1 мутанти уклањају прикупљање доказа или анти-блеф тврдњу из типа и захтевају да контрола ОТКАЖЕ, а механизам за постепено повећање захтева спречава да се та гаранција временом неприметно наруши.
 
-**Prioritetni nivo:** Helix-osnovni — obavezni stub kvaliteta/protiv obmane u okviru porodice Helix, kojim se proverava da funkcije zaista rade.
+## Технолошки стек
+
+- **Go 1.24+ оркестратор** — *зашто:* QA мора да ради свуда где раде и производи, па један статички повезан, брз и преносив бинарни фајл побеђује алтернативе које захтевају рунтиме; *како:* један `cmd/helixqa` CLI који излаже композитне поткоманде `run` / `list` / `report` / `autonomous` / `version`.
+- **Базе тестова YAML (`pkg/testbank`)** — *зашто:* пакети тестова треба да буду декларативни и читљиви, мењиви од стране људи без додиривања Go; *како:* `version`/`name`/`test_cases[]` са `id`, `category`, `priority`, `platforms`, уређеним низом `steps[]` и `documentation_refs[]` за повратно праћење до документације функционалности.
+- **Детектори падова/ANR-а (`pkg/detector`)** — *зашто:* најважније грешке су оне које се дешавају уживо, током интеракције, а не у накнадној провери; *како:* ADB (`pidof`/`logcat`/`screencap`) за Android и `pgrep` за web/десктоп, који прате процес док га тест покреће.
+- **Прикупљање доказа (`pkg/evidence`, `pkg/session`)** — *зашто:* уговор о анти-блефу је стваран само ако је сваки ПРОЛАЗ подржан физичким доказом; *како:* снимци екрана, логцат, видео и стацк траце-ови се прикупљају у временску линију `SessionRecorder`, на коју сваки извештај упућује.
+- **Аутономна сесија (`pkg/autonomous`, `pkg/navigator`, `pkg/issuedetector`)** — *зашто:* свеобухватно ручно QA тестирање на четири платформе не може да се скалира, па истраживање мора да буде самостално; *како:* 4-фазни `SessionCoordinator` плус ActionExecutors (ADB/Playwright/X11) и LLM детекција грешака која обухвата визуелне, UX, приступачне и функционалне недостатке.
+- **Спољашњи потмодули** — *зашто:* поновна употреба и раздвајање (ЦОНСТ-051), а — кључно — раздвајање навигатора од суца; *како:* LLMsVerifier (оцењивање модела), LLMOrchestrator (хеадлесс CLI агенти), VisionEngine (GoCV + LLM Висион), DocProcessor (мапа функционалности/покривеност), сваки као независно вођена компонента.
+- **Анти-блеф контроле + механизам постепеног повећања захтева** — *зашто:* да се HelixQA држи тачно оног §1.1 споразума који намеће свему осталом; *како:* скенирање `make anti-bluff` плус манифест понашајних сидришта и механизам постепеног повећања захтева, са `helixqa_orchestrator_challenge.sh` као 8-фазним валидатором од краја до краја.
+- **Матрица покривености од 15 редова (`docs/test-coverage.md`)** — *зашто:* ЦОНСТ-050(Б) захтева затворен, потпуно обрачунат скуп типова тестова без празнина; *како:* сваки ред је везан за конкретан извршни ресурс и специфичан облик прикупљених доказа, тако да је покривеност проверена чињеница, а не само тврдња.
+
+
+## Напомене о статусу и искрености
+
+- **Статус: бета.** Активно у развоју (РЕАДМЕ статусна трака, верзија 219). Подвргава се сопственом стандарду против обмане.
+- **Лиценца: Апацхе-2.0.** Инсталација: `go install digital.vasic.helixqa/cmd/helixqa@latest`.
+
+**Приоритетни ниво:** Helix-основни — обавезни стуб квалитета/против обмане у оквиру породице Helix, којим се проверава да функције заиста раде.
 

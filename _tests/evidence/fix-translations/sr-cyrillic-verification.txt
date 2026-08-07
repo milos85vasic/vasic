@@ -1,0 +1,7 @@
+SR CONTENT — target-script gate (sr->cyrillic, min 0.5) + prose Cyrillic ratio (>=0.7)
+
+MD: 38/38 files PASS (ratio>=0.7 AND cyrillic gate ok)
+  JSON vasic-digital.home.sr.json: prose cyr=0.917 gate_ok=True valid=OK
+  JSON milosvasic-ru.home.sr.json: prose cyr=0.915 gate_ok=True valid=OK
+
+LLM reviewer (independent, groq): HelixTrack/CV/LLMsVerifier -> all PASS (5/5/5/5, terms 28/127/33 preserved) — see review-*.json

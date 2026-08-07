@@ -26,64 +26,64 @@ diagrams:
 
 # HelixMemory
 
-**Jedan memorijski mozak za agente AI — četiri vrhunska motora, spojena u jedno.**
+**Један меморијски мозак за агенте AI — четири врхунска мотора, спојена у једно.**
 
-## Sažetak
+## Сажетак
 
-HelixMemory je Go SDK koji objedinjuje četiri vodeća memorijska sistema (Mem0, Cognee, Letta, Graphiti) u jedinstveni kognitivni memorijski motor koji ih pretražuje paralelno i spaja rezultate. Agensima AI pruža jedan trajan, deduplikovani i prerangirani memorijski sloj umesto četiri nepovezana.
+HelixMemory је Go SDK који обједињује четири водећа меморијска система (Mem0, Cognee, Letta, Graphiti) у јединствени когнитивни меморијски мотор који их претражује паралелно и спаја резултате. Агенсима AI пружа један трајан, дедупликовани и прерангирани меморијски слој уместо четири неповезана.
 
-## Kratak opis
+## Кратак опис
 
-HelixMemory je Go SDK koji spaja Mem0, Cognee, Letta i Graphiti u jedinstveni kognitivni memorijski motor za aplikacije AI. Inteligentno usmerava upise, paralelno pretražuje sve pozadinske sisteme i spaja rezultate kroz trostepeni tok prikupljanja, deduplikacije i prerangiranja.
+HelixMemory је Go SDK који спаја Mem0, Cognee, Letta и Graphiti у јединствени когнитивни меморијски мотор за апликације AI. Интелигентно усмерава уписе, паралелно претражује све позадинске системе и спаја резултате кроз тростепени ток прикупљања, дедупликације и прерангирања.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixMemory je jedinstveni kognitivni memorijski motor za aplikacije AI, isporučen kao Go SDK (modul `digital.vasic.helixmemory`, verzija Go 1.25+). Njegova temeljna pretpostavka je da nijedan memorijski projekat nikada neće biti najbolji u svemu — umesto da se memorija ponovo implementira od nule i nasledi slepa mesta jednog projekta, on orkestrira četiri vrhunska sistema i omogućava svakom da igra na svojim snagama: Mem0 za dinamično izdvajanje činjenica i upravljanje preferencijama, Cognee za semantičke mreže znanja izgrađene kroz ECL tokove, Letta za stanje agenta sa izmenjivim memorijskim blokovima i računanjem tokom „sna", i Graphiti za bitemporalnu mrežu znanja koja rasuđuje o tome kako se činjenice menjaju kroz vreme.
+HelixMemory је јединствени когнитивни меморијски мотор за апликације AI, испоручен као Go SDK (модул `digital.vasic.helixmemory`, верзија Go 1.25+). Његова темељна претпоставка је да ниједан меморијски пројекат никада неће бити најбољи у свему — уместо да се меморија поново имплементира од нуле и наследи слепа места једног пројекта, он оркестрира четири врхунска система и омогућава сваком да игра на својим снагама: Mem0 за динамично издвајање чињеница и управљање преференцијама, Cognee за семантичке мреже знања изграђене кроз ЕЦЛ токове, Letta за стање агента са измењивим меморијским блоковима и рачунањем током „сна", и Graphiti за битемпоралну мрежу знања која расуђује о томе како се чињенице мењају кроз време.
 
-Motor za spajanje je ono što te četiri nezavisne memorije pretvara u jedan mozak. Na putu upisa, svaka nova memorija se klasifikuje prema sadržaju i usmerava ka pozadinskom sistemu koji je za nju najpogodniji. Na putu čitanja, upit se istovremeno šalje svim pozadinskim sistemima, a dobijeni rezultati ulaze u trostepeni tok spajanja — prikupljanje, deduplikacija, a zatim prerangiranje na osnovu više izvora — tako da pozivalac nikada ne vidi četiri bučna, preklapajuća skupa rezultata, već samo jedan čist, rangirani odgovor. Zaštitni prekidači obavijaju svaki pozadinski sistem kako bi omogućili postupno smanjenje performansi: kada jedan motor otkaže, njegov prekidač se aktivira i preostali sistemi nastavljaju da rade, umesto da povuku ceo memorijski sloj sa sobom. Pošto motor implementira interfejs `MemoryStore` koji se može direktno zameniti, on se ugrađuje kao direktna zamena za običnog pružaoca memorije — bez potrebe za preuređenjem pozivaoca — a Prometheus metrike otkrivaju unutrašnje procese usmeravanja i spajanja radi potpune uočljivosti.
+Мотор за спајање је оно што те четири независне меморије претвара у један мозак. На путу уписа, свака нова меморија се класификује према садржају и усмерава ка позадинском систему који је за њу најпогоднији. На путу читања, упит се истовремено шаље свим позадинским системима, а добијени резултати улазе у тростепени ток спајања — прикупљање, дедупликација, а затим прерангирање на основу више извора — тако да позивалац никада не види четири бучна, преклапајућа скупа резултата, већ само један чист, рангирани одговор. Заштитни прекидачи обавијају сваки позадински систем како би омогућили поступно смањење перформанси: када један мотор откаже, његов прекидач се активира и преостали системи настављају да раде, уместо да повуку цео меморијски слој са собом. Пошто мотор имплементира интерфејс `MemoryStore` који се може директно заменити, он се уграђује као директна замена за обичног пружаоца меморије — без потребе за преуређењем позиваоца — а Prometheus метрике откривају унутрашње процесе усмеравања и спајања ради потпуне уочљивости.
 
-HelixMemory je razvijen kao memorijski sloj za HelixAgent, širi ansambl agenata Helix AI, i unosi porodičnu disciplinu testiranja bez blefiranja u domen memorije: ugrađeni izazivač testira stvarne produkcione tokove — usmeravanje, spajanje, prevod, zaštitni prekidač — dok upareni mutacioni omotač namerno narušava invarijante kako bi dokazao da testovi stvarno padaju kada je logika pokvarena, tako da zeleni set znači nešto.
+HelixMemory је развијен као меморијски слој за HelixAgent, шири ансамбл агената Helix AI, и уноси породичну дисциплину тестирања без блефирања у домен меморије: уграђени изазивач тестира стварне продукционе токове — усмеравање, спајање, превод, заштитни прекидач — док упарени мутациони омотач намерно нарушава инваријанте како би доказао да тестови стварно падају када је логика покварена, тако да зелени сет значи нешто.
 
-## Zašto smo ga napravili
-
-
-AI agentima potrebna je dugovečna, visokokvalitetna memorija, ali je ekosistem fragmentiran – svaki memorijski projekat (Mem0, Cognee, Letta, Graphiti) snažan je u jednoj oblasti, a slab u drugima. HelixMemory stvoren je kako bi HelixAgent agentima pružio jedinstvenu memorijsku površinu koja objedinjuje njihove prednosti, a da ih pritom ne veže za bilo koji od njih.
-
-## Zašto je ovo revolucionarno
-
-Ukida prinudni izbor. Četiri memorijska sistema, koji se inače takmiče za isto mesto, postaju komplementarni pozadinski sistemi iza jednog jedinstvenog interfejsa – tako da aplikacija dobija dinamično izdvajanje činjenica, semantičke grafove znanja, memoriju agenta sa stanjem i bitemporalno rezonovanje *istovremeno*, uz automatsko uklanjanje duplikata i ponovnu rangiranost na osnovu više izvora. Ono što ranije nije bilo praktično – tretirati pitanje „koji memorijski pogon da usvojimo?" kao lažnu dilemu – HelixMemory omogućava da istovremeno iskoristite sve njihove prednosti, iza jednog jednostavnog `MemoryStore`-a, bez nasleđivanja slabosti nijednog pogona ili obaveze na zaključavanje.
-
-## Šta je inovativno
-
-- **Fuzija više pozadinskih sistema** (prikupljanje → uklanjanje duplikata → ponovna rangiranost na osnovu više izvora) koja vraća jedan rangirani skup rezultata, umesto da pozivaoca veže za jedan skladište.
-- **Inteligentno usmeravanje upisa** koje klasifikuje svaku memoriju prema sadržaju i šalje je pogonu najpogodnijem za njeno čuvanje, tako da pravi podaci završe u pravom skladištu.
-- **Elegantna degradacija** putem prekidača po pojedinačnim pozadinskim sistemima – otkazivanje jednog pogona nije fatalno, već se izoluje, a ostali nastavljaju da rade.
-- **Konsolidacija tokom „vremena spavanja"** (putem Letta) koja preuređuje memoriju tokom perioda neaktivnosti, umesto samo u trenutku upita.
-- **Provera protiv obmanjivanja**: pokretač izazova nad stvarnim produkcijskim kodom, uparen sa omotačem za mutacije koji mora da otkaže kada se naruši invarijanta – čime se dokazuje da je testna kapija stvarna provera, a ne tautologija.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Usklađivanje četiri heterogena pozadinska sistema u jedan koherentan skup rezultata** – svaki pogon vraća memoriju u svom obliku, a njihovo naivno spajanje dovodi do duplikata i neuporedivih rangova. Rešeno pomoću tipizovanog fuzionog pogona koji prikuplja podatke iz više izvora, uklanja preklapanja i sve ponovo rangira na zajedničkoj osnovi, uz tvrdnju o fuzionisanom broju u testovima kako spajanje ne bi tiho izgubilo ili dvostruko računalo rezultate.
-- **Održavanje rada kada otkaže pozadinski sistem** – jedan nedostupan memorijski pogon ne sme da zaustavi ceo sloj. Rešeno pomoću prekidača po pojedinačnim pozadinskim sistemima koji prate mašinu stanja zatvoreno → otvoreno (nakon praga otkaza) → poluotvoreno (nakon isteka vremena), izolujući neispravan pogon i nastavljajući da služi iz onih koji rade, sve dok se neispravan ne oporavi.
-- **Dokazivanje da memorijska logika zaista funkcioniše, a ne samo da se kompajlira** – zeleni set testova nema smisla ako testovi ne mogu da otkažu. Rešeno pomoću pokretača izazova u procesu koji pokreće stvarni produkcijski kod (usmeravanje, fuziju, prevodilac, prekidač) i uparenog omotača za mutacije koji menja invarijante i zahteva da testovi „pocrvene", čime se dokazuje da kapija nije tautologija.
+## Зашто смо га направили
 
 
-## Tehnološki stek
+AI агентима потребна је дуговечна, висококвалитетна меморија, али је екосистем фрагментиран – сваки меморијски пројекат (Mem0, Cognee, Letta, Graphiti) снажан је у једној области, а слаб у другима. HelixMemory створен је како би HelixAgent агентима пружио јединствену меморијску површину која обједињује њихове предности, а да их притом не веже за било који од њих.
 
-- **Go (1.25+)** — jedinstveni SDK i izvršno okruženje; izabran jer paralelno čitanje sa četiri pozadinska sistema predstavlja problem konkurentnosti, a gorutine u Go-u to čine jeftinim, dok njegovi interfejsni tipovi čitavom sistemu pružaju jednu čistu spojnu tačku (`MemoryStore`) na koju se pozivači mogu osloniti.
-- **Mem0** — dinamički backend za izdvajanje činjenica i upravljanje preferencijama; koristi se za segment memorije koji odgovara na pitanja „šta ovaj korisnik zapravo preferira / koje su činjenice izronile".
-- **Cognee** — semantički backend zasnovan na grafovima znanja, izgrađen na ECL protočnim sistemima; koristi se za čuvanje strukturiranog, povezanog znanja umesto ravnih činjenica.
-- **Letta** — backend za izvršno okruženje agenata sa stanjem, sa mogućnošću uređivanja blokova memorije i računanja tokom perioda neaktivnosti; koristi se tamo gde memorija mora da opstane kao živo stanje agenta i da se konsoliduje tokom mirovanja.
-- **Graphiti** — backend za dvovremenski graf znanja; koristi se za rasuđivanje o tome kako se činjenice i odnosi menjaju tokom vremena, a ne samo o njihovoj trenutnoj vrednosti.
-- **PostgreSQL + Neo4j + Redis** — stvarne podatkovne baze na kojima rade backendovi, postavljene za autentično integraciono testiranje putem `make infra-start`, kako bi testni skupovi koristili stvarnu infrastrukturu umesto simulacija.
-- **Prometheus** — metrički podaci i mogućnost posmatranja integrisani kroz fuzioni pipeline, tako da se ponašanje rutiranja i fuzije može meriti u produkciji, a ne ostaje crna kutija.
-- **i18n spojni sloj za prevođenje** — imenovani (`helixmemory_`) nizovi znakova zadržani na mestu kako bi svaki budući korisnički interfejs mogao da se lokalizuje bez naknadnog prilagođavanja jezgra.
+## Зашто је ово револуционарно
 
-## Status i napomene o iskrenosti
+Укида принудни избор. Четири меморијска система, који се иначе такмиче за исто место, постају комплементарни позадински системи иза једног јединственог интерфејса – тако да апликација добија динамично издвајање чињеница, семантичке графове знања, меморију агента са стањем и битемпорално резоновање *истовремено*, уз аутоматско уклањање дупликата и поновну рангираност на основу више извора. Оно што раније није било практично – третирати питање „који меморијски погон да усвојимо?" као лажну дилему – HelixMemory омогућава да истовремено искористите све њихове предности, иза једног једноставног `MemoryStore`-а, без наслеђивања слабости ниједног погона или обавезе на закључавање.
 
-- **Status: beta.** Funkcionalan SDK; izgrađen kao sloj memorije za HelixAgent.
-- **Licenca: nije određena.** Nije pronađena LICENCA putem GitHub API — NEVERIFIKOVANO / nije deklarisano.
-- Prikazano ime „HelixMemory" odgovara repozitorijumu `memory`. Navedene vrednosti tačnosti u README fajlu preuzete su od dobavljača, a nisu merene od strane HelixMemory, te su izostavljene ovde.
+## Шта је иновативно
 
-**Prioritetni nivo:** Helix-osnovni.
+- **Фузија више позадинских система** (прикупљање → уклањање дупликата → поновна рангираност на основу више извора) која враћа један рангирани скуп резултата, уместо да позиваоца веже за један складиште.
+- **Интелигентно усмеравање уписа** које класификује сваку меморију према садржају и шаље је погону најпогоднијем за њено чување, тако да прави подаци заврше у правом складишту.
+- **Елегантна деградација** путем прекидача по појединачним позадинским системима – отказивање једног погона није фатално, већ се изолује, а остали настављају да раде.
+- **Консолидација током „времена спавања"** (путем Letta) која преуређује меморију током периода неактивности, уместо само у тренутку упита.
+- **Провера против обмањивања**: покретач изазова над стварним продукцијским кодом, упарен са омотачем за мутације који мора да откаже када се наруши инваријанта – чиме се доказује да је тестна капија стварна провера, а не таутологија.
+
+## Највећи технички изазови и како смо их решили
+
+- **Усклађивање четири хетерогена позадинска система у један кохерентан скуп резултата** – сваки погон враћа меморију у свом облику, а њихово наивно спајање доводи до дупликата и неупоредивих рангова. Решено помоћу типизованог фузионог погона који прикупља податке из више извора, уклања преклапања и све поново рангира на заједничкој основи, уз тврдњу о фузионисаном броју у тестовима како спајање не би тихо изгубило или двоструко рачунало резултате.
+- **Одржавање рада када откаже позадински систем** – један недоступан меморијски погон не сме да заустави цео слој. Решено помоћу прекидача по појединачним позадинским системима који прате машину стања затворено → отворено (након прага отказа) → полуотворено (након истека времена), изолујући неисправан погон и настављајући да служи из оних који раде, све док се неисправан не опорави.
+- **Доказивање да меморијска логика заиста функционише, а не само да се компајлира** – зелени сет тестова нема смисла ако тестови не могу да откажу. Решено помоћу покретача изазова у процесу који покреће стварни продукцијски код (усмеравање, фузију, преводилац, прекидач) и упареног омотача за мутације који мења инваријанте и захтева да тестови „поцрвене", чиме се доказује да капија није таутологија.
+
+
+## Технолошки стек
+
+- **Go (1.25+)** — јединствени SDK и извршно окружење; изабран јер паралелно читање са четири позадинска система представља проблем конкурентности, а горутине у Go-у то чине јефтиним, док његови интерфејсни типови читавом систему пружају једну чисту спојну тачку (`MemoryStore`) на коју се позивачи могу ослонити.
+- **Mem0** — динамички бацкенд за издвајање чињеница и управљање преференцијама; користи се за сегмент меморије који одговара на питања „шта овај корисник заправо преферира / које су чињенице изрониле".
+- **Cognee** — семантички бацкенд заснован на графовима знања, изграђен на ЕЦЛ проточним системима; користи се за чување структурираног, повезаног знања уместо равних чињеница.
+- **Letta** — бацкенд за извршно окружење агената са стањем, са могућношћу уређивања блокова меморије и рачунања током периода неактивности; користи се тамо где меморија мора да опстане као живо стање агента и да се консолидује током мировања.
+- **Graphiti** — бацкенд за двовременски граф знања; користи се за расуђивање о томе како се чињенице и односи мењају током времена, а не само о њиховој тренутној вредности.
+- **PostgreSQL + Neo4j + Redis** — стварне податковне базе на којима раде бацкендови, постављене за аутентично интеграционо тестирање путем `make infra-start`, како би тестни скупови користили стварну инфраструктуру уместо симулација.
+- **Prometheus** — метрички подаци и могућност посматрања интегрисани кроз фузиони пипелине, тако да се понашање рутирања и фузије може мерити у продукцији, а не остаје црна кутија.
+- **и18н спојни слој за превођење** — именовани (`helixmemory_`) низови знакова задржани на месту како би сваки будући кориснички интерфејс могао да се локализује без накнадног прилагођавања језгра.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Функционалан SDK; изграђен као слој меморије за HelixAgent.
+- **Лиценца: није одређена.** Није пронађена ЛИЦЕНЦА путем GitHub API — НЕВЕРИФИКОВАНО / није декларисано.
+- Приказано име „HelixMemory" одговара репозиторијуму `memory`. Наведене вредности тачности у РЕАДМЕ фајлу преузете су од добављача, а нису мерене од стране HelixMemory, те су изостављене овде.
+
+**Приоритетни ниво:** Helix-основни.
 

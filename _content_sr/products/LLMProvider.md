@@ -27,67 +27,67 @@ diagrams:
 
 # LLMProvider
 
-**Jedan interfejs, 43 provajdera — sa ugrađenim prekidačima strujnog kola, ponovnim pokušajima i monitoringom zdravlja.**
+**Један интерфејс, 43 провајдера — са уграђеним прекидачима струјног кола, поновним покушајима и мониторингом здравља.**
 
-## Sažetak
+## Сажетак
 
-LLMProvider je generički, višekratno upotrebljiv modul Go koji definiše ujedinjeni interfejs `LLMProvider`, zajedno sa obrascima otpornosti na greške — prekidačem strujnog kola, monitoringom zdravlja, ponovnim pokušajima sa eksponencijalnim odlaganjem, lenjim učitavanjem — i isporučuje 43 konkretne implementacije provajdera iza tog jednog ugovora, uz generički adapter kompatibilan sa OpenAI i poštenim, bez unapred kodiranih rezervnih rešenja za otkrivanje modela.
+LLMProvider је генерички, вишекратно употребљив модул Go који дефинише уједињени интерфејс `LLMProvider`, заједно са обрасцима отпорности на грешке — прекидачем струјног кола, мониторингом здравља, поновним покушајима са експоненцијалним одлагањем, лењим учитавањем — и испоручује 43 конкретне имплементације провајдера иза тог једног уговора, уз генерички адаптер компатибилан са OpenAI и поштеним, без унапред кодираних резервних решења за откривање модела.
 
-## Kratak opis
+## Кратак опис
 
-Višeput upotrebljiv modul Go koji izlaže jedan interfejs `LLMProvider` (`Complete`, `CompleteStream`, `HealthCheck`, `GetCapabilities`, `ValidateConfig`) zajedno sa primitivima za toleranciju grešaka — prekidačem strujnog kola, monitorom zdravlja, ponovnim pokušajima sa eksponencijalnim odlaganjem i nasumičnim kašnjenjem, lenjom inicijalizacijom — preko 43 adaptera provajdera i generičkog adaptera kompatibilnog sa OpenAI. Bezbedan za rad u više niti.
+Вишепут употребљив модул Go који излаже један интерфејс `LLMProvider` (`Complete`, `CompleteStream`, `HealthCheck`, `GetCapabilities`, `ValidateConfig`) заједно са примитивима за толеранцију грешака — прекидачем струјног кола, монитором здравља, поновним покушајима са експоненцијалним одлагањем и насумичним кашњењем, лењом иницијализацијом — преко 43 адаптера провајдера и генеричког адаптера компатибилног са OpenAI. Безбедан за рад у више нити.
 
-## Detaljan opis
+## Детаљан опис
 
-LLMProvider je apstrakcioni sloj koji svaka usluga koja koristi LLM treba, ali ga gotovo niko ne gradi kako treba — neugledna infrastruktura koja razdvaja demonstraciju od sistema koji preživljava kontakt sa stvarnim saobraćajem. Definiše jedan interfejs svestan mogućnosti — `Complete`, `CompleteStream`, `HealthCheck`, `GetCapabilities`, `ValidateConfig` — tako da aplikativni kod cilja tačno jedan ugovor, bez obzira koji od 43 pozadinska sistema odgovara na poziv, a zatim isporučuje operativno učvršćivanje koje pretvara krhke pozive provajdera u nešto što možete pokrenuti u produkciji bez zadržavanja daha. Trostanjni prekidač strujnog kola (zatvoren → otvoren → polu-otvoren) transparentno obavija bilo kog provajdera — *uključujući i njegov streaming kanal*, gde se prazan tok ispravno računa kao greška — tako da jedan loše ponašajući pozadinski sistem može da aktivira prekidač i spreči da obori celu uslugu; centralni `CircuitBreakerManager` prati sve prekidače odjednom. Konfigurabilni monitor zdravlja kontinuirano proverava provajdere kroz stanja zdravo / degradirano / nezdravo / nepoznato na osnovu provera sa pragovima i intervalima, tako da se degradacija uočava, a ne otkriva tek kada dođe do prekida u radu. Logika ponovnih pokušaja kombinuje eksponencijalno odlaganje sa nasumičnim kašnjenjem, donoseći odluke na osnovu statusa — ponavlja greške vredne ponavljanja (429, 5xx, prolazne mrežne greške), nikada ne troši resurse na 4xx ili otkazani kontekst — sa ograničenim kašnjenjima kako bi se sprečila oluja odlaganja. Lenja inicijalizacija odlaže konstrukciju svakog provajdera do njegove prve stvarne upotrebe — namerni dizajnerski izbor koji čini registraciju svih 43 provajdera praktično besplatnom.
+LLMProvider је апстракциони слој који свака услуга која користи LLM треба, али га готово нико не гради како треба — неугледна инфраструктура која раздваја демонстрацију од система који преживљава контакт са стварним саобраћајем. Дефинише један интерфејс свестан могућности — `Complete`, `CompleteStream`, `HealthCheck`, `GetCapabilities`, `ValidateConfig` — тако да апликативни код циља тачно један уговор, без обзира који од 43 позадинска система одговара на позив, а затим испоручује оперативно учвршћивање које претвара крхке позиве провајдера у нешто што можете покренути у продукцији без задржавања даха. Тростањни прекидач струјног кола (затворен → отворен → полу-отворен) транспарентно обавија било ког провајдера — *укључујући и његов стреаминг канал*, где се празан ток исправно рачуна као грешка — тако да један лоше понашајући позадински систем може да активира прекидач и спречи да обори целу услугу; централни `CircuitBreakerManager` прати све прекидаче одједном. Конфигурабилни монитор здравља континуирано проверава провајдере кроз стања здраво / деградирано / нездраво / непознато на основу провера са праговима и интервалима, тако да се деградација уочава, а не открива тек када дође до прекида у раду. Логика поновних покушаја комбинује експоненцијално одлагање са насумичним кашњењем, доносећи одлуке на основу статуса — понавља грешке вредне понављања (429, 5xx, пролазне мрежне грешке), никада не троши ресурсе на 4xx или отказани контекст — са ограниченим кашњењима како би се спречила олуја одлагања. Лења иницијализација одлаже конструкцију сваког провајдера до његове прве стварне употребе — намерни дизајнерски избор који чини регистрацију свих 43 провајдера практично бесплатном.
 
-Modul isporučuje 43 konkretna paketa provajdera uz generički adapter kompatibilan sa OpenAI, koji implementira ceo interfejs za *bilo koji* endpoint `/v1/chat/completions` — autentifikaciju putem Bearer tokena, SSE streaming sa ispravnim rukovanjem `[DONE]` — tako da provajder bez namenskog paketa i dalje postaje prvoklasni građanin čim adapter usmerite na njegov URL. Kredencijali se razrešavaju na tačno jednom mestu (`apikeys`, koristeći striktnu konvenciju `ApiKey_<Provider>`), čime se na izvoru zatvara cela klasa grešaka tipa „hardkodirani ključ prolazi testove, pravi ključ nije povezan, proizvod otkazuje u produkciji". Otkrivanje modela je namerno, gotovo uporno pošteno: ispituje žive API-je provajdera iza keša sa ograničenim trajanjem, a — prema pravilima upravljanja — stari sloj sa hardkodiranim rezervnim rešenjima je potpuno uklonjen. Kada otkrivanje uživo ne uspe, LLMProvider ne vraća *ništa* umesto zastarelog kataloga, tako da pozivalac nikada ne dobije ID modela koji izgleda validno, a zatim se ne može pozvati. Svaki deo ovog sistema napravljen je da bude bezbedan za rad u više niti.
-
-
-## Zašto smo ga izgradili
-
-Naivni pozivi LLM u produkciji otkazuju — provajderi ograničavaju brzinu, degradiraju ili padaju, a jedan loš backend može povući čitavu uslugu sa sobom. Katalozi modela se menjaju, a hardkodirane liste prosleđuju pozivaocima ID-eve koji više ne rade. LLMProvider centralizuje interfejs, obrasce otpornosti i pouzdano otkrivanje, tako da svaki potrošač automatski nasleđuje toleranciju na greške i istinitost.
-
-## Zašto je ovo revolucionarno
-
-Smanjuje „integraciju provajdera LLM" na jedan jedini potez — implementirajte jedan interfejs ili jednostavno usmerite generički adapter na krajnju tačku — a zatim taj provajder automatski i transparentno obavijaju prekidač kola, praćenje zdravlja i ponovni pokušaji sa eksponencijalnim odlaganjem i nasumičnim kašnjenjem. Otpornost prestaje da bude nešto što svaki tim ponovo izmišlja (loše, pod pritiskom roka, nakon prvog pada) i postaje podrazumevano ponašanje biblioteke za svih 43 backenda. Inženjering pouzdanosti je napisan jednom, strogo testiran i besplatno nasleđen od svakog ko ga uvozi.
-
-## Šta je inovativno
-
-- **Jedan interfejs svestan mogućnosti** — kompletiranje, strimovanje, zdravlje, mogućnosti i validacija konfiguracije svedeni na jedan ugovor koji svaki backend poštuje na identičan način.
-- **Transparentno obavijanje prekidačem kola — uključujući strimove.** Prekidač štiti kanal `CompleteStream`, a ne samo zahtev/odgovor, i tretira prazan strim kao grešku kakva zaista jeste — sa obaveštenjima za slušaoce koja su bezbedna od mrtve petlje i izvan zaključavanja.
-- **43 paketa za provajdere + generički adapter kompatibilan sa OpenAI** — namenski paketi ostaju lagani, a svaki nenabrojani prodavac koji podržava `/v1/chat/completions` radi čim usmerite adapter na njega.
-- **Jedinstveni autoritet za kredencijale (`apikeys`)** — tačno jedno mesto čita promenljive okruženja `ApiKey_<Provider>`, strukturalno eliminišući nesklad „zeleni testovi, pokvaren proizvod" umesto da samo upozorava na njega.
-- **Pošteno otkrivanje modela (bez hardkodiranog fallback-a)** — živi API-ji provajdera iza keša sa vremenom trajanja; u slučaju greške vraća `nil`, nikad zastareo ili izmišljen katalog koji prosleđuje ID-eve koji se ne mogu pozvati.
-- **Lenja inicijalizacija sa `sync.Once`** — konstrukcija se odlaže do prve upotrebe, tako da registracija svih 43 provajdera gotovo ništa ne košta dok zapravo ne pozovete nekog.
-- **Antibluf, višeregionalni Challenge stek** — pravi pokretač koji testira ponašanje prekidača kola, zdravlja i ponovnih pokušaja u pet regiona, kontrolisan uparenim mutacionim testiranjem (nemutirani kod mora izaći sa statusom 0; ubrizgana mutacija mora forsirati izlaz 99), tako da uspešno izvršen testni skup dokazivo znači da ponašanje radi.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Kaskadne greške provajdera.** Jedan nestabilan backend ne sme povući čitavu uslugu sa sobom. Rešeno trostanjim prekidačem kola (zatvoren → otvoren → poluotvoren) koji transparentno obavija bilo kog provajdera *i njegov strim*, otvara se pri trajnom otkazu, ispituje oporavak u poluotvorenom stanju i centralno koordinira `CircuitBreakerManager`.
-- **Prolazne greške i ograničenja brzine.** Rešeno eksponencijalnim odlaganjem sa nasumičnim kašnjenjem koje je svesno statusa — `min(PočetnoOdlaganje·Množilac^(n-1), MaksimalnoOdlaganje) ± nasumičnoKašnjenje` — tako da se ponovni pokušaji rasporede umesto da se sinhronizuju u „gromoglasno stado". Ponavlja tačno ono što treba ponoviti (429, 500, 502, 503, 504 i mrežne greške) i odbija da troši pokušaje na otkazani kontekst ili bilo koji drugi 4xx.
-- **Skaliranje na mnogo registrovanih, a neiskorišćenih provajdera.** Sa 43 registrovanih provajdera, od kojih je samo nekoliko aktivno u datoj usluzi, rana inicijalizacija bila bi čista gubitak. Rešeno lenjom inicijalizacijom zaštićenom sa `sync.Once`, tako da samo provajderi koje zapravo pozovete plaćaju troškove podešavanja.
-- **Dodeljivanje nevažećih ID-eva modela.** Rešeno potpunim uklanjanjem hardkodiranog fallback nivoa za otkrivanje (prema CONST-036) i vraćanjem ničega pri otkazu živog otkrivanja — uz defanzivno kopiranje pri vraćanju, tako da pozivalac ne može da mutira keš ili da se utrkuje sa drugim čitačem. Istinitost je strukturalno nametnuta, a ne konvencijom.
-- **Strimovanje + ispravnost konkurentnosti.** Suptilni način otkaza je mrtva petlja između zaključavanja prekidača i njegovih povratnih poziva za slušaoce. Rešeno snimkom slušalaca i obaveštavanjem van zaključavanja sa vremenskim ograničenjem od 5 sekundi, kao i otključavanjem pre obaveštavanja pri resetovanju — uz sve komponente izgrađene za konkurentnu upotrebu i proverene testovima za utrke (`-race` skup).
+Модул испоручује 43 конкретна пакета провајдера уз генерички адаптер компатибилан са OpenAI, који имплементира цео интерфејс за *било који* ендпоинт `/v1/chat/completions` — аутентификацију путем Беарер токена, SSE стреаминг са исправним руковањем `[DONE]` — тако да провајдер без наменског пакета и даље постаје првокласни грађанин чим адаптер усмерите на његов URL. Креденцијали се разрешавају на тачно једном месту (`apikeys`, користећи стриктну конвенцију `ApiKey_<Provider>`), чиме се на извору затвара цела класа грешака типа „хардкодирани кључ пролази тестове, прави кључ није повезан, производ отказује у продукцији". Откривање модела је намерно, готово упорно поштено: испитује живе API-је провајдера иза кеша са ограниченим трајањем, а — према правилима управљања — стари слој са хардкодираним резервним решењима је потпуно уклоњен. Када откривање уживо не успе, LLMProvider не враћа *ништа* уместо застарелог каталога, тако да позивалац никада не добије ИД модела који изгледа валидно, а затим се не може позвати. Сваки део овог система направљен је да буде безбедан за рад у више нити.
 
 
-## Tehnološki stek
+## Зашто смо га изградили
 
-- **Go (1.25.3)** — izabran zbog vrhunske konkurentnosti, statičkih binarnih fajlova i snažne standardne biblioteke; sadrži modul, interfejs, sve primitive za otpornost i svih 43 adaptera.
-- **`net/http` (stdlib)** — namerno nezavisni HTTP: pokreće klijente za pojedinačne provajdere, generički adapter kompatibilan sa OpenAI i pozive za dinamičko otkrivanje, tako da nema potrebe za revizijom ili ažuriranjem trećepartijskog transporta.
-- **logrus** — strukturirano, nivoom svesti logovanje tačno tamo gde operaterima treba vidljivost: unutar promena stanja prekidača kola i putanje otkrivanja.
-- **testify** — pokreće testni set i, ključno, fiksiranje mutacionih grana koje daju smisao uspešnom izvršavanju.
-- **yaml.v3** — parsira i18n pakete i konfiguraciju u formatu koji ostaje čitljiv za ljude.
-- **`digital.vasic.models`** — zajednički tipovi `LLMRequest` / `LLMResponse` / `ProviderCapabilities`, smešteni na jednom mestu kako bi svi adapteri govorili istim rečnikom (dokumentovana runtime zavisnost).
-- **Interni paketi** — `circuit`, `health`, `retry`, `apikeys`, `discovery`, `providers/` (43 provajdera + `generic`) i `i18n`: površina za otpornost i integraciju podeljena na male, nezavisno testirane jedinice umesto jednog monolitnog sistema.
-- **`.env` + `~/api_keys.sh` (konvencija `ApiKey_<Provider>`)** — jedinstven, nedvosmislen izvor istine za akreditive, tako da se ključevi povezuju na isti način i u testovima i u produkciji.
-- **Makefile race suite (`-race -p 1`) + Challenge pokretač** — stub otporan na blefiranje: detektor trka dokazuje ispravnost konkurentnosti, a Challenge pokretač testira stvarno ponašanje kroz haos, ddos, skaliranje, stres, dinamičko otkrivanje i scenarije bez pauza.
+Наивни позиви LLM у продукцији отказују — провајдери ограничавају брзину, деградирају или падају, а један лош бацкенд може повући читаву услугу са собом. Каталози модела се мењају, а хардкодиране листе прослеђују позиваоцима ИД-еве који више не раде. LLMProvider централизује интерфејс, обрасце отпорности и поуздано откривање, тако да сваки потрошач аутоматски наслеђује толеранцију на грешке и истинитост.
 
-## Status i napomene o iskrenosti
+## Зашто је ово револуционарно
 
-- **Status: beta.** Odvojeni, ponovo upotrebljivi modul; repozitorijum GitHub je javno dostupan.
-- **Licenca: nije definitivno određena.** Nedosledna — `doc.go` navodi MIT, dok je prisutan fajl LICENSE u stilu Apache-2.0 — proveriti pre objavljivanja.
-- LLMsVerifier je uzvodni jedini izvor istine za kanonički katalog modela. Manifest `helix-deps.yaml` izgleda zastareo (navodi `deps: []`, dok dokumentacija tvrdi da postoji zavisnost od `digital.vasic.models`); „Tier 2 (models.dev)" u okviru otkrivanja je planirana, ali još neaktivna zamena.
+Смањује „интеграцију провајдера LLM" на један једини потез — имплементирајте један интерфејс или једноставно усмерите генерички адаптер на крајњу тачку — а затим тај провајдер аутоматски и транспарентно обавијају прекидач кола, праћење здравља и поновни покушаји са експоненцијалним одлагањем и насумичним кашњењем. Отпорност престаје да буде нешто што сваки тим поново измишља (лоше, под притиском рока, након првог пада) и постаје подразумевано понашање библиотеке за свих 43 бацкенда. Инжењеринг поузданости је написан једном, строго тестиран и бесплатно наслеђен од сваког ко га увози.
 
-**Prioritetni nivo:** Helix-primary (klaster LLM-infrastructure — odvojeni, ponovo upotrebljivi modul). Rangira se iza HelixTrack.
+## Шта је иновативно
+
+- **Један интерфејс свестан могућности** — комплетирање, стримовање, здравље, могућности и валидација конфигурације сведени на један уговор који сваки бацкенд поштује на идентичан начин.
+- **Транспарентно обавијање прекидачем кола — укључујући стримове.** Прекидач штити канал `CompleteStream`, а не само захтев/одговор, и третира празан стрим као грешку каква заиста јесте — са обавештењима за слушаоце која су безбедна од мртве петље и изван закључавања.
+- **43 пакета за провајдере + генерички адаптер компатибилан са OpenAI** — наменски пакети остају лагани, а сваки ненабројани продавац који подржава `/v1/chat/completions` ради чим усмерите адаптер на њега.
+- **Јединствени ауторитет за креденцијале (`apikeys`)** — тачно једно место чита променљиве окружења `ApiKey_<Provider>`, структурално елиминишући несклад „зелени тестови, покварен производ" уместо да само упозорава на њега.
+- **Поштено откривање модела (без хардкодираног фаллбацк-а)** — живи API-ји провајдера иза кеша са временом трајања; у случају грешке враћа `nil`, никад застарео или измишљен каталог који прослеђује ИД-еве који се не могу позвати.
+- **Лења иницијализација са `sync.Once`** — конструкција се одлаже до прве употребе, тако да регистрација свих 43 провајдера готово ништа не кошта док заправо не позовете неког.
+- **Антиблуф, вишерегионални Цхалленге стек** — прави покретач који тестира понашање прекидача кола, здравља и поновних покушаја у пет региона, контролисан упареним мутационим тестирањем (немутирани код мора изаћи са статусом 0; убризгана мутација мора форсирати излаз 99), тако да успешно извршен тестни скуп доказиво значи да понашање ради.
+
+## Највећи технички изазови и како смо их решили
+
+- **Каскадне грешке провајдера.** Један нестабилан бацкенд не сме повући читаву услугу са собом. Решено тростањим прекидачем кола (затворен → отворен → полуотворен) који транспарентно обавија било ког провајдера *и његов стрим*, отвара се при трајном отказу, испитује опоравак у полуотвореном стању и централно координира `CircuitBreakerManager`.
+- **Пролазне грешке и ограничења брзине.** Решено експоненцијалним одлагањем са насумичним кашњењем које је свесно статуса — `min(PočetnoOdlaganje·Množilac^(n-1), MaksimalnoOdlaganje) ± nasumičnoKašnjenje` — тако да се поновни покушаји распореде уместо да се синхронизују у „громогласно стадо". Понавља тачно оно што треба поновити (429, 500, 502, 503, 504 и мрежне грешке) и одбија да троши покушаје на отказани контекст или било који други 4xx.
+- **Скалирање на много регистрованих, а неискоришћених провајдера.** Са 43 регистрованих провајдера, од којих је само неколико активно у датој услузи, рана иницијализација била би чиста губитак. Решено лењом иницијализацијом заштићеном са `sync.Once`, тако да само провајдери које заправо позовете плаћају трошкове подешавања.
+- **Додељивање неважећих ИД-ева модела.** Решено потпуним уклањањем хардкодираног фаллбацк нивоа за откривање (према ЦОНСТ-036) и враћањем ничега при отказу живог откривања — уз дефанзивно копирање при враћању, тако да позивалац не може да мутира кеш или да се утркује са другим читачем. Истинитост је структурално наметнута, а не конвенцијом.
+- **Стримовање + исправност конкурентности.** Суптилни начин отказа је мртва петља између закључавања прекидача и његових повратних позива за слушаоце. Решено снимком слушалаца и обавештавањем ван закључавања са временским ограничењем од 5 секунди, као и откључавањем пре обавештавања при ресетовању — уз све компоненте изграђене за конкурентну употребу и проверене тестовима за утрке (`-race` скуп).
+
+
+## Технолошки стек
+
+- **Go (1.25.3)** — изабран због врхунске конкурентности, статичких бинарних фајлова и снажне стандардне библиотеке; садржи модул, интерфејс, све примитиве за отпорност и свих 43 адаптера.
+- **`net/http` (стдлиб)** — намерно независни ХТТП: покреће клијенте за појединачне провајдере, генерички адаптер компатибилан са OpenAI и позиве за динамичко откривање, тако да нема потребе за ревизијом или ажурирањем трећепартијског транспорта.
+- **логрус** — структурирано, нивоом свести логовање тачно тамо где оператерима треба видљивост: унутар промена стања прекидача кола и путање откривања.
+- **testify** — покреће тестни сет и, кључно, фиксирање мутационих грана које дају смисао успешном извршавању.
+- **yaml.в3** — парсира и18н пакете и конфигурацију у формату који остаје читљив за људе.
+- **`digital.vasic.models`** — заједнички типови `LLMRequest` / `LLMResponse` / `ProviderCapabilities`, смештени на једном месту како би сви адаптери говорили истим речником (документована рунтиме зависност).
+- **Интерни пакети** — `circuit`, `health`, `retry`, `apikeys`, `discovery`, `providers/` (43 провајдера + `generic`) и `i18n`: површина за отпорност и интеграцију подељена на мале, независно тестиране јединице уместо једног монолитног система.
+- **`.env` + `~/api_keys.sh` (конвенција `ApiKey_<Provider>`)** — јединствен, недвосмислен извор истине за акредитиве, тако да се кључеви повезују на исти начин и у тестовима и у продукцији.
+- **Макефиле раце суите (`-race -p 1`) + Цхалленге покретач** — стуб отпоран на блефирање: детектор трка доказује исправност конкурентности, а Цхалленге покретач тестира стварно понашање кроз хаос, ддос, скалирање, стрес, динамичко откривање и сценарије без пауза.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Одвојени, поново употребљиви модул; репозиторијум GitHub је јавно доступан.
+- **Лиценца: није дефинитивно одређена.** Недоследна — `doc.go` наводи МИТ, док је присутан фајл ЛИЦЕНСЕ у стилу Апацхе-2.0 — проверити пре објављивања.
+- LLMsVerifier је узводни једини извор истине за канонички каталог модела. Манифест `helix-deps.yaml` изгледа застарео (наводи `deps: []`, док документација тврди да постоји зависност од `digital.vasic.models`); „Тиер 2 (моделс.дев)" у оквиру откривања је планирана, али још неактивна замена.
+
+**Приоритетни ниво:** Helix-primary (кластер LLM-инфраструцтуре — одвојени, поново употребљиви модул). Рангира се иза HelixTrack.
 

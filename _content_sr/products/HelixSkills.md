@@ -24,60 +24,60 @@ diagrams:
 
 # HelixSkills
 
-**Regulisan, ustavno zasnovan sistem veština za agente CLI AI.**
+**Регулисан, уставно заснован систем вештина за агенте CLI AI.**
 
-## Sažetak
+## Сажетак
 
-HelixSkills je sistem veština za agente CLI AI koji nasleđuje Helix Constitution kao podmodul, tako da se svako univerzalno pravilo upravljanja primenjuje bezuslovno. Obuhvata instalabilne veštine agenata, MCP serverske alate, Claude dodatke za Code i ponovo upotrebljive motore iza registrovane, dokumentovane kataloga.
+HelixSkills је систем вештина за агенте CLI AI који наслеђује Helix Constitution као подмодул, тако да се свако универзално правило управљања примењује безусловно. Обухвата инсталабилне вештине агената, MCP серверске алате, Claude додатке за Цоде и поново употребљиве моторе иза регистроване, документоване каталога.
 
-## Kratak opis
+## Кратак опис
 
-HelixSkills je sistem veština za agente CLI AI. Ugrađuje Helix Constitution kao podmodul kako bi sva univerzalna pravila bila na snazi, a zatim isporučuje registrovane veštine (akcioni prefiks, validator medija, multitrak, sinhronizaciju sesija, životni ciklus radnih jedinica i još mnogo toga), dva MCP serverska alata, dva Claude dodatka za Code i ponovo upotrebljive motore.
+HelixSkills је систем вештина за агенте CLI AI. Уграђује Helix Constitution као подмодул како би сва универзална правила била на снази, а затим испоручује регистроване вештине (акциони префикс, валидатор медија, мултитрак, синхронизацију сесија, животни циклус радних јединица и још много тога), два MCP серверска алата, два Claude додатка за Цоде и поново употребљиве моторе.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixSkills (repozitorijum `skills`, Apache-2.0) je sistem veština za agente CLI AI, a počinje od namernog obrnutog pristupa uobičajenom redosledu: upravljanje dolazi pre mogućnosti. Nasleđuje Helix Constitution kao svoj `constitution/` podmodul, tako da se svako univerzalno pravilo iz `constitution/CLAUDE.md` i `constitution/Constitution.md` primenjuje bezuslovno — ne kao konvencija koju agent može poštovati, već kao skup pravila fizički ugrađenih u strukturu projekta. Agent koji usvoji HelixSkills ne može se odreći ustava; pravila putuju zajedno sa kodom.
+HelixSkills (репозиторијум `skills`, Апацхе-2.0) је систем вештина за агенте CLI AI, а почиње од намерног обрнутог приступа уобичајеном редоследу: управљање долази пре могућности. Наслеђује Helix Constitution као свој `constitution/` подмодул, тако да се свако универзално правило из `constitution/CLAUDE.md` и `constitution/Constitution.md` примењује безусловно — не као конвенција коју агент може поштовати, већ као скуп правила физички уграђених у структуру пројекта. Агент који усвоји HelixSkills не може се одрећи устава; правила путују заједно са кодом.
 
-Dok većina „okvira za veštine" trguje apstrakcijama, HelixSkills isporučuje konkretan, registrovani inventar na koji možete ukazati i instalirati ga. Sedam ustavnih veština instalira se preko `register.sh`: action-prefix-system, media-validator, multitrack, reporting-workable-items, scheduled-work-queue, session-sync i workable-item-lifecycle — spektar ocenjen od srednjeg do naprednog nivoa, koji pokriva sve od disciplinovanog imenovanja akcija do validacije medija i punog životnog ciklusa radne jedinice. Dodatne veštine u razvoju (Android pregled, Java/Kotlin jezik, Linux OS) već su indeksirane i pripremljene za aktivaciju. Dva MCP serverska alata (media-validator, scheduled-work) izlažu te veštine agentima preko Model Context Protocol, dok dva Claude dodatka za Code (helix, scheduled-work) ubacuju iste mogućnosti direktno u radno okruženje agenta — jedan skup veština, dostupan agentima bez obzira na to kojim interfejsom komuniciraju.
+Док већина „оквира за вештине" тргује апстракцијама, HelixSkills испоручује конкретан, регистровани инвентар на који можете указати и инсталирати га. Седам уставних вештина инсталира се преко `register.sh`: ацтион-prefix-system, медиа-валидатор, мултитрацк, репортинг-workable-итемс, сцхедулед-work-queue, сессион-sync и workable-итем-lifecycle — спектар оцењен од средњег до напредног нивоа, који покрива све од дисциплинованог именовања акција до валидације медија и пуног животног циклуса радне јединице. Додатне вештине у развоју (Android преглед, Java/Kotlin језик, Linux OS) већ су индексиране и припремљене за активацију. Два MCP серверска алата (медиа-валидатор, сцхедулед-work) излажу те вештине агентима преко Model Context Protocol, док два Claude додатка за Цоде (helix, сцхедулед-work) убацују исте могућности директно у радно окружење агента — један скуп вештина, доступан агентима без обзира на то којим интерфејсом комуницирају.
 
-Ispod kataloga nalaze se četiri ponovo upotrebljiva motora prvog nivoa — continuum (implementiran), plus session_orchestrator, token_optimizer i clickup_sync (u fazi dizajna) — zajednička infrastruktura koja sprečava da veštine ponovo izmišljaju istu osnovnu logiku. Samo token_optimizer deklariše eksplicitan graf zavisnosti koji se proteže do paketa ekosistema vasic-digital (TOON, Embeddings, VectorDB, Normalize, conversation) i HelixDevelopment-ovog LLMProvider, tako da je umrežavanje između repozitorijuma proverljivo, a ne implicitno. Oko svega toga funkcioniše disciplinovana dokumentacija: katalog veština, automatski generisan indeks grafa veština, detaljne stranice po repozitorijumima i otvoren registar Nedostataka i rizika koji jasno navodi šta još nije urađeno. Ceo sistem je ogledalo na GitHub, GitLab, GitFlic i GitVerse radi otpornosti i regionalnog pristupa.
-
-
-## Zašto smo ga izgradili
-
-Agentima CLI i AI potrebne su mogućnosti koje su dosledne, regulisane i ponovo upotrebljive – a ne ad hok skripte koje svaka iznova izmišljaju pravila. HelixSkills je stvoren da agentima pruži paket registrovivih veština vezanih za zajednički ustav, kako bi ponašanje ostalo dosledno i proverljivo u svakom agentu i projektu koji ga usvoje.
-
-## Zašto je revolucionarno
-
-Omogućava da sposobnosti agenta budu prenosive i usklađene s pravilima *po samoj konstrukciji*, a ne zahvaljujući disciplini. Svaka veština je regulisana, verzionirana i instalabilna jedinica podržana ustavnim podmodulom – tako da u trenutku kada agent registruje veštinu, istovremeno nasleđuje i kanonski skup pravila, bez mogućnosti odstupanja. To otključava nešto što ranije nije bilo praktično: prenošenje sposobnosti s jednog agenta ili projekta na drugi uz uverenje da ona stiže već vezana za istu upravu, izložena preko standardnih interfejsa (MCP serveri i Claude Code dodaci) umesto hrpe prilagođenih skripti koje svaka iznova definišu pravila.
-
-## Šta je inovativno
-
-- **Constitution kao podmodul**: univerzalna upravljačka pravila se nasleđuju, a ne kopiraju – montiraju se u stablo tako da svaki agent koji ih koristi bude vezan za isti kanonski skup pravila, s ažuriranjima koja dolaze iz jednog izvora istine umesto iz desetak zastarelih kopija.
-- Veštine isporučene kao samoregistrujuće jedinice (`register.sh`) i uvezane u automatski generisan indeks grafova veština, tako da katalog ostaje otkrljiv i nikada ne izlazi iz sinhronizacije s onim što je zapravo instalirano.
-- Izlaganje na više interfejsa: isti skup veština dolazi do agenata preko MCP alata-servera *i* Claude Code dodataka – piše se jednom, a koristi se u bilo kom okruženju koje agent koristi.
-- Ponovo upotrebljivi motori prvog nivoa (continuum, token_optimizer, session_orchestrator, clickup_sync) deljeni širom ekosistema, od kojih svaki nosi eksplicitne, proverljive deklaracije međuzavisnosti umesto skrivenog sprezanja.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Održavanje doslednog i usklađenog ponašanja agenata kroz mnoge veštine i agente** – ponovna implementacija upravljanja po veštini garantuje odstupanje tokom vremena. Rešeno montiranjem Helix Constitution kao podmodula, tako da pravila u `constitution/CLAUDE.md` i `constitution/Constitution.md` važe bezuslovno i ažuriraju se iz jednog izvora, umesto da se kopiraju i ostave da zastare.
-- **Omogućavanje instalacije i otkrivanja rastućeg skupa veština** – katalog je beskoristan ako niko ne može da pronađe ili instalira ono što se u njemu nalazi. Rešeno registracijom po veštini pomoću `register.sh`, koja povezuje svaku veštinu pri instalaciji, uz automatski generisan INDEX graf veština i detaljnu dokumentaciju po repozitorijumu, tako da otkrivanje prati stvarnost u realnom vremenu.
-- **Dostizanje agenata koji koriste različita okruženja** – ista sposobnost ne bi trebalo da se ponovo gradi za svaki host. Rešeno pakovanjem jednog skupa veština iza definicija MCP alata-servera (u `constitution/mcp/`) i Claude Code dodataka (u `constitution/plugins/`), tako da se jedna implementacija izlaže na svim interfejsima.
+Испод каталога налазе се четири поново употребљива мотора првог нивоа — цонтинуум (имплементиран), плус сессион_орцхестратор, токен_оптимизер и цлицкуп_sync (у фази дизајна) — заједничка инфраструктура која спречава да вештине поново измишљају исту основну логику. Само токен_оптимизер декларише експлицитан граф зависности који се протеже до пакета екосистема vasic-digital (ТООН, Ембеддингс, VectorDB, Нормализе, цонверсатион) и HelixDevelopment-овог LLMProvider, тако да је умрежавање између репозиторијума проверљиво, а не имплицитно. Око свега тога функционише дисциплинована документација: каталог вештина, аутоматски генерисан индекс графа вештина, детаљне странице по репозиторијумима и отворен регистар Недостатака и ризика који јасно наводи шта још није урађено. Цео систем је огледало на GitHub, GitLab, GitFlic и GitVerse ради отпорности и регионалног приступа.
 
 
-## Tehnološki stek
+## Зашто смо га изградили
 
-- **Shell (primarni jezik)** — izabran jer alati za instalaciju i registraciju moraju da rade na svakom mestu gde postoji agent, bez potrebe za prethodnim pokretanjem runtime-a; pokreće `register.sh` i `install_upstreams`, čime se ulazna tačka održava bez zavisnosti i prenosivom.
-- **Git podmoduli** — izabrani kako bi se nasleđivalo upravljanje bez dupliciranja: Helix Constitution je montiran na `constitution/` kao aktivna referenca, pa se ažuriranja pravila šire preko jednog pokazivača umesto da se kopiraju i zaborave.
-- **Model Context Protocol (MCP)** — izabran kao standardni, runtime-agnostički interfejs alata za agente; dva MCP servera (media-validator, scheduled-work) definisana su pod `constitution/mcp/` kako bi veštine bile dostupne kao pozivi alata.
-- **Claude Code pluginovi** — izabrani da bi se veštine direktno ubacile u runtime agenta bez dodatnog koda; dva plugina (helix, scheduled-work) isporučuju se pod `constitution/plugins/`, odražavajući MCP površinu za drugi host.
-- **Ponovo upotrebljivi motori (continuum, token_optimizer, session_orchestrator, clickup_sync)** — izabrani da bi se zajednička mehanika izdvojila iz pojedinačnih veština za ponovnu upotrebu u različitim projektima; token_optimizer, na primer, povezan je sa paketima vasic-digital (TOON, Embeddings, VectorDB, Normalize, conversation) i HelixDevelopment-ovim LLMProvider preko deklarisanih zavisnosti umesto dupliciranog koda.
-- **Git ogledalo na više hostova (GitHub, GitLab, GitFlic, GitVerse)** — izabrano kako bi otkaz jednog hosta ili regionalna blokada nisu mogli da prekinu pristup; isti repozitorijum održava se aktivnim na četiri platforme radi otpornosti i dostupnosti.
+Агентима CLI и AI потребне су могућности које су доследне, регулисане и поново употребљиве – а не ад хок скрипте које свака изнова измишљају правила. HelixSkills је створен да агентима пружи пакет регистровивих вештина везаних за заједнички устав, како би понашање остало доследно и проверљиво у сваком агенту и пројекту који га усвоје.
 
-## Status i napomene o iskrenosti
+## Зашто је револуционарно
 
-- **Status: beta.** Sedam ustavnih veština, dva MCP servera i dva plugina isporučeni su; nacrtane veštine su indeksirane i čekaju aktivaciju, a tri od četiri motora prvog nivoa (session_orchestrator, token_optimizer, clickup_sync) još uvek su u fazi dizajna.
-- U README fajlu projekat se naziva `helix_skills`; kanonski GitHub put je `HelixDevelopment/skills`. Broj pronađenih nalaza u README fajlu je samoprijavljena cifra.
+Омогућава да способности агента буду преносиве и усклађене с правилима *по самој конструкцији*, а не захваљујући дисциплини. Свака вештина је регулисана, верзионирана и инсталабилна јединица подржана уставним подмодулом – тако да у тренутку када агент региструје вештину, истовремено наслеђује и канонски скуп правила, без могућности одступања. То откључава нешто што раније није било практично: преношење способности с једног агента или пројекта на други уз уверење да она стиже већ везана за исту управу, изложена преко стандардних интерфејса (MCP сервери и Claude Цоде додаци) уместо хрпе прилагођених скрипти које свака изнова дефинишу правила.
 
-**Prioritetni nivo:** Helix-primary.
+## Шта је иновативно
+
+- **Constitution као подмодул**: универзална управљачка правила се наслеђују, а не копирају – монтирају се у стабло тако да сваки агент који их користи буде везан за исти канонски скуп правила, с ажурирањима која долазе из једног извора истине уместо из десетак застарелих копија.
+- Вештине испоручене као саморегиструјуће јединице (`register.sh`) и увезане у аутоматски генерисан индекс графова вештина, тако да каталог остаје открљив и никада не излази из синхронизације с оним што је заправо инсталирано.
+- Излагање на више интерфејса: исти скуп вештина долази до агената преко MCP алата-сервера *и* Claude Цоде додатака – пише се једном, а користи се у било ком окружењу које агент користи.
+- Поново употребљиви мотори првог нивоа (цонтинуум, токен_оптимизер, сессион_орцхестратор, цлицкуп_sync) дељени широм екосистема, од којих сваки носи експлицитне, проверљиве декларације међузависности уместо скривеног спрезања.
+
+## Највећи технички изазови и како смо их решили
+
+- **Одржавање доследног и усклађеног понашања агената кроз многе вештине и агенте** – поновна имплементација управљања по вештини гарантује одступање током времена. Решено монтирањем Helix Constitution као подмодула, тако да правила у `constitution/CLAUDE.md` и `constitution/Constitution.md` важе безусловно и ажурирају се из једног извора, уместо да се копирају и оставе да застаре.
+- **Омогућавање инсталације и откривања растућег скупа вештина** – каталог је бескористан ако нико не може да пронађе или инсталира оно што се у њему налази. Решено регистрацијом по вештини помоћу `register.sh`, која повезује сваку вештину при инсталацији, уз аутоматски генерисан INDEX граф вештина и детаљну документацију по репозиторијуму, тако да откривање прати стварност у реалном времену.
+- **Достизање агената који користе различита окружења** – иста способност не би требало да се поново гради за сваки хост. Решено паковањем једног скупа вештина иза дефиниција MCP алата-сервера (у `constitution/mcp/`) и Claude Цоде додатака (у `constitution/plugins/`), тако да се једна имплементација излаже на свим интерфејсима.
+
+
+## Технолошки стек
+
+- **Shell (примарни језик)** — изабран јер алати за инсталацију и регистрацију морају да раде на сваком месту где постоји агент, без потребе за претходним покретањем рунтиме-а; покреће `register.sh` и `install_upstreams`, чиме се улазна тачка одржава без зависности и преносивом.
+- **Гит подмодули** — изабрани како би се наслеђивало управљање без дуплицирања: Helix Constitution је монтиран на `constitution/` као активна референца, па се ажурирања правила шире преко једног показивача уместо да се копирају и забораве.
+- **Model Context Protocol (MCP)** — изабран као стандардни, рунтиме-агностички интерфејс алата за агенте; два MCP сервера (медиа-валидатор, сцхедулед-work) дефинисана су под `constitution/mcp/` како би вештине биле доступне као позиви алата.
+- **Claude Цоде плугинови** — изабрани да би се вештине директно убациле у рунтиме агента без додатног кода; два плугина (helix, сцхедулед-work) испоручују се под `constitution/plugins/`, одражавајући MCP површину за други хост.
+- **Поново употребљиви мотори (цонтинуум, токен_оптимизер, сессион_орцхестратор, цлицкуп_sync)** — изабрани да би се заједничка механика издвојила из појединачних вештина за поновну употребу у различитим пројектима; токен_оптимизер, на пример, повезан је са пакетима vasic-digital (ТООН, Ембеддингс, VectorDB, Нормализе, цонверсатион) и HelixDevelopment-овим LLMProvider преко декларисаних зависности уместо дуплицираног кода.
+- **Гит огледало на више хостова (GitHub, GitLab, GitFlic, GitVerse)** — изабрано како би отказ једног хоста или регионална блокада нису могли да прекину приступ; исти репозиторијум одржава се активним на четири платформе ради отпорности и доступности.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Седам уставних вештина, два MCP сервера и два плугина испоручени су; нацртане вештине су индексиране и чекају активацију, а три од четири мотора првог нивоа (сессион_орцхестратор, токен_оптимизер, цлицкуп_sync) још увек су у фази дизајна.
+- У РЕАДМЕ фајлу пројекат се назива `helix_skills`; канонски GitHub пут је `HelixDevelopment/skills`. Број пронађених налаза у РЕАДМЕ фајлу је самопријављена цифра.
+
+**Приоритетни ниво:** Helix-primary.
 

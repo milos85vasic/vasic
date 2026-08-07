@@ -28,64 +28,64 @@ diagrams:
 
 # HelixOTA
 
-**Univerzalne, potpuno nezavisne over-the-air ažuriranja — dizajnirano da nikada ne dovede do blokade uređaja.**
+**Универзалне, потпуно независне овер-тхе-аир ажурирања — дизајнирано да никада не доведе до блокаде уређаја.**
 
-## Sažetak
+## Сажетак
 
-Helix OTA je univerzalni, duboko nezavisni sistem za over-the-air ažuriranja: Go kontrolna ravan uz klijentske agente po operativnom sistemu, namenjen bezbednom, faznom isporučivanju ažuriranja firmvera/aplikacija na flote uređaja — od jedne ploče do miliona uređaja. Prvi cilj je Android 15 na Orange Pi 5 Max.
+Helix OTA је универзални, дубоко независни систем за овер-тхе-аир ажурирања: Go контролна раван уз клијентске агенте по оперативном систему, намењен безбедном, фазном испоручивању ажурирања фирмвера/апликација на флоте уређаја — од једне плоче до милиона уређаја. Први циљ је Android 15 на Оранге Пи 5 Max.
 
-## Kratak opis
+## Кратак опис
 
-Helix OTA je univerzalni sistem za over-the-air ažuriranja — Go kontrolna ravan uz klijentske agente po operativnom sistemu — projektovan da garantuje nultu korupciju sistema, validaciju svih isporuka i detaljno fazno objavljivanje. Prvi cilj je Android 15 na Orange Pi 5 Max, a planirani su adapteri za Linux i Windows.
+Helix OTA је универзални систем за овер-тхе-аир ажурирања — Go контролна раван уз клијентске агенте по оперативном систему — пројектован да гарантује нулту корупцију система, валидацију свих испорука и детаљно фазно објављивање. Први циљ је Android 15 на Оранге Пи 5 Max, а планирани су адаптери за Linux и Windows.
 
-## Detaljan opis
+## Детаљан опис
 
-Helix OTA je univerzalni, generički, duboko nezavisni sistem za over-the-air (OTA) ažuriranja, izgrađen na jednom nepopustljivom principu: ažuriranje nikada ne sme pretvoriti ispravan uređaj u beskoristan. Sastoji se od Go serverske **kontrolne ravni**, **SDK-ova/klijentskih agenata** po operativnom sistemu i **nadzorne table**, a projektovan je od temelja da bude ugradiv u *bilo koji* operativni sistem putem priključivih adaptera, umesto da se za svaku platformu gradi ispočetka. Prvi cilj isporuke je Android 15 (sve varijante) na Orange Pi 5 Max, gde tok izgradnje generiše slike za flaširanje uz validiran OTA `.zip` fajl i obavezne heš fajlove, tako da nijedan artefakt ne stiže na uređaj bez proverljivog otiska; Linux, Windows i drugi operativni sistemi čekaju u planu iza istog adapterskog spoja, spremni za integraciju — bez potrebe za prepravkama.
+Helix OTA је универзални, генерички, дубоко независни систем за овер-тхе-аир (OTA) ажурирања, изграђен на једном непопустљивом принципу: ажурирање никада не сме претворити исправан уређај у бескористан. Састоји се од Go серверске **контролне равни**, **SDK-ова/клијентских агената** по оперативном систему и **надзорне табле**, а пројектован је од темеља да буде уградив у *било који* оперативни систем путем прикључивих адаптера, уместо да се за сваку платформу гради испочетка. Први циљ испоруке је Android 15 (све варијанте) на Оранге Пи 5 Max, где ток изградње генерише слике за флаширање уз валидиран OTA `.zip` фајл и обавезне хеш фајлове, тако да ниједан артефакт не стиже на уређај без проверљивог отиска; Linux, Windows и други оперативни системи чекају у плану иза истог адаптерског споја, спремни за интеграцију — без потребе за преправкама.
 
-Dizajn se zasniva na čvrstim garancijama koje postavlja operater, tretiranim kao neprikosnovene arhitektonske invarijante: nulta korupcija sistema, obavezna validacija svakog artefakta pre isporuke, detaljno fazno objavljivanje (odjednom ili u fazama od 5/10/30…100% sa mogućnošću pauziranja i nastavka), potpuna vidljivost flote i linearna skalabilnost — od jedne ploče na stolu do miliona uređaja na terenu. Zaključana arhitektura kombinuje uređajske native Android A/B ažuriranja — AOSP `update_engine` sa AVB/dm-verity i automatskim vraćanjem na prethodnu verziju u slučaju greške pri podizanju sistema — sa prilagođenom, nezavisnom Go kontrolnom ravni, tako da se bezbednost nalazi i u boot putanji bliskoj hardveru *i* na serveru, a ne u jednom ranjivom sloju. Dva spoja su namerno izdvojiva: adapterski spoj za operativne sisteme, koji nosi obećanje prave univerzalnosti, i spoj za mehanizam faznog objavljivanja, koji omogućava kampanje nezavisne od operativnog sistema. Ceo sistem je rastavljen na šest javnih, nezavisno verzionisanih `ota-*` potmodula — ponovljivo upotrebljivih gradivnih blokova umesto monolitne strukture.
+Дизајн се заснива на чврстим гаранцијама које поставља оператер, третираним као неприкосновене архитектонске инваријанте: нулта корупција система, обавезна валидација сваког артефакта пре испоруке, детаљно фазно објављивање (одједном или у фазама од 5/10/30…100% са могућношћу паузирања и наставка), потпуна видљивост флоте и линеарна скалабилност — од једне плоче на столу до милиона уређаја на терену. Закључана архитектура комбинује уређајске нативе Android А/Б ажурирања — AOSP `update_engine` са АВБ/дм-verity и аутоматским враћањем на претходну верзију у случају грешке при подизању система — са прилагођеном, независном Go контролном равни, тако да се безбедност налази и у боот путањи блиској хардверу *и* на серверу, а не у једном рањивом слоју. Два споја су намерно издвојива: адаптерски спој за оперативне системе, који носи обећање праве универзалности, и спој за механизам фазног објављивања, који омогућава кампање независне од оперативног система. Цео систем је растављен на шест јавних, независно верзионисаних `ota-*` потмодула — поновљиво употребљивих градивних блокова уместо монолитне структуре.
 
-Helix OTA se trenutno nalazi u fazi razrade specifikacije/istraživanja i izgradnje testnog pokrića; repozitorijum sadrži autoritativni korpus dizajna, tok izvoza dokumentacije i skele potmodula, a eksplicitno je — u skladu sa principima transparentnog upravljanja — da konačni produkcioni server i agent još ne postoje. Ono što se danas isporučuje jeste nacrt i njegove skele, jasno označen kao takav.
+Helix OTA се тренутно налази у фази разраде спецификације/истраживања и изградње тестног покрића; репозиторијум садржи ауторитативни корпус дизајна, ток извоза документације и скеле потмодула, а експлицитно је — у складу са принципима транспарентног управљања — да коначни продукциони сервер и агент још не постоје. Оно што се данас испоручује јесте нацрт и његове скеле, јасно означен као такав.
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-OTA se obično reinventira za svaki uređaj i svaki operativni sistem, a loša ažuriranja mogu da onesposobe čitavu flotu. Helix OTA je stvoren kao jedan univerzalni sistem za ažuriranja s prioritetom bezbednosti, koji svaki operativni sistem može da usvoji putem adaptera, s ugrađenim garancijama vraćanja na prethodnu verziju i validacije – a ne kao naknadno dodate funkcije.
+OTA се обично реинвентира за сваки уређај и сваки оперативни систем, а лоша ажурирања могу да онеспособе читаву флоту. Helix OTA је створен као један универзални систем за ажурирања с приоритетом безбедности, који сваки оперативни систем може да усвоји путем адаптера, с уграђеним гаранцијама враћања на претходну верзију и валидације – а не као накнадно додате функције.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-On odbija da tretira „nikada ne onesposobi uređaj" i „postepeno i uočljivo ažuriranje" kao najbolje napore koje se nadate da će izdržati pod opterećenjem – to su arhitektonske invarijante ugrađene u put pokretanja i kontrolnu ravan. A time što su motor za ažuriranje i sloj operativnog sistema zamenljivi šavovi, a ne čvrsto ugrađene pretpostavke, ista kontrolna ravan danas pokreće Android, a spremna je da pokreće i druge operativne sisteme u budućnosti – samo dodavanjem adaptera, bez grananja, prepisivanja ili ponovnog izmišljanja sigurnosnih garancija kojima već verujete.
+Он одбија да третира „никада не онеспособи уређај" и „постепено и уочљиво ажурирање" као најбоље напоре које се надате да ће издржати под оптерећењем – то су архитектонске инваријанте уграђене у пут покретања и контролну раван. А тиме што су мотор за ажурирање и слој оперативног система заменљиви шавови, а не чврсто уграђене претпоставке, иста контролна раван данас покреће Android, а спремна је да покреће и друге оперативне системе у будућности – само додавањем адаптера, без гранања, преписивања или поновног измишљања сигурносних гаранција којима већ верујете.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- **Dva izdvojiva šava** – šav adaptera za operativni sistem i šav motora za ažuriranje nezavisnog od operativnog sistema – koji pretvaraju „univerzalnost" iz marketinške parole u strukturno svojstvo kodne baze.
-- **Sigurnost u dubini**: uređajska A/B ažuriranja na nivou operativnog sistema (`update_engine`) + AVB/dm-verity + automatsko vraćanje na prethodnu verziju u slučaju greške pri pokretanju, slojevito *povrh* serverske validacije artefakata – ažuriranje mora da prođe kroz više nezavisnih provera pre nego što se trajno primeni.
-- **Decompozicija zasnovana na katalogu, odvojeno**: podela na šest ponovo upotrebljivih, nezavisno verzionisanih `ota-*` potmodula koje možete koristiti po izboru, umesto da gutate monolit.
-- **Primarni transport HTTP/3 (QUIC)** sa automatskim povratkom na HTTP/2 i pregovaranom Brotli/gzip kompresijom – moderan, niskolatentni prenos koji se prilagođava umesto da otkaže.
-- **Inženjering bez blefiranja**: dizajn i status su eksplicitno označeni kao faza specifikacije, a ništa što nije izgrađeno nikada se ne predstavlja kao isporučeno – poštenje je ugrađeno kao osnovna inženjerska vrednost, a ne kao odricanje u fusnotama.
+- **Два издвојива шава** – шав адаптера за оперативни систем и шав мотора за ажурирање независног од оперативног система – који претварају „универзалност" из маркетиншке пароле у структурно својство кодне базе.
+- **Сигурност у дубини**: уређајска А/Б ажурирања на нивоу оперативног система (`update_engine`) + АВБ/дм-verity + аутоматско враћање на претходну верзију у случају грешке при покретању, слојевито *поврх* серверске валидације артефаката – ажурирање мора да прође кроз више независних провера пре него што се трајно примени.
+- **Децомпозиција заснована на каталогу, одвојено**: подела на шест поново употребљивих, независно верзионисаних `ota-*` потмодула које можете користити по избору, уместо да гутате монолит.
+- **Примарни транспорт HTTP/3 (QUIC)** са аутоматским повратком на ХТТП/2 и преговараном Brotli/гзип компресијом – модеран, нисколатентни пренос који се прилагођава уместо да откаже.
+- **Инжењеринг без блефирања**: дизајн и статус су експлицитно означени као фаза спецификације, а ништа што није изграђено никада се не представља као испоручено – поштење је уграђено као основна инжењерска вредност, а не као одрицање у фуснотама.
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Највећи технички изазови и како смо их решили
 
-- **Garantovanje da loše ažuriranje nikada ne onesposobi uređaj** – najteže obećanje u OTA. Rešeno obaveznom uređajskom A/B ažuriranjem na nivou operativnog sistema: `update_engine` upisuje u neaktivni slot dok aktivni slot i dalje radi, AVB/dm-verity kriptografski proverava lanac pokretanja, a ako novi slot ne uspe da se pokrene, uređaj se automatski vraća na prethodnu verziju – sve to podržano obaveznom predimplementacionom validacijom artefakata, tako da se oštećeni sadržaj uhvati pre nego što ikada napusti server.
-- **Jedan sistem, više operativnih sistema** – rešeno odbijanjem da se pretpostavke specifične za Android ugrade u jezgro. Zamenljivi šav adaptera za operativni sistem izoluje specifičnosti platforme, a šav motora za ažuriranje nezavisnog od operativnog sistema čuva logiku kampanje prenosivom, pri čemu je svaki zadržan kao poseban potmodul, tako da je dodavanje novog operativnog sistema proširenje, a ne hirurška intervencija na celom sistemu.
-- **Postepena, zaustavljiva ažuriranja** – rešeno posvećenim motorom za ažuriranje koji razmišlja u procentualnim kohortama sa pragovima uspeha/greške i eksplicitnom kontrolom zaustavljanja/nastavljanja, namerno oslobođenim od sprega sa HTTP-om, tako da isti motor može da pokreće kampanje nezavisno od transportnog sloja.
+- **Гарантовање да лоше ажурирање никада не онеспособи уређај** – најтеже обећање у OTA. Решено обавезном уређајском А/Б ажурирањем на нивоу оперативног система: `update_engine` уписује у неактивни слот док активни слот и даље ради, АВБ/дм-verity криптографски проверава ланац покретања, а ако нови слот не успе да се покрене, уређај се аутоматски враћа на претходну верзију – све то подржано обавезном предимплементационом валидацијом артефаката, тако да се оштећени садржај ухвати пре него што икада напусти сервер.
+- **Један систем, више оперативних система** – решено одбијањем да се претпоставке специфичне за Android уграде у језгро. Заменљиви шав адаптера за оперативни систем изолује специфичности платформе, а шав мотора за ажурирање независног од оперативног система чува логику кампање преносивом, при чему је сваки задржан као посебан потмодул, тако да је додавање новог оперативног система проширење, а не хируршка интервенција на целом систему.
+- **Постепена, заустављива ажурирања** – решено посвећеним мотором за ажурирање који размишља у процентуалним кохортама са праговима успеха/грешке и експлицитном контролом заустављања/настављања, намерно ослобођеним од спрега са ХТТП-ом, тако да исти мотор може да покреће кампање независно од транспортног слоја.
 
 
-## Tehnološki stek
+## Технолошки стек
 
-- **Go + Gin** — izabrani zbog modela konkurentnosti i minimalnog otiska pri implementaciji; pokreću kontrolnu ravan, motor za isporuku ažuriranja i validator artefakata, nudeći primarni interfejs REST `/api/v1`.
-- **Kotlin/KMP** — izabrani kako bi Android agent OTA na uređaju mogao da deli logiku na različitim ciljnim platformama; upravlja celim ciklusom uređaja: provera / preuzimanje / verifikacija / primena / izveštavanje.
-- **HTTP/3 (QUIC) → HTTP/2** — QUIC izabran kao primarni transportni protokol za isporuku sa niskom latencijom i otpornošću na nestabilne mobilne veze, uz automatsko vraćanje na HTTP/2 kako nijedan uređaj ne bi ostao izolovan; **Brotli/gzip** se pregovaraju po zahtevu radi smanjenja veličine paketa.
-- **PostgreSQL** — izabran zbog relacionog integriteta u registru uređaja, kampanjama i telemetriji, gde je ispravnost stanja flote važnija od brzine upisa.
-- **MinIO / S3** — izabrani kao skladište artefakata kako bi velike slike firmvera bile smeštene u standardno skladište objekata, odvojeno od relacionog sloja.
-- **AOSP `update_engine` + AVB/dm-verity + `boot_control`** — izabrani jer je ponovna upotreba Androidovog već isprobanog mehanizma Virtual A/B i verifikacije pokretanja sigurnija od kreiranja sopstvenog rešenja za ažuriranje; koriste se za upravljanje promenom slotova i kriptografskom verifikacijom pokretanja na uređaju.
-- **React** — izabran za upravljački panel gde operatori prijavljuju, otpremaju artefakte, pokreću isporuke i prate stanje flote na jednom mestu.
-- **OpenTelemetry + Prometheus/Grafana** — izabrani za neutralnu instrumentaciju proizvođača; koriste se kako bi svaka faza isporuke bila vidljiva u metrikama i panelima, umesto da se nagađa.
+- **Go + Gin** — изабрани због модела конкурентности и минималног отиска при имплементацији; покрећу контролну раван, мотор за испоруку ажурирања и валидатор артефаката, нудећи примарни интерфејс REST `/api/v1`.
+- **Kotlin/KMP** — изабрани како би Android агент OTA на уређају могао да дели логику на различитим циљним платформама; управља целим циклусом уређаја: провера / преузимање / верификација / примена / извештавање.
+- **HTTP/3 (QUIC) → ХТТП/2** — QUIC изабран као примарни транспортни протокол за испоруку са ниском латенцијом и отпорношћу на нестабилне мобилне везе, уз аутоматско враћање на ХТТП/2 како ниједан уређај не би остао изолован; **Brotli/гзип** се преговарају по захтеву ради смањења величине пакета.
+- **PostgreSQL** — изабран због релационог интегритета у регистру уређаја, кампањама и телеметрији, где је исправност стања флоте важнија од брзине уписа.
+- **MinIO / S3** — изабрани као складиште артефаката како би велике слике фирмвера биле смештене у стандардно складиште објеката, одвојено од релационог слоја.
+- **AOSP `update_engine` + АВБ/дм-verity + `boot_control`** — изабрани јер је поновна употреба Андроидовог већ испробаног механизма Виртуал А/Б и верификације покретања сигурнија од креирања сопственог решења за ажурирање; користе се за управљање променом слотова и криптографском верификацијом покретања на уређају.
+- **React** — изабран за управљачки панел где оператори пријављују, отпремају артефакте, покрећу испоруке и прате стање флоте на једном месту.
+- **OpenTelemetry + Prometheus/Grafana** — изабрани за неутралну инструментацију произвођача; користе се како би свака фаза испоруке била видљива у метрикама и панелима, уместо да се нагађа.
 
-## Status i napomene o iskrenosti
+## Статус и напомене о искрености
 
-- **Status: u razvoju.** U skladu sa pravilima projekta protiv preuveličavanja, **još ne postoji funkcionalni produkcioni server niti agent** — ovo je faza specifikacije/istraživanja i izgradnje testnog pokrića. Repozitorijum sadrži autoritativni korpus dizajna, pipeline za izvoz dokumentacije i skelu za podmodule.
-- Šest javnih, ponovo upotrebljivih podmodula (`ota-protocol`, `ota-artifact-validator`, `ota-rollout-engine`, `ota-update-engine-bridge`, `ota-android-agent`, `ota-telemetry-schema`) nalazi se na `github.com/HelixDevelopment/`.
-- Pokrivenost testovima i podaci o latenciji u repozitorijumu predstavljaju projektnu evidenciju u toku, a nisu nezavisno potvrđeni. Brojevi klauzula HelixConstitution navedeni u README fajlu SU NEVERIFIKOVANI.
-- **Licenca: Apache-2.0.**
+- **Статус: у развоју.** У складу са правилима пројекта против преувеличавања, **још не постоји функционални продукциони сервер нити агент** — ово је фаза спецификације/истраживања и изградње тестног покрића. Репозиторијум садржи ауторитативни корпус дизајна, пипелине за извоз документације и скелу за подмодуле.
+- Шест јавних, поново употребљивих подмодула (`ota-protocol`, `ota-artifact-validator`, `ota-rollout-engine`, `ota-update-engine-bridge`, `ota-android-agent`, `ota-telemetry-schema`) налази се на `github.com/HelixDevelopment/`.
+- Покривеност тестовима и подаци о латенцији у репозиторијуму представљају пројектну евиденцију у току, а нису независно потврђени. Бројеви клаузула HelixConstitution наведени у РЕАДМЕ фајлу СУ НЕВЕРИФИКОВАНИ.
+- **Лиценца: Апацхе-2.0.**
 
-**Prioritetni nivo:** Helix-primary.
+**Приоритетни ниво:** Helix-primary.
 

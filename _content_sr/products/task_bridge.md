@@ -22,50 +22,50 @@ diagrams:
   - Daemon architecture (webhook receiver + cron reconcile)
 ---
 
-**Vaša radna tabla i vaš izvor istine, besprekorno sinhronizovani — u oba smera.**
+**Ваша радна табла и ваш извор истине, беспрекорно синхронизовани — у оба смера.**
 
-## Sažetak
+## Сажетак
 
-task_bridge je generički, odvojeni, dvosmerni motor za sinhronizaciju zadataka/tabli u Go. Održava sinhronizaciju izvodljivih stavki projekta (SQLite) kao izvora istine sa dokumentima za praćenje i udaljenom tablom (prvi cilj: ClickUp; planirani Jira/Linear) koristeći determinističko pravilo poslednje izmene pobeđuje, prvo suvo izvođenje i semantiku koja nikada ne kvari podatke.
+task_bridge је генерички, одвојени, двосмерни мотор за синхронизацију задатака/табли у Go. Одржава синхронизацију изводљивих ставки пројекта (SQLite) као извора истине са документима за праћење и удаљеном таблом (први циљ: ClickUp; планирани Jira/Линеар) користећи детерминистичко правило последње измене побеђује, прво суво извођење и семантику која никада не квари податке.
 
-## Kratak opis
+## Кратак опис
 
-Projektno-agnostički potmodul Go koji dvosmerno sinhronizuje izvodljive stavke SQLite (SSoT) ↔ dokumente za praćenje ↔ udaljenu tablu (prvi ClickUp). Determinističko pravilo poslednje izmene pobeđuje, prvo suvo izvođenje, HMAC-verifikovani vebhukovi; svaki kredencijal i ID ubacuje korisnik tokom izvršavanja.
+Пројектно-агностички потмодул Go који двосмерно синхронизује изводљиве ставке SQLite (SSoT) ↔ документе за праћење ↔ удаљену таблу (први ClickUp). Детерминистичко правило последње измене побеђује, прво суво извођење, HMAC-верификовани вебхукови; сваки креденцијал и ИД убацује корисник током извршавања.
 
-## Detaljan opis
+## Детаљан опис
 
-Svaki tim na kraju vodi dve knjige istog posla: pravu — kod, dokumentaciju, internu bazu — i onu koju prate menadžeri, tablu poput ClickUp-a. One se razilaze čim se bilo koja strana promeni, a ručno usklađivanje je upravo ona dosadna, sklona greškama zaduženja koja niko pouzdano ne obavlja. task_bridge je stvoren da ukloni taj jaz tretirajući sva tri prikaza kao jedan sistem koji se održava u savršenoj sinhronizaciji: **izvodljive stavke projekta (SQLite) kao jedinstveni izvor istine**, **dokumentaciju za praćenje** i **udaljenu tablu** — prvi podržani sistem je ClickUp, dok su Jira i Linear planirani za budućnost. Sinhronizacija je deterministička (poslednja izmena pobeđuje), prvo se izvršava suva proba, a osmišljena je oko jedne nepregovorive garancije: nikada neće oštetiti ili izgubiti podatke, niti će tiho ostaviti jednu stranu zastarelom. U domenu gde nepažljiva sinhronizacija može pregaziti nedeljni rad, ta sigurnosna pozicija je čitava poenta. Arhitektonski, radi se o strogo definisanom potmodulu koji koriste drugi projekti i potpuno je agnostičan u odnosu na projekat, u skladu sa ugovorom o odvajanju iz ustava (§11.4.28): ne isporučuje nikakve projektno-specifične vrednosti, a svaki kredencijal, ID table/foldera, polje ključa stavke i putanja do baze podataka ubacuje korisnik tokom izvršavanja putem `pkg/config.Config`. Modul je jasno slojevit: CLI (`reconcile`/`push`/`pull`/`resolve`/`status`/`conflicts`/`init`) i dugoročni demon (primalac vebhukova + cron sinhronizacija); tanak klijentski omotač oko MIT-licenciranog `raksul/go-clickup`; rezolver koji pretvara URL-ove tabela/foldera u ID-e putem uživo API sondi (bez nagađanja URL gramatike); maper između lokalnih izvodljivih stavki i polja udaljenih zadataka; motor za sinhronizaciju po principu poslednje izmene sa eksplicitnim ishodima sukoba; i primalac vebhukova koji verifikuje `X-Signature` HMAC-SHA256. Iskren je po pitanju zrelosti: ovo je P1 skelet — raspored, interfejsi, ulazne tačke i granica odvajanja su postavljeni, ali logika sinhronizacije i pozivi uživo ka ClickUp-u još nisu implementirani (svaki stub vraća eksplicitnu grešku *not-implemented*, prema pravilu bez lažnih podataka).
+Сваки тим на крају води две књиге истог посла: праву — код, документацију, интерну базу — и ону коју прате менаџери, таблу попут ClickUp-а. Оне се разилазе чим се било која страна промени, а ручно усклађивање је управо она досадна, склона грешкама задужења која нико поуздано не обавља. task_bridge је створен да уклони тај јаз третирајући сва три приказа као један систем који се одржава у савршеној синхронизацији: **изводљиве ставке пројекта (SQLite) као јединствени извор истине**, **документацију за праћење** и **удаљену таблу** — први подржани систем је ClickUp, док су Jira и Линеар планирани за будућност. Синхронизација је детерминистичка (последња измена побеђује), прво се извршава сува проба, а осмишљена је око једне непреговориве гаранције: никада неће оштетити или изгубити податке, нити ће тихо оставити једну страну застарелом. У домену где непажљива синхронизација може прегазити недељни рад, та сигурносна позиција је читава поента. Архитектонски, ради се о строго дефинисаном потмодулу који користе други пројекти и потпуно је агностичан у односу на пројекат, у складу са уговором о одвајању из устава (§11.4.28): не испоручује никакве пројектно-специфичне вредности, а сваки креденцијал, ИД табле/фолдера, поље кључа ставке и путања до базе података убацује корисник током извршавања путем `pkg/config.Config`. Модул је јасно слојевит: CLI (`reconcile`/`push`/`pull`/`resolve`/`status`/`conflicts`/`init`) и дугорочни демон (прималац вебхукова + црон синхронизација); танак клијентски омотач око МИТ-лиценцираног `raksul/go-clickup`; резолвер који претвара URL-ове табела/фолдера у ИД-е путем уживо API сонди (без нагађања URL граматике); мапер између локалних изводљивих ставки и поља удаљених задатака; мотор за синхронизацију по принципу последње измене са експлицитним исходима сукоба; и прималац вебхукова који верификује `X-Signature` HMAC-SHA256. Искрен је по питању зрелости: ово је P1 скелет — распоред, интерфејси, улазне тачке и граница одвајања су постављени, али логика синхронизације и позиви уживо ка ClickUp-у још нису имплементирани (сваки стуб враћа експлицитну грешку *нот-имплементед*, према правилу без лажних података).
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Timovi čuvaju „pravu" sliku posla u kodu/dokumentaciji, dok menadžeri žive na tabli poput ClickUp-a — i one se stalno razilaze. task_bridge ih čini jednim sistemom, sinhronizujući deterministički i bezbedno tako da nijedna strana ne postane zastarela ili netačna.
+Тимови чувају „праву" слику посла у коду/документацији, док менаџери живе на табли попут ClickUp-а — и оне се стално разилазе. task_bridge их чини једним системом, синхронизујући детерминистички и безбедно тако да ниједна страна не постане застарела или нетачна.
 
-## Zašto je ovo revolucionarno
+## Зашто је ово револуционарно
 
-Dvosmerna sinhronizacija tabela obično je jednokratna, čvrsto povezana integracija koju svaki tim loše ponovo izgrađuje. task_bridge je preoblikuje u ponovo upotrebljivu biblioteku s ubrizganim poverljivim podacima i ugrađenim strogim garancijama bezbednosti podataka — prvo simulacija, determinističko rešavanje sukoba poslednjom izmenom, HMAC-verifikovani događaji — tako da svaki projekat može da usvoji pouzdanu integraciju tabela ubrizgavanjem konfiguracije umesto pisanja još jednog krhkog konektora povezanog s internim strukturama.
+Двосмерна синхронизација табела обично је једнократна, чврсто повезана интеграција коју сваки тим лоше поново изграђује. task_bridge је преобликује у поново употребљиву библиотеку с убризганим поверљивим подацима и уграђеним строгим гаранцијама безбедности података — прво симулација, детерминистичко решавање сукоба последњом изменом, HMAC-верификовани догађаји — тако да сваки пројекат може да усвоји поуздану интеграцију табела убризгавањем конфигурације уместо писања још једног крхког конектора повезаног с интерним структурама.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Trostruka dvosmerna sinhronizacija: SQLite SSoT ↔ dokumenti tragača ↔ udaljena tabela.
-- Potpuna razdvojenost (§11.4.28): nijedna vrednost projekta nije ugrađena; sve se ubrizgava tokom izvršavanja.
-- Resolucija Live-API URL→ID umesto krhkog parsiranja URL-gramatike.
-- HMAC-SHA256-verifikovani unos vebhukova za događaje u realnom vremenu.
+- Трострука двосмерна синхронизација: SQLite SSoT ↔ документи трагача ↔ удаљена табела.
+- Потпуна раздвојеност (§11.4.28): ниједна вредност пројекта није уграђена; све се убризгава током извршавања.
+- Ресолуција Ливе-API URL→ИД уместо крхког парсирања URL-граматике.
+- HMAC-SHA256-верификовани унос вебхукова за догађаје у реалном времену.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Bezbednost podataka između tri izvora:** rešeno determinističkim rešavanjem sukoba poslednjom izmenom, prvom simulacijom i eksplicitnim ishodima konflikata.
-- **Ponovna upotrebljivost bez sprezanja:** rešeno preko granice ubrizgavanja `pkg/config` (nema isporučenih specifičnosti projekta).
-- **Pouzdana identifikacija tabela:** rešeno razrešavanjem URL-ova u ID-ove putem Live-API sondi.
-- **Iskrena skela:** rešeno tako što neimplementirani stubovi vraćaju eksplicitne greške tipa „nije implementirano" (nema lažnih rešenja).
+- **Безбедност података између три извора:** решено детерминистичким решавањем сукоба последњом изменом, првом симулацијом и експлицитним исходима конфликата.
+- **Поновна употребљивост без спрезања:** решено преко границе убризгавања `pkg/config` (нема испоручених специфичности пројекта).
+- **Поуздана идентификација табела:** решено разрешавањем URL-ова у ИД-ове путем Ливе-API сонди.
+- **Искрена скела:** решено тако што неимплементирани стубови враћају експлицитне грешке типа „није имплементирано" (нема лажних решења).
 
-## Tehnički stek (zašto + kako)
+## Технички стек (зашто + како)
 
-- **Go** — motor, CLI (`cmd/task_bridge`) i demon (`cmd/task_bridged`).
-- **SQLite** — jedinstveni izvor istine za radne stavke.
-- **`raksul/go-clickup` (MIT)** — omotač za ClickUp transport.
-- **HMAC-SHA256** — verifikacija potpisa vebhukova.
-- **cron + vebhukovi** — usklađivanje demona + unos događaja u realnom vremenu.
-- **`pkg/config`** — granica ubrizgavanja poverljivih podataka/ID-ova tokom izvršavanja.
+- **Go** — мотор, CLI (`cmd/task_bridge`) и демон (`cmd/task_bridged`).
+- **SQLite** — јединствени извор истине за радне ставке.
+- **`raksul/go-clickup` (МИТ)** — омотач за ClickUp транспорт.
+- **HMAC-SHA256** — верификација потписа вебхукова.
+- **црон + вебхукови** — усклађивање демона + унос догађаја у реалном времену.
+- **`pkg/config`** — граница убризгавања поверљивих података/ИД-ова током извршавања.
 
-> Iskrenost o statusu: ovo je **P1 skela** — logika sinhronizacije još nije implementirana. Ne predstavljati kao isporučeno rešenje.
+> Искреност о статусу: ово је **P1 скела** — логика синхронизације још није имплементирана. Не представљати као испоручено решење.
 

@@ -18,46 +18,46 @@ diagrams:
   - Shared-engine benefit (one fix in Core → propagates to all factories)
 ---
 
-**Zajednički pogon iza svakog Server Factory.**
+**Заједнички погон иза сваког Server Factory.**
 
-## Sažetak
+## Сажетак
 
-Core Framework je Kotlin okvir koji čini temelj porodice alata za provizioniranje Server Factory. Pruža zajednički pogon i apstrakcije na kojima grade projekti poput Mail Server Factory, tako da svaka „fabrika" koristi jednu isprobanu osnovu umesto da ponovo implementira primitivne funkcije provizioniranja.
+Цоре Framework је Kotlin оквир који чини темељ породице алата за провизионирање Server Factory. Пружа заједнички погон и апстракције на којима граде пројекти попут Mail Server Factory, тако да свака „фабрика" користи једну испробану основу уместо да поново имплементира примитивне функције провизионирања.
 
-## Kratak opis
+## Кратак опис
 
-Zajednički Kotlin okvir u osnovi ekosistema Server Factory. On obezbeđuje zajednički provizioni pogon, apstrakcije konekcija i mehanizam koraka instalacije koje koriste fabrike nizvodno (Mail Server Factory, Web Service Factory, SonarQube Factory i druge).
+Заједнички Kotlin оквир у основи екосистема Server Factory. Он обезбеђује заједнички провизиони погон, апстракције конекција и механизам корака инсталације које користе фабрике низводно (Mail Server Factory, Web Сервице Factory, SonarQube Factory и друге).
 
-## Detaljan opis
+## Детаљан опис
 
-Core Framework je tiha inženjerska komponenta koja omogućava čitavu porodicu Server-Factory: ponovljivi pogon na kojem se gradi svaki pojedinačni proizvod „fabrike" (Mail Server Factory, Web Service Factory, SonarQube Factory, Caching Proxy Factory). Pristup Server Factory je deklarativan — korisnik opisuje infrastrukturu koju želi putem konfiguracije, a fabrika tumači taj opis kako bi instalirala i inicijalizovala softver na ciljnom sistemu — a Core Framework je mesto gde se nalazi zajednička mašinerija tog obrasca: apstrakcije konekcija i transporta koje dosežu svaku vrstu cilja, model koraka instalacije koji kodira *način* na koji se softver provizionira, kao i zajednička infrastruktura koju bi inače svaka fabrika morala da piše za sebe. On je odgovor na strukturalno pitanje sa kojim se pre ili kasnije suočava svaki višenamenski lanac alata — gde smeštati zajednički pogon? — a pravilno rešenje tog pitanja jednom za svagda održava porodicu koherentnom umesto da se raspadne na četiri blago različita provizionera. Centralizacijom u jedan Kotlin okvir, porodica izbegava dupliranje logike provizioniranja u proizvodima i održava konzistentno ponašanje: svako poboljšanje tipa konekcije ili primitiva instalacije u Core Framework-u koristi svim fabrikama nizvodno. Gotovo u potpunosti je Kotlin (oko 990K bajtova Kotlin koda sa tankim slojem Shell), što odražava njegovu ulogu biblioteke koda, a ne zbirke skripti. Repozitorijumi nizvodno ga navode kao svoju kanoničku zavisnost (Parallels-Utils, Qemu-Utils, Utils i Definitions paketi svi referenciraju Core Framework repozitorijum kao čvorište ekosistema). Njegov README je namerno minimalan — on je infrastruktura za druge projekte, verzionisan putem `version.txt`/`version_code.txt` — i prethodi kasnijem radu na AI, što ga čini delom zrelog DevOps alata nasleđa organizacije.
+Цоре Framework је тиха инжењерска компонента која омогућава читаву породицу Server-Factory: поновљиви погон на којем се гради сваки појединачни производ „фабрике" (Mail Server Factory, Web Сервице Factory, SonarQube Factory, Цацхинг Proxy Factory). Приступ Server Factory је декларативан — корисник описује инфраструктуру коју жели путем конфигурације, а фабрика тумачи тај опис како би инсталирала и иницијализовала софтвер на циљном систему — а Цоре Framework је место где се налази заједничка машинерија тог обрасца: апстракције конекција и транспорта које досежу сваку врсту циља, модел корака инсталације који кодира *начин* на који се софтвер провизионира, као и заједничка инфраструктура коју би иначе свака фабрика морала да пише за себе. Он је одговор на структурално питање са којим се пре или касније суочава сваки вишенаменски ланац алата — где смештати заједнички погон? — а правилно решење тог питања једном за свагда одржава породицу кохерентном уместо да се распадне на четири благо различита провизионера. Централизацијом у један Kotlin оквир, породица избегава дуплирање логике провизионирања у производима и одржава конзистентно понашање: свако побољшање типа конекције или примитива инсталације у Цоре Framework-у користи свим фабрикама низводно. Готово у потпуности је Kotlin (око 990К бајтова Kotlin кода са танким слојем Shell), што одражава његову улогу библиотеке кода, а не збирке скрипти. Репозиторијуми низводно га наводе као своју каноничку зависност (Parallels-Utils, Qemu-Utils, Утилс и Дефинитионс пакети сви референцирају Цоре Framework репозиторијум као чвориште екосистема). Његов РЕАДМЕ је намерно минималан — он је инфраструктура за друге пројекте, верзионисан путем `version.txt`/`version_code.txt` — и претходи каснијем раду на AI, што га чини делом зрелог DevOps алата наслеђа организације.
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-Svaki alat za provizioniranje zahteva isto jezgro: načine za povezivanje sa ciljevima i korake za instalaciju/konfiguraciju softvera. Ponovno izgradnja tog jezgra za svaki proizvod dovela bi do fragmentacije ponašanja i umnožavanja grešaka. Core Framework ga centralizuje tako da sve fabrike dele jedan pouzdan pogon.
+Сваки алат за провизионирање захтева исто језгро: начине за повезивање са циљевима и кораке за инсталацију/конфигурацију софтвера. Поновно изградња тог језгра за сваки производ довела би до фрагментације понашања и умножавања грешака. Цоре Framework га централизује тако да све фабрике деле један поуздан погон.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-To je tačka najvećeg uticaja u čitavoj porodici: svako otvrdnjavanje tipa konekcije ili poboljšanje primitiva instalacije ovde odmah se prenosi na sve fabrike, tako da čitav lanac alata napreduje zahvaljujući jednoj investiciji. To je filozofija „izgradi jednom, koristi svuda" primenjena tamo gde najviše isplati — na sloju osnove infrastrukturne automatizacije, gde popravka na pravom mestu popravlja sve nizvodno.
+То је тачка највећег утицаја у читавој породици: свако отврдњавање типа конекције или побољшање примитива инсталације овде одмах се преноси на све фабрике, тако да читав ланац алата напредује захваљујући једној инвестицији. То је филозофија „изгради једном, користи свуда" примењена тамо где највише исплати — на слоју основе инфраструктурне аутоматизације, где поправка на правом месту поправља све низводно.
 
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Jedinstveni višekratno upotrebljiv okvir za obezbeđivanje koji apstrahuje logiku povezivanja i koraka instalacije.
-- Čista podela između motora (Osnovni okvir) i fabrika specifičnih za proizvod.
-- Distribucija sa fiksiranom verzijom (`version.txt`/`version_code.txt`) za reproduktivnu potrošnju.
+- Јединствени вишекратно употребљив оквир за обезбеђивање који апстрахује логику повезивања и корака инсталације.
+- Чиста подела између мотора (Основни оквир) и фабрика специфичних за производ.
+- Дистрибуција са фиксираном верзијом (`version.txt`/`version_code.txt`) за репродуктивну потрошњу.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Izbegavanje dupliranja logike obezbeđivanja:** rešeno izdvajanjem zajedničke mašinerije u jedan okvir koji koriste sve fabrike.
-- **Konzistentno ponašanje u svim proizvodima:** rešeno zajedničkim apstrakcijama tako da se tipovi veza i koraci ponašaju identično svuda.
-- **(NEVERIFIKOVANO):** određeni interni API-ji nisu dokumentovani u javnom README fajlu; detalje interfejsa tretirati kao neverifikovane izvan „zajedničkog okvira koji koriste fabrike".
+- **Избегавање дуплирања логике обезбеђивања:** решено издвајањем заједничке машинерије у један оквир који користе све фабрике.
+- **Конзистентно понашање у свим производима:** решено заједничким апстракцијама тако да се типови веза и кораци понашају идентично свуда.
+- **(НЕВЕРИФИКОВАНО):** одређени интерни API-ји нису документовани у јавном РЕАДМЕ фајлу; детаље интерфејса третирати као неверификоване изван „заједничког оквира који користе фабрике".
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Kotlin** — ceo okvir (~990K bajtova); jezik iz porodice Server Factory.
-- **Shell** — minimalni pomoćni skriptovi.
-- **Gradle** — alat za izgradnju (u skladu sa upotrebom `./gradlew` u porodici).
+- **Kotlin** — цео оквир (~990К бајтова); језик из породице Server Factory.
+- **Shell** — минимални помоћни скриптови.
+- **Gradle** — алат за изградњу (у складу са употребом `./gradlew` у породици).
 
-> Napomena: GitHub označava repozitorijum kao fork unutar organizacije Server-Factory. Nije fokusiran na AI; predstavljen kao kičma alata za obezbeđivanje.
+> Напомена: GitHub означава репозиторијум као форк унутар организације Server-Factory. Није фокусиран на AI; представљен као кичма алата за обезбеђивање.
 

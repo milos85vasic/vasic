@@ -196,6 +196,9 @@ def is_false_term_flag(issue, verified_terms):
 _LANG_SCRIPT = {
     "ru": "cyrillic", "be": "cyrillic", "kk": "cyrillic", "bg": "cyrillic",
     "mk": "cyrillic", "uk": "cyrillic", "sr_cyrl": "cyrillic",
+    # Serbian is written in Cyrillic on these sites (#62): enforce Cyrillic so
+    # Latin (gajica) output can no longer pass the objective target-script gate.
+    "sr": "cyrillic",
     "ar": "arabic", "fa": "arabic", "ur": "arabic",
     "zh": "cjk", "ja": "cjk", "ko": "cjk", "hi": "devanagari",
 }

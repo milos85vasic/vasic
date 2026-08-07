@@ -39,55 +39,55 @@ diagrams:
   - Module map (Catalogizer over the 21 digital.vasic.* submodules)
 ---
 
-**Napredno upravljanje multimedijalnim kolekcijama sa podrškom za više protokola — otkrivanje, katalogizacija i obogaćivanje svega što posedujete.**
+**Напредно управљање мултимедијалним колекцијама са подршком за више протокола — откривање, каталогизација и обогаћивање свега што поседујете.**
 
-## Sažetak
+## Сажетак
 
-Catalogizer je sistem za upravljanje multimedijalnim kolekcijama koji se može samostalno hostovati i automatski otkriva, kategorizuje i organizuje medije na SMB, FTP, NFS, WebDAV i lokalnim fajl-sistemima, uz praćenje u realnom vremenu, šifrovano skladištenje, obogaćivanje spoljnim metapodacima i moderan React interfejs podržan visokoperformansnim Go API backendom.
+Catalogizer је систем за управљање мултимедијалним колекцијама који се може самостално хостовати и аутоматски открива, категоризује и организује медије на SMB, FTP, NFS, WebDAV и локалним фајл-системима, уз праћење у реалном времену, шифровано складиштење, обогаћивање спољним метаподацима и модеран React интерфејс подржан високоперформансним Go API бацкендом.
 
-## Kratak opis
+## Кратак опис
 
-Profesionalni upravljač multimedijalnih biblioteka sa podrškom za više protokola. Go/Gin REST API prepoznaje preko 50 vrsta medija sa izvora poput SMB/FTP/NFS/WebDAV/lokalnih sistema, obogaćuje ih podacima iz TMDB/IMDB/MusicBrainz/Steam i drugih izvora, te služi React veb-aplikaciju u realnom vremenu preko šifrovane SQLCipher baze podataka.
+Професионални управљач мултимедијалних библиотека са подршком за више протокола. Go/Gin REST API препознаје преко 50 врста медија са извора попут SMB/FTP/NFS/WebDAV/локалних система, обогаћује их подацима из TMDB/IMDB/MusicBrainz/Steam и других извора, те служи React веб-апликацију у реалном времену преко шифроване SQLCipher базе података.
 
-## Detaljan opis
+## Детаљан опис
 
-Većina upravljača medijima zahteva da se prvo predate: sve prebacite na jedan disk, u jednom formatu, jedne vrste, i tek onda će vam pomoći. Catalogizer polazi od suprotne premise — vaša kolekcija već postoji tamo gde postoji, rasprostranjena na NAS deljenim resursima i protokolima koji se nikada neće usaglasiti — i prilazi joj na njenom terenu. Podržava protokole koje skladišta već koriste — SMB/CIFS, FTP/FTPS, NFS, WebDAV i lokalne fajl-sisteme — iza jedinstvene klijentske apstrakcije, tako da Windows deljeni resurs, FTP arhiva i WebDAV tačka montiranja izgledaju identično višim slojevima i mogu se mešati, zamenjivati ili povlačiti bez dodirivanja aplikativnog koda. Go backend (Gin REST API) neprestano nadgleda te izvore, otkriva i klasifikuje preko 50 vrsta medija (filmovi, serije, muzika, igre, softver, dokumentarci) čim se fajlovi pojave, te obogaćuje svaku stavku iz niza spoljnjih provajdera — TMDB, IMDB, TVDB, MusicBrainz, Spotify, Steam i drugih — tako da običan naziv fajla postaje potpuno opremljen katalogizovan unos sa umetničkim delima, glumačkom postavom i metapodacima. Rezultati se strimuju na TypeScript React frontend putem WebSocket-a, tako da se biblioteka ažurira uživo tokom ingestije, umesto na ručno osvežavanje, a svaki bajt metapodataka čuva se u šifrovanoj SQLCipher bazi podataka zaštićenoj JWT autentifikacijom zasnovanom na ulogama.
+Већина управљача медијима захтева да се прво предате: све пребаците на један диск, у једном формату, једне врсте, и тек онда ће вам помоћи. Catalogizer полази од супротне премисе — ваша колекција већ постоји тамо где постоји, распрострањена на NAS дељеним ресурсима и протоколима који се никада неће усагласити — и прилази јој на њеном терену. Подржава протоколе које складишта већ користе — SMB/CIFS, FTP/FTPS, NFS, WebDAV и локалне фајл-системе — иза јединствене клијентске апстракције, тако да Windows дељени ресурс, FTP архива и WebDAV тачка монтирања изгледају идентично вишим слојевима и могу се мешати, замењивати или повлачити без додиривања апликативног кода. Go бацкенд (Gin REST API) непрестано надгледа те изворе, открива и класификује преко 50 врста медија (филмови, серије, музика, игре, софтвер, документарци) чим се фајлови појаве, те обогаћује сваку ставку из низа спољњих провајдера — TMDB, IMDB, TVDB, MusicBrainz, Spotify, Steam и других — тако да обичан назив фајла постаје потпуно опремљен каталогизован унос са уметничким делима, глумачком поставом и метаподацима. Резултати се стримују на TypeScript React фронтенд путем WebSocket-а, тако да се библиотека ажурира уживо током ингестије, уместо на ручно освежавање, а сваки бајт метаподатака чува се у шифрованој SQLCipher бази података заштићеној JWT аутентификацијом заснованом на улогама.
 
-Dok većina katalogizatora pada čim deljeni resurs otkaže, Catalogizer je projektovan da ostane upotrebljiv i tokom prekida. Privremeni kvar na SMB-u se apsorbuje eksponencijalnim ponovnim povezivanjem, prekidačem kola koji sprečava bombardovanje neaktivnog hosta, stalnim praćenjem zdravlja sistema i kešom metapodataka koja nastavlja da odgovara na korisničke zahteve iz poslednjeg poznatog ispravnog stanja — razlika između „cela aplikacija je pala jer se jedan NAS restartovao" i „jedan izvor je degradiran, ali sve ostalo radi". Pored katalogizacije, služi i kao operativni alat za kolekciju: analitika o trendovima rasta i praćenju kvaliteta/verzija, generisanje profesionalnih PDF izveštaja, usluga konverzije PDF u sliku/tekst/HTML, izvoz/uvoz favorita (JSON/CSV) i sinhronizacija sa oblakom na S3, Google Cloud Storage ili lokalnim folderima. I nije to monolit koji je slučajno veliki — namerno je sastavljen od 21 ponovo upotrebljivog `digital.vasic.*` Go podmodula i TypeScript klijentskih paketa, od kojih je svaki nezavisno testiran i verziran, tako da iste isprobane komponente za autentifikaciju, fajl-sisteme, strimovanje i nadgledanje koje pokreću Catalogizer pokreću i širu porodicu proizvoda. Kontrola kvaliteta nije samo deklarativna: okvir Challenges i HelixQA podvrgavaju svaku reklamiranu funkcionalnost proveri zasnovanoj na dokazima, bez praznih obećanja.
+Док већина каталогизатора пада чим дељени ресурс откаже, Catalogizer је пројектован да остане употребљив и током прекида. Привремени квар на SMB-у се апсорбује експоненцијалним поновним повезивањем, прекидачем кола који спречава бомбардовање неактивног хоста, сталним праћењем здравља система и кешом метаподатака која наставља да одговара на корисничке захтеве из последњег познатог исправног стања — разлика између „цела апликација је пала јер се један NAS рестартовао" и „један извор је деградиран, али све остало ради". Поред каталогизације, служи и као оперативни алат за колекцију: аналитика о трендовима раста и праћењу квалитета/верзија, генерисање професионалних PDF извештаја, услуга конверзије PDF у слику/текст/HTML, извоз/увоз фаворита (JSON/CSV) и синхронизација са облаком на S3, Google Цлоуд Стораге или локалним фолдерима. И није то монолит који је случајно велики — намерно је састављен од 21 поново употребљивог `digital.vasic.*` Go подмодула и TypeScript клијентских пакета, од којих је сваки независно тестиран и верзиран, тако да исте испробане компоненте за аутентификацију, фајл-системе, стримовање и надгледање које покрећу Catalogizer покрећу и ширу породицу производа. Контрола квалитета није само декларативна: оквир Цхалленгес и HelixQA подвргавају сваку рекламирану функционалност провери заснованој на доказима, без празних обећања.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Postojeći upravljači medijskim sadržajem polaze od pretpostavke da postoji jedan skladišni backend i jedan tip medija. Prave kolekcije rasprostiru se preko više NAS deljenih resursa i protokola, propadaju kada neki resurs otkaže i mešaju filmove, muziku, igre i softver. Catalogizer je stvoren da sve protokole tretira jednako, preživi nestabilna mrežna skladišta i pruži jedan autoritativan, obogaćen i enkriptovan katalog nad svim sadržajima.
+Постојећи управљачи медијским садржајем полазе од претпоставке да постоји један складишни бацкенд и један тип медија. Праве колекције распростиру се преко више NAS дељених ресурса и протокола, пропадају када неки ресурс откаже и мешају филмове, музику, игре и софтвер. Catalogizer је створен да све протоколе третира једнако, преживи нестабилна мрежна складишта и пружи један ауторитативан, обогаћен и енкриптован каталог над свим садржајима.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-U jednom samostalno hostovanom, enkriptovanom paketu objedinjuje ono što inače zahteva čitav niz odvojenih alata: unos nezavisan od protokola koji sve skladišne backendove tretira podjednako, otpornost koja katalog održava živim tokom prekida skladišta umesto da s njima pada, i bogato obogaćivanje iz više izvora koje pretvara sirove fajlove u preglednu, atributiranu biblioteku. Dobitak modularne arhitekture je kumulativan: svako poboljšanje u klijentu fajl sistema ili novi dodatak za provajdera primeni se jednom i unapređuje sve potrošače, tako da Catalogizer postepeno postaje bolji kako i okruženje oko njega napreduje. Ukratko, to je razlika između medijskog indeksa i medijskog *sistema* – onog koji je vaš, koji preživljava nestabilnu infrastrukturu i čija je unutrašnja logika dokazana, a ne samo obećana.
+У једном самостално хостованом, енкриптованом пакету обједињује оно што иначе захтева читав низ одвојених алата: унос независан од протокола који све складишне бацкендове третира подједнако, отпорност која каталог одржава живим током прекида складишта уместо да с њима пада, и богато обогаћивање из више извора које претвара сирове фајлове у прегледну, атрибутирану библиотеку. Добитак модуларне архитектуре је кумулативан: свако побољшање у клијенту фајл система или нови додатак за провајдера примени се једном и унапређује све потрошаче, тако да Catalogizer постепено постаје бољи како и окружење око њега напредује. Укратко, то је разлика између медијског индекса и медијског *система* – оног који је ваш, који преживљава нестабилну инфраструктуру и чија је унутрашња логика доказана, а не само обећана.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Ujedinjeni klijent fajl sistema za više protokola (SMB/FTP/NFS/WebDAV/lokalno) iza jednog interfejsa.
-- Oflajn keš + prekidač strujnog kola kako bi katalog ostao upotrebljiv tokom prekida skladišta.
-- Potpuno izdvajanje u 21 ponovo upotrebljiv `digital.vasic.*` Go podmodul i TS klijentske module.
-- Katalog enkriptovan na mestu skladištenja (SQLCipher) sa sinhronizacijom u realnom vremenu (WebSocket) prema UI.
-- Dokazani kvalitet putem Challenges okvira i HelixQA integracije.
+- Уједињени клијент фајл система за више протокола (SMB/FTP/NFS/WebDAV/локално) иза једног интерфејса.
+- Офлајн кеш + прекидач струјног кола како би каталог остао употребљив током прекида складишта.
+- Потпуно издвајање у 21 поново употребљив `digital.vasic.*` Go подмодул и ТС клијентске модуле.
+- Каталог енкриптован на месту складиштења (SQLCipher) са синхронизацијом у реалном времену (WebSocket) према UI.
+- Доказани квалитет путем Цхалленгес оквира и HelixQA интеграције.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Nestabilna mrežna skladišta:** rešeno eksponencijalnim povlačenjem, prekidačem strujnog kola, zdravstvenim proverama i oflajn kešom sa politikom izbacivanja koji služi keširanim metapodacima kada izvori nisu dostupni.
-- **Heterogenost protokola:** rešeno apstrakcijom svakog protokola iza zajedničkog `digital.vasic.filesystem` klijenta tako da viši slojevi nisu svesni protokola.
-- **Sigurnost podataka:** rešeno enkripcijom na mestu skladištenja (SQLCipher) uz JWT/RBAC autentifikaciju i middleware za sanitizaciju zahteva.
-- **Održivost na velikoj skali:** rešeno izdvajanjem sve generičke logike u nezavisno testirane podmodule umesto u monolit.
+- **Нестабилна мрежна складишта:** решено експоненцијалним повлачењем, прекидачем струјног кола, здравственим проверама и офлајн кешом са политиком избацивања који служи кешираним метаподацима када извори нису доступни.
+- **Хетерогеност протокола:** решено апстракцијом сваког протокола иза заједничког `digital.vasic.filesystem` клијента тако да виши слојеви нису свесни протокола.
+- **Сигурност података:** решено енкрипцијом на месту складиштења (SQLCipher) уз JWT/RBAC аутентификацију и middleware за санитизацију захтева.
+- **Одрживост на великој скали:** решено издвајањем све генеричке логике у независно тестиране подмодуле уместо у монолит.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Go + Gin** — visokoperformativno REST API jezgro (`catalog-api`); izabrano zbog konkurentnosti i propusnosti pri neprekidnom praćenju.
-- **TypeScript + React + Tailwind (Vite)** — responsivan `catalog-web` UI sa ažuriranjima u realnom vremenu.
-- **WebSockets** — sinhronizacija podataka uživo između backend čvorišta i UI.
-- **SQLCipher (enkriptovani SQLite)** — enkriptovano skladište metapodataka na mestu skladištenja; dvostruka podrška za SQLite/PostgreSQL preko `digital.vasic.database`.
-- **Klijenti za SMB/FTP/NFS/WebDAV** — unos preko više protokola putem `digital.vasic.filesystem`.
-- **Spoljašnji API-ji za metapodatke (TMDB, IMDB, TVDB, MusicBrainz, Spotify, Steam)** — dodaci za obogaćivanje.
-- **Prometheus + OpenTelemetry** — metrike i praćenje putem `digital.vasic.observability`.
-- **Docker / builder kontejner** — reproduktivne izrade (Tauri/Rust usmerene kroz `catalogizer-builder`).
-- **Redis** — keširanje i ograničavanje broja zahteva putem `digital.vasic.cache` / `ratelimiter`.
-- **S3 / Google Cloud Storage** — sinhronizacija u oblaku i skladištenje kontrolnih tačaka.
+- **Go + Gin** — високоперформативно REST API језгро (`catalog-api`); изабрано због конкурентности и пропусности при непрекидном праћењу.
+- **TypeScript + React + Tailwind (Vite)** — респонсиван `catalog-web` UI са ажурирањима у реалном времену.
+- **WebSockets** — синхронизација података уживо између бацкенд чворишта и UI.
+- **SQLCipher (енкриптовани SQLite)** — енкриптовано складиште метаподатака на месту складиштења; двострука подршка за SQLite/PostgreSQL преко `digital.vasic.database`.
+- **Клијенти за SMB/FTP/NFS/WebDAV** — унос преко више протокола путем `digital.vasic.filesystem`.
+- **Спољашњи API-ји за метаподатке (TMDB, IMDB, TVDB, MusicBrainz, Spotify, Steam)** — додаци за обогаћивање.
+- **Prometheus + OpenTelemetry** — метрике и праћење путем `digital.vasic.observability`.
+- **Docker / буилдер контејнер** — репродуктивне израде (Tauri/Rust усмерене кроз `catalogizer-builder`).
+- **Redis** — кеширање и ограничавање броја захтева путем `digital.vasic.cache` / `ratelimiter`.
+- **S3 / Google Цлоуд Стораге** — синхронизација у облаку и складиштење контролних тачака.
 

@@ -27,54 +27,54 @@ diagrams:
   - Security layer callouts (AES-256-GCM, firewall ports, TLS/HSTS, RBAC, audit log)
 ---
 
-**Upravljajte svojim mail serverom kao šef — opišite ga u JSON, implementirajte ga bilo gde.**
+**Управљајте својим маил сервером као шеф — опишите га у JSON, имплементирајте га било где.**
 
-## Sažetak
+## Сажетак
 
-Mail Server Factory je alat za automatizovano postavljanje mail servera, spreman za produkciju. Korisnik piše jednostavnu JSON konfiguraciju; Fabrika je interpretira i izvršava sve instalacije i inicijalizacije na ciljnom OS-u, postavljajući labavo povezani mail stek zasnovan na Docker preko 12 tipova veza.
+Mail Server Factory је алат за аутоматизовано постављање маил сервера, спреман за продукцију. Корисник пише једноставну JSON конфигурацију; Фабрика је интерпретира и извршава све инсталације и иницијализације на циљном OS-у, постављајући лабаво повезани маил стек заснован на Docker преко 12 типова веза.
 
-## Kratak opis
+## Кратак опис
 
-Alat Kotlin/Shell koji pretvara JSON opis u potpuno instaliran, Dockerizovan mail server. Podržava 12 tipova veza (SSH, Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt i druge), potpuni sigurnosni okvir, 25 Linux distribucija i isporučuje se sa 439 uspešno položenih testova.
+Алат Kotlin/Shell који претвара JSON опис у потпуно инсталиран, Доцкеризован маил сервер. Подржава 12 типова веза (SSH, Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt и друге), потпуни сигурносни оквир, 25 Linux дистрибуција и испоручује се са 439 успешно положених тестова.
 
-## Detaljan opis
+## Детаљан опис
 
-Postavljanje pravog, sigurnog mail servera jedno je od klasičnih inicijacijskih iskustava u sistemskoj administraciji — i jedno od najpouzdanije mučnih. Postfix, Dovecot, TLS sertifikati, DNS zapisi, pravila vatrozida i specifičnosti pojedinih distribucija moraju da se savršeno usaglase, a jedna jedina pogrešna direktiva znači tiho odbijanje pošte ili otvoreni relej. Mail Server Factory preuzima ceo taj skup teško stečenog, podložnog greškama znanja i ugrađuje ga u softver. Umesto ručnog podešavanja svakog dela na nepoznatom OS-u, krajnji korisnik opisuje željeni rezultat kao jednostavan JSON dokument; Fabrika čita taj JSON i izvršava tačno određene korake instalacije i inicijalizacije na ciljnom operativnom sistemu, postavljajući mail stek koji radi na Docker, pri čemu je svaka komponenta labavo povezana — dizajnerski izbor koji omogućava horizontalno skaliranje i omogućava nadogradnju ili zamenu bilo koje pojedinačne komponente u izolaciji. Namerno je agnostičan u pogledu okruženja: 12 tipova veza omogućava da isti alat i isti JSON ciljaju lokalnu mašinu, udaljeni host preko SSH, Docker ili Kubernetes runtime, cloud instance putem AWS SSM / Azure Serial Console / GCP OS Login, ili virtuelne mašine preko Libvirt — isti deklarativni opis, implementiran tamo gde ga uputite. Podržava 25 Linux distribucija iz zapadnih (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE), ruskih (ALT, Astra, ROSA) i kineskih (openEuler, openKylin, Deepin) porodica, sa automatskom instalacijom putem preseed/kickstart/cloud-init/autoyast i QEMU-baziranom automatizacijom virtuelnih mašina za testiranje. Enterprise funkcije su opsežne: AES-256-GCM enkripcija, obavezne politike lozinki i SSH ključeva, automatska konfiguracija vatrozida za mail portove (25/587/465/993/995), TLS/SSL sa validacijom sertifikata i HSTS, audit logovanje i RBAC. Operativne funkcije uključuju podešavanje JVM-a (G1GC), Caffeine keširanje, pooling veza, Prometheus-kompatibilne metrike, struktuirano logovanje, hot-reloading konfiguracije i upravljanje tajnama. Projekat ima 439 testova sa 100% uspešnosti i čist SonarQube kvalitetni prolaz. Predstavlja vodeći projekat organizacije Server-Factory.
+Постављање правог, сигурног маил сервера једно је од класичних иницијацијских искустава у системској администрацији — и једно од најпоузданије мучних. Postfix, Dovecot, TLS сертификати, DNS записи, правила ватрозида и специфичности појединих дистрибуција морају да се савршено усагласе, а једна једина погрешна директива значи тихо одбијање поште или отворени релеј. Mail Server Factory преузима цео тај скуп тешко стеченог, подложног грешкама знања и уграђује га у софтвер. Уместо ручног подешавања сваког дела на непознатом OS-у, крајњи корисник описује жељени резултат као једноставан JSON документ; Фабрика чита тај JSON и извршава тачно одређене кораке инсталације и иницијализације на циљном оперативном систему, постављајући маил стек који ради на Docker, при чему је свака компонента лабаво повезана — дизајнерски избор који омогућава хоризонтално скалирање и омогућава надоградњу или замену било које појединачне компоненте у изолацији. Намерно је агностичан у погледу окружења: 12 типова веза омогућава да исти алат и исти JSON циљају локалну машину, удаљени хост преко SSH, Docker или Kubernetes рунтиме, цлоуд инстанце путем AWS SSM / Azure Сериал Цонсоле / GCP OS Логин, или виртуелне машине преко Libvirt — исти декларативни опис, имплементиран тамо где га упутите. Подржава 25 Linux дистрибуција из западних (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE), руских (АЛТ, Astra, ROSA) и кинеских (openEuler, openKylin, Deepin) породица, са аутоматском инсталацијом путем пресеед/кицкстарт/цлоуд-инит/autoyast и QEMU-базираном аутоматизацијом виртуелних машина за тестирање. Ентерприсе функције су опсежне: AES-256-GCM енкрипција, обавезне политике лозинки и SSH кључева, аутоматска конфигурација ватрозида за маил портове (25/587/465/993/995), TLS/ССЛ са валидацијом сертификата и HSTS, аудит логовање и RBAC. Оперативне функције укључују подешавање JVM-а (G1GC), Caffeine кеширање, поолинг веза, Prometheus-компатибилне метрике, структуирано логовање, хот-релоадинг конфигурације и управљање тајнама. Пројекат има 439 тестова са 100% успешности и чист SonarQube квалитетни пролаз. Представља водећи пројекат организације Server-Factory.
 
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Postavljanje sigurnog, produkcijskog mail servera poznato je po tome što je sklono greškama i specifično za operativni sistem. Mail Server Factory tu stručnost obuhvata u deklarativnom JSON modelu uz pomoć izvršnog motora, tako da se ispravan, osiguran, Dockerizovan mail stek može reprodukovati na bilo kom podržanom cilju bez ručnog korak-po-korak rada.
+Постављање сигурног, продукцијског маил сервера познато је по томе што је склоно грешкама и специфично за оперативни систем. Mail Server Factory ту стручност обухвата у декларативном JSON моделу уз помоћ извршног мотора, тако да се исправан, осигуран, Доцкеризован маил стек може репродуковати на било ком подржаном циљу без ручног корак-по-корак рада.
 
-## Zašto je revolucionarno
+## Зашто је револуционарно
 
-Ovaj alat pretvara postavljanje mail servera iz specijalističkog, višednevnog i precizno zahtevnog procesa u čin pisanja konfiguracije — a zatim taj čin čini prenosivim na 12 tipova veza i 25 Linux distribucija, uz unapred podešenu sigurnost na nivou preduzeća. Rezultat je reproduktivan i *verifikovan*: isti JSON uvek daje isti osiguran stek, a 439 uspešno položenih testova i čist SonarQube kontrolni punkt znače da je motor koji obavlja posao pod strogom kontrolom, a ne da se oslanja samo na reputaciju.
+Овај алат претвара постављање маил сервера из специјалистичког, вишедневног и прецизно захтевног процеса у чин писања конфигурације — а затим тај чин чини преносивим на 12 типова веза и 25 Linux дистрибуција, уз унапред подешену сигурност на нивоу предузећа. Резултат је репродуктиван и *верификован*: исти JSON увек даје исти осигуран стек, а 439 успешно положених тестова и чист SonarQube контролни пункт значе да је мотор који обавља посао под строгом контролом, а не да се ослања само на репутацију.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Deklarativni JSON → interpretirana instalacija/inicijalizacija na ciljnom OS-u.
-- 12 tipova veza (lokalna, SSH, Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt i još) iza jednog alata.
-- Podrška za 25 distribucija sa instalacijom bez nadzora (preseed/kickstart/cloud-init/autoyast) i QEMU automatizacijom.
-- Labavo povezani Dockerizovan stek za nezavisno skaliranje/nadogradnje.
+- Декларативни JSON → интерпретирана инсталација/иницијализација на циљном OS-у.
+- 12 типова веза (локална, SSH, Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt и још) иза једног алата.
+- Подршка за 25 дистрибуција са инсталацијом без надзора (пресеед/кицкстарт/цлоуд-инит/autoyast) и QEMU аутоматизацијом.
+- Лабаво повезани Доцкеризован стек за независно скалирање/надоградње.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Heterogenost OS-a/distribucija:** rešeno receptima specifičnim za svaku distribuciju, konfiguracijama za instalaciju bez nadzora i QEMU testiranjem na više distribucija.
-- **Dostizanje mnogih ciljeva za implementaciju:** rešeno sa 12 priključivih tipova veza pod zajedničkim instalacionim motorom.
-- **Sigurnost podrazumevano:** rešeno AES-256-GCM enkripcijom, obaveznom politikom ključeva/lozinki, automatizovanim pravilima zaštitnog zida i TLS/HSTS-om.
-- **Poverenje u ispravnost:** rešeno paketom od 439 testova (100% uspešno položenih) i čistim SonarQube kontrolnim punktom.
+- **Хетерогеност OS-а/дистрибуција:** решено рецептима специфичним за сваку дистрибуцију, конфигурацијама за инсталацију без надзора и QEMU тестирањем на више дистрибуција.
+- **Достизање многих циљева за имплементацију:** решено са 12 прикључивих типова веза под заједничким инсталационим мотором.
+- **Сигурност подразумевано:** решено AES-256-GCM енкрипцијом, обавезном политиком кључева/лозинки, аутоматизованим правилима заштитног зида и TLS/HSTS-ом.
+- **Поверење у исправност:** решено пакетом од 439 тестова (100% успешно положених) и чистим SonarQube контролним пунктом.
 
-## Tehnički stek (zašto + kako)
+## Технички стек (зашто + како)
 
-- **Kotlin** — Fabrički motor i logika instalacionih koraka (179K bajtova; Kotlin 2.0.21).
-- **Shell** — skripte za provizionisanje, menadžeri ISO/QEMU datoteka i automatizacija OS-a (dominantno po veličini).
-- **Docker** — runtime za implementiran, labavo povezani mail stek.
-- **QEMU** — automatizacija virtuelnih mašina za instalaciju i testiranje na više distribucija.
-- **JSON** — deklarativni format konfiguracije koji korisnik koristi.
-- **Gradle 8.14.3 / Java 17** — alat za izgradnju.
-- **Caffeine** — keširanje u više regiona; **JVM podešen za G1GC** radi performansi.
-- **Prometheus-kompatibilne metrike** — monitoring; spreman za Grafana/ELK.
-- **Sieve** — pravila za filtriranje pošte (mali utisak u statistici jezika).
+- **Kotlin** — Фабрички мотор и логика инсталационих корака (179К бајтова; Kotlin 2.0.21).
+- **Shell** — скрипте за провизионисање, менаџери ISO/QEMU датотека и аутоматизација OS-а (доминантно по величини).
+- **Docker** — рунтиме за имплементиран, лабаво повезани маил стек.
+- **QEMU** — аутоматизација виртуелних машина за инсталацију и тестирање на више дистрибуција.
+- **JSON** — декларативни формат конфигурације који корисник користи.
+- **Gradle 8.14.3 / Java 17** — алат за изградњу.
+- **Caffeine** — кеширање у више региона; **JVM подешен за G1GC** ради перформанси.
+- **Prometheus-компатибилне метрике** — мониторинг; спреман за Grafana/ELK.
+- **Sieve** — правила за филтрирање поште (мали утисак у статистици језика).
 
-> Napomena: GitHub označava repozitorijum kao fork unutar Server-Factory organizacije. Prethodi AI liniji proizvoda; predstavljen kao zrela DevOps/provizionerska zastava, a ne kao AI uslužni alat.
+> Напомена: GitHub означава репозиторијум као форк унутар Server-Factory организације. Претходи AI линији производа; представљен као зрела DevOps/провизионерска застава, а не као AI услужни алат.
 

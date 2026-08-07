@@ -31,66 +31,66 @@ diagrams:
 
 # HelixTranslate
 
-**Verifikovani prevod knjiga — pošten po dizajnu, nikada nijemi fallback.**
+**Верификовани превод књига — поштен по дизајну, никада нијеми фаллбацк.**
 
-## Sažetak
+## Сажетак
 
-HelixTranslate je visoko performantna platforma za prevođenje e-knjiga zasnovana na Go, koja prevodi knjige između 100+ jezika koristeći verifikovane pružaoce LLM, uz praćenje u realnom vremenu putem WebSocket i strogu politiku bez nijemog fallback-a — sistem propada glasno umesto da se tiho degradira.
+HelixTranslate је високо перформантна платформа за превођење е-књига заснована на Go, која преводи књиге између 100+ језика користећи верификоване пружаоце LLM, уз праћење у реалном времену путем WebSocket и строгу политику без нијемог фаллбацк-а — систем пропада гласно уместо да се тихо деградира.
 
-## Kratak opis
+## Кратак опис
 
-Univerzalni alat za prevođenje e-knjiga zasnovan na Go. Prevodi formate FB2, EPUB, TXT, HTML, PDF i DOCX na 100+ jezika koristeći najjače verifikovane modele LLM (putem mosta LLMsVerifier), sa REST/HTTP-3 i gRPC API-jima, distribuiranom obradom i kontrolnom tablom za praćenje u realnom vremenu putem WebSocket.
+Универзални алат за превођење е-књига заснован на Go. Преводи формате FB2, EPUB, TXT, HTML, PDF и DOCX на 100+ језика користећи најјаче верификоване моделе LLM (путем моста LLMsVerifier), са REST/ХТТП-3 и gRPC API-јима, дистрибуираном обрадом и контролном таблом за праћење у реалном времену путем WebSocket.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixTranslate je sistem za prevođenje celih knjiga između jezika na nivou preduzeća, zasnovan na Go, koji koristi pružaoce LLM — ne prevodi paragrafe ili fragmente, već kompletna dela, od početka do kraja. Obrađuje i generiše više formata e-knjiga (FB2, EPUB, TXT, HTML, PDF, DOCX), podržava 100+ jezika sa automatskim prepoznavanjem i nudi kako CLI alate, tako i API servere (REST preko HTTP/3, gRPC i tok događaja WebSocket), što ga čini podjednako pogodnim za rad u terminalu i za servisnu mrežu. Njegova ključna odlika je *način izbora modela*: umesto da se hardkodira pružalac i nada da će ostati stabilan, HelixTranslate delegira svu ovlašćenost za modele mostu LLMsVerifier (`pkg/bridge`), koji bira najjači *verifikovani* API model i vraća deterministički, rangirani lanac fallback opcija. Izbor modela zasniva se na ponderisanom skoriranju po brzini odgovora, kodu, bogatstvu funkcija i pouzdanosti — tako da model koji prevodi vašu knjigu zaslužuje svoje mesto dokazanim performansama, a ne time što je naveden u konfiguracionoj datoteci.
+HelixTranslate је систем за превођење целих књига између језика на нивоу предузећа, заснован на Go, који користи пружаоце LLM — не преводи параграфе или фрагменте, већ комплетна дела, од почетка до краја. Обрађује и генерише више формата е-књига (FB2, EPUB, TXT, HTML, PDF, DOCX), подржава 100+ језика са аутоматским препознавањем и нуди како CLI алате, тако и API сервере (REST преко HTTP/3, gRPC и ток догађаја WebSocket), што га чини подједнако погодним за рад у терминалу и за сервисну мрежу. Његова кључна одлика је *начин избора модела*: уместо да се хардкодира пружалац и нада да ће остати стабилан, HelixTranslate делегира сву овлашћеност за моделе мосту LLMsVerifier (`pkg/bridge`), који бира најјачи *верификовани* API модел и враћа детерминистички, рангирани ланац фаллбацк опција. Избор модела заснива се на пондерисаном скорирању по брзини одговора, коду, богатству функција и поузданости — тако да модел који преводи вашу књигу заслужује своје место доказаним перформансама, а не тиме што је наведен у конфигурационој датотеци.
 
-Ključno je da sistem u kodu strogo primenjuje pravilo „bez nijemog fallback-a": ako ključ API pružaoca nije prisutan ili operater eksplicitno zahteva nedostupnog pružaoca, cevovod vraća otvorenu grešku umesto da tiho menja pružaoce ili prelazi na lokalni runtime i pravi se da je sve u redu — ovo pravilo je fiksirano posebnom pre-build proverom i uparenim mutacionim testom. Lokalni runtime-ovi (Ollama, llama.cpp) namerno su uklonjeni iz podrazumevanog toka kako slabiji mehanizam nikada ne bi mogao da tiho zameni verifikovani. Oko jezgra za prevođenje nalazi se podsistem za praćenje u realnom vremenu putem WebSocket: alat za prevođenje emituje tipizovane događaje na monitoring server koji pokreće uživo veb kontrolnu tablu, dok udaljeni SSH radnici raspoređuju posao za distribuirano prevođenje. Dodatni slojevi uključuju višestruko poliranje za doslednost, analizu kvaliteta u fazi pripreme, keširanje prevoda kako bi se kontrolisali troškovi za duge ulaze i vizuelno vođenu kontrolu kvaliteta. Cela platforma odgovara ustavu inženjeringa protiv blefiranja: testovi moraju da dokažu stvarne, vidljive rezultate za korisnike, podržani obaveznim mutacionim testiranjem umesto zelenih kvačica koje ništa ne dokazuju.
+Кључно је да систем у коду строго примењује правило „без нијемог фаллбацк-а": ако кључ API пружаоца није присутан или оператер експлицитно захтева недоступног пружаоца, цевовод враћа отворену грешку уместо да тихо мења пружаоце или прелази на локални рунтиме и прави се да је све у реду — ово правило је фиксирано посебном пре-буилд провером и упареним мутационим тестом. Локални рунтиме-ови (Ollama, ллама.цпп) намерно су уклоњени из подразумеваног тока како слабији механизам никада не би могао да тихо замени верификовани. Око језгра за превођење налази се подсистем за праћење у реалном времену путем WebSocket: алат за превођење емитује типизоване догађаје на мониторинг сервер који покреће уживо веб контролну таблу, док удаљени SSH радници распоређују посао за дистрибуирано превођење. Додатни слојеви укључују вишеструко полирање за доследност, анализу квалитета у фази припреме, кеширање превода како би се контролисали трошкови за дуге улазе и визуелно вођену контролу квалитета. Цела платформа одговара уставу инжењеринга против блефирања: тестови морају да докажу стварне, видљиве резултате за кориснике, подржани обавезним мутационим тестирањем уместо зелених квачица које ништа не доказују.
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-Da bismo pouzdano i *iskreno* prevodili knjige u celini — nikada ne dostavljajući prevod koji je „prisutan, ali degradiran". Osnovna pretpostavka dizajna je da nedostajući ili neprovereni prevod mora biti glasna, jasna greška, i da izbor modela uvek mora da se rešava u korist zaista proverenog pružaoca, a ne nekog unapred zadatog nagađanja ili tihog lokalnog rezervnog rešenja.
+Да бисмо поуздано и *искрено* преводили књиге у целини — никада не достављајући превод који је „присутан, али деградиран". Основна претпоставка дизајна је да недостајући или непроверени превод мора бити гласна, јасна грешка, и да избор модела увек мора да се решава у корист заиста провереног пружаоца, а не неког унапред задатог нагађања или тихог локалног резервног решења.
 
-## Zašto je ovo revolucionarno
+## Зашто је ово револуционарно
 
-Većina LLM prevodilačkih tokova neuspehe prikriva — tiho prelazi na slabiji model, spušta se na lokalno izvršavanje ili emituje delimičan rezultat dok testni skup i dalje sija zeleno i niko ne primećuje pad kvaliteta. HelixTranslate čitav taj način otkazivanja čini strukturalno nemogućim: izbor modela je zaštićen verifikacijom, lanac rezervnih rešenja je deterministički i potpuno transparentan, a „nema ključa / nema proverenog modela" rezultira iskrenom, jasnom greškom umesto tihog sleganja ramenima. Ta jedina odluka u dizajnu pretvara pitanje *„Da li je ovaj prevod zaista izvršen na sposobnom, proverenom modelu?"* iz nade koju ne možete proveriti u garanciju koju sistem nameće u vaše ime.
+Већина LLM преводилачких токова неуспехе прикрива — тихо прелази на слабији модел, спушта се на локално извршавање или емитује делимичан резултат док тестни скуп и даље сија зелено и нико не примећује пад квалитета. HelixTranslate читав тај начин отказивања чини структурално немогућим: избор модела је заштићен верификацијом, ланац резервних решења је детерминистички и потпуно транспарентан, а „нема кључа / нема провереног модела" резултира искреном, јасном грешком уместо тихог слегања раменима. Та једина одлука у дизајну претвара питање *„Да ли је овај превод заиста извршен на способном, провереном моделу?"* из наде коју не можете проверити у гаранцију коју систем намеће у ваше име.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- **Verifikacijom kontrolisano usmeravanje modela** preko LLMsVerifier mosta — automatski se bira najjači *provereni* model, tako da operatori izražavaju nameru, a ne imena dobavljača, i nikada ne biraju pružaoca koji možda nije dostupan.
-- **Garancija bez tihih rezervnih rešenja, sprovedena u kodu** — četiri eksplicitne grane usmeravanja (mock / eksplicitni-verifikator / eksplicitni-pružalac / most-po-podrazumevanom), od kojih svaka javlja grešku umesto da tiho pređe na drugo rešenje, uz namerno uklanjanje lokalnih izvršavanja iz podrazumevanog toka kako ne bi postojalo ništa slabije na šta bi se moglo preći.
-- **Mehanička provera** — `CM-NO-LOCAL-RUNTIME` pre-build kontrola, zajedno sa uparenim mutacionim testom, potvrđuje prilikom kompajliranja da se na podrazumevanom putu nikada ne kreira klijent za lokalno izvršavanje: garancija ne može da zastari jer se build prekida ako do toga dođe.
-- **Deterministički, po-rejtingu uređen lanac rezervnih rešenja** — dozvoljeno je i potpuno transparentno prebacivanje sa jednog na drugi *provereni* model, što je principijelno drugačije od zabranjenog tihog prebacivanja: uvek znate koji je sposoban model preuzeo posao.
-- **Praćenje u realnom vremenu putem WebSocket** — tipizovani događaji prevođenja se uživo strimuju na kontrolnu tablu, uz distribuirane SSH radnike tako da posao veličine knjige postaje vidljiv i paralelan, a ne crna kutija.
-- **Režim anti-bluf testiranja** — mutaciono testiranje, negativne tvrdnje, testovi na stvarnim sistemima i vizuelno vođena kontrola kvaliteta zajedno osiguravaju da „testovi prolaze" nikada ne može tiho da prikrije činjenicu da „funkcija zapravo ne radi".
+- **Верификацијом контролисано усмеравање модела** преко LLMsVerifier моста — аутоматски се бира најјачи *проверени* модел, тако да оператори изражавају намеру, а не имена добављача, и никада не бирају пружаоца који можда није доступан.
+- **Гаранција без тихих резервних решења, спроведена у коду** — четири експлицитне гране усмеравања (моцк / експлицитни-верификатор / експлицитни-пружалац / мост-по-подразумеваном), од којих свака јавља грешку уместо да тихо пређе на друго решење, уз намерно уклањање локалних извршавања из подразумеваног тока како не би постојало ништа слабије на шта би се могло прећи.
+- **Механичка провера** — `CM-NO-LOCAL-RUNTIME` пре-буилд контрола, заједно са упареним мутационим тестом, потврђује приликом компајлирања да се на подразумеваном путу никада не креира клијент за локално извршавање: гаранција не може да застари јер се буилд прекида ако до тога дође.
+- **Детерминистички, по-рејтингу уређен ланац резервних решења** — дозвољено је и потпуно транспарентно пребацивање са једног на други *проверени* модел, што је принципијелно другачије од забрањеног тихог пребацивања: увек знате који је способан модел преузео посао.
+- **Праћење у реалном времену путем WebSocket** — типизовани догађаји превођења се уживо стримују на контролну таблу, уз дистрибуиране SSH раднике тако да посао величине књиге постаје видљив и паралелан, а не црна кутија.
+- **Режим анти-блуф тестирања** — мутационо тестирање, негативне тврдње, тестови на стварним системима и визуелно вођена контрола квалитета заједно осигуравају да „тестови пролазе" никада не може тихо да прикрије чињеницу да „функција заправо не ради".
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Највећи технички изазови и како смо их решили
 
-- **Garantovanje iskrenog prevodilačkog toka (bez tihog pogoršanja).** Rešeno centralizacijom svih ovlašćenja za izbor modela u LLMsVerifier mostu, tako da postoji jedinstvena tačka odlučivanja koju je moguće nadzirati, kodiranjem četiri eksplicitne grane usmeravanja koje svaka javljaju grešku umesto da nagađaju, potpunim uklanjanjem lokalnih rezervnih rešenja iz podrazumevanog toka i zavarivanjem pravila pomoću pre-build kontrole i mutacionog testa koji prekida kompajliranje ako se garancija ikada ukine.
-- **„Zeleni testovi, pokvarene funkcije."** Ustav direktno imenuje ovaj način otkazivanja i suzbija ga režimom Anti-Bluf Testiranja: konkretne, korisniku vidljive tvrdnje umesto tehničkih detalja, stvarni sistemi u petlji (mockovi ograničeni na unit testove), obavezno mutaciono testiranje (namerno se kvari funkcija i test *mora* da pocrveni) i vizuelno potvrđena kontrola kvaliteta koja stvarno pregleda rezultat.
-- **Kvalitet dugih formata i više formata.** Ulazi veličine knjige opterećuju i konzistentnost i budžet; rešeno višestrukim prolazima dorade koji ponovo razmatraju tekst, analizom u fazi pripreme koja procenjuje obim posla unapred i keširanjem prevoda kako se ne bi dvaput plaćao isti odlomak.
+- **Гарантовање искреног преводилачког тока (без тихог погоршања).** Решено централизацијом свих овлашћења за избор модела у LLMsVerifier мосту, тако да постоји јединствена тачка одлучивања коју је могуће надзирати, кодирањем четири експлицитне гране усмеравања које свака јављају грешку уместо да нагађају, потпуним уклањањем локалних резервних решења из подразумеваног тока и заваривањем правила помоћу пре-буилд контроле и мутационог теста који прекида компајлирање ако се гаранција икада укине.
+- **„Зелени тестови, покварене функције."** Устав директно именује овај начин отказивања и сузбија га режимом Анти-Блуф Тестирања: конкретне, кориснику видљиве тврдње уместо техничких детаља, стварни системи у петљи (моцкови ограничени на унит тестове), обавезно мутационо тестирање (намерно се квари функција и тест *мора* да поцрвени) и визуелно потврђена контрола квалитета која стварно прегледа резултат.
+- **Квалитет дугих формата и више формата.** Улази величине књиге оптерећују и конзистентност и буџет; решено вишеструким пролазима дораде који поново разматрају текст, анализом у фази припреме која процењује обим посла унапред и кеширањем превода како се не би двапут плаћао исти одломак.
 
 
-## Tehnološki stek
+## Технолошки стек
 
-- **Go** — izabran zbog svojih primitiva za konkurentnost, koji se prirodno mapiraju na paralelno parsiranje, prevođenje i strimovanje više poglavlja istovremeno; backend visokog stepena konkurentnosti, modul `digital.vasic.translator`.
-- **Gin** — izabran kao brz i minimalistički HTTP ruter za servisiranje REST API interfejsa.
-- **QUIC / HTTP/3 (quic-go)** — izabrani kako bi REST API dobio niskolatentni, moderan transportni protokol koji izdržava nesavršene mreže.
-- **gRPC + Protocol Buffers** — izabrani za strogo tipiziran, visokoperformansni servisni interfejs koji radi paralelno sa REST za programatske pozivaoce.
-- **Gorilla WebSocket** — izabran za prenos strima događaja prevođenja u realnom vremenu koji napaja monitoring kontrolnu tablu uživo.
-- **PostgreSQL, SQLite, Redis** — namerno podeljen u tri nivoa: PostgreSQL za trajne relacione podatke, SQLite za lokalno/ugrađeno stanje (takođe podržava skladište verifikovanih modela mosta, `data/verified_models.db`), a Redis kao vrući keš.
-- **unidoc/unioffice + unipdf** — izabrani za obradu zahtevnih formata: parsiranje i regeneraciju DOCX i PDF fajlova kako bi e-knjige u više formata bile verno konvertovane u oba smera.
-- **Cobra** — izabran kao CLI okvir koji pokreće `unified-translator` i prateće alate.
-- **golang-jwt (JWT HS256)** — izabran za bezstanično API autentifikaciju, u kombinaciji sa ograničenjem protoka tokena po IP adresi i TLS/QUIC sigurnošću transporta kako bi se površina dodatno ojačala.
-- **LLMsVerifier most (`pkg/bridge`)** — ključni element: obezbeđuje najjači verifikovani model zajedno sa determinističkim lancem rezervnih rešenja i služi kao jedina tačka sprovođenja garancije da neće biti tihih rezervnih opcija.
-- **Testify** — izabran za Go testni paket, uključujući posvećeni `provider_routing_test.go` i mutacione provere koje održavaju poštenost pravila.
-- **Docker / Podman (rootless) + Compose** — izabrani za kontejnerizovano, distribuirano raspoređivanje (`docker-compose.distributed.yml`), sa rootless Podman varijantom radi boljeg sigurnosnog profila.
+- **Go** — изабран због својих примитива за конкурентност, који се природно мапирају на паралелно парсирање, превођење и стримовање више поглавља истовремено; бацкенд високог степена конкурентности, модул `digital.vasic.translator`.
+- **Gin** — изабран као брз и минималистички ХТТП рутер за сервисирање REST API интерфејса.
+- **QUIC / HTTP/3 (quic-го)** — изабрани како би REST API добио нисколатентни, модеран транспортни протокол који издржава несавршене мреже.
+- **gRPC + Protocol Buffers** — изабрани за строго типизиран, високоперформансни сервисни интерфејс који ради паралелно са REST за програматске позиваоце.
+- **Gorilla WebSocket** — изабран за пренос стрима догађаја превођења у реалном времену који напаја мониторинг контролну таблу уживо.
+- **PostgreSQL, SQLite, Redis** — намерно подељен у три нивоа: PostgreSQL за трајне релационе податке, SQLite за локално/уграђено стање (такође подржава складиште верификованих модела моста, `data/verified_models.db`), а Redis као врући кеш.
+- **унидоц/униоффице + унипдф** — изабрани за обраду захтевних формата: парсирање и регенерацију DOCX и PDF фајлова како би е-књиге у више формата биле верно конвертоване у оба смера.
+- **Cobra** — изабран као CLI оквир који покреће `unified-translator` и пратеће алате.
+- **голанг-jwt (JWT HS256)** — изабран за безстанично API аутентификацију, у комбинацији са ограничењем протока токена по IP адреси и TLS/QUIC сигурношћу транспорта како би се површина додатно ојачала.
+- **LLMsVerifier мост (`pkg/bridge`)** — кључни елемент: обезбеђује најјачи верификовани модел заједно са детерминистичким ланцем резервних решења и служи као једина тачка спровођења гаранције да неће бити тихих резервних опција.
+- **Testify** — изабран за Go тестни пакет, укључујући посвећени `provider_routing_test.go` и мутационе провере које одржавају поштеност правила.
+- **Docker / Podman (роотлесс) + Цомпосе** — изабрани за контејнеризовано, дистрибуирано распоређивање (`docker-compose.distributed.yml`), са роотлесс Podman варијантом ради бољег сигурносног профила.
 
-## Status i napomene o poštenju
+## Статус и напомене о поштењу
 
-- **Status: beta.** Funkcionalna platforma; verzija je navedena nedosledno u `VERSION`/Makefile/`AGENTS.md`, pa se smatra nedefinisanom.
-- **Licenca: nije konačno određena.** U README-u se navodi MIT, ali to nije potvrđeno u odnosu na LICENSE fajl — proveriti pre navođenja.
-- Endpointi kontrolne table/monitora su dostupni samo lokalno, nisu javni. Performanse WebSocket navedene u dokumentaciji su ciljne vrednosti, a ne verifikovane. `ARCHITECTURE.md` još uvek navodi uklonjene Ollama/lokalne motore (zastarelo).
+- **Статус: бета.** Функционална платформа; верзија је наведена недоследно у `VERSION`/Макефиле/`AGENTS.md`, па се сматра недефинисаном.
+- **Лиценца: није коначно одређена.** У РЕАДМЕ-у се наводи МИТ, али то није потврђено у односу на ЛИЦЕНСЕ фајл — проверити пре навођења.
+- Ендпоинти контролне табле/монитора су доступни само локално, нису јавни. Перформансе WebSocket наведене у документацији су циљне вредности, а не верификоване. `ARCHITECTURE.md` још увек наводи уклоњене Ollama/локалне моторе (застарело).
 
-**Prioritetni nivo:** Helix-primary (LLM-infrastrukturni klaster). Rangiran unutar porodice Helix platforme, iza HelixTrack.
+**Приоритетни ниво:** Helix-primary (LLM-инфраструктурни кластер). Рангиран унутар породице Helix платформе, иза HelixTrack.
 

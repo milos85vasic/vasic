@@ -26,72 +26,72 @@ diagrams:
 
 # HelixConstitution
 
-**Univerzalni inženjerski ustav koji svaki projekat nasleđuje — zakon protiv blefiranja, mehanički sproveden, deljen kao jedan Git podmodul.**
+**Универзални инжењерски устав који сваки пројекат наслеђује — закон против блефирања, механички спроведен, дељен као један Гит подмодул.**
 
-## Rezime
+## Резиме
 
-HelixConstitution je jedinstven, projektno-agnostičan pravilnik — dodavan kao Git podmodul u svakom Helix/vasic-digital projektu — koji kodira nepregovorljivu inženjersku disciplinu (anti-blefiranje, validacija isključivo na osnovu dokaza, bezbednost podataka i hosta, dokumentacija i pokrivenost testovima) i prenosi je na flotu od preko 140 repozitorijuma. On je upravljačka kičma koja čitavoj porodici daje koherentnost.
+HelixConstitution је јединствен, пројектно-агностичан правилник — додаван као Гит подмодул у сваком Helix/vasic-digital пројекту — који кодира непреговорљиву инжењерску дисциплину (анти-блефирање, валидација искључиво на основу доказа, безбедност података и хоста, документација и покривеност тестовима) и преноси је на флоту од преко 140 репозиторијума. Он је управљачка кичма која читавој породици даје кохерентност.
 
-## Kratak opis
+## Кратак опис
 
-Univerzalni, nasledivi Constitution isporučen kao Git podmodul. Definiše obavezna, nepregovorljiva pravila — kontrolne tačke protiv blefiranja zasnovane na dokazima, imunitet na lažno pozitivne rezultate, bezbednost podataka i hosta, disciplinu pokrivenosti testovima i dokumentacije — koja svaki projekat koji ga koristi automatski nasleđuje i može da proširi, ali nikada da oslabi.
+Универзални, наследиви Constitution испоручен као Гит подмодул. Дефинише обавезна, непреговорљива правила — контролне тачке против блефирања засноване на доказима, имунитет на лажно позитивне резултате, безбедност података и хоста, дисциплину покривености тестовима и документације — која сваки пројекат који га користи аутоматски наслеђује и може да прошири, али никада да ослаби.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixConstitution je kanonski, jedini izvor istine za inženjerske prakse koje dele svi projekti koji se opredele za njega dodavanjem kao Git podmodula — inženjerski zakon, distribuiran i verzioniran tačno kao kod. Njegov centralni deo — `Constitution.md` — jeste dokument od ~1 MB, neprestano verzioniran, sa numerisanim klauzulama (porodica zaveta §11.4.x, trenutno do §11.4.170) i priručnicima za pojedine agente (`CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md`), koji ga uvoze referencom tako da ljudi i svaki CLI agent čitaju iz jednog identičnog pravilnika. Nasleđivanje je namerno trostruko: univerzalna osnova (ovaj podmodul), sloj projekta (projektov sopstveni Constitution/CLAUDE/AGENTS koji ga proširuje) i opcioni sloj po poddirektorijumu — evaluiran odozgo nadole, gde projekat može da *pojača* pravila, ali je arhitektonski sprečen da ih *oslabi*. Rezultat je flota od preko 140 repozitorijuma koji ne mogu tiho da se udalje jedni od drugih, jer je disciplina koju dele fiksirana, a ne puko zapamćena.
+HelixConstitution је канонски, једини извор истине за инжењерске праксе које деле сви пројекти који се определе за њега додавањем као Гит подмодула — инжењерски закон, дистрибуиран и верзиониран тачно као код. Његов централни део — `Constitution.md` — јесте документ од ~1 МБ, непрестано верзиониран, са нумерисаним клаузулама (породица завета §11.4.x, тренутно до §11.4.170) и приручницима за поједине агенте (`CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md`), који га увозе референцом тако да људи и сваки CLI агент читају из једног идентичног правилника. Наслеђивање је намерно троструко: универзална основа (овај подмодул), слој пројекта (пројектов сопствени Constitution/ЦЛАУДЕ/АГЕНТС који га проширује) и опциони слој по поддиректоријуму — евалуиран одозго надоле, где пројекат може да *појача* правила, али је архитектонски спречен да их *ослаби*. Резултат је флота од преко 140 репозиторијума који не могу тихо да се удаље једни од других, јер је дисциплина коју деле фиксирана, а не пуко запамћена.
 
-Dokument je nepopustljivo agnostičan prema domenu: sve što imenuje određenog dobavljača, hardverski SKU, port ili verziju biblioteke mora da se pomeri nadole u sopstveni Constitution projekta koji ga koristi, a univerzalnost se nikada ne podrazumeva — mora da se *zasluži* prolaskom kroz eksplicitni četvorodelni test pre nego što se neko pravilo dopusti u osnovu. Njegov filozofski stub je anti-blefiranje, izražen kao međusobno povezan niz zaveta — §1.1 imunitet na lažno pozitivne rezultate, §11.4 zavet o kvalitetu za krajnjeg korisnika, §11.4.6 zabrana nagađanja, §11.4.69 taksonomija pozitivnih dokaza — čiji kombinovani efekat je jedna jasna crvena linija: standard za isporuku nikada nije „testovi prolaze", već „pravi korisnik može da koristi funkciju", i svaki pozitivan rezultat mora da navede uhvaćene fizičke dokaze ili se ne računa. Prateći `submodules-catalogue.md` (142 repoa) pretvara pitanje „da li već imamo nešto što ovo radi?" u refleks „prvo katalog, pa tek onda proširi, ne implementiraj ponovo" pre nego što se napiše ijedna nova linija koda. Pomoćni skriptovi pronalaze podmodul sa bilo koje dubine ugnežđenosti i rasprostiru svaki komit na četiri nezavisna Git provajdera, tako da je jedini autoritativni pravilnik ujedno i nemoguć za gubljenje.
-
-
-## Zašto smo ga izgradili
-
-Više velikih aplikacija za proizvode i desetine odvojenih, ponovo upotrebljivih potmodula, koje je kreirao isti vlasnik, stalno su ponovo izvodili iste, mukotrpno stečene pravila — i stalno nailazili na istu vrstu grešaka: testove i izveštaje o statusu koji tvrde da je sve u redu dok je funkcija zapravo neispravna za krajnjeg korisnika („lažni PASS" i „lažni FAIL"). Svaka forenzička referenca u Constitution beleži stvaran incident (npr. lažni PASS rutiranja zvuka D3 od 20. maja 2026, gde je validacija bila zelena uprkos praznom polju „Kodek u upotrebi", ili džinovski UI dugmić od 25. juna 2026. koji je prošao testove jednakosti tokena dok je stvarni ekran bio pokvaren). Constitution postoji da celu ovu klasu nepoštenog uspeha učini mehanički nemogućom — jednom, univerzalno — kako disciplina ne bi klizila između projekata niti bila tiho zaboravljena.
-
-## Zašto je revolucionarno
-
-On pretvara inženjersku kulturu iz dokumentacije-koju-se-nadaju-da-će-pratiti u nasleđeno, verzirano, mehanički nametnuto pravilo — razliku između vodiča za stil i kompajlera. Jedno ažuriranje potmodula istovremeno unapređuje pravila za ceo sistem, atomski i sa mogućnošću praćenja. Jedan anti-lažni zavet je *zagaranotvano* prisutan u svakom repozitorijumu koji ga koristi, ne zahvaljujući poverenju, već konstrukciji: propagacioni mehanizam bukvalno pretražuje klauzulu po broju u celom sistemu, a upareni mutacioni test dokazuje da sam mehanizam ne laže — tako da je čak i nametanje pravila nametnuto. Upravljanje prestaje da bude želja zapisana na vikiju koji niko ne čita i postaje proverljiva, testabilna činjenica na koju možete uputiti CI posao.
-
-## Šta je inovativno
-
-- **Constitution kao potmodul** — inženjerski zakon distribuiran i verziran tačno kao kod, sa namernim oznakama u stilu `v1.0.0` i fiksiranjem verzija po projektu, tako da svaki repozitorijum *tačno* zna koju reviziju zakona mora da poštuje.
-- **Anti-laž kao prvoklasna, forenzička doktrina** — svaka klauzula vodi poreklo od bukvalne naredbe operatera, a često i od tačnog incidenta iz stvarnog sveta koji ju je motivisao, tako da zbirka pravila čita kao sudska praksa, a ne kao mišljenje.
-- **Meta-testiranje samih pravila (§1.1)** — svaki mehanizam je uparen sa mutacijom koja mora da promeni PASS→FAIL, tako da „mehanizam nije lažan" nije samo tvrdnja, već se dokazuje pri svakom pokretanju; mehanizam koji nikada ne može da zakazuje smatra se gorim od odsustva mehanizma.
-- **Zaslužena univerzalnost** — eksplicitan test u četiri dela odlučuje da li je pravilo zaista univerzalno ili samo specifično za projekat, čime se baza održava vitkom, prenosivom i oslobođenom uticaja pojedinih dobavljača.
-
-## Kako se koristi u svim proizvodima (moći koje pruža)
-
-Kao **obavezni stub upravljanja**, HelixConstitution nije dokument koji porodica konsultuje — to je noseća konstrukcija na kojoj je porodica izgrađena:
-
-- **Stub upravljanja:** svaki projekat Helix/vasic-digital dodaje ga kao potmodul i uvozi iz `CLAUDE.md` / `AGENTS.md` / `QWEN.md` / sopstvenog `Constitution.md`; pravila se primenjuju bezuslovno, od prvog komita, bez mogućnosti izuzetka po projektu.
-- **Mehanizmi i obaveze:** definiše četvoroslojni model pokrivenosti — prisutan-u-kodu, preživi-kompilaciju, ponaša-se-u-runtime-u, mehanizam-nije-lažan — koji funkcija mora da prođe na sva četiri nivoa pre nego što se smatra završenom, uz rastući spisak imenovanih obaveza: rukovanje akreditivima (§11.4.10), uvek-sinhronizovana dokumentacija (§11.4.60), obaveza potmodula za kontejnere (§11.4.76), CodeGraph (§11.4.78), obavezno pokrivanje tipova testova (§11.4.169) i još mnogo toga.
-- **Propagacija:** `CM-COVENANT-114-NNN-PROPAGATION` mehanizmi potvrđuju da je *bukvalan* tekst klauzule prisutan u svim repozitorijumima koji ga koriste, tako da se obaveza ne može tiho izostaviti u nekom delu sistema; neusaglašenost je tvrda blokada izdanja bez mogućnosti zaobilaženja.
-- **Otkrivanje:** `submodules-catalogue.md` pretvara pitanje „da li već imamo nešto što radi X?" u odgovor na prvi pogled, pre nego što se bilo koji novi modul inicijalizuje, sprečavajući dupliranje na izvoru.
-- **Konzistentnost AI agenata:** isti zakon se identično izražava svakom agentu CLI (Claude Code, Codex/Cursor/Aider/OpenCode/Crush/Kimi preko AGENTS.md, Qwen Code preko QWEN.md), tako da bez obzira koji alat dodirne kod, on poštuje jedan te isti zavet.
+Документ је непопустљиво агностичан према домену: све што именује одређеног добављача, хардверски СКУ, порт или верзију библиотеке мора да се помери надоле у сопствени Constitution пројекта који га користи, а универзалност се никада не подразумева — мора да се *заслужи* проласком кроз експлицитни четвороделни тест пре него што се неко правило допусти у основу. Његов филозофски стуб је анти-блефирање, изражен као међусобно повезан низ завета — §1.1 имунитет на лажно позитивне резултате, §11.4 завет о квалитету за крајњег корисника, §11.4.6 забрана нагађања, §11.4.69 таксономија позитивних доказа — чији комбиновани ефекат је једна јасна црвена линија: стандард за испоруку никада није „тестови пролазе", већ „прави корисник може да користи функцију", и сваки позитиван резултат мора да наведе ухваћене физичке доказе или се не рачуна. Пратећи `submodules-catalogue.md` (142 репоа) претвара питање „да ли већ имамо нешто што ово ради?" у рефлекс „прво каталог, па тек онда прошири, не имплементирај поново" пре него што се напише иједна нова линија кода. Помоћни скриптови проналазе подмодул са било које дубине угнежђености и распростиру сваки комит на четири независна Гит провајдера, тако да је једини ауторитативни правилник уједно и немогућ за губљење.
 
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Зашто смо га изградили
 
-- **Lokalizacija podmodula iz proizvoljne ugnježdene dubine** — pravilo zakopano tri podmodula duboko i dalje mora pronaći zakon bez obzira na to gde se nalazi → `find_constitution.sh` penje se kroz roditeljske direktorijume i rekurzivno prati pokazivač git superprojekta, poštujući nadjačavanje `CONSTITUTION_DIR` i dva podržana rasporeda (`constitution/`, `submodules/constitution/`), tako da je razrešenje determinističko bez obzira na dubinu ugnježdenosti.
-- **Održavanje jednog repozitorijuma kao autoritativnog na četiri Git provajdera** — ogledala su beskorisna ako se razilaze → `install_upstreams.sh` čita deklarativne `Upstreams/*.sh` udaljene repozitorijume i konfigurise `origin` sa više URL-ova za slanje, tako da jedan `git push` atomski šalje promene na GitHub (primarni), GitLab, GitFlic i GitVerse, a nijedno ogledalo ne može zaostati.
-- **Sprečavanje bujanja pravila / curenja projekta u univerzalnu bazu** — svako primamljivo „samo dodaj ovde" narušava prenosivost → primenjuje se četvorodelni test stečene univerzalnosti plus klasifikacija univerzalno-projektno po §11.4.17 na *svako* novo pravilo, što projektno-specifične probleme vraća nazad u projektni sloj gde im je mesto.
-- **Dokazivanje da mehanizam nasleđivanja stvarno funkcioniše** — kapija koju nikada ne vidite da otkazuje je kapija kojoj ne možete verovati → `meta_test_inheritance.sh`, meta-test čuvar, namerno briše sidro §11.4 i proverava da li kapija to hvata, tako da se sam mehanizam provere neprestano ponovo verifikuje protiv tihog otkazivanja.
+Више великих апликација за производе и десетине одвојених, поново употребљивих потмодула, које је креирао исти власник, стално су поново изводили исте, мукотрпно стечене правила — и стално наилазили на исту врсту грешака: тестове и извештаје о статусу који тврде да је све у реду док је функција заправо неисправна за крајњег корисника („лажни ПАСС" и „лажни ФАИЛ"). Свака форензичка референца у Constitution бележи стваран инцидент (нпр. лажни ПАСС рутирања звука D3 од 20. маја 2026, где је валидација била зелена упркос празном пољу „Кодек у употреби", или џиновски UI дугмић од 25. јуна 2026. који је прошао тестове једнакости токена док је стварни екран био покварен). Constitution постоји да целу ову класу непоштеног успеха учини механички немогућом — једном, универзално — како дисциплина не би клизила између пројеката нити била тихо заборављена.
 
-## Tehnološki stek
+## Зашто је револуционарно
 
-- **Nasleđivanje Git podmodula** — *zašto:* Git podmoduli su jedini mehanizam koji omogućava da zbirka pravila bude autoritativna *i* verzijski zaključana po potrošaču, nadograđena eksplicitnim, pregledljivim ažuriranjem umesto tihim kopiranjem i lepljenjem; *kako:* projekti koji koriste zbirku dodaju podmodul i `@import`-uju njegove agentske fajlove, a tri sloja se evaluiraju odozgo nadole sa strogim ugovorom „proširuje, ne slabi" na svakoj granici.
-- **`find_constitution.sh`** — *zašto:* pravila su beskorisna ako ih duboko ugnježđeni kod ne može pouzdano pronaći, a hardkodiranje puteva bi otkazalo čim bi projekat promenio strukturu; *kako:* penjanje kroz roditeljske direktorijume plus rekurzija `git rev-parse --show-superproject-working-tree`, podržano nadjačavanjem `CONSTITUTION_DIR`, razrešava oba podržana rasporeda.
-- **`install_upstreams.sh` + `Upstreams/`** — *zašto:* četvorostruka redundansa je stvarna samo ako ne zahteva dodatni napor za održavanje, inače ogledala propadaju; *kako:* deklarativni `.sh` fajlovi po udaljenom repozitorijumu se materijalizuju u jedan multi-URL `origin`, spajajući četiri slanja u jedno.
-- **Meta-testovi mutacija po §1.1** — *zašto:* kapija koja nikada ne otkazuje je gora od nepostojeće jer stvara lažnu sigurnost; *kako:* svaka kapija je uparena sa mutacijom brisanja/preimenovanja koja mora da promeni status iz PROLAZI u PADA, a zatim se vraća u prvobitno stanje, tako da svaka kapija dokazuje da i dalje „ugristi" pri svakom pokretanju.
-- **Kapije propagacije (`CM-COVENANT-114-NNN-PROPAGATION`)** — *zašto:* ugovor je univerzalno primenjiv samo ako je proverljivo prisutan u *svakom* potrošaču, a ne samo u vodećem repozitorijumu; *kako:* bukvalna pretraga broja klauzule po potrošačima, podržana uparenim §1.1 meta-testom mutacije koji dokazuje da sama provera propagacije može da otkaže.
-- **`submodules-catalogue.md` (§11.4.74)** — *zašto:* najbrži način da se naruši disciplina protiv dupliranja je da ne znate šta već posedujete; *kako:* inventar od 142 repozitorijuma grupisanih po mogućnostima, sa proverom kataloga zabeleženom u tragaču *pre* nego što se išta novo postavi.
-- **Izvoz u više formata** — *zašto:* isti zakon mora biti jednako dostupan ljudima koji ga čitaju, alatima koji ga obrađuju i arhivama koje ga čuvaju; *kako:* svaki kanonski dokument se izvozi kao `.md` / `.html` / `.pdf` / `.docx` iz jednog izvora.
+Он претвара инжењерску културу из документације-коју-се-надају-да-ће-пратити у наслеђено, верзирано, механички наметнуто правило — разлику између водича за стил и компајлера. Једно ажурирање потмодула истовремено унапређује правила за цео систем, атомски и са могућношћу праћења. Један анти-лажни завет је *загаранотвано* присутан у сваком репозиторијуму који га користи, не захваљујући поверењу, већ конструкцији: пропагациони механизам буквално претражује клаузулу по броју у целом систему, а упарени мутациони тест доказује да сам механизам не лаже — тако да је чак и наметање правила наметнуто. Управљање престаје да буде жеља записана на викију који нико не чита и постаје проверљива, тестабилна чињеница на коју можете упутити ЦИ посао.
+
+## Шта је иновативно
+
+- **Constitution као потмодул** — инжењерски закон дистрибуиран и верзиран тачно као код, са намерним ознакама у стилу `v1.0.0` и фиксирањем верзија по пројекту, тако да сваки репозиторијум *тачно* зна коју ревизију закона мора да поштује.
+- **Анти-лаж као првокласна, форензичка доктрина** — свака клаузула води порекло од буквалне наредбе оператера, а често и од тачног инцидента из стварног света који ју је мотивисао, тако да збирка правила чита као судска пракса, а не као мишљење.
+- **Meta-тестирање самих правила (§1.1)** — сваки механизам је упарен са мутацијом која мора да промени ПАСС→ФАИЛ, тако да „механизам није лажан" није само тврдња, већ се доказује при сваком покретању; механизам који никада не може да заказује сматра се горим од одсуства механизма.
+- **Заслужена универзалност** — експлицитан тест у четири дела одлучује да ли је правило заиста универзално или само специфично за пројекат, чиме се база одржава витком, преносивом и ослобођеном утицаја појединих добављача.
+
+## Како се користи у свим производима (моћи које пружа)
+
+Као **обавезни стуб управљања**, HelixConstitution није документ који породица консултује — то је носећа конструкција на којој је породица изграђена:
+
+- **Стуб управљања:** сваки пројекат Helix/vasic-digital додаје га као потмодул и увози из `CLAUDE.md` / `AGENTS.md` / `QWEN.md` / сопственог `Constitution.md`; правила се примењују безусловно, од првог комита, без могућности изузетка по пројекту.
+- **Механизми и обавезе:** дефинише четворослојни модел покривености — присутан-у-коду, преживи-компилацију, понаша-се-у-рунтиме-у, механизам-није-лажан — који функција мора да прође на сва четири нивоа пре него што се сматра завршеном, уз растући списак именованих обавеза: руковање акредитивима (§11.4.10), увек-синхронизована документација (§11.4.60), обавеза потмодула за контејнере (§11.4.76), ЦодеГрапх (§11.4.78), обавезно покривање типова тестова (§11.4.169) и још много тога.
+- **Пропагација:** `CM-COVENANT-114-NNN-PROPAGATION` механизми потврђују да је *буквалан* текст клаузуле присутан у свим репозиторијумима који га користе, тако да се обавеза не може тихо изоставити у неком делу система; неусаглашеност је тврда блокада издања без могућности заобилажења.
+- **Откривање:** `submodules-catalogue.md` претвара питање „да ли већ имамо нешто што ради X?" у одговор на први поглед, пре него што се било који нови модул иницијализује, спречавајући дуплирање на извору.
+- **Конзистентност AI агената:** исти закон се идентично изражава сваком агенту CLI (Claude Цоде, Codex/Cursor/Aider/OpenCode/Crush/Kimi преко АГЕНТС.мд, Qwen Цоде преко QWEN.мд), тако да без обзира који алат додирне код, он поштује један те исти завет.
 
 
-## Napomene o statusu i iskrenosti
+## Највећи технички изазови и како смо их решили
 
-- **Status: isporučeno.** Aktivno verzionirano i koristi se kao potmodul širom flote (javni kanonski i mirror repozitoriji).
-- **Licenca: treba utvrditi** — nije eksplicitno navedena u pregledanom izvornom materijalu; potvrditi prema fajlu LICENSE u repozitorijumu pre objavljivanja.
-- Dodatna uzvodna ogledala: GitLab `helixdevelopment1/helixconstitution`, GitFlic `helixdevelopment/helixconstitution`, GitVerse `helixdevelopment/HelixConstitution`.
+- **Локализација подмодула из произвољне угњеждене дубине** — правило закопано три подмодула дубоко и даље мора пронаћи закон без обзира на то где се налази → `find_constitution.sh` пење се кроз родитељске директоријуме и рекурзивно прати показивач гит суперпројекта, поштујући надјачавање `CONSTITUTION_DIR` и два подржана распореда (`constitution/`, `submodules/constitution/`), тако да је разрешење детерминистичко без обзира на дубину угњеждености.
+- **Одржавање једног репозиторијума као ауторитативног на четири Гит провајдера** — огледала су бескорисна ако се разилазе → `install_upstreams.sh` чита декларативне `Upstreams/*.sh` удаљене репозиторијуме и конфигурисе `origin` са више URL-ова за слање, тако да један `git push` атомски шаље промене на GitHub (примарни), GitLab, GitFlic и GitVerse, а ниједно огледало не може заостати.
+- **Спречавање бујања правила / цурења пројекта у универзалну базу** — свако примамљиво „само додај овде" нарушава преносивост → примењује се четвороделни тест стечене универзалности плус класификација универзално-пројектно по §11.4.17 на *свако* ново правило, што пројектно-специфичне проблеме враћа назад у пројектни слој где им је место.
+- **Доказивање да механизам наслеђивања стварно функционише** — капија коју никада не видите да отказује је капија којој не можете веровати → `meta_test_inheritance.sh`, мета-тест чувар, намерно брише сидро §11.4 и проверава да ли капија то хвата, тако да се сам механизам провере непрестано поново верификује против тихог отказивања.
 
-**Prioritetni nivo:** Helix-primarni — obavezan upravljački stub na kojem počiva izgradnja svega u porodici Helix.
+## Технолошки стек
+
+- **Наслеђивање Гит подмодула** — *зашто:* Гит подмодули су једини механизам који омогућава да збирка правила буде ауторитативна *и* верзијски закључана по потрошачу, надограђена експлицитним, прегледљивим ажурирањем уместо тихим копирањем и лепљењем; *како:* пројекти који користе збирку додају подмодул и `@import`-ују његове агентске фајлове, а три слоја се евалуирају одозго надоле са строгим уговором „проширује, не слаби" на свакој граници.
+- **`find_constitution.sh`** — *зашто:* правила су бескорисна ако их дубоко угњежђени код не може поуздано пронаћи, а хардкодирање путева би отказало чим би пројекат променио структуру; *како:* пењање кроз родитељске директоријуме плус рекурзија `git rev-parse --show-superproject-working-tree`, подржано надјачавањем `CONSTITUTION_DIR`, разрешава оба подржана распореда.
+- **`install_upstreams.sh` + `Upstreams/`** — *зашто:* четворострука редунданса је стварна само ако не захтева додатни напор за одржавање, иначе огледала пропадају; *како:* декларативни `.sh` фајлови по удаљеном репозиторијуму се материјализују у један мулти-URL `origin`, спајајући четири слања у једно.
+- **Meta-тестови мутација по §1.1** — *зашто:* капија која никада не отказује је гора од непостојеће јер ствара лажну сигурност; *како:* свака капија је упарена са мутацијом брисања/преименовања која мора да промени статус из ПРОЛАЗИ у ПАДА, а затим се враћа у првобитно стање, тако да свака капија доказује да и даље „угристи" при сваком покретању.
+- **Капије пропагације (`CM-COVENANT-114-NNN-PROPAGATION`)** — *зашто:* уговор је универзално примењив само ако је проверљиво присутан у *сваком* потрошачу, а не само у водећем репозиторијуму; *како:* буквална претрага броја клаузуле по потрошачима, подржана упареним §1.1 мета-тестом мутације који доказује да сама провера пропагације може да откаже.
+- **`submodules-catalogue.md` (§11.4.74)** — *зашто:* најбржи начин да се наруши дисциплина против дуплирања је да не знате шта већ поседујете; *како:* инвентар од 142 репозиторијума груписаних по могућностима, са провером каталога забележеном у трагачу *пре* него што се ишта ново постави.
+- **Извоз у више формата** — *зашто:* исти закон мора бити једнако доступан људима који га читају, алатима који га обрађују и архивама које га чувају; *како:* сваки канонски документ се извози као `.md` / `.html` / `.pdf` / `.docx` из једног извора.
+
+
+## Напомене о статусу и искрености
+
+- **Статус: испоручено.** Активно верзионирано и користи се као потмодул широм флоте (јавни канонски и миррор репозиторији).
+- **Лиценца: треба утврдити** — није експлицитно наведена у прегледаном изворном материјалу; потврдити према фајлу ЛИЦЕНСЕ у репозиторијуму пре објављивања.
+- Додатна узводна огледала: GitLab `helixdevelopment1/helixconstitution`, GitFlic `helixdevelopment/helixconstitution`, GitVerse `helixdevelopment/HelixConstitution`.
+
+**Приоритетни ниво:** Helix-примарни — обавезан управљачки стуб на којем почива изградња свега у породици Helix.
 

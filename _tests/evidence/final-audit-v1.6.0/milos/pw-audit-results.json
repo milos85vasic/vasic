@@ -1,0 +1,163 @@
+{
+  "home-desktop-light": {
+    "viewport": "1280x900",
+    "theme": "light",
+    "design": {
+      "heroFont": "Anton, \"Space Grotesk\", sans-serif",
+      "heroFontSize": "96px",
+      "heroTransform": "uppercase",
+      "antonLoaded": true,
+      "redAccentElements": 0,
+      "htmlTheme": "light"
+    },
+    "consoleErrors": [],
+    "badResponses": []
+  },
+  "home-desktop-dark": {
+    "viewport": "1280x900",
+    "theme": "dark",
+    "design": {
+      "heroFont": "Anton, \"Space Grotesk\", sans-serif",
+      "heroFontSize": "96px",
+      "heroTransform": "uppercase",
+      "antonLoaded": true,
+      "redAccentElements": 0,
+      "htmlTheme": "dark"
+    },
+    "consoleErrors": [],
+    "badResponses": []
+  },
+  "home-mobile-390": {
+    "viewport": "390x844",
+    "theme": "light",
+    "design": {
+      "heroFont": "Anton, \"Space Grotesk\", sans-serif",
+      "heroFontSize": "48px",
+      "heroTransform": "uppercase",
+      "antonLoaded": true,
+      "redAccentElements": 0,
+      "htmlTheme": "light"
+    },
+    "consoleErrors": [],
+    "badResponses": []
+  },
+  "interactive": {
+    "w375": {
+      "consoleErrors": [],
+      "badResponses": [],
+      "horizontalOverflow": false,
+      "brokenImages": [],
+      "hamburger": {
+        "present": true,
+        "ariaBefore": "false",
+        "ariaAfter": "true",
+        "toggled": true
+      },
+      "themeToggle": {
+        "present": true,
+        "before": "light",
+        "after": "dark",
+        "changed": true
+      },
+      "langSwitcher": {
+        "present": true,
+        "langsFound": [],
+        "count": 0
+      },
+      "downloadModal": {
+        "present": true,
+        "open": true,
+        "rows": 15
+      },
+      "backToTop": {
+        "present": true,
+        "visibleAfterScroll": true
+      },
+      "articleViewer": {
+        "triggerPresent": false
+      }
+    },
+    "w768": {
+      "consoleErrors": [],
+      "badResponses": [],
+      "horizontalOverflow": false,
+      "brokenImages": [],
+      "hamburger": {
+        "present": true,
+        "ariaBefore": "false",
+        "ariaAfter": "false",
+        "toggled": false
+      },
+      "themeToggle": {
+        "present": true,
+        "before": "light",
+        "after": "dark",
+        "changed": true
+      },
+      "langSwitcher": {
+        "present": true,
+        "langsFound": [],
+        "count": 0
+      },
+      "downloadModal": {
+        "present": true,
+        "open": true,
+        "rows": 15
+      },
+      "backToTop": {
+        "present": true,
+        "visibleAfterScroll": true
+      },
+      "articleViewer": {
+        "triggerPresent": false
+      }
+    },
+    "w1280": {
+      "consoleErrors": [],
+      "badResponses": [],
+      "horizontalOverflow": false,
+      "brokenImages": [],
+      "hamburger": {
+        "present": true,
+        "ariaBefore": "false",
+        "ariaAfter": "false",
+        "toggled": false
+      },
+      "themeToggle": {
+        "present": true,
+        "before": "light",
+        "after": "dark",
+        "changed": true
+      },
+      "langSwitcher": {
+        "present": true,
+        "langsFound": [],
+        "count": 0
+      },
+      "downloadModal": {
+        "present": true,
+        "open": true,
+        "rows": 15
+      },
+      "backToTop": {
+        "present": true,
+        "visibleAfterScroll": true
+      },
+      "articleViewer": {
+        "triggerPresent": false
+      }
+    }
+  },
+  "network": {
+    "home": {
+      "url": "/",
+      "badResponses": [],
+      "consoleErrors": []
+    },
+    "product": {
+      "url": "/products/helixtrack.html",
+      "badResponses": [],
+      "consoleErrors": []
+    }
+  }
+}

@@ -19,48 +19,48 @@ diagrams:
   - Settings-file map (location/provider/sync) feeding the scripts
 ---
 
-**Kompresujte, objavite i ponovo koristite svoje Parallels VM slike na svakom računaru.**
+**Компресујте, објавите и поново користите своје Parallels VM слике на сваком рачунару.**
 
-## Sažetak
+## Сажетак
 
-Parallels-Utils je Server Factory alat za upravljanje Parallels (macOS) slikama virtuelnih mašina: kompresovanje i sinhronizovanje „matrica" slika koje se koriste za razvoj i testiranje, njihovo objavljivanje na udaljenom čvorištu te preuzimanje i pokretanje na više radnih stanica ili servera. Može se koristiti samostalno ili kao deo Server Factory.
+Parallels-Utils је Server Factory алат за управљање Parallels (macOS) сликама виртуелних машина: компресовање и синхронизовање „матрица" слика које се користе за развој и тестирање, њихово објављивање на удаљеном чворишту те преузимање и покретање на више радних станица или сервера. Може се користити самостално или као део Server Factory.
 
-## Kratak opis
+## Кратак опис
 
-Shell/Python alat za upravljanje životnim ciklusom Parallels VM slika na macOS-u. Kompresuje i sinhronizuje Parallels slike, objavljuje ih na udaljeno čvorište te ih preuzima i pokreće na više računara — vođen jednostavnim konfiguracionim datotekama, upotrebljiv samostalno ili u okviru Server Factory.
+Shell/Python алат за управљање животним циклусом Parallels VM слика на macOS-у. Компресује и синхронизује Parallels слике, објављује их на удаљено чвориште те их преузима и покреће на више рачунара — вођен једноставним конфигурационим датотекама, употребљив самостално или у оквиру Server Factory.
 
-## Detaljan opis
+## Детаљан опис
 
-Parallels-Utils rešava praktičan DevOps problem u razvoju zasnovanom na macOS-u: timovi kreiraju „matrice" Parallels virtuelnih mašina (različiti operativni sistemi/konfiguracije koje se koriste za razvoj i testiranje), a te slike moraju biti kompresovane, objavljene, preuzete i dosledno pokrenute na više računara. Alat pruža upravo taj životni ciklus. Mehanizam za sinhronizaciju kompresuje Parallels slike i održava ih ažurnim; mehanizam za objavljivanje šalje slike na udaljeno čvorište; a mehanizam za preuzimanje omogućava svakoj radnoj stanici ili serveru da povuče objavljene slike i pokrene ih kao VM. Konfiguracija je namerno jednostavna i vođena datotekama: `image_location.settings` definiše lokaciju slika u fajl sistemu, `image_provider.settings` definiše osnovni URL za objavljene slike, a `image_sync.sh` definiše skriptu za otpremanje — uz primere koji se isporučuju u direktorijumu `Examples`. Operatori koriste `publish_images.sh` za objavljivanje i `run.sh` za pokretanje VM. Potreban je Parallels za odgovarajuću verziju macOS-a i Python 3. Alat je dizajniran za dvostruku upotrebu: može da funkcioniše kao deo većeg Server Factory projekta ili potpuno samostalno, što odražava filozofiju odvajanja organizacije. Čak sadrži i link ka kratkom video tutorijalu. Kao deo porodice Server-Factory, dopunjava Qemu-Utils (Linux/QEMU ekvivalent), pružajući ekosistemu upravljanje VM slikama na macOS/Parallels i cross-platform/QEMU backendima.
+Parallels-Utils решава практичан DevOps проблем у развоју заснованом на macOS-у: тимови креирају „матрице" Parallels виртуелних машина (различити оперативни системи/конфигурације које се користе за развој и тестирање), а те слике морају бити компресоване, објављене, преузете и доследно покренуте на више рачунара. Алат пружа управо тај животни циклус. Механизам за синхронизацију компресује Parallels слике и одржава их ажурним; механизам за објављивање шаље слике на удаљено чвориште; а механизам за преузимање омогућава свакој радној станици или серверу да повуче објављене слике и покрене их као VM. Конфигурација је намерно једноставна и вођена датотекама: `image_location.settings` дефинише локацију слика у фајл систему, `image_provider.settings` дефинише основни URL за објављене слике, а `image_sync.sh` дефинише скрипту за отпремање — уз примере који се испоручују у директоријуму `Examples`. Оператори користе `publish_images.sh` за објављивање и `run.sh` за покретање VM. Потребан је Parallels за одговарајућу верзију macOS-а и Python 3. Алат је дизајниран за двоструку употребу: може да функционише као део већег Server Factory пројекта или потпуно самостално, што одражава филозофију одвајања организације. Чак садржи и линк ка кратком видео туторијалу. Као део породице Server-Factory, допуњава Qemu-Utils (Linux/QEMU еквивалент), пружајући екосистему управљање VM сликама на macOS/Parallels и цросс-платформ/QEMU бацкендима.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Deljenje konzistentnih VM okruženja za razvoj i testiranje među timom je zamorno — slike su velike, a svaki računar zahteva istu matricu. Parallels-Utils automatizuje kompresiju, objavljivanje i preuzimanje tako da se kanonski skup Parallels VM može reprodukovati svuda.
+Дељење конзистентних VM окружења за развој и тестирање међу тимом је заморно — слике су велике, а сваки рачунар захтева исту матрицу. Parallels-Utils аутоматизује компресију, објављивање и преузимање тако да се канонски скуп Parallels VM може репродуковати свуда.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-Pretvara teške i nespretne Parallels slike u objavljiv, sinhronizovani skup artefakata koji svaki računar može da povuče i pokrene — tako da kanonsko razvojno/testno okruženje prestaje da bude nešto što svaki inženjer ručno ponovo kreira i postaje nešto što jednostavno preuzmete. Radi to uz trivijalnu konfiguraciju putem datoteka i bez ikakve zavisnosti od ostatka Server Factory, ostajući veran filozofiji odvajanja organizacije: koristan sam za sebe, dobar građanin u većem alatu.
+Претвара тешке и неспретне Parallels слике у објављив, синхронизовани скуп артефаката који сваки рачунар може да повуче и покрене — тако да канонско развојно/тестно окружење престаје да буде нешто што сваки инжењер ручно поново креира и постаје нешто што једноставно преузмете. Ради то уз тривијалну конфигурацију путем датотека и без икакве зависности од остатка Server Factory, остајући веран филозофији одвајања организације: користан сам за себе, добар грађанин у већем алату.
 
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Kompresija + sinhronizacija „matrica" slika Parallels za razvojno/testiranje.
-- Tok rada objavljivanja/preuzimanja kako bi slike bile ponovo upotrebljive na više računara.
-- Konfiguracija vođena datotekama podešavanja (lokacija/pružalac/sinhronizacija) uz priložene primere.
-- Dvostruka namena: samostalno ili kao komponenta Server Factory.
+- Компресија + синхронизација „матрица" слика Parallels за развојно/тестирање.
+- Ток рада објављивања/преузимања како би слике биле поново употребљиве на више рачунара.
+- Конфигурација вођена датотекама подешавања (локација/пружалац/синхронизација) уз приложене примере.
+- Двострука намена: самостално или као компонента Server Factory.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Distribucija velikih slika:** rešeno kompresijom i tokom rada objavljivanja na udaljeni krajnji čvor + preuzimanja.
-- **Ponovljivost na različitim mašinama:** rešeno podešavanjima pružaoca/lokacije tako da svaki host razrešava isti skup slika.
-- **Jednostavnost korišćenja:** rešeno jednostavnim skriptama `publish_images.sh` / `run.sh` i primerima datoteka podešavanja.
+- **Дистрибуција великих слика:** решено компресијом и током рада објављивања на удаљени крајњи чвор + преузимања.
+- **Поновљивост на различитим машинама:** решено подешавањима пружаоца/локације тако да сваки хост разрешава исти скуп слика.
+- **Једноставност коришћења:** решено једноставним скриптама `publish_images.sh` / `run.sh` и примерима датотека подешавања.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Shell** — skripte za objavljivanje/pokretanje/sinhronizaciju (primarni jezik, ~5,3K bajtova).
-- **Python 3** — pomoćni alati (obavezna zavisnost, ~3K bajtova).
-- **Parallels (macOS)** — virtualizacioni backend koji se upravlja.
-- **Datoteke podešavanja (`.settings`)** — deklarativna konfiguracija za lokaciju/pružaoca/sinhronizaciju.
+- **Shell** — скрипте за објављивање/покретање/синхронизацију (примарни језик, ~5,3К бајтова).
+- **Python 3** — помоћни алати (обавезна зависност, ~3К бајтова).
+- **Parallels (macOS)** — виртуализациони бацкенд који се управља.
+- **Датотеке подешавања (`.settings`)** — декларативна конфигурација за локацију/пружаоца/синхронизацију.
 
-> Napomena: GitHub označava repozitorijum kao fork unutar organizacije Server-Factory. Specifično za macOS, niša. Nije povezano sa AI.
+> Напомена: GitHub означава репозиторијум као форк унутар организације Server-Factory. Специфично за macOS, ниша. Није повезано са AI.
 

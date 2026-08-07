@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="de" dir="ltr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#a31e39">
+  <meta name="author" content="Miloš Vasić">
+  <!-- No-FART theme bootstrap: set theme before first paint -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('mv-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('mv-lang');
+        if (l) document.documentElement.setAttribute('lang', l);
+      } catch (e) {}
+    })();
+  </script>
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Miloš Vasić | AI Engineer — Verifiable AI-Development Systems</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Miloš Vasić" />
+<meta name="author" content="Miloš Vasić" />
+<meta property="og:locale" content="de" />
+<meta name="description" content="Miloš Vasić — AI engineer building verifiable AI-development systems: autonomous coding agents, LLM orchestration, and constitution-governed tooling. 15+ years shipping production software across mobile, backend, desktop, and web." />
+<meta property="og:description" content="Miloš Vasić — AI engineer building verifiable AI-development systems: autonomous coding agents, LLM orchestration, and constitution-governed tooling. 15+ years shipping production software across mobile, backend, desktop, and web." />
+<link rel="canonical" href="https://milosvasic.ru/de/" />
+<meta property="og:url" content="https://milosvasic.ru/de/" />
+<meta property="og:site_name" content="Miloš Vasić" />
+<meta property="og:image" content="https://milosvasic.ru/assets/images/profile-square-800.jpg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://milosvasic.ru/assets/images/profile-square-800.jpg" />
+<meta property="twitter:title" content="Miloš Vasić" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Miloš Vasić"},"description":"Miloš Vasić — AI engineer building verifiable AI-development systems: autonomous coding agents, LLM orchestration, and constitution-governed tooling. 15+ years shipping production software across mobile, backend, desktop, and web.","headline":"Miloš Vasić","image":"https://milosvasic.ru/assets/images/profile-square-800.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://milosvasic.ru/assets/images/profile-square-800.jpg"},"name":"Miloš Vasić"},"url":"https://milosvasic.ru/de/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="alternate" hreflang="en" href="https://milosvasic.ru/"/><link rel="alternate" hreflang="ar" href="https://milosvasic.ru/ar/"/><link rel="alternate" hreflang="be" href="https://milosvasic.ru/be/"/><link rel="alternate" hreflang="de" href="https://milosvasic.ru/de/"/><link rel="alternate" hreflang="es" href="https://milosvasic.ru/es/"/><link rel="alternate" hreflang="fa" href="https://milosvasic.ru/fa/"/><link rel="alternate" hreflang="fr" href="https://milosvasic.ru/fr/"/><link rel="alternate" hreflang="hi" href="https://milosvasic.ru/hi/"/><link rel="alternate" hreflang="ja" href="https://milosvasic.ru/ja/"/><link rel="alternate" hreflang="kk" href="https://milosvasic.ru/kk/"/><link rel="alternate" hreflang="ko" href="https://milosvasic.ru/ko/"/><link rel="alternate" hreflang="ru" href="https://milosvasic.ru/ru/"/><link rel="alternate" hreflang="sr" href="https://milosvasic.ru/sr/"/><link rel="alternate" hreflang="tr" href="https://milosvasic.ru/tr/"/><link rel="alternate" hreflang="zh" href="https://milosvasic.ru/zh/"/><link rel="alternate" hreflang="x-default" href="https://milosvasic.ru/"/>
+  <!-- Fonts are self-hosted via assets/od/fonts.css (linked by the OD asset bundle);
+       the remote Google Fonts CDN was redundant + render-blocking and has been removed. -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- WCAG 2.2 AA: Focus appearance via CSS custom property -->
+  <style>:root { --focus-w: 2.5px; --focus-offset: 3px; }</style>
+</head>
+<body><!-- WCAG 2.2 AA: Skip navigation link (SC 2.4.1, 2.4.11) -->
+  <a class="skip-link" href="#top" data-i18n="a11y.skip">Zum Inhalt springen</a>
+  <nav class="nav" aria-label="Hauptnavigation" data-i18n-aria="aria.primaryNav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/#top">milos<span class="dot">.</span>vasic</a>
+      <div class="nav-links" id="nav-links">
+        <a href="/#work" data-i18n="nav.work">Projekte</a>
+        <a href="/#experience" data-i18n="nav.experience">Erfahrung</a>
+        <a href="/#skills" data-i18n="nav.skills">Skills</a>
+        <a href="/#contact" data-i18n="nav.contact">Kontakt</a>
+      </div>
+      <div class="nav-tools">
+        <div class="lang-wrap">
+          <button class="icon-btn" id="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Sprache ändern" data-i18n-aria="aria.changeLang" title="Sprache" data-i18n-title="title.language">EN</button>
+          <div class="lang-menu" id="lang-menu" role="menu"></div>
+        </div>
+        <button class="icon-btn" id="theme-btn" aria-label="Dunkles / helles Thema umschalten" data-i18n-aria="aria.toggleTheme" title="Thema" data-i18n-title="title.theme">◐</button>
+        <!-- Mobile primary-nav toggle: hidden ≥761px (CSS), shown ≤760px -->
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Menü" data-i18n-aria="aria.menu" aria-controls="nav-links" aria-expanded="false">
+          <span class="nav-toggle-bars" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- OpenDesign assets (fonts → brand → components → animations → overlays), linked from the page so the default layout head stays untouched. -->
+<link rel="stylesheet" href="/assets/od/fonts.css"/>
+<link rel="stylesheet" href="/assets/od/milosvasic.css"/>
+<link rel="stylesheet" href="/assets/od/components-extended.css"/>
+<link rel="stylesheet" href="/assets/od/animations.css"/>
+<link rel="stylesheet" href="/assets/od/overlays.css"/>
+<script defer src="/assets/od/motion.js"></script>
+<script>window.MV_PAGE={"paths":{"ar":"/ar/","be":"/be/","de":"/de/","en":"/","es":"/es/","fa":"/fa/","fr":"/fr/","hi":"/hi/","ja":"/ja/","kk":"/kk/","ko":"/ko/","ru":"/ru/","sr":"/sr/","tr":"/tr/","zh":"/zh/"},"type":"home"};</script>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 5h5v5"/><path d="M19 5l-9 9"/><path d="M19 13v6H5V5h6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 20h16"/></symbol>
+</svg>
+
+<style>
+  .od-icon{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+  .mvx-hero__cta{display:flex;flex-wrap:wrap;gap:var(--od-space-3);margin-top:var(--od-space-6);justify-content:center}
+  /* restored portrait beside the hero copy (fix #2) */
+  .mvx-hero__grid{display:grid;grid-template-columns:1fr;gap:var(--od-space-8);align-items:center;text-align:left}
+  .mvx-hero__body{min-width:0}
+  .mvx-hero__body .mvx-hero__cta{justify-content:flex-start}
+  .mvx-hero__portrait{margin:0;justify-self:center;position:relative;isolation:isolate}
+  .mvx-hero__portrait img{position:relative;z-index:1;width:min(300px,72vw);height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:var(--od-radius-xl);border:1px solid var(--od-border);box-shadow:var(--od-shadow-lg);display:block}
+  /* restored crimson corner accents (#a31e39 via --od-accent) — brand framing on the
+     portrait; theme-adaptive (lighter crimson in dark), static (no motion). */
+  .mvx-hero__portrait::before,.mvx-hero__portrait::after{content:"";position:absolute;z-index:2;width:clamp(38px,11vw,60px);height:clamp(38px,11vw,60px);pointer-events:none;opacity:.65}
+  .mvx-hero__portrait::after{top:-9px;right:-9px;border-top:2px solid var(--od-accent);border-right:2px solid var(--od-accent);border-top-right-radius:var(--od-radius-xl)}
+  .mvx-hero__portrait::before{bottom:-9px;left:-9px;border-bottom:2px solid var(--od-accent);border-left:2px solid var(--od-accent);border-bottom-left-radius:var(--od-radius-xl)}
+  @media(min-width:768px){.mvx-hero__grid{grid-template-columns:minmax(0,1.5fr) minmax(0,0.9fr)}}
+  .mvx-lede{font-size:var(--od-fs-lg);line-height:var(--od-lh-normal);color:var(--od-text);max-width:72ch;margin:0 0 var(--od-space-4)}
+  .mvx-muted{color:var(--od-text-muted)}
+  .mvx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:var(--od-space-6);align-items:stretch}
+  .mvx-grid--two{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+  .mvx-card__blurb{font-size:var(--od-fs-base);line-height:var(--od-lh-normal);color:var(--od-text);margin:0 0 var(--od-space-4)}
+  .mvx-card__actions{margin-top:auto;padding-top:var(--od-space-3)}
+  .od-product-card__tech{display:flex;flex-wrap:wrap;gap:var(--od-space-2)}
+  /* grid cards must be allowed to shrink below their min-content (≤320px) */
+  .mvx-grid>*,.od-product-card{min-width:0}
+  .od-product-card__title{overflow-wrap:anywhere}
+  .mvx-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--od-space-6);max-width:56rem;margin:var(--od-space-8) auto 0}
+  .od-section__lede{font-size:var(--od-fs-lg);color:var(--od-text-muted);max-width:72ch;margin:0 0 var(--od-space-6)}
+  .mvx-contact{display:flex;flex-wrap:wrap;gap:var(--od-space-8)}
+  .mvx-contact a{color:var(--od-accent)}
+  img,svg{max-width:100%}
+  /* status badge extensions — OpenDesign tokens only (§11.4.162) */
+  .od-badge--status--production,.od-badge--status--shipped,.od-badge--status--active,.od-badge--status--stable{background-color:var(--od-success);color:var(--od-on-accent)}
+  .od-badge--status--scaffold,.od-badge--status--mixed{background-color:var(--od-surface-2);color:var(--od-text)}
+</style>
+
+    <section class="od-hero od-reveal">
+      <div class="mvx-hero__grid">
+      <div class="mvx-hero__body">
+      <p class="od-section__eyebrow" data-i18n="mv2.hero.eyebrow">// KI-Ingenieur</p>
+      <h1 class="od-hero__title">Miloš Vasić</h1>
+      <p class="od-hero__lede" data-i18n="mv2.hero.lede">KI-Ingenieur, der nachprüfbare KI-Entwicklungssysteme baut: Multi-Provider-LLM-Infrastruktur, autonome Agenten und Orchestrierung sowie die Governance- und QA-Schichten, die sie ehrlich halten.</p>
+      <div class="mvx-hero__cta">
+        <button class="od-btn od-btn--primary" type="button" data-dl="cv"><svg class="od-icon" aria-hidden="true"><use href="#i-download"/></svg> <span data-i18n="hero.cv">Lebenslauf herunterladen</span></button>
+        <button class="od-btn od-btn--secondary" type="button" data-dl="cl"><span data-i18n="hero.cl">Anschreiben</span></button>
+        <button class="od-btn od-btn--secondary" type="button" data-dl="portfolio"><span data-i18n="mv2.hero.portfolio">Portfolio (PDF)</span></button>
+        <a class="od-btn od-btn--ghost" href="/portfolio/" data-i18n="mv2.hero.portfolio_site">Portfolio‑Website</a>
+      </div>
+      </div>
+      <figure class="mvx-hero__portrait">
+        <picture>
+          <source type="image/webp" srcset="/assets/images/profile-400.webp 400w, /assets/images/profile-600.webp 600w, /assets/images/profile-800.webp 800w" sizes="(max-width: 767px) 66vw, 320px">
+          <img src="/assets/images/profile-800.jpg" srcset="/assets/images/profile-400.jpg 400w, /assets/images/profile-600.jpg 600w, /assets/images/profile-800.jpg 800w" sizes="(max-width: 767px) 66vw, 320px" width="800" height="1000" alt="Portrait of Miloš Vasić" loading="eager" decoding="async" fetchpriority="high">
+        </picture>
+      </figure>
+      </div>
+      <div class="mvx-stats od-stagger">
+        <div class="od-stat"><div class="od-stat__value od-highlight">Go</div><div class="od-stat__label" data-i18n="mv2.stat.lang">Rückgrat‑Sprache</div></div>
+        <div class="od-stat"><div class="od-stat__value od-highlight">140+</div><div class="od-stat__label" data-i18n="mv2.stat.repos">Repositories, eine Verfassung</div></div>
+        <div class="od-stat"><div class="od-stat__value od-highlight">33</div><div class="od-stat__label" data-i18n="mv2.stat.products">Produkte, evidenzbasiert</div></div>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="summary">
+      <p class="od-section__eyebrow" data-i18n="mv2.summary.eyebrow">// Zusammenfassung</p>
+      <h2 class="od-section__title" data-i18n="mv2.summary.title">Ich entwerfe und entwickle die Software, die LLMs in zuverlässige Produkte verwandelt.</h2>
+      <p class="mvx-lede" data-i18n="mv2.summary.body1">Ich arbeite hauptsächlich in Go, mit Kotlin / Kotlin Multiplatform, TypeScript/React, Python, Swift und Shell, je nach Anforderung. Meine Ergebnisse sind als Flotte organisiert statt als Haufen einzelner Apps: große Produktanwendungen, die auf Dutzenden kleiner, entkoppelter, unabhängig getesteter Module aufbauen, die alle eine gemeinsame Engineering-Verfassung als Git-Submodul erben.</p>
+      <p class="mvx-lede mvx-muted" data-i18n="mv2.summary.body2">Das bedeutet, dass Fixes überall propagieren, neue Produkte aus bewährten Teilen zusammengesetzt werden und jede beworbene Fähigkeit durch einen evidenzproduzierenden Test belegt ist. Mein Leitstern ist eine einzige Regel – ein Feature ist fertig, wenn ein echter Nutzer es verwenden kann und es dafür erfasste Evidenz gibt. Diese Seite führt vom Überblick zu den einzelnen Projekten; jedes verlinkt zur vollständigen Produktseite.</p>
+    </section>
+
+    <section class="od-section od-reveal" id="work">
+      <p class="od-section__eyebrow" data-i18n="mv2.work.eyebrow">// meine Arbeit über die Helix‑Familie hinweg</p>
+      <h2 class="od-section__title" data-i18n="mv2.work.title">Die Helix‑Produktlinie, in Prioritätsreihenfolge.</h2>
+      <p class="od-section__lede" data-i18n="mv2.work.lede">Die Helix‑Linie deckt den gesamten KI-Entwicklungslebenszyklus ab. Jede Karte verlinkt zur vollständigen Produktseite.</p>
+      <div class="mvx-grid od-stagger">
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixTrack <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">HTTP/3 QUIC</span><span class="od-chip">PostgreSQL</span><span class="od-chip">+8</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.helixtrack">Eine freie JIRA‑Alternative; das Flaggschiff der Helix-Track‑Linie.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixtrack.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixAgent <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">LLMsVerifier</span><span class="od-chip">Prometheus</span><span class="od-chip">+6</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.helixagent">Ein Ensemble-LLM-Dienst mit mehrstufiger Modell-Debatte und verifizierungsbasierter Provider-Auswahl.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixagent.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixCode <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Redis</span><span class="od-chip">SSH</span><span class="od-chip">MCP</span><span class="od-chip">+2</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.helixcode">Eine verteilte KI-Entwicklungsplattform, die Arbeit über SSH-verwaltete Worker mit automatischem Checkpoint/Rollback verteilt.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixcode.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixLLM <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">HTTP/3 QUIC</span><span class="od-chip">llama.cpp</span><span class="od-chip">+5</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.helixllm">Ein einzelnes Binary mit sechs Modi, das OpenAI- und Anthropic-kompatible APIs über HTTP/3 bereitstellt, mit lokaler llama.cpp-Inference und einer bewerteten Fallback-Kette.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixllm.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixCluster <span class="od-badge--status od-badge--status--in-development">in-development</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Zig</span><span class="od-chip">gRPC</span><span class="od-chip">Raft + SWIM</span><span class="od-chip">+7</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.helixcluster">Ein verteiltes Betriebssystem für KI-Compute, von Rechenzentrum-GPUs bis zu Edge-Handgeräten.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixcluster.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">LLMProvider <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">net/http</span><span class="od-chip">logrus</span><span class="od-chip">+2</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.llmprovider">Eine Schnittstelle über 43 Provider mit Circuit Breakern, Wiederholungen und integrierter Gesundheitsüberwachung.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/llmprovider.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">LLMOrchestrator <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">JSON-lines / stdio</span><span class="od-chip">Circuit breaker</span><span class="od-chip">+2</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.llmorchestrator">Eine Steuerungsebene für jeden headless CLI-Coding-Agent.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/llmorchestrator.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">LLMsVerifier <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">SQLite + SQLCipher</span><span class="od-chip">+6</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.llmsverifier">Verifizieren, überwachen, optimieren: die einzige Wahrheitsquelle für LLM/Provider/Verifizierungs-Metadaten.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/llmsverifier.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+      </div>
+      <p class="od-section__eyebrow" style="margin-top:var(--od-space-10)" data-i18n="mv2.utils.eyebrow">// meine Arbeit über vasic-digital-Utils hinweg</p>
+      <h2 class="od-section__title" data-i18n="mv2.utils.title">Produkt-Qualitätswerkzeuge, die ich gebaut und pflege.</h2>
+      <div class="mvx-grid od-stagger">
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Catalogizer <span class="od-badge--status od-badge--status--production">production</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Gin</span><span class="od-chip">React</span><span class="od-chip">+10</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.catalogizer">Multi-Protokoll (SMB/FTP/NFS/WebDAV/local), verschlüsselte, selbst-hostbare Medien-Sammlungsverwaltung mit einer Go/Gin-API und React-UI.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/catalogizer.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Courses-Creator <span class="od-badge--status od-badge--status--production">production</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">React</span><span class="od-chip">Electron</span><span class="od-chip">+8</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.coursescreator">Eine Markdown-zu-Video-Kurs-Pipeline mit Multi-LLM-Anreicherung, TTS und Desktop/Mobile/Web-Playern.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/courses-creator.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">VisionEngine <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">GoCV / OpenCV</span><span class="od-chip">LLM vision</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.visionengine">Ein entkoppeltes Go-Toolkit, das klassische Computer-Vision mit Multi-Provider-LLM-Vision für UI-Analyse und Navigationsgraphen verbindet.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/visionengine.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">DocProcessor <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">LLM agents</span><span class="od-chip">Heuristic parser</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.docprocessor">Wandelt Dokumentation in eine nachprüfbare Feature-Karte für QA-Automatisierung (LLM- oder heuristische Extraktion).</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/docprocessor.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Docs Chain <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">DAG</span><span class="od-chip">SQLite</span><span class="od-chip">fsnotify</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.docschain">Eine inhalt-gehashte, bidirektionale, atomare Dokument/DB-Sync-Engine.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/docs-chain.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Herald <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Shell</span><span class="od-chip">LLM intent</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.herald">Zuverlässige Multi-Channel-Benachrichtigungen mit natürlicher Sprache, dreistufiger Intent-Auflösung.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/herald.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">task_bridge <span class="od-badge--status od-badge--status--scaffold">scaffold</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">SQLite</span><span class="od-chip">webhooks</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.taskbridge">Eine entkoppelte, bidirektionale Task/Board-Sync-Engine (P1-Gerüst; Sync-Logik in Arbeit).</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/task-bridge.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Reusable Module Suite <span class="od-badge--status od-badge--status--scaffold">scaffold</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go (digital.vasic.*)</span><span class="od-chip">KMP</span><span class="od-chip">+1</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.rms">Die digital.vasic.*-„Standardbibliothek“ für Infrastruktur, KI-Primitive und Guardrail-Module.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/vasic-digital-reusable-module-suite.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+      </div>
+      <p class="od-section__eyebrow" style="margin-top:var(--od-space-10)" data-i18n="mv2.sf.eyebrow">// Infrastruktur-Erbe (Server Factory)</p>
+      <h2 class="od-section__title" data-i18n="mv2.sf.title">Vor der KI-Linie entstanden – meine DevOps-Toolchain.</h2>
+      <div class="mvx-grid od-stagger">
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Mail Server Factory <span class="od-badge--status od-badge--status--production">production</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Kotlin</span><span class="od-chip">Shell</span><span class="od-chip">Docker</span><span class="od-chip">+4</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.msf">Deklaratives JSON → vollständig bereitgestellte Docker-Mail-Server, mit 439 bestandenen Tests und sauberem SonarQube-Gate.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/mail-server-factory.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Server Factory Core <span class="od-badge--status od-badge--status--stable">stable</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Kotlin</span><span class="od-chip">Shell</span><span class="od-chip">Gradle</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.sfcore">Das Server Factory Core Framework, auf dem jede Service-Factory aufbaut.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/server-factory-core-framework.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Qemu-Utils <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Shell</span><span class="od-chip">QEMU</span><span class="od-chip">ISO images</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.qemu">QEMU-VM-Image-Werkzeuge – herunterladen, ausführen, vernetzen und Maschinen-Images als Artefakte veröffentlichen.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/qemu-utils.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">Parallels-Utils <span class="od-badge--status od-badge--status--active">active</span></h3>
+          <div class="od-product-card__tech"><span class="od-chip">Shell</span><span class="od-chip">Python 3</span><span class="od-chip">Parallels</span></div>
+          <p class="mvx-card__blurb" data-i18n="mv2.p.parallels">Komprimieren, veröffentlichen und Parallels-VM-Images auf allen Maschinen wiederverwenden.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/parallels-utils.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+      </div>
+      <div class="mvx-hero__cta" style="justify-content:flex-start;margin-top:var(--od-space-8)">
+        <a class="od-btn od-btn--primary" href="/portfolio/" data-i18n="mv2.work.portfolio_cta">Vollständiges Portfolio ansehen</a>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="experience">
+      <p class="od-section__eyebrow" data-i18n="mv2.gov.eyebrow">// wie ich arbeite — Governance und QA zuerst</p>
+      <h2 class="od-section__title" data-i18n="mv2.gov.title">Die Disziplin, die den Produkten zugrunde liegt.</h2>
+      <p class="od-section__lede" data-i18n="mv2.gov.lede">Vor den Produkten steht die Disziplin: Ich liefere keine grünen Häkchen – ich liefere KI-Systeme mit dem Nachweis, dass sie tatsächlich funktionieren.</p>
+      <div class="mvx-grid mvx-grid--two od-stagger">
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixConstitution <span class="od-badge--status od-badge--status--shipped">shipped</span></h3>
+          <p class="mvx-card__blurb" data-i18n="mv2.gov.constitution">Ein universelles, vererbbares Engineering-Regelwerk, verteilt als Git-Submodul über eine Flotte von 140+ Repositories. Es kodifiziert Anti-Bluff-Evidenz-Gates, Immunität gegen Fehlalarme, Daten/Host-Sicherheit und Abdeckungsregeln; Projekte können es verschärfen, aber nie abschwächen, und jedes Governance-Gate ist mit einem Mutationstest gekoppelt, der beweist, dass das Gate selbst funktioniert.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixconstitution.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title">HelixQA <span class="od-badge--status od-badge--status--beta">beta</span></h3>
+          <p class="mvx-card__blurb" data-i18n="mv2.gov.qa">Anti-Bluff-QA-Orchestrierung, die schriftliche Testbänke ausführt und vollständig autonome, LLM- und vision-gesteuerte QA-Sitzungen über Android, Android TV, Web und Desktop durchführt, wobei ein PASS nur vergeben wird, wenn Laufzeit-Evidenz erfasst wurde.</p>
+          <div class="mvx-card__actions"><a class="od-btn od-btn--secondary" href="/products/de/helixqa.html" data-i18n="mv2.readmore">Mehr lesen</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="skills">
+      <p class="od-section__eyebrow" data-i18n="mv2.skills.eyebrow">// Technologien</p>
+      <h2 class="od-section__title" data-i18n="mv2.skills.title">Der Stack, auf dem ich tatsächlich aufbaue.</h2>
+      <div class="mvx-grid mvx-grid--two od-stagger">
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="mv2.skills.lang">Sprachen</h3>
+          <div class="od-product-card__tech"><span class="od-chip">Go</span><span class="od-chip">Kotlin / KMP</span><span class="od-chip">TypeScript</span><span class="od-chip">Python</span><span class="od-chip">Swift</span><span class="od-chip">Shell</span></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="mv2.skills.ai">KI / LLM</h3>
+          <div class="od-product-card__tech"><span class="od-chip">43+ providers</span><span class="od-chip">MCP</span><span class="od-chip">RAG</span><span class="od-chip">Vector DBs</span><span class="od-chip">Agent orchestration</span></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="mv2.skills.backend">Backend</h3>
+          <div class="od-product-card__tech"><span class="od-chip">Gin</span><span class="od-chip">gRPC + Protobuf</span><span class="od-chip">HTTP/3 (QUIC)</span><span class="od-chip">WebSockets</span></div>
+        </article>
+        <article class="od-card od-product-card" style="padding:var(--od-space-6)">
+          <h3 class="od-product-card__title" data-i18n="mv2.skills.data">Daten &amp; Infrastruktur</h3>
+          <div class="od-product-card__tech"><span class="od-chip">PostgreSQL</span><span class="od-chip">SQLite / SQLCipher</span><span class="od-chip">Redis</span><span class="od-chip">Docker / K8s</span><span class="od-chip">Prometheus</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="od-section od-reveal" id="contact">
+      <p class="od-section__eyebrow" data-i18n="mv2.contact.eyebrow">// Kontakt</p>
+      <h2 class="od-section__title" data-i18n="mv2.contact.title">In einer Zeile.</h2>
+      <p class="od-section__lede" data-i18n="mv2.contact.lead">Ich liefere keine grünen Häkchen – ich liefere KI-Systeme mit dem Nachweis, dass sie tatsächlich funktionieren, und der Governance, die sie so hält. Offen für Senior-KI/Plattform-Engineering-Rollen weltweit.</p>
+      <div class="mvx-contact">
+        <p><strong data-i18n="mv2.contact.email_label">E‑Mail</strong><br/><a href="mailto:i@mvasic.ru">i@mvasic.ru</a> · <a href="mailto:milos85vasic@gmail.com">milos85vasic@gmail.com</a></p>
+        <p><strong data-i18n="mv2.contact.gh_label">GitHub</strong><br/><a href="https://github.com/milos85vasic" rel="noopener noreferrer" target="_blank">milos85vasic <svg class="od-icon" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+        <p><strong data-i18n="mv2.contact.tg_label">Telegram</strong><br/><a href="https://t.me/milos85vasic" rel="noopener noreferrer" target="_blank">@milos85vasic</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="links">
+        <a href="https://github.com/milos85vasic" rel="me">GitHub</a>
+        <a href="https://gitflic.ru/user/milosvasic">GitFlic</a>
+        <a href="https://gitlab.com/milos85vasic">GitLab</a>
+        <a href="https://t.me/milos85vasic">Telegram</a>
+        <a href="mailto:i@mvasic.ru">i@mvasic.ru</a>
+      </div>
+      <p class="mono">© 2026 Miloš Vasić — <span data-i18n="footer.text">Belgrade · Dubna. Als statische Website erstellt, auf GitHub Pages bereitgestellt.</span></p>
+    </div>
+  </footer>
+
+  <!-- Download language chooser -->
+  <div class="dl-modal" id="dl-modal" hidden role="dialog" aria-modal="true" aria-labelledby="dl-title" data-base="/downloads/">
+    <div class="dl-backdrop" data-dl-close></div>
+    <div class="dl-card" role="document">
+      <button class="dl-x" type="button" data-dl-close aria-label="Schließen" data-i18n-aria="aria.close">×</button>
+      <p class="eyebrow" data-i18n="dl.heading">Herunterladen</p>
+      <h3 id="dl-title" class="dl-doc-name">CV</h3>
+      <p class="dl-choose" data-i18n="dl.choose">Sprache wählen</p>
+      <div class="dl-langs">
+        <a class="dl-lang" data-lang="EN" href="#" download><span>English</span><span class="mono">EN · PDF</span></a>
+        <a class="dl-lang" data-lang="SR" href="#" download><span>Српски</span><span class="mono">SR · PDF</span></a>
+        <a class="dl-lang" data-lang="RU" href="#" download><span>Русский</span><span class="mono">RU · PDF</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating back-to-top: hidden + non-focusable until motion.js reveals it past the scroll threshold -->
+  <button class="od-to-top" type="button" aria-label="Zurück nach oben" data-i18n-aria="aria.backToTop"><svg class="od-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+
+  <!-- defer: non-blocking, downloaded in parallel during parse, executed in
+       document order after the DOM is ready. i18n.js still runs before main.js
+       (defer preserves order), so the language switcher/theme wiring is intact. -->
+  <script src="/assets/js/i18n.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/articles.js" defer></script>
+  <script src="/assets/js/downloads.js" defer></script>
+</body>
+</html>

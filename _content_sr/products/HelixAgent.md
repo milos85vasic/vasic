@@ -30,62 +30,62 @@ diagrams:
 
 # HelixAgent
 
-**Ne biraj jedan model — pusti ih da debatuju i isporuči odgovor na kojem se slože.**
+**Не бирај један модел — пусти их да дебатују и испоручи одговор на којем се сложе.**
 
-## Sažetak
+## Сажетак
 
-HelixAgent je proizvodno spremna usluga ansambla LLM pokretana AI tehnologijom u Go okruženju, koja inteligentno kombinuje odgovore iz više jezičkih modela — uključujući višestepeni sistem debate AI i dinamički izbor provajdera zasnovan na verifikaciji — kako bi proizvela najtačniji i najpouzdaniji rezultat.
+HelixAgent је производно спремна услуга ансамбла LLM покретана AI технологијом у Go окружењу, која интелигентно комбинује одговоре из више језичких модела — укључујући вишестепени систем дебате AI и динамички избор провајдера заснован на верификацији — како би произвела најтачнији и најпоузданији резултат.
 
-## Kratak opis
+## Кратак опис
 
-HelixAgent je usluga ansambla LLM zasnovana na Go platformi koja objedinjuje više provajdera u jedan precizan odgovor. Pokreće višestepene debate AI, dinamički boduje provajdere putem LLMsVerifier, usmerava saobraćaj strategijama ponderisanim poverenjem i isporučuje proizvodne funkcionalnosti: keširanje, nadzor, sigurnosne zaštitne mere i API-je u stilu OpenAI.
+HelixAgent је услуга ансамбла LLM заснована на Go платформи која обједињује више провајдера у један прецизан одговор. Покреће вишестепене дебате AI, динамички бодује провајдере путем LLMsVerifier, усмерава саобраћај стратегијама пондерисаним поверењем и испоручује производне функционалности: кеширање, надзор, сигурносне заштитне мере и API-је у стилу OpenAI.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixAgent je proizvodno spremna usluga ansambla LLM pokretana AI tehnologijom (MIT licenca) koja tretira odgovor jednog modela kao hipotezu, a ne kao konačnu presudu. Umesto da se ishod oslanja na jednog provajdera koji može biti pogrešan, pristrasan ili privremeno nedostupan, ona kombinuje odgovore iz više jezičkih modela kako bi se došlo do najtačnijeg i najpouzdanijeg rezultata — a kada je pitanje dovoljno složeno da to opravda, pokreće modele kroz strukturiranu, višestepenu debatu. Spisak je širok: u README fajlu dokumentovani su brojni provajderi LLM pod `internal/llm/providers/`, uključujući Claude, DeepSeek, Gemini, Mistral, Qwen i xAI/Grok.
+HelixAgent је производно спремна услуга ансамбла LLM покретана AI технологијом (МИТ лиценца) која третира одговор једног модела као хипотезу, а не као коначну пресуду. Уместо да се исход ослања на једног провајдера који може бити погрешан, пристрасан или привремено недоступан, она комбинује одговоре из више језичких модела како би се дошло до најтачнијег и најпоузданијег резултата — а када је питање довољно сложено да то оправда, покреће моделе кроз структурирану, вишестепену дебату. Списак је широк: у РЕАДМЕ фајлу документовани су бројни провајдери LLM под `internal/llm/providers/`, укључујући Claude, DeepSeek, Gemini, Mistral, Qwen и xAI/Grok.
 
-Ključno je da izbor provajdera nije statička lista preferenci — on se zaslužuje u realnom vremenu. Rezultati verifikacije uživo iz integrisanog LLMsVerifier sistema pokreću usmeravanje i elegantno prebacivanje na najbolje performirajućeg provajdera, uz kategorizovano izveštavanje o greškama kada neki od njih počne da slabije radi. AI Debatni orkestrator pretvara neslaganje u signal: podržava više topologija (mreža, zvezda, lanac) i disciplinovan protokol faza — Predlog → Kritika → Pregled → Sinteza — uz učenje iz prethodnih debata kako bi sistem vremenom bolje usaglašavao modele. Strategije usmeravanja obuhvataju izbor ponderisan poverenjem, konsenzus većinom glasova i detekciju semantičke namere, sve uz strimovanje odgovora u realnom vremenu tako da rezultati stižu token po token, umesto da se čeka da se ceo ansambl usaglasi.
+Кључно је да избор провајдера није статичка листа преференци — он се заслужује у реалном времену. Резултати верификације уживо из интегрисаног LLMsVerifier система покрећу усмеравање и елегантно пребацивање на најбоље перформирајућег провајдера, уз категоризовано извештавање о грешкама када неки од њих почне да слабије ради. AI Дебатни оркестратор претвара неслагање у сигнал: подржава више топологија (мрежа, звезда, ланац) и дисциплинован протокол фаза — Предлог → Критика → Преглед → Синтеза — уз учење из претходних дебата како би систем временом боље усаглашавао моделе. Стратегије усмеравања обухватају избор пондерисан поверењем, консензус већином гласова и детекцију семантичке намере, све уз стримовање одговора у реалном времену тако да резултати стижу токен по токен, уместо да се чека да се цео ансамбл усагласи.
 
-Usluga je projektovana da preživi u produkciji, a ne samo da dobro izgleda na demonstracijama: PostgreSQL i Redis čine sloj podataka visoke dostupnosti, Prometheus/Grafana/OpenTelemetry obezbeđuju metrike, kontrolne table i praćenje, a JWT autentifikacija, ograničenje broja zahteva, motor zaštitnih mera i detekcija PII obavijaju ansambl kontrolama koje su neophodne za stvarnu primenu. Organizovana je u oko dvadeset izdvojenih modula (EventBus, Observability, Auth, Storage, VectorDB, Embeddings, RAG, Memory, MCP i drugi), od kojih je svaki zasebna celina, a isporučuje i okvir za optimizaciju LLM (semantičko keširanje, strukturirani izlaz, poboljšano strimovanje) sa integracijama za SGLang, LlamaIndex, LangChain, Guidance i LMQL. Pošto su endpointi za kompletiranje i ansambl kompatibilni sa OpenAI standardom, postojeći klijent može da se poveže na HelixAgent i dobije ansamblirano rezonovanje bez potrebe za prepravkama.
+Услуга је пројектована да преживи у продукцији, а не само да добро изгледа на демонстрацијама: PostgreSQL и Redis чине слој података високе доступности, Prometheus/Grafana/OpenTelemetry обезбеђују метрике, контролне табле и праћење, а JWT аутентификација, ограничење броја захтева, мотор заштитних мера и детекција PII обавијају ансамбл контролама које су неопходне за стварну примену. Организована је у око двадесет издвојених модула (EventBus, Observability, Аутх, Стораге, VectorDB, Ембеддингс, RAG, Memory, MCP и други), од којих је сваки засебна целина, а испоручује и оквир за оптимизацију LLM (семантичко кеширање, структурирани излаз, побољшано стримовање) са интеграцијама за SGLang, LlamaIndex, LangChain, Гуиданце и LMQL. Пошто су ендпоинти за комплетирање и ансамбл компатибилни са OpenAI стандардом, постојећи клијент може да се повеже на HelixAgent и добије ансамблирано резоновање без потребе за преправкама.
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-Svaki pojedinačni LLM može biti pogrešan, pristrasan ili nedostupan. HelixAgent je stvoren kako bi aplikacije mogle da se konsultuju sa više modela istovremeno, da odmere njihove odgovore prema merenoj pouzdanosti i da se elegantno povuku – pretvarajući krhku zavisnost od jednog provajdera u otporan, samoprocenjujući ansambl.
+Сваки појединачни LLM може бити погрешан, пристрасан или недоступан. HelixAgent је створен како би апликације могле да се консултују са више модела истовремено, да одмере њихове одговоре према мереној поузданости и да се елегантно повуку – претварајући крхку зависност од једног провајдера у отпоран, самопроцењујући ансамбл.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-Operacionalizuje konsenzus više modela – prebacuje „pitaj nekoliko modela i uskladi odgovore" iz improvizovanih skripti u proizvodnu uslugu. Umesto da se oslanjaju na jednog provajdera i nadaju se najboljem, timovi dobijaju rutiranje vođeno rezultatima verifikacije uživo, strukturirani protokol debate za pitanja gde jedan pokušaj nije dovoljan, i otpornost na nivou produkcije (HA sloj podataka, potpunu opservabilnost i zaštitne mehanizme) – sve iza OpenAI-kompatibilnog API. Ključna prednost je usvajanje bez prekida: jedna krhka zavisnost od provajdera postaje otporan, samoprocenjujući ansambl, a postojeći klijenti prelaze na njega promenom krajnje tačke umesto koda.
+Операционализује консензус више модела – пребацује „питај неколико модела и усклади одговоре" из импровизованих скрипти у производну услугу. Уместо да се ослањају на једног провајдера и надају се најбољем, тимови добијају рутирање вођено резултатима верификације уживо, структурирани протокол дебате за питања где један покушај није довољан, и отпорност на нивоу продукције (HA слој података, потпуну опсервабилност и заштитне механизме) – све иза OpenAI-компатибилног API. Кључна предност је усвајање без прекида: једна крхка зависност од провајдера постаје отпоран, самопроцењујући ансамбл, а постојећи клијенти прелазе на њега променом крајње тачке уместо кода.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Strukturirana višestepena AI debata koja tretira neslaganje modela kao resurs: izbor mrežnih/zvezdastih/lančanih topologija, disciplinovan protokol Predlog→Kritika→Pregled→Sinteza, i učenje na osnovu prethodnih debata koje se akumulira tokom vremena.
-- Dinamički izbor provajdera zasnovan na rezultatima LLMsVerifier ocenjivanja uživo umesto na statičkoj listi preferenci – ansambl usmerava upite ka onome ko trenutno najbolje funkcioniše i elegantno se povlači kada neko zakazuje.
-- Izvorni Go okvir optimizovan za LLM (semantički keš, strukturirani izlaz, poboljšan striming) koji stoji sam za sebe, sa opcionim spoljnim optimizatorima (SGLang, LlamaIndex, LangChain, Guidance, LMQL) koji se mogu dodati po potrebi, a ne obavezno.
-- Modularna arhitektura sastavljena od dvadesetak izdvojenih modula koja održava razdvojenost odgovornosti i otvara vrata za funkcije velikih podataka poput distribuirane memorije i striminga grafova znanja.
+- Структурирана вишестепена AI дебата која третира неслагање модела као ресурс: избор мрежних/звездастих/ланчаних топологија, дисциплинован протокол Предлог→Критика→Преглед→Синтеза, и учење на основу претходних дебата које се акумулира током времена.
+- Динамички избор провајдера заснован на резултатима LLMsVerifier оцењивања уживо уместо на статичкој листи преференци – ансамбл усмерава упите ка ономе ко тренутно најбоље функционише и елегантно се повлачи када неко заказује.
+- Изворни Go оквир оптимизован за LLM (семантички кеш, структурирани излаз, побољшан стриминг) који стоји сам за себе, са опционим спољним оптимизаторима (SGLang, LlamaIndex, LangChain, Гуиданце, LMQL) који се могу додати по потреби, а не обавезно.
+- Модуларна архитектура састављена од двадесетак издвојених модула која одржава раздвојеност одговорности и отвара врата за функције великих података попут дистрибуиране меморије и стриминга графова знања.
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Највећи технички изазови и како смо их решили
 
-- **Izbor među mnogim nejednakim provajderima.** Provajderi se razlikuju po kvalitetu i vremenom menjaju performanse, pa je svako fiksno rangiranje već sutra zastarelo. Rešili smo to kontinuiranim merenjem: LLMsVerifier ocene napajaju rutiranje zasnovano na ponderisanom poverenju i većinskom glasanju, sa elegantnim povlačenjem kako bi se zaobišao provajder koji se pogoršava umesto da mu se veruje.
-- **Dobijanje pouzdanog odgovora na zaista teška pitanja.** Jedan model, pitan jednom, nema mehanizam da uhvati sopstvenu grešku. Debatni orkestrator to omogućava – višestruke topologije, fazna debata (Predlog → Kritika → Pregled → Sinteza) koja primorava modele da se međusobno preispituju i usavršavaju pre nego što se konačan odgovor sintetizuje.
-- **Pokretanje ansambla u produkciji, a ne samo u beležnici.** Rasprostiranje na više provajdera umnožava površinu za greške. Ograničili smo je pomoću HA sloja podataka PostgreSQL+Redis, opservabilnosti Prometheus/Grafana/OpenTelemetry za slučajeve kada provajder ili ruta ne funkcionišu kako treba, i sigurnosnog perimetra koji uključuje JWT autentifikaciju, ograničenje broja zahteva, motor zaštitnih mehanizama i detekciju PII.
+- **Избор међу многим неједнаким провајдерима.** Провајдери се разликују по квалитету и временом мењају перформансе, па је свако фиксно рангирање већ сутра застарело. Решили смо то континуираним мерењем: LLMsVerifier оцене напајају рутирање засновано на пондерисаном поверењу и већинском гласању, са елегантним повлачењем како би се заобишао провајдер који се погоршава уместо да му се верује.
+- **Добијање поузданог одговора на заиста тешка питања.** Један модел, питан једном, нема механизам да ухвати сопствену грешку. Дебатни оркестратор то омогућава – вишеструке топологије, фазна дебата (Предлог → Критика → Преглед → Синтеза) која приморава моделе да се међусобно преиспитују и усавршавају пре него што се коначан одговор синтетизује.
+- **Покретање ансамбла у продукцији, а не само у бележници.** Распростирање на више провајдера умножава површину за грешке. Ограничили смо је помоћу HA слоја података PostgreSQL+Redis, опсервабилности Prometheus/Grafana/OpenTelemetry за случајеве када провајдер или рута не функционишу како треба, и сигурносног периметра који укључује JWT аутентификацију, ограничење броја захтева, мотор заштитних механизама и детекцију PII.
 
 
-## Tehnološki stek
+## Технолошки стек
 
-- **Go** — izabran zato što je raspršivanje jednog zahteva na više provajdera istovremeno upravo ono za šta su gorutine namenjene, a isporuka u vidu jednog binarnog fajla čuva jednostavnost servisa od ~20 modula; čini temelj celog servisa i svakog internog modula.
-- **Gin (Web API)** — izabran zbog brzog, niskoopterećenog HTTP interfejsa; služi OpenAI-kompatibilnim `/v1` endpointima za dopunjavanje, ćaskanje, strimovanje i ansambl, koji omogućavaju postojećim klijentima da usvoje ansambl bez promena.
-- **PostgreSQL** — izabran kao trajna memorija za sesije, analitiku i zapise debata, kako bi odluke postignute konsenzusom i istorija debata bile proverljive; osigurava visoku dostupnost sloja podataka.
-- **Redis** — izabran za keširanje niske latencije i upravljanje redovima zadataka; pokreće i keširanje odgovora i semantički keš sloj koji omogućava da se ponovljeni ili gotovo identični upiti preskoče kako bi se izbeglo suvišno zaključivanje.
-- **LLMsVerifier (integrisan)** — izabran da pouzdanost provajdera bude merljiva veličina, a ne pretpostavka; njegovi rezultati rangiraju provajdere za rutiranje i pokreću rezervne opcije kada neki od njih počne da gubi na kvalitetu.
-- **Prometheus + Grafana + OpenTelemetry** — izabrani kako bi ansambl koji obuhvata više provajdera ostao uočljiv; izlažu `helixagent_*` metrike, kontrolne table i praćenje zahteva od kraja do kraja tokom raspršivanja.
-- **Model Context Protocol (MCP) adapteri** — izabrani zbog proširivosti kroz otvoreni protokol; u README fajlu navedeno je mnogo MCP adaptera za povezivanje spoljašnjih alata i konteksta.
-- **Neo4j / ClickHouse / Kafka (BigData)** — izabrani da bi se prevazišao okvir jednog čvora: Neo4j i ClickHouse podržavaju distribuiranu memoriju i funkcije znanja-grafa, a Kafka strimuje te grafove i podatke o događajima na velikoj skali.
-- **Integrisane optimizacije (SGLang, LlamaIndex, LangChain, Guidance, LMQL)** — izabrane da bi se kao opcione usluge dodali keširanje prefiksa, preuzimanje, dekompozicija zadataka i generisanje sa ograničenjima, tako da naprednije optimizacije budu dostupne, ali ne i obavezne.
+- **Go** — изабран зато што је распршивање једног захтева на више провајдера истовремено управо оно за шта су горутине намењене, а испорука у виду једног бинарног фајла чува једноставност сервиса од ~20 модула; чини темељ целог сервиса и сваког интерног модула.
+- **Gin (Web API)** — изабран због брзог, нискооптерећеног ХТТП интерфејса; служи OpenAI-компатибилним `/v1` ендпоинтима за допуњавање, ћаскање, стримовање и ансамбл, који омогућавају постојећим клијентима да усвоје ансамбл без промена.
+- **PostgreSQL** — изабран као трајна меморија за сесије, аналитику и записе дебата, како би одлуке постигнуте консензусом и историја дебата биле проверљиве; осигурава високу доступност слоја података.
+- **Redis** — изабран за кеширање ниске латенције и управљање редовима задатака; покреће и кеширање одговора и семантички кеш слој који омогућава да се поновљени или готово идентични упити прескоче како би се избегло сувишно закључивање.
+- **LLMsVerifier (интегрисан)** — изабран да поузданост провајдера буде мерљива величина, а не претпоставка; његови резултати рангирају провајдере за рутирање и покрећу резервне опције када неки од њих почне да губи на квалитету.
+- **Prometheus + Grafana + OpenTelemetry** — изабрани како би ансамбл који обухвата више провајдера остао уочљив; излажу `helixagent_*` метрике, контролне табле и праћење захтева од краја до краја током распршивања.
+- **Model Context Protocol (MCP) адаптери** — изабрани због проширивости кроз отворени протокол; у РЕАДМЕ фајлу наведено је много MCP адаптера за повезивање спољашњих алата и контекста.
+- **Neo4j / ClickHouse / Kafka (БигДата)** — изабрани да би се превазишао оквир једног чвора: Neo4j и ClickHouse подржавају дистрибуирану меморију и функције знања-графа, а Kafka стримује те графове и податке о догађајима на великој скали.
+- **Интегрисане оптимизације (SGLang, LlamaIndex, LangChain, Гуиданце, LMQL)** — изабране да би се као опционе услуге додали кеширање префикса, преузимање, декомпозиција задатака и генерисање са ограничењима, тако да напредније оптимизације буду доступне, али не и обавезне.
 
-## Napomene o statusu i iskrenosti
+## Напомене о статусу и искрености
 
-- **Status: beta.** Servis je opisan kao spreman za produkciju, ali su performanse i podaci o pokrivenosti navedeni u README fajlu (npr. „1000+ zahteva u sekundi", „<500 ms sa kešom", broj provajdera i skripti za validaciju) samo tvrdnje projekta, nisu nezavisno potvrđeni i ovde su namerno zadržani u kvalitativnom obliku.
-- Broj provajdera varira u samom README fajlu; stranica koristi kvalitativni okvir „mnogi provajderi".
+- **Статус: бета.** Сервис је описан као спреман за продукцију, али су перформансе и подаци о покривености наведени у РЕАДМЕ фајлу (нпр. „1000+ захтева у секунди", „<500 мс са кешом", број провајдера и скрипти за валидацију) само тврдње пројекта, нису независно потврђени и овде су намерно задржани у квалитативном облику.
+- Број провајдера варира у самом РЕАДМЕ фајлу; страница користи квалитативни оквир „многи провајдери".
 
-**Prioritetni nivo:** Helix-primary.
+**Приоритетни ниво:** Helix-primary.
 

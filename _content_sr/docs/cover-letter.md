@@ -10,21 +10,21 @@ sources:
 note: General-purpose letter. Placeholders in [brackets] are to be filled per application; no employer, project outcome, or metric is fabricated.
 ---
 
-# Motivaciono pismo
+# Мотивационо писмо
 
-Poštovani [Rukovodilac tima / Tim],
+Поштовани [Руководилац тима / Тим],
 
-Pišem Vam kako bih se prijavio za poziciju [uloga] u [kompanija]. Ja sam AI inženjer koji gradi ono što je neugledno, ali nosivo u AI softveru: LLM infrastrukturu, autonomne agente i orkestraciju, kao i slojeve za kontrolu kvaliteta i upravljanje koji ih čine pouzdanim u produkciji.
+Пишем Вам како бих се пријавио за позицију [улога] у [компанија]. Ја сам AI инжењер који гради оно што је неугледно, али носиво у AI софтверу: LLM инфраструктуру, аутономне агенте и оркестрацију, као и слојеве за контролу квалитета и управљање који их чине поузданим у продукцији.
 
-Tokom proteklih godina dizajnirao sam i isporučio porodicu međusobno povezanih proizvoda za razvoj AI. Linija Helix obuhvata ceo životni ciklus — HelixAgent (ansambl LLM servisa u kojem više modela raspravlja i isporučuje odgovor na koji se svi slažu), HelixCode (distribuiranu platformu za razvoj AI koja deli zadatke među radnicima upravljanim od strane SSH sa mogućnošću checkpoint/rollback), HelixLLM (jedan binarni fajl koji služi za inferenciju kompatibilnu sa OpenAI i Anthropic preko HTTP/3), kao i trio LLM infrastrukture: LLMProvider, LLMOrchestrator i LLMsVerifier (jedan interfejs za 43 provajdera, kontrolnu ravan za headless CLI agente i verifikacioni izvor istine). Oko svega toga izgradio sam alate za profesionalnu upotrebu kao što su Catalogizer (višeprotokolni, enkriptovani sistem za upravljanje medijima) i Courses-Creator (AI pipeline za konverziju markdown-a u video kurseve), a sve to stoji na floti malih, odvojenih i nezavisno testiranih Go i Kotlin Multiplatform modula.
+Током протеклих година дизајнирао сам и испоручио породицу међусобно повезаних производа за развој AI. Линија Helix обухвата цео животни циклус — HelixAgent (ансамбл LLM сервиса у којем више модела расправља и испоручује одговор на који се сви слажу), HelixCode (дистрибуирану платформу за развој AI која дели задатке међу радницима управљаним од стране SSH са могућношћу цхецкпоинт/роллбацк), HelixLLM (један бинарни фајл који служи за инференцију компатибилну са OpenAI и Anthropic преко HTTP/3), као и трио LLM инфраструктуре: LLMProvider, LLMOrchestrator и LLMsVerifier (један интерфејс за 43 провајдера, контролну раван за хеадлесс CLI агенте и верификациони извор истине). Око свега тога изградио сам алате за професионалну употребу као што су Catalogizer (вишепротоколни, енкриптовани систем за управљање медијима) и Courses-Creator (AI пипелине за конверзију markdown-а у видео курсеве), а све то стоји на флоти малих, одвојених и независно тестираних Go и Kotlin Multiplatform модула.
 
-Ono što, po mom mišljenju, izdvaja moj rad jeste disciplina koju ozbiljno shvatam: **inženjering bez blefiranja**. Održavam univerzalni inženjerski Constitution, distribuiran kao Git submodul i nasleđen u floti od preko 140 repozitorijuma, koji mehanički nameće jedno pravilo — funkcionalnost nije gotova kada testovi prođu, već kada je stvarni korisnik može da koristi i kada postoje dokazi koji to potvrđuju. U kombinaciji sa tim koristim HelixQA, QA orkestrator protiv blefiranja koji pokreće autonomne sesije LLM i računarskog vida na Androidu, Vebu i Desktop platformama i odbija da dodeli status PROŠAO bez snimka ekrana, logcat-a ili video zapisa. Gradeći sisteme koji ne samo da *izgledaju* gotovo, već su *dokazivo* takvi.
+Оно што, по мом мишљењу, издваја мој рад јесте дисциплина коју озбиљно схватам: **инжењеринг без блефирања**. Одржавам универзални инжењерски Constitution, дистрибуиран као Гит субмодул и наслеђен у флоти од преко 140 репозиторијума, који механички намеће једно правило — функционалност није готова када тестови прођу, већ када је стварни корисник може да користи и када постоје докази који то потврђују. У комбинацији са тим користим HelixQA, QA оркестратор против блефирања који покреће аутономне сесије LLM и рачунарског вида на Андроиду, Вебу и Десктоп платформама и одбија да додели статус ПРОШАО без снимка екрана, логцат-а или видео записа. Градећи системе који не само да *изгледају* готово, већ су *доказиво* такви.
 
-Tehnički, uglavnom radim u Go, sa Kotlin/KMP, TypeScript/React, Python, Swift i Shell, na REST/gRPC/HTTP/3 servisima, PostgreSQL/SQLite/Redis/ClickHouse slojevima podataka i Docker/Kubernetes/Prometheus operacijama. Ugodno mi je da posedujem sistem od apstrakcije provajdera i preuzimanja podataka sve do tragova dokaza koji potvrđuju njegovu funkcionalnost.
+Технички, углавном радим у Go, са Kotlin/KMP, TypeScript/React, Python, Swift и Shell, на REST/gRPC/HTTP/3 сервисима, PostgreSQL/SQLite/Redis/ClickHouse слојевима података и Docker/Kubernetes/Prometheus операцијама. Угодно ми је да поседујем систем од апстракције провајдера и преузимања података све до трагова доказа који потврђују његову функционалност.
 
-Bio bih srećan da tu kombinaciju — duboko AI sistemsko inženjerstvo i autentičnu, proverljivu disciplinu kvaliteta — donesem u [kompanija]. Hvala na razmatranju; moj portfolio i javni repozitorijumi dostupni su na milosvasic.ru i vasic.digital.
+Био бих срећан да ту комбинацију — дубоко AI системско инжењерство и аутентичну, проверљиву дисциплину квалитета — донесем у [компанија]. Хвала на разматрању; мој портфолио и јавни репозиторијуми доступни су на milosvasic.ru и vasic.digital.
 
-Srdačno,
+Срдачно,
 Miloš Vasić
 milos85vasic@gmail.com
 

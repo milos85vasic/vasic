@@ -31,68 +31,68 @@ diagrams:
 
 # HelixTrack
 
-**JIRA alternativa za slobodan svet.**
+**JIRA алтернатива за слободан свет.**
 
-## Sažetak
+## Сажетак
 
-HelixTrack je sveobuhvatna, moderna, open-source alternativa JIRA (a preko proširenja Documents i Confluence-u) — višeplatformski sistem za upravljanje projektima i praćenje problema, izgrađen na Go mikroservisnoj pozadini s izvornim klijentima za veb, desktop i mobilne uređaje.
+HelixTrack је свеобухватна, модерна, опен-соурце алтернатива JIRA (а преко проширења Доцументс и Confluence-у) — вишеплатформски систем за управљање пројектима и праћење проблема, изграђен на Go микросервисној позадини с изворним клијентима за веб, десктоп и мобилне уређаје.
 
-## Kratak opis
+## Кратак опис
 
-Open-source alternativa JIRA/Confluence-u. Go mikroservisna pozadina („HelixTrack Core") izlaže jedinstveni REST API za praćenje projekata i problema, uz Confluence-stilski radni prostor za dokumente, koji se servira izvorno na veb, desktop, Android i iOS klijentima preko HTTP/3 QUIC protokola.
+Опен-соурце алтернатива JIRA/Confluence-у. Go микросервисна позадина („HelixTrack Цоре") излаже јединствени REST API за праћење пројеката и проблема, уз Confluence-стилски радни простор за документе, који се сервира изворно на веб, десктоп, Android и iOS клијентима преко HTTP/3 QUIC протокола.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixTrack je open-source platforma za upravljanje projektima i praćenje problema, postavljena kao alternativa iz slobodnog sveta JIRA i Confluence-u — potpuna zamena za dva proizvoda kojima su inženjerske organizacije najčešće vezane, ponovo izgrađena kao softver koji posedujete i možete pokretati bilo gde. U njenom srcu je **HelixTrack Core**, REST API mikroservis napisan u Go-u s okvirom Gin, koji nudi potpuno praćenje problema, agilne/scrum table, upravljanje timovima i hijerarhijski sistem dozvola čija se implementacija može zameniti između lokalnog procesa i HTTP servisa — tako da isti model autorizacije skalira od jednog laptopa do distribuiranog klastera bez menjanja aplikativnog koda. Umesto da širi REST površinu preko desetina ruta, Core sve usmerava kroz jednu, akcijom usmerenu `/do` krajnju tačku s jedinstvenim omotačem zahteva i odgovora (`action`/`jwt`/`object`/`data` na ulazu, `errorCode`/`errorMessage`/`data` na izlazu): svaki klijent govori isti mali ugovor, a dodavanje nove funkcionalnosti znači dodavanje akcije, a ne novog URL-a koji treba dokumentovati, osigurati i verzionisati. Core se integriše s odvojenim servisima za autentifikaciju, dozvole i lokalizaciju koji komuniciraju preko HTTP/3 QUIC protokola i mogu raditi na odvojenim mašinama ili klasterima, ili se potpuno isključiti u testnim konfiguracijama. Podaci se čuvaju u SQLite-u za razvoj bez podešavanja i u PostgreSQL-u u produkciji, a šifruju se u mirovanju pomoću SQLCipher (AES-256), tako da su osetljivi podaci o projektima podrazumevano zaštićeni na disku, a ne naknadno. **Documents V2** proširenje pretvara tragač u potpunu platformu znanja: Confluence-stilski radni prostor sa prostorima, stranicama, kontrolom verzija, šablonima, saradnjom u realnom vremenu (WebSocket) i analitikom — wiki i tragač za problemima konačno žive iza jednog backend-a umesto kao dva proizvoda spojena na silu. Oko Core-a se nalaze različite klijentske aplikacije: Angular veb klijent, Tauri + Angular desktop klijent, izvorne Android (Kotlin) i iOS (Swift) aplikacije, kao i klijenti za HarmonyOS i Aurora OS, uz screensaver — sve komunicira s istom pozadinom i automatski je pronalazi na lokalnoj mreži putem UDP emitovanja, tako da novi klijent pronalazi server bez ručnog podešavanja. Klijentske aplikacije se održavaju kao odvojena, privatna repozitorijuma i ovde su predstavljene samo na nivou proizvoda.
-
-
-## Zašto smo ga napravili
-
-Da bismo timovima ponudili zaista otvorenu, samostalno hostovanu zamenu za JIRA + Confluence stek — „za slobodan svet" — bez zavisnosti od dobavljača, kombinujući praćenje poslova, dokumente i saradnju na nivou preduzeća pod jednom otvorenom licencom.
-
-## Zašto je ovo revolucionarno
-
-Spaja dva komercijalna teškaška — praćenje problema i stek za vikije/dokumente — u jednu otvorenu, visokoperformantnu, samostalno hostovanu platformu, i uparuje ih sa nečim što konkurencija nikada nije ponudila: istinski multiplatformske *native* klijente (veb, desktop, Android, iOS, plus HarmonyOS i Aurora OS), sve pokretane jednim ugovorom na backendu. Ključna prednost je vlasništvo bez kompromisa. Dizajn zasnovan na HTTP/3 svuda, potpuno razdvojenim mikroservisima i enkripciji SQLCipher AES-256 pri mirovanju donosi performanse i sigurnosni nivo koji su inače rezervisani za vlasničke SaaS sisteme — u sistem koji sami hostujete, bez licenci po korisniku, bez zavisnosti od dobavljača i bez podataka koji napuštaju vašu infrastrukturu. Timovi dobijaju iskustvo JIRA-plus-Confluence koje već poznaju, na sopstvenom hardveru, pod jednom otvorenom licencom.
-
-## Šta je inovativno
-
-- Ujedinjeni akcioni `/do` API — jedna krajnja tačka, jedan omotač, usmeravanje akcija. Nove mogućnosti stižu kao nove akcije, a ne kao nove URL adrese, što smanjuje napadnu površinu, klijentski kod i teret dokumentacije na jedan ugovor koji dele sve platforme.
-- HTTP/3 QUIC kao *podrazumevani* interservisni transport — moderna mrežna komunikacija sa niskom latencijom i otporna na prekide veze između servisa od prvog dana, a ne naknadno dodata.
-- Mehanizam za dozvole koji se može zameniti između lokalne implementacije u procesu i servisa pokretanog preko HTTP-a, uz opcione, nezavisno implementirane servise za autentifikaciju, dozvole i lokalizaciju — isti model autorizacije bez obzira da li pokrećete jedan proces ili klaster.
-- Izolacija podataka u više prostora pomoću `--space-root` zastavice: svaki projekat dobija svoju izolovanu bazu podataka i skladište resursa, tako da su stanari i projekti razdvojeni na nivou skladišta, a ne pomoću filtera u upitima.
-- Enkripcija SQLCipher AES-256 pri mirovanju — osetljivi podaci projekta su podrazumevano zaštićeni na disku, transparentno.
-- Automatsko otkrivanje klijenta i servera putem UDP emitovanja na lokalnim mrežama — klijent pronalazi Core bez ikakve ručne konfiguracije.
-- Dokumenti V2, prava „alternativa Confluence-u", sa optimističkim zaključavanjem paralelne obrade, detekcijom konflikata i kompletnom istorijom izmena — pravi kolaborativni dokumenti koji žive iza istog backenda kao i tragač.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Šest klijentskih platformi, jedan backend, nula odstupanja u ugovoru.** Održavanje klijenata za Web/Angular, Desktop/Tauri, Android/Kotlin, iOS/Swift, HarmonyOS i Aurora obično znači šest različitih integracija API koje vremenom gube sinhronizaciju. Taj rizik smo eliminisali tako što smo učinili jedini ugovor akciono usmereni `/do` API sa fiksnim omotačem — svaki klijent ga cilja na identičan način — i dodali UDP emitovanje za otkrivanje servisa kako bi klijenti pronalazili Core na mreži bez ručno podešenih krajnjih tačaka.
-- **Razdvajanje servisa bez plaćanja cene latencije.** Podela autentifikacije, dozvola i lokalizacije na nezavisno implementirane servise obično dodaje mrežni skok po pozivu. Usvojili smo HTTP/3 QUIC za sve interservisne pozive kako bismo zadržali te skokove brzim i otpornim na prekide veze, a svaki servis učinili nezavisno pokretljivim — čak i potpuno isključenim u testnim konfiguracijama — tako da razdvajanje postane izbor pri implementaciji, a ne fiksni trošak.
-- **Kolaboracija na nivou Confluence-a bez gubitka izmena.** Uređivanje u realnom vremenu sa više autora podstiče konflikte. Dokumenti V2 to rešavaju pomoću prostora/stranica/verzionisanja pod optimističkim zaključavanjem, uz eksplicitnu detekciju konflikata, kompletnu istoriju izmena kao rezervnu opciju i sinhronizaciju u realnom vremenu WebSocket — kolaboracija koja ostaje konzistentna umesto da tiho pregazi izmene.
-- **Enkripcija pri mirovanju bez žrtvovanja propusnosti.** SQLCipher AES-256 štiti podatke na disku, ali dodaje troškove po upitu; to smo kompenzovali višeslojnim keširanjem (LRU u memoriji ispred Redis u servisu za lokalizaciju) tako da vrući putevi poput višjezičnih pretraga ostaju brzi, a podaci i dalje enkriptovani.
+HelixTrack је опен-соурце платформа за управљање пројектима и праћење проблема, постављена као алтернатива из слободног света JIRA и Confluence-у — потпуна замена за два производа којима су инжењерске организације најчешће везане, поново изграђена као софтвер који поседујете и можете покретати било где. У њеном срцу је **HelixTrack Цоре**, REST API микросервис написан у Go-у с оквиром Gin, који нуди потпуно праћење проблема, агилне/сцрум табле, управљање тимовима и хијерархијски систем дозвола чија се имплементација може заменити између локалног процеса и ХТТП сервиса — тако да исти модел ауторизације скалира од једног лаптопа до дистрибуираног кластера без мењања апликативног кода. Уместо да шири REST површину преко десетина рута, Цоре све усмерава кроз једну, акцијом усмерену `/do` крајњу тачку с јединственим омотачем захтева и одговора (`action`/`jwt`/`object`/`data` на улазу, `errorCode`/`errorMessage`/`data` на излазу): сваки клијент говори исти мали уговор, а додавање нове функционалности значи додавање акције, а не новог URL-а који треба документовати, осигурати и верзионисати. Цоре се интегрише с одвојеним сервисима за аутентификацију, дозволе и локализацију који комуницирају преко HTTP/3 QUIC протокола и могу радити на одвојеним машинама или кластерима, или се потпуно искључити у тестним конфигурацијама. Подаци се чувају у SQLite-у за развој без подешавања и у PostgreSQL-у у продукцији, а шифрују се у мировању помоћу SQLCipher (AES-256), тако да су осетљиви подаци о пројектима подразумевано заштићени на диску, а не накнадно. **Доцументс В2** проширење претвара трагач у потпуну платформу знања: Confluence-стилски радни простор са просторима, страницама, контролом верзија, шаблонима, сарадњом у реалном времену (WebSocket) и аналитиком — wiki и трагач за проблемима коначно живе иза једног бацкенд-а уместо као два производа спојена на силу. Око Цоре-а се налазе различите клијентске апликације: Angular веб клијент, Tauri + Angular десктоп клијент, изворне Android (Kotlin) и iOS (Swift) апликације, као и клијенти за HarmonyOS и Aurora OS, уз сцреенсавер — све комуницира с истом позадином и аутоматски је проналази на локалној мрежи путем UDP емитовања, тако да нови клијент проналази сервер без ручног подешавања. Клијентске апликације се одржавају као одвојена, приватна репозиторијума и овде су представљене само на нивоу производа.
 
 
-## Tehnološki stack
+## Зашто смо га направили
 
-- **Go + Gin** — izabrani za HTTP usluge visokog protoka i niske latencije sa scenarijem implementacije u obliku jednog binarnog fajla; sadrže Core-ov REST API, njegov JWT/CORS middleware i ruter sa akcijama na `/do` koji stoji ispred celog sistema.
-- **HTTP/3 QUIC** — izabran kao transportni sloj između Core-a i njegovih usluga za autentifikaciju, dozvole i lokalizaciju, jer QUIC-ov dizajn sa multipleksiranim vezama i migracijom konekcija smanjuje kašnjenje u repnom delu i preživljava nestabilne veze gde TCP zastaje.
-- **PostgreSQL (prod) / SQLite (dev)** — jedan relacion model koji podržava veliku šemu za praćenje i dokumente na oba motora: SQLite omogućava lokalni razvoj bez podešavanja i zasnovan na fajlovima, dok Postgres preuzima ulogu u produkciji putem namenski definisanog `production` Compose profila.
-- **SQLCipher (AES-256)** — izabran za transparentnu enkripciju na nivou baze podataka u mirovanju, tako da zaštita osetljivih projekatskih podataka ne zahteva kriptografiju na nivou aplikacije niti izmene u načinu pisanja upita.
-- **Redis** — izabran kao zajednički keš sloj iza keša u memoriji sa LRU algoritmom u okviru Lokalizacione usluge, što obezbeđuje dvoslojni keš koji održava brzinu pregleda u više jezika čak i uz dodatni teret enkripcije.
-- **Uber Zap + Lumberjack** — izabrani za strukturirano, efikasno logovanje sa ugrađenom rotacijom, kako bi Core ostao uočljiv u produkciji bez neograničenog rasta log fajlova.
-- **golang-jwt / JWT** — izabrani kao mehanizam za bezstanjnu autentifikaciju; potpisani token putuje u `jwt` polju svakog `/do` omotača, čime je autentifikacija ujednačena za sve klijente.
-- **Angular 19 (+ Material, RxJS)** — izabran za reaktivni, komponentno vođeni veb klijent sa zrelim Material dizajnerskim sistemom odmah na raspolaganju.
-- **Tauri 2.0 + Rust + Angular** — izabrani za isporuku nativnog desktop omotača sa minimalnim zauzećem prostora, ponovnim korišćenjem Angular UI-a unutar Rust webview-a umesto uključivanja kompletnog browser runtime-a.
-- **Kotlin (Android) / Swift + SwiftUI (iOS)** — izabrani kako bi mobilni korisnici dobili zaista nativne, platformski prilagođene klijente umesto omotanog veb prikaza.
-- **Docker / Docker Compose (kompatibilno sa Podman)** — izabrani za reproduktivno, kontejnerizovano implementiranje sa ugrađenim `/health` proverama, kao i kompatibilnost sa Podman, čime se ne nameće potreba za daemonima ili specifičnim dobavljačima.
-- **Testify (Go); Cypress/Playwright/Karma+Jasmine (klijenti)** — izabrani za višeslojno automatizovano testiranje koje pokriva ugovor sa backend-om i klijentske UI-ove nezavisno, u skladu sa arhitekturom jednog backend-a i više klijenata.
+Да бисмо тимовима понудили заиста отворену, самостално хостовану замену за JIRA + Confluence стек — „за слободан свет" — без зависности од добављача, комбинујући праћење послова, документе и сарадњу на нивоу предузећа под једном отвореном лиценцом.
 
-## Status i napomene o iskrenosti
+## Зашто је ово револуционарно
 
-- **Status: beta.** HelixTrack Core je funkcionalni REST API mikroservis; **Documents V2** ekstenzija je dokumentovana kao otprilike 95% kompletirana sa poznatim problemom mapiranja polja u bazi podataka, te se ne predstavlja kao potpuno isporučena.
-- **Licenca: nije definitivno određena.** `CLAUDE.md` navodi MIT, ali `core/LICENSE` fajl zvaničnog zapisa je Apache 2.0 — ova nesaglasnost mora biti razrešena pre nego što se licenca konačno odredi.
-- Performansni podaci navedeni u README fajlu projekta (npr. 50.000+ zahteva u sekundi, vreme upita ispod milisekunde) predstavljaju projektovane/marketinške ciljeve, a ne nezavisno objavljene benchmark rezultate, te su stoga izostavljeni iz navedenih tvrdnji.
-- Klijentske aplikacije (Web, Desktop, Android, iOS, Aurora, HarmonyOS) nalaze se u **privatnim** repozitorijumima i opisuju se isključivo na nivou proizvoda.
+Спаја два комерцијална тешкашка — праћење проблема и стек за викије/документе — у једну отворену, високоперформантну, самостално хостовану платформу, и упарује их са нечим што конкуренција никада није понудила: истински мултиплатформске *нативе* клијенте (веб, десктоп, Android, iOS, плус HarmonyOS и Aurora OS), све покретане једним уговором на бацкенду. Кључна предност је власништво без компромиса. Дизајн заснован на HTTP/3 свуда, потпуно раздвојеним микросервисима и енкрипцији SQLCipher AES-256 при мировању доноси перформансе и сигурносни ниво који су иначе резервисани за власничке SaaS системе — у систем који сами хостујете, без лиценци по кориснику, без зависности од добављача и без података који напуштају вашу инфраструктуру. Тимови добијају искуство JIRA-плус-Confluence које већ познају, на сопственом хардверу, под једном отвореном лиценцом.
 
-**Prioritetni nivo:** Helix-primary i vodeći proizvod linije Helix-Track — rangiran ispred svih projekata Server Factory.
+## Шта је иновативно
+
+- Уједињени акциони `/do` API — једна крајња тачка, један омотач, усмеравање акција. Нове могућности стижу као нове акције, а не као нове URL адресе, што смањује нападну површину, клијентски код и терет документације на један уговор који деле све платформе.
+- HTTP/3 QUIC као *подразумевани* интерсервисни транспорт — модерна мрежна комуникација са ниском латенцијом и отпорна на прекиде везе између сервиса од првог дана, а не накнадно додата.
+- Механизам за дозволе који се може заменити између локалне имплементације у процесу и сервиса покретаног преко ХТТП-а, уз опционе, независно имплементиране сервисе за аутентификацију, дозволе и локализацију — исти модел ауторизације без обзира да ли покрећете један процес или кластер.
+- Изолација података у више простора помоћу `--space-root` заставице: сваки пројекат добија своју изоловану базу података и складиште ресурса, тако да су станари и пројекти раздвојени на нивоу складишта, а не помоћу филтера у упитима.
+- Енкрипција SQLCipher AES-256 при мировању — осетљиви подаци пројекта су подразумевано заштићени на диску, транспарентно.
+- Аутоматско откривање клијента и сервера путем UDP емитовања на локалним мрежама — клијент проналази Цоре без икакве ручне конфигурације.
+- Документи В2, права „алтернатива Confluence-у", са оптимистичким закључавањем паралелне обраде, детекцијом конфликата и комплетном историјом измена — прави колаборативни документи који живе иза истог бацкенда као и трагач.
+
+## Највећи технички изазови и како смо их решили
+
+- **Шест клијентских платформи, један бацкенд, нула одступања у уговору.** Одржавање клијената за Web/Angular, Десктоп/Tauri, Android/Kotlin, iOS/Swift, HarmonyOS и Аурора обично значи шест различитих интеграција API које временом губе синхронизацију. Тај ризик смо елиминисали тако што смо учинили једини уговор акционо усмерени `/do` API са фиксним омотачем — сваки клијент га циља на идентичан начин — и додали UDP емитовање за откривање сервиса како би клијенти проналазили Цоре на мрежи без ручно подешених крајњих тачака.
+- **Раздвајање сервиса без плаћања цене латенције.** Подела аутентификације, дозвола и локализације на независно имплементиране сервисе обично додаје мрежни скок по позиву. Усвојили смо HTTP/3 QUIC за све интерсервисне позиве како бисмо задржали те скокове брзим и отпорним на прекиде везе, а сваки сервис учинили независно покретљивим — чак и потпуно искљученим у тестним конфигурацијама — тако да раздвајање постане избор при имплементацији, а не фиксни трошак.
+- **Колаборација на нивоу Confluence-а без губитка измена.** Уређивање у реалном времену са више аутора подстиче конфликте. Документи В2 то решавају помоћу простора/страница/верзионисања под оптимистичким закључавањем, уз експлицитну детекцију конфликата, комплетну историју измена као резервну опцију и синхронизацију у реалном времену WebSocket — колаборација која остаје конзистентна уместо да тихо прегази измене.
+- **Енкрипција при мировању без жртвовања пропусности.** SQLCipher AES-256 штити податке на диску, али додаје трошкове по упиту; то смо компензовали вишеслојним кеширањем (LRU у меморији испред Redis у сервису за локализацију) тако да врући путеви попут вишјезичних претрага остају брзи, а подаци и даље енкриптовани.
+
+
+## Технолошки стацк
+
+- **Go + Gin** — изабрани за ХТТП услуге високог протока и ниске латенције са сценаријем имплементације у облику једног бинарног фајла; садрже Цоре-ов REST API, његов JWT/CORS middleware и рутер са акцијама на `/do` који стоји испред целог система.
+- **HTTP/3 QUIC** — изабран као транспортни слој између Цоре-а и његових услуга за аутентификацију, дозволе и локализацију, јер QUIC-ов дизајн са мултиплексираним везама и миграцијом конекција смањује кашњење у репном делу и преживљава нестабилне везе где TCP застаје.
+- **PostgreSQL (прод) / SQLite (дев)** — један релацион модел који подржава велику шему за праћење и документе на оба мотора: SQLite омогућава локални развој без подешавања и заснован на фајловима, док Postgres преузима улогу у продукцији путем наменски дефинисаног `production` Цомпосе профила.
+- **SQLCipher (AES-256)** — изабран за транспарентну енкрипцију на нивоу базе података у мировању, тако да заштита осетљивих пројекатских података не захтева криптографију на нивоу апликације нити измене у начину писања упита.
+- **Redis** — изабран као заједнички кеш слој иза кеша у меморији са LRU алгоритмом у оквиру Локализационе услуге, што обезбеђује двослојни кеш који одржава брзину прегледа у више језика чак и уз додатни терет енкрипције.
+- **Uber Зап + Lumberjack** — изабрани за структурирано, ефикасно логовање са уграђеном ротацијом, како би Цоре остао уочљив у продукцији без неограниченог раста лог фајлова.
+- **голанг-jwt / JWT** — изабрани као механизам за безстањну аутентификацију; потписани токен путује у `jwt` пољу сваког `/do` омотача, чиме је аутентификација уједначена за све клијенте.
+- **Angular 19 (+ Материал, RxJS)** — изабран за реактивни, компонентно вођени веб клијент са зрелим Материал дизајнерским системом одмах на располагању.
+- **Tauri 2.0 + Rust + Angular** — изабрани за испоруку нативног десктоп омотача са минималним заузећем простора, поновним коришћењем Angular UI-а унутар Rust webview-а уместо укључивања комплетног browser рунтиме-а.
+- **Kotlin (Android) / Swift + SwiftUI (iOS)** — изабрани како би мобилни корисници добили заиста нативне, платформски прилагођене клијенте уместо омотаног веб приказа.
+- **Docker / Docker Цомпосе (компатибилно са Podman)** — изабрани за репродуктивно, контејнеризовано имплементирање са уграђеним `/health` проверама, као и компатибилност са Podman, чиме се не намеће потреба за даемонима или специфичним добављачима.
+- **Testify (Go); Cypress/Playwright/Karma+Jasmine (клијенти)** — изабрани за вишеслојно аутоматизовано тестирање које покрива уговор са бацкенд-ом и клијентске UI-ове независно, у складу са архитектуром једног бацкенд-а и више клијената.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** HelixTrack Цоре је функционални REST API микросервис; **Доцументс В2** екстензија је документована као отприлике 95% комплетирана са познатим проблемом мапирања поља у бази података, те се не представља као потпуно испоручена.
+- **Лиценца: није дефинитивно одређена.** `CLAUDE.md` наводи МИТ, али `core/LICENSE` фајл званичног записа је Апацхе 2.0 — ова несагласност мора бити разрешена пре него што се лиценца коначно одреди.
+- Перформансни подаци наведени у РЕАДМЕ фајлу пројекта (нпр. 50.000+ захтева у секунди, време упита испод милисекунде) представљају пројектоване/маркетиншке циљеве, а не независно објављене бенцхмарк резултате, те су стога изостављени из наведених тврдњи.
+- Клијентске апликације (Web, Десктоп, Android, iOS, Аурора, HarmonyOS) налазе се у **приватним** репозиторијумима и описују се искључиво на нивоу производа.
+
+**Приоритетни ниво:** Helix-primary и водећи производ линије Helix-Track — рангиран испред свих пројеката Server Factory.
 

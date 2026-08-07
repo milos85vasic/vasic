@@ -424,15 +424,27 @@ func assetLinksJekyll(cssName string) string {
 	}, "\n")
 }
 
+// mvPagePathsJSON builds the MV_PAGE per-language URL map for a milosvasic.ru
+// (Jekyll) page so assets/js/main.js NAVIGATES to the localized variant of THIS
+// page type when a language is chosen — not just a client-side chrome swap that
+// leaves the body in the old language (BUG #63). enPath is the EN root-relative
+// path ("" home, "products/<slug>.html", "portfolio/"); langPath maps it to each
+// language's real static route ("/", "/de/", "/products/de/x.html", …). Every
+// milos product/portfolio page is emitted for all langs, so every path resolves;
+// main.js additionally falls back to the localized home if a path is ever absent.
+func mvPagePathsJSON(pageType, enPath string, langs []string) string {
+	paths := map[string]string{}
+	for _, l := range langs {
+		paths[l] = "/" + langPath(l, enPath)
+	}
+	b, _ := json.Marshal(map[string]interface{}{"type": pageType, "paths": paths})
+	return string(b)
+}
+
 // homePathsJSON builds the OD_PAGE/MV_PAGE per-language home URL map
 // ({"en":"/","ru":"/ru/",…}) the switchers navigate to when a language is picked.
 func homePathsJSON(langs []string) string {
-	paths := map[string]string{}
-	for _, l := range langs {
-		paths[l] = "/" + langPath(l, "")
-	}
-	b, _ := json.Marshal(map[string]interface{}{"type": "home", "paths": paths})
-	return string(b)
+	return mvPagePathsJSON("home", "", langs)
 }
 
 func renderHomeJekyll(doc *HomeDoc, p *Portfolio, site *Site, langs []string) string {

@@ -22,51 +22,51 @@ diagrams:
   - Phase status board (implemented vs planned)
 ---
 
-**Nijedan praćeni dokument ne može izaći iz sinhronizacije — sadržajno heširan, dvosmeran, atomičan.**
+**Ниједан праћени документ не може изаћи из синхронизације — садржајно хеширан, двосмеран, атомичан.**
 
-## Sažetak
+## Сажетак
 
-Docs Chain je univerzalni, Go-implementiran dvosmerni motor za propagaciju zavisnosti između dokumenata i baza podataka. Kada se bilo koji član registrovanog lanca promeni — Markdown izvor, HTML/PDF/DOCX izvoz ili SQLite baza podataka — on to otkriva putem heša sadržaja i propagira promenu kroz sve povezane članove atomično.
+Docs Chain је универзални, Go-имплементиран двосмерни мотор за пропагацију зависности између докумената и база података. Када се било који члан регистрованог ланца промени — Markdown извор, HTML/PDF/DOCX извоз или SQLite база података — он то открива путем хеша садржаја и пропагира промену кроз све повезане чланове атомично.
 
-## Kratak opis
+## Кратак опис
 
-Go motor koji održava dokumente i baze podataka u sinhronizaciji. Koristeći Salsa-stil inkrementalnog prekomputiranja zasnovanog na hešu sadržaja preko DAG-a (Kanov topološki redosled, rano odsecanje, dvosmerne sinhronizacione grane, atomično preimenovanje + SQLite transakcioni komitovi), on regeneriše izvoze kad god se bilo koji povezan artefakt promeni.
+Go мотор који одржава документе и базе података у синхронизацији. Користећи Салса-стил инкременталног прекомпутирања заснованог на хешу садржаја преко DAG-а (Канов тополошки редослед, рано одсецање, двосмерне синхронизационе гране, атомично преименовање + SQLite трансакциони комитови), он регенерише извозе кад год се било који повезан артефакт промени.
 
-## Detaljan opis
+## Детаљан опис
 
-Docs Chain je ono što napravite kada ste već jednom previše puta napisali isti krhki shell skript „regeneriši PDF kada se Markdown promeni". On zamenjuje čitav taj žanr ručno pisane sinhronizacione lepila pravim motorom. Modelira dokumente i baze podataka projekta kao članove lanca i, kada se bilo koji član promeni, propagira tu promenu kroz sve povezane članove u svim deklarisanim smerovima — regenerišući i izvozeći atomično tako da nijedan praćeni artefakt nikada ne može izaći iz sinhronizacije. Dizajn pozajmljuje svoju strogost direktno iz sveta inkrementalnih build sistema, a ne iz skriptovanja: otkrivanje promena zasniva se na **hešu sadržaja, a ne na vremenu modifikacije**, pa `touch` ne pokreće ništa, a jednobajtna izmena pokreće tačno one ponovne izgradnje koje treba — bez lažnih alarma, bez propuštenih promena. Formalno izraženo u jednoj rečenici, to je Salsa-stil inkrementalnog prekomputiranja zasnovanog na hešu sadržaja preko DAG-a, sa Kanovim topološkim redosledom, ranim odsecanjem koje eliminiše nepromenjene podstabla, deklarisanim dvosmernim `sync` granama sa autoritetom, i atomičnim preimenovanjem plus SQLite transakcionim komitovima, tako da pad sistema usred propagacije nikada ne može ostaviti delimično napisan izvoz. Distribuira se kao `vasic-digital` podmodul i koristi kao osnovni deo HelixConstitution podmodula, pa svaki projekat koji usvoji ustav dobija Docs Chain odmah i registruje sopstvene lance preko YAML po kontekstu. Implementacija je iskrena u pogledu statusa (prema ustavu §11.4.6): Faze 1–4 (osnovni DAG + heširanje, adapteri/transformacije čvorova, koordinator propagacije sa atomičnošću, konfiguraciono vođeni multi-kontekstni CLI sa `sync`/`verify`/`doctor`/`graph`/`watch`) su implementirane i testirane; Faza 4b dodaje generičke dvosmerne ugrađene funkcije `md-to-sqlite`/`sqlite-to-md` (čisti Go, promena na nivou reda, bajt-stabilan kružni tok) i ugrađenu funkciju `colorize-html`; Faza 5 obuhvata sveobuhvatne real-binary end-to-end testove i označena je kao GREEN. Faze 6–7 (distribucija ustava, ATMOSphere povezivanje) ostaju PLANIRANE i dostupne samo operaterima. Herald je prvi pravi downstream potrošač, sinhronizujući korpus od 66 dokumenata u više formata koji verifikuje čistoću.
+Docs Chain је оно што направите када сте већ једном превише пута написали исти крхки схелл скрипт „регенериши PDF када се Markdown промени". Он замењује читав тај жанр ручно писане синхронизационе лепила правим мотором. Моделира документе и базе података пројекта као чланове ланца и, када се било који члан промени, пропагира ту промену кроз све повезане чланове у свим декларисаним смеровима — регенеришући и извозећи атомично тако да ниједан праћени артефакт никада не може изаћи из синхронизације. Дизајн позајмљује своју строгост директно из света инкременталних буилд система, а не из скриптовања: откривање промена заснива се на **хешу садржаја, а не на времену модификације**, па `touch` не покреће ништа, а једнобајтна измена покреће тачно оне поновне изградње које треба — без лажних аларма, без пропуштених промена. Формално изражено у једној реченици, то је Салса-стил инкременталног прекомпутирања заснованог на хешу садржаја преко DAG-а, са Кановим тополошким редоследом, раним одсецањем које елиминише непромењене подстабла, декларисаним двосмерним `sync` гранама са ауторитетом, и атомичним преименовањем плус SQLite трансакционим комитовима, тако да пад система усред пропагације никада не може оставити делимично написан извоз. Дистрибуира се као `vasic-digital` подмодул и користи као основни део HelixConstitution подмодула, па сваки пројекат који усвоји устав добија Docs Chain одмах и региструје сопствене ланце преко YAML по контексту. Имплементација је искрена у погледу статуса (према уставу §11.4.6): Фазе 1–4 (основни DAG + хеширање, адаптери/трансформације чворова, координатор пропагације са атомичношћу, конфигурационо вођени мулти-контекстни CLI са `sync`/`verify`/`doctor`/`graph`/`watch`) су имплементиране и тестиране; Фаза 4б додаје генеричке двосмерне уграђене функције `md-to-sqlite`/`sqlite-to-md` (чисти Go, промена на нивоу реда, бајт-стабилан кружни ток) и уграђену функцију `colorize-html`; Фаза 5 обухвата свеобухватне реал-binary енд-то-енд тестове и означена је као ГРЕЕН. Фазе 6–7 (дистрибуција устава, АТМОСпхере повезивање) остају ПЛАНИРАНЕ и доступне само оператерима. Herald је први прави downstream потрошач, синхронизујући корпус од 66 докумената у више формата који верификује чистоћу.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Dokumentacija, izvozi i baze podataka se razilaze čim se održavaju ručno ili pomoću krhkih skripti. Docs Chain sinhronizaciju čini mehaničkom, preciznom na osnovu heša sadržaja i atomičnom, tako da promena bilo gde u lancu ispravno i bezbedno ažurira sve nizvodno (i uzvodno).
+Документација, извози и базе података се разилазе чим се одржавају ручно или помоћу крхких скрипти. Docs Chain синхронизацију чини механичком, прецизном на основу хеша садржаја и атомичном, тако да промена било где у ланцу исправно и безбедно ажурира све низводно (и узводно).
 
 
-## Zašto je ovo revolucionarno
+## Зашто је ово револуционарно
 
-Ono što donosi su rigorozne garancije ispravnosti, koje autori kompajlera i build-sistema smatraju samorazumljivim – grafovi zavisnosti zasnovani na heširanju sadržaja, minimalno ponavljanje izračunavanja, atomične promene – ali ih usmerava na dokumentaciju i baze podataka, domen koji je do sada preživljavao zahvaljujući cron poslovima i dobrim namerama. Prava dvosmerna sinhronizacija znači da se odnos između izvornog materijala i njegovog izvoza održava u oba smera, tako da „dokumentacija nije ažurna" i „izvoz se ne poklapa sa izvorom" prestaju da budu ponavljajući bagovi i postaju stanja koja sistem jednostavno neće dozvoliti.
+Оно што доноси су ригорозне гаранције исправности, које аутори компајлера и буилд-система сматрају саморазумљивим – графови зависности засновани на хеширању садржаја, минимално понављање израчунавања, атомичне промене – али их усмерава на документацију и базе података, домен који је до сада преживљавао захваљујући црон пословима и добрим намерама. Права двосмерна синхронизација значи да се однос између изворног материјала и његовог извоза одржава у оба смера, тако да „документација није ажурна" и „извоз се не поклапа са извором" престају да буду понављајући багови и постају стања која систем једноставно неће дозволити.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Inkrementalno ponovno izračunavanje zasnovano na hešu sadržaja (a ne na vremenu izmene) nad usmerenim acikličnim grafom (DAG) sa ranim prekidom.
-- Dvosmerna sinhronizacija sa eksplicitno definisanim autoritetom (dokumentacija ↔ izvoz ↔ SQLite).
-- Atomična promena imena + SQLite transakcioni komit za bezbedno širenje promena čak i u slučaju pada sistema.
-- Čist Go `md-to-sqlite`/`sqlite-to-md` kružni proces sa detekcijom odstupanja na nivou redova.
+- Инкрементално поновно израчунавање засновано на хешу садржаја (а не на времену измене) над усмереним ацикличним графом (DAG) са раним прекидом.
+- Двосмерна синхронизација са експлицитно дефинисаним ауторитетом (документација ↔ извоз ↔ SQLite).
+- Атомична промена имена + SQLite трансакциони комит за безбедно ширење промена чак и у случају пада система.
+- Чист Go `md-to-sqlite`/`sqlite-to-md` кружни процес са детекцијом одступања на нивоу редова.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Lažna ponovna izgradnja:** rešeno detekcijom heša sadržaja umesto vremenskih oznaka.
-- **Delimične/korumpirane izmene:** rešeno atomičnom promenom imena i SQLite transakcijama.
-- **Ispravno redosled izvršavanja sa više članova:** rešeno Kahnovim topološkim sortiranjem sa ranim prekidom.
-- **Pošteno izveštavanje o mogućnostima:** rešeno označavanjem svake faze kao IMPLEMENTIRANO ili PLANIRANO prema §11.4.6.
+- **Лажна поновна изградња:** решено детекцијом хеша садржаја уместо временских ознака.
+- **Делимичне/корумпиране измене:** решено атомичном променом имена и SQLite трансакцијама.
+- **Исправно редослед извршавања са више чланова:** решено Кахновим тополошким сортирањем са раним прекидом.
+- **Поштено извештавање о могућностима:** решено означавањем сваке фазе као ИМПЛЕМЕНТИРАНО или ПЛАНИРАНО према §11.4.6.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Go** — ceo pogon (`internal/hash`, `graph`, `adapter`, `orchestrator`, `config`, `state`, `runner`, `cmd/docs_chain`).
-- **DAG + Kahnovo topološko sortiranje** — redosled zavisnosti sa ranim prekidom.
-- **SQLite (čist Go modernc)** — članovi baze podataka i transakcioni komiti.
-- **fsnotify** — `watch` daemon za prenošenje promena u realnom vremenu.
-- **YAML config** — registracija lanaca po kontekstu.
-- **exec: transformacije** — priključivi generatori Markdown→HTML/PDF/DOCX.
+- **Go** — цео погон (`internal/hash`, `graph`, `adapter`, `orchestrator`, `config`, `state`, `runner`, `cmd/docs_chain`).
+- **DAG + Кахново тополошко сортирање** — редослед зависности са раним прекидом.
+- **SQLite (чист Go модернц)** — чланови базе података и трансакциони комити.
+- **fsnotify** — `watch` даемон за преношење промена у реалном времену.
+- **YAML цонфиг** — регистрација ланаца по контексту.
+- **exec: трансформације** — прикључиви генератори Markdown→HTML/PDF/DOCX.
 
-> Poštenje u planu razvoja: Faze 6–7 (distribucija ustava, povezivanje sa ATMOSferom) su PLANIRANE / dostupne samo operaterima – nisu još isporučene.
+> Поштење у плану развоја: Фазе 6–7 (дистрибуција устава, повезивање са АТМОСфером) су ПЛАНИРАНЕ / доступне само оператерима – нису још испоручене.
 

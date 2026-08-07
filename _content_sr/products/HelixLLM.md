@@ -29,64 +29,64 @@ diagrams:
 
 # HelixLLM
 
-**Jedan binarni fajl, šest režima — OpenAI- i Anthropic-kompatibilno zaključivanje od laptopa do klastera sa više hostova.**
+**Један бинарни фајл, шест режима — OpenAI- и Anthropic-компатибилно закључивање од лаптопа до кластера са више хостова.**
 
-## Sažetak
+## Сажетак
 
-HelixLLM je distribuirani LLM sistem za preduzeća napravljen u Go: jedan binarni fajl sa sistemom režima koji se skaluje od razvoja na jednom hostu do produkcije na više hostova. Pruža potpuno OpenAI- i Anthropic-kompatibilne API-je preko HTTP/3, sa lokalnim zaključivanjem putem llama.cpp, lancom rezervnih rešenja sa ocenjivanjem više provajdera, RAG protokom i sistemom ReAct agenata.
+HelixLLM је дистрибуирани LLM систем за предузећа направљен у Go: један бинарни фајл са системом режима који се скалује од развоја на једном хосту до продукције на више хостова. Пружа потпуно OpenAI- и Anthropic-компатибилне API-је преко HTTP/3, са локалним закључивањем путем ллама.цпп, ланцом резервних решења са оцењивањем више провајдера, RAG протоком и системом ReAct агената.
 
-## Kratak opis
+## Кратак опис
 
-HelixLLM je distribuirani LLM sistem zasnovan na jednom binarnom fajlu i Go. Izlaže OpenAI- i Anthropic-kompatibilne API-je preko HTTP/3, pokreće lokalno zaključivanje putem llama.cpp, automatski otkriva i ocenjuje besplatne provajdere u oblaku kako bi formirao lanac rezervnih rešenja, te dodaje RAG protočni sistem znanja i ReAct agenta sa pozivanjem alata — raspoloživ u šest režima implementacije.
+HelixLLM је дистрибуирани LLM систем заснован на једном бинарном фајлу и Go. Излаже OpenAI- и Anthropic-компатибилне API-је преко HTTP/3, покреће локално закључивање путем ллама.цпп, аутоматски открива и оцењује бесплатне провајдере у облаку како би формирао ланац резервних решења, те додаје RAG проточни систем знања и ReAct агента са позивањем алата — расположив у шест режима имплементације.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixLLM je distribuirani LLM sistem za preduzeća izgrađen u Go sa Gin, a njegova glavna prednost je da jedan artefakt pokriva sve scenarije. Kompajlira se u jedan binarni fajl čiji sistem režima određuje prilikom implementacije šta taj fajl *zapravo jeste*: pokrenite ga kao `full` za sveobuhvatnu instancu na laptopu ili podelite odgovornosti između režima `gateway`, `brain`, `knowledge`, `agents` i `control` raspoređenih na više hostova — isti kod, samo preuređen, a ne prepravljen, od razvojnog računara do produkcijskog klastera.
+HelixLLM је дистрибуирани LLM систем за предузећа изграђен у Go са Gin, а његова главна предност је да један артефакт покрива све сценарије. Компајлира се у један бинарни фајл чији систем режима одређује приликом имплементације шта тај фајл *заправо јесте*: покрените га као `full` за свеобухватну инстанцу на лаптопу или поделите одговорности између режима `gateway`, `brain`, `knowledge`, `agents` и `control` распоређених на више хостова — исти код, само преуређен, а не преправљен, од развојног рачунара до продукцијског кластера.
 
-Govori dva dijalekta tečno: potpuno OpenAI- i Anthropic-kompatibilne API-je, tako da postojeći SDK klijenti iz oba ekosistema rade nepromenjeno, a sve se servira preko HTTP/3 (QUIC) sa automatskim HTTP/2 rezervnim rešenjem i TLS 1.3. Lokalno zaključivanje pokreće se preko llama.cpp sa podrškom za CUDA, Metal i ROCm, pa isti build ubrzava rad na Nvidia, Apple i AMD hardveru. Najistaknutija karakteristika je lanac rezervnih rešenja sa više provajdera, koji pretvara ozloglašenu nepouzdanost besplatnih oblaka za zaključivanje u upravljivi, samolečeći resurs: HelixLLM automatski otkriva besplatne modele od preko 7 provajdera u oblaku (Chutes, OpenRouter, HuggingFace, Nvidia, Cerebras, SambaNova, Together), ocenjuje ih putem LLMsVerifier na svakih pet minuta i usmerava saobraćaj kroz rangirani lanac sa automatskim rezervnim rešenjem za greške 429/5xx — uvek sa lokalnim llama.cpp kao garantovanom poslednjom opcijom, tako da zahtev nikada ne propadne samo zbog nedostupnosti provajdera.
+Говори два дијалекта течно: потпуно OpenAI- и Anthropic-компатибилне API-је, тако да постојећи SDK клијенти из оба екосистема раде непромењено, а све се сервира преко HTTP/3 (QUIC) са аутоматским ХТТП/2 резервним решењем и TLS 1.3. Локално закључивање покреће се преко ллама.цпп са подршком за CUDA, Метал и ROCm, па исти буилд убрзава рад на Nvidia, Apple и AMD хардверу. Најистакнутија карактеристика је ланац резервних решења са више провајдера, који претвара озлоглашену непоузданост бесплатних облака за закључивање у управљиви, самолечећи ресурс: HelixLLM аутоматски открива бесплатне моделе од преко 7 провајдера у облаку (Chutes, OpenRouter, ХуггингФаце, Nvidia, Cerebras, SambaNova, Тогетхер), оцењује их путем LLMsVerifier на сваких пет минута и усмерава саобраћај кроз рангирани ланац са аутоматским резервним решењем за грешке 429/5xx — увек са локалним ллама.цпп као гарантованом последњом опцијом, тако да захтев никада не пропадне само због недоступности провајдера.
 
-Pored samog zaključivanja, HelixLLM je potpuna aplikativna platforma: RAG protočni sistem znanja (unos, segmentacija, ugradnja, vector pretraga) i sistem ReAct agenata sa pozivanjem alata, sesijama razgovora i integracijom RAG isporučuju se u istom binarnom fajlu. Sistem režima se isplati i na mrežnom nivou — u `full` režimu svi slojevi komuniciraju direktnim Go pozivima unutar procesa bez mrežnog opterećenja, dok isti binarni fajl, raspoređen na više hostova, koordinira preko gRPC, SSE i Kafka. Zaokružuju ga pregovaranje o sadržaju sa Brotli/gzip kompresijom, SSE strimovanje koje bajt-po-bajt odgovara formatima OpenAI i Anthropic, autentifikacija putem API ključa i JWT sa ograničenjem broja zahteva, Prometheus metrike, OpenTelemetry praćenje i veliki skup Go podmodula za produkcijsku infrastrukturu.
-
-
-## Zašto smo ga napravili
-
-Timovima je potreban zaključak koji je prenosiv, kompatibilan sa standardima i otporan – bez prepisivanja klijenata ili zavisnosti od jednog provajdera ili jedne mašine. HelixLLM je napravljen tako da isti binarni fajl može da radi lokalno tokom razvoja i da se skaluje na klaster u produkciji sa više hostova, govoreći dijalektima OpenAI i Anthropic koje klijenti već koriste.
-
-## Zašto je revolucionaran
-
-On sažima čitav stek zaključivanja – gejtvej, lokalno zaključivanje, rezervni oblak, RAG i agente – u jedan binarni fajl kontrolisan prekidačem režima, tako da arhitektura koju implementirate postaje odluka u vreme izvršavanja, a ne projekat ponovne platformizacije. Takođe pretvara ono što je ranije bilo slabost u prednost: pouzdanost provajdera u oblaku postaje primarna, neprestano merena briga, koju rešava ocenjivani, samolečeći lanac rezervnih rešenja koji svakih nekoliko minuta ponovo rangira provajdere i uvek degradira na zagarantovano lokalno zaključivanje. Ono što to omogućava jeste jedna krajnja tačka na koju se možete zaista osloniti – kompatibilna sa standardima, prenosiva sa laptopa na klaster i nesposobna da se ugasi jer je neki uzvodni provajder ograničio broj zahteva ili otkazao.
-
-## Šta je inovativno
-
-- Jedan binarni fajl sa sistemom od šest režima koji radi sve-u-jednom ili kao distribuirane uloge – direktni pozivi Go u procesu u režimu `full`, gRPC/SSE/Kafka kada je podeljen – tako da se topologija implementacije menja bez izmene koda ili nepotrebnog opterećenja mreže.
-- Ocenjivani, automatski otkrivajući lanac rezervnih rešenja sa više provajdera preko 7+ besplatnih provajdera, neprestano rangiranih prema LLMsVerifier sa automatskim prebacivanjem na rezervu pri greškama 429/5xx i zagarantovanim llama.cpp kao poslednjim rešenjem – besplatni kapacitet pretvoren u pouzdan kapacitet.
-- Dvostruke površine kompatibilne sa OpenAI *i* Anthropic, servisirane preko HTTP/3 sa automatskim prebacivanjem na HTTP/2, tako da se klijenti iz oba ekosistema povezuju bez modifikacija.
-- Lokalno zaključivanje koje pokriva CUDA, Metal i ROCm iz jednog kodnog izvora – isti build radi ubrzano na Nvidia, Apple i AMD hardveru.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Skaliranje sa jednog hosta na više bez prepisivanja.** Većina sistema nameće čvrstu granicu između „lokalnog razvoja" i „distribuirane produkcije", a prelazak te granice zahteva preuređenje arhitekture. Mi smo tu granicu izbrisali sistemom režima na jednom binarnom fajlu: isti slojevi komuniciraju putem direktnih poziva u procesu u režimu `full`, a transparentno prelaze na gRPC/SSE/Kafka u distribuiranim režimima, tako da je skaliranje samo pitanje konfiguracije, a ne portiranja.
-- **Nepouzdani, ograničeni besplatni provajderi u oblaku.** Besplatni zaključak je brz dok ne dođe do greške 429 ili dok ne nestane usred zahteva. Mi smo ga učinili pouzdanim automatskim otkrivanjem dostupnih modela, ocenjivanjem pomoću LLMsVerifier, proaktivnim praćenjem zaglavlja koja ograničavaju broj zahteva kako bismo zaobišli provajdere koji su na ivici gušenja, i automatskim prebacivanjem na rezervu niz rangirani lanac do lokalnog llama.cpp – tako da nestabilnost tog bazena nikada ne stigne do pozivaoca.
-- **Kompatibilnost klijenata u dva ekosistema.** Prepisivanje klijenata kako bi prihvatili novi backend za zaključivanje nije opcija. Implementirali smo i OpenAI *i* Anthropic oblike API – uključujući njihove različite formate strimovanja SSE – tako da SDK-ovi iz oba tabora pokazuju na HelixLLM i jednostavno rade.
+Поред самог закључивања, HelixLLM је потпуна апликативна платформа: RAG проточни систем знања (унос, сегментација, уградња, вецтор претрага) и систем ReAct агената са позивањем алата, сесијама разговора и интеграцијом RAG испоручују се у истом бинарном фајлу. Систем режима се исплати и на мрежном нивоу — у `full` режиму сви слојеви комуницирају директним Go позивима унутар процеса без мрежног оптерећења, док исти бинарни фајл, распоређен на више хостова, координира преко gRPC, SSE и Kafka. Заокружују га преговарање о садржају са Brotli/гзип компресијом, SSE стримовање које бајт-по-бајт одговара форматима OpenAI и Anthropic, аутентификација путем API кључа и JWT са ограничењем броја захтева, Prometheus метрике, OpenTelemetry праћење и велики скуп Go подмодула за продукцијску инфраструктуру.
 
 
-## Tehnološki stek
+## Зашто смо га направили
 
-- **Go + Gin** — izabrani jer jedinstvena binarna datoteka sa pristupom koji prioritet daje konkurentnost omogućava ceo sistem modova: jedna verzija koja može biti serverska aplikacija na laptopu ili čvor u klasteru. Ona nosi ceo sistem i HTTP sloj gejtveja.
-- **HTTP/3 (QUIC) + TLS 1.3, sa HTTP/2 rezervnim rešenjem** — izabrani za moderan, niskolatentni i otporan transport veza, izložen kao serverska površina sa automatskom negocijacijom, tako da klijenti koji ne podržavaju QUIC tiho prelaze na HTTP/2.
-- **llama.cpp (CUDA/Metal/ROCm)** — izabran za prenosivu lokalnu inferenciju koja ubrzava rad na Nvidia, Apple i AMD backendovima iz jednog koda; služi i kao garantovani krajnji rezervni provajder koji sprečava da lanac rezervnih rešenja ikada ostane bez opcija.
-- **LLMsVerifier** — izabran da pretvori pitanje „koji je provajder trenutno dobar" u broj; ocenjuje i rangira lanac rezervnih provajdera u oblaku na svakih pet minuta, tako da usmeravanje prati trenutni kvalitet, a ne zastarele pretpostavke.
-- **Provajderi u oblaku (Chutes, OpenRouter, HuggingFace, Nvidia, Cerebras, SambaNova, Together)** — izabrani da iskoriste kapacitete besplatnih nivoa usluga kod više provajdera; automatski se otkrivaju i rangiraju u jedan lanac rezervnih rešenja, tako da nijedan provajder nije jedina tačka otkaza.
-- **gRPC + SSE + Kafka** — izabrani kao transportni protokoli između modova za distribuirane implementacije: gRPC za pozive između servisa, SSE za strimovanje, a Kafka za odvojeni tok događaja između uloga.
-- **Vektorsko skladište / embeddings** — izabrano da pokreće RAG pipeline znanja od početka do kraja: unos, segmentaciju, ugradnju i pretragu dokumenata koji osiguravaju osnovu za odgovore modela.
-- **Prometheus + OpenTelemetry** — izabrani za metriku i distribuirano praćenje koje prati zahtev kroz sve raspoređene modove.
-- **vasic-digital Go potmoduli** — izabrani da se ponovo iskoriste provereni primitivi infrastrukture za produkciju umesto da se grade ispočetka, čime se osigurava doslednost osnove sistema sa širim stekom.
+Тимовима је потребан закључак који је преносив, компатибилан са стандардима и отпоран – без преписивања клијената или зависности од једног провајдера или једне машине. HelixLLM је направљен тако да исти бинарни фајл може да ради локално током развоја и да се скалује на кластер у продукцији са више хостова, говорећи дијалектима OpenAI и Anthropic које клијенти већ користе.
 
-## Status i napomene o iskrenosti
+## Зашто је револуционаран
 
-- **Status: beta.** Funkcionalan, aktivno razvijan sistem distribuirane inferencije.
-- **Licenca: nije određena.** U metapodacima repozitorijuma nije navedena licenca (`licenseInfo` null) — ovo je NEVERIFIKOVANO i mora biti rešeno pre nego što se navede licenca.
-- Kanonski repozitorijum trenutno vodi na `github.com/HelixDevelopment/llm`; putanja `HelixLLM` preusmerava na njega. Podaci o pragu pokrivenosti i broju potmodula u README fajlu su samoprijavljeni.
+Он сажима читав стек закључивања – гејтвеј, локално закључивање, резервни облак, RAG и агенте – у један бинарни фајл контролисан прекидачем режима, тако да архитектура коју имплементирате постаје одлука у време извршавања, а не пројекат поновне платформизације. Такође претвара оно што је раније било слабост у предност: поузданост провајдера у облаку постаје примарна, непрестано мерена брига, коју решава оцењивани, самолечећи ланац резервних решења који сваких неколико минута поново рангира провајдере и увек деградира на загарантовано локално закључивање. Оно што то омогућава јесте једна крајња тачка на коју се можете заиста ослонити – компатибилна са стандардима, преносива са лаптопа на кластер и неспособна да се угаси јер је неки узводни провајдер ограничио број захтева или отказао.
 
-**Prioritetni nivo:** Helix-primary.
+## Шта је иновативно
+
+- Један бинарни фајл са системом од шест режима који ради све-у-једном или као дистрибуиране улоге – директни позиви Go у процесу у режиму `full`, gRPC/SSE/Kafka када је подељен – тако да се топологија имплементације мења без измене кода или непотребног оптерећења мреже.
+- Оцењивани, аутоматски откривајући ланац резервних решења са више провајдера преко 7+ бесплатних провајдера, непрестано рангираних према LLMsVerifier са аутоматским пребацивањем на резерву при грешкама 429/5xx и загарантованим ллама.цпп као последњим решењем – бесплатни капацитет претворен у поуздан капацитет.
+- Двоструке површине компатибилне са OpenAI *и* Anthropic, сервисиране преко HTTP/3 са аутоматским пребацивањем на ХТТП/2, тако да се клијенти из оба екосистема повезују без модификација.
+- Локално закључивање које покрива CUDA, Метал и ROCm из једног кодног извора – исти буилд ради убрзано на Nvidia, Apple и AMD хардверу.
+
+## Највећи технички изазови и како смо их решили
+
+- **Скалирање са једног хоста на више без преписивања.** Већина система намеће чврсту границу између „локалног развоја" и „дистрибуиране продукције", а прелазак те границе захтева преуређење архитектуре. Ми смо ту границу избрисали системом режима на једном бинарном фајлу: исти слојеви комуницирају путем директних позива у процесу у режиму `full`, а транспарентно прелазе на gRPC/SSE/Kafka у дистрибуираним режимима, тако да је скалирање само питање конфигурације, а не портирања.
+- **Непоуздани, ограничени бесплатни провајдери у облаку.** Бесплатни закључак је брз док не дође до грешке 429 или док не нестане усред захтева. Ми смо га учинили поузданим аутоматским откривањем доступних модела, оцењивањем помоћу LLMsVerifier, проактивним праћењем заглавља која ограничавају број захтева како бисмо заобишли провајдере који су на ивици гушења, и аутоматским пребацивањем на резерву низ рангирани ланац до локалног ллама.цпп – тако да нестабилност тог базена никада не стигне до позиваоца.
+- **Компатибилност клијената у два екосистема.** Преписивање клијената како би прихватили нови бацкенд за закључивање није опција. Имплементирали смо и OpenAI *и* Anthropic облике API – укључујући њихове различите формате стримовања SSE – тако да SDK-ови из оба табора показују на HelixLLM и једноставно раде.
+
+
+## Технолошки стек
+
+- **Go + Gin** — изабрани јер јединствена бинарна датотека са приступом који приоритет даје конкурентност омогућава цео систем модова: једна верзија која може бити серверска апликација на лаптопу или чвор у кластеру. Она носи цео систем и ХТТП слој гејтвеја.
+- **HTTP/3 (QUIC) + TLS 1.3, са ХТТП/2 резервним решењем** — изабрани за модеран, нисколатентни и отпоран транспорт веза, изложен као серверска површина са аутоматском негоцијацијом, тако да клијенти који не подржавају QUIC тихо прелазе на ХТТП/2.
+- **ллама.цпп (CUDA/Метал/ROCm)** — изабран за преносиву локалну инференцију која убрзава рад на Nvidia, Apple и AMD бацкендовима из једног кода; служи и као гарантовани крајњи резервни провајдер који спречава да ланац резервних решења икада остане без опција.
+- **LLMsVerifier** — изабран да претвори питање „који је провајдер тренутно добар" у број; оцењује и рангира ланац резервних провајдера у облаку на сваких пет минута, тако да усмеравање прати тренутни квалитет, а не застареле претпоставке.
+- **Провајдери у облаку (Chutes, OpenRouter, ХуггингФаце, Nvidia, Cerebras, SambaNova, Тогетхер)** — изабрани да искористе капацитете бесплатних нивоа услуга код више провајдера; аутоматски се откривају и рангирају у један ланац резервних решења, тако да ниједан провајдер није једина тачка отказа.
+- **gRPC + SSE + Kafka** — изабрани као транспортни протоколи између модова за дистрибуиране имплементације: gRPC за позиве између сервиса, SSE за стримовање, а Kafka за одвојени ток догађаја између улога.
+- **Векторско складиште / ембеддингс** — изабрано да покреће RAG пипелине знања од почетка до краја: унос, сегментацију, уградњу и претрагу докумената који осигуравају основу за одговоре модела.
+- **Prometheus + OpenTelemetry** — изабрани за метрику и дистрибуирано праћење које прати захтев кроз све распоређене модове.
+- **vasic-digital Go потмодули** — изабрани да се поново искористе проверени примитиви инфраструктуре за продукцију уместо да се граде испочетка, чиме се осигурава доследност основе система са ширим стеком.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Функционалан, активно развијан систем дистрибуиране инференције.
+- **Лиценца: није одређена.** У метаподацима репозиторијума није наведена лиценца (`licenseInfo` нулл) — ово је НЕВЕРИФИКОВАНО и мора бити решено пре него што се наведе лиценца.
+- Канонски репозиторијум тренутно води на `github.com/HelixDevelopment/llm`; путања `HelixLLM` преусмерава на њега. Подаци о прагу покривености и броју потмодула у РЕАДМЕ фајлу су самопријављени.
+
+**Приоритетни ниво:** Helix-primary.
 

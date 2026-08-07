@@ -1,0 +1,47 @@
+LANG DOC script  ratio  leak  notes
+----------------------------------------------------------------------
+EN   CV   latin  1.000     3  PASS | leaks:AI Engineer,Software Engineer,autonomous agents
+EN   CL   latin  1.000     4  PASS | leaks:Cover Letter,an ensemble LLM service,AI Engineer
+EN   PF   latin  1.000     7  PASS | leaks:LLM providers,Selected architecture,an ensemble LLM service
+AR   CV  arabic  0.692     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+AR   CL  arabic  0.746     2  GAP | leaks:Cover Letter,AI Engineer
+AR   PF  arabic  0.703     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+BE   CV  cyrillic  0.711     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+BE   CL  cyrillic  0.777     2  GAP | leaks:Cover Letter,AI Engineer
+BE   PF  cyrillic  0.739     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+DE   CV   latin  1.000     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+DE   CL   latin  1.000     2  GAP | leaks:Cover Letter,AI Engineer
+DE   PF   latin  1.000     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+ES   CV   latin  1.000     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+ES   CL   latin  1.000     2  GAP | leaks:Cover Letter,AI Engineer
+ES   PF   latin  1.000     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+FA   CV  arabic  0.709     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+FA   CL  arabic  0.741     2  GAP | leaks:Cover Letter,AI Engineer
+FA   PF  arabic  0.727     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+FR   CV   latin  1.000     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+FR   CL   latin  1.000     2  GAP | leaks:Cover Letter,AI Engineer
+FR   PF   latin  1.000     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+HI   CV  devanagari  0.697     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+HI   CL  devanagari  0.783     2  GAP | leaks:Cover Letter,AI Engineer
+HI   PF  devanagari  0.731     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+JA   CV     cjk  0.531     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+JA   CL     cjk  0.655     2  GAP | leaks:Cover Letter,AI Engineer
+JA   PF     cjk  0.579     5  GAP | leaks:an ensemble LLM service,distributed operating system,single source of truth
+KK   CV  cyrillic  0.711     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+KK   CL  cyrillic  0.780     2  GAP | leaks:Cover Letter,AI Engineer
+KK   PF  cyrillic  0.737     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+KO   CV     cjk  0.492     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+KO   CL     cjk  0.601     2  GAP | leaks:Cover Letter,AI Engineer
+KO   PF     cjk  0.528     5  GAP | leaks:an ensemble LLM service,distributed operating system,single source of truth
+RU   CV  cyrillic  0.718     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+RU   CL  cyrillic  0.778     2  GAP | leaks:Cover Letter,AI Engineer
+RU   PF  cyrillic  0.743     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+SR   CV  cyrillic  0.000     3  FAIL-SCRIPT | leaks:AI Engineer,Software Engineer,autonomous agents
+SR   CL  cyrillic  0.000     2  FAIL-SCRIPT | leaks:Cover Letter,AI Engineer
+SR   PF  cyrillic  0.000     6  FAIL-SCRIPT | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+TR   CV   latin  1.000     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+TR   CL   latin  1.000     2  GAP | leaks:Cover Letter,AI Engineer
+TR   PF   latin  1.000     6  GAP | leaks:Selected architecture,an ensemble LLM service,distributed operating system
+ZH   CV     cjk  0.439     3  GAP | leaks:AI Engineer,Software Engineer,autonomous agents
+ZH   CL     cjk  0.534     2  GAP | leaks:Cover Letter,AI Engineer
+ZH   PF     cjk  0.462     5  GAP | leaks:an ensemble LLM service,distributed operating system,single source of truth

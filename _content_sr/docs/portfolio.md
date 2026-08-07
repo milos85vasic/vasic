@@ -11,91 +11,91 @@ sources:
 note: Claims are sourced from repository READMEs and analysis; roadmap/scaffold/UNVERIFIED items are marked, not padded.
 ---
 
-# Portfolio
+# Портфолио
 
-## 1. Pregled — slika u celini
+## 1. Преглед — слика у целини
 
-Ovo je jedinstven, ujedinjen portfolio koji koriste i vasic.digital i milosvasic.ru. Ne opisuje razbacane sporedne projekte, već namerno projektovanu **flotu**: **velike aplikacije** koje se oslanjaju na **desetine malih, odvojenih, nezavisno testiranih modula**, a sve je podređeno zajedničkoj inženjerskoj **Constitution** i provereno **anti-bluf QA** disciplinom. Ta struktura je ono što ga izdvaja. Većina portfolia je samo spisak onoga što je napravljeno; ovo je sistem u kojem se svaki proizvod sastavlja od dokazanih, višekratno upotrebljivih delova, svaki deo poštuje iste nepregovorive pravila, a iza svake reklamirane mogućnosti stoji prikupljen dokaz. Dominantan jezik je **Go**, uz Kotlin/KMP, TypeScript/React, Python, Swift i Shell tamo gde svaki zaista najbolje pristaje — Go za usluge i biblioteke visokog protoka, Kotlin za provizioniranje i multiplatformske mobilne aplikacije, TypeScript za tipizovane front-endove, Python za povezivanje AI/ML.
+Ово је јединствен, уједињен портфолио који користе и vasic.digital и milosvasic.ru. Не описује разбацане споредне пројекте, већ намерно пројектовану **флоту**: **велике апликације** које се ослањају на **десетине малих, одвојених, независно тестираних модула**, а све је подређено заједничкој инжењерској **Constitution** и проверено **анти-блуф QA** дисциплином. Та структура је оно што га издваја. Већина портфолиа је само списак онога што је направљено; ово је систем у којем се сваки производ саставља од доказаних, вишекратно употребљивих делова, сваки део поштује исте непреговориве правила, а иза сваке рекламиране могућности стоји прикупљен доказ. Доминантан језик је **Go**, уз Kotlin/KMP, TypeScript/React, Python, Swift и Shell тамо где сваки заиста најбоље пристаје — Go за услуге и библиотеке високог протока, Kotlin за провизионирање и мултиплатформске мобилне апликације, TypeScript за типизоване фронт-ендове, Python за повезивање AI/ML.
 
-Ono što ovom radu daje koherentnost jeste činjenica da je disciplina mehanička, a ne samo željena. Zajednička **Constitution** isporučuje se kao Git podmodul i nasleđuje se u floti od preko 140 repozitorijuma, tako da svaka promena pravila automatski stiže svuda; anti-bluf QA sloj odbija da zabeleži prolaz bez dokaza u vreme izvršavanja. Porodica **Helix**, flota pomoćnih alata i **Server Factory** alati su tri izraza jedne ideje — napravi jednom, koristi svuda i dokaži da radi pre nego što to proglasiš gotovim.
+Оно што овом раду даје кохерентност јесте чињеница да је дисциплина механичка, а не само жељена. Заједничка **Constitution** испоручује се као Гит подмодул и наслеђује се у флоти од преко 140 репозиторијума, тако да свака промена правила аутоматски стиже свуда; анти-блуф QA слој одбија да забележи пролаз без доказа у време извршавања. Породица **Helix**, флота помоћних алата и **Server Factory** алати су три израза једне идеје — направи једном, користи свуда и докажи да ради пре него што то прогласиш готовим.
 
-Sve što sledi prikazano je po prioritetu:
+Све што следи приказано је по приоритету:
 
-1. **Piloni upravljanja i QA** — HelixConstitution, HelixQA (disciplina koja sve ostalo čini pouzdanim).
-2. **Porodica proizvoda Helix** — životni ciklus razvoja AI (HelixTrack na prvom mestu).
-3. **LLM infrastruktura** — apstrakcija provajdera, orkestracija, verifikacija.
-4. **Vasic-digital pomoćni alati** — samostalni alati na nivou proizvoda.
-5. **Server Factory** — nasleđe automatizacije infrastrukture (rangirano poslednje).
+1. **Пилони управљања и QA** — HelixConstitution, HelixQA (дисциплина која све остало чини поузданим).
+2. **Породица производа Helix** — животни циклус развоја AI (HelixTrack на првом месту).
+3. **LLM инфраструктура** — апстракција провајдера, оркестрација, верификација.
+4. **Васиц-дигитал помоћни алати** — самостални алати на нивоу производа.
+5. **Server Factory** — наслеђе аутоматизације инфраструктуре (рангирано последње).
 
-Ujedinjujuća teza: **funkcionalnost je gotova tek kada je stvarni korisnik može da koristi i kada postoji prikupljen dokaz koji to potvrđuje.**
+Уједињујућа теза: **функционалност је готова тек када је стварни корисник може да користи и када постоји прикупљен доказ који то потврђује.**
 
 ---
 
-## 2. Piloni upravljanja i QA
+## 2. Пилони управљања и QA
 
-Ova dva segmenta dolaze na prvo mesto jer sve ostalo u ovom portfoliju pozajmljuje svoju kredibilnost od njih. Zajedno pretvaraju „verujte mi, radi" u proverljivu činjenicu — **Constitution** kodira pravila, a **HelixQA** dokazuje da su poštovana.
+Ова два сегмента долазе на прво место јер све остало у овом портфолију позајмљује своју кредибилност од њих. Заједно претварају „верујте ми, ради" у проверљиву чињеницу — **Constitution** кодира правила, а **HelixQA** доказује да су поштована.
 
-- **HelixConstitution** — univerzalni, projektno-agnostički inženjerski pravilnik isporučivan kao Git podmodul i nasleđen u floti od preko 140 repozitorijuma. Anti-bluf kontrolne tačke, imunitet na lažno pozitivne rezultate, sigurnost podataka i hostova, disciplina pokrivenosti; nasleđivanje s mogućnošću proširenja, ali bez slabljenja; kontrolni mehanizmi koji pretražuju sve repozitorijume u floti tražeći obavezne odredbe; svaka kontrolna tačka uparena s mutacionim testom koji dokazuje da nije lažna.
-- **HelixQA** — anti-bluf orkestracija QA (Go). Pisani **YAML** testovi plus potpuno autonomne QA sesije na Androidu, Android TV-u, vebu i desktopu, uz korišćenje **LLM** i računarskog vida; nema PROLAZA bez prikupljenih dokaza (snimci ekrana, logcat, video, stack trace-ovi). Obavezan tip QA testa prema **Constitution** (§11.4.169).
+- **HelixConstitution** — универзални, пројектно-агностички инжењерски правилник испоручиван као Гит подмодул и наслеђен у флоти од преко 140 репозиторијума. Анти-блуф контролне тачке, имунитет на лажно позитивне резултате, сигурност података и хостова, дисциплина покривености; наслеђивање с могућношћу проширења, али без слабљења; контролни механизми који претражују све репозиторијуме у флоти тражећи обавезне одредбе; свака контролна тачка упарена с мутационим тестом који доказује да није лажна.
+- **HelixQA** — анти-блуф оркестрација QA (Go). Писани **YAML** тестови плус потпуно аутономне QA сесије на Андроиду, Android TV-у, вебу и десктопу, уз коришћење **LLM** и рачунарског вида; нема ПРОЛАЗА без прикупљених доказа (снимци екрана, логцат, видео, стацк траце-ови). Обавезан тип QA теста према **Constitution** (§11.4.169).
 
-## 3. Porodica proizvoda Helix
+## 3. Породица производа Helix
 
-Linija Helix predstavlja zastavni deo: porodicu međusobno povezanih proizvoda koja obuhvata ceo ciklus razvoja AI, od planiranja i specifikacije, preko izgradnje, memorije, prevođenja, do isporuke. Svaki od njih je sam po sebi pravi proizvod, ali je osnovna zamisao da se međusobno dopunjuju – sa istom upravljačkom strukturom, istim modulima za ponovnu upotrebu i istom disciplinom dokazivanja koja stoji iza svih njih.
+Линија Helix представља заставни део: породицу међусобно повезаних производа која обухвата цео циклус развоја AI, од планирања и спецификације, преко изградње, меморије, превођења, до испоруке. Сваки од њих је сам по себи прави производ, али је основна замисао да се међусобно допуњују – са истом управљачком структуром, истим модулима за поновну употребу и истом дисциплином доказивања која стоји иза свих њих.
 
-- **HelixTrack** – alternativa JIRA za slobodan svet; zastavni proizvod linije Helix-Track.
-- **HelixAgent** – ansambl usluga LLM: više modela raspravlja i isporučuje odgovor na koji se slože, uz izbor provajdera zasnovan na verifikaciji.
-- **HelixCode** – preduzetnička platforma za distribuirani razvoj AI; deli posao na radnike kojima upravlja SSH, sa automatskim čekpointima i povratkom na prethodno stanje; interfejsi REST, CLI, TUI, MCP.
-- **HelixCluster** – distribuirani operativni sistem za računanje zasnovano na AI, od GPU-ova u podatkovnim centrima do ručnih uređaja na ivici mreže, pod jednim kontrolnim ravnima.
-- **HelixBuilder** – pipeline pokretan AI za izgradnju aplikacija, kategoriju po kategoriju.
-- **HelixSkills** – sistem veština za agente CLI zasnovane na AI, regulisan ustavom (veštine, serverski alati MCP, dodaci Claude Code).
-- **HelixSpecifier** – razvoj vođen specifikacijama koji prilagođava ceremonijal obimu posla.
-- **HelixMemory** – jedan memorijski mozak za agente AI, koji spaja četiri vrhunska motora.
-- **HelixTranslate** – prevođenje knjiga zasnovano na verifikovanim modelima; po dizajnu iskreno, nikada sa tihim povratkom na rezervni režim.
-- **HelixTerminator** – terminalska platforma sa nultim poverenjem: svaka sesija SSH osigurana, deljena i asistirana od strane AI.
-- **HelixGitpx** – federisani Git na desetak hostova; jedan izvor istine, ogledalo svuda.
-- **HelixOTA** – univerzalna, odvojena ažuriranja „over-the-air"; dizajnirana da nikada ne blokiraju uređaj.
-- **HelixPlay** – pretvorite bilo koju mašinu GPU u sopstveni uređaj za cloud-igranje.
-- **Helix-Flow** – proizvod za inferenciju na platformi Helix. *NEVERIFIKOVANO / blokirano zbog izvora: javni repozitorijum trenutno sadrži samo jednolinijski README; prikazano na nivou proizvoda tek kada postoji prava dokumentacija.*
+- **HelixTrack** – алтернатива JIRA за слободан свет; заставни производ линије Helix-Track.
+- **HelixAgent** – ансамбл услуга LLM: више модела расправља и испоручује одговор на који се сложе, уз избор провајдера заснован на верификацији.
+- **HelixCode** – предузетничка платформа за дистрибуирани развој AI; дели посао на раднике којима управља SSH, са аутоматским чекпоинтима и повратком на претходно стање; интерфејси REST, CLI, TUI, MCP.
+- **HelixCluster** – дистрибуирани оперативни систем за рачунање засновано на AI, од GPU-ова у податковним центрима до ручних уређаја на ивици мреже, под једним контролним равнима.
+- **HelixBuilder** – пипелине покретан AI за изградњу апликација, категорију по категорију.
+- **HelixSkills** – систем вештина за агенте CLI засноване на AI, регулисан уставом (вештине, серверски алати MCP, додаци Claude Цоде).
+- **HelixSpecifier** – развој вођен спецификацијама који прилагођава церемонијал обиму посла.
+- **HelixMemory** – један меморијски мозак за агенте AI, који спаја четири врхунска мотора.
+- **HelixTranslate** – превођење књига засновано на верификованим моделима; по дизајну искрено, никада са тихим повратком на резервни режим.
+- **HelixTerminator** – терминалска платформа са нултим поверењем: свака сесија SSH осигурана, дељена и асистирана од стране AI.
+- **HelixGitpx** – федерисани Гит на десетак хостова; један извор истине, огледало свуда.
+- **HelixOTA** – универзална, одвојена ажурирања „овер-тхе-аир"; дизајнирана да никада не блокирају уређај.
+- **HelixPlay** – претворите било коју машину GPU у сопствени уређај за цлоуд-играње.
+- **Helix-Flow** – производ за инференцију на платформи Helix. *НЕВЕРИФИКОВАНО / блокирано због извора: јавни репозиторијум тренутно садржи само једнолинијски РЕАДМЕ; приказано на нивоу производа тек када постоји права документација.*
 
-## 4. Infrastruktura LLM
+## 4. Инфраструктура LLM
 
-Ispod proizvoda nalazi se podloga koja ih čini nezavisnim od provajdera i pouzdanim: jedan interfejs preko desetina provajdera LLM, jedna kontrolna ravan za agente za kodiranje bez grafičkog interfejsa i jedan izvor istine za verifikaciju. Ovo je sloj koji omogućava svemu iznad da menja modele, preživi prekide u radu provajdera i odbije da veruje LLM koji ne može da dokaže da razume zadatak.
+Испод производа налази се подлога која их чини независним од провајдера и поузданим: један интерфејс преко десетина провајдера LLM, једна контролна раван за агенте за кодирање без графичког интерфејса и један извор истине за верификацију. Ово је слој који омогућава свему изнад да мења моделе, преживи прекиде у раду провајдера и одбије да верује LLM који не може да докаже да разуме задатак.
 
-- **HelixLLM** – jedan binarni fajl, šest režima: inferencija kompatibilna sa OpenAI i Anthropic preko HTTP/3, lokalni llama.cpp, lanac ocene rezervnih opcija, pipeline RAG, ReAct agenti.
-- **LLMProvider** – jedan interfejs, 43 provajdera, sa ugrađenim prekidačima strujnog kola, ponovnim pokušajima i monitoringom zdravlja.
-- **LLMOrchestrator** – jedna kontrolna ravan za svakog agenta za kodiranje bez grafičkog interfejsa (OpenCode, Claude Code, Gemini, Junie, Qwen Code).
-- **LLMsVerifier** – verifikujte, nadgledajte, optimizujte: jedini izvor istine za metapodatke o LLM/provajderima/verifikaciji, sa obaveznom proverom razumevanja modela.
+- **HelixLLM** – један бинарни фајл, шест режима: инференција компатибилна са OpenAI и Anthropic преко HTTP/3, локални ллама.цпп, ланац оцене резервних опција, пипелине RAG, ReAct агенти.
+- **LLMProvider** – један интерфејс, 43 провајдера, са уграђеним прекидачима струјног кола, поновним покушајима и мониторингом здравља.
+- **LLMOrchestrator** – једна контролна раван за сваког агента за кодирање без графичког интерфејса (OpenCode, Claude Цоде, Gemini, Junie, Qwen Цоде).
+- **LLMsVerifier** – верификујте, надгледајте, оптимизујте: једини извор истине за метаподатке о LLM/провајдерима/верификацији, са обавезном провером разумевања модела.
 
 
-## 5. vasic-digital alati
+## 5. vasic-digital алати
 
-Samostalni alati na nivou gotovog proizvoda, od kojih svaki rešava složen problem na svoj način — a ne slučajno, istovremeno testirajući modularnu flotu u praksi. Raspon im je od otpornog multimedijalnog sistema sa više protokola do toka obrade kursa od markdown-a do videa, pa sve do motora za sinhronizaciju dokumentacije i baza podataka sa heširanim sadržajem; nekoliko njih otvoreno govori o svojoj zrelosti, a te oznake ostaju vidljive, a ne skrivene.
+Самостални алати на нивоу готовог производа, од којих сваки решава сложен проблем на свој начин — а не случајно, истовремено тестирајући модуларну флоту у пракси. Распон им је од отпорног мултимедијалног система са више протокола до тока обраде курса од markdown-а до видеа, па све до мотора за синхронизацију документације и база података са хешираним садржајем; неколико њих отворено говори о својој зрелости, а те ознаке остају видљиве, а не скривене.
 
-- **[Catalogizer](../products/Catalogizer.md)** — multimedijalni sistem za upravljanje kolekcijama sa više protokola (SMB/FTP/NFS/WebDAV/lokalno), šifrovan, samostalno hostovan; Go/Gin API + React interfejs; otporno praćenje sa podrškom za offline režim; izgrađen na 21 `digital.vasic.*` potmodulu.
-- **[Courses-Creator](../products/Courses-Creator.md)** — tok obrade kursa od markdown-a do videa; obogaćivanje sa više LLM, TTS (Bark/SpeechT5), plejeri za desktop/mobilni/web; elegantan režim rada bez ključa API.
-- **[VisionEngine](../products/VisionEngine.md)** — nezavisni Go alat koji spaja klasični računarski vid sa LLM viđenjem više dobavljača; navigacioni grafovi sa BFS + izvozom u DOT/JSON/Mermaid; OpenCV sa uslovnim oznakama za izgradnju.
-- **[DocProcessor](../products/DocProcessor.md)** — mapa funkcionalnosti iz dokumentacije sa praćenjem pokrivenosti verifikacijom; LLM ili heurističko/offline izdvajanje; licenca Apache-2.0.
-- **[Docs Chain](../products/docs_chain.md)** — dvosmerna, atomska sinhronizacija dokumentacije i baza podataka sa heširanim sadržajem (inkrementalno preračunavanje u stilu Salse preko DAG-a). *Faze 1–5 ZELENE; Faze 6–7 U PLANU.*
-- **[Herald](../products/Herald.md)** — pouzdane obaveštenja preko više kanala sa razrešavanjem namere u tri nivoa (komanda → LLM → pojašnjenje) na prirodnom jeziku; prvi korisnik Docs Chain.
-- **[task_bridge](../products/task_bridge.md)** — nezavisna, dvosmerna sinhronizacija zadataka i tabela (SQLite jedini izvor istine ↔ dokumentacija ↔ ClickUp). *Skelet P1 — logika sinhronizacije još nije implementirana.*
-- **[Vasic Digital Paket ponovljivo upotrebljivih modula](../products/Vasic-Digital-Reusable-Module-Suite.md)** — „standardna biblioteka" `digital.vasic.*`: infrastrukturni primitivi, gradivni blokovi AI i odbrambeni mehanizmi LLM, uz ogledalo Kotlin Multiplatform. *Nekoliko repozitorijuma organizacije je U SKELETU/RAZVOJU — označeno, a ne objavljeno.*
+- **[Catalogizer](../products/Catalogizer.md)** — мултимедијални систем за управљање колекцијама са више протокола (SMB/FTP/NFS/WebDAV/локално), шифрован, самостално хостован; Go/Gin API + React интерфејс; отпорно праћење са подршком за оффлине режим; изграђен на 21 `digital.vasic.*` потмодулу.
+- **[Courses-Creator](../products/Courses-Creator.md)** — ток обраде курса од markdown-а до видеа; обогаћивање са више LLM, TTS (Bark/SpeechT5), плејери за десктоп/мобилни/web; елегантан режим рада без кључа API.
+- **[VisionEngine](../products/VisionEngine.md)** — независни Go алат који спаја класични рачунарски вид са LLM виђењем више добављача; навигациони графови са BFS + извозом у ДОТ/JSON/Mermaid; OpenCV са условним ознакама за изградњу.
+- **[DocProcessor](../products/DocProcessor.md)** — мапа функционалности из документације са праћењем покривености верификацијом; LLM или хеуристичко/оффлине издвајање; лиценца Апацхе-2.0.
+- **[Docs Chain](../products/docs_chain.md)** — двосмерна, атомска синхронизација документације и база података са хешираним садржајем (инкрементално прерачунавање у стилу Салсе преко DAG-а). *Фазе 1–5 ЗЕЛЕНЕ; Фазе 6–7 У ПЛАНУ.*
+- **[Herald](../products/Herald.md)** — поуздане обавештења преко више канала са разрешавањем намере у три нивоа (команда → LLM → појашњење) на природном језику; први корисник Docs Chain.
+- **[task_bridge](../products/task_bridge.md)** — независна, двосмерна синхронизација задатака и табела (SQLite једини извор истине ↔ документација ↔ ClickUp). *Скелет P1 — логика синхронизације још није имплементирана.*
+- **[Vasic Digital Пакет поновљиво употребљивих модула](../products/Vasic-Digital-Reusable-Module-Suite.md)** — „стандардна библиотека" `digital.vasic.*`: инфраструктурни примитиви, градивни блокови AI и одбрамбени механизми LLM, уз огледало Kotlin Multiplatform. *Неколико репозиторијума организације је У СКЕЛЕТУ/РАЗВОЈУ — означено, а не објављено.*
 
-## 6. Server Factory (nasleđe automatizacije infrastrukture — poslednje rangiran)
+## 6. Server Factory (наслеђе аутоматизације инфраструктуре — последње рангиран)
 
-Rangiran poslednji po zamisli, a ne po kvalitetu: Server Factory alatni lanac prethodi liniji AI i pokazuje gde je filozofija „izgradi jednom, koristi svuda" prvi put zaživela. Njegov vodeći proizvod — mail server koji opišete u JSON i postavite bilo gde — zreo je, dobro testiran proizvod; prateći alati prikazani su u svojoj stvarnoj, različitoj zrelosti, a ne uljepšani.
+Рангиран последњи по замисли, а не по квалитету: Server Factory алатни ланац претходи линији AI и показује где је филозофија „изгради једном, користи свуда" први пут заживела. Његов водећи производ — маил сервер који опишете у JSON и поставите било где — зрео је, добро тестиран производ; пратећи алати приказани су у својој стварној, различитој зрелости, а не уљепшани.
 
-- **[Mail Server Factory](../products/Mail-Server-Factory.md)** — deklarativni JSON → potpuno postavljen, dokeraizovan mail server za 12 vrsta veza i 25 Linux distribucija; preduzetnička sigurnost; izveštava o 439 uspešno položenih testova i čistoj SonarQube kapiji. Vodeći proizvod Server-Factory organizacije.
-- **[Server Factory Osnovni okvir](../products/Server-Factory-Core-Framework.md)** — zajednički Kotlin pogon na kojem se grade sve fabrike.
-- **[Qemu-Utils](../products/Qemu-Utils.md)** — VM slike QEMU upravljane kao artefakti: preuzimanje/keširanje/pokretanje, kompresija/objavljivanje, mrežno povezivanje preko bridge/TAP, ISO instalacije; Linux + macOS.
-- **[Parallels-Utils](../products/Parallels-Utils.md)** — kompresija, objavljivanje i preuzimanje VM slika Parallels (macOS) putem jednostavnih fajlova sa podešavanjima.
-- **[Server Factory — Dodatne komponente](../products/Server-Factory-Additional-Components.md)** — fabrike servisa (Web/SonarQube/Caching-Proxy), paketi definicija i pomoćni alati. *Fabrike servisa su dokumentovane kao placeholderi — NEVERIFIKOVANO / u ranoj fazi.*
+- **[Mail Server Factory](../products/Mail-Server-Factory.md)** — декларативни JSON → потпуно постављен, докераизован маил сервер за 12 врста веза и 25 Linux дистрибуција; предузетничка сигурност; извештава о 439 успешно положених тестова и чистој SonarQube капији. Водећи производ Server-Factory организације.
+- **[Server Factory Основни оквир](../products/Server-Factory-Core-Framework.md)** — заједнички Kotlin погон на којем се граде све фабрике.
+- **[Qemu-Utils](../products/Qemu-Utils.md)** — VM слике QEMU управљане као артефакти: преузимање/кеширање/покретање, компресија/објављивање, мрежно повезивање преко бридге/TAP, ISO инсталације; Linux + macOS.
+- **[Parallels-Utils](../products/Parallels-Utils.md)** — компресија, објављивање и преузимање VM слика Parallels (macOS) путем једноставних фајлова са подешавањима.
+- **[Server Factory — Додатне компоненте](../products/Server-Factory-Additional-Components.md)** — фабрике сервиса (Web/SonarQube/Цацхинг-Proxy), пакети дефиниција и помоћни алати. *Фабрике сервиса су документоване као плацехолдери — НЕВЕРИФИКОВАНО / у раној фази.*
 
-## 7. Tehnološki indeks (baziran na dokazima)
+## 7. Технолошки индекс (базиран на доказима)
 
-- **Jezici:** Go (dominantan), Kotlin i Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL; TLA+ (formalne specifikacije u *helix_cluster*).
-- **AI / LLM:** pristup preko 40 provajdera, MCP, RAG, baze podataka vector i embeddings, planiranje (HiPlan/MCTS/*Tree-of-Thoughts*), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), TTS (Bark/SpeechT5), računarski vid + LLM-vizija, zaštitne mere/red-tim.
-- **Backend:** Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
-- **Podaci:** PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, MinIO/S3/GCS/Azure.
-- **Infra / DevOps:** Docker i Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels; GitHub Actions, Gradle, Make.
-- **Testiranje / KA:** HelixQA, okviri za izazove sa mutacionim kapijama, `go test -race`, alati za vizuelnu regresiju, testiranje na ADB uređajima, SonarQube, skeniranje sigurnosti (semgrep/gosec/trivy/snyk/gitleaks/nancy), provera modela TLA+.
+- **Језици:** Go (доминантан), Kotlin и Kotlin Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL; TLA+ (формалне спецификације у *helix_цлустер*).
+- **AI / LLM:** приступ преко 40 провајдера, MCP, RAG, базе података вецтор и ембеддингс, планирање (HiPlan/MCTS/*Tree-of-Thoughts*), LLMOps, бенцхмаркинг (SWE-bench/HumanEval/MMLU), TTS (Bark/SpeechT5), рачунарски вид + LLM-визија, заштитне мере/ред-тим.
+- **Бацкенд:** Gin, gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, Angular, React, Kafka/RabbitMQ.
+- **Подаци:** PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, MinIO/S3/GCS/Azure.
+- **Инфра / DevOps:** Docker и Цомпосе, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels; GitHub Actions, Gradle, Make.
+- **Тестирање / КА:** HelixQA, оквири за изазове са мутационим капијама, `go test -race`, алати за визуелну регресију, тестирање на ADB уређајима, SonarQube, скенирање сигурности (semgrep/gosec/trivy/snyk/gitleaks/nancy), провера модела TLA+.
 

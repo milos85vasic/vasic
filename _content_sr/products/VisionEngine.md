@@ -23,50 +23,50 @@ diagrams:
   - Build-tag split (default stub build vs -tags vision OpenCV build)
 ---
 
-**Posmatrajte korisnički interfejs kao korisnik — računarski vid plus LLM vid za analizu i navigaciju.**
+**Посматрајте кориснички интерфејс као корисник — рачунарски вид плус LLM вид за анализу и навигацију.**
 
-## Sažetak
+## Сажетак
 
-VisionEngine je odvojeni Go alat koji kombinuje klasični računarski vid sa LLM zasnovanim vidom kako bi analizirao korisničke interfejse, otkrivao UI elemente i vizuelne probleme, te gradio navigacione grafove prelaza između ekrana aplikacije — sa priključivim višekorisničkim vidovnim pozadinama i OpenCV-om zaštićenim iza oznake za izgradnju.
+VisionEngine је одвојени Go алат који комбинује класични рачунарски вид са LLM заснованим видом како би анализирао корисничке интерфејсе, откривао UI елементе и визуелне проблеме, те градио навигационе графове прелаза између екрана апликације — са прикључивим вишекорисничким видовним позадинама и OpenCV-ом заштићеним иза ознаке за изградњу.
 
-## Kratak opis
+## Кратак опис
 
-Ponovo upotrebljiv Go modul za analizu UI-a i izgradnju navigacionog grafa. Nudi sloj analizatora (UI elementi, razlike između ekrana, vizuelni problemi), navigacioni graf sa BFS pretragom puteva i izvozom u DOT/JSON/Mermaid formatu, kao i LLM-vizijske adaptere za GPT-4o, Claude, Gemini, Qwen-VL i druge.
+Поново употребљив Go модул за анализу UI-а и изградњу навигационог графа. Нуди слој анализатора (UI елементи, разлике између екрана, визуелни проблеми), навигациони граф са BFS претрагом путева и извозом у ДОТ/JSON/Mermaid формату, као и LLM-визијске адаптере за GPT-4о, Claude, Gemini, Qwen-ВЛ и друге.
 
-## Detaljan opis
+## Детаљан опис
 
-Većina automatizovanih testova korisničkog interfejsa je u suštini slepa. Oslanja se na stabla pristupačnosti i DOM selektore — mašinski pojam interfejsa — i propušta sve ono što čovek stvarno doživljava: da li je dugme vidljivo renderovano, da li je raspored pokvaren, da li je ekran na koji je stigao onaj koji je očekivao. VisionEngine premošćuje tu prazninu dajući automatizaciji pravo opažanje, sposobnost da pogleda UI i razmišlja o njemu na način na koji bi to učinila osoba. Organizovan je u četiri kooperativna sloja koji se grade od sirovih piksela do razumevanja cele aplikacije. **Analizator** definiše stabilan ugovor — interfejse (`Analyzer`, `VideoProcessor`) i tipove vrednosti (`UIElement`, `ScreenAnalysis`, `ScreenDiff`, `Rect`, `Size`, `TextRegion`, `VisualIssue`, `ScreenIdentity`, `Action`, `KeyFrame`) sa referentnom implementacijom `StubAnalyzer` — tako da korisnici mogu da otkrivaju elemente, upoređuju ekrane i otkrivaju vizuelne probleme u odnosu na ugovor koji se neće menjati pod njima. **Navigacioni graf** podiže perspektivu sa pojedinačnog ekrana na celu aplikaciju, modelujući je kao usmereni graf prelaza između ekrana sa BFS pretragom puteva i tri izvozna formata (DOT, JSON, Mermaid), tako da automatizacija ne samo da vidi ekran, već može da planira put do bilo kog drugog — a isporučuje se sa testovima za stres, automatizaciju, integraciju i bezbednost kako bi se to dokazalo. Sloj **LLM vida** dodaje savremeno multimodalno rezonovanje: interfejs `VisionProvider` sa adapterima za OpenAI (GPT-4o), Anthropic (Claude), Gemini, Qwen-VL, Kimi, StepGUI, Astica i Ollama, sastavljen preko `FallbackChain`-a tako da neuspešan, ograničen brojem zahteva ili slabiji provajder otkazuje postupno, umesto da povuče ceo proces sa sobom. Sloj **Konfiguracije** obrađuje učitavanje i validaciju promenljivih okruženja, pri čemu se svaka poruka o grešci koja je vidljiva korisniku prosleđuje kroz `i18n.Translator`.
+Већина аутоматизованих тестова корисничког интерфејса је у суштини слепа. Ослања се на стабла приступачности и DOM селекторе — машински појам интерфејса — и пропушта све оно што човек стварно доживљава: да ли је дугме видљиво рендеровано, да ли је распоред покварен, да ли је екран на који је стигао онај који је очекивао. VisionEngine премошћује ту празнину дајући аутоматизацији право опажање, способност да погледа UI и размишља о њему на начин на који би то учинила особа. Организован је у четири кооперативна слоја који се граде од сирових пиксела до разумевања целе апликације. **Анализатор** дефинише стабилан уговор — интерфејсе (`Analyzer`, `VideoProcessor`) и типове вредности (`UIElement`, `ScreenAnalysis`, `ScreenDiff`, `Rect`, `Size`, `TextRegion`, `VisualIssue`, `ScreenIdentity`, `Action`, `KeyFrame`) са референтном имплементацијом `StubAnalyzer` — тако да корисници могу да откривају елементе, упоређују екране и откривају визуелне проблеме у односу на уговор који се неће мењати под њима. **Навигациони граф** подиже перспективу са појединачног екрана на целу апликацију, моделујући је као усмерени граф прелаза између екрана са BFS претрагом путева и три извозна формата (ДОТ, JSON, Mermaid), тако да аутоматизација не само да види екран, већ може да планира пут до било ког другог — а испоручује се са тестовима за стрес, аутоматизацију, интеграцију и безбедност како би се то доказало. Слој **LLM вида** додаје савремено мултимодално резоновање: интерфејс `VisionProvider` са адаптерима за OpenAI (GPT-4о), Anthropic (Claude), Gemini, Qwen-ВЛ, Kimi, StepGUI, Астица и Ollama, састављен преко `FallbackChain`-а тако да неуспешан, ограничен бројем захтева или слабији провајдер отказује поступно, уместо да повуче цео процес са собом. Слој **Конфигурације** обрађује учитавање и валидацију променљивих окружења, при чему се свака порука о грешци која је видљива кориснику прослеђује кроз `i18n.Translator`.
 
-Odluka koja sve ovo čini zaista primenjivim jeste činjenica da teška zavisnost od nativnih biblioteka nije obavezna. OpenCV veze su zaštićene oznakom za izgradnju iza `-tags vision`, a podrazumevana verzija isporučuje se sa stubovima — tako da ceo modul može da se kompajlira, testira i pokreće na bilo kom Go 1.25+ hostu bez OpenCV alata u vidokrugu, a nativni stek se uključuje samo kada korisnik to eksplicitno zahteva. Upravo to omogućava da se VisionEngine integriše u običan CI pokretač bez potrebe za prilagođenom slikom. Potpuno odvojen u skladu sa ustavom (CONST-051(B)), uključuje se u sisteme korisnika — posebno u HelixQA — kao podmodul jednakog koda, dajući testiranju UI-a zasnovanom na dokazima pravi par očiju.
+Одлука која све ово чини заиста примењивим јесте чињеница да тешка зависност од нативних библиотека није обавезна. OpenCV везе су заштићене ознаком за изградњу иза `-tags vision`, а подразумевана верзија испоручује се са стубовима — тако да цео модул може да се компајлира, тестира и покреће на било ком Go 1.25+ хосту без OpenCV алата у видокругу, а нативни стек се укључује само када корисник то експлицитно захтева. Управо то омогућава да се VisionEngine интегрише у обичан ЦИ покретач без потребе за прилагођеном сликом. Потпуно одвојен у складу са уставом (ЦОНСТ-051(Б)), укључује се у системе корисника — посебно у HelixQA — као подмодул једнаког кода, дајући тестирању UI-а заснованом на доказима прави пар очију.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Automatizacija testiranja korisničkog interfejsa koja se oslanja isključivo na stabla pristupačnosti ili selektore propušta ono što korisnik zapravo vidi. VisionEngine dodaje pravu vizuelnu inteligenciju — detekciju elemenata, poređenje ekrana i zaključivanje zasnovano na LLM-viziji — uz mapu navigacije kroz ekrane aplikacije, tako da automatizacija može i da opaža i da se kreće kroz korisnički interfejs.
+Аутоматизација тестирања корисничког интерфејса која се ослања искључиво на стабла приступачности или селекторе пропушта оно што корисник заправо види. VisionEngine додаје праву визуелну интелигенцију — детекцију елемената, поређење екрана и закључивање засновано на LLM-визији — уз мапу навигације кроз екране апликације, тако да аутоматизација може и да опажа и да се креће кроз кориснички интерфејс.
 
-## Zašto je revolucionarno
+## Зашто је револуционарно
 
-Spaja dva inače nekompatibilna pristupa — brzu, determinističku klasičnu računarsku viziju i fleksibilnu, semantičku LLM-viziju — iza jedinstvenog interfejsa sa lancem rezervnih rešenja, tako da korisnik dobija preciznost jednog i zaključivanje drugog bez potrebe za izborom. A zadržavanjem OpenCV-a kao strogo opcione komponente, uklanja se uobičajeni trošak te moći: svaki Go projekat može steći pravu percepciju korisničkog interfejsa bez uvođenja native vizuelnog alata u svoj build proces.
+Спаја два иначе некомпатибилна приступа — брзу, детерминистичку класичну рачунарску визију и флексибилну, семантичку LLM-визију — иза јединственог интерфејса са ланцем резервних решења, тако да корисник добија прецизност једног и закључивање другог без потребе за избором. А задржавањем OpenCV-а као строго опционе компоненте, уклања се уобичајени трошак те моћи: сваки Go пројекат може стећи праву перцепцију корисничког интерфејса без увођења нативе визуелног алата у свој буилд процес.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Dvostruka percepcija: klasična računarska vizija (OpenCV/GoCV) plus LLM-vizija sa više provajdera i lancem rezervnih rešenja.
-- Graf navigacije sa BFS algoritmom za pronalaženje putanja i izvozom u DOT/JSON/Mermaid formatima.
-- OpenCV kontrolisan build-tagovima kako bi modul ostao izgradiv/testabilan bez native zavisnosti.
-- Potpuno odvojen, internacionalizovan, podmodul sa istom kodnom bazom (koristi ga HelixQA).
+- Двострука перцепција: класична рачунарска визија (OpenCV/GoCV) плус LLM-визија са више провајдера и ланцем резервних решења.
+- Граф навигације са BFS алгоритмом за проналажење путања и извозом у ДОТ/JSON/Mermaid форматима.
+- OpenCV контролисан буилд-таговима како би модул остао изградив/тестабилан без нативе зависности.
+- Потпуно одвојен, интернационализован, подмодул са истом кодном базом (користи га HelixQA).
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Problem sa teškim native zavisnostima:** rešeno pomoću `-tags vision` gate-a i podrazumevanih stubova kako bi CI/host sistemi bez OpenCV-a i dalje mogli da se grade i testiraju.
-- **Nepouzdanost provajdera vizije:** rešeno interfejsom `VisionProvider` i kompozitorom `FallbackChain`.
-- **Mapiranje složenih tokova aplikacije:** rešeno usmerenim grafom navigacije uz BFS algoritam za pronalaženje putanja i izvoz u više formata.
-- **Spajanje komponenata:** rešeno pomoću CONST-051(B) decoupling-a i šava za internacionalizaciju.
+- **Проблем са тешким нативе зависностима:** решено помоћу `-tags vision` гате-а и подразумеваних стубова како би ЦИ/хост системи без OpenCV-а и даље могли да се граде и тестирају.
+- **Непоузданост провајдера визије:** решено интерфејсом `VisionProvider` и композитором `FallbackChain`.
+- **Мапирање сложених токова апликације:** решено усмереним графом навигације уз BFS алгоритам за проналажење путања и извоз у више формата.
+- **Спајање компонената:** решено помоћу ЦОНСТ-051(Б) децоуплинг-а и шава за интернационализацију.
 
-## Tehnološki stack (zašto + kako)
+## Технолошки стацк (зашто + како)
 
-- **Go (1.25+)** — jezgro modula i sva četiri sloja.
-- **GoCV / OpenCV** — klasična računarska vizija, kontrolisana build-tagovima.
-- **Provajderi LLM-vizije (GPT-4o, Claude, Gemini, Qwen-VL, Kimi, StepGUI, Astica, Ollama)** — multimodalno zaključivanje o korisničkom interfejsu putem adaptera.
-- **Grafovski algoritmi (BFS)** — pronalaženje putanja u navigaciji.
-- **DOT / JSON / Mermaid izvoznici** — vizualizacija grafa navigacije.
-- **i18n prevodilac** — odvojene korisničke stringove.
+- **Go (1.25+)** — језгро модула и сва четири слоја.
+- **GoCV / OpenCV** — класична рачунарска визија, контролисана буилд-таговима.
+- **Провајдери LLM-визије (GPT-4о, Claude, Gemini, Qwen-ВЛ, Kimi, StepGUI, Астица, Ollama)** — мултимодално закључивање о корисничком интерфејсу путем адаптера.
+- **Графовски алгоритми (BFS)** — проналажење путања у навигацији.
+- **ДОТ / JSON / Mermaid извозници** — визуализација графа навигације.
+- **и18н преводилац** — одвојене корисничке стрингове.
 

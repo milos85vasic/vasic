@@ -20,49 +20,49 @@ diagrams:
   - Image distribution (remote endpoint ↔ local cache ↔ running VM)
 ---
 
-**QEMU VM slike, upravljane kao artefakti — preuzimanje, pokretanje, umrežavanje, objavljivanje**
+**QEMU VM слике, управљане као артефакти — преузимање, покретање, умрежавање, објављивање**
 
-## Sažetak
+## Сажетак
 
-Qemu-Utils je Server Factory alat za sveobuhvatno upravljanje QEMU virtualizacijom: automatizovana distribucija i kompresija VM slika, lokalno keširanje, konfiguracija mreža sa mostovima/TAP-om, instalacija operativnih sistema sa ISO-a i izvršavanje na više platformi (Linux/macOS) uz hardversko ubrzanje. Može se koristiti samostalno ili unutar Server Factory okruženja.
+Qemu-Utils је Server Factory алат за свеобухватно управљање QEMU виртуализацијом: аутоматизована дистрибуција и компресија VM слика, локално кеширање, конфигурација мрежа са мостовима/TAP-ом, инсталација оперативних система са ISO-а и извршавање на више платформи (Linux/macOS) уз хардверско убрзање. Може се користити самостално или унутар Server Factory окружења.
 
-## Kratak opis
+## Кратак опис
 
-Shell alat za upravljanje životnim ciklusom QEMU virtuelnih mašina. Preuzima, kešira i pokreće unapred konfigurisane QEMU disk slike, kompresuje ih i objavljuje na udaljene krajnje tačke, automatizuje umrežavanje preko mostova/TAP-a, podržava instalacije sa ISO-a i radi na Linuxu i macOS-u uz odgovarajuće hardversko ubrzanje.
+Shell алат за управљање животним циклусом QEMU виртуелних машина. Преузима, кешира и покреће унапред конфигурисане QEMU диск слике, компресује их и објављује на удаљене крајње тачке, аутоматизује умрежавање преко мостова/TAP-а, подржава инсталације са ISO-а и ради на Linuxu и macOS-у уз одговарајуће хардверско убрзање.
 
-## Detaljan opis
+## Детаљан опис
 
-Qemu-Utils primenjuje disciplinu upravljanja artefaktima — način na koji timovi već tretiraju izlaze iz build procesa i kontejnerske slike — na nešto što je obično ostavljeno kao gomila ad-hoc poziva `qemu-system-*`: virtuelne mašine. Poput svog Parallels „brata", ovaj alat tretira VM slike kao prvoklasne distributivne resurse, matrice sistema koje se koriste u razvoju i testiranju, ali cilja na istinski višeplatformski QEMU backend. Njegov životni ciklus zatvara pun krug: preuzima i kešira unapred konfigurisane QEMU disk slike, automatski ih preuzima sa udaljenih krajnjih tačaka, održava odvojene lokalne keš memorije za kompresovane i nekompresovane slike kako bi se velika slika preuzela samo jednom i potom jeftino pokretala, te kompresuje i objavljuje slike nazad na udaljene servere za ostatak tima. A budući da je VM kojoj niko ne može pristupiti beskorisna, automatizuje deo koji svi mrze — umrežavanje — upravljajući mostovima i TAP interfejsima za VM konektivnost umesto da operateru ostavlja da ih ručno podešava. Podržava instalacije operativnih sistema sa ISO slika i zaista je višeplatformski — radi na Linuxu i macOS-u uz odgovarajuće hardversko ubrzanje za svaku platformu. Konfiguracija i rad prate isti jednostavan, skriptom vođen Server Factory obrazac, a alat može da se koristi kao deo većeg Server Factory projekta ili potpuno samostalno, u skladu sa filozofijom odvajanja organizacije. Dokumentacija je opsežnija nego kod većine manjih Server Factory repozitorijuma (sa odeljcima za pregled, funkcije, zahteve, brzi početak, konfiguraciju, upotrebu, umrežavanje, rešavanje problema i arhitekturu), što odražava njegovu ulogu kao glavnog puta za upravljanje VM-ovima u Linux/QEMU okruženjima. Zajedno sa Parallels-Utils, Server Factory ekosistemu pruža upravljanje VM slikama na macOS/Parallels i Linux-plus-macOS/QEMU virtualizaciji.
+Qemu-Utils примењује дисциплину управљања артефактима — начин на који тимови већ третирају излазе из буилд процеса и контејнерске слике — на нешто што је обично остављено као гомила ад-хоц позива `qemu-system-*`: виртуелне машине. Попут свог Parallels „брата", овај алат третира VM слике као првокласне дистрибутивне ресурсе, матрице система које се користе у развоју и тестирању, али циља на истински вишеплатформски QEMU бацкенд. Његов животни циклус затвара пун круг: преузима и кешира унапред конфигурисане QEMU диск слике, аутоматски их преузима са удаљених крајњих тачака, одржава одвојене локалне кеш меморије за компресоване и некомпресоване слике како би се велика слика преузела само једном и потом јефтино покретала, те компресује и објављује слике назад на удаљене сервере за остатак тима. А будући да је VM којој нико не може приступити бескорисна, аутоматизује део који сви мрзе — умрежавање — управљајући мостовима и TAP интерфејсима за VM конективност уместо да оператеру оставља да их ручно подешава. Подржава инсталације оперативних система са ISO слика и заиста је вишеплатформски — ради на Linuxu и macOS-у уз одговарајуће хардверско убрзање за сваку платформу. Конфигурација и рад прате исти једноставан, скриптом вођен Server Factory образац, а алат може да се користи као део већег Server Factory пројекта или потпуно самостално, у складу са филозофијом одвајања организације. Документација је опсежнија него код већине мањих Server Factory репозиторијума (са одељцима за преглед, функције, захтеве, брзи почетак, конфигурацију, употребу, умрежавање, решавање проблема и архитектуру), што одражава његову улогу као главног пута за управљање VM-овима у Linux/QEMU окружењима. Заједно са Parallels-Utils, Server Factory екосистему пружа управљање VM сликама на macOS/Parallels и Linux-плус-macOS/QEMU виртуализацији.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Priprema i testiranje na više operativnih sistema zahtevaju reproduktivne VM-ove, a čisti QEMU je niskog nivoa i komplikovan — posebno kada su u pitanju umrežavanje i distribucija slika. Qemu-Utils obuhvata QEMU u upravljiv alat kako bi slike i njihove mreže bile reproduktivne na različitim mašinama.
+Припрема и тестирање на више оперативних система захтевају репродуктивне VM-ове, а чисти QEMU је ниског нивоа и компликован — посебно када су у питању умрежавање и дистрибуција слика. Qemu-Utils обухвата QEMU у управљив алат како би слике и њихове мреже биле репродуктивне на различитим машинама.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-Obuhvata četiri stvari koje čisti QEMU čine bolnim — distribuciju slika, keširanje, umrežavanje i instalaciju sa ISO-a — u jedan višeplatformski alat, pretvarajući zid komplikovanih komandnih zastavica u ponovljiv, objavljiv VM tok rada koji ceo tim može da deli i reprodukuje identično na Linuxu i macOS-u.
+Обухвата четири ствари које чисти QEMU чине болним — дистрибуцију слика, кеширање, умрежавање и инсталацију са ISO-а — у један вишеплатформски алат, претварајући зид компликованих командних заставица у поновљив, објављив VM ток рада који цео тим може да дели и репродукује идентично на Linuxu и macOS-у.
 
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Potpun životni ciklus slike **QEMU**: preuzimanje/keširanje/izvršavanje + kompresija/objavljivanje, sa komprimovanim i nekomprimovanim kešom.
-- Automatska konfiguracija mosta/TAP mreže za povezivanje virtuelnih mašina.
-- Podrška za instalaciju sa ISO medija.
-- Višeplatformska podrška (Linux + macOS) sa hardverskim ubrzanjem.
+- Потпун животни циклус слике **QEMU**: преузимање/кеширање/извршавање + компресија/објављивање, са компримованим и некомпримованим кешом.
+- Аутоматска конфигурација моста/TAP мреже за повезивање виртуелних машина.
+- Подршка за инсталацију са ISO медија.
+- Вишеплатформска подршка (Linux + macOS) са хардверским убрзањем.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Složenost umrežavanja virtuelnih mašina:** rešeno automatskim upravljanjem mostom i TAP interfejsima.
-- **Distribucija velikih slika:** rešeno kompresijom, udaljenim objavljivanjem/preuzimanjem i lokalnim keširanjem.
-- **Višeplatformska virtualizacija:** rešeno podrškom za Linux i macOS uz odgovarajuće ubrzanje.
-- **Inicijalno postavljanje:** rešeno podrškom za instalaciju sa ISO medija.
+- **Сложеност умрежавања виртуелних машина:** решено аутоматским управљањем мостом и TAP интерфејсима.
+- **Дистрибуција великих слика:** решено компресијом, удаљеним објављивањем/преузимањем и локалним кеширањем.
+- **Вишеплатформска виртуализација:** решено подршком за Linux и macOS уз одговарајуће убрзање.
+- **Иницијално постављање:** решено подршком за инсталацију са ISO медија.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Shell** — kompletan alat (~79,5K bajtova); skripte za upravljanje slikama, mrežom i virtuelnim mašinama.
-- **QEMU** — virtuelizacioni pogon koji se upravlja.
-- **Mreža sa mostom/TAP** — infrastruktura za umrežavanje virtuelnih mašina na Linuxu i macOS-u.
-- **ISO slike** — izvor za instalaciju operativnog sistema.
+- **Shell** — комплетан алат (~79,5К бајтова); скрипте за управљање сликама, мрежом и виртуелним машинама.
+- **QEMU** — виртуелизациони погон који се управља.
+- **Мрежа са мостом/TAP** — инфраструктура за умрежавање виртуелних машина на Linuxu и macOS-у.
+- **ISO слике** — извор за инсталацију оперативног система.
 
-> Napomena: **GitHub** označava repozitorijum kao fork unutar organizacije Server-Factory. Višeplatformski pratilac **Parallels-Utils**. Nije povezano sa **AI**.
+> Напомена: **GitHub** означава репозиторијум као форк унутар организације Server-Factory. Вишеплатформски пратилац **Parallels-Utils**. Није повезано са **AI**.
 

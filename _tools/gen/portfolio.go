@@ -293,6 +293,11 @@ seo_hreflang: %s
 <!-- OpenDesign assets (fonts → brand → components → animations → overlays), linked from the page so the default layout head stays untouched. -->
 %s
 <script defer src="{{ '/assets/od/motion.js' | relative_url }}"></script>
+<!-- window.MV_PAGE feeds the shared layout's language switcher (assets/js/main.js):
+     choosing a language on the portfolio navigates to that language's portfolio
+     page (/portfolio/<lang>/) so its translated BODY loads — not a chrome-only
+     swap. (BUG #63) -->
+<script>window.MV_PAGE=%s;</script>
 %s
 %s
 %s
@@ -304,6 +309,7 @@ seo_hreflang: %s
 		yamlQuote(T(lang, "pf.lede")),
 		yamlQuote(hreflangInline(site, langs, "portfolio/")),
 		assetLinksJekyll(site.CSSName),
+		mvPagePathsJSON("portfolio", "portfolio/", langs),
 		portfolioSymbols,
 		portfolioStyle,
 		site.baseGraphLang(htmlLang(lang)),

@@ -1,0 +1,13 @@
+=== canonical per localized page ===
+home/ar canonical=href="https://vasic.digital/"
+home/de canonical=href="https://vasic.digital/"
+home/fr canonical=href="https://vasic.digital/"
+home/ja canonical=href="https://vasic.digital/"
+home/zh canonical=href="https://vasic.digital/"
+--- localized product canonical ---
+products/ru/catalogizer canonical=
+portfolio/ru canonical=href="https://vasic.digital/portfolio/"
+--- og:url + og:locale on ru home ---
+<meta property="og:title" content="Vasic Digital — AI‑нативная разработка программного обеспечения"/>
+<meta property="og:url" content="https://vasic.digital/"/>
+<meta property="og:locale" content="ru_RU"/>

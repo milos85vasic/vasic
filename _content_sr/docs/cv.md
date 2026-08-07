@@ -18,85 +18,85 @@ note: Skills and projects are evidence-based (repository READMEs + analysis). Ex
 
 # Miloš Vasić
 
-**AI inženjer — LLM infrastruktura, autonomni agenti i upravljanje koje ih čini pouzdanim.**
+**AI инжењер — LLM инфраструктура, аутономни агенти и управљање које их чини поузданим.**
 
-- Email: milos85vasic@gmail.com
+- Емаил: milos85vasic@gmail.com
 - Web: https://milosvasic.ru · https://vasic.digital
 - GitHub: vasic-digital · HelixDevelopment · Server-Factory
 
 ---
 
-## Sažetak
+## Сажетак
 
-AI/softverski inženjer koji gradi sisteme za razvoj AI od početka do kraja — od LLM infrastrukture sa više provajdera i autonomnih agenata do slojeva za kontrolu kvaliteta i upravljanje koji ih drže pod nadzorom. Ne isporučujem demo verzije; isporučujem platforme. Više od 15 godina profesionalnog inženjeringa (od 2009. godine) u oblasti mobilnih SDK-ova, integracije hardvera u realnom vremenu i distribuiranih backend sistema sada se usredsređuje na jedan cilj: učiniti autonomni razvoj AI pouzdanim na velikoj skali.
+AI/софтверски инжењер који гради системе за развој AI од почетка до краја — од LLM инфраструктуре са више провајдера и аутономних агената до слојева за контролу квалитета и управљање који их држе под надзором. Не испоручујем демо верзије; испоручујем платформе. Више од 15 година професионалног инжењеринга (од 2009. године) у области мобилних SDK-ова, интеграције хардвера у реалном времену и дистрибуираних бацкенд система сада се усредсређује на један циљ: учинити аутономни развој AI поузданим на великој скали.
 
-Projektujem flote, a ne monolitne sisteme — velike aplikacije koje se oslanjaju na desetine malih, odvojenih i nezavisno testiranih modula, od kojih svaki nasleđuje zajednički inženjerski Constitution i proverava se kroz disciplinu kontrole kvaliteta zasnovanu na dokazima, bez varanja. Primarni jezik je Go, uz Kotlin/KMP, TypeScript/React, Python, Swift i Shell. Vođeno načelo, koje se primenjuje mehanički, a ne samo deklarativno: funkcionalnost je gotova tek kada je stvarni korisnik može koristiti i kada postoje prikupljeni dokazi koji to potvrđuju.
+Пројектујем флоте, а не монолитне системе — велике апликације које се ослањају на десетине малих, одвојених и независно тестираних модула, од којих сваки наслеђује заједнички инжењерски Constitution и проверава се кроз дисциплину контроле квалитета засновану на доказима, без варања. Примарни језик је Go, уз Kotlin/KMP, TypeScript/React, Python, Swift и Shell. Вођено начело, које се примењује механички, а не само декларативно: функционалност је готова тек када је стварни корисник може користити и када постоје прикупљени докази који то потврђују.
 
-**Šta donosim na sto:** sposobnost da se AI mogućnost prevede iz istraživačke ideje u upravljani, samoverifikujući sistem prilagođen produkciji — LLM rutiranje koje dokazuje da svaki model zaista funkcioniše pre nego što mu se poveri, agenti koji raspravljaju i postižu konsenzus umesto da nagađaju, slojevi za memoriju i RAG koji ne gube kontekst, i čitav ekosistem povezan tako da „testovi su zeleni" nikada ne znači „funkcionalnost je pokvarena".
+**Шта доносим на сто:** способност да се AI могућност преведе из истраживачке идеје у управљани, самоверификујући систем прилагођен продукцији — LLM рутирање које доказује да сваки модел заиста функционише пре него што му се повери, агенти који расправљају и постижу консензус уместо да нагађају, слојеви за меморију и RAG који не губе контекст, и читав екосистем повезан тако да „тестови су зелени" никада не значи „функционалност је покварена".
 
-## Ključne kompetencije
+## Кључне компетенције
 
-- **AI / LLM sistemi:** apstrakcija LLM infrastrukture sa više provajdera (40+ provajdera), integracija MCP alata, RAG, vektorske baze podataka i embedinzi, orkestracija agenata (bezglavi CLI agenti, grafovski tokovi poslova, višestruke runde debate/konsenzusa), planiranje (HiPlan/MCTS/Tree-of-Thoughts), LLMOps, benchmarking (SWE-bench/HumanEval/MMLU), verifikacija LLM, odbrambeni LLM sigurnosni mehanizmi, računarski vid + LLM-vid.
-- **Backend inženjering:** Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, distribuirani sistemi (uključujući formalne TLA+ specifikacije), visokopropusni REST servisi i konkurentni radnici.
-- **Podaci:** PostgreSQL, SQLite, SQLCipher (šifrovanje u mirovanju), Redis, Neo4j, ClickHouse, objekti skladištenja (MinIO/S3/GCS/Azure).
-- **Frontend / cross-platform:** TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular, Electron, React Native, Kotlin Multiplatform, Android/Android TV (Kotlin), iOS (Swift), Tauri/Rust.
-- **Infra / DevOps:** Docker i Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels; CI/CD putem GitHub Actions, Gradle, Make.
-- **Kontrola kvaliteta / inženjering kvaliteta:** kontrola kvaliteta zasnovana na dokazima bez varanja (HelixQA), okviri za izazove sa mutacionim kapijama, `go test -race`, vizuelno-regresiono testiranje, testiranje uređaja preko ADB-a, SonarQube, skeniranje sigurnosti (semgrep/gosec/trivy/snyk/gitleaks/nancy).
-- **Upravljanje inženjeringom:** Constitution kao podmodul; kapije za nasleđivanje i propagaciju; disciplina dokumentacije i pokrivenosti kroz flotu od 140+ repozitorijuma.
-
-
-## Izabrani projekti
-
-### Upravljanje i kontrola kvaliteta
-- **HelixConstitution** — univerzalni inženjerski priručnik distribuiran kao Git podmodul i nasleđen u preko 140 repozitorijuma: inženjerski zakon isporučuje se i verzionira tačno kao kod. Jedno ažuriranje podmodula unapređuje pravila za ceo sistem, a propagacioni filteri doslovno pretražuju svaki repozitorijum koji ga koristi u potrazi za obaveznom klauzulom — svaki filter uparen je sa mutacionim metatestom koji dokazuje da sam filter nije lažan. Pretvara „najbolje prakse koje ljudi žele da prate" u nasleđeno, proverljivo, mehanički sprovodivo pravo bez prevare.
-- **HelixQA** — orkestracija kontrole kvaliteta bez prevare (Go) zasnovana na jednom nepopustljivom pravilu: mera nije „testovi prolaze", već „korisnici mogu da koriste funkciju". Pokreće pisane YAML test-banke *i* potpuno autonomne LLM-i-vizuelne sesije kontrole kvaliteta koje otvaraju stvarnu aplikaciju, proveravaju svaku dokumentovanu funkciju, tragaju za nedokumentovanim greškama na Androidu/Android TV/Webu/desktopu i odbijaju da ocene prolazak bez snimljenih dokaza u realnom vremenu — snimaka ekrana, logcat-a, video-zapisa, stek-trejsova — plus tiketa spremnih za AI ispravke.
-
-### Razvoj AI i LLM infrastruktura
-- **HelixAgent** — produkcijski ansambl LLM usluga (Go/Gin) koja odbija da veruje jednom modelu: šalje upit na više provajdera, vodi strukturisanu višestepenu debatu (Predlog → Kritika → Pregled → Sinteza) i usmerava prema rezultatima provere uživo sa postupnim povlačenjem — sve iza OpenAI-kompatibilnog API interfejsa sa HA slojem podataka, opservabilnošću i zaštitnim mehanizmima. *Go, Gin, PostgreSQL, Redis, Prometheus/Grafana/OpenTelemetry, MCP, Neo4j/ClickHouse/Kafka.*
-- **HelixCode** — distribuirana platforma za razvoj AI koja deli posao na inteligentne zadatke svesne zavisnosti, raspoređene na radničkoj mreži pod upravom SSH, a zatim čuva kontrolne tačke i vraća se unazad tako da ništa nikada ne bude izgubljeno ako se zadatak prekine; izbor modela svesnih hardvera i ceo ciklus planiranja/izrade/testiranja/refaktorisanja iza REST/CLI/TUI/MCP. *Go, Gin, PostgreSQL, Redis, SSH, MCP, llama.cpp/Ollama.*
-- **HelixLLM** — jedan binarni fajl, šest režima implementacije: OpenAI- i Anthropic-kompatibilno zaključivanje preko HTTP/3 koje skaliramo od laptopa do višenamenskog klastera, sa lokalnim zaključivanjem preko llama.cpp (CUDA/Metal/ROCm) i automatski otkrivajućim, verifikaciono ocenjenim lancem rezervnog rešenja u oblaku koji uvek degradira na zagarantovani lokalni model. *Go, HTTP/3 QUIC, gRPC/SSE/Kafka, llama.cpp.*
-- **LLMProvider / LLMOrchestrator / LLMsVerifier** — kičma LLM infrastrukture: jedan interfejs preko 43 provajdera sa prekidačima strujnog kola, monitoringom zdravlja, ponovnim pokušajima sa eksponencijalnim odlaganjem i poštenim (bez unapred zadatih rezervnih rešenja) otkrivanjem modela; thread-safe kontrolna ravan koja pokreće i upravlja headless CLI agentima (OpenCode, Claude Code, Gemini, Junie, Qwen Code) preko hibridnog protokola cevi i fajlova; i izvor istine za verifikaciju čiji obavezni filter „Vidiš li moj kod?" znači da se kao upotrebljivi ili za izvoz označavaju samo modeli za koje je dokazano da stvarno rade.
-- **HelixMemory / HelixSpecifier** — objedinjeni kognitivno-memorijski pogon koji spaja četiri vrhunska backend-a (Mem0, Cognee, Letta, Graphiti) iza jednog interfejsa sa paralelnim pretraživanjem i ponovnim rangiranjem iz više izvora; i pogon za razvoj zasnovan na specifikacijama koji prilagođava sopstvenu proceduru obimu posla i podržava specifikacije višestrukom agentskom debatnom.
-- **HelixTrack** — alternativa JIRA + Confluence-u otvorenog sveta (zastavni projekat Helix-Track linije): Go mikroservisi sa jedinstvenim API interfejsom usmerenim akcijama preko HTTP/3, SQLCipher enkripcijom u mirovanju i klijentima za Web/Desktop/Android/iOS.
+- **AI / LLM системи:** апстракција LLM инфраструктуре са више провајдера (40+ провајдера), интеграција MCP алата, RAG, векторске базе података и ембединзи, оркестрација агената (безглави CLI агенти, графовски токови послова, вишеструке рунде дебате/консензуса), планирање (HiPlan/MCTS/Tree-of-Thoughts), LLMOps, бенцхмаркинг (SWE-bench/HumanEval/MMLU), верификација LLM, одбрамбени LLM сигурносни механизми, рачунарски вид + LLM-вид.
+- **Бацкенд инжењеринг:** Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets, дистрибуирани системи (укључујући формалне TLA+ спецификације), високопропусни REST сервиси и конкурентни радници.
+- **Подаци:** PostgreSQL, SQLite, SQLCipher (шифровање у мировању), Redis, Neo4j, ClickHouse, објекти складиштења (MinIO/S3/GCS/Azure).
+- **Фронтенд / цросс-платформ:** TypeScript/React (Tailwind, Redux Тоолкит, i18next), Angular, Electron, React Native, Kotlin Multiplatform, Android/Android TV (Kotlin), iOS (Swift), Tauri/Rust.
+- **Инфра / DevOps:** Docker и Цомпосе, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels; CI/CD путем GitHub Actions, Gradle, Make.
+- **Контрола квалитета / инжењеринг квалитета:** контрола квалитета заснована на доказима без варања (HelixQA), оквири за изазове са мутационим капијама, `go test -race`, визуелно-регресионо тестирање, тестирање уређаја преко ADB-а, SonarQube, скенирање сигурности (semgrep/gosec/trivy/snyk/gitleaks/nancy).
+- **Управљање инжењерингом:** Constitution као подмодул; капије за наслеђивање и пропагацију; дисциплина документације и покривености кроз флоту од 140+ репозиторијума.
 
 
-### Alati profesionalnog nivoa (vasic-digital utils)
-- **Catalogizer** — višenamenski, enkriptovan, samostalno hostovan sistem za upravljanje medijskim kolekcijama (Go/Gin + React), otporan na nestabilne mrežne skladišne sisteme, izgrađen na 21 ponovo upotrebljivom potmodulu.
-- **Courses-Creator** — pipeline za konverziju markdown-a u video AI sa TTS i plejerima za desktop, mobilne i veb platforme.
-- **VisionEngine** — računarski vid + višenamenski LLM vizuelni interfejs sa navigacionim grafovima.
-- **DocProcessor** · **Docs Chain** · **Herald** · **task_bridge** · **Vasic Digital Paket ponovo upotrebljivih modula** — mapiranje funkcija za kontrolu kvaliteta, sinhornizacija dokumenata/baza podataka sa heširanim sadržajem, obaveštenja na prirodnom jeziku, sinhornizacija zadataka/tabli i flota standardne biblioteke `digital.vasic.*`.
+## Изабрани пројекти
 
-### Automatizacija infrastrukture (Server Factory)
-- **Mail Server Factory** — deklarativni JSON → potpuno konfigurisani, dokerizovani mail serveri za 12 vrsta konekcija i 25 Linux distribucija; izveštava o 439 uspešno položenih testova i čistoj SonarQube kapiji.
-- **Server Factory Osnovni okvir**, **Qemu-Utils**, **Parallels-Utils** — zajednički provisioning pogon i alati za kreiranje VM slika.
+### Управљање и контрола квалитета
+- **HelixConstitution** — универзални инжењерски приручник дистрибуиран као Гит подмодул и наслеђен у преко 140 репозиторијума: инжењерски закон испоручује се и верзионира тачно као код. Једно ажурирање подмодула унапређује правила за цео систем, а пропагациони филтери дословно претражују сваки репозиторијум који га користи у потрази за обавезном клаузулом — сваки филтер упарен је са мутационим метатестом који доказује да сам филтер није лажан. Претвара „најбоље праксе које људи желе да прате" у наслеђено, проверљиво, механички спроводиво право без преваре.
+- **HelixQA** — оркестрација контроле квалитета без преваре (Go) заснована на једном непопустљивом правилу: мера није „тестови пролазе", већ „корисници могу да користе функцију". Покреће писане YAML тест-банке *и* потпуно аутономне LLM-и-визуелне сесије контроле квалитета које отварају стварну апликацију, проверавају сваку документовану функцију, трагају за недокументованим грешкама на Андроиду/Android TV/Webu/десктопу и одбијају да оцене пролазак без снимљених доказа у реалном времену — снимака екрана, логцат-а, видео-записа, стек-трејсова — плус тикета спремних за AI исправке.
 
-## Jezici i alati (kratak spisak)
+### Развој AI и LLM инфраструктура
+- **HelixAgent** — продукцијски ансамбл LLM услуга (Go/Gin) која одбија да верује једном моделу: шаље упит на више провајдера, води структурисану вишестепену дебату (Предлог → Критика → Преглед → Синтеза) и усмерава према резултатима провере уживо са поступним повлачењем — све иза OpenAI-компатибилног API интерфејса са HA слојем података, опсервабилношћу и заштитним механизмима. *Go, Gin, PostgreSQL, Redis, Prometheus/Grafana/OpenTelemetry, MCP, Neo4j/ClickHouse/Kafka.*
+- **HelixCode** — дистрибуирана платформа за развој AI која дели посао на интелигентне задатке свесне зависности, распоређене на радничкој мрежи под управом SSH, а затим чува контролне тачке и враћа се уназад тако да ништа никада не буде изгубљено ако се задатак прекине; избор модела свесних хардвера и цео циклус планирања/израде/тестирања/рефакторисања иза REST/CLI/TUI/MCP. *Go, Gin, PostgreSQL, Redis, SSH, MCP, ллама.цпп/Ollama.*
+- **HelixLLM** — један бинарни фајл, шест режима имплементације: OpenAI- и Anthropic-компатибилно закључивање преко HTTP/3 које скалирамо од лаптопа до вишенаменског кластера, са локалним закључивањем преко ллама.цпп (CUDA/Метал/ROCm) и аутоматски откривајућим, верификационо оцењеним ланцем резервног решења у облаку који увек деградира на загарантовани локални модел. *Go, HTTP/3 QUIC, gRPC/SSE/Kafka, ллама.цпп.*
+- **LLMProvider / LLMOrchestrator / LLMsVerifier** — кичма LLM инфраструктуре: један интерфејс преко 43 провајдера са прекидачима струјног кола, мониторингом здравља, поновним покушајима са експоненцијалним одлагањем и поштеним (без унапред задатих резервних решења) откривањем модела; тхреад-сафе контролна раван која покреће и управља хеадлесс CLI агентима (OpenCode, Claude Цоде, Gemini, Junie, Qwen Цоде) преко хибридног протокола цеви и фајлова; и извор истине за верификацију чији обавезни филтер „Видиш ли мој код?" значи да се као употребљиви или за извоз означавају само модели за које је доказано да стварно раде.
+- **HelixMemory / HelixSpecifier** — обједињени когнитивно-меморијски погон који спаја четири врхунска бацкенд-а (Mem0, Cognee, Letta, Graphiti) иза једног интерфејса са паралелним претраживањем и поновним рангирањем из више извора; и погон за развој заснован на спецификацијама који прилагођава сопствену процедуру обиму посла и подржава спецификације вишеструком агентском дебатном.
+- **HelixTrack** — алтернатива JIRA + Confluence-у отвореног света (заставни пројекат Helix-Track линије): Go микросервиси са јединственим API интерфејсом усмереним акцијама преко HTTP/3, SQLCipher енкрипцијом у мировању и клијентима за Web/Десктоп/Android/iOS.
+
+
+### Алати професионалног нивоа (vasic-digital утилс)
+- **Catalogizer** — вишенаменски, енкриптован, самостално хостован систем за управљање медијским колекцијама (Go/Gin + React), отпоран на нестабилне мрежне складишне системе, изграђен на 21 поново употребљивом потмодулу.
+- **Courses-Creator** — пипелине за конверзију markdown-а у видео AI са TTS и плејерима за десктоп, мобилне и веб платформе.
+- **VisionEngine** — рачунарски вид + вишенаменски LLM визуелни интерфејс са навигационим графовима.
+- **DocProcessor** · **Docs Chain** · **Herald** · **task_bridge** · **Vasic Digital Пакет поново употребљивих модула** — мапирање функција за контролу квалитета, синхорнизација докумената/база података са хешираним садржајем, обавештења на природном језику, синхорнизација задатака/табли и флота стандардне библиотеке `digital.vasic.*`.
+
+### Аутоматизација инфраструктуре (Server Factory)
+- **Mail Server Factory** — декларативни JSON → потпуно конфигурисани, докеризовани маил сервери за 12 врста конекција и 25 Linux дистрибуција; извештава о 439 успешно положених тестова и чистој SonarQube капији.
+- **Server Factory Основни оквир**, **Qemu-Utils**, **Parallels-Utils** — заједнички провисионинг погон и алати за креирање VM слика.
+
+## Језици и алати (кратак списак)
 
 Go · Kotlin · Kotlin Multiplatform · TypeScript · JavaScript · Python · Swift · Java · Rust · Shell · PL/pgSQL · TLA+ · Gin · gRPC · HTTP/3 · React · Angular · Electron · React Native · PostgreSQL · SQLite · SQLCipher · Redis · Neo4j · ClickHouse · Docker · Kubernetes · Prometheus · Grafana · OpenTelemetry · QEMU · GitHub Actions · Gradle · Make
 
-## Iskustvo
+## Искуство
 
-*Softverski inženjer od 2009. godine, sa iskustvom u celom razvojnom ciklusu — planiranje, razvoj, vođenje tima i implementacija. Potpuna istorija u nastavku preuzeta je iz kandidatovog verifikovanog zapisa (milosvasic.ru).*
+*Софтверски инжењер од 2009. године, са искуством у целом развојном циклусу — планирање, развој, вођење тима и имплементација. Потпуна историја у наставку преузета је из кандидатовог верификованог записа (milosvasic.ru).*
 
-### Stalni poslovi
+### Стални послови
 
-- **SDK Developer — Harness** (harness.io), Beograd, Srbija · 03/2020 – 12/2024. Glavni programer na porodici SDK-ova za kompanijin odsek Feature Flag, sa fokusom na sve glavne mobilne platforme i šire. Klijenti i partneri uključivali su AWS, Google i razne banke. *Tehnologije: Android, iOS, Flutter, React Native, TypeScript, JavaScript, Java, Kotlin, Swift, Go, Ruby.*
-- **Softverski inženjer — Leica Geosystems** (leica-geosystems.com), Herbrugg, Švajcarska · 02/2016 – 02/2020. Primarno iOS i Android programiranje za vrhunske 3D skenere kompanije Leica Geosystems — komunikacija u realnom vremenu sa hardverom, obrada podataka i sinhornizacija. Partner: Autodesk. *Tehnologije: Android, iOS, Java, Kotlin, Swift, C++.*
-- **SDK Developer — Bosch** (bosch.rs), Beograd, Srbija · 01/2010 – 01/2016. Glavni SDK programer na projektu Connected Vehicles SDK — komunikacija u realnom vremenu sa Bluetooth sabirnicom OBD2, obrada podataka visokih performansi i njihovo čuvanje. *Tehnologije: Android, Java, Kotlin.*
+- **SDK Девелопер — Harness** (харнесс.ио), Београд, Србија · 03/2020 – 12/2024. Главни програмер на породици SDK-ова за компанијин одсек Феатуре Флаг, са фокусом на све главне мобилне платформе и шире. Клијенти и партнери укључивали су AWS, Google и разне банке. *Технологије: Android, iOS, Flutter, React Native, TypeScript, JavaScript, Java, Kotlin, Swift, Go, Ruby.*
+- **Софтверски инжењер — Leica Geosystems** (леица-geosystems.цом), Herbrugg, Швајцарска · 02/2016 – 02/2020. Примарно iOS и Android програмирање за врхунске 3Д скенере компаније Leica Geosystems — комуникација у реалном времену са хардвером, обрада података и синхорнизација. Партнер: Autodesk. *Технологије: Android, iOS, Java, Kotlin, Swift, C++.*
+- **SDK Девелопер — Bosch** (босцх.рс), Београд, Србија · 01/2010 – 01/2016. Главни SDK програмер на пројекту Цоннецтед Вехицлес SDK — комуникација у реалном времену са Bluetooth сабирницом OBD2, обрада података високих перформанси и њихово чување. *Технологије: Android, Java, Kotlin.*
 
 
-### Ostale profesionalne aktivnosti
+### Остале професионалне активности
 
-- **TN-TECH** (tn-tech.co.rs), Novi Sad, Srbija · honorarno, od 03/2017. Rad za Globex Data (Kanada i Švajcarska) — Sekur (SekurMessenger), SekurMail, SekurSuite — i platformu BusRide. *Tehnologije: Android, Java, Kotlin, C++, Qt.*
-- **Increment Loop** (incrementloop.com), Beograd, Srbija · honorarno, od 09/2023. Aplikacija Yuno. *Tehnologije: Android, Kotlin.*
-- **Otvoreni kod / sopstvene organizacije** — HelixTrack, Server Factory (Mail Server Factory, Parallels-Utils, Qemu-Utils) i Vasic Digital (Android-Toolkit, Network-Binder), detaljnije opisano u odeljku Izabrani projekti iznad.
+- **TN-TECH** (тн-тецх.цо.рс), Нови Сад, Србија · хонорарно, од 03/2017. Рад за Globex Дата (Канада и Швајцарска) — Sekur (SekurMessenger), SekurMail, SekurSuite — и платформу BusRide. *Технологије: Android, Java, Kotlin, C++, Qt.*
+- **Increment Loop** (инцрементлооп.цом), Београд, Србија · хонорарно, од 09/2023. Апликација Yuno. *Технологије: Android, Kotlin.*
+- **Отворени код / сопствене организације** — HelixTrack, Server Factory (Mail Server Factory, Parallels-Utils, Qemu-Utils) и Vasic Digital (Android-Тоолкит, Network-Биндер), детаљније описано у одељку Изабрани пројекти изнад.
 
-## Publikacije
+## Публикације
 
-- **Fundamentalni Kotlin** — samostalno objavljeni autor; poslednje revidirano izdanje septembar 2022. (Fundamentalni Kotlin, 3. izdanje). Takođe autor za Packt Publishing (Velika Britanija).
+- **Фундаментални Kotlin** — самостално објављени аутор; последње ревидирано издање септембар 2022. (Фундаментални Kotlin, 3. издање). Такође аутор за Packt Публисхинг (Велика Британија).
 
-## Obrazovanje
+## Образовање
 
-- **M.Sc, Savremene informacione tehnologije** — Univerzitet Singidunum, Beograd, Srbija · 2014.
-- **B.Sc, Informatika i računarstvo** — Univerzitet Singidunum, Beograd, Srbija · 2008.
+- **М.Сц, Савремене информационе технологије** — Универзитет Singidunum, Београд, Србија · 2014.
+- **Б.Сц, Информатика и рачунарство** — Универзитет Singidunum, Београд, Србија · 2008.
 

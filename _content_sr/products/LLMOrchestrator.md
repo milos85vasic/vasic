@@ -27,65 +27,65 @@ diagrams:
 
 # LLMOrchestrator
 
-**Jedinstvena kontrolna ravan za sve headless CLI kodirajuće agente.**
+**Јединствена контролна раван за све хеадлесс CLI кодирајуће агенте.**
 
-## Sažetak
+## Сажетак
 
-LLMOrchestrator je samostalni, višekratno upotrebljiv Go modul za pokretanje, upravljanje i komunikaciju sa headless CLI agentima (OpenCode, Claude Code, Gemini, Junie, Qwen Code) putem hibridnog protokola cevi i fajlova, sa prekidačima kola po agentu, priključivim izborom više provajdera, odvojenom apstrakcijom za internacionalizaciju i garancijama protiv lažnih testova.
+LLMOrchestrator је самостални, вишекратно употребљив Go модул за покретање, управљање и комуникацију са хеадлесс CLI агентима (OpenCode, Claude Цоде, Gemini, Junie, Qwen Цоде) путем хибридног протокола цеви и фајлова, са прекидачима кола по агенту, прикључивим избором више провајдера, одвојеном апстракцијом за интернационализацију и гаранцијама против лажних тестова.
 
-## Kratak opis
+## Кратак опис
 
-Višeput upotrebljiv Go modul koji pruža jedinstveni interfejs za pokretanje i upravljanje više LLM-om pokretanih CLI agenata putem hibridnog protokola cevi i fajlova. Nitno bezbedno grupisanje agenata sa prekidačima kola i izbornim strategijama rutiranja, namerno nezavisno od potrošača, sa priključivim prevodiocem za internacionalizaciju.
+Вишепут употребљив Go модул који пружа јединствени интерфејс за покретање и управљање више LLM-ом покретаних CLI агената путем хибридног протокола цеви и фајлова. Нитно безбедно груписање агената са прекидачима кола и изборним стратегијама рутирања, намерно независно од потрошача, са прикључивим преводиоцем за интернационализацију.
 
-## Detaljan opis
+## Детаљан опис
 
-LLMOrchestrator predstavlja zajedničku infrastrukturu za orkestriranje headless CLI kodirajućih agenata — onu pozadinsku strukturu koju svaki multiagentski sistem tiho zahteva, a obično se loše ponovo implementira. Umesto da svaki projekat ponovo razvija pokretanje procesa, uokvirivanje poruka i parsiranje rezultata za alate poput OpenCode-a, Claude Code-a, Gemini CLI, Junie i Qwen Code-a, ovaj modul nudi jedinstveni interfejs `Agent`, nitno bezbedan `AgentPool` i `MultiProviderPool` koji objedinjuje agente iz više provajdera iza jedinstvenog fasadnog interfejsa. Rutiranje je priključivo preko `AgentSelector`-a — kružno raspoređivanje koje preskače provajdere koji ne ispunjavaju zahteve, ili raspoređivanje po prioritetu sa rezervnim opcijama — tako da način distribucije posla predstavlja politiku koju birate, a ne unapred zadatu pretpostavku. Svaki konkretan agent je tanak adapter nad zajedničkim `BaseAdapter`-om koji upravlja celim životnim ciklusom procesa: pokretanje sa podešavanjem cevi, uredno zaustavljanje putem SIGTERM-a pa SIGKILL-a, ponovno pokretanje i provera aktivnosti — sve one zamorne, podložne greškama delove, rešene jednom za svagda.
+LLMOrchestrator представља заједничку инфраструктуру за оркестрирање хеадлесс CLI кодирајућих агената — ону позадинску структуру коју сваки мултиагентски систем тихо захтева, а обично се лоше поново имплементира. Уместо да сваки пројекат поново развија покретање процеса, уоквиривање порука и парсирање резултата за алате попут OpenCode-а, Claude Цоде-а, Gemini CLI, Junie и Qwen Цоде-а, овај модул нуди јединствени интерфејс `Agent`, нитно безбедан `AgentPool` и `MultiProviderPool` који обједињује агенте из више провајдера иза јединственог фасадног интерфејса. Рутирање је прикључиво преко `AgentSelector`-а — кружно распоређивање које прескаче провајдере који не испуњавају захтеве, или распоређивање по приоритету са резервним опцијама — тако да начин дистрибуције посла представља политику коју бирате, а не унапред задату претпоставку. Сваки конкретан агент је танак адаптер над заједничким `BaseAdapter`-ом који управља целим животним циклусом процеса: покретање са подешавањем цеви, уредно заустављање путем SIGTERM-а па SIGKILL-а, поновно покретање и провера активности — све оне заморне, подложне грешкама делове, решене једном за свагда.
 
-Komunikacija je namerno hibridna, prilagođena zadatku. Cevni transport prenosi JSON poruke ograničene novim redom, sa vremenskim ograničenjem za čitanje po zahtevu i ograničenjem dužine odgovora za brzu interaktivnu razmenu, dok fajl-transport koristi direktorijume za ulazne/izlazne fajlove i deljene resurse po sesiji za velike ili trajne artefakte koji ne bi trebalo da borave u cevi. Otpornost na greške nije naknadna zamisao — ona je strukturna: prekidač kola po agentu se aktivira nakon tri uzastopna neuspeha, sa 60-sekundnim hlađenjem pre poluaktivne probe, a pozadinski monitor zdravlja pinguje agente kako bi onaj koji je pao mogao da se oporavi bez čekanja da ga saobraćaj primeti. Preuzimanje iz bazena blokira se na promenljivom uslovu umesto da troši procesorsko vreme u beskorisnom čekanju, a parser odgovora je bez stanja i bezbedan za konkurentno pozivanje. Modul je strogo odvojen — nikakve specifičnosti potrošača nisu dozvoljene da procure unutra — a svaki string vidljiv korisniku prolazi kroz priključivi i18n `Translator`, sa `NoopTranslator`-om koji vraća identifikatore poruka doslovno, tako da nedostajući prevod bude odmah uočljiv umesto da se krije.
+Комуникација је намерно хибридна, прилагођена задатку. Цевни транспорт преноси JSON поруке ограничене новим редом, са временским ограничењем за читање по захтеву и ограничењем дужине одговора за брзу интерактивну размену, док фајл-транспорт користи директоријуме за улазне/излазне фајлове и дељене ресурсе по сесији за велике или трајне артефакте који не би требало да бораве у цеви. Отпорност на грешке није накнадна замисао — она је структурна: прекидач кола по агенту се активира након три узастопна неуспеха, са 60-секундним хлађењем пре полуактивне пробе, а позадински монитор здравља пингује агенте како би онај који је пао могао да се опорави без чекања да га саобраћај примети. Преузимање из базена блокира се на променљивом услову уместо да троши процесорско време у бескорисном чекању, а парсер одговора је без стања и безбедан за конкурентно позивање. Модул је строго одвојен — никакве специфичности потрошача нису дозвољене да процуре унутра — а сваки стринг видљив кориснику пролази кроз прикључиви и18н `Translator`, са `NoopTranslator`-ом који враћа идентификаторе порука дословно, тако да недостајући превод буде одмах уочљив уместо да се крије.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Svaki multiagentski sistem mora pouzdano da pokreće i komunicira sa CLI agentima. Ponovno rešavanje pokretanja, uokvirivanja, parsiranja i rukovanja greškama po projektu je rasipanje vremena i podložno greškama. LLMOrchestrator to centralizuje u jedan odvojeni, višekratno upotrebljiv modul čija specijalizovana odgovornost ga čini ponovo upotrebljivim — a ta ponovna upotrebljivost se gubi u trenutku kada bilo kakve specifičnosti potrošača procure unutra.
-
-
-## Zašto je ovo revolucionarno
-
-Pretvara "upravljanje vojskom heterogenih CLI agenata" iz prilagođenog inženjerskog muka po projektu u jednostavan uvoz biblioteke — sa rešenim i ojačanim grupisanjem, prekidanjem kola, upravljanjem životnim ciklusom i zamjenjivim rutiranjem. A pošto anti-bluf testovi proveravaju stvarni sistem od kraja do kraja umesto da se zadovolje sa "kompajlira se", dobijate apstrakciju kojoj možete zaista verovati da radi pod konkurentnošću i otkazima, a ne onu koja samo izgleda ispravno na dijagramu.
-
-## Šta je inovativno
-
-- **Hibridni protokol cev+datoteka** — interaktivna brzina (JSON linije preko stdin/stdout, rokovi za čitanje, ograničenja odgovora) *i* trajna razmena zasnovana na datotekama (inbox/outbox/zajednički prostor) za velike artefakte, tako da nikada ne morate da žrtvujete latenciju zarad trajnosti ili obrnuto.
-- **Multi-provajderski bazen sa zamjenjivim selektorima** — jedan fasadni sloj preko više CLI provajdera, sa rutiranjem kružnim redom ili po prioritetu izabranim kao politika, a ne ugrađenim.
-- **Prekidač kola po agentu + monitor zdravlja u pozadini** — automatska degradacija *i* oporavak (3 neuspeha → 60s otvoreno kolo → poluotvorena proba), tako da nestabilan agent bude izolovan, a zatim tiho vraćen u rad bez ručne intervencije.
-- **Bazen bez zauzetog čekanja** — `Acquire` blokira na `sync.Cond` dok se ne oslobodi odgovarajući, zdrav agent ili dok se kontekst ne otkaže, tako da čekanje ne troši procesorsko vreme.
-- **Stroga razdvojenost + anti-bluf i18n** — `NoopTranslator` vraća identifikatore poruka doslovno, tako da nedostajući prevod nije moguće prevideti umesto da se tiho ostavi prazan.
-- **Sigurnost podrazumevano** — lista dozvoljenih binarnih putanja znači da nema interpolacije ljuske i stoga nema površine za ubacivanje komandi, podržano zaštitom od prelaska putanja, ograničenjem odgovora na 1 MiB protiv nekontrolisanog izlaza i maskiranjem API ključeva u zapisnicima.
-- **Anti-bluf okvir za izazove** — stvarni ciklusi disk/JSON/parser kroz pet lokalizacija, sa uparenom mutacionom kapijom koja mora izaći sa nenultim statusom kada je funkcionalnost pokvarena — test koji dokazuje da stvarno može da otkaže.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Pouzdan I/O agenata.** Komunikacija sa pokrenutim CLI procesom je varljivo teška; rešeno hibridnim transportom cev+datoteka, definisanim ugovorom poruka/parsera tako da obe strane dogovore format na žici, i `BaseAdapter`-om koji centralizuje ceo životni ciklus procesa, uključujući elegantan SIGTERM tajmaut koji eskalira na SIGKILL kao rezervnu opciju.
-- **Konkurentnost bez zauzetog čekanja.** Rešeno pomoću `AgentPool`-a sa mutexom i uslovnom promenljivom, gde `Acquire` spava dok se ne oslobodi agent sa odgovarajućim mogućnostima, upareno sa bezstanjskim parserom bez sporednih efekata koji je bezbedan za pozivanje iz više gorutina istovremeno.
-- **Izolacija otkaza provajdera.** Rešeno tako da jedan loš provajder ne može da povuče ostale: prekidači kola po agentu ograničavaju radijus eksplozije, a gorutina monitora zdravlja pokreće oporavak čak i kada nema zahteva koji bi ga aktivirali.
-- **Dokazivanje ispravnosti, a ne samo kompajliranja.** Rešeno pomoću pokretača izazova: desetine invarijanti na en/sr/ja/es/de koje testiraju stvarni sistem, plus uparena mutaciona kapija (`LLMORCH_MUTATE_RUNNER=1` mora da otkaže → omotač izlazi sa 99) koja namerno kvari funkcionalnost kako bi dokazala da sama kapija nije bluf.
-- **Lokalizacija bez tihog otkaza.** Rešeno šavom `NoopTranslator`-a sa doslovnim identifikatorima i ubrizgavanjem prevodioca po potrošaču, tako da praznina u prevodima uvek bude vidljiva umesto da se prikrije.
+Сваки мултиагентски систем мора поуздано да покреће и комуницира са CLI агентима. Поновно решавање покретања, уоквиривања, парсирања и руковања грешкама по пројекту је расипање времена и подложно грешкама. LLMOrchestrator то централизује у један одвојени, вишекратно употребљив модул чија специјализована одговорност га чини поново употребљивим — а та поновна употребљивост се губи у тренутку када било какве специфичности потрошача процуре унутра.
 
 
-## Tehnološki stek
+## Зашто је ово револуционарно
 
-- **Go (1.25)** — izabran zbog vrhunske konkurentnosti i čiste kontrole procesa, što je upravo ono što zahteva orkestracija procesa živih agenata; implementira modul, njegove adaptere za agente, transportne mehanizme i parser.
-- **Go stdlib (uz testify, yaml.v3)** — namerni izbor da se površina zavisnosti svede na minimum i da se *ne* uvlače LLM SDK-ovi, kako bi modul ostao lagan i mogao da se ugradi u bilo kog korisnika bez prenošenja dodatnog tereta.
-- **Transport putem cevi (JSON-lines preko stdio)** — izabran za brzu interaktivnu razmenu poruka, ojačan vremenskim ograničenjima za čitanje i ograničenjima dužine odgovora kako bi se sprečilo da zablokiran ili nekontrolisan agent blokira pozivaoca.
-- **Transport putem fajlova (inbox/outbox/zajednički)** — izabran za trajniju razmenu velikih artefakata po sesiji, gde bi cev bila pogrešan alat.
-- **`sync.Mutex`/`sync.Cond`** — izabrani za implementaciju blokirajućeg, pravičnog preuzimanja agenata iz bazena bez aktivnog čekanja.
-- **Prekidač strujnog kola + Nadglednik zdravlja** — izabrani zajedno kako bi obezbedili otpornost po agentu *i* aktivan oporavak, a ne samo detekciju grešaka.
-- **`pkg/i18n` Prevodilac** — izabran kao odvojeni sloj za lokalizaciju koji drži specifične stringove korisnika izvan jezgra.
-- **Okvir za izazove (`challenges/runner`) + Makefile (`test -race`, `fuzz`, `cover`)** — izabran za proveru zasnovanu na dokazima, uključujući detekciju trka i fuzzing parsera kako bi se ispravnost dokazala u nepovoljnim uslovima, a ne samo pretpostavila.
+Претвара "управљање војском хетерогених CLI агената" из прилагођеног инжењерског мука по пројекту у једноставан увоз библиотеке — са решеним и ојачаним груписањем, прекидањем кола, управљањем животним циклусом и замјењивим рутирањем. А пошто анти-блуф тестови проверавају стварни систем од краја до краја уместо да се задовоље са "компајлира се", добијате апстракцију којој можете заиста веровати да ради под конкурентношћу и отказима, а не ону која само изгледа исправно на дијаграму.
 
-## Status i napomene o iskrenosti
+## Шта је иновативно
 
-- **Status: beta.** Odvojeni modul za višekratnu upotrebu, koji se koristi kao podmodul u više Helix/vasic projekata. **Licenca: Apache-2.0**; repozitorijum GitHub je javno dostupan.
-- Metapodaci modela dolaze iz LLMsVerifier preko HelixQA; ovaj modul ne uvozi LLMsVerifier/VisionEngine/DocProcessor direktno. Stekovi navedeni u `CLAUDE.md` matične aplikacije (Gin/PostgreSQL itd.) opisuju `helix_code`, a ne ovaj modul.
+- **Хибридни протокол цев+датотека** — интерактивна брзина (JSON линије преко стдин/стдоут, рокови за читање, ограничења одговора) *и* трајна размена заснована на датотекама (inbox/outbox/заједнички простор) за велике артефакте, тако да никада не морате да жртвујете латенцију зарад трајности или обрнуто.
+- **Мулти-провајдерски базен са замјењивим селекторима** — један фасадни слој преко више CLI провајдера, са рутирањем кружним редом или по приоритету изабраним као политика, а не уграђеним.
+- **Прекидач кола по агенту + монитор здравља у позадини** — аутоматска деградација *и* опоравак (3 неуспеха → 60с отворено коло → полуотворена проба), тако да нестабилан агент буде изолован, а затим тихо враћен у рад без ручне интервенције.
+- **Базен без заузетог чекања** — `Acquire` блокира на `sync.Cond` док се не ослободи одговарајући, здрав агент или док се контекст не откаже, тако да чекање не троши процесорско време.
+- **Строга раздвојеност + анти-блуф и18н** — `NoopTranslator` враћа идентификаторе порука дословно, тако да недостајући превод није могуће превидети уместо да се тихо остави празан.
+- **Сигурност подразумевано** — листа дозвољених бинарних путања значи да нема интерполације љуске и стога нема површине за убацивање команди, подржано заштитом од преласка путања, ограничењем одговора на 1 МиБ против неконтролисаног излаза и маскирањем API кључева у записницима.
+- **Анти-блуф оквир за изазове** — стварни циклуси диск/JSON/парсер кроз пет локализација, са упареном мутационом капијом која мора изаћи са ненултим статусом када је функционалност покварена — тест који доказује да стварно може да откаже.
 
-**Prioritetni nivo:** Helix-primarni (LLM-infrastrukturni klaster — odvojeni modul za višekratnu upotrebu). Rangira se iza HelixTrack.
+## Највећи технички изазови и како смо их решили
+
+- **Поуздан И/О агената.** Комуникација са покренутим CLI процесом је варљиво тешка; решено хибридним транспортом цев+датотека, дефинисаним уговором порука/парсера тако да обе стране договоре формат на жици, и `BaseAdapter`-ом који централизује цео животни циклус процеса, укључујући елегантан SIGTERM тајмаут који ескалира на SIGKILL као резервну опцију.
+- **Конкурентност без заузетог чекања.** Решено помоћу `AgentPool`-а са mutexom и условном променљивом, где `Acquire` спава док се не ослободи агент са одговарајућим могућностима, упарено са безстањским парсером без споредних ефеката који је безбедан за позивање из више горутина истовремено.
+- **Изолација отказа провајдера.** Решено тако да један лош провајдер не може да повуче остале: прекидачи кола по агенту ограничавају радијус експлозије, а горутина монитора здравља покреће опоравак чак и када нема захтева који би га активирали.
+- **Доказивање исправности, а не само компајлирања.** Решено помоћу покретача изазова: десетине инваријанти на ен/ср/ја/ес/де које тестирају стварни систем, плус упарена мутациона капија (`LLMORCH_MUTATE_RUNNER=1` мора да откаже → омотач излази са 99) која намерно квари функционалност како би доказала да сама капија није блуф.
+- **Локализација без тихог отказа.** Решено шавом `NoopTranslator`-а са дословним идентификаторима и убризгавањем преводиоца по потрошачу, тако да празнина у преводима увек буде видљива уместо да се прикрије.
+
+
+## Технолошки стек
+
+- **Go (1.25)** — изабран због врхунске конкурентности и чисте контроле процеса, што је управо оно што захтева оркестрација процеса живих агената; имплементира модул, његове адаптере за агенте, транспортне механизме и парсер.
+- **Go стдлиб (уз testify, yaml.в3)** — намерни избор да се површина зависности сведе на минимум и да се *не* увлаче LLM SDK-ови, како би модул остао лаган и могао да се угради у било ког корисника без преношења додатног терета.
+- **Транспорт путем цеви (JSON-линес преко стдио)** — изабран за брзу интерактивну размену порука, ојачан временским ограничењима за читање и ограничењима дужине одговора како би се спречило да заблокиран или неконтролисан агент блокира позиваоца.
+- **Транспорт путем фајлова (inbox/outbox/заједнички)** — изабран за трајнију размену великих артефаката по сесији, где би цев била погрешан алат.
+- **`sync.Mutex`/`sync.Cond`** — изабрани за имплементацију блокирајућег, правичног преузимања агената из базена без активног чекања.
+- **Прекидач струјног кола + Надгледник здравља** — изабрани заједно како би обезбедили отпорност по агенту *и* активан опоравак, а не само детекцију грешака.
+- **`pkg/i18n` Преводилац** — изабран као одвојени слој за локализацију који држи специфичне стрингове корисника изван језгра.
+- **Оквир за изазове (`challenges/runner`) + Макефиле (`test -race`, `fuzz`, `cover`)** — изабран за проверу засновану на доказима, укључујући детекцију трка и фуззинг парсера како би се исправност доказала у неповољним условима, а не само претпоставила.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Одвојени модул за вишекратну употребу, који се користи као подмодул у више Helix/васиц пројеката. **Лиценца: Апацхе-2.0**; репозиторијум GitHub је јавно доступан.
+- Метаподаци модела долазе из LLMsVerifier преко HelixQA; овај модул не увози LLMsVerifier/VisionEngine/DocProcessor директно. Стекови наведени у `CLAUDE.md` матичне апликације (Gin/PostgreSQL итд.) описују `helix_code`, а не овај модул.
+
+**Приоритетни ниво:** Helix-примарни (LLM-инфраструктурни кластер — одвојени модул за вишекратну употребу). Рангира се иза HelixTrack.
 

@@ -30,72 +30,72 @@ diagrams:
 
 # LLMsVerifier
 
-**Verifikuj. Nadgledaj. Optimizuj.**
+**Верификуј. Надгледај. Оптимизуј.**
 
-## Sažetak
+## Сажетак
 
-LLMsVerifier je platforma poslovne klase za verifikaciju, nadgledanje i optimizaciju velikih jezičkih modela (LLM) kod različitih provajdera, izgrađena na obaveznom testu verifikacije *„Vidiš li moj kod?"* kako bi samo modeli za koje je dokazano da zaista funkcionišu ikada bili označeni kao upotrebljivi ili izvezani.
+LLMsVerifier је платформа пословне класе за верификацију, надгледање и оптимизацију великих језичких модела (LLM) код различитих провајдера, изграђена на обавезном тесту верификације *„Видиш ли мој код?"* како би само модели за које је доказано да заиста функционишу икада били означени као употребљиви или извезани.
 
-## Kratak opis
+## Кратак опис
 
-Platforma Go koja verifikuje, testira performanse, nadgleda i optimizuje LLM-ove kod više provajdera. Svaki model mora proći obavezni test vidljivosti koda pre upotrebe; zatim se proveravaju latencija, strimovanje, pozivi funkcija, vizuelna obrada i ugradnja, a izvoze se samo verifikovane konfiguracije za alate AI i CLI.
+Платформа Go која верификује, тестира перформансе, надгледа и оптимизује LLM-ове код више провајдера. Сваки модел мора проћи обавезни тест видљивости кода пре употребе; затим се проверавају латенција, стримовање, позиви функција, визуелна обрада и уградња, а извозе се само верификоване конфигурације за алате AI и CLI.
 
-## Detaljan opis
+## Детаљан опис
 
-LLMsVerifier je sveobuhvatna platforma za verifikaciju, nadgledanje i optimizaciju performansi LLM modela kod različitih provajdera. Njen osnovni princip je *obavezna verifikacija*, i u tome je nepopustljiva: pre nego što se bilo koji model označi kao upotrebljiv — ili dozvoli u izvoznu konfiguraciju — mora izričito da prođe test *„Vidiš li moj kod?"*, koji šalje stvarne HTTP zahteve provajderu i analizira odgovor kako bi utvrdio stvarno razumevanje, a ne samo verodostojan odjek. Model koji ne može nedvosmisleno da vidi i razume vaš unos jednostavno nikada ne dobija oznaku „upotrebljiv". Nakon te provere, Verifikacioni motor sprovodi kompletnu seriju testova sposobnosti — postojanje, responsivnost, latencija, strimovanje, pozivi funkcija, vizuelna obrada, embeddings — a Izveštajni motor rezultate pretvara u markdown i JSON izveštaje na osnovu kojih možete preduzimati akcije.
+LLMsVerifier је свеобухватна платформа за верификацију, надгледање и оптимизацију перформанси LLM модела код различитих провајдера. Њен основни принцип је *обавезна верификација*, и у томе је непопустљива: пре него што се било који модел означи као употребљив — или дозволи у извозну конфигурацију — мора изричито да прође тест *„Видиш ли мој код?"*, који шаље стварне ХТТП захтеве провајдеру и анализира одговор како би утврдио стварно разумевање, а не само веродостојан одјек. Модел који не може недвосмислено да види и разуме ваш унос једноставно никада не добија ознаку „употребљив". Након те провере, Верификациони мотор спроводи комплетну серију тестова способности — постојање, респонсивност, латенција, стримовање, позиви функција, визуелна обрада, ембеддингс — а Извештајни мотор резултате претвара у markdown и JSON извештаје на основу којих можете предузимати акције.
 
-Sistem je modularan i vođen događajima, nudeći CLI, TUI, veb i REST API interfejse preko jezgra koje čine Verifikacioni motor, Izveštajni motor i Menadžer konfiguracija, i ne zaustavlja se na verifikaciji. Napredni slojevi dodaju Supervizor/Radnik obrazac za dekompoziciju zadataka pokretanih LLM modelima, upravljanje kontekstom pomoću klizećeg prozora i LLM sumarizacije kako veoma duge sesije ne bi doživele kolaps, čuvanje kontrolnih tačaka u oblaku i sistem za preuzimanje u slučaju otkaza sa prekidačima strujnog kola i rutiranjem zasnovanim na latenciji. Okolna infrastruktura je prilagođena produkciji: magistrala događaja tipa pub/sub, raspored cron poslova, detekcija cena i ograničenja, vector baza podataka za RAG, i sistem za izvoz. Posebna konvencija brendiranja dodaje sufiks *(llmsvd)* svakom generisanom provajderu/modelu, tako da se verifikovani izlaz može prepoznati na prvi pogled i nikada ne može biti pomešan sa neproverenim — a samo verifikovani modeli se ikada upisuju u izvezene konfiguracije za AI CLI alate poput OpenCode, Crush i Claude Code. Dolazi sa operativnim alatima koje timovi zaista koriste u produkciji: Docker/Kubernetes/Helm implementacija, Prometheus/Grafana nadgledanje, LDAP/SSO i SQLCipher enkriptovano skladištenje.
+Систем је модуларан и вођен догађајима, нудећи CLI, TUI, веб и REST API интерфејсе преко језгра које чине Верификациони мотор, Извештајни мотор и Менаџер конфигурација, и не зауставља се на верификацији. Напредни слојеви додају Супервизор/Радник образац за декомпозицију задатака покретаних LLM моделима, управљање контекстом помоћу клизећег прозора и LLM сумаризације како веома дуге сесије не би доживеле колапс, чување контролних тачака у облаку и систем за преузимање у случају отказа са прекидачима струјног кола и рутирањем заснованим на латенцији. Околна инфраструктура је прилагођена продукцији: магистрала догађаја типа пуб/суб, распоред црон послова, детекција цена и ограничења, вецтор база података за RAG, и систем за извоз. Посебна конвенција брендирања додаје суфикс *(ллмсвд)* сваком генерисаном провајдеру/моделу, тако да се верификовани излаз може препознати на први поглед и никада не може бити помешан са непровереним — а само верификовани модели се икада уписују у извезене конфигурације за AI CLI алате попут OpenCode, Crush и Claude Цоде. Долази са оперативним алатима које тимови заиста користе у продукцији: Docker/Kubernetes/Helm имплементација, Prometheus/Grafana надгледање, LDAP/SSO и SQLCipher енкриптовано складиштење.
 
-## Zašto smo je izgradili
+## Зашто смо је изградили
 
-Zato što je provera samo na osnovu konfiguracije nepouzdana — API ključ može isteći, model može biti zastareo, a konfiguracioni fajl vam ne govori ništa o stvarnoj latenciji, stvarnim greškama ili tome da li model zaista vidi i razume vaš unos. LLMsVerifier zamenjuje *„nalazi se u konfiguraciji, dakle mora da radi"* dokazom: samo modeli koji nedvosmisleno odgovaraju ispravno bivaju označeni kao upotrebljivi i izvoze se.
-
-
-## Zašto je ovo revolucionarno
-
-Čini LLM flote *pouzdanim* — reč koja se retko zaslužuje u svemiru podešavanja koja lažu izostavljanjem. Umesto da se timovi nadaju da će konfigurisani model raditi, dobijaju strogo sprovedenu, testabilnu garanciju da je svaki model u upotrebi prošao stvarnu verifikaciju, uz monitoring, preusmeravanje u slučaju greške i izvoz samo verifikovanih modela koji zatvaraju krug od dokaza do produkcije. U okviru Helix ekosistema postaje jedini izvor istine za LLM modele, provajdere i metapodatke verifikacije: drugi servisi (među njima i HelixTranslate) usmeravaju saobraćaj prema njemu, pa cela platforma nasleđuje jedan pošten odgovor na pitanje *„koji modeli zaista sada rade?"* umesto da svaki tim održava sopstveno optimistično nagađanje.
-
-## Šta je inovativno
-
-- **Obavezna verifikacija *„Vidiš li moj kod?"*** — stvarna, HTTP-oslonjena provera razumevanja koju model mora da prođe pre nego što uopšte postane upotrebljiv; potpisna karakteristika proizvoda i razlog što ništa neprovereno ne proklizne.
-- **Izvoz konfiguracije samo verifikovanih modela** — generisane konfiguracije za AI CLI alate sadrže *samo* modele koji su prošli verifikaciju, tako da konfiguracija koju šaljete ne može tiho da reintrodukuje pokvaren model.
-- **Sistem sufiksa brendiranja `(llmsvd)`** — svaki generisani provajder/model nosi uočljiv sufiks, čineći verifikovano poreklo vidljivim svuda gde se izlaz širi.
-- **Detekcija mogućnosti** na mnogim CLI agentima i provajderima — otiskuje tipove striminga (SSE, WebSocket, JSONL, EventStream), kompresiju i ponašanje keširanja umesto da ih pretpostavlja.
-- **Otpormo preusmeravanje** — prekidači strujnog kola, rutiranje zasnovano na latenciji koje preusmerava kada vreme do prvog tokena pređe prag, probe zdravlja i ponderisana raspodela saobraćaja održavaju flotu reagljivom kada pojedini provajderi zakažu.
-- **Dugotrajna autonomija** — obrazac dekompozicije Supervizor/Radnik uz kontrolne tačke i integraciju memorije podržava produžene sesije koje bi inače iscrple kontekst.
-- **Integracija sa RAG / vector-DB** za poboljšanje konteksta zasnovanog na činjenicama.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Dokazivanje da model zaista radi, a ne samo da je konfigurisan.** Cela poenta, i najteži deo. Rešeno obaveznim testom vidljivosti koda koji pravi stvarne API pozive i analizira odgovore na potvrdno razumevanje, podržano širokim skupom testova mogućnosti — a zatim odbijanjem izvoza svega što nije prošlo, tako da produkciju ne kontroliše konfiguracija, već dokaz.
-- **Pouzdanost na mnogim nestabilnim provajderima trećih strana.** Rešeno orkestrom za preusmeravanje koji nestabilnost provajdera tretira kao normalan slučaj: prekidači strujnog kola označavaju provajdera kao degradiranog nakon N grešaka u M sekundi, rutiranje zasnovano na latenciji skreće sa sporih krajnjih tačaka, periodične probe zdravlja proveravaju oporavak, a ponderisano rutiranje balansira između ekonomičnih i premium modela.
-- **Održavanje veoma dugih, autonomnih sesija.** Rešeno obrascem dekompozicije Supervizor/Radnik koji deli veliki posao na upravljive delove, periodičnim kontrolnim tačkama u cloud skladištu kako bi napredak preživeo prekide, i slojevitim upravljanjem kontekstom (klizeći prozor + sumarizacija LLM + RAG) kako model ne bi izgubio nit a da se ne udavi u tokenima.
-- **Širenje provajdera.** Rešeno skrivanjem mnogih Go adaptera za pojedine provajdere iza jednog zajedničkog interfejsa, uz centralno nabrajanje stvarnih krajnjih tačaka — tako da dodavanje provajdera predstavlja izolovanu promenu, a ne talas koji se širi kroz kodnu bazu.
+Зато што је провера само на основу конфигурације непоуздана — API кључ може истећи, модел може бити застарео, а конфигурациони фајл вам не говори ништа о стварној латенцији, стварним грешкама или томе да ли модел заиста види и разуме ваш унос. LLMsVerifier замењује *„налази се у конфигурацији, дакле мора да ради"* доказом: само модели који недвосмислено одговарају исправно бивају означени као употребљиви и извозе се.
 
 
-## Tehnološki stek
+## Зашто је ово револуционарно
 
-- **Go** — izabran kao osnovni programski jezik zbog podrške konkurentnosti; pokreće višedretveni Verifikacioni motor koji može istovremeno da ispituje više modela, kao i okolne servise.
-- **Gin** — izabran kao REST API server, koji podržava JWT autentifikaciju, ograničenje broja zahteva i WebSocket/SSE krajnje tačke.
-- **SQLite + SQLCipher** — izabrani za ugrađeno skladištenje sa enkripcijom na nivou baze podataka, jer su verifikacioni podaci (ključevi, rezultati) osetljivi i podrazumevano treba da budu šifrovani u mirovanju.
-- **Redis** — izabran kao sloj za keširanje kako bi brze provere i pretrage metapodataka ostale brze.
-- **RabbitMQ + Kafka** — izabrani za pokretanje arhitekture vođene događajima: razmenu poruka i strimovanje koje odvaja proizvođače od potrošača na nivou platforme.
-- **gRPC + Protocol Buffers** — izabrani za strogo tipiziranu komunikaciju između servisa i prenos događaja između komponenti.
-- **QUIC / HTTP-3 (quic-go)** — izabrani za podršku modernom transportu (u dokumentaciji repozitorijuma navodi se da je dostupnost HTTP/3 provajdera ograničena — to je ponuđena mogućnost, a ne univerzalna tvrdnja).
-- **JWT + LDAP/NTLM** — izabrani za preduzetničku autentifikaciju kako bi se platforma uklopila u postojeći korporativni identitet (u dokumentaciji se navode SSO/SAML/OIDC).
-- **Viper (konfiguracija), Logrus (evidencija), Brotli/compress (kompresija)** — operativna infrastruktura: fleksibilna konfiguracija, strukturirani zapisi i kompresija korisnog opterećenja.
-- **Angular** — izabran za veb aplikaciju u vidu jedne stranice, vizuelni ulaz u verifikaciju i nadzor.
-- **Python + JavaScript SDK-ovi** — izabrani kako bi timovima klijenata pružili prvoklasan pristup, dokumentovan putem OpenAPI/Swagger-a.
-- **Docker, Kubernetes, Helm** — izabrani za produkcijsko postavljanje sa praćenjem zdravlja sistema i automatskim skaliranjem, kako bi flota za verifikaciju skalirala poput svakog modernog servisa.
-- **Prometheus + Grafana** — izabrani za metriku i kontrolne table, čineći zdravlje same platforme jednako uočljivim kao i modele koje nadgleda.
-- **Testify (Go) + node --test/jsdom (veb)** — izabrani za višeslojno testiranje Go jezgra i veb interfejsa.
+Чини LLM флоте *поузданим* — реч која се ретко заслужује у свемиру подешавања која лажу изостављањем. Уместо да се тимови надају да ће конфигурисани модел радити, добијају строго спроведену, тестабилну гаранцију да је сваки модел у употреби прошао стварну верификацију, уз мониторинг, преусмеравање у случају грешке и извоз само верификованих модела који затварају круг од доказа до продукције. У оквиру Helix екосистема постаје једини извор истине за LLM моделе, провајдере и метаподатке верификације: други сервиси (међу њима и HelixTranslate) усмеравају саобраћај према њему, па цела платформа наслеђује један поштен одговор на питање *„који модели заиста сада раде?"* уместо да сваки тим одржава сопствено оптимистично нагађање.
 
-## Status i napomene o iskrenosti
+## Шта је иновативно
 
-- **Status: beta.** Izvorni kod Go implementira stvarnu HTTP verifikaciju (jedan zastareli dokument koji verifikaciju opisuje kao isključivo konfiguracionu predstavlja aspiraciju i zastareo je — autoritativan je kod).
-- **Licenca: treba utvrditi.** U README fajlu navodi se MIT, dok Dockerfile oznaka navodi Apache-2.0 — pitanje treba razrešiti pre objavljivanja.
-- Broj provajdera: u README fajlu stoji „12 adaptera", ali direktorijum provajdera navodi oko 26 — tretirajte kao „12+ / više u razvoju". Postoji mnogo fajlova sa statusom „FINALNO/KOMPLETNO" koji predstavljaju aspiraciju; autoritativni su kod, dokumentacija i `go.mod`.
-- Repozitorijum se nalazi u organizaciji `vasic-digital`, ali funkcionalno predstavlja sloj poverenja Helix LLM infrastrukturnog klastera.
+- **Обавезна верификација *„Видиш ли мој код?"*** — стварна, ХТТП-ослоњена провера разумевања коју модел мора да прође пре него што уопште постане употребљив; потписна карактеристика производа и разлог што ништа непроверено не проклизне.
+- **Извоз конфигурације само верификованих модела** — генерисане конфигурације за AI CLI алате садрже *само* моделе који су прошли верификацију, тако да конфигурација коју шаљете не може тихо да реинтродукује покварен модел.
+- **Систем суфикса брендирања `(llmsvd)`** — сваки генерисани провајдер/модел носи уочљив суфикс, чинећи верификовано порекло видљивим свуда где се излаз шири.
+- **Детекција могућности** на многим CLI агентима и провајдерима — отискује типове стриминга (SSE, WebSocket, JSONL, EventStream), компресију и понашање кеширања уместо да их претпоставља.
+- **Отпормо преусмеравање** — прекидачи струјног кола, рутирање засновано на латенцији које преусмерава када време до првог токена пређе праг, пробе здравља и пондерисана расподела саобраћаја одржавају флоту реагљивом када поједини провајдери закажу.
+- **Дуготрајна аутономија** — образац декомпозиције Супервизор/Радник уз контролне тачке и интеграцију меморије подржава продужене сесије које би иначе исцрпле контекст.
+- **Интеграција са RAG / вецтор-ДБ** за побољшање контекста заснованог на чињеницама.
 
-**Prioritetni nivo:** Helix-primer (LLM infrastrukturni klaster; jedini izvor istine za LLM/provajder/verifikacione metapodatke). Rangira se iza HelixTrack.
+## Највећи технички изазови и како смо их решили
+
+- **Доказивање да модел заиста ради, а не само да је конфигурисан.** Цела поента, и најтежи део. Решено обавезним тестом видљивости кода који прави стварне API позиве и анализира одговоре на потврдно разумевање, подржано широким скупом тестова могућности — а затим одбијањем извоза свега што није прошло, тако да продукцију не контролише конфигурација, већ доказ.
+- **Поузданост на многим нестабилним провајдерима трећих страна.** Решено оркестром за преусмеравање који нестабилност провајдера третира као нормалан случај: прекидачи струјног кола означавају провајдера као деградираног након Н грешака у М секунди, рутирање засновано на латенцији скреће са спорих крајњих тачака, периодичне пробе здравља проверавају опоравак, а пондерисано рутирање балансира између економичних и премиум модела.
+- **Одржавање веома дугих, аутономних сесија.** Решено обрасцем декомпозиције Супервизор/Радник који дели велики посао на управљиве делове, периодичним контролним тачкама у цлоуд складишту како би напредак преживео прекиде, и слојевитим управљањем контекстом (клизећи прозор + сумаризација LLM + RAG) како модел не би изгубио нит а да се не удави у токенима.
+- **Ширење провајдера.** Решено скривањем многих Go адаптера за поједине провајдере иза једног заједничког интерфејса, уз централно набрајање стварних крајњих тачака — тако да додавање провајдера представља изоловану промену, а не талас који се шири кроз кодну базу.
+
+
+## Технолошки стек
+
+- **Go** — изабран као основни програмски језик због подршке конкурентности; покреће вишедретвени Верификациони мотор који може истовремено да испитује више модела, као и околне сервисе.
+- **Gin** — изабран као REST API сервер, који подржава JWT аутентификацију, ограничење броја захтева и WebSocket/SSE крајње тачке.
+- **SQLite + SQLCipher** — изабрани за уграђено складиштење са енкрипцијом на нивоу базе података, јер су верификациони подаци (кључеви, резултати) осетљиви и подразумевано треба да буду шифровани у мировању.
+- **Redis** — изабран као слој за кеширање како би брзе провере и претраге метаподатака остале брзе.
+- **RabbitMQ + Kafka** — изабрани за покретање архитектуре вођене догађајима: размену порука и стримовање које одваја произвођаче од потрошача на нивоу платформе.
+- **gRPC + Protocol Buffers** — изабрани за строго типизирану комуникацију између сервиса и пренос догађаја између компоненти.
+- **QUIC / ХТТП-3 (quic-го)** — изабрани за подршку модерном транспорту (у документацији репозиторијума наводи се да је доступност HTTP/3 провајдера ограничена — то је понуђена могућност, а не универзална тврдња).
+- **JWT + LDAP/NTLM** — изабрани за предузетничку аутентификацију како би се платформа уклопила у постојећи корпоративни идентитет (у документацији се наводе SSO/SAML/OIDC).
+- **Viper (конфигурација), Logrus (евиденција), Brotli/цомпресс (компресија)** — оперативна инфраструктура: флексибилна конфигурација, структурирани записи и компресија корисног оптерећења.
+- **Angular** — изабран за веб апликацију у виду једне странице, визуелни улаз у верификацију и надзор.
+- **Python + JavaScript SDK-ови** — изабрани како би тимовима клијената пружили првокласан приступ, документован путем OpenAPI/Swagger-а.
+- **Docker, Kubernetes, Helm** — изабрани за продукцијско постављање са праћењем здравља система и аутоматским скалирањем, како би флота за верификацију скалирала попут сваког модерног сервиса.
+- **Prometheus + Grafana** — изабрани за метрику и контролне табле, чинећи здравље саме платформе једнако уочљивим као и моделе које надгледа.
+- **Testify (Go) + ноде --тест/јсдом (веб)** — изабрани за вишеслојно тестирање Go језгра и веб интерфејса.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Изворни код Go имплементира стварну ХТТП верификацију (један застарели документ који верификацију описује као искључиво конфигурациону представља аспирацију и застарео је — ауторитативан је код).
+- **Лиценца: треба утврдити.** У РЕАДМЕ фајлу наводи се МИТ, док Доцкерфиле ознака наводи Апацхе-2.0 — питање треба разрешити пре објављивања.
+- Број провајдера: у РЕАДМЕ фајлу стоји „12 адаптера", али директоријум провајдера наводи око 26 — третирајте као „12+ / више у развоју". Постоји много фајлова са статусом „ФИНАЛНО/КОМПЛЕТНО" који представљају аспирацију; ауторитативни су код, документација и `go.mod`.
+- Репозиторијум се налази у организацији `vasic-digital`, али функционално представља слој поверења Helix LLM инфраструктурног кластера.
+
+**Приоритетни ниво:** Helix-пример (LLM инфраструктурни кластер; једини извор истине за LLM/провајдер/верификационе метаподатке). Рангира се иза HelixTrack.
 

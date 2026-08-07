@@ -1,0 +1,67 @@
+LETTRE     DE   MOTIVATION
+
+
+
+
+                           Miloš Vasić
+                           Lettre de motivation · AI Ingénieur
+
+
+                           Ingénierie système AI approfondie, associée à une
+                           discipline de qualité authentique et vérifiable.
+
+
+
+
+milos85vasic@gmail.com · milosvasic.ru · vasic.digital
+MILOŠ VASIĆ                                                                                   LETTRE DE MOTIVATION
+
+
+
+
+Chère équipe de recrutement,
+
+Je vous écris pour vous faire part de mon intérêt pour des postes d’ingénierie axés sur la construction de
+systèmes de production AI. Je suis ingénieur AI et je construis la partie ingrate, mais essentielle, des logiciels
+AI : l’infrastructure LLM, les agents autonomes et leur orchestration, ainsi que les couches de contrôle qualité
+et de gouvernance qui les rendent fiables en production.
+
+Au cours des dernières années, j’ai conçu et livré une famille interconnectée de produits de développement
+AI. La gamme Helix couvre l’intégralité du cycle de vie : HelixAgent (un service LLM collaboratif où plusieurs
+modèles débattent et livrent la réponse sur laquelle ils s’accordent), HelixCode (une plateforme de
+développement AI distribuée qui répartit les tâches entre des workers gérés par SSH avec points de contrôle
+et retour arrière), HelixLLM (un binaire unique servant des inférences compatibles OpenAI et Anthropic via
+HTTP/3), et le trio d’infrastructure LLM composé de LLMProvider, LLMOrchestrator et LLMsVerifier (une
+interface unifiée pour 43 fournisseurs, un plan de contrôle pour agents CLI sans interface, et une source de
+vérité pour la vérification). Autour de ces outils, j’ai développé des solutions prêtes pour la production, comme
+Catalogizer (gestion multimédia multi-protocole et chiffrée) et Courses-Creator (un pipeline AI de conversion
+de cours en markdown vers vidéo), le tout reposant sur une flotte de modules Go et Kotlin Multiplatform
+petits, découplés et testés de manière indépendante.
+
+Ce qui, à mon sens, distingue mon travail, c’est une discipline que je prends très au sérieux : l’ingénierie
+sans bluff. Je maintiens un référentiel d’ingénierie universel Constitution, distribué sous forme de sous-
+module Git et hérité par plus de 140 dépôts, qui rend une règle mécaniquement applicable : une
+fonctionnalité n’est pas terminée quand les tests passent, mais quand un utilisateur réel peut l’utiliser et qu’il
+existe des preuves tangibles pour le démontrer. Je l’associe à HelixQA, un orchestrateur de contrôle qualité
+anti-bluff qui exécute des sessions autonomes combinant LLM et vision par ordinateur sur Android, le Web et
+le Desktop, et refuse de valider un PASS sans capture d’écran, un logcat ou une vidéo. Je construis des
+systèmes qui ne se contentent pas d’avoir l’air finis ; ils le sont, de manière vérifiable.
+
+Sur le plan technique, je travaille principalement en Go, avec Kotlin/KMP, TypeScript/React, Python, Swift et
+Shell, sur des services REST/gRPC/HTTP/3, des couches de données PostgreSQL/SQLite/Redis/
+ClickHouse, et des opérations Docker/Kubernetes/Prometheus. Je suis à l’aise pour prendre en charge un
+système depuis l’abstraction des fournisseurs et la récupération des données jusqu’à la traçabilité des
+preuves attestant de son bon fonctionnement.
+
+Je serais ravi de mettre cette combinaison – une expertise approfondie en ingénierie des systèmes AI alliée à
+une discipline de qualité rigoureuse et vérifiable – au service de votre équipe. Je vous remercie de l’attention
+que vous porterez à ma candidature ; mon portfolio et mes dépôts publics sont accessibles aux adresses
+milosvasic.ru et vasic.digital.
+
+Cordialement, Miloš Vasić milos85vasic@gmail.com
+
+
+
+
+milosvasic.ru · vasic.digital                                                                                   2/2
+

@@ -507,7 +507,13 @@ body {
 }
 
 /* ---- Fluid gutters — never touch the viewport edge ---------------------- */
-.od-header, .od-footer, .od-hero, .od-section { padding-inline: clamp(1rem, 5vw, 3rem); }
+/* A consistent horizontal gutter on every page band: a 20px floor (never tight/
+   flush on mobile), fluid to a 48px ceiling on desktop, and safe-area-inset aware
+   so content clears the notch/rounded corners in landscape (BUG #66). env() falls
+   back to 0 where unsupported, so the clamp always wins there. */
+.od-header, .od-footer, .od-hero, .od-section {
+  padding-inline: max(clamp(1.25rem, 5vw, 3rem), env(safe-area-inset-left), env(safe-area-inset-right));
+}
 
 /* =============================================================================
  * VASIC DIGITAL — MOTION SIGNATURE (MACHINA · "scanning / engineered")

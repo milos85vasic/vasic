@@ -23,53 +23,53 @@ diagrams:
   - A product (Catalogizer or HelixAgent) exploded into the modules it consumes
 ---
 
-**Izgradi jednom, koristi svuda — flota malih, odvojenih, nezavisno testiranih Go i KMP modula.**
+**Изгради једном, користи свуда — флота малих, одвојених, независно тестираних Go и KMP модула.**
 
-## Sažetak
+## Сажетак
 
-Velika porodica generičkih, ponovo upotrebljivih modula objavljenih pod `digital.vasic.*` (Go) i Kotlin Multiplatform imenskim prostorima. Svaki modul je samostalan, nezavisno testiran i verzioniran, a koristi se kao podmodul sa jednakom kodnom bazom u većim proizvodima (Catalogizer, HelixAgent i šira flota). Ova stranica objedinjuje brojne male alate koji bi, prikazani pojedinačno, predstavljali suvišan šum.
+Велика породица генеричких, поново употребљивих модула објављених под `digital.vasic.*` (Go) и Kotlin Multiplatform именским просторима. Сваки модул је самосталан, независно тестиран и верзиониран, а користи се као подмодул са једнаком кодном базом у већим производима (Catalogizer, HelixAgent и шира флота). Ова страница обједињује бројне мале алате који би, приказани појединачно, представљали сувишан шум.
 
-## Kratak opis
+## Кратак опис
 
-Kurirana kolekcija odvojenih `digital.vasic.*` modula — infrastrukturni primitivi (autentifikacija, keš, baza podataka, konfiguracija, opservabilnost), gradivni blokovi za AI/agente (RAG, VectorDB, Embeddings, MCP, Agentic, Planiranje) i odbrambeni LLM sigurnosni mehanizmi (RedTeam, Normalize) — uz paralelni set Kotlin Multiplatform modula. Svaki je generički, testiran i ponovo upotrebljiv.
+Курирана колекција одвојених `digital.vasic.*` модула — инфраструктурни примитиви (аутентификација, кеш, база података, конфигурација, опсервабилност), градивни блокови за AI/агенте (RAG, VectorDB, Ембеддингс, MCP, Агентиц, Планирање) и одбрамбени LLM сигурносни механизми (RedTeam, Нормализе) — уз паралелни сет Kotlin Multiplatform модула. Сваки је генерички, тестиран и поново употребљив.
 
-## Detaljan opis
+## Детаљан опис
 
-Organizacija vasic-digital zasniva se na jednoj strukturalnoj opkladi: filozofiji „ustava + mnoštva odvojenih, ponovo upotrebljivih podmodula" u kojoj se generička funkcionalnost nikada ne piše dvaput. Umesto monolitnih rešenja, svaki ponovo upotrebljivi segment izdvaja se u sopstveni mali modul — sopstveni repozitorijum, sopstvene testove, sopstvenu dokumentaciju — i strogo se odvaja kako specifičnosti jednog korisnika nikada ne bi procurele u njega. Ova stranica ih grupiše jer bi, posmatrani pojedinačno, svaki predstavlja biblioteku koja bi kao samostalna stranica proizvela samo šum. Zajedno, oni su pravi multiplikator snage organizacije: privatni inženjerski resurs koji pretvara „izgradnju novog proizvoda" u „sastavljanje dokazanih delova", i konkretna potvrda tvrdnje da ova flota ne izmišlja toplu vodu — ona održava jedno veoma dobro točak i kotrlja ga svuda.
+Организација vasic-digital заснива се на једној структуралној опклади: филозофији „устава + мноштва одвојених, поново употребљивих подмодула" у којој се генеричка функционалност никада не пише двапут. Уместо монолитних решења, сваки поново употребљиви сегмент издваја се у сопствени мали модул — сопствени репозиторијум, сопствене тестове, сопствену документацију — и строго се одваја како специфичности једног корисника никада не би процуреле у њега. Ова страница их групише јер би, посматрани појединачно, сваки представља библиотеку која би као самостална страница произвела само шум. Заједно, они су прави мултипликатор снаге организације: приватни инжењерски ресурс који претвара „изградњу новог производа" у „састављање доказаних делова", и конкретна потврда тврдње да ова флота не измишља топлу воду — она одржава једно веома добро точак и котрља га свуда.
 
-Skup obuhvata tri klastera. **Infrastrukturni primitivi** (Go) pružaju osnovnu strukturu koju svaka usluga zahteva: `auth` (JWT/bcrypt), `cache` (Redis/TTL), `database` (migracije, dualni SQLite/PostgreSQL), `config`, `middleware`, `observability` (Prometheus/OpenTelemetry), `ratelimiter`, `security`, `storage` (S3/MinIO), `streaming` (WebSocket čvorište), `eventbus`, `filesystem` (višeprotokolni), `discovery`/`mdns`, `http3`, `recovery`, `concurrency`, `lazy` i još mnogo toga. **Gradivni blokovi za AI/agente** (Go) pružaju podlogu za sisteme zasnovane na AI: `rag`, `vectordb`, `embeddings`, `memory`, `conversation` (kompresija beskonačnog konteksta, event sourcing), `mcp` (Model Context Protocol), `toolschema`, `skillregistry`, `agentic` (orkestracija tokova rada zasnovana na grafovima), `planning` (HiPlan/MCTS/Stablo-mišljenja), `benchmark` (SWE-bench/HumanEval/MMLU), `llmops`, `selfimprove` (modelovanje nagrada/RLHF) i `toon` (Token-Oriented Object Notation). **Odbrambeni LLM sigurnosni mehanizmi** nude alate za robusnost u uslovima napada: `RedTeam` (adverzarijalni scenariji vođeni YAML), `Normalize` (kanonizacija ulaza pod napadom). Paralelni **Kotlin Multiplatform** set preslikava ključne module (Auth-KMP, Database-KMP, Security-KMP, UI-Components-KMP itd.) za cross-platform aplikacije.
+Скуп обухвата три кластера. **Инфраструктурни примитиви** (Go) пружају основну структуру коју свака услуга захтева: `auth` (JWT/bcrypt), `cache` (Redis/TTL), `database` (миграције, дуални SQLite/PostgreSQL), `config`, `middleware`, `observability` (Prometheus/OpenTelemetry), `ratelimiter`, `security`, `storage` (S3/MinIO), `streaming` (WebSocket чвориште), `eventbus`, `filesystem` (вишепротоколни), `discovery`/`mdns`, `http3`, `recovery`, `concurrency`, `lazy` и још много тога. **Градивни блокови за AI/агенте** (Go) пружају подлогу за системе засноване на AI: `rag`, `vectordb`, `embeddings`, `memory`, `conversation` (компресија бесконачног контекста, евент соурцинг), `mcp` (Model Context Protocol), `toolschema`, `skillregistry`, `agentic` (оркестрација токова рада заснована на графовима), `planning` (HiPlan/MCTS/Стабло-мишљења), `benchmark` (SWE-bench/HumanEval/MMLU), `llmops`, `selfimprove` (моделовање награда/RLHF) и `toon` (Токен-Ориентед Објецт Нотатион). **Одбрамбени LLM сигурносни механизми** нуде алате за робусност у условима напада: `RedTeam` (адверзаријални сценарији вођени YAML), `Normalize` (канонизација улаза под нападом). Паралелни **Kotlin Multiplatform** сет пресликава кључне модуле (Аутх-KMP, Датабасе-KMP, Security-KMP, UI-Цомпонентс-KMP итд.) за цросс-платформ апликације.
 
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-Isporuka mnogih proizvoda (Catalogizer, HelixAgent, Herald i drugih) od nule svaki put je rasipanje resursa i nedoslednost. Izvlačenje svih generičkih zahteva u odvojene, testirane module znači da se ispravke i poboljšanja šire kroz ceo sistem, a svaki novi proizvod sastavlja se od proverenih delova.
+Испорука многих производа (Catalogizer, HelixAgent, Herald и других) од нуле сваки пут је расипање ресурса и недоследност. Извлачење свих генеричких захтева у одвојене, тестиране модуле значи да се исправке и побољшања шире кроз цео систем, а сваки нови производ саставља се од проверених делова.
 
-## Zašto je revolucionarno
+## Зашто је револуционарно
 
-U suštini, radi se o privatnoj „standardnoj biblioteci" za izgradnju backend sistema usmerenih na AI – sloj koji većina timova nikada ne stigne da izgradi jer su previše zauzeti ponovnim rešavanjem autentifikacije, keširanja i infrastrukturnih detalja RAG po peti put. Ovde infrastrukturne primitive, gradivni blokovi za AI i odbrambeni mehanizmi LLM postoje kao gotovi, nezavisno testirani moduli, što malom timu omogućava da isporuči sisteme na nivou finalnog proizvoda tempom koji obično zahteva mnogo veći tim – i to bez duga dupliciranja koji obično prati takav proces.
+У суштини, ради се о приватној „стандардној библиотеци" за изградњу бацкенд система усмерених на AI – слој који већина тимова никада не стигне да изгради јер су превише заузети поновним решавањем аутентификације, кеширања и инфраструктурних детаља RAG по пети пут. Овде инфраструктурне примитиве, градивни блокови за AI и одбрамбени механизми LLM постоје као готови, независно тестирани модули, што малом тиму омогућава да испоручи системе на нивоу финалног производа темпом који обично захтева много већи тим – и то без дуга дуплицирања који обично прати такав процес.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Disciplina razdvajanja na nivou celog sistema (CONST-051): podmoduli tretirani kao ravnopravne kodne baze, bez specifičnosti potrošača.
-- Namenski sloj primitiva za AI (RAG, VectorDB, Embeddings, MCP, ToolSchema, Agentic, Planning, LLMOps) kao ponovo upotrebljivi moduli.
-- Klaster odbrambenih mehanizama LLM (RedTeam, Normalize) za robusnost u uslovima napada.
-- Paralelni setovi modula Go + Kotlin Multiplatform koji dele iste konvencije.
+- Дисциплина раздвајања на нивоу целог система (ЦОНСТ-051): подмодули третирани као равноправне кодне базе, без специфичности потрошача.
+- Наменски слој примитива за AI (RAG, VectorDB, Ембеддингс, MCP, ToolSchema, Агентиц, Планнинг, LLMOps) као поново употребљиви модули.
+- Кластер одбрамбених механизама LLM (RedTeam, Нормализе) за робусност у условима напада.
+- Паралелни сетови модула Go + Kotlin Multiplatform који деле исте конвенције.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Izbegavanje truljenja sprega između desetina modula:** rešeno ugovorom o razdvajanju iz ustava i dinamičkim ubrizgavanjem specifičnosti potrošača.
-- **Održavanje doslednosti i testiranosti mnogih modula:** rešeno zajedničkom konvencijom (testovi/dokumentacija/Izazovi po modulu) i upravljačkom kičmom HelixConstitution.
-- **Pokrivenost više platformi:** rešeno ogledalom osnovnih modula za Kotlin Multiplatform.
+- **Избегавање труљења спрега између десетина модула:** решено уговором о раздвајању из устава и динамичким убризгавањем специфичности потрошача.
+- **Одржавање доследности и тестираности многих модула:** решено заједничком конвенцијом (тестови/документација/Изазови по модулу) и управљачком кичмом HelixConstitution.
+- **Покривеност више платформи:** решено огледалом основних модула за Kotlin Multiplatform.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Go** — većina modula (`digital.vasic.*`).
-- **Kotlin Multiplatform** — moduli-ogledala za više platformi (Auth/Database/Security/UI/Concurrency/RateLimiter-KMP).
-- **Redis / PostgreSQL / SQLite** — primitive za keš, bazu podataka i skladištenje.
-- **Prometheus / OpenTelemetry** — modul za opservabilnost.
-- **WebSocket / HTTP/3 (quic-go) / mDNS** — mrežni moduli.
-- **Vector DB / embeddings / RAG / MCP** — moduli primitiva za AI.
-- **YAML** — RedTeam napadački scenariji i konfiguracija.
+- **Go** — већина модула (`digital.vasic.*`).
+- **Kotlin Multiplatform** — модули-огледала за више платформи (Аутх/Датабасе/Security/UI/Concurrency/RateLimiter-KMP).
+- **Redis / PostgreSQL / SQLite** — примитиве за кеш, базу података и складиштење.
+- **Prometheus / OpenTelemetry** — модул за опсервабилност.
+- **WebSocket / HTTP/3 (quic-го) / мДНС** — мрежни модули.
+- **Вецтор ДБ / ембеддингс / RAG / MCP** — модули примитива за AI.
+- **YAML** — RedTeam нападачки сценарији и конфигурација.
 
-> NEVERIFIKOVANO / U RAZVOJU: nekoliko organizacionih repozitorijuma označeno je kao „SCAFFOLD / U RAZVOJU" (npr. `PliniusCommon`, `I-LLM`, `HyperTune`, `AutoTemp`, `Veritas`, `Ouroborous`, `Claritas`, `LeakHub`, `GandalfSolutions`). Predstaviti ih kao rane faze/skelu, a ne kao isporučene proizvode.
+> НЕВЕРИФИКОВАНО / У РАЗВОЈУ: неколико организационих репозиторијума означено је као „СЦАФФОЛД / У РАЗВОЈУ" (нпр. `PliniusCommon`, `I-LLM`, `HyperTune`, `AutoTemp`, `Veritas`, `Ouroborous`, `Claritas`, `LeakHub`, `GandalfSolutions`). Представити их као ране фазе/скелу, а не као испоручене производе.
 

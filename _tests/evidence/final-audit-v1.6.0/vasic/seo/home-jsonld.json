@@ -1,0 +1,26 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://vasic.digital/#identity",
+      "@type": "Organization",
+      "logo": "https://vasic.digital/Assets/Logo.jpeg",
+      "name": "Vasic Digital",
+      "sameAs": [
+        "https://github.com/Helix-Track",
+        "https://github.com/nexu-io"
+      ],
+      "url": "https://vasic.digital/"
+    },
+    {
+      "@id": "https://vasic.digital/#website",
+      "@type": "WebSite",
+      "inLanguage": "en",
+      "name": "Vasic Digital",
+      "publisher": {
+        "@id": "https://vasic.digital/#identity"
+      },
+      "url": "https://vasic.digital/"
+    }
+  ]
+}

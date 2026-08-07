@@ -31,65 +31,65 @@ diagrams:
 
 # HelixTerminator
 
-**Platforma terminala sa nultim poverenjem za timove — svaka SSH sesija osigurana, deljena i podržana AI asistentom.**
+**Платформа терминала са нултим поверењем за тимове — свака SSH сесија осигурана, дељена и подржана AI асистентом.**
 
-## Sažetak
+## Сажетак
 
-HelixTerminator je preduzetnička platforma za terminal i upravljanje SSH sesijama, izgrađena kao sistem Go mikroservisa sa Flutter klijentima za više platformi. Ona posreduje, snima i osigurava udaljene sesije po modelu nultog poverenja, omogućava saradnju u realnom vremenu i dodaje AI asistenciju direktno u terminal.
+HelixTerminator је предузетничка платформа за терминал и управљање SSH сесијама, изграђена као систем Go микросервиса са Flutter клијентима за више платформи. Она посредује, снима и осигурава удаљене сесије по моделу нултог поверења, омогућава сарадњу у реалном времену и додаје AI асистенцију директно у терминал.
 
-## Kratak opis
+## Кратак опис
 
-HelixTerminator je preduzetnička platforma za terminal i upravljanje SSH sesijama zasnovana na nultom poverenju: Go mikroservisni backend sa Flutter klijentima za šest platformi. Upravlja hostovima, posreduje veze, snima sesije, omogućava saradnju u realnom vremenu i dodaje AI asistenciju za pomoć pri komandama, objašnjavanje izlaza i reagovanje na incidente.
+HelixTerminator је предузетничка платформа за терминал и управљање SSH сесијама заснована на нултом поверењу: Go микросервисни бацкенд са Flutter клијентима за шест платформи. Управља хостовима, посредује везе, снима сесије, омогућава сарадњу у реалном времену и додаје AI асистенцију за помоћ при командама, објашњавање излаза и реаговање на инциденте.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixTerminator je preduzetnička platforma za terminal i udaljeni pristup, strukturirana u dva modula — Terminalsku platformu i Posrednika veza — implementirana kroz katalog Go mikroservisa sa jednim Flutter klijentom koji podržava šest platformi. Njen cilj je da potpuno zameni improvizovane SSH alate: više nema klijenata po laptopu, rasipanja privatnih ključeva i praznina u reviziji, već jednu kontrolisanu, revizijsku i kolaborativnu platformu koja udaljeni pristup tretira kao infrastrukturu, a ne kao ličnu naviku.
+HelixTerminator је предузетничка платформа за терминал и удаљени приступ, структурирана у два модула — Терминалску платформу и Посредника веза — имплементирана кроз каталог Go микросервиса са једним Flutter клијентом који подржава шест платформи. Њен циљ је да потпуно замени импровизоване SSH алате: више нема клијената по лаптопу, расипања приватних кључева и празнина у ревизији, већ једну контролисану, ревизијску и колаборативну платформу која удаљени приступ третира као инфраструктуру, а не као личну навику.
 
-Backend upravlja celim životnim ciklusom udaljenog pristupa od početka do kraja. Hostovi i grupe se upravljaju lancima bastion/jump hostova; SSH proxy posreduje autentifikaciju putem lozinki, javnih ključeva i sertifikata; terminalski I/O proxy prenosi sesiju preko WebSocket; SFTP podržava nastavljive prenose; tu su i prosleđivanje portova, upravljanje isječcima i radnim prostorima, kao i snimanje sesija u obliku potpisanih asciinema zapisa koje možete reprodukovati i kojima možete verovati. Sigurnost je dizajnirana po principu nultog poverenja, a ne naknadno: trezor pruža skladištenje tajni bez znanja, PKI servis izdaje kratkoročne SSH sertifikate tako da nijedan stalni kredencijal ne ostaje na raspolaganju za krađu, hardverski podržani kešovi (Secure Enclave / Android Keystore / DPAPI / HSM) drže ključeve van diska, FIDO2/WebAuthn i OIDC/SAML vode autentifikaciju, a nepromenljivi, Merkle-lančani revizijski zapis generiše nepodmitljive dokaze za SOC 2 / ISO 27001. Pored toga, saradnja u realnom vremenu omogućava više operatera da dele jednu aktivnu sesiju u ulogama posmatrača, kopilota ili vlasnika, a konzistentnost se održava sinhronizacijom CRDT bafera.
+Бацкенд управља целим животним циклусом удаљеног приступа од почетка до краја. Хостови и групе се управљају ланцима бастион/јумп хостова; SSH proxy посредује аутентификацију путем лозинки, јавних кључева и сертификата; терминалски И/О proxy преноси сесију преко WebSocket; SFTP подржава настављиве преносе; ту су и прослеђивање портова, управљање исјечцима и радним просторима, као и снимање сесија у облику потписаних асциинема записа које можете репродуковати и којима можете веровати. Сигурност је дизајнирана по принципу нултог поверења, а не накнадно: трезор пружа складиштење тајни без знања, PKI сервис издаје краткорочне SSH сертификате тако да ниједан стални креденцијал не остаје на располагању за крађу, хардверски подржани кешови (Сецуре Енцлаве / Android Keystore / DPAPI / HSM) држе кључеве ван диска, FIDO2/WebAuthn и OIDC/SAML воде аутентификацију, а непроменљиви, Merkle-ланчани ревизијски запис генерише неподмитљиве доказе за SOC 2 / ISO 27001. Поред тога, сарадња у реалном времену омогућава више оператера да деле једну активну сесију у улогама посматрача, копилота или власника, а конзистентност се одржава синхронизацијом CRDT бафера.
 
-AI servis nadograđuje sam terminal, dodajući automatsko dopunjavanje komandi, objašnjavanje izlaza na razumljivom jeziku, otkrivanje anomalija, generisanje runbookova i praktičnu pomoć pri incidentima — pretvarajući terminal iz običnog kanala u asistenta upravo u trenucima koji su najvažniji. Cela platforma je prilagođena kontejnerima — Kubernetes, Helm, Terraform, i kompletan opservabilni stek sa OpenTelemetry, Grafana, Jaegerom i Loki — i integriše se sa širom Helix porodice preko HelixTrack mosta i lokalnog HelixLLM. Sve to radi pod Helix Constitution sa proverom nasleđivanja i anti-bluf mehanizmima.
-
-
-## Zašto smo ga izgradili
-
-Timovi upravljaju udaljenom infrastrukturom preko razbacanih SSH klijenata bez zajedničkog revizijskog traga, bez doslednog rukovanja tajnama i bez mogućnosti da u realnom vremenu sarađuju na incidentu. HelixTerminator je stvoren da udaljeni pristup pretvori u upravljivu, zero-trust platformu prilagođenu timovima, umesto u alat koji se koristi po pojedinačnom laptopu.
-
-## Zašto je revolucionaran
-
-Sve svedi na jednu platformu. SSH klijent, trezor tajni, bastion/PKI sloj, snimanje sesija, revizija usklađenosti i saradnja uživo – sve su to stvari koje timovi obično kupuju, spajaju i usklađuju odvojeno, pri čemu svaka ima praznine na spojevima. HelixTerminator ih isporučuje kao jedinstven upravljivi sistem, a onda radi nešto što nijedan od tih alata ne može samostalno: postavlja AI sloj direktno preko terminala koji objašnjava nepoznat ispis i kreira uputstva *dok je incident u toku*. Funkcionalnost koja ranije nije bila praktična sada je udaljena sesija koja je istovremeno osigurana po principu zero-trust, nepromenljivo snimljena, deljena uživo među operaterima i podržana AI – sve odjednom, iz jednog prozora.
-
-## Šta je inovativno
-
-- **Dvostruki modularni dizajn** (Terminalska platforma + Broker veza) usklađeni preko servisnog registra, tako da platforma i sloj za posredovanje mogu nezavisno da skaliraju i evoluiraju.
-- **Zero-trust sigurnost** od kraja do kraja: kratkoročni SSH sertifikati koje izdaje PKI, trezor sa nultim znanjem, hardverski podržani ključevi i Merkle-vezani revizijski zapis – bez trajnih akreditiva, bez neproverljivog traga.
-- **Saradnja na sesiji u realnom vremenu** sa CRDT sinhronizacijom bafera i jasno definisanim ulogama posmatrača, kopilota i vlasnika, tako da više operatera može da radi na jednom terminalu bez međusobnog ometanja.
-- **AI podrška operacijama** integrisana u aktivni terminal: automatsko dopunjavanje, objašnjenje izlaza, detekcija anomalija i pomoć pri izradi uputstava i upravljanju incidentima – tačno tamo gde je operateru potrebna.
-- **Višeplatformski Flutter klijent** koji pokreće šest platformi iz jedne kodne baze, tako da korisničko iskustvo na desktopu, mobilnim uređajima i vebu ostaje usklađeno.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Osiguravanje udaljenog pristupa bez ikakvih trajnih akreditiva koje bi se mogle ukrasti** – dugoročni ključevi su klasična meta napada vector. Rešeno pomoću PKI servisa koji izdaje kratkoročne SSH sertifikate na zahtev, trezora sa nultim znanjem koji čuva tajne koje sam server ne može da pročita, i hardverski podržanog skladištenja ključeva (Secure Enclave / Android Keystore / DPAPI / HSM), tako da privatni materijal nikada nije izložen na disku.
-- **Omogućavanje više operatera da upravljaju jednom sesijom bez oštećenja bafera** – istovremeno uređivanje deljenog terminala je složen problem konzistentnosti. Rešeno pomoću CRDT sinhronizacije bafera, izabrane umesto operativne transformacije (prema ADR-006), upravo zato što CRDT-ovi konvergiraju bez centralnog arbitra.
-- **Obezbeđivanje da dokazi o usklađenosti ne mogu biti neprimetno izmenjeni** – revizijski zapis koji se može uređivati ne dokazuje ništa. Rešeno pomoću zapisnika koji se može samo dodavati, vezanog Merkle lancom, gde svaka promena narušava lanac hešova, stvarajući izvozive dokaze za SOC 2 / ISO 27001 / FedRAMP.
-- **Jedinstveno korisničko iskustvo na desktopu, mobilnim uređajima i vebu bez tri odvojene kodne baze** – rešeno pomoću jednog Flutter/Dart klijenta zasnovanog na BLoC obrascu, pri čemu je Flutter izabran umesto Electron (prema ADR-001) kako bi se šest platformi pokrilo iz jednog izvora istine.
+AI сервис надограђује сам терминал, додајући аутоматско допуњавање команди, објашњавање излаза на разумљивом језику, откривање аномалија, генерисање рунбоокова и практичну помоћ при инцидентима — претварајући терминал из обичног канала у асистента управо у тренуцима који су најважнији. Цела платформа је прилагођена контејнерима — Kubernetes, Helm, Terraform, и комплетан опсервабилни стек са OpenTelemetry, Grafana, Јаегером и Loki — и интегрише се са широм Helix породице преко HelixTrack моста и локалног HelixLLM. Све то ради под Helix Constitution са провером наслеђивања и анти-блуф механизмима.
 
 
-## Tehnološki stek
+## Зашто смо га изградили
 
-- **Go mikroservisi** — flota pozadinskih servisa (SSH proxy, terminal, trezor, PKI, revizija i još mnogo toga); izabrani zbog modela konkurentnosti i malog zauzeća tokom izvršavanja, idealni za servise koji istovremeno održavaju brojne dugotrajne striming sesije (ADR-002: Go umesto Rust/Node).
-- **Flutter / Dart (BLoC)** — jedan klijentski kod za šest platformi, gde BLoC osigurava predvidljivost stanja; Flutter izabran umesto Electron (ADR-001) kako bi se izbeglo održavanje zasebnih nativnih i veb interfejsa.
-- **PostgreSQL** — primarna baza podataka, izabrana umesto CockroachDB (ADR-004) zbog zrelog, dobro razumljivog transakcionog jezgra.
-- **Kafka + RabbitMQ** — sloj za razmenu poruka i striming koji prenosi segmente sesija i događaje (ADR-003), kombinujući trajan log sa fleksibilnim redovima.
-- **Redis** — čuva bafer za pomeranje terminala i trenutno stanje sesija gde je niska latencija važnija od trajnosti.
-- **SPIFFE/SPIRE + mTLS** — izdaje kriptografske identitete radnih opterećenja (ADR-005) kako bi saobraćaj između servisa bio međusobno autentifikovan, proširujući princip nultog poverenja unutar mreže, a ne samo na njenim granicama.
-- **Ed25519 (EdDSA)** — potpisuje JWT tokene i snimke sesija (ADR-009), pružajući brze, moderne potpise koji omogućavaju verifikaciju snimljenih sesija.
-- **Kubernetes + Helm + Terraform** — implementacija zasnovana na kontejnerima sa reproduktivnom, verzionisanom infrastrukturom (ADR-007/008).
-- **OpenTelemetry, Grafana, Jaeger, Loki** — stek za opservabilnost koji obuhvata tragove, metrike, kontrolne table i logove; **Falco, Trivy, Cosign, Sealed Secrets** — detekcija pretnji u realnom vremenu, skeniranje slika, potpisivanje artefakata i šifrovana distribucija tajni kroz lanac snabdevanja.
+Тимови управљају удаљеном инфраструктуром преко разбацаних SSH клијената без заједничког ревизијског трага, без доследног руковања тајнама и без могућности да у реалном времену сарађују на инциденту. HelixTerminator је створен да удаљени приступ претвори у управљиву, зеро-труст платформу прилагођену тимовима, уместо у алат који се користи по појединачном лаптопу.
 
-## Status i napomene o iskrenosti
+## Зашто је револуционаран
 
-- **Status: beta.** Značajna, aktivno razvijana kodna baza (kreirana 04.07.2026). Numerički podaci iz istraživačkog paketa MVP projekta (broj krajnjih tačaka, tabela i servisa) predstavljaju ciljeve iz dokumentacije `docs/research/mvp/`, a nisu potvrđeni kao potpuno implementirani, te su stoga navedeni kao obim arhitekture, a ne kao dostignute metrike. Tvrdnje o latenciji/SLO i „spremnosti za produkciju" nisu nezavisno verifikovane.
-- **Licenca: Apache-2.0** (prema GitHub API).
+Све сведи на једну платформу. SSH клијент, трезор тајни, бастион/PKI слој, снимање сесија, ревизија усклађености и сарадња уживо – све су то ствари које тимови обично купују, спајају и усклађују одвојено, при чему свака има празнине на спојевима. HelixTerminator их испоручује као јединствен управљиви систем, а онда ради нешто што ниједан од тих алата не може самостално: поставља AI слој директно преко терминала који објашњава непознат испис и креира упутства *док је инцидент у току*. Функционалност која раније није била практична сада је удаљена сесија која је истовремено осигурана по принципу зеро-труст, непроменљиво снимљена, дељена уживо међу оператерима и подржана AI – све одједном, из једног прозора.
 
-**Prioritetni nivo:** Helix-primary.
+## Шта је иновативно
+
+- **Двоструки модуларни дизајн** (Терминалска платформа + Брокер веза) усклађени преко сервисног регистра, тако да платформа и слој за посредовање могу независно да скалирају и еволуирају.
+- **Зеро-труст сигурност** од краја до краја: краткорочни SSH сертификати које издаје PKI, трезор са нултим знањем, хардверски подржани кључеви и Merkle-везани ревизијски запис – без трајних акредитива, без непроверљивог трага.
+- **Сарадња на сесији у реалном времену** са CRDT синхронизацијом бафера и јасно дефинисаним улогама посматрача, копилота и власника, тако да више оператера може да ради на једном терминалу без међусобног ометања.
+- **AI подршка операцијама** интегрисана у активни терминал: аутоматско допуњавање, објашњење излаза, детекција аномалија и помоћ при изради упутстава и управљању инцидентима – тачно тамо где је оператеру потребна.
+- **Вишеплатформски Flutter клијент** који покреће шест платформи из једне кодне базе, тако да корисничко искуство на десктопу, мобилним уређајима и вебу остаје усклађено.
+
+## Највећи технички изазови и како смо их решили
+
+- **Осигуравање удаљеног приступа без икаквих трајних акредитива које би се могле украсти** – дугорочни кључеви су класична мета напада вецтор. Решено помоћу PKI сервиса који издаје краткорочне SSH сертификате на захтев, трезора са нултим знањем који чува тајне које сам сервер не може да прочита, и хардверски подржаног складиштења кључева (Сецуре Енцлаве / Android Keystore / DPAPI / HSM), тако да приватни материјал никада није изложен на диску.
+- **Омогућавање више оператера да управљају једном сесијом без оштећења бафера** – истовремено уређивање дељеног терминала је сложен проблем конзистентности. Решено помоћу CRDT синхронизације бафера, изабране уместо оперативне трансформације (према ADR-006), управо зато што CRDT-ови конвергирају без централног арбитра.
+- **Обезбеђивање да докази о усклађености не могу бити неприметно измењени** – ревизијски запис који се може уређивати не доказује ништа. Решено помоћу записника који се може само додавати, везаног Merkle ланцом, где свака промена нарушава ланац хешова, стварајући извозиве доказе за SOC 2 / ISO 27001 / ФедРАМП.
+- **Јединствено корисничко искуство на десктопу, мобилним уређајима и вебу без три одвојене кодне базе** – решено помоћу једног Flutter/Dart клијента заснованог на БЛоЦ обрасцу, при чему је Flutter изабран уместо Electron (према ADR-001) како би се шест платформи покрило из једног извора истине.
+
+
+## Технолошки стек
+
+- **Go микросервиси** — флота позадинских сервиса (SSH proxy, терминал, трезор, PKI, ревизија и још много тога); изабрани због модела конкурентности и малог заузећа током извршавања, идеални за сервисе који истовремено одржавају бројне дуготрајне стриминг сесије (ADR-002: Go уместо Rust/Node).
+- **Flutter / Dart (БЛоЦ)** — један клијентски код за шест платформи, где БЛоЦ осигурава предвидљивост стања; Flutter изабран уместо Electron (ADR-001) како би се избегло одржавање засебних нативних и веб интерфејса.
+- **PostgreSQL** — примарна база података, изабрана уместо CockroachDB (ADR-004) због зрелог, добро разумљивог трансакционог језгра.
+- **Kafka + RabbitMQ** — слој за размену порука и стриминг који преноси сегменте сесија и догађаје (ADR-003), комбинујући трајан лог са флексибилним редовима.
+- **Redis** — чува бафер за померање терминала и тренутно стање сесија где је ниска латенција важнија од трајности.
+- **SPIFFE/SPIRE + мТЛС** — издаје криптографске идентитете радних оптерећења (ADR-005) како би саобраћај између сервиса био међусобно аутентификован, проширујући принцип нултог поверења унутар мреже, а не само на њеним границама.
+- **Ed25519 (EdDSA)** — потписује JWT токене и снимке сесија (ADR-009), пружајући брзе, модерне потписе који омогућавају верификацију снимљених сесија.
+- **Kubernetes + Helm + Terraform** — имплементација заснована на контејнерима са репродуктивном, верзионисаном инфраструктуром (ADR-007/008).
+- **OpenTelemetry, Grafana, Jaeger, Loki** — стек за опсервабилност који обухвата трагове, метрике, контролне табле и логове; **Falco, Trivy, Цосигн, Сеалед Сецретс** — детекција претњи у реалном времену, скенирање слика, потписивање артефаката и шифрована дистрибуција тајни кроз ланац снабдевања.
+
+## Статус и напомене о искрености
+
+- **Статус: бета.** Значајна, активно развијана кодна база (креирана 04.07.2026). Нумерички подаци из истраживачког пакета MVP пројекта (број крајњих тачака, табела и сервиса) представљају циљеве из документације `docs/research/mvp/`, а нису потврђени као потпуно имплементирани, те су стога наведени као обим архитектуре, а не као достигнуте метрике. Тврдње о латенцији/SLO и „спремности за продукцију" нису независно верификоване.
+- **Лиценца: Апацхе-2.0** (према GitHub API).
+
+**Приоритетни ниво:** Helix-primary.
 

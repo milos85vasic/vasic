@@ -1,0 +1,36 @@
+############ UMBRELLA ############
+HEAD: 65d2bc47225ffefbf84f5133a605d619121b391a
+--- submodule pins ---
+ 1ffcd55d765a4a3571359881b10e4aeb89b19c50 design-toolkit (v0.2.2)
+-fcd7fbd36bad2b73e19588176b1fbbc0987e7660 milosvasic.ru
+ 4ab25f591a43d035cbf11ee52b56cd5682625e29 submodules/constitution (v1.0.0-29-g4ab25f5)
+-77c8c85cd1312bc9d19fe25a10c9ee6dd2ef4355 vasic.digital
+--- umbrella tags (restyle/restore/v1.6.0) ---
+pre-restyle
+
+############ VASIC.DIGITAL ############
+HEAD: 77c8c85cd1312bc9d19fe25a10c9ee6dd2ef4355
+--- tags ---
+pre-restyle
+v1.6.0
+--- v1.6.0 annotated? points to? ---
+tag
+d87a1d672731856dd6edfd226b687907a2c7e304
+  tag=v1.6.0 type=tag points-at=d87a1d672731856dd6edfd226b687907a2c7e304b0d3ce307eb2d684176df40fd02bf7192d866fa8
+
+############ MILOSVASIC.RU ############
+HEAD: fcd7fbd36bad2b73e19588176b1fbbc0987e7660
+--- tags ---
+pre-restyle
+v1.6.0
+--- v1.6.0 annotated? points to? ---
+tag
+8324f27ca140f6a703a85e1e7c1e608f356e41bd
+  tag=v1.6.0 type=tag points-at=8324f27ca140f6a703a85e1e7c1e608f356e41bd332cd0677052c41c2978bac81c763c5a6b2de0b9
+
+############ DESIGN-TOOLKIT ############
+HEAD: 1ffcd55d765a4a3571359881b10e4aeb89b19c50
+--- tags ---
+v0.2.0
+v0.2.1
+v0.2.2

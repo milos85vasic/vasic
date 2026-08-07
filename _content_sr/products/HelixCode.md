@@ -26,60 +26,60 @@ diagrams:
 
 # HelixCode
 
-**Distribuirana AI razvojna platforma koja deli posao, čuva ga i nikada ne gubi vaše mesto.**
+**Дистрибуирана AI развојна платформа која дели посао, чува га и никада не губи ваше место.**
 
-## Sažetak
+## Сажетак
 
-HelixCode je preduzetnička, Go-bazirana distribuirana AI razvojna platforma koja deli razvojne zadatke na inteligentno podeljene podzadatke raspoređene po mreži radnika upravljanih putem SSH, sa automatskim čuvanjem stanja i povratkom na prethodne verzije kako ni jedan deo posla nikada ne bi bio izgubljen. Ona objedinjuje integraciju više LLM provajdera, radne tokove tokom celog razvojnog ciklusa i isporuku na više platformi iza REST, CLI, TUI i MCP interfejsa.
+HelixCode је предузетничка, Go-базирана дистрибуирана AI развојна платформа која дели развојне задатке на интелигентно подељене подзадатке распоређене по мрежи радника управљаних путем SSH, са аутоматским чувањем стања и повратком на претходне верзије како ни један део посла никада не би био изгубљен. Она обједињује интеграцију више LLM провајдера, радне токове током целог развојног циклуса и испоруку на више платформи иза REST, CLI, TUI и MCP интерфејса.
 
-## Kratak opis
+## Кратак опис
 
-HelixCode je distribuirana AI razvojna platforma napisana u Go. Deli posao na inteligentne zadatke raspoređene po mreži radnika zasnovanoj na SSH, čuva napredak automatskim čuvanjem stanja i povratkom na prethodne verzije, integriše više LLM provajdera i pokreće ceo razvojni ciklus preko REST, CLI, TUI i MCP interfejsa.
+HelixCode је дистрибуирана AI развојна платформа написана у Go. Дели посао на интелигентне задатке распоређене по мрежи радника заснованој на SSH, чува напредак аутоматским чувањем стања и повратком на претходне верзије, интегрише више LLM провајдера и покреће цео развојни циклус преко REST, CLI, TUI и MCP интерфејса.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixCode je preduzetnička distribuirana AI razvojna platforma (`dev.helix.code`, MIT) izgrađena oko jednostavnog obećanja koje njen slogan doslovno ispunjava: podeli posao, sačuvaj ga i nikada ne izgubi svoje mesto. Dizajnirana je za inteligentnu podelu zadataka, automatsko čuvanje napretka i razvojne tokove na više platformi, a napisana je u Go zbog konkurentnosti i prenosivosti u vidu jednog binarnog fajla koje distribuirano računarstvo zahteva — sa automatskim čuvanjem stanja, povratkom na prethodne verzije i praćenjem u realnom vremenu kao osnovnim, a ne opcionim funkcijama.
+HelixCode је предузетничка дистрибуирана AI развојна платформа (`dev.helix.code`, МИТ) изграђена око једноставног обећања које њен слоган дословно испуњава: подели посао, сачувај га и никада не изгуби своје место. Дизајнирана је за интелигентну поделу задатака, аутоматско чување напретка и развојне токове на више платформи, а написана је у Go због конкурентности и преносивости у виду једног бинарног фајла које дистрибуирано рачунарство захтева — са аутоматским чувањем стања, повратком на претходне верзије и праћењем у реалном времену као основним, а не опционим функцијама.
 
-Njena arhitektura postavlja REST + WebSocket + MCP API sloj iznad skupa fokusiranih osnovnih servisa — JWT autentifikaciju i upravljanje sesijama, upravljanje bazenom radnika zasnovanim na SSH sa praćenjem stanja, upravljanje zadacima sa čuvanjem stanja i rukovanjem zavisnostima, upravljanje projektima i radnim tokovima, kao i objedinjeni sloj LLM provajdera — sve sačuvano na PostgreSQL, dok je Redis dostupan kao opcioni sloj za koordinaciju i keširanje. Distribuirani radnici se automatski instaliraju preko mreže, tako da je proširivanje sistema jednostavno usmeravanje servera na mašinu umesto ručnog podešavanja, a multi-klient interfejsi obuhvataju CLI, terminalski interfejs, REST i mobilne okvire, čime je ista platforma dostupna iz skripte, terminala ili aplikacije.
+Њена архитектура поставља REST + WebSocket + MCP API слој изнад скупа фокусираних основних сервиса — JWT аутентификацију и управљање сесијама, управљање базеном радника заснованим на SSH са праћењем стања, управљање задацима са чувањем стања и руковањем зависностима, управљање пројектима и радним токовима, као и обједињени слој LLM провајдера — све сачувано на PostgreSQL, док је Redis доступан као опциони слој за координацију и кеширање. Дистрибуирани радници се аутоматски инсталирају преко мреже, тако да је проширивање система једноставно усмеравање сервера на машину уместо ручног подешавања, а мулти-клиент интерфејси обухватају CLI, терминалски интерфејс, REST и мобилне оквире, чиме је иста платформа доступна из скрипте, терминала или апликације.
 
-HelixCode pokreće kompletan razvojni ciklus od početka do kraja: planiranje, izgradnja, testiranje i refaktorisanje se izvršavaju automatski uz praćenje zavisnosti i konteksta više sesija, tako da dugoročni napori zadržavaju svoju nit kroz prekide i granice između mašina. Integriše više LLM provajdera — llama.cpp, Ollama i OpenAI — iza jednog interfejsa, a zatim dodaje izbor modela svestan hardvera koji detektuje dostupne CPU/GPU/memoriju i prilagođava model mašini, kao i podršku za napredne strategije rezonovanja poput lančanog razmišljanja i stabla razmišljanja za probleme koji zahtevaju više od jednog prolaza. Model Context Protocol je implementiran preko više transportnih protokola za standardizovanu razmenu alata i konteksta, a obaveštenja na više kanala (Slack, Discord, Email, Telegram) obaveštavaju timove o napretku distribuiranog rada. Podržane su platforme Linux, macOS, Windows, Aurora OS i SymphonyOS.
+HelixCode покреће комплетан развојни циклус од почетка до краја: планирање, изградња, тестирање и рефакторисање се извршавају аутоматски уз праћење зависности и контекста више сесија, тако да дугорочни напори задржавају своју нит кроз прекиде и границе између машина. Интегрише више LLM провајдера — ллама.цпп, Ollama и OpenAI — иза једног интерфејса, а затим додаје избор модела свестан хардвера који детектује доступне CPU/GPU/меморију и прилагођава модел машини, као и подршку за напредне стратегије резоновања попут ланчаног размишљања и стабла размишљања за проблеме који захтевају више од једног пролаза. Model Context Protocol је имплементиран преко више транспортних протокола за стандардизовану размену алата и контекста, а обавештења на више канала (Slack, Discord, Емаил, Telegram) обавештавају тимове о напретку дистрибуираног рада. Подржане су платформе Linux, macOS, Windows, Aurora OS и SymphonyOS.
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-Razvoj koji se odvija na više mašina uz pomoć AI obično gubi kontekst i napredak kada se zadaci razdvoje ili prekinu. HelixCode je stvoren da podelu zadataka učini inteligentnom, a očuvanje rada automatskim — kako bi se veliki razvojni napor mogao razložiti, rasporediti po mreži radnika, kontrolisati tačkama provera i nastaviti ili vratiti unazad bez gubitka stanja.
+Развој који се одвија на више машина уз помоћ AI обично губи контекст и напредак када се задаци раздвоје или прекину. HelixCode је створен да поделу задатака учини интелигентном, а очување рада аутоматским — како би се велики развојни напор могао разложити, распоредити по мрежи радника, контролисати тачкама провера и наставити или вратити уназад без губитка стања.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-On čini razvoj uz pomoć AI *izdržljivim* — sposobnost koja nikada ranije nije bila praktična kada su timovi ručno spajali ove delove. Tri stvari koje obično postoje u tri odvojena alata sada postaju jedna platforma: distribuirano izračunavanje (mreže radnika SSH sa automatskom instalacijom i praćenjem zdravlja), pomoć u razvoju uz AI (LLM-ovi sa više pružalaca usluga, sposobni za rezonovanje i pozivanje alata) i automatizacija radnih tokova tokom celog životnog ciklusa. Spojno tkivo je provera tačaka oslonjena na bazu podataka: pošto se stanje zadatka, tačke provera i zavisnosti čuvaju u PostgreSQL, posao koji se proteže preko više mašina i sesija može se vratiti unazad ili nastaviti tačno tamo gde je stao. Prekidi i podela rada prestaju da budu izvor izgubljenog napretka i postaju rutinski, obnovljivi događaji.
+Он чини развој уз помоћ AI *издржљивим* — способност која никада раније није била практична када су тимови ручно спајали ове делове. Три ствари које обично постоје у три одвојена алата сада постају једна платформа: дистрибуирано израчунавање (мреже радника SSH са аутоматском инсталацијом и праћењем здравља), помоћ у развоју уз AI (LLM-ови са више пружалаца услуга, способни за резоновање и позивање алата) и аутоматизација радних токова током целог животног циклуса. Спојно ткиво је провера тачака ослоњена на базу података: пошто се стање задатка, тачке провера и зависности чувају у PostgreSQL, посао који се протеже преко више машина и сесија може се вратити уназад или наставити тачно тамо где је стао. Прекиди и подела рада престају да буду извор изгубљеног напретка и постају рутински, обновљиви догађаји.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Očuvanje rada kao osnovni princip: automatska provera tačaka i vraćanje unazad primenjeno na *distribuirane* razvojne zadatke, tako da napredak preživi prekide i otkazivanje mašina umesto da nestane s njima.
-- Izbor modela svesnog hardvera koji analizira detektovani CPU/GPU/memoriju i svakom zadatku dodeljuje model koji mašina zaista može dobro da pokrene — bez ručnog podešavanja po radnicima.
-- Jedna platforma, pet ulaza: REST, WebSocket, CLI, TUI i MCP, pri čemu je sam MCP dostupan preko više protokola tako da se alati i agenti mogu integrisati bez obzira na način povezivanja.
-- Podrška za više platformi koja prevazilazi uobičajeni trio desktop sistema i uključuje Aurora OS i SymphonyOS, proširujući mrežu radnika na platforme koje većina alata ignoriše.
+- Очување рада као основни принцип: аутоматска провера тачака и враћање уназад примењено на *дистрибуиране* развојне задатке, тако да напредак преживи прекиде и отказивање машина уместо да нестане с њима.
+- Избор модела свесног хардвера који анализира детектовани CPU/GPU/меморију и сваком задатку додељује модел који машина заиста може добро да покрене — без ручног подешавања по радницима.
+- Једна платформа, пет улаза: REST, WebSocket, CLI, TUI и MCP, при чему је сам MCP доступан преко више протокола тако да се алати и агенти могу интегрисати без обзира на начин повезивања.
+- Подршка за више платформи која превазилази уобичајени трио десктоп система и укључује Aurora OS и SymphonyOS, проширујући мрежу радника на платформе које већина алата игнорише.
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Највећи технички изазови и како смо их решили
 
-- **Da se ne izgubi rad na distribuiranim, prekidivim zadacima.** Kada je posao podeljen na više mašina, svaki pad sistema ili prekid obično ostavlja u vazduhu sve što je bilo u toku. Mi smo zadatak modelovali kao nosioca tačaka provera i zavisnosti, sačuvanih u PostgreSQL, tako da sistem može da se vrati na poslednje ispravno stanje ili nastavi odatle — izdržljivost koja postoji u sloju podataka, a ne u krhkom stanju u memoriji.
-- **Upravljanje heterogenom mrežom radnika.** Mreža mašina sa Linuxom, macOS-om, Windowsom, Aurorom i SymphonyOS-om stalno se menja u pogledu dostupnosti i podešavanja. Mi to rešavamo posvećenom uslugom za upravljanje bazenom radnika koja obavlja registraciju zasnovanu na SSH, automatsku instalaciju na nove čvorove i neprestano praćenje zdravlja, tako da mreža ostaje poznata i kontrolisana kako mašine dolaze i odlaze.
-- **Različitost pružalaca usluga i hardvera.** LLM backendovi i mašine na kojima se pokreću veoma se razlikuju po mogućnostima. Mi smo to sakrili iza jedinstvenog interfejsa za pružaoce LLM i uparili ga sa detekcijom hardvera (CPU/GPU/memorija) koja pokreće inteligentan izbor modela, tako da pravi model stigne na pravu mašinu bez potrebe da korisnik razmišlja o bilo čemu od toga.
+- **Да се не изгуби рад на дистрибуираним, прекидивим задацима.** Када је посао подељен на више машина, сваки пад система или прекид обично оставља у ваздуху све што је било у току. Ми смо задатак моделовали као носиоца тачака провера и зависности, сачуваних у PostgreSQL, тако да систем може да се врати на последње исправно стање или настави одатле — издржљивост која постоји у слоју података, а не у крхком стању у меморији.
+- **Управљање хетерогеном мрежом радника.** Мрежа машина са Linuxom, macOS-ом, Windowsom, Аурором и SymphonyOS-ом стално се мења у погледу доступности и подешавања. Ми то решавамо посвећеном услугом за управљање базеном радника која обавља регистрацију засновану на SSH, аутоматску инсталацију на нове чворове и непрестано праћење здравља, тако да мрежа остаје позната и контролисана како машине долазе и одлазе.
+- **Различитост пружалаца услуга и хардвера.** LLM бацкендови и машине на којима се покрећу веома се разликују по могућностима. Ми смо то сакрили иза јединственог интерфејса за пружаоце LLM и упарили га са детекцијом хардвера (CPU/GPU/меморија) која покреће интелигентан избор модела, тако да прави модел стигне на праву машину без потребе да корисник размишља о било чему од тога.
 
 
-## Tehnološki stek
+## Технолошки стек
 
-- **Go (1.26+ unutrašnji modul)** — izabran jer njegova konkurentnost zasnovana na gorutinama i izlaz u vidu jednog binarnog fajla upravo odgovaraju potrebama distribuiranog radničkog sistema: jeftin paralelizam za orkestraciju i samostalni binarni fajl koji se automatski instalira na bilo koji čvor. Sadrži sve osnovne servise i binarne fajlove CLI/servera.
-- **Gin (HTTP okvir)** — izabran zbog brzog, minimalističkog sloja REST sa niskim režijskim troškovima; služi `/api/v1` površinu (autentifikacija, radnici, zadaci, projekti) sa kojom komunicira svaki klijent.
-- **PostgreSQL 15+ (putem pgx/v5)** — izabran kao trajan sistem evidencije jer čuvanje stanja i povratak na prethodnu verziju zahtevaju transakcionu perzistenciju; sadrži šemu distribuiranog računarstva sa 11 tabela (korisnici, radnici, zadaci, projekti, sesije, dobavljači LLM-a, obaveštenja) koja omogućava očuvanje rada.
-- **Redis 7+ (opciono, go-redis/v9)** — izabran kao opcioni sloj keširanja i koordinacije koji ubrzava „vruće" puteve bez pretvaranja u obaveznu zavisnost, tako da minimalna implementacija i dalje funkcioniše samo sa Postgresom.
-- **SSH** — izabran kao transport za kontrolu radnika upravo zato što je već svuda prisutan i već obezbeđen; pokreće registraciju radnika, automatsku instalaciju i izvršavanje udaljenih komandi širom celog klastera bez potrebe za prethodnim postavljanjem posebnog agenta.
-- **Model Context Protocol (MCP)** — izabran za standardizovanu razmenu alata i konteksta kako bi se spoljašnji alati i agenti integrisali preko jednog otvorenog protokola; implementiran sa podrškom za više transportnih mehanizama kako bi se prilagodio klijentima gde god se povežu.
-- **Dobavljači LLM (llama.cpp, Ollama, OpenAI)** — izabrani da obuhvate i lokalno i hostovano izvođenje zaključivanja iza jedinstvenog interfejsa, tako da se izbor hardvera može usmeriti na lokalni model ili hostovani, a pozivalac ne mora da zna razliku.
+- **Go (1.26+ унутрашњи модул)** — изабран јер његова конкурентност заснована на горутинама и излаз у виду једног бинарног фајла управо одговарају потребама дистрибуираног радничког система: јефтин паралелизам за оркестрацију и самостални бинарни фајл који се аутоматски инсталира на било који чвор. Садржи све основне сервисе и бинарне фајлове CLI/сервера.
+- **Gin (ХТТП оквир)** — изабран због брзог, минималистичког слоја REST са ниским режијским трошковима; служи `/api/v1` површину (аутентификација, радници, задаци, пројекти) са којом комуницира сваки клијент.
+- **PostgreSQL 15+ (путем pgx/в5)** — изабран као трајан систем евиденције јер чување стања и повратак на претходну верзију захтевају трансакциону перзистенцију; садржи шему дистрибуираног рачунарства са 11 табела (корисници, радници, задаци, пројекти, сесије, добављачи LLM-а, обавештења) која омогућава очување рада.
+- **Redis 7+ (опционо, го-редис/в9)** — изабран као опциони слој кеширања и координације који убрзава „вруће" путеве без претварања у обавезну зависност, тако да минимална имплементација и даље функционише само са Постгресом.
+- **SSH** — изабран као транспорт за контролу радника управо зато што је већ свуда присутан и већ обезбеђен; покреће регистрацију радника, аутоматску инсталацију и извршавање удаљених команди широм целог кластера без потребе за претходним постављањем посебног агента.
+- **Model Context Protocol (MCP)** — изабран за стандардизовану размену алата и контекста како би се спољашњи алати и агенти интегрисали преко једног отвореног протокола; имплементиран са подршком за више транспортних механизама како би се прилагодио клијентима где год се повежу.
+- **Добављачи LLM (ллама.цпп, Ollama, OpenAI)** — изабрани да обухвате и локално и хостовано извођење закључивања иза јединственог интерфејса, тако да се избор хардвера може усмерити на локални модел или хостовани, а позивалац не мора да зна разлику.
 
-## Status i napomene o iskrenosti
+## Статус и напомене о искрености
 
-- **Status: beta.** U README fajlu stoji da je projekat „POTPUNO ZAVRŠEN / svih 5 faza"; ta potpunost je navedena od strane projekta, a ne nezavisno potvrđena, pa se stranica prema tome odnosi kao prema beti.
-- Sve navedene pojedinosti potiču iz README fajla u repozitorijumu; marketinške fraze (slogani) su uredničke prirode, a ne metrički podaci iz izvora.
+- **Статус: бета.** У РЕАДМЕ фајлу стоји да је пројекат „ПОТПУНО ЗАВРШЕН / свих 5 фаза"; та потпуност је наведена од стране пројекта, а не независно потврђена, па се страница према томе односи као према бети.
+- Све наведене појединости потичу из РЕАДМЕ фајла у репозиторијуму; маркетиншке фразе (слогани) су уредничке природе, а не метрички подаци из извора.
 
-**Prioritetni nivo:** Helix-osnovni.
+**Приоритетни ниво:** Helix-основни.
 

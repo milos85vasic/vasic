@@ -28,49 +28,49 @@ diagrams:
   - Maturity legend distinguishing flagship (Mail) from early-stage service factories
 ---
 
-**Sporedni elementi alata Server Factory za provizioniranje.**
+**Споредни елементи алата Server Factory за провизионирање.**
 
-## Sažetak
+## Сажетак
 
-Pored Mail Server Factory i Osnovnog okvira, organizacija Server-Factory obuhvata nekoliko manjih komponenti: „fabrike" po usluzi (Web Service, SonarQube, Keširajući proxy), deklarativne konfiguracione pakete (Docker/Stack/Definicije softvera) i zajedničke pomoćne alate (Utils). Ova konsolidovana stranica prikazuje ih iskreno – neke su u ranoj fazi ili tek delimično dokumentovane – umesto da ih predstavlja kao potpuno definisane proizvode.
+Поред Mail Server Factory и Основног оквира, организација Server-Factory обухвата неколико мањих компоненти: „фабрике" по услузи (Web Сервице, SonarQube, Кеширајући proxy), декларативне конфигурационе пакете (Docker/Стацк/Дефиниције софтвера) и заједничке помоћне алате (Утилс). Ова консолидована страница приказује их искрено – неке су у раној фази или тек делимично документоване – уместо да их представља као потпуно дефинисане производе.
 
-## Kratak opis
+## Кратак опис
 
-Grupa repozitorijuma koji podržavaju Server Factory: Web-Service-Factory, SonarQube-Factory i Caching-Proxy-Factory (alati za provizioniranje po usluzi, uglavnom u ranoj fazi); Docker/Stack/Software-Definitions (deklarativni konfiguracioni paketi koje koristi okvir); i Utils (pomoćni alati za pristup SSH i opštu alatku). Sve se oslanjaju na Osnovni okvir.
+Група репозиторијума који подржавају Server Factory: Web-Сервице-Factory, SonarQube-Factory и Цацхинг-Proxy-Factory (алати за провизионирање по услузи, углавном у раној фази); Docker/Стацк/Software-Дефинитионс (декларативни конфигурациони пакети које користи оквир); и Утилс (помоћни алати за приступ SSH и општу алатку). Све се ослањају на Основни оквир.
 
-## Detaljan opis
+## Детаљан опис
 
-Ova stranica objedinjuje preostale repozitorijume Server-Factoryja jer su, pojedinačno, većina njih mali ili namerno nedovoljno dokumentovani, pa bi ih predstavljanje kao gotovih proizvoda precenilo njihovu zrelost. Mogu se podeliti u tri grupe. **Fabrike usluga** slede obrazac Mail Server Factory za druge uloge servera: **Caching-Proxy-Factory** („Pokrenite sopstveni keširajući proxy server") navodi keširajući proxy, sertifikat sa samopotpisom i HTTP krajnju tačku za dobijanje sigurnosnog sertifikata kao ključne funkcije; **SonarQube-Factory** („Pokrenite sopstveni SonarQube server") namenjen je razvoju softvera; a **Web-Service-Factory** instancira i konfigurira veb-server za implementaciju ciljeva kao što su veb-sajtovi i mikrousluge. Sve tri su Kotlin projekti izgrađeni na Osnovnom okviru, ali njihovi javni README fajlovi uglavnom služe kao privremeni sadržaj („Tbd." za kompatibilnost, specifikacije, podešavanje i upotrebu) – pa su njihove konkretne mogućnosti izvan navedene namene NEVERIFIKOVANE. **Definicioni paketi** – **Docker-Definitions**, **Stack-Definitions** i **Software-Definitions** – jesu deklarativni konfiguracioni repozitorijumi koje okvir koristi da bi znao kako da gradi/implementira slike Docker, stekove i softver; to su verzijski vezani paketi podataka, a ne aplikacije. **Utils** pruža opšte pomoćne alate za porodicu, uključujući skript `init_ssh_access.sh` koji generiše ključ SSH i instalira ga na udaljeni host kako bi omogućio root pristup bez lozinke za naknadno provizioniranje. Zajedno, ove komponente zaokružuju lanac alata za provizioniranje oko vodećeg Mail Server Factory.
+Ова страница обједињује преостале репозиторијуме Сервер-Factoryja јер су, појединачно, већина њих мали или намерно недовољно документовани, па би их представљање као готових производа преценило њихову зрелост. Могу се поделити у три групе. **Фабрике услуга** следе образац Mail Server Factory за друге улоге сервера: **Цацхинг-Proxy-Factory** („Покрените сопствени кеширајући proxy сервер") наводи кеширајући proxy, сертификат са самопотписом и ХТТП крајњу тачку за добијање сигурносног сертификата као кључне функције; **SonarQube-Factory** („Покрените сопствени SonarQube сервер") намењен је развоју софтвера; а **Web-Сервице-Factory** инстанцира и конфигурира веб-сервер за имплементацију циљева као што су веб-сајтови и микроуслуге. Све три су Kotlin пројекти изграђени на Основном оквиру, али њихови јавни РЕАДМЕ фајлови углавном служе као привремени садржај („Тбд." за компатибилност, спецификације, подешавање и употребу) – па су њихове конкретне могућности изван наведене намене НЕВЕРИФИКОВАНЕ. **Дефинициони пакети** – **Docker-Дефинитионс**, **Стацк-Дефинитионс** и **Software-Дефинитионс** – јесу декларативни конфигурациони репозиторијуми које оквир користи да би знао како да гради/имплементира слике Docker, стекове и софтвер; то су верзијски везани пакети података, а не апликације. **Утилс** пружа опште помоћне алате за породицу, укључујући скрипт `init_ssh_access.sh` који генерише кључ SSH и инсталира га на удаљени хост како би омогућио роот приступ без лозинке за накнадно провизионирање. Заједно, ове компоненте заокружују ланац алата за провизионирање око водећег Mail Server Factory.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Model Server Factory stvoren je da bude univerzalno primenljiv: kada jednom možete da provizionirate mejl-server iz deklarativnog opisa, isti mehanizam bi trebalo da može da provizionira i veb-server, keširajuće proxyje i servere za kontrolu kvaliteta koda – napajane ponovljivo upotrebljivim definicionim paketima i zajedničkim pomoćnim alatima, umesto prilagođene logike za svaku ulogu. Ovi repozitorijumi predstavljaju upravo tu generalizaciju u razvoju, proširujući dokazani obrazac na nove tipove servera. Njihova vrednost ovde je kao dokaz dosega modela; njihova zrelost varira, a ova stranica namerno razjašnjava šta je tek u planu, a šta je već ostvareno.
+Модел Server Factory створен је да буде универзално применљив: када једном можете да провизионирате мејл-сервер из декларативног описа, исти механизам би требало да може да провизионира и веб-сервер, кеширајуће proxyje и сервере за контролу квалитета кода – напајане поновљиво употребљивим дефиниционим пакетима и заједничким помоћним алатима, уместо прилагођене логике за сваку улогу. Ови репозиторијуми представљају управо ту генерализацију у развоју, проширујући доказани образац на нове типове сервера. Њихова вредност овде је као доказ досега модела; њихова зрелост варира, а ова страница намерно разјашњава шта је тек у плану, а шта је већ остварено.
 
 
-## Zašto je ovo revolucionarno (umereno)
+## Зашто је ово револуционарно (умерено)
 
-Kao skup, ovi alati demonstriraju ponovnu upotrebljivost Osnovnog okvira na različitim tipovima servera i razdvajaju deklarativne podatke (Definicije) od izvršavanja (fabrike). Pojedinačno, fabrike usluga su u ranoj fazi i treba ih predstaviti kao smernice, a ne kao gotove proizvode.
+Као скуп, ови алати демонстрирају поновну употребљивост Основног оквира на различитим типовима сервера и раздвајају декларативне податке (Дефиниције) од извршавања (фабрике). Појединачно, фабрике услуга су у раној фази и треба их представити као смернице, а не као готове производе.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Jedan okvir za obezbeđivanje generalizovan za uloge mejla, veba, keširajućeg proksija i SonarQube.
-- Deklarativni paketi Definicija (Docker/Stack/Software) odvojeni od izvršnog motora.
-- Deljene alatke (npr. jednokomandno podizanje sistema bez lozinke putem SSH) ponovo korišćene u fabrikama.
+- Један оквир за обезбеђивање генерализован за улоге мејла, веба, кеширајућег проксија и SonarQube.
+- Декларативни пакети Дефиниција (Docker/Стацк/Software) одвојени од извршног мотора.
+- Дељене алатке (нпр. једнокомандно подизање система без лозинке путем SSH) поново коришћене у фабрикама.
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Korišćenje jednog motora za različite uloge servera:** rešeno izgradnjom svake fabrike na Osnovnom okviru.
-- **Razdvajanje konfiguracije od koda:** rešeno repozitorijumima Definicija kao verzijski označenim paketima podataka.
-- **(NEVERIFIKOVANO):** README fajlovi fabrika usluga su privremeni; njihova potpunost implementacije nije proverljiva iz javne dokumentacije — predstaviti kao rano-stadijumske.
+- **Коришћење једног мотора за различите улоге сервера:** решено изградњом сваке фабрике на Основном оквиру.
+- **Раздвајање конфигурације од кода:** решено репозиторијумима Дефиниција као верзијски означеним пакетима података.
+- **(НЕВЕРИФИКОВАНО):** РЕАДМЕ фајлови фабрика услуга су привремени; њихова потпуност имплементације није проверљива из јавне документације — представити као рано-стадијумске.
 
-## Tehnološki stek (zašto + kako)
+## Технолошки стек (зашто + како)
 
-- **Kotlin** — Fabrika veb-usluga, Fabrika SonarQube, Fabrika keširajućeg proksija (izgrađene na Osnovnom okviru).
-- **Shell** — Alatke i paketi Definicija (skripte/konfiguracije).
-- **Gradle** — tok izgradnje/testiranja `./gradlew test` u fabrikama.
-- **Docker** — ciljno izvršno okruženje opisano Definicijama Docker.
-- **SSH / OpenSSH** — podizanje sistema bez lozinke putem alatki.
-- **SonarQube** — server koji obezbeđuje Fabrika SonarQube (i protiv kojeg Mail Server Factory izveštava o čistoj proveri).
+- **Kotlin** — Фабрика веб-услуга, Фабрика SonarQube, Фабрика кеширајућег проксија (изграђене на Основном оквиру).
+- **Shell** — Алатке и пакети Дефиниција (скрипте/конфигурације).
+- **Gradle** — ток изградње/тестирања `./gradlew test` у фабрикама.
+- **Docker** — циљно извршно окружење описано Дефиницијама Docker.
+- **SSH / OpenSSH** — подизање система без лозинке путем алатки.
+- **SonarQube** — сервер који обезбеђује Фабрика SonarQube (и против којег Mail Server Factory извештава о чистој провери).
 
-> Napomena o iskrenosti: većina ovih repozitorijuma su forkovi unutar organizacije; fabrike usluga su dokumentovane kao privremene i označene kao NEVERIFIKOVANE prema ustavu §11.4.6. Jasno rangirane ispod Mail Server Factory i Osnovnog okvira.
+> Напомена о искрености: већина ових репозиторијума су форкови унутар организације; фабрике услуга су документоване као привремене и означене као НЕВЕРИФИКОВАНЕ према уставу §11.4.6. Јасно рангиране испод Mail Server Factory и Основног оквира.
 

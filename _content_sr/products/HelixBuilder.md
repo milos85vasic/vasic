@@ -18,52 +18,52 @@ diagrams:
 
 # HelixBuilder
 
-**Pajplajn za izgradnju aplikacija pokretan AI tehnologijom, kategorija po kategorija.**
+**Пајплајн за изградњу апликација покретан AI технологијом, категорија по категорија.**
 
-## Sažetak
+## Сажетак
 
-HelixBuilder je pajplajn za izgradnju aplikacija pokretan AI tehnologijom, koji se instalira i upravlja iz komandne linije. Omogućava postavljanje alata specifičnih za određene kategorije – od kodiranja i testiranja do generativnih medija (animacija, audio, slike) – putem jednog skripta za instalaciju.
+HelixBuilder је пајплајн за изградњу апликација покретан AI технологијом, који се инсталира и управља из командне линије. Омогућава постављање алата специфичних за одређене категорије – од кодирања и тестирања до генеративних медија (анимација, аудио, слике) – путем једног скрипта за инсталацију.
 
-## Kratak opis
+## Кратак опис
 
-HelixBuilder je pajplajn za izgradnju aplikacija pokretan iz komandne linije, zasnovan na AI tehnologiji. Jednim skriptom za instalaciju postavlja se odabrana kategorija – Opšta, Kodiranje, Testiranje, Prevod, ili generativni mediji (animacija, audio, JPEG, PNG, SVG) – pružajući svakom toku izgradnje prilagođen skup alata.
+HelixBuilder је пајплајн за изградњу апликација покретан из командне линије, заснован на AI технологији. Једним скриптом за инсталацију поставља се одабрана категорија – Општа, Кодирање, Тестирање, Превод, или генеративни медији (анимација, аудио, JPEG, PNG, SVG) – пружајући сваком току изградње прилагођен скуп алата.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixBuilder je pajplajn za izgradnju aplikacija pokretan AI tehnologijom, deo porodice Helix, implementiran prvenstveno kao alat za komandnu liniju. Njegova svrha je da postavi tok izgradnje/generisanja za određenu vrstu posla jednom komandom: iz korenskog direktorijuma projekta, `./install.sh` (opciono sa argumentom kategorije) postavlja pajplajn za tu kategoriju.
+HelixBuilder је пајплајн за изградњу апликација покретан AI технологијом, део породице Helix, имплементиран првенствено као алат за командну линију. Његова сврха је да постави ток изградње/генерисања за одређену врсту посла једном командом: из коренског директоријума пројекта, `./install.sh` (опционо са аргументом категорије) поставља пајплајн за ту категорију.
 
-Pajplajn je organizovan u kategorije, od kojih svaka odgovara posebnoj klasi posla podržanog AI tehnologijom: `Opšta` (podrazumevana), `Kodiranje`, `Testiranje`, `Prevod`, i skup generativnih kategorija – `Generativno/Animacija`, `Generativno/Audio`, `Generativno/JPEG`, `Generativno/PNG` i `Generativno/SVG`. Pokretanjem instalera bez argumenata bira se `Opšta`; prosleđivanjem naziva kategorije instalira se skup alata prilagođen tačno toj vrsti posla. Prednost je površina koja se uključuje po potrebi: programer preuzima samo one mogućnosti koje zadatak zaista zahteva – okruženje za generisanje koda, pajplajn za testiranje ili stek za generisanje slika – umesto da prihvati jednu glomaznu monolitnu instalaciju i teret održavanja koji dolazi s njom.
+Пајплајн је организован у категорије, од којих свака одговара посебној класи посла подржаног AI технологијом: `Opšta` (подразумевана), `Kodiranje`, `Testiranje`, `Prevod`, и скуп генеративних категорија – `Generativno/Animacija`, `Generativno/Audio`, `Generativno/JPEG`, `Generativno/PNG` и `Generativno/SVG`. Покретањем инсталера без аргумената бира се `Opšta`; прослеђивањем назива категорије инсталира се скуп алата прилагођен тачно тој врсти посла. Предност је површина која се укључује по потреби: програмер преузима само оне могућности које задатак заиста захтева – окружење за генерисање кода, пајплајн за тестирање или стек за генерисање слика – уместо да прихвати једну гломазну монолитну инсталацију и терет одржавања који долази с њом.
 
-HelixBuilder je licenciran pod Apache-2.0 i deo je šireg ekosistema ponovo upotrebljivih komponenti HelixDevelopment, gde je pozicioniran kao „blok za izgradnju pajplajna zasnovanog na AI". Njegov javni README namerno je kratak i upućuje na detaljniju dokumentaciju unutar repozitorijuma; detalji izvan instalacione površine i liste kategorija ovde nisu navedeni.
+HelixBuilder је лиценциран под Апацхе-2.0 и део је ширег екосистема поново употребљивих компоненти HelixDevelopment, где је позициониран као „блок за изградњу пајплајна заснованог на AI". Његов јавни РЕАДМЕ намерно је кратак и упућује на детаљнију документацију унутар репозиторијума; детаљи изван инсталационе површине и листе категорија овде нису наведени.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Poslovi podržani AI tehnologijom zahtevaju veoma različite skupove alata – za kodiranje, testiranje, prevođenje i nekoliko vrsta generativnih medija. HelixBuilder je napravljen kako bi se svaki od njih mogao postaviti na zahtev putem jednog konzistentnog instalera, umesto da se svaki put sastavlja prilagođeno okruženje.
+Послови подржани AI технологијом захтевају веома различите скупове алата – за кодирање, тестирање, превођење и неколико врста генеративних медија. HelixBuilder је направљен како би се сваки од њих могао поставити на захтев путем једног конзистентног инсталера, уместо да се сваки пут саставља прилагођено окружење.
 
-## Zašto je revolucionaran
+## Зашто је револуционаран
 
-On pretvara „postavi okruženje za izgradnju zasnovano na AI za X" – što je obično prilagođen, podložan greškama proces koji traje popodne – u jednu kategorizovanu komandu, čineći pajplajne za izgradnju i generisanje zasnovane na AI ponovljivim, deljivim i konzistentnim u svakom projektu koji ga usvoji.
+Он претвара „постави окружење за изградњу засновано на AI за X" – што је обично прилагођен, подложан грешкама процес који траје поподне – у једну категоризовану команду, чинећи пајплајне за изградњу и генерисање засноване на AI поновљивим, дељивим и конзистентним у сваком пројекту који га усвоји.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- **Postavljanje zasnovano na kategorijama** – jedan instalacioni program, više specijalizovanih pajplajna (kod, test, prevod, generativni mediji), a svaki se rešava iz iste jedinstvene ulazne tačke.
-- **Širok spektar generativnih medija** – animacija, audio i više formata slika (JPEG/PNG/SVG) tretiraju se kao punopravne kategorije za izgradnju, a ne kao naknadno dodate funkcije.
-- **Izvorno Shell** – instalira se u gotovo svako okruženje bez potrebe za glomaznim preduvjetima između korisnika i funkcionalnog pajplajna.
+- **Постављање засновано на категоријама** – један инсталациони програм, више специјализованих пајплајна (код, тест, превод, генеративни медији), а сваки се решава из исте јединствене улазне тачке.
+- **Широк спектар генеративних медија** – анимација, аудио и више формата слика (JPEG/PNG/SVG) третирају се као пуноправне категорије за изградњу, а не као накнадно додате функције.
+- **Изворно Shell** – инсталира се у готово свако окружење без потребе за гломазним предувјетима између корисника и функционалног пајплајна.
 
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Највећи технички изазови и како смо их решили
 
-- **Podrška veoma različitim AI tokovima rada iz jednog alata** — rešeno apstrakcijom kategorija u instalateru, tako da svaka kategorija koristi sopstveni skup alata, a deli zajedničku ulaznu tačku. (Detalji implementacije nisu dokumentovani u javnom README fajlu — NIJE PROVERENO.)
+- **Подршка веома различитим AI токовима рада из једног алата** — решено апстракцијом категорија у инсталатеру, тако да свака категорија користи сопствени скуп алата, а дели заједничку улазну тачку. (Детаљи имплементације нису документовани у јавном РЕАДМЕ фајлу — НИЈЕ ПРОВЕРЕНО.)
 
-## Tehnološki stek
+## Технолошки стек
 
-- **Shell** — primarni jezik implementacije i površina za instalaciju/orkestraciju (`install.sh`); izabran jer skriptna ulazna tačka radi gotovo svuda gde se odvija izgradnja, čime se održava obećanje o „jednoj naredbi za postavljanje" prenosivim na različita okruženja za izgradnju, bez potrebe za prethodnom instalacijom runtime-a.
-- **Skupovi alata po kategorijama** — specifični skupovi alata za kategorije Opšte / Programer / Tester / Prevodilac / Generativno (Animacija, Audio, JPEG, PNG, SVG). Konkretni alati/modeli po kategorijama nisu navedeni u javnom README fajlu (NIJE PROVERENO).
+- **Shell** — примарни језик имплементације и површина за инсталацију/оркестрацију (`install.sh`); изабран јер скриптна улазна тачка ради готово свуда где се одвија изградња, чиме се одржава обећање о „једној наредби за постављање" преносивим на различита окружења за изградњу, без потребе за претходном инсталацијом рунтиме-а.
+- **Скупови алата по категоријама** — специфични скупови алата за категорије Опште / Програмер / Тестер / Преводилац / Генеративно (Анимација, Аудио, JPEG, PNG, SVG). Конкретни алати/модели по категоријама нису наведени у јавном РЕАДМЕ фајлу (НИЈЕ ПРОВЕРЕНО).
 
-## Status i napomene o iskrenosti
+## Статус и напомене о искрености
 
-- **Status: beta.** Javni README je minimalan (skripta za instalaciju + spisak kategorija); alati/modeli po kategorijama, pružaoci AI usluga i interna arhitektura nisu javno opisani i stoga nisu potvrđeni. Detaljnija dokumentacija navedena u `./Documentation/README.md` nije pročitana.
-- **Licenca: Apache-2.0** (prema GitHub API).
+- **Статус: бета.** Јавни РЕАДМЕ је минималан (скрипта за инсталацију + списак категорија); алати/модели по категоријама, пружаоци AI услуга и интерна архитектура нису јавно описани и стога нису потврђени. Детаљнија документација наведена у `./Documentation/README.md` није прочитана.
+- **Лиценца: Апацхе-2.0** (према GitHub API).
 
-**Prioritetni nivo:** Helix-osnovni.
+**Приоритетни ниво:** Helix-основни.
 

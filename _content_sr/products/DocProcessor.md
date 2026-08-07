@@ -22,50 +22,50 @@ diagrams:
   - Coverage dashboard concept (documented vs verified features)
 ---
 
-**Pretvorite dokumentaciju u proverljivu mapu funkcija za automatizaciju QA.**
+**Претворите документацију у проверљиву мапу функција за аутоматизацију QA.**
 
-## Sažetak
+## Сажетак
 
-DocProcessor je samostalni, potpuno odvojeni Go modul koji učitava projektnu dokumentaciju, gradi strukturirane mape funkcija i prati pokrivenost verifikacije. Dizajniran je da radi sa LLM agentima za inteligentnu ekstrakciju funkcija, ali uključuje i heurističku ekstrakciju za offline upotrebu.
+DocProcessor је самостални, потпуно одвојени Go модул који учитава пројектну документацију, гради структуриране мапе функција и прати покривеност верификације. Дизајниран је да ради са LLM агентима за интелигентну екстракцију функција, али укључује и хеуристичку екстракцију за оффлине употребу.
 
-## Kratak opis
+## Кратак опис
 
-Projektno-agnostički Go modul za obradu dokumentacije i ekstrakciju mapa funkcija. On parsira dokumentaciju u strukturirane mape funkcija i prati koje su funkcije verifikovane — koristeći LLM agente za inteligentnu ekstrakciju ili heuristiku offline — i snabdeva automatizaciju QA garancijom „bez obmane, uvek odgovara stvarnosti".
+Пројектно-агностички Go модул за обраду документације и екстракцију мапа функција. Он парсира документацију у структуриране мапе функција и прати које су функције верификоване — користећи LLM агенте за интелигентну екстракцију или хеуристику оффлине — и снабдева аутоматизацију QA гаранцијом „без обмане, увек одговара стварности".
 
-## Detaljan opis
+## Детаљан опис
 
-Svaki softverski tim živi sa istom sporom laži: dokumentacija obećava funkcije, testovi pokrivaju nešto slično, a niko ne može sa sigurnošću reći da li ta dva opisa govore o istom proizvodu. DocProcessor postoji da bi taj jaz učinio vidljivim i merljivim. Na osnovu projektne dokumentacije, on gradi strukturiranu mapu funkcija — nabrojani, mašinski čitljivi model svega što proizvod tvrdi da radi — i prati pokrivenost verifikacije u odnosu na nju, tako da pitanje „da li je ova dokumentovana funkcija zaista dokazana?" prestaje da bude tema hodničke rasprave i postaje upit sa odgovorom. Namerno je dvorežimski: koristi LLM agente za inteligentnu, semantičku ekstrakciju funkcija kada su dostupni, a u slučaju potpune offline upotrebe prelazi na heuristički parser, tako da nikada ne zavisi od prisustva modela i radi identično u izolovanom CI okruženju ili na laptopu programera u režimu aviona.
+Сваки софтверски тим живи са истом спором лажи: документација обећава функције, тестови покривају нешто слично, а нико не може са сигурношћу рећи да ли та два описа говоре о истом производу. DocProcessor постоји да би тај јаз учинио видљивим и мерљивим. На основу пројектне документације, он гради структурирану мапу функција — набројани, машински читљиви модел свега што производ тврди да ради — и прати покривеност верификације у односу на њу, тако да питање „да ли је ова документована функција заиста доказана?" престаје да буде тема ходничке расправе и постаје упит са одговором. Намерно је дворежимски: користи LLM агенте за интелигентну, семантичку екстракцију функција када су доступни, а у случају потпуне оффлине употребе прелази на хеуристички парсер, тако да никада не зависи од присуства модела и ради идентично у изолованом ЦИ окружењу или на лаптопу програмера у режиму авиона.
 
-Arhitektonski je samostalni, projektno-nesvesni, potpuno odvojeni Go modul (CONST-051(B)): ne sadrži nikakve projektno-specifične vrednosti i uključuje se kao podmodul jednakog koda, tako da ga svaki projekat može usvojiti bez nasleđivanja tuđih pretpostavki. Takođe, drži se istog standarda koji nameće drugima — njegove sopstvene tvrdnje su vezane za princip „bez obmane" (CONST-035) i pravila potpune automatizovane pokrivenosti (CONST-048), što znači da je svaka mogućnost navedena u README-u proverena automatskim testom ili Challenge skriptom koja potvrđuje stvarno, krajnje korisničko ponašanje, a ne samo uspešan završetak; korisnički vidljivi stringovi prolaze kroz CONST-046 i18n prevodilački sloj. Smisao svega ovoga je zatvorena petlja: DocProcessor je ulazna strana QA ciklusa koju HelixQA zatvara — on ekstrahuje mapu funkcija iz dokumentacije, HelixQA dokazuje svaku mapiranu funkciju uhvaćenim dokazima u runtime-u, a dokumentacija, testovi i isporučeno ponašanje su primorani da konvergiraju umesto da se tiho udaljavaju iz verzije u verziju.
+Архитектонски је самостални, пројектно-несвесни, потпуно одвојени Go модул (ЦОНСТ-051(Б)): не садржи никакве пројектно-специфичне вредности и укључује се као подмодул једнаког кода, тако да га сваки пројекат може усвојити без наслеђивања туђих претпоставки. Такође, држи се истог стандарда који намеће другима — његове сопствене тврдње су везане за принцип „без обмане" (ЦОНСТ-035) и правила потпуне аутоматизоване покривености (ЦОНСТ-048), што значи да је свака могућност наведена у РЕАДМЕ-у проверена аутоматским тестом или Цхалленге скриптом која потврђује стварно, крајње корисничко понашање, а не само успешан завршетак; кориснички видљиви стрингови пролазе кроз ЦОНСТ-046 и18н преводилачки слој. Смисао свега овога је затворена петља: DocProcessor је улазна страна QA циклуса коју HelixQA затвара — он екстрахује мапу функција из документације, HelixQA доказује сваку мапирану функцију ухваћеним доказима у рунтиме-у, а документација, тестови и испоручено понашање су приморани да конвергирају уместо да се тихо удаљавају из верзије у верзију.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Dokumentacija i testovi se udaljavaju: dokumentacija obećava funkcije koje nijedan test ne dokazuje, a QA ne može lako da utvrdi šta znači „potpuno". DocProcessor pretvara dokumentaciju u mašinski čitljivu mapu funkcija kako bi se pokrivenost verifikacije mogla meriti u odnosu na ono što je stvarno obećano.
+Документација и тестови се удаљавају: документација обећава функције које ниједан тест не доказује, а QA не може лако да утврди шта значи „потпуно". DocProcessor претвара документацију у машински читљиву мапу функција како би се покривеност верификације могла мерити у односу на оно што је стварно обећано.
 
 
-## Zašto je ovo revolucionarno
+## Зашто је ово револуционарно
 
-Pretvara najnejasnije pitanje u isporuci softvera — *„Da li ono što smo isporučili odgovara onome što smo rekli da ćemo isporučiti?"* — u nešto što se može automatizovati i kontinuirano proveravati, i to bez čvrste AI zavisnosti: LLM ekstrakcija kada je model dostupan, heuristika kada nije, tako da ista garancija važi u svakom okruženju — od oflajn pokretača do potpuno agenstke pipeline-a.
+Претвара најнејасније питање у испоруци софтвера — *„Да ли оно што смо испоручили одговара ономе што смо рекли да ћемо испоручити?"* — у нешто што се може аутоматизовати и континуирано проверавати, и то без чврсте AI зависности: LLM екстракција када је модел доступан, хеуристика када није, тако да иста гаранција важи у сваком окружењу — од офлајн покретача до потпуно агенстке пипелине-а.
 
-## Šta je inovativno
+## Шта је иновативно
 
-- Ekstrakcija mape funkcionalnosti iz dokumentacije uz praćenje pokrivenosti verifikacijom.
-- Dvostruka ekstrakcija: vođena LLM agentima ili heuristikom/u oflajn režimu.
-- Nezavisnost od projekta, potpuno odvojeno bez podešavanja (CONST-051(B)).
-- Anti-bluf samoverifikacija: tvrdnje iz README fajla potkrepljene su testovima/Izazovima (CONST-035/048).
+- Екстракција мапе функционалности из документације уз праћење покривености верификацијом.
+- Двострука екстракција: вођена LLM агентима или хеуристиком/у офлајн режиму.
+- Независност од пројекта, потпуно одвојено без подешавања (ЦОНСТ-051(Б)).
+- Анти-блуф самоверификација: тврдње из РЕАДМЕ фајла поткрепљене су тестовима/Изазовима (ЦОНСТ-035/048).
 
-## Izazovi i rešenja
+## Изазови и решења
 
-- **Rad bez obaveznog modela:** rešeno heurističkim ekstraktorom kao rezervnim rešenjem, tako da modul radi i oflajn.
-- **Usklađivanje dokumentacije i stvarnosti:** rešeno strukturiranim mapama funkcionalnosti i praćenjem pokrivenosti verifikacijom, integrisanim u QA proces.
-- **Ponovna upotrebljivost:** rešeno striktnim odvajanjem i potrošnjom podmodula iz istog kodnog repozitorijuma.
-- **Kredibilitet sopstvenih tvrdnji:** rešeno anti-bluf testovima/Izazovima za svaku reklamiranu mogućnost.
+- **Рад без обавезног модела:** решено хеуристичким екстрактором као резервним решењем, тако да модул ради и офлајн.
+- **Усклађивање документације и стварности:** решено структурираним мапама функционалности и праћењем покривености верификацијом, интегрисаним у QA процес.
+- **Поновна употребљивост:** решено стриктним одвајањем и потрошњом подмодула из истог кодног репозиторијума.
+- **Кредибилитет сопствених тврдњи:** решено анти-блуф тестовима/Изазовима за сваку рекламирану могућност.
 
-## Tehnološki stack (zašto + kako)
+## Технолошки стацк (зашто + како)
 
-- **Go (1.25+)** — jezgro modula; licenca Apache-2.0.
-- **LLM agenti** — inteligentna semantička ekstrakcija funkcionalnosti (opciono).
-- **Heuristički parser** — rezervno rešenje za ekstrakciju funkcionalnosti u oflajn režimu.
-- **i18n Prevodilac (`pkg/i18n`)** — CONST-046 lokalizovani stringovi.
-- **Okvir za Izazove** — anti-bluf verifikacija sopstvenih tvrdnji modula.
+- **Go (1.25+)** — језгро модула; лиценца Апацхе-2.0.
+- **LLM агенти** — интелигентна семантичка екстракција функционалности (опционо).
+- **Хеуристички парсер** — резервно решење за екстракцију функционалности у офлајн режиму.
+- **и18н Преводилац (`pkg/i18n`)** — ЦОНСТ-046 локализовани стрингови.
+- **Оквир за Изазове** — анти-блуф верификација сопствених тврдњи модула.
 

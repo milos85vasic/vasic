@@ -21,56 +21,56 @@ diagrams:
 
 # Helix-Flow
 
-**Jedna platforma za sve vaše potrebe zaključivanja AI — pokrećite moćne AI modele brže, pametnije, u bilo kom obimu, uz predvidive troškove.**
+**Једна платформа за све ваше потребе закључивања AI — покрећите моћне AI моделе брже, паметније, у било ком обиму, уз предвидиве трошкове.**
 
-> **Napomena o tačnosti (Helix Constitution §11.4.6):** Helix-Flow ima stvaran, javni izvorni repozitorijum, ali njegov README sadrži samo jednu rečenicu kao slogan, a nema lokalnog pregleda niti dokumentacije o dizajnu/arhitekturi. Samo dve stvari su zapravo dokumentovane: slogan i sastav jezika u repozitorijumu. Svaki drugi detalj u nastavku je izostavljen ili eksplicitno označen kao NEVERIFIKOVAN. Ova stranica je minimalan privremeni sadržaj, a ne potpuna kopija proizvoda, i ne bi trebalo da se proširuje dok se ne obezbedi stvaran izvorni materijal.
+> **Напомена о тачности (Helix Constitution §11.4.6):** Helix-Flow има стваран, јавни изворни репозиторијум, али његов РЕАДМЕ садржи само једну реченицу као слоган, а нема локалног прегледа нити документације о дизајну/архитектури. Само две ствари су заправо документоване: слоган и састав језика у репозиторијуму. Сваки други детаљ у наставку је изостављен или експлицитно означен као НЕВЕРИФИКОВАН. Ова страница је минималан привремени садржај, а не потпуна копија производа, и не би требало да се проширује док се не обезбеди стваран изворни материјал.
 
-## Sažetak
+## Сажетак
 
-Platforma Helix-Flow postavljena je kao jedinstven, ujedinjen dom za zaključivanje AI — pokretanje moćnih modela brže, u bilo kom obimu, uz troškove koje možete predvideti. *(Pozicioniranje je preuzeto isključivo iz slogana; konkretne mogućnosti nisu dokumentovane u dostupnim izvorima.)*
+Платформа Helix-Flow постављена је као јединствен, уједињен дом за закључивање AI — покретање моћних модела брже, у било ком обиму, уз трошкове које можете предвидети. *(Позиционирање је преузето искључиво из слогана; конкретне могућности нису документоване у доступним изворима.)*
 
-## Kratak opis
+## Кратак опис
 
-Platforma Helix-Flow (`Helix-Flow/Platform`) je javni projekat zasnovan na Go, predstavljen kao jedinstvena platforma za zaključivanje AI u bilo kom obimu uz predvidive troškove. Njen kodni repozitorijum kombinuje Go, Python i Terraform/HCL, što sugeriše platformu za zaključivanje sa implementacijom upravljanom infrastrukturom kao kodom. Mogućnosti izvan slogana su NEVERIFIKOVANE.
+Платформа Helix-Flow (`Helix-Flow/Platform`) је јавни пројекат заснован на Go, представљен као јединствена платформа за закључивање AI у било ком обиму уз предвидиве трошкове. Њен кодни репозиторијум комбинује Go, Python и Terraform/ХЦЛ, што сугерише платформу за закључивање са имплементацијом управљаном инфраструктуром као кодом. Могућности изван слогана су НЕВЕРИФИКОВАНЕ.
 
-## Detaljan opis
+## Детаљан опис
 
-Platforma Helix-Flow jedini je repozitorijum u organizaciji `Helix-Flow` GitHub i predstavljena je — preko svog jednorednog README-a — kao „jedna platforma za sve vaše potrebe zaključivanja AI", sa naglaskom na brže pokretanje moćnih AI modela u bilo kom obimu uz predvidive troškove. Osim tog slogana, projekat ne sadrži nikakvu dokumentaciju u tekstualnom obliku, pa se njegova arhitektura, funkcije i dizajn ne mogu opisati na osnovu izvornog koda bez izmišljanja.
+Платформа Helix-Flow једини је репозиторијум у организацији `Helix-Flow` GitHub и представљена је — преко свог једноредног РЕАДМЕ-а — као „једна платформа за све ваше потребе закључивања AI", са нагласком на брже покретање моћних AI модела у било ком обиму уз предвидиве трошкове. Осим тог слогана, пројекат не садржи никакву документацију у текстуалном облику, па се његова архитектура, функције и дизајн не могу описати на основу изворног кода без измишљања.
 
-Ono što *se faktički može uočiti* jeste sastav jezika u repozitorijumu: pretežno Go i Python u približno jednakim proporcijama, uz znatnu zastupljenost Shell, kao i HTML/CSS/JavaScript (web interfejs), PL/pgSQL (komponenta sa podrškom PostgreSQL), HCL (Terraform/infrastruktura kao kod) i Mermaid (dijagrami). Sveukupno, ta kombinacija *ukazuje na* platformu za posluživanje zaključivanja koja spaja kontrolni/servisni sloj Go sa alatima za modele Python, skladištem podataka Postgres, web korisničkim interfejsom i implementacijom u oblaku upravljanom infrastrukturom kao kodom — ali ovo tumačenje proizilazi iz tipova datoteka, **a ne** iz dokumentovanih tvrdnji. Da bi se napravila precizna kopija proizvoda (motivacija, inovacije, tehnički izazovi, konkretno obrazloženje tehnološkog steka), potreban je stvaran README, dokumentacija o arhitekturi ili lokalni pregled. Ova stranica namerno staje na onome što podržavaju dostupni izvori.
+Оно што *се фактички може уочити* јесте састав језика у репозиторијуму: претежно Go и Python у приближно једнаким пропорцијама, уз знатну заступљеност Shell, као и HTML/CSS/JavaScript (web интерфејс), PL/pgSQL (компонента са подршком PostgreSQL), ХЦЛ (Terraform/инфраструктура као код) и Mermaid (дијаграми). Свеукупно, та комбинација *указује на* платформу за послуживање закључивања која спаја контролни/сервисни слој Go са алатима за моделе Python, складиштем података Postgres, web корисничким интерфејсом и имплементацијом у облаку управљаном инфраструктуром као кодом — али ово тумачење произилази из типова датотека, **а не** из документованих тврдњи. Да би се направила прецизна копија производа (мотивација, иновације, технички изазови, конкретно образложење технолошког стека), потребан је стваран РЕАДМЕ, документација о архитектури или локални преглед. Ова страница намерно стаје на ономе што подржавају доступни извори.
 
-## Zašto smo je izgradili
+## Зашто смо је изградили
 
-*NEVERIFIKOVANO — nije dokumentovano u dostupnim izvorima.* Slogan nagoveštava cilj ujedinjenog, skalabilnog zaključivanja AI sa predvidivim/upravljivim troškovima, ali nije naveden nijedan razlog. Ovde se ne tvrdi nikakva motivacija.
+*НЕВЕРИФИКОВАНО — није документовано у доступним изворима.* Слоган наговештава циљ уједињеног, скалабилног закључивања AI са предвидивим/управљивим трошковима, али није наведен ниједан разлог. Овде се не тврди никаква мотивација.
 
-## Zašto je revolucionarna
+## Зашто је револуционарна
 
 
-*NEVERIFIKOVANO — nije dokumentovano.* Izostavljeno dok se ne pronađe izvor.
+*НЕВЕРИФИКОВАНО — није документовано.* Изостављено док се не пронађе извор.
 
-## Šta je inovativno
+## Шта је иновативно
 
-*NEVERIFIKOVANO — nije dokumentovano.* Izostavljeno dok se ne pronađe izvor.
+*НЕВЕРИФИКОВАНО — није документовано.* Изостављено док се не пронађе извор.
 
-## Najveći tehnički izazovi i kako smo ih rešili
+## Највећи технички изазови и како смо их решили
 
-*NEVERIFIKOVANO — nije dokumentovano.* Izostavljeno dok se ne pronađe izvor.
+*НЕВЕРИФИКОВАНО — није документовано.* Изостављено док се не пронађе извор.
 
-## Tehnološki stack
+## Технолошки стацк
 
-Ustanovljeno isključivo na osnovu sastava jezika u repozitorijumu — uloga i obrazloženje su NEVERIFIKOVANI:
+Установљено искључиво на основу састава језика у репозиторијуму — улога и образложење су НЕВЕРИФИКОВАНИ:
 
-- **Go** — primarni jezik; verovatno sloj za servisiranje/kontrolu. *(Uloga NEVERIFIKOVANA.)*
-- **Python** — gotovo podjednak udeo; verovatno alat za modele/inferenciju. *(Uloga NEVERIFIKOVANA.)*
-- **Shell** — skriptovanje za izgradnju, implementaciju i automatizaciju. *(Uloga NEVERIFIKOVANA.)*
-- **PostgreSQL / PL/pgSQL** — prisutna je komponenta relacionog skladišta podataka.
-- **Terraform / HCL** — infrastruktura kao kod, što podrazumeva implementaciju u oblaku.
-- **HTML / CSS / JavaScript** — veb interfejs ili dokumentacija.
+- **Go** — примарни језик; вероватно слој за сервисирање/контролу. *(Улога НЕВЕРИФИКОВАНА.)*
+- **Python** — готово подједнак удео; вероватно алат за моделе/инференцију. *(Улога НЕВЕРИФИКОВАНА.)*
+- **Shell** — скриптовање за изградњу, имплементацију и аутоматизацију. *(Улога НЕВЕРИФИКОВАНА.)*
+- **PostgreSQL / PL/pgSQL** — присутна је компонента релационог складишта података.
+- **Terraform / ХЦЛ** — инфраструктура као код, што подразумева имплементацију у облаку.
+- **HTML / CSS / JavaScript** — веб интерфејс или документација.
 
-## Status i napomene o iskrenosti
+## Статус и напомене о искрености
 
-- **Status: mapa puta / privremeni sadržaj.** Ovo je jedini repozitorijum u organizaciji `Helix-Flow`; javno je dostupan, poslednji put ažuriran 27.04.2026, nema postavljenu početnu stranicu niti deklarisanu licencu. Dok ne postoji prava dokumentacija, nije odgovorno prikazivati ga u dubini proizvoda.
-- **Licenca: biće određena** (nije postavljena u repozitorijumu).
+- **Статус: мапа пута / привремени садржај.** Ово је једини репозиторијум у организацији `Helix-Flow`; јавно је доступан, последњи пут ажуриран 27.04.2026, нема постављену почетну страницу нити декларисану лиценцу. Док не постоји права документација, није одговорно приказивати га у дубини производа.
+- **Лиценца: биће одређена** (није постављена у репозиторијуму).
 
-**Prioritetni nivo:** Helix-primarni (proizvod za inferenciju iz porodice Helix-platforme), ali trenutno blokiran zbog nedostatka izvornog materijala. Rangira se iza HelixTrack.
+**Приоритетни ниво:** Helix-примарни (производ за инференцију из породице Helix-платформе), али тренутно блокиран због недостатка изворног материјала. Рангира се иза HelixTrack.
 

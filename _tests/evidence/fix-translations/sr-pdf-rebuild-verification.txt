@@ -1,0 +1,10 @@
+SR PDF REBUILD VERIFICATION (bash _tools/pdf/build-pdfs.sh sr; pdftotext scan)
+Confirms the corrected Cyrillic content flows into the rendered PDFs.
+Rebuilt binaries were reverted from the tree afterward (maintainer regenerates all).
+
+  Milos_Vasic_CV_SR.pdf            cyrillic ratio = 0.719  (>=0.5)  CYRILLIC OK
+  Milos_Vasic_Cover_Letter_SR.pdf  cyrillic ratio = 0.770  (>=0.5)  CYRILLIC OK
+  Portfolio_SR.pdf                 cyrillic ratio = 0.738  (>=0.5)  CYRILLIC OK
+
+BEFORE (committed stale PDFs, built from Latin content): cyrillic ratio = 0.000 (FAIL)
+AFTER  (rebuilt from corrected _content_sr): 0.72-0.77 — matches RU/BE/KK peers.

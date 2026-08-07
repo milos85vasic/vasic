@@ -25,62 +25,62 @@ diagrams:
 
 # HelixGitpx
 
-**Jedan izvor istine, ogledalo svuda — federisani Git na desetak hostova.**
+**Један извор истине, огледало свуда — федерисани Гит на десетак хостова.**
 
-## Sažetak
+## Сажетак
 
-HelixGitpx (Helix Git Proxy eXtended) je federisani Git proxy koji održava jedan izvor istine ogledan na više Git hostova i rešava neizbežne konflikte pomoću tokova vođenih politikama i AI. Stigao je do verzije v1.0.0 GA.
+HelixGitpx (Helix Гит Proxy eXtended) је федерисани Гит proxy који одржава један извор истине огледан на више Гит хостова и решава неизбежне конфликте помоћу токова вођених политикама и AI. Стигао је до верзије в1.0.0 GA.
 
-## Kratak opis
+## Кратак опис
 
-HelixGitpx je federisani Git proxy koji ogleda jedan izvor istine na desetak i više Git hostova — GitHub, GitLab, Gitea, Bitbucket, Azure DevOps, AWS CodeCommit i druge — i rešava sinhronizacione konflikte pomoću tokova vođenih politikama i AI. Izdat je kao v1.0.0 GA.
+HelixGitpx је федерисани Гит proxy који огледа један извор истине на десетак и више Гит хостова — GitHub, GitLab, Gitea, Bitbucket, Azure DevOps, AWS CodeCommit и друге — и решава синхронизационе конфликте помоћу токова вођених политикама и AI. Издат је као в1.0.0 GA.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixGitpx — „Helix Git Proxy eXtended" — je federisani Git proxy koji održava jedan izvor istine ogledan na više Git hostova i rešava konflikte koji se neizbežno javljaju čim isti repozitorijum postoji na više mesta. Podržani hostovi čitaju se kao mapa celog Git ekosistema: GitHub, GitLab, GitFlic, GitVerse, Gitea, Gitee, Bitbucket, Azure DevOps, AWS CodeCommit, Forgejo, SourceHut i generički Git preko HTTPS-a. Dok bi naivni `git push` na desetak udaljenih repozitorijuma ili odmah pao ili, što je gore, dozvolio da se ogledala tiho razilaze, HelixGitpx stupa na scenu sa tokovima rešavanja vođenim politikama i AI, koji usaglašavaju razilaženja i vraćaju ih na jedan autoritativni izvor istine.
+HelixGitpx — „Helix Гит Proxy eXtended" — је федерисани Гит proxy који одржава један извор истине огледан на више Гит хостова и решава конфликте који се неизбежно јављају чим исти репозиторијум постоји на више места. Подржани хостови читају се као мапа целог Гит екосистема: GitHub, GitLab, GitFlic, GitVerse, Gitea, Gitee, Bitbucket, Azure DevOps, AWS CodeCommit, Forgejo, SourceHut и генерички Гит преко ХТТПС-а. Док би наивни `git push` на десетак удаљених репозиторијума или одмах пао или, што је горе, дозволио да се огледала тихо разилазе, HelixGitpx ступа на сцену са токовима решавања вођеним политикама и AI, који усаглашавају разилажења и враћају их на један ауторитативни извор истине.
 
-Projekat je stigao do verzije v1.0.0 GA, sa označenim prekretnicama od `m1-foundation` do `m8-ga` — potpuno definisanim putem od osnove do opšte dostupnosti. Projektovan je kao tri sloja jednog proizvoda: Go monorepo (platforma plus osamnaest servisa, alati za generisanje koda i skafolding), Angular 19 + Nx veb aplikacija i Kotlin-Multiplatform + Compose klijentske ljuske koje isporučuju izvorne iskustvo za Android, iOS i desktop iz deljenog koda. Isporuka platforme je u potpunosti Kubernetes-native — Helm šeme, Argo CD aplikacije, Kustomize slojevi, SQL i OPA politike — sa CI cevovodima zaštićenim eksplicitnim okidačima kako se ništa ne bi slučajno objavilo. Javna dokumentacija isporučuje se kao sajt na Docusaurusu (docs.helixgitpx.io), uz Astro marketinški sajt (helixgitpx.io).
+Пројекат је стигао до верзије в1.0.0 GA, са означеним прекретницама од `m1-foundation` до `m8-ga` — потпуно дефинисаним путем од основе до опште доступности. Пројектован је као три слоја једног производа: Go монорепо (платформа плус осамнаест сервиса, алати за генерисање кода и скафолдинг), Angular 19 + Nx веб апликација и Kotlin-Мултиплатформ + Цомпосе клијентске љуске које испоручују изворне искуство за Android, iOS и десктоп из дељеног кода. Испорука платформе је у потпуности Kubernetes-нативе — Helm шеме, Арго ЦД апликације, Kustomize слојеви, SQL и OPA политике — са ЦИ цевоводима заштићеним експлицитним окидачима како се ништа не би случајно објавило. Јавна документација испоручује се као сајт на Доцусаурусу (доцс.helixgitpx.ио), уз Astro маркетиншки сајт (helixgitpx.ио).
 
-Upravljanje je strogo i zasnovano na ustavu, što je odlika, a ne puka formalnost: nosivi dokument je projekat Constitution, čiji Član II propisuje matricu od sedam tipova testiranja sa 100% pokrivenošću *po tipu, po modulu koji je izmenjen*, pri čemu su mock-ovi dozvoljeni samo u jediničnim testovima, a nijedan test se ne sme preskočiti. Verifikator koji se pokreće jednom proverava sve artefakte, kao i `go vet` i `go test` u celom radnom prostoru, a svaki push se širi na sve konfigurisane hostove — tako da je „ogledala sinhronizovana" nešto što sistem nameće na svakom komitu, umesto da se čovek seća da proveri.
+Управљање је строго и засновано на уставу, што је одлика, а не пука формалност: носиви документ је пројекат Constitution, чији Члан ИИ прописује матрицу од седам типова тестирања са 100% покривеношћу *по типу, по модулу који је измењен*, при чему су моцк-ови дозвољени само у јединичним тестовима, а ниједан тест се не сме прескочити. Верификатор који се покреће једном проверава све артефакте, као и `go vet` и `go test` у целом радном простору, а сваки пусх се шири на све конфигурисане хостове — тако да је „огледала синхронизована" нешто што систем намеће на сваком комиту, уместо да се човек сећа да провери.
 
-## Zašto smo ga napravili
+## Зашто смо га направили
 
-Održavanje autentičnog repozitorijuma na više Git hostova — zbog redundancije, suvereniteta ili dostupnosti na regionalnim platformama — je krhko i zahteva ručni rad, a razilaženja ogledala teško je uskladiti. HelixGitpx je napravljen da sinhronizacija na više hostova postane primarna, konfliktima svesna funkcionalnost.
-
-
-## Zašto je ovo revolucionarno
-
-Prelazi sa pristupa „guraj na više udaljenih repozitorija i nadaj se najboljem" – krhkog, ručnog statusa kvo – na uređenu federaciju sa jednim autoritativnim izvorom istine i automatskim rešavanjem konflikata zasnovanim na pravilima i AI. To čini na neuobičajeno širokom spektru hostova, namerno uključujući regionalne platforme (GitFlic, GitVerse, Gitee) koje većina alata tiho ignoriše, tako da redundansa, suverenitet podataka i doseg u tim ekosistemima prestaju da budu teret za održavanje i postaju jedinstvena funkcionalnost koju konfigurišete jednom.
-
-## Šta je inovativno
-
-- **Širina upstream repozitorija** – preko desetak Git hostova, od GitHub i GitLab do regionalnih platformi poput GitFlic, GitVerse i Gitee, sve normalizovano iza jednog proxyja.
-- **Rešavanje konflikata uz pomoć pravila i AI** – divergencija se usklađuje pomoću policy motora i AI rešavača, a ne ručnim poređenjem ogledala.
-- **Federacija sa jednim izvorom istine** – model slanja na sve upstream repozitorije gde je jedan autoritativni repozitorij istina, a svaki host je ogledalo koje se održava u sinhronizaciji.
-- **Strogo testiranje zasnovano na ustavu** – sedam vrsta testova sa 100% pokrivenošću po tipu, bez preskakanja, dokazano jednim skriptom za proveru celog seta, a ne zasnovano na poverenju.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Divergencija i konflikti na više upstream repozitorija.** Isti repozitorij koji postoji na desetak mesta počinje da odstupa čim dva hosta prihvate različite izmene. Rešeno pomoću tokova za rešavanje zasnovanih na pravilima i AI, usidrenih na jednom izvoru istine, uz sinhronizovano slanje na sve upstream repozitorije koje održava sva ogledala u konvergenciji ka toj jednoj istini.
-- **Jedinstvena podrška za heterogene Git hostove.** Svaki host ima sopstvenu autentifikaciju, specifičnosti i API. Rešeno pomoću skripti za konfiguraciju po upstream-u u direktorijumu `Upstreams/` i sloja platforme koji apstrahuje te razlike, tako da dodavanje novog hosta postaje pitanje konfiguracije, a ne prepisivanja.
-- **Dokazivanje ispravnosti pre svakog spajanja.** Rešeno obaveznom matricom testova sa sedam tipova i jednim „jednokratnim" skriptom `verify-everything.sh` koja pokreće ceo set provera – i prekida se čisto kada klaster nije dostupan, tako da se ispravnost može dokazati lokalno kao i u CI okruženju.
-
-## Tehnološki stek
-
-- **Go monorepo** – osnovni proxy i federacioni engine: platforma sa 18 servisa, generisanjem koda i skeltonima, smeštena u jednom repozitorijumu tako da se ceo engine gradi i testira kao celina.
-- **Angular 19 + Nx** – veb-aplikacija, gde Nx obezbeđuje strukturu za izgradnju i keširanje monorepoa koja je neophodna za veliku frontend aplikaciju.
-- **Kotlin Multiplatform + Compose** – native Android, iOS i Desktop klijentske shellove generisane iz jedne zajedničke kodne baze, tako da tri platforme ne znače tri različite implementacije.
-- **Kubernetes + Helm + Argo CD + Kustomize** – cloud-native isporuka: Helm pakuje izdanje, Kustomize overlays prilagođavaju ga po okruženjima, a Argo CD ga usklađuje putem GitOps-a tako da stanje klastera odgovara Git-u.
-- **OPA (Rego)** – politika kao kod za rešavanje konflikata i kontrolu pristupa, čime se odluke o autorizaciji čuvaju deklarativnim i proverljivim.
-- **Docusaurus** – javni sajt dokumentacije (docs.helixgitpx.io); **Astro** – marketinški sajt (helixgitpx.io), gde je svaki alat prilagođen tipu sadržaja.
-- **mise** – fiksiran, reproduktivan toolchain tako da svaki saradnik i CI runner gradi na tačno istim verzijama.
+Одржавање аутентичног репозиторијума на више Гит хостова — због редунданције, суверенитета или доступности на регионалним платформама — је крхко и захтева ручни рад, а разилажења огледала тешко је ускладити. HelixGitpx је направљен да синхронизација на више хостова постане примарна, конфликтима свесна функционалност.
 
 
-## Napomene o statusu i iskrenosti
+## Зашто је ово револуционарно
 
-- **Status: isporučeno.** U README fajlu projekta navedena je verzija v1.0.0 GA sa označenim prekretnicama od `m1-foundation` do `m8-ga`. („v1.0.0 GA" je navod iz samog README fajla projekta.)
-- **Licenca: treba utvrditi.** Izveštaji GitHub i API navode `MIT`, dok odeljak License u README fajlu navodi Apache-2.0 (kod) / CC-BY-SA-4.0 (dokumentacija) — pre objavljivanja rešiti neslaganje u odnosu na stvarni LICENSE fajl.
-- Dokumentacija (docs.helixgitpx.io) i marketinški sadržaj (helixgitpx.io) preuzeti su iz README fajla i nisu nezavisno provereni — status uživo NIJE POTVRĐEN.
+Прелази са приступа „гурај на више удаљених репозиторија и надај се најбољем" – крхког, ручног статуса кво – на уређену федерацију са једним ауторитативним извором истине и аутоматским решавањем конфликата заснованим на правилима и AI. То чини на неуобичајено широком спектру хостова, намерно укључујући регионалне платформе (GitFlic, GitVerse, Gitee) које већина алата тихо игнорише, тако да редунданса, суверенитет података и досег у тим екосистемима престају да буду терет за одржавање и постају јединствена функционалност коју конфигуришете једном.
 
-**Prioritetni nivo:** Helix-osnovni.
+## Шта је иновативно
+
+- **Ширина упстреам репозиторија** – преко десетак Гит хостова, од GitHub и GitLab до регионалних платформи попут GitFlic, GitVerse и Gitee, све нормализовано иза једног proxyja.
+- **Решавање конфликата уз помоћ правила и AI** – дивергенција се усклађује помоћу policy мотора и AI решавача, а не ручним поређењем огледала.
+- **Федерација са једним извором истине** – модел слања на све упстреам репозиторије где је један ауторитативни репозиториј истина, а сваки хост је огледало које се одржава у синхронизацији.
+- **Строго тестирање засновано на уставу** – седам врста тестова са 100% покривеношћу по типу, без прескакања, доказано једним скриптом за проверу целог сета, а не засновано на поверењу.
+
+## Највећи технички изазови и како смо их решили
+
+- **Дивергенција и конфликти на више упстреам репозиторија.** Исти репозиториј који постоји на десетак места почиње да одступа чим два хоста прихвате различите измене. Решено помоћу токова за решавање заснованих на правилима и AI, усидрених на једном извору истине, уз синхронизовано слање на све упстреам репозиторије које одржава сва огледала у конвергенцији ка тој једној истини.
+- **Јединствена подршка за хетерогене Гит хостове.** Сваки хост има сопствену аутентификацију, специфичности и API. Решено помоћу скрипти за конфигурацију по упстреам-у у директоријуму `Upstreams/` и слоја платформе који апстрахује те разлике, тако да додавање новог хоста постаје питање конфигурације, а не преписивања.
+- **Доказивање исправности пре сваког спајања.** Решено обавезном матрицом тестова са седам типова и једним „једнократним" скриптом `verify-everything.sh` која покреће цео сет провера – и прекида се чисто када кластер није доступан, тако да се исправност може доказати локално као и у ЦИ окружењу.
+
+## Технолошки стек
+
+- **Go монорепо** – основни proxy и федерациони енгине: платформа са 18 сервиса, генерисањем кода и скелтонима, смештена у једном репозиторијуму тако да се цео енгине гради и тестира као целина.
+- **Angular 19 + Nx** – веб-апликација, где Nx обезбеђује структуру за изградњу и кеширање монорепоа која је неопходна за велику фронтенд апликацију.
+- **Kotlin Multiplatform + Цомпосе** – нативе Android, iOS и Десктоп клијентске схеллове генерисане из једне заједничке кодне базе, тако да три платформе не значе три различите имплементације.
+- **Kubernetes + Helm + Арго ЦД + Kustomize** – цлоуд-нативе испорука: Helm пакује издање, Kustomize overlays прилагођавају га по окружењима, а Арго ЦД га усклађује путем GitOps-а тако да стање кластера одговара Гит-у.
+- **OPA (Rego)** – политика као код за решавање конфликата и контролу приступа, чиме се одлуке о ауторизацији чувају декларативним и проверљивим.
+- **Docusaurus** – јавни сајт документације (доцс.helixgitpx.ио); **Astro** – маркетиншки сајт (helixgitpx.ио), где је сваки алат прилагођен типу садржаја.
+- **мисе** – фиксиран, репродуктиван тоолцхаин тако да сваки сарадник и ЦИ руннер гради на тачно истим верзијама.
+
+
+## Напомене о статусу и искрености
+
+- **Статус: испоручено.** У РЕАДМЕ фајлу пројекта наведена је верзија в1.0.0 GA са означеним прекретницама од `m1-foundation` до `m8-ga`. („в1.0.0 GA" је навод из самог РЕАДМЕ фајла пројекта.)
+- **Лиценца: треба утврдити.** Извештаји GitHub и API наводе `MIT`, док одељак Лиценсе у РЕАДМЕ фајлу наводи Апацхе-2.0 (код) / CC-BY-СА-4.0 (документација) — пре објављивања решити неслагање у односу на стварни ЛИЦЕНСЕ фајл.
+- Документација (доцс.helixgitpx.ио) и маркетиншки садржај (helixgitpx.ио) преузети су из РЕАДМЕ фајла и нису независно проверени — статус уживо НИЈЕ ПОТВРЂЕН.
+
+**Приоритетни ниво:** Helix-основни.
 

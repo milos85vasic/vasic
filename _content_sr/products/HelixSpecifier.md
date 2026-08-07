@@ -23,62 +23,62 @@ diagrams:
 
 # HelixSpecifier
 
-**Razvoj vođen specifikacijama koji sam prilagođava ceremonijal obimu posla.**
+**Развој вођен спецификацијама који сам прилагођава церемонијал обиму посла.**
 
-## Sažetak
+## Сажетак
 
-HelixSpecifier je Go motor koji spaja tri metodologije razvoja — tok rada vođen specifikacijama iz SpecKit-a, disciplinu TDD-a iz Superpowers-a i životni ciklus prekretnica iz GSD-a — u jedan prilagodljivi proces. Svaki zadatak klasifikuje prema potrebnom trudu i prilagođava količinu procesa prema tome.
+HelixSpecifier је Go мотор који спаја три методологије развоја — ток рада вођен спецификацијама из SpecKit-а, дисциплину TDD-а из Superpowers-а и животни циклус прекретница из GSD-а — у један прилагодљиви процес. Сваки задатак класификује према потребном труду и прилагођава количину процеса према томе.
 
-## Kratak opis
+## Кратак опис
 
-HelixSpecifier je motor za razvoj vođen specifikacijama namenjen AI agentima. Kombinuje SpecKit, Superpowers i GSD, klasifikuje posao prema nivou truda, sprovodi faze specifikacije uz podršku debate, nameće minimalni odnos testova i koda, i uči iz svakog završenog toka.
+HelixSpecifier је мотор за развој вођен спецификацијама намењен AI агентима. Комбинује SpecKit, Superpowers и GSD, класификује посао према нивоу труда, спроводи фазе спецификације уз подршку дебате, намеће минимални однос тестова и кода, и учи из сваког завршеног тока.
 
-## Detaljan opis
+## Детаљан опис
 
-HelixSpecifier je motor za razvoj vođen specifikacijama (SDD) napisan u Go (modul `digital.vasic.helixspecifier`), izgrađen kao komponenta HelixAgent ansambla AI agenata. Spaja tri prakse razvoja koje obično postoje u tri odvojena alata — i tri odvojena načina razmišljanja — u jedan prilagodljivi tok rada: sedmofazni SDD proces iz SpecKit-a (Constitution, Specifikacija, Razjašnjenje, Planiranje, Zadaci, Analiza, Implementacija), TDD disciplinu iz Superpowers-a sa paralelnim izvršavanjem podagenta, i upravljanje životnim ciklusom prekretnica iz GSD-a. Svaki stub nastavlja da radi ono u čemu je najbolji; motor je ono što ih povezuje u jedinstven koherentan tok umesto ručno spajanog procesa.
+HelixSpecifier је мотор за развој вођен спецификацијама (SDD) написан у Go (модул `digital.vasic.helixspecifier`), изграђен као компонента HelixAgent ансамбла AI агената. Спаја три праксе развоја које обично постоје у три одвојена алата — и три одвојена начина размишљања — у један прилагодљиви ток рада: седмофазни SDD процес из SpecKit-а (Constitution, Спецификација, Разјашњење, Планирање, Задаци, Анализа, Имплементација), TDD дисциплину из Superpowers-а са паралелним извршавањем подагента, и управљање животним циклусом прекретница из GSD-а. Сваки стуб наставља да ради оно у чему је најбољи; мотор је оно што их повезује у јединствен кохерентан ток уместо ручно спајаног процеса.
 
-Njegova centralna ideja je *prilagodljivi ceremonijal*: motor klasifikuje dolazne zadatke prema nivou truda i prilagođava količinu procesa, tako da jednolinijska ispravka ne prolazi kroz isti zahtevni ritual kao velika funkcionalnost — a velika funkcionalnost se ne propušta sa rigoroznošću namenjenom tipografskoj grešci. Na toj osnovi izgrađeno je deset ključnih funkcionalnosti: paralelno izvršavanje zadataka sa ograničenom konkurentnošću, mašinski čitljivi „Constitution kao Kod" koji automatski nameće obavezna pravila, „Njuiistov TDD" koji prati i nameće minimalni odnos testova i implementacije, višestruka debata sa više agenata za dorađivanje specifikacije, adaptivno učenje nivoa veština, analiza postojećeg koda, prediktivna specifikacija zasnovana na istorijskim obrascima, prenos znanja između projekata, prilagođavanje ceremonijala u toku izvršavanja i trajna memorija specifikacija sa semantičkom pretragom.
+Његова централна идеја је *прилагодљиви церемонијал*: мотор класификује долазне задатке према нивоу труда и прилагођава количину процеса, тако да једнолинијска исправка не пролази кроз исти захтевни ритуал као велика функционалност — а велика функционалност се не пропушта са ригорозношћу намењеном типографској грешци. На тој основи изграђено је десет кључних функционалности: паралелно извршавање задатака са ограниченом конкурентношћу, машински читљиви „Constitution као Код" који аутоматски намеће обавезна правила, „Њуиистов TDD" који прати и намеће минимални однос тестова и имплементације, вишеструка дебата са више агената за дорађивање спецификације, адаптивно учење нивоа вештина, анализа постојећег кода, предиктивна спецификација заснована на историјским обрасцима, пренос знања између пројеката, прилагођавање церемонијала у току извршавања и трајна меморија спецификација са семантичком претрагом.
 
-Koristi se kao Go modul — putem `go get` ili lokalne `replace` direktive — iza namerno jednostavnog API motora: registruju se tri stuba plus skaler ceremonijala i memorija specifikacija, klasifikuje se trud potreban za posao, zatim se izvršava ceo tok i dobija rezultat sa ocenom kvaliteta. Površina je jednostavna; orkestracija iza nje nije. Kao i ostatak Helix porodice, razvija se pod režimom verifikacije bez blefiranja, sa testovima koji proveravaju stvaran kod umesto simulacija.
+Користи се као Go модул — путем `go get` или локалне `replace` директиве — иза намерно једноставног API мотора: региструју се три стуба плус скалер церемонијала и меморија спецификација, класификује се труд потребан за посао, затим се извршава цео ток и добија резултат са оценом квалитета. Површина је једноставна; оркестрација иза ње није. Као и остатак Helix породице, развија се под режимом верификације без блефирања, са тестовима који проверавају стваран код уместо симулација.
 
-## Zašto smo ga izgradili
+## Зашто смо га изградили
 
-Razvoj vođen specifikacijama, rigorozan TDD i upravljanje prekretnicama obično su tri odvojene prakse sa tri odvojena alata. HelixSpecifier je izgrađen kako bi AI agent (HelixAgent) mogao da izvršava sva tri kao jedan koherentan, samoprilagođavajući tok umesto da ih ručno spaja.
-
-
-## Zašto je ovo revolucionarno
-
-Automatski prilagođava proces obimu posla. Timovi obično zapadnu u jednu od dve krajnosti: preteranu ceremonijalnost u svemu (bezbedno, ali sporo i potajno omraženo) ili potpuni nedostatak ceremonijalnosti (brzo dok ne prestane da bude). HelixSpecifier ukida taj kompromis tako što prilagođava ceremonijalnost klasifikovanom naporu za svaki zadatak i ponovo je podešava tokom izvršavanja, kako se posao otkriva. Mogućnost koja ranije nije bila praktična jeste proces koji se sam prilagođava svakom zadatku — a povrh toga, specifikacione odluke podržane višestrukom, višekorisničkom raspravom sa ocenjivanjem stavova, umesto prvog nagađanja jednog agenta.
-
-## Šta je inovativno
-
-- **Adaptivna ceremonijalnost** — nivo procesa vođen metrikama kvaliteta u realnom vremenu i prilagođavan tokom izvršavanja, a ne unapred fiksiran.
-- **Najkvist TDD** — kontrola odnosa testova i implementacije (minimum 2x), zasnovana na logici Najkvistove teoreme o uzorkovanju: da biste verno uhvatili ponašanje, morate ga uzorkovati znatno iznad njegove frekvencije, pa testovi moraju nadmašiti kod koji pokrivaju.
-- **Arhitektura rasprave** — višestepeno, višekorisničko dorađivanje specifikacije, gde se predlozi iznose, ocenjuju i konvergiraju, zamenjujući pojedinačno mišljenje protivničkim pristupom.
-- **Prediktivna specifikacija** i **prenos znanja između projekata** — motor analizira akumulirane tokove kako bi predvideo specifikacije i preneo stečeno znanje iz jednog projekta u sledeći.
-- **Constitution kao kod** — obavezna pravila projekta pretvorena u mašinski čitljive i sprovođena pomoću motora, umesto da se oslanjaju na budnost revizora.
-
-## Najveći tehnički izazovi i kako smo ih rešili
-
-- **Spajanje tri metodologije bez međusobnog sukoba** — SpecKit, Superpowers i GSD svaka pretpostavlja da ima kontrolu nad radnim tokom. Rešeno fuzionim motorom koji registruje svaki stub iza zajedničkog interfejsa i pokreće ih kroz jedan zajednički životni ciklus toka, tako da se stapaju u jedinstven proces umesto da se sudaraju.
-- **Određivanje koliko procesa određeni zadatak zapravo zahteva** — previše procene i sve se vuče; premalo i rizičan posao stiže na produkciju nekontrolisan. Rešeno klasifikatorom napora koji procenjuje posao i napaja skaler ceremonijalnosti koji dinamički prilagođava nivo procesa tokom izvršavanja.
-- **Održavanje visokog kvaliteta specifikacije bez ljudskog kontrolora za svaku odluku** — rešeno zamenom jednokratnih specifikacija dorađivanjem zasnovanim na raspravi, gde agenti ocenjuju konkurentske predloge kroz runde, i sprovođenjem Najkvist TDD odnosa kako implementacija ne bi pretekla svoje testove.
-
-## Tehnološki stek
-
-- **Go** — izabran kako bi motor bio isporučivan kao jedan uvozni binarni fajl bez dodatnog tereta tokom izvršavanja; njegov model konkurentnosti omogućava ograničeno paralelno raspoređivanje zadataka i višestepene runde rasprave umesto problema sa nitima.
-- **logrus** — strukturirano logovanje koje se provlači kroz motor i sva tri stuba, tako da su odluke toka (klasifikacija, promene ceremonijalnosti, ishodi rasprave) čitljive i naknadno.
-- **Stub SpecKit** — sedmofazni proces razvoja vođen specifikacijom (Constitution → Specifikacija → Razjašnjenje → Planiranje → Zadaci → Analiza → Implementacija), koji pruža disciplinovanu osnovu za pretvaranje specifikacije u kod.
-- **Stub Superpowers** — disciplina TDD sa paralelnim izvršavanjem podagenta, koja obezbeđuje rigoroznost testiranja pre implementacije i paralelizaciju koja održava iskrenost i brzinu implementacije.
-- **Stub GSD** — upravljanje prekretnicama i životnim ciklusom, dajući toku osećaj „završenosti" i napredovanja kroz faze.
-- **Memorija specifikacija** — trajna, semantički pretraživa baza prošlih specifikacija, osnova koja omogućava prediktivnu specifikaciju i prenos znanja između projekata umesto da se svaki put kreće od nule.
+Развој вођен спецификацијама, ригорозан TDD и управљање прекретницама обично су три одвојене праксе са три одвојена алата. HelixSpecifier је изграђен како би AI агент (HelixAgent) могао да извршава сва три као један кохерентан, самоприлагођавајући ток уместо да их ручно спаја.
 
 
-## Napomene o statusu i iskrenosti
+## Зашто је ово револуционарно
 
-- **Status: beta.** Koristi se kao komponenta modula Go unutar HelixAgent.
-- **Licenca: nije određena.** Nije pronađena LICENCA putem GitHub API — NEVERIFIKOVANO / nije navedeno.
-- Prikazano ime "HelixSpecifier" upućuje na repozitorijum `specifier`.
+Аутоматски прилагођава процес обиму посла. Тимови обично западну у једну од две крајности: претерану церемонијалност у свему (безбедно, али споро и потајно омражено) или потпуни недостатак церемонијалности (брзо док не престане да буде). HelixSpecifier укида тај компромис тако што прилагођава церемонијалност класификованом напору за сваки задатак и поново је подешава током извршавања, како се посао открива. Могућност која раније није била практична јесте процес који се сам прилагођава сваком задатку — а поврх тога, спецификационе одлуке подржане вишеструком, вишекорисничком расправом са оцењивањем ставова, уместо првог нагађања једног агента.
 
-**Prioritetni nivo:** Helix-primarni.
+## Шта је иновативно
+
+- **Адаптивна церемонијалност** — ниво процеса вођен метрикама квалитета у реалном времену и прилагођаван током извршавања, а не унапред фиксиран.
+- **Најквист TDD** — контрола односа тестова и имплементације (минимум 2x), заснована на логици Најквистове теореме о узорковању: да бисте верно ухватили понашање, морате га узорковати знатно изнад његове фреквенције, па тестови морају надмашити код који покривају.
+- **Архитектура расправе** — вишестепено, вишекорисничко дорађивање спецификације, где се предлози износе, оцењују и конвергирају, замењујући појединачно мишљење противничким приступом.
+- **Предиктивна спецификација** и **пренос знања између пројеката** — мотор анализира акумулиране токове како би предвидео спецификације и пренео стечено знање из једног пројекта у следећи.
+- **Constitution као код** — обавезна правила пројекта претворена у машински читљиве и спровођена помоћу мотора, уместо да се ослањају на будност ревизора.
+
+## Највећи технички изазови и како смо их решили
+
+- **Спајање три методологије без међусобног сукоба** — SpecKit, Superpowers и GSD свака претпоставља да има контролу над радним током. Решено фузионим мотором који региструје сваки стуб иза заједничког интерфејса и покреће их кроз један заједнички животни циклус тока, тако да се стапају у јединствен процес уместо да се сударају.
+- **Одређивање колико процеса одређени задатак заправо захтева** — превише процене и све се вуче; премало и ризичан посао стиже на продукцију неконтролисан. Решено класификатором напора који процењује посао и напаја скалер церемонијалности који динамички прилагођава ниво процеса током извршавања.
+- **Одржавање високог квалитета спецификације без људског контролора за сваку одлуку** — решено заменом једнократних спецификација дорађивањем заснованим на расправи, где агенти оцењују конкурентске предлоге кроз рунде, и спровођењем Најквист TDD односа како имплементација не би претекла своје тестове.
+
+## Технолошки стек
+
+- **Go** — изабран како би мотор био испоручиван као један увозни бинарни фајл без додатног терета током извршавања; његов модел конкурентности омогућава ограничено паралелно распоређивање задатака и вишестепене рунде расправе уместо проблема са нитима.
+- **логрус** — структурирано логовање које се провлачи кроз мотор и сва три стуба, тако да су одлуке тока (класификација, промене церемонијалности, исходи расправе) читљиве и накнадно.
+- **Стуб SpecKit** — седмофазни процес развоја вођен спецификацијом (Constitution → Спецификација → Разјашњење → Планирање → Задаци → Анализа → Имплементација), који пружа дисциплиновану основу за претварање спецификације у код.
+- **Стуб Superpowers** — дисциплина TDD са паралелним извршавањем подагента, која обезбеђује ригорозност тестирања пре имплементације и паралелизацију која одржава искреност и брзину имплементације.
+- **Стуб GSD** — управљање прекретницама и животним циклусом, дајући току осећај „завршености" и напредовања кроз фазе.
+- **Меморија спецификација** — трајна, семантички претражива база прошлих спецификација, основа која омогућава предиктивну спецификацију и пренос знања између пројеката уместо да се сваки пут креће од нуле.
+
+
+## Напомене о статусу и искрености
+
+- **Статус: бета.** Користи се као компонента модула Go унутар HelixAgent.
+- **Лиценца: није одређена.** Није пронађена ЛИЦЕНЦА путем GitHub API — НЕВЕРИФИКОВАНО / није наведено.
+- Приказано име "HelixSpecifier" упућује на репозиторијум `specifier`.
+
+**Приоритетни ниво:** Helix-примарни.
 

@@ -10,64 +10,64 @@ sources:
 
 # Miloš Vasić
 
-## Heroj
+## Херој
 
-**AI inženjer koji gradi verifikovane sisteme za razvoj AI.**
+**AI инжењер који гради верификоване системе за развој AI.**
 
-Ja gradim onaj deo AI inženjeringa koji razdvaja pouzdan proizvod od impresivne demonstracije: LLM infrastrukturu sa više provajdera koja preživljava pad nekog od njih, autonomne agente i orkestraciju koji održavaju posao na pravom putu, kao i slojeve upravljanja i kontrole kvaliteta koji sprečavaju da AI sistem tiho laže o svojim mogućnostima. Pretvaranje velikog jezičkog modela u nešto što se stvarno može isporučiti uglavnom je problem discipline, a ta disciplina je ono u čemu se ja specijalizujem. Moj severnjača je jednostavno pravilo — funkcija je gotova tek kada je stvarni korisnik može da koristi i kada postoji prikupljen dokaz koji to potvrđuje.
+Ја градим онај део AI инжењеринга који раздваја поуздан производ од импресивне демонстрације: LLM инфраструктуру са више провајдера која преживљава пад неког од њих, аутономне агенте и оркестрацију који одржавају посао на правом путу, као и слојеве управљања и контроле квалитета који спречавају да AI систем тихо лаже о својим могућностима. Претварање великог језичког модела у нешто што се стварно може испоручити углавном је проблем дисциплине, а та дисциплина је оно у чему се ја специјализујем. Мој северњача је једноставно правило — функција је готова тек када је стварни корисник може да користи и када постоји прикупљен доказ који то потврђује.
 
-## Pregled
+## Преглед
 
-Pretežno radim u **Go**, sa **Kotlin / Kotlin Multiplatform**, **TypeScript/React**, **Python**, **Swift** i **Shell**, u zavisnosti od zahteva posla. Ono što mi je najvažnije jeste kako je posao *strukturiran*: ne gomila jednokratnih aplikacija, već flota — velike aplikacije koje se oslanjaju na desetine malih, odvojenih i nezavisno testiranih modula, a svi nasleđuju zajednički inženjerski **Constitution** kao Git podmodul. To jedino arhitektonsko rešenje omogućava da ceo korpus rada bude kumulativan: ispravke i poboljšanja se odmah šire na sve, novi proizvodi se sklapaju od delova koji su već dokazani, a svaka reklamirana mogućnost ima test koji proizvodi dokaze, umesto pukog tvrdjenja. To je inženjering stvoren da bude pouzdan u velikim razmerama, a da ga gradi jedna osoba. Ova stranica polazi od tog pregleda i spušta se do pojedinačnih projekata; svaki vodi do svoje pune stranice proizvoda.
+Претежно радим у **Go**, са **Kotlin / Kotlin Multiplatform**, **TypeScript/React**, **Python**, **Swift** и **Shell**, у зависности од захтева посла. Оно што ми је најважније јесте како је посао *структуриран*: не гомила једнократних апликација, већ флота — велике апликације које се ослањају на десетине малих, одвојених и независно тестираних модула, а сви наслеђују заједнички инжењерски **Constitution** као Гит подмодул. То једино архитектонско решење омогућава да цео корпус рада буде кумулативан: исправке и побољшања се одмах шире на све, нови производи се склапају од делова који су већ доказани, а свака рекламирана могућност има тест који производи доказе, уместо пуког тврдјења. То је инжењеринг створен да буде поуздан у великим размерама, а да га гради једна особа. Ова страница полази од тог прегледа и спушта се до појединачних пројеката; сваки води до своје пуне странице производа.
 
-## Kako radim — upravljanje i kontrola kvaliteta na prvom mestu
+## Како радим — управљање и контрола квалитета на првом месту
 
-Pre proizvoda, disciplina koja ih podupire:
+Пре производа, дисциплина која их подупире:
 
-- **HelixConstitution** — održavam univerzalni, nasledivi inženjerski pravilnik, distribuiran kao Git podmodul preko flote od preko 140 repozitorijuma. On kodifikuje kontrolne tačke protiv obmanjivanja, imunitet na lažno pozitivne rezultate, bezbednost podataka i hostova, kao i pravila pokrivenosti; projekti mogu da ga pooštravaju, ali nikada ne smeju da ga oslabe, a svaka kontrolna tačka upravljanja uparena je sa mutacionim testom koji dokazuje da sama ta tačka funkcioniše. → pogledajte stranicu proizvoda HelixConstitution.
-- **HelixQA** — gradim orkestraciju kontrole kvaliteta protiv obmanjivanja koja pokreće pisane testove i potpuno autonomne sesije kontrole kvaliteta vođene LLM i vizijom na Androidu, Android TV-u, vebu i desktopu, a prolazak se boduje samo kada je prikupljen dokaz o radu u realnom vremenu. → pogledajte stranicu proizvoda HelixQA.
+- **HelixConstitution** — одржавам универзални, наследиви инжењерски правилник, дистрибуиран као Гит подмодул преко флоте од преко 140 репозиторијума. Он кодификује контролне тачке против обмањивања, имунитет на лажно позитивне резултате, безбедност података и хостова, као и правила покривености; пројекти могу да га пооштравају, али никада не смеју да га ослабе, а свака контролна тачка управљања упарена је са мутационим тестом који доказује да сама та тачка функционише. → погледајте страницу производа HelixConstitution.
+- **HelixQA** — градим оркестрацију контроле квалитета против обмањивања која покреће писане тестове и потпуно аутономне сесије контроле квалитета вођене LLM и визијом на Андроиду, Android TV-у, вебу и десктопу, а пролазак се бодује само када је прикупљен доказ о раду у реалном времену. → погледајте страницу производа HelixQA.
 
-## Moj rad u okviru porodice Helix
+## Мој рад у оквиру породице Helix
 
-Linija Helix obuhvata ceo životni ciklus razvoja AI. Po prioritetu:
+Линија Helix обухвата цео животни циклус развоја AI. По приоритету:
 
-- **HelixTrack** — alternativa JIRA u slobodnom svetu; vodeći proizvod linije Helix-Track.
-- **HelixAgent** — ansambl LLM servisa sa višestrukim debatom modela i verifikacionim izborom provajdera.
-- **HelixCode** — distribuirana platforma za razvoj AI koja deli posao na radnike kojima upravlja SSH sa automatskim čuvanjem stanja i vraćanjem na prethodnu verziju.
-- **HelixLLM** — jedan binarni fajl sa šest režima koji služi OpenAI- i Anthropic-kompatibilnim API-jima preko HTTP/3, sa lokalnom inferencijom llama.cpp i ocenjenim lancem rezervnih rešenja.
-- **HelixCluster** — distribuirani operativni sistem za AI računanje, od GPU-a u podatkovnim centrima do ručnih uređaja na ivici mreže.
-- **LLMProvider** — jedan interfejs za 43 provajdera sa ugrađenim prekidačima kola, ponovnim pokušajima i monitoringom zdravlja.
-- **LLMOrchestrator** — jedna kontrolna ravan za sve bezglave CLI kodirajuće agente.
-- **LLMsVerifier** — verifikuj, prati, optimizuj: jedini izvor istine za LLM/provajder/verifikacione metapodatke.
-- **HelixMemory, HelixSkills, HelixSpecifier, HelixBuilder, HelixTranslate, HelixTerminator, HelixGitpx, HelixOTA, HelixPlay** — memorija agenata, kontrolisane veštine agenata, razvoj vođen specifikacijama, izgradnja AI aplikacija, verifikovan prevod knjiga, terminali sa nultim poverenjem, federisani Git, ažuriranja OTA bez rizika od oštećenja i samostalni cloud gaming.
+- **HelixTrack** — алтернатива JIRA у слободном свету; водећи производ линије Helix-Track.
+- **HelixAgent** — ансамбл LLM сервиса са вишеструким дебатом модела и верификационим избором провајдера.
+- **HelixCode** — дистрибуирана платформа за развој AI која дели посао на раднике којима управља SSH са аутоматским чувањем стања и враћањем на претходну верзију.
+- **HelixLLM** — један бинарни фајл са шест режима који служи OpenAI- и Anthropic-компатибилним API-јима преко HTTP/3, са локалном инференцијом ллама.цпп и оцењеним ланцем резервних решења.
+- **HelixCluster** — дистрибуирани оперативни систем за AI рачунање, од GPU-а у податковним центрима до ручних уређаја на ивици мреже.
+- **LLMProvider** — један интерфејс за 43 провајдера са уграђеним прекидачима кола, поновним покушајима и мониторингом здравља.
+- **LLMOrchestrator** — једна контролна раван за све безглаве CLI кодирајуће агенте.
+- **LLMsVerifier** — верификуј, прати, оптимизуј: једини извор истине за LLM/провајдер/верификационе метаподатке.
+- **HelixMemory, HelixSkills, HelixSpecifier, HelixBuilder, HelixTranslate, HelixTerminator, HelixGitpx, HelixOTA, HelixPlay** — меморија агената, контролисане вештине агената, развој вођен спецификацијама, изградња AI апликација, верификован превод књига, терминали са нултим поверењем, федерисани Гит, ажурирања OTA без ризика од оштећења и самостални цлоуд гаминг.
 
 
-## Moj rad na alatima iz okvira vasic-digital
+## Мој рад на алатима из оквира vasic-digital
 
-Alati profesionalnog nivoa koje sam razvio i održavam (svaki ima kompletnu stranicu proizvoda):
+Алати професионалног нивоа које сам развио и одржавам (сваки има комплетну страницу производа):
 
-- **Catalogizer** — višenamenski protokol (SMB/FTP/NFS/WebDAV/lokalno), enkriptovan, samostalno hostovan sistem za upravljanje medijskim kolekcijama sa Go/Gin API i React korisničkim interfejsom.
-- **Courses-Creator** — tok za kreiranje video-kurseva iz Markdown formata sa višestrukim LLM obogaćivanjem, TTS i plejerima za desktop, mobilne i veb platforme.
-- **VisionEngine** — odvojeni Go alat za spajanje klasičnog računarskog vida sa višepružavačkim LLM vidom za analizu korisničkog interfejsa i navigacione grafove.
-- **DocProcessor** — pretvara dokumentaciju u proverljivu mapu funkcionalnosti za automatizaciju QA (LLM ili heurističko izdvajanje).
-- **Docs Chain** — sistem za sinhornizaciju dokumenata/baza podataka sa sadržajnim heširanjem, dvosmernom i atomskom sinhronizacijom.
-- **Herald** — pouzdane obaveštenja kroz više kanala sa razumevanjem prirodnog jezika i trostepenom rezolucijom namere.
-- **task_bridge** — odvojeni, dvosmerni sistem za sinhronizaciju zadataka/tabli (P1 okvir; logika sinhronizacije u razvoju).
-- **Vasic Digital Paket ponovljivo upotrebljivih modula** — „standardna biblioteka" `digital.vasic.*` infrastrukturnih, AI-primitivnih i zaštitnih modula.
+- **Catalogizer** — вишенаменски протокол (SMB/FTP/NFS/WebDAV/локално), енкриптован, самостално хостован систем за управљање медијским колекцијама са Go/Gin API и React корисничким интерфејсом.
+- **Courses-Creator** — ток за креирање видео-курсева из Markdown формата са вишеструким LLM обогаћивањем, TTS и плејерима за десктоп, мобилне и веб платформе.
+- **VisionEngine** — одвојени Go алат за спајање класичног рачунарског вида са вишепружавачким LLM видом за анализу корисничког интерфејса и навигационе графове.
+- **DocProcessor** — претвара документацију у проверљиву мапу функционалности за аутоматизацију QA (LLM или хеуристичко издвајање).
+- **Docs Chain** — систем за синхорнизацију докумената/база података са садржајним хеширањем, двосмерном и атомском синхронизацијом.
+- **Herald** — поуздане обавештења кроз више канала са разумевањем природног језика и тростепеном резолуцијом намере.
+- **task_bridge** — одвојени, двосмерни систем за синхронизацију задатака/табли (P1 оквир; логика синхронизације у развоју).
+- **Vasic Digital Пакет поновљиво употребљивих модула** — „стандардна библиотека" `digital.vasic.*` инфраструктурних, AI-примитивних и заштитних модула.
 
-## Nasleđe infrastrukture (Server Factory)
+## Наслеђе инфраструктуре (Server Factory)
 
-Pre AI linije, moj DevOps lanac alata: **Mail Server Factory** (deklarativni JSON → potpuno opskrbljeni Dockerizovani mejl serveri, sa 439 uspešno položenih testova i čistom SonarQube proverom), **Server Factory Osnovni okvir** na kojem se gradi, kao i alati za VM slike (**Qemu-Utils**, **Parallels-Utils**) uz prateće fabrike servisa.
+Пре AI линије, мој DevOps ланац алата: **Mail Server Factory** (декларативни JSON → потпуно опскрбљени Доцкеризовани мејл сервери, са 439 успешно положених тестова и чистом SonarQube провером), **Server Factory Основни оквир** на којем се гради, као и алати за VM слике (**Qemu-Utils**, **Parallels-Utils**) уз пратеће фабрике сервиса.
 
-## U jednoj rečenici
+## У једној реченици
 
-Ne isporučujem zelene kvačice — isporučujem AI sisteme sa dokazima da stvarno rade, i upravljačke mehanizme koji ih takvima i održavaju.
+Не испоручујем зелене квачице — испоручујем AI системе са доказима да стварно раде, и управљачке механизме који их таквима и одржавају.
 
-## Kontakt
+## Контакт
 
-Otvoren za pozicije višeg nivoa u oblasti AI/platform inženjeringa širom sveta.
+Отворен за позиције вишег нивоа у области AI/платформ инжењеринга широм света.
 
-- **Mejl:** [milos85vasic@gmail.com](mailto:milos85vasic@gmail.com) · [i@mvasic.ru](mailto:i@mvasic.ru)
+- **Мејл:** [milos85vasic@gmail.com](mailto:milos85vasic@gmail.com) · [i@mvasic.ru](mailto:i@mvasic.ru)
 - **GitHub:** [milos85vasic](https://github.com/milos85vasic)
 - **Telegram:** [@milos85vasic](https://t.me/milos85vasic)
 

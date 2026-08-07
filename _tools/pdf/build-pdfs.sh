@@ -137,7 +137,9 @@ PRINT_CSS="$ROOT/submodules/constitution/styles/default-pdf.css"
 DIAG_DIR="$ROOT/design-system/diagrams"
 FONT_DIR="$ROOT/_tools/pdf/fonts"        # self-hosted Noto Arabic + CJK (OFL 1.1)
 PHOTO="$ROOT/milosvasic.ru/assets/images/milosvasic.png"
-OUT_DIR="$ROOT/milosvasic.ru/downloads"
+# Output dir is overridable (OUT_DIR_OVERRIDE) so verification builds can target a
+# scratch dir WITHOUT touching the committed site downloads/. Unset in deploy runs.
+OUT_DIR="${OUT_DIR_OVERRIDE:-$ROOT/milosvasic.ru/downloads}"
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
@@ -149,6 +151,29 @@ for f in "$TOKENS_CSS" "$PRINT_CSS" "$PHOTO"; do
 done
 mkdir -p "$OUT_DIR"
 
+# ---- localized PDF "chrome" strings (#65) -----------------------------------
+# The cover eyebrow/role/tagline, metrics-strip labels, running headers, and the
+# Portfolio "Selected architecture" heading + figure captions were previously
+# HARDCODED in English, leaking English into every non-EN PDF. They now live in
+# _tools/pdf/pdf-i18n.json (EN populated from the old literals; 14 langs via the
+# HelixTranslate pipeline + reviewer). `t <key>` returns the string for the
+# active LANG_CODE and falls back to EN for a genuinely-missing key WITH A WARNING
+# — never a silent English leak.
+I18N_JSON="$ROOT/_tools/pdf/pdf-i18n.json"
+[ -f "$I18N_JSON" ] || { echo "FATAL: missing chrome-i18n table: $I18N_JSON" >&2; exit 1; }
+t() {
+  python3 - "$I18N_JSON" "$LANG_CODE" "$1" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+lang, key = sys.argv[2], sys.argv[3]
+v = data.get(lang, {}).get(key)
+if v is None or v == "":
+    v = data.get("en", {}).get(key, "")
+    sys.stderr.write("  WARN: pdf-i18n missing '%s' for lang '%s' — EN fallback\n" % (key, lang))
+sys.stdout.write(v)
+PY
+}
+
 # ---- photo as a data URI (guarantees an embedded raster image) --------------
 PHOTO_B64="$(base64 < "$PHOTO" | tr -d '\n')"
 PHOTO_URI="data:image/png;base64,${PHOTO_B64}"
@@ -158,7 +183,7 @@ PHOTO_URI="data:image/png;base64,${PHOTO_B64}"
 # vasic-digital DEEP-DARK-RED tokens and the company logo (not Miloš's photo).
 VASIC_TOKENS_CSS="$ROOT/design-system/brand-vasic-digital/vasic-digital.css"
 VASIC_LOGO="$ROOT/vasic.digital/Assets/Logo.jpeg"
-VASIC_OUT_DIR="$ROOT/vasic.digital/downloads"
+VASIC_OUT_DIR="${VASIC_OUT_DIR_OVERRIDE:-$ROOT/vasic.digital/downloads}"
 LOGO_URI=""
 if [ -f "$VASIC_LOGO" ]; then
   LOGO_URI="data:image/jpeg;base64,$(base64 < "$VASIC_LOGO" | tr -d '\n')"
@@ -446,44 +471,47 @@ build() {
   metrics=""; figures=""
   case "$base" in
     cv)
-      role="AI Engineer · Software Engineer"; hright="Curriculum Vitae"
-      eyebrow="Curriculum Vitae"
-      tagline="LLM infrastructure, autonomous agents, and the governance that makes them trustworthy. Fleets over monoliths; anti-bluff, evidence-gated quality."
+      role="$(t cv.role)"; hright="$(t cv.eyebrow)"
+      eyebrow="$(t cv.eyebrow)"
+      tagline="$(t cv.tagline)"
       contact='<b>milos85vasic@gmail.com</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; vasic.digital<br>GitHub: vasic-digital &nbsp;·&nbsp; HelixDevelopment &nbsp;·&nbsp; Server-Factory'
-      metrics="<div class=\"od-metrics\">$(metric 2009 'Engineering since')$(metric '140+' 'Repositories governed')$(metric 43 'LLM providers unified')$(metric '6+' 'Core languages')</div>"
+      metrics="<div class=\"od-metrics\">$(metric 2009 "$(t cv.metric.since)")$(metric '140+' "$(t cv.metric.repos)")$(metric 43 "$(t cv.metric.providers)")$(metric '6+' "$(t cv.metric.langs)")</div>"
       ;;
     cover-letter)
-      role="Cover Letter · AI Engineer"; hright="Cover Letter"
-      eyebrow="Cover Letter"
-      tagline="Deep AI-systems engineering paired with a genuine, verifiable quality discipline."
+      role="$(t cover.role)"; hright="$(t cover.eyebrow)"
+      eyebrow="$(t cover.eyebrow)"
+      tagline="$(t cover.tagline)"
       contact='<b>milos85vasic@gmail.com</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; vasic.digital'
       ;;
     portfolio)
       if [ "$variant" = "company" ]; then
         name="Vasic Digital"; hleft="Vasic Digital"
-        role="AI-native software engineering · Evidence-based portfolio"; hright="Portfolio"
-        eyebrow="Vasic Digital · Evidence-Based Portfolio"
-        tagline="The Helix product family, the vasic-digital utility fleet, and the Server Factory toolchain — AI development systems built to be trusted, on a shared engineering Constitution."
+        role="$(t pf.role.company)"; hright="$(t pf.header)"
+        eyebrow="$(t pf.eyebrow)"
+        tagline="$(t pf.tagline.company)"
         contact='<b>vasic.digital</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; github.com/vasic-digital &nbsp;·&nbsp; github.com/HelixDevelopment'
       else
         name="Miloš Vasić"; hleft="Miloš Vasić"
-        role="Portfolio · Helix family · vasic-digital · Server Factory"; hright="Portfolio"
-        eyebrow="Vasic Digital · Evidence-Based Portfolio"
-        tagline="A unified, evidence-based portfolio — the Helix product family, the vasic-digital utility fleet, and the Server Factory toolchain, on a shared engineering Constitution."
+        role="$(t pf.role)"; hright="$(t pf.header)"
+        eyebrow="$(t pf.eyebrow)"
+        tagline="$(t pf.tagline)"
         contact='<b>milosvasic.ru</b> &nbsp;·&nbsp; vasic.digital &nbsp;·&nbsp; github.com/HelixDevelopment &nbsp;·&nbsp; github.com/vasic-digital'
       fi
-      metrics="<div class=\"od-metrics\">$(metric '140+' 'Repository fleet')$(metric 43 'LLM providers')$(metric 25 'Linux distros provisioned')$(metric 439 'Passing tests · Mail Server Factory')</div>"
+      metrics="<div class=\"od-metrics\">$(metric '140+' "$(t pf.metric.fleet)")$(metric 43 "$(t pf.metric.providers)")$(metric 25 "$(t pf.metric.distros)")$(metric 439 "$(t pf.metric.tests)")</div>"
       # rasterise 3 relevant architecture diagrams and embed them
-      local d_agent d_cluster d_verifier
+      local d_agent d_cluster d_verifier fig_heading
       d_agent="$(raster_datauri "$DIAG_DIR/helixagent.svg")"
       d_cluster="$(raster_datauri "$DIAG_DIR/helixcluster.svg")"
       d_verifier="$(raster_datauri "$DIAG_DIR/llmsverifier.svg")"
+      fig_heading="$(t pf.figures.heading)"
+      # Product names (HelixAgent/HelixCluster/LLMsVerifier) are non-translatable
+      # glossary brands and stay verbatim; only the caption PROSE is localized.
       figures="$(cat <<FIG
 <section class="od-figures">
-<h2>Selected architecture</h2>
-<figure class="od-figure"><img src="${d_agent}" alt="HelixAgent ensemble debate flow"><figcaption><b>HelixAgent</b> — an ensemble LLM service where providers debate under a four-stage protocol and ship the answer they agree on, scored by LLMsVerifier.</figcaption></figure>
-<figure class="od-figure"><img src="${d_cluster}" alt="HelixCluster distributed compute control plane"><figcaption><b>HelixCluster</b> — a distributed operating system for AI compute, from datacenter GPUs to edge handhelds, under one control plane.</figcaption></figure>
-<figure class="od-figure"><img src="${d_verifier}" alt="LLMsVerifier verification source of truth"><figcaption><b>LLMsVerifier</b> — verify, monitor, optimize: the single source of truth for LLM/provider/verification metadata, gated by a mandatory model-comprehension check.</figcaption></figure>
+<h2>${fig_heading}</h2>
+<figure class="od-figure"><img src="${d_agent}" alt="HelixAgent ensemble debate flow"><figcaption><b>HelixAgent</b> — $(t pf.figure.helixagent)</figcaption></figure>
+<figure class="od-figure"><img src="${d_cluster}" alt="HelixCluster distributed compute control plane"><figcaption><b>HelixCluster</b> — $(t pf.figure.helixcluster)</figcaption></figure>
+<figure class="od-figure"><img src="${d_verifier}" alt="LLMsVerifier verification source of truth"><figcaption><b>LLMsVerifier</b> — $(t pf.figure.llmsverifier)</figcaption></figure>
 </section>
 FIG
 )"

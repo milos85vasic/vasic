@@ -1,0 +1,184 @@
+{
+  "screenshots": [
+    "home-desktop-light-1280.png",
+    "home-desktop-dark-1280.png",
+    "home-mobile-390.png"
+  ],
+  "axe": [
+    {
+      "name": "en-home",
+      "url": "https://vasic.digital/",
+      "violations": 0,
+      "severities": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0
+      },
+      "ids": []
+    },
+    {
+      "name": "ru-home",
+      "url": "https://vasic.digital/ru/",
+      "violations": 0,
+      "severities": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0
+      },
+      "ids": []
+    },
+    {
+      "name": "ar-home-rtl",
+      "url": "https://vasic.digital/ar/",
+      "violations": 0,
+      "severities": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0
+      },
+      "ids": []
+    },
+    {
+      "name": "ru-product",
+      "url": "https://vasic.digital/products/ru/catalogizer.html",
+      "violations": 0,
+      "severities": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0
+      },
+      "ids": []
+    }
+  ],
+  "interactive": [
+    {
+      "vp": "375",
+      "overflow": {
+        "scrollW": 375,
+        "clientW": 375,
+        "overflow": false
+      },
+      "brokenImgs": [],
+      "backToTop": {
+        "found": true,
+        "selector": "button[aria-label*=\"top\" i]",
+        "visible": true
+      },
+      "console_errors": [],
+      "http_failed": []
+    },
+    {
+      "vp": "768",
+      "overflow": {
+        "scrollW": 768,
+        "clientW": 768,
+        "overflow": false
+      },
+      "brokenImgs": [],
+      "backToTop": {
+        "found": true,
+        "selector": "button[aria-label*=\"top\" i]",
+        "visible": true
+      },
+      "console_errors": [],
+      "http_failed": []
+    },
+    {
+      "vp": "1280",
+      "overflow": {
+        "scrollW": 1280,
+        "clientW": 1280,
+        "overflow": false
+      },
+      "brokenImgs": [],
+      "backToTop": {
+        "found": true,
+        "selector": "button[aria-label*=\"top\" i]",
+        "visible": true
+      },
+      "console_errors": [],
+      "http_failed": []
+    }
+  ],
+  "assets": [
+    {
+      "page": "home",
+      "vp": "375",
+      "failed": []
+    },
+    {
+      "page": "home",
+      "vp": "768",
+      "failed": []
+    },
+    {
+      "page": "home",
+      "vp": "1280",
+      "failed": []
+    },
+    {
+      "page": "products/ru/catalogizer.html",
+      "vp": "1280",
+      "failed": [],
+      "brokenImgs": [],
+      "console_errors": []
+    }
+  ],
+  "h1font": "\"Bricolage Grotesque\", \"Space Grotesk\", system-ui, sans-serif",
+  "fontLoaded": {
+    "bricolageAvailable": true,
+    "loadedList": [
+      "Inter 400",
+      "Inter 700",
+      "JetBrains Mono 400",
+      "JetBrains Mono 500",
+      "Bricolage Grotesque 700",
+      "Bricolage Grotesque 800"
+    ]
+  },
+  "theme": {
+    "selector": "button[aria-label*=\"theme\" i]",
+    "before": "",
+    "after": "dark",
+    "changed": true
+  },
+  "nav": {
+    "navInfo": {
+      "count": 5,
+      "sample": [
+        {
+          "text": "Vasic Digital",
+          "href": "index.html"
+        },
+        {
+          "text": "Work",
+          "href": "#work"
+        },
+        {
+          "text": "Products",
+          "href": "#products"
+        },
+        {
+          "text": "Portfolio",
+          "href": "portfolio/"
+        },
+        {
+          "text": "Contact",
+          "href": "#contact"
+        }
+      ]
+    },
+    "navClick": {
+      "clicked": "#work",
+      "ok": true
+    },
+    "langSwitch": {
+      "ok": false,
+      "err": "TimeoutError: elementHandle.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    57 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+    }
+  }
+}
