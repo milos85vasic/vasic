@@ -1,0 +1,358 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vasic Digital - AI-Powered Software Engineering</title>
+  <style>
+    :root {
+      --bg: oklch(98% 0.004 95);
+      --surface: oklch(100% 0.002 95);
+      --fg: oklch(20% 0.018 70);
+      --muted: oklch(48% 0.012 70);
+      --border: oklch(90% 0.006 95);
+      --accent: oklch(52% 0.10 28);
+
+      --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: oklch(15% 0.018 70);
+        --surface: oklch(20% 0.012 70);
+        --fg: oklch(98% 0.004 95);
+        --muted: oklch(60% 0.012 95);
+        --border: oklch(30% 0.006 70);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      line-height: 1.6;
+      color: var(--fg);
+      background-color: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--fg);
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    section {
+      padding: 4rem 0;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 0;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: oklch(45% 0.10 28);
+    }
+
+    .products {
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .products h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .product-card p {
+      margin-bottom: 1.5rem;
+    }
+
+    .product-card .price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .why-us {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .why-us h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      background-color: var(--surface);
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--fg);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      color: var(--muted);
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">Vasic Digital</div>
+      <nav>
+        <ul>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#why-us">Why Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>AI-Powered Software Engineering</h1>
+        <p>Transform your development process with our cutting-edge AI tools designed for technical buyers and CTOs.</p>
+        <a href="#products" class="cta-button">Explore Products</a>
+      </div>
+    </section>
+
+    <section class="products" id="products">
+      <div class="container">
+        <h2>Our Products</h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <h3>HelixAgent</h3>
+            <p>Our flagship AI agent that streamlines software development workflows and enhances productivity.</p>
+            <div class="price">$99/month</div>
+            <a href="#" class="cta-button">Learn More</a>
+          </div>
+          <div class="product-card">
+            <h3>HelixCode</h3>
+            <p>Advanced code generation and optimization tools for developers of all levels.</p>
+            <div class="price">$79/month</div>
+            <a href="#" class="cta-button">Learn More</a>
+          </div>
+          <div class="product-card">
+            <h3>HelixLLM</h3>
+            <p>Large Language Model integration for natural language processing and understanding.</p>
+            <div class="price">$129/month</div>
+            <a href="#" class="cta-button">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-us" id="why-us">
+      <div class="container">
+        <h2>Why Choose Vasic Digital?</h2>
+        <div class="features">
+          <div class="feature">
+            <h3>Evidence-Verified</h3>
+            <p>Our AI tools are backed by rigorous testing and real-world evidence to ensure reliability.</p>
+          </div>
+          <div class="feature">
+            <h3>Anti-Bluff</h3>
+            <p>We provide transparent and verifiable results to build trust with our clients.</p>
+          </div>
+          <div class="feature">
+            <h3>Expert Team</h3>
+            <p>Our team of AI and software engineering experts is dedicated to delivering the best solutions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Vasic Digital</div>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Us</a>
+        </div>
+        <div class="copyright">&copy; 2023 Vasic Digital. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+```
