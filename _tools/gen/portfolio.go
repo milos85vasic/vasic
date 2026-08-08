@@ -61,10 +61,11 @@ func portfolioCard(root string, e *PortfolioEntry, jekyll bool, lang string) str
           <div class="od-product-card__tech">%s</div>
           <p class="pf-card__blurb">%s</p>
           <div class="pf-card__meta">%s</div>
-          <div class="pf-card__actions"><a class="od-btn od-btn--secondary" href="%s">%s</a></div>
+          <div class="pf-card__actions"><a class="od-btn od-btn--secondary" href="%s" aria-label="%s">%s</a></div>
         </article>`,
 		esc(e.Name), esc(e.Status), esc(T(lang, "status."+e.Status)),
-		chips.String(), esc(blurb), lic, portfolioProductHref(jekyll, e.Slug, lang), esc(T(lang, "pf.readmore")))
+		chips.String(), esc(blurb), lic, portfolioProductHref(jekyll, e.Slug, lang),
+		esc(T(lang, "pf.readmore")+": "+e.Name), esc(T(lang, "pf.readmore")))
 }
 
 func portfolioTierSection(root string, p *Portfolio, tier string, jekyll bool, lang string) string {

@@ -106,8 +106,14 @@ func renderCard(doc *HomeDoc, p *Portfolio, prefix string, c Card) string {
 	}
 	if c.Readmore.Text != "" || c.Slug != "" && c.Readmore.I18n != "" {
 		href := productHref(doc, c.Slug)
-		b.WriteString(fmt.Sprintf(`          <div class="%s-card__actions"><a class="od-btn od-btn--secondary" href="%s"%s>%s</a></div>`+"\n",
-			prefix, href, i18nAttr(c.Readmore), c.Readmore.render()))
+		// Descriptive aria-label so screen-reader users (and SEO crawlers) get the
+		// destination context, not 23 identical bare "Read more" links (perf/a11y).
+		aria := firstNonEmpty(c.Readmore.Text, "Read more")
+		if c.Name != "" {
+			aria = aria + ": " + c.Name
+		}
+		b.WriteString(fmt.Sprintf(`          <div class="%s-card__actions"><a class="od-btn od-btn--secondary" href="%s" aria-label="%s"%s>%s</a></div>`+"\n",
+			prefix, href, esc(aria), i18nAttr(c.Readmore), c.Readmore.render()))
 	}
 	b.WriteString(`        </article>`)
 	return b.String()
