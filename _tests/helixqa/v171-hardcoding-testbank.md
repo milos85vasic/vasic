@@ -21,7 +21,7 @@ all four gate detectors were verified to fire against injected violations (hardc
 
 **Localization / data mandate:** enforces Helix Constitution **§11.4.140/141**
 (localized strings are DATA, no English leakage into a localized surface),
-**§11.4.216** (generated values, never invented/hardcoded), **§11.4.65** (render
+**§11.4.216** (generated values, never invented/hardcoded), **§11.4.50** (render
 determinism — identical source ⇒ byte-identical output).
 
 `feature_class = v171_hardcoding`. Evidence → `_tests/evidence/hardcoded-audit-v171/`.
@@ -51,7 +51,7 @@ responsible specialist on any FAIL; never relax the assertion).
 
 ---
 
-## C67-FOOTER — deterministic © year (§11.4.216 / §11.4.65)
+## C67-FOOTER — deterministic © year (§11.4.216 / §11.4.50)
 
 **Claim.** The footer copyright year is GENERATED (pinned via `-ldflags -X
 main.buildYear` on vasic; ephemeral `_config.deploy.yml` on milos Jekyll), never a
