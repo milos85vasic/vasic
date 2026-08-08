@@ -144,6 +144,14 @@ func seoHead(site *Site, langs []string, s pageSEO) string {
 		fmt.Fprintf(&b, `<meta name="keywords" content="%s"/>`+"\n", esc(s.keywords))
 	}
 	fmt.Fprintf(&b, `<link rel="canonical" href="%s"/>`+"\n", canon)
+	if site.Favicon != "" {
+		ft := "image/png"
+		if strings.HasSuffix(site.Favicon, ".svg") {
+			ft = "image/svg+xml"
+		}
+		fmt.Fprintf(&b, `<link rel="icon" type="%s" href="%s"/>`+"\n", ft, site.URL(site.Favicon))
+		fmt.Fprintf(&b, `<link rel="apple-touch-icon" href="%s"/>`+"\n", site.URL(site.OGImage))
+	}
 	b.WriteString(`<meta name="robots" content="index, follow, max-image-preview:large"/>` + "\n")
 	// Open Graph
 	fmt.Fprintf(&b, `<meta property="og:type" content="%s"/>`+"\n", s.ogType)

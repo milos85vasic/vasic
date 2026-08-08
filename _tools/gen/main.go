@@ -46,6 +46,7 @@ type Site struct {
 
 	Domain  string   // production host (from CNAME), no scheme
 	OGImage string   // root-relative Open Graph / letterhead image that exists on disk
+	Favicon string   // root-relative favicon that exists on disk
 	LDKind  string   // JSON-LD identity: "Organization" | "Person"
 	SameAs  []string // JSON-LD sameAs profile URLs
 }
@@ -64,6 +65,7 @@ var sites = map[string]*Site{
 		Dir:      "vasic.digital",
 		Domain:   "vasic.digital",
 		OGImage:  "Assets/Logo.jpeg",
+		Favicon:  "Assets/logo.svg",
 		LDKind:   "Organization",
 		SameAs:   []string{"https://github.com/Helix-Track", "https://github.com/nexu-io"},
 	},
@@ -76,6 +78,7 @@ var sites = map[string]*Site{
 		Jekyll:   true,
 		Domain:   "milosvasic.ru",
 		OGImage:  "assets/images/profile-800.jpg",
+		Favicon:  "assets/images/milosvasic.png",
 		LDKind:   "Person",
 		SameAs: []string{
 			"https://github.com/milos85vasic",

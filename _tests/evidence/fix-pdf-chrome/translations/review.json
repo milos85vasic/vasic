@@ -1,0 +1,2774 @@
+{
+ "ru": {
+  "lang": "ru",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.975,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "sr": {
+  "lang": "sr",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.976,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "de": {
+  "lang": "de",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   }
+  }
+ },
+ "es": {
+  "lang": "es",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   }
+  }
+ },
+ "fr": {
+  "lang": "fr",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   }
+  }
+ },
+ "be": {
+  "lang": "be",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.974,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "zh": {
+  "lang": "zh",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.927,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "kk": {
+  "lang": "kk",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.976,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "hi": {
+  "lang": "hi",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "ja": {
+  "lang": "ja",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.959,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "ko": {
+  "lang": "ko",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 0.936,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "ar": {
+  "lang": "ar",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ },
+ "tr": {
+  "lang": "tr",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": null,
+    "leftover": []
+   }
+  }
+ },
+ "fa": {
+  "lang": "fa",
+  "all_ok": true,
+  "keys": {
+   "cv.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.since": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.repos": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cv.metric.langs": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "cover.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.header": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.eyebrow": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.role.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.tagline.company": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.fleet": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.providers": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.distros": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.metric.tests": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figures.heading": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixagent": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.helixcluster": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   },
+   "pf.figure.llmsverifier": {
+    "ok": true,
+    "terms_ok": true,
+    "missing_terms": [],
+    "script_ok": true,
+    "script_ratio": 1.0,
+    "leftover": []
+   }
+  }
+ }
+}

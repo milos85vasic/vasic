@@ -471,7 +471,12 @@ body {
 
 /* Product detail */
 .od-product-detail {
-  max-width: 72ch;
+  /* ~72ch measure at the body font's metrics, expressed as a font-independent
+     length. `ch` resolves to the loaded font's "0" advance, so with
+     font-display:swap the column re-widened when Inter replaced the fallback
+     (688px→781px), producing the desktop product-page CLS. A rem length keeps
+     the same settled width but cannot be reflowed by a font swap. */
+  max-width: 48.83rem;
   margin: 0 auto;
   padding-block: var(--od-space-8);
 }
