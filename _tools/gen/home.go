@@ -45,6 +45,39 @@ func productHref(doc *HomeDoc, slug string) string {
 	return homeAssetPrefix(doc.Lang) + lp
 }
 
+// homeCTAHref resolves a home CTA/link href so it works from BOTH the EN home
+// (site root) and a localized home at /<lang>/index.html. On the self-contained
+// (vasic.digital) build, page-relative hrefs like "portfolio/" or
+// "downloads/Portfolio_EN.pdf" resolve against /<lang>/ and 404; this applies the
+// "../" depth hop and localizes the well-known targets (the portfolio page and the
+// Portfolio PDF) to the current language. Jekyll (milosvasic) hrefs are already
+// root-anchored (relative_url), and fragments / root-absolute / protocol links are
+// left as-is — so EN output stays byte-identical (pfx == "").
+func homeCTAHref(doc *HomeDoc, href string) string {
+	if doc.Kind == "jekyll" || href == "" {
+		return href
+	}
+	switch {
+	case strings.HasPrefix(href, "#"),
+		strings.HasPrefix(href, "/"),
+		strings.HasPrefix(href, "http://"), strings.HasPrefix(href, "https://"),
+		strings.HasPrefix(href, "mailto:"), strings.HasPrefix(href, "tel:"):
+		return href
+	}
+	pfx := homeAssetPrefix(doc.Lang)
+	// Localize the portfolio link to the current language's real page.
+	if href == "portfolio/" {
+		return pfx + langPath(doc.Lang, "portfolio/")
+	}
+	// Serve the current language's Portfolio PDF (every Portfolio_<LANG>.pdf exists).
+	if strings.HasPrefix(href, "downloads/Portfolio_") && strings.HasSuffix(href, ".pdf") {
+		return pfx + "downloads/Portfolio_" + strings.ToUpper(htmlLang(doc.Lang)) + ".pdf"
+	}
+	// Any other page-relative internal href: apply the depth hop so it resolves
+	// from /<lang>/ (byte-identical on the EN root where pfx == "").
+	return pfx + href
+}
+
 // renderHomeCTA renders a hero/section call-to-action. `extra` is an optional
 // space-free extra class list (e.g. "od-magnetic") appended after the variant
 // class so a site can opt a button into a decorative motion effect without
@@ -66,7 +99,7 @@ func renderHomeCTA(doc *HomeDoc, c CTA, extra string) string {
 			variant, extra, c.DL, icon, i18nAttr(I18nText{I18n: c.I18n}), esc(c.Label))
 	}
 	return fmt.Sprintf(`<a class="od-btn od-btn--%s%s" href="%s"%s>%s</a>`,
-		variant, extra, c.Href, i18nAttr(I18nText{I18n: c.I18n}), esc(c.Label))
+		variant, extra, homeCTAHref(doc, c.Href), i18nAttr(I18nText{I18n: c.I18n}), esc(c.Label))
 }
 
 func renderCard(doc *HomeDoc, p *Portfolio, prefix string, c Card) string {

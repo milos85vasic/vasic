@@ -2,68 +2,61 @@ const { test, expect } = require('@playwright/test');
 
 // Per-language download switcher (auto-publish tooling verification).
 //
-// Proves that, on BOTH sites, the CURRENT UI language serves the matching
-// -language PDF, falling back to EN when no PDF exists for that language yet.
-// The shipped PDF languages are EN/SR/RU. `de` (German) has NO PDF — it was
-// English content mislabeled as German and was removed — so a `de` UI must
-// fall back to the EN PDF, and the switcher never offers a silent-404 DE row.
+// Proves that, on BOTH sites, the download popup offers the FULL set of shipped
+// languages and that the CURRENT UI language is pre-selected with its OWN
+// matching-language PDF. All 15 languages now ship genuine CV / Cover-Letter /
+// Portfolio PDFs (verified on disk + genuine translated content), so the switcher
+// offers all 15 and never falls back for a supported language. EN remains the
+// first/default row and the fallback for any UNSUPPORTED language.
 
 const MV = 'http://localhost:8082';   // milosvasic.ru/_site
 const VD = 'http://localhost:8401';   // vasic.digital
 
+// Every language that ships a PDF (order per the deploy language order).
+const ALL15 = ['EN', 'SR', 'RU', 'DE', 'ES', 'FR', 'BE', 'ZH', 'KK', 'HI', 'JA', 'KO', 'AR', 'TR', 'FA'];
+
 test.describe('milosvasic.ru — download popup honours the current UI language', () => {
 
-  test('UI lang = de (no DE PDF) → CV popup falls back to EN as the current choice and it resolves 200', async ({ page }) => {
-    // Set the UI language to German BEFORE first paint (same mechanism the site
-    // uses: localStorage "mv-lang" applied to <html lang> by the head bootstrap).
-    await page.addInitScript(() => { try { localStorage.setItem('mv-lang', 'de'); } catch (e) {} });
-    await page.goto(MV);
-    await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  // Each supported UI language pre-selects its OWN matching-language PDF (not EN).
+  for (const { ui, PDF } of [
+    { ui: 'de', PDF: 'DE' },
+    { ui: 'fr', PDF: 'FR' },
+    { ui: 'sr', PDF: 'SR' },
+  ]) {
+    test(`UI lang = ${ui} → CV popup pre-selects ${PDF} and it resolves 200`, async ({ page }) => {
+      // Set the UI language BEFORE first paint (same mechanism the site uses:
+      // localStorage "mv-lang" applied to <html lang> by the head bootstrap).
+      await page.addInitScript((l) => { try { localStorage.setItem('mv-lang', l); } catch (e) {} }, ui);
+      await page.goto(MV);
+      await expect(page.locator('html')).toHaveAttribute('lang', ui);
 
-    await page.locator('button[data-dl="cv"]').first().click();
-    const modal = page.locator('#dl-modal');
-    await expect(modal).toBeVisible();
+      await page.locator('button[data-dl="cv"]').first().click();
+      const modal = page.locator('#dl-modal');
+      await expect(modal).toBeVisible();
 
-    // German has no PDF (it was removed — English mislabeled as German), so the
-    // current-language row falls back to EN and no DE row is offered at all.
-    const current = modal.locator('.dl-lang[data-current="1"]');
-    await expect(current).toHaveCount(1);
-    await expect(current).toHaveAttribute('data-lang', 'EN');
-    await expect(current).toHaveAttribute('href', /Milos_Vasic_CV_EN\.pdf$/);
-    await expect(modal.locator('.dl-lang[data-lang="DE"]')).toHaveCount(0);
+      // The full language set is offered — no silent 404 rows, no missing langs.
+      await expect(modal.locator('.dl-lang')).toHaveCount(ALL15.length);
 
-    const href = await current.getAttribute('href');
-    const resp = await page.request.get(new URL(href, MV).toString());
-    expect(resp.status(), href).toBe(200);
-  });
+      // The current-language row is this UI language's own PDF.
+      const current = modal.locator('.dl-lang[data-current="1"]');
+      await expect(current).toHaveCount(1);
+      await expect(current).toHaveAttribute('data-lang', PDF);
+      await expect(current).toHaveAttribute('href', new RegExp(`Milos_Vasic_CV_${PDF}\\.pdf$`));
 
-  test('UI lang = fr (no PDF yet) → CV popup falls back to EN as the current choice', async ({ page }) => {
-    await page.addInitScript(() => { try { localStorage.setItem('mv-lang', 'fr'); } catch (e) {} });
-    await page.goto(MV);
-    await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+      const href = await current.getAttribute('href');
+      const resp = await page.request.get(new URL(href, MV).toString());
+      expect(resp.status(), href).toBe(200);
+    });
+  }
 
-    await page.locator('button[data-dl="cv"]').first().click();
-    const modal = page.locator('#dl-modal');
-    await expect(modal).toBeVisible();
-
-    const current = modal.locator('.dl-lang[data-current="1"]');
-    await expect(current).toHaveCount(1);
-    await expect(current).toHaveAttribute('data-lang', 'EN'); // fallback
-    await expect(current).toHaveAttribute('href', /Milos_Vasic_CV_EN\.pdf$/);
-  });
-
-  test('EN/SR/RU PDFs (CV, Cover Letter, Portfolio) return 200; DE was removed', async ({ page }) => {
-    for (const f of [
-      'Milos_Vasic_CV_EN.pdf', 'Milos_Vasic_CV_SR.pdf', 'Milos_Vasic_CV_RU.pdf',
-      'Milos_Vasic_Cover_Letter_EN.pdf', 'Milos_Vasic_Cover_Letter_SR.pdf', 'Milos_Vasic_Cover_Letter_RU.pdf',
-      'Portfolio_EN.pdf', 'Portfolio_SR.pdf', 'Portfolio_RU.pdf',
-    ]) {
-      const resp = await page.request.get(`${MV}/downloads/${f}`);
-      expect(resp.status(), f).toBe(200);
+  test('every language CV / Cover Letter / Portfolio PDF resolves 200 (all 15)', async ({ page }) => {
+    const docs = ['Milos_Vasic_CV', 'Milos_Vasic_Cover_Letter', 'Portfolio'];
+    for (const doc of docs) {
+      for (const L of ALL15) {
+        const resp = await page.request.get(`${MV}/downloads/${doc}_${L}.pdf`);
+        expect(resp.status(), `${doc}_${L}.pdf`).toBe(200);
+      }
     }
-    // DE PDFs intentionally don't exist (were English content mislabeled as German).
-    const de = await page.request.get(`${MV}/downloads/Milos_Vasic_CV_DE.pdf`);
-    expect(de.status(), 'Milos_Vasic_CV_DE.pdf should be absent').toBe(404);
   });
 });
 
@@ -78,13 +71,10 @@ test.describe('vasic.digital — localized portfolio serves the matching-languag
     expect(resp.status(), href).toBe(200);
   });
 
-  test('company Portfolio EN/SR/RU resolve 200; DE was removed', async ({ page }) => {
-    for (const f of ['Portfolio_EN.pdf', 'Portfolio_SR.pdf', 'Portfolio_RU.pdf']) {
-      const resp = await page.request.get(`${VD}/downloads/${f}`);
-      expect(resp.status(), f).toBe(200);
+  test('every language company Portfolio PDF resolves 200 (all 15)', async ({ page }) => {
+    for (const L of ALL15) {
+      const resp = await page.request.get(`${VD}/downloads/Portfolio_${L}.pdf`);
+      expect(resp.status(), `Portfolio_${L}.pdf`).toBe(200);
     }
-    // The DE portfolio was removed (English mislabeled as German).
-    const de = await page.request.get(`${VD}/downloads/Portfolio_DE.pdf`);
-    expect(de.status(), 'Portfolio_DE.pdf should be absent').toBe(404);
   });
 });

@@ -3,87 +3,87 @@
     "site": "vasic.digital",
     "path": "/",
     "browser": "chromium",
-    "transferredBytes": 232945,
+    "transferredBytes": 319369,
+    "requests": 13,
+    "lcpMs": 88
+  },
+  {
+    "site": "vasic.digital",
+    "path": "/products/helixtrack.html",
+    "browser": "chromium",
+    "transferredBytes": 303267,
     "requests": 12,
-    "lcpMs": 44
-  },
-  {
-    "site": "vasic.digital",
-    "path": "/products/helixtrack.html",
-    "browser": "chromium",
-    "transferredBytes": 224516,
-    "requests": 11,
-    "lcpMs": 48
+    "lcpMs": 64
   },
   {
     "site": "milosvasic.ru",
     "path": "/products/helixtrack.html",
     "browser": "chromium",
-    "transferredBytes": 367440,
+    "transferredBytes": 400565,
     "requests": 16,
-    "lcpMs": 36
+    "lcpMs": 40
   },
   {
     "site": "milosvasic.ru",
     "path": "/",
     "browser": "chromium",
-    "transferredBytes": 419183,
+    "transferredBytes": 464987,
     "requests": 18,
-    "lcpMs": 76
+    "lcpMs": 104
   },
   {
     "site": "vasic.digital",
     "path": "/",
     "browser": "firefox",
-    "transferredBytes": 375125,
-    "requests": 16,
+    "transferredBytes": 945098,
+    "requests": 17,
     "lcpMs": null
   },
   {
     "site": "vasic.digital",
     "path": "/products/helixtrack.html",
     "browser": "firefox",
-    "transferredBytes": 424285,
-    "requests": 16,
+    "transferredBytes": 977437,
+    "requests": 17,
     "lcpMs": null
   },
   {
     "site": "milosvasic.ru",
     "path": "/",
     "browser": "firefox",
-    "transferredBytes": 570633,
+    "transferredBytes": 680324,
+    "requests": 24,
+    "lcpMs": null
+  },
+  {
+    "site": "milosvasic.ru",
+    "path": "/products/helixtrack.html",
+    "browser": "firefox",
+    "transferredBytes": 579048,
     "requests": 22,
     "lcpMs": null
   },
   {
-    "site": "milosvasic.ru",
-    "path": "/products/helixtrack.html",
-    "browser": "firefox",
-    "transferredBytes": 567314,
-    "requests": 21,
+    "site": "vasic.digital",
+    "path": "/",
+    "browser": "webkit",
+    "transferredBytes": 319369,
+    "requests": 13,
     "lcpMs": null
   },
   {
     "site": "vasic.digital",
-    "path": "/",
+    "path": "/products/helixtrack.html",
     "browser": "webkit",
-    "transferredBytes": 232945,
+    "transferredBytes": 303267,
     "requests": 12,
     "lcpMs": null
   },
   {
-    "site": "vasic.digital",
-    "path": "/products/helixtrack.html",
-    "browser": "webkit",
-    "transferredBytes": 224516,
-    "requests": 11,
-    "lcpMs": null
-  },
-  {
     "site": "milosvasic.ru",
     "path": "/products/helixtrack.html",
     "browser": "webkit",
-    "transferredBytes": 367440,
+    "transferredBytes": 400565,
     "requests": 16,
     "lcpMs": null
   },
@@ -91,7 +91,7 @@
     "site": "milosvasic.ru",
     "path": "/",
     "browser": "webkit",
-    "transferredBytes": 466887,
+    "transferredBytes": 512691,
     "requests": 18,
     "lcpMs": null
   }

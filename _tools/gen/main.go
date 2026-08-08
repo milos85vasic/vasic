@@ -44,11 +44,15 @@ type Site struct {
 	// shared _layouts/default.html chrome (header/nav/footer), so the header is one
 	// source of truth across index/portfolio/product. false → self-contained pages.
 
-	Domain  string   // production host (from CNAME), no scheme
-	OGImage string   // root-relative Open Graph / letterhead image that exists on disk
-	Favicon string   // root-relative favicon that exists on disk
-	LDKind  string   // JSON-LD identity: "Organization" | "Person"
-	SameAs  []string // JSON-LD sameAs profile URLs
+	Domain  string // production host (from CNAME), no scheme
+	OGImage string // root-relative Open Graph / letterhead image that exists on disk
+	Favicon string // root-relative favicon that exists on disk
+	// TouchIcon is the root-relative apple-touch / launcher icon. If empty the
+	// apple-touch-icon falls back to OGImage. Kept separate so the launcher icon
+	// (a brand monogram) never has to double as the Open Graph share image.
+	TouchIcon string
+	LDKind    string   // JSON-LD identity: "Organization" | "Person"
+	SameAs    []string // JSON-LD sameAs profile URLs
 }
 
 // URL builds an absolute production URL from a root-relative path (no leading /).
@@ -70,16 +74,17 @@ var sites = map[string]*Site{
 		SameAs:   []string{"https://github.com/Helix-Track", "https://github.com/nexu-io"},
 	},
 	"milosvasic.ru": {
-		Key:      "milosvasic.ru",
-		Brand:    "Miloš Vasić",
-		CSSName:  "milosvasic",
-		HomeJSON: "_content/sites/milosvasic-ru.home.json",
-		Dir:      "milosvasic.ru",
-		Jekyll:   true,
-		Domain:   "milosvasic.ru",
-		OGImage:  "assets/images/profile-800.jpg",
-		Favicon:  "assets/images/milosvasic.png",
-		LDKind:   "Person",
+		Key:       "milosvasic.ru",
+		Brand:     "Miloš Vasić",
+		CSSName:   "milosvasic",
+		HomeJSON:  "_content/sites/milosvasic-ru.home.json",
+		Dir:       "milosvasic.ru",
+		Jekyll:    true,
+		Domain:    "milosvasic.ru",
+		OGImage:   "assets/images/profile-800.jpg",
+		Favicon:   "assets/images/mv-monogram.svg",
+		TouchIcon: "assets/images/mv-monogram-180.png",
+		LDKind:    "Person",
 		SameAs: []string{
 			"https://github.com/milos85vasic",
 			"https://gitlab.com/milos85vasic",

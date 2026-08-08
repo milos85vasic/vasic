@@ -3,17 +3,17 @@ const BASE = 'http://localhost:8082';
 
 test.describe('milosvasic.ru — download popup (EN/SR/RU chooser)', () => {
 
-  test('popup offers EN/SR/RU and builds correct CV hrefs', async ({ page }) => {
+  test('popup offers all shipped languages and builds correct CV hrefs', async ({ page }) => {
     await page.goto(BASE);
     await page.locator('button[data-dl="cv"]').first().click();
     const modal = page.locator('#dl-modal');
     await expect(modal).toBeVisible();
-    await expect(modal.locator('.dl-lang')).toHaveCount(3);
-    await expect(modal.locator('.dl-lang[data-lang="EN"]')).toHaveAttribute('href', /Milos_Vasic_CV_EN\.pdf$/);
-    await expect(modal.locator('.dl-lang[data-lang="SR"]')).toHaveAttribute('href', /Milos_Vasic_CV_SR\.pdf$/);
-    await expect(modal.locator('.dl-lang[data-lang="RU"]')).toHaveAttribute('href', /Milos_Vasic_CV_RU\.pdf$/);
-    // DE was removed (English mislabeled as German) — no silent-404 DE row.
-    await expect(modal.locator('.dl-lang[data-lang="DE"]')).toHaveCount(0);
+    // All 15 languages ship genuine PDFs → the switcher offers the full set.
+    await expect(modal.locator('.dl-lang')).toHaveCount(15);
+    for (const L of ['EN', 'SR', 'RU', 'DE']) {
+      await expect(modal.locator(`.dl-lang[data-lang="${L}"]`))
+        .toHaveAttribute('href', new RegExp(`Milos_Vasic_CV_${L}\\.pdf$`));
+    }
   });
 
   test('popup switches to Cover Letter hrefs', async ({ page }) => {

@@ -241,6 +241,12 @@ for (const site of SITES) {
       // ---- 2. Floating back-to-top button on long pages ----------------------
       for (const pg of site.chromePages) {
         test(`back-to-top button works — ${pg.type}`, async ({ page }) => {
+          // Force reduced motion BEFORE load so back-to-top does an INSTANT jump
+          // (motion.js honors prefers-reduced-motion) — deterministic under parallel
+          // CI load, where RAF-driven smooth scroll can stall mid-animation. The
+          // reveal is scroll-based and unaffected. (Standalone-verified: reduced →
+          // finalScrollY 0; smooth under load stalled at ~70.)
+          await page.emulateMedia({ reducedMotion: 'reduce' });
           await page.goto(site.base + pg.path, { waitUntil: 'load' });
           const maxScroll = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight);
           test.skip(maxScroll < 650, 'page too short to require a back-to-top control');
@@ -269,11 +275,11 @@ for (const site of SITES) {
           await btn.focus();
           expect(await btn.evaluate((node) => node === document.activeElement), 'back-to-top must be keyboard-focusable').toBeTruthy();
 
-          // Clicking returns to the top (smooth scroll from a tall page can take a moment — poll).
+          // Clicking returns to the top (instant jump under the reduced-motion set above).
           await btn.click();
           await expect
             .poll(() => page.evaluate(() => window.scrollY), {
-              timeout: 6000,
+              timeout: 10000,
               message: 'clicking back-to-top must return scroll to the top',
             })
             .toBeLessThanOrEqual(4);

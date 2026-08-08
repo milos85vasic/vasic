@@ -397,7 +397,7 @@ body {
   letter-spacing: var(--od-tracking-wide);
   text-transform: uppercase;
   color: var(--od-accent);
-  margin-bottom: var(--od-space-3);
+  margin-bottom: var(--od-space-4);
 }
 .od-section__eyebrow::before {
   content: ""; width: 10px; height: 10px;

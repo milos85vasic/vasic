@@ -5,6 +5,10 @@ module.exports = defineConfig({
   timeout: 60000,
   expect: { timeout: 7000 },
   fullyParallel: true,
+  // Absorb load-induced flakiness (smooth-scroll/animation timing under parallel
+  // CPU contention). A genuine failure still fails both attempts; Playwright
+  // reports a pass-on-retry as "flaky" so it stays visible, never hidden.
+  retries: 1,
   reporter: [['list'], ['html', { outputFolder: 'evidence/html-report', open: 'never' }]],
   use: { screenshot: 'only-on-failure', trace: 'retain-on-failure' },
   projects: [

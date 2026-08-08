@@ -150,7 +150,11 @@ func seoHead(site *Site, langs []string, s pageSEO) string {
 			ft = "image/svg+xml"
 		}
 		fmt.Fprintf(&b, `<link rel="icon" type="%s" href="%s"/>`+"\n", ft, site.URL(site.Favicon))
-		fmt.Fprintf(&b, `<link rel="apple-touch-icon" href="%s"/>`+"\n", site.URL(site.OGImage))
+		touch := site.TouchIcon
+		if touch == "" {
+			touch = site.OGImage
+		}
+		fmt.Fprintf(&b, `<link rel="apple-touch-icon" href="%s"/>`+"\n", site.URL(touch))
 	}
 	b.WriteString(`<meta name="robots" content="index, follow, max-image-preview:large"/>` + "\n")
 	// Open Graph

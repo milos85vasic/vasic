@@ -7,7 +7,7 @@ const { defineConfig, devices } = require('@playwright/test');
 // (the task's required engine); override BASE via VASIC_BASE / MILOS_BASE env vars.
 module.exports = defineConfig({
   testDir: './tests',
-  testMatch: /(restyle-seo-regression|v170-fixes|v171-hardcoding)\.spec\.js/,
+  testMatch: /(restyle-seo-regression|v170-fixes|v171-hardcoding|all-languages-link-integrity)\.spec\.js/,
   timeout: 60000,
   expect: { timeout: 10000 },
   fullyParallel: true,
