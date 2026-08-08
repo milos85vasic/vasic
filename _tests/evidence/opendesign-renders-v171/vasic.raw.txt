@@ -1,0 +1,25 @@
+<question-form id="discovery" title="Quick brief — 30 seconds">
+{
+  "description": "I'll lock these in before building. Skip what doesn't apply — I'll fill defaults.",
+  "questions": [
+    { "id": "output", "label": "What are we making?", "type": "radio", "required": true,
+      "options": ["Slide deck / pitch", "Single web prototype / landing", "Multi-screen app prototype", "Dashboard / tool UI", "Editorial / marketing page", "Other — I'll describe"] },
+    { "id": "platform", "label": "Target platform", "type": "checkbox", "maxSelections": 4,
+      "options": ["Responsive web", "Desktop web", "iOS app", "Android app", "Tablet", "Desktop app", "Fixed canvas (1920×1080)"] },
+    { "id": "audience", "label": "Who is this for?", "type": "text",
+      "placeholder": "e.g. early-stage investors, dev-tools buyers, internal exec review" },
+    { "id": "tone", "label": "Visual tone", "type": "checkbox", "maxSelections": 2,
+      "options": ["Editorial / magazine", "Modern minimal", "Playful / illustrative", "Tech / utility", "Luxury / refined", "Brutalist / experimental", "Human / approachable"] },
+    { "id": "brand", "label": "Brand context", "type": "radio",
+      "options": [
+        { "label": "Pick a direction for me", "value": "pick_direction" },
+        { "label": "I have a brand spec — I'll share it", "value": "brand_spec" },
+        { "label": "Match a reference site / screenshot — I'll attach it", "value": "reference_match" }
+      ] },
+    { "id": "scale", "label": "Roughly how much?", "type": "text",
+      "placeholder": "e.g. 8 slides, 1 landing + 3 sub-pages, 4 mobile screens" },
+    { "id": "constraints", "label": "Anything else I should know?", "type": "textarea",
+      "placeholder": "Real copy, fonts you must use, things to avoid, deadline…" }
+  ]
+}
+</question-form>

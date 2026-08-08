@@ -1,0 +1,2406 @@
+[
+  {
+    "site": "vasic.digital",
+    "id": "vd-home-light",
+    "url": "https://vasic.digital/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": null,
+      "title": "Vasic Digital — AI-Native Software Engineering",
+      "landmarks": {
+        "header": 1,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "AI-native software engineering, built to be trusted."
+        },
+        {
+          "tag": "H2",
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "tag": "H2",
+          "text": "AI-based development, end to end."
+        },
+        {
+          "tag": "H3",
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "tag": "H3",
+          "text": "Agent orchestration"
+        },
+        {
+          "tag": "H3",
+          "text": "LLM verification"
+        },
+        {
+          "tag": "H3",
+          "text": "Retrieval & memory"
+        },
+        {
+          "tag": "H3",
+          "text": "Defensive LLM"
+        },
+        {
+          "tag": "H2",
+          "text": "The Helix product family & LLM infrastructure"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixMemory beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Governance as an auditable fact, not an aspiration."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Server Factory — infrastructure automation"
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "tag": "H3",
+          "text": "Languages"
+        },
+        {
+          "tag": "H3",
+          "text": "AI / LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "Backend"
+        },
+        {
+          "tag": "H3",
+          "text": "Data"
+        },
+        {
+          "tag": "H3",
+          "text": "Infra / DevOps"
+        },
+        {
+          "tag": "H3",
+          "text": "Testing / QA"
+        },
+        {
+          "tag": "H2",
+          "text": "One fleet, one discipline — see all 33 products."
+        },
+        {
+          "tag": "H2",
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 2,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "langSwitcher": 19
+    },
+    "focus": {
+      "focused": "A.od-skip-link",
+      "text": "Skip to content",
+      "outlineStyle": "auto",
+      "outlineWidth": "1px",
+      "outlineColor": "rgb(0, 95, 204)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 36,
+    "incomplete": [
+      {
+        "id": "aria-valid-attr-value",
+        "impact": "critical",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 288
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "id": "vd-home-dark",
+    "url": "https://vasic.digital/",
+    "dark": true,
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark",
+      "title": "Vasic Digital — AI-Native Software Engineering",
+      "landmarks": {
+        "header": 1,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "AI-native software engineering, built to be trusted."
+        },
+        {
+          "tag": "H2",
+          "text": "A fleet, not a monolith."
+        },
+        {
+          "tag": "H2",
+          "text": "AI-based development, end to end."
+        },
+        {
+          "tag": "H3",
+          "text": "Multi-provider LLM access"
+        },
+        {
+          "tag": "H3",
+          "text": "Agent orchestration"
+        },
+        {
+          "tag": "H3",
+          "text": "LLM verification"
+        },
+        {
+          "tag": "H3",
+          "text": "Retrieval & memory"
+        },
+        {
+          "tag": "H3",
+          "text": "Defensive LLM"
+        },
+        {
+          "tag": "H2",
+          "text": "The Helix product family & LLM infrastructure"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixMemory beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Governance as an auditable fact, not an aspiration."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Vasic Digital utilities"
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Server Factory — infrastructure automation"
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "Grounded in our actual stack."
+        },
+        {
+          "tag": "H3",
+          "text": "Languages"
+        },
+        {
+          "tag": "H3",
+          "text": "AI / LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "Backend"
+        },
+        {
+          "tag": "H3",
+          "text": "Data"
+        },
+        {
+          "tag": "H3",
+          "text": "Infra / DevOps"
+        },
+        {
+          "tag": "H3",
+          "text": "Testing / QA"
+        },
+        {
+          "tag": "H2",
+          "text": "One fleet, one discipline — see all 33 products."
+        },
+        {
+          "tag": "H2",
+          "text": "Let's build something verifiable."
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 2,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "langSwitcher": 19
+    },
+    "focus": {
+      "focused": "A.od-skip-link",
+      "text": "Skip to content",
+      "outlineStyle": "auto",
+      "outlineWidth": "1px",
+      "outlineColor": "rgb(0, 95, 204)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 36,
+    "incomplete": [
+      {
+        "id": "aria-valid-attr-value",
+        "impact": "critical",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 288
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "id": "vd-sr",
+    "url": "https://vasic.digital/sr/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "sr",
+      "dir": "ltr",
+      "theme": null,
+      "title": "Vasic Digital — AI‑нативно софтверско инжењерство",
+      "landmarks": {
+        "header": 1,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "AI‑нативно софтверско инжењерство, изграђено да буде поуздан"
+        },
+        {
+          "tag": "H2",
+          "text": "Флота, а не монолит."
+        },
+        {
+          "tag": "H2",
+          "text": "Развој заснован на AI‑у, од почетка до краја."
+        },
+        {
+          "tag": "H3",
+          "text": "Приступ LLM‑у са више провајдера"
+        },
+        {
+          "tag": "H3",
+          "text": "Оркестрација агената"
+        },
+        {
+          "tag": "H3",
+          "text": "Верификација LLM‑а"
+        },
+        {
+          "tag": "H3",
+          "text": "Претраживање и меморија"
+        },
+        {
+          "tag": "H3",
+          "text": "Одбрана LLM‑а"
+        },
+        {
+          "tag": "H2",
+          "text": "Породица производа Helix & LLM инфраструктура"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixMemory beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Управљање као проверљив факт, а не као амбиција."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Vasic Digital алати"
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Реусабле Модуле Суите scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Server Factory — аутоматизација инфраструктуре"
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Цоре Framework stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "Засновано на нашој стварној стеку."
+        },
+        {
+          "tag": "H3",
+          "text": "Језици"
+        },
+        {
+          "tag": "H3",
+          "text": "AI / LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "Позадина"
+        },
+        {
+          "tag": "H3",
+          "text": "Податци"
+        },
+        {
+          "tag": "H3",
+          "text": "Инфра / DevOps"
+        },
+        {
+          "tag": "H3",
+          "text": "Тестирање / QA"
+        },
+        {
+          "tag": "H2",
+          "text": "Једна флота, једна дисциплина — погледајте свих 33 производа"
+        },
+        {
+          "tag": "H2",
+          "text": "Хајде да изградимо нешто верифицируемо."
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 2,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Прескочи до садржаја",
+        "href": "#main"
+      },
+      "langSwitcher": 19
+    },
+    "focus": {
+      "focused": "A.od-skip-link",
+      "text": "Прескочи до садржаја",
+      "outlineStyle": "auto",
+      "outlineWidth": "1px",
+      "outlineColor": "rgb(0, 95, 204)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 36,
+    "incomplete": [
+      {
+        "id": "aria-valid-attr-value",
+        "impact": "critical",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 288
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "id": "vd-ar-rtl",
+    "url": "https://vasic.digital/ar/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "ar",
+      "dir": "rtl",
+      "theme": null,
+      "title": "Vasic Digital — هندسة برمجيات AI-Native",
+      "landmarks": {
+        "header": 1,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "هندسة برمجيات AI-native، مبنية لتكون موثوقة."
+        },
+        {
+          "tag": "H2",
+          "text": "أسطول، ليس مونوليث."
+        },
+        {
+          "tag": "H2",
+          "text": "تطوير قائم على الذكاء الاصطناعي، من البداية إلى النهاية."
+        },
+        {
+          "tag": "H3",
+          "text": "وصول متعدد المزودين للـ LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "تنسيق الوكلاء"
+        },
+        {
+          "tag": "H3",
+          "text": "التحقق من LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "الاسترجاع والذاكرة"
+        },
+        {
+          "tag": "H3",
+          "text": "LLM دفاعي"
+        },
+        {
+          "tag": "H2",
+          "text": "عائلة منتجات Helix وبنية LLM التحتية"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixMemory beta"
+        },
+        {
+          "tag": "H2",
+          "text": "الحوكمة كحقيقة قابلة للتدقيق، لا كطموح."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "أدوات Vasic Digital المساعدة"
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Server Factory — أتمتة البنية التحتية"
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "مستند إلى مجموعتنا الفعلية."
+        },
+        {
+          "tag": "H3",
+          "text": "اللغات"
+        },
+        {
+          "tag": "H3",
+          "text": "الذكاء الاصطناعي / نماذج اللغة الكبيرة"
+        },
+        {
+          "tag": "H3",
+          "text": "الخلفية"
+        },
+        {
+          "tag": "H3",
+          "text": "البيانات"
+        },
+        {
+          "tag": "H3",
+          "text": "البنية التحتية / DevOps"
+        },
+        {
+          "tag": "H3",
+          "text": "الاختبار / QA"
+        },
+        {
+          "tag": "H2",
+          "text": "أسطول واحد، انضباط واحد — شاهد جميع الـ 33 منتجًا."
+        },
+        {
+          "tag": "H2",
+          "text": "لنُنشئ شيئًا قابلًا للتحقق."
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 2,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "تخطى إلى المحتوى",
+        "href": "#main"
+      },
+      "langSwitcher": 19
+    },
+    "focus": {
+      "focused": "A.od-skip-link",
+      "text": "تخطى إلى المحتوى",
+      "outlineStyle": "auto",
+      "outlineWidth": "1px",
+      "outlineColor": "rgb(0, 95, 204)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 36,
+    "incomplete": [
+      {
+        "id": "aria-valid-attr-value",
+        "impact": "critical",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 248
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "id": "vd-product",
+    "url": "https://vasic.digital/products/helixtrack.html",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": null,
+      "title": "HelixTrack — Vasic Digital",
+      "landmarks": {
+        "header": 1,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "HelixTrack betalicense: TBD"
+        },
+        {
+          "tag": "H2",
+          "text": "Source"
+        },
+        {
+          "tag": "H2",
+          "text": "Origin story"
+        },
+        {
+          "tag": "H2",
+          "text": "What sets it apart"
+        },
+        {
+          "tag": "H2",
+          "text": "The innovations inside"
+        },
+        {
+          "tag": "H2",
+          "text": "Engineering the hard bits"
+        },
+        {
+          "tag": "H2",
+          "text": "Under the hood"
+        },
+        {
+          "tag": "H2",
+          "text": "The honest status"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 0,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "langSwitcher": 19
+    },
+    "focus": {
+      "focused": "A.od-skip-link",
+      "text": "Skip to content",
+      "outlineStyle": "auto",
+      "outlineWidth": "1px",
+      "outlineColor": "rgb(0, 95, 204)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 38,
+    "incomplete": [
+      {
+        "id": "aria-valid-attr-value",
+        "impact": "critical",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 89
+      }
+    ]
+  },
+  {
+    "site": "vasic.digital",
+    "id": "vd-portfolio",
+    "url": "https://vasic.digital/portfolio/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": null,
+      "title": "Portfolio — Vasic Digital",
+      "landmarks": {
+        "header": 1,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Portfolio"
+        },
+        {
+          "tag": "H2",
+          "text": "One fleet, one discipline"
+        },
+        {
+          "tag": "H2",
+          "text": "Helix family & LLM infrastructure 20"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixSkills beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixMemory beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixSpecifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTerminator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixOTA in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTranslate beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "Helix-Flow roadmap"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixBuilder beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixGitpx shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixPlay beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Vasic Digital utilities 8"
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "Vasic Digital Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Server Factory 5"
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory — Additional Components mixed"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 0,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to content",
+        "href": "#main"
+      },
+      "langSwitcher": 19
+    },
+    "focus": {
+      "focused": "A.od-skip-link",
+      "text": "Skip to content",
+      "outlineStyle": "auto",
+      "outlineWidth": "1px",
+      "outlineColor": "rgb(0, 95, 204)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 33,
+    "incomplete": [
+      {
+        "id": "aria-valid-attr-value",
+        "impact": "critical",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 13
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "id": "mv-home-light",
+    "url": "https://milosvasic.ru/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light",
+      "title": "Miloš Vasić | AI Engineer — Verifiable AI-Development Systems",
+      "landmarks": {
+        "header": 0,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Miloš Vasić"
+        },
+        {
+          "tag": "H2",
+          "text": "I design and build the software that turns LLMs into dependa"
+        },
+        {
+          "tag": "H2",
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Product-grade tools I built and maintain."
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Predating the AI line — my DevOps toolchain."
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "The discipline that underpins the products."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "The stack I actually build on."
+        },
+        {
+          "tag": "H3",
+          "text": "Languages"
+        },
+        {
+          "tag": "H3",
+          "text": "AI / LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "Backend"
+        },
+        {
+          "tag": "H3",
+          "text": "Data & Infra"
+        },
+        {
+          "tag": "H2",
+          "text": "In one line."
+        },
+        {
+          "tag": "H3",
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 1,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "langSwitcher": 6
+    },
+    "focus": {
+      "focused": "A.skip-link",
+      "text": "Skip to main content",
+      "outlineStyle": "solid",
+      "outlineWidth": "3px",
+      "outlineColor": "rgb(255, 255, 255)",
+      "boxShadow": "none"
+    },
+    "violationCount": 1,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 1,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [
+      {
+        "id": "target-size",
+        "impact": "serious",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "wcag": [
+          "wcag22aa",
+          "wcag258"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".brand"
+            ],
+            "html": "<a class=\"brand\" href=\"/#top\">milos<span class=\"dot\">.</span>vasic</a>",
+            "failureSummary": "Fix any of the following:\n  Target has insufficient size (113.9px by 23.5px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8.8px instead of at least 24px."
+          }
+        ]
+      }
+    ],
+    "passesCount": 33,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "id": "mv-home-dark",
+    "url": "https://milosvasic.ru/",
+    "dark": true,
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "dark",
+      "title": "Miloš Vasić | AI Engineer — Verifiable AI-Development Systems",
+      "landmarks": {
+        "header": 0,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Miloš Vasić"
+        },
+        {
+          "tag": "H2",
+          "text": "I design and build the software that turns LLMs into dependa"
+        },
+        {
+          "tag": "H2",
+          "text": "The Helix line, in priority order."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Product-grade tools I built and maintain."
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Predating the AI line — my DevOps toolchain."
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "The discipline that underpins the products."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "The stack I actually build on."
+        },
+        {
+          "tag": "H3",
+          "text": "Languages"
+        },
+        {
+          "tag": "H3",
+          "text": "AI / LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "Backend"
+        },
+        {
+          "tag": "H3",
+          "text": "Data & Infra"
+        },
+        {
+          "tag": "H2",
+          "text": "In one line."
+        },
+        {
+          "tag": "H3",
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 1,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "langSwitcher": 6
+    },
+    "focus": {
+      "focused": "A.skip-link",
+      "text": "Skip to main content",
+      "outlineStyle": "solid",
+      "outlineWidth": "3px",
+      "outlineColor": "rgb(20, 17, 13)",
+      "boxShadow": "none"
+    },
+    "violationCount": 1,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 1,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [
+      {
+        "id": "target-size",
+        "impact": "serious",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "wcag": [
+          "wcag22aa",
+          "wcag258"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".brand"
+            ],
+            "html": "<a class=\"brand\" href=\"/#top\">milos<span class=\"dot\">.</span>vasic</a>",
+            "failureSummary": "Fix any of the following:\n  Target has insufficient size (113.9px by 23.5px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8.8px instead of at least 24px."
+          }
+        ]
+      }
+    ],
+    "passesCount": 33,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "id": "mv-sr",
+    "url": "https://milosvasic.ru/sr/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "sr",
+      "dir": "ltr",
+      "theme": "light",
+      "title": "Miloš Vasić | AI Engineer — Verifiable AI-Development Systems",
+      "landmarks": {
+        "header": 0,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Miloš Vasić"
+        },
+        {
+          "tag": "H2",
+          "text": "Дизајнирам и градим софтвер који претвара LLM‑ове у поуздане"
+        },
+        {
+          "tag": "H2",
+          "text": "Helix линија, према приоритету."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Алати квалитета производа које сам изградио и одржавам."
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Реусабле Модуле Суите scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Пре AI линије — мој DevOps алатни ланац."
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Цоре stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "Дисциплина која подржава производе."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Технолошки стек на коме заиста градим."
+        },
+        {
+          "tag": "H3",
+          "text": "Језици"
+        },
+        {
+          "tag": "H3",
+          "text": "AI / LLM"
+        },
+        {
+          "tag": "H3",
+          "text": "Позадина"
+        },
+        {
+          "tag": "H3",
+          "text": "Подаци & Инфраструктура"
+        },
+        {
+          "tag": "H2",
+          "text": "У једној линији."
+        },
+        {
+          "tag": "H3",
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 1,
+      "imgNoAlt": 0,
+      "skipLink": null,
+      "langSwitcher": 6
+    },
+    "focus": {
+      "focused": "A.skip-link",
+      "text": "Пређи на садржај",
+      "outlineStyle": "solid",
+      "outlineWidth": "3px",
+      "outlineColor": "rgb(255, 255, 255)",
+      "boxShadow": "none"
+    },
+    "violationCount": 0,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [],
+    "passesCount": 33,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "id": "mv-ar-rtl",
+    "url": "https://milosvasic.ru/ar/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "ar",
+      "dir": "rtl",
+      "theme": "light",
+      "title": "Miloš Vasić | AI Engineer — Verifiable AI-Development Systems",
+      "landmarks": {
+        "header": 0,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Miloš Vasić"
+        },
+        {
+          "tag": "H2",
+          "text": "أصمم وأبني البرمجيات التي تحول الـ LLMs إلى منتجات موثوقة."
+        },
+        {
+          "tag": "H2",
+          "text": "خط Helix، بترتيب الأولوية."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H2",
+          "text": "أدوات بمستوى المنتج قمت ببنائها وصيانتها."
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "قبل خط AI — سلسلة أدوات DevOps الخاصة بي."
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H2",
+          "text": "الانضباط الذي يدعم المنتجات."
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "المجموعة التقنية التي أبني عليها فعليًا."
+        },
+        {
+          "tag": "H3",
+          "text": "اللغات"
+        },
+        {
+          "tag": "H3",
+          "text": "الذكاء الاصطناعي / نماذج اللغة الكبيرة"
+        },
+        {
+          "tag": "H3",
+          "text": "الخلفية"
+        },
+        {
+          "tag": "H3",
+          "text": "البيانات والبنية التحتية"
+        },
+        {
+          "tag": "H2",
+          "text": "في سطر واحد."
+        },
+        {
+          "tag": "H3",
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 1,
+      "imgNoAlt": 0,
+      "skipLink": null,
+      "langSwitcher": 6
+    },
+    "focus": {
+      "focused": "A.skip-link",
+      "text": "الانتقال إلى المحتوى الرئيسي",
+      "outlineStyle": "solid",
+      "outlineWidth": "3px",
+      "outlineColor": "rgb(255, 255, 255)",
+      "boxShadow": "none"
+    },
+    "violationCount": 1,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 2,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [
+      {
+        "id": "target-size",
+        "impact": "serious",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "wcag": [
+          "wcag22aa",
+          "wcag258"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "#lang-btn"
+            ],
+            "html": "<button class=\"icon-btn\" id=\"lang-btn\" aria-haspopup=\"true\" aria-expanded=\"false\" aria-label=\"تغيير اللغة\" data-i18n-aria=\"aria.changeLang\" title=\"اللغة\" data-i18n-title=\"title.language\">AR</button>",
+            "failureSummary": "Fix any of the following:\n  Target has insufficient size because it is partially obscured (smallest space is 38px by 5.9px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 5.8px instead of at least 24px."
+          },
+          {
+            "target": [
+              "#theme-btn"
+            ],
+            "html": "<button class=\"icon-btn\" id=\"theme-btn\" aria-label=\"تبديل السمة الداكنة / الفاتحة\" data-i18n-aria=\"aria.toggleTheme\" title=\"السمة\" data-i18n-title=\"title.theme\" aria-pressed=\"false\">◐</button>",
+            "failureSummary": "Fix any of the following:\n  Target has insufficient size because it is partially obscured (smallest space is 38px by 5.9px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 5.8px instead of at least 24px."
+          }
+        ]
+      }
+    ],
+    "passesCount": 33,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "id": "mv-product",
+    "url": "https://milosvasic.ru/products/helixtrack.html",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light",
+      "title": "HelixTrack — Miloš Vasić | Miloš Vasić",
+      "landmarks": {
+        "header": 0,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "HelixTrack betalicense: TBD"
+        },
+        {
+          "tag": "H2",
+          "text": "Source"
+        },
+        {
+          "tag": "H2",
+          "text": "Origin story"
+        },
+        {
+          "tag": "H2",
+          "text": "What sets it apart"
+        },
+        {
+          "tag": "H2",
+          "text": "The innovations inside"
+        },
+        {
+          "tag": "H2",
+          "text": "Engineering the hard bits"
+        },
+        {
+          "tag": "H2",
+          "text": "Under the hood"
+        },
+        {
+          "tag": "H2",
+          "text": "The honest status"
+        },
+        {
+          "tag": "H3",
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 0,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "langSwitcher": 6
+    },
+    "focus": {
+      "focused": "A.skip-link",
+      "text": "Skip to main content",
+      "outlineStyle": "solid",
+      "outlineWidth": "3px",
+      "outlineColor": "rgb(255, 255, 255)",
+      "boxShadow": "none"
+    },
+    "violationCount": 1,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 1,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [
+      {
+        "id": "target-size",
+        "impact": "serious",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "wcag": [
+          "wcag22aa",
+          "wcag258"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".brand"
+            ],
+            "html": "<a class=\"brand\" href=\"/#top\">milos<span class=\"dot\">.</span>vasic</a>",
+            "failureSummary": "Fix any of the following:\n  Target has insufficient size (113.9px by 23.5px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8.8px instead of at least 24px."
+          }
+        ]
+      }
+    ],
+    "passesCount": 36,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 19
+      }
+    ]
+  },
+  {
+    "site": "milosvasic.ru",
+    "id": "mv-portfolio",
+    "url": "https://milosvasic.ru/portfolio/",
+    "httpStatus": 200,
+    "dom": {
+      "lang": "en",
+      "dir": "ltr",
+      "theme": "light",
+      "title": "Portfolio — Miloš Vasić | Miloš Vasić",
+      "landmarks": {
+        "header": 0,
+        "nav": 1,
+        "main": 1,
+        "footer": 1
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Portfolio"
+        },
+        {
+          "tag": "H2",
+          "text": "One fleet, one discipline"
+        },
+        {
+          "tag": "H2",
+          "text": "Helix family & LLM infrastructure 20"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTrack beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCode beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixAgent beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixLLM beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixSkills beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixMemory beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixSpecifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTerminator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixOTA in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixTranslate beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMsVerifier beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMOrchestrator beta"
+        },
+        {
+          "tag": "H3",
+          "text": "LLMProvider beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixCluster in-development"
+        },
+        {
+          "tag": "H3",
+          "text": "Helix-Flow roadmap"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixBuilder beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixGitpx shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixPlay beta"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixConstitution shipped"
+        },
+        {
+          "tag": "H3",
+          "text": "HelixQA beta"
+        },
+        {
+          "tag": "H2",
+          "text": "Vasic Digital utilities 8"
+        },
+        {
+          "tag": "H3",
+          "text": "Catalogizer production"
+        },
+        {
+          "tag": "H3",
+          "text": "Courses-Creator production"
+        },
+        {
+          "tag": "H3",
+          "text": "VisionEngine active"
+        },
+        {
+          "tag": "H3",
+          "text": "DocProcessor active"
+        },
+        {
+          "tag": "H3",
+          "text": "Docs Chain active"
+        },
+        {
+          "tag": "H3",
+          "text": "task_bridge scaffold"
+        },
+        {
+          "tag": "H3",
+          "text": "Herald active"
+        },
+        {
+          "tag": "H3",
+          "text": "Vasic Digital Reusable Module Suite scaffold"
+        },
+        {
+          "tag": "H2",
+          "text": "Server Factory 5"
+        },
+        {
+          "tag": "H3",
+          "text": "Mail Server Factory production"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory Core Framework stable"
+        },
+        {
+          "tag": "H3",
+          "text": "Qemu-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Parallels-Utils active"
+        },
+        {
+          "tag": "H3",
+          "text": "Server Factory — Additional Components mixed"
+        },
+        {
+          "tag": "H3",
+          "text": "CV"
+        }
+      ],
+      "h1Count": 1,
+      "imgTotal": 0,
+      "imgNoAlt": 0,
+      "skipLink": {
+        "text": "Skip to main content",
+        "href": "#top"
+      },
+      "langSwitcher": 6
+    },
+    "focus": {
+      "focused": "A.skip-link",
+      "text": "Skip to main content",
+      "outlineStyle": "solid",
+      "outlineWidth": "3px",
+      "outlineColor": "rgb(255, 255, 255)",
+      "boxShadow": "none"
+    },
+    "violationCount": 1,
+    "nodeByImpact": {
+      "critical": 0,
+      "serious": 1,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "rules": [
+      {
+        "id": "target-size",
+        "impact": "serious",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "wcag": [
+          "wcag22aa",
+          "wcag258"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".brand"
+            ],
+            "html": "<a class=\"brand\" href=\"/#top\">milos<span class=\"dot\">.</span>vasic</a>",
+            "failureSummary": "Fix any of the following:\n  Target has insufficient size (113.9px by 23.5px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8.8px instead of at least 24px."
+          }
+        ]
+      }
+    ],
+    "passesCount": 31,
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 2
+      }
+    ]
+  }
+]

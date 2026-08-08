@@ -1,0 +1,259 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miloš Vasić — AI Engineer</title>
+  <style>
+    :root {
+      --bg: oklch(15% 0.02 100);
+      --surface: oklch(20% 0.02 100);
+      --fg: oklch(95% 0.02 100);
+      --muted: oklch(50% 0.01 100);
+      --border: oklch(30% 0.02 100);
+      --accent: oklch(60% 0.22 25);
+
+      --font-display: 'Anton', ui-monospace, 'IBM Plex Mono', 'JetBrains Mono', Menlo, monospace;
+      --font-body: ui-monospace, 'IBM Plex Mono', 'JetBrains Mono', Menlo, monospace;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: oklch(98% 0.004 240);
+        --surface: oklch(100% 0 0);
+        --fg: oklch(15% 0.02 100);
+        --muted: oklch(40% 0.02 100);
+        --border: oklch(15% 0.02 100);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      line-height: 1.6;
+      color: var(--fg);
+      background-color: var(--bg);
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 8vw, 6rem);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem;
+      display: grid;
+      gap: 4rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+    }
+
+    footer {
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .terminal {
+      font-family: var(--font-body);
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+
+    .terminal-line {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+
+    .prompt {
+      color: var(--accent);
+      margin-right: 1rem;
+    }
+
+    .output {
+      flex-grow: 1;
+    }
+
+    .cta {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--bg);
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+
+    .cta:hover {
+      background-color: color-mix(in oklch, var(--accent), var(--fg) 20%);
+    }
+
+    @media (max-width: 768px) {
+      header, main, footer {
+        padding: 1rem;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Miloš Vasić</h1>
+    <p>Senior AI Engineer | Building Evidence-Verified AI Systems</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>About Me</h2>
+      <p>I specialize in building robust, evidence-verified AI systems. My work focuses on creating AI solutions that are not only technically sound but also aligned with real-world applications and user needs.</p>
+      <p>I'm a strong advocate for anti-bluff practices in AI development, ensuring that all AI systems I build are transparent, explainable, and reliable.</p>
+    </section>
+
+    <section>
+      <h2>Selected Work</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Helix Family</h3>
+          <p>A series of AI systems designed for specific domains, each built with evidence-based approaches and rigorous testing.</p>
+          <div class="terminal">
+            <div class="terminal-line">
+              <span class="prompt">$</span>
+              <span class="output">python helix.py --domain healthcare</span>
+            </div>
+            <div class="terminal-line">
+              <span class="prompt">$</span>
+              <span class="output">python helix.py --domain finance</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>AI Ethics Framework</h3>
+          <p>A comprehensive guide to ethical AI development, covering transparency, fairness, and accountability.</p>
+          <div class="terminal">
+            <div class="terminal-line">
+              <span class="prompt">$</span>
+              <span class="output">python ethics.py --generate-report</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Technical Skills</h3>
+          <ul>
+            <li>Machine Learning</li>
+            <li>Deep Learning</li>
+            <li>Natural Language Processing</li>
+            <li>Computer Vision</li>
+            <li>Reinforcement Learning</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Soft Skills</h3>
+          <ul>
+            <li>Project Management</li>
+            <li>Team Leadership</li>
+            <li>Communication</li>
+            <li>Problem-Solving</li>
+            <li>Critical Thinking</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Download My CV</h2>
+      <p>Interested in my professional background? Download my CV to learn more about my experience and qualifications.</p>
+      <a href="#" class="cta">Download CV</a>
+    </section>
+
+    <section>
+      <h2>Contact Me</h2>
+      <p>If you have any questions or would like to discuss potential opportunities, feel free to reach out to me at <a href="mailto:i@mvasic.ru">i@mvasic.ru</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Miloš Vasić. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+```

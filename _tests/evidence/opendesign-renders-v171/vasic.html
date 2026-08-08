@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vasic Digital | AI Software Engineering</title>
+  <style>
+    :root {
+      --bg: oklch(15% 0.02 100);
+      --surface: oklch(20% 0.02 100);
+      --fg: oklch(95% 0.02 100);
+      --muted: oklch(50% 0.02 100);
+      --border: oklch(30% 0.02 100);
+      --accent: oklch(60% 0.22 25);
+
+      --font-display: 'Times New Roman', 'Iowan Old Style', Georgia, serif;
+      --font-body: ui-monospace, 'IBM Plex Mono', 'JetBrains Mono', Menlo, monospace;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: oklch(98% 0.004 240);
+        --surface: oklch(100% 0 0);
+        --fg: oklch(15% 0.02 100);
+        --muted: oklch(40% 0.02 100);
+        --border: oklch(15% 0.02 100);
+        --accent: oklch(60% 0.22 25);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--fg);
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 2rem;
+    }
+
+    nav ul li a {
+      color: var(--fg);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 6rem);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      border-radius: 0;
+      font-weight: bold;
+      border: 1px solid var(--accent);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: var(--bg);
+      color: var(--accent);
+    }
+
+    .products {
+      margin-bottom: 4rem;
+    }
+
+    .products h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .product-card p {
+      margin-bottom: 1.5rem;
+    }
+
+    .why-us {
+      margin-bottom: 4rem;
+    }
+
+    .why-us h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature {
+      border: 1px solid var(--border);
+      padding: 2rem;
+    }
+
+    .feature h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    footer p {
+      margin-bottom: 1rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+    }
+
+    .social-links li {
+      margin: 0 1rem;
+    }
+
+    .social-links li a {
+      color: var(--fg);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo">Vasic Digital</a>
+    <nav>
+      <ul>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#why-us">Why Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>AI Software Engineering</h1>
+      <p>Vasic Digital provides cutting-edge AI-powered software engineering solutions to help you build, deploy, and maintain high-quality software with ease.</p>
+      <a href="#contact" class="cta-button">Get Started</a>
+    </section>
+
+    <section class="products" id="products">
+      <h2>Our Products</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <h3>HelixAgent</h3>
+          <p>Our AI-powered software agent that automates repetitive tasks, integrates with your existing systems, and learns from your workflows to continuously improve.</p>
+          <a href="#contact" class="cta-button">Learn More</a>
+        </div>
+        <div class="product-card">
+          <h3>HelixCode</h3>
+          <p>An advanced code generation and optimization tool that writes clean, efficient, and maintainable code in multiple programming languages.</p>
+          <a href="#contact" class="cta-button">Learn More</a>
+        </div>
+        <div class="product-card">
+          <h3>HelixLLM</h3>
+          <p>A large language model fine-tuned for software engineering tasks, capable of understanding complex codebases and providing insightful analysis.</p>
+          <a href="#contact" class="cta-button">Learn More</a>
+        </div>
+        <div class="product-card">
+          <h3>HelixQA</h3>
+          <p>An automated quality assurance system that performs comprehensive testing, identifies bugs, and ensures your software meets the highest standards.</p>
+          <a href="#contact" class="cta-button">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-us" id="why-us">
+      <h2>Why Choose Vasic Digital?</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>Expertise</h3>
+          <p>Our team of AI and software engineering experts has years of experience in building and deploying cutting-edge solutions.</p>
+        </div>
+        <div class="feature">
+          <h3>Customization</h3>
+          <p>We understand that every project is unique. That's why we offer tailored solutions that fit your specific needs and requirements.</p>
+        </div>
+        <div class="feature">
+          <h3>Quality</h3>
+          <p>We are committed to delivering high-quality software that meets the highest standards and exceeds your expectations.</p>
+        </div>
+        <div class="feature">
+          <h3>Support</h3>
+          <p>Our dedicated support team is always available to help you with any issues or questions you may have.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <p>&copy; 2023 Vasic Digital. All rights reserved.</p>
+    <ul class="social-links">
+      <li><a href="#">Twitter</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">GitHub</a></li>
+    </ul>
+  </footer>
+</body>
+</html>
