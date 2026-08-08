@@ -39,37 +39,37 @@
 
 :root {
   /* Deep dark-red accent ramp — BRAND-LOCKED hue (unchanged). */
-  --od-accent-50: #f7f1f2;
-  --od-accent-100: #eddddf;
-  --od-accent-200: #d9b3b8;
-  --od-accent-300: #c2868d;
-  --od-accent-400: #a85a63;
-  --od-accent-500: #9a3541;
-  --od-accent-600: #97202f;
-  --od-accent-700: #8f1d2d;
-  --od-accent-800: #701a26;
-  --od-accent-900: #561019;
+  --od-accent-50: #ffedec;
+  --od-accent-100: #ffdada;
+  --od-accent-200: #ffb3b4;
+  --od-accent-300: #ef9194;
+  --od-accent-400: #d0777b;
+  --od-accent-500: #b25f62;
+  --od-accent-600: #a35257;
+  --od-accent-700: #94474b;
+  --od-accent-800: #763035;
+  --od-accent-900: #5a1a20;
 
   /* Neutrals — crisp, slightly cool "machined" light theme. */
-  --od-bg: #ffffff;
+  --od-bg: #fff8f7;
   /* Fixed WHITE plate behind the brand logo/portrait chip — intentionally constant
      across light AND dark themes so a logo with a white matte always reads (not
      theme-driven; inherited into the dark :root by design). §11.4.216 token. */
   --od-logo-plate: #ffffff;
-  --od-surface: #f3f4f6;
-  --od-surface-2: #e4e6ea;
-  --od-text: #141519;         /* near-black (AA ≥ 15:1 on bg) */
-  --od-text-muted: #555b63;   /* AA ≥ 4.5:1 on surface-2 */
-  --od-border: #d3d7dd;
+  --od-surface: #fff0f0;
+  --od-surface-2: #f6e7e6;
+  --od-text: #211a1a;         /* near-black (AA ≥ 15:1 on bg) */
+  --od-text-muted: #524141;   /* AA ≥ 4.5:1 on surface-2 */
+  --od-border: #998484;
   --od-accent: var(--od-accent-700);
   --od-accent-hover: var(--od-accent-800);
   --od-accent-active: var(--od-accent-900);
   --od-on-accent: #ffffff;
-  --od-focus: rgba(143, 29, 45, 0.6);
-  --od-success: #28a745;
-  --od-warning: #ffc107;
-  --od-danger: var(--od-accent-700);
-  --od-shadow-color: rgba(20, 21, 25, 0.14);
+  --od-focus: rgba(116, 46, 51, 0.6);
+  --od-success: #2e7d32;
+  --od-warning: #d97706;
+  --od-danger: #900009;
+  --od-shadow-color: rgba(0, 0, 0, 0.12);
   --od-badge-success-bg: #1e7e34;
 
   /* MACHINA depth/texture knobs. */
@@ -141,46 +141,49 @@
 }
 
 :root[data-theme="dark"] {
-  --od-bg: #0b0c0f;             /* deep near-black */
-  --od-surface: #14161b;
-  --od-surface-2: #1f232a;
-  --od-text: #f3f6f9;
-  --od-text-muted: #aeb6bf;
-  --od-border: #333944;
-  --od-accent: #e06b73;         /* lighter red for AA on near-black (~5.8:1) */
-  --od-accent-hover: #e8737b;
-  --od-accent-active: #ef999f;
-  --od-on-accent: #0b0c0f;
-  --od-focus: rgba(224, 107, 115, 0.6);
+  --od-bg: #191212;             /* deep near-black */
+  --od-surface: #231b1b;
+  --od-surface-2: #2b2323;
+  --od-text: #eedfde;
+  --od-text-muted: #d9c1c1;
+  --od-border: #84706f;
+  --od-accent: var(--od-accent-300);         /* lighter red for AA on near-black (~5.8:1) */
+  --od-accent-hover: var(--od-accent-200);
+  --od-accent-active: var(--od-accent-100);
+  --od-on-accent: #450a11;
+  --od-focus: rgba(255, 179, 180, 0.6);
   --od-success: #2b8a3e;
-  --od-warning: #e6b800;
-  --od-danger: #e06b73;
-  --od-shadow-color: rgba(0, 0, 0, 0.55);
+  --od-warning: #f59e0b;
+  --od-danger: #ffb4ab;
+  --od-shadow-color: rgba(0, 0, 0, 0.5);
   --vd-grid-line: rgba(224, 107, 115, 0.14);
   --vd-hard: rgba(224, 107, 115, 0.85);
   --vd-hairline: rgba(255, 255, 255, 0.06);
   --od-shadow-lg: 0 0 0 1px var(--od-border), 10px 10px 0 -1px var(--vd-hard);
+  --od-badge-success-bg: #2b8a3e;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --od-bg: #0b0c0f;
-    --od-surface: #14161b;
-    --od-surface-2: #1f232a;
-    --od-text: #f3f6f9;
-    --od-text-muted: #aeb6bf;
-    --od-border: #333944;
-    --od-accent: #e06b73;
-    --od-accent-hover: #e8737b;
-    --od-accent-active: #ef999f;
-    --od-on-accent: #0b0c0f;
-    --od-focus: rgba(224, 107, 115, 0.6);
+    --od-bg: #191212;
+    --od-surface: #231b1b;
+    --od-surface-2: #2b2323;
+    --od-text: #eedfde;
+    --od-text-muted: #d9c1c1;
+    --od-border: #84706f;
+    --od-accent: var(--od-accent-300);
+    --od-accent-hover: var(--od-accent-200);
+    --od-accent-active: var(--od-accent-100);
+    --od-on-accent: #450a11;
+    --od-focus: rgba(255, 179, 180, 0.6);
     --od-success: #2b8a3e;
-    --od-warning: #e6b800;
-    --od-danger: #e06b73;
-    --od-shadow-color: rgba(0, 0, 0, 0.55);
+    --od-warning: #f59e0b;
+    --od-danger: #ffb4ab;
+    --od-shadow-color: rgba(0, 0, 0, 0.5);
     --vd-grid-line: rgba(224, 107, 115, 0.14);
     --vd-hairline: rgba(255, 255, 255, 0.06);
-  }
+  
+    --od-badge-success-bg: #2b8a3e;
+}
 }
 
 /* ---- Base reset ---------------------------------------------------------- */

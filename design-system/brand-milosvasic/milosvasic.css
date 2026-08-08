@@ -1,36 +1,36 @@
 :root {
   /* Color tokens — deep CRIMSON (#a31e39) accent over neutral surfaces.
      Light ramp de-pinked (desaturated crimson tints, not pink). */
-  --od-accent-50: #f7f0f1;
-  --od-accent-100: #f0e2e4;
-  --od-accent-200: #e0c0c5;
-  --od-accent-300: #cd97a0;
-  --od-accent-400: #bd6b78;
-  --od-accent-500: #c02742;
-  --od-accent-600: #b31f3b;
-  --od-accent-700: #a31e39;
-  --od-accent-800: #851a31;
-  --od-accent-900: #671628;
+  --od-accent-50: #ffeced;
+  --od-accent-100: #ffdadb;
+  --od-accent-200: #ffb2b8;
+  --od-accent-300: #ee9199;
+  --od-accent-400: #cf787f;
+  --od-accent-500: #b15f67;
+  --od-accent-600: #a2535b;
+  --od-accent-700: #93474f;
+  --od-accent-800: #763038;
+  --od-accent-900: #591a23;
 
-  --od-bg: #ffffff;
+  --od-bg: #faf9f7;
   /* Fixed WHITE plate behind the brand logo/portrait chip — intentionally constant
      across light AND dark themes so a logo with a white matte always reads (not
      theme-driven; inherited into the dark :root by design). §11.4.216 token. */
   --od-logo-plate: #ffffff;
-  --od-surface: #f8f9fa;
-  --od-surface-2: #e9ecef;
-  --od-text: #212529;
-  --od-text-muted: #565d64; /* darkened to clear WCAG AA (4.5:1) on --od-surface-2 (§11.4.107) */
-  --od-border: #dee2e6;
+  --od-surface: #f4f2ef;
+  --od-surface-2: #eeebe7;
+  --od-text: #1c1a17;
+  --od-text-muted: #4a453f; /* darkened to clear WCAG AA (4.5:1) on --od-surface-2 (§11.4.107) */
+  --od-border: #c8c3bc;
   --od-accent: var(--od-accent-700);
-  --od-accent-hover: var(--od-accent-600);
-  --od-accent-active: var(--od-accent-800);
+  --od-accent-hover: var(--od-accent-800);
+  --od-accent-active: var(--od-accent-900);
   --od-on-accent: #ffffff;
-  --od-focus: #0d6efd;
-  --od-success: #198754;
-  --od-warning: #ffc107;
-  --od-danger: #dc3545;
-  --od-shadow-color: rgba(0, 0, 0, 0.1);
+  --od-focus: rgba(147, 71, 79, 0.6);
+  --od-success: #2e7d32;
+  --od-warning: #d97706;
+  --od-danger: #ba1a1a;
+  --od-shadow-color: rgba(0, 0, 0, 0.12);
 
   /* Typography tokens */
   --od-font-display: "Space Grotesk", sans-serif;
@@ -68,10 +68,10 @@
   --od-space-12: 3rem;
 
   /* Radius tokens */
-  --od-radius-sm: 0.125rem;
-  --od-radius-md: 0.25rem;
-  --od-radius-lg: 0.5rem;
-  --od-radius-xl: 1rem;
+  --od-radius-sm: 4px;
+  --od-radius-md: 6px;
+  --od-radius-lg: 8px;
+  --od-radius-xl: 14px;
   --od-radius-pill: 9999px;
 
   /* Shadow tokens */
@@ -96,32 +96,32 @@
 }
 
 :root[data-theme="dark"] {
-  --od-bg: #121212;
-  --od-surface: #1e1e1e;
-  --od-surface-2: #2d2d2d;
-  --od-text: #e0e0e0;
-  --od-text-muted: #a0a0a0;
-  --od-border: #3d3d3d;
-  --od-accent: #e0525f;        /* lighter crimson for AA text on near-black (4.9:1) */
-  --od-accent-hover: #e8737b;
-  --od-accent-active: #ef8d94;
-  --od-on-accent: #14060a;     /* near-black text on the lighter accent (buttons) */
-  --od-shadow-color: rgba(0, 0, 0, 0.3);
+  --od-bg: #12100e;
+  --od-surface: #1b1917;
+  --od-surface-2: #211e1b;
+  --od-text: #e7e3dd;
+  --od-text-muted: #c3bcb2;
+  --od-border: #453f38;
+  --od-accent: var(--od-accent-300);        /* lighter crimson for AA text on near-black (4.9:1) */
+  --od-accent-hover: var(--od-accent-200);
+  --od-accent-active: var(--od-accent-100);
+  --od-on-accent: #591a24;     /* near-black text on the lighter accent (buttons) */
+  --od-shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --od-bg: #121212;
-    --od-surface: #1e1e1e;
-    --od-surface-2: #2d2d2d;
-    --od-text: #e0e0e0;
-    --od-text-muted: #a0a0a0;
-    --od-border: #3d3d3d;
-    --od-accent: #e0525f;
-    --od-accent-hover: #e8737b;
-    --od-accent-active: #ef8d94;
-    --od-on-accent: #14060a;
-    --od-shadow-color: rgba(0, 0, 0, 0.3);
+    --od-bg: #12100e;
+    --od-surface: #1b1917;
+    --od-surface-2: #211e1b;
+    --od-text: #e7e3dd;
+    --od-text-muted: #c3bcb2;
+    --od-border: #453f38;
+    --od-accent: var(--od-accent-300);
+    --od-accent-hover: var(--od-accent-200);
+    --od-accent-active: var(--od-accent-100);
+    --od-on-accent: #591a24;
+    --od-shadow-color: rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -684,7 +684,7 @@ body {
   --od-bg:#f4f1ea; --od-surface:#ffffff; --od-surface-2:#ece7dc;
   --od-text:#16130f; --od-text-muted:#5c5751; --od-border:#2a241d;
   --od-accent:#a31e39; --od-accent-hover:#851a31; --od-accent-active:#671628; --od-on-accent:#ffffff;
-  --od-accent-100:#f0e2e4; --od-accent-700:#a31e39;
+  --od-accent-100:#f0e2e4; --od-accent-700:#93474f;
   --od-font-display:"Anton","Space Grotesk",sans-serif;
   --od-font-body:"Inter",sans-serif;
   --od-font-mono:"JetBrains Mono",monospace;
