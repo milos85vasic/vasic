@@ -95,4 +95,33 @@ for s in vasic.digital milosvasic.ru; do
     done
   fi
 done
+
+# Post-deploy LIVE validation smoke (§11.4.185 / §11.4.236 readiness): AFTER the real
+# push — so it NEVER blocks the commit/push mechanism (§11.4.234) — and after GitHub
+# Pages has had time to rebuild, run the exhaustive all-language link/sitemap validator
+# against the LIVE sites. A broken-link FAIL surfaces loudly (non-zero exit). Skip with
+# SKIP_LIVE_VALIDATE=1; naturally N/A in dry-run (the DRY_RUN branch already exited).
+# The validator retries transient GitHub-Pages drops itself; LIVE_VALIDATE_GRACE (default
+# 120s) covers Pages rebuild latency before the crawl starts. Live domains are read from
+# the deployed CNAMEs (decoupled — no hardcoded host), falling back to the known domains.
+LIVE_FAIL=0
+if [ "${SKIP_LIVE_VALIDATE:-0}" = "1" ]; then
+  echo "[deploy-langs] live validation SKIPPED (SKIP_LIVE_VALIDATE=1)"
+else
+  VD_DOMAIN="$(tr -d '[:space:]' < "$ROOT/vasic.digital/CNAME" 2>/dev/null)"; VD_DOMAIN="${VD_DOMAIN:-vasic.digital}"
+  MV_DOMAIN="$(tr -d '[:space:]' < "$ROOT/milosvasic.ru/_site/CNAME" 2>/dev/null || tr -d '[:space:]' < "$ROOT/milosvasic.ru/CNAME" 2>/dev/null)"; MV_DOMAIN="${MV_DOMAIN:-milosvasic.ru}"
+  GRACE="${LIVE_VALIDATE_GRACE:-120}"
+  echo "[deploy-langs] waiting ${GRACE}s for GitHub Pages to rebuild before live validation..."
+  sleep "$GRACE"
+  echo "[deploy-langs] running exhaustive LIVE validator (all languages, both sites: $VD_DOMAIN + $MV_DOMAIN)..."
+  if ( cd "$ROOT/_tests" && VD_BASE="https://$VD_DOMAIN" MV_BASE="https://$MV_DOMAIN" \
+        npx playwright test --config=playwright.live.config.js all-languages-link-integrity.spec.js --reporter=line ); then
+    echo "[deploy-langs] LIVE validation: PASS (0 broken links, all languages, both sites)"
+  else
+    echo "[deploy-langs] LIVE validation: FAIL — broken links on live (see output above)"
+    LIVE_FAIL=1
+  fi
+fi
+
 echo "[deploy-langs] cycle done: ${COMPLETE[*]:-none}"
+[ "$LIVE_FAIL" = "1" ] && exit 1 || exit 0
