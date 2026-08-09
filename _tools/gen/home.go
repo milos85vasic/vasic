@@ -3,8 +3,29 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"strings"
 )
+
+// htmlHrefRe matches an href=/src= attribute (double-quoted) inside a rendered
+// HTML string, so homeHTMLHrefs can depth-fix internal relative links authored
+// into contact/blurb HTML that bypass the single-href CTA path.
+var htmlHrefRe = regexp.MustCompile(`\b(href|src)="([^"]*)"`)
+
+// homeHTMLHrefs applies the homeCTAHref depth-hop + localization to EVERY internal
+// relative href/src inside a rendered HTML blob. Absolute / fragment / protocol /
+// Jekyll hrefs are left untouched (homeCTAHref skips them), and on the EN root
+// (pfx == "") it is a no-op — so current all-absolute data stays byte-identical;
+// only a FUTURE page-relative href authored into contact/blurb HTML gains the hop.
+func homeHTMLHrefs(doc *HomeDoc, s string) string {
+	if doc.Kind == "jekyll" || s == "" || homeAssetPrefix(doc.Lang) == "" {
+		return s
+	}
+	return htmlHrefRe.ReplaceAllStringFunc(s, func(m string) string {
+		g := htmlHrefRe.FindStringSubmatch(m)
+		return g[1] + `="` + homeCTAHref(doc, g[2]) + `"`
+	})
+}
 
 func i18nAttr(t I18nText) string {
 	if t.I18n == "" {
@@ -135,7 +156,7 @@ func renderCard(doc *HomeDoc, p *Portfolio, prefix string, c Card) string {
 	}
 	if c.Blurb.Text != "" {
 		b.WriteString(fmt.Sprintf(`          <p class="%s-card__blurb"%s>%s</p>`+"\n",
-			prefix, i18nAttr(c.Blurb), c.Blurb.render()))
+			prefix, i18nAttr(c.Blurb), homeHTMLHrefs(doc, c.Blurb.render())))
 	}
 	if c.Readmore.Text != "" || c.Slug != "" && c.Readmore.I18n != "" {
 		href := productHref(doc, c.Slug)
@@ -328,7 +349,7 @@ func renderHero(doc *HomeDoc, prefix string, blk HomeBlock) string {
 	return b.String()
 }
 
-func renderContact(prefix string, blk HomeBlock) string {
+func renderContact(doc *HomeDoc, prefix string, blk HomeBlock) string {
 	var b strings.Builder
 	b.WriteString(fmt.Sprintf(`    <section class="od-section od-reveal" id="%s">`+"\n", blk.ID))
 	b.WriteString(fmt.Sprintf(`      <p class="od-section__eyebrow"%s>%s</p>`+"\n", i18nAttr(blk.Eyebrow), blk.Eyebrow.render()))
@@ -339,7 +360,7 @@ func renderContact(prefix string, blk HomeBlock) string {
 	b.WriteString(fmt.Sprintf(`      <div class="%s-contact">`+"\n", prefix))
 	for _, c := range blk.Contacts {
 		b.WriteString(fmt.Sprintf(`        <p><strong%s>%s</strong><br/>%s</p>`+"\n",
-			i18nAttr(I18nText{I18n: c.I18n}), esc(c.Label), c.HTML))
+			i18nAttr(I18nText{I18n: c.I18n}), esc(c.Label), homeHTMLHrefs(doc, c.HTML)))
 	}
 	b.WriteString("      </div>\n    </section>")
 	return b.String()
@@ -354,7 +375,7 @@ func renderHomeBlocks(doc *HomeDoc, p *Portfolio, prefix string) string {
 		case "section":
 			out = append(out, renderSection(doc, p, prefix, blk))
 		case "contact":
-			out = append(out, renderContact(prefix, blk))
+			out = append(out, renderContact(doc, prefix, blk))
 		}
 	}
 	return strings.Join(out, "\n\n")

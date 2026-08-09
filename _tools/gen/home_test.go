@@ -47,3 +47,38 @@ func TestHomeCTAHref(t *testing.T) {
 		})
 	}
 }
+
+// homeHTMLHrefs must apply the same depth-hop/localization to EVERY internal
+// relative href/src inside a rendered HTML blob (contact/blurb HTML that bypasses
+// the single-href CTA path), while leaving EN root, absolute, fragment, protocol,
+// and Jekyll hrefs byte-identical — so current (all-absolute) data never changes.
+func TestHomeHTMLHrefs(t *testing.T) {
+	std := func(lang string) *HomeDoc { return &HomeDoc{Kind: "standalone", Lang: lang} }
+	cases := []struct {
+		name     string
+		doc      *HomeDoc
+		in, want string
+	}{
+		{"en unchanged (root)", std("en"),
+			`<a href="portfolio/">P</a>`, `<a href="portfolio/">P</a>`},
+		{"sr relative portfolio hopped+localized", std("sr"),
+			`<a href="portfolio/">P</a>`, `<a href="../portfolio/sr/">P</a>`},
+		{"sr relative pdf localized", std("sr"),
+			`<a href="downloads/Portfolio_EN.pdf">CV</a>`, `<a href="../downloads/Portfolio_SR.pdf">CV</a>`},
+		{"sr generic relative src hopped", std("sr"),
+			`<img src="img/x.png">`, `<img src="../img/x.png">`},
+		{"absolute/mailto/fragment/root untouched", std("sr"),
+			`<a href="https://x/">a</a><a href="mailto:i@x">b</a><a href="#c">d</a><a href="/abs/">e</a>`,
+			`<a href="https://x/">a</a><a href="mailto:i@x">b</a><a href="#c">d</a><a href="/abs/">e</a>`},
+		{"jekyll untouched", &HomeDoc{Kind: "jekyll", Lang: "sr"},
+			`<a href="portfolio/">P</a>`, `<a href="portfolio/">P</a>`},
+		{"empty", std("sr"), "", ""},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			if got := homeHTMLHrefs(c.doc, c.in); got != c.want {
+				t.Errorf("homeHTMLHrefs(%q, %q)\n got=%q\nwant=%q", c.doc.Lang, c.in, got, c.want)
+			}
+		})
+	}
+}
