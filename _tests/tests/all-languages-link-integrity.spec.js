@@ -53,44 +53,72 @@ function canonicalToBase(url, site) {
 
 for (const site of SITES) {
   test(`${site.key} — exhaustive all-language link & sitemap integrity`, async ({ request }) => {
-    test.setTimeout(600000); // exhaustive crawl of ~525 pages + their links
+    // Local build resolves in seconds; a LIVE GitHub-Pages crawl is thousands of
+    // network round-trips, so give live headroom + tolerate transient drops.
+    const isLive = !/localhost|127\.0\.0\.1/.test(site.base);
+    test.setTimeout(isLive ? 1_800_000 : 600_000);
+    const POOL = isLive ? 8 : 16; // bounded concurrency: fast, but gentle on the host
 
-    // 1) Discover every page from the live sitemap (auto-scales as content grows).
-    const smResp = await request.get(`${site.base}/sitemap.xml`);
-    expect(smResp.status(), 'sitemap.xml must resolve').toBe(200);
-    const sm = await smResp.text();
-    const pages = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    // Bounded-concurrency map — run fn over items POOL-at-a-time.
+    async function mapPool(items, fn) {
+      const it = items[Symbol.iterator]();
+      await Promise.all(
+        Array.from({ length: Math.min(POOL, items.length || 1) }, async () => {
+          for (let n = it.next(); !n.done; n = it.next()) await fn(n.value);
+        }),
+      );
+    }
+    // GET with transient-retry: a live host dropping ONE connection (thrown error /
+    // status 0 / 429 / 5xx) must not abort the whole crawl — retry with backoff;
+    // only a PERSISTENT failure after 4 tries, or a definitive 4xx, is returned.
+    async function get(url, wantBody) {
+      let last = 0;
+      for (let attempt = 1; attempt <= 4; attempt++) {
+        try {
+          const r = await request.get(url, { timeout: 30_000, maxRedirects: 5 });
+          last = r.status();
+          if (last < 400) return wantBody ? { status: last, body: await r.text() } : { status: last };
+          if (last < 500 && last !== 429) return { status: last, body: '' }; // definitive client error
+        } catch (e) { last = 0; } // network throw → transient
+        await new Promise((res) => setTimeout(res, 400 * attempt));
+      }
+      return { status: last, body: '' }; // 0 / 429 / 5xx after retries → persistent failure
+    }
+
+    // 1) Discover every page from the sitemap (auto-scales as content grows).
+    const sm = await get(`${site.base}/sitemap.xml`, true);
+    expect(sm.status, 'sitemap.xml must resolve').toBe(200);
+    const pages = [...sm.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     expect(pages.length, 'sitemap must list pages').toBeGreaterThan(100);
 
-    // 2) Walk every page; collect resolved internal targets → sample referrer.
+    // 2) Walk every page (parallel); collect resolved internal targets → sample referrer.
     const targets = new Map(); // localURL -> referrer(canonical)
     const addTarget = (localURL, ref) => { if (!targets.has(localURL)) targets.set(localURL, ref); };
+    const brokenPages = [];
+    const host = new URL(site.canonical).host;
 
-    for (const canonicalPage of pages) {
-      const localPage = canonicalToBase(canonicalPage, site);
-      const resp = await request.get(localPage);
-      expect(resp.status(), `sitemap page must resolve: ${canonicalPage}`).toBeLessThan(400);
-      const html = await resp.text();
+    await mapPool(pages, async (canonicalPage) => {
+      const { status, body } = await get(canonicalToBase(canonicalPage, site), true);
+      if (status >= 400 || status === 0) { brokenPages.push(`${status}  ${canonicalPage}  (sitemap page)`); return; }
 
       // 2a) every <a href>, resolved relative-aware against the CANONICAL page URL.
-      for (const m of html.matchAll(HREF_RE)) {
+      for (const m of body.matchAll(HREF_RE)) {
         const raw = m[1].trim();
         if (!raw || raw.startsWith('#') || /^(mailto:|tel:|javascript:|data:)/i.test(raw)) continue;
         let abs;
         try { abs = new URL(raw, canonicalPage); } catch { continue; }
         if (abs.protocol !== 'http:' && abs.protocol !== 'https:') continue;
-        if (abs.host !== new URL(site.canonical).host) continue; // internal only
+        if (abs.host !== host) continue; // internal only
         abs.hash = '';
         addTarget(canonicalToBase(abs.toString(), site), canonicalPage);
       }
 
       // 2b) JS language-switcher targets (OD_PAGE / MV_PAGE .paths) — invisible to href crawling.
-      const scope = html.includes('OD_PAGE') || html.includes('MV_PAGE') ? html : '';
+      const scope = body.includes('OD_PAGE') || body.includes('MV_PAGE') ? body : '';
       for (const m of scope.matchAll(PATHMAP_RE)) {
-        const path = m[2];
-        addTarget(canonicalToBase(site.canonical + path, site), canonicalPage);
+        addTarget(canonicalToBase(site.canonical + m[2], site), canonicalPage);
       }
-    }
+    });
 
     // 3) Every downloadable PDF for every language (linked via JS popup on MV).
     for (const doc of site.pdfs) {
@@ -99,16 +127,17 @@ for (const site of SITES) {
       }
     }
 
-    // 4) Check every unique internal target; collect the broken ones.
+    // 4) Check every unique internal target (parallel); collect the broken ones.
     const broken = [];
-    for (const [url, ref] of targets) {
-      const r = await request.get(url);
-      if (r.status() >= 400) broken.push(`${r.status()}  ${url}   (referrer: ${ref})`);
-    }
+    await mapPool([...targets.keys()], async (url) => {
+      const { status } = await get(url, false);
+      if (status >= 400 || status === 0) broken.push(`${status}  ${url}   (referrer: ${targets.get(url)})`);
+    });
 
+    const allBroken = [...brokenPages, ...broken];
     expect(
-      broken,
-      `Broken internal links on ${site.key} (${broken.length}):\n` + broken.join('\n'),
+      allBroken,
+      `Broken internal links on ${site.key} (${allBroken.length}):\n` + allBroken.join('\n'),
     ).toEqual([]);
   });
 }
