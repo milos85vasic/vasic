@@ -1,0 +1,65 @@
+{
+  "schema": "portfolio/1",
+  "unified": true,
+  "tiers": ["helix-primary", "vasic-util-secondary", "serverfactory-tertiary"],
+  "count": 4,
+  "_mutations": [
+    "VIOLATION 1 (exclusions): entry slug 'grabtube' is on the exclusion list but present.",
+    "VIOLATION 2 (private leak): 'leaky-private' has private:true yet exposes a repo URL.",
+    "VIOLATION 3 (required field): 'no-tagline' is missing the required 'tagline' string.",
+    "VIOLATION 4 (ordering): two helix-primary entries share order 5 (not strictly increasing)."
+  ],
+  "entries": [
+    {
+      "name": "First Primary",
+      "slug": "first-primary",
+      "tier": "helix-primary",
+      "order": 5,
+      "status": "beta",
+      "license": "MIT",
+      "private": false,
+      "tech": ["Go"],
+      "repos": ["https://github.com/example/first-primary"],
+      "summary": "A valid public primary entry that sets order=5 for its tier.",
+      "tagline": "The first primary."
+    },
+    {
+      "name": "No Tagline",
+      "slug": "no-tagline",
+      "tier": "helix-primary",
+      "order": 5,
+      "status": "production",
+      "license": "MIT",
+      "private": false,
+      "tech": ["Rust"],
+      "repos": ["https://github.com/example/no-tagline"],
+      "summary": "This entry repeats order=5 (breaks strict ordering) AND omits tagline."
+    },
+    {
+      "name": "GrabTube",
+      "slug": "grabtube",
+      "tier": "helix-primary",
+      "order": 6,
+      "status": "shipped",
+      "license": "GPL-3.0",
+      "private": false,
+      "tech": ["Kotlin"],
+      "repos": ["https://github.com/example/grabtube"],
+      "summary": "An explicitly-excluded project that must never appear in the portfolio.",
+      "tagline": "Excluded and must be rejected."
+    },
+    {
+      "name": "Leaky Private",
+      "slug": "leaky-private",
+      "tier": "vasic-util-secondary",
+      "order": 1,
+      "status": "stable",
+      "license": "MIT",
+      "private": true,
+      "tech": ["Swift"],
+      "repos": ["https://github.com/secret/internal-only"],
+      "summary": "A private entry that leaks an internal repo deep-link it must not expose.",
+      "tagline": "Private but leaking a repo URL."
+    }
+  ]
+}

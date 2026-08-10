@@ -2,7 +2,7 @@
 """Efficient, resumable UI-dictionary translator for ALL 15 languages.
 
 Constitution-compliant (§11.4.140/§11.4.141/§11.4.236):
-  - Translator: HelixTranslate engine (/tmp/helixtranslate), provider=zhipu
+  - Translator: HelixTranslate engine (_tools/helixtranslate-container.sh), provider=zhipu
     (glm-4.5-flash) — distinct from the running doc-batch translator (mistral).
   - Glossary terms preserved verbatim via glossary_protect.py sentinels.
   - Independent review is run separately (review step) with a DIFFERENT provider.
@@ -16,10 +16,15 @@ keeping per-language files independent (no shared-file write races).
 import json, os, subprocess, sys, tempfile, re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-REPO = "/Volumes/T7/Projects/vasic"
+# Repo root DERIVED from this script's own location (…/_tools/gen/…), never
+# hardcoded, so paths reproduce from a clean clone (§11.4.77).
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 GEN = f"{REPO}/_tools/gen"
 TOOLS = f"{REPO}/_tools"
-ENGINE = "/tmp/helixtranslate"
+# HelixTranslate engine: default to the REPO-RELATIVE committed entrypoint
+# (_tools/helixtranslate-container.sh), NEVER an ephemeral /tmp path (§11.4.77).
+# Override with HELIX_BIN=<path> for a local engine binary.
+ENGINE = os.environ.get("HELIX_BIN", os.path.join(TOOLS, "helixtranslate-container.sh"))
 PROTECT = f"{TOOLS}/translate/glossary_protect.py"
 GLOSSARY = f"{TOOLS}/translate/glossary.json"
 ZHIPU_KEY = os.environ.get("ZHIPU_API_KEY", "")

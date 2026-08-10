@@ -1,0 +1,12 @@
+[validate] file=_tools/portfolio/selfvalidate-fixtures/bad.json
+[validate] entries=4
+  - helix-primary            : 3
+  - vasic-util-secondary     : 1
+  - serverfactory-tertiary   : 0
+[validate] exclusions enforced: grabtube, shareconnect, panoptic, android-toolkit, asinka, yole
+
+[validate] FAIL — 4 problem(s):
+  ✗ excluded project present: grabtube
+  ✗ no-tagline: missing/empty required field "tagline"
+  ✗ leaky-private: private:true entry exposes 1 repo URL(s)
+  ✗ order not strictly increasing within helix-primary: 5 after 5 (no-tagline)

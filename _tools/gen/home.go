@@ -75,7 +75,19 @@ func productHref(doc *HomeDoc, slug string) string {
 // root-anchored (relative_url), and fragments / root-absolute / protocol links are
 // left as-is — so EN output stays byte-identical (pfx == "").
 func homeCTAHref(doc *HomeDoc, href string) string {
-	if doc.Kind == "jekyll" || href == "" {
+	if href == "" {
+		return href
+	}
+	if doc.Kind == "jekyll" {
+		// Localize the well-known portfolio CTA for non-EN jekyll (milosvasic)
+		// homes: a localized home must point at /portfolio/<lang>/ (which exists)
+		// instead of leaking the EN /portfolio/. Match the root portfolio target
+		// ('/portfolio/') inside any relative_url expression, spacing-tolerant, and
+		// never a path already carrying a lang segment. EN stays byte-identical.
+		if doc.Lang != "" && doc.Lang != "en" &&
+			strings.Contains(href, "{{") && strings.Contains(href, "'/portfolio/'") {
+			return fmt.Sprintf("{{ '/%s' | relative_url }}", langPath(doc.Lang, "portfolio/"))
+		}
 		return href
 	}
 	switch {
@@ -250,7 +262,9 @@ func renderSection(doc *HomeDoc, p *Portfolio, prefix string, blk HomeBlock) str
 // mvPortrait is the milosvasic.ru hero portrait — a responsive <picture> using
 // the existing profile-*.{webp,jpg} assets, arranged beside the hero copy
 // (fix #2). Jekyll relative_url resolves the paths under the site baseurl. The
-// alt text is DATA (T(lang,"alt.portrait")), localized for all 15 languages.
+// alt text is DATA (T(lang,"alt.portrait")); currently only the EN "alt.portrait"
+// key exists in ui-i18n.json, so non-EN locales fall back to EN until the key is
+// translated into the non-EN blocks via the HelixTranslate UI pipeline (§11.4.140).
 func mvPortrait(lang string) string {
 	return `      <figure class="mvx-hero__portrait">
         <picture>
@@ -265,7 +279,9 @@ func mvPortrait(lang string) string {
 // (fix #3) on a rounded white chip so its background reads cleanly in light AND
 // dark themes. `prefix` ("" root / "../" localized) hops back to the site root so
 // the brand image resolves from a localized home at /<lang>/index.html too. The
-// alt text is DATA (T(lang,"alt.brandLogo")), localized for all 15 languages.
+// alt text is DATA (T(lang,"alt.brandLogo")); currently only the EN "alt.brandLogo"
+// key exists in ui-i18n.json, so non-EN locales fall back to EN until the key is
+// translated into the non-EN blocks via the HelixTranslate UI pipeline (§11.4.140).
 func vdHeroLogo(prefix, lang string) string {
 	return `      <div class="vd-hero__logo"><picture><source srcset="` + prefix + `Assets/logo.webp" type="image/webp"><img src="` + prefix + `Assets/Logo.jpeg" alt="` + esc(T(lang, "alt.brandLogo")) + `" width="112" height="112" decoding="async"></picture></div>
 `

@@ -19,7 +19,21 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
-const FILE = path.join(ROOT, '_content', 'portfolio', 'portfolio.json');
+
+// Input contract: validates _content/portfolio/portfolio.json by default, but a
+// caller may point it at any dataset via `--file <path>` (or a bare positional
+// path). This override exists so the §1.1 mutation self-test can run the SAME
+// gate against golden-good / golden-bad fixtures. Default is unchanged.
+const DEFAULT_FILE = path.join(ROOT, '_content', 'portfolio', 'portfolio.json');
+function resolveFileArg(argv) {
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === '--file' || a === '-f') return argv[i + 1] ? path.resolve(argv[i + 1]) : DEFAULT_FILE;
+    if (!a.startsWith('-')) return path.resolve(a);
+  }
+  return DEFAULT_FILE;
+}
+const FILE = resolveFileArg(process.argv.slice(2));
 
 const EXCLUSIONS = ['grabtube', 'shareconnect', 'panoptic', 'android-toolkit', 'asinka', 'yole'];
 const TIERS = ['helix-primary', 'vasic-util-secondary', 'serverfactory-tertiary'];

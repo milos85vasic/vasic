@@ -12,7 +12,13 @@ which is exactly what the free tier tolerates."""
 import json, os, re, subprocess, sys, tempfile, time
 
 GEN = os.path.dirname(os.path.abspath(__file__))
-ENGINE = "/tmp/helixtranslate"
+# Repo root DERIVED from this script's own location (…/_tools/gen/…), never
+# hardcoded, so paths reproduce from a clean clone (§11.4.77).
+REPO = os.path.dirname(os.path.dirname(GEN))
+# HelixTranslate engine: default to the REPO-RELATIVE committed entrypoint
+# (_tools/helixtranslate-container.sh), NEVER an ephemeral /tmp path (§11.4.77).
+# Override with HELIX_BIN=<path> for a local engine binary.
+ENGINE = os.environ.get("HELIX_BIN", os.path.join(REPO, "_tools", "helixtranslate-container.sh"))
 LANGS = sys.argv[1:] or ["ru", "kk", "hi", "ja", "ko", "tr", "fa", "ar"]
 GAP = float(os.environ.get("UI_GAP", "20"))
 BUDGET = int(os.environ.get("UI_BUDGET", "480"))

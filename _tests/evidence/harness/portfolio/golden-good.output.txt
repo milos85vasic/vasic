@@ -1,0 +1,8 @@
+[validate] file=_tools/portfolio/selfvalidate-fixtures/good.json
+[validate] entries=4
+  - helix-primary            : 2
+  - vasic-util-secondary     : 1
+  - serverfactory-tertiary   : 1
+[validate] exclusions enforced: grabtube, shareconnect, panoptic, android-toolkit, asinka, yole
+
+[validate] PASS — all assertions hold (exit 0)

@@ -36,8 +36,22 @@
 set -euo pipefail
 
 # ---- Configuration ----------------------------------------------------------
-ENGINE="${HELIX_TRANSLATE_BIN:-/Volumes/T7/Projects/helix_translate/build/unified-translator}"
-EVIDENCE_DIR="${TRANSLATE_EVIDENCE_DIR:-/Volumes/T7/Projects/vasic/_tests/evidence/translate}"
+# Repo root is DERIVED from this script's own location (…/_tools/…), never
+# hardcoded to a sibling project, so every path below reproduces from a clean
+# clone of THIS repo (§11.4.77).
+SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO="$(cd "$SELF_DIR/.." && pwd)"
+TOOLS="$REPO/_tools"
+die() { echo "FATAL: $*" >&2; exit 1; }
+# HelixTranslate engine: default to the REPO-RELATIVE engine entrypoint produced
+# by the committed container recipe (_tools/distribute-helixtranslate.sh builds
+# the helixtranslate:cli image + installs the runner; _tools/helixtranslate-
+# container.sh is the committed drop-in shim). NEVER a sibling-project absolute
+# path (e.g. /Volumes/.../helix_translate/build/unified-translator) — a clean
+# clone of THIS repo cannot reproduce that (§11.4.77). Override with
+# HELIX_TRANSLATE_BIN=<path> if you have a local engine binary.
+ENGINE="${HELIX_TRANSLATE_BIN:-$TOOLS/helixtranslate-container.sh}"
+EVIDENCE_DIR="${TRANSLATE_EVIDENCE_DIR:-$REPO/_tests/evidence/translate}"
 SOURCE_LANG="en"
 # Mistral first (more available / less aggressively rate-limited in practice),
 # Groq as fallback. Both are proven to have balance and produce quality output.
@@ -64,7 +78,10 @@ done
 [ -n "$OUT" ]  || { echo "ERROR: --out required" >&2; exit 2; }
 [ -n "$LANG" ] || { echo "ERROR: --lang required" >&2; exit 2; }
 [ -f "$IN" ]   || { echo "ERROR: input not found: $IN" >&2; exit 2; }
-[ -x "$ENGINE" ] || { echo "ERROR: engine not executable: $ENGINE" >&2; exit 2; }
+[ -x "$ENGINE" ] || die "HelixTranslate engine not found/executable: $ENGINE
+  The engine is produced by the committed container recipe — build & distribute it first:
+      bash $TOOLS/distribute-helixtranslate.sh
+  (or set HELIX_TRANSLATE_BIN=<path-to-engine>). No silent fallback, no hand-translation (§11.4.140)."
 
 case "$LANG" in
   ru|be|kk|bg|mk|sr_cyrl)  SCRIPT="cyrillic" ;;   # Cyrillic-script languages (RU, Belarusian, Kazakh, ...)

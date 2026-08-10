@@ -38,19 +38,27 @@
 #   TRANSLATOR_PROVIDER (mistral) TRANSLATOR_MODEL (mistral-large-latest)
 #   REVIEW_PROVIDER (groq)        REVIEW_MODEL (llama-3.3-70b-versatile)
 #   CONTENT_DIR (_content)        OUT_ROOT (_content_<lang>)
-#   HELIX_BIN (/tmp/helixtranslate)  MAXCHARS (3000)
+#   HELIX_BIN (_tools/helixtranslate-container.sh — repo-relative)  MAXCHARS (3000)
 #
 # Exit: 0 iff every file translated AND every review verdict == PASS.
 # =============================================================================
 set -euo pipefail
 
-REPO="/Volumes/T7/Projects/vasic"
+# Repo root is DERIVED from this script's own location (…/_tools/translate/…),
+# never hardcoded, so every path below reproduces from a clean clone (§11.4.77).
+SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO="$(cd "$SELF_DIR/../.." && pwd)"
 TOOLS="$REPO/_tools"
 TDIR="$TOOLS/translate"
 GLOSSARY="$TDIR/glossary.json"
 PROTECT="$TDIR/glossary_protect.py"
 REVIEWER="$TOOLS/review_translation.py"
-HELIX_BIN="${HELIX_BIN:-/tmp/helixtranslate}"
+# HelixTranslate engine: default to the REPO-RELATIVE engine entrypoint produced
+# by the committed container recipe (_tools/distribute-helixtranslate.sh builds
+# the helixtranslate:cli image + installs the runner; _tools/helixtranslate-
+# container.sh is the committed drop-in shim). NEVER an ephemeral /tmp path
+# (§11.4.77). Override with HELIX_BIN=<path> if you have a local engine binary.
+HELIX_BIN="${HELIX_BIN:-$TOOLS/helixtranslate-container.sh}"
 CONTENT_DIR="${CONTENT_DIR:-$REPO/_content}"
 MAXCHARS="${MAXCHARS:-3000}"
 
@@ -68,7 +76,10 @@ die() { echo "FATAL: $*" >&2; exit 1; }
 
 [ $# -ge 1 ] || die "usage: translate-content.sh <lang> [file.md ...]"
 LANG_CODE="$1"; shift
-[ -x "$HELIX_BIN" ] || die "HelixTranslate engine not executable: $HELIX_BIN"
+[ -x "$HELIX_BIN" ] || die "HelixTranslate engine not found/executable: $HELIX_BIN
+  The engine is produced by the committed container recipe — build & distribute it first:
+      bash $TOOLS/distribute-helixtranslate.sh
+  (or set HELIX_BIN=<path-to-engine>). No silent fallback, no hand-translation (§11.4.140)."
 [ -f "$GLOSSARY" ] || die "glossary not found: $GLOSSARY"
 : "${MISTRAL_API_KEY:?MISTRAL_API_KEY missing (source ~/api_keys.sh)}"
 

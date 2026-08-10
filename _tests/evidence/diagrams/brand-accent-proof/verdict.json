@@ -1,0 +1,55 @@
+{
+  "verdict": "PASS",
+  "crimson_ref": "rgb(163, 30, 57)",
+  "findings": [],
+  "results": [
+    {
+      "site": "vasic.digital",
+      "file": "vasic.digital/products/helixagent.html",
+      "mustNotEqual": "rgb(163, 30, 57)",
+      "label": "company",
+      "theme": "light",
+      "rootAccent": "#94474b",
+      "stroke": "rgb(148, 71, 75)",
+      "accentVar": "#94474b",
+      "hasSvg": true,
+      "png": "/Volumes/T7/Projects/vasic/_tests/evidence/diagrams/brand-accent-proof/vasic_digital-light.png"
+    },
+    {
+      "site": "vasic.digital",
+      "file": "vasic.digital/products/helixagent.html",
+      "mustNotEqual": "rgb(163, 30, 57)",
+      "label": "company",
+      "theme": "dark",
+      "rootAccent": "#ef9194",
+      "stroke": "rgb(239, 145, 148)",
+      "accentVar": "#ef9194",
+      "hasSvg": true,
+      "png": "/Volumes/T7/Projects/vasic/_tests/evidence/diagrams/brand-accent-proof/vasic_digital-dark.png"
+    },
+    {
+      "site": "milosvasic.ru",
+      "file": "milosvasic.ru/products/helixagent.html",
+      "mustEqualCrimsonFamily": true,
+      "label": "personal",
+      "theme": "light",
+      "rootAccent": "",
+      "stroke": "rgb(163, 30, 57)",
+      "accentVar": "#a31e39",
+      "hasSvg": true,
+      "png": "/Volumes/T7/Projects/vasic/_tests/evidence/diagrams/brand-accent-proof/milosvasic_ru-light.png"
+    },
+    {
+      "site": "milosvasic.ru",
+      "file": "milosvasic.ru/products/helixagent.html",
+      "mustEqualCrimsonFamily": true,
+      "label": "personal",
+      "theme": "dark",
+      "rootAccent": "",
+      "stroke": "rgb(255, 107, 129)",
+      "accentVar": "#ff6b81",
+      "hasSvg": true,
+      "png": "/Volumes/T7/Projects/vasic/_tests/evidence/diagrams/brand-accent-proof/milosvasic_ru-dark.png"
+    }
+  ]
+}

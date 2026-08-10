@@ -9,6 +9,32 @@
 
 **Headline counts:** COMPLIANT 8 · PARTIAL 5 · GAP 5 · N/A 1.
 
+> 🔄 **VERIFICATION UPDATE (2026-08-10).** Re-checked on disk today; several
+> GAPs recorded 2026-08-05 are now **RESOLVED** (the audit rows below are retained
+> for history — read them together with this note):
+> - **§11.4.161 (sudo) — RESOLVED.** `milosvasic.ru/start.sh` no longer contains
+>   `sudo` (verified `grep -rn sudo _tools milosvasic.ru vasic.digital` → none).
+> - **§11.4.77 / §11.4.28 (submodule map) — RESOLVED.** `.gitmodules` now maps all
+>   four gitlinks (`submodules/constitution`, `milosvasic.ru`, `vasic.digital`,
+>   `design-toolkit`).
+> - **§11.4.77 (ephemeral engine path) — RESOLVED.** `translate-content.sh`,
+>   `translate-pipeline.sh`, and the `_tools/gen/*.py` UI translators now default the
+>   engine to the repo-relative committed entrypoint `_tools/helixtranslate-container.sh`
+>   (was `/tmp/helixtranslate`); guarded by `_tools/translate/reproducibility-selftest.sh`.
+> - **§1.1 (portfolio gate mutation test) — RESOLVED.** Both `_tests/tools/validate.mutation.test.mjs`
+>   and the harness-style `_tools/portfolio/self-validate.sh` (golden-good=PASS /
+>   golden-bad=FAIL, verdict JSON evidence) now exist.
+> - **§11.4.162 (company-site diagram brand) — RESOLVED.** All 33 `design-system/diagrams/*.svg`
+>   accents tokenized to `var(--od-accent,…)`; rendered-pixel proof under
+>   `_tests/evidence/diagrams/brand-accent-proof/`.
+> - **§11.4.107 (axe coverage) — EXTENDED.** `_tests/tests/vasic-digital-a11y.spec.js` now
+>   scans the company site (home + product + portfolio), not just milosvasic.ru.
+>
+> **Still open (verified 2026-08-10):** the non-EN UI-label leaks (14 `status.*`/`tier.*`/`alt.*`
+> keys missing from every non-EN block of `ui-i18n.json`; German `pf.download`/`prod.tier`
+> untranslated) — these require a **HelixTranslate** run (remote container host, currently
+> unreachable); per §11.4.140 they are **not** hand-translated. See MUST-FIX addendum.
+
 ---
 
 ## GAP / PARTIAL first (sorted by severity)

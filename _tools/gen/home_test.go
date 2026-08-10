@@ -36,7 +36,11 @@ func TestHomeCTAHref(t *testing.T) {
 		{"root-absolute untouched", standalone("sr"), "/portfolio/", "/portfolio/"},
 		{"external untouched", standalone("sr"), "https://github.com/x", "https://github.com/x"},
 		{"mailto untouched", standalone("sr"), "mailto:i@mvasic.ru", "mailto:i@mvasic.ru"},
-		{"jekyll untouched", jekyll("sr"), "{{ '/portfolio/' | relative_url }}", "{{ '/portfolio/' | relative_url }}"},
+		// Jekyll (milosvasic): EN root stays byte-identical; non-EN localizes the
+		// portfolio CTA to /portfolio/<lang>/ (the page that actually exists).
+		{"jekyll portfolio untouched (EN)", jekyll("en"), "{{ '/portfolio/' | relative_url }}", "{{ '/portfolio/' | relative_url }}"},
+		{"jekyll portfolio localized (sr)", jekyll("sr"), "{{ '/portfolio/' | relative_url }}", "{{ '/portfolio/sr/' | relative_url }}"},
+		{"jekyll non-portfolio expr untouched", jekyll("sr"), "{{ '/products/x.html' | relative_url }}", "{{ '/products/x.html' | relative_url }}"},
 		{"empty untouched", standalone("sr"), "", ""},
 	}
 	for _, c := range cases {

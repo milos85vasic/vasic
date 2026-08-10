@@ -50,3 +50,7 @@ scratchpad/
 /*.png
 /*.pdf
 !_tests/evidence/
+
+# Python bytecode (never track)
+__pycache__/
+*.pyc

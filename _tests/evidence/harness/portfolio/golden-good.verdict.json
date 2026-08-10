@@ -1,0 +1,20 @@
+{
+  "schema": "portfolio-validator/1",
+  "generatedAt": "2026-08-10T10:30:29.195Z",
+  "validator": "_tools/portfolio/validate.mjs",
+  "fixture": "/Volumes/T7/Projects/vasic/_tools/portfolio/selfvalidate-fixtures/good.json",
+  "name": "golden-good",
+  "expected": "PASS",
+  "rc": 0,
+  "verdict": "PASS",
+  "match": true,
+  "output": [
+    "[validate] file=_tools/portfolio/selfvalidate-fixtures/good.json",
+    "[validate] entries=4",
+    "  - helix-primary            : 2",
+    "  - vasic-util-secondary     : 1",
+    "  - serverfactory-tertiary   : 1",
+    "[validate] exclusions enforced: grabtube, shareconnect, panoptic, android-toolkit, asinka, yole",
+    "[validate] PASS — all assertions hold (exit 0)"
+  ]
+}

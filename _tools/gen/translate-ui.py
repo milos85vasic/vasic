@@ -3,7 +3,7 @@
 independently review each language with a DIFFERENT provider (openrouter),
 per HelixConstitution §11.4.140/§11.4.141/§11.4.236.
 
-- Translator engine: /tmp/helixtranslate, provider=zhipu (distinct from the
+- Translator engine: _tools/helixtranslate-container.sh, provider=zhipu (distinct from the
   running doc-batch translator=mistral).
 - Independent reviewer: review_translation.py, provider=openrouter
   (distinct from the doc-batch reviewer=cohere).
@@ -16,10 +16,15 @@ per HelixConstitution §11.4.140/§11.4.141/§11.4.236.
 """
 import json, os, subprocess, sys, tempfile, re
 
-REPO = "/Volumes/T7/Projects/vasic"
+# Repo root DERIVED from this script's own location (…/_tools/gen/…), never
+# hardcoded, so paths reproduce from a clean clone (§11.4.77).
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 GEN = f"{REPO}/_tools/gen"
 TOOLS = f"{REPO}/_tools"
-ENGINE = "/tmp/helixtranslate"
+# HelixTranslate engine: default to the REPO-RELATIVE committed entrypoint
+# (_tools/helixtranslate-container.sh), NEVER an ephemeral /tmp path (§11.4.77).
+# Override with HELIX_BIN=<path> for a local engine binary.
+ENGINE = os.environ.get("HELIX_BIN", os.path.join(TOOLS, "helixtranslate-container.sh"))
 PROTECT = f"{TOOLS}/translate/glossary_protect.py"
 GLOSSARY = f"{TOOLS}/translate/glossary.json"
 REVIEWER = f"{TOOLS}/review_translation.py"

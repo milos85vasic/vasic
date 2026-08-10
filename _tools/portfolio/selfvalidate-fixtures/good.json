@@ -1,0 +1,60 @@
+{
+  "schema": "portfolio/1",
+  "unified": true,
+  "tiers": ["helix-primary", "vasic-util-secondary", "serverfactory-tertiary"],
+  "count": 4,
+  "entries": [
+    {
+      "name": "Alpha Primary",
+      "slug": "alpha-primary",
+      "tier": "helix-primary",
+      "order": 1,
+      "status": "beta",
+      "license": "MIT",
+      "private": false,
+      "tech": ["Go", "PostgreSQL"],
+      "repos": ["https://github.com/example/alpha-primary"],
+      "summary": "A public primary-tier product used as a golden-good baseline entry.",
+      "tagline": "The reference primary product."
+    },
+    {
+      "name": "Bravo Primary",
+      "slug": "bravo-primary",
+      "tier": "helix-primary",
+      "order": 2,
+      "status": "production",
+      "license": "Apache-2.0",
+      "private": false,
+      "tech": ["Rust"],
+      "repos": ["https://github.com/example/bravo-primary"],
+      "summary": "A second public primary-tier product with a strictly higher order.",
+      "tagline": "The follow-up primary product."
+    },
+    {
+      "name": "Charlie Utility",
+      "slug": "charlie-utility",
+      "tier": "vasic-util-secondary",
+      "order": 1,
+      "status": "stable",
+      "license": "MIT",
+      "private": true,
+      "tech": ["Kotlin"],
+      "repos": [],
+      "summary": "A private secondary-tier utility that correctly exposes NO repo URLs.",
+      "tagline": "The private utility with nothing leaked."
+    },
+    {
+      "name": "Delta Server",
+      "slug": "delta-server",
+      "tier": "serverfactory-tertiary",
+      "order": 1,
+      "status": "roadmap",
+      "license": "TBD",
+      "private": false,
+      "tech": ["Docker"],
+      "repos": ["https://github.com/example/delta-server"],
+      "summary": "A public tertiary-tier server product closing the canonical tier order.",
+      "tagline": "The tertiary server product."
+    }
+  ]
+}
