@@ -14,6 +14,9 @@ fi
 echo "=================================================================="
 echo " §11.4.168 EXPORTED-DOCUMENT VALIDATOR — SELF-VALIDATION"
 echo "=================================================================="
+# GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168) — this self-validation IS
+# the check that satisfies that constitution gate (see _tests/GATES.md).
+echo "GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168)"
 
 echo; echo ">>> GOLDEN-GOOD (expect PASS) ......................................"
 node "$HERE/validate-pdf.js" --pdf "$FIX/golden-good.pdf" --out "$OUT" --name golden-good \
@@ -37,9 +40,11 @@ if [ "$BAD_RC" -eq 1 ]; then echo "  PASS: golden-bad verdict=FAIL (rc=$BAD_RC)"
 echo
 if [ "$FAILED" -eq 0 ]; then
   echo "SELF-VALIDATION RESULT: PASS  (good=PASS, bad=FAIL as required)"
+  echo "GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168) — SATISFIED"
   echo "Evidence: $OUT"
   exit 0
 else
   echo "SELF-VALIDATION RESULT: FAIL  (validator did not behave as required)"
+  echo "GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168) — NOT SATISFIED"
   exit 1
 fi

@@ -9,6 +9,9 @@ mkdir -p "$OUT"
 echo "=================================================================="
 echo " §11.4.170 VISUAL-PROOF HARNESS — SELF-VALIDATION"
 echo "=================================================================="
+# GATE: CM-HOST-RENDERED-UI-VISUAL-PROOF (§11.4.170) — this self-validation IS
+# the check that satisfies that constitution gate (see _tests/GATES.md).
+echo "GATE: CM-HOST-RENDERED-UI-VISUAL-PROOF (§11.4.170)"
 
 echo; echo ">>> GOLDEN-GOOD (expect PASS) ......................................"
 node "$HERE/visual-oracle.js" --input "$HERE/fixtures/good.html" --out "$OUT" --name golden-good --viewport 1280x800 --themes light,dark
@@ -28,9 +31,11 @@ if [ "$BAD_RC" -eq 1 ]; then echo "  PASS: golden-bad verdict=FAIL (rc=$BAD_RC)"
 echo
 if [ "$FAILED" -eq 0 ]; then
   echo "SELF-VALIDATION RESULT: PASS  (good=PASS, bad=FAIL as required)"
+  echo "GATE: CM-HOST-RENDERED-UI-VISUAL-PROOF (§11.4.170) — SATISFIED"
   echo "Evidence: $OUT"
   exit 0
 else
   echo "SELF-VALIDATION RESULT: FAIL  (oracle did not behave as required)"
+  echo "GATE: CM-HOST-RENDERED-UI-VISUAL-PROOF (§11.4.170) — NOT SATISFIED"
   exit 1
 fi

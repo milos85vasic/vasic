@@ -49,6 +49,11 @@ run_case() {
 echo "=================================================================="
 echo " §1.1 PORTFOLIO DATA VALIDATOR — MUTATION SELF-VALIDATION"
 echo "=================================================================="
+# GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — this self-validation IS the check that
+# satisfies the portfolio-data-integrity gate. It is NOT a CM-OPENDESIGN-UI-SYSTEM
+# check (that gate is design-token/no-ad-hoc-CSS; see _tests/GATES.md for the
+# honest, partial evidence that currently stands in for CM-OPENDESIGN-UI-SYSTEM).
+echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1)"
 
 echo; echo ">>> GOLDEN-GOOD (expect PASS) ......................................"
 GOOD_RC="$(run_case "$FIX/good.json" golden-good PASS)"
@@ -80,8 +85,10 @@ echo "  $OUT/golden-bad.verdict.json"
 echo
 if [ "$FAILED" -eq 0 ]; then
   echo "SELF-VALIDATION RESULT: PASS  (good=PASS, bad=FAIL as required)"
+  echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — SATISFIED"
   exit 0
 else
   echo "SELF-VALIDATION RESULT: FAIL  (validator is not mutation-paired)"
+  echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — NOT SATISFIED"
   exit 1
 fi
