@@ -349,6 +349,10 @@ for (const site of SITES) {
       for (const pg of site.chromePages) {
         test(`${pg.type} has no horizontal overflow`, async ({ page }) => {
           await page.goto(site.base + pg.path, { waitUntil: 'load' });
+          // Measure AFTER the self-hosted web fonts finish loading — otherwise a
+          // wider system fallback font (esp. on CI, where woff2 loads slower than
+          // the 'load' event) inflates text width and yields a false ~9px overflow.
+          await page.evaluate(() => (document.fonts && document.fonts.ready) || null);
           const { scrollW, clientW } = await page.evaluate(() => ({
             scrollW: document.documentElement.scrollWidth,
             clientW: document.documentElement.clientWidth,

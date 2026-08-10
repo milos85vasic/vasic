@@ -62,6 +62,10 @@ for (const site of SITES) {
     });
 
     test('every sitemap.xml URL resolves (200)', async ({ page }) => {
+      // This legitimately crawls every sitemap URL (500+ for vasic.digital)
+      // sequentially; the default 60s cap is too tight on a slow CI runner even
+      // though every URL still resolves. Give it room — the check is unchanged.
+      test.setTimeout(300000);
       const r = await page.request.get(site.base + '/sitemap.xml');
       expect(r.status()).toBe(200);
       const xml = await r.text();
