@@ -160,14 +160,9 @@ jobs:
         env:
           JEKYLL_ENV: production
 
-      # ---- Make playwright.config.js's hard-coded absolute roots resolve -----
-      - name: Bridge hardcoded config paths (symlink /Volumes/... -> workspace)
-        run: |
-          set -euxo pipefail
-          sudo mkdir -p /Volumes/T7/Projects
-          sudo ln -sfn "$GITHUB_WORKSPACE" /Volumes/T7/Projects/vasic
-          test -f /Volumes/T7/Projects/vasic/vasic.digital/index.html
-          test -f /Volumes/T7/Projects/vasic/milosvasic.ru/_site/index.html
+      # (playwright.config.js now resolves its static roots relative to the repo
+      #  via __dirname, so the former /Volumes symlink bridge is no longer needed —
+      #  the suite runs from any checkout location, including a fresh clone.)
 
       # ---- Gate 6 ------------------------------------------------------------
       # The config auto-starts a python http.server for BOTH sites. We exclude

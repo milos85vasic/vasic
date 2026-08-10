@@ -1,4 +1,12 @@
 const { defineConfig, devices } = require('@playwright/test');
+const path = require('path');
+
+// Resolve the two static site roots RELATIVE to this config (repo/_tests/..),
+// so the suite runs from ANY checkout location (fresh clone, CI runner) without
+// hardcoded absolute paths. REPO is the umbrella root one level up from _tests/.
+const REPO = path.resolve(__dirname, '..');
+const VD_ROOT = path.join(REPO, 'vasic.digital');
+const MV_ROOT = path.join(REPO, 'milosvasic.ru', '_site');
 
 module.exports = defineConfig({
   testDir: './tests',
@@ -18,11 +26,11 @@ module.exports = defineConfig({
   ],
   webServer: [
     {
-      command: 'python3 -m http.server 8401 --directory /Volumes/T7/Projects/vasic/vasic.digital',
+      command: `python3 -m http.server 8401 --directory ${VD_ROOT}`,
       port: 8401, reuseExistingServer: false, timeout: 30000,
     },
     {
-      command: 'python3 -m http.server 8082 --directory /Volumes/T7/Projects/vasic/milosvasic.ru/_site',
+      command: `python3 -m http.server 8082 --directory ${MV_ROOT}`,
       port: 8082, reuseExistingServer: false, timeout: 30000,
     },
   ],
