@@ -54,3 +54,7 @@ scratchpad/
 # Python bytecode (never track)
 __pycache__/
 *.pyc
+
+# Ephemeral playwright/temp installs (never track)
+.ptmp/
+**/.ptmp/
