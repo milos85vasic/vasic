@@ -595,3 +595,25 @@ body {
   .vd-hero__aurora { animation: none !important; transform: none !important; }
   .vd-hero__grid::after { animation: none !important; transform: translateY(-120%) !important; opacity: 0 !important; }
 }
+/* ============================================================================
+   Diagram scaffold tokens (§11.4.162) — brand-neutral diagram palette, moved
+   out of the inline <svg> hardcoded hex into OpenDesign tokens so product
+   diagrams are token-driven and theme-adaptive. Values match the tuned diagram
+   palette; identical across brands (the diagram scaffold is brand-neutral; only
+   the diagram accent uses the per-brand --od-accent).
+   ============================================================================ */
+:root{
+  --od-diagram-ink:#1e293b; --od-diagram-muted:#475569; --od-diagram-line:#94a3b8;
+  --od-diagram-panel:#f8fafc; --od-diagram-panel2:#eef2f7; --od-diagram-tint:#f4dde1;
+  --od-diagram-good:#dcfce7; --od-diagram-good-line:#16a34a; --od-diagram-good-ink:#14532d;
+}
+:root[data-theme="dark"]{
+  --od-diagram-ink:#e2e8f0; --od-diagram-muted:#cbd5e1; --od-diagram-line:#64748b;
+  --od-diagram-panel:#1e293b; --od-diagram-panel2:#273449; --od-diagram-tint:#3a2530;
+  --od-diagram-good:#14321f; --od-diagram-good-line:#4ade80; --od-diagram-good-ink:#bbf7d0;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --od-diagram-ink:#e2e8f0; --od-diagram-muted:#cbd5e1; --od-diagram-line:#64748b;
+  --od-diagram-panel:#1e293b; --od-diagram-panel2:#273449; --od-diagram-tint:#3a2530;
+  --od-diagram-good:#14321f; --od-diagram-good-line:#4ade80; --od-diagram-good-ink:#bbf7d0;
+} }

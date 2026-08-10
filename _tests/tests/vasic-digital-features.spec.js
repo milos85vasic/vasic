@@ -37,9 +37,8 @@ test.describe('vasic.digital — portfolio/product navigation (replaces article 
     }
   });
 
-  test('articles.css and articles.js are linked and load', async ({ page }) => {
-    await page.goto(BASE);
-    expect(await page.request.get(`${BASE}/css/articles.css`).then(r => r.status())).toBe(200);
-    expect(await page.request.get(`${BASE}/js/articles.js`).then(r => r.status())).toBe(200);
-  });
+  // NOTE: the legacy article-modal assets (css/articles.css, js/articles.js) were
+  // removed as dead code — vasic.digital replaced the article modal with the
+  // portfolio/product navigation (0 pages link them). The obsolete "articles.* load"
+  // assertion was deleted with them.
 });

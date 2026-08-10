@@ -146,7 +146,9 @@ func renderCard(doc *HomeDoc, p *Portfolio, prefix string, c Card) string {
 			}
 		}
 		if st != "" {
-			badge = fmt.Sprintf(` <span class="od-badge--status od-badge--status--%s">%s</span>`, esc(st), esc(st))
+			// class modifier stays the raw slug (CSS hook); visible text is the
+			// localized label so non-EN home cards don't leak English (§i18n).
+			badge = fmt.Sprintf(` <span class="od-badge--status od-badge--status--%s">%s</span>`, esc(st), esc(T(doc.Lang, "status."+st)))
 		}
 	}
 	// vasic.digital cards carry `.od-glow` — an opacity-only accent sheen that
