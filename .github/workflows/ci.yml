@@ -80,12 +80,16 @@ jobs:
       - name: Fetch the two submodules the gates need (non-recursive, HTTPS)
         run: |
           set -euxo pipefail
-          # Rewrite the SSH-style submodule URLs in .gitmodules to anonymous HTTPS.
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
-          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+          # The gitlinks are registered with SSH URLs (git@github.com:...) which CI
+          # has no key for. `insteadOf` proved unreliable for `git submodule update`
+          # (it still tried SSH → "Permission denied (publickey)"), so set each
+          # submodule's URL to anonymous HTTPS EXPLICITLY in .git/config, then update.
           # NON-recursive on purpose: never descend into milosvasic.ru's broken
-          # red-elf/Upstreamable nested gitlink.
-          git submodule update --init vasic.digital milosvasic.ru
+          # red-elf/Upstreamable nested gitlink. Both repos are public.
+          git submodule init vasic.digital milosvasic.ru
+          git config submodule.vasic.digital.url https://github.com/vasic-digital/vasic-digital.github.io.git
+          git config submodule.milosvasic.ru.url https://github.com/milos85vasic/milosvasic.ru.git
+          git submodule update vasic.digital milosvasic.ru
           echo "vasic.digital html files:"; ls vasic.digital/index.html
           echo "milosvasic.ru Gemfile:";    ls milosvasic.ru/Gemfile
 
