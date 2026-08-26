@@ -220,12 +220,12 @@ literals.
 Every `CM-COVENANT-114-*-PROPAGATION` gate sources one shared predicate,
 `scripts/gates/lib/pointer_carrier.sh`, whose entire body is:
 
-```awk
+````awk
 BEGIN { fenced = 0; found = 0 }
 /^(```|~~~)/ { fenced = !fenced; next }
 !fenced && /^## INHERITED FROM / { found = 1; exit }
 END { exit !found }
-```
+````
 
 A carrier satisfies it **iff** it contains a line-anchored, non-fenced
 `## INHERITED FROM ` heading at column zero. Nothing else counts — not a
@@ -427,6 +427,22 @@ in its tracked-file count, to 4 providers.
 
 ### 4.6 `vasic.digital` — CREATE 3 + INSERT into the existing `QWEN.md`
 
+> **Revision 2 — what changed and why it matters here.** Revision 1 of this
+> section copied three carriers that opened with `# CLAUDE.md — vasic.digital`
+> / a `>` blockquote / `## Helix Constitution inheritance`, and inserted a
+> blockquote into `QWEN.md`. None of those four files satisfied
+> `is_pointer_carrier()` (§3.2.1), and none carried a single one of the 17
+> anchor literals — so applying §4.6 as written turned `vasic.digital` into
+> **three additional MISSING carriers** while leaving `QWEN.md` MISSING too.
+> Measured in a temp-dir gate run: the fleet went from **5 MISSING carriers /
+> 85 MISSING lines to 8 / 136**, with all 17 gates still FAILing, louder. The
+> four staged files below now each open with a real, non-fenced,
+> line-anchored `## INHERITED FROM constitution/<BASE>` heading; the same
+> measurement on the corrected set gives **4 MISSING carriers / 68 MISSING
+> lines** — `vasic.digital/QWEN.md` leaves the failing set. Full before/after,
+> including the control run on the uncorrected copies, is in
+> [`PROOF.md`](PROOF.md).
+
 The three new carriers:
 
 ```bash
@@ -442,22 +458,47 @@ The existing carrier — **insert, do not append, and do not replace.**
 block goes immediately after it, ahead of the existing `## Project Overview`
 heading, because README "How to consume" §2 says "Add a clearly-marked pointer
 **at the top** of your project's root `CLAUDE.md` … Same for `AGENTS.md` … and
-… `QWEN.md`", and §11.4.35 invariant 6 (`Constitution.md:2912`) says the
+… `QWEN.md`", and §11.4.35 invariant 6 (`Constitution.md:2910-2916`) says the
 consumer carrier "MUST **start** with" the pointer. Appending at end-of-file
-would satisfy neither. All 55 existing lines are preserved verbatim:
+would satisfy neither.
+
+Keeping the existing H1 title on line 1 and putting the pointer heading
+immediately under it is the shape of the four repository-root carriers that
+pass all 17 propagation gates today (`# vasic — CLAUDE.md`, then
+`## INHERITED FROM …` on line 3) and of the predicate's own `golden-good`
+fixture. The pointer is the document's first section either way, and
+`is_pointer_carrier()` scans the whole file, so the heading is found (verified
+on the produced file — [`PROOF.md`](PROOF.md) §4).
+
+All 55 existing lines are preserved verbatim:
 
 ```bash
 cd /run/media/milosvasic/DATA4TB/Projects/vasic/vasic.digital
 B=../docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.md
 { head -n 1 QWEN.md; echo; cat "$B"; tail -n +2 QWEN.md; } > QWEN.md.new
 # verify before swapping: the diff must be pure insertion, zero deletions
-diff <(tail -n +2 QWEN.md) <(tail -n +20 QWEN.md.new) && mv QWEN.md.new QWEN.md
+diff <(tail -n +2 QWEN.md) <(tail -n +51 QWEN.md.new) && mv QWEN.md.new QWEN.md
 ```
 
-(The block is 17 lines; with the blank separator line the insertion is 18 lines,
-so the original body resumes at line 20 of the new file. The `diff` must print
-nothing. If it prints anything, **do not** `mv` —
-the insertion is wrong.)
+(The block is **48** lines; with the blank separator line the insertion is 49
+lines, so the original body resumes at **line 51** of the new file — the new
+file is 104 lines, and `## Project Overview` lands on line 52. The `diff` must
+print nothing. If it prints anything, **do not** `mv` — the insertion is wrong.)
+
+Then confirm the produced file is a pointer carrier before committing — this is
+the check whose absence made Revision 1 defective, and it takes one command:
+
+```bash
+cd /run/media/milosvasic/DATA4TB/Projects/vasic
+. submodules/constitution/scripts/gates/lib/pointer_carrier.sh
+for f in vasic.digital/{AGENTS,CLAUDE,QWEN,GEMINI}.md; do
+  is_pointer_carrier "$f" && echo "OK   pointer carrier: $f" \
+                          || echo "FAIL not a pointer carrier: $f"
+done
+```
+
+All four must print `OK`. A `FAIL` means the file will be scored `MISSING` by
+all 17 propagation gates — stop and fix it before committing.
 
 Then commit. `vasic.digital` ships its own commit wrapper — the tracked script
 `commit`, which "Reads configuration from `env.properties` … Supports default
@@ -543,17 +584,53 @@ done
 
 # 3. vasic.digital/QWEN.md kept all 55 original lines (pure insertion, 0 deletions)
 diff <(git -C vasic.digital show HEAD~1:QWEN.md) \
-     <(head -n 1 vasic.digital/QWEN.md; tail -n +20 vasic.digital/QWEN.md)
+     <(head -n 1 vasic.digital/QWEN.md; tail -n +51 vasic.digital/QWEN.md)
 
 # 4. The resolver actually resolves from inside each submodule
 for s in ai_interviewing design-toolkit milosvasic.ru monetization vasic.digital; do
   echo -n "$s -> "; (cd "$s" && bash ../submodules/constitution/find_constitution.sh)
 done
+
+# 5. THE GATE-FACING CHECK — every applied carrier is recognised as a §11.4.35
+#    pointer consumer by the very predicate the 17 propagation gates source.
+#    A FAIL here means the file is scored MISSING by all 17. (This is the check
+#    whose absence made Revision 1 of this directory defective.)
+. submodules/constitution/scripts/gates/lib/pointer_carrier.sh
+for s in ai_interviewing design-toolkit milosvasic.ru monetization vasic.digital; do
+  for f in AGENTS CLAUDE QWEN GEMINI; do
+    [ -f "$s/$f.md" ] || continue
+    is_pointer_carrier "$s/$f.md" \
+      && echo "OK   pointer carrier: $s/$f.md" \
+      || echo "FAIL not a pointer carrier: $s/$f.md"
+  done
+done
+
+# 6. Fleet-level before/after — MISSING carriers must not increase, and
+#    vasic.digital/QWEN.md must have left the MISSING set.
+G=submodules/constitution/scripts/gates
+for a in 162 167 176 187 191 196 199 200 201 202 207 213 230 231 232 233 235; do
+  bash "$G/cm_covenant_114_${a}_propagation.sh" --root . || true
+done 2>&1 | tee /tmp/sweep-after-apply.txt | grep -c '❌ MISSING'
+grep '❌ MISSING' /tmp/sweep-after-apply.txt \
+  | sed 's/.*MISSING *//; s/  *—.*//' | sort -u
 ```
 
 Check 4 is the mechanical proof that the conditional form works from every
 depth. It was **not run** during preparation (it only reads, but it is listed
 here as the operator's confirmation step).
+
+Checks 5 and 6 are the ones that decide whether this propagation helps or
+hurts, and both **were** run during preparation of Revision 2 — against a temp
+directory mirroring this fleet, never against the live submodules. Expected
+values, reproduced in [`PROOF.md`](PROOF.md): check 5 prints `OK` for all 20
+carriers; check 6 prints `68` and lists exactly the four third-party carriers
+(`milosvasic.ru/Upstreamable/{AGENTS,CLAUDE}.md`,
+`submodules/superspec/examples/static-landing-page/CLAUDE.md`,
+`.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md`) — down
+from `85` and five. The 17 gates still exit 1 on those four: they are category
+(c) in [`GATE-TRIAGE.md`](../GATE-TRIAGE.md) §3.1 and no change in this directory
+can clear them. A check-6 number **above** 85 means the applied carriers are
+not pointer carriers — revert before committing.
 
 ## 6. What this procedure does NOT do
 
@@ -570,7 +647,15 @@ here as the operator's confirmation step).
   be project-aware. They are complementary to, not in conflict with, the
   conditional submodule form standardised in §3: the two layers are governed by
   different clauses (§11.4.35 invariant 6 for the root, §11.4.28(B) for owned
-  submodules). Nothing in this directory reads, modifies, or depends on them.
+  submodules). Since Revision 2 the two forms share the same *heading* —
+  `## INHERITED FROM …` — and differ only in what follows it: the root names a
+  real relative path and asserts inheritance unconditionally (both true at the
+  repository root), while a submodule carrier names the base file's canonical
+  name, resolves it with `find_constitution.sh`, and states the inheritance
+  conditionally (the only honest form for a module that can be cloned alone).
+  Those four root carriers are also the working reference Revision 2 was
+  measured against — they are the carriers that pass all 17 propagation gates
+  today. Nothing in this directory reads, modifies, or depends on them.
 - It does not create any gate, sweep, hook, or `helix-deps.yaml`
   (INVENTORY.md §7.4). Per §11.4.32 (`Constitution.md:2079-2082`) "Without it,
   new rules cascade as anchors but never get enforced in the codebase" — these
@@ -580,6 +665,14 @@ here as the operator's confirmation step).
   … top-level README.md / CLAUDE.md / AGENTS.md". Every file created in §4 is
   therefore born non-compliant with §11.4.65 until exported. Same known,
   disclosed deviation INVENTORY.md §1 records for itself, and it applies to
-  `APPLY.md` / `RISKS.md` and the 20 prepared files in this directory too.
+  `APPLY.md` / `RISKS.md` / `PROOF.md` and the 20 prepared files in this
+  directory too.
 - It does not touch `submodules/superspec`, `submodules/constitution`, or
   `milosvasic.ru/Upstreamable`.
+- It does not clear all 17 propagation gates, and Revision 2 does not claim it
+  does. Four category-(c) third-party carriers
+  ([`GATE-TRIAGE.md`](../GATE-TRIAGE.md) §3.1, §7) hold every one of the 17
+  FAILing no matter what happens in this directory. What the procedure now does
+  is stop *adding* to that set, and remove one carrier from it
+  (`vasic.digital/QWEN.md`): 85 MISSING lines → 68, five MISSING carriers →
+  four. Measured, not asserted — [`PROOF.md`](PROOF.md).

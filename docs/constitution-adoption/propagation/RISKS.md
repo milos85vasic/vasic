@@ -9,20 +9,123 @@
 
 | Field | Value |
 |---|---|
-| Revision | 1 |
+| Revision | 2 |
 | Created | 2026-08-26 |
-| Last modified | 2026-08-26 |
+| Last modified | 2026-08-27 |
 | Status | active |
-| Status summary | Blast-radius, exclusion and honesty register for the propagation prepared in [`APPLY.md`](APPLY.md). Nothing has been applied. Every number below comes from a read-only command whose output is quoted. |
-| Continuation | Operator reads this before executing `APPLY.md` §4. |
+| Status summary | Blast-radius, exclusion and honesty register for the propagation prepared in [`APPLY.md`](APPLY.md). Nothing has been applied. Every number below comes from a read-only command whose output is quoted. **Revision 2 (2026-08-27)** adds §0: the Revision-1 staging was defective and would have regressed the constitution gates; it has been rewritten and the fix measured in [`PROOF.md`](PROOF.md). |
+| Continuation | Operator reads this — §0 first — before executing `APPLY.md` §4. |
+
+## 0. Revision 1 of this staging was defective — recorded, not quietly fixed
+
+**The Revision-1 files in this directory would have made the constitution
+gates strictly worse if applied.** This is recorded here rather than silently
+corrected, because an operator who read Revision 1's `APPLY.md` and acted on it
+would have been worse off for it.
+
+### 0.1 The defect
+
+Every `CM-COVENANT-114-*-PROPAGATION` gate sources one predicate,
+`submodules/constitution/scripts/gates/lib/pointer_carrier.sh`. It recognises a
+§11.4.35 pointer consumer — a carrier allowed to omit the anchor literals —
+**iff** the file contains a **line-anchored, non-fenced `## INHERITED FROM `
+heading at column zero**:
+
+```awk
+!fenced && /^## INHERITED FROM / { found = 1; exit }
+```
+
+The Revision-1 drafts opened with a `>` blockquote (`AGENTS.md`, `QWEN.md`,
+`GEMINI.md`, `QWEN.insert-block.md`) or with `# CLAUDE.md — <module>` followed
+by `## Helix Constitution inheritance` (`CLAUDE.md`). None of those matches.
+None of the drafts carried a single one of the 17 anchor literals either. So
+every applied file would have registered as a **new anchor-less carrier** and
+**added** 17 `MISSING` verdicts of its own.
+
+### 0.2 What it would have cost, measured
+
+Run in temp directories mirroring the real fleet, with the 17 real gates
+([`PROOF.md`](PROOF.md) has the full output):
+
+| Scenario | MISSING carriers | MISSING lines | 17 gates |
+|---|---|---|---|
+| live repository today | 5 | 85 | all FAIL |
+| `APPLY.md` §4.6 with the **Revision-1** files | **8** | **136** | all FAIL, louder |
+| `APPLY.md` §4.2 – §4.6 with the **Revision-1** files | **24** | **408** | all FAIL, louder |
+| `APPLY.md` §4.6 with the **Revision-2** files | **4** | **68** | all FAIL (third-party only) |
+| `APPLY.md` §4.2 – §4.6 with the **Revision-2** files | **4** | **68** | all FAIL (third-party only) |
+
+The 136 / 8 row reproduces [`GATE-TRIAGE.md`](../GATE-TRIAGE.md) §6.1's
+prediction exactly. It was correct.
+
+### 0.3 What was changed in Revision 2
+
+- All 19 `*.md.staged` carriers were rewritten. Each now opens with its H1
+  title and, immediately under it, the canonical **`## INHERITED FROM
+  constitution/<BASE>`** heading — the form the constitution's own examples use
+  and the form the four repository-root carriers that pass all 17 gates use.
+- `vasic.digital/QWEN.insert-block.md` was replaced by a block that starts with
+  that heading, so the file it is inserted into becomes a pointer carrier and
+  **leaves** the MISSING set. All 55 existing lines of
+  `vasic.digital/QWEN.md` are preserved — verified by a zero-deletion diff on
+  the produced file.
+- The substance the previous author argued for correctly is kept: the
+  inheritance is stated **conditionally** (consumed-inside-a-project vs.
+  consumed-standalone), the constitution is located with
+  `find_constitution.sh` rather than a path, and **no** depth-dependent or
+  parent-project path is hardcoded — the heading's `constitution/<BASE>` is
+  stated in the carrier itself to be the base file's canonical *name*, resolved
+  by the helper, not a filesystem path. §11.4.28(B) is intact; `APPLY.md` §5's
+  own grep for `submodules/constitution` finds nothing in any carrier.
+- `APPLY.md` §1's tree listing now shows the `.staged` suffixes, and its §4
+  `cp` commands now copy **from** `<name>.md.staged` (Revision 1's commands
+  copied from a source filename that does not exist).
+- `APPLY.md` §4.6 no longer instructs copying anchor-less carriers, carries the
+  corrected insertion line numbers (the block grew from 17 to 48 lines, so the
+  original body now resumes at line 51, not 20), and ends with a
+  `is_pointer_carrier` check on all four produced files.
+- `APPLY.md` §5 gained two checks — the per-file predicate check and a
+  fleet-level MISSING-count check — precisely because their absence is what
+  let Revision 1 ship.
+
+### 0.4 What Revision 2 does **not** claim
+
+It does not make the 17 gates pass. Four category-(c) third-party carriers
+([`GATE-TRIAGE.md`](../GATE-TRIAGE.md) §3.1, §7) hold every one of them FAILing
+and nothing in this directory can clear them. The claim is narrower and
+measured: the propagation stops adding failures and removes one
+(`vasic.digital/QWEN.md`) — 85 MISSING lines → 68, five MISSING carriers →
+four.
 
 ## 1. What was and was not done while preparing this
 
 **Not run, anywhere:** `git add`, `git commit`, `git push`, `git fetch`,
 `git pull`, `git checkout`, `git submodule update`, `git tag`, `git remote add`,
 `git config`. No file inside any submodule working tree was created, modified,
-or deleted. The only writes are the 22 files in this directory
-(`docs/constitution-adoption/propagation/`), all of them in the umbrella repo.
+or deleted. The only writes are the files in this directory
+(`docs/constitution-adoption/propagation/`), all of them in the umbrella repo:
+22 at Revision 1, and at Revision 2 the same 20 staged artifacts rewritten in
+place plus `PROOF.md` added — 23 files.
+
+**Also run for Revision 2 (all read-only):** the 17
+`cm_covenant_114_*_propagation.sh` gates against the live repository root and
+against five temp directories under the session scratchpad, plus
+`lib/pointer_carrier.sh --selftest` and direct `is_pointer_carrier` calls. No
+gate script, no library, and no submodule file was modified to produce those
+runs.
+
+**Observed, not caused — a concurrent auto-commit swept the rewritten drafts.**
+This repository has an automated commit loop (`git log --oneline` shows a run
+of `Auto-commit` entries). At 2026-08-26T23:11:47Z, while Revision 2 was being
+prepared, a commit made outside this task
+(`f5626d6 Fix 3 refuted claims from independent audit …`) captured all 20
+rewritten `*.staged` artifacts in this directory into git history. The Revision-2
+work itself ran no `git add`, `git commit`, or `git push`; the files' content on
+disk and in `HEAD` is identical, so nothing was half-captured. It is recorded
+here because a reader comparing `git log` against this document's "no mutating
+git command was run" statement would otherwise see a contradiction — and because
+it is the §11.4.84 working-tree-quiescence hazard in its live form: an
+unrelated commit absorbed in-flight edits it did not describe.
 
 **Run:** `git -C <sub> ls-files`, `ls-files -s`, `remote -v`,
 `remote get-url --push --all`, `rev-parse`, `describe`, `status --porcelain`,
@@ -148,6 +251,7 @@ is external to the operator — see §6.
 | R8 | The pointers are unenforced decoration | The gates that would check them (`scripts/verify-governance-cascade.sh`, `scripts/verify-all-constitution-rules.sh`, `tests/test_constitution_inheritance.sh`) do not exist — INVENTORY.md G3/G5. §11.4.32 (`Constitution.md:2079-2082`): "Without it, new rules cascade as anchors but never get enforced in the codebase." | **Not mitigated by design** — this task prepares propagation only. `APPLY.md` §6 states it. |
 | R9 | Submodule carriers alone do not close G1/G2 | The 175 `CM-COVENANT-114-N-PROPAGATION` gates check `CLAUDE.md` / `AGENTS.md` "across the project" (§11.4.35 invariant 5), and the umbrella root still has none (INVENTORY.md §6.1, §6.4) | `APPLY.md` §6 states it. The umbrella-root carriers of INVENTORY.md §7.1 are a separate change. |
 | R10 | `vasic.digital` is a GitHub **Pages** repository — a push redeploys the live site | Four new root-level `.md` files land in a published static site | Flagged in `APPLY.md` §4.6. Whether Jekyll ignores or publishes them is **unverified** (§6). |
+| R12 | A staged carrier does not satisfy `is_pointer_carrier()` and therefore *adds* 17 MISSING verdicts instead of clearing any | This is not hypothetical: it is exactly what Revision 1 of this directory did (§0). A carrier that looks like a pointer to a human — a blockquote, a differently-worded H2 — is invisible to the predicate, which matches only a line-anchored, non-fenced `## INHERITED FROM ` heading at column zero | **Mitigated and measured.** Every carrier now opens with that heading; `APPLY.md` §5 check 5 runs the real predicate over every applied file, and check 6 re-runs all 17 gates and prints the fleet MISSING count. [`PROOF.md`](PROOF.md) records the before/after with a control run on the uncorrected files. |
 | R11 | `vasic.digital` has a commit wrapper and the constitution forbids bypassing it | `AGENTS.project.md.template`: "**Use the project's commit wrapper.** No direct `git add` / `git commit` / `git push` on main repo." The tracked script `vasic.digital/commit` exists. | `APPLY.md` §4.6 gives the wrapper form first and the plain-git form as a labelled fallback, and states the wrapper's internals were not executed or line-read. |
 
 ## 5. Honesty flags in the prepared text
@@ -161,14 +265,19 @@ is external to the operator — see §6.
   Agent-Native Development* position — built for the candidate at
   [milosvasic.ru](https://milosvasic.ru) (Miloš Vasić)". Naming a specific
   employer and a specific consuming site is precisely the "project-specific
-  context" §11.4.28(B) forbids. The prepared file keeps the sentence for exact
-  fidelity to the reference form; the operator must either (a) read it as the
-  forward obligation it states and open a separate remediation item for the
-  README, or (b) delete that paragraph from all four `ai_interviewing` carriers
-  before committing. **It must not be committed as an unexamined claim.**
-  The same sentence is materially true of `design-toolkit`, `monetization`,
-  `milosvasic.ru` and `vasic.digital` only insofar as their content was not
-  audited for project-coupling in this pass — see §6.
+  context" §11.4.28(B) forbids. Revision 1 kept the sentence for exact
+  fidelity to the reference form and left the operator to accept or delete it.
+  **Revision 2 removed it**, replacing it with a claim about the carrier
+  itself, which is verifiable and was verified: *"This file therefore hardcodes
+  no parent-project path and no depth-dependent path, keeping the module
+  project-not-aware, decoupled and reusable per §11.4.28(B)."* That is a
+  statement about the file the operator is committing — checked by `APPLY.md`
+  §5 check 2, which greps every carrier for the umbrella layout string and
+  finds none in any of the 20. No carrier now asserts anything about the
+  *module's* content, which this pass did not audit (§6). Whether
+  `ai_interviewing`'s README is itself §11.4.28(B)-compliant remains an open,
+  separate remediation item — it is simply no longer pre-judged by a sentence
+  in the carrier.
 - **INVENTORY.md §6.2/§7.3 needs a correction.** It presents
   `milosvasic.ru/Upstreamable/{AGENTS,CLAUDE}.md` as `milosvasic.ru`'s files.
   They are tracked by a **different repository**, `red-elf/Upstreamable`
@@ -215,5 +324,5 @@ Each item states what would settle it. None of these was guessed at above.
 | Whether `WangX0111` is genuinely external to the operator | Inferred from the org not matching any of `milos85vasic` / `vasic-digital` / `HelixDevelopment` | Operator confirmation, or `gh repo view WangX0111/superspec` |
 | Whether the five submodules' *content* is otherwise §11.4.28(B)-compliant (beyond the `ai_interviewing` README flagged in §5) | This pass surveyed carriers and remotes, not the 3,156 tracked files across the five modules for project-coupling | A §11.4.28(B) audit per module — out of scope here |
 | Whether the constitution submodule pointer is current relative to its upstream | `git fetch` was forbidden | `git -C submodules/constitution fetch --all && git -C submodules/constitution log --oneline HEAD..origin/main` (INVENTORY.md §10 records the same item) |
-| Whether applying this would make any existing gate pass | No gate exists to run (INVENTORY.md G3/G5) | Build `scripts/verify-all-constitution-rules.sh` per §11.4.32, then run it before and after |
+| ~~Whether applying this would make any existing gate pass~~ — **verified 2026-08-27; the answer is no** | Superseded: `scripts/verify-all-constitution-rules.sh` and the 17 `cm_covenant_114_*_propagation.sh` gates now exist and were run. Applying this propagation leaves all 17 FAILing, held by four third-party carriers; what it changes is the MISSING count, 85 → 68, and the MISSING-carrier count, 5 → 4 | Done — [`PROOF.md`](PROOF.md); re-runnable at any time with `APPLY.md` §5 check 6 |
 | Whether the constitution's own nested submodules (`anti_bluff`, `continuum`, `session_orchestrator`, `token_optimizer`, its `design-toolkit`, …) need the same treatment | Out of scope — this task named the 5 umbrella-owned submodules. INVENTORY.md §7.3 lists them as targets | A separate decision; each such commit would push through `submodules/constitution`'s 6-URL fan-out or those modules' own remotes |
