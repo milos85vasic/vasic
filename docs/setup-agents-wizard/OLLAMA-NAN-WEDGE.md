@@ -240,8 +240,8 @@ All rows: fresh runner (`ollama stop` first), uncontended, placement journal-ver
 | c-short | `C1_gpu_short10` | GPU 13/13 | 10 ch × 1 | **300** | **none** | 0.06 s median | **0** |
 | a | `A1_gpu_400char` | GPU 13/13 | 400 ch × 1 | **299** | **none** | 0.41 s median, 0.42 s last-5 | **0** |
 | d | `D1_gpu_batch32` | GPU 13/13 | 400 ch × **32** (12.8 kB/req) | **50** | **none** | 9.5 s → 10.9 s | **0** |
-| e | `E1_gpu_large` | GPU 13/13 | 8000 ch × 4 (32 kB/req) | 7 | **request 1** (`zerovec`); hard NaN 500 by req 8 | 80.5 s flat | **168** (24/req) |
-| e-repeat | `E2_gpu_large` | GPU 13/13 | 8000 ch × 4 | 7 | **request 1** (`zerovec`) | 81.2 s flat | 168 |
+| e | `E1_gpu_large` | GPU 13/13 | 8000 ch × 4 (32 kB/req) | 7 | **req 1** (`zerovec`) → **req 8** hard NaN 500 | 80.5 s flat | **168** (24/req) |
+| e-repeat | `E2_gpu_large` | GPU 13/13 | 8000 ch × 4 | 8 | **req 1** (`zerovec`) → **req 8** hard NaN 500 | 84.2 s → 86.1 s | **199** + **3 GPU HANGs** |
 | e-det | GPU determinism | GPU 13/13 | 8000 ch × 1, ×4 | 4 | **request 1** (`zerovec`, all 4) | 20.1–21.5 s | yes |
 | b | `B1/B2_cpu_large` | CPU 0/13 | 8000 ch × 4 | 3 | **none** | > 180 s (client cap) | **0** |
 | b-det | CPU determinism | CPU 0/13 | 8000 ch × 1, ×4 | 4 | **none**, pairwise cosine **1.000000** | 71–129 s | **0** |
@@ -254,8 +254,9 @@ timeouts. **Condition (b) never failed.** **Condition (d) never failed** — 50 
 requests, 1600 texts, 640 kB, is *not* enough to wedge it on its own.
 
 The failing condition was reproduced from a fresh runner **three independent times**
-(`E1`, `E2`, determinism run) and failed at **request 1** every time. That is as consistent as
-a failure point gets.
+(`E1`, `E2`, determinism run). Silent corruption began at **request 1** in all three. In the
+two full-length runs the hard NaN-500 wedge landed at **request 8 in both** — the failure point
+is not random, it is a stable count of context-filling dispatches.
 
 ### 3.2 Input-size ladder — the actual trigger
 
@@ -324,6 +325,20 @@ http=500  t=0.0596
 0.06 s — it is not even attempting to compute. The runner is dead and stays dead until
 `ollama stop`. **Every request returned HTTP 200 right up until the runner was already
 destroyed.** The 500 is the *tombstone*, not the fault.
+
+The repeat run `E2_gpu_large` landed on the same number independently — 7 × `zerovec`, then:
+
+```
+8,00:45:xx,500,NAN,...
+# FIRST_NAN at request 8; trivial-input recheck -> NAN (http 500, 16.54s)
+# SUMMARY {... "first_nan_at": 8, "i915_fence_timeouts_during": 199,
+#             "i915_gpu_hangs_during": 3,
+#             "i915_last_event": "…[drm] ollama[2551406] context reset due to GPU hang"}
+```
+
+**199 fence timeouts and 3 kernel-level GPU hangs in 11 minutes**, ending in
+`context reset due to GPU hang` — the kernel confirming the device was reset out from under
+the runner. Two independent runs, same trigger, same first-NaN request number: **8**.
 
 ### 3.4 Historical natural experiment (12 h of journal, before I touched anything)
 

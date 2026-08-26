@@ -162,8 +162,11 @@ full adoption. The full audit is
 Known open gaps at the time this carrier was created (identifiers are the
 inventory's own):
 
-- G3 — no `scripts/verify-all-constitution-rules.sh` and no
-  `scripts/verify-governance-cascade.sh`; the validation sweep does not exist.
+- G3 — PARTIAL (verified 2026-08-27). `scripts/verify-all-constitution-rules.sh`
+  now EXISTS and runs: it discovers the gates dynamically and reports
+  37 PASS / 21 FAIL / 0 ERROR out of 58, exiting non-zero. What is still absent
+  is `scripts/verify-governance-cascade.sh`, so §11.4.32 step 1 is an explicit
+  SKIP-with-reason (§11.4.3) — recorded as open conflict OC-3, never a pass.
 - G4 — `.github/workflows/ci.yml` is active at the repository root, which
   conflicts with anchor 11.4.156(A). Resolving it is an operator decision
   (disable per 11.4.156(B), or record an explicit override in a project
@@ -176,7 +179,7 @@ inventory's own):
   works here and pushes to the `github` remote plus tags. What is still missing
   at this root is git HOOKS, not the wrapper. Note the wrapper runs `git add .`,
   which stages everything untracked — keep `.gitignore` accurate before using it.
-- G6 — no `helix-deps.yaml` at the repository root.
+- G6 — CLOSED (verified 2026-08-27). `helix-deps.yaml` exists at the repository root and parses under `yaml.safe_load`.
 - G7 — the owned submodules do not yet carry constitution-aware governance
   carriers. Only `vasic.digital/QWEN.md` exists, and it references no anchor.
 - G8 — the markdown export mandate (11.4.65) is unmet across the repository.

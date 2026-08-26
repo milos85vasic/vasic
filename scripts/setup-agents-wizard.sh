@@ -402,6 +402,23 @@ PRIVACY_EOF
     export DO_NOT_TRACK=1 CODEGRAPH_TELEMETRY=0
     print_success "Telemetry opt-out exported in $bashrc"
 
+    # ~/.bashrc returns early for non-interactive shells, so the block above
+    # never reaches `bash -lc`, cron, or systemd user units. Mirror it into
+    # ~/.bash_profile, which login shells always read.
+    local profile="$HOME/.bash_profile"
+    backup_file "$profile" shell
+    strip_managed_block "$profile" "$PRIVACY_BLOCK_START" "$PRIVACY_BLOCK_END"
+    cat >> "$profile" <<PRIVACY_PROFILE_EOF
+
+$PRIVACY_BLOCK_START
+# Mirrored from ~/.bashrc so NON-interactive login shells (cron, ssh host
+# '<cmd>', systemd user units) also opt out. ~/.bashrc returns early for those.
+export DO_NOT_TRACK=1
+export CODEGRAPH_TELEMETRY=0
+$PRIVACY_BLOCK_END
+PRIVACY_PROFILE_EOF
+    print_success "Telemetry opt-out mirrored into $profile (non-interactive shells)"
+
     if check_command codegraph; then
         if codegraph telemetry off >/dev/null 2>&1; then
             print_success "CodeGraph telemetry disabled (buffered data deleted)."
@@ -902,14 +919,22 @@ if [[ -n "${WIZARD_INDEX_PROJECT:-}" ]]; then
     print_header "Step 7: Indexing This Project"
 
     if check_command codegraph; then
+        # NOTE: `codegraph init` builds an index where none exists; `codegraph
+        # index` REBUILDS and deletes the existing DB first, so it is never used
+        # here. Both paths report their real exit status - an earlier revision
+        # printed a success line unconditionally, even after a failure.
+        cg_rc=0
         if [[ -f "$PROJECT_ROOT/.codegraph/codegraph.db" ]]; then
             print_info "CodeGraph index exists - running incremental sync..."
-            codegraph sync "$PROJECT_ROOT" 2>&1 | tail -3 || print_warning "codegraph sync failed."
+            codegraph sync "$PROJECT_ROOT" 2>&1 | tail -3 || cg_rc=1
+            [[ $cg_rc -eq 0 ]] && print_success "CodeGraph sync completed." \
+                               || print_warning "codegraph sync FAILED."
         else
             print_info "No CodeGraph index yet - building it (this writes to .codegraph/)..."
-            codegraph init "$PROJECT_ROOT" 2>&1 | tail -3 || print_warning "codegraph init failed."
+            codegraph init "$PROJECT_ROOT" 2>&1 | tail -3 || cg_rc=1
+            [[ $cg_rc -eq 0 ]] && print_success "CodeGraph initial index built." \
+                               || print_warning "codegraph init FAILED."
         fi
-        print_success "CodeGraph index step finished."
     else
         print_warning "codegraph not installed - skipping its index."
     fi
@@ -943,7 +968,9 @@ for cmd in git node npm bun lumen codegraph glyphdown specify kimi opencode mimo
 done
 
 echo -e "\n${CYAN}Agent MCP Configurations (Lumen):${NC}"
-# Each line reports what was ACTUALLY verified, not merely that a file exists.
+# Each line probes BEHAVIOUR or CONTENT, never mere file existence. An earlier
+# revision of this block scored a tick for 0-byte files; an independent audit
+# refuted it by replaying these predicates against empty targets.
 # "n/a" means the agent is not installed; a warning above explains any gap.
 if check_command claude && claude mcp get lumen >/dev/null 2>&1; then
     echo "  ✅ Claude Code   (registered via 'claude mcp', user scope)"
@@ -984,8 +1011,21 @@ else
 fi
 
 echo -e "\n${CYAN}Lumen Semantic Search:${NC}"
-[[ -x "$LUMEN_WRAPPER" ]] && echo "  ✅ launcher ($LUMEN_WRAPPER)" || echo "  ❌ launcher"
-[[ -r "$LUMEN_COMPLETION_DIR/lumen" ]] && echo "  ✅ bash completions" || echo "  ❌ bash completions"
+# Existence is not correctness: an empty file passes -x/-r. Probe behaviour.
+if [[ -x "$LUMEN_WRAPPER" ]] && "$LUMEN_WRAPPER" version >/dev/null 2>&1; then
+    echo "  ✅ launcher ($LUMEN_WRAPPER, responds to 'version')"
+elif [[ -x "$LUMEN_WRAPPER" ]]; then
+    echo "  ❌ launcher present but does not run"
+else
+    echo "  ❌ launcher"
+fi
+if [[ -r "$LUMEN_COMPLETION_DIR/lumen" ]] && grep -q '__start_lumen' "$LUMEN_COMPLETION_DIR/lumen" 2>/dev/null; then
+    echo "  ✅ bash completions (registers __start_lumen)"
+elif [[ -r "$LUMEN_COMPLETION_DIR/lumen" ]]; then
+    echo "  ❌ completion file present but registers nothing"
+else
+    echo "  ❌ bash completions"
+fi
 grep -qF "$LUMEN_BLOCK_START" "$HOME/.bashrc" 2>/dev/null && echo "  ✅ ~/.bashrc block" || echo "  ❌ ~/.bashrc block"
 grep -qF "$USERBIN_BLOCK_START" "$HOME/.bash_profile" 2>/dev/null && echo "  ✅ ~/.bash_profile login-shell PATH" || echo "  ❌ ~/.bash_profile login-shell PATH"
 check_command ollama && echo "  ✅ ollama backend" || echo "  ❌ ollama backend"
@@ -1007,12 +1047,38 @@ else
         [[ "$(jq -r '.usageStatisticsEnabled | tostring' "$HOME/.qwen/settings.json")" == "false" ]] \
             && echo "  ✅ Qwen usage statistics disabled" || echo "  ⚠️  Qwen usage statistics not disabled"
     fi
-    echo "  ➖ Lumen ships no telemetry (verified: no analytics strings in binary)"
+    # Actually probe the binary rather than asserting a past finding.
+    if [[ -n "${LUMEN_BIN:-}" ]] || [[ -x "$LUMEN_WRAPPER" ]]; then
+        _lb=$(LUMEN_BIN="${LUMEN_BIN:-}" bash -c 'command -v lumen' 2>/dev/null)
+        _real=$(readlink -f "$_lb" 2>/dev/null)
+        if [[ -n "$_real" ]] && command -v strings >/dev/null 2>&1; then
+            if strings "$_real" 2>/dev/null | grep -qiE 'telemetry|analytics|posthog|mixpanel|segment\.io'; then
+                echo "  ⚠️  Lumen binary contains analytics-like strings - inspect $_real"
+            else
+                echo "  ➖ Lumen ships no telemetry (probed $_real just now)"
+            fi
+        else
+            echo "  ➖ Lumen telemetry not probed (strings(1) unavailable)"
+        fi
+    fi
 fi
 
 echo -e "\n${CYAN}Project (Current: $PROJECT_ROOT):${NC}"
-[[ -d "$PROJECT_ROOT/.specify" || -d "$PROJECT_ROOT/specs" ]] && echo "  ✅ SpecKit init" || echo "  ❌ SpecKit init"
-[[ -e "$PROJECT_ROOT/$SUPERSPEC_PATH/.git" ]] && echo "  ✅ SuperSpec submodule" || echo "  ❌ SuperSpec submodule"
+# An EMPTY .specify/ or an empty .git file used to score a tick here.
+if [[ -n "$(ls -A "$PROJECT_ROOT/.specify" 2>/dev/null)" || -n "$(ls -A "$PROJECT_ROOT/specs" 2>/dev/null)" ]]; then
+    echo "  ✅ SpecKit init (non-empty .specify/ or specs/)"
+elif [[ -d "$PROJECT_ROOT/.specify" || -d "$PROJECT_ROOT/specs" ]]; then
+    echo "  ❌ SpecKit directory exists but is empty"
+else
+    echo "  ❌ SpecKit init"
+fi
+if [[ -s "$PROJECT_ROOT/$SUPERSPEC_PATH/.git" ]] || [[ -d "$PROJECT_ROOT/$SUPERSPEC_PATH/.git" ]]; then
+    echo "  ✅ SuperSpec submodule"
+elif [[ -e "$PROJECT_ROOT/$SUPERSPEC_PATH/.git" ]]; then
+    echo "  ❌ SuperSpec .git present but empty"
+else
+    echo "  ❌ SuperSpec submodule"
+fi
 if [[ -f "$CLAUDE_SETTINGS" ]] && grep -q "glyphdown" "$CLAUDE_SETTINGS" 2>/dev/null; then
     echo "  ✅ Glyphdown Hook (Claude)"
 elif [[ -n "${WIZARD_SKIP_GLYPHDOWN_HOOK:-}" ]]; then

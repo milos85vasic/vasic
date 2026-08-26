@@ -35,6 +35,14 @@ This README is the entry point. The companion documents go deeper:
 
 ---
 
+## 🏛️ The root `CLAUDE.md` / `AGENTS.md` / `QWEN.md` / `GEMINI.md` files
+
+The wizard does not create them, and nothing here reads or writes them. They are the repository's **governance carriers**: each opens with a `## INHERITED FROM ` pointer into the `submodules/constitution/` git submodule, and together with the root `Constitution.md` they are what the agents this wizard installs pick up as project rules.
+
+If you want to know what they are, why they are pointers instead of `@import`s, why all four must stay byte‑identical below their header, or how to run the two verifiers that check them, start at [`../constitution-adoption/README.md`](../constitution-adoption/README.md).
+
+---
+
 ## 📌 Prerequisites
 
 - **System**: Linux (Debian/RedHat) or macOS  

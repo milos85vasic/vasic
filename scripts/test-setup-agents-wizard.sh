@@ -96,7 +96,10 @@ assert_contains "A5 lumen MCP command is an absolute path var" '--arg lumen_bin 
 assert_contains "A6 submodule presence test uses -e (gitlink is a FILE)" '[[ -e "$sub_path/.git" ]]' "$src"
 assert_contains "A7 library-mode guard present" 'SETUP_WIZARD_LIB_ONLY' "$src"
 assert_contains "A8 setup_superspec extracted as a function" "setup_superspec() {" "$src"
-assert_contains "A9 ensure_lumen wired into the wizard flow" "ensure_lumen" "$src"
+# Must match a CALL SITE, not the definition: an audit deleted the only call
+# and this assertion still passed.
+calls=$(printf '%s\n' "$src_code" | grep -cE '^[[:space:]]*ensure_lumen[[:space:]]*$')
+assert_eq "A9 ensure_lumen is actually CALLED, not just defined" "1" "$calls"
 
 # Guessed npm names either 404 or resolve to unrelated software. Assert that no
 # EXECUTABLE line installs any of them (comments documenting them are fine).
@@ -114,7 +117,12 @@ assert_contains "A17 installs are guarded by a missing-check helper" "npm_instal
 unguarded=$(printf '%s\n' "$src_code" | grep -E 'curl .*\| *(bash|sh)$' | grep -vc '||' || true)
 assert_eq "A18 no unguarded 'curl | bash' can abort the wizard" "0" "$unguarded"
 assert_contains "A19 glyphdown hook has a documented opt-out" "WIZARD_SKIP_GLYPHDOWN_HOOK" "$src_code"
-assert_contains "A20 glyphdown hook uses valid Claude Code events" "PreToolUse" "$src_code"
+# Must match the jq hook writer, not a banner string: an audit rewrote the hook
+# to a bogus event and this assertion still passed.
+# grep -c counts LINES; both ensure() calls sit on one line, so count
+# OCCURRENCES with -o instead.
+ev=$(printf '%s\n' "$src_code" | grep -oE 'ensure\("(Pre|Post)ToolUse"\)' | sort -u | wc -l)
+assert_eq "A20 glyphdown hook writes real PreToolUse/PostToolUse events" "2" "$ev"
 assert_absent  "A21 no invalid 'ToolCall' hook event" '"ToolCall"' "$src_code"
 # @qwen-code/qwen-code installs a binary named `qwen`; probing `qwen-code`
 # produced a false "install failed" for software that was already working.
@@ -125,7 +133,11 @@ assert_contains "A25 project indexing is opt-in via WIZARD_INDEX_PROJECT" "WIZAR
 # `codegraph index` DESTROYS the existing DB before rebuilding; the wizard must
 # prefer the incremental `sync` when an index already exists.
 assert_contains "A26 codegraph uses incremental sync when an index exists" "codegraph sync" "$src_code"
-assert_absent  "A27 wizard never runs destructive 'codegraph index'" "codegraph index " "$src_code"
+# Trailing-space grep was evadable by `codegraph index` at end-of-line.
+# `codegraph init` IS used (builds where none exists); only `index` rebuilds
+# destructively, deleting the DB first.
+destructive=$(printf '%s\n' "$src_code" | grep -cE 'codegraph[[:space:]]+index([[:space:]]|$)')
+assert_eq "A27 wizard never runs destructive 'codegraph index'" "0" "$destructive"
 # Every install must be undoable: specify was the one that recorded no ACTION.
 assert_contains "A28 specify install records an undo action" "uv tool uninstall specify-cli" "$src_code"
 assert_contains "A29 telemetry opt-out is wired into the run" "configure_telemetry_optout" "$src_code"

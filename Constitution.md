@@ -21,7 +21,7 @@ explicitly overridden below.
 | Instantiated from | `submodules/constitution/templates/Constitution.project.md.template` |
 | Created | 2026-08-26 |
 | Governance submodule | `submodules/constitution` @ `448981ae3498229c734dc60719f4b19f01d7a75f` (`git describe` → `v1.0.0-51-g448981a`) |
-| Peer carriers | `CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md` (191 lines each, bodies byte-identical) — §11.4.157 five-carrier lockstep |
+| Peer carriers | `CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md` (bodies byte-identical from line 24; verify with `tail -n +24 <file> | sha256sum`) — §11.4.157 five-carrier lockstep |
 | Verification | `tests/test_constitution_inheritance.sh`, `scripts/verify-all-constitution-rules.sh` |
 | Dependency manifest | `helix-deps.yaml` (§11.4.31) |
 

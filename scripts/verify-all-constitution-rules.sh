@@ -48,8 +48,10 @@
 #      standalone gate — documents its own runnable check.)
 #   2. Else if it offers a `selfcheck)` subcommand    -> run `selfcheck <tmpdir>`.
 #      (`gate_ledger.sh` is a multi-subcommand tool: invoked bare it prints its
-#      usage and exits 0, which would be a false PASS. Its documented self-test
-#      is used instead.)
+#      usage and exits 2 — verified 2026-08-27 — so the sweep would score it
+#      ERROR (a blind instrument, §11.4.201(7)(b)), never PASS. Either way a
+#      bare invocation proves nothing, so its documented self-test is used
+#      instead.)
 #   3. Else, `--root` is resolved from the gate's OWN usage header, because the
 #      family uses the same flag for two different things:
 #        `--root <consumer-root>` / `<project-root>` -> the project root

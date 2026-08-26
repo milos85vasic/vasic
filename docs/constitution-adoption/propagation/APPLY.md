@@ -9,12 +9,12 @@
 
 | Field | Value |
 |---|---|
-| Revision | 1 |
+| Revision | 2 |
 | Created | 2026-08-26 |
-| Last modified | 2026-08-26 |
+| Last modified | 2026-08-27 |
 | Status | prepared — NOT applied |
-| Status summary | Ready-to-copy inheritance-pointer carriers for the 5 owned submodules of the `vasic` umbrella, plus the exact copy/commit/push procedure. Nothing in this directory has been applied. No submodule working tree was written to and no mutating git command was run while producing it. |
-| Continuation | Operator executes §4 below, submodule-by-submodule, in the order given. |
+| Status summary | Ready-to-copy inheritance-pointer carriers for the 5 owned submodules of the `vasic` umbrella, plus the exact copy/commit/push procedure. Nothing in this directory has been applied. No submodule working tree was written to and no mutating git command was run while producing it. **Revision 2 (2026-08-27):** every staged carrier was rewritten — the Revision-1 drafts opened with a `>` blockquote / a `## Helix Constitution inheritance` heading, neither of which satisfies the propagation gates' `is_pointer_carrier()` predicate, so applying them as written would have taken the fleet from 5 MISSING carriers / 85 MISSING lines to 8 / 136 (§4.6 alone) or 24 / 408 (§4.2 – §4.6). Every carrier now opens with a real, non-fenced, line-anchored `## INHERITED FROM constitution/<BASE>` heading and keeps the conditional / standalone prose. Proven in a temp-dir gate run — see [`PROOF.md`](PROOF.md). |
+| Continuation | Operator executes §4 below, submodule-by-submodule, in the order given. Read [`PROOF.md`](PROOF.md) first — it is the empirical before/after for the corrected set. |
 
 > **Read [`RISKS.md`](RISKS.md) before running anything in §4.** It names the
 > push fan-out per repository, the third-party exclusion, and everything that
@@ -24,16 +24,24 @@
 
 ```
 docs/constitution-adoption/propagation/
-├── APPLY.md                     ← this file
+├── APPLY.md                                                ← this file
 ├── RISKS.md
-├── ai_interviewing/{AGENTS,CLAUDE,QWEN,GEMINI}.md      (4 new files)
-├── design-toolkit/{AGENTS,CLAUDE,QWEN,GEMINI}.md       (4 new files)
-├── milosvasic.ru/{AGENTS,CLAUDE,QWEN,GEMINI}.md        (4 new files)
-├── monetization/{AGENTS,CLAUDE,QWEN,GEMINI}.md         (4 new files)
+├── PROOF.md                                                ← temp-dir gate proof
+├── ai_interviewing/{AGENTS,CLAUDE,QWEN,GEMINI}.md.staged   (→ 4 new files)
+├── design-toolkit/{AGENTS,CLAUDE,QWEN,GEMINI}.md.staged    (→ 4 new files)
+├── milosvasic.ru/{AGENTS,CLAUDE,QWEN,GEMINI}.md.staged     (→ 4 new files)
+├── monetization/{AGENTS,CLAUDE,QWEN,GEMINI}.md.staged      (→ 4 new files)
 └── vasic.digital/
-    ├── AGENTS.md  CLAUDE.md  GEMINI.md                 (3 new files)
-    └── QWEN.insert-block.md    ← block to ADD to the EXISTING vasic.digital/QWEN.md
+    ├── AGENTS.md.staged  CLAUDE.md.staged  GEMINI.md.staged  (→ 3 new files)
+    └── QWEN.insert-block.md    ← block to INSERT at the top of the EXISTING
+                                   vasic.digital/QWEN.md (after its H1 title)
 ```
+
+Every draft carrier is stored with a `.staged` suffix, for the reason the note
+at the top of this file gives: a file literally named `CLAUDE.md` inside this
+repository is discovered by the propagation gates as a real fleet carrier. The
+`cp` commands in §4 therefore copy **from** `<name>.md.staged` **to**
+`<name>.md`; the suffix is dropped by the copy, never by a rename in place.
 
 19 files to create + 1 block to insert into 1 existing file. **No existing file
 is replaced anywhere.**
@@ -197,23 +205,65 @@ Constitution's §11.4.28 (Submodules-As-Equal-Codebase + Decoupling
 injected here.
 ```
 
-Note what the reference deliberately does **not** do: it uses neither the
-`@constitution/CLAUDE.md` import nor the `## INHERITED FROM
-constitution/CLAUDE.md` heading. Both project-root forms assert unconditional
-inheritance, which is false for a module that can be cloned standalone; the
-import additionally dangles (§3.1). The `constitution/AGENTS.md` /
-`constitution/CLAUDE.md` tokens survive because they are used as the *canonical
-names of the base files*, resolved by the helper — not as filesystem paths
-relative to the module.
+The reference form's **substance** — the two-case conditional, the resolver
+instead of a path, the standalone case stated plainly — is correct and is kept
+verbatim in spirit below. Its **shape** is not usable on its own, and that is
+what Revision 2 changed.
+
+### 3.2.1 Why the shape had to change: `is_pointer_carrier()`
+
+The reference opens with a `>` blockquote (`AGENTS.md`) or with a
+`## Helix Constitution inheritance` heading (`CLAUDE.md`). Neither is visible
+to the mechanism that decides whether a carrier is allowed to omit the anchor
+literals.
+
+Every `CM-COVENANT-114-*-PROPAGATION` gate sources one shared predicate,
+`scripts/gates/lib/pointer_carrier.sh`, whose entire body is:
+
+```awk
+BEGIN { fenced = 0; found = 0 }
+/^(```|~~~)/ { fenced = !fenced; next }
+!fenced && /^## INHERITED FROM / { found = 1; exit }
+END { exit !found }
+```
+
+A carrier satisfies it **iff** it contains a line-anchored, non-fenced
+`## INHERITED FROM ` heading at column zero. Nothing else counts — not a
+blockquote, not a differently-worded H2, not a mid-line mention in backticks
+(a decoy the predicate's own self-test exercises). A carrier that fails the
+predicate and does not restate the anchor literal is scored `MISSING`, so each
+Revision-1 draft would have **added** a new failing carrier to the fleet
+instead of clearing one. Measured, not argued: see [`PROOF.md`](PROOF.md).
+
+Three facts about the predicate decide the corrected form:
+
+1. It requires the **heading**, and only the heading. It never opens, resolves,
+   or stats the path written after `## INHERITED FROM `.
+2. It scans the whole file, so the heading may sit under the document's H1
+   title — which is exactly the shape of the four repository-root carriers that
+   pass all 17 gates today, and of the predicate's own `golden-good` fixture
+   (`# CLAUDE.md` … `## INHERITED FROM constitution/CLAUDE.md`).
+3. It is inherited by reference by both gate families — the 12 legacy
+   bare-literal gates and the 5 fence-aware §11.4.227(B) block-integrity gates —
+   so one heading satisfies all 17.
+
+So both constraints hold at once. The carrier opens with the canonical heading
+`## INHERITED FROM constitution/<BASE>` — the exact form the constitution's own
+examples use — and immediately below it states the inheritance
+**conditionally**, names `find_constitution.sh` as the resolver, and says
+plainly that a standalone clone inherits nothing. The path inside the heading is
+the canonical **name** of the base file, resolved by the helper; the carrier
+says so in as many words, so no reader mistakes it for a filesystem path, and
+no depth-dependent path is hardcoded anywhere (§11.4.28(B) intact).
 
 ### 3.3 Provenance of each of the four carriers
 
 | Carrier | Form used | Authority |
 |---|---|---|
-| `AGENTS.md` | conditional blockquote, verbatim from the reference | `milosvasic.ru/Upstreamable/AGENTS.md:3-16`; README "How to consume" §2 prescribes a blockquote pointer for AGENTS.md |
-| `CLAUDE.md` | conditional `## Helix Constitution inheritance` section, verbatim from the reference | `milosvasic.ru/Upstreamable/CLAUDE.md:6-24`; §11.4.35 invariant 6 (`Constitution.md:2910-2916`) accepts "the portable pointer-block … Aider/Codex/Gemini-style" as equivalent to the native import |
-| `QWEN.md` | **derived** — the AGENTS blockquote with `constitution/QWEN.md` substituted | `submodules/constitution/README.md` "How to consume" §2: "Same for `AGENTS.md` (any AI-agent tooling) and (since 2026-05-20) `QWEN.md` for Qwen Code:" followed by the blockquote form. **No `QWEN.project.md.template` ships** — `submodules/constitution/templates/` contains exactly `AGENTS.project.md.template`, `CLAUDE.project.md.template`, `Constitution.project.md.template`. A QWEN-specific consumer form is **not specified**; this is the README's own substitution. |
-| `GEMINI.md` | **derived** — same blockquote with `constitution/GEMINI.md` substituted | §11.4.157 (`Constitution.md:9566`): "`GEMINI.md` is a FIRST-CLASS governance context carrier, EQUAL to `CLAUDE.md` / `AGENTS.md` / `QWEN.md` — NEVER an optional or best-effort sibling." `submodules/constitution/GEMINI.md:29-38` prescribes for consumers a `## INHERITED FROM constitution/GEMINI.md` heading, but it says the project-root carrier "**SHOULD** start with a clearly-marked inheritance pointer" and its wording ("apply unconditionally") is the project-root, non-conditional form — unusable in a project-unaware module per §3.1. **No `GEMINI.project.md.template` ships.** |
+| `AGENTS.md` | `## INHERITED FROM constitution/AGENTS.md` heading + the reference's conditional / standalone prose | heading form: `submodules/constitution/CLAUDE.md` "How to consume" + the `is_pointer_carrier()` predicate (§3.2.1); prose substance: `milosvasic.ru/Upstreamable/AGENTS.md:3-16` |
+| `CLAUDE.md` | `## INHERITED FROM constitution/CLAUDE.md` heading + the same conditional / standalone prose | §11.4.35 invariant 6 (`Constitution.md:2910-2916`) names `## INHERITED FROM constitution/CLAUDE.md` as the portable pointer-block form; prose substance: `milosvasic.ru/Upstreamable/CLAUDE.md:6-24` |
+| `QWEN.md` | **derived** — same heading + prose with `constitution/QWEN.md` substituted | `submodules/constitution/README.md` "How to consume" §2: "Same for `AGENTS.md` (any AI-agent tooling) and (since 2026-05-20) `QWEN.md` for Qwen Code:" followed by the blockquote form. **No `QWEN.project.md.template` ships** — `submodules/constitution/templates/` contains exactly `AGENTS.project.md.template`, `CLAUDE.project.md.template`, `Constitution.project.md.template`. A QWEN-specific consumer form is **not specified**; this is the README's own substitution. |
+| `GEMINI.md` | **derived** — same heading + prose with `constitution/GEMINI.md` substituted | §11.4.157 (`Constitution.md:9566`): "`GEMINI.md` is a FIRST-CLASS governance context carrier, EQUAL to `CLAUDE.md` / `AGENTS.md` / `QWEN.md` — NEVER an optional or best-effort sibling." `submodules/constitution/GEMINI.md:29-38` prescribes for consumers a `## INHERITED FROM constitution/GEMINI.md` heading — the heading form is adopted here verbatim; only its *unconditional* wording ("apply unconditionally") is replaced by the two-case conditional, which is what a project-unaware module can honestly assert (§3.1). **No `GEMINI.project.md.template` ships.** |
 
 A module-level `Constitution.md` is **not** included. The only Constitution
 template that ships (`Constitution.project.md.template`) opens "This
@@ -265,10 +315,10 @@ umbrella capture (§4.7).
 ```bash
 cd /run/media/milosvasic/DATA4TB/Projects/vasic
 P=docs/constitution-adoption/propagation
-cp "$P/ai_interviewing/AGENTS.md"  ai_interviewing/AGENTS.md
-cp "$P/ai_interviewing/CLAUDE.md"  ai_interviewing/CLAUDE.md
-cp "$P/ai_interviewing/QWEN.md"    ai_interviewing/QWEN.md
-cp "$P/ai_interviewing/GEMINI.md"  ai_interviewing/GEMINI.md
+cp "$P/ai_interviewing/AGENTS.md.staged"  ai_interviewing/AGENTS.md
+cp "$P/ai_interviewing/CLAUDE.md.staged"  ai_interviewing/CLAUDE.md
+cp "$P/ai_interviewing/QWEN.md.staged"    ai_interviewing/QWEN.md
+cp "$P/ai_interviewing/GEMINI.md.staged"  ai_interviewing/GEMINI.md
 
 git -C ai_interviewing add AGENTS.md CLAUDE.md QWEN.md GEMINI.md
 git -C ai_interviewing commit -m "docs: add Helix Constitution inheritance pointers (conditional form, §11.4.28(B) + §11.4.35)"
@@ -293,10 +343,10 @@ before committing. See [`RISKS.md` §5](RISKS.md#5-honesty-flags-in-the-prepared
 ```bash
 cd /run/media/milosvasic/DATA4TB/Projects/vasic
 P=docs/constitution-adoption/propagation
-cp "$P/design-toolkit/AGENTS.md"  design-toolkit/AGENTS.md
-cp "$P/design-toolkit/CLAUDE.md"  design-toolkit/CLAUDE.md
-cp "$P/design-toolkit/QWEN.md"    design-toolkit/QWEN.md
-cp "$P/design-toolkit/GEMINI.md"  design-toolkit/GEMINI.md
+cp "$P/design-toolkit/AGENTS.md.staged"  design-toolkit/AGENTS.md
+cp "$P/design-toolkit/CLAUDE.md.staged"  design-toolkit/CLAUDE.md
+cp "$P/design-toolkit/QWEN.md.staged"    design-toolkit/QWEN.md
+cp "$P/design-toolkit/GEMINI.md.staged"  design-toolkit/GEMINI.md
 
 git -C design-toolkit add AGENTS.md CLAUDE.md QWEN.md GEMINI.md
 git -C design-toolkit commit -m "docs: add Helix Constitution inheritance pointers (conditional form, §11.4.28(B) + §11.4.35)"
@@ -320,10 +370,10 @@ Bringing the constitution back in sync means a commit inside
 ```bash
 cd /run/media/milosvasic/DATA4TB/Projects/vasic
 P=docs/constitution-adoption/propagation
-cp "$P/milosvasic.ru/AGENTS.md"  milosvasic.ru/AGENTS.md
-cp "$P/milosvasic.ru/CLAUDE.md"  milosvasic.ru/CLAUDE.md
-cp "$P/milosvasic.ru/QWEN.md"    milosvasic.ru/QWEN.md
-cp "$P/milosvasic.ru/GEMINI.md"  milosvasic.ru/GEMINI.md
+cp "$P/milosvasic.ru/AGENTS.md.staged"  milosvasic.ru/AGENTS.md
+cp "$P/milosvasic.ru/CLAUDE.md.staged"  milosvasic.ru/CLAUDE.md
+cp "$P/milosvasic.ru/QWEN.md.staged"    milosvasic.ru/QWEN.md
+cp "$P/milosvasic.ru/GEMINI.md.staged"  milosvasic.ru/GEMINI.md
 
 git -C milosvasic.ru add AGENTS.md CLAUDE.md QWEN.md GEMINI.md
 git -C milosvasic.ru commit -m "docs: add Helix Constitution inheritance pointers (conditional form, §11.4.28(B) + §11.4.35)"
@@ -352,10 +402,10 @@ This does **not** touch `milosvasic.ru/Upstreamable` (a separate
 ```bash
 cd /run/media/milosvasic/DATA4TB/Projects/vasic
 P=docs/constitution-adoption/propagation
-cp "$P/monetization/AGENTS.md"  monetization/AGENTS.md
-cp "$P/monetization/CLAUDE.md"  monetization/CLAUDE.md
-cp "$P/monetization/QWEN.md"    monetization/QWEN.md
-cp "$P/monetization/GEMINI.md"  monetization/GEMINI.md
+cp "$P/monetization/AGENTS.md.staged"  monetization/AGENTS.md
+cp "$P/monetization/CLAUDE.md.staged"  monetization/CLAUDE.md
+cp "$P/monetization/QWEN.md.staged"    monetization/QWEN.md
+cp "$P/monetization/GEMINI.md.staged"  monetization/GEMINI.md
 
 git -C monetization add AGENTS.md CLAUDE.md QWEN.md GEMINI.md
 git -C monetization commit -m "docs: add Helix Constitution inheritance pointers (conditional form, §11.4.28(B) + §11.4.35)"
@@ -382,9 +432,9 @@ The three new carriers:
 ```bash
 cd /run/media/milosvasic/DATA4TB/Projects/vasic
 P=docs/constitution-adoption/propagation
-cp "$P/vasic.digital/AGENTS.md"  vasic.digital/AGENTS.md
-cp "$P/vasic.digital/CLAUDE.md"  vasic.digital/CLAUDE.md
-cp "$P/vasic.digital/GEMINI.md"  vasic.digital/GEMINI.md
+cp "$P/vasic.digital/AGENTS.md.staged"  vasic.digital/AGENTS.md
+cp "$P/vasic.digital/CLAUDE.md.staged"  vasic.digital/CLAUDE.md
+cp "$P/vasic.digital/GEMINI.md.staged"  vasic.digital/GEMINI.md
 ```
 
 The existing carrier — **insert, do not append, and do not replace.**
