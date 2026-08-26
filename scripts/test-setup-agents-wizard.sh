@@ -135,6 +135,10 @@ assert_contains "A31 exports the cross-tool DO_NOT_TRACK standard" "export DO_NO
 # boolean setting must use tostring (or has()), never the // default operator.
 badjq=$(printf '%s\n' "$src_code" | grep -c 'usageStatisticsEnabled // ' || true)
 assert_eq "A32 boolean settings are not read with jq's // operator" "0" "$badjq"
+# /api/tags answers 200 while embeddings are wedged returning NaN, so health
+# must be proven with a real round-trip, not reachability.
+assert_contains "A33 backend health uses a real embedding round-trip" "/api/embed" "$src_code"
+assert_contains "A34 wedged-NaN backend is detected and named" "NaN" "$src_code"
 
 steps=$(grep -oE 'print_header "Step [0-9]+' "$WIZARD" | grep -oE '[0-9]+' | tr '\n' ',')
 # Step 7 (project indexing) is opt-in: its header only prints when

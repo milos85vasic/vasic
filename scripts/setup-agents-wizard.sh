@@ -486,11 +486,31 @@ verify_lumen() {
         print_warning "lumen not on PATH in a login shell - open a new terminal to pick it up."
     fi
 
-    if curl -sf --max-time 5 "${OLLAMA_HOST:-http://localhost:11434}/api/tags" >/dev/null 2>&1; then
-        print_success "Embedding backend reachable at ${OLLAMA_HOST:-http://localhost:11434}"
-    else
-        print_warning "Embedding backend unreachable - Lumen will fail to index."
+    # Reachability is NOT health. /api/tags answers 200 while embeddings are
+    # completely broken: under sustained load the ollama runner can wedge into a
+    # state where /api/embed returns HTTP 500
+    #   {"error":"failed to encode response: json: unsupported value: NaN"}
+    # for EVERY input. Lumen then aborts and prints its usage text after the
+    # error, which reads like a CLI misuse rather than a backend fault.
+    # So we do a real embedding round-trip and check the vector came back.
+    local host="${OLLAMA_HOST:-http://localhost:11434}"
+    if ! curl -sf --max-time 5 "$host/api/tags" >/dev/null 2>&1; then
+        print_warning "Embedding backend unreachable at $host - Lumen cannot index."
         rc=1
+    else
+        local probe
+        probe=$(curl -s --max-time 90 "$host/api/embed" \
+            -d "{\"model\":\"$LUMEN_EMBED_MODEL\",\"input\":\"health check\"}" 2>/dev/null)
+        if printf '%s' "$probe" | grep -q '"embeddings"'; then
+            print_success "Embedding backend healthy at $host (round-trip returned a vector)."
+        elif printf '%s' "$probe" | grep -q 'NaN'; then
+            print_error "Embedding backend is WEDGED at $host - it returns NaN for every input."
+            print_warning "Fix: ollama stop $LUMEN_EMBED_MODEL   (a fresh runner clears it)"
+            rc=1
+        else
+            print_warning "Embedding round-trip failed at $host - Lumen will fail to index."
+            rc=1
+        fi
     fi
 
     return $rc

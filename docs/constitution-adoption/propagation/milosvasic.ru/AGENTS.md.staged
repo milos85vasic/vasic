@@ -1,0 +1,25 @@
+# Agent Instructions — milosvasic.ru
+
+> **Base agent rules:** when this module is consumed inside a
+> project that includes the Helix Constitution submodule, the file
+> `constitution/AGENTS.md` is authoritative for any topic not
+> covered here. Locate it from any nested depth using the
+> constitution's `find_constitution.sh` helper.
+>
+> When this module is consumed standalone (no constitution
+> submodule reachable in any parent), only the module-local notes
+> below apply.
+>
+> Canonical reference:
+> https://github.com/HelixDevelopment/HelixConstitution
+
+This module stays fully decoupled and reusable per the Helix
+Constitution's §11.4.28 (Submodules-As-Equal-Codebase + Decoupling
++ Dependency-Layout mandate). No project-specific context is
+injected here.
+
+## Module-local notes
+
+See [`README.md`](README.md) for what this module is and how it is
+used. Module-specific agent rules go below this line; they extend the
+inherited base rules and never weaken them.

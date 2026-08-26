@@ -1,0 +1,11 @@
+# Lumen semantic-index exclusions.
+#
+# _tests/evidence/ holds captured Playwright run artifacts: 4,526 tracked files
+# (1,353 json, 1,167 txt, 1,142 png, 515 log) against only 95 real source files
+# in the whole of _tests/. Embedding them cost roughly 14 of the ~15 hours the
+# index needed, and semantic search over screenshots and run logs returns noise
+# rather than answers.
+#
+# Everything else is still indexed: all source, all submodules, all docs.
+# To index the evidence too, delete the line below and re-run `lumen index .`.
+_tests/evidence/

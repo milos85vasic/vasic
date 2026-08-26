@@ -1,0 +1,185 @@
+# helix-deps.yaml — vasic umbrella
+#
+# Instantiates the schema specified verbatim by §11.4.31
+# (Submodule-Dependency-Manifest Mandate) at
+# `submodules/constitution/Constitution.md:1908-1950`, and modeled on the
+# constitution's own manifest at `submodules/constitution/helix-deps.yaml`.
+# Every key below (`schema_version`, `deps[].{name,ssh_url,ref,why,layout}`,
+# `transitive_handling.{recursive,conflict_resolution}`,
+# `language_specific_subtree`) comes from that schema. No key was invented.
+#
+# Scope. §11.4.31's operative sentence is "Every owned-by-us SUBMODULE MUST
+# ship a machine-readable, version-controlled dependency manifest at the
+# canonical path `helix-deps.yaml`". `vasic` is the consuming ROOT, not a
+# submodule; the manifest is placed here because the schema's own comment
+# defines the file as what "consuming projects read recursively", and because
+# `docs/constitution-adoption/INVENTORY.md` gap G6 records its absence at this
+# root as a HIGH gap.
+#
+# ── URLs ─────────────────────────────────────────────────────────────────────
+# Every `ssh_url` is the URL declared in this repository's `.gitmodules`, which
+# is what a fresh `git submodule update --init` actually clones. Where a working
+# tree's live `git remote -v` differs from that, the divergence is called out in
+# a comment on the entry and in `Constitution.md` → "Project-specific remotes".
+# SSH-only: there is not one `https://` remote across the set (verified by
+# `git remote -v` in every working tree, 2026-08-26).
+#
+# ── Refs ─────────────────────────────────────────────────────────────────────
+# §11.4.31 says `ref: main   # branch or pinned tag`. Two owned submodules have
+# no tag reachable from their pinned commit, so they carry a pinned sha instead
+# — the same fallback the constitution's own manifest uses ("pinned sha (no
+# upstream tag yet)"). Each such entry names the sha AND the branch the gitlink
+# tracks, so nothing is guessed.
+#
+# ── NOT specified by §11.4.31, therefore NOT invented here ───────────────────
+# The schema has no field for excluding a third-party gitlink and no field for
+# a governance/consumed-constitution role. `submodules/superspec` is therefore
+# absent from `deps` (it is third-party — see the trailing comment block) rather
+# than represented by a key the schema does not define.
+#
+# ── Honest boundaries (§11.4.6) ──────────────────────────────────────────────
+# 1. §11.4.31 requires this file's name to appear "in the submodule's
+#    README.md + governance trio". It is named in `Constitution.md` (header
+#    table + gap G6 row). It is NOT yet named in `README.md`, nor in
+#    `CLAUDE.md` / `AGENTS.md` / `QWEN.md` / `GEMINI.md`, whose "Known open
+#    gaps" section still lists G6 as open. That is an unmet part of §11.4.31 and
+#    is recorded rather than papered over.
+# 2. §11.4.31's "Anti-bluff guarantee" requires this manifest to be paired with
+#    a Challenge script that bootstraps a throwaway consuming project and runs
+#    `incorporate-submodule` against it. `incorporate-submodule` does not exist
+#    anywhere in this checkout (`submodules/constitution/scripts/` has no such
+#    script, and no file under the submodule matches `*incorporate*`). The
+#    verification proof therefore CANNOT be built from this checkout, and none
+#    is claimed. The manifest is accurate against `git submodule status` (see
+#    the drift recipe at the end), which is a weaker check than the one
+#    §11.4.31 mandates.
+
+schema_version: 1
+
+deps:
+  # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
+  - name: constitution
+    ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
+    ref: 448981ae3498229c734dc60719f4b19f01d7a75f   # pinned sha; git describe -> v1.0.0-51-g448981a (51 commits past the only semver tag, i.e. NOT tag-pinned)
+    why: "The Helix Universal Constitution this repository consumes — the canonical root per §11.4.35. Supplies Constitution.md + the four per-agent mirrors, find_constitution.sh, scripts/gates/ (the propagation + covenant gate family), scripts/post_update_hook.sh (§11.4.164), scripts/hooks/guard-forbidden-commands.sh (§11.4.109(A)) and templates/. Inherited BY REFERENCE, never copied (§11.4.28 / §11.4.177)."
+    layout: grouped
+    # Live topology: origin fetches github.com:HelixDevelopment/HelixConstitution.git
+    # and pushes to SIX URLs (gitflic + github + gitlab + gitverse under
+    # helixdevelopment, plus github + gitlab under vasic-digital).
+    # NOTE: this repository does not mirror its release tags onto this
+    # submodule; the carve-out and its reasoning are in Constitution.md
+    # -> "submodules/constitution — the governance submodule itself".
+
+  # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
+  - name: vasic.digital
+    ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
+    ref: v1.8.0    # tag reachable; pinned commit 5a4c3bba8689e9d2c35887b77ee0a6c3da6248b6 == v1.8.0-4-g5a4c3bb (4 commits past v1.8.0)
+    why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
+    layout: flat
+
+  - name: milosvasic.ru
+    ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
+    ref: v1.8.0    # tag reachable; pinned commit 8385025500ce0595b1fad3ff3fb4c58e93b88504 == v1.8.0-5-g8385025 (5 commits past v1.8.0)
+    why: "Site submodule — Jekyll source; its rendered _site/ is git-ignored and must be built before the Playwright suite can serve it. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh."
+    layout: flat
+    # ⚠ FETCH/PUSH ASYMMETRY (Constitution.md -> "Hazard"): the ssh_url above is
+    # the .gitmodules URL and IS this working tree's origin FETCH url, but
+    # origin PUSHES to git@gitflic.ru:milosvasic/milosvasic-net-v-2.git and
+    # git@github.com:milos85vasic/milosvasic.net.v2.git — never back to
+    # milosvasic.ru.git. A fresh `git submodule update --init` therefore clones
+    # a repository that receives no pushes. Reconciling this is an operator
+    # decision; the manifest records the declared URL and names the divergence
+    # rather than silently substituting a different one.
+    # ⚠ Also carries a THIRD-PARTY nested gitlink `Upstreamable` ->
+    # git@github.com:red-elf/Upstreamable.git, which is outside this project's
+    # owned set and receives no carrier and no tag.
+
+  - name: design-toolkit
+    ssh_url: git@github.com:vasic-digital/design-toolkit.git
+    ref: 16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3   # pinned sha; git describe -> v0.2.2-4-g16e4e76 (past the tag)
+    why: "§11.4.162 OpenDesign UI design-system engine — machine-readable design tokens (§11.4.216), brand contract (§11.4.217), design-library catalogue (§11.4.218). Ships 11 design-specialist agent recipes under agents/."
+    layout: flat
+    # §11.4.28(C) / INVENTORY gap G11: this repo checks design-toolkit out TWICE
+    # — here at the root AND at submodules/constitution/submodules/design-toolkit,
+    # which the constitution's own helix-deps.yaml declares under its
+    # §11.4.28(C) hub carve-out. Both gitlinks are at 16e4e76 today, so nothing
+    # is broken now; they can drift independently. THIS entry (the umbrella
+    # root, flat layout) is the authoritative one for this project.
+
+  - name: ai_interviewing
+    ssh_url: git@github.com:milos85vasic/ai_interviewing.git
+    ref: 023abbfdfe12a604144cf420d1ec3d9efaa6e89c   # pinned sha; NO tag reachable (`git describe --tags` finds none); gitlink tracks heads/main
+    why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
+    layout: flat
+
+  - name: monetization
+    ssh_url: git@github.com:milos85vasic/monetization.git
+    ref: 1f9f52042a81c9a2d0e0f2f42e3ca9fbf4d7fbfe   # pinned sha; NO tag reachable; gitlink tracks heads/main
+    why: "Monetization of existing projects — docs, repos.txt, and the per-provider upstream declaration scripts (GitFlic / GitHub / GitLab / GitVerse)."
+    layout: flat
+    # Live topology: origin fetches github.com:milos85vasic/monetization.git and
+    # pushes to FOUR URLs (gitflic, github, gitlab, gitverse) — the widest
+    # genuine §2.1 fan-out among the owned product submodules.
+
+transitive_handling:
+  # §11.4.31: "Each declared dep itself ships a helix-deps.yaml. The
+  # incorporator tooling MUST recurse — top-level project gets the union of all
+  # transitively-declared deps, flattened to root."
+  #
+  # Honest boundary (§11.4.6) — verified, not assumed: of the six deps above,
+  # ONLY `constitution` currently ships a helix-deps.yaml. The five owned
+  # product submodules do not, so a recursive walk terminates at them for a
+  # reason the schema does not model (missing manifest, not a declared leaf).
+  # `recursive: true` is declared because the constitution submodule genuinely
+  # hosts a further seven own-org deps that consumer tooling must reach.
+  recursive: true
+
+  # §11.4.31: "When two submodules declare the same dependency at different
+  # refs, CONFLICT — operator MUST resolve before incorporation proceeds. The
+  # incorporator aborts on conflict (never silently picks one)."
+  # A live instance already exists: `design-toolkit` is declared BOTH here
+  # (ref 16e4e76, layout flat) and in submodules/constitution/helix-deps.yaml
+  # (ref 16e4e76, layout flat). The refs agree today, so there is no conflict
+  # to resolve right now — only the standing possibility of one.
+  conflict_resolution: operator-required
+
+# §11.4.31: "set true for Android/Kotlin/Apple roots (per §11.4.29 exception)".
+# This root is Go + Node + Ruby with no Android/Kotlin/Apple subtree, so false.
+language_specific_subtree: false
+
+# ─── Third-party gitlinks — declared here as commentary, NOT as deps ────────
+#
+# §11.4.31's `deps` list is for own-org dependencies, and universal §4 excludes
+# "Third-party submodules (libraries not under the project's control)". The
+# schema defines no field for recording an exclusion, so these are recorded as
+# comments rather than as entries under a key that does not exist:
+#
+#   submodules/superspec  -> git@github.com:WangX0111/superspec.git
+#     Pinned c20ac6c1ba069cc9a72dacb8044b7b193d3dde81 (v1.0.2). The WangX0111
+#     account is outside every operator-listed org (milos85vasic, vasic-digital,
+#     HelixDevelopment). Receives: no §4 tag, no §11.4.157 carrier, no
+#     §11.4.156 CI action (out of scope per §11.4.156(C)). Its vendored
+#     examples/static-landing-page/CLAUDE.md — and the mirror of it under
+#     .specify/extensions/superspec/ — are known-excluded propagation-gate
+#     findings; see Constitution.md -> "Known-excluded gate findings".
+#
+#   milosvasic.ru/Upstreamable -> git@github.com:red-elf/Upstreamable.git
+#     A gitlink OF the milosvasic.ru submodule (a fourth-level repository), not
+#     of this root. Its AGENTS.md and CLAUDE.md are the other two
+#     known-excluded propagation-gate findings.
+#
+# ─── Verification recipe (operator-runnable, §11.4.6 anti-bluff) ────────────
+#
+# This checks the manifest against the live gitlinks. It is NOT the §11.4.31
+# verification proof (see honest boundary 2 in the header) — that one needs
+# `incorporate-submodule`, which does not exist in this checkout.
+#
+#   # 1. Every declared dep is present at its declared layout path:
+#   #      layout: flat    -> <root>/<name>
+#   #      layout: grouped -> <root>/submodules/<name>
+#   # 2. No HTTPS remote anywhere (Hard Stop #2). MUST print 0:
+#   git submodule foreach --quiet 'git remote -v | grep -c "https://" || true' \
+#     | paste -sd+ | bc
+#   # 3. Pin drift — compare each `ref` against the live gitlink:
+#   git submodule status
+#
