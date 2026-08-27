@@ -501,10 +501,14 @@ where it broke.**
 5. **Whether the 4 chunks over 4,000 characters are themselves safe is not established** —
    they happen to carry clean vectors today, but 6,065 sits inside the 4,000–8,000 bracket
    that Report B explicitly declined to bisect (its §9.3).
-6. **The index is still being written.** The live `lumen index` (PID 2999211) has been
-   running since 01:36:31; `vec_chunks_rowids` held 35,717 rows at both 02:05 and 02:22, so
-   it has committed nothing in ~46 minutes. Everything above is a snapshot. **New corruption
-   after 02:22 is not covered.**
+6. **The index is still being written, and everything above is a snapshot.** The live
+   `lumen index` (PID 2999211) has been running since 01:36:31. `vec_chunks_rowids` held
+   35,717 rows at 02:05 and again at 02:22 (a ~17-minute pause), then 35,976 by 02:29 as it
+   resumed — currently working through `ai_interviewing/`. The §1–§7 figures are the 02:22
+   snapshot. A spot check of the **400 newest vectors at 02:29 found 0 duplicates, 0 NaN,
+   0 all-zero, norms 0.9999993–1.0000007** — clean so far, but the backend is still on the
+   faulty GPU path (§9), so **corruption arising after 02:29 is not covered by this
+   report.**
 7. **No claim is made about the 8 uncorrupted chunks of `_content_es/products/HelixPlay.md`
    beyond the tests run** — they are unique and unit-norm, which is necessary but, as this
    whole report shows, not sufficient.
