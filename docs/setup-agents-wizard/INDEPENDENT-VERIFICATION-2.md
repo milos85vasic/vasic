@@ -1,5 +1,35 @@
 # Independent Verification — Pass 2
 
+> ## ADDENDUM — added after this report was written
+>
+> This report closes by recording **R3** (doctor exit-code contract) and **R5**
+> (`I21` is a worthless assertion) as *still live*. That was accurate at the
+> moment of writing. **Both were fixed afterwards, in commit `fbccc7a`.**
+>
+> The report body is deliberately left unedited: it is the record of what the
+> verification found, and rewriting findings after the fact would defeat the
+> point of commissioning an adversarial pass.
+>
+> Verified after the fix (re-run against the current scripts):
+>
+> | path | exit | meaning |
+> |---|---|---|
+> | corrupt index | `1` | corruption found |
+> | no index present | `2` | could not inspect |
+> | index missing shadow tables (the crash R3 describes) | `2` | could not inspect — **was `1`, a false corruption verdict** |
+>
+> `I21` is now behavioural: it constructs an index whose shadow tables are
+> absent and requires exit `2`. It is mutation-proven — deleting the guard turns
+> it red. `I22` was added for the absent-index path.
+>
+> R3's root cause is worth restating, because it is subtle: the first fix listed
+> `1` in its own pass-through arm (`case $rc in 0|1|2) exit $rc`), so the very
+> code the comment singled out was forwarded verbatim. The python block now uses
+> private exit codes (20/21/22) that bash translates, so no interpreter status
+> can collide with a verdict.
+
+
+
 **Verifier role:** adversarial. Every claim below was treated as false until reproduced.
 **Date:** 2026-08-27 (host `nezha`, bash 5.2.37, Linux/x86_64)
 **Constraint honoured:** read-only on the real environment. No mutating git, no writes to
