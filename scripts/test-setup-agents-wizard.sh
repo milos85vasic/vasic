@@ -607,6 +607,51 @@ else
 fi
 
 # ==============================================================================
+group "I. Operational scripts (remediation / reindex / doctor)"
+# ==============================================================================
+REMED="$SCRIPT_DIR/ollama-vulkan-remediation.sh"
+REIDX="$SCRIPT_DIR/lumen-reindex.sh"
+DOCTOR="$SCRIPT_DIR/lumen-index-doctor.sh"
+
+for pair in "I1:$REMED:remediation" "I2:$REIDX:reindex" "I3:$DOCTOR:doctor"; do
+    id=${pair%%:*}; rest=${pair#*:}; f=${rest%:*}; nm=${rest##*:}
+    if [[ -x "$f" ]]; then
+        bash -n "$f" 2>/dev/null && record "$id $nm script is executable and parses" PASS "rc=0" "rc=0" \
+                                 || record "$id $nm script is executable and parses" FAIL "rc=0" "syntax error"
+    else
+        record "$id $nm script is executable and parses" FAIL "executable" "missing or not executable"
+    fi
+done
+
+rsrc=$(cat "$REMED" 2>/dev/null)
+# The remediation script is the ONLY place allowed to touch the service, and it
+# must never do so without an explicit subcommand.
+assert_contains "I4 remediation offers a read-only --check" "--check)" "$rsrc"
+assert_contains "I5 remediation offers --rollback" "--rollback)" "$rsrc"
+defaulted=$(printf '%s\n' "$rsrc" | grep -c 'case "${1:---check}"')
+assert_eq "I6 remediation defaults to the read-only action" "1" "$defaulted"
+
+# Failure mode 4 (stale duplicates) is invisible per-vector. Both the probe and
+# the doctor must test AGGREGATE distinctness, or they repeat the audit's error.
+assert_contains "I7 remediation probes aggregate vector distinctness" "distinct" "$rsrc"
+dsrc=$(cat "$DOCTOR" 2>/dev/null)
+assert_contains "I8 doctor checks duplicate-vector groups" "duplicate-vector group" "$dsrc"
+assert_contains "I9 doctor still runs the per-vector NaN/zero checks" "all-zero" "$dsrc"
+assert_contains "I10 doctor opens the DB read-only" "mode=ro" "$dsrc"
+
+isrc=$(cat "$REIDX" 2>/dev/null)
+assert_contains "I11 reindex refuses to start on a Vulkan backend" "REFUSING TO START" "$isrc"
+# Behavioural, not a grep: --force must actually reach `lumen index -f`.
+forcearm=$(printf '%s\n' "$isrc" | grep -c -- '--force)')
+passesf=$(printf '%s\n' "$isrc" | grep -c 'args=(-f "\$PROJ")')
+assert_eq "I12 reindex --force is parsed and reaches 'lumen index -f'" "1 1" "$forcearm $passesf"
+# A corrupted file keeps its hash, so an incremental run skips it forever.
+assert_contains "I13 reindex documents why --force is required after corruption" "skips them forever" "$isrc"
+# No operational script may escalate privileges implicitly.
+noesc=$(printf '%s\n' "$isrc" "$dsrc" | grep -c 'sudo ' || true)
+assert_eq "I14 reindex and doctor never call sudo" "0" "$noesc"
+
+# ==============================================================================
 # Evidence summary
 # ==============================================================================
 TOTAL=$((PASS+FAIL+SKIP))
