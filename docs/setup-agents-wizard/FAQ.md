@@ -5,6 +5,9 @@ Answers to the questions that come up after running `scripts/setup-agents-wizard
 - What the wizard installs: [README.md](./README.md)
 - Symptom -> diagnosis -> fix: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 - Undoing a run: [SAFETY-AND-ROLLBACK.md](./SAFETY-AND-ROLLBACK.md)
+- The three post-install scripts: [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md)
+- The steps the wizard cannot perform: [ACTION-REQUIRED.md](./ACTION-REQUIRED.md)
+- Whether an index can be trusted: [INDEX-CORRUPTION-RECONCILIATION.md](./INDEX-CORRUPTION-RECONCILIATION.md)
 
 Everything below describes the script as it currently exists in this repository.
 
@@ -339,7 +342,9 @@ uses `.mcp`, not `.mcpServers`:
 
 ```bash
 claude mcp remove lumen -s user                     # Claude Code — through its own CLI
-
+                                                    # (this writes to the ACTIVE CLAUDE_CONFIG_DIR)
+tmp=$(mktemp) && jq 'del(.mcpServers.lumen)' ~/.claude.json > "$tmp" && mv "$tmp" ~/.claude.json
+                                                    # ^ the mirror MiMo and other inheritors read
 tmp=$(mktemp) && jq 'del(.mcpServers.lumen, .mcpServers.codegraph)' ~/.kimi-code/mcp.json > "$tmp" && mv "$tmp" ~/.kimi-code/mcp.json
 tmp=$(mktemp) && jq 'del(.mcpServers.lumen, .mcpServers.codegraph)' ~/.qwen/settings.json > "$tmp" && mv "$tmp" ~/.qwen/settings.json
 tmp=$(mktemp) && jq 'del(.mcp.lumen)' ~/.config/opencode/opencode.json > "$tmp" && mv "$tmp" ~/.config/opencode/opencode.json
@@ -390,13 +395,36 @@ ollama rm ordis/jina-embeddings-v2-base-code
 sudo systemctl disable --now ollama
 ```
 
-**9. Third-party installers the wizard invoked** — Bun (`~/.bun`) and ashlr (`~/.ashlr`).
-Both install themselves and may have added their own lines to your rc files; check before
-deleting.
+**9. Third-party installers the wizard invoked** — Bun (`~/.bun`), which installs itself and
+may have added its own lines to your rc files, and the **ashlr plugin**, which is a clone
+rather than a binary:
 
-**10. Project-level artifacts** — `submodules/superspec`, `.specify/`, `specs/`. Treat these
-as project content, not wizard leftovers: if the repo tracks `submodules/superspec` as a git
-submodule, remove it with `git submodule deinit` / `git rm`, not `rm -rf`.
+```bash
+rm -rf ~/.claude/plugins/cache/ashlr-marketplace/ashlr
+```
+
+Whatever `/plugin install` then registered inside Claude Code is Claude Code's own state —
+remove it there, not on disk.
+
+**10. Project-level artifacts** — `submodules/superspec`, `.specify/`, `specs/`, plus the
+regenerated files that are deliberately *not* in the rollback manifest:
+
+```bash
+rm -f  MANUAL-STEPS.md .lumen-reindex.log
+rm -rf .ashlrcode                # the ashlr genome, if you ran /ashlr:ashlr-genome-init
+rm -rf .test-evidence            # test-suite output
+```
+
+Treat the rest as project content, not wizard leftovers: if the repo tracks
+`submodules/superspec` as a git submodule, remove it with `git submodule deinit` / `git rm`,
+not `rm -rf`.
+
+**11. The ollama Vulkan remediation**, if you applied it. It is outside the manifest and has
+its own undo — note that undoing it **restores the defect**:
+
+```bash
+./scripts/ollama-vulkan-remediation.sh --rollback     # needs sudo; restarts ollama
+```
 
 **11. Orphan files from older revisions** — an earlier wizard wrote configs no agent reads.
 Delete them if they exist:
@@ -569,20 +597,141 @@ export OLLAMA_HOST=http://<host>:11434          # or point Lumen at an existing 
 The wizard tolerates all three failing: it prints warnings and continues, and `verify_lumen`
 tells you what is still broken.
 
+**There is a fourth `sudo` path, and it is deliberately *not* in the wizard.**
+`scripts/ollama-vulkan-remediation.sh --apply` writes `/etc/sysconfig/ollama` and runs
+`sudo systemctl restart ollama`. It lives in a separate script behind an explicit subcommand
+because restarting a system service and changing host-wide GPU behaviour is a decision an
+installer has no business making quietly. Test **A41** asserts the wizard's own source carries
+no `systemctl restart`, no `/etc` write and no `sudo` in the embedding path; the wizard only
+names the commands, under `ACTION REQUIRED`. `--check`, `--verify` and
+`scripts/lumen-index-doctor.sh` need no privileges at all (test **I14**).
+
+---
+
+## Why does `command -v ashlr` never find anything?
+
+**Because there is no `ashlr` binary, by design.** ashlr is a Claude Code *plugin*, not a CLI.
+Its installer clones into `~/.claude/plugins/cache/ashlr-marketplace/ashlr/` and deliberately
+creates no executable and does not touch `settings.json`.
+
+An earlier revision of the wizard ran `check_command ashlr` and consequently printed a
+permanent, misleading `❌` for software that was installed and fine. It now verifies the plugin
+**directory** instead, and reports it in its own summary section:
+
+```
+Claude Code plugins / optional tools:
+  ✅ ashlr plugin installed (activate with /plugin install inside Claude Code)
+```
+
+Tests **A42** (no `PATH` probe) and **A43** (directory check present) stop that regressing.
+
+Downloading it is not the same as activating it. Three slash commands inside Claude Code finish
+the job, plus one to confirm:
+
+```
+/plugin marketplace add ashlrai/ashlr-plugin
+/plugin install ashlr@ashlr-marketplace
+/reload-plugins
+/ashlr:ashlr-status
+```
+
+The wizard can tell whether you have done them: `plugins/cache/<mkt>/` means the installer
+cloned the bits, while `plugins/marketplaces/<mkt>/` is written by Claude Code itself when a
+human runs `/plugin marketplace add`. Only the second means the plugin is wired in — so the
+`ACTION REQUIRED` entry appears until you have actually done it, then disappears on the next
+run. See [ACTION-REQUIRED.md](./ACTION-REQUIRED.md).
+
+Optionally, `/ashlr:ashlr-genome-init` then builds a project genome at
+`<project-root>/.ashlrcode/genome/` — 15 sections across `vision/`, `milestones/`,
+`strategies/` and `knowledge/`, indexed by `manifest.json`. It is optional, it lives inside
+your project, and no script creates it.
+
+---
+
+## The index was audited and declared trustworthy. Why is there a corruption report?
+
+**Because the audit's conclusion was wrong, and understanding why is the most useful thing in
+this documentation set.**
+
+[LUMEN-INDEX-INTEGRITY.md](./LUMEN-INDEX-INTEGRITY.md) decoded every vector in the index and
+checked for NaN, Inf, all-zero values and L2 norms outside `0.99–1.01`. It found none — 0, 0,
+0, 0, with every norm inside `0.999999–1.000001` — and concluded `TRUSTWORTHY`.
+
+Every one of those measurements is correct and reproduces exactly. **All four are per-vector
+tests, and the failure mode that actually occurred is invisible to per-vector tests.** On a
+GPU/Vulkan embedding path, ollama can return the *previous* vector: well-formed, 768
+dimensions, unit norm — simply not the vector for the text you sent. It passes all four checks
+by construction.
+
+The one check that would have caught it, aggregate distinctness, was run on blocks 1–4 only
+(4,096 of 35,717 vectors). The corruption lived in blocks 28–29: **758 identical vectors
+covering 695 distinct texts across 55 files**.
+
+> **A vector can be perfectly well-formed and still be the wrong vector.** Health is not a
+> property you can establish one vector at a time.
+
+**The settled verdict is
+[INDEX-CORRUPTION-RECONCILIATION.md](./INDEX-CORRUPTION-RECONCILIATION.md).** Use that one to
+decide whether an index can be trusted. `LUMEN-INDEX-INTEGRITY.md` is kept **unedited** as a
+historical record of how a careful audit reached a wrong conclusion; the same report also
+falsified the "large chunks are the trigger" hypothesis (the largest chunk in the corrupted
+range was 2,832 characters — the operative quantity is the **batch total**, and Lumen sends 32
+chunks per request).
+
+What follows from it in the code: `scripts/lumen-index-doctor.sh` tests aggregate distinctness
+alongside the conventional checks (`I8`, `I9`), and both backend probes send a real 32-text
+batch and require 32 distinct vectors back (`I7`). Check your own index with:
+
+```bash
+./scripts/lumen-index-doctor.sh "$PWD"     # exit 1 = corruption found
+```
+
+---
+
+## What is the `ACTION REQUIRED` section at the end?
+
+The steps a shell script genuinely cannot perform: Claude Code slash commands (they run inside
+a Claude Code session) and privileged host changes (they need your `sudo`).
+
+The alternative — skipping them quietly — is how a wizard ends up printing a green summary for
+work nobody did. So the wizard detects each pending step from your machine's actual state,
+prints them, writes `<project-root>/MANUAL-STEPS.md`, and on a terminal pauses for Enter so the
+list cannot scroll past unread.
+
+- **It is not a checklist.** Nothing is ticked off. Do a step, re-run the wizard, and the entry
+  is gone because the condition that raised it no longer holds.
+- **`MANUAL-STEPS.md` is overwritten every run** and is not in the rollback manifest. `rm` it
+  when you are done, or `.gitignore` it.
+- **`WIZARD_NONINTERACTIVE=1` skips the pause** (the section still prints and the file is still
+  written). The pause is also skipped automatically when stdin is not a terminal.
+- **This is the wizard's only blocking prompt.** A `sudo` password prompt comes from `sudo`.
+
+Tests **A48**, **A49**, **A50**. Full detail: [ACTION-REQUIRED.md](./ACTION-REQUIRED.md).
+
 ---
 
 ## Does the wizard index my project?
 
 **Not by default.** It sets up the launcher, `PATH`, completions, the embedding backend and
-the MCP configs, then prints the commands for you to run:
+the MCP configs. If a bounded probe (`timeout 20 lumen search "x" -p "$PROJECT_ROOT" --summary
+-n 1`) cannot confirm a usable index, it raises an `ACTION REQUIRED` step naming the commands:
 
 ```bash
-lumen index "/path/to/project"
-lumen search "how does X work" -p "/path/to/project"
+./scripts/lumen-reindex.sh "/path/to/project"
+./scripts/lumen-index-doctor.sh "/path/to/project"   # verify afterwards
 ```
 
-Indexing is incremental, so re-running `lumen index` after large external changes (a big
-rebase, a generated-code drop) is cheap. Use `-f` only when you want a full rebuild.
+A bare `lumen index "/path/to/project"` still works and is what those wrap. The wrapper is
+better for a long unattended run — it refuses to start on an embedding backend known to write
+corrupt vectors, and retries around transient faults instead of dying halfway and printing
+Lumen's usage text, which reads like *you* mistyped the command. The doctor is the part people
+skip: **a successful index is not necessarily a correct one** (see
+[the index-audit question above](#the-index-was-audited-and-declared-trustworthy-why-is-there-a-corruption-report)).
+
+Indexing is incremental, so re-running after large external changes (a big rebase, a
+generated-code drop) is cheap. Use `-f` / `--force` when you want a full rebuild — and note it
+is **mandatory** after a corruption event, because a corrupted file keeps a valid content hash
+and an incremental run skips it forever.
 
 **If you want the wizard to do it, opt in:**
 
@@ -630,8 +779,11 @@ leaves every setting below exactly as it found it and prints
 
 That last row is the point of stating it explicitly: Lumen's binary was checked and contains
 **zero analytics strings**, so there is no switch to flip and the wizard does not pretend
-otherwise. Its summary line reads
-`➖ Lumen ships no telemetry (verified: no analytics strings in binary)`.
+otherwise. The summary does not restate that as a past finding either — it re-runs `strings`
+against the resolved binary on every run and reports what it just saw:
+`➖ Lumen ships no telemetry (probed /path/to/lumen-linux-amd64 just now)`, or
+`⚠️ Lumen binary contains analytics-like strings - inspect <path>` if that ever changes, or
+`➖ Lumen telemetry not probed (strings(1) unavailable)` when it cannot check.
 
 None of these values was guessed. `DO_NOT_TRACK` is the cross-tool convention
 (<https://consoledonottrack.com>) and was confirmed by grepping the `@colbymchenry/codegraph`

@@ -679,19 +679,20 @@ Attach the whole `.test-evidence/<timestamp>/` directory:
 
 Useful facts about the suite before you run it:
 
-- There are **nine** groups, **A**–**I**. The file declares **H** before **G**, so the console
-  order is A, B, C, D, E, F, H, G, I.
+- There are **ten** groups, **A**–**J**. The file declares **H** before **G**, so the console
+  order is A, B, C, D, E, F, H, G, I, J.
 - Groups **A** and **I** read source text only — no sandbox, no execution. Groups **B**,
   **C**, **D**, **G** and **H** run against a throwaway `$HOME` (with `WIZARD_STATE_DIR`
-  pointed inside it), and group **E** against throwaway git repositories. None of them
-  touches your real environment.
+  pointed inside it), and groups **E** and **J** against throwaway git repositories. None of
+  them touches your real environment.
 - Group **I** covers the three operational scripts (`ollama-vulkan-remediation.sh`,
-  `lumen-reindex.sh`, `lumen-index-doctor.sh`) — see
-  [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md).
+  `lumen-reindex.sh`, `lumen-index-doctor.sh`) and group **J** covers
+  `audit-hardcoded-paths.sh` — see [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md).
 - **Do not quote a fixed total in a bug report** — quote `summary.json`. The count changes as
   tests are added, and `--no-live` records fewer. For reference, a full live run currently
-  produces 126 records (A 50, B 8, C 10, D 5, E 3, F 11, G 18, H 7, I 14) and `--no-live`
-  produces 122.
+  produces 138 records (A 54, B 8, C 10, D 5, E 3, F 11, G 18, H 7, I 14, J 8) and `--no-live`
+  produces 134. Note `A`, `F` and `I` emit more records than they have ids, because `A12`,
+  `F2` and `I1`–`I3` are loops.
 - Group **F** is the live one: it checks `PATH` resolution in login/interactive shells,
   backend reachability, the embedding model, and performs a true end-to-end index + search on
   a two-file fixture repository in a temp directory (which it purges afterwards).

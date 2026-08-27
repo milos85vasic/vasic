@@ -82,12 +82,16 @@ u = len({tuple(v) for v in e})
 print("OK %d/%d distinct" % (u, len(e)) if u == len(e) == 32 else "DEGENERATE %d/%d distinct" % (u, len(e)))'
 }
 
+# Returns non-zero when the backend is in the corrupting state. It previously
+# always returned 0, so anything automating on `--check` passed silently even
+# on library=Vulkan with a degenerate probe.
 do_check() {
+    local rc=0
     echo "── ollama embedding backend ──────────────────────────────"
     local lib; lib=$(backend_library)
-    if [[ -z "$lib" ]]; then warn "backend library UNKNOWN (journal unreadable)"
+    if [[ -z "$lib" ]]; then warn "backend library UNKNOWN (journal unreadable)"; rc=1
     elif [[ "$lib" == "cpu" ]]; then ok "library=cpu - GPU is out of the inference path"
-    else bad "library=$lib - THIS IS THE CORRUPTING PATH"; fi
+    else bad "library=$lib - THIS IS THE CORRUPTING PATH"; rc=1; fi
 
     if [[ -r "$ENVFILE" ]] && grep -qF "$FLAG" "$ENVFILE" 2>/dev/null; then
         ok "$ENVFILE contains $FLAG"
@@ -116,12 +120,13 @@ do_check() {
         local p; p=$(batch_probe)
         case "$p" in
             OK*)         ok "batch probe: $p" ;;
-            DEGENERATE*) bad "batch probe: $p - STALE DUPLICATE VECTORS" ;;
-            *)           bad "batch probe: $p" ;;
+            DEGENERATE*) bad "batch probe: $p - STALE DUPLICATE VECTORS"; rc=1 ;;
+            *)           bad "batch probe: $p"; rc=1 ;;
         esac
     else
-        warn "backend unreachable at $HOST - cannot probe"
+        warn "backend unreachable at $HOST - cannot probe"; rc=1
     fi
+    return $rc
 }
 
 do_apply() {
@@ -166,6 +171,6 @@ case "${1:---check}" in
     --apply)    do_apply ;;
     --verify)   do_verify ;;
     --rollback) do_rollback ;;
-    --help|-h)  sed -n '2,40p' "$0" | sed 's/^# \{0,1\}//' ;;
+    --help|-h)  sed -n '2,34p' "$0" | sed 's/^# \{0,1\}//' ;;
     *)          bad "unknown option: $1"; exit 2 ;;
 esac

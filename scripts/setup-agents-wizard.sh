@@ -490,7 +490,7 @@ ensure_ollama() {
         fi
     fi
 
-    if ollama list 2>/dev/null | grep -qF "$LUMEN_EMBED_MODEL"; then
+    if timeout 30 ollama list 2>/dev/null | grep -qF "$LUMEN_EMBED_MODEL"; then
         print_success "Embedding model present: $LUMEN_EMBED_MODEL"
     else
         print_info "Pulling embedding model $LUMEN_EMBED_MODEL (~320 MB, one-time)..."
@@ -536,7 +536,7 @@ warn_if_gpu_embedding_backend() {
                  | .size_vram // 0) // 0' 2>/dev/null || true)
     elif check_command ollama; then
         # PROCESSOR column: "100% GPU" / "100% CPU" / "51%/49% CPU/GPU".
-        if ollama ps 2>/dev/null | grep -F "$LUMEN_EMBED_MODEL" | grep -q "GPU"; then
+        if timeout 30 ollama ps 2>/dev/null | grep -F "$LUMEN_EMBED_MODEL" | grep -q "GPU"; then
             vram=1
         else
             vram=0
@@ -549,7 +549,7 @@ warn_if_gpu_embedding_backend() {
     (( vram > 0 )) || return 0
 
     if check_command journalctl; then
-        lib=$(journalctl -u ollama --no-pager -o cat --since "-30 days" 2>/dev/null \
+        lib=$(timeout 25 journalctl -u ollama --no-pager -o cat --since "-30 days" 2>/dev/null \
             | grep -F "inference compute" | tail -1 \
             | grep -oE 'library=[A-Za-z0-9_.-]+' | cut -d= -f2 || true)
     fi
@@ -867,9 +867,9 @@ print_header "Step 5: Configuring MCP Servers for Each Agent"
 # 5.1 Claude Code - configured through its own CLI rather than hand-editing
 # ~/.claude.json, which also holds session and project state.
 if check_command claude; then
-    if claude mcp get lumen >/dev/null 2>&1; then
+    if timeout 45 claude mcp get lumen >/dev/null 2>&1; then
         print_success "Lumen MCP already registered with Claude Code."
-    elif claude mcp add-json lumen \
+    elif timeout 60 claude mcp add-json lumen \
             "{\"command\":\"$LUMEN_WRAPPER\",\"args\":[\"stdio\"]}" \
             -s user >/dev/null 2>&1; then
         record_action claude "claude mcp remove lumen -s user"
@@ -1072,6 +1072,9 @@ if [[ -n "${WIZARD_INDEX_PROJECT:-}" ]]; then
     fi
 
     if check_command lumen; then
+        # DELIBERATELY UNBOUNDED: this is the actual indexing WORK, not a
+        # probe. A timeout here would abort legitimate progress mid-run. Every
+        # PROBE in this script is bounded; long-running work is not.
         print_info "Lumen indexing $PROJECT_ROOT (incremental; may take a long time)..."
         if lumen index "$PROJECT_ROOT" 2>&1 | tail -3; then
             print_success "Lumen index step finished."
@@ -1116,7 +1119,7 @@ echo -e "\n${CYAN}Agent MCP Configurations (Lumen):${NC}"
 # revision of this block scored a tick for 0-byte files; an independent audit
 # refuted it by replaying these predicates against empty targets.
 # "n/a" means the agent is not installed; a warning above explains any gap.
-if check_command claude && claude mcp get lumen >/dev/null 2>&1; then
+if check_command claude && timeout 45 claude mcp get lumen >/dev/null 2>&1; then
     echo "  ✅ Claude Code   (registered via 'claude mcp', user scope)"
 elif check_command claude; then
     echo "  ❌ Claude Code   (claude CLI present, lumen not registered)"
@@ -1180,7 +1183,7 @@ grep -qF "$LUMEN_BLOCK_START" "$HOME/.bashrc" 2>/dev/null && echo "  ✅ ~/.bash
 grep -qF "$USERBIN_BLOCK_START" "$HOME/.bash_profile" 2>/dev/null && echo "  ✅ ~/.bash_profile login-shell PATH" || echo "  ❌ ~/.bash_profile login-shell PATH"
 check_command ollama && echo "  ✅ ollama backend" || echo "  ❌ ollama backend"
 
-ollama list 2>/dev/null | grep -qF "$LUMEN_EMBED_MODEL" && echo "  ✅ embedding model ($LUMEN_EMBED_MODEL)" || echo "  ❌ embedding model"
+timeout 30 ollama list 2>/dev/null | grep -qF "$LUMEN_EMBED_MODEL" && echo "  ✅ embedding model ($LUMEN_EMBED_MODEL)" || echo "  ❌ embedding model"
 
 echo -e "\n${CYAN}Telemetry / analytics:${NC}"
 if [[ -n "${WIZARD_KEEP_TELEMETRY:-}" ]]; then

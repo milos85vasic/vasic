@@ -1,19 +1,23 @@
 # Operational Scripts
 
-Three scripts sit beside the wizard and handle the things that go wrong *after* installation:
-a corrupting embedding backend, an index that has to be rebuilt because of it, and the
-question "is this index actually trustworthy?"
+Four scripts sit beside the wizard. Three handle what goes wrong *after* installation — a
+corrupting embedding backend, an index that has to be rebuilt because of it, and the question
+"is this index actually trustworthy?" The fourth is a repository-hygiene gate.
 
 | Script | One line | Mutates anything? |
 | :--- | :--- | :--- |
 | [`scripts/ollama-vulkan-remediation.sh`](#ollama-vulkan-remediationsh) | Take the GPU out of ollama's embedding path | Only with `--apply` / `--rollback` (both need `sudo`) |
 | [`scripts/lumen-reindex.sh`](#lumen-reindexsh) | Rebuild a Lumen index, refusing to run on a backend known to corrupt it | Yes — writes the index and a log file |
 | [`scripts/lumen-index-doctor.sh`](#lumen-index-doctorsh) | Detect **silently** corrupt embeddings in an existing index | No. Read-only, always |
+| [`scripts/audit-hardcoded-paths.sh`](#audit-hardcoded-pathssh) | Fail the build on machine-specific absolute paths | No. Read-only, always |
 
 They are deliberately separate from `scripts/setup-agents-wizard.sh`. The wizard **observes and
 reports**; it never restarts a service, never writes under `/etc`, and never calls `sudo` in the
 embedding path. Test `A41` enforces that. Anything privileged lives here, behind an explicit
 subcommand, so applying a host-wide change is always a decision someone made on purpose.
+
+Test coverage: group **I** for the first three, group **J** for the fourth. Both are covered in
+[Test coverage](#test-coverage--groups-i-and-j) below.
 
 > **Why these exist at all:** on 2026-08-26 this project's Lumen index was found to contain
 > **758 stale duplicate vectors** spanning **695 distinct texts across 55 files**, written under
@@ -315,6 +319,88 @@ health check will keep telling you everything is fine.
 
 ---
 
+## `audit-hardcoded-paths.sh`
+
+```
+./scripts/audit-hardcoded-paths.sh                 # audit this repository
+./scripts/audit-hardcoded-paths.sh /path/to/repo   # audit another checkout
+./scripts/audit-hardcoded-paths.sh --list          # show the first 50 files it scans
+```
+
+Unrelated to embeddings. It exists because **18 tracked files hardcoded one author's
+`/Volumes/…` macOS root**, which on every other checkout pointed at nonexistent directories.
+The worst case was a deploy script running `set -uo pipefail` *without* `-e`: its `cd "$ROOT"`
+failed silently, the script carried on in the caller's working directory, and it then committed
+and pushed both site submodules. CI had been papering over the whole class by symlinking that
+path to the workspace.
+
+### What counts as a violation
+
+A machine-specific *home* root, matched by:
+
+```
+/Volumes/ | /Users/<letter> | /home/<name>/ | /run/media/<letter> | /mnt/<name>/
+```
+
+Explicitly **not** flagged: `/etc`, `/usr`, `/opt`, `/var`, `/tmp` — standard system locations,
+not somebody's home directory (test `J7`). Nor `$HOME` or `~`, which are portable by
+construction (`J5`).
+
+Paths must be **derived**, never literal:
+
+```bash
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"     # bash
+```
+```python
+pathlib.Path(__file__).resolve().parents[N]                        # python
+```
+```js
+path.resolve(__dirname, '..')                                      // node CJS
+path.dirname(fileURLToPath(import.meta.url))                       // node ESM
+```
+
+### Two exemptions, both principled
+
+- **Comment-only lines are stripped before matching**, per language (`#` for shell/python/yaml,
+  `//` `*` `/*` for C-family). Documenting the historical bug is not the bug. Test `J4` proves
+  it with a file whose only occurrence is inside a comment.
+- **`.hardcoded-paths-allow`** at the repository root lists genuinely unavoidable files, one
+  path per line, with the reason on the preceding `#` line. Test `J6` proves a listed file is
+  really suppressed; allowed files are reported as `⚠️ allowed`, not hidden.
+
+Whole directory trees are skipped as *prose or generated evidence, not source*: `docs/`,
+`_content*`, `_analysis`, `_tests/evidence/`, `.test-evidence/`, `.superpowers/`, `.ashlrcode/`
+and `MANUAL-STEPS.md`. Binary extensions are skipped too. **This is why the documentation you
+are reading may quote a real absolute path without failing the audit.**
+
+### Exit codes
+
+| Code | Meaning |
+| :--- | :--- |
+| `0` | No machine-specific paths (allowed files are reported but do not fail). Also `--list`. |
+| `1` | Violations found — the count and up to 3 sample lines per file are printed, followed by the derive-instead-of-writing recipes. Also returned if it cannot `cd` into the resolved root. |
+| `2` | The directory passed as `$1` does not exist |
+
+### What it will **not** do
+
+- **It will not fix anything.** It reports and exits; there is no `--fix`.
+- **It will not scan untracked files.** The file list comes from `git ls-files`, so a violation
+  you have not `git add`-ed yet is invisible to it. Group `J`'s fixtures `git add -A` for
+  exactly this reason.
+- **It will not catch a path assembled at runtime** from fragments — which is precisely how the
+  test suite writes its own bad-path literals, so that the file testing the rule does not
+  violate it.
+- **It will not use `sudo`, or write anything.**
+
+### When to reach for it
+
+Before any commit that touches a script with a path in it, and as a CI gate. `J8` already runs
+the rule over this repository's own `scripts/*.sh` on every test run, with no exemptions — the
+detector itself is excluded by name rather than exempted, because it necessarily contains the
+patterns it searches for.
+
+---
+
 ## The standard sequence
 
 ```bash
@@ -345,9 +431,10 @@ says nothing about the vectors written last week.
 `scripts/setup-agents-wizard.sh` never calls these scripts. When it detects `library=Vulkan` it
 adds an **ACTION REQUIRED** entry naming the remediation commands, and when it cannot confirm a
 usable index it adds one naming the reindex and doctor commands — see
-[`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md).
+[`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md). `audit-hardcoded-paths.sh` is not referenced by
+the wizard at all; it is a repository gate, enforced by test group `J`.
 
-**None of the three writes to the wizard's rollback manifest.** They are outside that
+**None of these scripts writes to the wizard's rollback manifest.** They are outside that
 transaction, so `scripts/rollback-agents-wizard.sh` will not undo them:
 
 | Change | How to undo it |
@@ -355,12 +442,13 @@ transaction, so `scripts/rollback-agents-wizard.sh` will not undo them:
 | `GGML_VK_VISIBLE_DEVICES=-1` in `/etc/sysconfig/ollama` | `./scripts/ollama-vulkan-remediation.sh --rollback` |
 | A rebuilt Lumen index | `lumen purge <path>`, then re-index |
 | `<project>/.lumen-reindex.log` | `rm` it; nothing reads it back |
+| *(nothing)* — `lumen-index-doctor.sh` and `audit-hardcoded-paths.sh` | Read-only by construction |
 
 ---
 
-## Test coverage — group `I`
+## Test coverage — groups `I` and `J`
 
-`scripts/test-setup-agents-wizard.sh` covers all three in group **I**:
+`scripts/test-setup-agents-wizard.sh` covers the three embedding scripts in group **I**:
 
 | Test | Asserts |
 | :--- | :--- |
@@ -378,6 +466,23 @@ transaction, so `scripts/rollback-agents-wizard.sh` will not undo them:
 
 Fourteen records in total: eleven assertions plus the three-script parse loop.
 
+Group **J** covers the path audit, and does so *behaviourally* — the script is run against
+throwaway git repositories rather than grepped, so each verdict is proven:
+
+| Test | Asserts |
+| :--- | :--- |
+| `J1` | The audit script is executable and parses |
+| `J2` | Exits `0` on a repo with no hardcoded paths |
+| `J3` | Exits `1` when a machine-specific path is present |
+| `J4` | A **comment** describing the historical bug is not a violation |
+| `J5` | `$HOME` and `~` are not flagged |
+| `J6` | `.hardcoded-paths-allow` really suppresses a listed file |
+| `J7` | `/etc`, `/usr`, `/tmp` are not treated as machine-specific |
+| `J8` | This repository's own `scripts/*.sh` are clean — no exemptions |
+
+Note the test file builds its bad-path literals from **concatenated fragments**
+(`"/Vol""umes/…"`), so that the file testing the rule does not itself violate `J8`.
+
 ---
 
 ## Known rough edges
@@ -394,6 +499,8 @@ Verified against the current sources, and listed here so nobody re-reports them:
 - **`--check` always exits 0** (see above).
 - **The doctor does not check dimensions** despite the dead `wrongdim` counter.
 - **`lumen-reindex.sh` ignores unknown flags** and reads the journal by fixed tail.
+- **`audit-hardcoded-paths.sh` only sees tracked files** (`git ls-files`), so a violation you
+  have not staged yet does not fail it.
 
 ---
 
@@ -408,6 +515,8 @@ Verified against the current sources, and listed here so nobody re-reports them:
 - [`LUMEN-INDEX-INTEGRITY.md`](./LUMEN-INDEX-INTEGRITY.md) — the earlier audit that concluded
   "TRUSTWORTHY". Its measurements are correct; its conclusion is **superseded**. **Historical
   record; do not edit.**
+- [`INDEPENDENT-VERIFICATION-2.md`](./INDEPENDENT-VERIFICATION-2.md) — an adversarial pass that
+  put 15 claims about this stack under test. **Historical record; do not edit.**
 - [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md) — how the wizard surfaces these scripts.
 - [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) — symptom-first entry points.
 

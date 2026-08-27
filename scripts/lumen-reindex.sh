@@ -39,6 +39,12 @@ for a in "$@"; do
     case "$a" in
         --force)     FORCE=1 ;;
         --allow-gpu) ALLOW_GPU=1 ;;
+        --help|-h)   sed -n '2,30p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        -*)          # A typo like `--forse` used to be ignored, silently giving
+                     # an incremental run when a full rebuild was intended.
+                     echo "lumen-reindex: unknown option '$a'" >&2
+                     echo "usage: $0 [project-path] [--force] [--allow-gpu]" >&2
+                     exit 2 ;;
     esac
 done
 
@@ -80,9 +86,20 @@ except Exception:
     [[ "$n" == "32 32" ]]
 }
 
+# `library=` is logged ONCE at service start. A fixed tail misses it on a busy
+# host, which made this return UNKNOWN and let the Vulkan refusal silently NOT
+# fire - the exact failure the refusal exists to prevent. Scan from the service
+# start instead, matching ollama-vulkan-remediation.sh.
 backend_library() {
-    journalctl -u ollama --no-pager -n 400 2>/dev/null \
-        | grep -oE 'library=[a-zA-Z]+' | tail -1 | cut -d= -f2
+    local since
+    since=$(timeout 10 systemctl show ollama -p ActiveEnterTimestamp --value 2>/dev/null)
+    if [[ -n "$since" ]]; then
+        timeout 20 journalctl -u ollama --no-pager --since "$since" 2>/dev/null \
+            | grep -oE 'library=[a-zA-Z]+' | tail -1 | cut -d= -f2
+    else
+        timeout 20 journalctl -u ollama --no-pager -n 4000 2>/dev/null \
+            | grep -oE 'library=[a-zA-Z]+' | tail -1 | cut -d= -f2
+    fi
 }
 
 reset_runner() {

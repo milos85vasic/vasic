@@ -97,7 +97,12 @@ third-party installers or to other tools:
 
 | Not recorded | Why |
 | :--- | :--- |
-| Bun (`~/.bun`), ashlr (`~/.ashlr`), WOZCODE | Vendor `curl \| bash` installers; they write their own files and may edit rc files themselves |
+| Bun (`~/.bun`), WOZCODE | Vendor `curl \| bash` installers; they write their own files and may edit rc files themselves |
+| ashlr (`~/.claude/plugins/cache/ashlr-marketplace/ashlr/`) | Vendor `curl \| bash` installer. It clones a plugin directory and creates **no binary** — remove it with `rm -rf` on that path. Whatever `/plugin install` then registers inside Claude Code is Claude Code's state, not the wizard's |
+| `<project>/MANUAL-STEPS.md` | Written on **every** run from the manual-step registry. It is a regenerated snapshot of what is still pending, not a wizard "edit" — `rm` it, or `.gitignore` it |
+| `<project>/.ashlrcode/genome/` | Created by `/ashlr:ashlr-genome-init` inside Claude Code. The wizard only detects its absence |
+| `<project>/.lumen-reindex.log` | Appended by `scripts/lumen-reindex.sh` |
+| `/etc/sysconfig/ollama` | Written **only** by `scripts/ollama-vulkan-remediation.sh --apply`, never by the wizard (test **A41**). It has its own undo: `--rollback` |
 | Ollama, its systemd unit, and the pulled embedding model | Installed by `https://ollama.com/install.sh` / `brew`, enabled with `systemctl` |
 | `~/.claude/plugins/marketplaces/Sagargupta16/…` and `…/JCodesMore/…` | Plain `git clone`s, skipped when the directory already exists |
 | `submodules/`, `submodules/superspec`, `.specify/`, `specs/` | Project content created in Step 6 — treat it as repository state, not wizard leftovers |
@@ -190,7 +195,7 @@ file whose `cp -p` failed are omitted entirely — the wizard prints
 | :--- | :--- | :--- |
 | `lumen` | `install_lumen_wrapper`, `install_lumen_completion` (Step 3) | `~/.local/bin/lumen`, `~/.local/share/bash-completion/completions/lumen` |
 | `shell` | `configure_lumen_shell` **and** `configure_telemetry_optout` (both Step 3) | `~/.bashrc`, `~/.bash_profile`. Both functions call `backup_file "$HOME/.bashrc" shell`, so that file gets two `.bak.<ts>` siblings per run but only one manifest row |
-| `claude` | Step 5 | `ACTION` `claude mcp remove lumen -s user`, plus `~/.claude/settings.json` for the Glyphdown hooks |
+| `claude` | Step 5 | `ACTION` `claude mcp remove lumen -s user`, `~/.claude/settings.json` for the Glyphdown hooks, **and `~/.claude.json`** for the Lumen mirror that MiMo and other inheritors read |
 | `kimi` | Step 5 | `~/.kimi-code/mcp.json` |
 | `opencode` | Step 5 | `~/.config/opencode/opencode.json` |
 | `qwen` | Step 3 (telemetry) and Step 5 (MCP) | `~/.qwen/settings.json` — snapshotted by whichever step touches it first, so one row covers both the `.usageStatisticsEnabled` edit and the `.mcpServers` merge |
@@ -198,8 +203,11 @@ file whose `cp -p` failed are omitted entirely — the wizard prints
 | `speckit` | The `uv` branch of Step 2 | One `ACTION` `uv tool uninstall specify-cli`, written only when `specify` was missing and the install succeeded |
 | `misc` | Fallback | The default second argument of `backup_file` and third of `configure_mcp_for_agent`. Every call site in the current wizard passes an explicit component, so `misc` should not appear in a real manifest |
 
-MiMo Code has no component: the wizard writes nothing for it and prints a manual-step
-warning instead of guessing a config path, so there is nothing to roll back.
+MiMo Code has no component of its own because there is no MiMo-specific file: it **inherits**
+MCP servers from `~/.claude.json`, which the `claude` component covers. Rolling back `claude`
+therefore removes Lumen from MiMo too — along with the Glyphdown hooks and the Claude Code
+registration. (An earlier revision of this document said the wizard "writes nothing for it and
+prints a manual-step warning". The warning is gone; the mirror is what configures MiMo.)
 
 ---
 
@@ -514,10 +522,17 @@ grep -c '>>> user bin on PATH'      ~/.bash_profile  # -> 0
 
 ```bash
 claude mcp remove lumen -s user
+tmp=$(mktemp) && jq 'del(.mcpServers.lumen)' ~/.claude.json > "$tmp" && mv "$tmp" ~/.claude.json
 ```
 
-The wizard never hand-edits `~/.claude.json` (which also holds session and project state) —
-always go through the `claude mcp` CLI.
+Two commands, because there are two places. `claude mcp` owns the registration in the **active**
+`CLAUDE_CONFIG_DIR`, and the wizard additionally `jq`-merges the single `.mcpServers.lumen` key
+into `~/.claude.json` so that tools inheriting from the default config — MiMo Code lists its
+servers as `claude:~/.claude.json` — can see it. Never hand-edit the rest of `~/.claude.json`;
+it also holds session and project state.
+
+A full `-c claude` rollback restores `~/.claude.json` byte-exactly, which removes the mirror
+along with the Glyphdown hooks and the `claude mcp` `ACTION`.
 
 Remove the Glyphdown `PreToolUse` / `PostToolUse` entries while preserving your own hooks:
 
@@ -595,8 +610,16 @@ for it.
 
 ### MiMo Code
 
-Nothing to undo. The wizard writes no MiMo config; it prints a manual-step warning because
-no documented MCP config file exists for it.
+There is no MiMo-specific config file to undo. MiMo **inherits** MCP servers from
+`~/.claude.json` (it lists them as `claude:~/.claude.json`), so removing the mirror is what
+removes Lumen from MiMo:
+
+```bash
+jq 'del(.mcpServers.lumen)' ~/.claude.json > /tmp/cj && mv /tmp/cj ~/.claude.json
+mimo mcp list | grep lumen        # should now find nothing
+```
+
+Restart MiMo afterwards — MCP servers are launched at session start.
 
 ### `npm` and `uv` — global CLI tools
 
@@ -618,9 +641,16 @@ lumen purge                                   # drop every index under ~/.local/
 rm -rf ~/.local/share/setup-agents-wizard     # the backup sessions themselves — only once you are sure
 ```
 
-Bun (`~/.bun`), ashlr (`~/.ashlr`), Ollama and the embedding model were installed by their
-own vendors' scripts; see [`FAQ.md`](./FAQ.md#how-do-i-completely-uninstall-what-the-wizard-added)
-for the full ordered procedure.
+Bun (`~/.bun`), the ashlr **plugin** (`~/.claude/plugins/cache/ashlr-marketplace/ashlr/` — a
+clone, not a binary), Ollama and the embedding model were installed by their own vendors'
+scripts; see [`FAQ.md`](./FAQ.md#how-do-i-completely-uninstall-what-the-wizard-added) for the
+full ordered procedure. The wizard-adjacent project files it also leaves behind:
+
+```bash
+rm -f  MANUAL-STEPS.md .lumen-reindex.log     # regenerated artifacts, not in the manifest
+rm -rf .ashlrcode                             # the ashlr genome, if you ran /ashlr:ashlr-genome-init
+./scripts/ollama-vulkan-remediation.sh --rollback   # ONLY if you applied it; restores the defect
+```
 
 ---
 
@@ -646,8 +676,20 @@ for the full ordered procedure.
 
 - **Anything outside the manifest.** Bun, ashlr, WOZCODE, Ollama, its systemd unit, the
   pulled embedding model, the two `git clone`d marketplaces, `specify init` output, the
-  SuperSpec checkout, `<project>/.codegraph/` and `~/.codegraph/telemetry.json` have no rows
-  and are untouched by rollback.
+  SuperSpec checkout, `<project>/.codegraph/`, `<project>/MANUAL-STEPS.md`,
+  `<project>/.ashlrcode/genome/`, `<project>/.lumen-reindex.log` and
+  `~/.codegraph/telemetry.json` have no rows and are untouched by rollback.
+- **Nothing the three operational scripts do is in the manifest.** They run outside the
+  wizard's transaction entirely, and each has its own undo:
+
+  | Change | Made by | Undo |
+  | :--- | :--- | :--- |
+  | `GGML_VK_VISIBLE_DEVICES=-1` in `/etc/sysconfig/ollama`, plus a service restart | `ollama-vulkan-remediation.sh --apply` | `./scripts/ollama-vulkan-remediation.sh --rollback` (needs `sudo`; **restores the defect**) |
+  | A rebuilt Lumen index | `lumen-reindex.sh` | `lumen purge <path>`, then re-index |
+  | `<project>/.lumen-reindex.log` | `lumen-reindex.sh` | `rm` it |
+  | *(nothing)* | `lumen-index-doctor.sh` | Read-only by construction — it opens the database `mode=ro` and never calls the embedding backend (tests **I10**, **I14**) |
+
+  See [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md).
 - **The telemetry opt-out is only *partly* covered.** The `~/.bashrc` block is inside the
   `shell` snapshot and the `~/.qwen/settings.json` edit inside the `qwen` one, so both come
   back with a normal restore. But `codegraph telemetry off` is an out-of-band CLI call with
@@ -681,4 +723,8 @@ for the full ordered procedure.
   from a session, and `Backup missing` failures.
 - [`FAQ.md`](./FAQ.md#how-do-i-completely-uninstall-what-the-wizard-added) — the full
   uninstall procedure.
+- [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md) — the three post-install scripts, none
+  of which is covered by this manifest, and how to undo each of them.
+- [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md) — `MANUAL-STEPS.md` and the other artifacts the
+  rollback tool deliberately leaves alone.
 - `scripts/rollback-agents-wizard.sh` — the tool itself; `--help` prints its header comment.

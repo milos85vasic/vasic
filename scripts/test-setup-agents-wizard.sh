@@ -153,9 +153,28 @@ assert_absent  "A45 no stale claim that MiMo lacks MCP config" "no documented MC
 assert_contains "A46 MiMo status is probed with 'mimo mcp list'" "mimo mcp list" "$src_code"
 # A probe that can block forever is not a probe: an unbounded `lumen search`
 # once hung the wizard for 10 minutes because an index run held the backend.
-unbounded=$(printf '%s\n' "$src_code" | grep -cE '(^|[^a-z0-9_-])lumen search ' | head -1)
-bounded=$(printf '%s\n' "$src_code" | grep -cE 'timeout [0-9]+ lumen search ')
-assert_eq "A47 every 'lumen search' probe in the wizard is timeout-bounded" "$unbounded" "$bounded"
+# A47 previously covered ONLY `lumen search`, so unbounded journalctl,
+# `claude mcp`, `ollama list/ps` and `mimo mcp` probes went unnoticed - an
+# independent verifier found four of them. It now covers every PROBE command.
+# Long-running WORK is deliberately excluded and named: `ollama pull` downloads
+# ~320MB and `lumen index` is the indexing itself; bounding those would abort
+# legitimate progress.
+# Only count REAL invocations. These names also appear inside strings the
+# wizard PRINTS (instructions, summary lines) and inside `record_action` undo
+# commands, which are stored as text and never executed here - counting those
+# produced 7 false positives.
+_probes='lumen search|journalctl|claude mcp|mimo mcp|ollama (list|ps)'
+_pl=$(printf '%s\n' "$src_code" \
+      | grep -E "(^|[^a-z0-9_-])($_probes)" \
+      | grep -vE 'timeout [0-9]+ ' \
+      | grep -vE '(echo |print_(info|warning|success|error)|record_action|check_command)' \
+      | wc -l)
+assert_eq "A47 every executed PROBE in the wizard is timeout-bounded" "0" "$_pl"
+# The exclusion of long-running WORK must be deliberate and stated. This checks
+# the RAW source, not $src_code, because the rationale lives in a comment and
+# $src_code strips comments.
+raw_src=$(cat "$WIZARD")
+assert_contains "A51 long-running work is documented as deliberately unbounded" "DELIBERATELY UNBOUNDED" "$raw_src"
 assert_contains "A48 wizard reports steps it cannot perform itself" "ACTION REQUIRED" "$src_code"
 assert_contains "A49 manual steps are persisted to a file" "MANUAL-STEPS.md" "$src_code"
 # Detection must distinguish a cloned plugin from an ACTIVATED one.
@@ -670,6 +689,52 @@ assert_contains "I13 reindex documents why --force is required after corruption"
 # No operational script may escalate privileges implicitly.
 noesc=$(printf '%s\n' "$isrc" "$dsrc" | grep -c 'sudo ' || true)
 assert_eq "I14 reindex and doctor never call sudo" "0" "$noesc"
+
+# BEHAVIOURAL: a typo used to be silently ignored, giving an incremental run
+# when a full rebuild was intended.
+bash "$REIDX" /tmp --forse >/dev/null 2>&1; rc=$?
+assert_eq "I15 reindex rejects an unknown flag instead of ignoring it" "2" "$rc"
+
+# The Vulkan refusal is worthless if the library probe returns UNKNOWN on a busy
+# host. It must scan from the service start, not a fixed journal tail.
+assert_contains "I16 reindex reads library= from ActiveEnterTimestamp" "ActiveEnterTimestamp" "$isrc"
+# NOTE: a substring check for "-n 400" also matches the new "-n 4000" fallback,
+# so assert the fallback depth explicitly instead of asserting an absence.
+assert_contains "I17 reindex fallback scans a deep journal window, not a short tail" "-n 4000" "$isrc"
+
+# --check previously ALWAYS exited 0, so automation passed on a corrupting backend.
+assert_contains "I18 remediation --check returns a real exit code" "return \$rc" "$rsrc"
+
+# The doctor claimed to check dimensionality but never did.
+assert_contains "I19 doctor reads vector width from the index" "vec_dimensions" "$dsrc"
+assert_absent  "I20 doctor has no dead wrongdim variable" "wrongdim" "$dsrc"
+# I21 WAS a grep of the doctor's source and ran it ZERO times. An independent
+# verifier deleted the entire guard and the assertion stayed green. It is now
+# BEHAVIOURAL: build an index that makes the decoder crash and require exit 2,
+# because exit 1 means "corruption found" and a crash is not that.
+if command -v python3 >/dev/null 2>&1; then
+    dbox=$(mktemp -d); mkdir -p "$dbox/store/x"
+    python3 - "$dbox" <<'PYX'
+import sqlite3, sys, os
+d = sys.argv[1]; db = os.path.join(d, "store", "x", "index.db")
+c = sqlite3.connect(db)
+c.execute("CREATE TABLE project_meta(key TEXT, value TEXT)")
+c.execute("INSERT INTO project_meta VALUES('project_path',?)", (d,))
+c.execute("CREATE TABLE files(path TEXT, hash TEXT)")
+c.execute("CREATE TABLE chunks(id INTEGER, file_path TEXT, symbol TEXT, kind TEXT, start_line INT, end_line INT)")
+c.commit(); c.close()
+PYX
+    LUMEN_STORE="$dbox/store" bash "$DOCTOR" "$dbox" >/dev/null 2>&1; rc=$?
+    assert_eq "I21 doctor exits 2 (not 1) when it CANNOT inspect the index" "2" "$rc"
+
+    # And a genuinely absent index must also be 2, never 1.
+    ebox=$(mktemp -d)
+    bash "$DOCTOR" "$ebox" >/dev/null 2>&1; rc=$?
+    assert_eq "I22 doctor exits 2 when no index exists for the project" "2" "$rc"
+    rm -rf "$dbox" "$ebox"
+else
+    for t in I21 I22; do skip "$t doctor exit-code behaviour" "python3 unavailable"; done
+fi
 
 # ==============================================================================
 group "J. Hardcoded-path audit"

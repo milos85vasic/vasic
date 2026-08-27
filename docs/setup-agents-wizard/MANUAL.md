@@ -33,10 +33,12 @@ Three companion scripts handle post-installation operations and are documented s
 scripts/ollama-vulkan-remediation.sh [--check|--apply|--verify|--rollback|--help]
 scripts/lumen-reindex.sh             [project-path] [--force] [--allow-gpu]
 scripts/lumen-index-doctor.sh        [project-path]
+scripts/audit-hardcoded-paths.sh     [repo-path] [--list|--help]
 ```
 
-The wizard **never invokes them**. It names them in `ACTION REQUIRED` when its own read-only
-probes say they are needed.
+The wizard **never invokes them**. It names the first three in `ACTION REQUIRED` when its own
+read-only probes say they are needed; the fourth is a repository hygiene check, guarded by test
+group `J`.
 
 ```
 SETUP_WIZARD_LIB_ONLY=1 . scripts/setup-agents-wizard.sh
@@ -176,6 +178,7 @@ returns **1 for "corruption found"**, so it *is* usable as a gate. See
 | `ollama-vulkan-remediation.sh` | success (and **always** for `--check`) | `--verify` probe failed; write/restart failed | bad option | — | — |
 | `lumen-reindex.sh` | index completed | gave up after `MAX_ROUNDS` | — | refused: `library=Vulkan` | batch probe still failing |
 | `lumen-index-doctor.sh` | healthy | **corruption found** | could not inspect | — | — |
+| `audit-hardcoded-paths.sh` | no machine-specific paths (also `--list`) | violations found, or `cd "$ROOT"` failed | the target directory does not exist | — | — |
 
 `scripts/rollback-agents-wizard.sh` uses a different scheme:
 
@@ -622,7 +625,9 @@ lumen purge                      # drop every index under ~/.local/share/lumen/ 
 rm -f ~/.local/bin/lumen
 rm -f ~/.local/share/bash-completion/completions/lumen
 
-claude mcp remove lumen -s user  # Claude Code: through its own CLI, never by editing ~/.claude.json
+claude mcp remove lumen -s user  # Claude Code: via its own CLI, into the ACTIVE CLAUDE_CONFIG_DIR
+tmp=$(mktemp) && jq 'del(.mcpServers.lumen)' ~/.claude.json > "$tmp" && mv "$tmp" ~/.claude.json
+                                 # ^ the mirror; MiMo and other inheritors read this file
 
 tmp=$(mktemp) && jq 'del(.mcpServers.lumen, .mcpServers.codegraph)' ~/.kimi-code/mcp.json > "$tmp" && mv "$tmp" ~/.kimi-code/mcp.json
 tmp=$(mktemp) && jq 'del(.mcpServers.lumen, .mcpServers.codegraph)' ~/.qwen/settings.json > "$tmp" && mv "$tmp" ~/.qwen/settings.json
@@ -869,28 +874,31 @@ Hook handlers for AI coding agent integration.
 Evidence lands in `.test-evidence/<UTC timestamp>/` as `results.tsv`, `run.log` and
 `summary.json`. Exit status is non-zero if any assertion failed.
 
-**Nine groups, `A`–`I`.** The file declares group `H` **before** group `G`, so the console
-output order is A, B, C, D, E, F, H, G, I.
+**Ten groups, `A`–`J`.** The file declares group `H` **before** group `G`, so the console
+output order is A, B, C, D, E, F, H, G, I, J.
 
 ### Deriving the assertion count
 
 Do not hardcode a total — it moves whenever a test is added, and it differs between a live run
 and `--no-live`. The current per-group record counts:
 
-| Group | Records | Note |
-| :--- | ---: | :--- |
-| A | 50 | `A1`–`A50`; `A12` is a loop over 5 bogus package names, `A11` skips without `shellcheck` |
-| B | 8 | |
-| C | 10 | |
-| D | 5 | all 5 become skips without `jq` |
-| E | 3 | |
-| F | **11 live / 7 with `--no-live`** | `F2` is a loop over 3 shell kinds; `--no-live` records `F1`–`F7` as skips, and `F5b`/`F8` are not recorded at all in that mode |
-| G | 18 | `G16`–`G18` skip without `jq` |
-| H | 7 | `H6`/`H7` skip without `jq` |
-| I | 14 | 11 assertions plus a 3-record loop over the three scripts |
+| Group | Ids | Records | Note |
+| :--- | ---: | ---: | :--- |
+| A | 50 | **54** | `A1`–`A50`; `A12` is a **loop over 5** bogus package names, so it emits 5 records. `A11` skips without `shellcheck` |
+| B | 8 | 8 | |
+| C | 10 | 10 | |
+| D | 5 | 5 | all 5 become skips without `jq` |
+| E | 3 | 3 | |
+| F | 9 | **11 live / 7 with `--no-live`** | `F2` is a loop over 3 shell kinds; `--no-live` records `F1`–`F7` as skips, and `F5b`/`F8` are not recorded at all in that mode |
+| G | 18 | 18 | `G16`–`G18` skip without `jq` |
+| H | 7 | 7 | `H6`/`H7` skip without `jq` |
+| I | 14 | **14** | `I4`–`I14` are 11 assertions; `I1`–`I3` are a 3-iteration loop over the three operational scripts |
+| J | 8 | 8 | `J2`–`J7` each build and tear down a throwaway git repository |
 
-Full live run: **126**. `--no-live`: **122**. The authoritative number for a given run is
-`summary.json`'s `{total, passed, failed, skipped}`.
+Full live run: **138**. `--no-live`: **134**. **Neither number belongs in a bug report** — quote
+`summary.json`'s `{total, passed, failed, skipped}` for the run you actually did. Three groups
+emit more records than they have ids (`A`, `F`, `I`), which is why an id count and a record
+count are not the same thing.
 
 | Group | Coverage |
 | :--- | :--- |
@@ -903,3 +911,4 @@ Full live run: **126**. `--no-live`: **122**. The authoritative number for a giv
 | G | Backup manifest and rollback, `G1`–`G18`, in a throwaway `$HOME` with `WIZARD_STATE_DIR` pointed inside it: manifest header, `MODIFIED` vs `CREATED`, the stored copy holds the original content and mode `600`, first-snapshot-wins, byte-exact restore, deletion of a created file, `--dry-run` inertness, `--component` isolation, the pre-rollback snapshot, `ACTION` reported but not executed, `--list`. `G16`–`G18` are the snapshot-ordering regression: a brand-new agent config is recorded `CREATED`, rollback deletes it instead of leaving an empty `{}`, and a pre-existing config still restores to its true original (these three skip without `jq`) |
 | H | Telemetry opt-out, `H1`–`H7`, in a throwaway `$HOME`: exactly one `# >>> telemetry opt-out …` block, still one after a second run, the generated `~/.bashrc` parses as bash, sourcing it exports `DO_NOT_TRACK=1` / `CODEGRAPH_TELEMETRY=0`, `WIZARD_KEEP_TELEMETRY` writes no block at all, `.usageStatisticsEnabled` is set to `false` in `~/.qwen/settings.json` without dropping existing keys, and an already-`false` value is detected as already disabled rather than "unset" (`H6`/`H7` skip without `jq`) |
 | I | **Operational scripts**, `I1`–`I14`: each of the three is executable and parses (`I1`–`I3`, one record each); the remediation script offers `--check` (`I4`) and `--rollback` (`I5`) and **defaults to the read-only action** (`I6`, matching the literal `case "${1:---check}"`); its probe tests aggregate **distinctness** (`I7`); the doctor checks duplicate-vector groups (`I8`), still runs the per-vector NaN/all-zero tests (`I9`) and opens the database `mode=ro` (`I10`); the reindexer refuses to start on a Vulkan backend (`I11`), `--force` is proven to actually reach `lumen index -f` rather than merely being parsed (`I12`), and the reason `--force` is required after corruption is documented in the script itself (`I13`); neither the reindexer nor the doctor calls `sudo` (`I14`). Group I only reads source text |
+| J | **Hardcoded-path audit**, `J1`–`J8`: `scripts/audit-hardcoded-paths.sh` is executable and parses (`J1`); then it is *exercised* against throwaway git repositories rather than grepped — clean repo exits `0` (`J2`), a machine-specific path exits `1` (`J3`), a **comment** describing the historical bug does not count as a violation (`J4`), `$HOME` and `~` are not flagged (`J5`), `.hardcoded-paths-allow` really suppresses a listed file (`J6`), and `/etc` `/usr` `/tmp` are not treated as machine-specific (`J7`). `J8` applies the rule to this repository's own `scripts/*.sh` with no exemptions. Note the test file builds its bad-path literals **from concatenated fragments**, so that the file testing the rule does not itself violate it |
