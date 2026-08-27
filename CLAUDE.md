@@ -129,9 +129,17 @@ outside the owned-submodule set for tagging and propagation purposes.
 
 ### Build and test entry points
 
-The gates mirror `.github/workflows/ci.yml` and are run from the repository
-root. Toolchains: Go 1.26, Node 20, Ruby 3.3 + Bundler, poppler-utils,
-tesseract-ocr.
+The gates mirror the definitions preserved in `.github/workflows/ci.yml.disabled`
+and are run from the repository root. Toolchains: Go 1.26, Node 20,
+Ruby 3.3 + Bundler, poppler-utils, tesseract-ocr.
+
+**There is no server-side CI at this umbrella root.** As of 2026-08-27 the
+workflow is disabled per §11.4.156(B) and enforcement is a **local pre-push
+hook**. `.git/hooks/` is not tracked by git, so a fresh clone runs no gates
+until `bash scripts/pre-push-gates.sh --install` is run, and `git push
+--no-verify` bypasses the hook with no record — run these by hand until you have
+confirmed the hook is in place. (This says nothing about the site submodules:
+`milosvasic.ru` deliberately keeps an active deploy workflow — see **Deploys**.)
 
 ```bash
 cd _tools/gen && go test ./... && cd -        # Go unit tests (generator)
@@ -152,6 +160,29 @@ every complete language into both site submodules, commits and pushes each site
 only when something changed, then validates the LIVE sites. `--dry-run` previews
 without committing.
 
+**`milosvasic.ru` self-publishes on push, and that must not change** (verified
+2026-08-27). Its `.github/workflows/pages.yml` is the custom GitHub Pages
+build+deploy action and is **ACTIVE**. It was briefly renamed to a `.disabled`
+name under the 2026-08-27 11.4.156 decision (*"Comply — disable both, enforce
+locally."*); that half of the decision was **reversed the same day** on the
+operator's overriding directive:
+
+> *"Make sure all pages websites work flawlessly! No website can be broken! All
+> websites we have here are running deployed in production!"*
+
+The material fact behind the reversal:
+`gh api repos/milos85vasic/milosvasic.ru/pages` returns `build_type: "workflow"`
+— that workflow is the **sole** publish path for the live site. There is no
+`gh-pages` branch and no `docs/` folder, and the repository root is Jekyll
+SOURCE (Liquid + front matter), so it cannot be served raw from a branch.
+`_tools/deploy-langs.sh` is **not** a substitute: it generates, commits and
+pushes source, then `sleep`s waiting for the server to rebuild — it covers
+generation and push, none of the publish step. **Do not disable, rename, or
+otherwise "fix" `pages.yml`.** `vasic.digital` needs no build step (committed
+static HTML), but its Pages source is `build_type: "legacy"`, so every push
+still triggers a provider-side `pages build and deployment` Actions run even
+though it has **zero** workflow files in its tree.
+
 ## Honest boundary — this repository is NOT yet fully compliant
 
 Anchor 11.4.6 forbids reporting a state you have not verified, so this section
@@ -162,15 +193,60 @@ full adoption. The full audit is
 Known open gaps at the time this carrier was created (identifiers are the
 inventory's own):
 
-- G3 — PARTIAL (verified 2026-08-27). `scripts/verify-all-constitution-rules.sh`
-  now EXISTS and runs: it discovers the gates dynamically and reports
-  37 PASS / 21 FAIL / 0 ERROR out of 58, exiting non-zero. What is still absent
-  is `scripts/verify-governance-cascade.sh`, so §11.4.32 step 1 is an explicit
-  SKIP-with-reason (§11.4.3) — recorded as open conflict OC-3, never a pass.
-- G4 — `.github/workflows/ci.yml` is active at the repository root, which
-  conflicts with anchor 11.4.156(A). Resolving it is an operator decision
-  (disable per 11.4.156(B), or record an explicit override in a project
-  Constitution). It is recorded here rather than silently tolerated.
+- G3 — CLOSED (verified 2026-08-27). Both halves of the §11.4.32 sweep contract
+  now exist and run. `scripts/verify-all-constitution-rules.sh` discovers its
+  gates dynamically, and `scripts/verify-governance-cascade.sh` supplies step 1:
+  10 PASS / 0 FAIL / 0 ENV / 3 NOTE, exit 0, with a paired-mutation proof
+  (`--prove-failure`) that catches 5 seeded violations as rc=1 and reports an
+  environment fault as rc=2 rather than accusing the tree. Step 1 is a measured
+  PASS, not a SKIP-with-reason; OC-3 is resolved.
+  The step-1 caller was ALSO fixed: it previously mapped any non-zero rc to
+  `STEP1 FAIL`, collapsing the verifier's three-valued contract and reporting a
+  broken check as a governance violation. It now branches on rc and has a
+  distinct ERROR state that exits non-zero without accusing the tree.
+  The earlier "37 PASS / 21 FAIL / 0 ERROR out of 58" figure is WITHDRAWN, not
+  restated: the true pre-fast-forward split was 36/22, and the gate population
+  moved 57 → 286 when the constitution was fast-forwarded, so no old split is
+  comparable to a present-day run. No completed post-fast-forward split is
+  claimed here.
+- G4 — PARTIAL (decided 2026-08-27; **partially reversed the same day**).
+  ~~`.github/workflows/ci.yml` is active at the repository root, which conflicts
+  with anchor 11.4.156(A). Resolving it is an operator decision (disable per
+  11.4.156(B), or record an explicit override in a project Constitution).~~
+  **The override half of that sentence was wrong: no such option exists.**
+  11.4.156 refuses the exemption vocabulary by name ("No escape hatch — no
+  `--allow-ci` … `--ci-exempt` flag"), and a consumer carrier may only extend
+  inherited rules, never weaken or override them — so a project-local override is
+  structurally impossible, not merely disfavoured. First operator decision:
+  *"Comply — disable both, enforce locally."* ~~Both `.github/workflows/ci.yml`
+  and `milosvasic.ru/.github/workflows/pages.yml` are renamed to a non-active
+  `.disabled` name.~~ **Reversed in part on 2026-08-27** after a material fact
+  emerged: `gh api repos/milos85vasic/milosvasic.ru/pages` returns
+  `build_type: "workflow"`, so `pages.yml` is the SOLE publish path for the live
+  production site (no `gh-pages` branch, no `docs/` folder, root is Jekyll
+  source; `_tools/deploy-langs.sh` pushes source and waits — it does not
+  publish). The operator's overriding directive: *"Make sure all pages websites
+  work flawlessly! No website can be broken! All websites we have here are
+  running deployed in production!"*
+  **Current state.** `.github/workflows/ci.yml` → `ci.yml.disabled` and the
+  gates run from a local pre-push hook — **the umbrella root complies** with
+  11.4.156. `milosvasic.ru/.github/workflows/pages.yml` is **ACTIVE and will
+  stay active**; that submodule is a **known, documented deviation** from
+  11.4.156, taken deliberately for production uptime. It is **not** an
+  `Override §11.4.156` — the rule forbids one — and must never be written up as
+  one. `vasic.digital` is non-compliant at the **provider** level
+  (`build_type: "legacy"`; every push triggers a `pages build and deployment`
+  run) with **no file-level remedy**, because it has zero workflow files.
+  **Not CLOSED** — honest boundary (11.4.6): file-level disabling stops
+  FILE-triggered runs but does not reach provider-side settings (org-default
+  required workflows, branch-protection required checks, the GitHub Pages source
+  setting, provider-side scheduled exports), which are operator-only manual steps
+  and are unverified. **Cost of the umbrella half: no server-side enforcement on
+  push or PR; `.git/hooks/` is untracked, so a fresh clone is unprotected until
+  `bash scripts/pre-push-gates.sh --install` is run, and `git push --no-verify`
+  bypasses the hook.** Record:
+  `docs/constitution-adoption/DECISION-11-4-156-COMPLY.md`; CI surface inventory:
+  `docs/constitution-adoption/CI-INVENTORY-11-4-156.md`.
 - G5 — PARTIALLY CLOSED (verified 2026-08-26). A commit wrapper IS available:
   `commit` resolves on PATH to `$SUBMODULES_HOME/Upstreamable/commit`, which
   chains to `Software-Toolkit/Utils/Git/commit.sh` (`git add .` + `git commit`)
@@ -198,3 +274,14 @@ None. No clause of the universal constitution is overridden by this project.
 Any future override MUST be recorded explicitly here with its justification, per
 the `Override §X.Y` form in
 `submodules/constitution/templates/Constitution.project.md.template`.
+
+**Do not propose an `Override §11.4.156`.** One was sought on 2026-08-27 and
+does not exist: 11.4.156 names and refuses the exemption vocabulary, and the
+inheritance contract at the head of this file ("extend them — they do NOT weaken
+or override any universal clause") makes a project-local override of an
+inherited clause structurally impossible. The umbrella root was brought into
+compliance instead. `milosvasic.ru` keeps an active deploy workflow and is a
+**known, documented deviation** taken for production uptime; `vasic.digital` is
+non-compliant at the provider level with no file-level remedy. **A documented
+deviation is not an override** — neither may be recorded, reported, or
+rationalised as one. See G4 above.

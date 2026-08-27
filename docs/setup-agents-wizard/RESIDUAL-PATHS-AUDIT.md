@@ -121,7 +121,7 @@ state propagates into agent behaviour by design.**
 |---|---|---|---|
 | `_tools/deploy-langs.sh` | 1 | L8: `# ROOT was hardcoded to "/Volumes/T7/Projects/vasic" - a macOS path. On any other checkout the cd below failed…` | **CORRECTIVE.** Comment-only; the code below derives the root and makes `cd` fatal |
 | `scripts/audit-hardcoded-paths.sh` | 3 | L7, L13 comments; **L50 `PATTERN=` contains the literal `/Volumes/`** | **CORRECTIVE + necessarily literal.** This IS the detector. Allow-listed in `.hardcoded-paths-allow` with that exact reason. Audit prints `⚠️ allowed` and still exits 0 |
-| `.github/workflows/ci.yml` | 3 | L44–48 explain the historical symlink; **L164 states the bridge "is no longer needed"** | **CORRECTIVE.** Comment-only. *(Not modified — another actor is editing this file.)* |
+| `.github/workflows/ci.yml` → **now `.github/workflows/ci.yml.disabled`** | 3 | L44–48 explain the historical symlink; **L164 states the bridge "is no longer needed"** | **CORRECTIVE.** Comment-only. *(Not modified — another actor is editing this file.)* **Path note (2026-08-27):** the file is renamed to a non-active `.disabled` name under the §11.4.156 compliance decision ([`../constitution-adoption/DECISION-11-4-156-COMPLY.md`](../constitution-adoption/DECISION-11-4-156-COMPLY.md)). The occurrences and the verdict are unchanged — only the path is. |
 | `docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.md` | 2 | L331 describes the removed macOS root; L342 documents the detector's alternation | **CORRECTIVE / spec** |
 | `docs/setup-agents-wizard/README.md` | 1 | L451 describes test group **J** and the "18 tracked files once hardcoded one author's `/Volumes/…` macOS root" | **CORRECTIVE** |
 

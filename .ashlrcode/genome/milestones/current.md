@@ -24,7 +24,7 @@ gates failing inside the constitution submodule's own tree.
 | G1 — consumer governance layer | **CLOSED** | four carriers at the root |
 | G2 — inheritance pointer | **CLOSED** | all five open with `## INHERITED FROM ` |
 | G3 — post-pull validation sweep | **PARTIAL** | `verify-all-constitution-rules.sh` exists; `verify-governance-cascade.sh` does not → OC-3 |
-| G4 — active root CI vs §11.4.156 | **OPEN** | operator decision → OC-1 / OC-2 |
+| G4 — active root CI vs §11.4.156 | **PARTIAL** (2026-08-27) | OC-1 done: `ci.yml` → `ci.yml.disabled`, gates on a local pre-push hook. OC-2 **will not be done**: `milosvasic.ru/.github/workflows/pages.yml` stays **ACTIVE** — sole publish path for a production site — a **documented deviation, not an override**. OC-2b: `vasic.digital` non-compliant at the provider level, no file-level remedy. **Will not reach CLOSED.** |
 | G5 — §11.4.75 mechanical layers | **OPEN** | commit wrapper exists (`CLAUDE.md:174-181`); git hooks do not |
 | G6 — `helix-deps.yaml` | **CLOSED** | verified 2026-08-27 |
 | G7 — propagation to owned submodules | **OPEN** | staged, unapplied (§102) |
@@ -41,9 +41,12 @@ root (`CLAUDE.md:189-190`).
 
 - [ ] G3 → CLOSED: `scripts/verify-governance-cascade.sh` written, so §11.4.32
       step 1 stops being a SKIP-with-reason (OC-3).
-- [ ] G4 → decided by the operator: disable per §11.4.156(B) **after** standing
-      up the §11.4.75 layers, or record an explicit `Override §11.4.156`.
-      *(An agent may not pick.)*
+- [x] G4 → **decided 2026-08-27, then partially reversed the same day.**
+      `ci.yml` disabled per §11.4.156(B) with the §11.4.75 layer stood up
+      alongside it. ~~or record an explicit `Override §11.4.156`~~ — that option
+      never existed. `pages.yml` stays **ACTIVE** by operator directive
+      (production uptime); a **documented deviation, not an override**. G4 is
+      **PARTIAL permanently** and cannot be ticked to CLOSED.
 - [ ] G5 → CLOSED: §11.4.75 git-hook layers installed at this root.
 - [ ] G7 → CLOSED: operator applies the staged carriers per
       `docs/constitution-adoption/propagation/APPLY.md`, submodule-first;

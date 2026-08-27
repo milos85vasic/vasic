@@ -108,8 +108,38 @@ Any future override MUST be recorded here in the template's form:
 An unresolved contradiction between this repository's live state and a
 universal clause is **not** an override. Such a contradiction is recorded in
 [Open conflicts](#open-conflicts-with-the-universal-constitution) below, which
-is where the active-CI conflict lives — precisely because nobody has decided to
+is where the active-CI conflict lived — precisely because nobody had decided to
 override anything.
+
+> **Update 2026-08-27 — an `Override §11.4.156` was sought and found
+> structurally unavailable.** OC-1 and OC-2 below previously listed *"record an
+> explicit `Override §11.4.156`"* as one of three resolutions. That resolution
+> does not exist, for two independent reasons. **(1)** §11.4.156's closing
+> formula does not merely set a high bar; it names and refuses the exemption
+> vocabulary — *"No escape hatch — no `--allow-ci`, `--enable-workflow`,
+> `--keep-pipeline`, `--remote-ci-OK`, `--ci-exempt` flag."* A project-local
+> override is a `--ci-exempt` by another spelling. **(2)** The inheritance
+> contract this repository's carriers state — *"Project-specific rules below
+> extend them — they do NOT weaken or override any universal clause"* — makes a
+> project-local override of an inherited clause structurally impossible, not
+> merely disfavoured. Compliance was therefore the only path left that does not
+> amend shared governance, and the operator chose it. **This section remains
+> "None", and it is now known that it cannot become anything else for
+> §11.4.156.** Full record:
+> [`docs/constitution-adoption/DECISION-11-4-156-COMPLY.md`](docs/constitution-adoption/DECISION-11-4-156-COMPLY.md).
+>
+> **Addendum, same day (revision 2).** The compliance decision was then
+> **partially reversed**: `milosvasic.ru/.github/workflows/pages.yml` is the sole
+> publish path for a live production website, so it stays **ACTIVE**, and
+> `vasic.digital` triggers provider-side Pages runs with no workflow file to
+> disable. Both are recorded in [Open conflicts](#open-conflicts-with-the-universal-constitution)
+> as **OC-2** and **OC-2b**. **Neither is an override, and neither may be written
+> up as one.** An override claims a clause no longer applies; these admit the
+> clause applies and is knowingly unmet, with the reason on the record. That is
+> exactly the distinction the paragraph above this box already draws — *"an
+> unresolved contradiction … is **not** an override"* — and it is why this
+> section still reads "None" even though two surfaces are now knowingly
+> non-compliant.
 
 ---
 
@@ -257,6 +287,40 @@ multi-upstream posture that does not exist:
 
 ### OC-1 — Active CI at the repository root contradicts §11.4.156(A)
 
+> **RESOLVED 2026-08-27 by operator decision — the text below is retained as the
+> original record and is no longer the current state.**
+> Decision, verbatim: *"Comply — disable both, enforce locally."*
+> `.github/workflows/ci.yml` is renamed to a non-active `.disabled` name per
+> §11.4.156(B), and the gates it ran move to a **local pre-push hook**.
+> **⚠ Scope note (added 2026-08-27, revision 2): the *"disable both"* half of
+> that decision now applies only to `ci.yml`.** The `pages.yml` half was
+> reversed the same day on an overriding operator directive — see **OC-2** below.
+> OC-1 itself is unaffected: `ci.yml` publishes nothing, so disabling it costs no
+> production uptime, and it remains disabled.
+> **Resolution 2 below — record an `Override §11.4.156` — turned out not to
+> exist.** §11.4.156's closing formula refuses the exemption vocabulary by name
+> (*"No escape hatch … `--ci-exempt`"*), and the inheritance contract this
+> repository's carriers state (*"extend them — they do NOT weaken or override
+> any universal clause"*) makes a project-local override of an inherited clause
+> structurally impossible. With the override gone, compliance was the only
+> remaining option that does not amend shared governance; no constitution
+> amendment was made. Resolution 1's precondition ("stand up the §11.4.75 layers
+> first") is honoured by C3 of the decision record, and resolution 3 was
+> rejected because §11.4.156 makes non-compliance *"a release blocker regardless
+> of context"*.
+> **Honest boundary (§11.4.6):** renaming the file stops FILE-triggered runs. It
+> does **not** reach provider-side settings — org-default required workflows,
+> branch-protection required checks, the GitHub Pages source setting,
+> provider-side scheduled exports. Those are operator-only manual steps in the
+> provider UI and are **not done**. G4 therefore moves to **PARTIAL**, not
+> CLOSED.
+> **What is lost:** no server-side enforcement on push or PR. The gates now
+> depend on a local hook, and `.git/hooks/` is not tracked by git, so a fresh
+> clone has **no** protection until the install step is run.
+> Full record, including the four options and the complete loss analysis:
+> [`docs/constitution-adoption/DECISION-11-4-156-COMPLY.md`](docs/constitution-adoption/DECISION-11-4-156-COMPLY.md).
+> CI surface inventory: `docs/constitution-adoption/CI-INVENTORY-11-4-156.md`.
+
 **Clause.** §11.4.156(A) (`submodules/constitution/Constitution.md:9548`):
 
 > **(A) Zero active CI at the repository root.** No active
@@ -270,9 +334,11 @@ and its closing formula:
 > no `--allow-ci`, `--enable-workflow`, `--keep-pipeline`, `--remote-ci-OK`,
 > `--ci-exempt` flag.
 
-**Live state.** `.github/workflows/ci.yml` exists at this repository's root
-(9,526 bytes) with live `on:` triggers, and `README.md:3` advertises it with a
-status badge.
+**Live state at the time this conflict was recorded.** `.github/workflows/ci.yml`
+exists at this repository's root (~~9,526 bytes~~ — stale; measured **12,421 B**
+on 2026-08-27) with live `on: push [main]` / `on: pull_request [main]` triggers,
+and `README.md:3` advertises it with a status badge. *(Both the file and the
+badge are removed by the 2026-08-27 decision.)*
 
 **Why this is a conflict of intent and not neglect.** The workflow's own header
 records why it was added:
@@ -287,8 +353,10 @@ layers (INVENTORY gap G5 — no non-sample hook in `.git/hooks/`, no commit
 wrapper). Disabling the workflow today would remove the only mechanical check
 that exists here and put nothing in its place.
 
-**Status: UNRESOLVED — operator decision. Deliberately not acted on.**
-The three available resolutions, none of which an agent may pick unilaterally:
+**Status: ~~UNRESOLVED — operator decision. Deliberately not acted on.~~
+SUPERSEDED 2026-08-27 — resolution 1 chosen; see the banner above.**
+The three resolutions as originally recorded, none of which an agent could pick
+unilaterally (resolution 2 has since been shown not to exist at all):
 
 1. Disable per §11.4.156(B) — rename to `ci.yml.disabled-local-only` — **and**
    stand up the §11.4.75 local layers first, so enforcement is moved rather
@@ -297,9 +365,79 @@ The three available resolutions, none of which an agent may pick unilaterally:
    the operator's justification.
 3. Keep both and accept the release-blocker state knowingly.
 
-Nothing in this repository disables, edits, or re-enables that workflow.
+~~Nothing in this repository disables, edits, or re-enables that workflow.~~
+**Superseded 2026-08-27:** resolution 1 was chosen and the workflow is being
+renamed to a non-active `.disabled` name under the decision record.
 
 ### OC-2 — `milosvasic.ru/.github/workflows/pages.yml` — the same clause, in an owned submodule
+
+> **STATUS: OPEN — PERMANENT DOCUMENTED DEVIATION (2026-08-27). NOT an override.**
+>
+> ~~**RESOLVED 2026-08-27 by the same operator decision — *"Comply — disable
+> both, enforce locally."*** `pages.yml` is renamed to a non-active `.disabled`
+> name per §11.4.156(B).~~ **That half of the decision was reversed the same
+> day.** A material fact emerged after it was recorded:
+>
+> ```
+> $ gh api repos/milos85vasic/milosvasic.ru/pages
+> ... "build_type":"workflow", "status":"built", "html_url":"https://milosvasic.ru/" ...
+> ```
+>
+> `build_type: "workflow"` means GitHub Pages publishes that **live production
+> site** exclusively by running `pages.yml`. There is no `gh-pages` branch, no
+> `docs/` folder, and the repository root is Jekyll SOURCE (Liquid + front
+> matter), so it cannot be served raw from a branch. `_tools/deploy-langs.sh` is
+> **not** a substitute — it generates, commits and pushes source and then
+> `sleep`s waiting for the server to rebuild; it covers none of the publish step.
+> Disabling `pages.yml` does not downgrade the deploy to manual: it **ends** it.
+>
+> **Operator's overriding directive, verbatim:** ***"Make sure all pages websites
+> work flawlessly! No website can be broken! All websites we have here are
+> running deployed in production!"***
+>
+> **Current state (verified 2026-08-27): `pages.yml` is ACTIVE**, byte-identical
+> to the version publishing today (submodule `git status` clean, `git diff HEAD`
+> empty, YAML parses, `build` and `deploy` jobs both intact). **It will not be
+> disabled.**
+>
+> **This is a DEVIATION, not an `Override §11.4.156`.** §11.4.156 forbids an
+> override by name (*"No escape hatch"*), and the Overrides section above
+> explains why a project-local one is structurally impossible. An override would
+> claim the clause no longer applies; it does apply, this repository is knowingly
+> breaking it, and §11.4.156's characterisation of that as *"a release blocker
+> regardless of context"* is accepted here rather than argued away. **Never
+> record, report, or rationalise this as an override.**
+>
+> The recommendation in
+> [`docs/constitution-adoption/REMOTE-ASYMMETRY.md`](docs/constitution-adoption/REMOTE-ASYMMETRY.md)
+> §9 — to extend an `Override §11.4.156` to cover this file — remains **void**:
+> there is no override to extend, and this deviation is not one either.
+> Full record:
+> [`docs/constitution-adoption/DECISION-11-4-156-COMPLY.md`](docs/constitution-adoption/DECISION-11-4-156-COMPLY.md) §0.
+
+### OC-2b — `vasic.digital` triggers CI with no workflow file at all
+
+> **STATUS: OPEN — PROVIDER-LEVEL NON-COMPLIANCE WITH NO FILE-LEVEL REMEDY
+> (verified 2026-08-27).**
+>
+> `vasic.digital` (`vasic-digital/vasic-digital.github.io`) contains **zero**
+> workflow files — it has no `.github/` directory. It is nonetheless
+> §11.4.156-non-compliant, because its GitHub Pages source setting alone starts
+> an Actions run on every push:
+>
+> ```
+> $ gh api repos/vasic-digital/vasic-digital.github.io/pages
+> ... "build_type":"legacy", "status":"built", "html_url":"https://vasic.digital/" ...
+> $ gh api "repos/vasic-digital/vasic-digital.github.io/actions/runs?per_page=3"
+> pages build and deployment | dynamic/pages/pages-build-deployment | dynamic | 2026-08-27T00:14:51Z
+> pages build and deployment | dynamic/pages/pages-build-deployment | dynamic | 2026-08-10T13:46:15Z
+> ```
+>
+> §11.4.156(A) is about files at a repository root; there is no file here to
+> disable, so **no change to that repository's tree can make it compliant**.
+> Only the operator, in the GitHub Pages UI, could stop those runs, and doing so
+> would unpublish a live production site — which the directive quoted in OC-2
+> forbids. Recorded, not resolved; and, like OC-2, **not an override**.
 
 `milosvasic.ru` is an **owned** submodule and carries an active root workflow,
 so §11.4.156(A) and (C) apply to it exactly as they apply to OC-1. It is listed
@@ -310,15 +448,38 @@ tree, which §102 above reserves to the operator.
 §11.4.156(C) scopes the clause to *"repositories we author + push"*, and
 superspec is third-party.
 
-### OC-3 — §11.4.32 step 1 has no cascade verifier to re-run
+### OC-3 — §11.4.32 step 1 had no cascade verifier to re-run — **RESOLVED 2026-08-27**
 
 §11.4.32's sweep contract, step 1, requires the sweep to *"Re-run the existing
 governance-cascade verifier (`scripts/verify-governance-cascade.sh`)"*.
 
-`scripts/verify-governance-cascade.sh` does not exist in this repository.
-`scripts/verify-all-constitution-rules.sh` therefore reports step 1 as an
-explicit **SKIP with reason** naming the missing file, and never counts it as a
-pass. Writing that verifier is remaining work, not a resolved item.
+**Original conflict (retained for history):** that file did not exist, so
+`scripts/verify-all-constitution-rules.sh` reported step 1 as an explicit
+**SKIP with reason** naming the missing file, never counting it as a pass.
+
+**Resolution.** `scripts/verify-governance-cascade.sh` now exists, is tracked
+and executable, and was committed in `9ed96fb`. Measured: **10 PASS, 0 FAIL,
+0 ENV, 3 NOTE, exit 0**. It is not a vacuous gate — `--prove-failure` runs a
+paired mutation proof against throwaway copies: a golden-good control passes,
+five seeded violations are each caught as rc=1, and a deliberately broken
+environment returns rc=2 rather than accusing the tree.
+
+Two honest boundaries are recorded rather than papered over. First, §11.4.32's
+phrase *"every §11.9 + CONST-\* anchor"* is not implementable against the
+pinned corpus: `§11.9` occurs exactly once — inside §11.4.32's own sentence —
+and no `CONST-NNN` defining heading exists anywhere; the sixteen `CONST-*` ids
+appear only as cross-references. The verifier therefore proves the §11.4.35
+*pointer* mechanism those anchors cascade through, rather than enumerating an
+anchor list that does not exist. Second, §11.4.32 clause 4's Issues-tracker
+population (§11.4.15 `Status: Reopened` / `Type: Bug`) is not implemented; the
+verifier prints directed FAIL lines with fixes, but writes to no tracker.
+
+The step-1 **caller** was fixed in the same pass: it had mapped any non-zero rc
+to `STEP1 FAIL`, collapsing this verifier's documented three-valued contract
+(0 pass / 1 violation / 2 could-not-verify) and so reporting a broken *check*
+as a violation of the *tree*. It now branches on rc, with a distinct ERROR
+state that exits non-zero without accusing the tree — consistent with the
+sweep's existing `err` counter convention for blind instruments.
 
 ---
 
@@ -383,8 +544,8 @@ marked.
 |---|---|
 | G1 — no consumer governance layer | **CLOSED** — `CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md` at the root |
 | G2 — no inheritance pointer | **CLOSED** — all four carriers plus this file open with `## INHERITED FROM ` |
-| G3 — no post-pull validation sweep | **PARTIAL** — `scripts/verify-all-constitution-rules.sh` exists; `scripts/verify-governance-cascade.sh` (step 1) does not — see OC-3 |
-| G4 — active CI contradicts §11.4.156 | **OPEN** — OC-1 / OC-2, operator decision |
+| G3 — no post-pull validation sweep | **CLOSED** — `scripts/verify-all-constitution-rules.sh` and `scripts/verify-governance-cascade.sh` both exist and run; step 1 is a measured PASS (10/0/0, exit 0, mutation-proven) — OC-3 resolved |
+| G4 — active CI contradicts §11.4.156 | ~~**OPEN** — OC-1 / OC-2, operator decision~~ → **PARTIAL** (2026-08-27, revised same day). Decided *"Comply — disable both, enforce locally."*, then **partially reversed**. **OC-1: `.github/workflows/ci.yml` → `ci.yml.disabled`, gates moved to a local pre-push hook — umbrella root compliant at file level.** **OC-2: `milosvasic.ru/.github/workflows/pages.yml` stays ACTIVE** — it is the sole publish path (`build_type: "workflow"`) for a live production site; operator directive: *"Make sure all pages websites work flawlessly! No website can be broken! All websites we have here are running deployed in production!"* Permanent **documented deviation, NOT an override**. **OC-2b: `vasic.digital`** triggers `pages build and deployment` on every push from its Pages source setting alone (`build_type: "legacy"`, zero workflow files) — **non-compliant at the provider level with no file-level remedy**. **Not CLOSED and will not close**: §11.4.156(B)'s real test is *"a push triggers ZERO runs"*, and the remaining provider-side settings (org-default required workflows, branch-protection required checks, scheduled exports) are operator-only and unverified. [Decision record](docs/constitution-adoption/DECISION-11-4-156-COMPLY.md) |
 | G5 — no §11.4.75 mechanical enforcement layers | **OPEN** — no git hook, no commit wrapper at this root |
 | G6 — no `helix-deps.yaml` | **CLOSED** — `helix-deps.yaml` at the root |
 | G7 — no propagation to owned submodules | **OPEN** — staged under `docs/constitution-adoption/propagation/`, unapplied (§102) |

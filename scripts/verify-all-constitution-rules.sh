@@ -265,7 +265,38 @@ if [ -x "$CASCADE" ] || [ -r "$CASCADE" ]; then
     else
         $TIMEOUT_BIN bash "$CASCADE"
     fi
-    if [ $? -eq 0 ]; then step1_state="pass"; echo "✅ STEP1 PASS"; else step1_state="fail"; echo "❌ STEP1 FAIL"; fi
+    step1_rc=$?
+    # The cascade verifier's exit contract is THREE-valued, not two-valued (see
+    # its own "Exit codes" header in scripts/verify-governance-cascade.sh):
+    #     0 = the cascade is intact
+    #     1 = a REAL violation in the tree
+    #     2 = COULD NOT VERIFY — an environment/instrument fault (root missing,
+    #         submodule uninitialised, unreadable file, mktemp failure). That
+    #         file states it verbatim: "An internal error is NEVER reported as 1
+    #         — a verifier that cannot see must say so, not accuse the tree."
+    # This block used to collapse EVERY non-zero rc into STEP1 FAIL, which threw
+    # that distinction away and made a broken INSTRUMENT read as a governance
+    # violation of the TREE. Branch on the real code instead. Anything that is
+    # neither 0 nor 1 — rc=2, a 124 from the `timeout` wrapper, a 126/127 exec
+    # failure, a signal death — is the same class of event: step 1 never reached
+    # a verdict, so it must be reported as ERROR, not FAIL.
+    case "$step1_rc" in
+        0)  step1_state="pass"
+            echo "✅ STEP1 PASS" ;;
+        1)  step1_state="fail"
+            echo "❌ STEP1 FAIL — the cascade verifier reported a real governance"
+            echo "               violation in this tree (rc=1)." ;;
+        *)  step1_state="error"
+            echo "⚠ STEP1 ERROR — the cascade verifier could not complete (rc=${step1_rc});"
+            echo "                this reports a BROKEN CHECK, not a governance violation."
+            echo "                Per that verifier's own exit contract, rc=2 means COULD"
+            echo "                NOT VERIFY (environment / instrument fault). NOTHING is"
+            echo "                being alleged about this tree — step 1 simply did not"
+            echo "                run to a verdict. An unrunnable check is never a pass"
+            echo "                either (§11.4.201(7)(b), blind instrument), so it still"
+            echo "                makes this sweep exit non-zero — exactly like the ERROR"
+            echo "                class in the per-gate counters below." ;;
+    esac
 else
     step1_state="skip"
     echo "⏭ STEP1 SKIP — scripts/verify-governance-cascade.sh does not exist in this"
@@ -345,6 +376,9 @@ echo "  PASS              : ${pass}"
 echo "  FAIL   (rc=1)     : ${fail}"
 echo "  ERROR  (rc!=0,1)  : ${err}"
 echo "§11.4.32 step 1     : ${step1_state}"
+if [ "$step1_state" = "error" ]; then
+    echo "                      (COULD NOT VERIFY — broken check, not a tree violation)"
+fi
 if [ -n "$FAIL_NAMES" ]; then
     echo
     echo "FAILED:"
@@ -365,8 +399,20 @@ if [ -s "${DETAIL_DIR}/detail.txt" ]; then
 fi
 
 echo "======================================================================"
-if [ $((fail + err)) -gt 0 ] || [ "$step1_state" = "fail" ]; then
+# Step 1's ERROR state exits non-zero for the SAME reason the `err` counter does:
+# §11.4.201(7)(b) — a blind instrument is never a pass. It is deliberately NOT
+# folded into `fail`, because nothing about this tree has been shown to be wrong;
+# an unrunnable check must not be silently swallowed, and must not be dressed up
+# as a violation either. This mirrors the existing ERROR convention rather than
+# inventing a second one.
+if [ $((fail + err)) -gt 0 ] || [ "$step1_state" = "fail" ] || [ "$step1_state" = "error" ]; then
     echo "❌ SWEEP: FAIL — ${fail} FAIL + ${err} ERROR out of ${GATE_COUNT} gate(s)."
+    if [ "$step1_state" = "error" ]; then
+        echo "   plus §11.4.32 step 1 = ERROR — the cascade verifier COULD NOT VERIFY."
+        echo "   That is a broken check, NOT a violation of this tree. Fix the"
+        echo "   instrument (or its environment) and re-run before reading anything"
+        echo "   into step 1."
+    fi
     echo
     echo "Before treating any of these as a regression, read"
     echo "  Constitution.md -> 'Known-excluded gate findings'"

@@ -229,7 +229,44 @@ git -C milosvasic.ru remote set-url github git@github.com:milos85vasic/milosvasi
 
 ---
 
-## 9. Note for OC-2 — not acted on
+## 9. Note for OC-2 — ~~not acted on~~ SUPERSEDED 2026-08-27
+
+> **This section's recommendation is void.** It recommends extending an
+> `Override §11.4.156` to cover `pages.yml`. **There is no override to extend.**
+> An override was sought and disqualified twice over: §11.4.156's closing formula
+> names and refuses the exemption vocabulary (*"No escape hatch — no `--allow-ci`,
+> `--enable-workflow`, `--keep-pipeline`, `--remote-ci-OK`, `--ci-exempt`
+> flag"*), and the inheritance contract (*"extend them — they do NOT weaken or
+> override any universal clause"*) makes a project-local override of an inherited
+> clause structurally impossible. Compliance was therefore the only remaining
+> path that does not amend shared governance, and the operator chose it:
+> ***"Comply — disable both, enforce locally."*** ~~`pages.yml` is renamed to a
+> non-active `.disabled` name per §11.4.156(B), alongside the umbrella's
+> `ci.yml`; the gates move to a local pre-push hook.~~ No constitution amendment
+> was made.
+>
+> **Second update, same day — `pages.yml` was NOT disabled after all.** The
+> deploy-vs-test asymmetry argued below is not merely correct; it is *stronger*
+> than this document stated, and it reversed the decision. `gh api
+> repos/milos85vasic/milosvasic.ru/pages` returns `build_type: "workflow"`:
+> GitHub Pages publishes `https://milosvasic.ru/` **exclusively** by running that
+> workflow. There is no `gh-pages` branch, no `docs/` folder, and the repository
+> root is Jekyll SOURCE, so it cannot be served raw from a branch;
+> `_tools/deploy-langs.sh` pushes source and then `sleep`s waiting for that
+> workflow, so it is **not** a fallback. Disabling `pages.yml` would not make
+> publishing manual — it would end it. Operator's overriding directive,
+> verbatim: ***"Make sure all pages websites work flawlessly! No website can be
+> broken! All websites we have here are running deployed in production!"***
+>
+> **`pages.yml` is ACTIVE and stays active.** Only the umbrella's `ci.yml` was
+> disabled; its gates moved to a local pre-push hook. `milosvasic.ru` is a
+> **known, documented deviation** from §11.4.156 — **still not an override**, and
+> never to be recorded as one. **Honest boundary (§11.4.6):** the umbrella's
+> remaining provider-side surfaces (org-default required workflows,
+> branch-protection required checks, scheduled exports) are operator-only and
+> unverified, so even `ci.yml`'s rename does not by itself prove *"a push
+> triggers ZERO runs"*. Full record:
+> [`DECISION-11-4-156-COMPLY.md`](DECISION-11-4-156-COMPLY.md) §0.
 
 `milosvasic.ru/.github/workflows/pages.yml` is an active root workflow in an
 owned submodule (`on: push [main]`, `workflow_dispatch`; it builds Jekyll and
@@ -252,13 +289,30 @@ An override should name it explicitly rather than absorb it silently:
   override should therefore state explicitly that it covers the owned submodule
   `milosvasic.ru`, or the file remains formally unresolved.
 
-**Recommendation: yes, extend it — but by naming `milosvasic.ru/.github/workflows/pages.yml`
+~~**Recommendation: yes, extend it — but by naming `milosvasic.ru/.github/workflows/pages.yml`
 and its deploy-not-test justification explicitly in the same
 `Override §11.4.156` entry.** A single unqualified override text would leave
-OC-2 ambiguous.
+OC-2 ambiguous.~~
 
-`Constitution.md` was **not** edited — another agent holds it. This section is a
-recommendation only.
+**Withdrawn 2026-08-27** — see the banner at the head of this section. The
+override never existed, so there was nothing to extend or to name. What the
+recommendation was actually protecting against — OC-2 being absorbed silently
+into OC-1's reasoning — is instead honoured by giving `pages.yml` its own row and
+its own deploy-not-test justification in
+[`DECISION-11-4-156-COMPLY.md`](DECISION-11-4-156-COMPLY.md) §4, and by the
+separate treatment in its §0.
+
+**Vindicated in substance, though.** The bullet above — *"Disabling it does not
+weaken enforcement, it takes a live site offline"* — was the correct reading, and
+it understated the case: with `build_type: "workflow"` there is no fallback
+publisher at all. That argument is what carried the reversal. The mechanism it
+proposed (an override) was unavailable; the conclusion it reached (`pages.yml`
+must keep running) is the one that stands, recorded as a **documented deviation**
+rather than an override.
+
+`Constitution.md` was **not** edited *by this document* — another agent held it
+at the time. It has since been reconciled with the decision; its OC-1 and OC-2
+sections now carry the reversal.
 
 ---
 

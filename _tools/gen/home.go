@@ -533,9 +533,19 @@ func homePathsJSON(langs []string) string {
 func renderHomeJekyll(doc *HomeDoc, p *Portfolio, site *Site, langs []string) string {
 	prefix := "mvx"
 	body := renderHomeBlocks(doc, p, prefix)
-	// The <head> (title/meta/SEO) is owned by the Jekyll `default` layout + jekyll-seo-tag;
+	// The <head> chrome is assembled by the Jekyll `default` layout + jekyll-seo-tag;
 	// here we wire the OpenDesign assets (fonts→brand→components→motion→overlays) and the
 	// deferred motion controller into the page body, which the layout leaves untouched.
+	//
+	// title/description are page DATA, exactly as on the self-contained
+	// (vasic.digital) home, which feeds the same doc.Title/doc.Desc into seoHead —
+	// and exactly as renderProductJekyll/renderPortfolioJekyll already do here.
+	// Emitting them is what stops jekyll-seo-tag from falling back to the EN
+	// site-level title/description of _config.yml on every localized home (the
+	// English <title>/<meta description> that /de/, /ru/, /ar/, … used to serve).
+	// The values come from _content/sites/milosvasic-ru.home.<lang>.json, so each
+	// language carries its OWN reviewer-gated copy.
+	//
 	// seo_hreflang is consumed by the shared default.html layout (jekyll-seo-tag
 	// does not emit hreflang). Localized homes now exist at /<lang>/, so the home
 	// carries the full reciprocal matrix (all langs + x-default → EN root).
@@ -546,6 +556,8 @@ func renderHomeJekyll(doc *HomeDoc, p *Portfolio, site *Site, langs []string) st
 	return fmt.Sprintf(`---
 layout: default
 lang: %s
+title: %s
+description: %s
 seo_hreflang: %s
 ---
 
@@ -558,7 +570,9 @@ seo_hreflang: %s
 %s
 
 %s
-`, htmlLang(doc.Lang), yamlQuote(hreflangInline(site, langs, "")), assetLinksJekyll(site.CSSName), homePathsJSON(langs), mvSymbols, mvHeadStyle, body)
+`, htmlLang(doc.Lang), yamlQuote(doc.Title), yamlQuote(doc.Desc),
+		yamlQuote(hreflangInline(site, langs, "")), assetLinksJekyll(site.CSSName),
+		homePathsJSON(langs), mvSymbols, mvHeadStyle, body)
 }
 
 func renderHome(doc *HomeDoc, p *Portfolio, site *Site, langs []string) string {

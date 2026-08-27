@@ -1,7 +1,7 @@
 {
   "schema": "visual-oracle/1",
-  "generatedAt": "2026-08-10T13:42:42.012Z",
-  "input": "file:///Volumes/T7/Projects/vasic/_tests/visual/fixtures/bad.html",
+  "generatedAt": "2026-08-27T20:14:57.226Z",
+  "input": "file:///run/media/milosvasic/DATA4TB/Projects/vasic/_tests/visual/fixtures/bad.html",
   "name": "golden-bad",
   "viewport": {
     "w": 1280,
@@ -19,10 +19,10 @@
   },
   "perTheme": {
     "light": {
-      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/harness/visual/golden-bad.light.png",
+      "screenshot": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-bad.light.png",
       "ocr": {
         "ran": true,
-        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/harness/visual/golden-bad.light.ocr.txt",
+        "txtFile": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-bad.light.ocr.txt",
         "wordCount": 2,
         "sample": "Discard everything"
       },
@@ -105,10 +105,10 @@
       "verdict": "FAIL"
     },
     "dark": {
-      "screenshot": "/Volumes/T7/Projects/vasic/_tests/evidence/harness/visual/golden-bad.dark.png",
+      "screenshot": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-bad.dark.png",
       "ocr": {
         "ran": true,
-        "txtFile": "/Volumes/T7/Projects/vasic/_tests/evidence/harness/visual/golden-bad.dark.ocr.txt",
+        "txtFile": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-bad.dark.ocr.txt",
         "wordCount": 3,
         "sample": "GIANT UNBOUNDED BUTTON"
       },

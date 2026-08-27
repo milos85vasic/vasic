@@ -59,8 +59,17 @@ is_allowed() {
 
 # Strip comment-only lines per language so a comment explaining this very bug
 # does not trip the audit that exists because of it.
+#
+# The §11.4.75 / §11.4.156 way to disable a provider config is to SUFFIX its
+# name (`ci.yml` -> `ci.yml.disabled`), because a provider only executes its
+# exact trigger filename. That suffix must not change how the file is READ:
+# without the normalisation below, `ci.yml.disabled` falls through to `cat`,
+# loses `#` comment stripping, and its historical `/Volumes/...` prose trips
+# this audit — a false positive caused purely by complying with §11.4.156.
 strip_comments() {
-    case "$1" in
+    local name="${1%.disabled}"
+    name="${name%.disabled-local-only}"
+    case "$name" in
         *.py|*.sh|*.bash|*.yml|*.yaml|*.toml|*.cfg|*.conf) grep -vE '^[[:space:]]*#' ;;
         *.js|*.mjs|*.cjs|*.ts|*.go|*.java|*.c|*.h)         grep -vE '^[[:space:]]*(//|\*|/\*)' ;;
         *)                                                  cat ;;

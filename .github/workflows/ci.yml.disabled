@@ -1,4 +1,48 @@
 # =============================================================================
+# DISABLED — Constitution §11.4.156 (all server-side CI/CD MUST be disabled)
+# -----------------------------------------------------------------------------
+# STATUS: this file is INERT. It was `.github/workflows/ci.yml`; it is now
+# `.github/workflows/ci.yml.disabled`. GitHub Actions only executes files whose
+# names end in `.yml` / `.yaml` under `.github/workflows/`, so a push to this
+# repository now triggers ZERO runs. That is what §11.4.156(B) requires:
+#
+#   "(B) Disabled means a push triggers ZERO runs. Delete the config OR rename
+#    it to a non-active name (the §11.4.75 `.disabled` / `.disabled-local-only`
+#    convention ...); a workflow left with live `on:` triggers but `if: false`
+#    jobs still queues runs and is NOT compliant."
+#
+# The `on: push` / `on: pull_request` block further down is therefore DEAD
+# TEXT — it is preserved verbatim, together with every gate command, because
+# this file is the source material for the local replacement. Do NOT rename it
+# back to `ci.yml`; §11.4.156(D) makes re-introducing an active workflow a
+# release blocker, and the pre-push gate below now blocks the push mechanically.
+#
+# ---- Where the gates run now ------------------------------------------------
+# Enforcement migrated from the remote runner to a LOCAL pre-push hook, per
+# §11.4.156 ("Enforcement migrates to the LOCAL §11.4.75 five-layer git-hook
+# ritual + the §11.4.40 pre-tag sweep — never a remote runner").
+#
+#   Tracked, reviewable gate runner ..... scripts/pre-push-gates.sh
+#   Installed hook (NOT tracked by git) . .git/hooks/pre-push
+#   Install / re-install the hook ....... bash scripts/pre-push-gates.sh --install
+#
+# `.git/hooks/` is per-clone and is never tracked, so the hook does not travel
+# with a clone. `--install` is the reproducible installer: run it once per
+# checkout. `scripts/pre-push-gates.sh --list` prints the gate table.
+#
+# The local runner carries every gate below (0-6, same commands, same order)
+# and adds one the remote runner could not: gate E, the §11.4.156(E) pre-push
+# self-check (`git ls-files | grep -E '^\.github/workflows/.*\.ya?ml$|
+# ^\.gitlab-ci\.yml$'` must be empty), so re-adding an active workflow to this
+# repository fails the push instead of quietly starting a runner.
+#
+# Honest boundary (§11.4.6): renaming this file stops FILE-triggered runs only.
+# It does NOT reach provider-side settings an agent cannot see — org-level
+# required workflows, branch-protection required checks, provider-side
+# scheduled exports. Those remain the operator's to disable in GitHub settings.
+# =============================================================================
+
+# =============================================================================
 # CI — quality gates for the vasic umbrella repo
 # -----------------------------------------------------------------------------
 # Before this workflow existed, the ONLY GitHub Actions in play was

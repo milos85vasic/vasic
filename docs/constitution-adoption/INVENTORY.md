@@ -653,6 +653,62 @@ five-layer hook ritual, or record an explicit `Override §11.4.156` in the new
 project `Constitution.md`. Silently leaving it is the one option the constitution
 forbids.
 
+> **UPDATE 2026-08-27 — decided, and one of the two options above was wrong.**
+> This section is a Phase-1 snapshot and is retained as written. Two corrections:
+>
+> 1. **The `Override §11.4.156` option does not exist.** It was sought and
+>    disqualified twice over. §11.4.156's closing formula names and refuses the
+>    exemption vocabulary — *"No escape hatch — no `--allow-ci`,
+>    `--enable-workflow`, `--keep-pipeline`, `--remote-ci-OK`, `--ci-exempt`
+>    flag"* — so a project-local override is a `--ci-exempt` by another
+>    spelling. And the inheritance contract every carrier here states —
+>    *"Project-specific rules below extend them — they do NOT weaken or override
+>    any universal clause"* — makes a project-local override of an inherited
+>    clause structurally impossible. With the override gone, compliance was the
+>    only remaining path that does not amend shared governance.
+> 2. **The operator decided: *"Comply — disable both, enforce locally."***
+>    ~~Both `.github/workflows/ci.yml` and
+>    `milosvasic.ru/.github/workflows/pages.yml` are renamed to a non-active
+>    `.disabled` name per §11.4.156(B), and the gates move to a local
+>    **pre-push hook**.~~ No constitution amendment was made.
+> 3. **PARTIALLY REVERSED the same day — only `ci.yml` was disabled.** A material
+>    fact emerged after correction 2 was written:
+>    `gh api repos/milos85vasic/milosvasic.ru/pages` returns
+>    `build_type: "workflow"`, meaning GitHub Pages publishes the **live
+>    production site** `https://milosvasic.ru/` exclusively by running
+>    `pages.yml`. There is no `gh-pages` branch, no `docs/` folder, and the repo
+>    root is Jekyll SOURCE, so it cannot be served raw from a branch;
+>    `_tools/deploy-langs.sh` pushes source and then `sleep`s waiting for that
+>    very workflow, so it is not a substitute. Disabling `pages.yml` would end
+>    publishing outright. **Operator's overriding directive, verbatim:** *"Make
+>    sure all pages websites work flawlessly! No website can be broken! All
+>    websites we have here are running deployed in production!"*
+>
+> **The state that stands (verified 2026-08-27).**
+>
+> | Surface | State | Posture |
+> |---|---|---|
+> | `.github/workflows/ci.yml` | renamed `ci.yml.disabled`; gates in a local pre-push hook | umbrella root **file-level compliant** |
+> | `milosvasic.ru/.github/workflows/pages.yml` | **ACTIVE**, byte-identical to the publishing version; **will not be disabled** | **known, documented DEVIATION — not an override** |
+> | `vasic.digital` | zero workflow files, yet `build_type: "legacy"` triggers `pages build and deployment` on every push | **non-compliant at the PROVIDER level; no file-level remedy** |
+>
+> The `milosvasic.ru` state is **not** an `Override §11.4.156` and must never be
+> recorded as one — correction 1 above still holds in full. An override would
+> claim the clause no longer applies; this admits it applies, is knowingly unmet,
+> and says why.
+>
+> **G4 moves OPEN → PARTIAL, not CLOSED — and will not reach CLOSED.** Honest
+> boundary (§11.4.6): file-level disabling stops FILE-triggered runs but does not
+> reach provider-side settings (org-default required workflows,
+> branch-protection required checks, Pages source settings, provider-side
+> scheduled exports); the remaining ones are operator-only and unverified.
+> **Cost of the umbrella half:** no server-side enforcement on push or PR;
+> `.git/hooks/` is untracked, so a fresh clone has no protection until
+> `bash scripts/pre-push-gates.sh --install` is run, and `git push --no-verify`
+> bypasses the hook. Full record:
+> [`DECISION-11-4-156-COMPLY.md`](DECISION-11-4-156-COMPLY.md) §0; CI surface
+> inventory: `CI-INVENTORY-11-4-156.md`.
+
 ### G5 — HIGH — No mechanical enforcement layer (§11.4.75 five layers, zero present)
 
 **Rule:** §11.4.75 (`Constitution.md:6967-7010`).
@@ -941,7 +997,7 @@ Column meanings:
 | §11.4.153 | Comprehensive per-feature Status + Status_Summary document set with mandatory video-recording confirmation (User mandate | `Constitution.md:9490` | **FAIL** | Unknown |
 | §11.4.154 | Window-scoped capture + fresh-corpus rotation for feature/QA recordings (User mandate, 2026-06-15) | `Constitution.md:9516` | **FAIL** | Unknown |
 | §11.4.155 | Project-name-prefixed feature/QA recording filenames (User mandate, 2026-06-15) | `Constitution.md:9528` | **FAIL** | Unknown |
-| §11.4.156 | All CI/CD automation (GitHub Actions / GitLab pipelines / equivalents) MUST be disabled (User mandate, 2026-06-15) | `Constitution.md:9542` | **FAIL** | No |
+| §11.4.156 | All CI/CD automation (GitHub Actions / GitLab pipelines / equivalents) MUST be disabled (User mandate, 2026-06-15) | `Constitution.md:9542` | **FAIL** *(as measured for this Phase-1 pass)* — **partially remediated 2026-08-27**, see the G4 update: `.github/workflows/ci.yml` → `ci.yml.disabled`, gates → local pre-push hook. `milosvasic.ru/.github/workflows/pages.yml` remains **ACTIVE** by operator decision (sole publish path for a production site) — a documented deviation, not an override. `vasic.digital` triggers provider-side Pages runs with no workflow file to disable. **Do not read this as PASS anywhere**: §11.4.156(B)'s test is *"a push triggers ZERO runs"*, two of three surfaces knowingly fail it, and the umbrella's remaining provider-side settings are unverified. | No |
 | §11.4.157 | GEMINI.md maintained in lockstep with CLAUDE.md / AGENTS.md / QWEN.md (User mandate, 2026-06-15) | `Constitution.md:9558` | **FAIL** | No |
 | §11.4.158 | Intensive all-feature/flow/edge-case video-recording + read-the-screen content-verification mandate (User mandate, 2026- | `Constitution.md:9574` | **FAIL** | Unknown |
 | §11.4.159 | Mandatory window-specific video recording + vision validation mandate (User mandate, 2026-06-20) | `Constitution.md:9600` | **FAIL** | Unknown |

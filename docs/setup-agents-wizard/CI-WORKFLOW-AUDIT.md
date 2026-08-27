@@ -1,5 +1,24 @@
 # CI Workflow Audit — `.github/workflows/ci.yml`
 
+> **The audited file is disabled (2026-08-27).** By operator decision —
+> ***"Comply — disable both, enforce locally."*** — `.github/workflows/ci.yml` is
+> renamed to a non-active `.disabled` name per §11.4.156(B), and the gates it ran
+> move to a **local pre-push hook**.
+> **⚠ Scope correction, same day: only `ci.yml` was disabled.** The *"disable
+> both"* decision was partially reversed —
+> `milosvasic.ru/.github/workflows/pages.yml` is **ACTIVE and stays active**,
+> because it is the sole publish path for a live production site. That does not
+> affect this audit, whose subject is `ci.yml` alone; it affects only the
+> cross-references in §6. **The path `.github/workflows/ci.yml` used
+> throughout this document therefore no longer resolves**; read every reference to
+> it as the `.disabled` file. The audit's *findings* are unaffected — they are
+> about the accuracy of the file's own claims, and they transfer to the renamed
+> file and to the hook that inherits its gate definitions. In particular **S2's
+> Gate 2 vacuous-pass finding is now more load-bearing, not less**: it is about
+> `_tools/audit-hardcoding.sh`, which the local hook will invoke, and it remains
+> unfixed. See
+> [`../constitution-adoption/DECISION-11-4-156-COMPLY.md`](../constitution-adoption/DECISION-11-4-156-COMPLY.md).
+
 **Scope.** Every comment, step name, and `run:` block in `.github/workflows/ci.yml`,
 verified against the actual repository contents.
 
@@ -186,17 +205,57 @@ without changing behaviour.
 
 ---
 
-## 6. Out of scope — noted, not resolved
+## 6. Out of scope — noted, ~~not resolved~~ **resolved 2026-08-27**
 
-`.github/` at this repo root sits inside an unresolved governance conflict:
-`Constitution.md` §11.4.156(A) forbids an active CI workflow at a governed repo
-root, recorded as **OC-1** (`Constitution.md` §"OC-1 — Active CI at the repository
-root contradicts §11.4.156(A)"), with **OC-2** covering the same clause for
-`milosvasic.ru/.github/workflows/pages.yml` as an owned submodule, and gate
-`G4 — active CI contradicts §11.4.156` still marked **OPEN — operator decision**.
-This audit takes no position and changes nothing about it; every finding above is
-about the *accuracy* of the file's own claims, and applies whether or not the
-workflow is ultimately disabled per §11.4.156(B).
+*As written at audit time:*
+
+> `.github/` at this repo root sits inside an unresolved governance conflict:
+> `Constitution.md` §11.4.156(A) forbids an active CI workflow at a governed repo
+> root, recorded as **OC-1** (`Constitution.md` §"OC-1 — Active CI at the repository
+> root contradicts §11.4.156(A)"), with **OC-2** covering the same clause for
+> `milosvasic.ru/.github/workflows/pages.yml` as an owned submodule, and gate
+> `G4 — active CI contradicts §11.4.156` still marked **OPEN — operator decision**.
+> This audit takes no position and changes nothing about it; every finding above is
+> about the *accuracy* of the file's own claims, and applies whether or not the
+> workflow is ultimately disabled per §11.4.156(B).
+
+**Update.** The operator decision has been made: ***"Comply — disable both,
+enforce locally."*** `G4` is no longer *"OPEN — operator decision"*; it is
+**PARTIAL**. ~~Both `ci.yml` and `pages.yml` are renamed to a non-active
+`.disabled` name per §11.4.156(B)~~ — **`ci.yml` is**, and the gates this
+document audits move to a **local pre-push hook**. The audit's own closing caveat
+holds exactly as written: its findings are about the *accuracy* of the file's
+claims and apply whether or not the workflow is disabled — so **the three FALSE
+items and S1/S2 still need fixing**, now in the renamed file and in the hook that
+inherits its gate definitions.
+
+**Second update, same day — OC-2 went the other way.**
+`milosvasic.ru/.github/workflows/pages.yml` was **not** disabled and will not be.
+`gh api repos/milos85vasic/milosvasic.ru/pages` returns `build_type: "workflow"`,
+so that workflow is the **sole** publish path for the live production site (no
+`gh-pages` branch, no `docs/` folder, Jekyll source at the root;
+`_tools/deploy-langs.sh` pushes source and waits for that workflow rather than
+replacing it). Operator's overriding directive, verbatim: ***"Make sure all pages
+websites work flawlessly! No website can be broken! All websites we have here are
+running deployed in production!"*** **OC-2 therefore stays OPEN as a known,
+documented deviation — not an override.** A third surface, `vasic.digital`, is
+non-compliant at the *provider* level (`build_type: "legacy"`, `pages build and
+deployment` on every push) with **no file-level remedy**, since it has no
+workflow file at all.
+
+Note that this makes **V30** and the **Header L4–6** verification in §4 read
+correctly again for the present tense: `pages.yml` still exists, still sets
+`submodules: false`, and is still the only GitHub Actions workflow in play across
+the site submodules.
+
+An `Override §11.4.156` — the alternative this section anticipated — was sought
+and found not to exist: §11.4.156 refuses the exemption vocabulary by name, and a
+project carrier may only extend inherited rules, never weaken them. The OC-2
+deviation is **not** an override either, and must not be written up as one.
+**Honest boundary (§11.4.6):** renaming `ci.yml` stops FILE-triggered runs only;
+org-default required workflows, branch-protection required checks and
+provider-side scheduled exports are operator-only and unverified. Full record:
+[`../constitution-adoption/DECISION-11-4-156-COMPLY.md`](../constitution-adoption/DECISION-11-4-156-COMPLY.md) §0.
 
 ## 7. Concurrent-edit note
 

@@ -8,11 +8,33 @@ Item numbers are **stable identifiers**, not positions: when an item closes it
 moves to "Closed" at the foot of this file and its number is retired, leaving a
 gap in the open list. A gap therefore means *done*, never *missing*.
 
-## 1. Resolve the two §11.4.156 CI conflicts (OC-1, OC-2)
+## 1. ~~Resolve the two §11.4.156 CI conflicts (OC-1, OC-2)~~ — DECIDED 2026-08-27, partly closed
 
-Operator decision, blocked on G5. Root `.github/workflows/ci.yml` and
+~~Operator decision, blocked on G5. Root `.github/workflows/ci.yml` and
 `milosvasic.ru/.github/workflows/pages.yml`. Three permitted resolutions are
-enumerated in `Constitution.md` OC-1; an agent may not pick one.
+enumerated in `Constitution.md` OC-1; an agent may not pick one.~~
+
+**Decided; not a backlog item any more.** Two corrections to the text above:
+the *"three permitted resolutions"* were only two — an `Override §11.4.156` does
+not exist (§11.4.156 refuses the exemption vocabulary by name, and a consumer
+carrier may only extend inherited rules) — and the outcome differs per file.
+
+- **OC-1 — DONE.** `.github/workflows/ci.yml` → `ci.yml.disabled`; gates run from
+  `scripts/pre-push-gates.sh` via an installed `.git/hooks/pre-push`. The G5
+  precondition was satisfied by the same work.
+- **OC-2 — WILL NOT BE DONE.** `milosvasic.ru/.github/workflows/pages.yml` is
+  **ACTIVE and stays active**: `build_type: "workflow"` makes it the sole publish
+  path for the live production site. Operator directive: *"Make sure all pages
+  websites work flawlessly! No website can be broken! All websites we have here
+  are running deployed in production!"* Recorded as a **documented deviation, not
+  an override**.
+- **OC-2b — no remedy exists.** `vasic.digital` triggers `pages build and
+  deployment` on every push from its Pages source setting (`build_type: "legacy"`)
+  with zero workflow files in its tree.
+
+Never propose disabling `pages.yml`, and never write either deviation up as an
+`Override §11.4.156`. Record:
+`docs/constitution-adoption/DECISION-11-4-156-COMPLY.md` §0.
 
 ## 2. Stand up the §11.4.75 five-layer local enforcement (gap G5)
 

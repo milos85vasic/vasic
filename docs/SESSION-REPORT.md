@@ -776,10 +776,48 @@ are deliberately filed as **open conflicts, not overrides**: *"an override is a 
 below are undecided contradictions, and recording them as overrides would claim an authorization
 nobody has given."*
 
+> **SUPERSEDED for OC-1 and OC-2 — decided 2026-08-27, after this report was written.** The table
+> below is retained as the state at report time. Operator decision, verbatim: ***"Comply — disable
+> both, enforce locally."*** ~~Both `.github/workflows/ci.yml` and
+> `milosvasic.ru/.github/workflows/pages.yml` are renamed to a non-active `.disabled` name per
+> §11.4.156(B)~~ — **`.github/workflows/ci.yml` is** — and the gates move to a **local pre-push
+> hook**. **Decision option (2) in the OC-1
+> row below — *"record an explicit `Override §11.4.156`"* — does not exist**: §11.4.156's closing
+> formula names and refuses the exemption vocabulary (*"No escape hatch … `--ci-exempt`"*), and the
+> inheritance contract (*"extend them — they do NOT weaken or override any universal clause"*) makes
+> a project-local override structurally impossible. Compliance was the only remaining path that does
+> not amend shared governance; no amendment was made.
+> **Honest boundary (§11.4.6):** the rename stops FILE-triggered runs only. Provider-side settings —
+> org-default required workflows, branch-protection required checks, provider-side scheduled exports
+> — are operator-only manual steps and are unverified, so G4 moves to
+> **PARTIAL, not CLOSED**. **Cost:** no server-side enforcement on push or PR; `.git/hooks/` is
+> not tracked by git, so a fresh clone has **no** protection until
+> `bash scripts/pre-push-gates.sh --install` is run, and `git push --no-verify` bypasses the hook.
+> Full record: [`constitution-adoption/DECISION-11-4-156-COMPLY.md`](constitution-adoption/DECISION-11-4-156-COMPLY.md).
+> **OC-3 is unaffected by this decision.**
+
+> **⚠ PARTIAL REVERSAL, same day — read this with the banner above.** The *"disable both"* decision
+> applies to `ci.yml` **only**. `milosvasic.ru/.github/workflows/pages.yml` was **restored to ACTIVE
+> and will stay active**. Material fact: `gh api repos/milos85vasic/milosvasic.ru/pages` returns
+> `build_type: "workflow"` — GitHub Pages publishes the live production site
+> `https://milosvasic.ru/` *exclusively* by running that workflow. There is no `gh-pages` branch, no
+> `docs/` folder, and the repository root is Jekyll SOURCE (Liquid + front matter), so it cannot be
+> served raw from a branch. `_tools/deploy-langs.sh` is **not** a substitute: it generates, commits
+> and pushes source, then `sleep`s waiting for the server to rebuild — it covers none of the publish
+> step. Disabling `pages.yml` would end publishing, not make it manual.
+> **Operator's overriding directive, verbatim:** ***"Make sure all pages websites work flawlessly! No
+> website can be broken! All websites we have here are running deployed in production!"***
+> **Net state:** the umbrella root complies with §11.4.156 at file level; **`milosvasic.ru` does not
+> and will not — a known, documented deviation, emphatically NOT an `Override §11.4.156`** (the rule
+> forbids one). Additionally **`vasic.digital` is non-compliant at the provider level with no
+> file-level remedy**: `build_type: "legacy"` triggers a `pages build and deployment` Actions run on
+> every push although the repository contains **zero** workflow files. See
+> [`constitution-adoption/DECISION-11-4-156-COMPLY.md`](constitution-adoption/DECISION-11-4-156-COMPLY.md) §0.
+
 | ID | Conflict | Why it is unresolved | Decision needed |
 |---|---|---|---|
-| **OC-1** | `.github/workflows/ci.yml` is live (`on: push`, `on: pull_request`) while §11.4.156(A) forbids **any** active CI at a governed repo root — *"a release blocker regardless of context. No escape hatch."* | It is a conflict of **intent, not neglect**. §11.4.156 moves enforcement to the §11.4.75 five-layer git-hook ritual, and this repo has **none** of those layers (gap G5). Disabling CI today deletes the only mechanical check and puts nothing in its place. | One of three, none of which an agent may pick: (1) disable per §11.4.156(B) **and** stand up the §11.4.75 layers first; (2) record an explicit `Override §11.4.156` with justification; (3) keep both and knowingly accept the release-blocker state. ⚠ `Constitution.md`'s "9,526 bytes" for this file is **stale** — it is now 10,609 B. |
-| **OC-2** | `milosvasic.ru/.github/workflows/pages.yml` — the same clause, inside an **owned** submodule | Listed separately because resolving it means committing **inside a submodule working tree**, which §102 reserves to the operator. (`submodules/superspec/.github/workflows/ci.yml` is deliberately *not* listed: §11.4.156(C) scopes to repositories *"we author + push"*, and superspec is third-party.) | Operator commit inside the submodule |
+| **OC-1** *(⚠ DECIDED 2026-08-27 — see banner; option 2 does not exist)* | `.github/workflows/ci.yml` is live (`on: push`, `on: pull_request`) while §11.4.156(A) forbids **any** active CI at a governed repo root — *"a release blocker regardless of context. No escape hatch."* | It is a conflict of **intent, not neglect**. §11.4.156 moves enforcement to the §11.4.75 five-layer git-hook ritual, and this repo has **none** of those layers (gap G5). Disabling CI today deletes the only mechanical check and puts nothing in its place. | One of three, none of which an agent may pick: (1) disable per §11.4.156(B) **and** stand up the §11.4.75 layers first; (2) record an explicit `Override §11.4.156` with justification; (3) keep both and knowingly accept the release-blocker state. ⚠ `Constitution.md`'s "9,526 bytes" for this file is **stale** — it is now 10,609 B. |
+| **OC-2** *(⚠ DECIDED 2026-08-27 — see banner)* | `milosvasic.ru/.github/workflows/pages.yml` — the same clause, inside an **owned** submodule | Listed separately because resolving it means committing **inside a submodule working tree**, which §102 reserves to the operator. (`submodules/superspec/.github/workflows/ci.yml` is deliberately *not* listed: §11.4.156(C) scopes to repositories *"we author + push"*, and superspec is third-party.) | Operator commit inside the submodule |
 | **OC-3** | §11.4.32 step 1 requires re-running `scripts/verify-governance-cascade.sh`, which did not exist here | The sweep reports step 1 as an explicit SKIP naming the missing file, and never as a pass — correct behaviour, but the step is genuinely unperformed. | ⚠ **Being closed as this was written.** A 736-line `scripts/verify-governance-cascade.sh` appeared **untracked** at 20:36, after my sweep run. My 37/21 measurement therefore predates it and still shows step 1 as SKIP. **Re-run the sweep**; OC-3 may already be resolved, but the new script is uncommitted, unreviewed, and was not exercised by any measurement in this report. |
 
 No fourth `OC-` identifier exists.
