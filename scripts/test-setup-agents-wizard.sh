@@ -152,6 +152,34 @@ assert_eq "A32 boolean settings are not read with jq's // operator" "0" "$badjq"
 assert_contains "A33 backend health uses a real embedding round-trip" "/api/embed" "$src_code"
 assert_contains "A34 wedged-NaN backend is detected and named" "NaN" "$src_code"
 
+# A round-trip that returns a vector still proves nothing about the vectors the
+# INDEXER gets: on a Vulkan iGPU a context-filling chunk comes back as an
+# all-zero vector under HTTP 200. The wizard therefore also probes the backend
+# placement - and the whole value of that warning is that it is PROBED. A
+# hardcoded "you are on Vulkan" would be a claim about something never measured,
+# which is worse than saying nothing. See docs/setup-agents-wizard/OLLAMA-REMEDIATION.md.
+assert_contains "A35 GPU residency is probed via /api/ps, not assumed" "/api/ps" "$src_code"
+assert_contains "A36 backend library is read from ollama's own log line" "inference compute" "$src_code"
+assert_contains "A37 the Vulkan verdict is gated on the value actually read" '"$lib" == "Vulkan"' "$src_code"
+assert_contains "A38 an unreadable backend library is reported as unknown" "neither confirmed nor ruled out" "$src_code"
+assert_contains "A39 the Vulkan warning points at the remediation runbook" "OLLAMA-REMEDIATION.md" "$src_code"
+# The coupling itself: if the wizard names a backend anywhere in executable
+# code, the probe that justifies the name must be there too.
+mentions_backend=$(printf '%s\n' "$src_code" | grep -c 'Vulkan' || true)
+# Count the probe MECHANISM, not the phrase: the phrase also appears in the
+# message that reports an unreadable journal, which would satisfy a naive grep.
+probes_backend=$(printf '%s\n' "$src_code" | grep -c 'journalctl -u ollama' || true)
+if   [[ "$mentions_backend" -eq 0 ]]; then backend_claim="no-backend-claim"
+elif [[ "$probes_backend"   -ge 1 ]]; then backend_claim="probed"
+else                                       backend_claim="HARDCODED"; fi
+assert_eq "A40 wizard never names a backend it did not probe" "probed" "$backend_claim"
+# The detection is allowed to warn and NOTHING else. Restarting ollama would
+# interrupt a running index; writing /etc/sysconfig/ollama or pinning
+# GGML_VK_VISIBLE_DEVICES needs root. All three are the operator's call.
+unsafe_remediation=$(printf '%s\n' "$src_code" \
+    | grep -cE 'systemctl restart|/etc/sysconfig/ollama|GGML_VK_VISIBLE_DEVICES' || true)
+assert_eq "A41 wizard never applies the remediation itself (no restart, no /etc write)" "0" "$unsafe_remediation"
+
 steps=$(grep -oE 'print_header "Step [0-9]+' "$WIZARD" | grep -oE '[0-9]+' | tr '\n' ',')
 # Step 7 (project indexing) is opt-in: its header only prints when
 # WIZARD_INDEX_PROJECT is set, but the literal must still be in sequence.

@@ -7,6 +7,11 @@ Background reading: [README.md](./README.md) (what gets installed),
 [FAQ.md](./FAQ.md) (why it is built this way) and
 [SAFETY-AND-ROLLBACK.md](./SAFETY-AND-ROLLBACK.md) (how to undo a run).
 
+If the embedding backend runs on an Intel iGPU through Vulkan, read
+[OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md) before anything else here — that hardware
+returns silently-corrupt vectors under HTTP 200, so several symptoms below have one shared
+cause that no amount of restarting will clear.
+
 ---
 
 ## 60-second health check
@@ -45,6 +50,7 @@ The `jq` lines should print an absolute path ending in `/.local/bin/lumen stdio`
 | `No results found.` | Index still building, or the score threshold cut everything | Wait for indexing; then `--min-score -1 -n 20` — [#4](#4-search-returns-no-results-found) |
 | `Embedding backend unreachable` / index and search both fail | ollama not running or not listening where Lumen looks | `systemctl is-active ollama`; `sudo systemctl enable --now ollama` — [#5](#5-embedding-backend-unreachable) |
 | `Embedding backend is WEDGED … returns NaN for every input`, or an HTTP 500 `unsupported value: NaN` followed by Lumen's usage text | The ollama runner is up but broken — `/api/tags` still answers `200` | `ollama stop <model>` for a fresh runner — [#5b](#5b-embedding-backend-is-wedged-nan-for-every-input) |
+| The wizard warns `Embedding model is GPU-offloaded and ollama reports library=Vulkan` | The embedding model runs on an Intel iGPU through Vulkan; large chunks come back as all-zero vectors under HTTP 200 | Apply a remediation tier — [OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md) |
 | Backend is up but indexing still fails | Embedding model not pulled | `ollama pull ordis/jina-embeddings-v2-base-code` — [#6](#6-embedding-model-missing) |
 | A file you just created/edited never appears in results | It was created after the indexer's tree walk started | Re-run `lumen index <path>` (incremental) — [#7](#7-newly-created-or-edited-files-are-missing-from-search-results) |
 | `jq: command not found`, or the wizard exits at Step 1 | `jq` missing and no supported package manager | The wizard auto-installs it; otherwise install manually — [#8](#8-jq-missing) |
@@ -389,9 +395,21 @@ whatever was indexed while the backend was wedged is missing or partial:
 lumen index /path/to/repo -f
 ```
 
+> **`ollama stop` is first aid, not a fix.** On an Intel iGPU driven by Vulkan the wedge is
+> caused by a chunk that fills the model's context: the i915 fence times out, ollama reads the
+> abandoned buffer and returns an **all-zero vector under HTTP 200** long before it ever
+> returns `NaN`. A fresh runner clears the tombstone and the next large chunk recreates it.
+> Confirm the backend with `ollama ps` (`100% GPU`) and
+> `journalctl -u ollama | grep 'inference compute'` (`library=Vulkan`), then apply one of the
+> three remediation tiers in **[OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md)** — root cause
+> and evidence in [OLLAMA-NAN-WEDGE.md](./OLLAMA-NAN-WEDGE.md).
+
 Tests **A33** and **A34** keep this check in the wizard: the health probe must use
 `/api/embed`, and the `NaN` case must be detected and named rather than reported as a generic
-failure.
+failure. Tests **A35**–**A41** keep the backend-placement warning honest: GPU residency and the
+compute library must both be *probed* (`/api/ps`, ollama's `inference compute` line), an
+unreadable library must be reported as unknown rather than assumed clean, and the wizard must
+never apply the remediation itself — no service restart, no write to `/etc/sysconfig/ollama`.
 
 ---
 

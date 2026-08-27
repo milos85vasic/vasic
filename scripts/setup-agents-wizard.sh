@@ -486,6 +486,75 @@ ensure_ollama() {
     fi
 }
 
+# A healthy round-trip is still not a healthy INDEX. On an Intel iGPU driven by
+# Mesa Vulkan, ollama offloads the embedding model to the GPU, and a chunk that
+# fills the model's context trips an i915 fence timeout: the dispatch is
+# abandoned, ollama reads the result buffer anyway, and the caller gets HTTP 200
+# carrying an all-zero vector. The round-trip probe above cannot see that - a
+# 12-character input never fills the context - so the index quietly fills with
+# junk until the runner degrades far enough to return NaN for every input.
+#
+# This check OBSERVES and REPORTS, nothing more. It never switches the model
+# (that would orphan the existing index), never writes /etc/sysconfig/ollama,
+# never restarts a service and never uses sudo: every real remediation is an
+# operator decision with costs the wizard is not entitled to choose.
+#   -> docs/setup-agents-wizard/OLLAMA-REMEDIATION.md
+#
+# Two independent facts, probed separately and never conflated:
+#   1. is the embedding model resident on a GPU?  /api/ps -> size_vram > 0
+#   2. which compute library did ollama pick?     ollama's own "inference
+#                                                 compute" log line -> library=
+# (2) needs a readable journal. When it is not readable, the library is reported
+# as UNKNOWN: the wizard must never name a backend it did not actually probe.
+warn_if_gpu_embedding_backend() {
+    local host="$1"
+    local ps_json="" vram="" lib=""
+
+    ps_json=$(curl -s --max-time 5 "$host/api/ps" 2>/dev/null || true)
+    [[ "$ps_json" == *"$LUMEN_EMBED_MODEL"* ]] || return 0
+
+    if check_command jq; then
+        # size_vram is bytes of this model resident on a GPU; 0 means pure CPU.
+        vram=$(printf '%s' "$ps_json" | jq -r --arg m "$LUMEN_EMBED_MODEL" \
+            'first(.models[]? | select(((.model // .name) // "") | startswith($m))
+                 | .size_vram // 0) // 0' 2>/dev/null || true)
+    elif check_command ollama; then
+        # PROCESSOR column: "100% GPU" / "100% CPU" / "51%/49% CPU/GPU".
+        if ollama ps 2>/dev/null | grep -F "$LUMEN_EMBED_MODEL" | grep -q "GPU"; then
+            vram=1
+        else
+            vram=0
+        fi
+    else
+        return 0   # nothing to probe with - stay silent rather than guess
+    fi
+
+    [[ "$vram" =~ ^[0-9]+$ ]] || return 0
+    (( vram > 0 )) || return 0
+
+    if check_command journalctl; then
+        lib=$(journalctl -u ollama --no-pager -o cat --since "-30 days" 2>/dev/null \
+            | grep -F "inference compute" | tail -1 \
+            | grep -oE 'library=[A-Za-z0-9_.-]+' | cut -d= -f2 || true)
+    fi
+
+    if [[ "$lib" == "Vulkan" ]]; then
+        print_warning "Embedding model is GPU-offloaded and ollama reports library=Vulkan."
+        print_warning "That path can return all-zero vectors under HTTP 200, then wedge into NaN."
+        print_info "Remediation tiers (operator; the durable one needs sudo and a restart):"
+        print_info "  docs/setup-agents-wizard/OLLAMA-REMEDIATION.md"
+    elif [[ -n "$lib" ]]; then
+        print_info "Embedding model is GPU-offloaded (library=$lib) - not the Vulkan path."
+    else
+        print_warning "Embedding model is GPU-offloaded; ollama's compute library is UNKNOWN here."
+        print_info "The 'inference compute' line was unreadable, so Vulkan is neither confirmed nor ruled out."
+        print_info "Check by hand: journalctl -u ollama | grep 'inference compute'"
+        print_info "  then: docs/setup-agents-wizard/OLLAMA-REMEDIATION.md"
+    fi
+
+    return 0
+}
+
 verify_lumen() {
     local rc=0
 
@@ -520,6 +589,7 @@ verify_lumen() {
             -d "{\"model\":\"$LUMEN_EMBED_MODEL\",\"input\":\"health check\"}" 2>/dev/null)
         if printf '%s' "$probe" | grep -q '"embeddings"'; then
             print_success "Embedding backend healthy at $host (round-trip returned a vector)."
+            warn_if_gpu_embedding_backend "$host"
         elif printf '%s' "$probe" | grep -q 'NaN'; then
             print_error "Embedding backend is WEDGED at $host - it returns NaN for every input."
             print_warning "Fix: ollama stop $LUMEN_EMBED_MODEL   (a fresh runner clears it)"
