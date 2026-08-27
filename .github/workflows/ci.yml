@@ -7,10 +7,14 @@
 # the same gates a developer runs locally, on every push / PR to main.
 #
 # Every gate below is a REAL check that can genuinely fail — no vacuous
-# always-pass steps. Each was proven to pass locally before this file was
-# committed (see the PR description / task evidence block).
+# always-pass steps. Each is mutation-paired or asserts on real content: the
+# check has been shown to FAIL when the thing it guards is broken, not merely
+# to exit 0 on a good tree. Gate 2 is the one that needed work — it used to be
+# able to report ✅ over an empty build; it now asserts the generator's exit
+# status per language and that the output is non-empty BEFORE it greps.
 #
 # Gates wired here (each is a separate step, fail-fast):
+#   0. Hardcoded path audit    ./scripts/audit-hardcoded-paths.sh
 #   1. Go unit tests           cd _tools/gen && go test ./...
 #   2. Hardcoding audit        bash _tools/audit-hardcoding.sh      (builds the Go generator)
 #   3. Reproducibility guard   bash _tools/translate/reproducibility-selftest.sh
@@ -18,8 +22,10 @@
 #   5. Harness self-validation bash _tests/run-harness-selfvalidation.sh
 #                              (visual §11.4.170 via headless chromium +
 #                               export §11.4.168 via poppler + tesseract OCR)
-#   6. Playwright (chromium)   the full local suite EXCEPT the live all-language
-#                              crawl (see the note on step 6 below).
+#   6. Playwright (chromium)   the full local suite EXCEPT the exhaustive
+#                              all-language crawl (see the note on Gate 6 below).
+#
+# Keep this list adjacent to any future gate insertion — it is indexed by hand.
 #
 # ---- Two deliberate, documented deviations (NOT bluffs) ---------------------
 #
@@ -32,21 +38,35 @@
 #     (vasic.digital + milosvasic.ru), non-recursively, over anonymous HTTPS
 #     (both are public GitHub Pages repos). Upstreamable is excluded from the
 #     Jekyll build anyway (milosvasic.ru/_config.yml `exclude:`), so nothing is
-#     lost. constitution/ and design-toolkit/ are governance/design submodules
-#     that no gate command reads, so they are intentionally not fetched.
+#     lost. The repo registers SEVEN submodules, so FIVE go unfetched here:
+#     ai_interviewing, design-toolkit, monetization, submodules/constitution
+#     and submodules/superspec (note the paths — constitution and superspec
+#     live under submodules/, not at the root). They are governance / design /
+#     product submodules that no gate command reads.
 #
 # (b) The Playwright milosvasic.ru server serves `milosvasic.ru/_site`, and
-#     `_site/` is git-ignored in that submodule (only a handful of asset files
-#     are force-tracked — NOT the rendered pages). So we run `jekyll build`
-#     here to produce a real _site before Playwright starts. vasic.digital, by
-#     contrast, is committed static HTML and is served directly — no build.
+#     `_site/` is git-ignored in that submodule. Exactly 8 files are
+#     force-tracked (`git -C milosvasic.ru ls-files _site`): five assets (one
+#     CSS, one PNG, three PDFs) AND three rendered pages — `_site/index.html`,
+#     `_site/feed.xml`, `_site/pages/Cover_Letter.md`. Those three are stale
+#     leftovers; the localized page tree the suite actually crawls is NOT
+#     tracked. So we run `jekyll build` here to produce a real _site before
+#     Playwright starts. vasic.digital, by contrast, is committed static HTML
+#     and is served directly — no build.
 #
-# ---- Why the /Volumes symlink (step "Bridge hardcoded config paths") --------
-#   _tests/playwright.config.js hard-codes the two static roots as absolute
-#   paths under /Volumes/T7/Projects/vasic/... (the author's machine). Rather
-#   than edit that in-repo config (out of scope for this task), we symlink
-#   /Volumes/T7/Projects/vasic -> $GITHUB_WORKSPACE so those paths resolve on
-#   the runner. Non-invasive and fully honest.
+# ---- Path resolution (the former /Volumes symlink bridge is GONE) ----------
+#   HISTORY: this workflow used to symlink /Volumes/T7/Projects/vasic ->
+#   $GITHUB_WORKSPACE because several in-repo configs hardcoded that absolute
+#   path (the original author's macOS machine). That bridge has been removed.
+#
+#   _tests/playwright.config.js now derives its static roots itself with
+#   path.resolve(__dirname, '..'), and a repo-wide sweep removed 33 hardcoded
+#   occurrences across 18 files. The suite runs from ANY checkout location -
+#   fresh clone, runner, or a developer machine at any path.
+#
+#   The "Hardcoded path audit" gate below enforces that: it fails the build if a
+#   machine-specific absolute path is reintroduced. Comment-only mentions (like
+#   this one) are ignored by design - documenting the bug is not the bug.
 # =============================================================================
 name: CI
 
@@ -69,7 +89,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      # Playwright/chromium is happier with an explicit browsers path we cache-key on.
+      # Explicit, in-workspace browsers path so the "Cache Playwright browsers"
+      # step below has a deterministic `path:` to restore into. Without this the
+      # download lands in ~/.cache/ms-playwright and would have to be cached from
+      # a home-relative path instead.
       PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
     steps:
       - name: Checkout (no auto-submodules — see deviation (a) in the header)
@@ -121,6 +144,17 @@ jobs:
           # install them so the gate runs for real rather than degrading to SKIP.
           sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr
 
+      # ---- Gate 0 ------------------------------------------------------------
+      # Fails the build if a machine-specific absolute path is reintroduced.
+      # This repo previously carried 33 such paths across 18 files, all pointing
+      # at the original author's macOS volume; one of them made
+      # _tools/deploy-langs.sh cd into a nonexistent directory SILENTLY (it sets
+      # -uo pipefail but not -e) and then commit and push both site submodules.
+      # Comment-only mentions are ignored, $HOME/~ are fine, and genuine
+      # exceptions live in .hardcoded-paths-allow.
+      - name: Gate — hardcoded path audit
+        run: ./scripts/audit-hardcoded-paths.sh
+
       # ---- Gate 1 ------------------------------------------------------------
       - name: Gate — Go unit tests (_tools/gen)
         run: go test ./...
@@ -143,6 +177,20 @@ jobs:
         run: npm ci
         working-directory: _tests
 
+      # The chromium download is ~150 MB and the pinned @playwright/test version
+      # (hence the browser revision) only moves when the lockfile moves, so key
+      # on the lockfile hash. `restore-keys` still gives a warm partial hit when
+      # the lockfile changes for an unrelated dependency.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.pw-browsers
+          key: ${{ runner.os }}-pw-${{ hashFiles('_tests/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pw-
+
+      # Still run on a cache hit: the download becomes a no-op, but `--with-deps`
+      # installs the OS libraries chromium needs, which the cache does not carry.
       - name: Install Playwright chromium (+ OS deps)
         run: npx playwright install --with-deps chromium
         working-directory: _tests
@@ -160,19 +208,18 @@ jobs:
         env:
           JEKYLL_ENV: production
 
-      # (playwright.config.js now resolves its static roots relative to the repo
-      #  via __dirname, so the former /Volumes symlink bridge is no longer needed —
-      #  the suite runs from any checkout location, including a fresh clone.)
-
       # ---- Gate 6 ------------------------------------------------------------
       # The config auto-starts a python http.server for BOTH sites. We exclude
-      # the exhaustive "all-language" link/sitemap crawl: by default it targets
-      # the local servers, but it is the spec designed to run LIVE against
-      # production (VD_BASE/MV_BASE) and is far too heavy for per-push CI. The
+      # the exhaustive "all-language" link/sitemap crawl. To be precise about
+      # WHY: CI sets neither VD_BASE nor MV_BASE, so that spec would run against
+      # the local servers and finish in seconds — it is NOT too heavy to run
+      # here. We exclude it because it is the spec built for LIVE production
+      # crawls, and keeping it out leaves Gate 6 a smoke test of the shipped
+      # pages rather than a full sitemap sweep duplicated on every push. The
       # title is "... exhaustive all-language link & sitemap integrity", so the
       # substring "all-language" (no trailing s) reliably excludes both its
       # per-site variants and nothing else.
-      - name: Gate — Playwright (chromium), excluding the live all-language crawl
+      - name: Gate — Playwright (chromium), excluding the exhaustive all-language crawl
         run: npx playwright test --project=chromium --grep-invert "all-language"
         working-directory: _tests
 

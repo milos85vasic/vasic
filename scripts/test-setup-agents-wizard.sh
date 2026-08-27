@@ -175,6 +175,34 @@ assert_eq "A47 every executed PROBE in the wizard is timeout-bounded" "0" "$_pl"
 # $src_code strips comments.
 raw_src=$(cat "$WIZARD")
 assert_contains "A51 long-running work is documented as deliberately unbounded" "DELIBERATELY UNBOUNDED" "$raw_src"
+
+# WOZCODE has no public installer (npm 404). It must not be advertised as part
+# of the stack, but the opt-in env hook must remain usable.
+assert_absent  "A52 WOZCODE is not advertised in the stack header" "ashlr, WOZCODE" "$raw_src"
+assert_contains "A53 WOZCODE_INSTALL_CMD hook is retained" "WOZCODE_INSTALL_CMD" "$src_code"
+
+# /plugin and `claude mcp` write to the ACTIVE config dir. Detection and the
+# summary must agree, or they contradict each other on a non-default dir.
+_hc=$(printf '%s\n' "$src_code" | grep -c 'HOME/\.claude/' || true)
+assert_eq "A54 wizard honours CLAUDE_CONFIG_DIR (no hardcoded ~/.claude)" "0" "$_hc"
+
+# The CI gate that stops hardcoded paths coming back.
+CI_YML="$PROJECT_ROOT/.github/workflows/ci.yml"
+if [[ -f "$CI_YML" ]]; then
+    ci=$(cat "$CI_YML")
+    assert_contains "A55 CI runs the hardcoded-path audit" "audit-hardcoded-paths.sh" "$ci"
+    # The old header claimed playwright.config.js hardcodes paths. It does not.
+    assert_absent  "A56 CI no longer claims playwright.config.js hardcodes paths" "hard-codes the two static roots" "$ci"
+    if command -v python3 >/dev/null 2>&1; then
+        python3 -c "import yaml,sys; yaml.safe_load(open('$CI_YML'))" 2>/dev/null \
+            && record "A57 ci.yml is valid YAML" PASS "parses" "parses" \
+            || record "A57 ci.yml is valid YAML" FAIL "parses" "YAML error"
+    else
+        skip "A57 ci.yml is valid YAML" "python3/yaml unavailable"
+    fi
+else
+    for t in A55 A56 A57; do skip "$t CI workflow check" "ci.yml not present"; done
+fi
 assert_contains "A48 wizard reports steps it cannot perform itself" "ACTION REQUIRED" "$src_code"
 assert_contains "A49 manual steps are persisted to a file" "MANUAL-STEPS.md" "$src_code"
 # Detection must distinguish a cloned plugin from an ACTIVATED one.
@@ -731,7 +759,46 @@ PYX
     ebox=$(mktemp -d)
     bash "$DOCTOR" "$ebox" >/dev/null 2>&1; rc=$?
     assert_eq "I22 doctor exits 2 when no index exists for the project" "2" "$rc"
-    rm -rf "$dbox" "$ebox"
+
+    # REGRESSION: sqlite-vec allocates 1024-slot blocks and marks live slots in
+    # a per-block `validity` bitmap. Freed/unwritten slots still hold bytes.
+    # An earlier revision decoded ALL allocated slots and reported 43 duplicate
+    # groups / 2.05% where the true live figure was 1 group / 0.32% - crying
+    # corruption over garbage. Build an index whose FREED slots are byte-identical
+    # and require the doctor to stay silent about them.
+    vbox=$(mktemp -d); mkdir -p "$vbox/store/v"
+    python3 - "$vbox" <<'PYV'
+import sqlite3, sys, os, struct
+d = sys.argv[1]; db = os.path.join(d, "store", "v", "index.db")
+c = sqlite3.connect(db)
+c.execute("CREATE TABLE project_meta(key TEXT, value TEXT)")
+c.execute("INSERT INTO project_meta VALUES('project_path',?)", (d,))
+c.execute("INSERT INTO project_meta VALUES('vec_dimensions','768')")
+c.execute("CREATE TABLE files(path TEXT, hash TEXT)")
+c.execute("INSERT INTO files VALUES('a.py','h1')")
+c.execute("CREATE TABLE chunks(id INTEGER, file_path TEXT, symbol TEXT, kind TEXT, start_line INT, end_line INT)")
+c.execute("CREATE TABLE vec_chunks_rowids(rowid INTEGER, chunk_id INTEGER, chunk_offset INTEGER)")
+c.execute("CREATE TABLE vec_chunks_chunks(rowid INTEGER PRIMARY KEY, validity BLOB, rowids BLOB)")
+c.execute("CREATE TABLE vec_chunks_vector_chunks00(rowid INTEGER PRIMARY KEY, vectors BLOB)")
+DIM = 768
+# 4 slots: 2 live and DISTINCT, 2 freed and IDENTICAL to each other.
+live1 = struct.pack("<%df" % DIM, *([1.0] + [0.0]*(DIM-1)))
+live2 = struct.pack("<%df" % DIM, *([0.0, 1.0] + [0.0]*(DIM-2)))
+dead  = struct.pack("<%df" % DIM, *([0.5]*DIM))
+blob = live1 + live2 + dead + dead
+validity = bytearray(128)          # 1024 bits
+validity[0] = 0b00000011           # slots 0,1 live; 2,3 freed
+c.execute("INSERT INTO vec_chunks_chunks VALUES(1,?,?)", (bytes(validity), b"\0"*8192))
+c.execute("INSERT INTO vec_chunks_vector_chunks00 VALUES(1,?)", (blob,))
+for i in (1, 2):
+    c.execute("INSERT INTO chunks VALUES(?,'a.py','s','function',1,2)", (i,))
+    c.execute("INSERT INTO vec_chunks_rowids VALUES(?,?,0)", (i, i))
+c.commit(); c.close()
+PYV
+    out=$(LUMEN_STORE="$vbox/store" bash "$DOCTOR" "$vbox" 2>&1); rc=$?
+    assert_eq "I23 doctor ignores freed slots (identical dead vectors are NOT corruption)" "0" "$rc"
+    assert_contains "I24 doctor reports how many slots were freed" "freed/unwritten" "$out"
+    rm -rf "$dbox" "$ebox" "$vbox"
 else
     for t in I21 I22; do skip "$t doctor exit-code behaviour" "python3 unavailable"; done
 fi

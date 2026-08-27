@@ -28,12 +28,27 @@ forbids, with the file that records it.
 
 ## Build / scripts
 
-- **Hardcoded absolute paths.** `_tools/deploy-langs.sh:8` sets
-  `ROOT="/Volumes/T7/Projects/vasic"` and `_tests/playwright.config.js` hardcodes
-  the same prefix for its two static roots. CI works around it with a symlink
-  rather than editing the config (`.github/workflows/ci.yml` header, "Why the
-  /Volumes symlink"). On any checkout not at that path these break — see
+- **Hardcoded absolute paths.** *(Occurred; fixed; now machine-enforced.)*
+  `_tools/deploy-langs.sh` once set `ROOT` to a literal macOS path under
+  `/Volumes/`, and `_tests/playwright.config.js` carried the same prefix for its
+  two static roots; CI worked around both with a symlink instead of fixing the
+  configs. The shape of the bug is what makes it worth keeping: `deploy-langs.sh`
+  runs `set -uo pipefail` **without `-e`**, so the failed `cd` was silent and the
+  script went on to commit and push both site submodules from the wrong
+  directory. **Fixed:** `deploy-langs.sh:14` derives `ROOT` from
+  `${BASH_SOURCE[0]}` and line 15 makes the `cd` fatal;
+  `playwright.config.js:7` uses `path.resolve(__dirname, '..')`; the CI symlink
+  is removed; a sweep cleared 33 occurrences across 18 files.
+  **What prevents a relapse:** `scripts/audit-hardcoded-paths.sh` runs as CI
+  Gate 0 and fails the build on any machine-specific absolute root. Derive
+  instead — `$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)` in bash,
+  `path.resolve(__dirname, '..')` in CJS, `Path(__file__).resolve().parents[N]`
+  in python; `$HOME`, `~` and env overrides are fine. Full history in
   `knowledge/discoveries.md`.
+- **"Re-fixing" a comment that documents a fixed bug.** Several files carry
+  comment-only mentions of the old literal root (`deploy-langs.sh:8`, the
+  `ci.yml` header, the audit script's own `PATTERN`). The audit strips
+  comment-only lines for exactly this reason: documenting the bug is not the bug.
 - **Editing generated site HTML by hand.** The site submodules are outputs of
   `_tools/gen/`; hand edits are lost on the next regeneration.
 - **Faking an artifact when a tool is missing.** `deploy-langs.sh` warns and

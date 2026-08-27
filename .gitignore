@@ -74,3 +74,14 @@ MANUAL-STEPS.md
 # Timestamped safety backups (*.bak.<timestamp>) - keep locally, never commit.
 # They contain the pre-fix content, including old hardcoded paths.
 *.bak.*
+
+# ashlr genome: keep the curated, repo-grounded files in version control so the
+# routing context is shared, but ignore machine-generated churn. discoveries-auto.md
+# is raw {"stdout":...} tool dumps that dilute retrieval against the curated
+# discoveries.md, and proposals.jsonl is an append-only session log.
+.ashlrcode/genome/knowledge/discoveries-auto.md
+.ashlrcode/genome/proposals.jsonl
+
+# Playwright browser cache (CI caches this path via actions/cache; locally it
+# materialises when PLAYWRIGHT_BROWSERS_PATH points here). Never commit it.
+.pw-browsers/

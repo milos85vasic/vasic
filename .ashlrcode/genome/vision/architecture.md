@@ -60,5 +60,11 @@ here; see `knowledge/workspace.md`.
 ## Known structural hazards
 
 Recorded in full in `knowledge/discoveries.md`: a recursive submodule checkout
-of this umbrella **fails**, and two build scripts hardcode absolute
-`/Volumes/T7/...` paths from the author's macOS machine.
+of this umbrella **fails**.
+
+**Resolved:** two build scripts once hardcoded an absolute macOS root from the
+author's machine. Both now derive their root from their own file location
+(`_tools/deploy-langs.sh:14`, `_tests/playwright.config.js:7`), the CI symlink
+that worked around them is gone, and `scripts/audit-hardcoded-paths.sh` blocks a
+relapse as CI Gate 0. Every path in the pipeline above is derived, so the whole
+chain reproduces from a clean clone at any location.

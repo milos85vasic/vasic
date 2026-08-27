@@ -41,6 +41,10 @@
 #     GATE_TIMEOUT   per-gate wall-clock cap in seconds (default 900). Applied
 #                    only when coreutils `timeout` is on PATH; otherwise the
 #                    sweep says so rather than pretending a cap is in force.
+#     OD_THEME_GLOBS / OD_TOKEN_GLOBS / OD_VISREG_GLOBS / OD_MANIFEST_GLOBS
+#                    consumer-registered inputs for CM-OPENDESIGN-UI-SYSTEM
+#                    (§11.4.35). Bound below with this repository's real
+#                    design-system layout; an operator export overrides them.
 #
 # ── How each gate's invocation is resolved (dynamically, from the gate) ──────
 #   1. If the gate's arg parser offers `--selftest)`  -> run `--selftest`.
@@ -115,6 +119,61 @@ CONSTITUTION_ROOT="${root}/submodules/constitution"
 GATES_DIR="${CONSTITUTION_ROOT}/scripts/gates"
 GATE_TIMEOUT="${GATE_TIMEOUT:-900}"
 
+# ── §11.4.35 consumer-registered gate inputs — CM-OPENDESIGN-UI-SYSTEM ──────
+# `cm_opendesign_ui_system.sh` is project-agnostic BY DESIGN (§11.4.28): its
+# built-in OD_*_GLOBS describe a generic layout (`src/theme/*`, `tokens.json`,
+# `tests/visual/*`). Not one of those patterns matches this repository, so with
+# nothing bound all three lists came back EMPTY, the gate took its
+# no-UI-surface branch, and it SKIPped with the reason "no UI surface detected"
+# — about a repository that ships eight OpenDesign stylesheets under
+# `design-system/`. §11.4.3 permits an HONEST skip; that one was factually
+# false, and the sweep scored it PASS.
+#
+# §11.4.35 puts the fix HERE, in the consumer, never in the gate: the gate owns
+# the generic defaults, the consumer registers its own layout as DATA. These
+# are exported so the gate inherits them through the plain `bash "$g" $argv`
+# invocation in STEP 2 below. Each is overridable from the environment.
+#
+#   OD_THEME_GLOBS    the CONSUMING layer — stylesheets that MUST resolve every
+#                     colour through a token. Sub-check (b) scans these for
+#                     ad-hoc hex, and they carry none.
+#   OD_TOKEN_GLOBS    the §11.4.216 canonical token sources — the files whose
+#                     `:root {}` / `[data-theme="dark"]` blocks DEFINE the
+#                     `--od-*` / `--lk-*` custom properties. A token definition
+#                     is the ONE place a colour literal legitimately lives, so
+#                     the gate does not scan these for hex.
+#   OD_VISREG_GLOBS   the real §11.4.170 host-rendered visual-proof harness
+#                     (`_tests/visual/visual-oracle.js` + its self-validation +
+#                     the Playwright visual-effects spec).
+#                     `design-system/preview/*` is deliberately NOT bound: a
+#                     preview page is not a pixel-diff harness, and binding it
+#                     would buy sub-check (d) with something that cannot fail.
+#   OD_MANIFEST_GLOBS the gate's own default list PLUS `helix-deps.yaml`, which
+#                     is where this repo declares its dependencies (§11.4.31);
+#                     it already declares the §11.4.162 OpenDesign engine.
+#
+# Honest scope, stated rather than left to be discovered (§11.4.6):
+#   * The two brand stylesheets are registered as TOKEN sources because they
+#     ARE this repository's §11.4.216 canonical token files. They also carry
+#     component rules, which the gate therefore does not scan. At binding time
+#     those rules held ZERO colour literals — checkable in one command:
+#       grep -nE '#[0-9A-Fa-f]{6}\b' design-system/brand-*/*.css \
+#         | grep -vE -- '--[A-Za-z0-9-]+[[:space:]]*:'
+#     It returns exactly FIVE lines and every one of them is PROSE inside a CSS
+#     comment — a §11.4.201(7)(a) carrier, not a colour: the measured-contrast
+#     and brand-hue notes at milosvasic.css:2,647,648,688 and
+#     vasic-digital.css:6. No declaration value in either file holds a literal.
+#   * First-party CSS OUTSIDE `design-system/` is NOT registered, and is an
+#     enumerated gap rather than a silent one: `ai_interviewing/assets/theme.css`
+#     (53 literals) and `design-toolkit/proposed/**` (107) are separate UI
+#     surfaces; `design-toolkit/qa/fixtures/golden-bad-tokens.css` (20) is a
+#     golden-BAD fixture that MUST keep its literals; `<site>/assets/od/*.css`
+#     are build-synced copies of the files already registered above.
+export OD_THEME_GLOBS="${OD_THEME_GLOBS:-design-system/*.css design-system/fonts/*.css design-system/learning-kit/learning-kit.css design-system/motion/*.css}"
+export OD_TOKEN_GLOBS="${OD_TOKEN_GLOBS:-design-system/brand-*/*.css design-system/learning-kit/kit-tokens.css}"
+export OD_VISREG_GLOBS="${OD_VISREG_GLOBS:-_tests/visual/* _tests/visual-effects.spec.js}"
+export OD_MANIFEST_GLOBS="${OD_MANIFEST_GLOBS:-helix-deps.yaml .mcp.json package.json go.mod Cargo.toml pubspec.yaml requirements.txt opencode.json .qwen/settings.json}"
+
 if [ ! -s "${CONSTITUTION_ROOT}/Constitution.md" ]; then
     echo "SWEEP-ERROR: constitution submodule not initialised at ${CONSTITUTION_ROOT}" >&2
     echo "             fix: git submodule update --init submodules/constitution" >&2
@@ -167,6 +226,12 @@ if [ -n "$list_only" ]; then
     done <<< "$GATES"
     echo
     echo "Project-side gate: tests/test_constitution_inheritance.sh  argv: --root ${root}"
+    echo
+    echo "§11.4.35 consumer-registered env for CM-OPENDESIGN-UI-SYSTEM:"
+    echo "  OD_THEME_GLOBS    : ${OD_THEME_GLOBS}"
+    echo "  OD_TOKEN_GLOBS    : ${OD_TOKEN_GLOBS}"
+    echo "  OD_VISREG_GLOBS   : ${OD_VISREG_GLOBS}"
+    echo "  OD_MANIFEST_GLOBS : ${OD_MANIFEST_GLOBS}"
     exit 0
 fi
 
@@ -177,6 +242,11 @@ echo "project root        : ${root}"
 echo "constitution        : ${CONSTITUTION_ROOT}"
 echo "constitution HEAD   : $(git -C "$CONSTITUTION_ROOT" rev-parse HEAD 2>/dev/null || echo 'unknown (not a git worktree)')"
 echo "gates discovered    : ${GATE_COUNT} (dynamically, under scripts/gates/**)"
+echo "OD_* gate inputs    : §11.4.35 consumer-registered (see the block above the discovery section)"
+echo "  OD_THEME_GLOBS    : ${OD_THEME_GLOBS}"
+echo "  OD_TOKEN_GLOBS    : ${OD_TOKEN_GLOBS}"
+echo "  OD_VISREG_GLOBS   : ${OD_VISREG_GLOBS}"
+echo "  OD_MANIFEST_GLOBS : ${OD_MANIFEST_GLOBS}"
 if [ -n "$TIMEOUT_BIN" ]; then
     echo "per-gate timeout    : ${GATE_TIMEOUT}s"
 else

@@ -3,19 +3,45 @@
 Things agents have learned about the codebase and domain. Each entry names the
 file it was verified against.
 
-## Two scripts hardcode `/Volumes/T7/Projects/vasic`
+## Every build path is DERIVED — the two hardcoded-root bugs are fixed
 
-- `_tools/deploy-langs.sh:8` — `ROOT="/Volumes/T7/Projects/vasic"`, followed by
-  `cd "$ROOT"` on line 9. The script sets `set -uo pipefail` — **no `-e`** — so
-  a failed `cd` prints an error and the script keeps running in the caller's cwd.
-- `_tests/playwright.config.js` — hardcodes the same prefix for its two static
-  roots. CI works around it by symlinking `/Volumes/T7/Projects/vasic` →
-  `$GITHUB_WORKSPACE` rather than editing the in-repo config
-  (`.github/workflows/ci.yml` header, "Why the /Volumes symlink").
+**Status: CLOSED. Re-verified against the live files 2026-08-27.** Kept as
+history because the failure mode is instructive. Nothing in this entry is
+outstanding work — do not open a task from it.
 
-This checkout lives at `/run/media/milosvasic/DATA4TB/Projects/vasic`. The
-documented deploy entry point (`README.md:94-98`, `CLAUDE.md:148-154`) will not
-resolve here without the same symlink or an edit. **Verified 2026-08-27.**
+**What it was.** `_tools/deploy-langs.sh` set `ROOT` to a literal macOS path and
+`cd`-ed into it. The script sets `set -uo pipefail` — **no `-e`** — so the
+failed `cd` merely printed an error and the script carried on in the caller's
+working directory, with `GEN` and `PDF` pointing at directories that do not
+exist, and then committed and pushed both site submodules. Silent, and
+destructive. `_tests/playwright.config.js` carried the same literal prefix for
+its two static roots, and CI papered over the whole class by symlinking that
+path to `$GITHUB_WORKSPACE` instead of fixing the configs.
+
+**What it is now.**
+
+- `_tools/deploy-langs.sh:14` —
+  `ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"`; line 15 makes
+  the `cd` **fatal** (`|| { echo "FATAL: cannot cd to repository root ..."; exit 1; }`).
+  Line 8 is a *comment* describing the historical bug — it is documentation, not
+  a defect, and must not be "re-fixed".
+- `_tests/playwright.config.js:7` — `const REPO = path.resolve(__dirname, '..');`
+  with `VD_ROOT`/`MV_ROOT` joined off it. No machine-specific literal remains
+  anywhere in that file.
+- `.github/workflows/ci.yml:44-52` and `:182-184` — the symlink bridge is
+  **removed**; both notes are written as history ("that bridge has been
+  removed", "no longer needed").
+- A repo-wide sweep removed **33 occurrences across 18 files**.
+- `scripts/audit-hardcoded-paths.sh` now enforces the invariant as CI **Gate 0**
+  (`.github/workflows/ci.yml:131-140`) and fails the build if any
+  machine-specific absolute root is reintroduced. It strips comment-only lines
+  before matching, on the stated principle that documenting the bug is not the
+  bug, and it allow-lists itself in `.hardcoded-paths-allow` because its own
+  `PATTERN` must contain the literal it detects.
+
+This checkout lives at `/run/media/milosvasic/DATA4TB/Projects/vasic`, and the
+documented deploy entry point (`README.md:94-98`, `CLAUDE.md:148-154`) resolves
+here with no symlink and no local edit.
 
 ## Recursive submodule checkout is a known failure
 

@@ -70,14 +70,39 @@ try:
 except Exception:
     pass
 VB = DIM * 4
-counts = collections.Counter(); total = 0; ragged = 0
-for (blob,) in c.execute("SELECT vectors FROM vec_chunks_vector_chunks00"):
+
+# CRITICAL: sqlite-vec ALLOCATES 1024-vector blocks and marks live slots in a
+# per-block `validity` bitmap. Freed and never-written slots still hold bytes -
+# usually all-zero, or a stale vector from a previous occupant. Decoding every
+# allocated slot therefore counts garbage as data.
+#
+# This is exactly how an earlier revision of this script over-reported: it saw
+# 43 duplicate groups / 2.05% when the true live figure was 1 group / 0.32%,
+# because ~34,500 freed slots were being counted. It is the mirror image of the
+# original forensic audit's error - that one sampled too NARROW a slice and
+# declared the index clean; this one read too WIDE and cried corruption.
+#
+# Mask by validity: only slots whose bit is set are real.
+validity = {}
+try:
+    validity = {r[0]: r[1] for r in c.execute("SELECT rowid, validity FROM vec_chunks_chunks")}
+except Exception:
+    pass   # older schema without the shadow table: fall back to counting all
+
+counts = collections.Counter(); total = 0; ragged = 0; freed = 0
+for brow, blob in c.execute("SELECT rowid, vectors FROM vec_chunks_vector_chunks00"):
     if not blob: continue
     if len(blob) % VB:
         ragged += 1          # block is not a whole number of vectors
+    vbits = validity.get(brow)
     for i in range(len(blob) // VB):
+        if vbits is not None and not ((vbits[i // 8] >> (i % 8)) & 1):
+            freed += 1        # allocated but not live - not data
+            continue
         counts[blob[i*VB:(i+1)*VB]] += 1; total += 1
 print("vector width: %d floats (from the index, not assumed)" % DIM)
+print("slots: %d live, %d freed/unwritten (excluded from every check below)"
+      % (total, freed))
 
 if total == 0:
     print("⚠️  no vectors stored yet - nothing to check"); c.close(); sys.exit(20)

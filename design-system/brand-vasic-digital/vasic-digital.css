@@ -65,6 +65,15 @@
   --od-accent-hover: var(--od-accent-800);
   --od-accent-active: var(--od-accent-900);
   --od-on-accent: #ffffff;
+  /* Theme-INVARIANT status-pill foregrounds (§11.4.216 tokens, §11.4.107 AA).
+     Deliberately NOT re-declared under [data-theme="dark"]: a status pill's
+     background is a fixed semantic fill (--od-success / --od-warning /
+     --od-danger) that does not flip with the theme, so its text must not flip
+     either — otherwise contrast collapses in one of the two themes. These are
+     the ONLY correct foregrounds for those fills; --od-on-accent is NOT a
+     substitute (it flips to near-black in dark). */
+  --od-status-fg-light: #ffffff;
+  --od-status-fg-dark: #1a1a1a;
   --od-focus: rgba(116, 46, 51, 0.6);
   --od-success: #2e7d32;
   --od-warning: #d97706;
@@ -496,14 +505,14 @@ body {
   font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
 }
 .od-badge--status--roadmap { background-color: var(--od-surface-2); color: var(--od-text); }
-.od-badge--status--in-development { background-color: var(--od-warning); color: #1a1a1a; }
+.od-badge--status--in-development { background-color: var(--od-warning); color: var(--od-status-fg-dark); }
 .od-badge--status--beta { background-color: var(--od-accent); color: var(--od-on-accent); }
 /* Green "shipped" pills: fixed WHITE on darker green (5.14:1 → AA both themes). */
 .od-badge--status.od-badge--status--production,
 .od-badge--status.od-badge--status--shipped,
 .od-badge--status.od-badge--status--active,
 .od-badge--status.od-badge--status--stable {
-  background-color: var(--od-badge-success-bg); color: #ffffff;
+  background-color: var(--od-badge-success-bg); color: var(--od-status-fg-light);
 }
 .od-tag--license {
   display: inline-flex; align-items: center;

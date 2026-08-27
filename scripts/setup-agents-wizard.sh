@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # AI Agents Ultimate Auto-Setup Wizard (Safe Stack)
 # Supports: Claude Code, Kimi, Opencode, MiMo Code, Qwen Code
-# Shared stack: Lumen, CodeGraph, ashlr, WOZCODE, Glyphdown,
+# Shared stack: Lumen, CodeGraph, ashlr, Glyphdown,
 # Claude Cost Optimizer, Fix Claude Code, SpecKit, SuperSpec.
 # 
 # This script is MEANT to be placed inside the 'scripts/' directory.
@@ -792,7 +792,7 @@ done
 # settings.json - so the old `check_command ashlr` could never succeed and
 # reported a permanent, misleading ❌. Verify the plugin directory instead, and
 # surface the slash-commands the operator must run inside Claude Code.
-ASHLR_PLUGIN_DIR="$HOME/.claude/plugins/cache/ashlr-marketplace/ashlr"
+ASHLR_PLUGIN_DIR="$CLAUDE_DIR/plugins/cache/ashlr-marketplace/ashlr"
 if [[ -d "$ASHLR_PLUGIN_DIR" ]]; then
     print_success "ashlr plugin present ($ASHLR_PLUGIN_DIR)."
 elif check_command bun; then
@@ -814,17 +814,25 @@ if [[ -d "$ASHLR_PLUGIN_DIR" ]]; then
     print_info "  /reload-plugins"
 fi
 
-# 3.5 WOZCODE (optional via env var)
+# 3.5 WOZCODE - OPT-IN ONLY.
+# There is no public installer: `npm view wozcode` returns 404 and the name
+# appears nowhere else in this repository. Earlier revisions listed it in the
+# advertised stack and printed a ❌ for it on every run, which read as a failure
+# when nothing had actually failed. The env-var hook is kept so an install
+# command can be supplied whenever one exists.
 if check_command wozcode; then
-    print_success "WOZCODE already installed."
-else
-    if [[ -n "${WOZCODE_INSTALL_CMD:-}" ]]; then
-        print_info "Installing WOZCODE from provided command..."
-        eval "$WOZCODE_INSTALL_CMD" || true
-        if check_command wozcode; then print_success "WOZCODE installed."; else print_warning "WOZCODE failed."; fi
+    print_success "WOZCODE present ($(command -v wozcode))."
+elif [[ -n "${WOZCODE_INSTALL_CMD:-}" ]]; then
+    print_info "Installing WOZCODE from WOZCODE_INSTALL_CMD..."
+    eval "$WOZCODE_INSTALL_CMD" || true
+    if check_command wozcode; then
+        record_action wozcode "# no automatic undo - installed via WOZCODE_INSTALL_CMD"
+        print_success "WOZCODE installed."
     else
-        print_warning "WOZCODE not installed. Set WOZCODE_INSTALL_CMD to auto-install."
+        print_warning "WOZCODE_INSTALL_CMD ran but 'wozcode' is still not on PATH."
     fi
+else
+    print_info "WOZCODE: opt-in, no public installer. Supply one with WOZCODE_INSTALL_CMD to enable."
 fi
 
 # ------------------------------------------------------------------------------
@@ -905,7 +913,7 @@ if [[ -f "$CLAUDE_DEFAULT_JSON" ]] && check_command jq; then
 fi
 
 # Also ensure marketplace plugins are cloned for Claude
-CLAUDE_PLUGINS_DIR="$HOME/.claude/plugins/marketplaces"
+CLAUDE_PLUGINS_DIR="$CLAUDE_DIR/plugins/marketplaces"
 mkdir -p "$CLAUDE_PLUGINS_DIR"
 if [[ ! -d "$CLAUDE_PLUGINS_DIR/Sagargupta16/claude-cost-optimizer" ]]; then
     mkdir -p "$CLAUDE_PLUGINS_DIR/Sagargupta16"
@@ -924,7 +932,7 @@ fi
 # into Claude Code. The hook fires on every tool call, so registering an
 # unvetted binary there can disrupt a running session; this flag lets you defer
 # that decision without skipping the rest of the setup.
-CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+CLAUDE_SETTINGS="$CLAUDE_DIR/settings.json"
 if [[ -n "${WIZARD_SKIP_GLYPHDOWN_HOOK:-}" ]]; then
     print_warning "WIZARD_SKIP_GLYPHDOWN_HOOK is set - glyphdown hook NOT registered."
     print_info "Enable it later by re-running without that variable."
@@ -1103,7 +1111,7 @@ for cmd in git node npm bun lumen codegraph glyphdown specify kimi opencode mimo
 done
 
 echo -e "\n${CYAN}Claude Code plugins / optional tools:${NC}"
-[[ -d "$HOME/.claude/plugins/cache/ashlr-marketplace/ashlr" ]] \
+[[ -d "$CLAUDE_DIR/plugins/cache/ashlr-marketplace/ashlr" ]] \
     && echo "  ✅ ashlr plugin installed (activate with /plugin install inside Claude Code)" \
     || echo "  ➖ ashlr plugin not installed"
 if check_command wozcode; then

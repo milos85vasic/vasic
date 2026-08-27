@@ -55,8 +55,16 @@ Refresh the named section when one of these lands:
 - **A gate is added, removed, or reclassified in `_tests/GATES.md` /
   `_tests/TEST-TYPES.md`** → `strategies/active.md`.
 - **`.github/workflows/ci.yml` or `_tools/deploy-langs.sh` changes** →
-  `strategies/active.md` (and `knowledge/discoveries.md` if the hardcoded
-  `/Volumes/T7` paths are finally fixed).
+  `strategies/active.md`. *(The old sub-clause on this trigger — "and
+  `knowledge/discoveries.md` if the hardcoded absolute paths are finally fixed" —
+  has **fired and been executed** on 2026-08-27: the paths are derived,
+  `discoveries.md`, `vision/anti-patterns.md`, both `architecture.md` files and
+  `milestones/backlog.md` item 11 were updated to match, and
+  `scripts/audit-hardcoded-paths.sh` now guards the invariant as CI Gate 0. It
+  is retired, not pending.)*
+- **`scripts/audit-hardcoded-paths.sh` or `.hardcoded-paths-allow` changes** →
+  `vision/anti-patterns.md` (the "what prevents a relapse" clause) and
+  `strategies/active.md`.
 - **`.lumenignore` or the embedding model changes** →
   `knowledge/dependencies.md` + `knowledge/decisions.md` (ADR-0007).
 

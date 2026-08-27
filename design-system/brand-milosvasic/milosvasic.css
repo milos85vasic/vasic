@@ -26,6 +26,15 @@
   --od-accent-hover: var(--od-accent-800);
   --od-accent-active: var(--od-accent-900);
   --od-on-accent: #ffffff;
+  /* Theme-INVARIANT status-pill foregrounds (§11.4.216 tokens, §11.4.107 AA).
+     Deliberately NOT re-declared under [data-theme="dark"]: a status pill's
+     background is a fixed semantic fill (--od-success / --od-warning /
+     --od-danger) that does not flip with the theme, so its text must not flip
+     either — otherwise contrast collapses in one of the two themes. These are
+     the ONLY correct foregrounds for those fills; --od-on-accent is NOT a
+     substitute (it flips to near-black in dark). */
+  --od-status-fg-light: #ffffff;
+  --od-status-fg-dark: #1a1a1a;
   --od-focus: rgba(147, 71, 79, 0.6);
   --od-success: #2e7d32;
   --od-warning: #d97706;
@@ -626,12 +635,12 @@ body {
 
 .od-badge--status--in-development {
   background-color: var(--od-warning);
-  color: #1a1a1a; /* fixed dark for AA on yellow in both themes (§11.4.107) */
+  color: var(--od-status-fg-dark); /* fixed dark for AA on yellow in both themes (§11.4.107) */
 }
 
 .od-badge--status--beta {
   background-color: var(--od-success);
-  color: #ffffff; /* fixed light for AA on green in both themes (§11.4.107) */
+  color: var(--od-status-fg-light); /* fixed light for AA on green in both themes (§11.4.107) */
 }
 
 /* Green "shipped" status pills. Fixed WHITE text (NOT --od-on-accent, which
@@ -646,7 +655,7 @@ body {
 .od-badge--status.od-badge--status--active,
 .od-badge--status.od-badge--status--stable {
   background-color: var(--od-success);
-  color: #ffffff;
+  color: var(--od-status-fg-light);
 }
 
 /* Tag */

@@ -501,7 +501,7 @@
 .lk-quiz-option--correct .lk-quiz-option__marker {
   background-color: var(--od-success);
   border-color: var(--od-success);
-  color: #ffffff; /* fixed light for AA on green in both themes (§11.4.107) */
+  color: var(--lk-status-fg-light); /* fixed light for AA on green in both themes (§11.4.107) */
 }
 
 /* INCORRECT */
@@ -513,7 +513,7 @@
 .lk-quiz-option--incorrect .lk-quiz-option__marker {
   background-color: var(--od-danger);
   border-color: var(--od-danger);
-  color: #ffffff; /* fixed light for AA on red in both themes (§11.4.107) */
+  color: var(--lk-status-fg-light); /* fixed light for AA on red in both themes (§11.4.107) */
 }
 
 /* =============================================================================
@@ -614,17 +614,17 @@
 
 .lk-pill--success {
   background-color: var(--od-success);
-  color: #ffffff; /* AA on green in both themes (§11.4.107) */
+  color: var(--lk-status-fg-light); /* AA on green in both themes (§11.4.107) */
 }
 
 .lk-pill--warning {
   background-color: var(--od-warning);
-  color: #1a1a1a; /* AA on amber in both themes (§11.4.107) */
+  color: var(--lk-status-fg-dark); /* AA on amber in both themes (§11.4.107) */
 }
 
 .lk-pill--danger {
   background-color: var(--od-danger);
-  color: #ffffff; /* AA on red in both themes (§11.4.107) */
+  color: var(--lk-status-fg-light); /* AA on red in both themes (§11.4.107) */
 }
 
 /* Leading status dot for a pill. */

@@ -67,8 +67,9 @@ vasic/
   re-scan. **Do not hand-edit it.**
 - The intent-level description — why each top-level directory exists, what it
   owns, and what crosses its boundary — lives in `vision/architecture.md`.
-  Structural hazards (recursive-checkout failure, hardcoded `/Volumes/T7` paths)
-  are in `knowledge/discoveries.md`.
+  Structural hazards are in `knowledge/discoveries.md` — currently one open
+  (recursive-checkout failure) and one closed (the hardcoded-absolute-root bug,
+  fixed and now guarded by `scripts/audit-hardcoded-paths.sh` as CI Gate 0).
 - Scanner caveat: the "Largest source files" list is dominated by
   `_tests/evidence/`, which is captured Playwright output, not source. Real
   source lives in `_tools/gen/` (Go), `_tests/tests/` + `_tests/tools/` (JS),

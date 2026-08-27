@@ -6,6 +6,27 @@
 - `/Volumes/T7/Projects/vasic` (monorepo with `milosvasic.ru` and `vasic.digital` as submodules, plus `_tests/`, `_tools/`, `_analysis/`)
 - `/Volumes/T7/Projects/helix_translate` (HelixTranslate Go engine)
 
+> **Editorial note — 2026-08-27: reproduction commands re-anchored.**
+> This is a historical report and its narrative is left as written. Two things
+> were corrected, because they were not history but live instructions that had
+> stopped being true:
+> 1. **§8 "Reproduction Commands"** was a copy-pasteable block anchored at
+>    `/Volumes/T7/Projects/vasic`, the authoring machine's macOS root. Every
+>    target still exists in this repository, so the commands were right in
+>    substance and wrong only in their anchor — the worst failure mode, because a
+>    reader gets `No such file or directory` with no hint the paths are stale.
+>    The block now derives the repo root with `git rev-parse --show-toplevel`
+>    and runs from any clone. Nothing else about the commands changed.
+> 2. **§6.1's stated `HELIX_TRANSLATE_BIN` default** documented a sibling-project
+>    absolute path that has since been deliberately removed from
+>    `_tools/translate-pipeline.sh`. Corrected to the current default, with the
+>    historical value marked as such.
+>
+> All other absolute paths below are **narrative provenance from the authoring
+> machine** — they record where files were when the work was done and are not
+> instructions. Derive your own root; the repo-relative location of everything
+> referenced is unchanged.
+
 **Ground rule for this report:** every claim below is grounded in a real file, a `git diff`, a test run, or an evidence artifact on disk. Where a claim in the original brief turned out to be inaccurate, the discrepancy is stated honestly rather than papered over (see §1 note on test count, §2.4 on PDFs, §9 on known-bad providers).
 
 > **Commit status:** None of the work described here has been committed yet. All website changes are in the working tree of the two submodules; all `_tests/`, `_tools/`, `data/` additions are untracked in the monorepo; and the HelixTranslate fix is uncommitted in `/Volumes/T7/Projects/helix_translate` (including the new untracked `pkg/bridge/provider_routing_test.go`). This report does not commit or push anything.
@@ -176,7 +197,7 @@ Configured in `internal/verifier/providers_env.go` and `pkg/translator/llm/llm.g
 
 ### 6.1 `_tools/translate-pipeline.sh`
 
-`/Volumes/T7/Projects/vasic/_tools/translate-pipeline.sh` — reusable Markdown translation wrapper around the engine binary (`HELIX_TRANSLATE_BIN`, default `/Volumes/T7/Projects/helix_translate/build/unified-translator`; binary confirmed present and executable on disk). Key behavior:
+`_tools/translate-pipeline.sh` — reusable Markdown translation wrapper around the engine, selected by `HELIX_TRANSLATE_BIN`. **Corrected 2026-08-27:** the default is no longer an absolute path into a sibling checkout. It is now repo-relative — `ENGINE="${HELIX_TRANSLATE_BIN:-$TOOLS/helixtranslate-container.sh}"` (`_tools/translate-pipeline.sh:55`, with `TOOLS="$REPO/_tools"` and `REPO` derived from `${BASH_SOURCE[0]}`), i.e. the committed container shim built by `_tools/distribute-helixtranslate.sh`. *At the time of writing this report the default was a path ending `helix_translate/build/unified-translator` under the author's project root, and that binary was confirmed present and executable on that machine;* that default was deliberately removed so a clean clone can reproduce the pipeline (§11.4.77). Set `HELIX_TRANSLATE_BIN=<path>` to point at a local engine binary instead. Key behavior:
 - Two modes: **plain** (translate whole file) and **`--article`** (keep YAML frontmatter byte-identical — slugs/repos/tech/title/teaser are proper nouns / URLs that must survive so links keep working — and translate only the body, then reassemble original-frontmatter + translated-body).
 - Language→script: `ru → cyrillic`, `sr → latin`.
 - **Provider strategy:** primary `groq` / `llama-3.3-70b-versatile`, with up to 3 retries and quadratic backoff (15s/60s/135s) to clear rate-limit windows, then fall back to `mistral` / `mistral-large-latest`. The provider that actually produced the output is recorded in the per-file log.
@@ -196,7 +217,7 @@ Both engine and pipeline are governed by `/Volumes/T7/Projects/helix_translate/C
 
 ## 7. Test Results
 
-**Command:** `npx playwright test --project=chromium` in `/Volumes/T7/Projects/vasic/_tests`.
+**Command:** `npx playwright test --project=chromium`, run in `_tests/` (repo-relative; see the re-anchored §8 for the runnable form).
 **Result (this session):** **46 passed (32.0s)** on chromium. (The brief's "~51 tests" is a slight overcount; the verified chromium total is 46. The suite also defines firefox and webkit projects, so the all-project total is higher.)
 
 Per-spec breakdown (chromium):
@@ -219,34 +240,55 @@ Per-spec breakdown (chromium):
 
 ## 8. Reproduction Commands
 
+Re-anchored 2026-08-27: every path below is derived from the checkout, so this
+block runs from any clone at any location. Run it from anywhere inside the repo.
+
 ```bash
+# Derive the umbrella root once - never hardcode a checkout location.
+# --show-superproject-working-tree first: milosvasic.ru and vasic.digital are
+# submodules, so a bare --show-toplevel run from inside one of them would return
+# the SUBMODULE root and every path below would silently point one level too deep.
+REPO="$(git rev-parse --show-superproject-working-tree 2>/dev/null)"
+[ -n "$REPO" ] || REPO="$(git rev-parse --show-toplevel)" || { echo "not inside the vasic checkout" >&2; exit 1; }
+[ -d "$REPO/_tools" ] || { echo "FATAL: '$REPO' is not the vasic umbrella root" >&2; exit 1; }
+
 # --- Website tests (both sites) ---
-cd /Volumes/T7/Projects/vasic/milosvasic.ru && jekyll build      # produces _site/ (served on :8082)
-cd /Volumes/T7/Projects/vasic/_tests
-npm install                                                       # @playwright/test + @axe-core/playwright
+cd "$REPO/milosvasic.ru" && jekyll build       # produces _site/ (served on :8082)
+cd "$REPO/_tests"
+npm install                                    # @playwright/test + @axe-core/playwright
 npx playwright install chromium
-npx playwright test --project=chromium                            # 46 passed; webServers auto-start on :8401 and :8082
+npx playwright test --project=chromium         # 46 passed; webServers auto-start on :8401 and :8082
+# playwright.config.js resolves both static roots with path.resolve(__dirname, '..'),
+# so no symlink or absolute-path setup is required.
 
 # --- HelixTranslate engine: build + prove the fix ---
-cd /Volumes/T7/Projects/helix_translate
+# NOTE: helix_translate is a SEPARATE repository - it is not a submodule of this
+# one and cannot be derived from $REPO. Point HELIX_TRANSLATE_REPO at your own
+# checkout of it; the default below just assumes a sibling directory.
+HELIX_TRANSLATE_REPO="${HELIX_TRANSLATE_REPO:-$(dirname "$REPO")/helix_translate}"
+cd "$HELIX_TRANSLATE_REPO"
 go build -o build/unified-translator ./cmd/unified-translator
 go build ./cmd/model-bridge
 go vet ./...
 go test ./pkg/bridge/ ./pkg/translator/llm/ ./cmd/unified-translator/ ./cmd/markdown-translator/
-go test -run TestClientForProvider ./pkg/bridge/                  # the provider-routing proof
+go test -run TestClientForProvider ./pkg/bridge/   # the provider-routing proof
 
 # --- Translation pipeline (per article) ---
-/Volumes/T7/Projects/vasic/_tools/translate-pipeline.sh \
-  --in  /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md \
-  --out /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ru/helix-track-core.md \
+# Engine defaults to $REPO/_tools/helixtranslate-container.sh (see 6.1). To use a
+# locally built engine binary instead:
+#   export HELIX_TRANSLATE_BIN="$HELIX_TRANSLATE_REPO/build/unified-translator"
+# WARNING: this calls a paid translation provider. Do not run it casually.
+"$REPO/_tools/translate-pipeline.sh" \
+  --in  "$REPO/milosvasic.ru/_article_src/en/helix-track-core.md" \
+  --out "$REPO/milosvasic.ru/_article_src/ru/helix-track-core.md" \
   --lang ru --article
 
 # --- Render article fragments ---
-/Volumes/T7/Projects/vasic/_tools/render-articles.sh /Volumes/T7/Projects/vasic/milosvasic.ru en sr ru
-/Volumes/T7/Projects/vasic/_tools/render-articles.sh /Volumes/T7/Projects/vasic/vasic.digital en
+"$REPO/_tools/render-articles.sh" "$REPO/milosvasic.ru"  en sr ru
+"$REPO/_tools/render-articles.sh" "$REPO/vasic.digital"  en
 
 # --- Rebuild the 6 CV/Cover-Letter PDFs ---
-cd /Volumes/T7/Projects/vasic/milosvasic.ru/downloads/src && ./build-pdfs.sh   # needs pandoc + weasyprint
+cd "$REPO/milosvasic.ru/downloads/src" && ./build-pdfs.sh   # needs pandoc + weasyprint
 ```
 
 ---

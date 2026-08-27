@@ -70,6 +70,13 @@
   --lk-tint-success: color-mix(in srgb, var(--od-success) 16%, var(--od-surface));
   --lk-tint-danger: color-mix(in srgb, var(--od-danger) 16%, var(--od-surface));
 
+  /* ---- Theme-INVARIANT status foregrounds (derived from the brand tokens,
+   * with the kit's documented standalone fallback — see the @supports note).
+   * A status pill's fill (--od-success / --od-warning / --od-danger) does not
+   * flip with the theme, so its text must not flip either (§11.4.107 AA). */
+  --lk-status-fg-light: var(--od-status-fg-light, #ffffff);
+  --lk-status-fg-dark: var(--od-status-fg-dark, #1a1a1a);
+
   /* ---- Motion knobs local to the kit ------------------------------------ */
   --lk-lift: -4px;                            /* hover translateY for cards   */
   --lk-z-fab: 90;
@@ -92,6 +99,8 @@
     --od-accent: #93474f;
     --od-accent-hover: #763038;
     --od-on-accent: #ffffff;
+    --od-status-fg-light: #ffffff;
+    --od-status-fg-dark: #1a1a1a;
     --od-focus: rgba(147, 71, 79, 0.6);
     --od-success: #2e7d32;
     --od-warning: #d97706;

@@ -4,6 +4,10 @@ Ordered by the strength of the evidence behind each item. Every entry below is
 something the repository already names as remaining work — nothing here is
 speculative roadmap.
 
+Item numbers are **stable identifiers**, not positions: when an item closes it
+moves to "Closed" at the foot of this file and its number is retired, leaving a
+gap in the open list. A gap therefore means *done*, never *missing*.
+
 ## 1. Resolve the two §11.4.156 CI conflicts (OC-1, OC-2)
 
 Operator decision, blocked on G5. Root `.github/workflows/ci.yml` and
@@ -61,12 +65,6 @@ Declared in `helix-deps.yaml`; two checkouts, shas matching at capture time.
 `CLAUDE.md:189-190` records its absence; the restated rule currently describes a
 universal obligation with no artifact behind it here.
 
-## 11. Repair the two hardcoded `/Volumes/T7/...` paths
-
-`_tools/deploy-langs.sh:8` and `_tests/playwright.config.js`. CI symlinks around
-them deliberately ("out of scope for this task"); the workaround is documented,
-not fixed. See `knowledge/discoveries.md`.
-
 ## 12. Reconcile the `milosvasic.ru` fetch/push asymmetry
 
 Operator decision — either add `milosvasic.ru.git` to `origin`'s push list, or
@@ -77,3 +75,29 @@ Full hazard write-up in `Constitution.md`; summary in `knowledge/workspace.md`.
 
 `README.md` links to nothing but the CI badge, while a substantial documentation
 tree exists under `docs/` and `_analysis/`.
+
+---
+
+## Closed
+
+### ~~11. Repair the two hardcoded absolute build paths~~ — **DONE 2026-08-27**
+
+Closed against live files, not against a claim:
+
+- `_tools/deploy-langs.sh:14` derives the root —
+  `ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"` — and line 15
+  makes the `cd` **fatal**, which also closes the silent-failure half of the bug
+  (the script runs `set -uo pipefail` without `-e`). Line 8 is now a comment
+  recording the history.
+- `_tests/playwright.config.js:7` — `const REPO = path.resolve(__dirname, '..');`;
+  no machine-specific literal remains in the file.
+- `.github/workflows/ci.yml:44-52` and `:182-184` — the symlink workaround that
+  this item called "deliberate" has been **removed**, and both notes are phrased
+  as history.
+- The sweep removed **33 occurrences across 18 files**.
+- Relapse guard: `scripts/audit-hardcoded-paths.sh` runs as CI **Gate 0**
+  (`.github/workflows/ci.yml:131-140`), exits non-zero on any machine-specific
+  absolute root, and currently exits 0 on this tree.
+
+Narrative in `knowledge/discoveries.md`; prevention rule in
+`vision/anti-patterns.md`.
