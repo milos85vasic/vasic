@@ -151,6 +151,15 @@ assert_contains "A44 lumen mirrored into the default ~/.claude.json" "CLAUDE_DEF
 # The old "no documented MCP config file" text was simply untrue.
 assert_absent  "A45 no stale claim that MiMo lacks MCP config" "no documented MCP config file" "$src_code"
 assert_contains "A46 MiMo status is probed with 'mimo mcp list'" "mimo mcp list" "$src_code"
+# A probe that can block forever is not a probe: an unbounded `lumen search`
+# once hung the wizard for 10 minutes because an index run held the backend.
+unbounded=$(printf '%s\n' "$src_code" | grep -cE '(^|[^a-z0-9_-])lumen search ' | head -1)
+bounded=$(printf '%s\n' "$src_code" | grep -cE 'timeout [0-9]+ lumen search ')
+assert_eq "A47 every 'lumen search' probe in the wizard is timeout-bounded" "$unbounded" "$bounded"
+assert_contains "A48 wizard reports steps it cannot perform itself" "ACTION REQUIRED" "$src_code"
+assert_contains "A49 manual steps are persisted to a file" "MANUAL-STEPS.md" "$src_code"
+# Detection must distinguish a cloned plugin from an ACTIVATED one.
+assert_contains "A50 ashlr activation detected via the marketplaces dir" "plugins/marketplaces/ashlr-marketplace" "$src_code"
 assert_contains "A29 telemetry opt-out is wired into the run" "configure_telemetry_optout" "$src_code"
 assert_contains "A30 telemetry opt-out has an escape hatch" "WIZARD_KEEP_TELEMETRY" "$src_code"
 assert_contains "A31 exports the cross-tool DO_NOT_TRACK standard" "export DO_NOT_TRACK=1" "$src_code"

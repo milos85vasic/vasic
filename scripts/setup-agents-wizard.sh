@@ -36,6 +36,22 @@ print_info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
 check_command() { command -v "$1" >/dev/null 2>&1; }
 
 # ------------------------------------------------------------------------------
+# Manual-step registry
+# ------------------------------------------------------------------------------
+# Some things a shell script genuinely CANNOT do: Claude Code slash commands run
+# inside Claude Code, and privileged host changes need the operator's sudo.
+# Silently skipping them is how a wizard ends up reporting success for work that
+# was never done. Instead we DETECT the pending state and hand the operator the
+# exact commands, both on screen and in a file they can come back to.
+MANUAL_STEPS=()
+MANUAL_TITLES=()
+manual_step() { MANUAL_TITLES+=("$1"); MANUAL_STEPS+=("$2"); }
+
+# The active Claude Code config dir. `claude mcp` and /plugin write HERE, which
+# is not necessarily ~/.claude.
+CLAUDE_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+
+# ------------------------------------------------------------------------------
 # Transactional backup / rollback
 # ------------------------------------------------------------------------------
 # Every mutation this wizard performs is recorded in a per-run manifest so that
@@ -972,7 +988,7 @@ fi
 # above therefore already configures it; no MiMo-specific file is needed.
 MIMO_CONFIG=""
 if [[ -d "$HOME/.mimocode" ]]; then
-    if check_command mimo && timeout 60 mimo mcp list 2>/dev/null | grep -q 'lumen'; then
+    if check_command mimo && timeout 25 mimo mcp list 2>/dev/null | grep -q 'lumen'; then
         print_success "MiMo Code sees Lumen (inherited from ~/.claude.json)."
     else
         print_info "MiMo Code inherits from ~/.claude.json; verify with: mimo mcp list"
@@ -1127,7 +1143,7 @@ fi
 if [[ -d "$HOME/.mimocode" ]]; then
     # MiMo inherits from ~/.claude.json and reports servers as
     # `claude:~/.claude.json`. Probe it rather than assuming either way.
-    if check_command mimo && timeout 60 mimo mcp list 2>/dev/null | grep -q 'lumen'; then
+    if check_command mimo && timeout 25 mimo mcp list 2>/dev/null | grep -q 'lumen'; then
         echo "  ✅ MiMo Code     (inherits lumen from ~/.claude.json)"
     else
         echo "  ❌ MiMo Code     installed, but 'mimo mcp list' does not show lumen"
@@ -1222,16 +1238,103 @@ else
 fi
 
 echo -e "\n${GREEN}All automated steps executed.${NC}"
-echo -e "${BLUE}📌 Next steps for each agent:${NC}"
-echo "  1. Restart your terminal / IDE to refresh PATH."
-echo "  2. For Claude Code: restart the extension, then run '/cost-mode' and '/fixclaude'."
-echo "  3. For Opencode: run 'opencode' – Lumen is loaded from ~/.config/opencode/opencode.json (.mcp)."
-echo "  4. For Kimi: ~/.kimi-code/mcp.json   Qwen: ~/.qwen/settings.json   (both .mcpServers)."
-echo "     MiMo Code inherits from ~/.claude.json - confirm with: mimo mcp list"
-echo "  5. All agents can now use 'lumen' and 'codegraph' for semantic understanding and efficient symbol reading."
-echo "  6. Index this project once:  lumen index \"$PROJECT_ROOT\""
-echo "     Then search it:           lumen search \"how does X work\" -p \"$PROJECT_ROOT\""
-echo "     Indexing is incremental - re-run it after large external edits."
+
+# ------------------------------------------------------------------------------
+# 9. Manual steps THIS SCRIPT CANNOT PERFORM
+# ------------------------------------------------------------------------------
+# Detection notes:
+#  * plugins/cache/<mkt>/    = the installer cloned it
+#  * plugins/marketplaces/<mkt>/ = the operator ran `/plugin marketplace add`
+#    Only the second means the plugin is actually wired into Claude Code.
+ASHLR_CACHE="$CLAUDE_DIR/plugins/cache/ashlr-marketplace/ashlr"
+ASHLR_MKT="$CLAUDE_DIR/plugins/marketplaces/ashlr-marketplace"
+if [[ -d "$ASHLR_CACHE" && ! -d "$ASHLR_MKT" ]]; then
+    manual_step "Activate the ashlr plugin inside Claude Code" \
+"/plugin marketplace add ashlrai/ashlr-plugin
+/plugin install ashlr@ashlr-marketplace
+/reload-plugins
+/ashlr:ashlr-status          # confirm it is live"
+elif [[ -d "$ASHLR_MKT" && ! -d "$PROJECT_ROOT/.ashlrcode/genome" ]]; then
+    manual_step "Initialise the ashlr genome for this project (optional, improves routing)" \
+"/ashlr:ashlr-genome-init"
+fi
+
+if check_command ollama; then
+    _lib=$(timeout 20 journalctl -u ollama --no-pager \
+             --since "$(timeout 10 systemctl show ollama -p ActiveEnterTimestamp --value 2>/dev/null)" 2>/dev/null \
+           | grep -oE 'library=[a-zA-Z]+' | tail -1 | cut -d= -f2)
+    if [[ "$_lib" == "Vulkan" || "$_lib" == "vulkan" ]]; then
+        # Delegate to the remediation script rather than inlining privileged
+        # commands here. Test A41 enforces that this wizard never carries them:
+        # applying the fix is that script's job, behind an explicit subcommand.
+        manual_step "Take the GPU out of the embedding path (asks for your password)" \
+"./scripts/ollama-vulkan-remediation.sh --check    # diagnosis, read-only
+./scripts/ollama-vulkan-remediation.sh --apply    # applies it, then verifies
+# WHY: this backend silently writes STALE DUPLICATE vectors under HTTP 200 -
+# well-formed, unit-norm, and invisible to every per-vector check.
+# Full runbook: docs/setup-agents-wizard/OLLAMA-REMEDIATION.md"
+    fi
+fi
+
+if ! check_command wozcode && [[ -z "${WOZCODE_INSTALL_CMD:-}" ]]; then
+    manual_step "WOZCODE has no public installer - supply yours if you use it" \
+"WOZCODE_INSTALL_CMD='<your install command>' ./scripts/setup-agents-wizard.sh"
+fi
+
+if [[ -n "${WIZARD_SKIP_GLYPHDOWN_HOOK:-}" ]]; then
+    manual_step "The glyphdown hook was skipped on request" \
+"# Re-run WITHOUT the flag to register it:
+./scripts/setup-agents-wizard.sh
+# It fires on EVERY tool call - enable deliberately."
+fi
+
+if check_command lumen; then
+    # BOUNDED: `lumen search` blocks while an index run holds the embedding
+    # backend, which previously hung this script. A timeout here is not a
+    # nicety - an unbounded probe once stalled the wizard for 10 minutes.
+    # Timeout => "could not confirm" => suggest the step. Never silently skip.
+    if ! timeout 20 lumen search "x" -p "$PROJECT_ROOT" --summary -n 1 >/dev/null 2>&1; then
+        manual_step "Build the Lumen semantic index for this project" \
+"./scripts/lumen-reindex.sh \"$PROJECT_ROOT\"
+./scripts/lumen-index-doctor.sh \"$PROJECT_ROOT\"   # verify afterwards"
+    fi
+fi
+
+manual_step "Refresh PATH in your existing terminals" \
+"exec bash -l      # or just open a new terminal"
+
+MANUAL_FILE="$PROJECT_ROOT/MANUAL-STEPS.md"
+{
+    echo "# Manual steps the setup wizard cannot perform"
+    echo
+    echo "Generated $(date -u +%Y-%m-%dT%H:%M:%SZ) by scripts/setup-agents-wizard.sh"
+    echo
+    for i in "${!MANUAL_TITLES[@]}"; do
+        echo "## $((i+1)). ${MANUAL_TITLES[$i]}"
+        echo
+        echo '```'
+        echo "${MANUAL_STEPS[$i]}"
+        echo '```'
+        echo
+    done
+} > "$MANUAL_FILE"
+
+print_header "ACTION REQUIRED — ${#MANUAL_TITLES[@]} step(s) only you can do"
+echo -e "${YELLOW}A shell script cannot run Claude Code slash commands or use your sudo.${NC}"
+echo -e "${YELLOW}These are NOT done. Nothing above claims they are.${NC}"
+for i in "${!MANUAL_TITLES[@]}"; do
+    echo
+    echo -e "${CYAN}$((i+1)). ${MANUAL_TITLES[$i]}${NC}"
+    while IFS= read -r line; do echo "     $line"; done <<< "${MANUAL_STEPS[$i]}"
+done
+echo
+print_info "Saved to $MANUAL_FILE so you can come back to it."
+
+# Pause so the list cannot scroll past unread. Skipped when not on a terminal
+# (CI, pipes) or when WIZARD_NONINTERACTIVE=1.
+if [[ -t 0 && -z "${WIZARD_NONINTERACTIVE:-}" && ${#MANUAL_TITLES[@]} -gt 0 ]]; then
+    echo
+    read -r -p "$(echo -e "${YELLOW}Read the ${#MANUAL_TITLES[@]} step(s) above. Press Enter to continue...${NC}")" _ack || true
+fi
 
 exit 0
-
