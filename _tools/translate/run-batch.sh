@@ -19,7 +19,12 @@
 # =============================================================================
 set -uo pipefail
 
-REPO="/Volumes/T7/Projects/vasic"
+# Repo root — NEVER hardcoded. Derived from this script's own location
+# (_tools/translate/run-batch.sh -> ../.. == repo root); VASIC_ROOT overrides.
+# This script runs with `set -uo pipefail` but NOT -e, so a failed cd would be
+# SILENT and every path below would point at nothing: make it explicitly fatal.
+REPO="${VASIC_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)}"
+cd "$REPO" || { echo "FATAL: cannot cd to repository root '$REPO'" >&2; exit 1; }
 DRIVER="$REPO/_tools/translate/translate-content.sh"
 CONTENT_DIR="$REPO/_content"
 EVID_BASE="$REPO/_tests/evidence/translate-new"
@@ -40,14 +45,20 @@ revjson_path() {  # <lang> <src>
 is_pass_new() {  # <revjson>  -> 0 if PASS under new standard AND output exists
   local rj="$1"
   [ -f "$rj" ] || return 1
-  python3 - "$rj" <<'PY'
-import json,sys,os
+  python3 - "$rj" "$REPO" <<'PY'
+import json,sys,os,re
 try:
     d=json.load(open(sys.argv[1],encoding="utf-8"))
 except Exception:
     sys.exit(1)
 ok = d.get("verdict")=="PASS" and ("terms_preserved" in d) and ("naturalness" in d)
 tf = d.get("_translated","")
+# `_translated` is an ABSOLUTE path from the machine that produced the review.
+# Re-anchor its repo-relative tail onto THIS checkout (argv[2]) instead of
+# trusting a foreign prefix; the file must still exist, so no PASS is faked.
+if tf and not os.path.isfile(tf):
+    m=re.search(r"(_content[^/]*/.*)$", tf.replace("\\","/"))
+    if m: tf=os.path.join(sys.argv[2], m.group(1))
 sys.exit(0 if (ok and tf and os.path.isfile(tf)) else 1)
 PY
 }

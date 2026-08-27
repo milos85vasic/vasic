@@ -16,11 +16,27 @@ up, read [`USER_GUIDE.md`](./USER_GUIDE.md) instead.
 scripts/setup-agents-wizard.sh
 ```
 
-No arguments. No options. Non-interactive — the only input it can ask for is a `sudo`
-password, when installing `jq`, installing Ollama, or enabling the `ollama` service.
-Behaviour is tuned entirely through the environment: `WIZARD_INDEX_PROJECT`,
-`WIZARD_KEEP_TELEMETRY`, `WIZARD_SKIP_GLYPHDOWN_HOOK` and `WIZARD_STATE_DIR` are the four
-switches — see [Environment variable reference](#environment-variable-reference).
+No arguments. No options. Non-interactive apart from **one** blocking `read` at the very end,
+which waits for Enter after the [`ACTION REQUIRED`](#step-9--action-required-manual-steps)
+section; it is skipped when stdin is not a terminal or when `WIZARD_NONINTERACTIVE` is set.
+The only other input it can ask for is a `sudo` password, when installing `jq`, installing
+Ollama, or enabling the `ollama` service — and that prompt comes from `sudo`, not from the
+script. Behaviour is tuned entirely through the environment: `WIZARD_INDEX_PROJECT`,
+`WIZARD_KEEP_TELEMETRY`, `WIZARD_SKIP_GLYPHDOWN_HOOK`, `WIZARD_NONINTERACTIVE` and
+`WIZARD_STATE_DIR` are the five switches — see
+[Environment variable reference](#environment-variable-reference).
+
+Three companion scripts handle post-installation operations and are documented separately in
+[`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md):
+
+```
+scripts/ollama-vulkan-remediation.sh [--check|--apply|--verify|--rollback|--help]
+scripts/lumen-reindex.sh             [project-path] [--force] [--allow-gpu]
+scripts/lumen-index-doctor.sh        [project-path]
+```
+
+The wizard **never invokes them**. It names them in `ACTION REQUIRED` when its own read-only
+probes say they are needed.
 
 ```
 SETUP_WIZARD_LIB_ONLY=1 . scripts/setup-agents-wizard.sh
@@ -56,11 +72,83 @@ Step 6.
 | 1 | `Step 1: Checking System Prerequisites` | Verifies `git`, `curl`, `node`, `npm`; calls `ensure_jq` |
 | 2 | `Step 2: Installing / Updating Global CLI Tools` | Bun; `npm_install_if_missing` for `codegraph` and `glyphdown`; `specify` via `uv tool install specify-cli`; `npm_install_if_missing qwen`; detection-only roll call for Kimi / Opencode / MiMo Code; ashlr; WOZCODE |
 | 3 | `Step 3: Lumen Semantic Search Setup` | `ensure_lumen`, which begins with `configure_telemetry_optout` |
-| 4 | `Step 4: Verifying CLI Availability` | Roll call over 9 commands |
-| 5 | `Step 5: Configuring MCP Servers for Each Agent` | `claude mcp add-json` for Claude Code, 2 plugin clones, Glyphdown `PreToolUse`/`PostToolUse` hooks (unless `WIZARD_SKIP_GLYPHDOWN_HOOK`), then `~/.kimi-code/mcp.json`, `~/.config/opencode/opencode.json` and `~/.qwen/settings.json`; a manual-step warning for MiMo Code |
+| 4 | `Step 4: Verifying CLI Availability` | Roll call over **8** commands: `lumen codegraph glyphdown specify kimi opencode mimo qwen`. `ashlr` is **not** among them — it is a plugin with no binary |
+| 5 | `Step 5: Configuring MCP Servers for Each Agent` | `claude mcp add-json` for Claude Code, a `jq` mirror of the same entry into `~/.claude.json`, 2 plugin clones, Glyphdown `PreToolUse`/`PostToolUse` hooks (unless `WIZARD_SKIP_GLYPHDOWN_HOOK`), then `~/.kimi-code/mcp.json`, `~/.config/opencode/opencode.json` and `~/.qwen/settings.json`; MiMo Code is **probed** with `timeout 25 mimo mcp list`, not written to |
 | 6 | `Step 6: Project-Level Setup (root = …)` | `submodules/`, SpecKit init, `setup_superspec`, extension registration |
 | 7 | `Step 7: Indexing This Project` | **Opt-in, `WIZARD_INDEX_PROJECT` only.** `codegraph sync "$PROJECT_ROOT"` when `$PROJECT_ROOT/.codegraph/codegraph.db` exists, else `codegraph init "$PROJECT_ROOT"`; then `lumen index "$PROJECT_ROOT"`. Each half is skipped with a warning if its CLI is missing. Unset, the header never prints and the wizard emits `ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).` |
-| — | `Setup Complete – Final Summary` | Five `✅`/`❌` sections — `Installed Global Commands`, `Agent MCP Configurations (Lumen)`, `Lumen Semantic Search`, `Telemetry / analytics`, `Project` — plus a numbered next-steps list |
+| — | `Setup Complete – Final Summary` | **Six** `✅`/`❌` sections — `Installed Global Commands`, `Claude Code plugins / optional tools`, `Agent MCP Configurations (Lumen)`, `Lumen Semantic Search`, `Telemetry / analytics`, `Project` |
+| 9 | `ACTION REQUIRED — N step(s) only you can do` | The manual-step registry is drained: pending steps are printed, written to `$PROJECT_ROOT/MANUAL-STEPS.md`, and on a TTY the script blocks on `read` until Enter. See [Step 9](#step-9--action-required-manual-steps) |
+
+> The `9` above is the source comment's section number, not a printed `Step 9:` header. The
+> wizard prints numbered `Step N:` banners only for 1–7; `A10` asserts those literals read
+> exactly `1,2,3,4,5,6,7,`.
+
+### Step 9 — `ACTION REQUIRED` (manual steps)
+
+Steps a shell script genuinely cannot perform: Claude Code slash commands, and privileged host
+changes needing the operator's `sudo`. Rather than skipping them silently — which is how a
+wizard ends up reporting success for work that was never done — the wizard **detects the
+pending state** and hands over the exact commands.
+
+The registry is two parallel arrays plus one helper, defined near the top of the file:
+
+```bash
+MANUAL_STEPS=(); MANUAL_TITLES=()
+manual_step() { MANUAL_TITLES+=("$1"); MANUAL_STEPS+=("$2"); }
+CLAUDE_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+```
+
+Conditions, in emission order:
+
+| # | Raised when | Step |
+| :-- | :--- | :--- |
+| 1 | `$CLAUDE_DIR/plugins/cache/ashlr-marketplace/ashlr/` exists **and** `$CLAUDE_DIR/plugins/marketplaces/ashlr-marketplace/` does not | Activate the ashlr plugin (`/plugin marketplace add`, `/plugin install`, `/reload-plugins`, `/ashlr:ashlr-status`) |
+| 2 | *(`elif`)* the marketplace dir exists **and** `$PROJECT_ROOT/.ashlrcode/genome` does not | `/ashlr:ashlr-genome-init` |
+| 3 | `ollama` on `PATH` **and** its journal (scanned from `systemctl show ollama -p ActiveEnterTimestamp`) reports `library=Vulkan`/`vulkan` | `./scripts/ollama-vulkan-remediation.sh --check` then `--apply` |
+| 4 | `wozcode` missing **and** `WOZCODE_INSTALL_CMD` unset | Supply `WOZCODE_INSTALL_CMD` |
+| 5 | `WIZARD_SKIP_GLYPHDOWN_HOOK` set | Re-run without the flag |
+| 6 | `lumen` on `PATH` **and** `timeout 20 lumen search "x" -p "$PROJECT_ROOT" --summary -n 1` does not succeed | `./scripts/lumen-reindex.sh` then `./scripts/lumen-index-doctor.sh` |
+| 7 | **always** | `exec bash -l` |
+
+**The `cache/` vs `marketplaces/` distinction is the mechanism.** `plugins/cache/<mkt>/` means
+the vendor installer cloned the bits; `plugins/marketplaces/<mkt>/` is written by Claude Code
+itself when a human runs `/plugin marketplace add`. Only the second means the plugin is wired
+in. Detection is therefore stateful and self-clearing — do the step, re-run, and the entry
+disappears, with no checklist to maintain. Test **A50** asserts the `marketplaces/` probe
+specifically.
+
+Note the inconsistency in the current source: this block honours `CLAUDE_CONFIG_DIR`, while
+Step 2's install check and the final summary both hardcode `$HOME/.claude/plugins/cache/…`. On
+a non-default config dir they can disagree; the `ACTION REQUIRED` block is the one reading the
+active directory.
+
+Timeouts here are load-bearing, not decoration. The `journalctl`/`systemctl` probes are wrapped
+in `timeout 20` / `timeout 10`, and the `lumen search` probe in `timeout 20` — an unbounded
+version once stalled the wizard for ten minutes while an index run held the backend. A timeout
+is treated as *"could not confirm"* and **raises** the step rather than skipping it. Test
+**A47** counts bounded against unbounded `lumen search` occurrences and requires them equal.
+
+Output:
+
+```
+print_header "ACTION REQUIRED — ${#MANUAL_TITLES[@]} step(s) only you can do"
+```
+
+followed by the two yellow disclaimer lines (`A shell script cannot run Claude Code slash
+commands or use your sudo.` / `These are NOT done. Nothing above claims they are.`), the
+numbered list indented five spaces, and the path to `MANUAL-STEPS.md`. Then:
+
+```bash
+if [[ -t 0 && -z "${WIZARD_NONINTERACTIVE:-}" && ${#MANUAL_TITLES[@]} -gt 0 ]]; then
+    read -r -p "Read the N step(s) above. Press Enter to continue..." _ack || true
+fi
+```
+
+All three conditions must hold. Because step 7 is unconditional the array is never empty, so in
+practice the pause fires on any TTY run without `WIZARD_NONINTERACTIVE`. The `|| true` keeps an
+EOF on stdin from aborting under `set -euo pipefail`. Tests **A48** and **A49**.
+
+Full narrative: [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md).
 
 ## Exit codes
 
@@ -74,6 +162,20 @@ Step 6.
 There is no separate exit code for "finished with warnings". Detect that by grepping the
 output for `⚠️` / `❌`, or by running `scripts/test-setup-agents-wizard.sh`, which does exit
 non-zero on failure.
+
+The exit code also says nothing about the `ACTION REQUIRED` steps: a run that ends `0` with
+five outstanding manual steps is normal and expected. Parse `$PROJECT_ROOT/MANUAL-STEPS.md` if
+you need that programmatically — it lists exactly what is still pending, regenerated each run.
+
+The three operational scripts use their own schemes; `lumen-index-doctor.sh` in particular
+returns **1 for "corruption found"**, so it *is* usable as a gate. See
+[`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md):
+
+| Script | `0` | `1` | `2` | `3` | `4` |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `ollama-vulkan-remediation.sh` | success (and **always** for `--check`) | `--verify` probe failed; write/restart failed | bad option | — | — |
+| `lumen-reindex.sh` | index completed | gave up after `MAX_ROUNDS` | — | refused: `library=Vulkan` | batch probe still failing |
+| `lumen-index-doctor.sh` | healthy | **corruption found** | could not inspect | — | — |
 
 `scripts/rollback-agents-wizard.sh` uses a different scheme:
 
@@ -105,6 +207,24 @@ source. `$1`, `$2` below are positional parameters. One helper —
 
 All five printers write to **stdout**, not stderr — redirecting `2>` will not separate
 errors from normal output.
+
+### Manual-step registry
+
+| Name | Kind | Purpose |
+| :--- | :--- | :--- |
+| `MANUAL_TITLES` | array | One short title per pending step |
+| `MANUAL_STEPS` | array | The command block for the step at the same index |
+| `manual_step` | function, `$1` = title, `$2` = command block | Appends to both arrays. No output of its own; the registry is drained once, at the end of the run |
+| `CLAUDE_DIR` | constant | `${CLAUDE_CONFIG_DIR:-$HOME/.claude}` — the **active** Claude Code config dir, which is where `claude mcp` and `/plugin` actually write |
+
+Available in library mode: all four are defined above the `SETUP_WIZARD_LIB_ONLY` guard, so a
+test can call `manual_step` and inspect the arrays without running the wizard. Nothing consumes
+them until [Step 9](#step-9--action-required-manual-steps).
+
+The `$2` block is stored verbatim, newlines included, and re-emitted two ways: indented five
+spaces on the console (`while IFS= read -r line; do echo "     $line"; done`), and inside a
+fenced code block in `MANUAL-STEPS.md`. Comment lines beginning `#` inside a block are part of
+the step text, not shell comments the wizard evaluates.
 
 ### Backup and rollback
 
@@ -290,7 +410,8 @@ time), and `<utc>` is `YYYYMMDDTHHMMSSZ`. The **Component** column is the name
 | `~/.local/share/bash-completion/completions/lumen` | `lumen` | **Created / overwritten** | Output of `lumen completion bash`. Lazy-loaded by bash-completion, so it costs nothing at shell startup. Deleted instead of left broken if generation fails. Registered with `snapshot_before`, so it gets **no** `.bak.<ts>` sibling. |
 | `~/.bashrc` | `shell` | **Appended (two managed blocks)** | Backed up to `~/.bashrc.bak.<ts>` — **twice per run**, because `configure_telemetry_optout` and `configure_lumen_shell` each call `backup_file`. The manifest still holds a single row for it (first snapshot wins). Each block is stripped before a fresh copy is appended: the telemetry opt-out block first, then the Lumen block. Content outside the markers is never touched. |
 | `~/.bash_profile` | `shell` | **Appended (managed block)** | Backed up to `~/.bash_profile.bak.<ts>`. Same strip-then-append treatment with the user-bin markers. |
-| `~/.claude.json` | `claude` | **Modified by the `claude` CLI**, never by the wizard | `claude mcp add-json lumen '{"command":"<wrapper>","args":["stdio"]}' -s user`, skipped when `claude mcp get lumen` already succeeds. The wizard refuses to hand-edit this file because it also holds session and project state. Undo is recorded as an `ACTION`: `claude mcp remove lumen -s user`. |
+| *(active `CLAUDE_CONFIG_DIR`)* | `claude` | **Modified by the `claude` CLI**, never by the wizard | `claude mcp add-json lumen '{"command":"<wrapper>","args":["stdio"]}' -s user`, skipped when `claude mcp get lumen` already succeeds. Undo is recorded as an `ACTION`: `claude mcp remove lumen -s user`. **`-s user` writes into `$CLAUDE_CONFIG_DIR` (default `~/.claude`), which is not necessarily `~/.claude.json`** — hence the row below. |
+| `~/.claude.json` | `claude` | **Merged with `jq`** | Because of the row above. `.mcpServers.lumen = {"type":"stdio","command":<wrapper>,"args":["stdio"]}`, written **only when the file already exists** and `jq` is available, and skipped with a success line when `.mcpServers.lumen` is already present. `backup_file … claude` runs first, so it is recorded `MODIFIED` and rollback restores it byte-exactly; a `.bak.<ts>` sibling is written too. Tools that inherit from this file — MiMo Code reports its servers as `claude:~/.claude.json` — would otherwise never see Lumen. Test **A44**. |
 | `~/.claude/settings.json` | `claude` | **Created / merged** | Written only when `WIZARD_SKIP_GLYPHDOWN_HOOK` is **unset** *and* `glyphdown` is on `PATH` — a hook for a missing binary would fire and fail on every tool call, and the opt-out lets you install glyphdown without wiring it in. `snapshot_before claude` runs first, then `{}` if absent, then `.hooks.PreToolUse` and `.hooks.PostToolUse` each gain `{"matcher":"*","hooks":[{"type":"command","command":"glyphdown"}]}`, guarded by an `index("glyphdown")` check so re-runs do not duplicate and existing hooks survive. `mktemp` + `mv`, and the write is skipped entirely if `jq` produced an empty file. Backed up to `~/.claude/settings.json.bak.<ts>`. Because the snapshot precedes the `{}` seed, on a clean machine the manifest records `CREATED` and rollback deletes the file. |
 | `~/.claude/plugins/marketplaces/` | — | **Created** | `mkdir -p`. Not recorded in the manifest. |
 | `~/.claude/plugins/marketplaces/Sagargupta16/claude-cost-optimizer/` | — | **Cloned once** | From `https://github.com/Sagargupta16/claude-cost-optimizer.git`, only if the directory does not already exist. Failures are swallowed. Not recorded. |
@@ -298,8 +419,10 @@ time), and `<utc>` is `YYYYMMDDTHHMMSSZ`. The **Component** column is the name
 | `~/.kimi-code/mcp.json` | `kimi` | **Created / merged** | `configure_mcp_for_agent`: snapshot, `{}` if absent, then `.mcpServers += {lumen, codegraph}`. **Skipped entirely unless `~/.kimi-code` exists.** Backed up to `~/.kimi-code/mcp.json.bak.<ts>`. Recorded `CREATED` when the wizard had to create it, so rollback removes it. |
 | `~/.config/opencode/opencode.json` | `opencode` | **Merged** | Opencode uses a `.mcp` object, **not** `.mcpServers`: `.mcp.lumen = {"type":"local","command":[<wrapper>,"stdio"],"enabled":true}`. CodeGraph is not added here. **Skipped unless the file already exists** — the wizard does not create an Opencode config. Backed up to `~/.config/opencode/opencode.json.bak.<ts>`. |
 | `~/.qwen/settings.json` | `qwen` | **Created / merged, by two different steps** | Step 5's `configure_mcp_for_agent` does the same `.mcpServers` merge as Kimi and is **skipped entirely unless `~/.qwen` exists**. Step 3's `configure_telemetry_optout` separately sets `.usageStatisticsEnabled = false` — only when the file already exists and only when it is not already `false`. Both back it up to `~/.qwen/settings.json.bak.<ts>`; the manifest keeps one row, from whichever ran first (Step 3). |
-| *(MiMo Code)* | — | **Nothing is written** | `~/.mimocode` exists but exposes no documented MCP config file. The wizard prints the `command` and `args` to enter by hand rather than creating an orphan file. |
-| `~/.bun/bin/`, `~/.ashlr/bin/` | — | **Created by third-party installers** | Only when Bun or ashlr are installed. The wizard prepends both to `PATH` for the current process but does **not** write them into any shell file, and does not record them. |
+| *(MiMo Code)* | — | **Nothing MiMo-specific is written** | `~/.mimocode` exists, but MiMo **inherits** MCP servers from `~/.claude.json` (it labels them `claude:~/.claude.json`) and also ships a `mimo mcp` CLI. The `~/.claude.json` row above is what configures it. The wizard probes with `timeout 25 mimo mcp list` and reports honestly either way. **The earlier claim that MiMo "exposes no documented MCP config file" and needed a manual step was false** — tests **A45**, **A46**. |
+| `~/.bun/bin/` | — | **Created by the Bun installer** | Only when Bun is installed by the wizard. It prepends this to `PATH` for the current process only — it does **not** write it into any shell file, and does not record it. |
+| `~/.claude/plugins/cache/ashlr-marketplace/ashlr/` | — | **Cloned by the ashlr installer** | `curl -fsSL https://plugin.ashlr.ai/install.sh \| bash`, run only when `bun` is available and the directory does not already exist. **It creates no binary and does not touch `settings.json`** — that is by design, which is why `check_command ashlr` could never succeed and was removed (test **A42**). Not recorded in the manifest. Note this path is hardcoded to `$HOME/.claude`, unlike the `ACTION REQUIRED` detection which honours `CLAUDE_CONFIG_DIR`. |
+| `~/.ashlrcode/` *(none)* | — | **Not created by the wizard** | The genome lives at `<project-root>/.ashlrcode/genome/` and is created by `/ashlr:ashlr-genome-init` **inside Claude Code**, not by any script. |
 | `~/.local/share/lumen/` | — | **Created by the Lumen CLI**, not the wizard | Where `lumen index` stores its index databases, one directory per project index. `lumen purge` deletes them. |
 | `~/.codegraph/telemetry.json` | — | **Written by `codegraph telemetry off`** | Step 3's telemetry opt-out invokes the CodeGraph CLI, which persists the setting here. Not recorded in the manifest — the wizard never writes the file itself. The final summary reads `.enabled` from it. |
 
@@ -320,7 +443,11 @@ exists, *and* a manifest row. Prune the `.bak` siblings yourself; nothing rotate
 | `submodules/` | `mkdir -p` |
 | `submodules/superspec/` | Submodule init, or clone, per `setup_superspec`. **Never deleted when it is a real git checkout.** |
 | `.specify/` and/or `specs/` | Created by `specify init --force` (falling back to `specify init -y`), only if neither already exists |
+| `MANUAL-STEPS.md` | **Written on every run, unconditionally**, from the manual-step registry. Overwrites the previous copy. Not recorded in the manifest, so `rollback-agents-wizard.sh` will not remove it — `rm` it yourself, or add it to `.gitignore`. See [Step 9](#step-9--action-required-manual-steps) |
 | `.codegraph/` | Created by `codegraph init "$PROJECT_ROOT"` in **Step 7 only**, i.e. only when `WIZARD_INDEX_PROJECT` is set and no `.codegraph/codegraph.db` exists yet. On later runs `codegraph sync` updates it in place. Not recorded in the manifest |
+| `.ashlrcode/genome/` | **Not created by the wizard.** Created by `/ashlr:ashlr-genome-init` inside Claude Code. The wizard only *detects its absence*, to decide whether to raise the genome manual step |
+| `.lumen-reindex.log` | **Not created by the wizard.** Appended by `scripts/lumen-reindex.sh`; override with `LUMEN_REINDEX_LOG` |
+| `.test-evidence/<UTC>/` | **Not created by the wizard.** Written by `scripts/test-setup-agents-wizard.sh` |
 
 The wizard also runs `specify extension add ./submodules/superspec --dev` when both
 `specify` and the path are present. Failures are swallowed.
@@ -540,6 +667,20 @@ rollback session, if you would rather restore than edit.
 | `WIZARD_KEEP_TELEMETRY` | `configure_telemetry_optout` (Step 3), final summary | Any non-empty value makes the function return immediately with `⚠️ WIZARD_KEEP_TELEMETRY set - leaving telemetry settings alone.`: no `~/.bashrc` block, no `codegraph telemetry off`, no `~/.qwen/settings.json` edit. The summary then prints `➖ left untouched on request (WIZARD_KEEP_TELEMETRY)`. Unset (the default) the opt-out is applied. Test **H5**. |
 | `WIZARD_SKIP_GLYPHDOWN_HOOK` | Step 5, final summary | Any non-empty value skips **only** the Glyphdown hook registration: `⚠️ WIZARD_SKIP_GLYPHDOWN_HOOK is set - glyphdown hook NOT registered.` plus `ℹ️ Enable it later by re-running without that variable.` Glyphdown is still installed in Step 2, and `~/.claude/settings.json` is not touched at all. The summary prints `➖ Glyphdown Hook  skipped on request (WIZARD_SKIP_GLYPHDOWN_HOOK)`. The hook fires on every tool call, so this exists to let you defer wiring an unvetted binary into a running session. Test **A19** requires the opt-out to exist. |
 | `WIZARD_INDEX_PROJECT` | Step 7 | Any non-empty value enables [Step 7](#step-7--project-indexing-opt-in): `codegraph sync`/`codegraph init` plus `lumen index` for `PROJECT_ROOT`. Unset (the default) the step header never prints. Tests **A25**–**A27**, and **A10** which asserts the step headers still read `1,2,3,4,5,6,7,`. |
+| `WIZARD_NONINTERACTIVE` | [Step 9](#step-9--action-required-manual-steps) | Any non-empty value skips the closing `read` that waits for Enter after the `ACTION REQUIRED` section. The section still prints and `MANUAL-STEPS.md` is still written. Only relevant on a TTY — the pause is already skipped when `[[ -t 0 ]]` is false. |
+| `CLAUDE_CONFIG_DIR` | `CLAUDE_DIR` constant, used in [Step 9](#step-9--action-required-manual-steps) | **Read, never written.** Defaults to `$HOME/.claude`. Determines where the wizard looks for `plugins/cache/ashlr-marketplace/ashlr/` and `plugins/marketplaces/ashlr-marketplace/` when deciding whether the ashlr steps are still pending. It is also where `claude mcp add-json -s user` really writes, which is the reason for the `~/.claude.json` mirror. Note that Step 2's ashlr install check and the final summary hardcode `$HOME/.claude` and do **not** honour this variable. |
+
+The three operational scripts read their own:
+
+| Variable | Read by | Default | Effect |
+| :--- | :--- | :--- | :--- |
+| `MAX_ROUNDS` | `lumen-reindex.sh` | `40` | Retry rounds before giving up (exit 1) |
+| `LUMEN_REINDEX_LOG` | `lumen-reindex.sh` | `<project>/.lumen-reindex.log` | Where the run log is appended |
+| `LUMEN_STORE` | `lumen-index-doctor.sh` | `$HOME/.local/share/lumen` | Root the doctor globs for `*/index.db` |
+| `LUMEN_EMBED_MODEL` | `ollama-vulkan-remediation.sh`, `lumen-reindex.sh` | `ordis/jina-embeddings-v2-base-code` | Model used by the batch probes |
+| `OLLAMA_HOST` | `ollama-vulkan-remediation.sh`, `lumen-reindex.sh` | `http://localhost:11434` | Backend endpoint |
+
+Full reference: [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md).
 
 ### Read by the wrapper
 
@@ -728,12 +869,32 @@ Hook handlers for AI coding agent integration.
 Evidence lands in `.test-evidence/<UTC timestamp>/` as `results.tsv`, `run.log` and
 `summary.json`. Exit status is non-zero if any assertion failed.
 
-Eight groups, `A`–`H`. The file declares group `H` **before** group `G`, so the console
-output order is A, B, C, D, E, F, H, G.
+**Nine groups, `A`–`I`.** The file declares group `H` **before** group `G`, so the console
+output order is A, B, C, D, E, F, H, G, I.
+
+### Deriving the assertion count
+
+Do not hardcode a total — it moves whenever a test is added, and it differs between a live run
+and `--no-live`. The current per-group record counts:
+
+| Group | Records | Note |
+| :--- | ---: | :--- |
+| A | 50 | `A1`–`A50`; `A12` is a loop over 5 bogus package names, `A11` skips without `shellcheck` |
+| B | 8 | |
+| C | 10 | |
+| D | 5 | all 5 become skips without `jq` |
+| E | 3 | |
+| F | **11 live / 7 with `--no-live`** | `F2` is a loop over 3 shell kinds; `--no-live` records `F1`–`F7` as skips, and `F5b`/`F8` are not recorded at all in that mode |
+| G | 18 | `G16`–`G18` skip without `jq` |
+| H | 7 | `H6`/`H7` skip without `jq` |
+| I | 14 | 11 assertions plus a 3-record loop over the three scripts |
+
+Full live run: **126**. `--no-live`: **122**. The authoritative number for a given run is
+`summary.json`'s `{total, passed, failed, skipped}`.
 
 | Group | Coverage |
 | :--- | :--- |
-| A | Static analysis, `A1`–`A34` (38 records — `A12` runs once per bogus package name): `bash -n`, absence of every bogus package name, presence of the real ones and of the `npm_install_if_missing` guard, `stdio` not `serve`, absolute MCP command, the `-e` gitlink test, `qwen` rather than `qwen-code` as the probed binary, `PreToolUse` present and `"ToolCall"` absent, the `WIZARD_SKIP_GLYPHDOWN_HOOK` / `WIZARD_INDEX_PROJECT` / `WIZARD_KEEP_TELEMETRY` switches, `codegraph sync` present and `codegraph index ` absent, `uv tool uninstall specify-cli` recorded, `export DO_NOT_TRACK=1`, no `jq //` on a boolean, the `/api/embed` health round-trip and its wedged-`NaN` branch, library-mode guard, sequential step headers `1..7`, `shellcheck -S error` |
+| A | Static analysis, `A1`–`A50`: `bash -n`, absence of every bogus package name, presence of the real ones and of the `npm_install_if_missing` guard, `stdio` not `serve`, absolute MCP command, the `-e` gitlink test, `qwen` rather than `qwen-code` as the probed binary, `PreToolUse` present and `"ToolCall"` absent, the `WIZARD_SKIP_GLYPHDOWN_HOOK` / `WIZARD_INDEX_PROJECT` / `WIZARD_KEEP_TELEMETRY` switches, `codegraph sync` present and `codegraph index ` absent, `uv tool uninstall specify-cli` recorded, `export DO_NOT_TRACK=1`, no `jq //` on a boolean, the `/api/embed` health round-trip and its wedged-`NaN` branch, library-mode guard, sequential step headers `1..7`, `shellcheck -S error`. **`A35`–`A41`**: `/api/ps` GPU-residency probe, the `inference compute` log line, the Vulkan verdict gated on the value actually read, an unreadable library reported as unknown, the runbook pointer, "never names a backend it did not probe", and `A41` — the wizard carries **no** `systemctl restart`, no `/etc` write and no `sudo` in this path. **`A42`–`A50`**: ashlr not probed as a CLI and verified by plugin directory instead, the `~/.claude.json` mirror, the stale "no documented MCP config" claim gone, MiMo probed with `mimo mcp list`, every `lumen search` probe `timeout`-bounded, the `ACTION REQUIRED` section, `MANUAL-STEPS.md`, and the `plugins/marketplaces/` activation probe |
 | B | Wrapper unit tests in an isolated `$HOME`: executability, `sort -V` version selection, `~/.claude*` fallback, `LUMEN_BIN` override, exit `127` on a bad or missing binary |
 | C | Shell config: exactly one block per file, idempotence across three runs, generated files parse as bash, unexpanded `$PATH` guard, `~/.local/bin` added exactly once, mode `600` preserved, pre-existing content preserved |
 | D | MCP config: `args == ["stdio"]`, absolute command, valid JSON, foreign keys preserved, exactly two servers after two runs |
@@ -741,3 +902,4 @@ output order is A, B, C, D, E, F, H, G.
 | F | Live: `lumen` on `PATH` across login/interactive/non-interactive shells, backend reachable, model present, completion registration, and a true end-to-end index-then-search against a two-file fixture repository |
 | G | Backup manifest and rollback, `G1`–`G18`, in a throwaway `$HOME` with `WIZARD_STATE_DIR` pointed inside it: manifest header, `MODIFIED` vs `CREATED`, the stored copy holds the original content and mode `600`, first-snapshot-wins, byte-exact restore, deletion of a created file, `--dry-run` inertness, `--component` isolation, the pre-rollback snapshot, `ACTION` reported but not executed, `--list`. `G16`–`G18` are the snapshot-ordering regression: a brand-new agent config is recorded `CREATED`, rollback deletes it instead of leaving an empty `{}`, and a pre-existing config still restores to its true original (these three skip without `jq`) |
 | H | Telemetry opt-out, `H1`–`H7`, in a throwaway `$HOME`: exactly one `# >>> telemetry opt-out …` block, still one after a second run, the generated `~/.bashrc` parses as bash, sourcing it exports `DO_NOT_TRACK=1` / `CODEGRAPH_TELEMETRY=0`, `WIZARD_KEEP_TELEMETRY` writes no block at all, `.usageStatisticsEnabled` is set to `false` in `~/.qwen/settings.json` without dropping existing keys, and an already-`false` value is detected as already disabled rather than "unset" (`H6`/`H7` skip without `jq`) |
+| I | **Operational scripts**, `I1`–`I14`: each of the three is executable and parses (`I1`–`I3`, one record each); the remediation script offers `--check` (`I4`) and `--rollback` (`I5`) and **defaults to the read-only action** (`I6`, matching the literal `case "${1:---check}"`); its probe tests aggregate **distinctness** (`I7`); the doctor checks duplicate-vector groups (`I8`), still runs the per-vector NaN/all-zero tests (`I9`) and opens the database `mode=ro` (`I10`); the reindexer refuses to start on a Vulkan backend (`I11`), `--force` is proven to actually reach `lumen index -f` rather than merely being parsed (`I12`), and the reason `--force` is required after corruption is documented in the script itself (`I13`); neither the reindexer nor the doctor calls `sudo` (`I14`). Group I only reads source text |

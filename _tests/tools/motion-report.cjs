@@ -1,7 +1,12 @@
 /* Generates REPORT.md from data/metrics.json produced by motion-audit.cjs. */
 const fs = require('fs');
-const path = require('path');
-const OUT = '/Volumes/T7/Projects/vasic/_tests/evidence/motion-audit';
+const path = require('node:path');
+
+// Derive the repo root from this file's own location (repo/_tests/tools/ -> ../..)
+// so the report generator runs from ANY checkout without a hardcoded absolute
+// path. VASIC_ROOT overrides the default when the repo root is elsewhere.
+const REPO = process.env.VASIC_ROOT || path.resolve(__dirname, '..', '..');
+const OUT = path.join(REPO, '_tests', 'evidence', 'motion-audit');
 const m = JSON.parse(fs.readFileSync(path.join(OUT, 'data/metrics.json'), 'utf8'));
 
 const ICON = { works: 'WORKS', broken: 'BROKEN', absent: 'absent', present: 'present', 'absent-classes': 'absent', error: 'ERROR' };

@@ -15,10 +15,18 @@
 set -uo pipefail
 TAG="${1:?tag required}"; shift
 LANGS="$*"
-TOOLS=/Volumes/T7/Projects/vasic/_tools
+# ROOT (the repository root) is DERIVED from this script's own location
+# (<repo>/_tools/translate-fleet.sh -> "$(dirname)/.."), never hardcoded: a
+# literal absolute path only resolves on the machine it was typed on, and since
+# this script sets -u and pipefail but NOT -e, a wrong root fails silently — the
+# job list comes out empty and the fleet reports DONE with jobs=0. Set VASIC_ROOT
+# only to deliberately target a different checkout.
+ROOT="${VASIC_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
+[ -n "$ROOT" ] && [ -d "$ROOT" ] || { echo "FATAL: cannot resolve repository root (got '$ROOT')" >&2; exit 1; }
+TOOLS="$ROOT/_tools"
 PIPE="$TOOLS/translate-pipeline.sh"
 SHIM="$TOOLS/helixtranslate-container.sh"
-EVID=/Volumes/T7/Projects/vasic/_tests/evidence/translate
+EVID="$ROOT/_tests/evidence/translate"
 SUM="$EVID/${TAG}-summary.log"
 JOBS="$EVID/${TAG}-jobs.tsv"
 mkdir -p "$EVID"; : > "$SUM"; : > "$JOBS"
@@ -28,7 +36,7 @@ read -r -a HOSTLIST <<<"${HOSTS:-thinker.local amber.local}"
 # ---- Build the job list: site \t lang \t slug \t src \t out ----------------
 n=0
 for site in milosvasic.ru vasic.digital; do
-  root="/Volumes/T7/Projects/vasic/$site"
+  root="$ROOT/$site"
   for lang in $LANGS; do
     for md in "$root/_article_src/en/"*.md; do
       [ -e "$md" ] || continue
@@ -68,14 +76,14 @@ wait
 
 # ---- Render fragments for every site/lang ----------------------------------
 for site in milosvasic.ru vasic.digital; do
-  bash "$TOOLS/render-articles.sh" "/Volumes/T7/Projects/vasic/$site" $LANGS >>"$SUM" 2>&1
+  bash "$TOOLS/render-articles.sh" "$ROOT/$site" $LANGS >>"$SUM" 2>&1
 done
 
 {
   echo "=== SUMMARY tag=$TAG ==="
   for site in milosvasic.ru vasic.digital; do
     for lang in $LANGS; do
-      echo "$site/$lang md=$(ls /Volumes/T7/Projects/vasic/$site/_article_src/$lang/*.md 2>/dev/null|wc -l) html=$(ls /Volumes/T7/Projects/vasic/$site/articles/$lang/*.html 2>/dev/null|wc -l)"
+      echo "$site/$lang md=$(ls "$ROOT/$site/_article_src/$lang/"*.md 2>/dev/null|wc -l) html=$(ls "$ROOT/$site/articles/$lang/"*.html 2>/dev/null|wc -l)"
     done
   done
   echo DONE

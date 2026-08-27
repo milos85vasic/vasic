@@ -21,11 +21,28 @@
 # docker on amber; LLM keys (MISTRAL/GROQ/COHERE) in the local environment.
 # =============================================================================
 set -euo pipefail
-HT_SRC="${HT_SRC:-/Volumes/T7/Projects/helix_translate}"
-HERE="$(cd "$(dirname "$0")" && pwd)"
+# Every path below is DERIVED, never a literal absolute path (a literal only
+# resolves on the machine it was typed on).
+#   HERE = this script's own directory (<repo>/_tools)
+#   ROOT = the repository root (<repo>)
+#   HT_SRC = the helix_translate SOURCE. helix_translate is a SIBLING repository,
+#            not part of this one, so its default is resolved next to this repo:
+#            "$(dirname "$ROOT")/helix_translate". Override with HT_SRC=<path> if
+#            your checkout lives elsewhere. The default is a convention, not a
+#            guarantee — so the resolved path is validated below and the script
+#            aborts with a clear message rather than rsync'ing an empty tree to
+#            the build host.
+HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" || { echo "FATAL: cannot resolve this script's directory" >&2; exit 1; }
+ROOT="$(cd -- "$HERE/.." && pwd)" || { echo "FATAL: cannot resolve repository root from '$HERE'" >&2; exit 1; }
+HT_SRC="${HT_SRC:-$(dirname -- "$ROOT")/helix_translate}"
+[ -d "$HT_SRC" ] || { echo "FATAL: helix_translate source not found: '$HT_SRC'
+  helix_translate is a SIBLING repository of $(basename -- "$ROOT"); it is expected next to it
+  (checked out as $(dirname -- "$ROOT")/helix_translate). Clone it there, or point this
+  script at your checkout:  HT_SRC=/path/to/helix_translate bash $0" >&2; exit 1; }
 ASSETS="$HERE/helixtranslate-container"
 BUILD_HOST="${BUILD_HOST:-thinker.local}"      # native linux/amd64 cgo build
 SEED_DB="${SEED_DB:-$HT_SRC/data/verified_models.db}"
+[ -f "$SEED_DB" ] || { echo "FATAL: seed db not found: '$SEED_DB' (override with SEED_DB=<path>)" >&2; exit 1; }
 
 mk_envfile() {  # write a 600 env file of the working-provider keys to $1
   local out="$1"; umask 077; : > "$out"

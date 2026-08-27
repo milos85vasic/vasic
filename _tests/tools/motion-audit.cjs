@@ -12,10 +12,13 @@
 const { chromium, firefox, webkit } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs');
-const path = require('path');
+const path = require('node:path');
 const http = require('http');
 
-const REPO = '/Volumes/T7/Projects/vasic';
+// Derive the repo root from this file's own location (repo/_tests/tools/ -> ../..)
+// so the audit runs from ANY checkout without a hardcoded absolute path.
+// VASIC_ROOT overrides the default when the repo root is elsewhere.
+const REPO = process.env.VASIC_ROOT || path.resolve(__dirname, '..', '..');
 const OUT = path.join(REPO, '_tests/evidence/motion-audit');
 const SHOTS = path.join(OUT, 'screenshots');
 const DATA = path.join(OUT, 'data');

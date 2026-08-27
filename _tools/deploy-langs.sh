@@ -5,8 +5,14 @@
 # _content_<lang>. A language counts as COMPLETE when every source doc has a
 # PASS review verdict. Additive: never removes EN; never pushes with no change.
 set -uo pipefail
-ROOT="/Volumes/T7/Projects/vasic"
-cd "$ROOT"
+# ROOT was hardcoded to "/Volumes/T7/Projects/vasic" - a macOS path. On any other
+# checkout the `cd` below failed, and because this script sets -u and pipefail
+# but NOT -e, the failure was SILENT: the script carried on in the caller's
+# working directory with GEN and PDF pointing at paths that do not exist, then
+# went on to commit and push both site submodules. Derive it from the script's
+# own location instead, and make the cd fatal.
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT" || { echo "FATAL: cannot cd to repository root '$ROOT'" >&2; exit 1; }
 GEN="$ROOT/_tools/gen"
 PDF="$ROOT/_tools/pdf/build-pdfs.sh"
 LANGS="ru sr de es fr be zh kk hi ja ko ar tr fa"

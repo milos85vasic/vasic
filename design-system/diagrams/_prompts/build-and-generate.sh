@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # Assemble final prompts (preamble + body) and generate each diagram SVG via OpenDesign.
 set -euo pipefail
-ROOT="/Volumes/T7/Projects/vasic"
+# ROOT used to be a hardcoded absolute macOS path that exists on no other
+# checkout. Derive it from the script's own location instead: this file
+# lives at <root>/design-system/diagrams/_prompts/, i.e. THREE levels down.
+# VASIC_ROOT overrides the default when the repo root is elsewhere.
+ROOT="${VASIC_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)}"
+cd "$ROOT" || { echo "FATAL: cannot cd to repository root '$ROOT'" >&2; exit 1; }
 PDIR="$ROOT/design-system/diagrams/_prompts"
 ODIR="$ROOT/design-system/diagrams"
 source ~/api_keys.sh

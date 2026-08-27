@@ -10,9 +10,12 @@ Usage: check_terms.py <lang> <rel.md> [<rel.md> ...]
        check_terms.py <lang>            # all docs for that lang that exist
 Reads glossary from _tools/translate/glossary.json.
 """
-import json, os, re, sys, glob
+import json, os, pathlib, re, sys, glob
 
-REPO = "/Volumes/T7/Projects/vasic"
+# Repo root — NEVER hardcoded. Derived from this file's own location
+# (_tools/translate/check_terms.py -> parents[2] == repo root); VASIC_ROOT overrides.
+REPO = pathlib.Path(os.environ.get("VASIC_ROOT")
+                    or pathlib.Path(__file__).resolve().parents[2]).resolve()
 CONTENT = os.path.join(REPO, "_content")
 GLOSSARY = os.path.join(REPO, "_tools/translate/glossary.json")
 

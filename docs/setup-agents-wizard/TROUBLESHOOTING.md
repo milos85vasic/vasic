@@ -12,6 +12,18 @@ If the embedding backend runs on an Intel iGPU through Vulkan, read
 returns silently-corrupt vectors under HTTP 200, so several symptoms below have one shared
 cause that no amount of restarting will clear.
 
+**Start with these two**, whatever your symptom. Both are read-only and safe to run at any
+time, including during an index build:
+
+```bash
+./scripts/ollama-vulkan-remediation.sh --check     # is the backend the corrupting one?
+./scripts/lumen-index-doctor.sh "$PWD"             # is the existing index already poisoned?
+```
+
+The second one matters even when everything looks fine: the worst failure mode has **no
+symptom at all** — see [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors).
+Reference for both: [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md).
+
 ---
 
 ## 60-second health check
@@ -33,10 +45,22 @@ jq -r '.mcpServers.lumen | .command + " " + .args[0]' ~/.kimi-code/mcp.json ~/.q
 jq -c '.mcp.lumen' ~/.config/opencode/opencode.json
 du -sh ~/.local/share/lumen
 ./scripts/rollback-agents-wizard.sh --list         # the run is recorded and undoable
+jq -c '.mcpServers.lumen' ~/.claude.json           # the mirror MiMo and friends inherit
 ```
 
 The `jq` lines should print an absolute path ending in `/.local/bin/lumen stdio`; the
 `du` line, a size for the index store.
+
+**Then the two checks the list above cannot make.** Every command in it is a *per-item* probe,
+and the failure that cost this project the most was invisible to exactly that kind of probe:
+
+```bash
+./scripts/ollama-vulkan-remediation.sh --check     # expect library=cpu + "batch probe: OK 32/32"
+./scripts/lumen-index-doctor.sh "$PWD"             # exit 0 = the stored vectors are trustworthy
+```
+
+`--check` is read-only and defaults to that, so running it bare is safe. The doctor is read-only
+too and safe during an index run. See [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors).
 
 ---
 
@@ -50,7 +74,13 @@ The `jq` lines should print an absolute path ending in `/.local/bin/lumen stdio`
 | `No results found.` | Index still building, or the score threshold cut everything | Wait for indexing; then `--min-score -1 -n 20` — [#4](#4-search-returns-no-results-found) |
 | `Embedding backend unreachable` / index and search both fail | ollama not running or not listening where Lumen looks | `systemctl is-active ollama`; `sudo systemctl enable --now ollama` — [#5](#5-embedding-backend-unreachable) |
 | `Embedding backend is WEDGED … returns NaN for every input`, or an HTTP 500 `unsupported value: NaN` followed by Lumen's usage text | The ollama runner is up but broken — `/api/tags` still answers `200` | `ollama stop <model>` for a fresh runner — [#5b](#5b-embedding-backend-is-wedged-nan-for-every-input) |
-| The wizard warns `Embedding model is GPU-offloaded and ollama reports library=Vulkan` | The embedding model runs on an Intel iGPU through Vulkan; large chunks come back as all-zero vectors under HTTP 200 | Apply a remediation tier — [OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md) |
+| The wizard warns `Embedding model is GPU-offloaded and ollama reports library=Vulkan` | The corrupting path. A large **batch** comes back as all-zero — or, worse, as a well-formed *stale duplicate* — under HTTP 200 | `./scripts/ollama-vulkan-remediation.sh --check`, then `--apply` — [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors) · [OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md) |
+| Searches "work" but return plausible nonsense, or miss files you know are indexed. **No error anywhere.** | Stale-duplicate vectors written under HTTP 200. Invisible to NaN / all-zero / L2-norm checks | `./scripts/lumen-index-doctor.sh "$PWD"` — [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors) |
+| `REFUSING TO START: ollama reports library=Vulkan` (exit `3`) from `lumen-reindex.sh` | Working as designed — it will not write more corrupt vectors | Fix the backend, or pass `--allow-gpu` if you accept the risk — [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors) |
+| `❌ no Lumen index found for … under …` (exit `2`) from `lumen-index-doctor.sh` | No index exists for that project, or `LUMEN_STORE` points elsewhere | Index it first; check `ls ~/.local/share/lumen/*/index.db` |
+| `command -v ashlr` finds nothing | **Expected.** ashlr is a Claude Code plugin with no binary — by design | Check `~/.claude/plugins/cache/ashlr-marketplace/ashlr/`, then run the three slash commands — [ACTION-REQUIRED.md](./ACTION-REQUIRED.md) |
+| `mimo mcp list` does not show `lumen` | `~/.claude.json` lacks `.mcpServers.lumen` (MiMo inherits from it), or MiMo started before it was added | Re-run the wizard, then restart MiMo. Check with `jq -c '.mcpServers.lumen' ~/.claude.json` |
+| The wizard seems to hang at the very end | It is waiting for **Enter** on the `ACTION REQUIRED` list | Press Enter. For automation, `WIZARD_NONINTERACTIVE=1` |
 | Backend is up but indexing still fails | Embedding model not pulled | `ollama pull ordis/jina-embeddings-v2-base-code` — [#6](#6-embedding-model-missing) |
 | A file you just created/edited never appears in results | It was created after the indexer's tree walk started | Re-run `lumen index <path>` (incremental) — [#7](#7-newly-created-or-edited-files-are-missing-from-search-results) |
 | `jq: command not found`, or the wizard exits at Step 1 | `jq` missing and no supported package manager | The wizard auto-installs it; otherwise install manually — [#8](#8-jq-missing) |
@@ -236,8 +266,12 @@ you simply need to wait.
 - If a previous run was killed mid-flight and nothing is making progress
   (`pgrep` empty, `du` flat), rebuild that one project:
   ```bash
-  lumen index /path/to/repo -f
+  ./scripts/lumen-reindex.sh /path/to/repo --force
   ```
+  The wrapper is preferable to a bare `lumen index -f` for a long unattended run: it retries
+  around transient backend faults instead of dying halfway and printing Lumen's usage text,
+  which reads like *you* mistyped the command. Exit codes and flags:
+  [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md#lumen-reindexsh).
 
 ---
 
@@ -252,7 +286,7 @@ No results found.
 
 **Diagnosis**
 
-Three plausible causes, in order of likelihood:
+Four plausible causes, in order of likelihood:
 
 1. The index is not finished (see [#3](#3-indexing-appears-stuck-or-every-search-says-the-index-is-updating)) — an
    empty or partial index has nothing above threshold.
@@ -260,6 +294,10 @@ Three plausible causes, in order of likelihood:
    defaults to `8`, and low-similarity matches are filtered out.
 3. You are searching the wrong root. `-p` is the directory to search; `--cwd` is the project
    root when `-p` points at a subdirectory. Get these wrong and you query a different index.
+4. **The vector for that file is corrupt.** If it was embedded by a GPU/Vulkan backend it may
+   be a well-formed but *stale* vector that has nothing to do with the file's content, so no
+   query can ever retrieve it. Rule this out with `./scripts/lumen-index-doctor.sh "$PWD"` —
+   [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors).
 
 **Fix**
 
@@ -389,20 +427,30 @@ curl -s http://localhost:11434/api/embed \
 ```
 
 If that is not enough, restart the daemon (`sudo systemctl restart ollama`). Then re-index —
-whatever was indexed while the backend was wedged is missing or partial:
+whatever was indexed while the backend was wedged is missing, partial, **or silently wrong**:
 
 ```bash
-lumen index /path/to/repo -f
+./scripts/lumen-reindex.sh /path/to/repo --force
+./scripts/lumen-index-doctor.sh /path/to/repo      # then confirm
 ```
 
-> **`ollama stop` is first aid, not a fix.** On an Intel iGPU driven by Vulkan the wedge is
-> caused by a chunk that fills the model's context: the i915 fence times out, ollama reads the
-> abandoned buffer and returns an **all-zero vector under HTTP 200** long before it ever
-> returns `NaN`. A fresh runner clears the tombstone and the next large chunk recreates it.
-> Confirm the backend with `ollama ps` (`100% GPU`) and
-> `journalctl -u ollama | grep 'inference compute'` (`library=Vulkan`), then apply one of the
-> three remediation tiers in **[OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md)** — root cause
-> and evidence in [OLLAMA-NAN-WEDGE.md](./OLLAMA-NAN-WEDGE.md).
+> **`ollama stop` is first aid, not a fix, and the `NaN` is the tombstone rather than the
+> fault.** On an Intel iGPU driven by Vulkan, a large embedding **batch** times out the i915
+> fence; ollama reads the abandoned buffer and returns garbage under **HTTP 200** long before it
+> ever returns `NaN` — sometimes an all-zero vector, and sometimes a **well-formed, unit-norm
+> stale duplicate** that no per-vector check can see. A fresh runner clears the tombstone and
+> the next large batch recreates the whole situation.
+>
+> One command replaces the manual confirmation below:
+> `./scripts/ollama-vulkan-remediation.sh --check` (read-only, and the default action). By hand:
+> `ollama ps` (`100% GPU`) and `journalctl -u ollama | grep 'inference compute'`
+> (`library=Vulkan`). Then apply the fix — `--apply`, or the tiers in
+> **[OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md)**.
+>
+> **Then check the index**, because none of that repairs what was already written:
+> [#14](#14-the-index-is-silently-corrupt-stale-duplicate-vectors). Evidence for the loud modes
+> is in [OLLAMA-NAN-WEDGE.md](./OLLAMA-NAN-WEDGE.md); the settled verdict on what reached the
+> index is [INDEX-CORRUPTION-RECONCILIATION.md](./INDEX-CORRUPTION-RECONCILIATION.md).
 
 Tests **A33** and **A34** keep this check in the wizard: the health probe must use
 `/api/embed`, and the `NaN` case must be detected and named rather than reported as a generic
@@ -631,12 +679,19 @@ Attach the whole `.test-evidence/<timestamp>/` directory:
 
 Useful facts about the suite before you run it:
 
-- There are eight groups, **A**–**H**. The file declares **H** before **G**, so the console
-  order is A, B, C, D, E, F, H, G.
-- Group **A** reads the wizard's source text only — no sandbox, no execution. Groups **B**,
+- There are **nine** groups, **A**–**I**. The file declares **H** before **G**, so the console
+  order is A, B, C, D, E, F, H, G, I.
+- Groups **A** and **I** read source text only — no sandbox, no execution. Groups **B**,
   **C**, **D**, **G** and **H** run against a throwaway `$HOME` (with `WIZARD_STATE_DIR`
   pointed inside it), and group **E** against throwaway git repositories. None of them
   touches your real environment.
+- Group **I** covers the three operational scripts (`ollama-vulkan-remediation.sh`,
+  `lumen-reindex.sh`, `lumen-index-doctor.sh`) — see
+  [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md).
+- **Do not quote a fixed total in a bug report** — quote `summary.json`. The count changes as
+  tests are added, and `--no-live` records fewer. For reference, a full live run currently
+  produces 126 records (A 50, B 8, C 10, D 5, E 3, F 11, G 18, H 7, I 14) and `--no-live`
+  produces 122.
 - Group **F** is the live one: it checks `PATH` resolution in login/interactive shells,
   backend reachability, the embedding model, and performs a true end-to-end index + search on
   a two-file fixture repository in a temp directory (which it purges afterwards).
@@ -804,3 +859,119 @@ If the copies really are gone, rollback cannot restore those entries. Fall back 
 To avoid the problem next time, keep the state directory where the wizard put it, and note
 that a `CREATED` row needs no backup file at all — those entries roll back cleanly even when
 `files/` is empty.
+
+---
+
+## 14. The index is silently corrupt (stale duplicate vectors)
+
+**Symptom**
+
+There isn't one. That is the point.
+
+Searches return results. They are plausible. They are also wrong — or a file you *know* is
+indexed never comes back for a query it should obviously match. No error is printed anywhere,
+`lumen index` exits `0`, `/api/embed` answers `200`, and every health check in this document
+passes.
+
+**Diagnosis**
+
+If `ollama` was ever serving the embedding model with `library=Vulkan` on an Intel iGPU, a
+large embedding **batch** can trip an i915 fence timeout. The kernel abandons the dispatch and
+ollama reads the result buffer anyway. Four things can come back:
+
+| # | What comes back | HTTP | Caught by a per-vector check? |
+| :-- | :--- | :--- | :--- |
+| 1 | `{"error":"…unsupported value: NaN"}` | 500 | Yes — see [#5b](#5b-embedding-backend-is-wedged-nan-for-every-input) |
+| 2 | An all-zero vector | **200** | Yes — a zero-norm test sees it |
+| 3 | The runner wedges: every later request returns `NaN` | 500 | Yes, usually misattributed |
+| 4 | **A repeated STALE vector** — well-formed, 768 dims, L2 norm 1.000000 | **200** | **No.** |
+
+Mode 4 wrote **758 identical vectors covering 695 distinct texts across 55 files** into this
+project's index. A full forensic audit ran NaN, Inf, all-zero and L2-norm checks, found nothing,
+and declared the index `TRUSTWORTHY`. Its measurements were correct; its conclusion was not —
+all four tests are *per-vector*, and a stale-but-well-formed vector passes all four by
+construction.
+
+> **A vector can be perfectly well-formed and still be the wrong vector.** The only thing that
+> exposes mode 4 is **aggregate distinctness**: *N* distinct texts must yield *N* distinct
+> vectors.
+
+Note also that the trigger is the **batch total**, not the chunk size. Lumen sends 32 chunks per
+`/api/embed` request; the corrupting requests here carried 16,698–31,364 characters, while the
+largest single chunk involved was only 2,832. Capping chunk size does not protect you.
+
+**Check it — read-only, safe while indexing:**
+
+```bash
+./scripts/lumen-index-doctor.sh "$PWD"
+#   exit 0 = healthy · 1 = corruption found · 2 = could not inspect
+```
+
+A corrupt index looks like this:
+
+```
+vectors: 35717 total, 34959 distinct
+❌ 1 duplicate-vector group(s); 758 vectors (2.12%) are not unique
+   largest identical group: 758 copies of ONE vector
+per-vector: 0 NaN/Inf, 0 all-zero, 0 off-norm
+
+❌ CORRUPTION DETECTED
+```
+
+Note the last line of `per-vector:` — **all zeros**. That is exactly what the earlier audit saw.
+
+Two things about that exit code, before you script around it: a duplicate group only sets exit
+`1` when its **largest** member count is ≥ 10, so a small group prints a `❌` line and still
+exits `0`; and an internal error in the decoder (if a future Lumen changes the 768-dimension
+layout or the `vec_chunks_vector_chunks00` shadow-table name) also exits `1`. Read the output,
+not just the status.
+
+**Fix**
+
+Order matters. Fixing the backend repairs nothing already written, and rebuilding onto a broken
+backend just writes fresh corruption.
+
+```bash
+# 1. Is the backend still the corrupting one?
+./scripts/ollama-vulkan-remediation.sh --check
+#    expect: "library=cpu" and "batch probe: OK 32/32 distinct"
+
+# 2. If it says library=Vulkan — fix it. sudo, one service restart.
+./scripts/ollama-vulkan-remediation.sh --apply
+
+# 3. Rebuild. --force is MANDATORY, not a preference.
+./scripts/lumen-reindex.sh "$PWD" --force
+
+# 4. Confirm
+./scripts/lumen-index-doctor.sh "$PWD"     # expect exit 0
+```
+
+**Why `--force` is mandatory:** a corrupted file still carries a valid content hash in the
+index, so Lumen treats it as already done. An incremental run skips it — **forever**. Only
+`lumen index -f` re-embeds it.
+
+`scripts/lumen-reindex.sh` refuses to start at all if the backend still reports
+`library=Vulkan` (exit `3`), and refuses if its own 32-text batch probe fails (exit `4`). Both
+refusals are the script doing its job; do not reach for `--allow-gpu` to get past them unless
+you have decided you want the risk.
+
+**What does not help**
+
+- `OLLAMA_VULKAN=false` and `OLLAMA_LLM_LIBRARY=cpu` — both tested, both **no-ops** on this
+  build. `GGML_VK_VISIBLE_DEVICES=-1` is the variable that works.
+- Upgrading ollama — the defect is unfixed upstream.
+- `ollama stop <model>` — clears a wedged runner (mode 3), does nothing for modes 2 and 4.
+- Capping `LUMEN_MAX_CHUNK_TOKENS` — the trigger is the batch total, not the chunk.
+- Any per-vector integrity check you can think of.
+
+**Reference**
+
+- [OPERATIONAL-SCRIPTS.md](./OPERATIONAL-SCRIPTS.md) — every flag and exit code of the three
+  scripts.
+- [OLLAMA-REMEDIATION.md](./OLLAMA-REMEDIATION.md) — the operator runbook. **Status on this
+  host: resolved** — `library=cpu`, 0 i915 faults since the restart, 32 distinct vectors 5/5.
+- [INDEX-CORRUPTION-RECONCILIATION.md](./INDEX-CORRUPTION-RECONCILIATION.md) — **the settled
+  verdict**, with the per-file breakdown of all 758 vectors.
+- [LUMEN-INDEX-INTEGRITY.md](./LUMEN-INDEX-INTEGRITY.md) — the earlier audit that concluded
+  `TRUSTWORTHY`. Kept unedited as a record of how a rigorous audit reached a wrong conclusion.
+  **Do not use it to decide whether an index is safe.**

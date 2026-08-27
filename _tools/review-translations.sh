@@ -7,10 +7,21 @@
 # Usage: review-translations.sh <site-root> <lang> [<lang> ...]
 # Env:   REVIEW_PROVIDER (default groq), REVIEW_MODEL (optional)
 set -uo pipefail
-PY=/Volumes/T7/Projects/vasic/_tools/review_translation.py
+# ROOT (the repository root) is DERIVED from this script's own location
+# (<repo>/_tools/review-translations.sh -> "$(dirname)/..") and is NEVER a
+# literal absolute path: a literal only resolves on the machine it was typed on,
+# and because this script sets -u and pipefail but NOT -e, a bad path fails
+# silently (every review turns into ERROR(no-en-src) / a parse error). Set
+# VASIC_ROOT only to deliberately point this tool at a different checkout.
+# NOTE: lowercase `root` below is a DIFFERENT variable — the per-site root passed
+# in as $1 (e.g. "$ROOT/vasic.digital"). Bash is case-sensitive; they do not clash.
+ROOT="${VASIC_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
+[ -n "$ROOT" ] && [ -d "$ROOT" ] || { echo "FATAL: cannot resolve repository root (got '$ROOT')" >&2; exit 1; }
+PY="$ROOT/_tools/review_translation.py"
+[ -f "$PY" ] || { echo "FATAL: reviewer not found: $PY" >&2; exit 1; }
 root="${1:?site-root required}"; shift
 site="$(basename "$root")"
-EVID="/Volumes/T7/Projects/vasic/_tests/evidence/translate/review/$site"
+EVID="$ROOT/_tests/evidence/translate/review/$site"
 REPORT="$EVID/REVIEW-REPORT.md"
 mkdir -p "$EVID"
 PROV="${REVIEW_PROVIDER:-groq}"

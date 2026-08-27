@@ -12,9 +12,12 @@ a run, see [If something goes wrong](#if-something-goes-wrong) and
 
 ## Before you start
 
-The wizard is non-interactive: it never prompts you for anything. It **can** prompt for a
-`sudo` password when it installs `jq`, installs Ollama, or enables the `ollama` systemd
-service — so run it from a terminal you are watching, not from a background job.
+The wizard is non-interactive throughout, with exactly **one** exception: at the very end it
+pauses for Enter so the [ACTION REQUIRED](#action-required) list cannot scroll past unread.
+That pause is skipped when stdin is not a terminal (pipes, CI) or when
+`WIZARD_NONINTERACTIVE=1` is set. It **can** also prompt for a `sudo` password when it installs
+`jq`, installs Ollama, or enables the `ollama` systemd service — that prompt comes from `sudo`
+itself. Run it from a terminal you are watching, not from a background job.
 
 | Requirement | Needed for | If missing |
 | :--- | :--- | :--- |
@@ -45,9 +48,18 @@ and refuses to install `jq` on anything else.
 # 2. Pick up the new PATH
 exec bash -l        # or just open a new terminal
 
-# 3. Index this project once
-lumen index "$PWD"
+# 3. Index this project once, then verify the vectors are trustworthy
+./scripts/lumen-reindex.sh "$PWD"
+./scripts/lumen-index-doctor.sh "$PWD"      # exit 0 = healthy
 ```
+
+Step 3 used to read `lumen index "$PWD"`, which still works. The wrapper is better: it refuses
+to run on an embedding backend known to write corrupt vectors, retries around transient
+faults, and the doctor tells you afterwards whether the result is actually usable. See
+[`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md).
+
+The wizard also **pauses for Enter** at the very end, to show you the steps it cannot perform
+itself. Set `WIZARD_NONINTERACTIVE=1` if you are running it from a script.
 
 If the script is not executable yet: `chmod +x scripts/setup-agents-wizard.sh`.
 
@@ -172,8 +184,8 @@ nothing to switch off for it. Full detail: [`README.md` → Telemetry Opt-Out](.
 
 ### Step 4 — Verifying CLI Availability
 
-A roll call of `lumen codegraph glyphdown specify kimi opencode mimo qwen ashlr`. The Qwen
-Code binary is `qwen`; `@qwen-code/qwen-code` is the npm package that provides it.
+A roll call of eight commands: `lumen codegraph glyphdown specify kimi opencode mimo qwen`.
+The Qwen Code binary is `qwen`; `@qwen-code/qwen-code` is the npm package that provides it.
 
 ```
 ✅ lumen found
@@ -184,6 +196,13 @@ Code binary is `qwen`; `@qwen-code/qwen-code` is the npm package that provides i
 current shell has not loaded yet — re-check after opening a new terminal before installing
 anything by hand.
 
+> **`ashlr` is deliberately absent from this list.** It is a Claude Code *plugin*, not a CLI:
+> its installer clones into `~/.claude/plugins/cache/ashlr-marketplace/ashlr/` and creates no
+> binary at all, so `command -v ashlr` failing is correct behaviour rather than a fault. The
+> wizard checks the plugin **directory** instead and reports it in the
+> `Claude Code plugins / optional tools` summary section. An earlier revision probed `PATH` for
+> it and printed a permanent, misleading `❌`; tests `A42` and `A43` stop that coming back.
+
 ### Step 5 — Configuring MCP Servers for Each Agent
 
 Registers Lumen with each agent **at that agent's real config location**, clones two Claude
@@ -191,22 +210,30 @@ marketplace plugin repositories, and adds the Glyphdown hooks.
 
 ```
 ✅ Lumen MCP registered with Claude Code (user scope).
+✅ Lumen registered in ~/.claude.json (default config).
 ✅ Glyphdown PreToolUse/PostToolUse hooks ensured for Claude Code.
 ℹ️ Backed up /home/you/.kimi-code/mcp.json
 ✅ MCP servers (Lumen + CodeGraph) configured for Kimi at /home/you/.kimi-code/mcp.json
 ✅ Lumen MCP configured for Opencode at /home/you/.config/opencode/opencode.json
-⚠️  MiMo Code: no documented MCP config file - configure Lumen manually:
-⚠️    command: /home/you/.local/bin/lumen   args: ["stdio"]
+✅ MiMo Code sees Lumen (inherited from ~/.claude.json).
 ✅ MCP servers (Lumen + CodeGraph) configured for Qwen Code at /home/you/.qwen/settings.json
 ```
 
 | Agent | Where it is written | Note |
 | :--- | :--- | :--- |
-| Claude Code | `claude mcp add-json lumen … -s user` | Through the CLI, never by hand-editing `~/.claude.json`, which also holds session and project state. Skipped when `claude mcp get lumen` already succeeds. |
+| Claude Code | `claude mcp add-json lumen … -s user` | Through the CLI, never by hand-editing the config. Skipped when `claude mcp get lumen` already succeeds. **The CLI writes into the *active* `CLAUDE_CONFIG_DIR`**, which is not necessarily `~/.claude.json`. |
+| *(the default config)* | `~/.claude.json`, `jq`-merged | Because of the line above. `.mcpServers.lumen = {"type":"stdio","command":<wrapper>,"args":["stdio"]}`. Only when the file already exists and `jq` is available; backed up under component `claude` first. Skipped with `✅ Lumen already present in ~/.claude.json` if it is there. |
 | Kimi | `~/.kimi-code/mcp.json` | Skipped unless `~/.kimi-code` exists. |
 | Opencode | `~/.config/opencode/opencode.json` | Uses a `.mcp` object, **not** `.mcpServers`. Skipped unless the file already exists. |
-| MiMo Code | *(none)* | No documented MCP config file — the wizard prints the values instead of inventing a path. |
+| MiMo Code | *(nothing MiMo-specific)* | It **inherits** from `~/.claude.json` — the row above is what configures it. The wizard verifies with `timeout 25 mimo mcp list`, and says `ℹ️ MiMo Code inherits from ~/.claude.json; verify with: mimo mcp list` when it cannot confirm. |
 | Qwen Code | `~/.qwen/settings.json` | Skipped unless `~/.qwen` exists. |
+
+> **Correction.** Earlier revisions of this guide said MiMo Code "has no documented MCP config
+> file" and listed adding Lumen to it as *the one genuinely manual step*. **That was wrong.**
+> MiMo reads MCP servers from `~/.claude.json` and labels them `claude:~/.claude.json`; there
+> was never anything to configure by hand. What *was* missing is the mirror — without it, a
+> session running with a non-default `CLAUDE_CONFIG_DIR` gave Claude Code Lumen and left every
+> inheritor blind to it. Tests `A44`, `A45`, `A46`.
 
 | If you see | Do this |
 | :--- | :--- |
@@ -215,7 +242,8 @@ marketplace plugin repositories, and adds the Glyphdown hooks.
 | `⚠️ glyphdown not installed - skipping its Claude Code hook.` | Expected. A hook pointing at a missing binary would fire and fail on every tool call, so the wizard refuses to add one. |
 | `⚠️ WIZARD_SKIP_GLYPHDOWN_HOOK is set - glyphdown hook NOT registered.` | You asked for it. Glyphdown is still installed, it is just not wired into Claude Code. Re-run without the variable to register it — the wizard prints `ℹ️ Enable it later by re-running without that variable.` |
 | `⚠️ Kimi not installed (~/.kimi-code absent) - skipping its MCP config.` | Expected if you do not use Kimi. Install it, then re-run. Same for Qwen (`~/.qwen`) and Opencode (its config file). |
-| `⚠️ MiMo Code: no documented MCP config file` | The one genuinely manual step. Add the printed `command` / `args` to MiMo's configuration yourself. |
+| `ℹ️ MiMo Code inherits from ~/.claude.json; verify with: mimo mcp list` | The wizard could not confirm MiMo sees Lumen — either `mimo` is not on `PATH`, or the probe took longer than its 25 s timeout. Run `mimo mcp list \| grep lumen` yourself. If it is missing, check `jq -c '.mcpServers.lumen' ~/.claude.json`. |
+| `⚠️ Could not update ~/.claude.json - left unchanged.` | The `jq` mirror failed. Your file is untouched. Add it by hand: `.mcpServers.lumen = {"type":"stdio","command":"~/.local/bin/lumen","args":["stdio"]}` (with the path written out in full). |
 
 Your existing keys and MCP servers in those files are preserved — every edit is a `jq`
 merge rather than a replacement, and every file is backed up and recorded in the rollback
@@ -264,10 +292,19 @@ Then the step header prints and both indexes are built or refreshed for the proj
  Step 7: Indexing This Project
 ========================================
 ℹ️ CodeGraph index exists - running incremental sync...
-✅ CodeGraph index step finished.
+✅ CodeGraph sync completed.
 ℹ️ Lumen indexing /path/to/project (incremental; may take a long time)...
 ✅ Lumen index step finished.
 ```
+
+(On a first run the two CodeGraph lines read `ℹ️ No CodeGraph index yet - building it (this
+writes to .codegraph/)...` and `✅ CodeGraph initial index built.` instead. Failures print
+`⚠️ codegraph sync FAILED.` / `⚠️ codegraph init FAILED.`)
+
+> **A `✅` here means the run finished, not that the vectors are correct.** If the embedding
+> backend was on a GPU/Vulkan path, `lumen index` can complete cleanly having written
+> well-formed but *stale* vectors. Verify with `./scripts/lumen-index-doctor.sh "$PWD"` — see
+> [Checking the index is actually correct](#checking-the-index-is-actually-correct).
 
 | If you see | What it means | Do this |
 | :--- | :--- | :--- |
@@ -282,10 +319,65 @@ Neither index is recorded in the rollback manifest. Undo them with `rm -rf .code
 
 ### Final summary
 
-The wizard closes with five `✅`/`❌` sections — global commands, agent MCP configs, Lumen
-setup, telemetry/analytics, project state — and a numbered "Next steps" list. Read the Lumen
-section carefully: a `❌ embedding model` there means search will not work no matter how
+The wizard closes with **six** `✅`/`❌` sections:
+
+1. `Installed Global Commands`
+2. `Claude Code plugins / optional tools` — the ashlr plugin (by directory) and WOZCODE
+3. `Agent MCP Configurations (Lumen)`
+4. `Lumen Semantic Search`
+5. `Telemetry / analytics`
+6. `Project` — SpecKit, SuperSpec, the Glyphdown hook
+
+Read section 4 carefully: a `❌ embedding model` there means search will not work no matter how
 green the rest is.
+
+Every line in section 3 probes **behaviour or content**, never mere file existence — an
+earlier revision scored a green tick for 0-byte files, and an independent audit refuted it by
+replaying the predicates against empty targets. `➖ n/a` means the agent is not installed; a
+warning further up explains any gap.
+
+### ACTION REQUIRED
+
+After the summary comes the part the wizard cannot fake:
+
+```
+========================================
+ ACTION REQUIRED — 3 step(s) only you can do
+========================================
+A shell script cannot run Claude Code slash commands or use your sudo.
+These are NOT done. Nothing above claims they are.
+
+1. Activate the ashlr plugin inside Claude Code
+     /plugin marketplace add ashlrai/ashlr-plugin
+     /plugin install ashlr@ashlr-marketplace
+     /reload-plugins
+     /ashlr:ashlr-status          # confirm it is live
+
+2. Build the Lumen semantic index for this project
+     ./scripts/lumen-reindex.sh "/path/to/project"
+     ./scripts/lumen-index-doctor.sh "/path/to/project"   # verify afterwards
+
+3. Refresh PATH in your existing terminals
+     exec bash -l      # or just open a new terminal
+
+ℹ️  Saved to /path/to/project/MANUAL-STEPS.md so you can come back to it.
+
+Read the 3 step(s) above. Press Enter to continue...
+```
+
+Three things to know:
+
+- **The list is generated from your machine's actual state**, re-evaluated on every run. Do a
+  step, re-run the wizard, and it disappears. Nothing is ticked off by hand.
+- **It is saved to `<project-root>/MANUAL-STEPS.md`**, overwritten each run. Add it to
+  `.gitignore` if you do not want it committed; `rm` it when you are done. It is not in the
+  rollback manifest.
+- **The Enter pause is the wizard's only blocking prompt.** It is skipped when stdin is not a
+  terminal (pipes, CI) and when `WIZARD_NONINTERACTIVE=1` is set. The list still prints and the
+  file is still written either way.
+
+The steps it can raise, and what each is really telling you, are documented in
+[`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md).
 
 ---
 
@@ -327,7 +419,43 @@ jq -r '.enabled' ~/.codegraph/telemetry.json           # -> false
 
 # 8. The run was recorded and can be undone
 ./scripts/rollback-agents-wizard.sh --list
+
+# 9. MiMo inherits Lumen from ~/.claude.json (there is no MiMo-specific config)
+jq -c '.mcpServers.lumen' ~/.claude.json
+mimo mcp list | grep lumen
+
+# 10. The embedding backend is not on the corrupting Vulkan path
+./scripts/ollama-vulkan-remediation.sh --check       # read-only; expect library=cpu
 ```
+
+### Checking the index is actually correct
+
+A successful `lumen index` proves the run finished. It does not prove the vectors are right.
+On a GPU/Vulkan embedding path, ollama can return **well-formed, unit-norm, correctly-sized
+vectors that are simply the previous vector repeated** — under HTTP 200, invisible to every
+per-vector check. On this project that silently corrupted 758 vectors across 55 files, and a
+full forensic audit passed every test it ran and declared the index trustworthy.
+
+```bash
+./scripts/lumen-index-doctor.sh "$PWD"
+#   exit 0 = healthy · 1 = corruption found · 2 = could not inspect
+```
+
+It is read-only and safe to run while an index is building. What it adds over the conventional
+checks is **aggregate distinctness**: *N* distinct texts must produce *N* distinct vectors.
+Nothing you can measure one vector at a time can tell you that.
+
+If it exits 1, fix the backend first and then rebuild — `--force` is mandatory, because a
+corrupted file still carries a valid content hash and an incremental run skips it forever:
+
+```bash
+./scripts/ollama-vulkan-remediation.sh --check      # library=Vulkan? then --apply
+./scripts/lumen-reindex.sh "$PWD" --force
+./scripts/lumen-index-doctor.sh "$PWD"              # expect exit 0
+```
+
+Background: [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md) ·
+[`INDEX-CORRUPTION-RECONCILIATION.md`](./INDEX-CORRUPTION-RECONCILIATION.md).
 
 An end-to-end check, including a real index and a real semantic search against a throwaway
 repository:
@@ -448,6 +576,11 @@ Things worth knowing on day one:
 - **The wizard can do the first index for you.** Re-run it with `WIZARD_INDEX_PROJECT=1`
   and [Step 7](#step-7--indexing-this-project) indexes the project root with both Lumen and
   CodeGraph. It is opt-in precisely because that first pass can be slow.
+- **A finished index is not a correct index.** Run
+  `./scripts/lumen-index-doctor.sh <path>` after any large indexing run — see
+  [Checking the index is actually correct](#checking-the-index-is-actually-correct). For long
+  unattended runs prefer `./scripts/lumen-reindex.sh <path>`, which survives the transient
+  backend faults that make a bare `lumen index` die halfway.
 - Your agents get the same search through the Lumen MCP server automatically — you do not
   have to run anything for them.
 
@@ -469,6 +602,12 @@ them are optional; the defaults are what you get by doing nothing.
 | `WIZARD_KEEP_TELEMETRY` | **Opt out of the telemetry opt-out.** Any non-empty value leaves `~/.bashrc`, CodeGraph and `~/.qwen/settings.json` telemetry settings exactly as they are. Unset, Step 3 disables analytics — see [Step 3](#step-3--lumen-semantic-search-setup). | `WIZARD_KEEP_TELEMETRY=1 ./scripts/setup-agents-wizard.sh` |
 | `WIZARD_SKIP_GLYPHDOWN_HOOK` | Installs Glyphdown but does **not** register its Claude Code hook. The hook fires on every tool call, so this lets you defer that decision without skipping the rest of Step 5. The summary then shows `➖ Glyphdown Hook  skipped on request`. | `WIZARD_SKIP_GLYPHDOWN_HOOK=1 ./scripts/setup-agents-wizard.sh` |
 | `WIZARD_STATE_DIR` | Where the rollback sessions live. Defaults to `$HOME/.local/share/setup-agents-wizard`. **Set it identically for `scripts/rollback-agents-wizard.sh`**, or that tool will report `No backup sessions found`. | `WIZARD_STATE_DIR=$PWD/.wizard-state ./scripts/setup-agents-wizard.sh` |
+| `WIZARD_NONINTERACTIVE` | **Skip the Enter pause** at the end of the `ACTION REQUIRED` section. The section still prints and `MANUAL-STEPS.md` is still written — you are simply not asked to acknowledge it. The pause is skipped automatically when stdin is not a terminal, so this is only needed for automation running *on* a TTY. | `WIZARD_NONINTERACTIVE=1 ./scripts/setup-agents-wizard.sh` |
+| `CLAUDE_CONFIG_DIR` | Not set by the wizard — **read** by it. Defaults to `~/.claude`. It decides where the wizard looks for the ashlr plugin cache and the `plugins/marketplaces/` activation marker when building the `ACTION REQUIRED` list, and it is where `claude mcp add-json -s user` actually writes. This is precisely why the wizard also mirrors Lumen into `~/.claude.json`. | `CLAUDE_CONFIG_DIR=~/.claude-work ./scripts/setup-agents-wizard.sh` |
+
+The three operational scripts read a few of their own — `MAX_ROUNDS` and `LUMEN_REINDEX_LOG`
+for `lumen-reindex.sh`, `LUMEN_STORE` for `lumen-index-doctor.sh`. See
+[`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md).
 
 > **Changing `LUMEN_EMBED_MODEL` has a cost.** The model is part of an index's identity. If
 > the CLI and your agents disagree about the model, Lumen builds a **second index per
@@ -516,6 +655,10 @@ Three caveats:
 3. **Re-running does not undo your edits.** If you hand-edited the managed block in
    `~/.bashrc`, the next run replaces it. Put your own customizations *outside* the
    markers.
+4. **`MANUAL-STEPS.md` is overwritten every run**, and is not in the rollback manifest. It is a
+   snapshot of what is *still* pending, not a checklist you tick off — the list shrinks by
+   itself as you complete the steps and the wizard's detection stops firing. Do not edit it and
+   expect the edit to survive; `rm` it when you are done.
 
 To undo the shell changes, roll back the `shell` component — it restores both files
 byte-exactly, markers and all:

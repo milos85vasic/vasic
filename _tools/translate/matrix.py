@@ -2,10 +2,14 @@
 """Build the honest PASS/FAIL/ERROR matrix from review JSONs under
 _tests/evidence/translate-new/<lang>/. Prints per-language counts and lists any
 doc that is not PASS with the recorded reason."""
-import json, os, glob, sys
+import json, os, pathlib, re, glob, sys
 
-BASE = "/Volumes/T7/Projects/vasic/_tests/evidence/translate-new"
-CONTENT = "/Volumes/T7/Projects/vasic/_content"
+# Repo root — NEVER hardcoded. Derived from this file's own location
+# (_tools/translate/matrix.py -> parents[2] == repo root); VASIC_ROOT overrides.
+REPO = pathlib.Path(os.environ.get("VASIC_ROOT")
+                    or pathlib.Path(__file__).resolve().parents[2]).resolve()
+BASE = os.path.join(REPO, "_tests/evidence/translate-new")
+CONTENT = os.path.join(REPO, "_content")
 LANGS = "ru sr de es fr be zh kk hi ja ko ar tr fa".split()
 DOCS = sorted(
     os.path.relpath(p, CONTENT)
@@ -13,6 +17,25 @@ DOCS = sorted(
     for p in glob.glob(os.path.join(CONTENT, sub, "*.md"))
 )
 NDOCS = len(DOCS)
+if NDOCS == 0:
+    # Fail LOUDLY rather than dividing by zero further down: an empty doc set
+    # means the derived repo root is wrong, not that there is nothing to report.
+    sys.exit("FATAL: no source docs under %s — is %s the repository root? "
+             "Set VASIC_ROOT to override." % (CONTENT, REPO))
+
+
+def anchored(p):
+    """Review JSONs record `_translated` as an ABSOLUTE path belonging to the
+    machine that produced them (historically an absolute macOS path).
+    On any other checkout that prefix is meaningless, so re-anchor the
+    repo-relative tail (_content_<lang>/...) onto the derived REPO. This never
+    fakes a PASS: the re-anchored file still has to actually exist."""
+    if not p:
+        return ""
+    if os.path.isfile(p):
+        return p
+    m = re.search(r"(_content[^/]*/.*)$", str(p).replace("\\", "/"))
+    return os.path.join(REPO, m.group(1)) if m else p
 
 
 def rj(lang, rel):
@@ -42,7 +65,7 @@ for lang in LANGS:
             c["PENDING"] += 1; bad.append((rel, "PENDING", "not yet run"))
             continue
         v = d.get("verdict", "ERROR")
-        outok = os.path.isfile(d.get("_translated", "")) if d.get("_translated") else False
+        outok = os.path.isfile(anchored(d.get("_translated", ""))) if d.get("_translated") else False
         if v == "PASS" and outok:
             c["PASS"] += 1
         elif v == "FAIL":

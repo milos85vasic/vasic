@@ -4,9 +4,12 @@ Reviewer: groq/llama-3.3-70b (distinct from the zhipu translator and from the
 doc-batch's cohere reviewer). Builds line-parallel EN-source / translation files
 from the per-lang JSONs and runs review_translation.py, saving each verdict to
 _tests/evidence/ui-l10n/reviews/<lang>.review.json. Prints a PASS/FAIL summary."""
-import json, os, subprocess, sys, tempfile
+import json, os, pathlib, subprocess, sys, tempfile
 
-REPO = "/Volumes/T7/Projects/vasic"
+# Repo root — NEVER hardcoded. Derived from this file's own location
+# (_tools/gen/review_ui_all.py -> parents[2] == repo root); VASIC_ROOT overrides.
+REPO = pathlib.Path(os.environ.get("VASIC_ROOT")
+                    or pathlib.Path(__file__).resolve().parents[2]).resolve()
 GEN = f"{REPO}/_tools/gen"
 REVIEWER = f"{REPO}/_tools/review_translation.py"
 GLOSSARY = f"{REPO}/_tools/translate/glossary.json"

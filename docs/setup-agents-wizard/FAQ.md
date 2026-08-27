@@ -476,7 +476,17 @@ component. To unregister the MCP server *only*, run the recorded undo command yo
 claude mcp remove lumen -s user
 ```
 
-MiMo Code has no component because the wizard writes nothing for it.
+MiMo Code has no component of its own because there is no MiMo-specific file: it **inherits**
+MCP servers from `~/.claude.json`. Undoing it therefore means removing the mirror, which lives
+in the `claude` component:
+
+```bash
+jq 'del(.mcpServers.lumen)' ~/.claude.json > /tmp/cj && mv /tmp/cj ~/.claude.json
+mimo mcp list | grep lumen        # should now find nothing
+```
+
+Note that a full `-c claude` rollback restores `~/.claude.json` byte-exactly, which removes the
+mirror as a side effect — along with the Glyphdown hooks and the Claude Code registration.
 
 Restart the agent afterwards — MCP servers are launched at session start.
 

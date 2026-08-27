@@ -46,9 +46,11 @@ die() { echo "FATAL: $*" >&2; exit 1; }
 # HelixTranslate engine: default to the REPO-RELATIVE engine entrypoint produced
 # by the committed container recipe (_tools/distribute-helixtranslate.sh builds
 # the helixtranslate:cli image + installs the runner; _tools/helixtranslate-
-# container.sh is the committed drop-in shim). NEVER a sibling-project absolute
-# path (e.g. /Volumes/.../helix_translate/build/unified-translator) — a clean
-# clone of THIS repo cannot reproduce that (§11.4.77). Override with
+# container.sh is the committed drop-in shim). NEVER a hardcoded absolute path
+# into a sibling project (e.g. one ending in helix_translate/build/unified-
+# translator, rooted at whatever directory the original author happened to keep
+# their projects in) — such a path resolves only on that one machine, and a
+# clean clone of THIS repo cannot reproduce it (§11.4.77). Override with
 # HELIX_TRANSLATE_BIN=<path> if you have a local engine binary.
 ENGINE="${HELIX_TRANSLATE_BIN:-$TOOLS/helixtranslate-container.sh}"
 EVIDENCE_DIR="${TRANSLATE_EVIDENCE_DIR:-$REPO/_tests/evidence/translate}"

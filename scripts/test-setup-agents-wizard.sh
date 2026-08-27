@@ -672,6 +672,90 @@ noesc=$(printf '%s\n' "$isrc" "$dsrc" | grep -c 'sudo ' || true)
 assert_eq "I14 reindex and doctor never call sudo" "0" "$noesc"
 
 # ==============================================================================
+group "J. Hardcoded-path audit"
+# ==============================================================================
+AUDIT="$SCRIPT_DIR/audit-hardcoded-paths.sh"
+# Built from fragments on purpose: writing the literal here would make this very
+# file a violation of the rule it tests (J8). Concatenation keeps J8 exemption-free.
+BADROOT="/Vol""umes/T7/Projects/vasic"
+if [[ -x "$AUDIT" ]] && bash -n "$AUDIT" 2>/dev/null; then
+    record "J1 audit script is executable and parses" PASS "rc=0" "rc=0"
+else
+    record "J1 audit script is executable and parses" FAIL "rc=0" "missing or syntax error"
+fi
+
+# Exercise it against throwaway repos so the verdicts are provable, not asserted.
+mk_repo() {
+    local d; d=$(mktemp -d)
+    git -C "$d" init -q .
+    git -C "$d" config user.email t@t; git -C "$d" config user.name t
+    printf '%s' "$d"
+}
+
+# CLEAN repo -> must exit 0
+box=$(mk_repo)
+printf 'ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"\n' > "$box/ok.sh"
+git -C "$box" add -A >/dev/null 2>&1
+bash "$AUDIT" "$box" >/dev/null 2>&1; rc=$?
+assert_eq "J2 exits 0 on a repo with no hardcoded paths" "0" "$rc"
+rm -rf "$box"
+
+# DIRTY repo -> must exit 1
+box=$(mk_repo)
+printf 'ROOT="%s"\n' "$BADROOT" > "$box/bad.sh"
+git -C "$box" add -A >/dev/null 2>&1
+bash "$AUDIT" "$box" >/dev/null 2>&1; rc=$?
+assert_eq "J3 exits 1 when a machine-specific path is present" "1" "$rc"
+rm -rf "$box"
+
+# REGRESSION: a COMMENT describing the historical bug must not trip the audit
+# that exists because of that bug. deploy-langs.sh carries exactly such a comment.
+box=$(mk_repo)
+printf '# ROOT was hardcoded to "%s" - a macOS path.\nROOT="$(pwd)"\n' "$BADROOT" > "$box/commented.sh"
+git -C "$box" add -A >/dev/null 2>&1
+bash "$AUDIT" "$box" >/dev/null 2>&1; rc=$?
+assert_eq "J4 comment-only mentions do not count as violations" "0" "$rc"
+rm -rf "$box"
+
+# $HOME / ~ are not machine-specific and must be allowed
+box=$(mk_repo)
+printf 'STORE="${LUMEN_STORE:-$HOME/.local/share/lumen}"\nX=~/.config\n' > "$box/home.sh"
+git -C "$box" add -A >/dev/null 2>&1
+bash "$AUDIT" "$box" >/dev/null 2>&1; rc=$?
+assert_eq "J5 \$HOME and ~ are not flagged" "0" "$rc"
+rm -rf "$box"
+
+# The allowlist must actually suppress a violation
+box=$(mk_repo)
+printf 'ROOT="%s"\n' "$BADROOT" > "$box/bad.sh"
+printf '# unavoidable for reason X\nbad.sh\n' > "$box/.hardcoded-paths-allow"
+git -C "$box" add -A >/dev/null 2>&1
+bash "$AUDIT" "$box" >/dev/null 2>&1; rc=$?
+assert_eq "J6 .hardcoded-paths-allow suppresses a listed file" "0" "$rc"
+rm -rf "$box"
+
+# Standard system paths must NOT be flagged - only somebody's home directory.
+box=$(mk_repo)
+printf 'ENVFILE=/etc/sysconfig/ollama\nB=/usr/bin/env\nT=/tmp/x\n' > "$box/sys.sh"
+git -C "$box" add -A >/dev/null 2>&1
+bash "$AUDIT" "$box" >/dev/null 2>&1; rc=$?
+assert_eq "J7 /etc /usr /tmp are not treated as machine-specific" "0" "$rc"
+rm -rf "$box"
+
+# The scripts THIS suite ships must themselves be clean - no exemptions.
+# The detector itself contains the patterns it searches for, so it is
+# allowlisted by name rather than exempted from the rule.
+# The pattern is assembled from fragments for the same reason as BADROOT:
+# spelling it out would make this file the very violation J8 checks for.
+_pat="(/Vol""umes/|/Us""ers/[A-Za-z]|/run/me""dia/[A-Za-z])"
+own=$(for f in "$SCRIPT_DIR"/*.sh; do
+        case "$f" in *audit-hardcoded-paths.sh) continue;; esac
+        grep -vE '^[[:space:]]*#' "$f" 2>/dev/null \
+          | grep -qE "$_pat" && echo "$f"
+      done | wc -l)
+assert_eq "J8 our own scripts contain no machine-specific paths" "0" "$own"
+
+# ==============================================================================
 # Evidence summary
 # ==============================================================================
 TOTAL=$((PASS+FAIL+SKIP))

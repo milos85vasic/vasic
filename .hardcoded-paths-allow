@@ -1,0 +1,6 @@
+# Files allowed to contain machine-specific absolute paths, with the reason.
+# Anything not listed here is a build failure. Keep this list short and justified.
+
+# This IS the detector: its PATTERN variable must literally contain the path
+# prefixes it searches for. Excluding it is not an exemption from the rule.
+scripts/audit-hardcoded-paths.sh

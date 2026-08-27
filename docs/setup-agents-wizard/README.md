@@ -10,7 +10,7 @@ This fully automated wizard (`scripts/setup-agents-wizard.sh`) installs and conf
 
 It also equips every agent it can with the high‑efficiency **MCP (Model Context Protocol) server** **Lumen** – and, for **Kimi** and **Qwen Code**, **CodeGraph** too – plus a shared stack of performance optimizers (`ashlr`, `WOZCODE`, `Glyphdown`, `SpecKit`, `SuperSpec`).
 
-> **Almost no manual configuration is required after the script finishes.** The one exception is **MiMo Code**, which has no documented MCP config file; the wizard prints the values to enter rather than inventing a path. Everything the wizard *does* change is recorded and can be undone — see [Safety and reversibility](#-safety-and-reversibility).
+> **A shell script cannot do everything.** Claude Code slash commands run *inside* Claude Code, and privileged host changes need your `sudo`. Rather than skipping those silently and printing a green summary anyway, the wizard **detects** them, prints an **ACTION REQUIRED** section, writes `MANUAL-STEPS.md` to your project root, and pauses for Enter on a terminal. See [ACTION REQUIRED](#-action-required--the-steps-only-you-can-do). Everything the wizard *does* change is recorded and can be undone — see [Safety and reversibility](#-safety-and-reversibility).
 
 ---
 
@@ -26,12 +26,29 @@ This README is the entry point. The companion documents go deeper:
 | [`FAQ.md`](./FAQ.md) | Why the design is what it is: no npm Lumen, wrapper instead of symlink, `stdio` vs `serve`, re‑run safety, index storage, the telemetry opt‑out, complete uninstall. |
 | [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) | Symptom‑first fixes: launcher not found, stuck indexing, empty search results, unreachable embedding backend, duplicate `PATH` entries, restoring from a backup session. |
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Diagrams and rationale: end‑to‑end flow, Lumen resolution sequence, PATH wiring, files touched, test‑coverage map, indexing state machine. |
+| [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md) | **The three scripts that run *after* installation**: the ollama Vulkan remediation, the resilient reindexer, and the index doctor. Every flag, every exit code, and what each one will *not* do. |
+| [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md) | The manual‑step system: what the wizard genuinely cannot do, how it detects each pending step (`plugins/cache/` vs `plugins/marketplaces/`), `MANUAL-STEPS.md`, the Enter pause and `WIZARD_NONINTERACTIVE`, ashlr‑as‑a‑plugin and the genome. |
+| [`OLLAMA-REMEDIATION.md`](./OLLAMA-REMEDIATION.md) | The operator runbook for an ollama backend that corrupts embeddings on a Vulkan iGPU. **Status on this host: resolved** — the record of what was applied and how it was verified. |
+
+**Historical records — read, do not edit.** These are dated investigations kept as evidence. Where they disagree with the list above, the list above wins.
+
+| Document | What it is |
+| :--- | :--- |
+| [`INDEX-CORRUPTION-RECONCILIATION.md`](./INDEX-CORRUPTION-RECONCILIATION.md) | **The settled verdict on the index.** 758 stale‑duplicate vectors across 55 files; why the batch total, not the chunk size, was the trigger. Start here for anything about index trustworthiness. |
+| [`LUMEN-INDEX-INTEGRITY.md`](./LUMEN-INDEX-INTEGRITY.md) | An earlier full audit that concluded the index was `TRUSTWORTHY`. Its measurements are correct and reproduce exactly; **its conclusion is superseded** — see [Why "no NaN" did not mean "no corruption"](#-why-no-nan-did-not-mean-no-corruption). |
+| [`OLLAMA-NAN-WEDGE.md`](./OLLAMA-NAN-WEDGE.md) | The original evidence and harness for the loud failure modes (HTTP 500 `NaN`, all‑zero vectors, the wedged runner). |
+| [`INDEPENDENT-VERIFICATION.md`](./INDEPENDENT-VERIFICATION.md) | An adversarial replay of this documentation's claims against the code. |
+| [`DOC-AUDIT.md`](./DOC-AUDIT.md) | A documentation‑vs‑code consistency audit. |
+| [`CODEGRAPH-UPGRADE.md`](./CODEGRAPH-UPGRADE.md) | CodeGraph version notes. |
 
 | Script | What it is |
 | :--- | :--- |
 | `scripts/setup-agents-wizard.sh` | The wizard. |
 | `scripts/rollback-agents-wizard.sh` | Undoes any wizard run, wholesale or one component at a time. See [Safety and reversibility](#-safety-and-reversibility). |
 | `scripts/test-setup-agents-wizard.sh` | The test suite; `--no-live` skips the network/daemon checks. |
+| `scripts/ollama-vulkan-remediation.sh` | `--check` (default, read‑only) · `--apply` · `--verify` · `--rollback`. Takes the GPU out of ollama's embedding path. [Reference](./OPERATIONAL-SCRIPTS.md#ollama-vulkan-remediationsh). |
+| `scripts/lumen-reindex.sh` | `[path] [--force] [--allow-gpu]`. Resilient reindex that **refuses to run on a Vulkan backend**. [Reference](./OPERATIONAL-SCRIPTS.md#lumen-reindexsh). |
+| `scripts/lumen-index-doctor.sh` | `[path]`. Read‑only corruption check; **exit 1 means corruption found**. [Reference](./OPERATIONAL-SCRIPTS.md#lumen-index-doctorsh). |
 
 ---
 
@@ -69,7 +86,7 @@ The script already lives in this repository at `scripts/setup-agents-wizard.sh`.
    ./scripts/setup-agents-wizard.sh
    ```
 
-> The script is **non‑interactive** and **idempotent** – you can run it multiple times safely. It never prompts you, but it *can* ask for a `sudo` password when installing `jq`, installing Ollama, or enabling the `ollama` service, so run it from a terminal you are watching.
+> The script is **idempotent** – you can run it multiple times safely. It is non‑interactive throughout, with exactly **one** exception: at the very end it pauses for Enter so the [ACTION REQUIRED](#-action-required--the-steps-only-you-can-do) list cannot scroll past unread. That pause is skipped when stdin is not a terminal (pipes, CI) or when `WIZARD_NONINTERACTIVE=1` is set. It *can* also ask for a `sudo` password when installing `jq`, installing Ollama, or enabling the `ollama` service — that prompt comes from `sudo`, not from the script — so run it from a terminal you are watching.
 
 ---
 
@@ -82,12 +99,59 @@ Steps 1–6 always run. **Step 7 is opt‑in** and only appears when you set `WI
 | **1** | `Step 1: Checking System Prerequisites` | Verifies `git`, `curl`, `node`, `npm`. Exits `1` if any is missing. Installs `jq` when needed. |
 | **2** | `Step 2: Installing / Updating Global CLI Tools` | Bun, then **only the tools that are missing**, by verified package name: `@colbymchenry/codegraph`, `glyphdown`, `@qwen-code/qwen-code`, and `specify` via `uv tool install specify-cli`. Kimi, Opencode and MiMo Code are **detected, not installed** — they ship their own installers. Then `ashlr-plugin` and optional WOZCODE. |
 | **3** | `Step 3: Lumen Semantic Search Setup` | First disables usage analytics across the installed tooling (see [Telemetry opt‑out](#-telemetry-opt-out)), then installs the `~/.local/bin/lumen` wrapper and bash completions, writes the managed `~/.bashrc` and `~/.bash_profile` PATH blocks, ensures Ollama plus the embedding model, and verifies all of it. |
-| **4** | `Step 4: Verifying CLI Availability` | Prints ✅ / ⚠️ for `lumen`, `codegraph`, `glyphdown`, `specify`, `kimi`, `opencode`, `mimo`, `qwen`, `ashlr`. (`qwen` is the binary; `@qwen-code/qwen-code` is the package that provides it.) |
-| **5** | `Step 5: Configuring MCP Servers for Each Agent` | Extends each agent's **real** config in place: `claude mcp add-json` for Claude Code, `~/.kimi-code/mcp.json`, `~/.config/opencode/opencode.json`, `~/.qwen/settings.json`. Clones the Claude marketplace plugins and adds the Glyphdown `PreToolUse`/`PostToolUse` hooks when `glyphdown` is installed and `WIZARD_SKIP_GLYPHDOWN_HOOK` is unset. MiMo Code gets an honest manual-step warning. |
+| **4** | `Step 4: Verifying CLI Availability` | Prints ✅ / ⚠️ for the **eight** CLIs: `lumen`, `codegraph`, `glyphdown`, `specify`, `kimi`, `opencode`, `mimo`, `qwen`. (`qwen` is the binary; `@qwen-code/qwen-code` is the package that provides it.) **`ashlr` is deliberately not in this list** — it is a Claude Code plugin with no binary, reported in its own summary section instead. |
+| **5** | `Step 5: Configuring MCP Servers for Each Agent` | Extends each agent's **real** config in place: `claude mcp add-json` for Claude Code, a `jq` mirror into `~/.claude.json` (which MiMo and friends inherit from), `~/.kimi-code/mcp.json`, `~/.config/opencode/opencode.json`, `~/.qwen/settings.json`. Clones the Claude marketplace plugins and adds the Glyphdown `PreToolUse`/`PostToolUse` hooks when `glyphdown` is installed and `WIZARD_SKIP_GLYPHDOWN_HOOK` is unset. MiMo Code is **probed** with `mimo mcp list`, not guessed at. |
 | **6** | `Step 6: Project-Level Setup` | Creates `submodules/`, initializes SpecKit, checks out SuperSpec, registers it as a SpecKit dev extension. |
 | **7** | `Step 7: Indexing This Project` | **Opt‑in — only with `WIZARD_INDEX_PROJECT=1`.** Refreshes the CodeGraph index for the project root (`codegraph sync` when `.codegraph/codegraph.db` already exists, `codegraph init` when it does not — never `codegraph index`, which discards the existing database), then runs `lumen index "$PROJECT_ROOT"`. Without the variable the wizard prints `ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).` and does nothing. |
 
+After the final summary the wizard prints an **ACTION REQUIRED** section — the steps a script genuinely cannot perform — and, on a terminal, waits for Enter. See [ACTION REQUIRED](#-action-required--the-steps-only-you-can-do).
+
 For the full narration of each step – including the exact console output – see [`USER_GUIDE.md`](./USER_GUIDE.md).
+
+---
+
+## 🚦 ACTION REQUIRED — the steps only you can do
+
+Two kinds of work are outside a shell script's reach: **Claude Code slash commands** (they run inside a Claude Code session; there is no CLI equivalent) and **privileged host changes** (they need your `sudo`, and restarting a system service is not an installer's decision to make quietly).
+
+A wizard that skips those silently prints a green summary for work that was never done. This one does the opposite:
+
+```
+========================================
+ ACTION REQUIRED — 3 step(s) only you can do
+========================================
+A shell script cannot run Claude Code slash commands or use your sudo.
+These are NOT done. Nothing above claims they are.
+
+1. Activate the ashlr plugin inside Claude Code
+     /plugin marketplace add ashlrai/ashlr-plugin
+     /plugin install ashlr@ashlr-marketplace
+     /reload-plugins
+     /ashlr:ashlr-status          # confirm it is live
+...
+ℹ️  Saved to /path/to/project/MANUAL-STEPS.md so you can come back to it.
+
+Read the 3 step(s) above. Press Enter to continue...
+```
+
+**Detection is stateful, and that is the whole trick.** Claude Code keeps two directories that mean different things:
+
+| Path | Written by | Means |
+| :--- | :--- | :--- |
+| `<claude-dir>/plugins/cache/<mkt>/` | the vendor installer the wizard ran | the bits are on disk — **nothing is wired in** |
+| `<claude-dir>/plugins/marketplaces/<mkt>/` | Claude Code, when *you* run `/plugin marketplace add` | **a human actually did it** |
+
+So the wizard can tell "I downloaded it" from "you activated it" without a state file of its own. Do the step, re-run the wizard, and the entry disappears — because the evidence of having done it is a directory that now exists. Test `A50` guards the `marketplaces/` probe specifically; checking only the cache would report the plugin as done the moment it was downloaded.
+
+The steps it can raise: activate the ashlr plugin · initialise the ashlr genome · apply the ollama Vulkan remediation · supply a WOZCODE installer · re-enable the skipped glyphdown hook · build the Lumen index · refresh `PATH` (always). Each is written to `<project-root>/MANUAL-STEPS.md`, overwritten every run.
+
+```bash
+WIZARD_NONINTERACTIVE=1 ./scripts/setup-agents-wizard.sh   # print the list, skip the Enter pause
+```
+
+The pause needs all three of: stdin is a terminal, `WIZARD_NONINTERACTIVE` unset, at least one step. In a pipe or a CI job it never blocks. This is the wizard's **only** blocking prompt.
+
+Full reference — every condition, the exact command text, the `MANUAL-STEPS.md` format, and why `ashlr` has no binary: [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md).
 
 ---
 
@@ -103,7 +167,7 @@ For the full narration of each step – including the exact console output – s
 | **CodeGraph** | MCP code‑graph server | `npm` (`@colbymchenry/codegraph`) |
 | **Glyphdown** | Lossless I/O token compressor | `npm` (`glyphdown`) |
 | **SpecKit** | Spec‑driven development CLI | `uv tool install specify-cli` (a Python tool, **not** an npm package) |
-| **ashlr-plugin** | 40 efficient MCP tools | Official `curl` installer |
+| **ashlr-plugin** | Token-efficient MCP tools | Official `curl` installer (needs `bun`). **A Claude Code plugin, not a CLI** — it clones into `~/.claude/plugins/cache/ashlr-marketplace/ashlr/` and creates no binary. `command -v ashlr` never succeeds *by design*; three slash commands finish the job — see [ACTION REQUIRED](#-action-required--the-steps-only-you-can-do) |
 | **WOZCODE** | Batching toolset | Via `WOZCODE_INSTALL_CMD` env var (optional) |
 
 ### 🔍 How Lumen Is Actually Installed
@@ -136,11 +200,16 @@ The wizard extends each agent's **real** configuration in place. These paths wer
 
 | Agent | Where Lumen is registered | Schema |
 | :--- | :--- | :--- |
-| Claude Code | `claude mcp add-json lumen … -s user` (the CLI owns `~/.claude.json`) | n/a – managed by the CLI |
+| Claude Code | `claude mcp add-json lumen … -s user` — writes into the **active `CLAUDE_CONFIG_DIR`** | n/a – managed by the CLI |
+| *(inheritors)* | `~/.claude.json`, mirrored with `jq` when that file exists | `.mcpServers.lumen = {"type":"stdio","command":<wrapper>,"args":["stdio"]}` |
 | Kimi | `~/.kimi-code/mcp.json` | `.mcpServers` |
 | Opencode | `~/.config/opencode/opencode.json` | `.mcp` — **not** `.mcpServers` |
-| MiMo Code | *(none – no documented MCP config file exists)* | manual step, the wizard prints the values |
+| MiMo Code | *(nothing MiMo-specific)* — it **inherits** from `~/.claude.json`, which the row above fills in | verified with `mimo mcp list`, not assumed |
 | Qwen Code | `~/.qwen/settings.json` | `.mcpServers` |
+
+> **Why the `~/.claude.json` mirror exists.** `claude mcp add-json -s user` writes into the config directory the session is actually using — `$CLAUDE_CONFIG_DIR` when set, `~/.claude` otherwise — which is **not necessarily `~/.claude.json`**. Tools that inherit from the default file (MiMo labels its servers `claude:~/.claude.json`) would then stay blind to Lumen even though Claude Code itself had it. The wizard therefore `jq`-merges the same entry into `~/.claude.json` directly, backing it up under component `claude` first. Tests `A44`, `A45` and `A46`.
+>
+> **An earlier revision of this README claimed MiMo Code "has no documented MCP config file" and printed a manual step for it. That claim was false** — MiMo never needed one. Verify with `mimo mcp list | grep lumen`.
 
 Kimi and Qwen Code receive both servers, in the `.mcpServers` schema:
 
@@ -230,6 +299,54 @@ Either half is skipped with a warning if its CLI is missing. Neither the CodeGra
 
 ---
 
+## 🩺 Why "no NaN" did not mean "no corruption"
+
+**This is the most important thing in this documentation set.** If you read one section, read this one.
+
+On this host, `ollama` was serving the embedding model with `library=Vulkan` on an Intel iGPU. A large embedding batch trips an i915 fence timeout; the kernel abandons the dispatch and **ollama reads the result buffer anyway**. There are four failure modes, and they get quieter as they get worse:
+
+| # | What comes back | HTTP | Caught by a per‑vector check? |
+| :-- | :--- | :--- | :--- |
+| 1 | `{"error":"…unsupported value: NaN"}` | 500 | Yes — loud |
+| 2 | An all‑zero vector | **200** | Yes — a zero‑norm test sees it |
+| 3 | The runner wedges: every later request returns `NaN` | 500 | Yes, but usually blamed on the caller |
+| 4 | **A repeated STALE vector** — well‑formed, 768 dims, L2 norm 1.000000 | **200** | **No. Invisible to NaN, Inf, all‑zero and norm checks alike.** |
+
+Mode 4 wrote **758 identical vectors covering 695 distinct texts across 55 files** into this project's index. Searches kept working. Every health check kept passing.
+
+### The audit that got it wrong
+
+[`LUMEN-INDEX-INTEGRITY.md`](./LUMEN-INDEX-INTEGRITY.md) examined that index and concluded it was **`TRUSTWORTHY`**. Every number in it is correct and reproduces exactly: 0 NaN, 0 Inf, 0 all‑zero, 0 wrong‑dimension, every norm inside 0.999999–1.000001.
+
+**The conclusion did not follow from the measurements.** All four tests are *per‑vector*, and a stale‑but‑well‑formed vector passes all four by construction. The one check that would have caught it — aggregate distinctness — was run on blocks 1–4 only (4,096 of 35,717 vectors). The corruption lived in blocks 28–29.
+
+> **A vector can be perfectly well‑formed and still be the wrong vector.** Health is not a property you can establish one vector at a time. *N* distinct texts must yield *N* distinct vectors, and nothing short of that comparison can tell you whether they did.
+
+That report is kept **unedited**, as a historical record of how a rigorous audit reached a wrong conclusion. **The settled verdict is [`INDEX-CORRUPTION-RECONCILIATION.md`](./INDEX-CORRUPTION-RECONCILIATION.md)** — go there for anything about whether an index can be trusted. It also falsifies the original "large chunks are the trigger" hypothesis: the largest single chunk in the corrupted range was 2,832 characters, well inside the safe zone. **The operative quantity is the batch total** — Lumen sends 32 chunks per request, and the corrupting requests carried 16,698–31,364 characters each.
+
+### What follows from it, in the code
+
+- `scripts/lumen-index-doctor.sh` decodes the vector store and checks **aggregate distinctness** alongside the conventional per‑vector tests. Exit `1` means corruption found.
+- `scripts/ollama-vulkan-remediation.sh` and `scripts/lumen-reindex.sh` both probe with a **32‑text batch** and require 32 distinct vectors back — a single-vector probe cannot see mode 4.
+- `scripts/lumen-reindex.sh` **refuses to start** on a `library=Vulkan` backend rather than writing more of it.
+- Tests `I7` and `I8` exist to stop the distinctness check being quietly removed again.
+
+### The backend is fixed; check your index anyway
+
+`GGML_VK_VISIBLE_DEVICES=-1` in `/etc/sysconfig/ollama` plus a restart put ollama on `library=cpu`; there have been **0 i915 faults since**, and a 32‑chunk / 18,576‑character batch returns 32 distinct vectors 5 runs out of 5. `OLLAMA_VULKAN=false` and `OLLAMA_LLM_LIBRARY=cpu` were both tested and are **no‑ops**.
+
+**Fixing the backend repairs nothing already written.** A corrupted file keeps a valid content hash, so an incremental re‑index skips it *forever*:
+
+```bash
+./scripts/lumen-index-doctor.sh "$PWD"            # exit 1 => rebuild required
+./scripts/lumen-reindex.sh "$PWD" --force         # --force is mandatory here
+./scripts/lumen-index-doctor.sh "$PWD"            # exit 0 => clean
+```
+
+Details: [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md) · [`OLLAMA-REMEDIATION.md`](./OLLAMA-REMEDIATION.md).
+
+---
+
 ## 🔄 How It Handles Existing Installations
 
 - **Idempotent**: Re‑running does not duplicate configurations or re‑clone repositories unnecessarily.
@@ -276,31 +393,34 @@ Full reference — manifest format, every flag, per‑component recipes, how to 
 
 ## ✅ Post‑Setup Verification
 
-After the script finishes, it prints five summary sections:
-- ✅ / ❌ for each global command (e.g., `lumen`, `kimi`, `opencode`)
-- ✅ / ❌ for each agent’s MCP config file
-- ✅ / ❌ for the Lumen pieces (launcher, completions, `~/.bashrc` block, `~/.bash_profile` login‑shell PATH, `ollama`, embedding model)
-- ✅ / ❌ for `Telemetry / analytics` (the `~/.bashrc` opt‑out block, CodeGraph, Qwen usage statistics, plus a note that Lumen ships none)
-- ✅ / ❌ for project items (SpecKit, SuperSpec, Glyphdown hook)
+After the script finishes, it prints **six** summary sections:
 
-**Manual Next Steps (one‑time per agent)**:
+1. `Installed Global Commands` — ✅ / ❌ for `git`, `node`, `npm`, `bun`, `lumen`, `codegraph`, `glyphdown`, `specify`, `kimi`, `opencode`, `mimo`, `qwen`
+2. `Claude Code plugins / optional tools` — the **ashlr plugin** (by directory, never by `command -v`) and WOZCODE
+3. `Agent MCP Configurations (Lumen)` — one line per agent. Every line probes **behaviour or content**, never mere file existence: `claude mcp get lumen`, `jq -e '.mcpServers.lumen'`, `jq -e '.mcp.lumen'`, `mimo mcp list`. `➖ n/a` means the agent is not installed
+4. `Lumen Semantic Search` — launcher (does it answer `version`?), completions (do they register `__start_lumen`?), the `~/.bashrc` and `~/.bash_profile` blocks, `ollama`, the embedding model
+5. `Telemetry / analytics` — the `~/.bashrc` opt‑out block, CodeGraph, Qwen usage statistics, plus a **live `strings` probe** of the Lumen binary rather than a restated past finding
+6. `Project` — SpecKit (non‑empty `.specify/` or `specs/`), SuperSpec, the Glyphdown hook
 
-- **Claude Code**: Restart the IDE extension. Inside Claude, type:
-  - `/cost-mode` (to activate token saving)
-  - `/fixclaude` (to run the performance wizard)
+…then the **[ACTION REQUIRED](#-action-required--the-steps-only-you-can-do)** section, and on a terminal a pause for Enter.
 
-  Those two are the ones the wizard itself prints. `/reload-plugins` is a useful extra if your build provides it, but the wizard does not name it.
-- **Opencode**: Simply run `opencode` – Lumen is auto‑loaded from `~/.config/opencode/opencode.json`.
-- **Kimi / Qwen**: Run their respective CLIs. They pick up the MCP servers from `~/.kimi-code/mcp.json` and `~/.qwen/settings.json`.
-- **MiMo Code**: manual step. No documented MCP config file exists, so add Lumen yourself with `command: ~/.local/bin/lumen` and `args: ["stdio"]` – the wizard prints exactly those values.
+**Manual next steps.** The authoritative list is the one the wizard prints for *your* machine, and it is saved to `MANUAL-STEPS.md`. In general:
+
+- **Claude Code**: restart the IDE extension. If the ashlr plugin was installed, run the three slash commands the wizard names (`/plugin marketplace add ashlrai/ashlr-plugin`, `/plugin install ashlr@ashlr-marketplace`, `/reload-plugins`) and confirm with `/ashlr:ashlr-status`. Optionally `/ashlr:ashlr-genome-init` to build `.ashlrcode/genome/`.
+- **Opencode**: simply run `opencode` – Lumen is auto‑loaded from `~/.config/opencode/opencode.json`.
+- **Kimi / Qwen**: run their respective CLIs. They pick up the MCP servers from `~/.kimi-code/mcp.json` and `~/.qwen/settings.json`.
+- **MiMo Code**: nothing to do. It inherits Lumen from `~/.claude.json`; check with `mimo mcp list | grep lumen`.
 - **All agents**: index this project once, then search it:
 
   ```bash
-  lumen index "$PWD"
+  ./scripts/lumen-reindex.sh "$PWD"
+  ./scripts/lumen-index-doctor.sh "$PWD"     # exit 0 = the vectors are trustworthy
   lumen search "how does X work" -p "$PWD"
   ```
 
-  Indexing is incremental – re‑run it after large external edits.
+  Indexing is incremental – re‑run it after large external edits. Use the doctor rather than assuming a successful index means a *correct* one; see [Why "no NaN" did not mean "no corruption"](#-why-no-nan-did-not-mean-no-corruption).
+
+> An earlier revision of this section told you to run `/cost-mode` and `/fixclaude` and claimed those were "the ones the wizard itself prints". **The wizard prints neither.** It does print `/reload-plugins`, which that revision said it did not.
 
 ---
 
@@ -313,11 +433,11 @@ The wizard has a companion test suite:
 ./scripts/test-setup-agents-wizard.sh --no-live  # skip the network/daemon checks
 ```
 
-It runs assertions across **eight groups, `A`–`H`**. Note that the file declares group `H` *before* group `G`, so the console order is A, B, C, D, E, F, H, G:
+It runs assertions across **nine groups, `A`–`I`**. Note that the file declares group `H` *before* group `G`, so the console order is A, B, C, D, E, F, H, G, I:
 
 | Group | Coverage |
 | :--- | :--- |
-| **A** | Static analysis of the wizard – `bash -n`, no executable line installing a bogus package (`@qoomon/lumen`, `@monday/codegraph`, `@specify/cli`, …), the real package names (`@colbymchenry/codegraph`, `@qwen-code/qwen-code`, `uv tool install specify-cli`), `stdio` not `serve`, absolute MCP command, the `-e` gitlink test, the `qwen` (not `qwen-code`) probe name, valid `PreToolUse`/`PostToolUse` hook events with no `ToolCall`, the `WIZARD_SKIP_GLYPHDOWN_HOOK` and `WIZARD_KEEP_TELEMETRY` opt-outs, `codegraph sync` and never `codegraph index`, the `speckit` undo action, the `/api/embed` backend health round‑trip, library‑mode guard, sequential `Step 1..7` headers, `shellcheck -S error`. |
+| **A** | Static analysis of the wizard (`A1`–`A50`) – `bash -n`, no executable line installing a bogus package (`@qoomon/lumen`, `@monday/codegraph`, `@specify/cli`, …), the real package names (`@colbymchenry/codegraph`, `@qwen-code/qwen-code`, `uv tool install specify-cli`), `stdio` not `serve`, absolute MCP command, the `-e` gitlink test, the `qwen` (not `qwen-code`) probe name, valid `PreToolUse`/`PostToolUse` hook events with no `ToolCall`, the `WIZARD_SKIP_GLYPHDOWN_HOOK` and `WIZARD_KEEP_TELEMETRY` opt-outs, `codegraph sync` and never `codegraph index`, the `speckit` undo action, the `/api/embed` backend health round‑trip, library‑mode guard, sequential `Step 1..7` headers, `shellcheck -S error`. **`A35`–`A41`** cover the GPU/Vulkan detection: `/api/ps` residency, the `inference compute` log line, an unreadable library reported as *unknown*, and — `A41` — that the wizard **never** applies the remediation itself (no `sudo`, no service restart, no write under `/etc`). **`A42`–`A50`** cover the newest work: ashlr verified by plugin directory rather than `command -v`, the `~/.claude.json` mirror, MiMo probed with `mimo mcp list`, every `lumen search` probe `timeout`-bounded, the `ACTION REQUIRED` section, `MANUAL-STEPS.md`, and the `plugins/marketplaces/` activation probe. |
 | **B** | Lumen launcher unit tests – executability, `sort -V` version selection, `~/.claude*` fallback, `LUMEN_BIN` override, exit `127` (never a silent success) when the binary is missing. |
 | **C** | Shell‑config unit tests – exactly one managed block per file, idempotence across three runs, generated files parse as bash, the `$PATH` guard written unexpanded, `~/.local/bin` added exactly once, file mode `600` preserved, pre‑existing content preserved. |
 | **D** | MCP‑config unit tests – `args == ["stdio"]`, absolute command, valid JSON, foreign keys preserved, exactly two servers after two runs. |
@@ -325,10 +445,13 @@ It runs assertions across **eight groups, `A`–`H`**. Note that the file declar
 | **F** | Live integration – `lumen` on `PATH` in login / login+interactive / interactive shells, embedding backend reachable, model present, completion registration, and a true end‑to‑end index‑then‑search against a two‑file fixture repository. |
 | **G** | Backup manifest and rollback (`G1`–`G18`) – the rollback script parses; the manifest has a TSV header; a pre‑existing file is recorded `MODIFIED` and a new one `CREATED`; the stored copy holds the **original** content and mode `600`; re‑snapshotting keeps only the first; rollback restores byte‑exactly and deletes what was created; `--dry-run` changes nothing; `--component` rolls back only what was selected; a pre‑rollback snapshot is written; an `ACTION` is reported but never executed without `--run-actions`; `--list` enumerates sessions. `G16`–`G18` are the regression guards for the snapshot ordering: a brand‑new agent config is recorded `CREATED` (not `MODIFIED`) and rollback **deletes** it instead of leaving an empty `{}`, while a pre‑existing config still restores to its true original. |
 | **H** | Telemetry opt‑out – exactly one `# >>> telemetry opt-out …` block in `~/.bashrc` and still exactly one after a second run; the generated file parses as bash; sourcing it really exports `DO_NOT_TRACK=1` and `CODEGRAPH_TELEMETRY=0`; `WIZARD_KEEP_TELEMETRY` leaves everything untouched; `.usageStatisticsEnabled` is set to `false` in `~/.qwen/settings.json` without losing existing keys; and a value already `false` is read back as `false` rather than "unset" (`H1`–`H7`). |
+| **I** | **The three operational scripts** (`I1`–`I14`) – each is executable and parses; the remediation script offers `--check` and `--rollback` and **defaults to the read‑only action**; its probe tests aggregate **distinctness**, not per‑vector health; the doctor checks duplicate‑vector groups, still runs the NaN / all‑zero tests, and opens the database `mode=ro`; the reindexer refuses to start on a Vulkan backend, and `--force` is proven to actually reach `lumen index -f` rather than merely being parsed; neither the reindexer nor the doctor calls `sudo`. |
 
 `--no-live` skips group F, so the suite runs with no network access and no `ollama` daemon.
 
-Groups B, C, D, G and H run inside a **throwaway `$HOME`** (via the wizard's `SETUP_WIZARD_LIB_ONLY=1` library mode, with `WIZARD_STATE_DIR` pointed inside it) and group E inside throwaway git repositories – **the real environment is never touched**. Group A only reads the wizard's source text.
+Groups B, C, D, G and H run inside a **throwaway `$HOME`** (via the wizard's `SETUP_WIZARD_LIB_ONLY=1` library mode, with `WIZARD_STATE_DIR` pointed inside it) and group E inside throwaway git repositories – **the real environment is never touched**. Groups A and I only read source text.
+
+**Do not hardcode a total.** The count moves whenever a test is added, and it differs between a live run and `--no-live`. Derive it: the group sizes are `A`=50, `B`=8, `C`=10, `D`=5, `E`=3, `F`=11 live / 7 with `--no-live`, `G`=18, `H`=7, `I`=14 — so a full live run currently records **126**. `summary.json` prints the authoritative `{total, passed, failed, skipped}` for the run you actually did.
 
 Every assertion records machine‑readable evidence – expected value, actual value, status and timestamp – under `.test-evidence/<UTC timestamp>/`:
 
@@ -352,6 +475,11 @@ Exit status is non‑zero if any assertion failed.
 | `lumen: could not locate the Lumen plugin binary` (exit 127) | The Claude Code Lumen plugin is not installed | Install it from `/plugin` inside Claude Code, or `export LUMEN_BIN=/path/to/lumen-<os>-<arch>`. |
 | Indexing or search fails; backend unreachable | `ollama` not running, or the embedding model was never pulled | `sudo systemctl enable --now ollama`, then `ollama pull ordis/jina-embeddings-v2-base-code`. |
 | `❌ Embedding backend is WEDGED … it returns NaN for every input` | The ollama runner is up (`/api/tags` still returns 200) but embedding is broken — this is why Step 3 does a real `/api/embed` round‑trip instead of a ping | Run the fix the wizard prints: `ollama stop ordis/jina-embeddings-v2-base-code`, then re‑index — [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md#5b-embedding-backend-is-wedged-nan-for-every-input) |
+| `⚠️ Embedding model is GPU-offloaded and ollama reports library=Vulkan` | The corrupting path. It writes stale duplicate vectors under HTTP 200 that no per‑vector check can see | `./scripts/ollama-vulkan-remediation.sh --check`, then `--apply` — [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md) |
+| Searches "work" but return plausible‑looking nonsense, or miss files you know exist | Possible stale‑duplicate vectors in the index | `./scripts/lumen-index-doctor.sh "$PWD"` — exit `1` means rebuild with `./scripts/lumen-reindex.sh "$PWD" --force`. Read [Why "no NaN" did not mean "no corruption"](#-why-no-nan-did-not-mean-no-corruption) |
+| `REFUSING TO START: ollama reports library=Vulkan` (exit 3) from `lumen-reindex.sh` | Working as designed — it will not write more corrupt vectors | Fix the backend first, or `--allow-gpu` if you accept the risk |
+| `command -v ashlr` finds nothing | **Expected.** ashlr is a Claude Code plugin with no binary | Check `~/.claude/plugins/cache/ashlr-marketplace/ashlr/` instead, then run the three slash commands — [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md) |
+| `mimo mcp list` does not show `lumen` | `~/.claude.json` has no `.mcpServers.lumen`, or MiMo was started before it was added | Re‑run the wizard (it mirrors the entry into `~/.claude.json`), then restart MiMo |
 | Kimi / Opencode / MiMo Code not installed | They are detected, never npm‑installed – the bare npm names are unrelated packages | Install from the vendor: <https://kimi.moonshot.cn>, <https://opencode.ai>, <https://github.com/XiaomiMiMo>, then re‑run the wizard so it can write their MCP config. |
 | MCP servers not showing in agent | Agent was configured at an old, wrong path by a previous revision | Re‑run the wizard; it writes the verified paths listed in [MCP Configuration for Every Agent](#-mcp-configuration-for-every-agent). Delete leftovers like `~/.claude/mcp.json` or `~/.qwen-code/config.json` – nothing reads them. |
 | `jq` installation fails | Unsupported OS or missing package manager | Install `jq` manually from https://stedolan.github.io/jq/ |
@@ -399,6 +527,7 @@ That restores every modified file byte‑exactly, deletes every file the wizard 
 
    ```bash
    claude mcp remove lumen -s user
+   jq 'del(.mcpServers.lumen)'                        ~/.claude.json                 # the mirror MiMo inherits
    jq 'del(.mcpServers.lumen, .mcpServers.codegraph)' ~/.kimi-code/mcp.json          # then move into place
    jq 'del(.mcp.lumen)'                               ~/.config/opencode/opencode.json
    jq 'del(.mcpServers.lumen, .mcpServers.codegraph)' ~/.qwen/settings.json
@@ -408,7 +537,16 @@ That restores every modified file byte‑exactly, deletes every file the wizard 
 
    ```bash
    rm -rf submodules/ .specify/ specs/
+   rm -f MANUAL-STEPS.md .lumen-reindex.log
    ```
+
+5. **Undo the ollama Vulkan remediation**, if you applied it and want the GPU back (it restores the defect):
+
+   ```bash
+   ./scripts/ollama-vulkan-remediation.sh --rollback
+   ```
+
+   It is **not** in the rollback manifest — `scripts/rollback-agents-wizard.sh` will not touch it.
 
 The managed `~/.bashrc` / `~/.bash_profile` blocks are best removed with the wizard's own `strip_managed_block` helper rather than by hand. [`SAFETY-AND-ROLLBACK.md`](./SAFETY-AND-ROLLBACK.md#manual-uninstall-if-the-manifest-is-lost) and [`FAQ.md`](./FAQ.md#how-do-i-completely-uninstall-what-the-wizard-added) have the complete, ordered procedure.
 
@@ -446,8 +584,15 @@ For a narrated tour of what it does, use [`MANUAL.md`](./MANUAL.md) (function‑
 | **Added `SETUP_WIZARD_LIB_ONLY` library mode + test suite** | Lets `scripts/test-setup-agents-wizard.sh` source the wizard's helper functions without running the wizard, so unit tests can exercise them against a throwaway `$HOME`. |
 | **New: transactional backup manifest + `scripts/rollback-agents-wizard.sh`** | Timestamped `.bak` siblings told you a file *had* changed but not what to do about it, and non‑file changes (an `npm install -g`, a `claude mcp` registration) left no trace at all. Every mutation is now recorded under `~/.local/share/setup-agents-wizard/backups/<UTC>/` as `MODIFIED` / `CREATED` / `ACTION`, and the rollback tool replays it — wholesale or one component at a time, dry‑runnable, and itself reversible. Test group **G** is the guard. See [Safety and reversibility](#-safety-and-reversibility). |
 | **Step 2 package names corrected** | The wizard installed by *guessed* name. `@qoomon/lumen`, `@monday/codegraph`, `@specify/cli` and `opencode` all return 404, while bare `kimi` and `mimo` resolve to **completely unrelated** packages — a state‑animation library and a mobile build tool — which the old `\|\| true` then reported as success. It now installs only what is missing, by verified name (`@colbymchenry/codegraph`, `glyphdown`, `@qwen-code/qwen-code`, and `specify` via `uv tool install specify-cli`), and detects Kimi / Opencode / MiMo rather than installing something that merely shares their name. |
-| **Agent configs are extended at their REAL locations** | `~/.claude/mcp.json`, `~/.kimi/config.json`, `~/.opencode/config.json`, `~/.mimo/config.json` and `~/.qwen-code/config.json` are not read for these agents — the wizard was writing **orphan files no agent reads**, and ticking them green. Claude Code is now registered through `claude mcp add-json … -s user` (never by hand‑editing `~/.claude.json`, which also holds session state); Kimi uses `~/.kimi-code/mcp.json`, Qwen Code `~/.qwen/settings.json`, and Opencode `~/.config/opencode/opencode.json` with its `.mcp` schema. MiMo Code has no documented MCP config file, so the wizard prints an honest manual step instead of inventing a path. |
+| **Agent configs are extended at their REAL locations** | `~/.claude/mcp.json`, `~/.kimi/config.json`, `~/.opencode/config.json`, `~/.mimo/config.json` and `~/.qwen-code/config.json` are not read for these agents — the wizard was writing **orphan files no agent reads**, and ticking them green. Claude Code is now registered through `claude mcp add-json … -s user` (never by hand‑editing `~/.claude.json`, which also holds session state); Kimi uses `~/.kimi-code/mcp.json`, Qwen Code `~/.qwen/settings.json`, and Opencode `~/.config/opencode/opencode.json` with its `.mcp` schema. *(This row originally ended by saying MiMo Code had no documented MCP config file. It does not need one — see the row below.)* |
 | **Glyphdown hook fixed** | `ToolCall` is not a Claude Code hook event, so the old entry was written into `~/.claude/settings.json` and silently ignored. The wizard now writes valid `PreToolUse` and `PostToolUse` entries (`{matcher, hooks:[{type, command}]}`), adds them only when `glyphdown` is actually installed — a hook for a missing binary would fire and fail on every tool call — and preserves any hooks you already had. |
+| **New: the `ACTION REQUIRED` / manual-steps system** | The wizard could not run Claude Code slash commands or use your `sudo`, and silently skipping those steps meant a green summary for work nobody had done. It now **detects** each pending step, prints them under `ACTION REQUIRED`, writes `<project-root>/MANUAL-STEPS.md`, and pauses for Enter on a terminal (`WIZARD_NONINTERACTIVE=1` skips the pause). Detection is stateful: `plugins/cache/<mkt>/` means the installer cloned it, `plugins/marketplaces/<mkt>/` means *you* ran `/plugin marketplace add`. Tests **A48**–**A50**. See [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md). |
+| **`ashlr` is no longer probed as a CLI** | ashlr is a Claude Code **plugin**; its installer creates no binary, so `check_command ashlr` could never succeed and printed a permanent, misleading `❌`. The wizard now verifies `~/.claude/plugins/cache/ashlr-marketplace/ashlr/`, reports it in its own summary section, and surfaces the three slash commands that actually activate it. Tests **A42**, **A43**. |
+| **Lumen mirrored into `~/.claude.json`** | `claude mcp add-json -s user` writes into the **active `CLAUDE_CONFIG_DIR`**, which is not necessarily `~/.claude.json`. Tools that inherit from the default file — MiMo labels its servers `claude:~/.claude.json` — were left blind to Lumen. The wizard now `jq`-merges the entry into `~/.claude.json` as well. Test **A44**. |
+| **The "MiMo has no documented MCP config" claim was false** | MiMo Code inherits MCP servers from `~/.claude.json`; there was never a manual step. The wizard now **probes** with `timeout 25 mimo mcp list` instead of asserting either way. Tests **A45**, **A46**. |
+| **Every `lumen search` probe is `timeout`-bounded** | `lumen search` blocks while an index run holds the embedding backend, and an unbounded probe once stalled the wizard for ten minutes. A timeout is now treated as *"could not confirm"* and raises the manual step rather than silently skipping it. Test **A47**. |
+| **New: three operational scripts** | `ollama-vulkan-remediation.sh`, `lumen-reindex.sh` and `lumen-index-doctor.sh`. Everything privileged lives there, behind an explicit subcommand, so the wizard stays read-only in the embedding path (test **A41**). Test group **I** covers all three. See [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md). |
+| **The index integrity verdict was overturned** | `LUMEN-INDEX-INTEGRITY.md` concluded the index was `TRUSTWORTHY` on the strength of NaN / Inf / all-zero / L2-norm checks. All four are **per-vector**, and all four are blind to a stale-but-well-formed vector — of which the index held 758, across 55 files. The settled verdict is [`INDEX-CORRUPTION-RECONCILIATION.md`](./INDEX-CORRUPTION-RECONCILIATION.md); the earlier report is kept unedited as a record. See [Why "no NaN" did not mean "no corruption"](#-why-no-nan-did-not-mean-no-corruption). |
 
 ---
 
@@ -457,8 +602,10 @@ This wizard is engineered to be **risk‑free, transparent, and fully automated*
 
 - Backs up every configuration file before changing it, and records the change in a manifest you can replay in reverse.
 - Installs only what is missing, by verified package name, without forcing risky updates.
-- Never overwrites your existing project files. The only paths it adds inside your project are `submodules/`, `.specify/`/`specs/` and — with `WIZARD_INDEX_PROJECT=1` — `.codegraph/`.
+- Never overwrites your existing project files. The paths it adds inside your project are `submodules/`, `.specify/`/`specs/`, `MANUAL-STEPS.md`, and — with `WIZARD_INDEX_PROJECT=1` — `.codegraph/`. (`scripts/lumen-reindex.sh` separately writes `.lumen-reindex.log`, and the test suite writes `.test-evidence/`.)
 - Never deletes a path that git tracks as a submodule.
-- Never invents a config path: an agent with no documented MCP config file gets an honest manual‑step warning, not an orphan file and a green tick.
+- Never invents a config path, and never claims a check it did not run: `➖ n/a` for an agent that is not installed, `UNKNOWN` for a backend library it could not read.
+- Never uses `sudo` in the embedding path and never restarts a service. Anything privileged is a separate script behind an explicit subcommand — test **A41**.
+- Never reports as done the things it cannot do. They go under `ACTION REQUIRED`, in `MANUAL-STEPS.md`, and on a terminal the run stops until you have read them.
 
 After running it, every agent the wizard could configure shares the same high‑performance MCP backbone, giving you **maximum efficiency and cost savings** regardless of which agent you choose to use. And if you change your mind, one command puts it all back: [`SAFETY-AND-ROLLBACK.md`](./SAFETY-AND-ROLLBACK.md).

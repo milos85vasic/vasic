@@ -1,9 +1,17 @@
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 import fs from 'fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// Derive every path from this file's own location so the script runs from ANY
+// checkout (fresh clone, CI runner) — never from a hardcoded absolute path.
+// VASIC_ROOT overrides the default when the repo root is elsewhere.
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REPO = process.env.VASIC_ROOT || path.resolve(__dirname, '..');
 
 const B = 'https://vasic.digital';
-const OUT = '/Volumes/T7/Projects/vasic/_tests/evidence/final-audit-v1.6.0/vasic';
+const OUT = path.join(REPO, '_tests', 'evidence', 'final-audit-v1.6.0', 'vasic');
 const SS = `${OUT}/screenshots`;
 const AX = `${OUT}/axe`;
 const IT = `${OUT}/interactive`;
