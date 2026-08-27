@@ -243,15 +243,21 @@ All rows: fresh runner (`ollama stop` first), uncontended, placement journal-ver
 | e | `E1_gpu_large` | GPU 13/13 | 8000 ch × 4 (32 kB/req) | 7 | **req 1** (`zerovec`) → **req 8** hard NaN 500 | 80.5 s flat | **168** (24/req) |
 | e-repeat | `E2_gpu_large` | GPU 13/13 | 8000 ch × 4 | 8 | **req 1** (`zerovec`) → **req 8** hard NaN 500 | 84.2 s → 86.1 s | **199** + **3 GPU HANGs** |
 | e-det | GPU determinism | GPU 13/13 | 8000 ch × 1, ×4 | 4 | **request 1** (`zerovec`, all 4) | 20.1–21.5 s | yes |
-| b | `B1/B2_cpu_large` | CPU 0/13 | 8000 ch × 4 | 3 | **none** | > 180 s (client cap) | **0** |
+| b | `B2_cpu_large` | CPU 0/13 | 8000 ch × 4 (32 kB/req) | 3 | **none**, all valid 768-dim | 317–371 s (mean 346 s) | **0**, and **0 GPU hangs** |
 | b-det | CPU determinism | CPU 0/13 | 8000 ch × 1, ×4 | 4 | **none**, pairwise cosine **1.000000** | 71–129 s | **0** |
 | b-calib | `calib_cpu` | CPU 0/13 | 8000 ch × 1 | 4 | **none** | 68–72 s | **0** |
 
 `zerovec` = HTTP 200 carrying an all-zero 768-dim vector.
 
 **Condition (a) never failed** — 299 GPU requests, and 300 more at 10 chars, zero fence
-timeouts. **Condition (b) never failed.** **Condition (d) never failed** — 50 batch-of-32
-requests, 1600 texts, 640 kB, is *not* enough to wedge it on its own.
+timeouts. **Condition (d) never failed** — 50 batch-of-32 requests, 1600 texts, 640 kB, is
+*not* enough to wedge it on its own.
+
+**Condition (b) is the money row.** `B2_cpu_large` sent the *byte-for-byte identical payload*
+that corrupts the GPU on request 1 and wedges it by request 8. On CPU: three requests, three
+valid 768-dim vectors, **zero** i915 fence timeouts, **zero** GPU hangs. It is ~4x slower per
+request (346 s vs 80 s) — but the GPU's 80 s was never real work, it was four 20-second fence
+timeouts in a row.
 
 The failing condition was reproduced from a fresh runner **three independent times**
 (`E1`, `E2`, determinism run). Silent corruption began at **request 1** in all three. In the
@@ -569,8 +575,10 @@ printf 'FROM ordis/jina-embeddings-v2-base-code\nPARAMETER num_gpu 0\n' > Modelf
 ollama create jina-embeddings-code-cpu -f Modelfile.cpu
 ```
 
-Then point Lumen at `jina-embeddings-code-cpu`. *(This tag was created during the experiment
-and is validated in §8. Remove with `ollama rm jina-embeddings-code-cpu` if unwanted.)*
+Then point Lumen at `jina-embeddings-code-cpu`. **This tag was created during the experiment
+and is validated in §8 — it runs on CPU with no client-side options at all.** It shares blobs
+with the original (no extra disk, nothing re-pulled). Remove with
+`ollama rm jina-embeddings-code-cpu` if unwanted.
 
 **Tier 3 — durable, host-wide.** Create `/etc/sysconfig/ollama` (the unit already sources it,
 so **no unit file is modified**):
@@ -604,7 +612,41 @@ experiment.
 
 ## 8. Validation of the fix
 
-*(filled in at the end of the run — see §9 for what was confirmed)*
+Both no-restart tiers were validated **behaviourally**, on the exact input that corrupts the
+GPU path on request 1. CPU and GPU have unmistakable signatures at full context — CPU takes
+70–110 s and returns a unit-norm vector; GPU takes ~20 s and returns norm 0 — so latency plus
+vector norm identifies the backend without trusting any log line.
+
+```
+=== CPU-pinned tag, DEFAULT options (is PARAMETER num_gpu 0 honoured?) ===
+  tag-default #1             http=200   95.1s norm=1.0000 -> CPU(correct)
+  tag-default #2             http=200  109.5s norm=1.0000 -> CPU(correct)
+  tag-default #3             http=200   80.5s norm=1.0000 -> CPU(correct)
+=== plain model + options num_gpu:0 (known-good control) ===
+  plain+num_gpu0 #1          http=200   99.1s norm=1.0000 -> CPU(correct)
+  plain+num_gpu0 #2          http=200   94.8s norm=1.0000 -> CPU(correct)
+```
+
+- **Tier 1 (`options:{"num_gpu":0}`) — confirmed.** 5/5 here, and 18/18 across every CPU
+  condition in §3. Never a fence timeout.
+- **Tier 2 (`PARAMETER num_gpu 0` in a Modelfile) — confirmed.** The derived tag
+  `jina-embeddings-code-cpu` runs on CPU **with no options sent by the client at all**, 3/3.
+  This is the one that works for callers you cannot modify.
+- **Tier 3 (`GGML_VK_VISIBLE_DEVICES=-1`) — confirmed at the discovery layer only** (§5.3):
+  a throwaway `ollama serve` with that variable reports `library=cpu` and logs no Vulkan
+  device. Not end-to-end tested, because that needs a service restart.
+
+> **A methodological warning, because it cost me time and will cost the next person time.**
+> My first attempt to verify Tier 2 read `load_tensors: offloaded N/13 layers to GPU` out of
+> the journal after each request, and produced *flip-flopping, self-contradictory* answers —
+> the same request reported 13/13 and then 0/13. The journal line lags the request and the
+> grep window catches the *previous* load. **Do not verify GPU placement from a timed journal
+> grep.** Use the behavioural signature above, or capture a journal cursor before the request.
+
+**Service integrity after the experiment:** `NRestarts=0`,
+`ActiveEnterTimestamp=Tue 2026-08-25 11:45:36` — the ollama service was never restarted, no
+unit file was touched, no model was deleted or re-pulled. The suspended `lumen index` worker
+was resumed and no process was left stopped.
 
 ---
 
@@ -623,20 +665,30 @@ Stated plainly, because the fix decision should not rest on any of these:
 3. **The exact token threshold is bracketed, not pinned.** Fence timeouts appear between 4000
    chars (clean) and 8000 chars (always fails), on this specific pseudo-code text. The real
    boundary is in tokens and will shift with content. I did not bisect it.
-4. **CPU was not driven to the same total token volume as GPU.** CPU is ~3.5x slower per
-   full-context request (70 s vs 20 s) so equal-volume runs were not affordable in the window.
-   CPU is clean across ~23 full-context requests and every smaller condition; GPU fails on
-   **request 1**. The contrast is decisive, but "CPU never fails, ever" is not proven — only
-   "CPU does not fail where GPU fails immediately and repeatedly".
-5. **Whether the wedge is recoverable without `ollama stop`** was not explored (no attempt to
+4. **CPU was not driven to the same total token volume as GPU.** CPU is ~4x slower per
+   full-context request, so equal-volume runs were not affordable in the window. CPU is clean
+   across **26 full-context requests** (18 in §3 + 5 in §8 + 3 in `B2`) and every smaller
+   condition; GPU corrupts on **request 1** and hard-wedges by **request 8**. The contrast is
+   decisive, but "CPU never fails, ever" is not proven — only "CPU does not fail where GPU
+   fails immediately, repeatedly, and at a reproducible request number".
+5. **`GGML_VK_VISIBLE_DEVICES=-1` was validated at device-discovery only**, not end-to-end
+   through a real embed, because confirming it requires restarting the service (out of scope).
+   Tiers 1 and 2 are end-to-end proven; Tier 3 is not.
+6. **ollama's GPU placement on this host looked non-deterministic.** One runner (23:13:06)
+   loaded `GPULayers:[]` with no `gpu memory` line in the scheduler log, i.e. the Vulkan device
+   was momentarily absent from ollama's device list. If real, this means the *same* request can
+   land on GPU or CPU across loads — which would make the fault appear to come and go on its
+   own. I could not separate this from my own racy log-window artifacts (§8 warning), so it is
+   **an observation, not a finding**.
+7. **Whether the wedge is recoverable without `ollama stop`** was not explored (no attempt to
    reset the Vulkan context in place). `ollama stop` is known to work and is cheap.
-6. **Concurrency was not tested as an independent variable.** `OLLAMA_NUM_PARALLEL=1` means
+8. **Concurrency was not tested as an independent variable.** `OLLAMA_NUM_PARALLEL=1` means
    requests serialise anyway; contention changed latency 130x but no condition was run at
    deliberately varied parallelism.
-7. **Newer ollama was not tested**, because no newer package exists in ALT Sisyphus and
+9. **Newer ollama was not tested**, because no newer package exists in ALT Sisyphus and
    installing upstream out-of-band was out of scope. Whether 0.32/0.33 behaves differently on
    this iGPU is unknown — §6 suggests probably not.
-8. **The historical journal analysis is observational.** The 12 h natural experiment (§3.4) had
+10. **The historical journal analysis is observational.** The 12 h natural experiment (§3.4) had
    the `lumen index` job as an uncontrolled variable. It corroborates the controlled results;
    it does not stand alone.
 
