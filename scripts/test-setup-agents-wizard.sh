@@ -140,6 +140,17 @@ destructive=$(printf '%s\n' "$src_code" | grep -cE 'codegraph[[:space:]]+index([
 assert_eq "A27 wizard never runs destructive 'codegraph index'" "0" "$destructive"
 # Every install must be undoable: specify was the one that recorded no ACTION.
 assert_contains "A28 specify install records an undo action" "uv tool uninstall specify-cli" "$src_code"
+# ashlr is a Claude Code PLUGIN and never creates a binary; probing PATH for it
+# produced a permanent false failure.
+assert_absent  "A42 does not probe PATH for the ashlr plugin as if it were a CLI" "check_command ashlr" "$src_code"
+assert_contains "A43 ashlr verified by its plugin directory" "ashlr-marketplace/ashlr" "$src_code"
+# MCP registration must reach the DEFAULT config, not only the active
+# CLAUDE_CONFIG_DIR, or inheriting tools (MiMo) never see Lumen.
+assert_contains "A44 lumen mirrored into the default ~/.claude.json" "CLAUDE_DEFAULT_JSON" "$src_code"
+# MiMo DOES support MCP (it inherits from ~/.claude.json and ships `mimo mcp`).
+# The old "no documented MCP config file" text was simply untrue.
+assert_absent  "A45 no stale claim that MiMo lacks MCP config" "no documented MCP config file" "$src_code"
+assert_contains "A46 MiMo status is probed with 'mimo mcp list'" "mimo mcp list" "$src_code"
 assert_contains "A29 telemetry opt-out is wired into the run" "configure_telemetry_optout" "$src_code"
 assert_contains "A30 telemetry opt-out has an escape hatch" "WIZARD_KEEP_TELEMETRY" "$src_code"
 assert_contains "A31 exports the cross-tool DO_NOT_TRACK standard" "export DO_NOT_TRACK=1" "$src_code"

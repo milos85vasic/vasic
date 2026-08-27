@@ -771,13 +771,31 @@ for pair in "kimi:Kimi:https://kimi.moonshot.cn" \
 done
 
 # 3.4 ashlr-plugin
-if check_command bun; then
-    print_info "Installing ashlr-plugin..."
-    curl -fsSL https://plugin.ashlr.ai/install.sh | bash > /dev/null 2>&1 || true
-    export PATH="$HOME/.ashlr/bin:$PATH"
-    if check_command ashlr; then print_success "ashlr-plugin installed."; else print_warning "ashlr-plugin may need restart."; fi
+# ashlr is a Claude Code PLUGIN, not a CLI. Its installer clones into
+# ~/.claude/plugins/cache/ and deliberately does NOT create a binary or touch
+# settings.json - so the old `check_command ashlr` could never succeed and
+# reported a permanent, misleading ❌. Verify the plugin directory instead, and
+# surface the slash-commands the operator must run inside Claude Code.
+ASHLR_PLUGIN_DIR="$HOME/.claude/plugins/cache/ashlr-marketplace/ashlr"
+if [[ -d "$ASHLR_PLUGIN_DIR" ]]; then
+    print_success "ashlr plugin present ($ASHLR_PLUGIN_DIR)."
+elif check_command bun; then
+    print_info "Installing ashlr plugin (requires bun)..."
+    curl -fsSL https://plugin.ashlr.ai/install.sh | bash >/dev/null 2>&1 \
+        || print_warning "ashlr installer exited non-zero."
+    if [[ -d "$ASHLR_PLUGIN_DIR" ]]; then
+        print_success "ashlr plugin installed."
+    else
+        print_warning "ashlr plugin not found after install."
+    fi
 else
-    print_warning "Skipping ashlr-plugin (Bun required)."
+    print_warning "Skipping ashlr plugin (bun required)."
+fi
+if [[ -d "$ASHLR_PLUGIN_DIR" ]]; then
+    print_info "ashlr needs three commands INSIDE Claude Code (a script cannot run them):"
+    print_info "  /plugin marketplace add ashlrai/ashlr-plugin"
+    print_info "  /plugin install ashlr@ashlr-marketplace"
+    print_info "  /reload-plugins"
 fi
 
 # 3.5 WOZCODE (optional via env var)
@@ -803,7 +821,7 @@ ensure_lumen
 # 5. Verify Installed Commands
 # ------------------------------------------------------------------------------
 print_header "Step 4: Verifying CLI Availability"
-for cmd in lumen codegraph glyphdown specify kimi opencode mimo qwen ashlr; do
+for cmd in lumen codegraph glyphdown specify kimi opencode mimo qwen; do
     if check_command "$cmd"; then
         print_success "$cmd found"
     else
@@ -846,6 +864,28 @@ if check_command claude; then
     fi
 else
     print_warning "claude CLI not found - skipping Claude Code MCP registration."
+fi
+
+# `claude mcp add-json -s user` writes into the ACTIVE CLAUDE_CONFIG_DIR. If the
+# session runs with a non-default one, ~/.claude.json never receives the entry -
+# and tools that INHERIT from it (MiMo reports servers as `claude:~/.claude.json`)
+# stay blind to Lumen. Mirror the registration into the default config too.
+CLAUDE_DEFAULT_JSON="$HOME/.claude.json"
+if [[ -f "$CLAUDE_DEFAULT_JSON" ]] && check_command jq; then
+    if jq -e '.mcpServers.lumen' "$CLAUDE_DEFAULT_JSON" >/dev/null 2>&1; then
+        print_success "Lumen already present in ~/.claude.json (inherited by MiMo et al)."
+    else
+        backup_file "$CLAUDE_DEFAULT_JSON" claude
+        _t=$(mktemp)
+        if jq --arg bin "$LUMEN_WRAPPER" \
+             '.mcpServers.lumen = {"type":"stdio","command":$bin,"args":["stdio"]}' \
+             "$CLAUDE_DEFAULT_JSON" > "$_t" && [[ -s "$_t" ]]; then
+            mv "$_t" "$CLAUDE_DEFAULT_JSON"
+            print_success "Lumen registered in ~/.claude.json (default config)."
+        else
+            rm -f "$_t"; print_warning "Could not update ~/.claude.json - left unchanged."
+        fi
+    fi
 fi
 
 # Also ensure marketplace plugins are cloned for Claude
@@ -927,10 +967,16 @@ fi
 
 # 5.4 MiMo Code - ~/.mimocode exists but exposes no documented MCP config file.
 # Guessing a path would create an orphan file and a false success tick.
+# MiMo Code INHERITS MCP servers from ~/.claude.json (it reports them as
+# `claude:~/.claude.json`) and additionally ships a `mimo mcp` CLI. The block
+# above therefore already configures it; no MiMo-specific file is needed.
 MIMO_CONFIG=""
 if [[ -d "$HOME/.mimocode" ]]; then
-    print_warning "MiMo Code: no documented MCP config file - configure Lumen manually:"
-    print_warning "  command: $LUMEN_WRAPPER   args: [\"stdio\"]"
+    if check_command mimo && timeout 60 mimo mcp list 2>/dev/null | grep -q 'lumen'; then
+        print_success "MiMo Code sees Lumen (inherited from ~/.claude.json)."
+    else
+        print_info "MiMo Code inherits from ~/.claude.json; verify with: mimo mcp list"
+    fi
 else
     print_warning "MiMo Code not installed - skipping."
 fi
@@ -1029,13 +1075,25 @@ fi
 print_header "Setup Complete – Final Summary"
 
 echo -e "${CYAN}Installed Global Commands:${NC}"
-for cmd in git node npm bun lumen codegraph glyphdown specify kimi opencode mimo qwen ashlr wozcode; do
+for cmd in git node npm bun lumen codegraph glyphdown specify kimi opencode mimo qwen; do
     if check_command "$cmd"; then
         echo "  ✅ $cmd"
     else
         echo "  ❌ $cmd"
     fi
 done
+
+echo -e "\n${CYAN}Claude Code plugins / optional tools:${NC}"
+[[ -d "$HOME/.claude/plugins/cache/ashlr-marketplace/ashlr" ]] \
+    && echo "  ✅ ashlr plugin installed (activate with /plugin install inside Claude Code)" \
+    || echo "  ➖ ashlr plugin not installed"
+if check_command wozcode; then
+    echo "  ✅ WOZCODE"
+elif [[ -n "${WOZCODE_INSTALL_CMD:-}" ]]; then
+    echo "  ❌ WOZCODE (WOZCODE_INSTALL_CMD was set but the install did not succeed)"
+else
+    echo "  ➖ WOZCODE n/a (no public installer; set WOZCODE_INSTALL_CMD to enable)"
+fi
 
 echo -e "\n${CYAN}Agent MCP Configurations (Lumen):${NC}"
 # Each line probes BEHAVIOUR or CONTENT, never mere file existence. An earlier
@@ -1067,7 +1125,13 @@ else
 fi
 
 if [[ -d "$HOME/.mimocode" ]]; then
-    echo "  ⚠️  MiMo Code     manual step required (no documented MCP config file)"
+    # MiMo inherits from ~/.claude.json and reports servers as
+    # `claude:~/.claude.json`. Probe it rather than assuming either way.
+    if check_command mimo && timeout 60 mimo mcp list 2>/dev/null | grep -q 'lumen'; then
+        echo "  ✅ MiMo Code     (inherits lumen from ~/.claude.json)"
+    else
+        echo "  ❌ MiMo Code     installed, but 'mimo mcp list' does not show lumen"
+    fi
 else
     echo "  ➖ MiMo Code     n/a (not installed)"
 fi
@@ -1163,7 +1227,7 @@ echo "  1. Restart your terminal / IDE to refresh PATH."
 echo "  2. For Claude Code: restart the extension, then run '/cost-mode' and '/fixclaude'."
 echo "  3. For Opencode: run 'opencode' – Lumen is loaded from ~/.config/opencode/opencode.json (.mcp)."
 echo "  4. For Kimi: ~/.kimi-code/mcp.json   Qwen: ~/.qwen/settings.json   (both .mcpServers)."
-echo "     MiMo Code has no documented MCP config file - add Lumen manually if you use it."
+echo "     MiMo Code inherits from ~/.claude.json - confirm with: mimo mcp list"
 echo "  5. All agents can now use 'lumen' and 'codegraph' for semantic understanding and efficient symbol reading."
 echo "  6. Index this project once:  lumen index \"$PROJECT_ROOT\""
 echo "     Then search it:           lumen search \"how does X work\" -p \"$PROJECT_ROOT\""
