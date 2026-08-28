@@ -17,12 +17,13 @@ authoritative; this file records where work stands so any agent can resume clean
   sync (`git push origin main` → "Everything up-to-date").
 
 ### Pending
-- Main `vasic` repo commit + push (wrapper `commit` only — no direct
-  `git add`/`git commit`/`git push`). Content: add `workshop` submodule +
-  `.gitmodules` change, refresh `_tests/evidence/*` artifacts,
-  bump `milosvasic.ru` gitlink → `d432d4e`.
+- Push of main `vasic` repo (wrapper `commit` only). Committed: `e22d6b1` add
+  `workshop` submodule + refresh test evidence + bump `milosvasic.ru` gitlink →
+  `d432d4e`; `60d8018` refresh `_tests/evidence/*`; plus CONTINUATION.md path fix.
+  First push attempt blocked by pre-push gates (gate 0: hardcoded path here;
+  gate 6: leftover test servers on ports 8401/8082) — both fixed, re-pushing.
 
 ### Constraints
 - All builds run via Podman `jekyll/jekyll`; always `bundle exec`.
 - This repo must use the `commit` wrapper
-  (`/run/media/milosvasic/DATA4TB/Projects/project_toolkit/Upstreamable/commit`).
+  (`$SUBMODULES_HOME/Upstreamable/commit`).
