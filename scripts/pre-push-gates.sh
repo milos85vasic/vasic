@@ -67,6 +67,20 @@
 # `_tools/deploy-langs.sh` once used `set -uo pipefail` WITHOUT `-e`, its
 # `cd "$ROOT"` failed silently, and it went on to commit and push both site
 # submodules from the wrong directory. That bug is not repeated here.
+#
+# WORKTREE HYGIENE (evidence guard)
+# ---------------------------------
+# Gates 5 and 6 REGENERATE TRACKED files under `_tests/evidence/`: verdict
+# JSONs embed a fresh `generatedAt` timestamp, the perf budget embeds measured
+# LCP timings, and homepage screenshots re-render with pixel-level drift.
+# Without a guard, EVERY successful push leaves `git status` dirty with
+# gate-produced churn, and the next `git add .` (the commit wrapper) silently
+# sweeps that churn into an unrelated commit. The guard snapshots the exact
+# pre-gate state of `_tests/evidence/` and restores it once all run gates have
+# PASSED, making gate runs worktree-neutral. A deliberate evidence refresh is
+# unaffected — it is committed BEFORE the push, so the restore target already
+# contains it. If any gate FAILS nothing is restored: the regenerated evidence
+# is diagnostic and stays on disk.
 # ------------------------------------------------------------------------------
 set -uo pipefail
 
@@ -104,6 +118,46 @@ LOGDIR="$(mktemp -d "${TMPDIR:-/tmp}/vasic-prepush.XXXXXX")" || {
 
 PASSED=0; FAILED=0; SKIPPED=0
 declare -a SUMMARY=()
+
+# ---- Evidence worktree guard (see WORKTREE HYGIENE in the header) ------------
+EVIDENCE_GUARD="$LOGDIR/evidence-guard"
+mkdir -p "$EVIDENCE_GUARD" || {
+    echo "FATAL: cannot create $EVIDENCE_GUARD" >&2; exit 2; }
+# Baseline = the CURRENT state, not HEAD: a push attempted with pre-existing
+# uncommitted evidence changes must restore THAT state. `--binary` because the
+# homepage screenshots are PNGs; a plain diff cannot re-apply their content.
+git diff --binary -- _tests/evidence > "$EVIDENCE_GUARD/pre-gates.patch" || {
+    echo "FATAL: cannot snapshot _tests/evidence" >&2; exit 2; }
+git ls-files --others --exclude-standard -- _tests/evidence \
+    > "$EVIDENCE_GUARD/pre-gates-untracked.txt" || {
+    echo "FATAL: cannot list untracked evidence files" >&2; exit 2; }
+
+restore_evidence() {
+    # `git checkout --` restores the worktree from the INDEX, which also undoes
+    # gate regeneration of files that had STAGED changes; the recorded patch
+    # (worktree-vs-index delta) then brings pre-existing unstaged edits back.
+    if ! git checkout -- _tests/evidence; then
+        echo "WARNING: evidence-guard checkout failed — worktree left as-is." >&2
+        return 1
+    fi
+    if [[ -s "$EVIDENCE_GUARD/pre-gates.patch" ]]; then
+        if ! git apply "$EVIDENCE_GUARD/pre-gates.patch"; then
+            echo "WARNING: evidence-guard patch re-apply failed; the baseline" >&2
+            echo "         delta is preserved at $EVIDENCE_GUARD/pre-gates.patch" >&2
+            return 1
+        fi
+    fi
+    # Remove untracked files the gates created; keep pre-existing untracked
+    # files and anything gitignored (e.g. _tests/evidence/html-report/).
+    local f
+    while IFS= read -r f; do
+        if ! grep -qxF "$f" "$EVIDENCE_GUARD/pre-gates-untracked.txt"; then
+            rm -f -- "$f" && echo "evidence-guard: removed gate-created artifact: $f"
+        fi
+    done < <(git ls-files --others --exclude-standard -- _tests/evidence)
+    echo "evidence-guard: _tests/evidence/ restored to its pre-gate state."
+    return 0
+}
 
 # The canonical §11.4.156(E) probe, quoted verbatim from the anchor so the
 # enforcement and the rule cannot drift apart.
@@ -424,6 +478,8 @@ if [[ $FAILED -gt 0 ]]; then
     echo
     echo "${RED}${BOLD}PUSH BLOCKED${NC} — $FAILED gate(s) failed. Logs: $LOGDIR"
     echo "Fix the gate, or state an explicit, evidenced reason; do not bypass."
+    echo "Note: _tests/evidence/ regeneration from the failed run is left on disk"
+    echo "      for diagnosis; the evidence-guard restore only runs when gates pass."
     exit 1
 fi
 
@@ -434,6 +490,8 @@ if [[ $SKIPPED -gt 0 ]]; then
     echo "satisfy the preconditions and re-run with PREPUSH_STRICT=1."
 fi
 
+echo
+restore_evidence || echo "${YELLOW}WARNING: evidence-guard restore incomplete — check 'git status'.${NC}" >&2
 echo
 echo "${GREEN}${BOLD}ALL RUN GATES PASSED${NC} — push allowed."
 exit 0
