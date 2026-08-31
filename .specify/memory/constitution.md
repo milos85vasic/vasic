@@ -1,50 +1,65 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+---
+version: 1.0.0
+last_updated: '2026-08-31'
+---
+
+# vasic Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Evidence-Based Claims
+Every assertion must be backed by verifiable evidence. Never guess, assume, or fabricate. Constitution §11.4 applies — no bluffing, no speculation disguised as fact.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Governance Fidelity
+All governance carriers (CLAUDE.md, AGENTS.md, QWEN.md, GEMINI.md) must stay in lockstep. The constitution submodule is the single source of truth; no carrier may weaken or override universal clauses.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Isolation by Default
+Mutation-paired gates catch regressions. Every new gate has a paired mutation proving it fires. No naked writes — every destructive operation requires a hardlinked backup first (Constitution §9).
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Comprehensive Documentation
+Every non-trivial commit updates CONTINUATION.md. Every architectural decision is recorded. Honest boundaries — gaps are stated openly, never hidden.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Quality Over Speed
+60% RAM cap on heavy work. TDD where possible. Lint and typecheck before claiming done. No shortcuts that compromise integrity.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Project Structure
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+The vasic umbrella monorepo owns two personal/portfolio sites and shared tooling:
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- **vasic.digital/** — committed static HTML served as-is (no build step)
+- **milosvasic.ru/** — Jekyll source; rendered `_site/` is git-ignored; self-publishes on push via `.github/workflows/pages.yml` (ACTIVE, do not disable)
+- **_tools/gen/** — Go generator rendering localized pages for both sites
+- **design-system/** — shared per-brand tokens and component CSS
+- **_tests/** — Playwright plus self-validating harness
+- **_content/** — English source; `_content_<lang>/` siblings for translations
+- **submodules/constitution/** — the universal constitution (11,101 lines, 261 anchors)
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Toolchains: Go 1.26, Node 20, Ruby 3.3 + Bundler, poppler-utils, tesseract-ocr.
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+## CI/CD Policy
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Remote CI is disabled at the umbrella root per operator mandate (2026-05-20). Enforcement is a local pre-push hook:
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+```
+bash scripts/pre-push-gates.sh --install
+```
+
+The hook must be installed on fresh clones; `git push --no-verify` bypasses it. Gates run from repository root — no server-side enforcement.
+
+**milosvasic.ru** keeps its active deploy workflow (`pages.yml`) as a documented deviation for production uptime — it is NOT an override of §11.4.156 (which forbids overrides). `vasic.digital` is non-compliant at the provider level with no file-level remedy.
+
+## Testing Strategy
+
+```bash
+cd _tools/gen && go test ./... && cd -        # Go unit tests (generator)
+bash _tools/audit-hardcoding.sh               # hardcoding audit
+bash _tools/translate/reproducibility-selftest.sh
+bash _tools/portfolio/self-validate.sh
+bash _tests/run-harness-selfvalidation.sh     # harness self-validation
+```
+
+Playwright (chromium) requires `npm ci` and `npx playwright install chromium` inside `_tests/`, plus a built `milosvasic.ru/_site`.
+
+## Deploys
+
+Driven by `bash _tools/deploy-langs.sh`. Regenerates EN plus every complete language into both site submodules, commits and pushes each site only when something changed, then validates live sites. `--dry-run` previews without committing.
