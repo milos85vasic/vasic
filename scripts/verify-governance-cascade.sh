@@ -1147,35 +1147,162 @@ run_checks() {
 # Paired §1.1 mutation proof. Every mutation is applied to a COPY inside a
 # mktemp sandbox. The real tree and every submodule working tree are untouched
 # (§11.4.84 quiescence by construction).
+#
+# ── WHY THE SANDBOX IS SYNTHETIC (a measured defect, not a refactor) ─────────
+# Until 2026-09-01 this proof was INOPERATIVE the moment the tree was anything
+# other than green, in two independent ways:
+#
+#   1. the PRE-FLIGHT live run GATED the battery — it `return 1`-ed on rc 1 and
+#      on rc 2 — so ONE real cascade violation meant ZERO mutations executed and
+#      the proof exited 1 having demonstrated nothing;
+#   2. the sandbox was a COPY of the real tree, so the golden-good control
+#      inherited every real defect. A drifted root carrier, a submodule carrier
+#      that lost its pointer block, an uninitialised owned submodule — each of
+#      them is a condition this verifier exists to DETECT, and each of them
+#      reddened the control, which returned before the first mutation. Worse,
+#      an uninitialised owned submodule made `build_sandbox` itself fail (`cp`
+#      of an absent carrier), which exited 2 without printing a single line.
+#
+# Measured, not inferred: on 2026-09-01 this file was copied into a bare
+# directory and `--prove-failure` run there. It exited 2 with 0 of 8 mutations
+# executed, and without even reaching its own PRE-FLIGHT report.
+#
+# The shape below is the one `scripts/verify-check-registry.sh --prove-failure`
+# already uses, copied deliberately rather than reinvented:
+#
+#   * the CONTROL is SYNTHETIC and green BY CONSTRUCTION. Every conformance-
+#     relevant byte — the fleet, the manifest, all five root carriers, every
+#     module carrier — is GENERATED here so that C1..C9 hold by construction.
+#     No state of this repository can redden it.
+#   * the LIVE run still happens, FIRST, with the REAL entry point against the
+#     REAL tree, because a proof that only ever touches a sandbox while the real
+#     verifier cannot start is the other half of the same defect — and this file
+#     shipped that half too, on 2026-08-31. It is REPORTED, never gating.
+#
+# WHAT IS DELIBERATELY *NOT* SYNTHESISED, and why that is still honest: the
+# pointer predicate (PC_LIB) is always sourced from the REAL constitution
+# submodule, exactly as it is on a live run. It is the INSTRUMENT, not the
+# specimen, and letting a sandbox supply its own predicate would be circular
+# (the comment on the PC_LIB resolution above says so). If it is missing the
+# script exits 2 COULD NOT VERIFY before reaching here, which is the correct
+# three-valued answer for a proof that cannot be performed.
+#
+# COST, STATED (§11.4.6): the mutations no longer name real fleet members, so
+# M7 is no longer literally the 2026-09-01 vasic.digital/QWEN.md defect — it is
+# that defect's SHAPE, applied to a synthetic module. The property proved is
+# identical (C8 detects in-submodule carrier drift and NAMES the outlier); what
+# is given up is the coincidence that the fixture matched a historical bug. In
+# exchange the battery no longer depends on the real fleet's composition, which
+# is the same frozen-assumption defect the derived roster removed from C1.
 # ─────────────────────────────────────────────────────────────────────────────
-build_sandbox() {
-    local dest="$1" d f rel
-    mkdir -p "${dest}/${GOVERNANCE_ROOT}" || return 1
-    for f in $ROOT_CARRIERS; do
-        cp "${REPO_ROOT}/${f}" "${dest}/${f}" || return 1
+
+# The synthetic fleet. Two owned modules sharing one namespace (so E1
+# tree-shared classifies them), one governance source at whatever path this
+# tree's GOVERNANCE_ROOT resolves to, and one third-party module documented in
+# the manifest's exclusion block.
+SYN_OWNED="syn-alpha syn-beta"
+SYN_OWNED_NS="git@github.com:synthetic-owned"
+SYN_VENDOR="submodules/syn-vendor"
+SYN_VENDOR_URL="git@github.com:synthetic-vendor/syn-vendor.git"
+
+# syn_root_carrier <path> <name> — 23 lines of per-agent header, then a body
+# shared verbatim with its three siblings. That IS this project's §11.4.157
+# lockstep mechanism (Constitution.md's header table: "bodies byte-identical
+# from line 24"), so C5 passes by construction rather than by luck.
+syn_root_carrier() {
+    local path="$1" name="$2" i
+    {
+        printf '# %s — synthetic root carrier (--prove-failure control)\n' "$name"
+        printf '#\n'
+        printf '# Generated inside a mktemp sandbox. It is never written to the real tree.\n'
+        i=4
+        while [ "$i" -le 23 ]; do
+            printf '# per-agent header line %s, deliberately different in each mirror (%s)\n' "$i" "$name"
+            i=$((i + 1))
+        done
+        cat <<'BODY'
+## INHERITED FROM constitution/CLAUDE.md
+
+The shared body starts at line 24 and is byte-identical across the four root
+agent mirrors. Everything above this point is the per-agent header that the
+lockstep recipe deliberately excludes.
+BODY
+    } > "$path"
+}
+
+# syn_sub_carrier <path> <base> <module> — one module carrier. The four
+# carriers of a module differ ONLY in occurrences of their own name and in the
+# reader line, which is precisely the variance C8's recipe normalises away — so
+# their normalised digests agree by construction.
+syn_sub_carrier() {
+    local path="$1" base="$2" mod="$3"
+    cat > "$path" <<EOF
+# ${base}.md — synthetic module carrier for ${mod}
+
+## INHERITED FROM constitution/${base}.md
+
+This carrier is read by the ${base} agent.
+
+All rules in the canonical corpus apply here by pointer, never by copy. The
+body below is byte-identical across this module's four carriers once the
+per-agent header is normalised, which is exactly the property C8 measures.
+EOF
+}
+
+build_synthetic_sandbox() {
+    local dest="$1" d f base gov_name gov_layout
+
+    # The governance dep must resolve, through helix_dep_paths' own layout
+    # mapping, to whatever GOVERNANCE_ROOT this tree derived — never a literal.
+    case "$GOVERNANCE_ROOT" in
+        submodules/*) gov_name="${GOVERNANCE_ROOT#submodules/}"; gov_layout="grouped" ;;
+        *)            gov_name="${GOVERNANCE_ROOT}";             gov_layout="flat" ;;
+    esac
+
+    mkdir -p "${dest}/${GOVERNANCE_ROOT}" "${dest}/${SYN_VENDOR}" || return 1
+
+    for f in $CARRIERS_AGENT; do
+        syn_root_carrier "${dest}/${f}" "$f" || return 1
     done
-    cp "${REPO_ROOT}/.gitmodules"     "${dest}/.gitmodules"     || return 1
-    cp "${REPO_ROOT}/helix-deps.yaml" "${dest}/helix-deps.yaml" || return 1
+    printf '# Constitution.md — synthetic root constitution (proof control)\n' > "${dest}/Constitution.md" || return 1
+
+    # The governance SOURCE only has to be present and non-empty (ENV
+    # GOVERNANCE-SOURCE checks -s and nothing more), so it is synthesised too.
     for f in $GOVERNANCE_FILES; do
-        cp "${REPO_ROOT}/${GOVERNANCE_ROOT}/${f}" "${dest}/${GOVERNANCE_ROOT}/${f}" || return 1
+        printf '# %s — synthetic governance source file (proof control)\n' "$f" \
+            > "${dest}/${GOVERNANCE_ROOT}/${f}" || return 1
     done
-    for d in $OWNED_ROOTS; do
+
+    for d in $SYN_OWNED; do
         mkdir -p "${dest}/${d}" || return 1
         for f in $CARRIERS_AGENT; do
-            cp "${REPO_ROOT}/${d}/${f}" "${dest}/${d}/${f}" || return 1
+            base="${f%.md}"
+            syn_sub_carrier "${dest}/${d}/${f}" "$base" "$d" || return 1
         done
-        [ -f "${REPO_ROOT}/${d}/.gitmodules" ] && { cp "${REPO_ROOT}/${d}/.gitmodules" "${dest}/${d}/.gitmodules" || return 1; }
     done
-    # Third-party roots and the R1 fixtures: copied only so the NOTE/REPORT
-    # lines describe the same shape the real tree has. Nothing is required of
-    # them, so a missing one is not an error here either.
-    for d in $THIRD_PARTY_ROOTS; do mkdir -p "${dest}/${d}" || return 1; done
-    while IFS= read -r rel; do
-        rel="${rel%%|*}"
-        [ -f "${REPO_ROOT}/${rel}" ] || continue
-        mkdir -p "${dest}/$(dirname "$rel")" || return 1
-        cp "${REPO_ROOT}/${rel}" "${dest}/${rel}" || return 1
-    done <<< "$KNOWN_UNCLEARABLE"
+
+    {
+        for d in $SYN_OWNED; do
+            printf '[submodule "%s"]\n\tpath = %s\n\turl = %s/%s.git\n' "$d" "$d" "$SYN_OWNED_NS" "$d"
+        done
+        printf '[submodule "%s"]\n\tpath = %s\n\turl = git@github.com:synthetic-governance/%s.git\n' \
+               "$GOVERNANCE_ROOT" "$GOVERNANCE_ROOT" "$gov_name"
+        printf '[submodule "%s"]\n\tpath = %s\n\turl = %s\n' "$SYN_VENDOR" "$SYN_VENDOR" "$SYN_VENDOR_URL"
+    } > "${dest}/.gitmodules" || return 1
+
+    {
+        printf 'schema_version: 1\n\ndeps:\n'
+        for d in $SYN_OWNED; do
+            printf '  - name: %s\n    ssh_url: %s/%s.git\n    ref: "%040d"\n    layout: flat\n\n' \
+                   "$d" "$SYN_OWNED_NS" "$d" 0
+        done
+        printf '  - name: %s\n    ssh_url: git@github.com:synthetic-governance/%s.git\n    ref: "%040d"\n    layout: %s\n\n' \
+               "$gov_name" "$gov_name" 0 "$gov_layout"
+        printf 'language_specific_subtree: false\n\n'
+        printf '# ─── Third-party gitlinks — commentary, NOT deps ───\n'
+        printf '#   %s  -> %s\n' "$SYN_VENDOR" "$SYN_VENDOR_URL"
+    } > "${dest}/helix-deps.yaml" || return 1
+
     return 0
 }
 

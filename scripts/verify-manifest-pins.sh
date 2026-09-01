@@ -507,36 +507,112 @@ apply_fix() {
 # ─────────────────────────────────────────────────────────────────────────────
 # Paired §1.1 mutation proof.
 #
-# Unlike the cascade verifier, this gate NEEDS a git repository to look at, so
-# the sandbox is a real one: `git init`, the REAL manifest and .gitmodules
-# copied in, and the REAL index gitlinks reproduced with `git update-index
-# --cacheinfo 160000,...`. That coupling is deliberate — the golden-good control
-# is green only if the real manifest is genuinely in sync, so the control cannot
-# quietly certify a sandbox that shares nothing with the tree.
+# ── WHY THE CONTROL IS SYNTHETIC (a real defect, measured — not a refactor) ──
+# Until 2026-09-01 this proof did two things that made it INOPERATIVE the moment
+# the tree was anything other than green:
 #
-# No submodule is checked out in the sandbox, so it also exercises the
-# uninitialised-submodule path (N6) as a first-class case.
+#   1. the PRE-FLIGHT live run GATED the battery — it `return 1`-ed on rc 1 and
+#      on rc 2 — so a single real pin drift meant ZERO mutations ever executed
+#      and the proof exited 1 having demonstrated nothing;
+#   2. the CONTROL specimen was built from the REAL manifest and the REAL index
+#      gitlinks, so it was green only while the real manifest was ALREADY in
+#      sync — which is precisely the condition this gate exists to detect the
+#      absence of. A drifted manifest reddened the control, and a red control
+#      returned before the first mutation.
+#
+# Measured, not inferred: on 2026-09-01 this file was copied into a directory
+# that is not a git work tree and `--prove-failure` was run there. It exited 1
+# with 0 of 8 mutations executed. A proof that cannot run is worse than no
+# proof, because the line it prints still reads as coverage.
+#
+# The shape below is the one `scripts/verify-check-registry.sh --prove-failure`
+# already uses, copied deliberately rather than reinvented:
+#
+#   * the CONTROL is SYNTHETIC and green BY CONSTRUCTION. Its manifest and its
+#     gitlinks are generated together from the same constants, so no state of
+#     this repository — drifted refs, an uninitialised submodule, a missing
+#     manifest — can redden it. Nothing is copied from the real tree.
+#   * the LIVE run still happens, FIRST, with the REAL entry point against the
+#     REAL tree. A proof that only ever touches a sandbox while the real gate
+#     cannot start is the other half of the same defect, and this repository has
+#     shipped that half too. It is REPORTED, never gating: rc 0, 1 and 2 are all
+#     printed and none of them can disable the battery. Only an INSTRUMENT fault
+#     — a crash marker on stderr, or an exit code outside the documented 0/1/2
+#     contract — is counted as a proof failure, because that genuinely voids the
+#     instrument rather than merely describing the tree.
+#
+# The synthetic manifest deliberately exercises every parser branch the real one
+# does: `layout: flat` and `layout: grouped`, a quoted 40-hex ref, an unquoted
+# ref with a trailing comment, an ABBREVIATED prefix pin, and a trailing
+# top-level key that must terminate the deps[] block.
+#
+# No submodule is checked out in the specimen, so the uninitialised-submodule
+# path (N6) is exercised as a first-class case; N9 initialises one on purpose to
+# reach the OTHER rc-2 branch, an unresolvable ref in a real checkout.
+#
+# Every mutation writes ONLY inside a `mktemp -d`. Nothing under the real
+# repository is read for content or written to, so no restore is required.
 # ─────────────────────────────────────────────────────────────────────────────
 sg() {  # sandboxed git: no host identity, no signing, no hooks
     git -c user.name=pin-proof -c user.email=pin-proof@invalid \
         -c commit.gpgsign=false "$@"
 }
 
-build_specimen() {
-    local dest="$1" sha path
+# Deterministic, mutually distinct synthetic object names. They are NOT commits
+# in any repository and never need to be: a gitlink index entry records a raw
+# object name, which is the whole point — the specimen can pin anything.
+SYN_SHA_ALPHA="1111111111111111111111111111111111111111"
+SYN_SHA_BETA="2222222222222222222222222222222222222222"
+SYN_SHA_GAMMA="33333333cccccccccccccccccccccccccccccccc"
+
+build_synthetic_specimen() {
+    local dest="$1"
     mkdir -p "$dest" || return 1
     sg -C "$dest" init -q >/dev/null 2>&1 || return 1
-    cp "${REPO_ROOT}/${MANIFEST_NAME}" "${dest}/${MANIFEST_NAME}" || return 1
+
+    # The manifest and the gitlinks below are written from the SAME three
+    # constants, so "every recorded ref equals its gitlink" holds by
+    # construction. This is the property that makes the control immune to the
+    # state of the real tree.
+    cat > "${dest}/${MANIFEST_NAME}" <<EOF
+schema_version: 1
+
+deps:
+  - name: alpha
+    ssh_url: git@github.com:synthetic-org/alpha.git
+    ref: "${SYN_SHA_ALPHA}"
+    why: "synthetic dep — quoted full 40-hex pin, flat layout"
+    layout: flat
+
+  - name: beta
+    ssh_url: git@github.com:synthetic-org/beta.git
+    ref: ${SYN_SHA_BETA}   # synthetic dep — unquoted pin with a trailing comment
+    why: "synthetic dep — grouped layout, so its path is submodules/beta"
+    layout: grouped
+
+  - name: gamma
+    ssh_url: git@github.com:synthetic-org/gamma.git
+    ref: "${SYN_SHA_GAMMA:0:7}"
+    why: "synthetic dep — ABBREVIATED prefix pin, the form the constitution's own manifest uses"
+    layout: flat
+
+language_specific_subtree: false
+EOF
     sg -C "$dest" add -f "${MANIFEST_NAME}" >/dev/null 2>&1 || return 1
-    if [ -f "${REPO_ROOT}/.gitmodules" ]; then
-        cp "${REPO_ROOT}/.gitmodules" "${dest}/.gitmodules" || return 1
-        sg -C "$dest" add -f .gitmodules >/dev/null 2>&1 || return 1
-    fi
-    while IFS=$'\t' read -r sha path; do
-        [ -n "$sha" ] || continue
-        sg -C "$dest" update-index --add --cacheinfo "160000,${sha},${path}" >/dev/null 2>&1 || return 1
-    done <<< "$(git -C "$REPO_ROOT" ls-files -s | awk -F'\t' '{split($1,a," "); if (a[1]=="160000") print a[2] "\t" $2}')"
-    sg -C "$dest" commit -q --no-verify -m "pin-proof specimen" >/dev/null 2>&1 || return 1
+
+    printf '[submodule "alpha"]\n\tpath = alpha\n\turl = git@github.com:synthetic-org/alpha.git\n' \
+        > "${dest}/.gitmodules" || return 1
+    printf '[submodule "submodules/beta"]\n\tpath = submodules/beta\n\turl = git@github.com:synthetic-org/beta.git\n' \
+        >> "${dest}/.gitmodules" || return 1
+    printf '[submodule "gamma"]\n\tpath = gamma\n\turl = git@github.com:synthetic-org/gamma.git\n' \
+        >> "${dest}/.gitmodules" || return 1
+    sg -C "$dest" add -f .gitmodules >/dev/null 2>&1 || return 1
+
+    sg -C "$dest" update-index --add --cacheinfo "160000,${SYN_SHA_ALPHA},alpha"          >/dev/null 2>&1 || return 1
+    sg -C "$dest" update-index --add --cacheinfo "160000,${SYN_SHA_BETA},submodules/beta" >/dev/null 2>&1 || return 1
+    sg -C "$dest" update-index --add --cacheinfo "160000,${SYN_SHA_GAMMA},gamma"          >/dev/null 2>&1 || return 1
+
+    sg -C "$dest" commit -q --no-verify -m "synthetic pin-proof specimen" >/dev/null 2>&1 || return 1
     return 0
 }
 
@@ -546,32 +622,34 @@ prove_failure() {
     echo "${GATE} §1.1 PAIRED MUTATION PROOF"
     echo "----------------------------------------------------------------------"
 
-    # ── PRE-FLIGHT: the REAL entry point, on the REAL tree — FIRST, always ────
-    # A proof that only ever exercises sandboxes can go green over a gate that
-    # cannot start. This repository has already shipped exactly that defect once
-    # (a control that failed, so zero mutations were ever reached), which is why
-    # the live run happens before mktemp, before the specimen, before anything.
+    # ── PRE-FLIGHT: the REAL entry point, on the REAL tree — REPORTED ─────────
+    # It runs FIRST, because a proof that only ever exercises sandboxes can go
+    # green over a gate that cannot start. It GATES NOTHING, because a proof
+    # whose battery a red tree can switch off demonstrates nothing at all. Both
+    # halves of that sentence are defects this file has actually shipped; see
+    # the block above build_synthetic_specimen for the measurements.
     live_out="$(bash "$0" --root "$REPO_ROOT" 2>&1)"; live_rc=$?
     if printf '%s' "$live_out" | grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near'; then
         echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: the real entry point aborted on the real tree"
-        echo "                        -> this proof is VOID; a gate that cannot start proves nothing"
+        echo "                        -> a gate that cannot start proves nothing. Counted as a proof FAILURE."
         printf '%s\n' "$live_out" | sed 's/^/        /'
-        return 1
+        mut_fails=$((mut_fails+1))
+    else
+        case "$live_rc" in
+            0) echo "✅ PRE-FLIGHT live-run   — real entry point, real tree, rc=0 (gate runs; every pin in sync)" ;;
+            1) echo "ℹ PRE-FLIGHT live-run   — the real entry point RAN against the real tree and returned rc=1,"
+               echo "                          a REAL pin drift. REPORTED, NOT GATING: the battery below uses a"
+               echo "                          synthetic control precisely so a red tree cannot disable the proof."
+               echo "                          Remedy for the tree (not for this proof): scripts/verify-manifest-pins.sh --fix"
+               printf '%s\n' "$live_out" | sed 's/^/        /' ;;
+            2) echo "ℹ PRE-FLIGHT live-run   — the real entry point RAN against the real tree and returned rc=2,"
+               echo "                          COULD NOT DETERMINE. REPORTED, NOT GATING; the battery still runs."
+               printf '%s\n' "$live_out" | sed 's/^/        /' ;;
+            *) echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: undocumented exit code ${live_rc}; the contract is 0/1/2"
+               printf '%s\n' "$live_out" | sed 's/^/        /'
+               mut_fails=$((mut_fails+1)) ;;
+        esac
     fi
-    case "$live_rc" in
-        0) echo "✅ PRE-FLIGHT live-run   — real entry point, real tree, rc=0 (gate runs; every pin in sync)" ;;
-        1) echo "❌ PRE-FLIGHT live-run   — TREE STATE: the gate RAN and returned rc=1, REAL pin drift"
-           echo "                        -> the gate is NOT a sham; run --fix, then re-run this proof"
-           printf '%s\n' "$live_out" | sed 's/^/        /'
-           return 1 ;;
-        2) echo "❌ PRE-FLIGHT live-run   — TREE STATE: rc=2, COULD NOT DETERMINE"
-           echo "                        -> an environment problem, honestly reported; resolve it, then re-run"
-           printf '%s\n' "$live_out" | sed 's/^/        /'
-           return 1 ;;
-        *) echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: undocumented exit code ${live_rc}; the contract is 0/1/2"
-           printf '%s\n' "$live_out" | sed 's/^/        /'
-           return 1 ;;
-    esac
 
     if ! command -v git >/dev/null 2>&1; then
         echo "${GATE}: ENV — git is not on PATH; the specimen cannot be built" >&2
@@ -583,22 +661,26 @@ prove_failure() {
     export HOME="$sandbox" GIT_CONFIG_NOSYSTEM=1
 
     echo "  sandbox: ${sandbox}"
-    echo "  Every mutation is applied to a THROWAWAY git repository built from the real"
-    echo "  manifest and the real index gitlinks. Neither this repository nor any submodule"
-    echo "  working tree is written to."
+    echo "  Every mutation is applied to a THROWAWAY git repository whose manifest and"
+    echo "  gitlinks are GENERATED TOGETHER, so the control is green by construction and no"
+    echo "  state of this repository can disable the battery. Neither this repository nor any"
+    echo "  submodule working tree is read for content or written to."
     echo "----------------------------------------------------------------------"
 
     pristine="${sandbox}/pristine"
-    if ! build_specimen "$pristine"; then
-        echo "${GATE}: ENV — could not build the git specimen" >&2
+    if ! build_synthetic_specimen "$pristine"; then
+        echo "${GATE}: ENV — could not build the synthetic git specimen" >&2
         exit 2
     fi
 
     bash "$0" --root "$pristine" --quiet >/dev/null 2>&1; rc=$?
     if [ "$rc" -eq 0 ]; then
-        echo "✅ CONTROL golden-good   — unmutated specimen passes (rc=0)"
+        echo "✅ CONTROL synthetic-green — unmutated synthetic specimen passes (rc=0), by construction"
     else
-        echo "❌ CONTROL golden-good   — unmutated specimen returned rc=${rc}; every mutation below would be meaningless"
+        echo "❌ CONTROL synthetic-green — unmutated synthetic specimen returned rc=${rc}."
+        echo "                        -> ABORTING: ZERO mutations were run, so NOTHING below was proved."
+        echo "                           This is an instrument fault in the proof harness itself, not a"
+        echo "                           statement about this repository's manifest."
         bash "$0" --root "$pristine" 2>&1 | sed 's/^/        /'
         return 1
     fi
@@ -680,6 +762,21 @@ prove_failure() {
         bash "$0" --root "$d" --fix --quiet >/dev/null 2>&1
         return 0
     }
+    # N9 — the OTHER rc=2 branch, which N6 cannot reach: the submodule IS a real
+    #      checkout, and the symbolic ref simply does not resolve in it (an
+    #      unfetched tag and a typo are indistinguishable from here). Without
+    #      this pairing, "does not resolve" was an unproven code path.
+    n9() {
+        local d="$1"
+        n6 "$d" || return 1
+        sg -C "$d" init -q "${d}/alpha" >/dev/null 2>&1 || return 1
+        return 0
+    }
+    # N10 — the ABBREVIATED-prefix comparison. N1 rewrites only 40-hex refs, so
+    #       the 7-character pin is invisible to it and the prefix branch was
+    #       never demonstrated to fail. A prefix that does NOT match must be
+    #       rc=1, exactly like a full sha that does not match.
+    n10() { sed -i 's/^    ref: "3333333"$/    ref: "9999999"/' "$1/${MANIFEST_NAME}"; }
 
     mutate_and_assert "N1 manifest-ref-drifted  " "a recorded ref is rewritten to a commit nothing points at        " 1 "deadbeef" n1
     mutate_and_assert "N2 gitlink-bumped        " "the committed gitlink moves; the manifest is left behind         " 1 "cafebabe" n2
@@ -689,16 +786,32 @@ prove_failure() {
     mutate_and_assert "N6 uninit-submodule-tag  " "a symbolic ref whose submodule is NOT initialised                " 2 "NOT INITIALISED" n6
     mutate_and_assert "N7 --fix remediates      " "N1's drift, then --fix, then re-verify — the named remedy works  " 0 "" n7
     mutate_and_assert "N8 gitlink-bump-STAGED   " "the bump is staged and NOT committed — caught before the commit  " 1 "facefeed" n8
+    mutate_and_assert "N9 tag-unresolvable      " "the submodule IS initialised but the symbolic ref does not resolve" 2 "does not resolve" n9
+    mutate_and_assert "N10 abbrev-prefix-drifted" "the ABBREVIATED prefix pin no longer prefixes the live gitlink   " 1 "9999999" n10
+
+    # ── RESTORED CONTROL ─────────────────────────────────────────────────────
+    # Every mutation ran on its own throwaway copy, so the pristine specimen must
+    # still be green. Showing it again is what distinguishes "the mutations were
+    # caught" from "the specimen decayed part-way through the battery".
+    bash "$0" --root "$pristine" --quiet >/dev/null 2>&1; rc=$?
+    if [ "$rc" -eq 0 ]; then
+        echo "✅ CONTROL restored        — the unmutated specimen is still green after the battery (rc=0)"
+    else
+        echo "❌ CONTROL restored        — the specimen no longer passes (rc=${rc}); a mutation leaked out of its copy"
+        mut_fails=$((mut_fails+1))
+    fi
 
     echo "----------------------------------------------------------------------"
     if [ "$mut_fails" -eq 0 ]; then
-        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — the live tree ran the real entry point, the control"
-        echo "   passed, 3 real drifts were caught as rc=1 and NAMED (manifest-side, committed gitlink,"
-        echo "   and staged-but-uncommitted gitlink), 4 could-not-determine states were reported as rc=2"
-        echo "   rather than as a pass or an accusation, and --fix remediated."
+        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — the REAL entry point ran against the REAL tree"
+        echo "   (reported, never gating), a SYNTHETIC control that is green by construction passed,"
+        echo "   10 mutations each FLIPPED the verdict with the right three-valued code and NAMED the"
+        echo "   offending thing: 4 real drifts as rc=1 (manifest-side, committed gitlink, staged-but-"
+        echo "   uncommitted gitlink, abbreviated prefix), 5 could-not-determine states as rc=2 rather"
+        echo "   than as a pass or an accusation, --fix remediated, and the control is still green."
         return 0
     fi
-    echo "❌ ${GATE} §1.1 MUTATION PROOF: FAIL — ${mut_fails} mutation(s) did not produce the required result"
+    echo "❌ ${GATE} §1.1 MUTATION PROOF: FAIL — ${mut_fails} case(s) did not produce the required result"
     return 1
 }
 

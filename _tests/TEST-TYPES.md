@@ -64,6 +64,16 @@ python3 _tests/tools/glossary_protect_test.py
 # integration — data-gate mutation proof
 node _tests/tools/validate.mutation.test.mjs
 
-# integration / security / performance / SEO / e2e / a11y / i18n (all specs, 3 browsers)
+# integration / security / performance / SEO / e2e / a11y / i18n
+# LOCAL specs only, 3 browsers — the default config `testIgnore`s the three
+# live-production specs below, so this is 19 of the 22 spec files.
 ( cd _tests && npx playwright test )
+
+# LIVE production specs (restyle-seo-regression, v170-fixes, v171-hardcoding,
+# all-languages-link-integrity) — chromium only, asserts against the deployed
+# sites over the public internet, so it needs working DNS/egress. The
+# all-language crawl additionally needs VD_BASE/MV_BASE, which default to
+# localhost:8401/8082 and are set by _tools/deploy-langs.sh at deploy time;
+# without them that one spec fails with "Expected: 200 / Received: 0".
+( cd _tests && npx playwright test --config=playwright.live.config.js )
 ```

@@ -28,6 +28,11 @@
 # --force      full rebuild (`lumen index -f`). REQUIRED after a corruption
 #              event: affected files carry a non-empty hash, so an incremental
 #              run treats them as done and skips them forever.
+#              The flag is RETAINED on every retry round until a round exits 0.
+#              It used to be dropped after the first failed round, which turned
+#              an interrupted rebuild into an unforced resume that skipped
+#              exactly the corrupt files - see the note above the retry loop.
+#              Budget MAX_ROUNDS as whole-rebuild attempts when using --force.
 # --allow-gpu  proceed even if the backend is on a GPU/Vulkan path. Off by
 #              default precisely because that is what caused the corruption.
 #
@@ -358,20 +363,46 @@ if [[ "$p" != OK* ]]; then
 fi
 log "batch probe OK: ${LUMEN_PROBE_TEXTS:-32} distinct texts -> distinct vectors ($p)"
 
-args=("$PROJ"); [[ $FORCE -eq 1 ]] && args=(-f "$PROJ")
+# A forced rebuild STAYS forced until a round actually succeeds.
+#
+# This loop used to reset `args=("$PROJ")` immediately after a failed round,
+# under the comment "a forced rebuild only needs to be forced once; later rounds
+# resume". That is true only of a forced round that COMPLETED. When round 1 dies
+# partway - the common case here, because backend faults are exactly what this
+# loop exists to retry - every later round resumed WITHOUT -f, and an
+# incremental run skips any file that already carries a non-empty hash. The
+# files it skipped were precisely the corrupt ones the rebuild had been ordered
+# to fix, and the wrapper then logged "INDEX COMPLETE" over an index it had
+# silently left stale.
+#
+# That is how one corruption event decayed 758 -> 169 -> 141 -> 22 stale vectors
+# across repeated --force runs instead of going to zero: each run only ever
+# repaired the files round 1 managed to reach before it died.
+#
+# Retaining the flag costs a full restart per retry (lumen has no per-file
+# re-index mode - `lumen index --help` offers only <project-path> and -f - so
+# "re-force just the unfinished files" is not expressible). MAX_ROUNDS bounds
+# the loop, so this cannot spin forever; with --force, budget MAX_ROUNDS as
+# whole-rebuild attempts and lower it if that is too expensive.
+FORCE_PENDING=$FORCE
 for round in $(seq 1 "$MAX_ROUNDS"); do
+    if [[ $FORCE_PENDING -eq 1 ]]; then
+        args=(-f "$PROJ"); tag=" (forced)"
+    else
+        args=("$PROJ"); tag=""
+    fi
     embed_ok || { log "round $round: backend unhealthy, resetting"; reset_runner || { sleep 60; continue; }; }
 
     out=$(LUMEN_EMBED_MODEL="$MODEL" "${LUMEN[@]}" index "${args[@]}" 2>&1); rc=$?
     summary=$(printf '%s\n' "$out" | grep -E 'Done\.|Error:' | tail -1)
-    log "round $round: rc=$rc ${summary:-<no summary line>}"
+    log "round $round$tag: rc=$rc ${summary:-<no summary line>}"
 
     if [[ $rc -eq 0 ]]; then
+        # The ONLY place the force requirement is discharged: a completed round.
+        FORCE_PENDING=0
         log "=== INDEX COMPLETE after $round round(s) ==="
         exit 0
     fi
-    # A forced rebuild only needs to be forced once; later rounds resume.
-    args=("$PROJ")
     if grep -q 'NaN\|embedding servers exhausted' <<<"$out"; then
         reset_runner || sleep 30
     else

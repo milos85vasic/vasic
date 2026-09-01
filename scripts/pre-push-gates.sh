@@ -430,7 +430,16 @@ gate_6() {
     [[ $_rc -eq 0 ]] && return 0
 
     _net=$(printf '%s' "$_out" | grep -cE 'net::ERR_(TIMED_OUT|NAME_NOT_RESOLVED|CONNECTION_(RESET|REFUSED|CLOSED))|EAI_AGAIN|ENOTFOUND|ECONNRESET|Request context disposed|page\.goto: Test timeout' || true)
-    _assert=$(printf '%s' "$_out" | grep -cE '^[[:space:]]+(Expected|Received)|toEqual\(|toHaveCount\(|toBe\(|toContain\(|toMatch\(|AssertionError' || true)
+    # An assertion FAILURE is Playwright's own error output — 'Error: expect(...)',
+    # or a bare 'Expected:'/'Received:' pair. It is NOT the source line Playwright
+    # echoes to show WHERE a test died, which looks like:
+    #     281 |     expect(await toggle.getAttribute('aria-expanded')).toBe('false');
+    # Those echoes appear for EVERY failure, including pure navigation timeouts, so
+    # counting them classified 28 network timeouts as 'real assertion failures' and
+    # forced rc=1. Strip the 'NNN | ' source-echo lines before classifying.
+    _assert=$(printf '%s' "$_out" \
+        | grep -vE '^[[:space:]]*[0-9]+ \|' \
+        | grep -cE 'Error: expect\(|^[[:space:]]*(Expected|Received):|AssertionError' || true)
 
     if [[ $_net -gt 0 && $_assert -eq 0 ]]; then
         echo

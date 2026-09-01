@@ -102,8 +102,22 @@ bash _tests/run-harness-selfvalidation.sh
 
 Gate 6 serves both sites and runs the chromium suite. `vasic.digital` is served
 as committed static HTML; `milosvasic.ru` must be built first because its
-`_site/` is git-ignored. The `all-language` crawl is excluded here — it is the
-spec designed to run LIVE against production (see deploys below), not per-run.
+`_site/` is git-ignored.
+
+Gate 6 is **hermetic**: it reaches nothing but the two local `http.server`
+instances. Four specs assert against LIVE production instead, and each is kept
+out of this gate by a different mechanism:
+
+- `restyle-seo-regression`, `v170-fixes`, `v171-hardcoding` — excluded by
+  `testIgnore` in `_tests/playwright.config.js`. They have no local mode at all
+  (`VASIC_BASE`/`MILOS_BASE` default to the production origins).
+- `all-languages-link-integrity` — excluded by the `--grep-invert` below. It
+  *does* have a local mode (`VD_BASE`/`MV_BASE` default to localhost), but the
+  full crawl is too slow to gate every push.
+
+All four run under `playwright.live.config.js`. Only the `all-language` crawl is
+run automatically, by `_tools/deploy-langs.sh` after a deploy; the other three
+are **manual-only** — see "Deploys" below.
 
 ```bash
 cd _tests
