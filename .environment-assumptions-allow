@@ -48,6 +48,13 @@
 # an out-of-scope NOTE on every run and does not fail on them. `design-toolkit`
 # is clean and needs no entry.
 #
+# HONEST BOUNDARY (§11.4.6) ON THESE ENTRIES. The gate's own failure text asks a
+# BASELINE to "carry an AUDIT.md finding id". These entries do NOT have one:
+# docs/environment-adaptability/AUDIT.md is outside the set of files the change
+# that produced this ledger was permitted to touch. This dated, per-(file,class)
+# ledger IS the record for them; assigning F-numbers in AUDIT.md is owed work,
+# and saying so is preferable to inventing ids that point at nothing.
+#
 # Re-derive the live list at any time:
 #     bash scripts/audit-environment-assumptions.sh
 #     bash scripts/audit-environment-assumptions.sh --list   # per-repo universe

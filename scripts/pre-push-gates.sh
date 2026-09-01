@@ -387,8 +387,66 @@ gate_4() { bash "$ROOT/_tools/portfolio/self-validate.sh"; }
 gate_5() { bash "$ROOT/_tests/run-harness-selfvalidation.sh"; }
 
 gate_6() {
-    cd "$ROOT/_tests" || { echo "FATAL: cannot cd to _tests" >&2; return 90; }
-    npx playwright test --project=chromium --grep-invert "all-language"
+    # A suite that CANNOT START is not a suite that FAILED. Playwright exits 1 both
+    # when tests fail and when its webServer port is already held — e.g. by another
+    # Playwright run on the same box. Reporting the second as a failure sends someone
+    # hunting a defect in the site that was never demonstrated. Detected here and
+    # mapped to rc=2 so run_gate reports UNDET, matching the project's 0/1/2 contract.
+    # The config declares its webServer ports as `port: NNNN` (there are two), not
+    # as a localhost URL — parse the real form rather than a guessed one.
+    local _pw_busy=""
+    while IFS= read -r _pw_port; do
+        [[ -n "$_pw_port" ]] || continue
+        ss -tln 2>/dev/null | grep -q ":${_pw_port}[[:space:]]" && _pw_busy="${_pw_busy}${_pw_port} "
+    done < <(sed -nE 's/^[[:space:]]*port:[[:space:]]*([0-9]+).*/\1/p' "$ROOT/_tests/playwright.config.js" 2>/dev/null)
+    if [[ -n "$_pw_busy" ]]; then
+        echo "COULD NOT DETERMINE — webServer port(s) already in use: ${_pw_busy}"
+        echo "Playwright cannot bind them, so the suite never ran. This is NOT a test"
+        echo "failure and NOT a site defect — do not go looking for one."
+        for _pw_port in $_pw_busy; do
+            ss -tlnp 2>/dev/null | grep ":${_pw_port}[[:space:]]" | sed 's/^/  /'
+        done
+        echo "Most likely another Playwright run is active on this host. Re-run when it ends."
+        return 2
+    fi
+    # rc=2, not 90: an unreachable _tests directory means the gate COULD NOT RUN.
+    cd "$ROOT/_tests" || { echo "COULD NOT DETERMINE — cannot cd to _tests" >&2; return 2; }
+
+    # Part of this suite asserts against the LIVE production sites over the public
+    # internet (VASIC_BASE/MILOS_BASE default to https://vasic.digital and
+    # https://milosvasic.ru). A DNS or TCP failure there means the suite COULD NOT
+    # REACH the site — not that the site is broken. Observed on this host:
+    # 6x net::ERR_TIMED_OUT, 5x "getaddrinfo EAI_AGAIN", 50x 60s page.goto timeouts,
+    # while curl fetched both sites with http=200 and a valid certificate minutes
+    # earlier. Reporting that as a site defect sends someone hunting a bug that was
+    # never demonstrated — the same conflation this project has fixed five times.
+    #
+    # So classify. Every failure network-class => 2 (COULD NOT DETERMINE). ANY real
+    # assertion failure => 1. This must never become a blanket excuse that turns a
+    # genuine regression green, which is why the assertion count gates it.
+    local _out _rc _net _assert
+    _out="$(npx playwright test --project=chromium --grep-invert "all-language" 2>&1)"; _rc=$?
+    printf '%s\n' "$_out"
+    [[ $_rc -eq 0 ]] && return 0
+
+    _net=$(printf '%s' "$_out" | grep -cE 'net::ERR_(TIMED_OUT|NAME_NOT_RESOLVED|CONNECTION_(RESET|REFUSED|CLOSED))|EAI_AGAIN|ENOTFOUND|ECONNRESET|Request context disposed|page\.goto: Test timeout' || true)
+    _assert=$(printf '%s' "$_out" | grep -cE '^[[:space:]]+(Expected|Received)|toEqual\(|toHaveCount\(|toBe\(|toContain\(|toMatch\(|AssertionError' || true)
+
+    if [[ $_net -gt 0 && $_assert -eq 0 ]]; then
+        echo
+        echo "COULD NOT DETERMINE — every failure in this run is network-class"
+        echo "(${_net} reachability error(s), 0 assertion failures)."
+        echo "Part of this suite targets the LIVE production sites over the public"
+        echo "internet. A DNS/TCP failure is a REACHABILITY problem on this host, NOT"
+        echo "evidence that the sites are broken. Verify independently:"
+        echo "    curl -sS -o /dev/null -w '%{http_code}\\n' -L https://vasic.digital/"
+        echo "    curl -sS -o /dev/null -w '%{http_code}\\n' -L https://milosvasic.ru/"
+        echo "Re-run on a quiet network, or pin VASIC_BASE/MILOS_BASE at local builds."
+        return 2
+    fi
+    echo
+    echo "REAL FAILURE — ${_assert} assertion failure(s) alongside ${_net} reachability error(s)."
+    return 1
 }
 
 # ---- Runner ------------------------------------------------------------------

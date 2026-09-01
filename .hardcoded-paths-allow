@@ -122,3 +122,14 @@ submodules/containers/pkg/remote/connection/types_test.go
 submodules/containers/pkg/remoteexec/wave20_rx2hard_test.go
 submodules/containers/pkg/remote/types_test.go
 submodules/containers/scripts/resource-policy/apply-report.md
+
+# SpecKit 001 evidence documents. Same justification as the research/ files above:
+# these record the ACTUAL commands run and their ACTUAL output, and the absolute
+# path IS the finding — that `ffprobe` on this host resolves to a Playwright cache
+# symlink which answers `--version` but rejects `-show_format`, so a `--version`
+# probe misreports a missing tool as present. Rewriting them as `$(command -v ...)`
+# would delete the evidence and leave a claim.
+# Scoped to these two files; `specs/**` is NOT allow-listed, so any future SCRIPT
+# under specs/ must still derive its paths.
+specs/001-workshop-curriculum-platform/quickstart.md
+specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
