@@ -1441,3 +1441,213 @@ submodules/LLMProvider/pkg/i18n/bundles/active.en.yaml MODEL provider.codestral.
 # is written at that path next, AND asserts a defect that is no longer there.
 # Re-derive: head -1 submodules/{passage,verdict}/upstreams/vasic_digital_*.sh
 
+
+# ==============================================================================
+# workshop/ — the 2026-09-01 gitlink bump, and its triage
+# ==============================================================================
+# Commit cbdb535 moved the `workshop` gitlink from a near-empty commit to one
+# carrying 247 paths. This gate scans submodule interiors, so 81 findings inside
+# `workshop/` became visible in a single index update, plus 1 in the new
+# umbrella-root script that same commit added. NEWLY VISIBLE, NOT NEWLY CREATED.
+#
+# Triaged under the rule §4.8 of docs/environment-adaptability/AUDIT.md
+# established for the LLMProvider/RAG expansion, which is binding here:
+#
+#   The SCOPE of an allow row must equal the SCOPE of the reason justifying it.
+#   A reason structural for a whole file earns a file+class row. A reason about
+#   one literal earns a row pinned to that literal. Anything that is neither is
+#   DEBT: a BASELINE row carrying a finding id from AUDIT.md.
+#
+# CLASS is never widened to `*` below. Every MATCH below was checked with
+# `grep -cF` against its own file so that it matches the intended occurrences
+# and nothing else, and each disposition class carries a seeded-mutation proof
+# recorded in AUDIT.md §4.9.
+#
+# NOTHING under workshop/ IS FIXED FROM HERE. workshop is a submodule; a fix
+# lands in its own upstream and returns as a gitlink bump, and this change is
+# explicitly forbidden from bumping a gitlink. The same reasoning already
+# governs the baselined block above and .hardcoded-paths-allow.
+
+# ---- JUSTIFIED: captured and generated artifacts are data, not configuration -
+
+# REASON: verbatim ASR output. The `text` field of a transcript segment is what
+# a human SAID, transcribed - segment 267 is a speaker explaining that ollama is
+# an ordinary service one can restart with systemctl. It invokes no service
+# manager; it is a record of speech, and rewriting it would falsify the
+# transcript. Pinned to the `text` field, so a real systemctl call written into
+# any other key of this file still fails.
+workshop/curriculum/chapter-01/transcript.segments.json SERVICE "text": "
+
+# REASON: captured fixture, not configuration. pkg/entail/capture_test.go writes
+# this file with ENTAIL_CAPTURE_OUT from a live answering run; the flagged
+# strings are all inside `"content":` - documentation passages that the model
+# was given as context and that the entailment evaluator replays. They configure
+# nothing. Pinned to `"content":`, so a genuine endpoint or model key added to
+# this fixture still fails.
+workshop/platform/backend/pkg/entail/fixtures/captured-claims.json ENDPOINT "content": "
+# REASON: same file, same captured `"content":` prose - the model id appears
+# inside a quoted documentation passage about host capability.
+workshop/platform/backend/pkg/entail/fixtures/captured-claims.json MODEL "content": "
+
+# REASON: the run-2 capture of the same fixture, same justification.
+workshop/platform/backend/pkg/entail/fixtures/captured-claims-run2.json ENDPOINT "content": "
+# REASON: as above - model id inside captured documentation prose.
+workshop/platform/backend/pkg/entail/fixtures/captured-claims-run2.json MODEL "content": "
+# REASON: as above - a toolchain version quoted inside captured documentation
+# prose about the status script, not a version pinned away from a manifest.
+workshop/platform/backend/pkg/entail/fixtures/captured-claims-run2.json TOOLVER "content": "
+
+# ---- JUSTIFIED: *_test.go, where the literal IS the assertion ---------------
+# Precedent (A) in AUDIT.md §4.8: `go build` excludes these files from every
+# production binary, so no literal in them can configure a deployment. Each row
+# is pinned tighter than file+class anyway, to the construct under test.
+
+# REASON: an OS-assigned ephemeral port on the loopback interface, bound and
+# immediately released so the test has an address that is real and provably not
+# listening. Port 0 is the opposite of a frozen port. A test that dialled a
+# routable address would be the defect.
+workshop/platform/backend/internal/api/gates_test.go ENDPOINT net.Listen("tcp", "127.0.0.1:0")
+
+# REASON: port 1 is deliberately closed - the test proves a closed port is NOT
+# diagnosed as a locality fault. A reachable value would delete the assertion.
+# Same precedent as the scripts/test-setup-agents-wizard.sh row in the embedded
+# ALLOW_RULES. The trailing quote is part of the MATCH on purpose: the bare
+# token `127.0.0.1:1` is a prefix of `127.0.0.1:11434` and would have silently
+# blessed every ollama endpoint in the file.
+workshop/platform/backend/pkg/answer/descriptor_test.go ENDPOINT "http://127.0.0.1:1"
+# REASON: the t.Skip message for that same closed-port precondition.
+workshop/platform/backend/pkg/answer/descriptor_test.go ENDPOINT something is listening on 127.0.0.1:1;
+# REASON: `localhost.invalid` is RFC-2606 reserved and guaranteed never to
+# resolve. The test asserts that a name CONTAINING "localhost" is still refused
+# a `local` declaration. Deriving this host from the environment would destroy
+# the case.
+workshop/platform/backend/pkg/answer/descriptor_test.go ENDPOINT "http://localhost.invalid:11434"
+# REASON: the model id is the constructor argument under test, not a selection.
+# The test asserts the stand-in descriptor does not invent a locality fault; the
+# model is never contacted.
+workshop/platform/backend/pkg/answer/descriptor_test.go MODEL Model:    "qwen2.5:3b-instruct-q4_K_M"
+
+# REASON: the three arguments to VerifyLocality ARE the test corpus - a genuine
+# loopback, an unresolvable name containing the literal "localhost", and one
+# containing the literal "127.0.0.1". The test exists to prove locality is
+# RESOLVED and not substring-matched, so every one of these literals is the
+# assertion. Pinned to the call under test.
+workshop/platform/backend/pkg/answer/provider_test.go ENDPOINT VerifyLocality("local", "http://
+
+# REASON: the mock ollama /api/show payload. The test server answers with the
+# model metadata a real ollama would return, to prove the breaker classifies an
+# embedding model as unusable. The literal is the fixture, not a selection.
+workshop/platform/backend/pkg/answer/ollama_breaker_test.go MODEL "details":      map[string]any{"family": "qwen2"}
+# REASON: the model named in the ProviderConfig under test; Endpoint is
+# srv.URL from httptest, so nothing is frozen about the deployment.
+workshop/platform/backend/pkg/answer/ollama_breaker_test.go MODEL Model:    "qwen2.5:3b-instruct-q4_K_M"
+
+# ---- JUSTIFIED: the literal is the last term of an env-override chain -------
+# Identical in shape to the scripts/lumen-index-doctor.sh rows in the embedded
+# ALLOW_RULES: `env(KEY, "<literal>")` reads os.Getenv first and the literal is
+# the documented final fallback. The MATCH is pinned to the env-lookup helper,
+# so a BARE literal written anywhere in the same file is still a finding.
+
+# REASON: envOr("WORKSHOP_...", "<literal>") - pkg/entail/capture_test.go:200
+# defines envOr as os.Getenv with a default. Endpoint override is documented.
+workshop/platform/backend/pkg/entail/capture_test.go ENDPOINT envOr("WORKSHOP_
+# REASON: as above, for the model id.
+workshop/platform/backend/pkg/entail/capture_test.go MODEL envOr("WORKSHOP_
+# REASON: as above - the eval harness reads the same envOr helper.
+workshop/platform/backend/pkg/entail/eval_test.go ENDPOINT envOr("WORKSHOP_
+# REASON: as above, for the embedding and judge model ids.
+workshop/platform/backend/pkg/entail/eval_test.go MODEL envOr("WORKSHOP_
+# REASON: a REPORT LABEL naming which mechanism the latency column measured,
+# printed in the t.Logf summary. It selects nothing; the judge model itself is
+# chosen by the envOr call above.
+workshop/platform/backend/pkg/entail/eval_test.go MODEL latencyLine("MECHANISM 2 (LLM-as-judge, qwen2.5:3b) per pair"
+
+# REASON: env(KEY, default) at cmd/workshop-ask/main.go:326 is os.Getenv with a
+# fallback, and the value is ALSO a flag default - so both WORKSHOP_ASK_ADDR /
+# WORKSHOP_OLLAMA_URL and -http / -answer-endpoint override it. Two independent
+# overrides is the most configurable form available, not a frozen one.
+workshop/platform/backend/cmd/workshop-ask/main.go ENDPOINT env("WORKSHOP_
+# REASON: as above - env("WORKSHOP_HTTP_ADDR", ...) behind flag -http.
+workshop/platform/backend/cmd/workshop-server/main.go ENDPOINT env("WORKSHOP_
+# REASON: as above - env("WORKSHOP_EMBED_MODEL", ...) behind flag -embed-model.
+workshop/platform/backend/cmd/workshop-server/main.go MODEL env("WORKSHOP_
+
+# ---- JUSTIFIED: a measurement record naming what it measured ----------------
+
+# REASON: the model id is part of a PROVENANCE sentence returned by /api/ask/
+# status, stating which model produced the latency figures quoted beside it.
+# Replacing it with the model in force would attach August numbers to a
+# different model - the same class of falsification the .hardcoded-paths-allow
+# evidence rows exist to prevent. It selects nothing.
+workshop/platform/backend/pkg/answer/http.go MODEL measured on this host on 2026-09-01 with qwen2.5:3b-instruct-q4_K_M
+
+# ---- JUSTIFIED: GPU REFUSAL is not a GPU assumption -------------------------
+
+# REASON: these two exports DISABLE every accelerator, they do not assume one.
+# Setting GGML_VK_VISIBLE_DEVICES=-1 and CUDA_VISIBLE_DEVICES= is a no-op on a
+# host with neither runtime, and the whisper.cpp build this script drives is
+# recorded in its own JSON as "source, CPU-only, all GPU backends compiled OFF".
+# Removing them would make the run depend on whatever accelerator happened to be
+# present, which is the defect this class exists to catch.
+workshop/pipeline/run_whispercpp.sh GPU export GGML_VK_VISIBLE_DEVICES=-1
+# REASON: as above - the CUDA half of the same refusal.
+workshop/pipeline/run_whispercpp.sh GPU export CUDA_VISIBLE_DEVICES=""
+# REASON: the run manifest RECORDS the refusal it just made, beside
+# "device": "cpu" and "no_gpu_flag": true. Provenance, not configuration.
+workshop/pipeline/run_whispercpp.sh GPU "ggml_vk_visible_devices": "$GGML_VK_VISIBLE_DEVICES"
+
+# ---- DEBT: F31 - /proc/loadavg is Linux-only --------------------------------
+# See docs/environment-adaptability/AUDIT.md finding F31. Real, known, unfixed.
+# Pinned to the literal, so a DIFFERENT OSPATH in any of these files still
+# fails. NOT widened to `* OSPATH *`.
+
+# BASELINE: F31 - /proc/loadavg, Linux-only, no capability guard.
+workshop/pipeline/run_audit.sh OSPATH /proc/loadavg
+# BASELINE: F31 - /proc/loadavg, Linux-only, no capability guard.
+workshop/pipeline/run_whispercpp.sh OSPATH /proc/loadavg
+# BASELINE: F31 - /proc/loadavg, Linux-only. The Go sites degrade (err is
+# returned or the string becomes "unknown"), but the coupling is still frozen.
+workshop/platform/backend/cmd/bench/main.go OSPATH /proc/loadavg
+# BASELINE: F31 - /proc/loadavg, Linux-only, in the entailment eval harness.
+workshop/platform/backend/pkg/entail/eval_test.go OSPATH /proc/loadavg
+# BASELINE: F31 - /proc/loadavg, Linux-only, in the live vector-store harness.
+workshop/platform/backend/pkg/search/lumenvec_live_test.go OSPATH /proc/loadavg
+
+# ---- DEBT: F32 - workshop has no settings seam ------------------------------
+# See docs/environment-adaptability/AUDIT.md finding F32. These five sites
+# freeze a loopback default with a weaker override than the env() seam the two
+# servers already use, or with none at all. Each row is pinned to its literal.
+
+# BASELINE: F32 - flag default only; no WORKSHOP_* env override, unlike the two
+# servers this benchmark targets.
+workshop/platform/backend/cmd/bench/main.go ENDPOINT flag.String("base", "http://127.0.0.1:8087"
+# BASELINE: F32 - positional argument only; no env override.
+workshop/platform/backend/gates/bench-answers.sh ENDPOINT BASE="${1:-http://127.0.0.1:8091}"
+# BASELINE: F32 - a bare literal fallback inside package code. cfg.Endpoint is
+# overridable upstream, but the default itself lives in the package rather than
+# in a settings seam.
+workshop/platform/backend/pkg/answer/ollama.go ENDPOINT endpoint = "http://127.0.0.1:11434"
+# BASELINE: F32 - same shape, after an explicit os.Getenv("WORKSHOP_OLLAMA").
+workshop/platform/backend/pkg/search/lumenvec_live_test.go ENDPOINT endpoint = "http://127.0.0.1:11434"
+# BASELINE: F32 - no override of any kind; the gate probes a fixed host:port.
+workshop/platform/gates/prove-server-unity.sh ENDPOINT curl -sf --max-time 5 -o /dev/null http://127.0.0.1:8087/api/health
+
+# ---- DEBT: F33 - GNU-only `readlink -f` in the media probe ------------------
+# See docs/environment-adaptability/AUDIT.md finding F33.
+
+# BASELINE: F33 - `readlink -f` is a GNU extension. The `||` fallback yields the
+# unresolved path, which DEGRADES the diagnostic this probe exists to produce
+# (naming the ffprobe symlink target). workshop/scripts/_portable.sh is the
+# module's home for this class and carries no path-resolution primitive yet.
+workshop/pipeline/detect_media.sh GNUBSD readlink -f -- "$bin" 2>/dev/null || printf '%s' "$bin"
+
+# ---- DEBT: F34 - GNU-only in-place `sed -i` at the umbrella root ------------
+# See docs/environment-adaptability/AUDIT.md finding F34. Same commit, same
+# cause, but this one is NOT inside workshop/ - it is the new umbrella-root
+# script cbdb535 added.
+
+# BASELINE: F34 - GNU `sed -i` takes no suffix argument; BSD/macOS `sed -i`
+# requires one, so this in-place edit fails there. The `2>/dev/null` hides it
+# and the fleet row is then never demoted. Same class as the six already
+# baselined in scripts/verify-check-registry.sh.
+scripts/verify-content-boundary.sh GNUBSD sed -i "s|^$(printf

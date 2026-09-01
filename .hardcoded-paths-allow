@@ -123,7 +123,8 @@ submodules/containers/pkg/remoteexec/wave20_rx2hard_test.go
 submodules/containers/pkg/remote/types_test.go
 submodules/containers/scripts/resource-policy/apply-report.md
 
-# SpecKit 001 evidence documents. Same justification as the research/ files above:
+# REASON: SpecKit 001 evidence documents. Same justification as the research/
+# files above:
 # these record the ACTUAL commands run and their ACTUAL output, and the absolute
 # path IS the finding — that `ffprobe` on this host resolves to a Playwright cache
 # symlink which answers `--version` but rejects `-show_format`, so a `--version`
@@ -133,3 +134,36 @@ submodules/containers/scripts/resource-policy/apply-report.md
 # under specs/ must still derive its paths.
 specs/001-workshop-curriculum-platform/quickstart.md
 specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
+
+# ==============================================================================
+# workshop/ — the 2026-09-01 gitlink bump
+# ==============================================================================
+# Commit cbdb535 moved the `workshop` gitlink from a near-empty commit to one
+# carrying 247 paths, and this gate scans submodule interiors, so 8 occurrences
+# across 3 files became visible in one index update. NEWLY VISIBLE, NOT NEWLY
+# CREATED.
+
+# REASON: CAPTURED COMMAND OUTPUT. All three files are transcripts of what was
+# actually run on this host, written by the program that ran it, not by hand:
+#
+#   * phase2-passage-identity/README.md:47 is the recorded verdict line of a
+#     byte-identity comparison, and the absolute path names the exact tree that
+#     was compared.
+#   * the two entailment-e2e-*.txt files are workshop-ask's own stderr,
+#     timestamped by the process, stating which corpus directory it loaded — in
+#     one case a `.docspin.W8s1xW` temporary directory that no longer exists and
+#     that nothing could re-derive.
+#
+# An absolute path inside a transcript of what was run IS the record. Rewriting
+# it as `$(command -v ...)` or a `$ROOT`-relative form would not make the
+# evidence portable; it would make it a claim about a run nobody can point at —
+# the same reasoning already applied to the specs/ research files above, and
+# §11.4.6 requires the measured state to be shown rather than paraphrased.
+#
+# Scoped to these three files by name. `workshop/evidence/**` and
+# `workshop/platform/backend/evidence/**` are NOT allow-listed as trees: a
+# future SCRIPT or CONFIG written under either must still derive its paths, and
+# a new evidence file must be justified on its own when it appears.
+workshop/evidence/phase2-passage-identity/README.md
+workshop/platform/backend/evidence/answering/entailment-e2e-before-after-2026-09-01.txt
+workshop/platform/backend/evidence/answering/entailment-e2e-four-configs-2026-09-01.txt

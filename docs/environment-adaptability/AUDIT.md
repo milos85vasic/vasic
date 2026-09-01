@@ -235,6 +235,11 @@ allow-list is keyed on path + class + literal substring, never on line number.
 | **F28** | LOW | `submodules/RAG/challenges/scripts/rag_unit_challenge.sh:46, 54` | `GOMAXPROCS=2 nice -n 19 go test … -p 1` | A deliberate resource cap, but written as a literal, so the challenge cannot be tuned to the host it runs on — a 2-core box and a 64-core box get the same budget. | `GOMAXPROCS="${GOMAXPROCS:-2}"`, `-p "${GOTEST_P:-1}"`. **CLOSED 2026-09-01 — exactly this remediation was applied; `rag_unit_challenge.sh:51` reads `GOMAXPROCS="${GOMAXPROCS:-2}"` and `:58`/`:66` read `-p "${GOTEST_P}"`.** |
 | **F29** | **HIGH** | `_tools/pdf/build-pdfs.sh:129` (at `HEAD` before 2026-09-01) | `m=$(stat -f %m "$f" 2>/dev/null \|\| stat -c %Y "$f" 2>/dev/null \|\| echo 0)` | **The allow-list was protecting a broken command while describing it as the correct one.** On GNU coreutils `-f` is `--file-system` and takes no argument, so `%m` is parsed as a FILE operand: `stat` fails on `%m` (stderr, swallowed by `2>/dev/null`) but SUCCEEDS on the real file, writing a full filesystem report to STDOUT and exiting 1. The `\|\|` fires on that rc=1 and the GNU spelling appends the epoch to the report. Measured on GNU coreutils 9.4.0: a 244-byte string, not an epoch. `[ "$m" -gt "$newest" ]` then failed with *integer expression expected* on every file after the first, so `newest` stayed pinned to whatever the FIRST glob entry produced (the OLDEST file, in the measured fixture) and the newest-mtime selection never ran — silently, with the block still exiting 0. **Blast radius, stated precisely:** the mtime probe and the pin are inoperative; the rendered PDFs are NOT currently non-deterministic, because WeasyPrint 69.0 contains zero references to `SOURCE_DATE_EPOCH` and this script emits no `dcterms.created`, so no `/CreationDate` is written at all and re-runs are already byte-identical. The mechanism was broken; the outcome it guards was being held up by something else. Two further consequences: the AUDIT.md remediation columns for **F9** and **F27** prescribed this exact idiom as the fix, and the allow rule `_tools/pdf/build-pdfs.sh GNUBSD stat -f %m` was loose enough to match the broken one-liner itself, so the gate could never have caught it. | **CLOSED 2026-09-01.** `portable_mtime` now runs each spelling separately and accepts it only if the OUTPUT matches `^[0-9]+$`, mirroring the fix already made in `submodules/{RAG,LLMProvider}` — one idiom in the tree, not two. An unreadable mtime is now skipped with a WARN instead of folded in as `0`. Paired mutation: `bash _tools/pdf/build-pdfs.sh --prove-mtime` (0 works / 1 broken / 2 could-not-determine) exits 0 now and exits 1 with all three assertions failing when the one-liner is seeded back. The allow rule was rewritten to match the validated dispatch specifically; proof row **D5** covers the case the matrix previously lacked. |
 
+| **F31** | LOW | `workshop/pipeline/run_audit.sh:78, 104, 120`, `workshop/pipeline/run_whispercpp.sh:64, 87`, `workshop/platform/backend/cmd/bench/main.go:223, 229`, `…/pkg/entail/eval_test.go:325, 353, 386, 436`, `…/pkg/search/lumenvec_live_test.go:42` | `/proc/loadavg` | Linux-only. 12 occurrences recording load average as run provenance. The two Go readers degrade (`err` is returned, or the string becomes `"unknown"`), but the two shell readers do not: `$(cut -d' ' -f1-3 /proc/loadavg)` writes *No such file or directory* to stderr and substitutes the empty string, so `run_whispercpp.sh` embeds `"load_start": ""` in the run manifest it publishes as evidence. **The coupling is wider than this gate can see**: the same two scripts also call `nproc` (GNU coreutils; BSD spells it `sysctl -n hw.ncpu`) and `/usr/bin/time -f` (GNU time; BSD `time` has no `-f`), neither of which is in any detector class here. The honest statement is that the transcription pipeline is Linux-only by construction, not that it has one Linux literal. | `uptime` is POSIX and prints the same three figures; or guard with `[ -r /proc/loadavg ]` and omit the key when it is absent, exactly as `write_verification_sidecar` already omits `video_mtime_epoch` on a host that cannot report one. **A fix lands in `workshop`'s own upstream and returns as a gitlink bump** — it is not made from this tree. |
+| **F32** | MED | `workshop/platform/backend/cmd/bench/main.go:48`, `…/gates/bench-answers.sh:36`, `…/pkg/answer/ollama.go:109`, `…/pkg/search/lumenvec_live_test.go:175`, `workshop/platform/gates/prove-server-unity.sh:535` | `http://127.0.0.1:8087`, `http://127.0.0.1:8091`, `http://127.0.0.1:11434` | **`workshop` has no settings seam, and the module is already inconsistent with itself about it.** `cmd/workshop-server` and `cmd/workshop-ask` route every default through a local `env(key, def)` helper *and* a flag, so `WORKSHOP_HTTP_ADDR` / `WORKSHOP_OLLAMA_URL` / `-http` all override — that is the seam, written twice, once per binary. These five sites do not use it: `bench/main.go` has a flag default and no env layer; `bench-answers.sh` accepts only `$1`; `ollama.go` and `lumenvec_live_test.go` write the literal as a bare in-package fallback; `prove-server-unity.sh` has no override at all, so the gate probes a fixed host:port and reports UNDETERMINED on any host that serves elsewhere. | **Yes, `workshop` needs its own seam — it must not reuse `submodules/LLMProvider/pkg/settings`.** That package is the seam for the F23/F24 class *inside LLMProvider*, keyed `LLMPROVIDER_<PROVIDER>_*`; `workshop` is a separate Go module (`github.com/milos85vasic/workshop_curriculum/…`) with its own `WORKSHOP_*` key space already established by the two `env()` helpers. Importing LLMProvider for a getenv wrapper would add a dependency to acquire the wrong prefix. The remediation is to promote the duplicated `env`/`envInt`/`envBool` helpers into one `platform/backend/pkg/settings` and route these five sites through it. **Lands in `workshop`'s upstream, returns as a gitlink bump.** |
+| **F33** | MED | `workshop/pipeline/detect_media.sh:115, 162` | `readlink -f -- "$bin" 2>/dev/null \|\| printf '%s' "$bin"` | `readlink -f` is a GNU extension. The `\|\|` fallback keeps the script alive, so this is a **degradation, not a crash** — and what degrades is the one thing the probe exists to report. `_portable.sh` records the measured trap it was written for: `ffprobe` on this host is a symlink into a Playwright browser cache whose target is `ffmpeg-linux`, so it answers `-version` and rejects `-show_format`. Naming the **target** is what makes the UNUSABLE verdict actionable; on BSD this reports the symlink and the operator learns nothing. Same defect class as F7. | `workshop/scripts/_portable.sh` is this module's home for exactly this and carries **no path-resolution primitive yet** — its functions are `sha256_file`, `sha256_stream`, `have_sha256`, `file_size_bytes`, `file_mtime_epoch`, `iso8601_utc`, `probe_media`, `mp4_ftyp_brand`, `write_verification_sidecar`, `split_numeric`. Add `resolve_path` there following that file's own stated rule — *validate the output, never trust the exit status* — trying `readlink -f`, then `python3 -c os.path.realpath`, then `cd "$(dirname x)" && pwd -P`, and accepting a candidate only if it is a non-empty absolute path. Then `detect_media.sh` sources it instead of spelling this a third time. **Lands in `workshop`'s upstream, returns as a gitlink bump.** |
+| **F34** | MED | `scripts/verify-content-boundary.sh:998` | `sed -i "s\|^$(printf '%s' "$p" \| sed 's/[][\\/.^$*]/\\&/g')\t$role\t\|$p\tunverified\t\|" "$FLEET" 2>/dev/null` | GNU in-place form: BSD/macOS `sed -i` consumes the next argument as a backup suffix, so this either edits the wrong thing or errors. Same defect as F3 and F6, and it is **not** inside a submodule — it is the new umbrella-root script commit `cbdb535` added, which is why it appeared in the same run as the `workshop/` findings. The `2>/dev/null` makes it silent, and what it silently fails to do is **demote a fleet row to `unverified`** after the script has already decided the repository could not be read — so on BSD the row stays `private`/`public` and is then scanned as if it were empty. | Write to a temp file and `mv`, which is the remediation F3 and F6 already carry. **NOT FIXED HERE:** `scripts/verify-content-boundary.sh` was explicitly out of bounds for the change that recorded this finding. Recorded so it is never silently omitted (§11.4.6). |
+
 **F14 file list** (42 occurrences): `_tests/tests/aria-footer-l10n-runtime.spec.js` (2),
 `download-switcher-perlang.spec.js` (2), `home-lang-nav.spec.js` (3),
 `interactive-behavior.spec.js` (2), `link-integrity.spec.js` (2),
@@ -513,6 +518,152 @@ returning empty in both submodules; the gate returned to rc=0 afterwards.
 P8 is the load-bearing one: `cloudflare.go` carries 15 justified `MODEL` rows
 and still fails on a 16th literal, which is what distinguishes a pinned row set
 from a `cloudflare.go MODEL *` blanket.
+
+---
+
+### 4.9 2026-09-01 — the `workshop` gitlink bump, and its triage
+
+Commit `cbdb535` moved the `workshop` gitlink from a near-empty commit to one
+carrying **247 paths**. Both this gate and `scripts/audit-hardcoded-paths.sh`
+scan submodule interiors, so the findings became visible in a single index
+update. **Newly visible, not newly created** — the identical pattern to §4.8,
+and §4.8's triage rule is the one applied here.
+
+#### Reproduced inventory
+
+`bash scripts/audit-environment-assumptions.sh` — **rc=1, 82 findings across 22
+files**, 1 982 files / 14 repositories:
+
+| Class | Count | Where |
+|---|---:|---|
+| `ENDPOINT` | 48 | 29 in captured JSON fixtures, 12 in `*_test.go`, 7 non-test |
+| `MODEL` | 14 | 4 in captured JSON fixtures, 8 in `*_test.go`, 2 non-test |
+| `OSPATH` | 12 | `/proc/loadavg`, in 5 files |
+| `GPU` | 3 | accelerator **refusal** in `run_whispercpp.sh` |
+| `GNUBSD` | 3 | 2 × `readlink -f`, 1 × `sed -i` |
+| `TOOLVER` | 1 | inside a captured JSON fixture |
+| `SERVICE` | 1 | inside an ASR transcript |
+| **Total** | **82** | 81 inside `workshop/`, 1 at the umbrella root |
+
+`bash scripts/audit-hardcoded-paths.sh` — **rc=1, 8 occurrences across 3 files**,
+4 824 files / 14 repositories. All three are evidence files under `workshop/`.
+
+**A count of 77 (48 `ENDPOINT` / 14 `MODEL` / 12 `OSPATH` / 2 `GNUBSD` /
+1 `SERVICE`) circulated for this bump and is CORRECTED to 82.** It omitted the
+3 `GPU` and 1 `TOOLVER` findings entirely, and counted 2 `GNUBSD` where the run
+reports 3 — the third being `scripts/verify-content-boundary.sh:998` (F34),
+which is at the umbrella root rather than inside `workshop/`. Re-derive; do not
+quote either figure without running the gate.
+
+#### Dispositions — 62 JUSTIFIED, 20 DEBT, 0 FIXED
+
+Measured by the gate itself, not by hand: justified occurrences moved
+**464 → 526** (+62) and baselined occurrences moved **708 → 728** (+20) across
+the change, and 62 + 20 = 82.
+
+**JUSTIFIED — 62 occurrences, 26 rows.** No row uses `CLASS *`, and no row is
+file-scoped where a literal would do.
+
+- **(A) Captured and generated artifacts — 35 occurrences, 6 rows.**
+  `transcript.segments.json` is ASR output: segment 267's `text` field is a
+  speaker *saying* that ollama can be restarted with `systemctl`. The two
+  `pkg/entail/fixtures/captured-claims*.json` files are written by
+  `capture_test.go` via `ENTAIL_CAPTURE_OUT` from a live answering run, and
+  every flagged string sits inside `"content":` — documentation passages the
+  model was given as context. Pinned to `"text": "` and `"content": "`, so a
+  real endpoint or service key added to either file still fails.
+- **(B) `*_test.go` — 12 occurrences, 8 rows.** Precedent (A) of §4.8, but
+  pinned tighter than file+class in every case. `net.Listen("tcp",
+  "127.0.0.1:0")` is an OS-assigned ephemeral port — the opposite of a frozen
+  one. `127.0.0.1:1` is deliberately closed and `localhost.invalid` is
+  RFC-2606-reserved and guaranteed never to resolve; `provider_test.go` exists
+  to prove locality is **resolved and not substring-matched**, so those literals
+  *are* the assertions.
+- **(C) The literal is the last term of an env-override chain — 11 occurrences,
+  8 rows.** Identical in shape to the `scripts/lumen-index-doctor.sh` rows in
+  the embedded `ALLOW_RULES`. `cmd/workshop-{server,ask}` wrap every default in
+  `env(KEY, "<literal>")` *and* expose it as a flag; `pkg/entail` uses
+  `envOr(KEY, "<literal>")` (defined at `capture_test.go:200`). Two independent
+  overrides is the most configurable form available. Rows are pinned to
+  `env("WORKSHOP_` / `envOr("WORKSHOP_`, so a **bare** literal in the same file
+  is still a finding — which probe **W4** proves.
+- **(D) A measurement record naming what it measured — 1 occurrence, 1 row.**
+  `pkg/answer/http.go:475` names `qwen2.5:3b-instruct-q4_K_M` inside the
+  provenance sentence `/api/ask/status` returns beside its latency figures.
+  Substituting the model in force would attach numbers measured on one model to
+  a different one — falsification, not adaptability.
+- **(E) GPU refusal is not a GPU assumption — 3 occurrences, 3 rows.**
+  `GGML_VK_VISIBLE_DEVICES=-1` and `CUDA_VISIBLE_DEVICES=` **disable** every
+  accelerator and are a no-op on a host with neither runtime; the whisper.cpp
+  build they drive records itself as *"source, CPU-only, all GPU backends
+  compiled OFF"*. Removing them would make the run depend on whatever
+  accelerator happened to be present, which is the defect this class catches.
+  The third is the run manifest recording the refusal it just made.
+
+**DEBT — 20 occurrences, 12 rows, F31–F34.** Real, known, unfixed; every row
+`BASELINE` with a finding id. F31 (12), F32 (5), F33 (2), F34 (1).
+
+**FIXED — 0, and that is a decision, not an omission.** 81 of the 82 findings
+are inside `workshop/`, which is a **submodule**. The precedent in
+`.hardcoded-paths-allow`'s baselined block governs: a fix lands in the
+submodule's own upstream and returns as a gitlink bump. The change that
+performed this triage was explicitly forbidden from committing, from bumping any
+gitlink, and from editing `scripts/verify-content-boundary.sh` — so a fix for
+F31–F34 could not have been *delivered* from here even where the remediation is
+known and cheap. Each of F31–F34 therefore carries its remediation in full, in
+the file that will land it, rather than a fix stranded in a working tree.
+
+#### §1.1 narrowness proof — 12 of 12 caught
+
+Same two dimensions as §4.8. Seeded into the live tree 2026-09-01, gate re-run,
+then every file restored from a pre-seed copy and the restore **proved** with
+`sha256sum -c` (10 of 10 `OK`) plus `git -C workshop status --porcelain`
+returning empty. Both gates returned to rc=0 afterwards.
+
+| Probe | Dim | Seeded into | Seed | Expected | Caught at |
+|---|---|---|---|---|---|
+| W1 | CLASS | `transcript.segments.json` ((A) row is `SERVICE "text": "`) | `"restart_cmd": "systemctl restart ollama",` | `SERVICE` | line 15841 |
+| W2 | LITERAL | `captured-claims.json` ((A) rows pin `"content": "`) | `"endpoint": "http://127.0.0.1:8087",` | `ENDPOINT` | line 478 |
+| W3 | LITERAL | `descriptor_test.go` ((B), 4 pinned rows) | `var seedModel = "qwen2.5:3b-instruct-q4_K_M"` | `MODEL` | line 74 |
+| W3b | LITERAL | `descriptor_test.go` (same 4 rows) | `var seedEndpoint2 = "http://127.0.0.1:8087"` | `ENDPOINT` | line 75 |
+| W4 | LITERAL | `cmd/workshop-server/main.go` ((C) rows pin `env("WORKSHOP_`) | `var seedFrozen = "http://127.0.0.1:8087"` | `ENDPOINT` | line 1108 |
+| W5 | LITERAL | `cmd/workshop-server/main.go` (same) | `var seedEmbed = "jina-embeddings-code-cpu"` | `MODEL` | line 1109 |
+| W6 | LITERAL | `pkg/answer/http.go` ((D) row pins the provenance sentence) | `var seedProvModel = "qwen2.5:3b-instruct-q4_K_M"` | `MODEL` | line 594 |
+| W7 | LITERAL | `run_whispercpp.sh` ((E) row pins `…=-1`) | `export GGML_VK_VISIBLE_DEVICES=0` | `GPU` | line 157 |
+| W8 | LITERAL | `run_audit.sh` (F31 row pins `/proc/loadavg`) | `cat /etc/sysconfig/ollama` | `OSPATH` | line 122 |
+| W9 | LITERAL | `pkg/answer/ollama.go` (F32 row pins `…:11434`) | `var seedAlt = "http://127.0.0.1:9999"` | `ENDPOINT` | line 495 |
+| W10 | LITERAL | `detect_media.sh` (F33 row pins the whole `\|\|` dispatch) | `readlink -f /tmp/seedprobe` | `GNUBSD` | line 426 |
+| W11 | FILE | `evidence/answering/entailment-2026-09-01.txt` — a **sibling** of the three allow-listed evidence files, in the same directory | `SEEDED /run/media/…/workshop/seed-probe` | hardcoded-paths | line 211 |
+
+W4 and W5 are the load-bearing pair: `cmd/workshop-server/main.go` has **17**
+lines matching `env("WORKSHOP_` and still fails on a bare literal written beside
+them, which is what distinguishes an env-chain row from a
+`main.go ENDPOINT *` blanket. W11 is the equivalent for the file-scoped
+hardcoded-paths list: three named evidence files are exempt and a fourth in the
+same directory is not.
+
+**Two seeds initially reported as MISSES were investigated rather than
+rewritten, and the cause is a detector limit, not an allow-list leak.**
+`"endpoint": "http://10.0.0.5:8087"` and `"http://192.168.1.50:8087"` were not
+flagged at all. Neither line contains any allow row's `MATCH`, so no row could
+have swallowed them; the `ENDPOINT` class is emitted only for
+`localhost`, `127.0.0.1`, `0.0.0.0` or `[Pp]ort[ ]*[:=][ ]*NNNN`
+(`scripts/audit-environment-assumptions.sh:1118–1121`). **RFC-1918 and other
+routable host:port literals are outside this gate's ENDPOINT coverage
+entirely.** That is recorded here as a known blind spot; the probes were re-run
+with loopback spellings, which the detector does see, and both were then caught
+(W2, W3b). The detector was **not** widened to make the probe pass — widening a
+detector to change a result is the failure mode §4.8 exists to avoid.
+
+#### Allow-list rot
+
+`bash scripts/audit-environment-assumptions.sh --stale-rules`: **2 stale of 401
+before, 2 stale of 439 after.** None of the 40 rows added here is stale, and
+neither stale row is one of them — both predate this change and both live in the
+**embedded** `ALLOW_RULES` inside `scripts/audit-environment-assumptions.sh`
+(`line 10` `scripts/audit-hardcoded-paths.sh * *`, `line 134` `BASELINE
+_tools/gen/review_ui_all.py MODEL *`), a file the change that recorded this was
+not permitted to edit. They are reported, not cleared.
 
 ---
 
