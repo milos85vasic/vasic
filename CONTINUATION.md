@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-01T22:30:00Z
-    Synced-Commit: 562ecf9cca2d01beaf9ba8bde7474c465f0169ee
+    Last-Updated: 2026-09-01T22:55:00Z
+    Synced-Commit: 203061dcb8dd064f394da932ef4e2aba7a814789
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -781,6 +781,23 @@ literals absent from all 6,230 blobs** under `--batch-all-objects`, the tree at
 identity envelope identical for all **104** commits, **98 of 104** SHAs
 unchanged, `git fsck` clean with **0 unreachable / 0 dangling**. Full record with
 measurements: `docs/content-boundary-incident-2026-09-01.md` §8B.
+
+**Side effect of the follow-up commit, recorded rather than left to be discovered
+(§11.4.6).** The project `commit` wrapper commits and pushes submodules as well as
+the root. Running it for the citation-fix commit therefore committed the
+**pre-existing, uncommitted** asset changes that were already sitting in the
+`milosvasic.ru` and `vasic.digital` working trees (regenerated `assets/od/*.css`
+and `downloads/*.pdf`) as `chore(assets): design-system propagation and
+regenerated downloads`, **pushed both**, and bumped their gitlinks
+`8166fdba → 1823d62c` and `0bc25012 → 31928364`. Two consequences: **both live
+sites will have redeployed** from those pushes (`milosvasic.ru` via its active
+`pages.yml`, `vasic.digital` via the provider's legacy Pages build), and
+`helix-deps.yaml` was left recording the two superseded refs, which turned C9 and
+`verify-manifest-pins.sh` red (2 DRIFT of 12). **The manifest is corrected in this
+same commit and both are green again (12 MATCH / 0 DRIFT; cascade 12 PASS / 0
+FAIL).** `_tools/deploy-langs.sh` was NOT run at any point. Nothing about the
+history rewrite caused this — the gitlinks were verified byte-identical
+immediately after the rewrite and before the force-push.
 
 **STILL NOT CLOSED, and this is the part that matters.** A force-push does not
 delete anything from GitHub's storage. The four orphaned commits and all four

@@ -312,13 +312,13 @@ deps:
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: "0bc25012cc33202ced47788a9c301b6a9c15e192"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "31928364a43ed7984fe6999ae958dde87bde3fed"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "8166fdba295dedc3114188c56e84248717ee7167"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "1823d62c314af3b26ae41d8a7c9e0bc699189d26"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "Site submodule — Jekyll source; its rendered _site/ is git-ignored and must be built before the Playwright suite can serve it. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh."
     layout: flat
     # ⚠ FETCH/PUSH ASYMMETRY (Constitution.md -> "Hazard"): the ssh_url above is
