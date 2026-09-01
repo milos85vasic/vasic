@@ -113,6 +113,16 @@ record_action() {
     printf '%s\tACTION\t%s\t-\t-\t%s\n' "$1" "$2" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$MANIFEST"
 }
 
+# record_note <component> <what-cannot-be-undone>
+# For a real side effect with NO undo. Rollback prints these as NOT UNDONE and
+# never executes them. Without this row, an irreversible effect would simply be
+# absent from the manifest and rollback would imply a clean reversal it did not
+# perform (§11.4.6: never report a state you have not achieved).
+record_note() {
+    [[ -n "$MANIFEST" ]] || return 0
+    printf '%s\tNOTE\t%s\t-\t-\t%s\n' "$1" "$2" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$MANIFEST"
+}
+
 # backup_file <path> [component]
 # Keeps the familiar sibling .bak.<timestamp> copy AND registers the file in
 # the rollback manifest.
@@ -663,6 +673,318 @@ setup_superspec() {
 }
 
 # ------------------------------------------------------------------------------
+# Delegated host/provider probes (scripts/ollama-tune.sh, verify-provider-ci.sh)
+# ------------------------------------------------------------------------------
+# Both of these answer questions this wizard must NOT answer from a stored
+# constant:
+#
+#   * how ollama is managed on THIS host, and what concurrency THIS host's
+#     CPU/RAM/model facts justify          -> scripts/ollama-tune.sh
+#   * whether the PROVIDER (not the tree) still triggers CI for the repos this
+#     checkout actually has remotes for    -> scripts/verify-provider-ci.sh
+#
+# Neither script is owned by this file. Both are OPTIONAL: a checkout without
+# them is a checkout where the answer is UNKNOWN, and "unknown" is reported as
+# unknown - never as a pass, and never as a hardcoded example command.
+#
+# Override the resolution (used by the test-suite to drive the integration with
+# stub scripts) with OLLAMA_TUNE_SCRIPT / PROVIDER_CI_SCRIPT.
+
+# Render a path the way the operator will type it: repo-relative when it is
+# inside this checkout, absolute when it is not. Never a stored literal.
+_rel_to_root() {
+    case "$1" in
+        "$PROJECT_ROOT"/*) printf './%s' "${1#"$PROJECT_ROOT"/}" ;;
+        *)                 printf '%s' "$1" ;;
+    esac
+}
+
+# Is an embedding-consuming indexer running RIGHT NOW?
+#   0 = yes (busy)   1 = no (idle)   2 = cannot tell
+# Three-valued on purpose: "cannot tell" must not be collapsed into "idle",
+# because the caller uses this to decide whether it may restart the backend.
+_indexers_in_flight() {
+    command -v pgrep >/dev/null 2>&1 || return 2
+    if pgrep -f '[l]umen[^ ]* .*index' >/dev/null 2>&1 \
+    || pgrep -f '[c]odegraph[^ ]* .*(sync|init)' >/dev/null 2>&1; then
+        return 0
+    fi
+    return 1
+}
+
+# Indent a captured report so it is visibly the delegate's output, not ours.
+_echo_indented() { while IFS= read -r _l; do echo "     $_l"; done <<< "$1"; }
+
+# Terminal colour is for the terminal. MANUAL-STEPS.md is a file the operator
+# reads and copies from later, so escape sequences are stripped before a
+# delegate's output is written into a manual step.
+# The ESC and BEL bytes are built with printf rather than written as \x1b /
+# \x07 escapes: those are a GNU sed extension, and BSD sed (macOS, which this
+# wizard supports - see the darwin branches above) would treat them as the
+# literal characters x, 1, b and silently strip nothing.
+_strip_ansi() {
+    local esc bel
+    esc=$(printf '\033') bel=$(printf '\007')
+    sed -e "s/${esc}\[[0-9;]*[A-Za-z]//g" -e "s/${esc}\][^${bel}]*${bel}//g"
+}
+
+# Pull the delegate's copy-pasteable command block out of its report when it
+# labels one, and hand back everything it printed when it does not. Both
+# branches are the delegate's OWN output for THIS host; neither is a stored
+# example. Coupling is one-way and soft - a delegate that stops labelling its
+# commands degrades to "show the operator the whole report", never to silence
+# and never to an invented value.
+_extract_commands() {
+    local plain block
+    plain=$(printf '%s\n' "$1" | _strip_ansi)
+    block=$(printf '%s\n' "$plain" | awk '
+        /^[[:space:]]*──/ && got { exit }
+        got { print }
+        /copy-pasteable/ { got = 1 }
+    ' | sed -e '/./,$!d')
+    if [[ -n "${block//[[:space:]]/}" ]]; then printf '%s' "$block"; else printf '%s' "$plain"; fi
+}
+
+# Ollama concurrency tuning. REPORT by default; applying is opt-in, confirmed,
+# and refused while an indexer is running.
+tune_ollama_step() {
+    local script="${OLLAMA_TUNE_SCRIPT:-$SCRIPT_DIR/ollama-tune.sh}"
+    local rel wizard_rel host
+    rel=$(_rel_to_root "$script")
+    wizard_rel=$(_rel_to_root "$SCRIPT_DIR/$(basename "${BASH_SOURCE[0]}")")
+    host="${OLLAMA_HOST:-http://localhost:11434}"
+
+    if [[ ! -f "$script" ]]; then
+        print_warning "Ollama tuner not present at $script - concurrency was NOT measured."
+        print_info "Nothing is claimed about this host's ollama settings; nothing was changed."
+        manual_step "Ollama concurrency is UNTUNED and UNMEASURED (the tuner script is absent)" \
+"# $rel does not exist in this checkout, so no host-specific
+# recommendation could be computed. This wizard will not print a made-up
+# example: a value that was not measured on THIS machine is worse than none.
+#
+# When the script is available:
+#   $rel                     # detect + recommend, changes nothing
+#   $rel --print-commands    # the exact commands for THIS host
+#   $rel --apply             # applies them (RESTARTS the ollama service)
+#   $rel --revert            # undo"
+        return 0
+    fi
+
+    # Dependency, not the script: ollama may be local (CLI) or remote (HTTP).
+    # Probe both before declaring there is nothing to tune.
+    if ! check_command ollama && ! curl -sf --max-time 5 "$host/api/tags" >/dev/null 2>&1; then
+        print_warning "No ollama here: not on PATH, and nothing answers at $host."
+        print_info "Skipping concurrency tuning - there is nothing to tune, and nothing is claimed."
+        manual_step "Ollama concurrency tuning was skipped - no ollama backend was found" \
+"# Neither an 'ollama' CLI nor an HTTP backend at $host was found.
+# Install or start ollama, then measure THIS host:
+#   $rel"
+        return 0
+    fi
+
+    print_info "Asking $rel how ollama is managed on THIS host (report only)..."
+    local report rc=0
+    report=$(timeout 180 bash "$script" 2>&1) || rc=$?
+    [[ -n "${report//[[:space:]]/}" ]] && _echo_indented "$report"
+
+    # The tuner's exit codes are a THREE-VALUED verdict, documented in its own
+    # --help: 0 fine, 1 a real problem / action required, 2 COULD NOT DETERMINE.
+    # `1` therefore means "there IS something to apply" - the opposite of a
+    # failure. Collapsing non-zero into "broken" would throw away the very
+    # recommendation this step exists to surface, and would report a host that
+    # needs tuning as one whose state is unknown.
+    case $rc in
+        0)  print_success "Ollama concurrency already matches what this host justifies - nothing to apply."
+            return 0 ;;
+        1)  : ;;   # action required - fall through and fetch the commands
+        124|137|143)
+            print_warning "The ollama tuner timed out - its recommendation is UNAVAILABLE, not 'none needed'."
+            manual_step "Ollama concurrency is UNMEASURED (the tuner timed out) - run it yourself" \
+"# The wizard refuses to print a value it did not measure here.
+#   $rel"
+            return 0 ;;
+        *)  print_warning "The ollama tuner reported it COULD NOT DETERMINE the answer (exit $rc)."
+            print_warning "That is not 'none needed'. Nothing is claimed about this host."
+            manual_step "Ollama concurrency is UNDETERMINED (the tuner exited $rc) - run it yourself" \
+"# The tuner could not reach a verdict. Its output is above.
+#   $rel                     # see what it detects and why
+#   $rel --print-commands"
+            return 0 ;;
+    esac
+
+    # The exact commands FOR THIS HOST come from the tuner, never from here.
+    # `--print-commands` carries the same three-valued contract, so `1` is
+    # again the normal "there is a change to make" case.
+    local raw crc=0 cmds
+    raw=$(timeout 120 bash "$script" --print-commands 2>&1) || crc=$?
+    case $crc in
+        0|1) cmds=$(_extract_commands "$raw") ;;
+        *)   cmds="" ;;
+    esac
+
+    if [[ -z "${cmds//[[:space:]]/}" ]]; then
+        print_warning "No host-specific commands could be generated (--print-commands exited $crc)."
+        manual_step "Ollama concurrency could not be computed for this host - run the tuner yourself" \
+"# The wizard refuses to print an example value it did not measure here.
+#   $rel                     # see what it detects and why it failed
+#   $rel --print-commands"
+        return 0
+    fi
+
+    print_info "Recommended for THIS host (computed just now by $rel):"
+    _echo_indented "$cmds"
+
+    # ---- The destructive edge -------------------------------------------------
+    # Applying rewrites ollama's config surface and RESTARTS the service, which
+    # aborts every in-flight embedding request - i.e. it throws away whatever an
+    # index run has in flight. Three independent conditions must ALL hold before
+    # this wizard does that. Otherwise the operator gets the exact commands and
+    # decides for themselves.
+    if [[ -z "${WIZARD_TUNE_OLLAMA:-}" ]]; then
+        print_warning "NOT applied: applying RESTARTS the ollama service and kills in-flight embeddings."
+        print_info "Opt in with WIZARD_TUNE_OLLAMA=1 (you will still be asked), or run the commands yourself."
+        manual_step "Apply the ollama concurrency setting computed for THIS host" \
+"$cmds
+
+# Or let the wizard do it - it asks first and refuses while an indexer runs:
+#   WIZARD_TUNE_OLLAMA=1 $wizard_rel
+# Undo at any time:
+#   $rel --revert
+#
+# WHY THIS IS NOT AUTOMATIC: applying RESTARTS the ollama service, which aborts
+# every in-flight embedding request. An index run in progress loses that work."
+        return 0
+    fi
+
+    local busy=unknown _brc=0
+    _indexers_in_flight || _brc=$?
+    case $_brc in 0) busy=yes ;; 1) busy=no ;; *) busy=unknown ;; esac
+    if [[ "$busy" != "no" ]]; then
+        if [[ "$busy" == "yes" ]]; then
+            print_warning "NOT applied: an indexing job is RUNNING - a restart would abort its in-flight work."
+        else
+            print_warning "NOT applied: cannot tell whether an indexer is running (pgrep unavailable)."
+        fi
+        manual_step "Apply the ollama concurrency setting once no index run is in flight" \
+"$cmds
+
+# The wizard declined to apply this automatically because an in-flight
+# embedding job would be aborted by the service restart (state: $busy).
+# Re-run when idle:  WIZARD_TUNE_OLLAMA=1 $wizard_rel
+# Undo at any time:  $rel --revert"
+        return 0
+    fi
+
+    if [[ -t 0 && -z "${WIZARD_NONINTERACTIVE:-}" ]]; then
+        local reply=""
+        read -r -p "$(echo -e "${YELLOW}Apply this now? It RESTARTS the ollama service. [y/N] ${NC}")" reply || reply=""
+        if [[ ! "$reply" =~ ^[Yy]$ ]]; then
+            print_warning "Declined - nothing was changed."
+            manual_step "Apply the ollama concurrency setting computed for THIS host (declined this run)" \
+"$cmds
+
+# Undo at any time:  $rel --revert"
+            return 0
+        fi
+    fi
+
+    # Record the undo BEFORE mutating: a half-applied change must still be
+    # revertible. `--revert` on an unchanged host is a no-op.
+    record_action ollama "bash '$script' --revert"
+    # The restart itself is NOT revertible: reverting restarts ollama again, but
+    # the embedding requests the first restart aborted are gone. Say so in the
+    # manifest rather than letting rollback imply it undid them.
+    record_note ollama "ollama was restarted to apply concurrency tuning; any embedding requests in flight at that moment were aborted and cannot be restored by --revert"
+    local arc=0
+    timeout 600 bash "$script" --apply || arc=$?
+    if [[ $arc -eq 0 ]]; then
+        print_success "Ollama concurrency applied. Undo with: $rel --revert"
+    else
+        print_error "Applying the ollama tuning FAILED (exit $arc) - the host may be partly changed."
+        manual_step "Finish or undo the ollama concurrency change by hand (the automatic apply failed)" \
+"# '$rel --apply' exited $arc.
+$cmds
+
+# Undo whatever did land:
+#   $rel --revert"
+    fi
+    return 0
+}
+
+# Provider-side CI verification. Read-only; it QUERIES the provider, because a
+# file-level check structurally cannot see provider settings. Its verdict is
+# three-valued and stays three-valued: 0 none found, 1 confirmed, 2 unknown.
+# rc=2 is reported as UNVERIFIED. It is never rendered as a pass.
+verify_provider_ci_step() {
+    local script="${PROVIDER_CI_SCRIPT:-$SCRIPT_DIR/verify-provider-ci.sh}"
+    local rel; rel=$(_rel_to_root "$script")
+
+    # The boundary is unchanged and still true: disabling a workflow FILE cannot
+    # reach org-default required workflows, branch-protection required checks,
+    # the Pages source setting, or provider-side scheduled exports. What changed
+    # is that their CURRENT state is measured on demand instead of asserted.
+    if [[ ! -f "$script" ]]; then
+        print_warning "Provider-CI verifier not present at $script."
+        print_warning "Provider-side CI triggering is therefore UNVERIFIED here - that is not 'clean'."
+        manual_step "Provider-side CI triggering is UNVERIFIED (the verifier script is absent)" \
+"# Nothing queried the provider, so nothing is known about provider-generated
+# runs for this checkout's remotes. File-level disabling cannot reach:
+#   org-default required workflows, branch-protection required checks,
+#   the GitHub Pages source setting, provider-side scheduled exports.
+# When the verifier is available, measure instead of assuming:
+#   $rel"
+        return 0
+    fi
+
+    if ! check_command gh; then
+        print_warning "GitHub CLI 'gh' not found - provider settings cannot be queried."
+        print_warning "Provider-side CI triggering is UNVERIFIED, not clean."
+        manual_step "Provider-side CI triggering is UNVERIFIED ('gh' is not installed)" \
+"# Install and authenticate the GitHub CLI, then measure:
+#   gh auth login
+#   $rel"
+        return 0
+    fi
+
+    print_info "Querying provider settings for this checkout's remotes (read-only)..."
+    local out rc=0
+    out=$(timeout 300 bash "$script" 2>&1) || rc=$?
+    [[ -n "${out//[[:space:]]/}" ]] && _echo_indented "$out"
+
+    case $rc in
+        0)
+            print_success "Provider-side CI: no provider-generated triggering found (measured just now)."
+            ;;
+        1)
+            print_warning "Provider-side CI triggering CONFIRMED - only you can change it, in the provider UI."
+            manual_step "Provider-side CI triggering was CONFIRMED just now - operator-only to change" \
+"# Measured by $rel on $(date -u +%Y-%m-%dT%H:%M:%SZ). Findings:
+$out
+
+# These are PROVIDER settings. No change to any file in any of these
+# repositories can turn them off - it has to be done in the provider UI
+# (repo/org Settings -> Actions, Pages, Branches).
+# Re-measure after changing anything:
+#   $rel"
+            ;;
+        *)
+            local why="exit $rc"
+            [[ $rc -eq 124 || $rc -eq 137 || $rc -eq 143 ]] && why="timed out"
+            print_warning "Provider-side CI status COULD NOT BE DETERMINED ($why)."
+            print_warning "Reporting UNVERIFIED. This is NOT a pass and must not be recorded as one."
+            manual_step "Provider-side CI status is UNVERIFIED ($why) - determine it by hand" \
+"# $rel could not reach a verdict ($why). Output above.
+# 'Could not determine' is not 'nothing found'. Common causes: 'gh' is not
+# authenticated, the token lacks admin scope on a repo, or the provider API
+# was unreachable.
+#   gh auth status
+#   $rel"
+            ;;
+    esac
+    return 0
+}
+
+# ------------------------------------------------------------------------------
 # 1. Path Detection
 # ------------------------------------------------------------------------------
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
@@ -1049,6 +1371,16 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+# 7a. Ollama concurrency tuning for THIS host
+# ------------------------------------------------------------------------------
+# Runs BEFORE indexing on purpose: if the operator does choose to apply it, the
+# service restart happens while nothing is in flight, and the index run that
+# follows gets the tuned concurrency. Report-only unless WIZARD_TUNE_OLLAMA=1,
+# and even then it asks and refuses while an indexer is running.
+print_header "Step 7: Ollama Concurrency Tuning (host-specific)"
+tune_ollama_step
+
+# ------------------------------------------------------------------------------
 # 7b. Optional: build the code-intelligence indexes for this project
 # ------------------------------------------------------------------------------
 # Installing the indexers does not index anything. Both are OPT-IN here because
@@ -1056,7 +1388,7 @@ fi
 # and can run for hours; CodeGraph is far quicker but still non-trivial.
 #   WIZARD_INDEX_PROJECT=1   build/refresh both indexes for PROJECT_ROOT
 if [[ -n "${WIZARD_INDEX_PROJECT:-}" ]]; then
-    print_header "Step 7: Indexing This Project"
+    print_header "Step 8: Indexing This Project"
 
     if check_command codegraph; then
         # NOTE: `codegraph init` builds an index where none exists; `codegraph
@@ -1095,6 +1427,18 @@ if [[ -n "${WIZARD_INDEX_PROJECT:-}" ]]; then
 else
     print_info "Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes)."
 fi
+
+# ------------------------------------------------------------------------------
+# 7c. Provider-side CI verification
+# ------------------------------------------------------------------------------
+# §11.4.156's real test is "a push triggers ZERO runs". Every check in this
+# repository up to here is FILE-level, and a file-level check structurally
+# cannot see an org-default required workflow, a branch-protection required
+# check, a Pages source setting, or a provider-side scheduled export. Those are
+# still operator-only to CHANGE - what this step removes is the need to ASSERT
+# their state from memory. It is measured, here, now, or reported UNVERIFIED.
+print_header "Step 9: Provider-Side CI Verification"
+verify_provider_ci_step
 
 # ------------------------------------------------------------------------------
 # 8. Final Summary

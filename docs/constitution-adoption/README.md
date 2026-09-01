@@ -923,6 +923,11 @@ compliant**. Only the operator, in the Pages UI, could stop the runs, and that
 would unpublish a production site — which the directive quoted in OC-2 forbids.
 Recorded, not resolved; and, like OC-2, **not an override**.
 
+Those `build_type` values are dated observations. Re-measure them, and the rest
+of the provider surface, with `bash scripts/verify-provider-ci.sh` (0 = none
+found, 1 = confirmed, 2 = could not determine — **not** a pass); the setup
+wizard runs it as Step 9 and surfaces a confirmed finding as a manual step.
+
 `submodules/superspec/.github/workflows/ci.yml` is deliberately **not** listed:
 §11.4.156(C) scopes the clause to *"repositories we author + push"*, and
 superspec is third-party.

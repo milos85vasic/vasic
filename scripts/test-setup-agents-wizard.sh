@@ -248,9 +248,17 @@ unsafe_remediation=$(printf '%s\n' "$src_code" \
 assert_eq "A41 wizard never applies the remediation itself (no restart, no /etc write)" "0" "$unsafe_remediation"
 
 steps=$(grep -oE 'print_header "Step [0-9]+' "$WIZARD" | grep -oE '[0-9]+' | tr '\n' ',')
-# Step 7 (project indexing) is opt-in: its header only prints when
+# Step 8 (project indexing) is opt-in: its header only prints when
 # WIZARD_INDEX_PROJECT is set, but the literal must still be in sequence.
-assert_eq "A10 step headers are sequential 1..7" "1,2,3,4,5,6,7," "$steps"
+# Step 7 = ollama concurrency tuning, Step 9 = provider-side CI verification.
+assert_eq "A10 step headers are sequential 1..9" "1,2,3,4,5,6,7,8,9," "$steps"
+
+# The whole point of delegating to scripts/ollama-tune.sh is that the value is
+# COMPUTED on this host. A literal concurrency number in the wizard would be a
+# per-host constant smuggled back in - the exact failure A40 forbids for the
+# backend library. (Comments are stripped: $src_code.)
+_pinned=$(printf '%s\n' "$src_code" | grep -cE 'OLLAMA_NUM_PARALLEL[[:space:]]*=[[:space:]]*[0-9]' || true)
+assert_eq "A58 wizard pins no per-host ollama concurrency value" "0" "$_pinned"
 
 if command -v shellcheck >/dev/null 2>&1; then
     sc=$(shellcheck -S error -f gcc "$WIZARD" 2>&1 | head -5)
@@ -886,6 +894,374 @@ own=$(for f in "$SCRIPT_DIR"/*.sh; do
           | grep -qE "$_pat" && echo "$f"
       done | wc -l)
 assert_eq "J8 our own scripts contain no machine-specific paths" "0" "$own"
+
+# ==============================================================================
+group "K. Delegated host/provider probes wired into the wizard"
+# ==============================================================================
+# THESE ARE BEHAVIOURAL. A grep for a filename would stay green while the wiring
+# is deleted - that already happened once in this suite (see I21). Every K
+# assertion RUNS the wizard function against a throwaway stand-in script whose
+# output carries a random token, and checks the observable result: what the
+# stand-in was invoked with, what landed in the manual-step registry, and what
+# landed in the rollback manifest.
+#
+# The stand-ins are NOT scripts/ollama-tune.sh or scripts/verify-provider-ci.sh.
+# They live in a temp dir and are reached through the OLLAMA_TUNE_SCRIPT /
+# PROVIDER_CI_SCRIPT overrides, so this suite never depends on those two
+# scripts existing, never runs a real apply, and never restarts anything.
+
+KBOX=$(mktemp -d)
+
+# $1 dir  $2 token  $3 exit code for --apply  [$4 exit code for report and
+# --print-commands, default 1]
+#
+# The real scripts/ollama-tune.sh documents a THREE-VALUED verdict in its own
+# --help: `0 fine · 1 real problem · 2 COULD NOT DETERMINE`. So `1` is the
+# normal "there is something to apply" case, NOT a failure — the stand-in
+# defaults to it because that is the case the wizard has to get right. A first
+# revision of this integration read any non-zero as "broken" and threw the
+# recommendation away against the real script; K23 is the regression guard.
+mk_tune_stub() {
+    local dir="$1" token="$2" applyrc="$3" reportrc="${4:-1}"
+    cat > "$dir/ollama-tune.sh" <<STUB
+#!/usr/bin/env bash
+echo "ARGS:\$*" >> "$dir/tune.log"
+case "\${1:-}" in
+  --print-commands)
+      echo "manager=stand-in surface=$dir/ollama.conf writable=no"
+      echo "── copy-pasteable commands for THIS host "
+      echo "OLLAMA_NUM_PARALLEL=$token"
+      echo "reload-and-restart-the-backend   # stand-in"
+      echo "── exit "
+      exit $reportrc ;;
+  --apply)  echo "stand-in apply"; exit $applyrc ;;
+  --revert) echo "stand-in revert" >> "$dir/tune.log"; exit 0 ;;
+  *) echo "manager=stand-in surface=$dir/ollama.conf writable=no"
+     echo "computed for this host: OLLAMA_NUM_PARALLEL=$token"
+     exit $reportrc ;;
+esac
+STUB
+    chmod +x "$dir/ollama-tune.sh"
+    : > "$dir/tune.log"
+}
+
+# $1 dir  $2 exit code  $3 token
+mk_provider_stub() {
+    cat > "$1/verify-provider-ci.sh" <<STUB
+#!/usr/bin/env bash
+echo "provider finding $3"
+exit $2
+STUB
+    chmod +x "$1/verify-provider-ci.sh"
+}
+
+# $1 dir  $2 exit code -> stands in for pgrep so "is an indexer running?" is
+# decided by the test, not by whatever happens to run on the host right now.
+mk_pgrep_shim() { printf '#!/usr/bin/env bash\nexit %s\n' "$2" > "$1/pgrep"; chmod +x "$1/pgrep"; }
+
+# Everything the wizard registered as a manual step, and nothing else. Printing
+# only the registry is what separates "it appeared in the manual step" from
+# "it appeared somewhere in the console output".
+DUMP_MANUALS='
+    echo "===MANUALS==="
+    if [[ ${#MANUAL_TITLES[@]} -gt 0 ]]; then
+      for i in "${!MANUAL_TITLES[@]}"; do
+        echo "TITLE: ${MANUAL_TITLES[$i]}"
+        echo "${MANUAL_STEPS[$i]}"
+      done
+    fi
+    echo "===END==="
+    echo "MANUALCOUNT=${#MANUAL_TITLES[@]}"
+'
+registry() { printf '%s\n' "$1" | awk '/^===MANUALS===$/{f=1;next} /^===END===$/{f=0} f'; }
+
+# Deterministic environment: ollama/gh are reported present so the tests
+# exercise the wiring rather than this host's inventory, and the interactive
+# confirmation is disabled so the suite can never block on a read.
+KENV='
+    export WIZARD_NONINTERACTIVE=1
+    check_command() { case "$1" in ollama|gh) return 0;; *) command -v "$1" >/dev/null 2>&1;; esac; }
+'
+
+# ---- K1-K3: both delegates ABSENT. The wizard must survive and say so. -------
+out=$(in_sandbox "$KENV"'
+    export OLLAMA_TUNE_SCRIPT="'"$KBOX"'/definitely-absent-tune.sh"
+    tune_ollama_step; echo "TUNE_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K1 missing ollama tuner does not abort the wizard" "TUNE_RC=0" "$out"
+assert_contains "K1b missing ollama tuner is reported, not silently skipped" "concurrency was NOT measured" "$out"
+kreg=$(registry "$out")
+assert_contains "K2 missing ollama tuner still registers a manual step" "UNTUNED and UNMEASURED" "$kreg"
+# The failure this guards against: filling the gap with a plausible example.
+_fab=$(printf '%s\n' "$kreg" | grep -cE 'OLLAMA_NUM_PARALLEL[[:space:]]*=[[:space:]]*[0-9]' || true)
+assert_eq "K2b absent tuner yields NO fabricated concurrency value" "0" "$_fab"
+
+out=$(in_sandbox "$KENV"'
+    export PROVIDER_CI_SCRIPT="'"$KBOX"'/definitely-absent-provider.sh"
+    verify_provider_ci_step; echo "PROV_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K3 missing provider verifier does not abort the wizard" "PROV_RC=0" "$out"
+kreg=$(registry "$out")
+assert_contains "K3b missing provider verifier is reported UNVERIFIED" "UNVERIFIED" "$kreg"
+assert_absent  "K3c missing provider verifier is never reported as clean" "no provider-generated triggering found" "$out"
+
+# Both absent, back to back, in one run - the real degradation path.
+out=$(in_sandbox "$KENV"'
+    export OLLAMA_TUNE_SCRIPT="'"$KBOX"'/nope-a.sh" PROVIDER_CI_SCRIPT="'"$KBOX"'/nope-b.sh"
+    tune_ollama_step && verify_provider_ci_step; echo "BOTH_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K4 wizard survives BOTH delegates being absent" "BOTH_RC=0" "$out"
+assert_contains "K4b both absences are recorded as manual steps" "MANUALCOUNT=2" "$out"
+
+# ---- K5-K7: an UNWRITABLE ollama surface must produce THIS host's commands ---
+KTUNE=$(mktemp -d); KTOK="tok$RANDOM$RANDOM"
+mk_tune_stub "$KTUNE" "$KTOK" 1          # --apply fails: surface not writable
+KPG=$(mktemp -d); mk_pgrep_shim "$KPG" 1 # no indexer running
+
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step; echo "TUNE_RC=$?"
+'"$DUMP_MANUALS")
+kreg=$(registry "$out")
+assert_contains "K5 unwritable ollama surface registers a manual step" "TITLE: Apply the ollama concurrency" "$kreg"
+# The point of the whole exercise: the step carries the value the delegate
+# COMPUTED HERE. The token is random per run, so a hardcoded example cannot
+# satisfy this assertion.
+assert_contains "K5b manual step carries the delegate's computed value, not an example" "OLLAMA_NUM_PARALLEL=$KTOK" "$kreg"
+assert_contains "K5c manual step explains why applying is not automatic" "aborts" "$kreg"
+# Report mode must not have touched the host.
+assert_absent  "K6 report mode never invokes --apply" "ARGS:--apply" "$(cat "$KTUNE/tune.log")"
+assert_contains "K6b report mode DID ask the delegate for this host's commands" "ARGS:--print-commands" "$(cat "$KTUNE/tune.log")"
+
+# ---- K7-K8: the destructive edge -------------------------------------------
+# An indexer is running: applying would restart the backend and abort its
+# in-flight embedding requests. Opt-in or not, it must not happen.
+mk_tune_stub "$KTUNE" "$KTOK" 0
+KPGBUSY=$(mktemp -d); mk_pgrep_shim "$KPGBUSY" 0
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPGBUSY"':$PATH" WIZARD_TUNE_OLLAMA=1
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step
+'"$DUMP_MANUALS")
+assert_absent  "K7 opted-in apply is REFUSED while an indexer is in flight" "ARGS:--apply" "$(cat "$KTUNE/tune.log")"
+assert_contains "K7b refusal names the running indexer as the reason" "indexing job is RUNNING" "$out"
+assert_contains "K7c refusal still hands over the exact commands" "OLLAMA_NUM_PARALLEL=$KTOK" "$(registry "$out")"
+
+# pgrep unavailable => "cannot tell", which must NOT be collapsed into "idle".
+KPGNONE=$(mktemp -d)
+mk_tune_stub "$KTUNE" "$KTOK" 0
+out=$(in_sandbox "$KENV"'
+    export WIZARD_TUNE_OLLAMA=1
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    _indexers_in_flight() { return 2; }
+    tune_ollama_step
+'"$DUMP_MANUALS")
+assert_absent  "K8 apply is REFUSED when indexer state cannot be determined" "ARGS:--apply" "$(cat "$KTUNE/tune.log")"
+assert_contains "K8b unknown indexer state is named as unknown" "cannot tell whether an indexer is running" "$out"
+
+# ---- K9-K12: the opt-in path really works (so K6/K7/K8 are not vacuous) -----
+mk_tune_stub "$KTUNE" "$KTOK" 0
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH" WIZARD_TUNE_OLLAMA=1 WIZARD_STATE_DIR="$HOME/state"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    backup_init >/dev/null 2>&1
+    tune_ollama_step >/dev/null 2>&1
+    cat "$WIZARD_STATE_DIR/backups/latest/manifest.tsv"
+')
+assert_contains "K9 opted-in + idle + confirmed DOES apply (K6/K7/K8 are not vacuous)" "ARGS:--apply" "$(cat "$KTUNE/tune.log")"
+# Read the ACTION row's target specifically. Grepping the whole manifest for
+# "--revert" would also match the NOTE row's prose, so a deleted undo action
+# would still look present.
+kact=$(printf '%s\n' "$out" | awk -F'\t' '$1=="ollama" && $2=="ACTION"{print $3}')
+assert_contains "K10 applying records the delegate's --revert as the undo command" "--revert" "$kact"
+assert_contains "K10b the undo command targets the script the wizard RESOLVED, not a literal" "$KTUNE/ollama-tune.sh" "$kact"
+# The restart aborted whatever was in flight. `--revert` restarts again; it
+# cannot resurrect those requests. That must be in the manifest, or rollback
+# would imply a clean reversal.
+assert_contains "K11 applying records the irreversible restart as a NOTE" "NOTE" "$out"
+assert_contains "K11b the NOTE says what cannot be restored" "cannot be restored" "$out"
+
+# ---- K12-K13: rollback tells the truth about all of it ----------------------
+KROLL='
+    export PATH="'"$KPG"':$PATH" WIZARD_TUNE_OLLAMA=1 WIZARD_STATE_DIR="$HOME/state"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    backup_init >/dev/null 2>&1
+    tune_ollama_step >/dev/null 2>&1
+'
+out=$(in_sandbox "$KENV$KROLL"'
+    '"$ROLLBACK"' --yes 2>&1')
+assert_contains "K12 rollback reports the irreversible effect as NOT UNDONE" "NOT UNDONE" "$out"
+assert_contains "K12b rollback refuses to be recorded as a full reversal" "Do not record this rollback as a full reversal" "$out"
+# And it must not have executed the undo command without being asked.
+assert_contains "K12c rollback leaves the undo command manual by default" "manual   [ollama]" "$out"
+
+mk_tune_stub "$KTUNE" "$KTOK" 0
+out=$(in_sandbox "$KENV$KROLL"'
+    '"$ROLLBACK"' --yes --run-actions >/dev/null 2>&1')
+assert_contains "K13 rollback --run-actions actually runs the delegate's --revert" "stand-in revert" "$(cat "$KTUNE/tune.log")"
+
+# ---- K14-K18: the provider verifier's three-valued verdict stays three-valued
+KPROV=$(mktemp -d); PTOK="ptok$RANDOM$RANDOM"
+
+mk_provider_stub "$KPROV" 0 "$PTOK"
+out=$(in_sandbox "$KENV"'
+    export PROVIDER_CI_SCRIPT="'"$KPROV"'/verify-provider-ci.sh"
+    verify_provider_ci_step
+'"$DUMP_MANUALS")
+assert_contains "K14 rc=0 is reported as measured, not assumed" "measured just now" "$out"
+assert_contains "K14b rc=0 registers no manual step" "MANUALCOUNT=0" "$out"
+
+mk_provider_stub "$KPROV" 1 "$PTOK"
+out=$(in_sandbox "$KENV"'
+    export PROVIDER_CI_SCRIPT="'"$KPROV"'/verify-provider-ci.sh"
+    verify_provider_ci_step
+'"$DUMP_MANUALS")
+kreg=$(registry "$out")
+assert_contains "K15 rc=1 (confirmed) becomes a manual step" "TITLE: Provider-side CI triggering was CONFIRMED" "$kreg"
+assert_contains "K15b the manual step carries the verifier's OWN findings" "$PTOK" "$kreg"
+assert_contains "K15c the manual step says it is operator-only in the provider UI" "provider UI" "$kreg"
+
+# THE ONE THAT MATTERS MOST: "could not determine" is not "nothing found".
+mk_provider_stub "$KPROV" 2 "$PTOK"
+out=$(in_sandbox "$KENV"'
+    export PROVIDER_CI_SCRIPT="'"$KPROV"'/verify-provider-ci.sh"
+    verify_provider_ci_step; echo "PROV_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K16 rc=2 is reported as COULD NOT BE DETERMINED" "COULD NOT BE DETERMINED" "$out"
+assert_contains "K16b rc=2 is explicitly NOT a pass" "NOT a pass" "$out"
+assert_absent  "K16c rc=2 never renders the rc=0 success line" "no provider-generated triggering found" "$out"
+assert_contains "K16d rc=2 registers an UNVERIFIED manual step" "UNVERIFIED" "$(registry "$out")"
+assert_contains "K16e rc=2 still lets the wizard continue" "PROV_RC=0" "$out"
+
+# An unexpected exit code is also unknown, not success.
+mk_provider_stub "$KPROV" 3 "$PTOK"
+out=$(in_sandbox "$KENV"'
+    export PROVIDER_CI_SCRIPT="'"$KPROV"'/verify-provider-ci.sh"
+    verify_provider_ci_step
+'"$DUMP_MANUALS")
+assert_contains "K17 an unexpected exit code is treated as unverified" "COULD NOT BE DETERMINED" "$out"
+assert_absent  "K17b an unexpected exit code is never a pass" "no provider-generated triggering found" "$out"
+
+# ---- K18-K19: absent DEPENDENCIES degrade, they do not abort ----------------
+mk_provider_stub "$KPROV" 0 "$PTOK"
+out=$(in_sandbox '
+    export WIZARD_NONINTERACTIVE=1
+    check_command() { [[ "$1" != gh ]] && command -v "$1" >/dev/null 2>&1; }
+    export PROVIDER_CI_SCRIPT="'"$KPROV"'/verify-provider-ci.sh"
+    verify_provider_ci_step; echo "PROV_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K18 absent 'gh' does not abort the wizard" "PROV_RC=0" "$out"
+assert_contains "K18b absent 'gh' leaves the provider status UNVERIFIED" "UNVERIFIED" "$(registry "$out")"
+assert_absent  "K18c absent 'gh' never renders a pass" "no provider-generated triggering found" "$out"
+
+mk_tune_stub "$KTUNE" "$KTOK" 0
+out=$(in_sandbox '
+    export WIZARD_NONINTERACTIVE=1 OLLAMA_HOST="http://127.0.0.1:1"
+    check_command() { [[ "$1" != ollama ]] && command -v "$1" >/dev/null 2>&1; }
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step; echo "TUNE_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K19 absent ollama backend does not abort the wizard" "TUNE_RC=0" "$out"
+assert_contains "K19b absent ollama backend is stated, not silently skipped" "no ollama backend was found" "$(registry "$out")"
+assert_absent  "K19c absent ollama backend never invokes the tuner" "ARGS:" "$(cat "$KTUNE/tune.log")"
+
+# ---- K20: a delegate that cannot decide must not read as "nothing to do" ----
+printf '#!/usr/bin/env bash\nexit 7\n' > "$KBOX/broken-tune.sh"; chmod +x "$KBOX/broken-tune.sh"
+out=$(in_sandbox "$KENV"'
+    export OLLAMA_TUNE_SCRIPT="'"$KBOX"'/broken-tune.sh"
+    tune_ollama_step; echo "TUNE_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K20 an undecidable tuner is reported as COULD NOT DETERMINE" "COULD NOT DETERMINE" "$out"
+assert_absent  "K20b an undecidable tuner never claims the host is already tuned" "already matches" "$out"
+assert_contains "K20c an undecidable tuner still hands the operator something to run" "run it yourself" "$(registry "$out")"
+
+# ---- K23-K25: the tuner's THREE-VALUED verdict must survive the wizard ------
+# REGRESSION. The real scripts/ollama-tune.sh exits 1 for "a real problem /
+# action required" — i.e. exactly when it HAS a recommendation. The first
+# revision of this integration mapped every non-zero to "recommendation
+# UNAVAILABLE" and discarded the commands against the real script, reporting a
+# host that needed tuning as one whose state was unknown. Verified against the
+# live script on 2026-08-31: report and --print-commands both exit 1 while
+# printing a complete, correct recommendation.
+mk_tune_stub "$KTUNE" "$KTOK" 0 1
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step
+'"$DUMP_MANUALS")
+assert_contains "K23 exit 1 means ACTION REQUIRED: the recommendation is surfaced" "OLLAMA_NUM_PARALLEL=$KTOK" "$(registry "$out")"
+assert_absent  "K23b exit 1 is never mistaken for a broken tuner" "COULD NOT DETERMINE" "$out"
+assert_absent  "K23c exit 1 is never mistaken for 'nothing to apply'" "already matches" "$out"
+
+mk_tune_stub "$KTUNE" "$KTOK" 0 0
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step
+'"$DUMP_MANUALS")
+assert_contains "K24 exit 0 means nothing to apply" "already matches" "$out"
+assert_contains "K24b exit 0 registers no manual step" "MANUALCOUNT=0" "$out"
+assert_absent  "K24c exit 0 does not even ask for the commands" "ARGS:--print-commands" "$(cat "$KTUNE/tune.log")"
+
+mk_tune_stub "$KTUNE" "$KTOK" 0 2
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step
+'"$DUMP_MANUALS")
+assert_contains "K25 exit 2 is COULD NOT DETERMINE, not a recommendation" "COULD NOT DETERMINE" "$out"
+assert_absent  "K25b exit 2 never claims the host is already tuned" "already matches" "$out"
+
+# ---- K26: the commands handed over are the delegate's, extracted not invented
+# The real tuner prints a whole report and labels its command block. The wizard
+# must lift that block; when a delegate labels nothing it must fall back to the
+# delegate's full output — never to an example of the wizard's own.
+mk_tune_stub "$KTUNE" "$KTOK" 0 1
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KTUNE"'/ollama-tune.sh"
+    tune_ollama_step
+'"$DUMP_MANUALS")
+kreg=$(registry "$out")
+assert_contains "K26 the labelled command block is lifted out of the report" "reload-and-restart-the-backend" "$kreg"
+assert_absent  "K26b the surrounding report prose is not dragged into the step" "manager=stand-in" "$kreg"
+
+printf '#!/usr/bin/env bash\ncase "${1:-}" in --print-commands) echo "UNLABELLED-'"$KTOK"'"; exit 1;; *) echo r; exit 1;; esac\n' \
+    > "$KBOX/unlabelled-tune.sh"; chmod +x "$KBOX/unlabelled-tune.sh"
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KBOX"'/unlabelled-tune.sh"
+    tune_ollama_step
+'"$DUMP_MANUALS")
+assert_contains "K26c an unlabelled delegate degrades to its full output, not to an example" "UNLABELLED-$KTOK" "$(registry "$out")"
+
+# ---- K27: report says "action required" but the commands cannot be produced -
+# The two calls are independent, so the second can fail on its own. That must
+# still not become an invented value.
+printf '#!/usr/bin/env bash\ncase "${1:-}" in --print-commands) exit 2;; *) echo "needs tuning"; exit 1;; esac\n' \
+    > "$KBOX/nocmds-tune.sh"; chmod +x "$KBOX/nocmds-tune.sh"
+out=$(in_sandbox "$KENV"'
+    export PATH="'"$KPG"':$PATH"
+    export OLLAMA_TUNE_SCRIPT="'"$KBOX"'/nocmds-tune.sh"
+    tune_ollama_step; echo "TUNE_RC=$?"
+'"$DUMP_MANUALS")
+kreg=$(registry "$out")
+assert_contains "K27 an unproducible command set still yields a manual step" "run the tuner yourself" "$kreg"
+_fab=$(printf '%s\n' "$kreg" | grep -cE 'OLLAMA_NUM_PARALLEL[[:space:]]*=[[:space:]]*[0-9]' || true)
+assert_eq "K27b that manual step contains NO fabricated concurrency value" "0" "$_fab"
+assert_contains "K27c the wizard still continues" "TUNE_RC=0" "$out"
+
+# ---- K21-K22: the wiring itself --------------------------------------------
+# Everything above drives the two functions DIRECTLY, so it would all stay
+# green if the call sites were deleted from the wizard's run. That is exactly
+# how A9 got burned. Count CALL SITES, not definitions.
+callsT=$(printf '%s\n' "$src_code" | grep -cE '^[[:space:]]*tune_ollama_step[[:space:]]*$')
+assert_eq "K21 tune_ollama_step is actually CALLED, not just defined" "1" "$callsT"
+callsP=$(printf '%s\n' "$src_code" | grep -cE '^[[:space:]]*verify_provider_ci_step[[:space:]]*$')
+assert_eq "K22 verify_provider_ci_step is actually CALLED, not just defined" "1" "$callsP"
+
+rm -rf "$KBOX" "$KTUNE" "$KPG" "$KPGBUSY" "$KPGNONE" "$KPROV"
 
 # ==============================================================================
 # Evidence summary

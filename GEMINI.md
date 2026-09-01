@@ -179,9 +179,23 @@ SOURCE (Liquid + front matter), so it cannot be served raw from a branch.
 pushes source, then `sleep`s waiting for the server to rebuild — it covers
 generation and push, none of the publish step. **Do not disable, rename, or
 otherwise "fix" `pages.yml`.** `vasic.digital` needs no build step (committed
-static HTML), but its Pages source is `build_type: "legacy"`, so every push
-still triggers a provider-side `pages build and deployment` Actions run even
-though it has **zero** workflow files in its tree.
+static HTML), but its Pages source was `build_type: "legacy"` when last
+measured, so every push still triggers a provider-side `pages build and
+deployment` Actions run even though it has **zero** workflow files in its tree.
+
+Every `build_type` and run-count in this file is a DATED OBSERVATION, not a
+standing fact. Provider settings change outside this tree and nothing here can
+see that happen. Re-measure before relying on any of them:
+
+```bash
+bash scripts/verify-provider-ci.sh   # 0 = none found, 1 = confirmed, 2 = could not determine
+```
+
+It enumerates the owned repositories from this checkout's own remotes and
+queries the provider. Exit 2 means UNVERIFIED — it is not a pass and must never
+be recorded as one. `scripts/setup-agents-wizard.sh` runs it as Step 9 and turns
+a confirmed finding into a manual step, because changing a provider setting is
+an operator action in a provider UI.
 
 ## Honest boundary — this repository is NOT yet fully compliant
 
@@ -240,8 +254,14 @@ inventory's own):
   **Not CLOSED** — honest boundary (11.4.6): file-level disabling stops
   FILE-triggered runs but does not reach provider-side settings (org-default
   required workflows, branch-protection required checks, the GitHub Pages source
-  setting, provider-side scheduled exports), which are operator-only manual steps
-  and are unverified. **Cost of the umbrella half: no server-side enforcement on
+  setting, provider-side scheduled exports). That boundary is unchanged: those
+  settings are still operator-only to CHANGE, in a provider UI. What is no
+  longer hand-asserted is their STATUS. It is measured on demand by
+  `bash scripts/verify-provider-ci.sh` (0 = none found, 1 = provider-side
+  triggering confirmed, 2 = could not determine — **not** a pass), which the
+  setup wizard runs as Step 9 and which surfaces a confirmed finding as a
+  manual step. Do not quote a status from this document as current; run the
+  check. **Cost of the umbrella half: no server-side enforcement on
   push or PR; `.git/hooks/` is untracked, so a fresh clone is unprotected until
   `bash scripts/pre-push-gates.sh --install` is run, and `git push --no-verify`
   bypasses the hook.** Record:
@@ -256,14 +276,47 @@ inventory's own):
   at this root is git HOOKS, not the wrapper. Note the wrapper runs `git add .`,
   which stages everything untracked — keep `.gitignore` accurate before using it.
 - G6 — CLOSED (verified 2026-08-27). `helix-deps.yaml` exists at the repository root and parses under `yaml.safe_load`.
-- G7 — the owned submodules do not yet carry constitution-aware governance
-  carriers. Only `vasic.digital/QWEN.md` exists, and it references no anchor.
+- G7 — PARTIAL (measured 2026-08-31; **20/24**). Two successive claims here were
+  wrong and both are withdrawn rather than restated.
+  (a) The original — "only `vasic.digital/QWEN.md` exists, and it references no
+  anchor" — was false on both halves.
+  (b) Its replacement — "CLOSED, 5 x 4 = 20/20" — was ALSO wrong, because it
+  enumerated a HARDCODED list of five submodules instead of deriving the fleet
+  from `.gitmodules`. That is the same defect class the fleet roster itself is
+  criticised for, committed while correcting the first error.
+  Derived measurement (`git config -f .gitmodules --get-regexp
+  'submodule\..*\.path'`, excluding the governance source and the third-party
+  gitlink) finds **SIX** owned submodules, not five: `milosvasic.ru`,
+  `vasic.digital`, `design-toolkit`, `ai_interviewing`, `monetization`, and
+  `workshop` — the last added in commit `e22d6b1` and present in HEAD when the
+  "20/20" claim was made.
+  Coverage is therefore **20 of 24**. The five older submodules each carry all
+  four carriers, every one opening with a real, non-fenced `## INHERITED FROM `
+  heading (§11.4.35 inv. 6) and citing §11.4.28(B). `workshop/` carries **none**
+  of the four. `scripts/verify-governance-cascade.sh` independently FAILs C1
+  (fleet roster does not classify `workshop`) and C6 (`helix-deps.yaml` records
+  it nowhere) — the gate caught this before any human did, which is the point of
+  it. G7 closes when `workshop/` is onboarded and that verifier exits 0.
 - G8 — the markdown export mandate (11.4.65) is unmet across the repository.
 - G12 — no `PreToolUse` guard is wired, although the canonical guard script is
   present in the submodule.
 
-There is also no `CONTINUATION.md` at this root yet, so the restated item above
-describes the universal rule rather than an existing artifact here.
+`CONTINUATION.md` DOES exist at this root and is now §12.10-conformant
+(verified 2026-08-31). An earlier revision of this file claimed it did not; that
+claim was already false when written — a thin 725-byte session note was tracked
+at `18c84ff`, but it satisfied none of §12.10's six mandatory protections, so
+the gap was real even though the stated reason for it was not. The document now
+carries the §0 resumption prompt, the §3 active-work detail, and the top-of-file
+timestamp the rule requires. `scripts/continuation-check.sh` guards it against
+going stale: it cross-checks the gap statuses against these carriers, verifies
+every entry point it names still exists and is executable, and walks
+`git log` to catch a commit that changed a watched governance file WITHOUT
+updating `CONTINUATION.md` (§12.10 protection 2). Three-valued: 0 in sync,
+1 drift, 2 could not determine.
+Honest boundary (§11.4.6): §12.10 protection 1 is internally inconsistent — it
+names `docs/CONTINUATION.md` while requiring the file "at the project root".
+This repository resolves that in favour of the ROOT and records the ambiguity
+rather than silently picking a side.
 
 Do not claim this repository passes a constitutional gate you have not actually
 run. Do not treat the absence of a gate as a pass.

@@ -701,7 +701,13 @@ forbids.
 > boundary (§11.4.6): file-level disabling stops FILE-triggered runs but does not
 > reach provider-side settings (org-default required workflows,
 > branch-protection required checks, Pages source settings, provider-side
-> scheduled exports); the remaining ones are operator-only and unverified.
+> scheduled exports); those remain operator-only to CHANGE. Their STATUS is no
+> longer asserted from memory: `bash scripts/verify-provider-ci.sh` enumerates
+> the owned repositories from this checkout's own remotes and queries the
+> provider — exit **0** none found, **1** confirmed, **2** could not determine
+> (**not** a pass). `scripts/setup-agents-wizard.sh` runs it as Step 9 and turns
+> a confirmed finding into a manual step. Anything this document says about the
+> provider is a dated observation; re-measure before quoting it.
 > **Cost of the umbrella half:** no server-side enforcement on push or PR;
 > `.git/hooks/` is untracked, so a fresh clone has no protection until
 > `bash scripts/pre-push-gates.sh --install` is run, and `git push --no-verify`

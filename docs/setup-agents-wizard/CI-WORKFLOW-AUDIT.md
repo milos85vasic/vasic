@@ -254,7 +254,12 @@ project carrier may only extend inherited rules, never weaken them. The OC-2
 deviation is **not** an override either, and must not be written up as one.
 **Honest boundary (§11.4.6):** renaming `ci.yml` stops FILE-triggered runs only;
 org-default required workflows, branch-protection required checks and
-provider-side scheduled exports are operator-only and unverified. Full record:
+provider-side scheduled exports remain operator-only to change. They are no
+longer *unverified*, though — their state is measured on demand by
+`bash scripts/verify-provider-ci.sh` (0 = none found, 1 = confirmed, 2 = could
+not determine, which is **not** a pass), which the setup wizard runs as Step 9.
+Treat every provider fact in this report as a dated observation and re-measure.
+Full record:
 [`../constitution-adoption/DECISION-11-4-156-COMPLY.md`](../constitution-adoption/DECISION-11-4-156-COMPLY.md) §0.
 
 ## 7. Concurrent-edit note

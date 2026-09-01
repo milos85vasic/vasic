@@ -311,7 +311,28 @@ the difference between "compliant" and "the file was renamed":
 
 Applied to this repository, the following are **operator-only manual steps in a
 provider web UI**. None of them is done. None of them can be done from this
-working tree, and no rename in §4 touches any of them:
+working tree, and no rename in §4 touches any of them.
+
+**What HAS changed since this table was written: the "State" column is no longer
+the only way to know.** Every row below is a dated observation from 2026-08-27.
+Changing a provider setting is still operator-only, but *reading* one is not —
+it was the file-level checks that were blind to these surfaces, not the
+repository. Re-measure before quoting any row as current:
+
+```bash
+bash scripts/verify-provider-ci.sh
+#   0 = no provider-generated triggering found
+#   1 = provider-side triggering CONFIRMED
+#   2 = COULD NOT DETERMINE — not a pass, and never to be recorded as one
+```
+
+It enumerates the owned repositories from this checkout's own remotes (so a new
+remote is covered without editing a list) and queries the provider for Pages
+`build_type`, provider-generated `pages build and deployment` runs, branch
+protection / required checks, and Actions enablement.
+`scripts/setup-agents-wizard.sh` runs it as Step 9 and turns a confirmed
+finding into a manual step. A `NOT VERIFIED` below therefore means "nobody has
+run the check since", not "unknowable".
 
 | # | Provider-side surface | Where it lives | State |
 |---|---|---|---|

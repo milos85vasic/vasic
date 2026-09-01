@@ -386,7 +386,7 @@ codegraph telemetry --help      # CodeGraph's own switch; state lives in ~/.code
 
 **7. Lumen indexes** — see [Where does Lumen store indexes](#where-does-lumen-store-indexes-and-how-much-space-do-they-use).
 `lumen purge` before you delete the wrapper, or just `rm -rf ~/.local/share/lumen`. If you
-ran Step 7, the CodeGraph database is separate and lives in the project: `rm -rf .codegraph`.
+ran Step 8, the CodeGraph database is separate and lives in the project: `rm -rf .codegraph`.
 
 **8. Embedding backend** (only if nothing else uses ollama)
 
@@ -739,16 +739,16 @@ and an incremental run skips it forever.
 WIZARD_INDEX_PROJECT=1 ./scripts/setup-agents-wizard.sh
 ```
 
-That enables **Step 7: Indexing This Project**, which builds or refreshes *both* indexes for
+That enables **Step 8: Indexing This Project**, which builds or refreshes *both* indexes for
 the project root:
 
 - **CodeGraph** — `codegraph sync "$PROJECT_ROOT"` when `.codegraph/codegraph.db` already
   exists, otherwise `codegraph init "$PROJECT_ROOT"`, which creates `.codegraph/`.
 - **Lumen** — `lumen index "$PROJECT_ROOT"`.
 
-Either half is skipped with a warning if its CLI is missing. Without the variable, Step 7
+Either half is skipped with a warning if its CLI is missing. Without the variable, Step 8
 prints one line — `ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).` —
-and the `Step 7` header never appears at all.
+and the `Step 8` header never appears at all.
 
 It is opt-in for a reason: installing an indexer is fast, running one is not. A first Lumen
 pass on a large repository is CPU-bound on the embedding backend and can take hours, and you
@@ -757,6 +757,55 @@ rarely want that happening inside a setup script you are watching.
 > **The wizard never runs `codegraph index`.** That command deletes the existing database
 > before rebuilding it, which would throw away a good index on every re-run. `sync` is the
 > incremental path, and test **A27** fails the build if `codegraph index ` reappears.
+
+---
+
+## Why did the wizard show me an ollama command instead of just running it?
+
+Because running it restarts the ollama service, and that aborts every embedding request in
+flight. If an index run is part-way through, it loses that work. The wizard is not entitled to
+make that trade for you.
+
+Step 7 asks `scripts/ollama-tune.sh` how ollama is managed on **this** host and what
+concurrency this host's CPU, RAM and loaded model justify, shows you the answer, and puts the
+delegate's exact commands into ACTION REQUIRED. To let it apply them:
+
+```bash
+WIZARD_TUNE_OLLAMA=1 ./scripts/setup-agents-wizard.sh
+```
+
+Even then it asks first, and it refuses while an indexer is running — or while it cannot tell
+whether one is (no `pgrep`), because "cannot tell" is not "idle". If it does apply, the change
+lands in the rollback manifest as `bash <path> --revert`, alongside a `NOTE` recording that
+the aborted in-flight requests are not something `--revert` can bring back.
+
+**It will never print an example number.** If the tuner is missing, cannot reach a verdict, or
+there is no ollama at all, you get a step that says nothing was measured — not a
+plausible-looking value that was never computed on your machine.
+
+One subtlety worth knowing, because it bit the first version of this step: `ollama-tune.sh`
+exits `1` for *"a real problem / action required"*, which is exactly when it **does** have a
+recommendation. `0` means nothing to apply and `2` means it could not determine. The wizard
+maps all three explicitly — a non-zero exit is not read as "the tuner broke".
+
+---
+
+## Step 9 said the provider CI status is "UNVERIFIED". Is that a failure?
+
+No, and it is deliberately not a pass either. `scripts/verify-provider-ci.sh` answers with
+three values, and the wizard keeps all three: `0` nothing found, `1` confirmed provider-side
+triggering, `2` could not determine. Exit `2` — and a timeout, an unexpected status, a missing
+script, or a missing `gh` — is reported as `COULD NOT BE DETERMINED` / `Reporting UNVERIFIED.
+This is NOT a pass`.
+
+The usual cause is that `gh` is not authenticated or the token lacks admin scope on a
+repository. Check with `gh auth status`, then run the verifier again.
+
+This matters because everything else in this repository checks **files**, and a file-level
+check structurally cannot see an org-default required workflow, a branch-protection required
+check, the GitHub Pages source setting, or a provider-side scheduled export. Those remain
+operator-only to *change* — but their status is now measured on demand rather than asserted
+in prose.
 
 Neither index is recorded in the rollback manifest — they are tool-owned data, not wizard
 edits. Remove them with `rm -rf .codegraph` and `lumen purge "/path/to/project"`.

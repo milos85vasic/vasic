@@ -247,11 +247,112 @@ gate_E() {
         echo
     fi
 
-    if [[ -z "$hits" ]]; then
-        echo "PASS — 'git ls-files | grep -E \"$CI_PROBE_RE\"' returned empty."
-        echo "No active root-level GitHub Actions workflow or GitLab pipeline is tracked."
+    # ---- Submodule sweep (§11.4.156(C) scope) --------------------------------
+    # `git ls-files` at the umbrella CANNOT see inside a submodule — a gitlink is
+    # ONE entry, not the submodule's files. Probing only the umbrella therefore
+    # passes over an active workflow living in any submodule, which is exactly
+    # where a new module's CI would be added. Measured before this fix:
+    # milosvasic.ru tracked an active pages.yml and superspec an active ci.yml,
+    # and this gate reported PASS. The fleet is DERIVED from .gitmodules, never
+    # hardcoded, so a submodule added tomorrow is swept without editing this file.
+    local sub_viol="" sub_note="" sub_undet="" sub_dev="" p n owned_urls
+    if [[ -r "$ROOT/.gitmodules" ]]; then
+        # Namespaces this tree demonstrably owns, derived from the umbrella's own
+        # remotes — the same evidence class scripts/verify-provider-ci.sh uses.
+        # Ownership is DERIVED from helix-deps.yaml's declared deps[].ssh_url set —
+        # the authoritative owned-fleet declaration, itself guarded in BOTH directions
+        # by verify-governance-cascade.sh C6, so it cannot drift from .gitmodules
+        # unnoticed.
+        #
+        # An earlier version derived ownership from the UMBRELLA's own remote
+        # namespaces. Measured, that yielded only "milos85vasic", so vasic.digital and
+        # design-toolkit — both genuinely owned, under the vasic-digital namespace —
+        # were classified THIRD-PARTY and waved through as out of scope. A workflow
+        # planted in design-toolkit did NOT fail the gate. Recorded because the narrow
+        # version looked correct and survived a casual reading.
+        owned_urls="$(sed -nE 's/^[[:space:]]*ssh_url:[[:space:]]*(.+)$/\1/p' \
+                      "$ROOT/helix-deps.yaml" 2>/dev/null | tr -d '\r' | sort -u)"
+        while IFS= read -r p; do
+            [[ -n "$p" ]] || continue
+            if [[ ! -e "$ROOT/$p/.git" ]]; then
+                # NOT a failure: an uninitialised submodule cannot be inspected.
+                # Per Honest Instruments, "could not check" is its own state.
+                sub_undet="${sub_undet}${p} (not initialised)"$'\n'
+                continue
+            fi
+            n="$(git -C "$ROOT/$p" ls-files 2>/dev/null | grep -E "$CI_PROBE_RE" || true)"
+            [[ -n "$n" ]] || continue
+            # §11.4.156(C): scope is repositories WE author and push. A gitlink
+            # whose remote sits outside every owned namespace is structurally out
+            # of scope and MUST NOT be mass-edited (§11.4.29).
+            local sub_url
+            sub_url="$(git config -f "$ROOT/.gitmodules" --get "submodule.${p}.url" 2>/dev/null || echo '')"
+            # A DOCUMENTED DEVIATION is not an override — §11.4.156 forbids overrides
+            # ("No escape hatch"), and this is deliberately NOT one. The rule still
+            # judges the repo non-compliant; what this table changes is only whether
+            # THIS gate blocks the push. It follows the repository's existing baseline
+            # convention (scripts/audit-environment-assumptions.sh): every entry
+            # carries a REASON, every entry is printed on EVERY run, and the tree can
+            # never go quietly green over it. A NEW violation anywhere still fails.
+            # Rationale for blocking-vs-reporting: a gate that can never pass is
+            # bypassed with --no-verify and then enforces nothing at all.
+            local dev_reason=""
+            case "$p" in
+                milosvasic.ru)
+                    dev_reason="sole publish path for the live site https://milosvasic.ru — GitHub Pages reports build_type=\"workflow\", so disabling this file takes production dark. Operator directive 2026-08-27: \"No website can be broken!\" Documented deviation, NOT an override." ;;
+            esac
+            if [[ -n "$dev_reason" ]]; then
+                sub_dev="${sub_dev}${p} $(printf '%s' "$n" | tr '\n' ' ')"$'\n'"    REASON: ${dev_reason}"$'\n'
+                continue
+            fi
+            if [[ -n "$sub_url" ]] && ! printf '%s\n' "$owned_urls" | grep -qxF "$sub_url"; then
+                sub_note="${sub_note}${p} [third-party: ${sub_url}] $(printf '%s' "$n" | tr '\n' ' ')"$'\n'
+            else
+                sub_viol="${sub_viol}${p} $(printf '%s' "$n" | tr '\n' ' ')"$'\n'
+            fi
+        done < <(git config -f "$ROOT/.gitmodules" --get-regexp 'submodule\..*\.path' 2>/dev/null | awk '{print $2}')
+    fi
+
+    if [[ -n "$sub_dev" ]]; then
+        # run_gate captures gate stdout to a log and prints it ONLY on failure, so a
+        # PASSING gate is silent. A deviation that is only visible when something
+        # else breaks is not "recorded" — it is hidden. Route it to a channel the
+        # summary prints unconditionally.
+        printf '%s' "$sub_dev" >> "${LOGDIR}/deviations" 2>/dev/null || true
+        echo "DOCUMENTED DEVIATION — active CI in an owned submodule, knowingly retained."
+        echo "This is NOT an override (§11.4.156 forbids one) and NOT compliance."
+        echo "The repository remains non-compliant here; it is recorded, not hidden:"
+        printf '%s' "$sub_dev" | sed 's/^/  /'
+        echo
+    fi
+    if [[ -n "$sub_note" ]]; then
+        echo "NOTE — active CI in third-party gitlink(s), OUT OF SCOPE per §11.4.156(C)."
+        echo "Reported so it is never silently omitted; NOT edited, NOT a failure:"
+        printf '%s' "$sub_note" | sed 's/^/  /'
+        echo
+    fi
+    if [[ -n "$sub_undet" ]]; then
+        echo "COULD NOT CHECK — submodule(s) not initialised, so their CI state is unknown."
+        echo "This is not a pass. Run: git submodule update --init --recursive"
+        printf '%s' "$sub_undet" | sed 's/^/  /'
+        echo
+    fi
+
+    if [[ -z "$hits" && -z "$sub_viol" ]]; then
+        echo "PASS — no active root-level CI config tracked in this repository"
+        echo "       or in any OWNED submodule (fleet derived from .gitmodules)."
         return 0
     fi
+
+    if [[ -n "$sub_viol" ]]; then
+        echo "§11.4.156 VIOLATION — active root-level CI config(s) TRACKED in owned submodule(s):"
+        printf '%s' "$sub_viol" | sed 's/^/  /'
+        echo
+        echo "A submodule is a repository we author and push, so §11.4.156 applies to it"
+        echo "in full. Fix it INSIDE that submodule, then commit the gitlink bump."
+        echo
+    fi
+    if [[ -z "$hits" ]]; then return 1; fi
 
     echo "§11.4.156 VIOLATION — active root-level CI config(s) are TRACKED in this repository:"
     printf '%s\n' "$hits" | sed 's/^/  /'
@@ -473,6 +574,15 @@ for row in "${SUMMARY[@]}"; do
 done
 echo "----------------------------------------------------------------------"
 printf 'passed=%d  failed=%d  skipped=%d\n' "$PASSED" "$FAILED" "$SKIPPED"
+
+# Documented deviations are surfaced on EVERY run, pass or fail. A green run that
+# silently carries a known §11.4.156 non-compliance is the "quietly green tree"
+# this project's constitution names as a defect in its own right.
+if [[ -s "${LOGDIR}/deviations" ]]; then
+    printf '\n%s── DOCUMENTED DEVIATIONS (not overrides; still non-compliant) ──%s\n' "$YELLOW" "$NC"
+    sed 's/^/  /' "${LOGDIR}/deviations"
+    printf '%s  These do NOT block the push. They are NOT compliance.%s\n' "$YELLOW" "$NC"
+fi
 
 if [[ $FAILED -gt 0 ]]; then
     echo

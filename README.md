@@ -35,6 +35,8 @@ generates or checks them lives at the top level.
 | `_content*/` | English source content (`_content/`) and its per-language translations (`_content_<lang>/`). |
 | `.github/workflows/ci.yml.disabled` | ~~The CI workflow that runs the gates described below on every push / PR to `main`.~~ **Disabled 2026-08-27** per §11.4.156(B) — a provider ignores any name that is not its exact trigger filename, so this file triggers nothing. It is preserved as the reference definition of the gate set; enforcement moved to a local pre-push hook. Its header block records the disabling and points at the replacement. |
 | `scripts/pre-push-gates.sh` | **The local replacement for that workflow.** Tracked and reviewable; runs every gate the workflow ran, plus the §11.4.156(E) self-check. `--install` writes the (untracked) `.git/hooks/pre-push` shim that execs it. |
+| `scripts/verify-provider-ci.sh` | **Measures what a file-level check cannot see.** Enumerates the owned repositories from this checkout's own remotes and queries the provider: Pages `build_type`, provider-generated `pages build and deployment` runs, branch protection / required checks, Actions enablement. Exit `0` none found, `1` confirmed, `2` could not determine — **`2` is not a pass.** Run it instead of quoting a `build_type` out of any document here. `scripts/setup-agents-wizard.sh` runs it as Step 9 and turns a confirmed finding into a manual step. |
+| `scripts/ollama-tune.sh` | Detects how ollama is managed on **this** host and computes its concurrency from measured CPU/RAM/model facts. Report-only by default; `--print-commands`, `--apply`, `--revert`. The setup wizard runs it as Step 7 and will not apply it behind your back — applying restarts ollama and aborts in-flight embedding jobs. |
 
 ## Fresh clone & run the gates
 
@@ -179,7 +181,24 @@ validator against the LIVE sites (pass `--dry-run` to preview without committing
 > ([record](docs/constitution-adoption/DECISION-11-4-156-COMPLY.md) §0).
 >
 > `vasic.digital` needs no build step (committed static HTML), but its Pages
-> source is `build_type: "legacy"`, so every push still triggers a provider-side
-> `pages build and deployment` Actions run — with **zero** workflow files in its
-> tree. Nothing in that repository can change this; it is non-compliant at the
-> provider level with no file-level remedy.
+> source was `build_type: "legacy"` when last measured, so every push still
+> triggers a provider-side `pages build and deployment` Actions run — with
+> **zero** workflow files in its tree. Nothing in that repository can change
+> this; it is non-compliant at the provider level with no file-level remedy.
+>
+> **Every `build_type` above is a dated observation, not a standing fact.**
+> Provider settings live outside this tree and change without leaving a trace in
+> it. Re-measure instead of quoting:
+>
+> ```bash
+> bash scripts/verify-provider-ci.sh
+> #   exit 0 = no provider-generated triggering found
+> #   exit 1 = provider-side triggering CONFIRMED (operator-only to change, in the provider UI)
+> #   exit 2 = COULD NOT DETERMINE — this is NOT a pass
+> ```
+>
+> It enumerates the owned repositories from this checkout's own remotes and
+> queries the provider for what no file-level check can see: Pages `build_type`,
+> provider-generated `pages build and deployment` runs, branch protection and
+> required checks, and Actions enablement. `scripts/setup-agents-wizard.sh` runs
+> it as Step 9 and turns a confirmed finding into a manual step.

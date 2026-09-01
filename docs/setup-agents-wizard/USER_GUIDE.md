@@ -269,7 +269,57 @@ as a SpecKit dev extension.
 | `⚠️ Removing stale non-git directory at submodules/superspec` | Expected when a previous run left a plain directory there. A registered git submodule is **never** deleted — the wizard detects the gitlink file and leaves it alone. |
 | `⚠️ SuperSpec submodule init failed.` / `⚠️ SuperSpec clone failed.` | Network or auth problem. Fix it, then `git submodule update --init --recursive submodules/superspec`. |
 
-### Step 7 — Indexing This Project
+### Step 7 — Ollama Concurrency Tuning (host-specific)
+
+This step asks `scripts/ollama-tune.sh` how ollama is actually managed on **your** machine —
+systemd system unit, systemd user unit, launchd, a container, a remote host, or a bare
+process — and what concurrency your CPU, RAM and loaded model justify. The wizard prints the
+delegate's own detection and recommendation, then **stops**:
+
+```
+========================================
+ Step 7: Ollama Concurrency Tuning (host-specific)
+========================================
+ℹ️ Asking ./scripts/ollama-tune.sh how ollama is managed on THIS host (report only)...
+     <the delegate's detection, verbatim>
+ℹ️ Recommended for THIS host (computed just now by ./scripts/ollama-tune.sh):
+     <the exact commands, generated for your machine>
+⚠️ NOT applied: applying RESTARTS the ollama service and kills in-flight embeddings.
+ℹ️ Opt in with WIZARD_TUNE_OLLAMA=1 (you will still be asked), or run the commands yourself.
+```
+
+Those commands also go into **ACTION REQUIRED** and `MANUAL-STEPS.md`, so you can come back to
+them. They are the delegate's output for your host — the wizard never substitutes an example
+number for one it did not measure.
+
+**Why it will not just do it for you.** Applying rewrites ollama's config surface and restarts
+the service. That aborts every embedding request in flight, which means an index run that is
+part-way through loses that work. So three things must all be true before the wizard applies
+anything: you set `WIZARD_TUNE_OLLAMA=1`, no indexer is running (it checks, and treats "cannot
+tell" as "do not"), and you confirm at the prompt.
+
+```bash
+WIZARD_TUNE_OLLAMA=1 ./scripts/setup-agents-wizard.sh
+```
+
+If it does apply, the change is recorded in the rollback manifest as
+`bash <path> --revert`, together with a `NOTE` saying the aborted in-flight requests cannot be
+brought back by that revert.
+
+| If you see | What it means |
+| :--- | :--- |
+| `⚠️ Ollama tuner not present at … - concurrency was NOT measured.` | `scripts/ollama-tune.sh` is not in this checkout. Nothing was measured and nothing is claimed; the wizard continues. |
+| `⚠️ No ollama here: not on PATH, and nothing answers at …` | There is no local CLI and no HTTP backend. Nothing to tune. |
+| `⚠️ The ollama tuner reported it COULD NOT DETERMINE the answer (exit N).` | The delegate could not reach a verdict. This is **not** "already optimal" — run it yourself and read its output. |
+| `⚠️ NOT applied: an indexing job is RUNNING …` | Exactly what it says. Re-run when idle, or run the printed commands yourself when you are ready to lose the in-flight work. |
+| `✅ Ollama concurrency already matches what this host justifies` | The delegate exited `0` — nothing to recommend. |
+
+> **The tuner's exit code is a three-valued verdict, not a pass/fail.** `0` fine, `1` a real
+> problem / action required, `2` could not determine. `1` is the case where there IS a
+> recommendation — reading it as "the tuner broke" would throw that recommendation away, so
+> the wizard maps all three explicitly and assertions `K23`–`K25` hold it there.
+
+### Step 8 — Indexing This Project
 
 **Opt-in.** By default this step does nothing at all and you see one line:
 
@@ -289,7 +339,7 @@ Then the step header prints and both indexes are built or refreshed for the proj
 
 ```
 ========================================
- Step 7: Indexing This Project
+ Step 8: Indexing This Project
 ========================================
 ℹ️ CodeGraph index exists - running incremental sync...
 ✅ CodeGraph sync completed.
@@ -316,6 +366,34 @@ writes to .codegraph/)...` and `✅ CodeGraph initial index built.` instead. Fai
 
 Neither index is recorded in the rollback manifest. Undo them with `rm -rf .codegraph` and
 `lumen purge "$PWD"`.
+
+### Step 9 — Provider-Side CI Verification
+
+Read-only, and it always runs. Every other CI check in this repository looks at **files**, and
+a file-level check structurally cannot see a setting that lives on the provider: an
+organisation-default required workflow, a branch-protection required check, the GitHub Pages
+source setting, a provider-side scheduled export. This step asks
+`scripts/verify-provider-ci.sh` to go and look.
+
+```
+========================================
+ Step 9: Provider-Side CI Verification
+========================================
+ℹ️ Querying provider settings for this checkout's remotes (read-only)...
+     <the verifier's findings, verbatim>
+```
+
+The verifier's verdict has three values and the wizard keeps all three:
+
+| Verifier exit | Wizard reports |
+| :--- | :--- |
+| `0` | `✅ Provider-side CI: no provider-generated triggering found (measured just now).` |
+| `1` | `⚠️ Provider-side CI triggering CONFIRMED` — plus an **ACTION REQUIRED** entry carrying the verifier's own findings, because turning one off means opening a provider UI |
+| `2`, a timeout, or anything else | `⚠️ Provider-side CI status COULD NOT BE DETERMINED` and `⚠️ Reporting UNVERIFIED. This is NOT a pass` — plus an ACTION REQUIRED entry telling you how to find out (usually `gh auth status`) |
+
+A missing `scripts/verify-provider-ci.sh`, or a missing `gh`, lands in that last row too: the
+wizard says the status is unverified and carries on. It never reports "clean" for something it
+did not measure.
 
 ### Final summary
 
@@ -574,7 +652,7 @@ Things worth knowing on day one:
 - **`stdio` is for agents, not for you.** That is the MCP server subcommand the wizard put
   in every agent config. There is no `serve` subcommand.
 - **The wizard can do the first index for you.** Re-run it with `WIZARD_INDEX_PROJECT=1`
-  and [Step 7](#step-7--indexing-this-project) indexes the project root with both Lumen and
+  and [Step 8](#step-8--indexing-this-project) indexes the project root with both Lumen and
   CodeGraph. It is opt-in precisely because that first pass can be slow.
 - **A finished index is not a correct index.** Run
   `./scripts/lumen-index-doctor.sh <path>` after any large indexing run — see
@@ -598,7 +676,10 @@ them are optional; the defaults are what you get by doing nothing.
 | `WOZCODE_INSTALL_CMD` | A shell command the wizard `eval`s in Step 2 to install WOZCODE. Without it, WOZCODE is skipped with a warning. Only set this to a command you trust — it runs with your privileges. | `WOZCODE_INSTALL_CMD='npm i -g wozcode' ./scripts/setup-agents-wizard.sh` |
 | `LUMEN_EMBED_MODEL` | Overrides the embedding model the wizard pulls and checks for. Defaults to `ordis/jina-embeddings-v2-base-code`. | `LUMEN_EMBED_MODEL=nomic-embed-text ./scripts/setup-agents-wizard.sh` |
 | `OLLAMA_HOST` | Where the wizard's health check looks for the embedding backend. Defaults to `http://localhost:11434`. Set it if Ollama runs on another port or host. | `OLLAMA_HOST=http://127.0.0.1:11500 ./scripts/setup-agents-wizard.sh` |
-| `WIZARD_INDEX_PROJECT` | **Opt in to Step 7.** Any non-empty value makes the wizard build/refresh the CodeGraph and Lumen indexes for the project root. Unset, Step 7 prints one skip line and does nothing. | `WIZARD_INDEX_PROJECT=1 ./scripts/setup-agents-wizard.sh` |
+| `WIZARD_INDEX_PROJECT` | **Opt in to Step 8.** Any non-empty value makes the wizard build/refresh the CodeGraph and Lumen indexes for the project root. Unset, Step 8 prints one skip line and does nothing. | `WIZARD_INDEX_PROJECT=1 ./scripts/setup-agents-wizard.sh` |
+| `WIZARD_TUNE_OLLAMA` | **Opt in to letting Step 7 apply the ollama concurrency tuning.** Unset (the default), Step 7 only reports and hands you the commands. Set, it still asks first and still refuses while an indexer is in flight — applying restarts ollama and aborts in-flight embeddings. | `WIZARD_TUNE_OLLAMA=1 ./scripts/setup-agents-wizard.sh` |
+| `OLLAMA_TUNE_SCRIPT` | Path to the concurrency tuner Step 7 delegates to. Defaults to `scripts/ollama-tune.sh` beside the wizard. Absent = the step reports that nothing was measured. | `OLLAMA_TUNE_SCRIPT=/path/to/ollama-tune.sh ./scripts/setup-agents-wizard.sh` |
+| `PROVIDER_CI_SCRIPT` | Path to the provider verifier Step 9 delegates to. Defaults to `scripts/verify-provider-ci.sh` beside the wizard. Absent = the provider status is reported UNVERIFIED, never clean. | `PROVIDER_CI_SCRIPT=/path/to/verify-provider-ci.sh ./scripts/setup-agents-wizard.sh` |
 | `WIZARD_KEEP_TELEMETRY` | **Opt out of the telemetry opt-out.** Any non-empty value leaves `~/.bashrc`, CodeGraph and `~/.qwen/settings.json` telemetry settings exactly as they are. Unset, Step 3 disables analytics — see [Step 3](#step-3--lumen-semantic-search-setup). | `WIZARD_KEEP_TELEMETRY=1 ./scripts/setup-agents-wizard.sh` |
 | `WIZARD_SKIP_GLYPHDOWN_HOOK` | Installs Glyphdown but does **not** register its Claude Code hook. The hook fires on every tool call, so this lets you defer that decision without skipping the rest of Step 5. The summary then shows `➖ Glyphdown Hook  skipped on request`. | `WIZARD_SKIP_GLYPHDOWN_HOOK=1 ./scripts/setup-agents-wizard.sh` |
 | `WIZARD_STATE_DIR` | Where the rollback sessions live. Defaults to `$HOME/.local/share/setup-agents-wizard`. **Set it identically for `scripts/rollback-agents-wizard.sh`**, or that tool will report `No backup sessions found`. | `WIZARD_STATE_DIR=$PWD/.wizard-state ./scripts/setup-agents-wizard.sh` |
@@ -636,7 +717,9 @@ construction, and the test suite asserts it (groups C and D).
 | Ollama | The install is skipped if `ollama` is on `PATH`; the service is enabled only if not already active; the model is pulled only if `ollama list` does not show it. |
 | Agent MCP configs | Every edit is a `jq` merge — re-running overwrites only the keys the wizard owns and leaves the rest of your config alone. After ten runs Kimi and Qwen still have exactly two MCP servers. Claude Code is skipped outright when `claude mcp get lumen` already succeeds. |
 | Glyphdown hook | Added only when `glyphdown` is installed and `WIZARD_SKIP_GLYPHDOWN_HOOK` is unset, and guarded by an `index("glyphdown")` check, so re-runs neither duplicate it nor disturb hooks you added yourself. |
-| Project indexing (Step 7) | Skipped entirely unless `WIZARD_INDEX_PROJECT` is set. When it is, both passes are incremental — `codegraph sync` on an existing database, `lumen index` re-embedding only what changed. |
+| Ollama tuning (Step 7) | Report-only by default, so re-running changes nothing. With `WIZARD_TUNE_OLLAMA=1` the delegate is asked again for this host's current facts; if the setting is already what this host justifies there is nothing to apply. |
+| Provider-side CI check (Step 9) | Read-only. It queries, it never writes. |
+| Project indexing (Step 8) | Skipped entirely unless `WIZARD_INDEX_PROJECT` is set. When it is, both passes are incremental — `codegraph sync` on an existing database, `lumen index` re-embedding only what changed. |
 | Claude marketplace plugins | Cloned only if the target directory does not exist. |
 | SpecKit | Skipped entirely if `.specify/` or `specs/` already exists. |
 | SuperSpec | A checked-out submodule is detected by its gitlink **file** and left alone. Only a stale, non-git directory is removed. |

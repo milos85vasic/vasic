@@ -365,7 +365,25 @@ filesystem:
 2. Repository / organisation settings that no local file controls —
    org-default required workflows, branch-protection required checks, and
    provider-side scheduled exports — must be turned off in the provider UI.
-   This audit did not and cannot verify their state.
+   Changing them is still operator-only. **Their state is no longer beyond
+   this repository's reach, though:** it was the *file-level* probe used by
+   this audit that could not see them, not the repository as a whole. Run
+
+   ```bash
+   bash scripts/verify-provider-ci.sh
+   #   0 = no provider-generated triggering found
+   #   1 = provider-side triggering CONFIRMED
+   #   2 = COULD NOT DETERMINE — not a pass, and never to be recorded as one
+   ```
+
+   It discovers the owned repositories from this checkout's own remotes rather
+   than from a list baked into a script, and queries the provider for Pages
+   `build_type`, provider-generated `pages build and deployment` runs, branch
+   protection / required checks, and Actions enablement.
+   `scripts/setup-agents-wizard.sh` runs it as Step 9 and surfaces a confirmed
+   finding as a manual step, because acting on one means opening a provider UI.
+   **Every provider fact stated in this document is a dated observation.**
+   Re-measure with the command above instead of quoting a table row as current.
 
 3. **`vasic.digital` — a surface this inventory's probe structurally cannot
    see.** It is classified **(c) CLEAN** in the table because it has no root CI

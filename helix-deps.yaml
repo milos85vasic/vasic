@@ -22,7 +22,8 @@
 # tree's live `git remote -v` differs from that, the divergence is called out in
 # a comment on the entry and in `Constitution.md` → "Project-specific remotes".
 # SSH-only: there is not one `https://` remote across the set (verified by
-# `git remote -v` in every working tree, 2026-08-26).
+# `git remote -v` in every working tree, 2026-08-26; re-verified 2026-08-31 with
+# `workshop` in the set, via this file's own recipe #2 below — it printed 0).
 #
 # ── Refs ─────────────────────────────────────────────────────────────────────
 # §11.4.31 says `ref: main   # branch or pinned tag`. Two owned submodules have
@@ -121,14 +122,33 @@ deps:
     # pushes to FOUR URLs (gitflic, github, gitlab, gitverse) — the widest
     # genuine §2.1 fan-out among the owned product submodules.
 
+  - name: workshop
+    ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
+    ref: ff59fca320efd839c9322bcf6f683ccb74754da8   # pinned sha; NO tag reachable (`git tag` lists none, `git describe --tags` -> "No names found"); gitlink tracks heads/main
+    why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which keeps gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks plus a *.sha256 manifest while the extracted videos stay git-ignored."
+    layout: flat
+    # Live topology: github, origin and upstream ALL resolve to the single URL
+    # above for both fetch and push — no fan-out, no fetch/push asymmetry. That
+    # makes it the NARROWEST §2.1 topology in the owned set; the .gitmodules URL
+    # is exactly what a fresh `git submodule update --init` clones AND exactly
+    # where pushes land. Verified by `git remote -v` in the working tree
+    # 2026-08-31.
+    # Entered the tree in commit e22d6b1 (2026-08-28) and was un-onboarded until
+    # 2026-08-31: it had no deps[] entry here and none of the four §11.4.157
+    # governance carriers, so `scripts/verify-governance-cascade.sh` FAILed C1
+    # and C6 on it — and its §1.1 paired-mutation proof could not even reach its
+    # first mutation, because the golden-good control inherits this same
+    # .gitmodules. Both halves are closed by this entry plus the four carriers.
+
 transitive_handling:
   # §11.4.31: "Each declared dep itself ships a helix-deps.yaml. The
   # incorporator tooling MUST recurse — top-level project gets the union of all
   # transitively-declared deps, flattened to root."
   #
-  # Honest boundary (§11.4.6) — verified, not assumed: of the six deps above,
-  # ONLY `constitution` currently ships a helix-deps.yaml. The five owned
-  # product submodules do not, so a recursive walk terminates at them for a
+  # Honest boundary (§11.4.6) — verified, not assumed: of the seven deps above,
+  # ONLY `constitution` currently ships a helix-deps.yaml. The six owned
+  # product submodules do not (re-checked 2026-08-31, `workshop` included), so a
+  # recursive walk terminates at them for a
   # reason the schema does not model (missing manifest, not a declared leaf).
   # `recursive: true` is declared because the constitution submodule genuinely
   # hosts a further seven own-org deps that consumer tooling must reach.

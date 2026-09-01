@@ -77,13 +77,16 @@ Step 6.
 | 4 | `Step 4: Verifying CLI Availability` | Roll call over **8** commands: `lumen codegraph glyphdown specify kimi opencode mimo qwen`. `ashlr` is **not** among them — it is a plugin with no binary |
 | 5 | `Step 5: Configuring MCP Servers for Each Agent` | `claude mcp add-json` for Claude Code, a `jq` mirror of the same entry into `~/.claude.json`, 2 plugin clones, Glyphdown `PreToolUse`/`PostToolUse` hooks (unless `WIZARD_SKIP_GLYPHDOWN_HOOK`), then `~/.kimi-code/mcp.json`, `~/.config/opencode/opencode.json` and `~/.qwen/settings.json`; MiMo Code is **probed** with `timeout 25 mimo mcp list`, not written to |
 | 6 | `Step 6: Project-Level Setup (root = …)` | `submodules/`, SpecKit init, `setup_superspec`, extension registration |
-| 7 | `Step 7: Indexing This Project` | **Opt-in, `WIZARD_INDEX_PROJECT` only.** `codegraph sync "$PROJECT_ROOT"` when `$PROJECT_ROOT/.codegraph/codegraph.db` exists, else `codegraph init "$PROJECT_ROOT"`; then `lumen index "$PROJECT_ROOT"`. Each half is skipped with a warning if its CLI is missing. Unset, the header never prints and the wizard emits `ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).` |
+| 7 | `Step 7: Ollama Concurrency Tuning (host-specific)` | `tune_ollama_step`, which delegates to `scripts/ollama-tune.sh` (override the path with `OLLAMA_TUNE_SCRIPT`). Report-only by default: it prints the delegate's detection and its `--print-commands` output for **this** host, then registers those exact commands as a manual step. `--apply` is reached only when `WIZARD_TUNE_OLLAMA` is set **and** no indexer is in flight **and** the operator confirms (or `WIZARD_NONINTERACTIVE` is set); applying restarts ollama and aborts in-flight embedding requests. The delegate's exit code is a three-valued verdict (`0` fine, `1` action required, `2` could not determine) and all three are preserved — `1` is the case that HAS a recommendation, not a failure. Absent script, absent ollama, a timeout, or a `2`: reported and skipped, never a fabricated value |
+| 8 | `Step 8: Indexing This Project` | **Opt-in, `WIZARD_INDEX_PROJECT` only.** `codegraph sync "$PROJECT_ROOT"` when `$PROJECT_ROOT/.codegraph/codegraph.db` exists, else `codegraph init "$PROJECT_ROOT"`; then `lumen index "$PROJECT_ROOT"`. Each half is skipped with a warning if its CLI is missing. Unset, the header never prints and the wizard emits `ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).` |
+| 9 | `Step 9: Provider-Side CI Verification` | `verify_provider_ci_step`, which delegates to `scripts/verify-provider-ci.sh` (override with `PROVIDER_CI_SCRIPT`). Read-only. Its three-valued verdict is preserved exactly: `0` nothing found → success line; `1` confirmed → a manual step carrying the verifier's own findings; **`2` or any other status → UNVERIFIED, never rendered as the `0` success line**. Absent script or absent `gh`: also UNVERIFIED, and the wizard continues |
 | — | `Setup Complete – Final Summary` | **Six** `✅`/`❌` sections — `Installed Global Commands`, `Claude Code plugins / optional tools`, `Agent MCP Configurations (Lumen)`, `Lumen Semantic Search`, `Telemetry / analytics`, `Project` |
-| 9 | `ACTION REQUIRED — N step(s) only you can do` | The manual-step registry is drained: pending steps are printed, written to `$PROJECT_ROOT/MANUAL-STEPS.md`, and on a TTY the script blocks on `read` until Enter. See [Step 9](#step-9--action-required-manual-steps) |
+| §9 | `ACTION REQUIRED — N step(s) only you can do` | The manual-step registry is drained: pending steps are printed, written to `$PROJECT_ROOT/MANUAL-STEPS.md`, and on a TTY the script blocks on `read` until Enter. See [Step 9](#step-9--action-required-manual-steps) |
 
-> The `9` above is the source comment's section number, not a printed `Step 9:` header. The
-> wizard prints numbered `Step N:` banners only for 1–7; `A10` asserts those literals read
-> exactly `1,2,3,4,5,6,7,`.
+> The `§9` in the last row is the **source comment's** section number, not a printed banner —
+> and it is now distinct from the printed `Step 9: Provider-Side CI Verification`. The wizard
+> prints numbered `Step N:` banners for 1–9; `A10` asserts those literals read exactly
+> `1,2,3,4,5,6,7,8,9,`.
 
 ### Step 9 — `ACTION REQUIRED` (manual steps)
 
@@ -447,7 +450,7 @@ exists, *and* a manifest row. Prune the `.bak` siblings yourself; nothing rotate
 | `submodules/superspec/` | Submodule init, or clone, per `setup_superspec`. **Never deleted when it is a real git checkout.** |
 | `.specify/` and/or `specs/` | Created by `specify init --force` (falling back to `specify init -y`), only if neither already exists |
 | `MANUAL-STEPS.md` | **Written on every run, unconditionally**, from the manual-step registry. Overwrites the previous copy. Not recorded in the manifest, so `rollback-agents-wizard.sh` will not remove it — `rm` it yourself, or add it to `.gitignore`. See [Step 9](#step-9--action-required-manual-steps) |
-| `.codegraph/` | Created by `codegraph init "$PROJECT_ROOT"` in **Step 7 only**, i.e. only when `WIZARD_INDEX_PROJECT` is set and no `.codegraph/codegraph.db` exists yet. On later runs `codegraph sync` updates it in place. Not recorded in the manifest |
+| `.codegraph/` | Created by `codegraph init "$PROJECT_ROOT"` in **Step 8 only**, i.e. only when `WIZARD_INDEX_PROJECT` is set and no `.codegraph/codegraph.db` exists yet. On later runs `codegraph sync` updates it in place. Not recorded in the manifest |
 | `.ashlrcode/genome/` | **Not created by the wizard.** Created by `/ashlr:ashlr-genome-init` inside Claude Code. The wizard only *detects its absence*, to decide whether to raise the genome manual step |
 | `.lumen-reindex.log` | **Not created by the wizard.** Appended by `scripts/lumen-reindex.sh`; override with `LUMEN_REINDEX_LOG` |
 | `.test-evidence/<UTC>/` | **Not created by the wizard.** Written by `scripts/test-setup-agents-wizard.sh` |
@@ -455,11 +458,11 @@ exists, *and* a manifest row. Prune the `.bak` siblings yourself; nothing rotate
 The wizard also runs `specify extension add ./submodules/superspec --dev` when both
 `specify` and the path are present. Failures are swallowed.
 
-### Step 7 — project indexing (opt-in)
+### Step 8 — project indexing (opt-in)
 
 The whole step is wrapped in `if [[ -n "${WIZARD_INDEX_PROJECT:-}" ]]`. Unset, the wizard
 prints `ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).` and the
-`Step 7` header never appears. Set, it runs two independent halves against `PROJECT_ROOT`:
+`Step 8` header never appears. Set, it runs two independent halves against `PROJECT_ROOT`:
 
 | Condition | Command | Note |
 | :--- | :--- | :--- |
@@ -671,7 +674,7 @@ rollback session, if you would rather restore than edit.
 | `SETUP_WIZARD_LIB_ONLY` | Library-mode guard | Any non-empty value stops execution before Step 1. |
 | `WIZARD_KEEP_TELEMETRY` | `configure_telemetry_optout` (Step 3), final summary | Any non-empty value makes the function return immediately with `⚠️ WIZARD_KEEP_TELEMETRY set - leaving telemetry settings alone.`: no `~/.bashrc` block, no `codegraph telemetry off`, no `~/.qwen/settings.json` edit. The summary then prints `➖ left untouched on request (WIZARD_KEEP_TELEMETRY)`. Unset (the default) the opt-out is applied. Test **H5**. |
 | `WIZARD_SKIP_GLYPHDOWN_HOOK` | Step 5, final summary | Any non-empty value skips **only** the Glyphdown hook registration: `⚠️ WIZARD_SKIP_GLYPHDOWN_HOOK is set - glyphdown hook NOT registered.` plus `ℹ️ Enable it later by re-running without that variable.` Glyphdown is still installed in Step 2, and `~/.claude/settings.json` is not touched at all. The summary prints `➖ Glyphdown Hook  skipped on request (WIZARD_SKIP_GLYPHDOWN_HOOK)`. The hook fires on every tool call, so this exists to let you defer wiring an unvetted binary into a running session. Test **A19** requires the opt-out to exist. |
-| `WIZARD_INDEX_PROJECT` | Step 7 | Any non-empty value enables [Step 7](#step-7--project-indexing-opt-in): `codegraph sync`/`codegraph init` plus `lumen index` for `PROJECT_ROOT`. Unset (the default) the step header never prints. Tests **A25**–**A27**, and **A10** which asserts the step headers still read `1,2,3,4,5,6,7,`. |
+| `WIZARD_INDEX_PROJECT` | Step 8 | Any non-empty value enables [Step 8](#step-8--project-indexing-opt-in): `codegraph sync`/`codegraph init` plus `lumen index` for `PROJECT_ROOT`. Unset (the default) the step header never prints. Tests **A25**–**A27**, and **A10** which asserts the step headers still read `1,2,3,4,5,6,7,8,9,`. |
 | `WIZARD_NONINTERACTIVE` | [Step 9](#step-9--action-required-manual-steps) | Any non-empty value skips the closing `read` that waits for Enter after the `ACTION REQUIRED` section. The section still prints and `MANUAL-STEPS.md` is still written. Only relevant on a TTY — the pause is already skipped when `[[ -t 0 ]]` is false. |
 | `CLAUDE_CONFIG_DIR` | `CLAUDE_DIR` constant, used in [Step 9](#step-9--action-required-manual-steps) | **Read, never written.** Defaults to `$HOME/.claude`. Determines where the wizard looks for `plugins/cache/ashlr-marketplace/ashlr/` and `plugins/marketplaces/ashlr-marketplace/` when deciding whether the ashlr steps are still pending. It is also where `claude mcp add-json -s user` really writes, which is the reason for the `~/.claude.json` mirror. Note that Step 2's ashlr install check and the final summary hardcode `$HOME/.claude` and do **not** honour this variable. |
 

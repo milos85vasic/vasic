@@ -107,7 +107,7 @@ third-party installers or to other tools:
 | `~/.claude/plugins/marketplaces/Sagargupta16/…` and `…/JCodesMore/…` | Plain `git clone`s, skipped when the directory already exists |
 | `submodules/`, `submodules/superspec`, `.specify/`, `specs/` | Project content created in Step 6 — treat it as repository state, not wizard leftovers |
 | `~/.local/share/lumen/` | Index databases written by `lumen index`, never by the wizard. Use `lumen purge` |
-| `<project>/.codegraph/` | The CodeGraph database, created by `codegraph init` in the opt-in Step 7 (and updated in place by `codegraph sync`). Written by CodeGraph, not the wizard. Remove with `rm -rf .codegraph` |
+| `<project>/.codegraph/` | The CodeGraph database, created by `codegraph init` in the opt-in Step 8 (and updated in place by `codegraph sync`). Written by CodeGraph, not the wizard. Remove with `rm -rf .codegraph` |
 | `~/.codegraph/telemetry.json` | Written by `codegraph telemetry off` during the Step 3 telemetry opt-out. CodeGraph owns the file; the wizard only invokes the CLI |
 
 > `uv tool install specify-cli` used to be on this list. It is not any more — see
@@ -128,19 +128,26 @@ component	action	target	backup	sha256_before	timestamp
 | Column | Meaning |
 | :--- | :--- |
 | `component` | Which part of the wizard made the change — the unit `--component` filters on |
-| `action` | `MODIFIED`, `CREATED` or `ACTION` (below) |
-| `target` | Absolute path of the file, **or** for `ACTION` rows the literal undo command |
+| `action` | `MODIFIED`, `CREATED`, `ACTION` or `NOTE` (below) |
+| `target` | Absolute path of the file, **or** for `ACTION` rows the literal undo command, **or** for `NOTE` rows the prose describing what cannot be undone |
 | `backup` | Absolute path of the stored original, or `-` |
 | `sha256_before` | `sha256sum` of the file before the change, or `-` |
 | `timestamp` | `date -u +%Y-%m-%dT%H:%M:%SZ` when the row was written |
 
-### The three action types
+### The four action types
 
 | Action | Recorded when | Rollback does |
 | :--- | :--- | :--- |
 | `MODIFIED` | The target already existed | Restores the stored copy over it with `cp -p` — byte-exact, mode preserved |
 | `CREATED` | The target did not exist | Deletes the target (`rm -f`) |
-| `ACTION` | The change is not a file at all — an `npm install -g`, a `claude mcp` registration | **Prints** the undo command. Executes it only with `--run-actions` |
+| `ACTION` | The change is not a file at all — an `npm install -g`, a `claude mcp` registration, an `ollama-tune.sh --revert` | **Prints** the undo command. Executes it only with `--run-actions` |
+| `NOTE` | The change is real and has **no undo at all** | Prints `⚠️ NOT UNDONE (no undo exists) [component] …`, counts it in the `NOT undone` tally, and **never executes anything**. It exists so the summary cannot imply a reversal that did not happen (§11.4.6) |
+
+The only `NOTE` the wizard writes today comes from Step 7: applying the ollama
+concurrency tuning restarts the service, and `--revert` restarts it again but
+cannot resurrect the embedding requests the first restart aborted. Written by
+`record_note` immediately after the paired `record_action`, so a manifest that
+carries the undo also carries the honest limit of that undo.
 
 ### Worked example
 
@@ -201,6 +208,7 @@ file whose `cp -p` failed are omitted entirely — the wizard prints
 | `qwen` | Step 3 (telemetry) and Step 5 (MCP) | `~/.qwen/settings.json` — snapshotted by whichever step touches it first, so one row covers both the `.usageStatisticsEnabled` edit and the `.mcpServers` merge |
 | `npm` | `npm_install_if_missing` (Step 2) | One `ACTION` `npm uninstall -g <pkg>` per package the wizard actually installed |
 | `speckit` | The `uv` branch of Step 2 | One `ACTION` `uv tool uninstall specify-cli`, written only when `specify` was missing and the install succeeded |
+| `ollama` | `tune_ollama_step` (Step 7), **only when the tuning was actually applied** | One `ACTION` `bash '<resolved ollama-tune.sh>' --revert` — the path is the one the wizard resolved at run time, not a stored literal — plus one `NOTE` for the in-flight embedding requests the restart aborted. Report-only runs write neither row, because they changed nothing |
 | `misc` | Fallback | The default second argument of `backup_file` and third of `configure_mcp_for_agent`. Every call site in the current wizard passes an explicit component, so `misc` should not appear in a real manifest |
 
 MiMo Code has no component of its own because there is no MiMo-specific file: it **inherits**
@@ -241,8 +249,16 @@ Any other argument prints `❌ Unknown option: …` and exits **2**.
 | `1` | At least one entry failed — a missing backup file, or a `cp`/`rm` that did not succeed. Also: no backup root at all, or no `manifest.tsv` for the chosen session |
 | `2` | An unrecognised option |
 
-A failed `ACTION` undo command is a **warning**, not a failure: it prints
-`⚠️ undo command failed (may already be undone): …` and does not affect the exit code.
+A failed `ACTION` undo command does not affect the exit code, but it is no longer
+reported as an equivocation. It prints
+`❌ NOT UNDONE [component] undo command exited N: …`, is counted in the `NOT undone`
+tally on the summary line, and is listed again at the end under
+`… change(s) were NOT undone by this run` followed by
+`⚠️ Do not record this rollback as a full reversal.`
+
+The previous wording — *"undo command failed (may already be undone)"* — let a
+change that is still in place read as reversed. Whether something else undid it
+earlier is unknown, and unknown is now reported as unknown.
 
 ### What a run looks like
 

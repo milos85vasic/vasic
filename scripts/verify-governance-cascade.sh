@@ -54,10 +54,14 @@
 #                            until the instrument is proven to see. C3 rests
 #                            entirely on this predicate, so it is proven first.
 #   C1 FLEET-CLASSIFIED      every `path =` in `.gitmodules` is classified
-#                            owned / governance-source / third-party by the
-#                            roster below, and every rostered root is still
-#                            declared. An unclassified submodule is a cascade
-#                            gap of unknown size (§11.4.26 step 6).
+#                            owned / governance-source / third-party — and the
+#                            classification is DERIVED from evidence (remote
+#                            namespace + helix-deps.yaml), never read off a
+#                            hardcoded roster. See the DERIVED FLEET ROSTER
+#                            block below for the evidence classes and for the
+#                            case that deliberately stays a FAIL. An
+#                            unclassified submodule is a cascade gap of unknown
+#                            size (§11.4.26 step 6).
 #   C2 OWNED-CARRIERS-PRESENT  every owned submodule carries all four agent
 #                            carriers, non-empty (§11.4.157(A)+(D): the lockstep
 #                            "binds the consuming project's repository-root
@@ -68,11 +72,18 @@
 #                            non-fenced, line-anchored `## INHERITED FROM `
 #                            heading (§11.4.35 invariant 6). Reused BY REFERENCE
 #                            from the constitution submodule; never reimplemented.
-#   C4 THIRD-PARTY-EXCLUDED  third-party roots are excluded BY NAME and the
-#                            exclusion is DOCUMENTED in `helix-deps.yaml`, not
-#                            silently missed. §4 excludes "third-party
-#                            submodules (libraries not under the project's
-#                            control)"; §11.4.156(C) puts them out of CI scope.
+#   C4 THIRD-PARTY-EXCLUDED  the DOCUMENTED exclusions in `helix-deps.yaml` are
+#                            honest in both converse directions: none names a
+#                            gitlink no `.gitmodules` declares (a phantom
+#                            exclusion), and none sits in a namespace this tree
+#                            OWNS (a self-exclusion that would drop one of our
+#                            own repos out of C2/C3 silently). The forward
+#                            direction is not checked because the derivation
+#                            READS this block — checking it would be a
+#                            tautology, and a tautological gate is a §11.4.201
+#                            bluff. §4 excludes "third-party submodules
+#                            (libraries not under the project's control)";
+#                            §11.4.156(C) puts them out of CI scope.
 #   C5 ROOT-LOCKSTEP         the umbrella's five root carriers exist, and the
 #                            four agent mirrors are byte-identical from line
 #                            ${LOCKSTEP_FROM} down (§11.4.157(B) "no silent
@@ -90,7 +101,10 @@
 #                            tracking a fleet that does not exist.
 #   C7 RECURSION             owned submodules' own `.gitmodules` (CONST-047 /
 #                            §11.4.32's "deep recursively") are read and every
-#                            nested gitlink is classified too.
+#                            nested gitlink is classified too — by the same
+#                            derived evidence. A nested gitlink in a namespace
+#                            this tree OWNS is a §11.4.28(C) forbidden own-org
+#                            chain and FAILs even if it were documented.
 #   R1 KNOWN-UNCLEARABLE     REPORTED, never failed on. Four governance carriers
 #                            inside repositories this project does not own; no
 #                            commit this project can make changes them. Full
@@ -128,7 +142,8 @@
 #   mutate. No sudo, no network.
 #
 # ── Dependencies ─────────────────────────────────────────────────────────────
-#   bash, POSIX awk/grep/sed/cp/mkdir/find, sha256sum (coreutils). bash -n clean.
+#   bash, POSIX awk/grep/sed/cp/mkdir/find/sort/cut/tr, sha256sum (coreutils).
+#   bash -n clean. No git command is run — not even a read-only one.
 #
 # ── Cross-references ─────────────────────────────────────────────────────────
 #   §11.4.32 (this verifier is its step 1), §1.1 (paired mutation — a gate that
@@ -158,6 +173,38 @@ set -uo pipefail
 
 GATE="CM-GOVERNANCE-CASCADE"
 
+# ── INTERNAL-FAULT TRAP: a crash is rc=2, never rc=1 ─────────────────────────
+# `set -u` aborts with status 1 — the code this file's exit contract reserves
+# for a REAL cascade violation. So a broken instrument accused the tree, which
+# is exactly the §11.4.201(1) false-positive refusal this project has now had to
+# fix three times (the index doctor's exit contract; the §11.4.32 sweep's step-1
+# rc handling; and, on 2026-08-31, this file — a `local a="$1" b="${a}/x"`
+# unbound-variable abort exited 1 mid-run and read as "governance violation").
+#
+# `trap ... ERR` is NOT usable here: without `-e` the ERR trap still fires on
+# every non-zero simple command, and this script legitimately runs `grep` for
+# absence dozens of times. The decidable signal is instead: exited 1 WITHOUT
+# having emitted a verdict line. Every deliberate rc=1 path sets the flag first;
+# every deliberate rc=2 path is already the honest code and passes through.
+_verdict_emitted=0
+_sandbox_to_clean=""
+_on_exit() {
+    local rc=$?
+    trap - EXIT INT TERM
+    # Sandbox cleanup lives HERE rather than in a second EXIT trap, because a
+    # second `trap ... EXIT` would REPLACE this one and silently disarm the
+    # fault mapping for the whole of --prove-failure.
+    [ -n "$_sandbox_to_clean" ] && rm -rf "$_sandbox_to_clean"
+    if [ "$rc" -eq 1 ] && [ "$_verdict_emitted" -eq 0 ]; then
+        echo "${GATE}: INTERNAL-FAULT — aborted with status 1 before emitting any verdict." >&2
+        echo "${GATE}: an instrument that crashes MUST NOT accuse the tree (§11.4.201(1))." >&2
+        echo "${GATE}: re-mapped to rc=2 COULD NOT VERIFY — this is NOT a violation verdict." >&2
+        exit 2
+    fi
+    exit "$rc"
+}
+trap '_on_exit' EXIT INT TERM
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
@@ -186,23 +233,68 @@ done
 root="$(cd "$root" && pwd)"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DATA — the fleet roster. §11.4.35 classification: universal rule, project
-# literals supplied by the consumer as DATA. Sources, all verifiable:
-#   owned            : `.gitmodules` urls under milos85vasic/ + vasic-digital/,
-#                      and the `deps:` list in helix-deps.yaml.
-#   governance source: `.gitmodules` -> HelixDevelopment/HelixConstitution.
-#                      This is the HEAD of the cascade, not a consumer of it.
-#   third-party      : `.gitmodules` -> WangX0111/superspec — outside every
-#                      operator-listed org, recorded as such in the trailing
-#                      comment block of helix-deps.yaml.
-#   nested 3rd-party : milosvasic.ru/.gitmodules -> red-elf/Upstreamable.
-# C1/C7 FAIL on any submodule path NOT in one of these lists, so the roster
-# cannot silently go stale: a new gitlink is a FAIL until it is classified here.
+# THE FLEET ROSTER IS DERIVED, NOT DECLARED.
+#
+# It used to be four literals:
+#     OWNED_ROOTS="ai_interviewing design-toolkit milosvasic.ru monetization vasic.digital"
+#     GOVERNANCE_ROOT="submodules/constitution"
+#     THIRD_PARTY_ROOTS="submodules/superspec"
+#     NESTED_THIRD_PARTY="milosvasic.ru/Upstreamable"
+# — a list that had to be hand-edited every time the fleet changed. On
+# 2026-08-28 commit e22d6b1 added the `workshop` submodule and the verifier
+# FAILed C1 for a reason that was not a cascade defect at all: the ROSTER had
+# gone stale, not the tree. That is a frozen assumption, and the operator's
+# standing directive is explicit — "Make sure all this is fully dynamic and
+# adaptable based on the environment!"
+#
+# So classification is now DERIVED from evidence the repository already keeps,
+# by the same discipline `scripts/verify-provider-ci.sh` uses for ownership
+# (its parse_remote_url + OWNED_NS block: derive from the tree's own remotes and
+# from provider identity, "never from a name list"):
+#
+#   GOVERNANCE  the declared submodule that SUPPLIES the canonical §11.4.35
+#               pointer predicate `scripts/gates/lib/pointer_carrier.sh`.
+#               Structural, not nominal: whichever submodule C3 reuses BY
+#               REFERENCE (§11.4.28 / §11.4.177) IS the head of the cascade.
+#   OWNED       a submodule whose remote NAMESPACE (host/owner, parsed from the
+#               `.gitmodules` url) is an OWNED namespace. A namespace is owned
+#               on either of two independent evidences:
+#                 E1 tree-shared    — it hosts >= 2 declared submodules of this
+#                                     tree (verify-provider-ci.sh's
+#                                     `tree-shared` evidence class);
+#                 E2 manifest-named — it is the namespace of a `deps[].ssh_url`
+#                                     in helix-deps.yaml (§11.4.31).
+#   THIRD-PARTY a submodule recorded BY NAME in helix-deps.yaml's trailing
+#               third-party exclusion block (§4 / §11.4.156(C)).
+#   UNCLASSIFIED anything else — C1 FAILs.
+#
+# C1 KEEPS ITS TEETH. This is the point of the design, and it is checked by the
+# §1.1 mutation M5: a gitlink from an unknown namespace (one submodule, absent
+# from deps[], undocumented as third-party) is UNCLASSIFIED and FAILs, exactly
+# as it did under the literal roster. What changed is that a submodule from a
+# namespace this tree DEMONSTRABLY owns classifies itself — no hand edit, and
+# no window in which a real cascade gap hides behind a stale-roster FAIL.
+#
+# What the derivation does NOT do, stated plainly (§11.4.6): it cannot decide
+# ownership of a brand-new namespace holding exactly ONE submodule that is not
+# yet in helix-deps.yaml. That case is UNCLASSIFIED — a FAIL, not a guess — and
+# is cleared by recording the submodule in helix-deps.yaml (as a dep if it is
+# ours, in the exclusion block if it is not). The manifest is the operator's
+# declaration; this verifier reads it, it never invents one.
+#
+# The old C1 "roster names submodule(s) .gitmodules no longer declares" half is
+# not lost, it MOVED: a derived roster cannot name a phantom. The same property
+# is now checked by C6 (deps[] naming an undeclared submodule) and by C4 (an
+# exclusion naming an undeclared gitlink) — once each, never double-counted.
 # ─────────────────────────────────────────────────────────────────────────────
-OWNED_ROOTS="ai_interviewing design-toolkit milosvasic.ru monetization vasic.digital"
-GOVERNANCE_ROOT="submodules/constitution"
-THIRD_PARTY_ROOTS="submodules/superspec"
-NESTED_THIRD_PARTY="milosvasic.ru/Upstreamable"
+GOVERNANCE_ROOT=""          # derived: derive_governance_root
+GOVERNANCE_ROOT_EVIDENCE=""
+OWNED_ROOTS=""              # derived: derive_fleet
+THIRD_PARTY_ROOTS=""        # derived: derive_fleet
+UNCLASSIFIED_ROOTS=""       # derived: derive_fleet
+OWNED_NAMESPACES=""         # derived: derive_fleet
+NAMESPACE_EVIDENCE=""       # derived: derive_fleet (one "ns=evidence" per line)
+FLEET_URLS=""               # derived: derive_fleet ("path<TAB>url" per line)
 
 CARRIERS_AGENT="AGENTS.md CLAUDE.md QWEN.md GEMINI.md"
 ROOT_CARRIERS="AGENTS.md CLAUDE.md QWEN.md GEMINI.md Constitution.md"
@@ -220,18 +312,6 @@ KNOWN_UNCLEARABLE="milosvasic.ru/Upstreamable/AGENTS.md|red-elf/Upstreamable (ne
 milosvasic.ru/Upstreamable/CLAUDE.md|red-elf/Upstreamable (nested gitlink of milosvasic.ru)
 submodules/superspec/examples/static-landing-page/CLAUDE.md|WangX0111/superspec (third-party submodule)
 .specify/extensions/superspec/examples/static-landing-page/CLAUDE.md|WangX0111/superspec (vendored spec-kit extension copy)"
-
-# The INSTRUMENT always comes from the REAL submodule — only the SPECIMEN is
-# ever a copy. Resolving the predicate relative to $root would let a mutated
-# sandbox supply its own (possibly mutated) predicate, which is circular.
-PC_LIB="${REPO_ROOT}/${GOVERNANCE_ROOT}/scripts/gates/lib/pointer_carrier.sh"
-if [ ! -r "$PC_LIB" ]; then
-    echo "${GATE}: ENV — canonical pointer predicate not readable at ${PC_LIB}" >&2
-    echo "${GATE}: cannot verify. fix: git submodule update --init ${GOVERNANCE_ROOT}" >&2
-    exit 2
-fi
-# shellcheck source=/dev/null
-. "$PC_LIB"
 
 pass=0; fail=0; envf=0; note=0
 
@@ -282,6 +362,177 @@ helix_excluded_paths() {
     sed -nE 's/^#[[:space:]]+([^[:space:]]+)[[:space:]]+->[[:space:]]+git@.*/\1/p' "$1"
 }
 
+# helix_dep_urls <file> — echoes every `deps[].ssh_url` value. Used only to
+# derive OWNED NAMESPACES (evidence E2), never to derive a path.
+helix_dep_urls() {
+    sed -nE 's/^[[:space:]]*ssh_url:[[:space:]]*([^[:space:]#]+).*/\1/p' "$1"
+}
+
+# gitmodules_entries <file> — echoes "path<TAB>url" for every declared
+# submodule. The path-only view (gitmodules_paths) cannot answer an ownership
+# question; the url is where the namespace lives.
+gitmodules_entries() {
+    awk '
+        function trim(v) { gsub(/^[[:space:]]+/, "", v); gsub(/[[:space:]]+$/, "", v); return v }
+        /^[[:space:]]*\[submodule/            { p = ""; u = ""; next }
+        /^[[:space:]]*path[[:space:]]*=/      { p = trim(substr($0, index($0, "=") + 1)) }
+        /^[[:space:]]*url[[:space:]]*=/       { u = trim(substr($0, index($0, "=") + 1)) }
+        { if (p != "" && u != "") { print p "\t" u; p = ""; u = "" } }
+    ' "$1"
+}
+
+# url_namespace <url> — echoes "host/owner", lowercased, for the git URL forms
+# this fleet uses (scp-like `git@host:owner/repo.git`, `ssh://…`, `https://…`).
+# Deliberately the same decomposition scripts/verify-provider-ci.sh performs in
+# its parse_remote_url, so "who owns this" is answered identically by both
+# verifiers rather than by two divergent parsers.
+url_namespace() {
+    local url="$1" rest host path
+    case "$url" in
+        *://*) rest="${url#*://}"; rest="${rest#*@}"
+               host="${rest%%/*}"; path="${rest#*/}" ;;
+        *@*:*) rest="${url#*@}"
+               host="${rest%%:*}"; path="${rest#*:}" ;;
+        *:*/*) host="${url%%:*}";  path="${url#*:}" ;;
+        *)     return 1 ;;
+    esac
+    host="${host%%:*}"; path="${path#/}"
+    [ -n "$host" ] && [ -n "$path" ] || return 1
+    printf '%s/%s\n' "$(printf '%s' "$host" | tr 'A-Z' 'a-z')" \
+                     "$(printf '%s' "${path%%/*}" | tr 'A-Z' 'a-z')"
+}
+
+# derive_governance_root <tree> — echoes the .gitmodules path of the submodule
+# that SUPPLIES the canonical pointer predicate. Structural, never nominal.
+#   rc 0  exactly one candidate (echoed)
+#   rc 1  no candidate (submodule absent / not initialised)
+#   rc 2  MORE THAN ONE candidate — ambiguous instrument, never guessed
+derive_governance_root() {
+    local tree="$1" gm="$1/.gitmodules" p hits="" n=0
+    [ -r "$gm" ] || return 1
+    while IFS= read -r p; do
+        [ -n "$p" ] || continue
+        [ -r "${tree}/${p}/scripts/gates/lib/pointer_carrier.sh" ] || continue
+        hits="${hits} ${p}"; n=$((n + 1))
+    done <<< "$(gitmodules_paths "$gm")"
+    [ "$n" -eq 0 ] && return 1
+    if [ "$n" -gt 1 ]; then
+        echo "${GATE}: ENV — more than one declared submodule supplies the pointer predicate:${hits}" >&2
+        return 2
+    fi
+    printf '%s\n' "${hits# }"
+    return 0
+}
+
+# derive_fleet <tree> — classifies every declared submodule of <tree> from
+# evidence, filling OWNED_ROOTS / THIRD_PARTY_ROOTS / UNCLASSIFIED_ROOTS /
+# OWNED_NAMESPACES / NAMESPACE_EVIDENCE / FLEET_URLS. Read-only; no git command.
+derive_fleet() {
+    # Split across statements deliberately: inside ONE `local`, every RHS is
+    # expanded before any name is declared, so `gm="${tree}/…"` would read an
+    # unbound `tree` under `set -u`.
+    local tree="$1"
+    local gm="${tree}/.gitmodules" hd="${tree}/helix-deps.yaml"
+    local line p u ns d ndecl excl url
+    OWNED_ROOTS=""; THIRD_PARTY_ROOTS=""; UNCLASSIFIED_ROOTS=""
+    OWNED_NAMESPACES=""; NAMESPACE_EVIDENCE=""; FLEET_URLS=""
+    [ -r "$gm" ] || return 1
+
+    # Root-level (path,url) pairs, plus the nested pairs C7 needs.
+    FLEET_URLS="$(gitmodules_entries "$gm")"
+    while IFS= read -r p; do
+        [ -n "$p" ] || continue
+        [ -r "${tree}/${p}/.gitmodules" ] || continue
+        while IFS=$'\t' read -r d url; do
+            [ -n "$d" ] || continue
+            FLEET_URLS="${FLEET_URLS}"$'\n'"${p}/${d}"$'\t'"${url}"
+        done <<< "$(gitmodules_entries "${tree}/${p}/.gitmodules")"
+    done <<< "$(gitmodules_paths "$gm")"
+
+    # ── E1 tree-shared: a namespace hosting >= 2 declared submodules ─────────
+    while IFS= read -r ns; do
+        [ -n "$ns" ] || continue
+        ndecl="$(gitmodules_entries "$gm" | cut -f2 | while IFS= read -r u; do
+                     url_namespace "$u" || true; done | grep -cxF "$ns")"
+        if [ "$ndecl" -ge 2 ] && ! in_list "$ns" "$OWNED_NAMESPACES"; then
+            OWNED_NAMESPACES="${OWNED_NAMESPACES} ${ns}"
+            NAMESPACE_EVIDENCE="${NAMESPACE_EVIDENCE}${ns}=tree-shared(${ndecl} declared submodules)"$'\n'
+        fi
+    done <<< "$(gitmodules_entries "$gm" | cut -f2 | while IFS= read -r u; do url_namespace "$u" || true; done | sort -u)"
+
+    # ── E2 manifest-named: the namespace of a helix-deps.yaml deps[].ssh_url ──
+    if [ -r "$hd" ]; then
+        while IFS= read -r u; do
+            [ -n "$u" ] || continue
+            ns="$(url_namespace "$u")" || continue
+            in_list "$ns" "$OWNED_NAMESPACES" && continue
+            OWNED_NAMESPACES="${OWNED_NAMESPACES} ${ns}"
+            NAMESPACE_EVIDENCE="${NAMESPACE_EVIDENCE}${ns}=helix-deps.yaml deps[].ssh_url"$'\n'
+        done <<< "$(helix_dep_urls "$hd")"
+    fi
+
+    # ── classify every ROOT-level declared submodule ─────────────────────────
+    excl=""
+    [ -r "$hd" ] && excl="$(helix_excluded_paths "$hd")"
+    while IFS=$'\t' read -r p u; do
+        [ -n "$p" ] || continue
+        if [ "$p" = "$GOVERNANCE_ROOT" ]; then continue; fi
+        ns="$(url_namespace "$u")" || ns=""
+        if [ -n "$ns" ] && in_list "$ns" "$OWNED_NAMESPACES"; then
+            OWNED_ROOTS="${OWNED_ROOTS} ${p}"
+        elif printf '%s\n' "$excl" | grep -qxF "$p"; then
+            THIRD_PARTY_ROOTS="${THIRD_PARTY_ROOTS} ${p}"
+        else
+            UNCLASSIFIED_ROOTS="${UNCLASSIFIED_ROOTS} ${p}"
+        fi
+    done <<< "$(gitmodules_entries "$gm")"
+
+    # Stable ordering so the report reads the same on every run. An empty list
+    # stays empty — `printf` on nothing would otherwise mint a blank member.
+    [ -n "${OWNED_ROOTS// /}" ] && OWNED_ROOTS="$(printf '%s\n' $OWNED_ROOTS | sort | tr '\n' ' ')"
+    OWNED_ROOTS="${OWNED_ROOTS#"${OWNED_ROOTS%%[![:space:]]*}"}"; OWNED_ROOTS="${OWNED_ROOTS%"${OWNED_ROOTS##*[![:space:]]}"}"
+    [ -n "${THIRD_PARTY_ROOTS// /}" ] && THIRD_PARTY_ROOTS="$(printf '%s\n' $THIRD_PARTY_ROOTS | sort | tr '\n' ' ')"
+    THIRD_PARTY_ROOTS="${THIRD_PARTY_ROOTS#"${THIRD_PARTY_ROOTS%%[![:space:]]*}"}"; THIRD_PARTY_ROOTS="${THIRD_PARTY_ROOTS%"${THIRD_PARTY_ROOTS##*[![:space:]]}"}"
+    return 0
+}
+
+# fleet_url <path> — echoes the declared url for a root or nested gitlink path.
+fleet_url() {
+    printf '%s\n' "$FLEET_URLS" | awk -F'\t' -v p="$1" '$1==p{print $2; exit}'
+}
+
+# ── Resolve the governance source, then the predicate it supplies ────────────
+# The SPECIMEN is preferred: a checkout given via --root describes its own
+# layout. The REAL tree is the fallback, because --prove-failure's sandbox is a
+# partial COPY that deliberately does not carry the gate library. An AMBIGUOUS
+# specimen is never silently replaced by the real tree's answer (rc 2).
+GOVERNANCE_ROOT="$(derive_governance_root "$root")"; _grc=$?
+if [ "$_grc" -eq 0 ]; then
+    GOVERNANCE_ROOT_EVIDENCE="derived from the target tree: it supplies scripts/gates/lib/pointer_carrier.sh"
+elif [ "$_grc" -eq 2 ]; then
+    echo "${GATE}: cannot verify — the governance source is ambiguous in '${root}'" >&2
+    exit 2
+else
+    GOVERNANCE_ROOT="$(derive_governance_root "$REPO_ROOT")" || {
+        echo "${GATE}: ENV — no declared submodule supplies scripts/gates/lib/pointer_carrier.sh" >&2
+        echo "${GATE}: cannot verify. fix: git submodule update --init --recursive" >&2
+        exit 2
+    }
+    GOVERNANCE_ROOT_EVIDENCE="derived from ${REPO_ROOT} (the target tree carries no gate library — expected for a --prove-failure sandbox)"
+fi
+
+# The INSTRUMENT always comes from the REAL submodule — only the SPECIMEN is
+# ever a copy. Resolving the predicate relative to $root would let a mutated
+# sandbox supply its own (possibly mutated) predicate, which is circular.
+PC_LIB="${REPO_ROOT}/${GOVERNANCE_ROOT}/scripts/gates/lib/pointer_carrier.sh"
+if [ ! -r "$PC_LIB" ]; then
+    echo "${GATE}: ENV — canonical pointer predicate not readable at ${PC_LIB}" >&2
+    echo "${GATE}: cannot verify. fix: git submodule update --init ${GOVERNANCE_ROOT}" >&2
+    exit 2
+fi
+# shellcheck source=/dev/null
+. "$PC_LIB"
+
 # ── C0 — the shared predicate is not blind ──────────────────────────────────
 c0_predicate() {
     local out rc
@@ -313,9 +564,9 @@ c_env_source() {
     return 0
 }
 
-# ── C1 — every declared submodule is classified ─────────────────────────────
+# ── C1 — every declared submodule is classified, from evidence ──────────────
 c1_fleet() {
-    local gm="${root}/.gitmodules" declared p unknown="" missing="" seen=""
+    local gm="${root}/.gitmodules" declared line ns
     if [ ! -r "$gm" ]; then
         env_ "C1 FLEET-CLASSIFIED — .gitmodules unreadable at ${gm}; the fleet cannot be enumerated"
         return 1
@@ -325,35 +576,30 @@ c1_fleet() {
         env_ "C1 FLEET-CLASSIFIED — .gitmodules declares zero submodule paths; nothing to verify (a blind instrument, §11.4.201(7)(b))"
         return 1
     fi
-    while IFS= read -r p; do
-        [ -n "$p" ] || continue
-        seen="${seen} ${p}"
-        if in_list "$p" "$OWNED_ROOTS" || [ "$p" = "$GOVERNANCE_ROOT" ] || in_list "$p" "$THIRD_PARTY_ROOTS"; then
-            continue
-        fi
-        unknown="${unknown} ${p}"
-    done <<< "$declared"
 
-    for p in $OWNED_ROOTS $GOVERNANCE_ROOT $THIRD_PARTY_ROOTS; do
-        in_list "$p" "$seen" || missing="${missing} ${p}"
-    done
+    # Print the derived evidence BEFORE the verdict. A classification whose
+    # basis is not shown is indistinguishable from a hardcoded list (§11.4.6).
+    inf "C1 · governance source — ${GOVERNANCE_ROOT} (${GOVERNANCE_ROOT_EVIDENCE})"
+    while IFS= read -r line; do
+        [ -n "$line" ] || continue
+        inf "C1 · owned namespace — ${line%%=*}  [evidence: ${line#*=}]"
+    done <<< "$NAMESPACE_EVIDENCE"
 
-    local bad_any=0
-    if [ -n "$unknown" ]; then
-        bad "C1 FLEET-CLASSIFIED — .gitmodules declares submodule(s) this verifier's roster does not classify:${unknown}"
-        echo "         fix: classify each in scripts/verify-governance-cascade.sh (OWNED_ROOTS / THIRD_PARTY_ROOTS)"
-        echo "              and record it in helix-deps.yaml. An unclassified submodule is a cascade"
-        echo "              gap of unknown size (§11.4.26 step 6)."
-        bad_any=1
+    if [ -n "$UNCLASSIFIED_ROOTS" ]; then
+        bad "C1 FLEET-CLASSIFIED — .gitmodules declares submodule(s) no ownership evidence classifies:${UNCLASSIFIED_ROOTS}"
+        for line in $UNCLASSIFIED_ROOTS; do
+            ns="$(url_namespace "$(fleet_url "$line")")" || ns="<unparseable url>"
+            echo "         ${line}  namespace ${ns} — hosts only 1 declared submodule and is absent from helix-deps.yaml"
+        done
+        echo "         fix: record it in helix-deps.yaml — a deps[] entry if it is ours (which also makes its"
+        echo "              namespace an owned namespace for every future submodule under it), or a line in the"
+        echo "              third-party exclusion comment block if it is not. Do NOT add a literal to this"
+        echo "              script: the roster is derived, and a hand-edited roster is the frozen assumption"
+        echo "              this design removed. An unclassified submodule is a cascade gap of unknown size"
+        echo "              (§11.4.26 step 6)."
+        return 1
     fi
-    if [ -n "$missing" ]; then
-        bad "C1 FLEET-CLASSIFIED — roster names submodule(s) .gitmodules no longer declares:${missing}"
-        echo "         fix: governance is tracking a fleet that does not exist — drop the entry from the"
-        echo "              roster and from helix-deps.yaml, or restore the .gitmodules declaration."
-        bad_any=1
-    fi
-    [ "$bad_any" -eq 0 ] || return 1
-    ok "C1 FLEET-CLASSIFIED — all $(printf '%s\n' "$declared" | grep -c .) declared submodule(s) classified: $(printf '%s' "$OWNED_ROOTS" | wc -w) owned, 1 governance source, $(printf '%s' "$THIRD_PARTY_ROOTS" | wc -w) third-party"
+    ok "C1 FLEET-CLASSIFIED — all $(printf '%s\n' "$declared" | grep -c .) declared submodule(s) classified FROM EVIDENCE: $(printf '%s' "$OWNED_ROOTS" | wc -w) owned, 1 governance source, $(printf '%s' "$THIRD_PARTY_ROOTS" | wc -w) third-party (no hardcoded roster)"
     return 0
 }
 
@@ -409,23 +655,54 @@ c23_owned_carriers() {
 
 # ── C4 — third-party exclusion is deliberate and documented ─────────────────
 c4_third_party() {
-    local hd="${root}/helix-deps.yaml" excluded p undocumented="" rc=0
+    local hd="${root}/helix-deps.yaml" excluded p rc=0
     if [ ! -r "$hd" ]; then
         env_ "C4 THIRD-PARTY-EXCLUDED — helix-deps.yaml unreadable at ${hd}; cannot confirm the exclusions are documented"
         return 1
     fi
     excluded="$(helix_excluded_paths "$hd")"
-    for p in $THIRD_PARTY_ROOTS $NESTED_THIRD_PARTY; do
-        printf '%s\n' "$excluded" | grep -qxF "$p" || undocumented="${undocumented} ${p}"
-    done
-    if [ -n "$undocumented" ]; then
-        bad "C4 THIRD-PARTY-EXCLUDED — third-party gitlink(s) excluded from the cascade but NOT recorded in helix-deps.yaml:${undocumented}"
-        echo "         fix: an undocumented exclusion is indistinguishable from an oversight. Record each in"
-        echo "              helix-deps.yaml's third-party comment block (§4: third-party submodules are out"
-        echo "              of scope; §11.4.6: say so, do not leave it implied)."
+    # The FORWARD direction ("a third-party root is documented") is true by
+    # construction now that the classification READS the exclusion block — a
+    # check of it would be a tautology, and a tautological gate is a §11.4.201
+    # bluff. So C4 checks the two CONVERSE properties the derivation cannot
+    # make true by itself:
+    #   (i)  no PHANTOM exclusion — every documented exclusion names a gitlink
+    #        that some .gitmodules in this tree actually declares. This is where
+    #        the old C1 "roster names a submodule .gitmodules no longer
+    #        declares" half now lives for the third-party set (C6 carries it
+    #        for the deps[] set).
+    #   (ii) no SELF-EXCLUSION — a documented exclusion whose namespace this
+    #        tree demonstrably OWNS is a contradiction: it would drop one of our
+    #        own repositories out of C2/C3 silently, which is exactly the
+    #        cascade gap §11.4.26 step 6 forbids.
+    local phantom="" selfexcl="" u ns
+    while IFS= read -r p; do
+        [ -n "$p" ] || continue
+        u="$(fleet_url "$p")"
+        if [ -z "$u" ]; then
+            phantom="${phantom} ${p}"
+            continue
+        fi
+        ns="$(url_namespace "$u")" || ns=""
+        if [ -n "$ns" ] && in_list "$ns" "$OWNED_NAMESPACES"; then
+            selfexcl="${selfexcl} ${p}(${ns})"
+        fi
+    done <<< "$excluded"
+    if [ -n "$phantom" ]; then
+        bad "C4 THIRD-PARTY-EXCLUDED — helix-deps.yaml excludes gitlink(s) no .gitmodules in this tree declares:${phantom}"
+        echo "         fix: governance is excluding a fleet member that does not exist. Drop the stale"
+        echo "              exclusion line, or restore the .gitmodules declaration (§11.4.31 / §11.4.6)."
         rc=1
-    else
-        ok "C4 THIRD-PARTY-EXCLUDED — $(printf '%s' "$THIRD_PARTY_ROOTS $NESTED_THIRD_PARTY" | wc -w) third-party gitlink(s) excluded BY NAME and documented in helix-deps.yaml (§4 / §11.4.156(C))"
+    fi
+    if [ -n "$selfexcl" ]; then
+        bad "C4 THIRD-PARTY-EXCLUDED — gitlink(s) documented as third-party but sitting in a namespace this tree OWNS:${selfexcl}"
+        echo "         fix: an owned repository excluded from the cascade never gets checked for the four"
+        echo "              carriers, so the gap is invisible. Either remove the exclusion (and let C2/C3"
+        echo "              cover it) or explain why the namespace is not ours (§4 / §11.4.28(A))."
+        rc=1
+    fi
+    if [ "$rc" -eq 0 ]; then
+        ok "C4 THIRD-PARTY-EXCLUDED — $(printf '%s\n' "$excluded" | grep -c .) documented exclusion(s), each naming a really-declared gitlink outside every owned namespace (§4 / §11.4.156(C))"
     fi
     # Exclusion must be a decision, not blindness: state what was skipped and why.
     for p in $THIRD_PARTY_ROOTS; do
@@ -518,7 +795,9 @@ c6_manifest_sync() {
 
 # ── C7 — recursion into owned submodules' own gitlinks (CONST-047) ──────────
 c7_recursion() {
-    local d gm p unknown="" found=0
+    local d gm hd="${root}/helix-deps.yaml" excluded="" p u ns
+    local unknown="" ownnest="" found=0
+    [ -r "$hd" ] && excluded="$(helix_excluded_paths "$hd")"
     for d in $OWNED_ROOTS; do
         gm="${root}/${d}/.gitmodules"
         [ -f "$gm" ] || continue
@@ -526,24 +805,41 @@ c7_recursion() {
             env_ "C7 RECURSION — ${d}/.gitmodules present but unreadable"
             continue
         fi
-        while IFS= read -r p; do
+        while IFS=$'\t' read -r p u; do
             [ -n "$p" ] || continue
             found=$((found+1))
-            if in_list "${d}/${p}" "$NESTED_THIRD_PARTY" || in_list "${d}/${p}" "$OWNED_ROOTS"; then
-                inf "C7 · ${d}/${p} — nested gitlink, classified third-party; excluded from the cascade by name"
+            ns="$(url_namespace "$u")" || ns=""
+            if [ -n "$ns" ] && in_list "$ns" "$OWNED_NAMESPACES"; then
+                # §11.4.28(C): nested OWN-ORG submodule chains are FORBIDDEN.
+                # Documenting one as an exclusion would not make it legal, so
+                # this branch is checked BEFORE the exclusion branch.
+                ownnest="${ownnest} ${d}/${p}(${ns})"
+                continue
+            fi
+            if printf '%s\n' "$excluded" | grep -qxF "${d}/${p}"; then
+                inf "C7 · ${d}/${p} — nested gitlink in namespace ${ns:-<unparseable>}; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade"
                 continue
             fi
             unknown="${unknown} ${d}/${p}"
-        done <<< "$(gitmodules_paths "$gm")"
+        done <<< "$(gitmodules_entries "$gm")"
     done
-    if [ -n "$unknown" ]; then
-        bad "C7 RECURSION — nested gitlink(s) this verifier's roster does not classify:${unknown}"
-        echo "         fix: classify each in NESTED_THIRD_PARTY (or OWNED_ROOTS if it is ours and must carry"
-        echo "              the four carriers). CONST-047 / §11.4.32 make the cascade recursive, so an"
-        echo "              unclassified nested gitlink is an unmeasured part of the fleet."
-        return 1
+    local rc=0
+    if [ -n "$ownnest" ]; then
+        bad "C7 RECURSION — nested gitlink(s) in a namespace this tree OWNS — a forbidden own-org chain:${ownnest}"
+        echo "         fix: §11.4.28(C) forbids an owned submodule nesting a further own-org submodule. Hoist"
+        echo "              it to the project root (<root>/<name>/ or <root>/submodules/<name>/) and declare"
+        echo "              it in the root .gitmodules + helix-deps.yaml, so it is reached by C2/C3."
+        rc=1
     fi
-    ok "C7 RECURSION — ${found} nested gitlink(s) under the $(printf '%s' "$OWNED_ROOTS" | wc -w) owned submodules, all classified (CONST-047 recursive scope)"
+    if [ -n "$unknown" ]; then
+        bad "C7 RECURSION — nested gitlink(s) neither owned nor documented as third-party:${unknown}"
+        echo "         fix: record each in helix-deps.yaml's third-party exclusion comment block. CONST-047 /"
+        echo "              §11.4.32 make the cascade recursive, so an unclassified nested gitlink is an"
+        echo "              unmeasured part of the fleet."
+        rc=1
+    fi
+    [ "$rc" -eq 0 ] || return 1
+    ok "C7 RECURSION — ${found} nested gitlink(s) under the $(printf '%s' "$OWNED_ROOTS" | wc -w) owned submodules, all classified from evidence (CONST-047 recursive scope)"
     return 0
 }
 
@@ -581,6 +877,13 @@ run_checks() {
         echo "  §11.4.32 step 1 · predicate reused by reference from ${GOVERNANCE_ROOT}/scripts/gates/lib/pointer_carrier.sh"
         echo "----------------------------------------------------------------------"
     }
+    if ! derive_fleet "$root"; then
+        env_ "FLEET-DERIVATION — .gitmodules unreadable at ${root}/.gitmodules; the fleet cannot be classified"
+        echo "----------------------------------------------------------------------"
+        echo "${GATE}: ${pass} PASS, ${fail} FAIL, ${envf} ENV, ${note} NOTE  (root ${root})"
+        echo "⚠ ${GATE}: COULD NOT VERIFY — the fleet roster could not be derived; rc=2, NOT a violation verdict"
+        return 2
+    fi
     c0_predicate
     c_env_source
     c1_fleet
@@ -593,6 +896,7 @@ run_checks() {
 
     echo "----------------------------------------------------------------------"
     echo "${GATE}: ${pass} PASS, ${fail} FAIL, ${envf} ENV, ${note} NOTE  (root ${root})"
+    _verdict_emitted=1     # past this line an rc=1 is a real verdict, not a crash
     if [ "$envf" -gt 0 ]; then
         echo "⚠ ${GATE}: COULD NOT VERIFY — ${envf} environment/instrument problem(s); rc=2, NOT a violation verdict"
         return 2
@@ -644,10 +948,64 @@ build_sandbox() {
 prove_failure() {
     local sandbox pristine rc mut_fails=0
 
-    sandbox="$(mktemp -d)" || { echo "${GATE}: ENV — mktemp -d failed" >&2; exit 2; }
-    trap 'rm -rf "$sandbox"' EXIT INT TERM
-
     echo "${GATE} §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+
+    # ── PRE-FLIGHT: the REAL entry point, on the REAL tree — FIRST, always ────
+    # A proof that only ever exercises sandboxed COPIES can go green over a
+    # verifier that cannot even START. That is not hypothetical: on 2026-08-31 a
+    # `local a="$1" b="${a}/x"` unbound-variable abort killed every live run of
+    # this file while this proof still reported PASS, because build_sandbox and
+    # the mutations never reached the crashing derivation path.
+    #
+    # It runs BEFORE anything else this function does — before derive_fleet,
+    # before mktemp — because every one of those steps executes the very code
+    # the pre-flight exists to vet. A pre-flight placed after them crashes with
+    # them and never reports (measured: it exited 2 with no PRE-FLIGHT line).
+    #
+    # Two distinct failure causes are reported distinctly, so a dirty tree can
+    # never be misread as "the gate is a sham" (§11.4.201(1)):
+    #   INSTRUMENT  a crash marker on stderr, or an exit code outside the
+    #               documented 0/1/2 contract  -> the proof itself is void.
+    #   TREE        the instrument ran and returned a real non-zero verdict
+    #               -> named as a tree state, with the live run printed.
+    local live_out live_rc
+    live_out="$(bash "$0" --root "$REPO_ROOT" 2>&1)"; live_rc=$?
+    if printf '%s' "$live_out" | grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near'; then
+        echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: the real entry point aborted on the real tree"
+        echo "                        -> this proof is VOID; a verifier that cannot start proves nothing (§11.4.201(7)(b))"
+        printf '%s\n' "$live_out" | sed 's/^/        /'
+        return 1
+    fi
+    case "$live_rc" in
+        0) echo "✅ PRE-FLIGHT live-run   — real entry point, real tree, rc=0 (instrument runs; tree clean)" ;;
+        1) echo "❌ PRE-FLIGHT live-run   — TREE STATE: the instrument RAN correctly and returned rc=1, a REAL cascade violation"
+           echo "                        -> the gate is NOT a sham; fix the violation below, then re-run this proof"
+           printf '%s\n' "$live_out" | sed 's/^/        /'
+           return 1 ;;
+        2) echo "❌ PRE-FLIGHT live-run   — TREE STATE: the instrument returned rc=2, COULD NOT VERIFY"
+           echo "                        -> an environment/instrument problem, honestly reported; resolve it, then re-run"
+           printf '%s\n' "$live_out" | sed 's/^/        /'
+           return 1 ;;
+        *) echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: undocumented exit code ${live_rc}; the contract is 0/1/2 only"
+           printf '%s\n' "$live_out" | sed 's/^/        /'
+           return 1 ;;
+    esac
+
+    # build_sandbox copies per-owned-submodule carriers, so the roster has to be
+    # derived from the REAL tree before the sandbox exists. Each sandbox run
+    # then re-derives its own roster from its own (possibly mutated) copy.
+    if ! derive_fleet "$REPO_ROOT"; then
+        echo "${GATE}: ENV — could not derive the fleet roster from ${REPO_ROOT}" >&2
+        exit 2
+    fi
+
+    sandbox="$(mktemp -d)" || { echo "${GATE}: ENV — mktemp -d failed" >&2; exit 2; }
+    # NOT a second `trap ... EXIT` — that would REPLACE the internal-fault trap
+    # installed at the top of this file and silently disarm it for the whole
+    # proof. The one EXIT handler cleans this up instead.
+    _sandbox_to_clean="$sandbox"
+
     echo "  sandbox: ${sandbox}"
     echo "  Every mutation below is applied to a THROWAWAY COPY. Neither this repository"
     echo "  nor any submodule working tree is written to, and no git command is run."
@@ -656,7 +1014,7 @@ prove_failure() {
     pristine="${sandbox}/pristine"
     if ! build_sandbox "$pristine"; then
         echo "${GATE}: ENV — could not build the sandbox copy" >&2
-        trap - EXIT INT TERM; rm -rf "$sandbox"; exit 2
+        rm -rf "$sandbox"; _sandbox_to_clean=""; exit 2
     fi
 
     # Golden-good control. Without it, "the mutations failed" proves nothing —
@@ -667,7 +1025,7 @@ prove_failure() {
     else
         echo "❌ CONTROL golden-good   — unmutated sandbox COPY returned rc=${rc}; the proof below would be meaningless"
         bash "$0" --root "$pristine" 2>&1 | sed 's/^/        /'
-        trap - EXIT INT TERM; rm -rf "$sandbox"
+        rm -rf "$sandbox"; _sandbox_to_clean=""
         return 1
     fi
 
@@ -720,7 +1078,7 @@ prove_failure() {
     mutate_and_assert "M5 fleet-member-unknown  " ".gitmodules gains an unclassified, unrecorded submodule             " 1 "C1+C6" m5
     mutate_and_assert "M6 source-missing (ENV)  " "submodules/constitution/Constitution.md removed — an INTERNAL fault " 2 "ENV" m6
 
-    trap - EXIT INT TERM; rm -rf "$sandbox"
+    rm -rf "$sandbox"; _sandbox_to_clean=""
     echo "----------------------------------------------------------------------"
     if [ "$mut_fails" -eq 0 ]; then
         echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — control passed, 5 violations were caught as rc=1,"
@@ -732,8 +1090,9 @@ prove_failure() {
 }
 
 if [ -n "$prove" ]; then
-    prove_failure
-    exit $?
+    prove_failure; _prc=$?
+    _verdict_emitted=1   # reaching here means the proof produced a real verdict
+    exit "$_prc"
 fi
 
 run_checks

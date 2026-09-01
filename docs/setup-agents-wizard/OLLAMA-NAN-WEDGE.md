@@ -682,9 +682,12 @@ Stated plainly, because the fix decision should not rest on any of these:
    **an observation, not a finding**.
 7. **Whether the wedge is recoverable without `ollama stop`** was not explored (no attempt to
    reset the Vulkan context in place). `ollama stop` is known to work and is cheap.
-8. **Concurrency was not tested as an independent variable.** `OLLAMA_NUM_PARALLEL=1` means
-   requests serialise anyway; contention changed latency 130x but no condition was run at
-   deliberately varied parallelism.
+8. **Concurrency was not tested as an independent variable.** This host was at
+   `OLLAMA_NUM_PARALLEL=1` on the day of the run, so requests serialised anyway; contention
+   changed latency 130x but no condition was run at deliberately varied parallelism. That
+   figure is a dated observation about one machine — `bash scripts/ollama-tune.sh` reads the
+   live value off the service and computes what this host's CPU/RAM/model facts justify, so
+   there is no longer any reason to carry the number in prose.
 9. **Newer ollama was not tested**, because no newer package exists in ALT Sisyphus and
    installing upstream out-of-band was out of scope. Whether 0.32/0.33 behaves differently on
    this iGPU is unknown — §6 suggests probably not.

@@ -426,15 +426,38 @@ says nothing about the vectors written last week.
 
 ---
 
+## Two delegates the wizard DOES call
+
+The four scripts above are invoked by hand. Two others are **called by the wizard**, because
+the question they answer is per-host or per-provider and must never be answered from a stored
+constant:
+
+| Script | Wizard step | Contract the wizard relies on |
+| :--- | :--- | :--- |
+| `scripts/ollama-tune.sh` | Step 7, `tune_ollama_step` | Default run = report only. **Three-valued exit, and the wizard preserves all three: `0` fine (nothing to apply), `1` a real problem / action required — i.e. there IS a recommendation — `2` could not determine.** `--print-commands` prints the exact commands **for this host** under the same contract; `--apply` applies them (and restarts ollama); `--revert` undoes them. Path override: `OLLAMA_TUNE_SCRIPT` |
+| `scripts/verify-provider-ci.sh` | Step 9, `verify_provider_ci_step` | Read-only. Exit **0** = no provider-generated triggering found, **1** = confirmed, **2** = could not determine. Path override: `PROVIDER_CI_SCRIPT` |
+
+`1` is the trap. It reads like failure and is not: it is the tuner saying *there is
+something to do*. An integration that maps every non-zero to "broken" throws the
+recommendation away and reports a host that needs tuning as one whose state is unknown. That
+bug existed in the first revision of Step 7, was caught by running it against the real script,
+and is now pinned by assertions `K23`–`K25`.
+
+**Neither is required for the wizard to run.** If the file is absent, or `ollama` / `gh` is
+absent, the wizard says so, records a manual step, and carries on. It never fills the gap with
+an example value: a concurrency figure that was not measured on *this* machine is worse than
+none, and a provider status that was not queried is `UNVERIFIED`, never a pass. That
+degradation path is asserted behaviourally by test group `K`, not by grepping for a filename.
+
 ## Relationship to the wizard and the rollback manifest
 
-`scripts/setup-agents-wizard.sh` never calls these scripts. When it detects `library=Vulkan` it
-adds an **ACTION REQUIRED** entry naming the remediation commands, and when it cannot confirm a
-usable index it adds one naming the reindex and doctor commands — see
+`scripts/setup-agents-wizard.sh` never calls the four scripts documented above. When it detects
+`library=Vulkan` it adds an **ACTION REQUIRED** entry naming the remediation commands, and when
+it cannot confirm a usable index it adds one naming the reindex and doctor commands — see
 [`ACTION-REQUIRED.md`](./ACTION-REQUIRED.md). `audit-hardcoded-paths.sh` is not referenced by
 the wizard at all; it is a repository gate, enforced by test group `J`.
 
-**None of these scripts writes to the wizard's rollback manifest.** They are outside that
+**None of those four writes to the wizard's rollback manifest.** They are outside that
 transaction, so `scripts/rollback-agents-wizard.sh` will not undo them:
 
 | Change | How to undo it |
@@ -443,6 +466,12 @@ transaction, so `scripts/rollback-agents-wizard.sh` will not undo them:
 | A rebuilt Lumen index | `lumen purge <path>`, then re-index |
 | `<project>/.lumen-reindex.log` | `rm` it; nothing reads it back |
 | *(nothing)* — `lumen-index-doctor.sh` and `audit-hardcoded-paths.sh` | Read-only by construction |
+
+The two delegates are the exception. `ollama-tune.sh` **is** inside the transaction whenever
+the wizard applied it: Step 7 writes an `ACTION` row carrying `<resolved path> --revert` plus a
+`NOTE` row stating that the service restart aborted whatever embedding requests were in flight
+and that `--revert` cannot bring those back. A report-only run writes neither row, because it
+changed nothing. `verify-provider-ci.sh` writes no rows at all — it only reads.
 
 ---
 

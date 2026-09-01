@@ -10,6 +10,10 @@
 #   CREATED  -> delete the file the wizard created
 #   ACTION   -> a non-file change; its undo command is printed, and executed
 #               only with --run-actions
+#   NOTE     -> a real side effect with NO undo (e.g. the embedding requests
+#               aborted when ollama was restarted). Printed as NOT UNDONE and
+#               never executed. It exists so this script cannot imply it
+#               reversed something it did not.
 #
 # Rolling back is itself reversible: whatever is on disk now is copied into a
 # pre-rollback snapshot before anything is touched, so no state is ever lost.
@@ -111,6 +115,8 @@ while IFS=$'\t' read -r component action target backup sha ts; do
         ACTION)   if [[ $RUN_ACTIONS -eq 1 ]]; then echo "  run      [$component] $target"
                   else echo "  manual   [$component] $target   (use --run-actions to execute)"; fi
                   planned=$((planned+1)) ;;
+        NOTE)     echo "  NOT UNDOABLE [$component] $target"
+                  planned=$((planned+1)) ;;
     esac
 done < "$MANIFEST"
 
@@ -129,7 +135,8 @@ mkdir -p "$PRE"
 print_info "Current state is being saved to $PRE"
 
 print_header "Applying rollback"
-ok=0; failed=0
+ok=0; failed=0; not_undone=0
+NOT_UNDONE_LINES=()
 while IFS=$'\t' read -r component action target backup sha ts; do
     [[ "$component" == "component" ]] && continue
     wanted "$component" || continue
@@ -154,18 +161,40 @@ while IFS=$'\t' read -r component action target backup sha ts; do
             fi ;;
         ACTION)
             if [[ $RUN_ACTIONS -eq 1 ]]; then
-                if eval "$target" >/dev/null 2>&1; then print_success "ran      [$component] $target"; ok=$((ok+1))
-                else print_warning "undo command failed (may already be undone): $target"; fi
+                arc=0; eval "$target" >/dev/null 2>&1 || arc=$?
+                if [[ $arc -eq 0 ]]; then
+                    print_success "ran      [$component] $target"; ok=$((ok+1))
+                else
+                    # NEVER "may already be undone". That phrasing let a change
+                    # that is still in place read as reversed. We ran the undo
+                    # command, it exited non-zero, so the undo did NOT complete
+                    # here - whether or not something else undid it earlier is
+                    # unknown, and unknown is reported as unknown.
+                    print_error "NOT UNDONE [$component] undo command exited $arc: $target"
+                    not_undone=$((not_undone+1))
+                    NOT_UNDONE_LINES+=("[$component] $target  (undo exited $arc)")
+                fi
             else
                 print_info "manual   [$component] $target"
             fi ;;
+        NOTE)
+            # No undo exists. Saying nothing here would let the summary imply a
+            # clean reversal.
+            print_warning "NOT UNDONE (no undo exists) [$component] $target"
+            not_undone=$((not_undone+1))
+            NOT_UNDONE_LINES+=("[$component] $target  (irreversible)") ;;
     esac
 done < "$MANIFEST"
 
 print_header "Rollback complete"
-print_info "restored/removed: $ok    failures: $failed"
+print_info "restored/removed: $ok    failures: $failed    NOT undone: $not_undone"
 print_info "Pre-rollback state kept at: $PRE"
 [[ $failed -eq 0 ]] || print_warning "Some entries failed - inspect $MANIFEST"
+if [[ $not_undone -gt 0 ]]; then
+    print_warning "$not_undone change(s) were NOT undone by this run:"
+    for l in "${NOT_UNDONE_LINES[@]}"; do echo "     $l"; done
+    print_warning "Do not record this rollback as a full reversal."
+fi
 echo
 print_info "Open a new shell for PATH changes to take effect."
 [[ $failed -eq 0 ]] && exit 0 || exit 1

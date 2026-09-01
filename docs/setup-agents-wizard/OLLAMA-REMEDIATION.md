@@ -71,9 +71,10 @@ Usage:
 The command was fine. The backend returned HTTP 500, Lumen surfaced the error and then printed
 its help — and the help is the last thing on screen, so it is the thing you read.
 
-**b. Searches hang, then time out.** `OLLAMA_NUM_PARALLEL=1` means one embedding request at a
-time. A request that is quietly waiting out a ~20 s GPU fence timeout blocks every other
-client behind it. Interactive search latency goes from ~0.3 s to tens of seconds, then to
+**b. Searches hang, then time out.** This host was measured at `OLLAMA_NUM_PARALLEL=1`, i.e.
+one embedding request at a time — check yours with `bash scripts/ollama-tune.sh`, which reads
+the value off the running service rather than assuming it. At a parallelism of 1, a request
+that is quietly waiting out a ~20 s GPU fence timeout blocks every other client behind it. Interactive search latency goes from ~0.3 s to tens of seconds, then to
 nothing.
 
 **c. Searches "work" but return nonsense, or return nothing for files you know exist.** This is
@@ -519,8 +520,12 @@ Be explicit about the boundaries, so nobody reports these back as "the fix did n
   distro. Upgrade for other reasons, on their own merits, after a tier is in place.
 - **Serialisation.** `json: unsupported value: NaN` is the Go encoder refusing to encode a NaN
   float. It is a symptom. There is nothing to fix in any JSON layer.
-- **Throughput.** `OLLAMA_NUM_PARALLEL=1` still serialises embeddings. CPU embeddings are
-  slower per request; on a large corpus that is hours, not minutes. Plan the reindex.
+- **Throughput.** At the parallelism this host was running (`1`), embeddings serialise no
+  matter which compute library is in use. CPU embeddings are slower per request; on a large
+  corpus that is hours, not minutes. Plan the reindex. Concurrency is a **separate** knob from
+  the Vulkan fix and has its own tool — `bash scripts/ollama-tune.sh` measures this host's
+  CPU/RAM/model facts and reports what its concurrency should be, `--apply` sets it. Do not
+  copy a number out of this document: it was measured on one machine.
 - **Other GPU workloads.** Tier 3 disables Vulkan for the whole daemon. If something else on
   this host needs iGPU acceleration through ollama, Tier 3 takes it away.
 
@@ -580,7 +585,13 @@ Full flag and exit-code reference for both:
 [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md).
 
 Budget for it. On CPU this is materially slower than the run that produced the bad data, and
-`OLLAMA_NUM_PARALLEL=1` means it cannot be parallelised by throwing more clients at it.
+at the parallelism this host was measured to run (`1`) it cannot be sped up by throwing more
+clients at it. Check what YOUR host is set to, and what it could be, before you assume:
+
+```bash
+bash scripts/ollama-tune.sh                  # detect + recommend, changes nothing
+bash scripts/ollama-tune.sh --print-commands # the exact commands for this host
+```
 
 If you took Tier 2 and want the orphaned GPU-model index gone as well:
 

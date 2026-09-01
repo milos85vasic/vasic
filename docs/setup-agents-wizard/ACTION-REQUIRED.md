@@ -89,7 +89,54 @@ directory would report the plugin as done the moment it was downloaded.
 
 In the order they are emitted. All conditions are re-evaluated on every run.
 
-### 1. Activate the ashlr plugin
+The first two are registered **during** the run — Step 7 and Step 9 — rather than in the
+drain block at the end, so they appear first in the list and first in `MANUAL-STEPS.md`.
+
+### 1. Apply the ollama concurrency setting computed for THIS host
+
+**When:** `scripts/ollama-tune.sh` produced commands and the wizard did not apply them —
+which is the default, and remains the case when `WIZARD_TUNE_OLLAMA` is unset, when an
+indexer is in flight, when the indexer state cannot be determined, when you decline at the
+prompt, or when an attempted `--apply` failed.
+
+The body is **the delegate's own `--print-commands` output for this machine**, followed by
+the opt-in and the undo:
+
+```
+<the exact commands ollama-tune.sh generated for this host>
+
+# Or let the wizard do it - it asks first and refuses while an indexer runs:
+#   WIZARD_TUNE_OLLAMA=1 ./scripts/setup-agents-wizard.sh
+# Undo at any time:
+#   ./scripts/ollama-tune.sh --revert
+#
+# WHY THIS IS NOT AUTOMATIC: applying RESTARTS the ollama service, which aborts
+# every in-flight embedding request. An index run in progress loses that work.
+```
+
+**No example is ever substituted.** If the tuner is absent, fails, or ollama is not there at
+all, the step still appears — but it says that nothing was measured and offers the tuner,
+rather than printing a plausible number the wizard did not compute. Test `K2b` asserts that
+the absent-tuner step contains no concurrency value at all, and `K5b` asserts that the normal
+step carries the token the delegate generated on this run.
+
+### 2. Provider-side CI triggering
+
+**When:** `scripts/verify-provider-ci.sh` exited `1` (confirmed), or the status could not be
+determined — exit `2`, a timeout, an unexpected status, a missing script, or a missing `gh`.
+
+Two distinct bodies, and they must not be confused:
+
+| Verifier said | Title | Body |
+| :--- | :--- | :--- |
+| **confirmed** (`1`) | `Provider-side CI triggering was CONFIRMED just now - operator-only to change` | The verifier's own findings, verbatim and timestamped, plus a reminder that no file in any of those repositories can turn them off — it is repo/org Settings → Actions, Pages, Branches |
+| **unknown** (`2`, timeout, other, absent script, absent `gh`) | `Provider-side CI status is UNVERIFIED …` | Why it could not reach a verdict, and the commands to find out (`gh auth status`, then the verifier) |
+
+A `0` raises **nothing** — that is the only case where silence is correct, because it is the
+only case where something was actually measured and came back clean. Test `K16c` asserts that
+an exit `2` never renders the `0` success line.
+
+### 3. Activate the ashlr plugin
 
 **When:** `plugins/cache/ashlr-marketplace/ashlr/` exists **and**
 `plugins/marketplaces/ashlr-marketplace/` does not.
@@ -103,7 +150,7 @@ In the order they are emitted. All conditions are re-evaluated on every run.
 
 See [ashlr is a plugin, not a binary](#ashlr-is-a-plugin-not-a-binary) below.
 
-### 2. Initialise the ashlr genome
+### 4. Initialise the ashlr genome
 
 **When:** the marketplace *is* registered (step 1 is done) **and**
 `<project-root>/.ashlrcode/genome/` does not exist.
@@ -114,7 +161,7 @@ See [ashlr is a plugin, not a binary](#ashlr-is-a-plugin-not-a-binary) below.
 
 Mutually exclusive with step 1 — it is the `elif` branch. You will never see both.
 
-### 3. Take the GPU out of the embedding path
+### 5. Take the GPU out of the embedding path
 
 **When:** `ollama` is on `PATH` **and** its journal, scanned from the service's
 `ActiveEnterTimestamp`, reports `library=Vulkan` (or `vulkan`).
@@ -134,7 +181,7 @@ per-vector check.*
 Both journal probes here are `timeout`-bounded (20 s and 10 s) so a hung `journalctl` or
 `systemctl` cannot stall the wizard.
 
-### 4. WOZCODE has no public installer
+### 6. WOZCODE has no public installer
 
 **When:** `wozcode` is not on `PATH` **and** `WOZCODE_INSTALL_CMD` is unset.
 
@@ -142,7 +189,7 @@ Both journal probes here are `timeout`-bounded (20 s and 10 s) so a hung `journa
 WOZCODE_INSTALL_CMD='<your install command>' ./scripts/setup-agents-wizard.sh
 ```
 
-### 5. The glyphdown hook was skipped on request
+### 7. The glyphdown hook was skipped on request
 
 **When:** `WIZARD_SKIP_GLYPHDOWN_HOOK` is set.
 
@@ -152,7 +199,7 @@ WOZCODE_INSTALL_CMD='<your install command>' ./scripts/setup-agents-wizard.sh
 # It fires on EVERY tool call - enable deliberately.
 ```
 
-### 6. Build the Lumen semantic index
+### 8. Build the Lumen semantic index
 
 **When:** `lumen` is on `PATH` **and** a bounded probe cannot confirm a usable index:
 
@@ -174,7 +221,7 @@ A timeout is treated as **"could not confirm"**, so the step is offered rather t
 may therefore see this step on a project whose index is perfectly healthy but busy. That is the
 intended bias: over-suggesting a safe, idempotent step beats silently omitting a necessary one.
 
-### 7. Refresh PATH in your existing terminals
+### 9. Refresh PATH in your existing terminals
 
 **Always.** There is no condition on it.
 
@@ -230,7 +277,7 @@ Three conditions, all required:
 | :--- | :--- |
 | `-t 0` | stdin is a terminal. In a pipe, CI job or `\| tee` the wizard never blocks. |
 | `WIZARD_NONINTERACTIVE` unset | An explicit escape hatch for automation on a TTY. |
-| at least one step | Vacuously true today — step 7 is unconditional. |
+| at least one step | Vacuously true today — the last step, *Refresh PATH*, is unconditional. |
 
 The `\|\| true` means an EOF on stdin is not an error under `set -euo pipefail`.
 

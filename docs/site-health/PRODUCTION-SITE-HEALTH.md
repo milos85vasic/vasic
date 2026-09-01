@@ -84,6 +84,14 @@ done
 
 ### Results
 
+> **These `build_type` values are a dated observation, not a standing fact.**
+> Provider settings change outside this tree and nothing in it can see that
+> happen. Re-measure with `bash scripts/verify-provider-ci.sh` — it discovers
+> the repositories from this checkout's own remotes and queries the provider
+> (exit `0` none found, `1` confirmed provider-side triggering, `2` could not
+> determine, which is **not** a pass). `scripts/setup-agents-wizard.sh` runs it
+> as Step 9.
+
 | Repository / path | CNAME | Jekyll | Tracked workflow | GitHub Pages | Verdict |
 |---|---|---|---|---|---|
 | `milosvasic.ru/` → `milos85vasic/milosvasic.ru` | `milosvasic.ru` | yes (`_config.yml`) | `.github/workflows/pages.yml` | `has_pages=true`, `build_type=workflow` | **DEPLOYED SITE** |

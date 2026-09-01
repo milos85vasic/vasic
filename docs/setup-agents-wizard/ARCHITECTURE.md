@@ -4,7 +4,7 @@ Visual reference for `scripts/setup-agents-wizard.sh` and its test-suite
 `scripts/test-setup-agents-wizard.sh`.
 
 Where the [README](./README.md) tells you **what to run**, this document shows **how the
-pieces fit together**: the order of the seven steps, how `lumen` is actually resolved at call
+pieces fit together**: the order of the nine steps, how `lumen` is actually resolved at call
 time, why two shell init files are written instead of one, everything the wizard touches on
 disk, what the test groups cover, and how the semantic index moves between states.
 
@@ -180,12 +180,26 @@ flowchart TD
     EXT{"specify present and path exists?"}
     EXT -- yes --> EXTA["specify extension add<br/>./submodules/superspec as dev"]
     EXT -- no --> EXTW["warn, skip extension"]
-    EXTA --> IDX
-    EXTW --> IDX
+    EXTA --> TUNE
+    EXTW --> TUNE
+
+    TUNE["Step 7 - ollama concurrency tuning"] --> TQ{"ollama-tune.sh present?<br/>ollama CLI or HTTP backend present?"}
+    TQ -- no --> TQW["say what is missing,<br/>manual_step with NO fabricated value,<br/>continue"]
+    TQ -- yes --> TR["run the delegate: report,<br/>then --print-commands<br/>= THIS host's exact commands"]
+    TR --> TOI{"WIZARD_TUNE_OLLAMA set?"}
+    TOI -- no --> TOM["manual_step carrying those commands<br/>applying restarts ollama and kills<br/>in-flight embeddings - operator's call"]
+    TOI -- yes --> TBUSY{"indexer in flight?<br/>yes / no / CANNOT TELL"}
+    TBUSY -- "yes or cannot tell" --> TOM
+    TBUSY -- no --> TASK{"confirmed at the prompt?<br/>(skipped when WIZARD_NONINTERACTIVE)"}
+    TASK -- no --> TOM
+    TASK -- yes --> TAP["record_action ollama '... --revert'<br/>record_note ollama 'restart aborted<br/>in-flight embeddings - NOT revertible'<br/>then --apply"]
+    TQW --> IDX
+    TOM --> IDX
+    TAP --> IDX
 
     IDX{"WIZARD_INDEX_PROJECT set?"}
-    IDX -- no --> IDXS["print: skipping project indexing<br/>the Step 7 header never appears"]
-    IDX -- yes --> IX7["Step 7 - indexing this project"]
+    IDX -- no --> IDXS["print: skipping project indexing<br/>the Step 8 header never appears"]
+    IDX -- yes --> IX7["Step 8 - indexing this project"]
     IX7 --> CGQ{"codegraph on PATH?"}
     CGQ -- no --> CGW["warn, skip the CodeGraph index"]
     CGQ -- yes --> CGD{".codegraph/codegraph.db already there?"}
@@ -197,12 +211,24 @@ flowchart TD
     LXQ{"lumen on PATH?"}
     LXQ -- no --> LXW["warn, skip the Lumen index"]
     LXQ -- yes --> LXI["lumen index PROJECT_ROOT<br/>incremental, needs the embedding backend,<br/>can run for hours on a big repository"]
-    LXW --> SUM
-    LXI --> SUM
-    IDXS --> SUM
+    LXW --> PCI
+    LXI --> PCI
+    IDXS --> PCI
+
+    PCI["Step 9 - provider-side CI verification"] --> PQ{"verify-provider-ci.sh present?<br/>gh present?"}
+    PQ -- no --> PUNV["UNVERIFIED - never 'clean',<br/>manual_step, continue"]
+    PQ -- yes --> PRUN["run it, read-only"]
+    PRUN --> PRC{"exit code"}
+    PRC -- 0 --> POK["success line -<br/>the ONLY case that was measured clean"]
+    PRC -- 1 --> PCONF["manual_step carrying the<br/>verifier's OWN findings -<br/>operator-only, in the provider UI"]
+    PRC -- "2 / timeout / other" --> PUNV
+    POK --> SUM
+    PCONF --> SUM
+    PUNV --> SUM
+
     SUM["final summary - SIX sections<br/>commands, plugins/optional tools,<br/>MCP configs, Lumen state,<br/>telemetry, project state"] --> AR1
 
-    AR1["Step 9 - build the manual-step registry"] --> AR2{"ashlr cache dir exists<br/>but marketplaces dir does NOT?"}
+    AR1["source section 9 - drain the manual-step registry<br/>(Steps 7 and 9 already added theirs)"] --> AR2{"ashlr cache dir exists<br/>but marketplaces dir does NOT?"}
     AR2 -- yes --> ARA["manual_step: activate ashlr<br/>/plugin marketplace add ...<br/>/plugin install ... /reload-plugins"]
     AR2 -- no --> AR3{"marketplaces dir exists<br/>but .ashlrcode/genome does NOT?"}
     AR3 -- yes --> ARG["manual_step: /ashlr:ashlr-genome-init"]
@@ -431,7 +457,7 @@ flowchart TD
         P1["submodules/"]
         P2["submodules/superspec<br/>submodule init or clone"]
         P3[".specify or specs<br/>SpecKit init"]
-        P4[".codegraph<br/>Step 7 only, WIZARD_INDEX_PROJECT"]
+        P4[".codegraph<br/>Step 8 only, WIZARD_INDEX_PROJECT"]
         P5["MANUAL-STEPS.md<br/>rewritten EVERY run from the<br/>manual-step registry, not in the manifest"]
     end
 
@@ -490,6 +516,15 @@ The purple box is the boundary worth remembering: `/etc/sysconfig/ollama`,
 configured host, and **none of them is written by the wizard** or recorded in its manifest. They
 belong to the operational scripts and to Claude Code respectively, each with its own undo —
 [`OPERATIONAL-SCRIPTS.md`](./OPERATIONAL-SCRIPTS.md).
+
+**One documented exception to that boundary.** Step 7 can reach across it, but only on an
+explicit double opt-in, and when it does the change comes *back* inside the transaction: the
+wizard writes an `ACTION` row carrying `<resolved ollama-tune.sh path> --revert` and a `NOTE`
+row stating that the service restart aborted the embedding requests then in flight and that
+`--revert` cannot bring those back. Whatever ollama's real config surface is on this host — the
+tuner parses the service unit to find it rather than assuming a path — the wizard itself never
+writes to it and never restarts anything; it delegates, and records how to undo the delegation.
+A report-only run (the default) writes neither row, because it changed nothing.
 
 ---
 
@@ -583,9 +618,9 @@ Two wrinkles worth knowing when you read that file:
 ## 6. 🔄 Indexing state machine
 
 The index is per-project and lives in `~/.local/share/lumen`. It is built by `lumen index <path>`
-— by you, by an agent, or by the wizard's opt-in Step 7 when `WIZARD_INDEX_PROJECT` is set — and
+— by you, by an agent, or by the wizard's opt-in Step 8 when `WIZARD_INDEX_PROJECT` is set — and
 it is incremental: a re-index re-embeds only what changed. (CodeGraph keeps a separate database in
-`<project>/.codegraph`; Step 7 refreshes it with `codegraph sync`, never with the destructive
+`<project>/.codegraph`; Step 8 refreshes it with `codegraph sync`, never with the destructive
 `codegraph index`.)
 
 ```mermaid
