@@ -1,11 +1,16 @@
 # Content boundary incident — 2026-09-01
 
-**Status: CONTAINED IN THE WORKING TREE, NOT REMEDIATED IN HISTORY.**
+**Status: HISTORY REWRITTEN AND FORCE-PUSHED (2026-09-01). THE INCIDENT IS NOT CLOSED.**
 
 Private material was written into this **public** repository, committed, and pushed.
-The working tree has been redacted. **The commits still carry it, on a public remote.**
-Redaction is containment. It is not a remedy, and this document exists so that nobody
-reads the green gate at the bottom of it as one.
+The working tree was redacted, and on 2026-09-01 the history was rewritten and
+force-pushed under explicit operator authorization — **§8B records that execution with
+its measurements.** What that did *not* do is remove anything from GitHub's servers:
+the orphaned commits and every byte of the four leak blobs **remain fetchable by SHA**
+until GitHub runs a server-side garbage collection, which only **GitHub Support** can
+be asked to do. That request, and telling the third party, are the operator's and are
+**not done**. Nobody may read §8B, or the green gates at the bottom of this file, as a
+closure of this incident.
 
 The rule that was broken is stated in [`docs/content-boundary.md`](content-boundary.md):
 never quote, paste, excerpt or transcribe content from a private repository into a file
@@ -806,6 +811,251 @@ urgent. If it shows none, steps 2 and 3 are cheap insurance and step 1 is still 
 indexed or archived elsewhere. Nothing found so far suggests it is — zero forks, zero page views,
 zero referrers — but three of those four channels are unmeasurable from here, and "not measured"
 is not "not happened".
+
+---
+
+## 8B · The remediation, EXECUTED — 2026-09-01, under explicit operator authorization
+
+> **Status: EXECUTED AND FORCE-PUSHED.** This was done to
+> `/run/media/milosvasic/DATA4TB/Projects/vasic` and to
+> `git@github.com:milos85vasic/vasic.git`. §8 and §8A are left **exactly as written**;
+> this section sits beside them and records what running the plan for real produced,
+> including where the live tree had moved out from under §8A's measurements.
+
+**The authorization (§11.4.113).** Given by the operator in-session, verbatim:
+*"Rewrite history + force-push"*, with three conditions — *"Make sure no git history or
+codebase is lost, corrupted or broken! Make sure we have on our side all codebase brought
+from all upstreams before any force push is performed! Create proper backups too!"* All
+three were re-verified independently before anything destructive ran (§8B.1). No
+outward-facing action of any kind was taken: **GitHub Support was not contacted, no issue
+was opened, and the third party was not contacted.** Those remain the operator's.
+
+### 8B.1 · Preconditions, re-verified rather than inherited
+
+| Condition | How it was verified | Result |
+|---|---|---|
+| All upstreams present locally | `git ls-remote` against all three remote names, read-only; every object id returned was resolved with `git cat-file -t` | **10 remote refs, 9 distinct objects, all resolved locally.** 0 missing. No `fetch` was run. |
+| Backups exist and are complete | `for-each-ref` + `cat-file` inside the bare mirror; `.git` presence and object probes in both hardlinked snapshots | Mirror `…/.vasic-history-mirror-2026-09-01.git`: **11 refs, 104 commits, 4.0 GB**, holds all four leak blobs, all six affected commits, **and** the three dangling blobs and the unreachable `a8137db`. Both snapshots carry their own `.git`. |
+| Everything committed and pushed | `git status --porcelain --ignore-submodules=all`; `ls-remote` × 3 | Umbrella working tree **clean**; local `HEAD` = `4df8401c32b6` = `refs/heads/main` on `origin`, `github` **and** `upstream` — which are three *names* for one repository. |
+| Gates green | `bash scripts/pre-push-gates.sh` | **rc=0, 8/8 PASS, 214 s** (§8B.7). |
+
+Two facts about the tree had **moved since §8A** and both changed the work:
+
+1. **`HEAD` is `4df8401`, not `ee3933d`.** Two further commits landed —
+   `cbdb535` and `4df8401` — and **`cbdb535` committed the working-tree redaction**. So
+   the tip was already clean before the rewrite, and the rewrite's whole job was the four
+   *historical* commits.
+2. **`.gitmodules` now declares 13 gitlinks, not 9**, and the tree at `HEAD` has **6,260**
+   entries, not 6,246.
+
+### 8B.2 · The pinned replacements, re-derived against current `HEAD`
+
+§8A's own instruction was followed: **the rehearsal's SHAs were not reused.** Each pinned
+file was rebuilt from scratch as *pre-image plus only the disclosure hunks*, by diffing the
+pre-image blob against the **current `HEAD`** blob and selecting hunks by hand.
+
+| File | Pre-image blob | `HEAD` blob | Hunks pre→HEAD | Disclosure hunks selected | Unrelated hunks rejected |
+|---|---|---|---:|---:|---:|
+| `RECON.md` | `101e019c` | `f4724894` | 4 | **4** | 0 |
+| `transcription.md` | `7c3513d3` | `c234dde0` | 4 | **4** | 0 |
+| `llm-bridging.md` | `7801a537` | `f94054b7` | 5 | **1** | **4** — the `/api/answer`→`/api/ask` route rename |
+| `quickstart.md` | `a4aed8a4` | `1c2f577d` | 8 | **1** | **7** — status, script-path and benchmark-path corrections |
+
+Selecting the whole `HEAD` blob for the last two would have injected 11 hunks of unrelated
+later work into four commits dated earlier the same morning — the §8A.8 trap, still live.
+
+| Pinned file | Bytes | sha256 |
+|---|---:|---|
+| `RECON.pinned` | 100,264 | `663fbba60ed81a134d653eaeaa9bd35c06a2464afb5fa4b5f904c9ccc8403d8c` |
+| `TRANS.pinned` | 71,655 | `a4e2ddf05f42b277e1d13f6406e52fd3509e02476d581e48ca571c1ecd7a1870` |
+| `LLMB.pinned` | 61,695 | `b1371f1f77810930aad21637deb94bb0b272a92e6acacc8cbc1424eef407c52c` |
+| `QUICK.pinned` | 62,652 | `91d33086273443a796558987733f7f5c5812fba0c123fdb48c3a356aa7395f91` |
+
+The independent re-derivation reproduced **57 removed lines / 4,400 bytes** — §8A.1's
+figures exactly — and **all four sha256 values are identical to the rehearsal's.** Nothing
+was copied across; they were rebuilt and then found to agree. That is the strongest
+available evidence that the redaction committed at `cbdb535` and the content pinned during
+the rehearsal are the same bytes.
+
+### 8B.3 · Scope correction — the exhaustive scan found SEVEN carriers, not four
+
+§8A.1 recorded each of the 51 usable literals in **exactly one** blob. Re-measured at
+`4df8401` over **8,185 objects / 6,508 blobs** with `--batch-all-objects`, that is **no
+longer true**: **7 distinct blobs** carried disclosed literals.
+
+| Blob | Literals | What it is |
+|---|---:|---|
+| `101e019c` · `7c3513d3` · `7801a537` · `a4aed8a4` | 30 · 16 · 1 · 4 | the four committed leak blobs of §8A.1 |
+| `9ddf0b04` | 11 | **unreachable** — a staged-but-never-committed intermediate of `RECON.md` |
+| `a58e8494` · `efa0cc10` | 4 · 4 | **unreachable** — staged-but-never-committed intermediates of `quickstart.md` |
+
+The three extra blobs were confirmed **reachable from no ref and present in no commit tree
+of any ref or reflog** — dangling objects left by the commit wrapper's `git add .` over a
+partially-redacted working tree. **They were never pushed**, because `git push` transfers
+only objects reachable from the pushed ref, so they were never part of the public exposure.
+They are recorded because a scan that stopped at §8A's four blobs would have reported them
+as absent without ever having looked, and because they are exactly the residue an in-place
+rewrite must also clear. **`filter-repo`'s reflog-expire and prune removed all three.**
+
+### 8B.4 · The procedure that was run, with measured wall-clocks
+
+Run **in place** in the live repository — not in a clone — because the tip was already
+clean, the three dangling carriers only exist locally, and an in-place run is the only one
+that clears them and leaves a correct checkout. `$W` is a scratch directory **outside** the
+repository, mode `700`.
+
+| Step | Command | Wall-clock |
+|---|---|---:|
+| 0 | preconditions + backup verification (§8B.1) | — |
+| 1 | pre-image / `HEAD` blob extraction, hunk classification, pinned-file build | ~1 s |
+| 2 | **pre-rewrite** residue baseline, all 6,508 blobs | **74.23 s** |
+| 3 | `git filter-repo --force --blob-callback "$(cat "$W/blob-callback.py")"` | **12.54 s**, peak RSS **560 MB** |
+| 4 | **post-rewrite** residue scan, all 6,230 blobs | **14.23 s** |
+| 5 | tree / gitlink / identity / tag comparison | ~6 s |
+| 6 | `git fsck` (full) | **5 s** |
+| 7 | `bash scripts/pre-push-gates.sh` (8 gates) | **214 s** |
+| 8 | negative control — deliberately wrong lease, **must be refused** | 210 s (gates re-run by the hook) |
+| 9 | `git push --force-with-lease=refs/heads/main:4df8401… origin main:refs/heads/main` | **242 s** (204 s of it gate 6) |
+
+**Total ≈ 13 minutes**, peak RSS **560 MB** — under **1 %** of this host's 62 GB, far
+inside the §12.6 60 % cap. The rewrite itself cost **12.54 s against §8A's 391.23 s**: the
+rehearsal paid for a `--no-local` clone of a 3.96 GiB pack, whereas `fast-export` here only
+ever sees the **104 reachable commits**, and the 1.78 GB private packfile blob of §8A.6
+hangs off an unreachable commit it never visits.
+
+**The `--blob-callback` route was used, as §8A.9(4) recommends.** The callback is a
+`{blob SHA → pinned filename}` map with a sha256 assertion per file and an abort on
+mismatch. **It was verified to contain none of the 51 literals before it was run.** No
+artifact of this procedure ever held the disclosed text.
+
+### 8B.5 · Verification after the rewrite, before the push
+
+- **Residue: 51 of 51 literals, 0 matches, in 0 blobs**, across all **6,230** blobs under
+  `--batch-all-objects` — which sees unreachable and reflog-held objects, not only what the
+  refs reach. Before the rewrite all 51 matched, in 7 blobs. The scan is the *same script*
+  in both directions, so the before-run is its own positive control.
+- **All seven leak-bearing blobs and all six affected commits are unresolvable locally.**
+  `git cat-file -t` returns *"could not get object info"* for `63ac4df`, `d0b3c64`,
+  `96b2988`, `ee3933d`, `cbdb535`, `4df8401`, `101e019c`, `7c3513d3`, `7801a537`,
+  `a4aed8a4`, `9ddf0b04`, `a58e8494` and `efa0cc10`.
+- **Tree at `HEAD`: 6,260 of 6,260 entries byte-identical. Zero changed.** 0 paths added, 0
+  removed. This is *stronger* than §8A's "9 changed" and it is correct, not suspicious: the
+  redaction was already committed at `cbdb535`, so the tip needed no change and only the
+  four historical commits moved. That the change did land was verified separately — each
+  rewritten historical blob is byte-identical to its pinned file, checked with `cmp`, all
+  four.
+- **Gitlinks: 13 of 13 unchanged at `HEAD`; 102 of 102 distinct `(path, sha)` pairs
+  unchanged across all history.** `helix-deps.yaml` and `.gitmodules` keep their blob SHAs
+  (`15dc191f`, `830bb3ac`). **No submodule, `.gitmodules` or `helix-deps.yaml` was touched.**
+- **Identity: byte-identical for all 104 commits** — author name, author email, author date,
+  committer name, committer email, committer date and subject, compared as a sorted stream.
+  **98 of 104 commit SHAs unchanged.**
+- **All 4 tags unchanged**, still pointing at their original objects — they predate `63ac4df`.
+- **`git fsck` clean, rc=0, no output, 5 s. 0 unreachable, 0 dangling, reflog empty.**
+  Object count 8,185 → **7,412**; pack 3.96 GiB → **493.21 MiB**, the difference being 180
+  unreachable commits, 181 unreachable blobs and 243 unreachable trees that `filter-repo`
+  pruned — **all of them preserved in the mirror backup**, which was not gc'd, pruned or
+  touched.
+- Umbrella working tree **clean**; the pre-existing uncommitted content inside the
+  `milosvasic.ru` and `vasic.digital` submodule working trees was **preserved untouched**.
+
+### 8B.6 · The push
+
+`filter-repo` removed the `origin` remote, as §8 predicted; `github` and `upstream`
+survived. **It did *not* convert remote-tracking refs into local branches this time** —
+checked, per §8A.8: `refs/remotes/github/main` and `refs/remotes/upstream/main` stayed under
+`refs/remotes/` and were merely rewritten. `origin` was re-added and the remote
+configuration verified byte-identical to the pre-rewrite `git config` dump. **No `git fetch`
+was run at any point after the rewrite.**
+
+**Negative control first (§1.1 paired mutation), against the real remote:**
+
+```
+git push --force-with-lease=refs/heads/main:000…000 origin main:refs/heads/main
+  ! [rejected]  main -> main (stale info)     rc=1
+remote before: 4df8401…    remote after: 4df8401…   ← UNCHANGED
+```
+
+**Then the authorized push:**
+
+```
+git push --force-with-lease=refs/heads/main:4df8401c32b682e5e60693c02daca75799a52c66 \
+         origin main:refs/heads/main
+  + 4df8401...562ecf9  main -> main (forced update)
+```
+
+One explicit refspec. Never `--all`, never `--mirror`, never bare `--force`. **Confirmed
+from `git ls-remote`, not from push output**, against each remote name independently — all
+three return `562ecf9cca2d01beaf9ba8bde7474c465f0169ee` for `refs/heads/main`, the same
+four tags at their original objects, and no other ref. Exactly **one** remote ref was
+touched.
+
+### 8B.7 · Commit map — six SHAs moved, and the mapping GitHub Support needs
+
+`.git/filter-repo/first-changed-commits` holds one line, which is the value §8A.7's request
+asks for:
+
+> old `63ac4df32e5fd40806a50cd38fde8cdc39587c2c` → new `fc7574b27c7f9298b05bb55cc5a0ba024cb9da5f`
+
+| Old | New | Subject |
+|---|---|---|
+| `63ac4df3` | `fc7574b2` | SpecKit 001 through plan phase… |
+| `d0b3c649` | `7b4df26d` | SpecKit 001 through tasks… |
+| `96b2988e` | `4ee9e8de` | gates: distinguish 'could not run' from 'failed'… |
+| `ee3933d4` | `b0ab4b44` | gates: defer live-production specs… |
+| `cbdb5351` | `25fe585e` | feat(platform): workshop curriculum platform… |
+| `4df8401c` | `562ecf9c` | chore(audit): triage the 82 findings… |
+
+Six, not §8A's four, because two commits landed after the rehearsal. **The first four
+new SHAs are identical to the rehearsal's**, which independently confirms the pinned
+content was reproduced byte-for-byte.
+
+**Stale citations, fixed in a normal follow-up commit.** `filter-repo` rewrites old hashes
+in commit *messages*, never inside blob content, so prose citations survive untouched and
+dangling. The five §8A.5 named — `helix-deps.yaml` ×2, `scripts/verify-governance-cascade.sh`
+×1, `scripts/verify-manifest-pins.sh` ×2 — were repointed at `fc7574b2` with the move
+recorded rather than silently applied. Re-derivation found **more than the five**:
+`docs/check-registry.md` ×3 (`d0b3c64`/`96b2988`/`ee3933d`), `CONTINUATION.md` ×4, and five
+`cbdb535` citations in `.environment-assumptions-allow` ×2, `.hardcoded-paths-allow` ×1 and
+`docs/environment-adaptability/AUDIT.md` ×2 — **17 in 8 tracked files**, all repointed.
+
+**The historical SHAs in §2, §3, §8A and §9.6 of this document are deliberately NOT
+rewritten.** §8.2 said they would become references to a discarded history and that the
+document should say so rather than be edited to hide it. It is said here.
+
+### 8B.8 · What this did NOT do — state this plainly and do not let it be forgotten
+
+**The force-push removed nothing from GitHub.** §8A.6 demonstrated this rather than quoting
+it: after a successful `--force-with-lease` on the stand-in remote, `63ac4df` still resolved
+and all **98,599 bytes** of `101e019c` were still readable by SHA; only a server-side
+`reflog expire` + `gc --prune=now` made them unresolvable. **That is exactly the situation on
+github.com right now.** All four orphaned commits — `63ac4df32e5fd40806a50cd38fde8cdc39587c2c`,
+`d0b3c6493a7f635a0a71d81f049069fb2741ea9c`, `96b2988ef61f4adee1bba51ee1c42efcb5f4408e`,
+`ee3933d46211d6001ffc23acab480e0cffdc99c6` — and every byte of the four leak blobs
+**remain fetchable by SHA** from the public repository by anyone who recorded one, and the
+timing of GitHub's garbage collection is **not the repository owner's to control**.
+
+Three things this rewrite therefore does not achieve, and one it never could:
+
+1. **Only a GitHub Support purge removes the data from their storage.** The request text is
+   prepared at §8A.7 and the first-changed-commit value it needs is in §8B.7. **It has not
+   been sent. It is the operator's to send and no agent may send it.**
+2. **Telling the third party remains the substantive remedy** (§8A.10 step 1), and it is
+   likewise the operator's. No git operation can undo the disclosure of a name.
+3. **Forks, mirrors, existing clones, and search-engine and archive caches are unreachable
+   by any of this.** Measured 2026-09-01: 0 forks, 0 pull requests, 0 recorded page views —
+   but clone traffic for the exposure window still had not appeared in GitHub's API, so
+   **whether anyone cloned during it remains UNVERIFIED.** Re-run
+   `gh api repos/milos85vasic/vasic/traffic/clones` on or after 2026-09-02.
+4. **Nothing can be rotated.** No credential was disclosed. Personal data cannot be
+   reissued or revoked, which is why the purge and the conversation matter more than the
+   rewrite did.
+
+**Anyone holding a clone must rebase, not merge.** Merging an old branch back would
+reintroduce the deleted content into `main`.
+
+**Do not record this incident as closed. The rewrite is the cheapest and least important
+of the three steps §8A.10 recommends, and it is the only one that has been done.**
 
 ---
 

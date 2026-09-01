@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-01T18:05:00Z
-    Synced-Commit: ee3933d46211d6001ffc23acab480e0cffdc99c6
+    Last-Updated: 2026-09-01T22:30:00Z
+    Synced-Commit: 562ecf9cca2d01beaf9ba8bde7474c465f0169ee
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -264,9 +264,12 @@ for R in "$PIN" "$REM"; do
 done
 ```
 
-The umbrella itself is pushed: `HEAD` = `ee3933d46211…` = `refs/heads/main` on
+The umbrella itself is pushed: `HEAD` = `562ecf9cca2d…` = `refs/heads/main` on
 all three configured remotes (`github`, `origin`, `upstream` — all the same URL,
-`git@github.com:milos85vasic/vasic.git`).
+`git@github.com:milos85vasic/vasic.git`). That tip is the result of the
+**2026-09-01 authorized history rewrite and force-push** (A9 below); the value
+this line carried before, `ee3933d46211…`, names a commit that no longer exists
+in this repository.
 
 **Clone caveat.** Init the site submodules **non-recursively**:
 `git submodule update --init vasic.digital milosvasic.ru`. `milosvasic.ru`
@@ -740,7 +743,7 @@ distinct**, 0 NaN/Inf, 0 all-zero, 0 off-norm, 0 ragged blocks,
 `integrity_check: ok`. The duplicate-vector corruption previously tracked in
 this file is cleared.
 
-### A9 — content-boundary incident: **working tree redacted, history NOT remediated**
+### A9 — content-boundary incident: **history REWRITTEN and force-pushed; NOT closed**
 
 **Read [`docs/content-boundary-incident-2026-09-01.md`](docs/content-boundary-incident-2026-09-01.md)
 before touching `docs/workshop-curriculum/RECON.md` or
@@ -748,10 +751,15 @@ before touching `docs/workshop-curriculum/RECON.md` or
 
 Private material from the notes PDF in the **private** `workshop` submodule was
 committed and **pushed to this public repository** in `63ac4df` (2026-09-01
-06:47 CEST) and is carried unchanged by `d0b3c64`, `96b2988` and `ee3933d`
-(= `HEAD` = `origin/main`). Three classes: verbatim prose, the PDF's complete
-section-heading list, and **a third party's full real name** — personal data
-about someone who is not the repository owner.
+06:47 CEST) and was carried unchanged by `d0b3c64`, `96b2988` and `ee3933d`.
+Three classes: verbatim prose, the PDF's complete section-heading list, and
+**a third party's full real name** — personal data about someone who is not the
+repository owner.
+
+**Those four SHAs are deliberately left as written. They name a history that was
+discarded on 2026-09-01 and they no longer resolve in this repository** — that is
+the correct record, not an error to be silently repaired (§11.4.6). The old→new
+mapping is in `docs/content-boundary-incident-2026-09-01.md` §8B.
 
 **Done (2026-09-01, working tree only, nothing committed):** both files
 redacted — quotes replaced by verified-distant paraphrase, heading lists
@@ -761,12 +769,29 @@ than the gate's eight): **zero prose overlap remains**; the only surviving
 overlap is the artifact's own filename, which carries a first name only and is
 the accepted baseline.
 
-**NOT done, and NOT authorized:** the history rewrite. §11.4.113 requires
-explicit per-session operator authorization for a force-push and it has not been
-given. **Redaction is containment, not remedy — the content is still public in
-four commits right now.** The prepared plan is §8 of the incident note; note
-especially §8.4, that GitHub serves force-push-orphaned commits by SHA until GC,
-so a rewrite alone does not end the exposure.
+**DONE (2026-09-01, AUTHORIZED, EXECUTED): the history rewrite and force-push.**
+The operator gave explicit per-session §11.4.113 authorization. `git filter-repo`
+replaced the four leak-bearing blobs across the four affected commits keyed on
+`blob.original_id`; `refs/heads/main` moved `4df8401 → 562ecf9` on the single
+public remote via `--force-with-lease` (a deliberately wrong lease was refused
+first, as the §1.1 paired mutation). Verified afterwards: **51 of 51 disclosed
+literals absent from all 6,230 blobs** under `--batch-all-objects`, the tree at
+`HEAD` **6,260 of 6,260 entries byte-identical**, all **13 gitlinks** and all
+**102 historical gitlink pairs** unchanged, all **4 tags** unchanged, commit
+identity envelope identical for all **104** commits, **98 of 104** SHAs
+unchanged, `git fsck` clean with **0 unreachable / 0 dangling**. Full record with
+measurements: `docs/content-boundary-incident-2026-09-01.md` §8B.
+
+**STILL NOT CLOSED, and this is the part that matters.** A force-push does not
+delete anything from GitHub's storage. The four orphaned commits and all four
+leak blobs remain **fetchable by SHA** from `github.com/milos85vasic/vasic` by
+anyone who recorded them, until GitHub runs a server-side garbage collection —
+whose timing is not the repository owner's to control. Ending the exposure needs
+a **GitHub Support purge request** (text prepared at incident note §8A.7, first
+changed commit `63ac4df32e5f… → fc7574b27c7f…`) and, ahead of it, **telling the
+third party**. Both are outward-facing and are the **operator's** to send; no
+agent has taken or may take either. Forks, mirrors, existing clones and
+search/archive caches are unreachable by any of this.
 
 **Two instrument gaps this incident exposed, both OPEN:**
 `scripts/verify-content-boundary.sh` matches on an **eight-word** window, so it
@@ -1237,7 +1262,7 @@ them.
 
 **Honest boundary on this revision (§11.4.6).** It was written without
 committing anything, so `Synced-Commit` above still points at `HEAD`
-(`ee3933d46211…`, re-verified) while this document sits modified in the working
+(`562ecf9cca2d…`, re-verified) while this document sits modified in the working
 tree. That is the intended pre-commit state and it makes C3 pass, but it also
 means **the very next commit must carry this document with it** or the guarantee
 is void.

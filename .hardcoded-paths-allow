@@ -138,7 +138,7 @@ specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
 # ==============================================================================
 # workshop/ — the 2026-09-01 gitlink bump
 # ==============================================================================
-# Commit cbdb535 moved the `workshop` gitlink from a near-empty commit to one
+# Commit 25fe585e moved the `workshop` gitlink from a near-empty commit to one
 # carrying 247 paths, and this gate scans submodule interiors, so 8 occurrences
 # across 3 files became visible in one index update. NEWLY VISIBLE, NOT NEWLY
 # CREATED.

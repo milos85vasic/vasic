@@ -52,11 +52,18 @@
 # HISTORY, recorded rather than quietly repaired (§11.4.6). Between 2026-08-26
 # and 2026-09-01 every one of the seven refs then present drifted away from its
 # gitlink and NOTHING in the tree could say so: C6 compared dep NAMES in both
-# directions and stayed green over seven wrong commits. Measured at HEAD 63ac4df
+# directions and stayed green over seven wrong commits. Measured at HEAD fc7574b2
 # on 2026-09-01: 7 of 7 recorded refs wrong. The `workshop` entry was untrue in
-# the very commit that created it — 63ac4df added it recording ff59fca and moved
+# the very commit that created it — fc7574b2 added it recording ff59fca and moved
 # the gitlink to 55076bf in the same commit. All seven are corrected below and C9
 # now makes a repeat impossible without a red gate.
+#
+# SHA NOTE (§11.4.6). Both citations above read `63ac4df` until 2026-09-01. That
+# commit was rewritten out of this repository's history by the authorized
+# content-boundary remediation of that date and no longer resolves; its content
+# now lives at `fc7574b2`, which is what is cited. The measurement is unchanged —
+# only the name of the commit it was taken at moved. Mapping and evidence:
+# `docs/content-boundary-incident-2026-09-01.md` §8B.
 #
 # FORM. §11.4.31 says `ref: main   # branch or pinned tag`. Every entry here
 # records a full 40-character sha instead, for two reasons: three owned

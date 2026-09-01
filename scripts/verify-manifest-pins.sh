@@ -11,7 +11,10 @@
 # it is only half of §11.4.31: a manifest can name exactly the right seven
 # submodules and record seven WRONG commits, and C6 goes green over it.
 #
-# That is not hypothetical. Measured on 2026-09-01 at HEAD 63ac4df:
+# That is not hypothetical. Measured on 2026-09-01 at HEAD fc7574b2 (cited as
+# `63ac4df` until 2026-09-01; that commit was rewritten out of history by the
+# authorized content-boundary remediation of that date and no longer resolves —
+# see docs/content-boundary-incident-2026-09-01.md §8B for the old→new mapping):
 #
 #   dep              recorded ref                              live gitlink
 #   constitution     448981ae3498229c734dc60719f4b19f01d7a75f  902979027a90…
@@ -24,7 +27,7 @@
 #
 # SEVEN of seven wrong, and `verify-governance-cascade.sh` exited 0 anyway
 # (10 PASS / 0 FAIL / 0 ENV). The `workshop` entry is the sharpest case: it was
-# ADDED in commit 63ac4df recording ff59fca — and 63ac4df is the very commit
+# ADDED in commit fc7574b2 recording ff59fca — and fc7574b2 is the very commit
 # that moved the `workshop` gitlink to 55076bf. The entry was untrue in the
 # commit that created it, and nothing in the tree could say so.
 #
