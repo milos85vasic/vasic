@@ -2,10 +2,11 @@
 
 | Field | Value |
 |---|---|
-| Revision | 1 |
+| Revision | 2 |
 | Created | 2026-08-26 |
-| Last modified | 2026-08-26 |
-| Status | active |
+| Last modified | 2026-09-01 |
+| Status | active — **historical record plus a current status ledger** |
+| How to read it | The §8 G-headings are the ORIGINAL 2026-08-26 discovery evidence and are deliberately not rewritten as gaps move. Current statuses live in **§8.0 Current status ledger**, and the authority above that is the `- G<n> — <STATUS>` lines in the four root carriers. Never quote a G-heading as a current status. |
 | Status summary | Phase-1 read-and-map inventory of `submodules/constitution` (HelixConstitution) and its adoption state in the `vasic` umbrella. Read-only pass: no existing file was modified. Headline finding — the umbrella repository has **zero** agent-instruction files at its root, so the constitution's prescribed inheritance mechanism is **not wired at all**. |
 | Issues | 12 ranked gaps (G1–G12) |
 | Issues summary | G1 no consumer governance layer; G2 no inheritance pointer; G3 no post-pull validation sweep; G4 active CI contradicts §11.4.156; G5 no mechanical enforcement; G6 no `helix-deps.yaml`; G7 no submodule propagation; G8 §11.4.65 export gap (265 `.md`, 0 `.html`); G9 §11.4.212 README-orphan gap; G10 §4 tag-mirroring gap; G11 duplicate `design-toolkit` checkout; G12 no anti-forgetting hook. |
@@ -606,6 +607,56 @@ and push to land **before** the parent captures the pointer.
 Severity uses the constitution's own vocabulary: a "release blocker" clause
 violated is CRITICAL.
 
+### 8.0 Current status ledger — READ THIS BEFORE THE G-HEADINGS BELOW
+
+> **The G-headings in §8.1 onward are the ORIGINAL 2026-08-26 discovery
+> evidence and are deliberately NOT rewritten as gaps move.** That is what makes
+> this document a forensic record: it preserves what was actually observed on
+> the day, including the observations that later turned out to be wrong. Several
+> of them are now stale by design.
+>
+> **Never quote a G-heading below as a current status.** Use the ledger in this
+> subsection, and treat even it as dated — the authority is the
+> `- G<n> — <STATUS>` lines in the four root carriers, which
+> `scripts/continuation-check.sh` C4 holds in agreement with `CONTINUATION.md`
+> §4 mechanically on every run. This ledger is not machine-compared to those; if
+> it disagrees with them, **this ledger is the defect**.
+
+Reconciled against the carriers and re-measured on **2026-09-01**:
+
+| Gap | Status now | Measured how |
+|---|---|---|
+| G1 | **CLOSED** | Four root carriers exist (`CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md`), 520 lines each, sharing the line-24-to-EOF digest `a1f3a936e0ff6817…`. |
+| G2 | **CLOSED** | All four plus root `Constitution.md` open with `## INHERITED FROM `; cascade C5 ROOT-CARRIERS PASS. |
+| G3 | **CLOSED** | Cascade step 1 exits 0 at 12 PASS / 0 FAIL / 0 ENV / 7 NOTE, with a `--prove-failure` paired mutation. Closes the sweep CONTRACT, not the sweep's verdict — see G-note below. |
+| G4 | **PARTIAL, and will not reach CLOSED from inside this tree** | Umbrella root complies (`.github/workflows/ci.yml.disabled`, local pre-push hook). `milosvasic.ru/.github/workflows/pages.yml` stays ACTIVE as a **documented deviation, never an override** — it is the sole publish path for a live production site. `vasic.digital` is non-compliant at the **provider** level with no file-level remedy. Provider-side settings are operator-only and **unverified**; `scripts/verify-provider-ci.sh` measures on demand and its exit 2 is not a pass. |
+| G5 | **PARTIALLY CLOSED** | The commit **wrapper** exists (`commit` on PATH, driven by the tracked `upstreams/GitHub.sh`); it runs `git add .`. Missing: git **hooks** as a tracked, travelling artefact — `.git/hooks/pre-push` is installed here but `.git/hooks/` is untracked, so a fresh clone is unprotected. |
+| G6 | **CLOSED** | `helix-deps.yaml` exists at the root and parses under `yaml.safe_load`. |
+| G7 | **CLOSED — 28 of 28** | `bash scripts/verify-governance-cascade.sh` exits 0. C2 finds all **7 × 4 = 28** owned-submodule carriers present; C3 finds all 28 accepted by the canonical `is_pointer_carrier` predicate; C8 finds each owned submodule internally in lockstep. The fleet is DERIVED from `.gitmodules` + `helix-deps.yaml`, never hardcoded. **The §8 G7 heading below, and the staged-but-unapplied `propagation/` note, are both superseded.** Withdrawn figures: "20/20", "20/24", and a verbally circulated "24/24" (which was 6 × 4, before `submodules/containers` joined the fleet). |
+| G8 | **OPEN** | §11.4.65 markdown/export mandate unmet across the repository. No work in flight. |
+| G9 | **NO VERIFIED CURRENT STATUS** | Not carried in the carriers' gap list. Do not report it closed or open without re-auditing. |
+| G10 | **NO VERIFIED CURRENT STATUS** | As G9. |
+| G11 | **NO VERIFIED CURRENT STATUS** | The duplicate `design-toolkit` checkout is still *described* in `helix-deps.yaml` around its `design-toolkit` entry, with a two-command re-derivation recipe. A description is not a status. |
+| G12 | **OPEN** | No `PreToolUse` guard is wired; the canonical guard script sits unused in the constitution submodule. No work in flight. |
+
+**G-note — the sweep's own verdict.** G3 closing means a sweep exists, runs, and
+is mutation-proven. It does **not** mean the sweep passes.
+`scripts/verify-all-constitution-rules.sh` discovers its gates dynamically and
+that population moved **57 → 286** when the constitution pin was fast-forwarded,
+so every split published before the fast-forward is withdrawn and none is
+comparable to a present-day run. The most recent measurement on record is
+**186 PASS / 95 FAIL / 6 ERROR of 287 gates** — recorded as a *reported prior
+measurement*, because a re-run started 2026-09-01 had not completed when this
+was written. Its failures are known to include third-party and staged carriers
+that no commit here can clear, and defects internal to the constitution
+submodule itself.
+
+**Also open, and not a numbered gap:**
+`scripts/audit-environment-assumptions.sh` exits **1** — 7 frozen GNU-vs-BSD
+environment assumptions in `scripts/verify-check-registry.sh` (6) and
+`scripts/verify-manifest-pins.sh` (1), plus 699 baselined occurrences across
+18 files. A baseline is recorded debt, not compliance.
+
 ### G1 — CRITICAL — The umbrella has no consumer governance layer at all
 
 **Rule:** §11.4.35 (`Constitution.md:2861-2874`), §11.4.157(A)
@@ -734,6 +785,12 @@ records that its own manifest "was MISSING until 2026-08-15" — the same class 
 gap, previously caught one level up.
 
 ### G7 — HIGH — Zero propagation to owned submodules
+
+> **SUPERSEDED — see §8.0.** G7 is **CLOSED** as of 2026-09-01, measured at
+> **28 of 28** carriers across seven owned submodules by
+> `bash scripts/verify-governance-cascade.sh` (exit 0). The evidence paragraph
+> below is the 2026-08-26 observation, preserved unchanged as the forensic
+> record of what was true then. It is not a current status.
 
 **Rule:** §11.4.157(A) five-carrier lockstep; §11.4.28(A) equal-codebase.
 **Evidence:** Of six owned submodules, only `vasic.digital` has any carrier

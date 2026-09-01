@@ -5,6 +5,15 @@
 **Measured on**: 2026-08-31, on the operator's machine, while a `lumen index --force` rebuild and a 287-gate sweep were running.
 **Author's standing constraint**: every claim about what is installed or reachable below is followed by the command that produced it and the real output. Anything not measured is marked **UNVERIFIED** with the reason.
 
+> **ROUTE NAMES UPDATED 2026-09-01, throughout this document.** Where this research said
+> ~~`/api/answer`~~ and ~~`/api/answering/status`~~ it now says `/api/ask` and `/api/ask/status`, in
+> six places. The names are the *only* thing that changed: the separate-route-trees argument, the
+> three-state table, the locality invariant and gate design in §3 and §5 are untouched, and none of
+> them ever depended on the spelling. The implementation mounts `/api/ask`; the contract was amended
+> to match on 2026-09-01, and this document follows it rather than preserving a name that never
+> existed in code. The decision, its evidence and its counter-argument are recorded once, in
+> [contracts/http-api.md](../contracts/http-api.md) §3.10, and are not restated here.
+
 ---
 
 ## Executive summary — the three facts that shape this design
@@ -290,7 +299,7 @@ type Provider interface {
 	Generate(ctx context.Context, req Request) (Response, error)
 	// Health is cheap, bounded, and side-effect free.
 	Health(ctx context.Context) error
-	// Describe is used by the /api/answering/status endpoint and by the
+	// Describe is used by the /api/ask/status endpoint and by the
 	// privacy gate in §5. Locality is DECLARED, never inferred.
 	Describe() Info // {Name, Endpoint, Model, Locality: Local|External}
 }
@@ -349,17 +358,17 @@ Three states, matching FR-033 / SC-013 exactly — and note that these are *the 
 |---|---|---|---|
 | `answered` | Answer produced, every citation verified | 200 | Answer + citations |
 | `declined` | Content genuinely does not support an answer | 200 | "The indexed content does not answer this." + the passages that were closest |
-| `unavailable` | Provider not configured / unreachable / verification could not run | 503 **on `/api/answer` only** | "Answering is unavailable." Search box stays live. |
+| `unavailable` | Provider not configured / unreachable / verification could not run | 503 **on `/api/ask` only** | "Answering is unavailable." Search box stays live. |
 
 `declined` returns **200, not an error** — declining is a correct result, and conflating it with a failure would make SC-010 unmeasurable.
 
 Architectural enforcement of FR-025, in order of strength:
 
-1. **Separate route trees.** `/api/search`, `/api/suggest`, `/api/chapters`, `/api/passages` are registered on a router group that has no reference to the answering package. `/api/answer` and `/api/answering/status` are the only routes that construct a `Provider`. A compile-time guarantee beats a runtime one.
+1. **Separate route trees.** `/api/search`, `/api/suggest`, `/api/chapters`, `/api/passages` are registered on a router group that has no reference to the answering package. `/api/ask` and `/api/ask/status` are the only routes that construct a `Provider`. A compile-time guarantee beats a runtime one.
 2. **No shared initialisation.** Provider construction failure must not abort server startup. The server starts with `provider = unavailableProvider{reason: err}` and serves everything else.
 3. **Bounded health probe before commit.** `health_seconds: 2`, checked before any generation is started, so an unreachable provider costs 2 s and not `generate_seconds`.
 4. **No shared goroutine pool or connection pool** between the answering client and the search path — otherwise a hung 240 s generation starves search and SC-006 (2 s p95) fails for a reason unrelated to search.
-5. **The gate that proves it** (FR-032): stop ollama (or point `endpoint` at a closed port), assert `/api/search` returns 200 with real results and `/api/answer` returns 503 with `state: unavailable`. **Paired mutation**: wire search through the provider's health check and assert the gate now reports FAIL. Without the mutation the gate proves nothing.
+5. **The gate that proves it** (FR-032): stop ollama (or point `endpoint` at a closed port), assert `/api/search` returns 200 with real results and `/api/ask` returns 503 with `state: unavailable`. **Paired mutation**: wire search through the provider's health check and assert the gate now reports FAIL. Without the mutation the gate proves nothing.
 
 ### Rationale
 
@@ -551,7 +560,7 @@ Refuse to construct (not "warn") if: any address is non-loopback; the scheme is 
 
 ### L2 — Declared-locality invariant
 
-`Describe().Locality` is surfaced by `/api/answering/status` and rendered in the UI. A gate asserts that when `locality: local`, `Describe().Endpoint` resolves to loopback — i.e. that the declaration and the resolved reality agree. Divergence is a **fault**, not a warning.
+`Describe().Locality` is surfaced by `/api/ask/status` and rendered in the UI. A gate asserts that when `locality: local`, `Describe().Endpoint` resolves to loopback — i.e. that the declaration and the resolved reality agree. Divergence is a **fault**, not a warning.
 
 ### L3 — Egress denial with a negative control (**this is the proof**)
 

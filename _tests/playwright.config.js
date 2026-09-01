@@ -11,10 +11,13 @@ const MV_ROOT = path.join(REPO, 'milosvasic.ru', '_site');
 module.exports = defineConfig({
   testDir: './tests',
 
-  // These four specs assert against the LIVE production sites over the public
+  // These THREE specs assert against the LIVE production sites over the public
   // internet (their VASIC_BASE/MILOS_BASE default to https://vasic.digital and
-  // https://milosvasic.ru). They are ALREADY claimed by playwright.live.config.js,
-  // whose testMatch names exactly this set — but this config had no testIgnore, so
+  // https://milosvasic.ru). They are claimed by playwright.live.config.js, whose
+  // testMatch names these three PLUS all-languages-link-integrity — that fourth one
+  // is deliberately NOT ignored here, because it is hermetic (it reads VD_BASE/
+  // MV_BASE, defaulting to localhost) and gate 6 excludes it by --grep-invert
+  // instead. This config previously had no testIgnore at all, so
   // it ran them too, giving the local suite a hidden dependency on public DNS.
   //
   // Measured consequence: a pre-push run produced 30 failures — 12 net::ERR_TIMED_OUT,

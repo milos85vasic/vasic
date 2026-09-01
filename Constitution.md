@@ -20,8 +20,9 @@ explicitly overridden below.
 |---|---|
 | Instantiated from | `submodules/constitution/templates/Constitution.project.md.template` |
 | Created | 2026-08-26 |
-| Governance submodule | `submodules/constitution` @ `448981ae3498229c734dc60719f4b19f01d7a75f` (`git describe` → `v1.0.0-51-g448981a`) |
-| Peer carriers | `CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md` (bodies byte-identical from line 24; verify with `tail -n +24 <file> | sha256sum`) — §11.4.157 five-carrier lockstep |
+| Last re-measured | 2026-09-01 |
+| Governance submodule | `submodules/constitution` @ `902979027a907051dc036668a9c353bd27aedf47` (`git describe` → `helixconstitution-v68-51-g9029790`); corpus measures 11,700 lines / 1.7 MB / 252 `### §` anchors. The pin moved from `448981ae…` (`v1.0.0-51-g448981a`), which this row carried until 2026-09-01; whether that move was a fast-forward was not verified. **The pin is BEHIND its remote — see the warning under "The set in detail".** |
+| Peer carriers | `CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md` (bodies byte-identical from line 24; verify with `tail -n +24 <file> \| sha256sum`) — §11.4.157 five-carrier lockstep. Measured 2026-09-01: 520 lines each, shared digest `a1f3a936e0ff6817ce05a9c3ba59b4a84aa57ba3d4b15308a6818befdcc5e2b4`. |
 | Verification | `tests/test_constitution_inheritance.sh`, `scripts/verify-all-constitution-rules.sh` |
 | Dependency manifest | `helix-deps.yaml` (§11.4.31) |
 
@@ -70,6 +71,14 @@ as a real carrier and fail the gate), and the operator applies them following
 Until that application happens, the propagation gaps are **open**, and this
 document says so rather than implying coverage that does not exist. See
 [Known open gaps](#known-open-gaps-1146-honest-boundary) below.
+
+> **Status update 2026-09-01: the application HAS happened.** Propagation is no
+> longer staged-and-unapplied. All **seven** owned submodules carry all four
+> carriers — **28 of 28** — verified by `bash scripts/verify-governance-cascade.sh`
+> (exit 0; C2 presence, C3 canonical-predicate acceptance, C8 in-submodule
+> lockstep). G7 is **CLOSED**. The staging mechanism and the submodule-first
+> ordering described above remain the governing procedure for any *future*
+> carrier change; only the "gaps are open" sentence is superseded.
 
 ### §103. Third-party gitlinks are never edited from this repository
 
@@ -159,15 +168,48 @@ Third-party submodules excluded.
 
 ### The set in detail
 
-| Path | Upstream (`.gitmodules`) | Pinned commit | `git describe` | Owned? |
-|---|---|---|---|---|
-| `ai_interviewing` | `git@github.com:milos85vasic/ai_interviewing.git` | `023abbfdfe12a604144cf420d1ec3d9efaa6e89c` | *(no tag reachable)* | **Yes** |
-| `design-toolkit` | `git@github.com:vasic-digital/design-toolkit.git` | `16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3` | `v0.2.2-4-g16e4e76` | **Yes** |
-| `milosvasic.ru` | `git@github.com:milos85vasic/milosvasic.ru.git` | `8385025500ce0595b1fad3ff3fb4c58e93b88504` | `v1.8.0-5-g8385025` | **Yes** |
-| `monetization` | `git@github.com:milos85vasic/monetization.git` | `1f9f52042a81c9a2d0e0f2f42e3ca9fbf4d7fbfe` | *(no tag reachable)* | **Yes** |
-| `vasic.digital` | `git@github.com:vasic-digital/vasic-digital.github.io.git` | `5a4c3bba8689e9d2c35887b77ee0a6c3da6248b6` | `v1.8.0-4-g5a4c3bb` | **Yes** |
-| `submodules/constitution` | `git@github.com:HelixDevelopment/HelixConstitution.git` | `448981ae3498229c734dc60719f4b19f01d7a75f` | `v1.0.0-51-g448981a` | **Governance submodule** — see below |
-| `submodules/superspec` | `git@github.com:WangX0111/superspec.git` | `c20ac6c1ba069cc9a72dacb8044b7b193d3dde81` | `v1.0.2` | **No — third-party, EXCLUDED** |
+Pinned commits below were re-measured on **2026-09-01** with `git ls-tree HEAD`
+and each was re-checked against `git ls-remote <url> HEAD`. **Eight of nine
+match their remote tip; `submodules/constitution` does NOT** — see the warning
+under the table. `bash scripts/verify-manifest-pins.sh` reports 8 MATCH /
+0 DRIFT / 0 UNDETERMINED against `helix-deps.yaml`, but that measures the
+manifest against the **local gitlink**, not against the remote; the two
+questions are different and only one is gated. Two rows are new since this table
+was first written (`workshop`, `submodules/containers`) and every pre-existing
+row had moved — re-derive rather than trusting the table.
+
+| Path | Upstream (`.gitmodules`) | Pinned commit | Owned? |
+|---|---|---|---|
+| `ai_interviewing` | `git@github.com:milos85vasic/ai_interviewing.git` | `5ef07e08f202f75f6c0a9d7eda193f6740a1a333` | **Yes** |
+| `design-toolkit` | `git@github.com:vasic-digital/design-toolkit.git` | `efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb` | **Yes** |
+| `milosvasic.ru` | `git@github.com:milos85vasic/milosvasic.ru.git` | `8166fdba295dedc3114188c56e84248717ee7167` | **Yes** |
+| `monetization` | `git@github.com:milos85vasic/monetization.git` | `54ed7b0f5add52821d18866facb5ee8c75adef69` | **Yes** |
+| `vasic.digital` | `git@github.com:vasic-digital/vasic-digital.github.io.git` | `0bc25012cc33202ced47788a9c301b6a9c15e192` | **Yes** |
+| `workshop` | `git@github.com:milos85vasic/workshop_curriculum.git` | `55076bf943a5158c91dede839ac319c43ddca1ab` | **Yes** |
+| `submodules/containers` | `git@github.com:vasic-digital/containers.git` | `4dab992582666a64a4353cd593704cdc969aaa1e` | **Yes** — added under §11.4.76 |
+| `submodules/constitution` | `git@github.com:HelixDevelopment/HelixConstitution.git` | `902979027a907051dc036668a9c353bd27aedf47` | **Governance submodule** — see below |
+| `submodules/superspec` | `git@github.com:WangX0111/superspec.git` | `c20ac6c1ba069cc9a72dacb8044b7b193d3dde81` | **No — third-party, EXCLUDED** |
+
+> **The governance source is pinned BEHIND its upstream (measured 2026-09-01).**
+> `submodules/constitution` is checked out at `902979027a90` while
+> `git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD`
+> returns `f16ea779b82a`. Every anchor quotation, line count and gate population
+> recorded anywhere in this repository describes `902979027a90`, **not what
+> upstream currently ships**. Whether `f16ea779b82a` is a fast-forward of the
+> pin is **UNVERIFIED** — answering it needs a `git fetch` inside the submodule,
+> a mutating command that was not run without authorization. **No cascade check
+> catches this:** C9 and `scripts/verify-manifest-pins.sh` compare the manifest
+> to the **local gitlink**, so a pin stale against its remote passes both.
+
+`submodules/containers` (`vasic-digital/containers`) is mandated by **§11.4.76**
+for ANY containerised workload, which also forbids reimplementing it — a
+hand-rolled `Containerfile` would be a violation, not merely an inferior choice.
+Its four carriers were a §11.4.157(B) lockstep break upstream and were repaired
+**at source** and pushed as `4dab992` ("govern(carriers): restore §11.4.157(B)
+four-carrier lockstep"); they now measure 703 lines each and cascade check C8
+accepts them. **Honest boundary (§11.4.6): nothing in this repository has yet
+been built or run in a container.** The submodule is present for the workload
+`specs/001-workshop-curriculum-platform/` plans but has not implemented.
 
 ### `submodules/constitution` — the governance submodule itself
 
@@ -540,20 +582,54 @@ This repository is **not** fully constitution-compliant. The full audit is
 identifiers below are the inventory's own. Gaps closed since it was written are
 marked.
 
+**Authority note (added 2026-09-01).** This table is **not** the authoritative
+gap ledger and is not machine-compared to anything. The authority is the
+`- G<n> — <STATUS>` lines in the four root carriers, which
+`scripts/continuation-check.sh` C4 holds in agreement with `CONTINUATION.md` §4
+on every run. If this table disagrees with those, **this table is the defect**.
+Rows below were reconciled against the carriers on 2026-09-01.
+
 | Gap | State |
 |---|---|
 | G1 — no consumer governance layer | **CLOSED** — `CLAUDE.md`, `AGENTS.md`, `QWEN.md`, `GEMINI.md` at the root |
 | G2 — no inheritance pointer | **CLOSED** — all four carriers plus this file open with `## INHERITED FROM ` |
-| G3 — no post-pull validation sweep | **CLOSED** — `scripts/verify-all-constitution-rules.sh` and `scripts/verify-governance-cascade.sh` both exist and run; step 1 is a measured PASS (10/0/0, exit 0, mutation-proven) — OC-3 resolved |
+| G3 — no post-pull validation sweep | **CLOSED** — `scripts/verify-all-constitution-rules.sh` and `scripts/verify-governance-cascade.sh` both exist and run; step 1 re-measured 2026-09-01 as **12 PASS / 0 FAIL / 0 ENV / 7 NOTE, exit 0**, mutation-proven — OC-3 resolved. Grew from 10 to 12 checks with **C8** (four carriers INSIDE each owned submodule agree, per-agent header normalised) and **C9** (every `helix-deps.yaml` `deps[].ref` equals its live gitlink; standalone as `scripts/verify-manifest-pins.sh`). This closes the sweep **contract**; for the sweep's own verdict see the note under this table. |
 | G4 — active CI contradicts §11.4.156 | ~~**OPEN** — OC-1 / OC-2, operator decision~~ → **PARTIAL** (2026-08-27, revised same day). Decided *"Comply — disable both, enforce locally."*, then **partially reversed**. **OC-1: `.github/workflows/ci.yml` → `ci.yml.disabled`, gates moved to a local pre-push hook — umbrella root compliant at file level.** **OC-2: `milosvasic.ru/.github/workflows/pages.yml` stays ACTIVE** — it is the sole publish path (`build_type: "workflow"`) for a live production site; operator directive: *"Make sure all pages websites work flawlessly! No website can be broken! All websites we have here are running deployed in production!"* Permanent **documented deviation, NOT an override**. **OC-2b: `vasic.digital`** triggers `pages build and deployment` on every push from its Pages source setting alone (`build_type: "legacy"`, zero workflow files) — **non-compliant at the provider level with no file-level remedy**. **Not CLOSED and will not close**: §11.4.156(B)'s real test is *"a push triggers ZERO runs"*, and the remaining provider-side settings (org-default required workflows, branch-protection required checks, scheduled exports) are operator-only and unverified. [Decision record](docs/constitution-adoption/DECISION-11-4-156-COMPLY.md) |
-| G5 — no §11.4.75 mechanical enforcement layers | **OPEN** — no git hook, no commit wrapper at this root |
+| G5 — no §11.4.75 mechanical enforcement layers | **PARTIALLY CLOSED** (row corrected 2026-09-01; the previous "OPEN — no git hook, no commit wrapper at this root" was wrong on the wrapper half and is withdrawn). A commit **wrapper** exists: `commit` on PATH → `$SUBMODULES_HOME/Upstreamable/commit` → `Software-Toolkit/Utils/Git/commit.sh` + `push_all.sh`, driven by the tracked `upstreams/GitHub.sh`. It runs `git add .`, so keep `.gitignore` accurate before using it. What is still missing is git **hooks as a tracked, travelling artefact**: `.git/hooks/pre-push` is installed and executable in the current working tree, but `.git/hooks/` is not tracked, so a fresh clone runs nothing until `bash scripts/pre-push-gates.sh --install`. |
 | G6 — no `helix-deps.yaml` | **CLOSED** — `helix-deps.yaml` at the root |
-| G7 — no propagation to owned submodules | **OPEN** — staged under `docs/constitution-adoption/propagation/`, unapplied (§102) |
+| G7 — no propagation to owned submodules | **CLOSED** (measured 2026-09-01; **28 of 28**). No longer staged — applied. `bash scripts/verify-governance-cascade.sh` exits **0**: C1 classifies all 9 declared gitlinks from evidence (7 owned, 1 governance source, 1 third-party, no hardcoded roster); C2 finds all **7 × 4 = 28** owned-submodule carriers present and non-empty; C3 finds all 28 accepted by the canonical `is_pointer_carrier` predicate; C6 finds `helix-deps.yaml` and `.gitmodules` in agreement both ways; C8 finds every owned submodule internally in four-carrier lockstep. Superseded figures, withdrawn not restated: "20/20 CLOSED" (hardcoded five-submodule list, missed `workshop`), "PARTIAL 20/24", and a verbally circulated "24/24" (6 × 4, before `submodules/containers` joined the fleet). |
 | G8 — §11.4.65 markdown export mandate | **OPEN** — no `.html` / `.pdf` siblings anywhere, this file included |
 | G9 — §11.4.212 README-orphan | **OPEN** — `README.md` links to nothing but the CI badge |
 | G10 — §4 tag mirroring incomplete | **OPEN** — `v1.8.0` is on `milosvasic.ru` and `vasic.digital` only |
 | G11 — `design-toolkit` checked out twice | **OPEN** — declared in `helix-deps.yaml`; the shas match today |
 | G12 — §11.4.109 anti-forgetting layer absent | **OPEN** — the canonical guard script is present in the submodule and wired nowhere |
+
+**The sweep's own verdict is not this table (added 2026-09-01).** G3 above
+closes the *contract* that a sweep exists, runs, and is mutation-proven. It says
+nothing about how many gates the sweep passes.
+`scripts/verify-all-constitution-rules.sh` discovers its gates dynamically and
+that population moved **57 → 286** when the constitution pin was fast-forwarded,
+so **every split published before the fast-forward is withdrawn and none is
+comparable to a present-day run**. The most recent measurement on record is
+**186 PASS / 95 FAIL / 6 ERROR of 287 gates**, recorded here as a *reported
+prior measurement*: a re-run started 2026-09-01 had not completed when this text
+was written, so no fresh split is claimed. Its failures are known to include two
+classes no commit this repository can make will clear — (1) third-party and
+staged carriers (`submodules/superspec/examples/…`,
+`milosvasic.ru/Upstreamable/…`, the vendored spec-kit copy under
+`.specify/extensions/`), which `verify-governance-cascade.sh` reports as
+*known-unclearable* and excludes from its own verdict while the sweep's
+propagation-gate family still counts them as FAILs — excluded means **not
+double-counted, never suppressed**; and (2) defects internal to the constitution
+submodule, which is upstream code this project consumes rather than owns.
+
+**Provider-side CI remains unverified (§11.4.6).** File-level disabling stops
+FILE-triggered runs. It cannot reach org-default required workflows,
+branch-protection required checks, the GitHub Pages source setting, or
+provider-side scheduled exports. Those are **operator-only, in a provider UI**,
+and their current state is not known to this document. `bash
+scripts/verify-provider-ci.sh` measures on demand — **exit 2 means COULD NOT
+DETERMINE and is never a pass.**
 
 Do not claim this repository passes a gate you have not actually run. Do not
 treat the absence of a gate as a pass.

@@ -277,7 +277,21 @@ U1–U3 all close in the same short calibration, which is the single recommended
 - **§11.4.156** — no CI may be added, including inside `workshop/`. Note: the umbrella's pre-push
   gate E was blind to submodules until fixed on 2026-09-01; it now derives the owned fleet from
   `helix-deps.yaml` and is mutation-proven against two submodules.
-- **§11.4.76** requires `vasic-digital/containers` as the sole orchestration layer — it is **not**
-  a submodule of this tree. Container work must resolve this before adding a bespoke stack.
+- **§11.4.76** requires `vasic-digital/containers` as the sole orchestration layer.
+  ~~It is **not** a submodule of this tree. Container work must resolve this before adding a
+  bespoke stack.~~ **WITHDRAWN 2026-09-01 — not silently replaced.** *What was believed when this
+  line was written (2026-08-31): the tree declared no `vasic-digital/containers` gitlink, so the
+  §11.4.76(2) submodule obligation was an unmet prerequisite and any container work was blocked
+  behind an operator decision. What is measured now (2026-09-01):
+  `git config -f .gitmodules --get-regexp containers` returns
+  `submodule.submodules/containers.path submodules/containers` and
+  `submodule.submodules/containers.url git@github.com:vasic-digital/containers.git`;
+  `submodules/containers` is populated and the gitlink is pinned at
+  `4dab992`. `scripts/verify-governance-cascade.sh` classifies **9** declared submodules —
+  7 owned (containers among them), 1 governance source, 1 third-party. When it changed: during this
+  feature's own Phase 1 work, after this line was written and before this correction. The
+  prerequisite is therefore **satisfied, not pending**, and the architecture is settled:
+  containerised, consuming `submodules/containers`. A bespoke stack remains forbidden by
+  §11.4.76(4) — that half of the original sentence was, and is, correct.*
 - **§11.4.161** mandates rootless podman. Host has podman 5.7.1 rootless; docker is absent.
 - **§1.1** — every gate needs a paired mutation proof that includes a real end-to-end run.

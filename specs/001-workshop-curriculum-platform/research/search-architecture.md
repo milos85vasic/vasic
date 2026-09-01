@@ -695,7 +695,7 @@ Each phase writes a `.receipt` containing the digest of its inputs; a re-run who
 |---|---|
 | **SC-005** (suggestions ≤ 200 ms p95) | **Achievable with margin** — 9.6 ms p95 measured on a 58,726-row prefix index under load. Only achievable because the path is lexical. |
 | **SC-006** (results ≤ 2 s p95) | **Achievable only under conditions that must be engineered**: a long-lived MCP child (avoids the measured 2.2 s per-process warm-up) *and* embedding capacity reserved from indexing. Not achievable while a full re-index holds the backend — where 9–50 s was measured. The degraded state exists for exactly that window. |
-| **SC-007** (≥ 90 % top-5) | Not measurable before the corpus exists. The benchmark must be versioned (`benchmark/queries.yaml`, ≥ 20 queries, each with an expected **PID**) and run as a gate with evidence written to `_tests/evidence/`. |
+| **SC-007** (≥ 90 % top-5) | Not measurable before the corpus exists. The benchmark must be versioned (~~`benchmark/queries.yaml`~~ → `workshop/platform/backend/testdata/benchmark/retrieval.tsv`, path and format corrected 2026-09-01 — see [tasks.md](../tasks.md) File Structure; ≥ 20 queries, each with an expected **PID**) and run as a gate with evidence written to `_tests/evidence/`. |
 | **SC-008** (≥ 80 % with no literal overlap) | Same, plus: the harness must *machine-verify* zero token overlap between each flagged query and its target passage text, so "shares no literal words" is proved rather than asserted. |
 | **SC-016** (100 % resolve after correction + re-index) | **Achievable, and only via the PID layer.** With Lumen ids it would be 0 % for every corrected passage. Gate + paired mutation described in Finding 2. |
 

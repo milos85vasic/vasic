@@ -11,7 +11,7 @@
  *   - graceful fallbacks (see the @supports block) used ONLY when this file is
  *     loaded WITHOUT the OpenDesign brand stylesheet present.
  *
- * Load order:  brand-*/milosvasic.css  →  kit-tokens.css  →  learning-kit.css
+ * Load order:  brand-<brand>/milosvasic.css  →  kit-tokens.css  →  learning-kit.css
  *
  * Constitution §11.4.6 (no bluff): these tokens resolve against the real
  * OpenDesign token names read from brand-milosvasic/milosvasic.css.

@@ -48,6 +48,8 @@
 #   ./scripts/audit-environment-assumptions.sh --classes     # class reference
 #   ./scripts/audit-environment-assumptions.sh --allow-list  # effective rules
 #   ./scripts/audit-environment-assumptions.sh --no-submodules   # this repo only
+#   ./scripts/audit-environment-assumptions.sh --stale-rules     # allow-list rot
+#   ./scripts/audit-environment-assumptions.sh --strict-allow-list  # rot fails
 #
 # Exit 0 = clean · 1 = findings · 2 = could not do its job
 # (three-valued convention, same as scripts/lumen-index-doctor.sh — rc 2 must
@@ -116,6 +118,62 @@
 # BASELINE = a REAL defect, deliberately not fixed yet. Baselines are counted
 #            and printed loudly on every clean run so the tree can never go
 #            quietly green over known breakage.
+#
+# ALLOW-LIST ROT  (added 2026-09-01)
+# ----------------------------------
+# Until this was written the allow-list could only ever GROW. Nothing checked
+# whether a rule still suppressed anything, and the measured consequence was
+# already in the tree: an agent fixed a `#!/bin/bash` shebang, left the rule
+# behind, and noted the same was already true of two sibling copies. Nobody
+# would ever have noticed — a rule that suppresses nothing produces no output.
+#
+# WHY THIS IS NOT MERELY UNTIDY. A rule is a standing exemption AT A PATH, not
+# at an occurrence. `foo/bar.sh SHEBANG *` keeps suppressing SHEBANG findings in
+# `foo/bar.sh` forever. Delete the file and the rule survives; restore the path
+# later — a revert, a re-added directory, a new file that reuses the name — and
+# the exemption applies to code no human ever vetted, silently, at rc 0. An
+# allow-list that only grows stops being a record of judgements and becomes
+# noise, and noise is what a reviewer skims.
+#
+# THE CENSUS. Every rule is counted as it is used. `isallowed()` therefore no
+# longer returns on the FIRST matching rule: it scores every rule that matches,
+# and only the first one decides REASON-vs-BASELINE. Without that, a rule
+# shadowed by a broader rule above it would read as dead when it is merely
+# redundant — a false accusation, and §11.4.6 forbids reporting a state that was
+# not measured. Two verdicts are emitted, because they are not the same defect:
+#
+#   STALE        the rule's PATH is inside this run's scan universe, and the
+#                rule still matched nothing. The occurrence it named is GONE.
+#                This is rot: delete the rule.
+#   PATH-ABSENT  no scanned file matches the rule's PATH at all. Either the file
+#                was deleted or renamed (rot), or this particular run did not
+#                scan it (`--no-submodules`, an explicit target directory, an
+#                uninitialised gitlink). The two are indistinguishable from
+#                inside one run, so the verdict SAYS SO rather than picking one.
+#
+# WHY A NOTE AND NOT A FAILURE, BY DEFAULT. Silence is what caused this, so the
+# report is unconditional, unsuppressible, and printed on EVERY run exactly as
+# the baselined-occurrence block is. What it is not, by default, is rc 1 — for
+# three reasons that are about correctness, not comfort:
+#
+#   1. The verdict is a function of the INVOCATION, not only of the tree.
+#      `--no-submodules` makes every fleet-facing rule look unused; so does
+#      pointing the gate at another checkout. A check whose PASS/FAIL flips on
+#      an unrelated CLI flag must not be the thing that blocks a push.
+#   2. A rule is legitimately unused for the duration of a fix. This tree runs
+#      several agents at once; one fixes the defect, and the rule is dead for
+#      the minutes before the same agent deletes it. Failing there teaches the
+#      wrong lesson — the cheapest way to go green would be to widen the rule
+#      or put the defect back.
+#   3. Staleness is a property of the LEDGER; the gate's verdict is about the
+#      SOURCE. Conflating them makes a clean tree unpushable over bookkeeping.
+#
+# So the precedent followed is this file's own BASELINE handling — loud on every
+# run, never suppressible, not by itself fatal — plus the deliberate escalation
+# that `scripts/verify-check-registry.sh --strict` already establishes in this
+# repository. `--strict-allow-list` (or ENV_ASSUMPTIONS_STRICT_ALLOW=1) turns
+# every STALE row into a finding and exits 1. PATH-ABSENT never escalates: it is
+# a could-not-distinguish, and §11.4.6 does not let a maybe become an accusation.
 # ------------------------------------------------------------------------------
 set -uo pipefail
 
@@ -126,17 +184,31 @@ set -uo pipefail
 TARGET=""
 MODE="audit"
 SWEEP=1
+# Stale allow rules are REPORTED on every run and, by default, do not fail the
+# gate. See "ALLOW-LIST ROT" in the header for why that default is deliberate
+# and not a softening. `--strict-allow-list` (or ENV_ASSUMPTIONS_STRICT_ALLOW=1
+# in the environment, which is how the §1.1 battery drives it) escalates a stale
+# rule to a finding, rc 1.
+STRICT_ALLOW="${ENV_ASSUMPTIONS_STRICT_ALLOW:-0}"
 for arg in "$@"; do
     case "$arg" in
-        --list)           MODE="list" ;;
-        --classes)        MODE="classes" ;;
-        --allow-list)     MODE="allow" ;;
-        --help|-h)        MODE="help" ;;
-        --no-submodules)  SWEEP=0 ;;
+        --list)               MODE="list" ;;
+        --classes)            MODE="classes" ;;
+        --allow-list)         MODE="allow" ;;
+        --help|-h)            MODE="help" ;;
+        --no-submodules)      SWEEP=0 ;;
+        --prove-failure)      MODE="prove" ;;
+        --strict-allow-list)  STRICT_ALLOW=1 ;;
+        --stale-rules)        MODE="stale" ;;
         -*)               echo "FATAL: unknown option '$arg'" >&2; exit 2 ;;
         *)                TARGET="$arg" ;;
     esac
 done
+
+# Absolute path to THIS file, captured BEFORE the `cd` below. The §1.1 proof
+# re-invokes the real entry point from inside a sandbox, and a relative
+# ${BASH_SOURCE[0]} stops resolving the moment the working directory moves.
+SELF_ABS="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/$(basename -- "${BASH_SOURCE[0]}")"
 
 if [ -n "$TARGET" ]; then
     ROOT="$(cd -- "$TARGET" 2>/dev/null && pwd)" \
@@ -160,6 +232,249 @@ if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
     DIM=$'\033[2m';    NC=$'\033[0m'
 else
     RED=""; GREEN=""; YELLOW=""; DIM=""; NC=""
+fi
+
+# ------------------------------------------------------------------------------
+# §1.1 PAIRED MUTATION PROOF  (--prove-failure)
+#
+# WHY IT EXISTS
+# -------------
+# The header above already said this gate accepts an explicit directory "so its
+# own mutation proofs can run against throwaway repos instead of the live tree".
+# Until 2026-09-01 no such proof existed: the affordance was built, the proof was
+# never written, and `scripts/check-registry.tsv` carried the gap as a `debt`
+# row. §1.1 requires the demonstration, and a gate never observed failing is not
+# known to work.
+#
+# WHY THE CONTROL IS SYNTHETIC — this one is not hypothetical
+# -----------------------------------------------------------
+# THIS GATE HAS BEEN RED ON THIS TREE, TWICE IN ONE DAY. Measured 2026-09-01
+# 09:12: rc=1 with 8 findings (GNU `sed -i` in several gate scripts, plus a
+# third-party TOOLVER). Measured again 2026-09-01 11:20, after `LLMProvider` and
+# `RAG` joined the fleet: rc=1 with 476. Both were triaged and it is rc=0 as of
+# 11:55 — which changes NOTHING about this design. Had this proof used the live
+# tree as its control — the mistake `verify-governance-cascade.sh` and
+# `verify-manifest-pins.sh` both shipped — the control would have failed on
+# every run for those hours, ZERO mutations would have executed, and the proof
+# would have exited 1 having demonstrated nothing while still reading as
+# coverage. A control that is green only while the tree happens to be green is
+# not a control. The live run stays a REPORTED pre-flight that cannot disable
+# the battery, and the pre-flight branches on rc rather than asserting one.
+#
+# So the control is a SYNTHETIC throwaway repository, green BY CONSTRUCTION, and
+# the live run is a REPORTED pre-flight that cannot disable the battery. The
+# shape is copied from `scripts/verify-check-registry.sh --prove-failure`.
+#
+# Every byte written lands inside a `mktemp -d`. Nothing under the target
+# repository is created, modified or removed, so no restore is required.
+# ------------------------------------------------------------------------------
+if [ "$MODE" = "prove" ]; then
+    echo "CM-ENV-ASSUMPTIONS §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+
+    p_fails=0
+
+    # ---- PRE-FLIGHT: the REAL entry point against the REAL tree -------------
+    pf_out="$(bash "$SELF_ABS" "$ROOT" 2>&1)"; pf_rc=$?
+    case "$pf_rc" in
+        0) printf '✅ %-26s the real audit ran against the real tree and returned rc=0 (clean)\n' "PRE-FLIGHT live-run" ;;
+        1) printf 'ℹ %-26s the real audit RAN against the real tree and returned rc=1 — REAL\n' "PRE-FLIGHT live-run"
+           printf '                           findings exist on this tree TODAY. REPORTED, NOT GATING: this is\n'
+           printf '                           exactly the state that would have made a live-tree control run\n'
+           printf '                           zero mutations. The synthetic battery below runs regardless.\n' ;;
+        2) printf 'ℹ %-26s the real audit RAN and returned rc=2 (could not determine) on the\n' "PRE-FLIGHT live-run"
+           printf '                           real tree. REPORTED, NOT GATING; the battery still runs.\n' ;;
+        *) printf '❌ %-26s undocumented exit code %s; the contract is 0/1/2 only\n' "PRE-FLIGHT live-run" "$pf_rc"
+           p_fails=$((p_fails+1)) ;;
+    esac
+
+    SB="$(mktemp -d "${TMPDIR:-/tmp}/envassum-proof.XXXXXX")" \
+        || { echo "UNDET: cannot create a sandbox; the proof could not run" >&2; exit 2; }
+    trap 'rm -rf "$SB"' EXIT INT TERM
+
+    sgit() { git -c user.name=env-proof -c user.email=env-proof@invalid \
+                 -c core.hooksPath=/dev/null -c init.defaultBranch=main "$@"; }
+
+    # Green by construction: two files that KEEP_SUFFIX actually scans, neither
+    # carrying any frozen assumption. `git add` suffices — the audit enumerates
+    # with `git ls-files`, which reads the INDEX, so no commit is needed.
+    mk_control() {
+        d="$1"
+        rm -rf "$d"; mkdir -p "$d/scripts" "$d/src" || return 1
+        sgit -C "." init -q "$d" >/dev/null 2>&1 || return 1
+        {
+            printf '#!/usr/bin/env bash\n'
+            printf 'ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"\n'
+            printf 'HOST="${DEMO_HOST:-example.invalid}"\n'
+            printf 'echo "$ROOT $HOST"\n'
+        } > "$d/scripts/tool.sh"
+        printf 'package main\n\nfunc main() {}\n' > "$d/src/main.go"
+        sgit -C "$d" add -A >/dev/null 2>&1 || return 1
+        return 0
+    }
+
+    # p_assert <label> <desc> <want-rc> <needle> <fn...>
+    # A mutation that changes the exit code without NAMING the offending thing
+    # is a weak proof: its reader cannot act on it (§11.4.6). So the needle is
+    # required, not optional.
+    #
+    # P_ENV carries a one-shot environment assignment into the child and is
+    # cleared immediately after, so an opt-in mode cannot leak into the next
+    # assertion and quietly change what the rest of the battery proves. It is a
+    # variable rather than a flag argument because every existing call site is
+    # positional and rewriting all ten to add an argument they do not use would
+    # be a larger change than the thing being proved.
+    P_ENV=""
+    p_assert() {
+        label="$1"; desc="$2"; want="$3"; needle="$4"; shift 4
+        slug="$(printf '%s' "$label" | tr -cd 'A-Za-z0-9')"
+        dir="${SB}/mut_${slug}"
+        rm -rf "$dir"
+        if ! cp -r "$PRISTINE" "$dir"; then
+            printf '❌ %-26s could not copy the control\n' "$label"; p_fails=$((p_fails+1)); P_ENV=""; return
+        fi
+        if ! "$@" "$dir"; then
+            printf '❌ %-26s could not apply the mutation (%s)\n' "$label" "$desc"; p_fails=$((p_fails+1)); rm -rf "$dir"; P_ENV=""; return
+        fi
+        # shellcheck disable=SC2086  # P_ENV is an internal, deliberately split assignment list
+        out="$(env $P_ENV bash "$SELF_ABS" "$dir" 2>&1)"; rc=$?
+        P_ENV=""
+        if [ "$rc" -ne "$want" ]; then
+            printf '❌ %-26s %s\n' "$label" "$desc"
+            printf '                           -> rc=%s, wanted %s. THIS GATE WOULD BE A SHAM (§1.1).\n' "$rc" "$want"
+            printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
+            p_fails=$((p_fails+1)); rm -rf "$dir"; return
+        fi
+        if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+            printf '❌ %-26s %s\n' "$label" "$desc"
+            printf '                           -> rc=%s as wanted, but the output never NAMED %s.\n' "$rc" "'$needle'"
+            printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
+            p_fails=$((p_fails+1)); rm -rf "$dir"; return
+        fi
+        printf '✅ %-26s %s\n' "$label" "$desc"
+        printf '                           -> rc=%s (wanted %s)  [names %s]\n' "$rc" "$want" "'$needle'"
+        rm -rf "$dir"
+    }
+
+    PRISTINE="${SB}/pristine"
+    if ! mk_control "$PRISTINE"; then
+        echo "UNDET: could not build the synthetic control repository" >&2; exit 2
+    fi
+
+    echo "  sandbox: ${SB}"
+    echo "----------------------------------------------------------------------"
+
+    ctl_out="$(bash "$SELF_ABS" "$PRISTINE" 2>&1)"; ctl_rc=$?
+    if [ "$ctl_rc" -eq 0 ]; then
+        printf '✅ %-26s unmutated synthetic repository passes (rc=0), by construction\n' "CONTROL synthetic-green"
+    else
+        printf '❌ %-26s returned rc=%s\n' "CONTROL synthetic-green" "$ctl_rc"
+        printf '                           -> ABORTING: ZERO mutations ran, so NOTHING was proved. This is a\n'
+        printf '                              fault in the proof harness, not a statement about this tree.\n'
+        printf '%s\n' "$ctl_out" | tail -8 | sed 's/^/        /'
+        exit 1
+    fi
+
+    # ---- the mutations -------------------------------------------------------
+    # SHEBANG: an absolute interpreter path instead of /usr/bin/env.
+    plant_shebang() {
+        d="$1"
+        { printf '#!/bin/bash\n'; tail -n +2 "$d/scripts/tool.sh"; } > "$d/scripts/tool.new" \
+            && mv "$d/scripts/tool.new" "$d/scripts/tool.sh"
+    }
+    # ENDPOINT: a host:port literal with no environment override.
+    plant_endpoint()  { printf 'BASE_URL="http://127.0.0.1:8401"\n' >> "$1/scripts/tool.sh"; }
+    # The SAME endpoint, but env-defaulted — the form the rule asks for. It must
+    # NOT fire. This is the pair that shows the detector discriminates rather
+    # than merely matching a substring (§11.4.201(7)(a)).
+    plant_endpoint_ok() { printf 'BASE_URL="${VD_BASE:-http://127.0.0.1:8401}"\n' >> "$1/scripts/tool.sh"; }
+
+    # A LIVE rule plus a STALE one, in the same file. The live rule suppresses
+    # the planted shebang, so the run is otherwise clean; the second names a
+    # PATH THAT IS SCANNED with a MATCH that occurs nowhere in it, which is the
+    # exact shape of a rule whose defect was fixed and whose row was left
+    # behind. Both must be true at once — if the mutant were stale-only, an
+    # rc=1 would prove nothing, because the unsuppressed shebang would produce
+    # it. Pairing them is what makes the rc attributable to the rot alone.
+    allow_stale() {
+        plant_shebang "$1" && {
+            printf '# REASON: synthetic, justified for the proof\n'
+            printf 'scripts/tool.sh SHEBANG *\n'
+            printf '\n'
+            printf '# BASELINE: synthetic ROT - this MATCH occurs in no scanned line\n'
+            printf 'scripts/tool.sh ENDPOINT ZZ-no-such-substring-ZZ\n'
+        } > "$1/.environment-assumptions-allow"
+    }
+
+    allow_reason()   { plant_shebang "$1" && printf '# REASON: synthetic, justified for the proof\nscripts/tool.sh SHEBANG *\n' > "$1/.environment-assumptions-allow"; }
+    allow_baseline() { plant_shebang "$1" && printf '# BASELINE: synthetic known-unfixed defect, finding F-PROOF\nscripts/tool.sh SHEBANG *\n' > "$1/.environment-assumptions-allow"; }
+    allow_malformed(){ printf 'scripts/tool.sh SHEBANG *\n' > "$1/.environment-assumptions-allow"; }
+
+    not_a_repo()     { rm -rf "$1/.git"; }
+    no_such_dir()    { rm -rf "$1"; }
+    empty_universe() { d="$1"; rm -rf "$d"; mkdir -p "$d" && sgit -C "." init -q "$d" >/dev/null 2>&1; }
+    uninit_sub()     {
+        d="$1"
+        printf '[submodule "vendor/thing"]\n\tpath = vendor/thing\n\turl = git@github.com:someone/thing.git\n' > "$d/.gitmodules"
+        printf 'schema_version: 1\ndeps:\n  - name: thing\n    ssh_url: git@github.com:someone/thing.git\n'    > "$d/helix-deps.yaml"
+        mkdir -p "$d/vendor/thing" || return 1
+        sgit -C "$d" add -A >/dev/null 2>&1 || true
+        return 0
+    }
+
+    p_assert "E1 shebang-violation"  "an absolute interpreter path instead of /usr/bin/env            " 1 "SHEBANG"                plant_shebang
+    p_assert "E2 REASON-suppresses"  "the SAME violation, allow-listed with '# REASON:'               " 0 "allow-listed"           allow_reason
+    p_assert "E3 BASELINE-is-loud"   "the SAME violation, allow-listed with '# BASELINE:'             " 0 "baselined occurrence"   allow_baseline
+    p_assert "E4 endpoint-violation" "a host:port literal frozen in source with no env override       " 1 "ENDPOINT"               plant_endpoint
+    p_assert "E5 endpoint-env-ok"    "the SAME endpoint, env-defaulted — the fixed form must NOT fire " 0 "no NEW frozen"          plant_endpoint_ok
+    p_assert "E6 malformed-allow"    "an allow rule with no '# REASON:'/'# BASELINE:' above it        " 2 "malformed allow-list"   allow_malformed
+    p_assert "E7 target-absent"      "the target directory does not exist — cannot be inspected       " 2 "no such directory"      no_such_dir
+    p_assert "E8 not-a-git-tree"     "the target is not a git working tree — nothing to enumerate     " 2 "not a git working tree" not_a_repo
+    p_assert "E9 empty-universe"     "zero scannable files — a clean verdict over nothing is a bluff  " 2 "scan universe is empty" empty_universe
+    p_assert "E10 uninit-submodule"  "a declared submodule is not checked out — NOT a pass, NOT a fail" 2 "not initialised"        uninit_sub
+
+    # ---- allow-list rot (added 2026-09-01) ----------------------------------
+    # Three assertions, because the detector has to be shown doing three
+    # different things and any one of them alone would be a weak proof:
+    #   E11 it SEES rot and says so on a run that is otherwise clean (rc 0);
+    #   E12 the SAME mutant fails when the operator asks it to (rc 1), so the
+    #       NOTE-by-default is a policy choice and not an inability to fail;
+    #   E13 a LIVE rule under the SAME strict setting stays green — without
+    #       this, a detector that simply called every rule stale would pass
+    #       E11 and E12 and be worthless.
+    p_assert "E11 stale-rule-visible" "an allow rule that suppresses nothing — loud, but NOT fatal       " 0 "STALE allow rule"       allow_stale
+    P_ENV="ENV_ASSUMPTIONS_STRICT_ALLOW=1"
+    p_assert "E12 stale-rule-strict"  "the SAME rot, escalated by ENV_ASSUMPTIONS_STRICT_ALLOW=1        " 1 "STALE allow rule"       allow_stale
+    P_ENV="ENV_ASSUMPTIONS_STRICT_ALLOW=1"
+    p_assert "E13 live-rule-strict"   "a rule that DOES suppress — must stay green even under strict    " 0 "no NEW frozen"          allow_reason
+
+    # ---- restored control ----------------------------------------------------
+    bash "$SELF_ABS" "$PRISTINE" >/dev/null 2>&1; rc=$?
+    if [ "$rc" -eq 0 ]; then
+        printf '✅ %-26s the unmutated control is still green after the battery (rc=0)\n' "CONTROL restored"
+    else
+        printf '❌ %-26s the control no longer passes (rc=%s); a mutation leaked out of its copy\n' "CONTROL restored" "$rc"
+        p_fails=$((p_fails+1))
+    fi
+
+    echo "----------------------------------------------------------------------"
+    if [ "$p_fails" -eq 0 ]; then
+        echo "✅ CM-ENV-ASSUMPTIONS §1.1 MUTATION PROOF: PASS — the REAL entry point ran against"
+        echo "   the REAL tree (reported above, never gating: whatever it returned, that verdict"
+        echo "   is why the control below is synthetic and not the live tree), a control green by"
+        echo "   construction passed, and the"
+        echo "   13 mutations each produced the required THREE-VALUED verdict while NAMING the"
+        echo "   offending thing: two distinct detector classes caught as rc=1; the env-defaulted"
+        echo "   form of the same endpoint correctly NOT flagged; both suppression kinds honoured"
+        echo "   at rc=0 while still naming what they suppressed; five could-not-determine"
+        echo "   states as rc=2 — never a pass, never an accusation; and the allow-list ROT"
+        echo "   detector shown SEEING a rule that suppresses nothing without failing (E11),"
+        echo "   FAILING on the same rot when asked to (E12), and NOT accusing a rule that does"
+        echo "   its job under the identical setting (E13). The control is still green."
+        exit 0
+    fi
+    echo "❌ CM-ENV-ASSUMPTIONS §1.1 MUTATION PROOF: FAIL — ${p_fails} case(s) did not behave as required"
+    exit 1
 fi
 
 # ---- class reference ---------------------------------------------------------
@@ -190,10 +505,58 @@ scripts/audit-environment-assumptions.sh * *
 # structural reason, and its SKIP/PATTERN strings collide with OSPATH.
 scripts/audit-hardcoded-paths.sh * *
 
-# REASON: _tools/pdf/build-pdfs.sh already dispatches BSD-first with a GNU
-# fallback - `stat -f %m ... || stat -c %Y ... || echo 0`. That is the portable
-# form this class asks for; flagging it would punish the fix.
-_tools/pdf/build-pdfs.sh GNUBSD stat -f %m
+# REASON: _tools/pdf/build-pdfs.sh runs each spelling SEPARATELY and validates
+# that the OUTPUT is a bare integer before accepting it - portable_mtime, and
+# the deliberately independent readback helper inside --prove-mtime. Validating
+# output, not exit status, IS the portable form for this pair, so the MATCH
+# below is the whole validated two-spelling dispatch rather than a loose token.
+#
+# The rule that stood here until 2026-09-01 said the opposite and was wrong on
+# the facts. It read `_tools/pdf/build-pdfs.sh GNUBSD stat -f %m` and claimed
+# the file "already dispatches BSD-first with a GNU fallback". It did not. On
+# GNU coreutils `-f` is --file-system and takes no argument, so `%m` is parsed
+# as a FILE operand: stat fails on `%m` (stderr, swallowed), SUCCEEDS on the
+# real file, writes a filesystem report to STDOUT and exits 1, whereupon the
+# `||` fires and the GNU spelling appends the epoch to that report. Measured on
+# GNU coreutils 9.4: 244 bytes, not an epoch. Downstream, `[ "$m" -gt ... ]`
+# then died with "integer expression expected" on every file after the first,
+# so the newest-mtime selection never ran - silently, at rc 0.
+#
+# Two lessons are encoded in the MATCH string, not just in this prose. First, a
+# `||` chain is not a portability dispatch when the losing spelling can
+# half-succeed on stdout. Second, the old loose token `stat -f %m` was ALSO a
+# substring of that broken one-liner, so this allow-list was suppressing the
+# very defect it advertised as the fix - a rule can only be trusted to the
+# precision of its pattern. The pattern below does not match the broken form.
+# Re-derive both halves: `bash _tools/pdf/build-pdfs.sh --prove-mtime` exits 0
+# now and exits 1 when the one-liner is seeded back into portable_mtime.
+_tools/pdf/build-pdfs.sh GNUBSD stat -c %Y "$1" 2>/dev/null)" "$(stat -f %m "$1" 2>/dev/null)
+
+# REASON: verify-check-registry.sh runs each spelling SEPARATELY inside its
+# _file_mode helper and validates that the OUTPUT is three or four octal digits
+# before accepting it; a literal question mark marks could-not-determine rather
+# than inventing a mode. Validating output, not exit status, IS the portable
+# form for this pair, so the MATCH below is the whole validated two-spelling
+# dispatch rather than a loose token.
+#
+# The rule that stood here until 2026-09-01 matched the bare token stat dash c,
+# which is a SUBSTRING OF THE BROKEN FORM as well as of the fixed one - it would
+# have suppressed the very defect it advertised as blessing. That is the same
+# failure the build-pdfs.sh rule above records, and a rule can only be trusted
+# to the precision of its pattern. The MATCH below does not match an || chain.
+# It also covers the deliberately duplicated readback probe inside
+# --prove-filemode, whose dispatch line is byte-identical by design.
+# Re-derive both halves: `bash scripts/verify-check-registry.sh
+# --prove-filemode` exits 0 now, and exits 1 when the || chain is seeded back.
+scripts/verify-check-registry.sh GNUBSD stat -c %a "$1" 2>/dev/null)" "$(stat -f %Lp "$1" 2>/dev/null)
+
+# REASON: verify-manifest-pins.sh carries the same _file_mode helper and the
+# same duplicated readback probe, validated the same way and matched by the same
+# precise pattern rather than by the loose token this rule used to carry.
+# Re-derive: `bash scripts/verify-manifest-pins.sh --prove-filemode`.
+scripts/verify-manifest-pins.sh GNUBSD stat -c %a "$1" 2>/dev/null)" "$(stat -f %Lp "$1" 2>/dev/null)
+
+
 
 # BASELINE: known defect F3 - docs/environment-adaptability/AUDIT.md.
 # GNU `sed -i` in-place form; BSD/macOS sed requires an explicit backup suffix.
@@ -585,9 +948,22 @@ if [ "$MODE" = "allow" ]; then
     cat "$WORK/allow.raw"; exit 0
 fi
 
-# Normalise to  KIND<TAB>PATH<TAB>CLASS<TAB>MATCH
+# Normalise to  KIND<TAB>PATH<TAB>CLASS<TAB>MATCH<TAB>SRC<TAB>SRCLINE
+#
+# SRC/SRCLINE exist for the rot report and nothing else: telling an operator a
+# rule is dead without telling them WHERE TO DELETE IT is a finding they cannot
+# act on (§11.4.6). `allow.raw` is the embedded ALLOW_RULES followed by the
+# external file, so the marker line that separates them also fixes the offset
+# that converts a concatenated NR back into a line number in the real file.
 awk '
     { line = $0 }
+    line ~ /^# ---- external: / {
+        srcname = line
+        sub(/^# ---- external: /, "", srcname)
+        off = NR
+        blkkind = ""
+        next
+    }
     line ~ /^[[:space:]]*$/ { blkkind = ""; next }
     line ~ /^[[:space:]]*#/ {
         if (line ~ /BASELINE:/)    blkkind = "BASELINE"
@@ -609,7 +985,9 @@ awk '
         m = rest
         if (m == "") m = "*"
         if (c == "") c = "*"
-        printf "%s\t%s\t%s\t%s\n", kind, p, c, m
+        src = (off ? srcname : "(embedded ALLOW_RULES)")
+        sl  = (off ? NR - off : NR)
+        printf "%s\t%s\t%s\t%s\t%s\t%s\n", kind, p, c, m, src, sl
         blkkind = ""
     }
 ' "$WORK/allow.raw" > "$WORK/allow.tsv"
@@ -622,20 +1000,36 @@ printf '%s' "$SCANNED" > "$WORK/files.txt"
 # does not support {n,m}), so the gate is itself free of the assumptions it
 # polices and stays fast enough for a pre-push hook.
 AWK_PROG='
-function isallowed(path, cls, line,   i, ap, ac, am, ok) {
-    for (i = 1; i <= arn; i++) {
-        ap = arp[i]; ac = arc[i]; am = arm[i]
-        ok = 0
-        if (ap == path) ok = 1
-        else if (substr(ap, length(ap), 1) == "*" &&
-                 substr(path, 1, length(ap) - 1) == substr(ap, 1, length(ap) - 1)) ok = 1
-        if (!ok) continue
-        if (ac != "*" && ac != cls) continue
-        if (am != "*" && index(line, am) == 0) continue
-        allowkind = ark[i]
-        return 1
-    }
+# pathmatch is the ONE place the PATH-matching convention lives (exact, or a
+# trailing `*` prefix match). It was inlined in isallowed(); the rot census
+# needs the identical predicate to decide whether a rule PATH is even inside
+# this run scan universe, and two copies of a matching rule would eventually
+# disagree — at which point the census would accuse rules that are fine.
+function pathmatch(ap, path) {
+    if (ap == path) return 1
+    if (substr(ap, length(ap), 1) == "*" &&
+        substr(path, 1, length(ap) - 1) == substr(ap, 1, length(ap) - 1)) return 1
     return 0
+}
+
+# isallowed scores EVERY rule that matches, not just the first.
+#
+# It used to `return 1` on the first hit, which was correct for the verdict and
+# wrong for the census: a rule shadowed by a broader rule above it would record
+# zero uses and be reported dead when it is merely redundant. The verdict is
+# unchanged — `allowkind` is still taken from the FIRST match, so REASON-vs-
+# BASELINE precedence is exactly what it was — but every matching rule now gets
+# its use counted.
+function isallowed(path, cls, line,   i, matched) {
+    matched = 0
+    for (i = 1; i <= arn; i++) {
+        if (!pathmatch(arp[i], path)) continue
+        if (arc[i] != "*" && arc[i] != cls) continue
+        if (arm[i] != "*" && index(line, arm[i]) == 0) continue
+        aru[i]++
+        if (!matched) { allowkind = ark[i]; matched = 1 }
+    }
+    return matched
 }
 
 function flush(   i, k, cls, ln, txt) {
@@ -660,6 +1054,8 @@ BEGIN { FS = "\t" }
 NR == FNR {
     arn++
     ark[arn] = $1; arp[arn] = $2; arc[arn] = $3; arm[arn] = $4
+    ars[arn] = $5; arl[arn] = $6
+    aru[arn] = 0
     next
 }
 
@@ -668,6 +1064,14 @@ FNR == 1 {
     if (cur != "") flush()
     cur = FILENAME
     guarded = 0
+    # The scanned universe, recorded for the rot census so it can tell "the
+    # defect is gone" from "the file is gone".
+    #
+    # HONEST BOUNDARY (§11.4.6): this fires per RECORD, so a zero-byte file
+    # never reaches it and a rule naming only that file reads as PATH-ABSENT
+    # rather than STALE. Both are reported, neither is suppressed, and an empty
+    # file cannot carry a finding for a rule to suppress in the first place.
+    seen[++seenn] = FILENAME
 }
 
 {
@@ -784,6 +1188,23 @@ END {
     if (cur != "") flush()
     printf "SUMMARY\t%d\t%d\t%d\n", hits, allowcount, basecount
     for (f in basefiles) printf "BASEFILE\t%s\n", f
+
+    # ---- allow-list rot census ----------------------------------------------
+    # A rule that scored zero uses suppressed nothing on this run. Which of the
+    # two verdicts it earns depends on whether its PATH is even in the universe
+    # that was scanned — see "ALLOW-LIST ROT" in the header. The inner loop is
+    # over the scanned universe and runs only for rules that already scored
+    # zero, so the cost is (dead rules x files), not (rules x files).
+    for (i = 1; i <= arn; i++) {
+        if (aru[i] > 0) continue
+        covered = 0
+        for (j = 1; j <= seenn; j++) {
+            if (pathmatch(arp[i], seen[j])) { covered = 1; break }
+        }
+        printf "STALE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", \
+            (covered ? "STALE" : "PATH-ABSENT"), \
+            ark[i], arp[i], arc[i], arm[i], ars[i], arl[i]
+    }
 }
 '
 
@@ -814,6 +1235,43 @@ SUMMARY_LINE="$(printf '%s\n' "$RESULT" | grep '^SUMMARY' | head -1)"
 
 ALLOWED=$(printf '%s' "$SUMMARY_LINE" | cut -f3)
 BASELINED=$(printf '%s' "$SUMMARY_LINE" | cut -f4)
+
+# ---- allow-list rot ----------------------------------------------------------
+printf '%s\n' "$RESULT" | grep '^STALE' > "$WORK/stale.all" || true
+grep -c '	STALE	' "$WORK/stale.all" > "$WORK/n.stale" 2>/dev/null || true
+grep -c '	PATH-ABSENT	' "$WORK/stale.all" > "$WORK/n.absent" 2>/dev/null || true
+STALE_N=$(cat "$WORK/n.stale" 2>/dev/null || echo 0);  STALE_N=${STALE_N:-0}
+ABSENT_N=$(cat "$WORK/n.absent" 2>/dev/null || echo 0); ABSENT_N=${ABSENT_N:-0}
+RULE_N=$(grep -c . "$WORK/allow.tsv" || true)
+
+# Renders one rot section. Kept as a function because `--stale-rules` and the
+# tail of a normal run print the identical thing, and two copies of a report
+# drift until they describe different states.
+print_rot() {   # $1 = verdict token to print
+    _v="$1"; _cur=""
+    while IFS="$(printf '\t')" read -r _tag verdict kind rpath rcls rmatch rsrc rline; do
+        [ "$verdict" = "$_v" ] || continue
+        if [ "$rsrc" != "$_cur" ]; then
+            printf '     %sin %s:%s\n' "$DIM" "$rsrc" "$NC"
+            _cur="$rsrc"
+        fi
+        printf '       line %-5s %-8s %s %s %s\n' "$rline" "$kind" "$rpath" "$rcls" "$rmatch"
+    done < "$WORK/stale.all"
+}
+
+if [ "$MODE" = "stale" ]; then
+    printf 'ALLOW-LIST ROT CENSUS — %d rule(s) in the effective allow-list\n' "$RULE_N"
+    printf 'scanned %d file(s) across %d repositor%s\n' "$FILE_COUNT" "$((SWEPT + 1))" \
+        "$( [ "$((SWEPT+1))" -eq 1 ] && echo y || echo ies )"
+    echo "────────────────────────────────────────────────────────"
+    printf 'STALE — path IS scanned, rule matched nothing: %d\n' "$STALE_N"
+    print_rot STALE
+    printf 'PATH-ABSENT — no scanned file matches the rule path: %d\n' "$ABSENT_N"
+    print_rot PATH-ABSENT
+    echo "────────────────────────────────────────────────────────"
+    [ "$STALE_N" -eq 0 ] && exit 0
+    exit 1
+fi
 
 # Split the findings by OWNERSHIP. A finding in a third-party gitlink is real
 # and is printed, but it is not this tree's to fix and does not fail the gate.
@@ -866,6 +1324,29 @@ if [ "$BASELINED" -gt 0 ]; then
     printf '%s   not a justification. Do not add to it without a finding id.%s\n' "$YELLOW" "$NC"
 fi
 
+# ALLOW-LIST ROT — printed on EVERY run, exactly like the baseline block above
+# and for the same reason: a suppression nobody can see is indistinguishable
+# from a bluff. Whether it also FAILS is a separate, deliberate decision; see
+# "ALLOW-LIST ROT" in the header for why the default is a loud NOTE.
+if [ "$STALE_N" -gt 0 ]; then
+    printf '%s⚠️  %d STALE allow rule(s) of %d — the occurrence each one names is GONE,%s\n' \
+        "$YELLOW" "$STALE_N" "$RULE_N" "$NC"
+    printf '%s   yet the exemption still stands at that path. Delete them:%s\n' "$YELLOW" "$NC"
+    print_rot STALE
+    printf '%s   A rule is an exemption at a PATH, not at an occurrence: recreate the%s\n' "$YELLOW" "$NC"
+    printf '%s   path and unvetted code inherits it silently. (A rule can also read as%s\n' "$YELLOW" "$NC"
+    printf '%s   stale because a file-scope capability guard already clears its class —%s\n' "$YELLOW" "$NC"
+    printf '%s   it suppresses nothing either way.)  Escalate with --strict-allow-list.%s\n' "$YELLOW" "$NC"
+fi
+if [ "$ABSENT_N" -gt 0 ]; then
+    printf '%sNOTE — %d allow rule(s) name a path NOT in this run scan universe.%s\n' \
+        "$YELLOW" "$ABSENT_N" "$NC"
+    printf '%sEither the file is gone (rot — delete the rule) or this run did not scan%s\n' "$YELLOW" "$NC"
+    printf '%sit (--no-submodules, an explicit target, an uninitialised gitlink). ONE run%s\n' "$YELLOW" "$NC"
+    printf '%scannot tell those apart, so this is never escalated to a finding:%s\n' "$YELLOW" "$NC"
+    print_rot PATH-ABSENT
+fi
+
 if [ "$NOTES" -gt 0 ]; then
     printf '%sNOTE — %d frozen environment assumption(s) in THIRD-PARTY gitlink(s).%s\n' \
         "$YELLOW" "$NOTES" "$NC"
@@ -901,6 +1382,14 @@ if [ -n "$FLEET_UNINIT" ]; then
 fi
 
 if [ "$HITS" -eq 0 ]; then
+    if [ "$STRICT_ALLOW" = "1" ] && [ "$STALE_N" -gt 0 ]; then
+        printf '%s❌ %d STALE allow rule(s) — escalated to a finding by%s\n' \
+            "$RED" "$STALE_N" "$NC"
+        printf '%s   --strict-allow-list / ENV_ASSUMPTIONS_STRICT_ALLOW=1.%s\n' "$RED" "$NC"
+        printf '%s   The SOURCE is clean: no NEW frozen environment assumptions. The LEDGER%s\n' "$RED" "$NC"
+        printf '%s   is not — the rules listed above suppress nothing and must be deleted.%s\n' "$RED" "$NC"
+        exit 1
+    fi
     printf '%s✅ no NEW frozen environment assumptions%s' "$GREEN" "$NC"
     [ "$ALLOWED" -gt 0 ] && printf ' (%d justified occurrence(s) allow-listed)' "$ALLOWED"
     echo

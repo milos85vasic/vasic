@@ -437,9 +437,16 @@ gate_6() {
     # Those echoes appear for EVERY failure, including pure navigation timeouts, so
     # counting them classified 28 network timeouts as 'real assertion failures' and
     # forced rc=1. Strip the 'NNN | ' source-echo lines before classifying.
+    # Only 'Error: expect(' and 'AssertionError' are reliable markers of a genuine
+    # assertion failure. A bare 'Expected:'/'Received:' pair is NOT: a spec that
+    # catches a network error and asserts on a sentinel produces exactly that shape.
+    # Measured live — all-languages-link-integrity turns a connection refusal into
+    # 'Expected: 200 / Received: 0', which is a reachability failure wearing an
+    # assertion's clothes. Counting it would re-introduce the same false positive
+    # that source-code echoes already caused once.
     _assert=$(printf '%s' "$_out" \
         | grep -vE '^[[:space:]]*[0-9]+ \|' \
-        | grep -cE 'Error: expect\(|^[[:space:]]*(Expected|Received):|AssertionError' || true)
+        | grep -cE 'Error: expect\(|AssertionError' || true)
 
     if [[ $_net -gt 0 && $_assert -eq 0 ]]; then
         echo

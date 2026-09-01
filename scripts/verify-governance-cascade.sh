@@ -87,12 +87,13 @@
 #   C5 ROOT-LOCKSTEP         the umbrella's five root carriers exist, and the
 #                            four agent mirrors are byte-identical from line
 #                            ${LOCKSTEP_FROM} down (§11.4.157(B) "no silent
-#                            drift"). The line-24 split is this project's chosen
-#                            mechanism, recorded in `Constitution.md`'s header
-#                            table and in `docs/constitution-adoption/README.md`
-#                            §4 — §11.4.157 mandates lockstep but prescribes no
-#                            particular proof, so the mechanism is ours, the
-#                            requirement is the constitution's.
+#                            drift"), AND the declared split is not looser than
+#                            the header actually needs. §11.4.157 mandates
+#                            lockstep but prescribes no particular proof, so the
+#                            mechanism is ours, the requirement is the
+#                            constitution's — but a mechanism that gates less
+#                            than it claims is a bluff, so C5 now reports the
+#                            MEASURED convergence line beside the declared one.
 #   C6 MANIFEST-FLEET-SYNC   `helix-deps.yaml`'s recorded submodule set equals
 #                            what `.gitmodules` declares, in BOTH directions.
 #                            §11.4.31 mandates the manifest; a manifest that
@@ -338,12 +339,53 @@ CARRIERS_AGENT="AGENTS.md CLAUDE.md QWEN.md GEMINI.md"
 ROOT_CARRIERS="AGENTS.md CLAUDE.md QWEN.md GEMINI.md Constitution.md"
 GOVERNANCE_FILES="Constitution.md AGENTS.md CLAUDE.md QWEN.md GEMINI.md"
 
-# §11.4.157 lockstep mechanism: lines 1..23 of each root agent mirror are the
-# per-agent header (title / base file named / which agent reads it); everything
-# from line 24 down must be byte-identical. Recorded in Constitution.md's header
-# table: "bodies byte-identical from line 24; verify with
-# `tail -n +24 <file> | sha256sum`".
-LOCKSTEP_FROM=24
+# §11.4.157 lockstep mechanism: the leading lines of each root agent mirror are
+# the per-agent header (title / base file named / which agent reads it);
+# everything below it must be byte-identical.
+#
+# WHERE THE HEADER ACTUALLY ENDS, and why this is not 24 any more.
+# Constitution.md's header table records the recipe as `tail -n +24`, and this
+# gate used LOCKSTEP_FROM=24 to match it. That under-enforced. Measured
+# 2026-09-01 against the real root carriers, only lines 1, 3, 5, 12 and 18
+# differ across the four mirrors; lines 19..23 are identical IN FACT but were
+# UNGATED, so an edit there would have drifted silently. Reproduced concretely:
+# altering line 21 of GEMINI.md alone still yielded ONE shared `tail -n +24`
+# digest, i.e. C5 reported PASS on a drifted tree. Lines 19..22 are shared
+# governance prose ("It is one of the four repository-root governance context
+# carriers ... requires to be maintained in lockstep"), not per-agent text, so
+# gating them is a correction, not an over-reach.
+#
+# Enforcing from 19 is a STRICT TIGHTENING of the documented contract, never a
+# conflict with it: a tree byte-identical from line 19 is necessarily
+# byte-identical from line 24, so `tail -n +24` still holds wherever it is
+# quoted. Nothing that passes C5 can fail the constitution's own recipe.
+#
+# WHY A DECLARED CONSTANT AND NOT A DERIVED ONE. Deriving the split from the
+# files (e.g. "the last line at which they differ") would make the check
+# tautological: any drift would move the boundary and the gate would pass by
+# construction — precisely the blind-instrument defect this gate exists to
+# catch. So the boundary is DECLARED, and guarded from both sides:
+#   * looser than reality  -> the measured convergence is printed on every run
+#     and NOTEd when it is earlier than the declaration, so a silent gap like
+#     the 19-vs-24 one can never sit unnoticed for months again.
+#   * pushed down to hide a failure -> LOCKSTEP_FROM_MAX is a ratchet. The
+#     declaration may never exceed the constitution's documented budget; an
+#     agent "fixing" a lockstep FAIL by raising the number fails the gate.
+# Loosening therefore stays possible but must be deliberate, reviewed, and
+# within the documented budget — never automatic.
+#
+# CONSEQUENCE, STATED (§11.4.6): the mirrors are LINE-ALIGNED by construction.
+# If per-agent header text ever needs more room (a reader list that wraps, say),
+# all four carriers must keep the header the SAME number of lines — pad them
+# equally — or the declaration must move, up to LOCKSTEP_FROM_MAX. That is not
+# an accident of this implementation; it is what "byte-identical from line N"
+# means, and the FAIL message says so.
+LOCKSTEP_FROM=19
+
+# The ratchet ceiling: the per-agent header budget documented in
+# Constitution.md's header table ("bodies byte-identical from line 24"). The
+# declaration above may be tighter than this, never looser.
+LOCKSTEP_FROM_MAX=24
 
 # ── The IN-SUBMODULE lockstep recipe (C8) — why it is NOT the line-24 split ───
 # §11.4.157(B) forbids silent drift between the four agent carriers. At the
@@ -804,6 +846,7 @@ c4_third_party() {
 # ── C5 — the umbrella's own five carriers, and their lockstep ───────────────
 c5_root_lockstep() {
     local f missing="" digests="" d distinct rc=0
+    local converged n c
     for f in $ROOT_CARRIERS; do
         [ -s "${root}/${f}" ] || missing="${missing} ${f}"
     done
@@ -813,6 +856,15 @@ c5_root_lockstep() {
     else
         ok "C5 ROOT-CARRIERS — ${ROOT_CARRIERS} all present at the project root (§11.4.157(A))"
     fi
+    # The ratchet, checked BEFORE anything is measured. If the declaration has
+    # been pushed past the documented header budget, every verdict below it is
+    # worthless — so this is a hard failure of the gate's own configuration, not
+    # a finding about the tree.
+    if [ "$LOCKSTEP_FROM" -gt "$LOCKSTEP_FROM_MAX" ]; then
+        bad "C5 ROOT-LOCKSTEP — LOCKSTEP_FROM=${LOCKSTEP_FROM} exceeds the documented per-agent header budget of ${LOCKSTEP_FROM_MAX} (Constitution.md header table). A lockstep FAIL is never fixed by raising the split; that converts the gate into a bluff (§11.4.6)."
+        return 1
+    fi
+
     for f in $CARRIERS_AGENT; do
         if [ ! -r "${root}/${f}" ]; then
             env_ "C5 ROOT-LOCKSTEP — ${f} unreadable; the lockstep digest cannot be computed"
@@ -828,9 +880,39 @@ c5_root_lockstep() {
         printf '%s' "$digests" | sed 's/^/           /'
         echo "         fix: diff <(tail -n +${LOCKSTEP_FROM} CLAUDE.md) <(tail -n +${LOCKSTEP_FROM} GEMINI.md) names what drifted."
         echo "              A governance edit lands in all four carriers or in none (§11.4.157(A))."
+        echo "              The mirrors are LINE-ALIGNED: if per-agent header text legitimately"
+        echo "              needs more room, pad all four to the SAME header length. Do NOT raise"
+        echo "              LOCKSTEP_FROM to silence this — ${LOCKSTEP_FROM_MAX} is the hard ceiling and the"
+        echo "              ratchet above rejects anything past it."
         rc=1
     else
         ok "C5 ROOT-LOCKSTEP — the four root agent mirrors are byte-identical from line ${LOCKSTEP_FROM} down; shared digest $(printf '%s' "$digests" | head -n1 | awk '{print $1}') (§11.4.157(B))"
+    fi
+
+    # ── The anti-slack half: is the DECLARED split as tight as the evidence? ──
+    # This is the half whose absence let 19-vs-24 hide. It cannot itself gate —
+    # lines above the true convergence point are ALLOWED to differ, so a repo
+    # that happens to be more uniform than required is not in violation — but it
+    # is printed on every run, so the gap is never invisible again.
+    converged=""
+    n=1
+    while [ "$n" -le "$LOCKSTEP_FROM" ]; do
+        c="$(for f in $CARRIERS_AGENT; do
+                 tail -n "+${n}" "${root}/${f}" | sha256sum | cut -d' ' -f1
+             done | sort -u | grep -c .)"
+        if [ "$c" -eq 1 ]; then converged="$n"; break; fi
+        n=$((n + 1))
+    done
+
+    if [ -z "$converged" ]; then
+        # Only reachable when the mirrors differ even at LOCKSTEP_FROM — the
+        # FAIL branch above already fired and already named it. Not double
+        # counted here (§11.4.3).
+        :
+    elif [ "$converged" -lt "$LOCKSTEP_FROM" ]; then
+        inf "C5 · the mirrors actually converge at line ${converged}, but the gate is declared from ${LOCKSTEP_FROM} — lines ${converged}..$((LOCKSTEP_FROM - 1)) are identical in fact yet UNGATED. That is slack, not a violation (those lines may legitimately carry per-agent text). Tighten deliberately by setting LOCKSTEP_FROM=${converged} if they are shared prose."
+    else
+        inf "C5 · declared split ${LOCKSTEP_FROM} equals the measured convergence line ${converged} — the gate enforces exactly the range it claims, with no ungated identical remainder (ceiling ${LOCKSTEP_FROM_MAX})"
     fi
     return $rc
 }
@@ -1205,10 +1287,21 @@ SYN_OWNED_NS="git@github.com:synthetic-owned"
 SYN_VENDOR="submodules/syn-vendor"
 SYN_VENDOR_URL="git@github.com:synthetic-vendor/syn-vendor.git"
 
-# syn_root_carrier <path> <name> — 23 lines of per-agent header, then a body
-# shared verbatim with its three siblings. That IS this project's §11.4.157
-# lockstep mechanism (Constitution.md's header table: "bodies byte-identical
-# from line 24"), so C5 passes by construction rather than by luck.
+# syn_root_carrier <path> <name> — exactly ${LOCKSTEP_FROM}-1 lines of
+# per-agent header, then a body shared verbatim with its three siblings. That IS
+# this project's §11.4.157 lockstep mechanism, so C5 passes by construction
+# rather than by luck.
+#
+# The header length is DERIVED from LOCKSTEP_FROM, never written as a literal.
+# When the declaration was tightened 24 -> 19 this fixture followed it
+# automatically; a hardcoded 23 would have made the synthetic control FAIL and
+# aborted the whole battery. A fixture that must be hand-edited whenever the
+# thing it tests moves is the same frozen-assumption defect the derived roster
+# removed from C1.
+#
+# The body is deliberately long enough that lines LOCKSTEP_FROM..LOCKSTEP_MAX
+# all exist inside it, which is what M12 needs in order to mutate the window
+# that used to be ungated.
 syn_root_carrier() {
     local path="$1" name="$2" i
     {
@@ -1216,16 +1309,21 @@ syn_root_carrier() {
         printf '#\n'
         printf '# Generated inside a mktemp sandbox. It is never written to the real tree.\n'
         i=4
-        while [ "$i" -le 23 ]; do
+        while [ "$i" -le $((LOCKSTEP_FROM - 1)) ]; do
             printf '# per-agent header line %s, deliberately different in each mirror (%s)\n' "$i" "$name"
             i=$((i + 1))
         done
-        cat <<'BODY'
+        cat <<BODY
 ## INHERITED FROM constitution/CLAUDE.md
 
-The shared body starts at line 24 and is byte-identical across the four root
-agent mirrors. Everything above this point is the per-agent header that the
-lockstep recipe deliberately excludes.
+The shared body starts at line ${LOCKSTEP_FROM} and is byte-identical across the
+four root agent mirrors. Everything above this point is the per-agent header
+that the lockstep recipe deliberately excludes.
+
+This paragraph exists so that the body extends past line ${LOCKSTEP_FROM_MAX}.
+The window between the declared split and that ceiling is exactly the range C5
+was once blind to, and M12 mutates a line inside it. Without these lines the
+mutation would have nothing to bite on and the proof would be vacuous.
 BODY
     } > "$path"
 }
@@ -1330,35 +1428,35 @@ prove_failure() {
     #               documented 0/1/2 contract  -> the proof itself is void.
     #   TREE        the instrument ran and returned a real non-zero verdict
     #               -> named as a tree state, with the live run printed.
+    # It GATES NOTHING. A proof whose battery a red tree can switch off
+    # demonstrates nothing at all, and this file shipped exactly that: rc 1 and
+    # rc 2 both `return 1`-ed here, before the first mutation. Only an
+    # INSTRUMENT fault — a crash marker, or an exit code outside the documented
+    # 0/1/2 contract — is counted as a proof failure, because that genuinely
+    # voids the instrument instead of merely describing the tree.
     local live_out live_rc
     live_out="$(bash "$0" --root "$REPO_ROOT" 2>&1)"; live_rc=$?
     if printf '%s' "$live_out" | grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near'; then
         echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: the real entry point aborted on the real tree"
-        echo "                        -> this proof is VOID; a verifier that cannot start proves nothing (§11.4.201(7)(b))"
+        echo "                        -> a verifier that cannot start proves nothing (§11.4.201(7)(b))."
+        echo "                           Counted as a proof FAILURE; the battery below still runs."
         printf '%s\n' "$live_out" | sed 's/^/        /'
-        return 1
-    fi
-    case "$live_rc" in
-        0) echo "✅ PRE-FLIGHT live-run   — real entry point, real tree, rc=0 (instrument runs; tree clean)" ;;
-        1) echo "❌ PRE-FLIGHT live-run   — TREE STATE: the instrument RAN correctly and returned rc=1, a REAL cascade violation"
-           echo "                        -> the gate is NOT a sham; fix the violation below, then re-run this proof"
-           printf '%s\n' "$live_out" | sed 's/^/        /'
-           return 1 ;;
-        2) echo "❌ PRE-FLIGHT live-run   — TREE STATE: the instrument returned rc=2, COULD NOT VERIFY"
-           echo "                        -> an environment/instrument problem, honestly reported; resolve it, then re-run"
-           printf '%s\n' "$live_out" | sed 's/^/        /'
-           return 1 ;;
-        *) echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: undocumented exit code ${live_rc}; the contract is 0/1/2 only"
-           printf '%s\n' "$live_out" | sed 's/^/        /'
-           return 1 ;;
-    esac
-
-    # build_sandbox copies per-owned-submodule carriers, so the roster has to be
-    # derived from the REAL tree before the sandbox exists. Each sandbox run
-    # then re-derives its own roster from its own (possibly mutated) copy.
-    if ! derive_fleet "$REPO_ROOT"; then
-        echo "${GATE}: ENV — could not derive the fleet roster from ${REPO_ROOT}" >&2
-        exit 2
+        mut_fails=$((mut_fails+1))
+    else
+        case "$live_rc" in
+            0) echo "✅ PRE-FLIGHT live-run   — real entry point, real tree, rc=0 (instrument runs; tree clean)" ;;
+            1) echo "ℹ PRE-FLIGHT live-run   — the real entry point RAN against the real tree and returned rc=1,"
+               echo "                          a REAL cascade violation. REPORTED, NOT GATING: the battery below"
+               echo "                          uses a synthetic control precisely so a red tree cannot silently"
+               echo "                          disable the proof. Fix the violation for the TREE's sake, not this proof's."
+               printf '%s\n' "$live_out" | sed 's/^/        /' ;;
+            2) echo "ℹ PRE-FLIGHT live-run   — the real entry point RAN against the real tree and returned rc=2,"
+               echo "                          COULD NOT VERIFY. REPORTED, NOT GATING; the battery still runs."
+               printf '%s\n' "$live_out" | sed 's/^/        /' ;;
+            *) echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: undocumented exit code ${live_rc}; the contract is 0/1/2 only"
+               printf '%s\n' "$live_out" | sed 's/^/        /'
+               mut_fails=$((mut_fails+1)) ;;
+        esac
     fi
 
     sandbox="$(mktemp -d)" || { echo "${GATE}: ENV — mktemp -d failed" >&2; exit 2; }
@@ -1368,23 +1466,28 @@ prove_failure() {
     _sandbox_to_clean="$sandbox"
 
     echo "  sandbox: ${sandbox}"
-    echo "  Every mutation below is applied to a THROWAWAY COPY. Neither this repository"
-    echo "  nor any submodule working tree is written to, and no git command is run."
+    echo "  Every mutation below is applied to a THROWAWAY copy of a SYNTHETIC tree that is"
+    echo "  green by construction. Neither this repository nor any submodule working tree is"
+    echo "  read for content or written to, and no git command is run."
     echo "----------------------------------------------------------------------"
 
     pristine="${sandbox}/pristine"
-    if ! build_sandbox "$pristine"; then
-        echo "${GATE}: ENV — could not build the sandbox copy" >&2
+    if ! build_synthetic_sandbox "$pristine"; then
+        echo "${GATE}: ENV — could not build the synthetic sandbox" >&2
         rm -rf "$sandbox"; _sandbox_to_clean=""; exit 2
     fi
 
-    # Golden-good control. Without it, "the mutations failed" proves nothing —
-    # the sandbox could have been failing for an unrelated reason.
+    # Synthetic control. Green BY CONSTRUCTION, so no state of the real tree can
+    # reach it. Without a control, "the mutations failed" proves nothing — the
+    # sandbox could have been failing for an unrelated reason.
     bash "$0" --root "$pristine" --quiet >/dev/null 2>&1; rc=$?
     if [ "$rc" -eq 0 ]; then
-        echo "✅ CONTROL golden-good   — unmutated sandbox COPY passes (rc=0)"
+        echo "✅ CONTROL synthetic-green — unmutated synthetic tree passes (rc=0), by construction"
     else
-        echo "❌ CONTROL golden-good   — unmutated sandbox COPY returned rc=${rc}; the proof below would be meaningless"
+        echo "❌ CONTROL synthetic-green — unmutated synthetic tree returned rc=${rc}."
+        echo "                        -> ABORTING: ZERO mutations were run, so NOTHING below was proved."
+        echo "                           This is a fault in the proof harness itself, NOT a statement"
+        echo "                           about this repository's governance cascade."
         bash "$0" --root "$pristine" 2>&1 | sed 's/^/        /'
         rm -rf "$sandbox"; _sandbox_to_clean=""
         return 1
@@ -1433,15 +1536,20 @@ prove_failure() {
         rm -rf "$dir"
     }
 
+    # Every mutation targets the SYNTHETIC fleet, so none of them depends on
+    # which submodules this repository happens to have today. Each is required
+    # to FLIP the verdict AND to NAME the offending thing: an exit code that
+    # changes while the message stays silent is a weak proof (§11.4.6).
+
     # M1 — remove a carrier from an OWNED submodule.
-    m1() { rm -f "$1/ai_interviewing/QWEN.md"; }
+    m1() { rm -f "$1/syn-alpha/QWEN.md"; }
     # M2 — an owned carrier that exists but no longer inherits anything.
-    m2() { local d="$1"; grep -v '^## INHERITED FROM ' "${d}/design-toolkit/GEMINI.md" > "${d}/g.new" && mv "${d}/g.new" "${d}/design-toolkit/GEMINI.md"; }
+    m2() { local d="$1"; grep -v '^## INHERITED FROM ' "${d}/syn-beta/GEMINI.md" > "${d}/g.new" && mv "${d}/g.new" "${d}/syn-beta/GEMINI.md"; }
     # M3 — break the §11.4.157 root lockstep by editing ONE root carrier below
     #      the header split, exactly the silent-drift clause (B) forbids.
-    m3() { printf '\nAn edit that landed in GEMINI.md and nowhere else.\n' >> "$1/GEMINI.md"; }
-    # M4 — desync helix-deps.yaml from the real fleet (a dep renamed).
-    m4() { sed -i 's/^  - name: monetization$/  - name: monetisation-renamed/' "$1/helix-deps.yaml"; }
+    m3() { printf '\nAn edit that landed in one root mirror and nowhere else.\n' >> "$1/GEMINI.md"; }
+    # M4 — desync helix-deps.yaml from the fleet (a dep renamed).
+    m4() { sed -i 's/^  - name: syn-beta$/  - name: syn-beta-renamed/' "$1/helix-deps.yaml"; }
     # M5 — a submodule joins the fleet unclassified and unrecorded.
     m5() { printf '[submodule "surprise_module"]\n\tpath = surprise_module\n\turl = git@github.com:someone/surprise_module.git\n' >> "$1/.gitmodules"; }
     # M6 — an ENVIRONMENT fault must return 2, never 1. This is the paired proof
@@ -1450,38 +1558,146 @@ prove_failure() {
     m6() { rm -f "$1/${GOVERNANCE_ROOT}/Constitution.md"; }
     # M7 — the §11.4.157 break C2/C3/C5 were all blind to: ONE carrier inside an
     #      owned submodule drifts from its three siblings, while remaining
-    #      present, non-empty and a valid pointer carrier. This is the exact
-    #      shape of the real vasic.digital/QWEN.md defect found on 2026-09-01.
-    #      The edit is deliberately placed BELOW the per-agent header so it
-    #      cannot be dismissed as legitimate variance.
+    #      present, non-empty and a valid pointer carrier. This is the SHAPE of
+    #      the real vasic.digital/QWEN.md defect found on 2026-09-01, applied to
+    #      a synthetic module. The edit is deliberately placed BELOW the
+    #      per-agent header so it cannot be dismissed as legitimate variance.
     m7() { printf '\nA governance sentence that landed in one carrier and nowhere else.\n' \
-                  >> "$1/vasic.digital/QWEN.md"; }
+                  >> "$1/syn-alpha/QWEN.md"; }
     # M8 — an owned submodule that is not checked out must read as COULD NOT
     #      DETERMINE (rc=2), NEVER as a pass. Distinct from M6, which removes the
     #      governance SOURCE; this removes a cascade CONSUMER's contents. Without
     #      this pairing, C8 could "pass" a fleet it never actually looked at.
-    m8() { rm -f "$1/monetization"/*.md; }
+    m8() { rm -f "$1/syn-beta"/*.md; }
+    # M9 — C4 (i) PHANTOM EXCLUSION: governance excludes a gitlink no .gitmodules
+    #      declares. Previously unproven — the old real-tree sandbox had no way
+    #      to reach this branch without editing the real manifest.
+    m9() { printf '#   submodules/ghost-vendor  -> git@github.com:ghost/ghost.git\n' >> "$1/helix-deps.yaml"; }
+    # M10 — C4 (ii) SELF-EXCLUSION: a module in a namespace this tree OWNS is
+    #      documented as third-party, which would drop one of our own
+    #      repositories out of C2/C3 silently. Also previously unproven.
+    m10() { printf '#   syn-alpha  -> %s/syn-alpha.git\n' "$SYN_OWNED_NS" >> "$1/helix-deps.yaml"; }
+    # M11 — C7 §11.4.28(C) forbidden own-org chain: an owned module nests a
+    #      further submodule from an owned namespace. Previously unproven.
+    m11() { printf '[submodule "nested-own"]\n\tpath = nested-own\n\turl = %s/nested-own.git\n' \
+                   "$SYN_OWNED_NS" > "$1/syn-alpha/.gitmodules"; }
+    # M12 — THE BLIND SPOT THIS GATE WAS FIXED FOR (2026-09-01). An edit landed
+    #      in ONE root mirror at line 21: below the true end of the per-agent
+    #      header (18), but ABOVE the line-24 split C5 used to compare from. The
+    #      old recipe hashed `tail -n +24`, so this edit produced FOUR IDENTICAL
+    #      digests and C5 reported PASS on a drifted tree. Reproduced on copies
+    #      of the real carriers before the fix; it is now a rc=1 FAIL.
+    #      Distinct from M3, which appends far below the split and was always
+    #      caught — M12 is specifically the 19..23 window, and it must edit IN
+    #      PLACE so the file's line count is unchanged and only the content of
+    #      the previously-ungated region differs.
+    m12() { sed -i "21s/.*/An edit inside the once-ungated window: line 21 of one mirror only./" \
+                   "$1/GEMINI.md"; }
 
-    mutate_and_assert "M1 owned-carrier-removed " "ai_interviewing/QWEN.md deleted from an OWNED submodule            " 1 "C2" "" m1
-    mutate_and_assert "M2 owned-pointer-stripped" "design-toolkit/GEMINI.md loses its '## INHERITED FROM ' heading    " 1 "C3" "" m2
-    mutate_and_assert "M3 root-lockstep-broken  " "root GEMINI.md edited below line ${LOCKSTEP_FROM}; the other three unchanged  " 1 "C5" "" m3
-    mutate_and_assert "M4 manifest-desynced     " "helix-deps.yaml renames the 'monetization' dep; .gitmodules did not " 1 "C6" "" m4
-    mutate_and_assert "M5 fleet-member-unknown  " ".gitmodules gains an unclassified, unrecorded submodule             " 1 "C1+C6" "" m5
-    mutate_and_assert "M6 source-missing (ENV)  " "submodules/constitution/Constitution.md removed — an INTERNAL fault " 2 "ENV" "" m6
-    mutate_and_assert "M7 sub-lockstep-broken   " "vasic.digital/QWEN.md drifts from its 3 siblings; still a valid carrier" 1 "C8" "vasic.digital/QWEN.md" m7
-    mutate_and_assert "M8 owned-sub-uninit (ENV)" "monetization/ emptied — an uninitialised consumer is NOT a pass     " 2 "C2+C8" "" m8
+    mutate_and_assert "M1 owned-carrier-removed " "syn-alpha/QWEN.md deleted from an OWNED submodule                  " 1 "C2" "syn-alpha/QWEN.md" m1
+    mutate_and_assert "M2 owned-pointer-stripped" "syn-beta/GEMINI.md loses its '## INHERITED FROM ' heading          " 1 "C3" "syn-beta/GEMINI.md" m2
+    mutate_and_assert "M3 root-lockstep-broken  " "root GEMINI.md edited below line ${LOCKSTEP_FROM}; the other three unchanged  " 1 "C5" "GEMINI.md" m3
+    mutate_and_assert "M4 manifest-desynced     " "helix-deps.yaml renames the 'syn-beta' dep; .gitmodules did not    " 1 "C6" "syn-beta-renamed" m4
+    mutate_and_assert "M5 fleet-member-unknown  " ".gitmodules gains an unclassified, unrecorded submodule             " 1 "C1+C6" "surprise_module" m5
+    mutate_and_assert "M6 source-missing (ENV)  " "${GOVERNANCE_ROOT}/Constitution.md removed — an INTERNAL fault      " 2 "ENV" "Constitution.md" m6
+    mutate_and_assert "M7 sub-lockstep-broken   " "syn-alpha/QWEN.md drifts from its 3 siblings; still a valid carrier " 1 "C8" "syn-alpha/QWEN.md" m7
+    mutate_and_assert "M8 owned-sub-uninit (ENV)" "syn-beta/ emptied — an uninitialised consumer is NOT a pass         " 2 "C2+C8" "syn-beta" m8
+    mutate_and_assert "M9 phantom-exclusion     " "an exclusion naming a gitlink no .gitmodules declares               " 1 "C4" "ghost-vendor" m9
+    mutate_and_assert "M10 self-exclusion       " "an OWNED-namespace module documented as third-party                 " 1 "C4" "syn-alpha" m10
+    mutate_and_assert "M11 own-org-nesting      " "an owned module nests a further own-org submodule (§11.4.28(C))     " 1 "C7" "syn-alpha/nested-own" m11
+    mutate_and_assert "M12 lockstep-blind-window" "root GEMINI.md line 21 edited IN PLACE — the window C5 could not see " 1 "C5" "GEMINI.md" m12
+
+    # ── M13, the RATCHET, proved separately ──────────────────────────────────
+    # mutate_and_assert always runs the REAL "$0" against a mutated ROOT, so it
+    # can only mutate the specimen, never the instrument. The ratchet is a
+    # property of the instrument's own configuration, so it needs a copy of the
+    # script with the ceiling deliberately breached, run against the PRISTINE
+    # tree. Asserting against the pristine tree is what makes it conclusive: the
+    # rc=1 cannot be blamed on anything about the specimen, which is green.
+    #
+    # Staging matters here, and it took two measured failures to get right.
+    # This script derives REPO_ROOT from its OWN dirname, then resolves the
+    # governance source by reading ${REPO_ROOT}/.gitmodules and asking which
+    # declared submodule actually supplies
+    # scripts/gates/lib/pointer_carrier.sh. A copy dropped anywhere else
+    # satisfies NEITHER condition and exits 2 COULD NOT VERIFY before reaching
+    # C5 — correct three-valued behaviour, but it proves nothing about the
+    # ratchet, so the assertion below would report a false negative.
+    #
+    # The stage therefore reproduces, by SYMLINK to the real tree, exactly what
+    # resolution needs: `.gitmodules` (so the governance source is declared),
+    # ${GOVERNANCE_ROOT} (so it is supplied), and the SIBLING scripts this gate
+    # shells out to — C9 invokes scripts/verify-manifest-pins.sh by path, and a
+    # stage without it returns a perfectly correct rc=2 COULD NOT DETERMINE that
+    # has nothing to do with the ratchet. That third measured failure is why the
+    # siblings are linked: an incomplete stage makes the ASSERTION wrong, not
+    # the instrument. The loosened instrument still sources the REAL predicate
+    # and the REAL siblings — only its one LOCKSTEP_FROM line differs.
+    #
+    # Order is load-bearing: siblings are linked FIRST and this script's own
+    # name is skipped, then the copy is written. Linking our own name first and
+    # `cp`-ing over it would follow the symlink and overwrite the REAL script in
+    # the developer's tree.
+    local ratchet_stage="${sandbox}/ratchet-stage"
+    local ratchet_script="${ratchet_stage}/scripts/verify-governance-cascade.sh" rout rrc sib
+    if mkdir -p "${ratchet_stage}/scripts" "${ratchet_stage}/$(dirname "$GOVERNANCE_ROOT")" \
+       && ln -sfn "${REPO_ROOT}/${GOVERNANCE_ROOT}" "${ratchet_stage}/${GOVERNANCE_ROOT}" \
+       && ln -sfn "${REPO_ROOT}/.gitmodules" "${ratchet_stage}/.gitmodules"; then
+        for sib in "${SCRIPT_DIR}"/*.sh; do
+            [ -e "$sib" ] || continue
+            [ "$(basename "$sib")" = "$(basename "$0")" ] && continue
+            ln -sfn "$sib" "${ratchet_stage}/scripts/$(basename "$sib")"
+        done
+    fi
+    if [ -d "${ratchet_stage}/scripts" ] \
+       && cp "$0" "$ratchet_script" \
+       && sed -i "s/^LOCKSTEP_FROM=${LOCKSTEP_FROM}\$/LOCKSTEP_FROM=$((LOCKSTEP_FROM_MAX + 1))/" "$ratchet_script" \
+       && grep -q "^LOCKSTEP_FROM=$((LOCKSTEP_FROM_MAX + 1))\$" "$ratchet_script"; then
+        rout="$(bash "$ratchet_script" --root "$pristine" 2>&1)"; rrc=$?
+        if [ "$rrc" -eq 1 ] && printf '%s' "$rout" | grep -qF "exceeds the documented per-agent header budget"; then
+            echo "✅ M13 ratchet-breached     — LOCKSTEP_FROM raised to $((LOCKSTEP_FROM_MAX + 1)) (past the ${LOCKSTEP_FROM_MAX} ceiling) on a GREEN tree"
+            echo "                        -> rc=${rrc} (wanted 1)  [C5]  named 'exceeds the documented per-agent header budget'"
+        else
+            echo "❌ M13 ratchet-breached     — a loosened LOCKSTEP_FROM was NOT rejected"
+            echo "                        -> rc=${rrc}, wanted 1 with the ceiling named. The ratchet is decorative (§1.1)."
+            printf '%s\n' "$rout" | sed 's/^/        /'
+            mut_fails=$((mut_fails+1))
+        fi
+    else
+        echo "❌ M13 ratchet-breached     — could not build the loosened copy of the instrument"
+        mut_fails=$((mut_fails+1))
+    fi
+    rm -rf "$ratchet_stage"
+
+    # ── RESTORED CONTROL ─────────────────────────────────────────────────────
+    # Each mutation ran on its own throwaway copy, so the pristine synthetic tree
+    # must still be green. Showing it again is what separates "every mutation was
+    # caught" from "the specimen decayed part-way through the battery".
+    bash "$0" --root "$pristine" --quiet >/dev/null 2>&1; rc=$?
+    if [ "$rc" -eq 0 ]; then
+        echo "✅ CONTROL restored        — the unmutated synthetic tree is still green (rc=0)"
+    else
+        echo "❌ CONTROL restored        — it no longer passes (rc=${rc}); a mutation leaked out of its copy"
+        mut_fails=$((mut_fails+1))
+    fi
 
     rm -rf "$sandbox"; _sandbox_to_clean=""
     echo "----------------------------------------------------------------------"
     if [ "$mut_fails" -eq 0 ]; then
-        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — the real entry point ran on the REAL tree, the"
-        echo "   unmutated control passed, 6 violations were caught as rc=1 (the in-submodule lockstep"
-        echo "   break NAMING the drifted carrier), and both environment faults — a missing governance"
-        echo "   source and an uninitialised cascade consumer — were reported as rc=2 rather than"
-        echo "   accusing the tree or being waved through as a pass."
+        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — the REAL entry point ran against the REAL tree"
+        echo "   (reported, never gating), a SYNTHETIC control that is green by construction passed,"
+        echo "   and 13 mutations each FLIPPED the verdict while NAMING the offending thing: 10 real"
+        echo "   violations as rc=1 (C1..C8 including the in-submodule lockstep break, both C4"
+        echo "   converse directions and the §11.4.28(C) own-org chain), 2 environment faults —"
+        echo "   a missing governance source and an uninitialised cascade consumer — as rc=2 rather"
+        echo "   than accusing the tree or being waved through as a pass, and M13 against the"
+        echo "   INSTRUMENT itself: a LOCKSTEP_FROM raised past the ${LOCKSTEP_FROM_MAX} ceiling is refused on a"
+        echo "   green tree, so a lockstep FAIL can never be 'fixed' by moving the split."
+        echo "   M12 is the 2026-09-01 blind spot: an edit at line 21 of one mirror, which the old"
+        echo "   line-24 recipe hashed away into four identical digests. The control is still green."
         return 0
     fi
-    echo "❌ ${GATE} §1.1 MUTATION PROOF: FAIL — ${mut_fails} mutation(s) did not produce the required exit code"
+    echo "❌ ${GATE} §1.1 MUTATION PROOF: FAIL — ${mut_fails} case(s) did not produce the required result"
     return 1
 }
 

@@ -122,10 +122,53 @@ else**; all human text goes to stderr.
 
 | Layer | Location | Shape |
 |---|---|---|
-| Control plane | `workshop/scripts/{start,stop,restart,status,build,verify}.sh` | Mirrors `ai_interviewing`'s `scripts/{start,stop,restart,status,build,ingest}.sh` (FR-013) |
-| Pipeline wrappers | `workshop/scripts/{transcribe,ingest,index,crossref,redact,verify-accuracy,add-chapter}.sh` | Bash entry points |
+| Control plane | `workshop/scripts/{build,start,stop,restart,status,verify}.sh` | Script **names** mirror `ai_interviewing/platform/scripts/{build,ingest,restart,start,status,stop}.sh` (FR-013). The **directory** deliberately does not — see the path decision below. |
+| Shared wrapper library | `workshop/scripts/_common.sh` | Configuration resolution (§2.2), the `ERR` trap (§1.4), evidence paths (§2.5). Mirrors the reference's own `_common.sh`. Sourced, never executed. |
+| Pipeline wrappers | `workshop/scripts/{transcribe,verify-accuracy,ingest,index,crossref,redact,add-chapter}.sh` | Bash entry points |
 | Pipeline implementation | `workshop/pipeline/{transcribe,ingest,crossref}/` | Python/Go called by the wrappers |
+| Orchestration consumer | `workshop/platform/orchestration/` | The Go module that consumes `digital.vasic.containers` via `replace` (§11.4.76(2)) and builds the `workshop-boot` adapter into `workshop/platform/bin/`. **Not a script layer** — §4.8 |
 | Pre-existing, reused | `workshop/scripts/{archive-videos,extract-videos,install-hooks,self-test}.sh` | **Invoked, never reimplemented** |
+
+**Path decision — `workshop/scripts/`, not `workshop/platform/scripts/`** (settled 2026-09-01;
+recorded because two documents in this set had drifted apart on it, and because the justification
+this table previously gave cited the wrong reference directory).
+
+*The correction first.* This table used to justify the control plane as mirroring
+**`ai_interviewing`'s `scripts/`**. That citation was wrong, and is withdrawn. Measured:
+
+```
+ai_interviewing/scripts/           build-all.sh  export-doc.sh  render-diagrams.sh  validate-exports.sh
+ai_interviewing/platform/scripts/  _common.sh  build.sh  ingest.sh  restart.sh  start.sh  status.sh  stop.sh
+```
+
+`ai_interviewing/scripts/` is **documentation tooling**. The real reference control plane is
+`ai_interviewing/platform/scripts/`. Note what survives the correction: the six script *names* this
+table already listed match `ai_interviewing/platform/scripts/` exactly. Only the directory was
+mis-cited — the mirror claim was right about the thing that matters and wrong about where to look.
+
+*The decision.* The control plane lives at `workshop/scripts/`, one script directory for the whole
+module. Three reasons, in decreasing weight:
+
+1. **`workshop/scripts/` already exists and is load-bearing.** It holds
+   `{archive-videos,extract-videos,install-hooks,self-test}.sh` plus `git-hooks/` — the reassembly
+   and integrity machinery FR-007 is satisfied by **invoking**, and which this contract marks
+   *invoked, never reimplemented*. Those cannot move without breaking `install-hooks.sh` and the
+   tooling that already calls them.
+2. **A split would make FR-013 worse, not better.** Putting the control plane under
+   `workshop/platform/scripts/` while the pipeline wrappers and the pre-existing scripts stay at
+   `workshop/scripts/` yields two script directories in one module and no rule for which holds
+   what. FR-013 asks that someone familiar with one module can navigate the other; one obvious
+   directory serves that better than a structural echo that fragments the module.
+3. **The reference's nesting is not transferable anyway.** `ai_interviewing` is a
+   platform-and-nothing-else module, so its control plane naturally sits under `platform/`. The
+   workshop additionally owns a *pipeline* layer and *source material*, and its wrappers span all
+   three — they are module-scoped, not platform-scoped. `workshop/platform/` is the built product
+   (`backend/`, `frontend/`, `bin/`, `orchestration/`), which is exactly what a script that drives
+   the pipeline is not part of.
+
+FR-013 is therefore satisfied by **name and exit-semantic parity**, which is what a person actually
+carries between modules, rather than by directory nesting. Any document in this set invoking
+`workshop/platform/scripts/…` is stale against this decision and is corrected to `workshop/scripts/`.
 
 `extract-videos.sh` already verifies per-part, archive and extracted-video hashes against the
 `video-archive-manifest v1`. FR-007 is therefore satisfied by **invoking** it. Note its current
@@ -621,42 +664,169 @@ roughly doubled under current load. The command is therefore resumable and backg
 
 ---
 
-### 4.8 Control plane — `start` / `stop` / `restart` / `status` / `build`
+### 4.8 Control plane — `build` / `start` / `stop` / `restart` / `status`
 
-**Traces**: FR-012, FR-025, SC-004, D1.
+**Traces**: FR-012, FR-013, FR-025, SC-004, D1, §11.4.76, §11.4.161.
+
+> **Rewritten 2026-09-01.** An earlier revision of this section specified **native** launch —
+> *"`start.sh`/`stop.sh` … run the built binary natively, as `ai_interviewing` does"* — as the
+> forced consequence of C-U6's since-withdrawn "not a submodule of this tree". That premise is
+> withdrawn (§7.1) and so is the native specification that rested on it. **The control plane is
+> containerised.** This is not a preference this document is free to re-litigate: the operator
+> requires container operation, and §11.4.76 makes `vasic-digital/containers` the only legal way
+> to provide it. The two point the same way.
+
+#### 4.8.0 The orchestration seam — what is consumed and what is written here
+
+`submodules/containers` (`digital.vasic.containers`, gitlink `4dab992`) supplies, as a **Go API**:
+runtime auto-detection with **podman first and rootless** (§11.4.161 — the host has podman 5.7.1
+rootless and no docker) in `pkg/runtime`; compose orchestration that resolves the compose CLI to
+`podman-compose` and suppresses the docker-only `--wait` flag in `pkg/compose`; and TCP/HTTP/gRPC
+health checkers in `pkg/health`. §11.4.76(3) names exactly these packages as the things a consuming
+project invokes.
+
+**`cmd/boot` is NOT the seam, and specifying it would have specified a silent false pass.** An
+earlier revision of this section said the wrappers "invoke `cmd/boot`". Measured at gitlink
+`4dab992` in `submodules/containers/cmd/boot/main.go`:
+
+| Measured | Consequence for this contract |
+|---|---|
+| Its whole flag set is `--env`, `--project`, `--timeout`, `--help`. There are no `up` / `down` / `status` subcommands and **no compose-file flag at all**. | The lifecycle verbs and the compose file this control plane needs cannot be expressed through it. |
+| It hardcodes a single endpoint map, `{"helixagent": localhost:7061}` (`main.go:148–153`), with no flag to change it. | It boots someone else's service, not this stack. |
+| Its `boot.NewBootManager` is constructed with runtime, logger, projectDir, distributor, hostManager and scheduler — **no orchestrator and no health checker**. | Nothing brings a compose project up and nothing verifies health. |
+| `runBoot` returns `nil` after `BootAll`, so the process **exits `0` having started nothing**. | A wrapper trusting that exit code reports a healthy stack that does not exist. |
+
+That last row is decisive: `cmd/boot` is a **green instrument over an absent system**, the precise
+bluff shape §11.4.76(5) and the constitution's anti-bluff rules exist to catch. A contract that
+named it would have mandated the failure its own G-CLI-15 forbids. This is recorded rather than
+quietly routed around, because the next reader will otherwise reach for `cmd/boot` for the same
+reason the earlier revision did — it is the obviously-named entry point.
+
+**The seam is therefore the Go API, reached through a consuming adapter.** `workshop-boot`
+(built from `workshop/platform/orchestration/cmd/workshop-boot`, module
+`…/platform/orchestration`, which consumes `digital.vasic.containers` via the §11.4.76(2)
+`replace`) imports `pkg/compose`, `pkg/health`, `pkg/runtime` and `pkg/logging` and exposes the
+verbs this control plane actually needs: `up`, `down`, `status`, `probe`. It **does not** shell out
+to podman.
+
+This is consumption, not reimplementation, and the distinction is not a matter of framing:
+the adapter contains no runtime detection, no compose driving, and no health-check logic of its own
+— all three are called in the submodule. What it adds is argument surface and the §1 exit mapping.
+
+What this feature writes, and **all** it may write:
+
+| Layer | Written here? | Why that is §11.4.76-legal |
+|---|---|---|
+| Runtime detection, compose orchestration, health checking | **No** — consumed from `pkg/runtime`, `pkg/compose`, `pkg/health` | §11.4.76(1),(4): reimplementation is the violation |
+| Go module consuming `digital.vasic.containers` via `replace` (§11.4.76(2)) | Yes | The prescribed development-time consumption form |
+| The `workshop-boot` adapter exposing `up`/`down`/`status`/`probe` over that API | Yes | §11.4.76(3) prescribes invoking the `boot`/`compose`/`health` APIs; a CLI face over them adds no orchestration |
+| A compose file describing *this* stack's services | Yes | `ComposeProject.File` accepts an arbitrary compose file; supplying data to a consumed API is consumption |
+| Thin bash wrappers that invoke `workshop-boot` | Yes | No usable bash or CLI boot entry point exists upstream. **Anything beyond thin wrapping must be contributed upstream**, not grown locally |
+
+**Upstream debt this creates, stated rather than left implicit.** `cmd/boot`'s four defects above
+are upstream defects. §11.4.76(4) makes fixing them there — a compose-file flag, lifecycle verbs, an
+orchestrator and health checker on the `BootManager`, and a non-zero exit when nothing booted — the
+correct long-run remedy, with the adapter narrowing as they land. `workshop/platform/upstream-contributions/`
+is where that work is staged. The adapter is legal today because it consumes rather than
+reimplements; it is not a licence to keep growing locally what belongs upstream.
+
+**Explicitly forbidden**, and named so it cannot be reintroduced by drift: a hand-rolled
+`Containerfile`-plus-`podman run` stack, a bash *or Go* reimplementation of health polling, backoff
+or compose driving inside `workshop/`, and any direct `podman`/`podman-compose` invocation that
+bypasses `workshop-boot` to bring the stack up or down. Direct `podman` calls are permitted **only**
+for read-only post-mortem diagnostics on a failure path (for example tailing a dead container's
+logs), never for lifecycle.
+
+Each bash wrapper is a *translator*, not a *manager*: it resolves configuration per §2.2, invokes
+`workshop-boot`, and maps the result onto the §1 three-valued exit taxonomy. That mapping is the
+only orchestration-adjacent logic the bash layer owns.
+
+**Additional §2.2 variables this seam requires** — derived when unset, overridable, same resolution
+order as everywhere else:
+
+| Variable | Derived from | Governs |
+|---|---|---|
+| `WORKSHOP_COMPOSE_FILE` | `$WORKSHOP_ROOT/platform/compose.yml` | The stack definition handed to `workshop-boot` |
+| `WORKSHOP_PROJECT_NAME` | `workshop_curriculum` | Compose project label; scopes every lifecycle call |
+| `WORKSHOP_BOOT_BIN` | `$WORKSHOP_ROOT/platform/bin/workshop-boot` | The built adapter over `pkg/compose` + `pkg/health` + `pkg/runtime` |
+| `WORKSHOP_STATE_FILE` | `$WORKSHOP_ROOT/platform/run/server.json` | Resolved endpoint of the running stack — replaces the pidfile a native design would have used |
+| `WORKSHOP_STACK_WAIT` | `30` | Seconds `workshop-boot` waits for health, via `pkg/health` |
+
+**The pidfile is gone.** A container's liveness is not a PID on this host, so every exit-code
+condition below that previously read "pidfile" now reads against the container state and the
+resolved endpoint. Where the old text said `/proc` unreadable, the new condition is that the
+container runtime could not be reached or its report could not be parsed. The **taxonomy is
+unchanged**; only the evidence it reads has changed.
 
 #### `build.sh`
 
-Builds the Go backend and the Angular frontend into `workshop/platform/bin/`. Exit `0` built;
-`1` compile or test failure (a real problem in the code); `2` toolchain missing, network needed and
-unreachable, disk full.
+Builds, in this order: the `workshop-boot` adapter into `$WORKSHOP_BOOT_BIN`; the Go backend and the
+Angular frontend into `workshop/platform/bin/`; then the container image(s) the compose file names,
+through the containers submodule rather than a direct `podman build`.
+
+| Exit | Conditions |
+|---|---|
+| `0` | Everything built |
+| `1` | Compile, test or image-build failure — a real problem in the code or the compose definition |
+| `2` | Toolchain missing (Go, Node, no container runtime detected); network needed and unreachable; disk full |
+
+"No container runtime detected" is emphatically a `2`, not a `1`: the host could not be assessed,
+which is not a finding about the code.
 
 #### `start.sh`
 
 | Argument | Default | Notes |
 |---|---|---|
-| `--port N` | `8080` | |
-| `--bind ADDR` | `127.0.0.1` | **Loopback by default (D1).** A non-loopback bind requires an explicit `--bind` and prints a warning naming D1 and the identifiable third party in the recording. |
-| `--foreground` | off | |
-| `--wait-healthy N` | `30` | Seconds to wait for `/api/health` |
+| `--port N` | `8080` | Published port on the host |
+| `--bind ADDR` | `127.0.0.1` | **Loopback by default (D1).** A non-loopback bind requires an explicit `--bind` and prints a warning naming D1 and the identifiable third party in the recording. The publish address is bound on the **host** side of the port mapping; a container that listens on `0.0.0.0` internally is not a D1 violation, and a wrapper MUST NOT report it as one. |
+| `--foreground` | off | Streams container logs instead of detaching |
+| `--wait-healthy N` | `$WORKSHOP_STACK_WAIT` (`30`) | Seconds to wait for `/api/health` **through the published port** — never against the container's internal address, which would pass while the mapping is broken |
 
-**Idempotent**: already running and healthy ⇒ exit `0`, no second process started.
+**Builds on demand.** A missing `$WORKSHOP_BOOT_BIN` or server binary is not a failure; it is a
+reason to run `build.sh` first, exactly as the reference control plane does. A build that then
+fails propagates its own exit code unchanged.
 
-**FR-025 is observable at startup**: provider construction failure must not abort startup. The
-server starts with an unavailable provider and serves browsing and search; `/api/answer` returns
-`503`. `start.sh` prints which state it came up in.
+**Idempotent, and guarded twice on purpose.** The wrapper asks `workshop-boot status` before acting and
+returns `0` unchanged if the stack is already up and healthy; and it passes compose's
+`--no-recreate` so that a racing second caller cannot tear down a container that is serving.
+Neither guard alone survives two concurrent callers, which is why both are contracted rather than
+one. This composes with, and does not replace, the §2.6 lock.
+
+**Stale state must not be trusted.** Any prior `$WORKSHOP_STATE_FILE` is removed before the stack
+starts, so the address the health check probes is the one *this* run actually bound. A health check
+that passes against a stale endpoint is the exact failure this contract's three-valued design
+exists to prevent.
+
+**FR-025 is observable at startup**: answering-provider construction failure must not abort
+startup. The stack comes up with an unavailable provider and serves browsing and search;
+`/api/ask` returns `503`. `start.sh` prints which state it came up in. (Gate G-CLI-13.)
 
 | Exit | Conditions |
 |---|---|
 | `0` | Serving and healthy (or already was) |
-| `1` | The port is bound by a **different** process; the built binary is missing; the configuration is invalid |
-| `2` | Health check never answered within `--wait-healthy`; the process died without a diagnosable cause; the pidfile could not be written |
+| `1` | The published port is bound by a **different, identifiable** process; the compose file is missing or invalid; the configuration is invalid; a container exited non-zero with a diagnosable cause |
+| `2` | Health never answered within `--wait-healthy`; the container runtime is absent or unreachable; the stack's state could not be determined at all, so starting would have been a guess; `$WORKSHOP_STATE_FILE` could not be written |
+
+The `2` for "state could not be determined" is deliberate and is the containerised counterpart of
+the native design's unreadable-pidfile case: the wrapper refuses to start a stack whose current
+state it cannot read, and says why, rather than acting on an assumption.
 
 #### `stop.sh`
 
-Exit `0` when the service is stopped — **including when it was already stopped**, because the
-desired state is reached. `1` when a process was found but did not terminate after `SIGTERM` then
-`SIGKILL`. `2` when liveness could not be determined (unreadable pidfile, unreadable `/proc`).
+Brings the stack down through `workshop-boot down`, then removes `$WORKSHOP_STATE_FILE`.
+
+Exit `0` when the stack is stopped — **including when it was already stopped**, because the desired
+state is reached. `1` when containers were found but did not terminate after the runtime's stop
+grace period followed by a kill. `2` when liveness could not be determined: the container runtime is
+unreachable, or its state report could not be parsed.
+
+#### `restart.sh`
+
+`stop.sh` then `start.sh`, with the same arguments forwarded to `start.sh`. It is **not** a compose
+`restart`: a full down/up is what makes the restart honest about picking up a changed compose file
+or a rebuilt image. Exit is `start.sh`'s exit, except that a `stop.sh` exit of `1` or `2` short-
+circuits and propagates unchanged — restarting on top of a stack that could not be stopped would
+report success over an unknown.
 
 #### `status.sh`
 
@@ -665,16 +835,97 @@ argued into any of the three:
 
 | Exit | Meaning |
 |---|---|
-| `0` | Running **and** `/api/health` answers. The condition — *the service is up* — was checked and holds. |
-| `1` | Checked, and the service is **not** up. Determined negative. |
-| `2` | **Could not determine**: pidfile present but `/proc` unreadable; the port is bound by a process whose identity cannot be established; `/api/health` timed out without connecting or refusing. |
+| `0` | The stack is `RUNNING` **and** `/api/health` answers through the published port. The condition — *the service is up* — was checked and holds. |
+| `1` | Checked, and the service is **not** up. Determined negative — including the `DEGRADED` case where containers exist but not all are running, which is a determined negative rather than an unknown. |
+| `2` | **Could not determine**: the container runtime is absent or unreachable; a container is reported in a state the wrapper cannot classify; the published port is bound by a process whose identity cannot be established; `/api/health` timed out without connecting or refusing. |
 
 `stop.sh` treats "already stopped" as `0` while `status.sh` treats it as `1`. That is deliberate and
 not a contradiction: `stop` reports whether the **desired state** was reached; `status` reports
 whether the **asserted condition** holds.
 
-`status.sh --json` additionally reports index generation, leg health, and the answering provider
-state, so an operator sees degradation before a user does.
+> ##### THE IMPLEMENTATION DIVERGES FROM THIS TABLE. The table stands; the code must move.
+>
+> **Decided 2026-09-01. DECIDED BUT NOT APPLIED** — the fix is one branch in a file outside the
+> deciding agent's permitted edit set, so it is written down here in full rather than half-made.
+>
+> - *Measured 2026-09-01*, first execution of this path on record:
+>
+>   ```bash
+>   WORKSHOP_PROJECT_NAME=zzz-definitely-nonexistent bash workshop/scripts/status.sh; echo "rc=$?"
+>   # STOPPED
+>   #   no containers exist for this project
+>   # rc=0
+>   ```
+>
+>   The table above requires `1`. The measured value is `0`. This is a **real divergence**, not an
+>   unknown: the run completed and printed a determinate state.
+>
+>   Note what this measurement retires. The workshop's own pages recorded the `STOPPED` exit code
+>   as *"a code reading, not a measurement"* and said the path *"was NOT executed"*. It has now been
+>   executed. The code reading was correct; it is no longer the only evidence.
+>
+> - *Root cause*: `platform/orchestration/cmd/workshop-boot/main.go`, `cmdStatus`, the
+>   `if len(statuses) == 0` branch — it prints `STOPPED` and `return nil`, and `nil` maps to exit 0.
+>
+> - *The argument for the code, stated fairly*: under the three-valued discipline used everywhere in
+>   this tree — `0` fine, `1` a real problem, `2` could-not-determine — a cleanly stopped stack is a
+>   **successful measurement of a benign state**, not a fault. Returning `1` for a stack that was
+>   deliberately stopped reads as an accusation. On that reading the contract, not the code, is what
+>   got this wrong.
+>
+> - *Why that argument is refused*. Three reasons, and the third is decisive.
+>
+>   1. **`status.sh` is a predicate, not a health report.** Its question is *"is the service up?"*
+>      `0` means the asserted condition **holds**. That is the convention `test`, `grep`, `diff` and
+>      `cmp` all share, and it is what makes `status.sh && deploy` correct rather than a trap. The
+>      three-valued discipline is not violated by it — it is expressed by it: `2` still means the
+>      question could not be answered, which is the distinction that discipline exists to protect.
+>      The branch immediately beside the defect proves the code already understands this, returning
+>      `cannotDetermine` (exit `2`) when the runtime answers but the project state cannot be read,
+>      with the comment *"reporting STOPPED here would be a guess dressed up as a measurement."*
+>   2. **The "benign state" reading was already anticipated and answered.** The `1` row does not
+>      mean *fault*; it means **determined negative**, and it already carries `DEGRADED` for exactly
+>      this reason. Nothing is lost by putting `STOPPED` beside it, because the *kind* of negative is
+>      reported on **stdout** — the script's first token is `RUNNING`, `STOPPED`, `DEGRADED` or
+>      `UNDETERMINED`. Distinctions belong where they can be read; the exit code answers the yes/no.
+>   3. **The current behaviour has produced a documented, load-bearing defect.** As shipped,
+>      `status.sh` exit `0` **cannot distinguish a running stack from a stopped one**. Five separate
+>      workshop pages have had to instruct callers *not to branch on the exit code* and to
+>      `grep` stdout instead. An exit code that all of its own documentation tells you to ignore is
+>      not a defensible design choice; it is a defect with a workaround written five times. The
+>      contract is not what needs amending here.
+>
+> - *Exactly what must change* (one branch, plus its proof):
+>   1. `platform/orchestration/cmd/workshop-boot/main.go` → `cmdStatus` → the `len(statuses) == 0`
+>      branch: keep `fmt.Println("STOPPED")` and the explanatory second line, then return a
+>      determined-negative error instead of `nil`, so the wrapper exits `1`. It must **not** route
+>      through `cannotDetermine` — a stack that is known to be stopped was determined, not unknown,
+>      and collapsing it into `2` would trade one wrong answer for another.
+>   2. **Paired mutation (§1.1, mandatory):** make that branch `return nil` again and assert the
+>      gate goes red. Without it the fix proves nothing.
+>   3. `workshop/scripts/status.sh` must pass the boot binary's exit code through unchanged —
+>      verify it does not swallow it before assuming step 1 is sufficient.
+>   4. The five workshop pages that currently say *"do not branch on the exit code"*
+>      (`docs/limits.md` §7, `docs/manual.md` §5.1 and its §5 table, `docs/faq.md` §8,
+>      `docs/quickstart.md`, `docs/training/areas/05-evidence-gates-and-anti-bluff.md`) must be
+>      updated **in the same change**, not after it. Until then they are correct about the shipped
+>      binary and must not be edited to describe a fix that has not landed.
+>
+> - *Until it lands*: the divergence is **live and recorded**. `RUNNING` and `STOPPED` both exit `0`
+>   in the shipped binary, the workshop pages' "read stdout, not the exit code" guidance is the
+>   correct instruction **for that binary**, and no gate may report this contract row as satisfied.
+
+`status.sh --json` additionally reports index generation, leg health, the answering provider state,
+and — new with the containerised seam — the **detected container runtime and its version** and the
+per-container state, so an operator sees degradation before a user does and can tell a sick
+container from a sick application.
+
+**A note on FR-013 and the reference module.** `ai_interviewing` defines zero containers, so the
+reference cannot be, and is not, imitated at the orchestration layer. FR-013 asks that a person
+familiar with one module can navigate the other; this section satisfies that through the **script
+names and their exit semantics**, which match, not through the mechanism underneath them. That
+distinction is stated rather than left implicit, because "mirrors `ai_interviewing`" would otherwise
+read as a claim that the reference is containerised. It is not.
 
 ---
 
@@ -730,13 +981,39 @@ the real entry point end to end."*
 | G-CLI-10 | Every unclassified failure maps to `2`, including `127` (§1.4). | Remove the `ERR` trap. Must FAIL — a missing binary will surface as `127`. |
 | G-CLI-11 | No `.github/workflows/*.yml` exists anywhere under `workshop/` (§2.7). | Add one. Must FAIL. |
 | G-CLI-12 | `status.sh` returns `2` when the port is bound by an unidentifiable process (§4.8). | Return `1`. Must FAIL. |
-| G-CLI-13 | With ollama stopped: `start.sh` exits `0`, `/api/search` serves, `/api/answer` returns `503` (FR-025). | Abort startup on provider construction failure. Must FAIL. |
+| G-CLI-13 | With ollama stopped: `start.sh` exits `0`, `/api/search` serves, `/api/ask` returns `503` (FR-025). | Abort startup on provider construction failure. Must FAIL. |
 | G-CLI-14 | **Privacy negative control** (FR-024, D-LLM-4): inside the egress-denied namespace, `curl --max-time 5 https://example.com` MUST fail, and a packet capture across the full 20-answer and 10-refusal runs shows zero non-loopback packets. | Run the same assertions outside the namespace. Must FAIL — otherwise the test proves nothing about the namespace. |
+
+| G-CLI-15 | **Containers-actually-booted anti-bluff** (§11.4.76(5)): after `start.sh` exits `0`, the container runtime reports the compose project's containers **running**, and `/api/health` was answered by one of them. A green control plane MUST imply the infra was up. | Replace `workshop-boot` with a stub that exits `0` and starts nothing — i.e. reproduce `cmd/boot`'s measured behaviour exactly. Must FAIL. This mutation is not hypothetical: it is what the upstream CLI does today, which is why this gate is the one that would have caught the withdrawn `cmd/boot` specification. |
+| G-CLI-16 | **Consumption, not reimplementation** (§11.4.76(4)): no lifecycle path under `workshop/` invokes `podman`, `docker`, `podman-compose` or `docker compose` to bring the stack up or down; every such transition goes through `workshop-boot`, which reaches the runtime only through the submodule's `pkg/compose`. Read-only diagnostics on a failure path are exempt and MUST be shown to be exempt by the gate, not by assertion. | Add a `podman-compose up -d` fallback to `start.sh` for when `workshop-boot` is missing. Must FAIL — that fallback is exactly the parallel implementation the clause forbids, and it is the shape drift takes. |
+| G-CLI-17 | `status.sh` against a project with **no containers** prints `STOPPED` **and** exits `1` — a determined negative, distinguishable by the exit code alone from `RUNNING`'s `0` (§4.8; the sibling of G-CLI-12, which pins the same script's `2`). Reproduce with `WORKSHOP_PROJECT_NAME=<unused-name> bash workshop/scripts/status.sh`. | Restore the `return nil` in `cmdStatus`'s `len(statuses) == 0` branch — i.e. reproduce the behaviour measured on 2026-09-01. Must FAIL. **This gate did not exist while the divergence did, which is how the divergence survived**; it is written down *with* the decision rather than after the fix, so the fix cannot land unproven. |
+
+G-CLI-15 and G-CLI-16 are new with the containerised §4.8 and exist because that rewrite created two
+properties nothing else in this set covers. **Neither has a task yet** — see §5.1.
 
 G-CLI-14's negative control is what upgrades *"we observed no egress"* into *"egress was
 impossible."* A configuration flag is not a guarantee, and hostname string matching is not a
 security boundary — which is why `locality` is **declared** and then checked against resolved
 addresses, never inferred.
+
+G-CLI-16 deserves one line of justification, because a gate that greps for a string is normally the
+weakest kind. This one is not a grep for style: `podman-compose up` in a lifecycle path is not a
+smell, it is the §11.4.76(4) violation itself, so the textual presence *is* the property. Its
+mutation is a realistic one — a well-meaning fallback for a missing binary — rather than a
+contrived edit, which is what makes the proof worth having.
+
+### 5.1 Gate → task coverage — stated, not assumed
+
+Reported rather than silently left for a reader to discover, and **not fixed here**: `tasks.md` is
+owned by another agent this session, so this section routes the work instead of doing it.
+
+- **No task in `tasks.md` cites any `G-*` identifier**, so no gate in this contract is currently
+  claimed by a task by name.
+- **G-CLI-15 and G-CLI-16 are additionally new**, introduced above by the §4.8 rewrite, and could
+  not have been tasked before now.
+- The **paired-mutation inventory count changes**: this section's table is now **16** `G-CLI-*`
+  rows, not 14. The `PASS 21 FAIL 0 COULD-NOT-RUN 3 of 24` sample in §4.9 is illustrative output,
+  not an inventory, and is not a claim about the count.
 
 ---
 
@@ -754,7 +1031,7 @@ addresses, never inferred.
 | FR-006 sources preserved | §2.4 S1–S4, G-CLI-2 |
 | FR-007 reassembly + integrity, fail loudly | §2.1 (invokes `extract-videos.sh`), §4.1 exit table |
 | FR-012 documented start/stop, no manual setup | §4.8 |
-| FR-013 conventions of the reference module | §2.1 script names |
+| FR-013 conventions of the reference module | §2.1 script **names** and the path decision beneath the table; §4.8 closing note. Satisfied by name and exit-semantic parity with `ai_interviewing/platform/scripts/`, **not** by directory nesting and **not** at the orchestration layer, where the reference has nothing to imitate. |
 | FR-016 all content types indexed | §4.3 `--kinds`, §4.4 |
 | FR-018 cross-references | §4.5 |
 | FR-020 honest degradation | §4.4 exit `2` on saturation; `--lexical-only` escape hatch |
@@ -806,8 +1083,28 @@ Nothing else in the 42 FRs / 18 SCs is uncovered.
 | **U3** | That the recording contains intelligible speech in a known language. Nobody has listened and no ASR has run. | **UNVERIFIED** | The same calibration run. Until it closes, `add-chapter.sh` must not publish without `verify-accuracy.sh` having run (B2) — the accuracy gate is what would catch a transcript of nothing. |
 | **U4** | Idle embedding latency; the `--timeout-ms 5000` default and the SC-006 budget assume it. | **UNVERIFIED** | Time ten consecutive searches in one warm session against an idle backend, after the running `lumen index --force` rebuild completes. |
 | **U5** | SC-007/SC-008 retrieval quality and the relevance floor. No corpus exists yet. | **UNVERIFIED** | Build the ≥20-query benchmark set after Chapter 1 is indexed, then calibrate. |
-| **C-U6** | **Container orchestration.** `plan.md` treats containerisation as new work (the reference module defines **zero** containers), and constitution §11.4.76 requires `vasic-digital/containers` as the sole orchestration layer — **which is not a submodule of this tree**. §11.4.161 mandates rootless podman; the host has podman 5.7.1 rootless and **no docker**. | **UNRESOLVED, not merely unverified** | An operator decision on whether `vasic-digital/containers` is added as a submodule. **This contract therefore specifies no container commands.** `start.sh`/`stop.sh` are the documented FR-012 interface and run the built binary natively, as `ai_interviewing` does. Adding a bespoke container stack before §11.4.76 is resolved would create the deviation the constitution forbids. |
+| **C-U6** | **Container orchestration.** ~~`plan.md` treats containerisation as new work (the reference module defines **zero** containers), and constitution §11.4.76 requires `vasic-digital/containers` as the sole orchestration layer — **which is not a submodule of this tree**.~~ §11.4.161 mandates rootless podman; the host has podman 5.7.1 rootless and **no docker** — that half stands, measured. | ~~**UNRESOLVED, not merely unverified**~~ → **RESOLVED 2026-09-01. Original text kept struck through, not deleted (see the withdrawal note below the table).** | ~~An operator decision on whether `vasic-digital/containers` is added as a submodule. **This contract therefore specifies no container commands.** `start.sh`/`stop.sh` are the documented FR-012 interface and run the built binary natively, as `ai_interviewing` does.~~ The submodule **is** declared and populated; §4.8 now specifies the containerised control plane. Adding a bespoke container stack is still forbidden by §11.4.76(4) — that clause of the original entry was never wrong. |
 | **C-U7** | **`ai_interviewing`'s `search.component.ts` defect** ([http-api.md §2.2](./http-api.md)) exists independently of this feature and is out of scope here. Whether to fix it is an operator decision. | Noted | An operator decision; it is not a dependency of this feature. |
+
+### 7.1 Withdrawal — C-U6's "not a submodule of this tree"
+
+Recorded explicitly because this contract set treats a stale claim as something to **withdraw**,
+never to quietly overwrite; a reader must be able to tell a corrected fact from one that was never
+wrong.
+
+| | |
+|---|---|
+| **The withdrawn claim** | "constitution §11.4.76 requires `vasic-digital/containers` as the sole orchestration layer — **which is not a submodule of this tree**", and its consequence, "**this contract therefore specifies no container commands** … `start.sh`/`stop.sh` … run the built binary natively, as `ai_interviewing` does". |
+| **What was believed, and why it was reasonable** | Written 2026-08-31. At that moment `.gitmodules` declared no `vasic-digital/containers` gitlink. §11.4.76(2) makes the submodule a hard prerequisite for any containerised workload, so with the prerequisite unmet the only §11.4.76-legal position was to specify nothing containerised and to escalate the gap as an operator decision. The reasoning was sound on the tree as it then stood. |
+| **What is measured now** | 2026-09-01. `git config -f .gitmodules --get-regexp containers` → `submodule.submodules/containers.path submodules/containers` and `…url git@github.com:vasic-digital/containers.git`. `submodules/containers` is populated (`pkg/compose`, `pkg/health`, `pkg/runtime` present). `git ls-tree HEAD submodules/containers` → gitlink pinned at `4dab992`. `scripts/verify-governance-cascade.sh` classifies **9** declared submodules from evidence — 7 owned, including containers. |
+| **When it changed** | During this feature's own Phase 1 work — after the C-U6 row was written, before this withdrawal. The claim was true when made and is false now; both facts are on the record. |
+| **What the withdrawal does NOT overturn** | Two things the original row got right and that remain binding: (a) `ai_interviewing` defines **zero** containers, so "run it through the containers the same way" cannot mean copying the reference module — the reference is a naming and navigability precedent (FR-013), not a container precedent; (b) a bespoke Containerfile or hand-rolled compose stack is a §11.4.76(4) violation, and remains forbidden. |
+| **Consequence for this contract** | §4.8 is rewritten. The control plane is **containerised**, launching through the `workshop-boot` adapter over `submodules/containers`' `pkg/compose`/`pkg/health`/`pkg/runtime` Go API — **not** through its `cmd/boot` CLI, which §4.8.0 measures as unusable. Native launch is no longer specified anywhere in this document. |
+
+**The architecture is decided and is not reopened by this document.** The operator requires
+container operation and §11.4.76 mandates the submodule; those point the same way, so there is no
+trade-off left to weigh. The residual §11.4.161 constraint (rootless podman, no docker) was never
+withdrawn and is honoured by the submodule's podman-first backend selection.
 
 **Measured, not assumed**, and therefore not in this register: the `ffprobe`/Playwright symlink
 trap; the absence of any ASR engine and of any generative model; the recording's duration

@@ -1,0 +1,9 @@
+# Branch removal record — 2026-09-01
+branch: backup/pre-untrack-git-backup-a8137db
+sha:    a8137db6183f969dae39f696f6e70ede73b409a3
+unique commits vs main: 1
+pack contents: 1 blob (1784.1 MB), 0 commits, 0 trees, 0 tags
+packed-refs names 59460387d331 which the pack does NOT contain (broken as a history backup)
+recording preserved independently: 36/36 archive parts + 36 per-part sha256 in chapters/01/*.sha256
+video_size in manifest: 1871981557 == on-disk recording size
+verdict: holds no unique history; removal loses nothing

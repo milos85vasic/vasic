@@ -151,6 +151,55 @@
 
 set -uo pipefail
 
+# --- portability helpers (Environment Adaptability) -------------------------
+# GNU `sed -i` and BSD/macOS `_sed_i ''` take incompatible arguments, so NO
+# single in-place sed invocation is portable. Edit through a temp file and copy
+# back: `cat >` preserves the target's inode, mode and ownership, which `mv`
+# would silently replace.
+_sed_i() {
+    local _f="${!#}" _t _rc=0
+    _t="$(mktemp)" || return 1
+    if sed "${@:1:$#-1}" "$_f" >"$_t"; then cat "$_t" >"$_f" || _rc=1; else _rc=1; fi
+    rm -f "$_t"
+    return "$_rc"
+}
+
+# Octal file mode, portably. The GNU coreutils spelling asks for `%a` with the
+# format flag; BSD/macOS asks for `%Lp` with the -f flag. THE TWO MUST NOT BE
+# `||`-CHAINED. The form that stood here until 2026-09-01 -- an `||` chain from
+# the GNU spelling, to the BSD spelling, to a literal question mark -- trusts
+# the EXIT STATUS of a spelling that can HALF-SUCCEED. On GNU coreutils `-f` is
+# --file-system and takes no argument, so the BSD spelling parses the format as
+# a FILE operand: it fails on the format (stderr, swallowed by 2>/dev/null) and
+# SUCCEEDS on the real file, writing that file's filesystem report to STDOUT and
+# exiting 1 because one operand failed. Measured on GNU coreutils 9.4 against a
+# mode-754 file, 2026-09-01: 220 bytes of filesystem statistics on stdout,
+# whereupon the trailing `|| printf` APPENDED a question mark to them -- 221
+# bytes where three octal digits were expected.
+#
+# That path is unreachable while the GNU spelling wins first, which is why this
+# helper has never misbehaved on this host. The defect was LATENT, not absent:
+# it is one reordering, or one host whose `stat` is neither GNU nor BSD, away
+# from being live, and "it happens to be ordered safely" is not portability.
+#
+# So each spelling is run SEPARATELY and its OUTPUT is validated as three or
+# four octal digits before it is accepted. `?` is printed only when NEITHER
+# spelling produced a mode: a could-not-determine marker, never a fabricated
+# mode, and never a question mark glued onto someone else's stdout.
+#
+# Same shape as portable_mtime() in _tools/pdf/build-pdfs.sh -- one idiom for
+# this problem across the tree, not five.
+# Paired §1.1 proof: `bash scripts/verify-manifest-pins.sh --prove-filemode`.
+_file_mode() {
+    local _m
+    for _m in "$(stat -c %a "$1" 2>/dev/null)" "$(stat -f %Lp "$1" 2>/dev/null)"; do
+        if [[ "$_m" =~ ^[0-7]{3,4}$ ]]; then printf '%s' "$_m"; return 0; fi
+    done
+    printf '?'
+    return 1
+}
+
+
 GATE="CM-MANIFEST-PIN-SYNC"
 
 # ── INTERNAL-FAULT TRAP: a crash is rc=2, never rc=1 ─────────────────────────
@@ -181,6 +230,7 @@ root=""
 quiet=""
 fix=""
 prove=""
+prove_filemode=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -188,6 +238,7 @@ while [ $# -gt 0 ]; do
         --quiet) quiet="1"; shift ;;
         --fix)   fix="1"; shift ;;
         --prove-failure) prove="1"; shift ;;
+        --prove-filemode) prove_filemode="1"; shift ;;
         -h|--help) awk 'NR==1{next} /^#/{sub(/^# ?/,""); print; next} {exit}' "$0"; exit 0 ;;
         -*) echo "${GATE}: unknown arg '$1'" >&2; exit 2 ;;
         *)  if [ -n "$root" ]; then
@@ -196,6 +247,201 @@ while [ $# -gt 0 ]; do
             root="$1"; shift ;;
     esac
 done
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §1.1 PAIRED MUTATION PROOF for _file_mode  —  --prove-filemode
+#
+#   0  the helper is portable-correct
+#   1  the helper is broken
+#   2  COULD NOT DETERMINE (the fixture could not be established) — never a pass
+#
+# A DELIBERATELY SEPARATE flag from --prove-failure: that battery publishes a
+# "10 mutations" count derived from its own bookkeeping, so folding assertions
+# into it would silently corrupt the number it reports.
+#
+# A1 exercises the host's native spelling.
+#
+# A2 exercises the BSD/macOS contract, and IS A MEASUREMENT WHENEVER ONE CAN BE
+# HAD: set VASIC_BSD_STAT to a genuine BSD `stat` and A2 runs against that
+# binary, after probing it for the BSD contract so a non-BSD binary cannot be
+# mislabelled. With nothing supplied it falls back to the stub and says SIM.
+# The label follows the evidence used at run time; it is never hardcoded.
+#
+# The earlier claim here — "no BSD or macOS system is reachable and none can be
+# synthesised (no busybox, no toybox, no bsdstat/gstat, no BSD container
+# image)" — is WITHDRAWN, established 2026-09-01 on this host. busybox 1.37.0
+# and toybox 0.8.13 are both packaged for this host and were extracted without
+# installing; a FreeBSD 14.2 container image pulls (`podman pull --os freebsd
+# --arch amd64 docker.io/freebsd/freebsd-runtime:14.2`); and the vendor SOURCE
+# of FreeBSD 14.2 usr.bin/stat compiles against glibc and runs natively here.
+# What is TRUE, and is the accurate narrower statement, is that a FreeBSD
+# USERLAND cannot EXECUTE on this Linux kernel: run under `podman run
+# --rootfs`, its binaries die with SIGSEGV (rc 139) at the first FreeBSD
+# syscall. Build recipe: docs/environment-adaptability/AUDIT.md.
+#
+# A3 and A5 are the assertions that DISCRIMINATE the fixed helper from the
+# broken one, and neither is invented:
+#   A3 reproduces what GNU stat does when the BSD spelling is reached — format
+#      string rejected as a missing file (stderr), the real file's filesystem
+#      report on STDOUT, exit 1. An `||` chain accepts that stdout on the
+#      strength of the exit status and appends its own fallback to it.
+#   A5 reproduces the MEASURED toybox 0.8.13 behaviour: the same garbage on
+#      stdout but exit **0**, where an `||` chain never fires at all. A3 alone
+#      cannot catch a subject that tests rc; A5 cannot be passed by anything
+#      except validating the output.
+# The output-validating form returns `?` alone in both cases.
+#
+# The fixture is read back by a DUPLICATED probe that never calls _file_mode. A
+# gate that establishes its fixture with its own subject can only ever report
+# UNDETERMINED when that subject breaks, laundering a real defect into "could
+# not verify" — so the duplication below is deliberate, not an oversight.
+# ─────────────────────────────────────────────────────────────────────────────
+if [ -n "$prove_filemode" ]; then
+    echo "${GATE} §1.1 PAIRED MUTATION PROOF — _file_mode portability"
+    echo "----------------------------------------------------------------------"
+    FM_PASS=0; FM_FAIL=0
+    fm_ok()  { FM_PASS=$((FM_PASS+1)); printf '✅ %-24s %s\n' "$1" "$2"; }
+    fm_bad() { FM_FAIL=$((FM_FAIL+1)); printf '❌ %-24s %s\n' "$1" "$2"; }
+
+    FMW="$(mktemp -d "${TMPDIR:-/tmp}/filemode-proof.XXXXXX")" || {
+        echo "${GATE}: UNDETERMINED — cannot create a sandbox, so nothing was proved." >&2; exit 2; }
+    _sandbox_to_clean="$FMW"        # cleaned by the existing _on_exit trap
+
+    : >"$FMW/subject"
+    chmod 754 "$FMW/subject" || {
+        echo "${GATE}: UNDETERMINED — cannot chmod inside the sandbox; fixture unverified." >&2; exit 2; }
+
+    # Independent readback — deliberately NOT _file_mode. See the note above.
+    _fm_readback() {
+        local _v
+        for _v in "$(stat -c %a "$1" 2>/dev/null)" "$(stat -f %Lp "$1" 2>/dev/null)"; do
+            if [[ "$_v" =~ ^[0-7]{3,4}$ ]]; then printf '%s' "$_v"; return 0; fi
+        done
+        return 1
+    }
+    if [ "$(_fm_readback "$FMW/subject" || echo x)" != "754" ]; then
+        echo "${GATE}: UNDETERMINED — cannot establish a known file mode on this host." >&2
+        echo "  The fixture is unverified, so this gate reports neither pass nor fail." >&2
+        exit 2
+    fi
+
+    mkdir -p "$FMW/bin-bsd" "$FMW/bin-half"
+
+    # A2 stub: the BSD/macOS contract. The GNU format flag does not exist there
+    # (usage error on stderr, NOTHING on stdout); -f answers with the mode.
+    cat >"$FMW/bin-bsd/stat" <<'FM_BSD_STUB'
+#!/usr/bin/env bash
+case "${1:-}" in
+  -c) echo "usage: stat [-FLnq] [-f format | -l | -r | -s | -x] [file ...]" >&2; exit 1 ;;
+  -f) if [ "${2:-}" = "%Lp" ] && [ -e "${3:-}" ]; then echo 754; exit 0; fi; exit 1 ;;
+esac
+exit 1
+FM_BSD_STUB
+
+    # A3 stub: the measured GNU behaviour when the BSD spelling is reached —
+    # garbage on STDOUT and exit 1 at the same time.
+    cat >"$FMW/bin-half/stat" <<'FM_HALF_STUB'
+#!/usr/bin/env bash
+case "${1:-}" in
+  -c) exit 1 ;;
+  -f) echo "stat: cannot read file system information for the format operand" >&2
+      printf '  File: "%s"\n' "${3:-}"
+      printf '    ID: 2b093ae8e28c99dc Namelen: 255     Type: tmpfs\n'
+      printf 'Block size: 4096       Fundamental block size: 4096\n'
+      printf 'Blocks: Total: 8203131    Free: 6350159    Available: 6350159\n'
+      printf 'Inodes: Total: 8203131    Free: 8179967\n'
+      exit 1 ;;
+esac
+exit 1
+FM_HALF_STUB
+    # A5 stub: the MEASURED toybox 0.8.13 behaviour — the same filesystem
+    # report on stdout, but exit 0, so an exit-status test never even fires.
+    mkdir -p "$FMW/bin-zero"
+    cat >"$FMW/bin-zero/stat" <<'FM_ZERO_STUB'
+#!/usr/bin/env bash
+case "${1:-}" in
+  -c) exit 1 ;;
+  -f) echo "stat: '${2:-}': No such file or directory" >&2
+      printf '  File: "%s"\n' "${3:-}"
+      printf '    ID: 2b093ae8e28c99dc Namelen: 255     Type: tmpfs\n'
+      printf 'Block size: 4096       Fundamental block size: 4096\n'
+      printf 'Blocks: Total: 8203131    Free: 6350159    Available: 6350159\n'
+      printf 'Inodes: Total: 8203131    Free: 8179967\n'
+      exit 0 ;;
+esac
+exit 1
+FM_ZERO_STUB
+    chmod 755 "$FMW/bin-bsd/stat" "$FMW/bin-half/stat" "$FMW/bin-zero/stat"
+
+    # If a genuine BSD `stat` was supplied, PROVE it behaves like one before
+    # believing the label: `-c` must give EMPTY stdout and `-f %Lp` the mode.
+    FM_A2_KIND="SIM"; FM_A2_WHAT="stub reproducing the BSD stat contract"
+    if [ -n "${VASIC_BSD_STAT:-}" ] && [ -x "${VASIC_BSD_STAT}" ]; then
+        _p_c="$("$VASIC_BSD_STAT" -c %a "$FMW/subject" 2>/dev/null)"
+        _p_f="$("$VASIC_BSD_STAT" -f %Lp "$FMW/subject" 2>/dev/null)"
+        if [ -z "$_p_c" ] && [ "$_p_f" = "754" ]; then
+            ln -sf "$VASIC_BSD_STAT" "$FMW/bin-bsd/stat"
+            FM_A2_KIND="MEASURED"; FM_A2_WHAT="$VASIC_BSD_STAT"
+        else
+            printf 'ℹ %-24s %s\n' "A2 bsd-binary" \
+              "VASIC_BSD_STAT did not answer to the BSD contract (-c gave ${#_p_c} bytes); using the stub"
+        fi
+    fi
+
+    a1="$(_file_mode "$FMW/subject")"
+    if [ "$a1" = "754" ]; then
+        fm_ok "A1 host-native" "the host spelling returned exactly 754"
+    else
+        fm_bad "A1 host-native" "expected 754, got '${a1}' (${#a1} bytes)"
+    fi
+
+    a2="$(PATH="$FMW/bin-bsd:$PATH"; hash -r; _file_mode "$FMW/subject")"
+    if [ "$a2" = "754" ]; then
+        fm_ok "A2 bsd-contract (${FM_A2_KIND})" "the fallback spelling returned exactly 754 — ${FM_A2_WHAT}"
+    else
+        fm_bad "A2 bsd-contract (${FM_A2_KIND})" "expected 754, got '${a2}' (${#a2} bytes) — ${FM_A2_WHAT}"
+    fi
+
+    a3="$(PATH="$FMW/bin-half:$PATH"; hash -r; _file_mode "$FMW/subject")"
+    if [ "$a3" = "?" ]; then
+        fm_ok "A3 half-success" "garbage on stdout at rc 1 was REJECTED; reported '?' (1 byte)"
+    else
+        fm_bad "A3 half-success" "accepted a non-mode: ${#a3} bytes, tail '${a3: -24}'"
+    fi
+
+    a4="$(_file_mode "$FMW/does-not-exist")"
+    if [ "$a4" = "?" ]; then
+        fm_ok "A4 missing-file" "reported '?' rather than inventing a mode"
+    else
+        fm_bad "A4 missing-file" "expected '?', got '${a4}' (${#a4} bytes)"
+    fi
+
+    a5="$(PATH="$FMW/bin-zero:$PATH"; hash -r; _file_mode "$FMW/subject")"
+    if [ "$a5" = "?" ]; then
+        fm_ok "A5 half-success-rc0" "garbage on stdout at rc 0 was REJECTED; reported '?' (1 byte)"
+    else
+        fm_bad "A5 half-success-rc0" "accepted a non-mode: ${#a5} bytes, tail '${a5: -24}'"
+    fi
+
+    echo "----------------------------------------------------------------------"
+    if [ "$FM_FAIL" -gt 0 ]; then
+        echo "❌ _file_mode §1.1 PROOF: FAIL — ${FM_FAIL} of $((FM_PASS + FM_FAIL)) assertion(s) did not hold."
+        echo "   Restore the output-validating form of _file_mode; an || chain over these two"
+        echo "   spellings accepts stdout it never inspected."
+        _verdict_emitted=1      # a real verdict, not a crash: rc 1 must stay rc 1
+        exit 1
+    fi
+    echo "✅ _file_mode §1.1 MUTATION PROOF: PASS — ${FM_PASS} assertions, including the"
+    echo "   half-success cases at rc 1 (A3, GNU) and rc 0 (A5, toybox) that no || chain"
+    echo "   can survive."
+    if [ "$FM_A2_KIND" = "MEASURED" ]; then
+        echo "   A2 is a MEASUREMENT on a genuine BSD stat: ${FM_A2_WHAT}"
+    else
+        echo "   A2 is a SIMULATION of the BSD stat contract. Set VASIC_BSD_STAT to a genuine"
+        echo "   BSD stat to make it a measurement (recipe: docs/environment-adaptability/AUDIT.md)."
+    fi
+    exit 0
+fi
 
 [ -n "$root" ] || root="${REPO_ROOT}"
 [ -d "$root" ] || { echo "${GATE}: project root not found: '${root}'" >&2; exit 2; }
@@ -718,7 +964,7 @@ prove_failure() {
     }
 
     # N1 — the manifest records a ref nothing points at (the drift this gate exists for).
-    n1() { sed -i '/^[[:space:]]*ref[[:space:]]*:/ s/[0-9a-fA-F]\{40\}/deadbeefdeadbeefdeadbeefdeadbeefdeadbeef/' "$1/${MANIFEST_NAME}"; }
+    n1() { _sed_i '/^[[:space:]]*ref[[:space:]]*:/ s/[0-9a-fA-F]\{40\}/deadbeefdeadbeefdeadbeefdeadbeefdeadbeef/' "$1/${MANIFEST_NAME}"; }
     # N2 — the OTHER direction, and the realistic one: the gitlink is bumped in a
     #      COMMIT and the manifest is left behind.
     n2() {
@@ -776,7 +1022,15 @@ prove_failure() {
     #       the 7-character pin is invisible to it and the prefix branch was
     #       never demonstrated to fail. A prefix that does NOT match must be
     #       rc=1, exactly like a full sha that does not match.
-    n10() { sed -i 's/^    ref: "3333333"$/    ref: "9999999"/' "$1/${MANIFEST_NAME}"; }
+    #       Rewritten with awk + mv rather than `sed -i`: `sed -i` is a GNU/BSD
+    #       portability assumption that scripts/audit-environment-assumptions.sh
+    #       flags by rule, and a new proof must not add a finding to a sibling
+    #       gate. n6 above already uses this idiom.
+    n10() {
+        awk '{ sub(/^    ref: "3333333"$/, "    ref: \"9999999\""); print }' \
+            "$1/${MANIFEST_NAME}" > "$1/.n10.tmp" || return 1
+        mv "$1/.n10.tmp" "$1/${MANIFEST_NAME}"
+    }
 
     mutate_and_assert "N1 manifest-ref-drifted  " "a recorded ref is rewritten to a commit nothing points at        " 1 "deadbeef" n1
     mutate_and_assert "N2 gitlink-bumped        " "the committed gitlink moves; the manifest is left behind         " 1 "cafebabe" n2

@@ -116,20 +116,195 @@ case "$LANG_CODE" in
   *)           HTML_DIR="ltr" ;;
 esac
 
+# ---- portable file mtime ----------------------------------------------------
+# A CHAIN OF `||` IS NOT ENOUGH, and the obvious repair is itself broken.
+# `stat -f %m "$f" 2>/dev/null || stat -c %Y "$f" 2>/dev/null` LOOKS like a
+# BSD-first dispatch, but on GNU coreutils `-f` is --file-system and takes no
+# argument, so `%m` is parsed as a FILE operand. GNU stat then fails on `%m`
+# (stderr, swallowed by 2>/dev/null) AND SUCCEEDS on "$f", writing a full
+# filesystem report to STDOUT, exiting 1 because one operand failed. The `||`
+# fires on that rc=1, the GNU spelling appends the real epoch, and the command
+# substitution returns BOTH CONCATENATED. Measured on GNU coreutils 9.4:
+#   stat -f %m _content/docs/cv.md; echo "rc=$?"     # 5 lines of btrfs stats, rc=1
+#   m=$(stat -f %m f 2>/dev/null || stat -c %Y f 2>/dev/null || echo 0); echo "[$m]"
+# yielded a 244-byte string, not an epoch. The `[ "$m" -gt "$newest" ]`
+# comparison downstream then died with "integer expression expected" on every
+# file after the first, so `newest` stayed pinned to whatever the FIRST glob
+# entry produced and the newest-mtime selection never ran at all - silently,
+# with the block still exiting 0.
+#
+# THE BSD HALF, NOW MEASURED AND NOT ONLY REASONED ABOUT (2026-09-01). The text
+# above measured what GNU does; what BSD does was previously asserted. It has
+# since been exercised against FreeBSD 14.2 usr.bin/stat, built from vendor
+# source and run on this host:
+#
+#   BSD  stat -f %m <file>   -> "1788279584", rc 0, NOTHING on stderr
+#   GNU  stat -f %m <file>   -> 233 bytes of filesystem report on STDOUT, rc 1
+#   BSD  stat -c %Y <file>   -> EMPTY stdout, rc 1, "invalid option -- 'c'" on
+#                               stderr (the option string is "f:FHlLnqrst:x",
+#                               which contains no `c`)
+#
+# So the two spellings fail ASYMMETRICALLY, and that asymmetry is the whole
+# hazard: the GNU-only spelling fails CLEANLY on BSD, while the BSD-only
+# spelling fails DIRTILY on GNU. A BSD-first `||` chain is therefore safe on
+# BSD and broken on GNU — which is exactly how the historical defect hid.
+#
+# A third implementation makes the rule non-negotiable: toybox 0.8.13, measured
+# the same day, writes 215 bytes of filesystem report to stdout for `stat -f`
+# AND EXITS 0. There an exit-status test does not merely accept garbage, it
+# never fires at all.
+#
+# So each spelling is run ON ITS OWN and its OUTPUT is validated, not its exit
+# status. An exit status cannot distinguish "worked" from "half-worked and
+# printed garbage", which is the entire lesson of that defect. A host where
+# neither spelling yields a bare epoch is UNDETERMINED (rc 1), never a silent 0.
+# Same shape as submodules/{RAG,LLMProvider}/challenges/scripts/
+# host_no_auto_suspend_challenge.sh:portable_mtime - one idiom, not two.
+portable_mtime() {
+  local m
+  for m in "$(stat -c %Y "$1" 2>/dev/null)" "$(stat -f %m "$1" 2>/dev/null)"; do
+    if [[ "$m" =~ ^[0-9]+$ ]]; then
+      printf '%s\n' "$m"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# ---- §1.1 paired-mutation gate for the mtime probe --------------------------
+#   bash _tools/pdf/build-pdfs.sh --prove-mtime
+# Three-valued, as every check in this tree must be: 0 the probe works, 1 the
+# probe is broken, 2 COULD NOT DETERMINE (never a pass). It builds a synthetic
+# doc set with three KNOWN, distinct mtimes whose oldest sorts FIRST in glob
+# order - that ordering is load-bearing, because the historical defect pinned
+# `newest` to the first entry, so a fixture where the newest came first would
+# have passed while broken. It then re-invokes this script through
+# DOCS_DIR_OVERRIDE and asserts the pinned value, NOT the exit status: the
+# defect this guards exited 0 the whole time.
+# Mutation proof: restore the `stat -f %m ... || stat -c %Y ...` one-liner in
+# portable_mtime and this gate returns 1 on all three assertions.
+# It writes only into a mktemp dir, needs no pandoc/weasyprint, and touches no
+# tracked artifact - safe to run at any time.
+if [ "${1:-}" = "--prove-mtime" ]; then
+  pw="$(mktemp -d)"; trap 'rm -rf "$pw"' EXIT
+  mkdir -p "$pw/docs"
+  : > "$pw/docs/cover-letter.md"; : > "$pw/docs/cv.md"; : > "$pw/docs/portfolio.md"
+  # GNU touch spells this `-d @EPOCH`; BSD/macOS touch needs `-t CCYYMMDDhhmm`.
+  # Try both, then CONFIRM by reading back - an unverified fixture is not a
+  # fixture, and a host where neither spelling lands is UNDETERMINED.
+  set_mtime() {
+    touch -d "@$2" "$1" 2>/dev/null && return 0
+    touch -t "$(date -u -r "$2" +%Y%m%d%H%M 2>/dev/null \
+                || date -u -d "@$2" +%Y%m%d%H%M 2>/dev/null)" "$1" 2>/dev/null
+  }
+  set_mtime "$pw/docs/cover-letter.md" 1000000000 || true   # oldest, glob-first
+  set_mtime "$pw/docs/cv.md"           1500000000 || true
+  set_mtime "$pw/docs/portfolio.md"    2000000000 || true   # newest = expected
+  # The readback deliberately does NOT call portable_mtime. A gate that
+  # establishes its own fixture with the function under test cannot fail when
+  # that function breaks - it can only report UNDETERMINED, which would launder
+  # a real defect into "could not verify". These three lines are duplicated on
+  # purpose so the gate stays independent of its subject.
+  readback() {
+    local v
+    for v in "$(stat -c %Y "$1" 2>/dev/null)" "$(stat -f %m "$1" 2>/dev/null)"; do
+      case "$v" in ''|*[!0-9]*) ;; *) printf '%s' "$v"; return 0 ;; esac
+    done
+    return 1
+  }
+  for chk in cover-letter:1000000000 cv:1500000000 portfolio:2000000000; do
+    if [ "$(readback "$pw/docs/${chk%%:*}.md" || echo x)" != "${chk##*:}" ]; then
+      echo "UNDETERMINED: cannot establish a known mtime on this host - the" >&2
+      echo "  fixture is unverified, so this gate reports neither pass nor fail." >&2
+      exit 2
+    fi
+  done
+  pe="$(env -u SOURCE_DATE_EPOCH DOCS_DIR_OVERRIDE="$pw/docs" \
+        PDF_EMIT_EPOCH_AND_EXIT=1 bash "${BASH_SOURCE[0]}" en 2>"$pw/err")" || true
+  pf=0
+  echo "--prove-mtime: SOURCE_DATE_EPOCH = <<<$pe>>> (${#pe} bytes)"
+  case "$pe" in
+    ''|*[!0-9]*) echo "  FAIL  probe returned no bare integer"; pf=1 ;;
+    *)           echo "  PASS  probe returned a bare integer" ;;
+  esac
+  if [ "$pe" = 2000000000 ]; then echo "  PASS  newest mtime selected"
+  else echo "  FAIL  newest mtime not selected (expected 2000000000)"; pf=1; fi
+  if grep -q 'integer expression expected' "$pw/err" 2>/dev/null; then
+    echo "  FAIL  numeric comparison broke and was masked"; pf=1
+  else echo "  PASS  no masked numeric-comparison failure"; fi
+
+  # M4 - THE BSD SIDE, MEASURED when a genuine BSD `stat` is supplied in
+  # VASIC_BSD_STAT. The binary is probed for the BSD contract first (`-c` must
+  # give EMPTY stdout, `-f %m` a bare epoch) so a non-BSD binary cannot be
+  # mislabelled. With nothing supplied this prints NOT MEASURED and asserts
+  # nothing: an untested platform claim stays could-not-determine and is never
+  # relabelled into a pass.
+  bsd_stat="${VASIC_BSD_STAT:-}"
+  if [ -n "$bsd_stat" ] && [ -x "$bsd_stat" ]; then
+    # `|| true` under `set -e`: the FIRST probe is expected to fail, because a
+    # genuine BSD stat rejects `-c`. Without it the gate would die measuring
+    # exactly the fact it exists to record.
+    pc="$("$bsd_stat" -c %Y "$pw/docs/portfolio.md" 2>/dev/null || true)"
+    pm="$("$bsd_stat" -f %m "$pw/docs/portfolio.md" 2>/dev/null || true)"
+    if [ -z "$pc" ] && [ "$pm" = "2000000000" ]; then
+      mkdir -p "$pw/bin-bsd"; ln -sf "$bsd_stat" "$pw/bin-bsd/stat"
+      got="$(PATH="$pw/bin-bsd:$PATH"; hash -r; portable_mtime "$pw/docs/portfolio.md" || echo x)"
+      if [ "$got" = "2000000000" ]; then
+        echo "  PASS  BSD-measured: portable_mtime returned 2000000000 through $bsd_stat"
+      else
+        echo "  FAIL  BSD-measured: expected 2000000000, got '$got' through $bsd_stat"; pf=1
+      fi
+    else
+      echo "  NOTE  VASIC_BSD_STAT did not answer to the BSD contract"
+      echo "        (-c gave ${#pc} bytes, -f %m gave '$pm'); BSD side NOT measured"
+    fi
+  else
+    echo "  NOTE  BSD side NOT MEASURED in this run - no VASIC_BSD_STAT supplied."
+    echo "        Build recipe: docs/environment-adaptability/AUDIT.md"
+  fi
+
+  [ "$pf" -eq 0 ] && { echo "--prove-mtime: GREEN"; exit 0; }
+  echo "--prove-mtime: RED"; exit 1
+fi
+
 # ---- reproducible output (idempotent re-runs) -------------------------------
-# WeasyPrint stamps /CreationDate + a doc ID, so naive re-runs differ byte-wise
-# and would make every deploy cycle look "changed". Pin SOURCE_DATE_EPOCH (which
-# WeasyPrint honours) to the NEWEST mtime among the source docs: identical
-# content ⇒ identical bytes ⇒ git no-op; changed content ⇒ fresh timestamp ⇒
-# a real commit. Caller-provided SOURCE_DATE_EPOCH is respected.
+# WeasyPrint may stamp /CreationDate + /ModDate (it does so only when the source
+# HTML carries dcterms.created / dcterms.modified), so naive re-runs can differ
+# byte-wise and would make every deploy cycle look "changed". Pin
+# SOURCE_DATE_EPOCH to the NEWEST mtime among the source docs: identical content
+# ⇒ identical bytes ⇒ git no-op; changed content ⇒ fresh timestamp ⇒ a real
+# commit. Caller-provided SOURCE_DATE_EPOCH is respected.
+#
+# Honest boundary (§11.4.6): this pin is defence in depth, not a measured
+# dependency. WeasyPrint 69.0 contains ZERO references to SOURCE_DATE_EPOCH
+# (verified by grep over weasyprint/ and pydyf/), and this script emits no
+# dcterms metadata, so on that version the PDFs are already date-free and
+# byte-stable without the pin. Do not delete it on that basis: the value also
+# documents build provenance, the metadata may be added later, and the mechanism
+# must be correct before it is relied upon. Re-derive before claiming otherwise.
 if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
   newest=""
   for f in "$DOCS_DIR"/*.md; do
     [ -f "$f" ] || continue
-    m=$(stat -f %m "$f" 2>/dev/null || stat -c %Y "$f" 2>/dev/null || echo 0)
-    [ -z "$newest" ] || [ "$m" -gt "$newest" ] && newest="$m"
+    # A file whose mtime cannot be read is skipped LOUDLY rather than folded
+    # into the pin as a 0, which would silently drag the epoch to 1970.
+    if ! m="$(portable_mtime "$f")"; then
+      echo "WARN: cannot read mtime of $f - excluded from SOURCE_DATE_EPOCH pin" >&2
+      continue
+    fi
+    if [ -z "$newest" ] || [ "$m" -gt "$newest" ]; then
+      newest="$m"
+    fi
   done
   export SOURCE_DATE_EPOCH="${newest:-1700000000}"
+fi
+
+# Probe seam for --prove-mtime (below). Unset in every normal run, so the build
+# path is byte-identical; set only by the gate re-invoking this same script, so
+# the gate exercises the REAL pinning code rather than a copy of it.
+if [ -n "${PDF_EMIT_EPOCH_AND_EXIT:-}" ]; then
+  printf '%s' "$SOURCE_DATE_EPOCH"
+  exit 0
 fi
 
 TOKENS_CSS="$ROOT/design-system/brand-milosvasic/milosvasic.css"

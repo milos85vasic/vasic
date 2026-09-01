@@ -132,13 +132,18 @@ check	manifest-pins	scripts/verify-manifest-pins.sh	flag	--prove-failure	--root 
 check	continuation-sync	scripts/continuation-check.sh	flag	--prove-failure	/nonexistent
 check	provider-ci	scripts/verify-provider-ci.sh	flag	--selftest	--root /nonexistent
 check	check-registry	scripts/verify-check-registry.sh	flag	--prove-failure	--root /nonexistent
+check	hardcoded-paths	scripts/audit-hardcoded-paths.sh	flag	--prove-failure	/nonexistent
+check	content-boundary	scripts/verify-content-boundary.sh	flag	--prove-failure	--root /nonexistent
+check	environment-assumptions	scripts/audit-environment-assumptions.sh	flag	--prove-failure	/nonexistent
 
 # ── Registered debt: real checks that do NOT yet satisfy SC-012 / SC-013 ─────
 # Each row states which property is owed. None of these is a pass.
 debt	constitution-rules-sweep	scripts/verify-all-constitution-rules.sh	proof	no --prove-failure and no *_mutation_test.sh sibling; it discovers and runs child gates but nothing demonstrates the SWEEP itself fails when a child gate is silently dropped. Three-valued exit verified: --root /nonexistent -> rc 2, documented at lines 89-93.
-debt	hardcoded-paths	scripts/audit-hardcoded-paths.sh	proof	no paired proof of any kind. Three-valued exit verified: a nonexistent target -> rc 2 (line 38), distinct from rc 1 (findings) and rc 0 (clean).
-debt	environment-assumptions	scripts/audit-environment-assumptions.sh	proof	mentions mutation in prose but exposes no proof entry point and has no sibling. Three-valued exit verified: a nonexistent target and a malformed allow-list both -> rc 2, documented at line 51.
 debt	lumen-index-doctor	scripts/lumen-index-doctor.sh	proof	no paired proof. Three-valued exit verified: LUMEN_STORE=/nonexistent -> rc 2 via the private E_NOINDEX=21 mapping, distinct from the live tree's current rc 1.
 debt	ollama-tune	scripts/ollama-tune.sh	proof	no paired proof. Three-valued exit verified: --unit nonexistent.service -> rc 2, and the contract "0 fine, 1 real problem, 2 COULD NOT DETERMINE" is printed by --help.
-debt	prepush-gates	scripts/pre-push-gates.sh	proof,three-valued	no paired proof. Three-valued is NOT implemented at the verdict level: run_gate maps every non-zero child rc into FAILED (line ~435), so a child gate exiting 2 "could not determine" is reported as a failure and the aggregate exits 1. rc 2 exists only for its own bootstrap FATALs (root derivation, log dir, evidence snapshot).
+debt	prepush-gates	scripts/pre-push-gates.sh	proof	no paired proof. THREE-VALUED IS NOW SATISFIED and this row was narrowed accordingly (re-verified 2026-09-01): run_gate has a distinct UNDET verdict for a child rc=2 (lines ~512-518), the summary prints `undetermined=` as its own counter, and an UNDET run reports "COULD NOT DETERMINE a verdict" and blocks WITHOUT accusing the tree. The earlier claim that run_gate maps every non-zero rc into FAILED is WITHDRAWN, not restated. Only the paired proof is still owed; the file was under concurrent edit by its owner and was deliberately not touched.
 debt	setup-agents-wizard-suite	scripts/test-setup-agents-wizard.sh	proof,three-valued	no paired proof of its own. It ASSERTS three-valued behaviour in the wizard it tests (K16/K17/K20/K23b) but does not implement a distinct rc 2 for its own inability to run; its own exit is non-zero if any test fails.
+check	submodule-remote-sync	scripts/verify-submodule-remote-sync.sh	flag	--prove-failure	--root /nonexistent
+check	mutation-anchor-rot	scripts/verify-mutation-anchors.sh	flag	--prove-failure	--root /nonexistent
+check	private-object-exposure	scripts/verify-private-object-exposure.sh	flag	--prove-failure	--root /nonexistent
+check	remedy-executability	scripts/verify-remedy-executability.sh	flag	--prove-failure	--root /nonexistent

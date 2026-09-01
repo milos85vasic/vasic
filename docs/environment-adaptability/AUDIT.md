@@ -8,8 +8,72 @@ It was issued about one specific proposal, but it generalises: this repository
 should carry no frozen assumption about the machine it runs on. This file is the
 audit. The enforcement is `scripts/audit-environment-assumptions.sh`.
 
-Audit date: **2026-08-31**. Scope: the umbrella repository's own tracked files.
-Submodule interiors are gitlinks and are **not** in scope.
+Audit date: **2026-08-31**. Scope **as audited on that date**: the umbrella
+repository's own tracked files only.
+
+**That scope statement is now historical, and every count in §4.1–§4.3 below
+belongs to it.** On 2026-09-01 the gate's gitlink blind spot was closed and the
+sweep was extended over the whole declared fleet — 1 762 files across 14
+repositories, measured that morning; **1 802 files by the evening of the same
+day**, which is the figure the block immediately below carries and the one §4.8's
+`1 762` should be read against. The findings that expansion surfaced are
+triaged in **§4.8**, and they are not comparable to the §4.1 numbers because
+they do not describe the same population. Do not add the two together.
+
+## Re-derived state — 2026-09-01, late
+
+Everything below this block was written earlier the same day and had drifted in
+the direction that matters least: it **understated** what had been fixed. It is
+corrected in place rather than appended to, and the corrections are marked.
+
+```
+bash scripts/audit-environment-assumptions.sh   # rc 0
+```
+
+| measured | value |
+|---|---:|
+| exit code | **0** |
+| files scanned | 1 802 |
+| repositories | 14 |
+| classes | 12 |
+| baselined occurrences | **708**, across 228 files |
+| justified (allow-listed) occurrences | 464 |
+| allow rules, total | **401** — 353 in `.environment-assumptions-allow`, 48 embedded in the script |
+| **stale** allow rules | **2** of 401 |
+| third-party NOTE | 1, out of scope per §11.4.29 |
+
+The gate is **green, and green here does not mean clean**: 708 baselined
+occurrences are real, known, unfixed defects that the gate prints on every run
+by design. A baseline is recorded debt, never a justification.
+
+The 2 stale rules are both in the script's **embedded** `ALLOW_RULES` heredoc,
+not in the external file:
+
+| rule-file line | rule |
+|---:|---|
+| 10 | `scripts/audit-hardcoded-paths.sh * *` (REASON) |
+| 134 | `_tools/gen/review_ui_all.py MODEL *` (BASELINE, cites F15) |
+
+Both are stale in the sense the gate means: the **occurrence** each names is
+gone while the exemption still stands **at that path**. Neither file was
+deleted — `_tools/gen/review_ui_all.py` still exists — so this is exemption rot,
+not a dead path. Note also that the §4.4 F15 file list does not name
+`review_ui_all.py`, so that BASELINE cites a finding id that does not cover it.
+Both rules live in `scripts/audit-environment-assumptions.sh`, which the change
+that re-derived this document was not permitted to edit; deleting them is owed
+work and is recorded here rather than done.
+
+The third-party NOTE is
+`submodules/superspec/.github/workflows/ci.yml:21` — `python-version: "3.12"`.
+**§4.6 row 19 gives the path as `.specify/extensions/superspec/...`. That is not
+where the gate reports it**; the finding is the same upstream pin and the
+out-of-scope reasoning is unchanged, but the path in that row is wrong and is
+corrected there.
+
+**What is NOT claimed here.** `go test -race` was **not** run against
+`submodules/LLMProvider` while re-deriving this — only `-short`. No statement
+about data races in that module appears anywhere in this document, and none may
+be added without running it.
 
 ---
 
@@ -151,7 +215,7 @@ allow-list is keyed on path + class + literal substring, never on line number.
 | **F6** | MED | `scripts/verify-governance-cascade.sh:708` | `sed -i 's/^  - name: monetization$/.../'` | Same GNU-only form, inside the `m4()` mutation harness — so the mutation proof itself silently stops mutating on BSD. | Temp file + `mv`. |
 | **F7** | MED | `scripts/setup-agents-wizard.sh:1507` | `readlink -f "$_lb"` | BSD/macOS `readlink` has no `-f`; returns empty, and the `2>/dev/null` hides it. | `cd "$(dirname x)" && pwd -P`, or `python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))'`. |
 | **F8** | MED | `scripts/setup-agents-wizard.sh:290` | `sort -V -k1,1` | GNU-only version sort. BSD `sort` errors, so the launcher falls back to lexical order and picks `0.0.9` over `0.0.100`. | Zero-pad the key before sorting, or sort numerically field-by-field. |
-| **F9** | MED | `scripts/test-setup-agents-wizard.sh:344, 609` | `stat -c %a` | GNU-only. The BSD/macOS spelling is `stat -f %Lp`. The mode assertions silently stop asserting. | Mirror the existing correct form in `_tools/pdf/build-pdfs.sh`: `stat -f ... 2>/dev/null \|\| stat -c ... 2>/dev/null`. |
+| **F9** | MED | `scripts/test-setup-agents-wizard.sh:344, 609` | `stat -c %a` | GNU-only. The BSD/macOS spelling is `stat -f %Lp`. The mode assertions silently stop asserting. | ~~Mirror the existing correct form in `_tools/pdf/build-pdfs.sh`: `stat -f ... 2>/dev/null \|\| stat -c ... 2>/dev/null`.~~ **That remediation was wrong and is withdrawn (2026-09-01) — see F29.** A `\|\|` chain is not a dispatch when the losing spelling half-succeeds on stdout. Mirror `portable_mtime` in `_tools/pdf/build-pdfs.sh` instead: run each spelling separately and accept it only if its OUTPUT matches `^[0-9]+$`. |
 | **F10** | **HIGH** | `_tools/od/start-daemon.sh:6, 7` | `/Applications/Open Design.app/...` | macOS-only, and there is **no** env override at all. On Linux the daemon never starts and every downstream diagram silently generates nothing. | `OD_APP="${OD_APP:-/Applications/Open Design.app/...}"` plus a per-OS candidate list and an explicit failure when none exists. |
 | **F11** | **HIGH** | `_tools/translate-fleet.sh:56`, `_tools/helixtranslate-container.sh:45`, `_tools/distribute-helixtranslate.sh:66, 68, 73, 74` | `thinker.local`, `amber.local`, `milosvasic@amber.local` | The operator's own two machines, and the podman-vs-docker runtime is selected by matching the hostname string. On any other network the fleet silently targets hosts that do not resolve. | `HOSTS` is already an env var in `translate-fleet.sh` — extend the same treatment to the runtime map (`HT_RUNTIME_MAP`) and to `distribute-helixtranslate.sh`, and derive the runtime with `command -v podman \|\| command -v docker`. |
 | **F12** | **HIGH** | `_tools/helixtranslate-container/run.sh:12`, `_tools/helixtranslate-local.sh:33` | `/usr/local/bin/unified-translator` | Written on the host side of an `ssh` boundary with no override. A container or host that installs elsewhere silently runs nothing; the `1>&2` redirect makes the failure look like normal chatter. | `TRANSLATOR_BIN="${TRANSLATOR_BIN:-unified-translator}"` and let `PATH` resolve it, failing loudly if `command -v` misses. |
@@ -163,6 +227,13 @@ allow-list is keyed on path + class + literal substring, never on line number.
 | **F19** | MED | `upstreams/GitHub.sh:1` | `#!/bin/bash` | `/bin/bash` does not exist on NixOS and is bash 3.2 on macOS. This is the push wrapper the commit tooling chains into. | `#!/usr/bin/env bash`. |
 | **F20** | LOW | `_tools/watch-deploy.sh:30` | `sleep 1200` | Tuned to one machine ("a language completes ~hourly at MAXPAR=1"). A faster or slower host either idles or overlaps cycles. | `sleep "${WATCH_INTERVAL:-1200}"`. |
 | **F22** | LOW | `_tools/watch-deploy.sh:19` | `cat /proc/uptime` | Linux-only. The `\|\| echo` keeps it non-fatal, so the run continues — but the started-at marker silently becomes blank on macOS/BSD. | `uptime` (POSIX), or drop the marker. |
+| **F23** | MED | 11 files under `submodules/LLMProvider/pkg/providers/` — see §4.8 | `CerebrasModel = "llama3.1-8b"`, `ZhipuModel = "glm-4-flash"`, `model = "glm-4.5"`, … | The library's **default model choice**, applied when the caller passes an empty model. There is no env layer and no config layer behind it, so a retired or rate-capped model changes behaviour silently instead of failing. Distinct from the `FallbackModels` catalogues in the same files, which are justified in §4.8(B). | **CLOSED for these 11 files 2026-09-01** via the `pkg/settings` sibling of `pkg/apikeys` (kept separate because these values get logged and credentials must not): `model = settings.Model("<provider>", <Const>)`, giving `LLMPROVIDER_<PROVIDER>_MODEL`. **The row's file list was incomplete** — `zen/zen.go` carried the same defect and was not listed; see the DEBT table below. **Re-measured 2026-09-01 (late): 49 `settings.Model(` call sites across 43 files under `pkg/providers/`, and 153 `settings.*` call sites in the module overall (50 `Model` + 47 `BaseURL` + 56 `Timeout`).** One frozen model is **deliberately left**, and is recorded here rather than fixed or hidden — see F30 below. |
+| **F24** | MED | `submodules/LLMProvider/pkg/providers/ollama/ollama.go:77`, `…/zen/zen_http.go:48, 61, 74` | `http://localhost:11434`, `http://localhost:4096` | Constructor falls back to a frozen loopback address with no env override. The gate's own *WHAT COUNTS AS DYNAMIC* section names this exact line as the counter-example. `zen_http.go:48` is the struct-field doc comment restating the same frozen default. | **CLOSED for these files 2026-09-01** through `settings.BaseURL` / `settings.Timeout`, with `OLLAMA_HOST` and `OPENCODE_BASE_URL` accepted as vendor aliases *after* the canonical key. **`zen_http.go` carried the defect TWICE** — in `DefaultZenHTTPConfig()` *and* again in `NewZenHTTPProvider()`'s own empty-checks — so fixing one left the other frozen with the tests still green. That is why every provider was re-checked for a second occurrence, which is how `zen/zen.go` was found. |
+| **F25** | MED | 21 files under `submodules/LLMProvider/`, `submodules/RAG/`, `submodules/passage/`, `submodules/verdict/` — see §4.8; **plus 10 in `submodules/containers/` that this row never listed** | `#!/bin/bash` | `/bin/bash` does not exist on NixOS and is bash 3.2 on macOS. Same defect as F19, in four more repositories. | `#!/usr/bin/env bash`. **CLOSED 2026-09-01 (late) — re-measured at 0 in all five repositories: LLMProvider 0, RAG 0, containers 0, `passage` 0, `verdict` 0.** The "`passage` 2 and `verdict` 2 REMAIN" that stood here is **WITHDRAWN**: it was true when written and was fixed afterwards in each submodule's own checkout. Re-derive per repo, and note the `"$r/$f"` form — the bare `"$f"` in the older recipe silently reads nothing when run from the umbrella root: `git -C <repo> ls-files \| while read -r f; do head -1 "<repo>/$f" \| grep -q '^#!/bin/bash' && echo "$f"; done \| wc -l` |
+| **F26** | **HIGH** | `submodules/{LLMProvider,RAG}/scripts/host-power-management/install-host-suspend-guard.sh`, `…/challenges/scripts/host_no_auto_suspend_challenge.sh` | `systemctl mask …`, `journalctl --since …`, `/etc/systemd/sleep.conf.d/…` | systemd assumed to be **the** service manager, with no `command -v systemctl` guard anywhere in either file. The challenge script wraps every call in `2>/dev/null \|\| true`, so on a non-systemd host the guard reports success while installing nothing — the precise silent-misbehaviour shape this gate exists to catch. | `detect_service_manager()` as already implemented in `scripts/ollama-vulkan-remediation.sh` (F2's fix): dispatch over `systemctl`+`ps -p 1`, `launchctl` on Darwin, `rc-service`, all behind `command -v`, and fail loudly when none matches. **CLOSED 2026-09-01 — all four files now carry a real `command -v systemctl` / `command -v journalctl` guard; re-derive with `grep -cE 'command -v (systemctl\|journalctl)' <file>` (measured 1, 2, 1, 2).** |
+| **F27** | MED | `submodules/{LLMProvider,RAG}/challenges/scripts/host_no_auto_suspend_challenge.sh:80, 81` | `date -d "@$(stat -c %Y …)" -Iseconds \|\| stat -c %y …` | Both spellings are GNU-only, and the `\|\|` branch falls back to `stat -c %y`, which is GNU-only too — so there is **no** BSD path at all, only the appearance of one. | ~~Mirror `_tools/pdf/build-pdfs.sh`: `stat -f %m … 2>/dev/null \|\| stat -c %Y … 2>/dev/null \|\| echo 0`.~~ **That remediation was wrong and is withdrawn (2026-09-01) — see F29;** it prescribed the very idiom that fails on GNU. **RAG and LLMProvider have since been fixed correctly** with a `portable_mtime` that validates output rather than exit status; `_tools/pdf/build-pdfs.sh` now carries the same shape. ~~`submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh:80–81` still carries the original F27 defect and is unfixed.~~ **WITHDRAWN — CLOSED 2026-09-01 (late).** That file now carries the same validating `portable_mtime` (`:164`, trying `stat -c %Y` then `stat -f %m` and requiring a bare-integer result at `:166`), a matching date dispatch at `:176`, and `assert_undet` branches at `:197`/`:200` so a host on which neither spelling works reports COULD-NOT-DETERMINE instead of a wrong mtime. The old one-liner survives only as a comment at `:146`, quoted as the thing being replaced. **F27 is closed in all three repositories.** |
+| **F28** | LOW | `submodules/RAG/challenges/scripts/rag_unit_challenge.sh:46, 54` | `GOMAXPROCS=2 nice -n 19 go test … -p 1` | A deliberate resource cap, but written as a literal, so the challenge cannot be tuned to the host it runs on — a 2-core box and a 64-core box get the same budget. | `GOMAXPROCS="${GOMAXPROCS:-2}"`, `-p "${GOTEST_P:-1}"`. **CLOSED 2026-09-01 — exactly this remediation was applied; `rag_unit_challenge.sh:51` reads `GOMAXPROCS="${GOMAXPROCS:-2}"` and `:58`/`:66` read `-p "${GOTEST_P}"`.** |
+| **F29** | **HIGH** | `_tools/pdf/build-pdfs.sh:129` (at `HEAD` before 2026-09-01) | `m=$(stat -f %m "$f" 2>/dev/null \|\| stat -c %Y "$f" 2>/dev/null \|\| echo 0)` | **The allow-list was protecting a broken command while describing it as the correct one.** On GNU coreutils `-f` is `--file-system` and takes no argument, so `%m` is parsed as a FILE operand: `stat` fails on `%m` (stderr, swallowed by `2>/dev/null`) but SUCCEEDS on the real file, writing a full filesystem report to STDOUT and exiting 1. The `\|\|` fires on that rc=1 and the GNU spelling appends the epoch to the report. Measured on GNU coreutils 9.4.0: a 244-byte string, not an epoch. `[ "$m" -gt "$newest" ]` then failed with *integer expression expected* on every file after the first, so `newest` stayed pinned to whatever the FIRST glob entry produced (the OLDEST file, in the measured fixture) and the newest-mtime selection never ran — silently, with the block still exiting 0. **Blast radius, stated precisely:** the mtime probe and the pin are inoperative; the rendered PDFs are NOT currently non-deterministic, because WeasyPrint 69.0 contains zero references to `SOURCE_DATE_EPOCH` and this script emits no `dcterms.created`, so no `/CreationDate` is written at all and re-runs are already byte-identical. The mechanism was broken; the outcome it guards was being held up by something else. Two further consequences: the AUDIT.md remediation columns for **F9** and **F27** prescribed this exact idiom as the fix, and the allow rule `_tools/pdf/build-pdfs.sh GNUBSD stat -f %m` was loose enough to match the broken one-liner itself, so the gate could never have caught it. | **CLOSED 2026-09-01.** `portable_mtime` now runs each spelling separately and accepts it only if the OUTPUT matches `^[0-9]+$`, mirroring the fix already made in `submodules/{RAG,LLMProvider}` — one idiom in the tree, not two. An unreadable mtime is now skipped with a WARN instead of folded in as `0`. Paired mutation: `bash _tools/pdf/build-pdfs.sh --prove-mtime` (0 works / 1 broken / 2 could-not-determine) exits 0 now and exits 1 with all three assertions failing when the one-liner is seeded back. The allow rule was rewritten to match the validated dispatch specifically; proof row **D5** covers the case the matrix previously lacked. |
 
 **F14 file list** (42 occurrences): `_tests/tests/aria-footer-l10n-runtime.spec.js` (2),
 `download-switcher-perlang.spec.js` (2), `home-lang-nav.spec.js` (3),
@@ -200,7 +271,7 @@ machine-specific.
 
 | # | File : line | Hit | Why it is not a defect |
 |---|---|---|---|
-| 1 | `_tools/pdf/build-pdfs.sh:129` | `GNUBSD` `stat -f %m ... \|\| stat -c %Y ... \|\| echo 0` | This is **already the portable form** — BSD first, GNU fallback, safe default. Flagging it would punish the fix. It is the reference implementation cited in F9. |
+| 1 | ~~`_tools/pdf/build-pdfs.sh:129`~~ → `_tools/pdf/build-pdfs.sh:144, 189` | `GNUBSD` `stat -c %Y ... ` then `stat -f %m ...`, each validated | ~~This is **already the portable form** — BSD first, GNU fallback, safe default. Flagging it would punish the fix. It is the reference implementation cited in F9.~~ **That entry was FALSE and is withdrawn (2026-09-01) — see F29.** The line it exempted was a broken command whose failure was masked, and the loose `stat -f %m` pattern matched the broken form too, so this row was suppressing the defect it advertised as the fix. The file now runs each spelling separately and validates that the OUTPUT is a bare integer (`portable_mtime`, plus an independent `readback` inside `--prove-mtime`), and the allow rule now matches that validated dispatch specifically — seeding the old one-liner back makes the gate flag it. |
 | 2 | `_tools/translate/glossary.json:216` | `MODEL` `"codestral"` | An entry in the **non-translatable technology-term list**, alongside `"Playwright"`, `"pandoc"` and `"Jekyll"`. It selects no model. |
 | 3–6 | `scripts/lumen-index-doctor.sh:113, 146, 160, 162` | `MODEL`, `ENDPOINT` | The file defines its own `env(name, default)` wrapper over `os.environ` (line ~86). Every literal is the last term of an `env(X) or cfg.get(Y) or "<literal>"` chain whose precedence is copied from lumen's own `applyEnvOverrides`. Line 146 is a docstring. |
 | 7–10 | `scripts/test-setup-agents-wizard.sh:247, 290, 879, 1145` | `OSPATH`, `GNUBSD`, `ENDPOINT` | All four are **test fixtures**. 247 is a `grep -cE` pattern asserting the wizard *never* writes `/etc/sysconfig/ollama`; 290 is an assertion **title string** quoting `sort -V`; 879 writes a synthetic throwaway repo to prove the sibling paths audit does *not* flag `/etc`; 1145 sets `OLLAMA_HOST="http://127.0.0.1:1"` because port 1 must be unreachable for the negative test to mean anything. |
@@ -208,7 +279,7 @@ machine-specific.
 | 12 | `_tools/gen/translate_ui_chunked.py:2` | `MODEL` | Module docstring prose. |
 | 13 | `_tools/gen/translate_home.py:312` | `MODEL` | Function docstring prose. |
 | 14–18 | `_tools/review_translation.py:64–68` | `MODEL` | A **provider registry**: each row is (the vendor's published API endpoint, that vendor's API-key env var, that vendor's own default model). The model is overridden by the documented `--model` flag. Nothing is bound to a machine. |
-| 19 | `.specify/extensions/superspec/.github/workflows/ci.yml:21` | `TOOLVER` `python-version: "3.12"` | `.specify/extensions/superspec` is **third-party vendored upstream** (`WangX0111/superspec`), explicitly outside the owned-submodule set. Upstream's pin is upstream's to change. |
+| 19 | ~~`.specify/extensions/superspec/.github/workflows/ci.yml:21`~~ → **`submodules/superspec/.github/workflows/ci.yml:21`** | `TOOLVER` `python-version: "3.12"` | **Path corrected 2026-09-01 late:** the gate reports this at the *gitlink*, not at the vendored spec-kit copy. `submodules/superspec` is **third-party upstream** (`WangX0111/superspec`), explicitly outside the owned-submodule set, so it is reported as a NOTE and excluded from the verdict per §11.4.29 — reported so it is never silently omitted, never counted as this tree's failure. Upstream's pin is upstream's to change. It is the **only** third-party NOTE in the current run. |
 
 Two further observations recorded as INFO, below the defect bar:
 
@@ -230,14 +301,218 @@ Stated rather than left implicit:
   and `scripts/verify-provider-ci.sh` exist in the working tree but are
   untracked, and were therefore not scanned. They will be scanned the moment
   they are added.
-- Submodule interiors (`milosvasic.ru/`, `vasic.digital/`, `design-toolkit/`,
+- ~~Submodule interiors (`milosvasic.ru/`, `vasic.digital/`, `design-toolkit/`,
   `ai_interviewing/`, `monetization/`, `submodules/*`) are gitlinks and are out
-  of scope. Each needs its own copy of this gate.
+  of scope. Each needs its own copy of this gate.~~ **CLOSED 2026-09-01.** This
+  was not a scope choice, it was a defect: `git ls-files` reports a gitlink as
+  one directory entry, and the gate's `[ -f … ]` filter dropped it, so
+  `--list` reported 179 files with **zero** inside any declared submodule. The
+  fleet is now derived from `.gitmodules`, ownership from `helix-deps.yaml`, and
+  the sweep covers 1 762 files across 14 repositories. The gate refuses to
+  report a verdict if a swept submodule contributes zero files. See §4.8.
 - The env-override test is **per line**. A literal assigned on one line and
   guarded three lines later is reported. Two such cases were found and are
   handled by named allow rules rather than by loosening the rule.
 - `MODEL` only fires on a **quoted** model id, so a model name written into a
   docstring is ignored — but so would one built by string concatenation.
+- The `isfallback` escape hatch is **single-line**. A composite literal whose
+  field name declares it a fallback — `FallbackModels: []string{` — puts its
+  entries three lines below the name, where the heuristic cannot see them.
+  Measured 2026-09-01: this accounts for 107 of the 476 fleet findings. The
+  detector was deliberately **not** widened to compensate; see §4.8.
+
+---
+
+### 4.8 2026-09-01 — the fleet expansion, and its triage
+
+`submodules/LLMProvider` and `submodules/RAG` were adopted as root submodules on
+2026-09-01 under §11.4.74 (reuse before reimplement). Adding the two gitlinks put
+212 more files into the scan universe. **476** findings appeared, all of them
+inside those two repositories and none anywhere else in the tree.
+
+They are **newly visible, not newly created.** They are also not a reason to
+narrow the scan: this gate was blind to all nine submodules until that blindness
+was fixed the same day, and that blindness is why a `/Users/…` literal survived
+in `ai_interviewing`. A blind instrument reports PASS.
+
+**Reproduced inventory** (`bash scripts/audit-environment-assumptions.sh`,
+2026-09-01, 1 762 files / 14 repositories):
+
+| Class | Count | Where |
+|---|---:|---|
+| `MODEL` | 404 | 270 in `*_test.go`, 134 non-test |
+| `SERVICE` | 26 | host-power-management + challenge scripts |
+| `ENDPOINT` | 22 | 18 in `*_test.go`, 4 non-test |
+| `SHEBANG` | 17 | `#!/bin/bash` |
+| `GNUBSD` | 4 | `date -d` / `stat -c` |
+| `PARALLEL` | 2 | `GOMAXPROCS=2` |
+| `HOSTNAME` | 1 | `http://invalid.local` in a test |
+| **Total** | **476** | |
+
+#### The triage rule
+
+> **The SCOPE of an allow row must equal the SCOPE of the reason justifying it.**
+> A reason that is structural for a whole file earns a file+class row. A reason
+> that is about one literal earns a row pinned to that literal. Anything that is
+> neither is DEBT: a `BASELINE` row carrying a finding id from this document.
+
+`CLASS` is never widened to `*` anywhere in this section, so a new finding of a
+*different* class in an already-covered file still fails the gate.
+
+**JUSTIFIED — 412 occurrences, 153 rows.**
+
+- **(A) `*_test.go` — 289 occurrences, 34 file+class rows.** `go build` excludes
+  these files from every production binary, so no literal in them can configure
+  a deployment; the literal *is* the value the assertion compares against, and
+  deriving it from the environment would delete the assertion. Verified: 28 of
+  the 30 test files carrying findings drive `httptest.NewServer`; the other two
+  use a deliberately unreachable port (`127.0.0.1:1`) or assert a constructor
+  default, and their one live path is capability-guarded and `t.Skip()`s.
+  The reason is structural for the whole file, so the row is file-scoped — but
+  still class-scoped, which probe **P7** proves.
+- **(B) `FallbackModels` / `SupportedModels` entries — 107 occurrences, 107
+  literal-pinned rows.** The last-resort catalogue used **only** when the live
+  `ModelsEndpoint` discovery call fails. Measured: **all 107** non-test `MODEL`
+  list elements sit inside `FallbackModels: []string{` (106) or
+  `SupportedModels: []string{` (1); **not one** is a default selection. These
+  are remote-vendor API ids, bound to no machine, OS or deployment. This is
+  exactly the shape the gate's own `isfallback` heuristic exempts — the
+  heuristic just cannot see a field name three lines up. **The detector was
+  deliberately not widened to reach rc=0**; widening a detector to clear a
+  finding is the failure mode this section exists to avoid.
+- **(C) `zen.go` model-id constants — 5 occurrences, 5 pinned rows.** A named
+  catalogue with deprecation notes, for callers to pass in. The only default,
+  `DefaultZenModel`, is a symbol reference and never fires.
+- **(D) `codestral` pattern false positives — 11 occurrences, 7 pinned rows.**
+  A provider id (`ProviderID: "codestral"`), a Go variable name
+  (`codestralResp.Usage.PromptTokens`), an i18n message key, and that message's
+  English text. None is a model id.
+
+**DEBT — was 64 occurrences, F23–F28, 37 rows. RE-MEASURED 2026-09-01 late:
+all six rows are now at 0.** The previous revision of this table left F25 at 4
+and F27 at 2; both were fixed after it was written, and both are corrected
+below rather than quietly reduced.
+
+**F23–F28 being at 0 is not the same as this document being green, and the
+distinction is the whole point of a baseline.** The gate still prints **708
+baselined occurrences across 228 files** on every clean run (see the re-derived
+block at the top). Those are other findings, in other classes, most of them in
+`*_test.go` and vendor-pinned catalogues triaged in §4.8. Closing F23–F28 closed
+the rows that had finding ids; it did not empty the ledger.
+
+The `Now` column is a re-measurement, not a restatement. Re-derive any row with
+the command beside it; do not quote these numbers as current without re-running.
+
+| Finding | Was | Now | Files / evidence |
+|---|---:|---:|---|
+| F23 default model on a production path | 11 | **0 in the 11 named files, +4 newly-recorded in `zen/zen.go`, now also 0** | The 11 files were converted to `settings.Model("<provider>", <Const>)`. **`zen/zen.go` was never in this row and carried the SAME defect four more times** (`:409` endpoint, `:413` + `:444`/`:449` model, `:433` timeout) — found by checking every provider for a SECOND occurrence after `zen_http.go` turned out to carry it twice. Now routed through `pkg/settings`. Re-derive: `grep -rn 'settings\.Model(' submodules/LLMProvider/pkg/providers/` |
+| F24 frozen default endpoint | 4 | **0, +2 newly-recorded in `zen/zen.go`, now also 0** | `ollama.go` and `zen_http.go` were converted. `zen/zen.go:409` froze `ZenAPIURL`, and `:451` was worse: `NewZenProviderAnonymous` passed `ZenAPIURL` **positionally** to `NewZenProviderWithRetry`, bypassing that constructor's own empty-check, so the override worked on every path except that one. Both fixed; `GetCapabilities` now reports `p.baseURL` instead of the constant it used to report regardless of the endpoint in force. |
+| F25 `#!/bin/bash` | 17 (+4, see below) | **0 — CLOSED** | **LLMProvider 0, RAG 0, containers 0, `passage` 0, `verdict` 0**, all five re-measured 2026-09-01 late. The **4** that stood in this cell, and the sentence "`submodules/passage` 2 and `submodules/verdict` 2 REMAIN — F25 is NOT closed", are **WITHDRAWN**: both were true when written and were fixed afterwards in each submodule's own checkout. The **10 occurrences in `submodules/containers`** this table never carried a row for (recorded only in `.environment-assumptions-allow`, whose header admits the missing finding ids) are fixed as well, and their 12 allow rows have been deleted — see the paragraph under this table. Re-derive per repo, with the path form that actually reads the file: `git -C <repo> ls-files \| while read -r f; do head -1 "<repo>/$f" \| grep -q '^#!/bin/bash' && echo "$f"; done \| wc -l` |
+| F26 unguarded systemd | 26 | **0 in LLMProvider and RAG** | All four named files now carry a real `command -v systemctl` / `command -v journalctl` capability guard, so the gate's file-scope guard clears the class. Re-derive: `grep -cE 'command -v (systemctl\|journalctl)' <file>` — measured 1, 2, 1, 2. |
+| F27 GNU-only `date`/`stat` | 4 | **0 — CLOSED** | Fixed with the validating `portable_mtime` in LLMProvider, RAG **and containers**; see the F27 row above. "`submodules/containers/…:80–81` still carries it and is NOT fixed" is **WITHDRAWN**: re-measured 2026-09-01 late, that file carries `portable_mtime` at `:164` with the bare-integer validation at `:166`, the date dispatch at `:176`, and `assert_undet` at `:197`/`:200`. Re-derive: `grep -n 'portable_mtime\|assert_undet' submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh` |
+| F28 frozen concurrency | 2 | **0** | `RAG/challenges/scripts/rag_unit_challenge.sh` now reads `GOMAXPROCS="${GOMAXPROCS:-2}"` (:51) and `-p "${GOTEST_P}"` (:58, :66) — exactly the remediation this row prescribed. |
+
+**Allow-list rows for closed items have been deleted, and the count "24 rows" is
+CORRECTED to 12.** Measured 2026-09-01 late against `HEAD`:
+
+```
+git diff HEAD --numstat -- .environment-assumptions-allow   #  812 added / 36 removed (all lines)
+git diff HEAD -- .environment-assumptions-allow | grep -cE '^-[^-#]'   #  12  rule lines removed
+git diff HEAD -- .environment-assumptions-allow | grep -cE '^\+[^+#]'  # 168  rule lines added
+```
+
+All **12** removed rules are `submodules/containers/…` `SHEBANG`/`SERVICE` rows —
+exactly the F25/F26 items closed in that repository. They were dead: the defect
+each named was gone, so the rule suppressed nothing while leaving a standing
+exemption at that path. That rot stayed invisible until
+`scripts/audit-environment-assumptions.sh` grew a stale-rule census; see
+"Allow-list rot" in that script's header. A stale BASELINE is not untidiness — it
+is an assertion that a defect still exists, and it was false.
+
+**The 168 additions are recorded, not glossed.** A claim circulated that the
+audit went red→green "without a single allow-list addition, 4 rows removed". It
+is **not reproducible from this tree** and is not adopted: the only window this
+document can observe is working-tree-vs-`HEAD`, and over that window the file
+gained 168 rule lines and lost 12. The claim may describe a narrower interval
+between two uncommitted states, which nothing here can see. Recording the
+measurable window and saying so is the honest form; asserting a figure that
+cannot be re-derived is not (§11.4.6). **Consequence, stated plainly: this
+document does NOT claim the green was achieved by fixes alone.** Whoever adds an
+allow rule owes it a finding id, and 168 new rows are 168 assertions that
+somebody should be able to re-derive.
+
+**HONEST BOUNDARY (§11.4.6).** "FIXED — 0, deliberately", which stood here at one
+point, was **withdrawn** and is not reinstated by the fact that the number is now
+0 again. Its reasoning — that §11.4.29 forbids editing a consumed repository from
+here — remains correct, and none of the fixes above were made from this tree:
+each landed in the submodule's **own** checkout and returns as a gitlink bump.
+What was wrong was treating "we may not fix it here" as evidence that there was
+nothing to fix. The number is 0 today because the work was done upstream, which
+is a different claim and re-derivable with the commands beside each row.
+
+**F30 — a frozen default DELIBERATELY LEFT, recorded so it is never mistaken for
+an oversight.** `submodules/LLMProvider/pkg/providers/junie/junie_cli_stub.go`
+freezes the model id `"junie-1"` at **5 sites**, none routed through
+`pkg/settings`:
+
+| line | site |
+|---:|---|
+| 72 | `var knownJunieModels = []string{"junie-1"}` |
+| 113 | `return JunieCLIConfig{Model: "junie-1", MaxTokens: 4096}` |
+| 118 | `return JunieACPConfig{Model: "junie-1", MaxTokens: 4096}` |
+| 122 | `func (p *JunieCLIProvider) GetCurrentModel() string { return "junie-1" }` |
+| 125 | `func (p *JunieACPProvider) GetCurrentModel() string { return "junie-1" }` |
+
+It is a **stub for a capability the standalone module does not have**, so there
+is **no live path on which the value could be unfrozen** — an env layer over a
+constant that no request ever reaches would be adaptability theatre, and it
+would be indistinguishable, in this document, from the real F23 fixes. It is
+therefore left as it is, deliberately, and written down here instead.
+
+Two further facts about it, so nobody re-derives a contradiction: the gate's
+`MODEL` class does **not** fire on the literal `junie-1` (the file is not among
+the 228 baselined files), and there is **no allow rule mentioning junie** —
+`grep -n junie .environment-assumptions-allow scripts/audit-environment-assumptions.sh`
+returns nothing. So F30 is carried by this document alone. If the stub ever
+acquires a live path, F30 becomes an ordinary F23 and must be fixed, not
+re-justified.
+
+**Four more rows, added the same hour and not part of the 476.**
+`submodules/passage/upstreams/vasic_digital_{github,gitlab}.sh` and
+`submodules/verdict/upstreams/vasic_digital_{github,gitlab}.sh` were reported as
+THIRD-PARTY notes at 11:20 and were **gating** findings by 11:40, without either
+file changing: a concurrent agent added both repositories to `helix-deps.yaml`
+`deps[]` at 11:36, and ownership is derived from that file. They are the same
+one-line defect as F19/F25 and are recorded under F25 rather than left to hold
+the gate red for a reason nobody triaged.
+
+#### §1.1 narrowness proof — 10 of 10 caught
+
+An allow row that swallows a real defect is worse than the finding it hides, so
+every row family above was probed: a genuinely unportable construct was seeded
+into a file the new rows **cover**, and the gate had to still catch it. Two
+dimensions — **CLASS** (a file+class row must not swallow a different class in
+that file) and **LITERAL** (a pinned row must not swallow a different literal of
+the same class in that file). Run 2026-09-01; every file restored
+byte-identically, verified by `sha256sum` and by `git status --porcelain`
+returning empty in both submodules; the gate returned to rc=0 afterwards.
+
+| Probe | Dim | Seeded into | Seed | Expected | Caught at |
+|---|---|---|---|---|---|
+| P1 | LITERAL | `cerebras/cerebras.go` (F23 row pins `= "llama3.1-8b"`) | `var … = "llama-3.1-405b-instruct"` | `MODEL` | line 728 |
+| P2 | LITERAL | `ollama/ollama.go` (F24 row pins `http://localhost:11434`) | `var … = "http://localhost:9999"` | `ENDPOINT` | line 500 |
+| P3 | CLASS | `upstreams/github.sh` (F25 row is `SHEBANG *`) | `sed -i "s/a/b/"` | `GNUBSD` | line 4 |
+| P4 | CLASS | `install-host-suspend-guard.sh` (F26 row is `SERVICE *`) | `readlink -f` | `GNUBSD` | line 68 |
+| P5 | CLASS | `host_no_auto_suspend_challenge.sh` (F27 row is `GNUBSD *`) | `echo "seeded.local"` | `HOSTNAME` | line 99 |
+| P6 | CLASS | `rag_unit_challenge.sh` (F28 row is `PARALLEL *`) | `readlink -f` | `GNUBSD` | line 63 |
+| P7 | CLASS | `cerebras/cerebras_test.go` (row (A) is `MODEL *`) | `var … = "/etc/sysconfig/ollama"` | `OSPATH` | line 938 |
+| P8 | LITERAL | `cloudflare/cloudflare.go` (15 pinned (B) rows) | `var … = "llama-3.1-405b-turbo"` | `MODEL` | line 478 |
+| P9 | LITERAL | `zen/zen.go` (5 pinned (C) rows) | `var … = "glm-4.9-frozen"` | `MODEL` | line 1153 |
+| P10 | LITERAL | `codestral/codestral.go` (7 pinned (D) rows) | `var … = "codestral-2501"` | `MODEL` | line 555 |
+
+P8 is the load-bearing one: `cloudflare.go` carries 15 justified `MODEL` rows
+and still fails on a 16th literal, which is what distinguishes a pinned row set
+from a `cloudflare.go MODEL *` blanket.
 
 ---
 
@@ -302,12 +577,30 @@ The two kinds are not interchangeable:
   breakage. A baseline is a debt, not a justification, and must cite a finding
   id from §4.4.
 
-Current state: **17 `REASON` occurrences, 87 `BASELINE` occurrences.** The
-87 exceeds the 85 verified defects by exactly 2 because two file-wide `MODEL`
-baselines (`translate_ui_chunked.py`, `translate_home.py`) also absorb the two
-docstring false positives 12 and 13 in §4.6. That is a deliberate loss of
-precision in favour of a shorter list, and it is recorded rather than smoothed
-over.
+~~Current state: **17 `REASON` occurrences, 87 `BASELINE` occurrences.**~~
+**Those figures are from the 2026-08-31 umbrella-only population and are
+superseded.** They described 174 scanned files; the sweep now covers 1 802 files
+across 14 repositories, so they are not comparable and must not be quoted as
+current.
+
+**Re-measured 2026-09-01 late** — `bash scripts/audit-environment-assumptions.sh`:
+
+| | |
+|---|---:|
+| justified (allow-listed) occurrences | **464** |
+| baselined occurrences | **708**, across 228 files |
+| allow rules, total | **401** — 353 external + 48 embedded |
+| stale allow rules | **2** |
+
+The old note behind the "87 vs 85" gap still holds and is kept because it
+explains a deliberate imprecision that survives into the current numbers: two
+file-wide `MODEL` baselines (`translate_ui_chunked.py`, `translate_home.py`)
+also absorb the two docstring false positives 12 and 13 in §4.6. That is a
+deliberate loss of precision in favour of a shorter list, recorded rather than
+smoothed over.
+
+Re-derive rather than quoting any of the above; every one of these numbers moved
+within a single day.
 
 ---
 
@@ -344,9 +637,10 @@ other agents were editing this repository concurrently.
 | C | `#!/bin/sh` (POSIX, guaranteed location) | `rc=0` | PASS |
 | C | `for f in /etc/sysconfig/x /etc/default/x /etc/conf.d/x` | `rc=0` | PASS |
 | C | `fallback = "ordis/jina-embeddings-v2-base-code"` | `rc=0` | PASS |
-| D1 | real allow rule suppresses `_tools/pdf/build-pdfs.sh` `stat -f %m` line | `rc=0` | PASS |
+| D1 | real allow rule suppresses the validated two-spelling dispatch in `_tools/pdf/build-pdfs.sh` (lines 144, 189) | `rc=0` | PASS |
 | D2 | add `readlink -f` to that **same allow-listed file** | `rc=1`, names `readlink -f` | PASS |
-| D3 | same `stat -f %m` line in a **different path** | `rc=1`, names the other file | PASS |
+| D3 | same allow-listed line in a **different path** | `rc=1`, names the other file | PASS |
+| D5 | **a different, BROKEN `stat` line in the SAME allow-listed file** — seed `stat -f %m "$1" \|\| stat -c %Y "$1" \|\| echo 0` into `portable_mtime` | `rc=1`, names `_tools/pdf/build-pdfs.sh` line 144 | PASS (added 2026-09-01) |
 | D4 | add `systemctl restart ollama` to the allow-listed file (rule is `GNUBSD`-scoped) | `rc=1`, names `SERVICE` | PASS |
 | E1 | target directory does not exist | `rc=2` | PASS |
 | E2 | target is not a git working tree | `rc=2` | PASS |
@@ -415,3 +709,139 @@ This audit **did not fix anything**. Fixing is a separate decision, and several
 of the affected files were being edited by other agents while the sweep ran; a
 concurrent rewrite would have collided. The 85 verified defects are carried as
 `BASELINE` entries so the gate can be adopted immediately and catch the 86th.
+
+---
+
+## 9. GNU/BSD portability claims — measured, 2026-09-01
+
+Until this section was written, every BSD-side portability claim in this tree
+rested on **simulation**. The stated reason was that "no BSD/macOS host is
+reachable". That reason was over-broad, and this section replaces it with what
+was actually established. **Verdicts are CONFIRMED / REFUTED / STILL-UNTESTED,
+and nothing was upgraded to CONFIRMED by relabelling.**
+
+### 9.1 Mechanisms attempted, and what each actually yielded
+
+| # | Mechanism | Outcome |
+|---|---|---|
+| 1 | **BSD userland in a container** | **PARTIAL — image yes, execution no.** `podman pull --os freebsd --arch amd64 docker.io/freebsd/freebsd-runtime:14.2` succeeds; without `--os freebsd` podman refuses ("no image found ... OS linux"). The rootfs exports and reads fine: `/bin/date`, `/usr/bin/sed`, `/bin/sh`, `/libexec/ld-elf.so.1`. **The binaries cannot run on this Linux kernel.** They are ELF "for FreeBSD 14.2", so a direct exec fails on the missing interpreter, and `podman run --rootfs <fbsdroot> /bin/date -r 1000000000` — which supplies the interpreter — dies with **rc 139 (SIGSEGV)** at the first FreeBSD syscall. Linux has no FreeBSD ABI layer and no `qemu-bsd-user` is packaged here. The rootfs is still evidentially useful for *filesystem* facts (see §9.3, `env`/`bash`/hashing). |
+| 2 | **Build the real BSD utilities from source** | **SUCCESS — this is what produced the measurements.** FreeBSD 14.2 `usr.bin/stat`, `bin/date` and `usr.bin/sed` compile against glibc and run natively. Recipe in §9.2. |
+| 3 | **Package-manager BSD variants** | **PARTIAL — no BSD, but two non-GNU implementations.** This host (ALT Linux 11, apt-rpm) has **no** `sbase`, `9base`, `bsdmainutils`, `heirloom-tools` or `libbsd` package. It **does** have `busybox` 1.37.0 and `toybox` 0.8.13; both were fetched as RPMs and unpacked into a scratch prefix — **no system install, no `sudo`** (there is no passwordless sudo on this host). Neither is BSD — both follow GNU spellings — but toybox produced the sharpest single finding in this area (§9.3). |
+| 4 | **macOS itself** | **NOT REACHED as a running host.** No macOS machine is reachable. What *was* obtained is the genuine **Apple source** (`apple-oss-distributions/shell_cmds`, `file_cmds`, `text_cmds`), which is the same code the shipped binaries are built from, and which settled the `date -d` question historically as well as currently. |
+
+### 9.2 The build recipe (mechanism 2)
+
+Reproducible from any host with `curl` and a C compiler; no network access is
+needed at gate time, only at build time.
+
+```bash
+B=https://raw.githubusercontent.com/freebsd/freebsd-src/releng/14.2
+mkdir -p bsd/src && cd bsd/src
+for f in usr.bin/stat/stat.c bin/date/date.c bin/date/vary.c bin/date/vary.h \
+         usr.bin/sed/main.c usr.bin/sed/compile.c usr.bin/sed/misc.c \
+         usr.bin/sed/process.c usr.bin/sed/defs.h usr.bin/sed/extern.h \
+         lib/libc/string/strmode.c contrib/libc-pwcache/pwcache.c \
+         contrib/libc-pwcache/pwcache.h; do
+  mkdir -p "$(dirname "$f")" && curl -sS -o "$f" "$B/$f"
+done
+# then compile with a prelude supplying the FreeBSD-only libc interfaces glibc
+# lacks (SPECNAMELEN, fhandle_t/fhstat, fdevname_r, st_*timespec, ishexnumber,
+# errc, setpassent/setgroupent, __dead2/__printflike/nitems, getprogname):
+gcc -DHAVE_CONFIG_H=1 -D_GNU_SOURCE -I. -include bsdcompat.h -o bsdstat \
+    usr.bin/stat/stat.c lib/libc/string/strmode.c contrib/libc-pwcache/pwcache.c
+gcc -D_GNU_SOURCE -I. -include bsdcompat.h -o bsddate bin/date/date.c bin/date/vary.c
+gcc -D_GNU_SOURCE -I. -include bsdcompat.h -o bsdsed  usr.bin/sed/*.c
+```
+
+**Fidelity, stated honestly.** The option parsing, format-string parsing,
+`usage()`/exit behaviour and the `stat(2)`/`strftime(3)` calls are the vendor's
+own code, unmodified — and those are precisely the code paths every claim below
+turns on. The shims cover the `-H` filehandle mode, the stdin-device-name mode,
+device major/minor decoding, and the timespec member spelling: **none of them is
+on any path under test.** Sanity cross-check on this host: the built `bsdstat`
+agrees with GNU `stat` (`-f %Lp` → `754`, `-f %m` → the identical epoch), and
+the built `bsddate -u -r 1000000000 +%Y` agrees with GNU `date -u -d @1000000000
++%Y`. **This is not a measurement on a running BSD kernel**, and nothing here
+claims it is; it is a measurement of the genuine BSD implementation's logic.
+
+Point the gates at the results to convert their simulations into measurements:
+
+```bash
+VASIC_BSD_STAT=/path/to/bsdstat bash scripts/verify-check-registry.sh --prove-filemode
+VASIC_BSD_STAT=/path/to/bsdstat bash scripts/verify-manifest-pins.sh   --prove-filemode
+VASIC_BSD_STAT=/path/to/bsdstat bash _tools/pdf/build-pdfs.sh          --prove-mtime
+VASIC_BSD_DATE=/path/to/bsddate bash _tools/gen/build.sh               --prove-buildyear
+```
+
+Each gate **probes the binary for the BSD contract before believing the label**,
+so a GNU binary passed in by mistake is refused and the run falls back to the
+simulation, saying so. Verified: passing the host's GNU `stat` produces
+`A2 bsd-binary … did not answer to the BSD contract … using the stub`.
+
+### 9.3 Per-claim verdicts
+
+| Claim | Verdict | Evidence |
+|---|---|---|
+| **BSD `stat -c '%a'` errors cleanly with NO stdout**, so an `\|\|` fallback *replaces* rather than appends | **CONFIRMED** | `bsdstat -c '%a' <mode-754 file>` → stdout **0 bytes**, rc **1**, stderr `invalid option -- 'c'` + usage. Source-level corroboration on both platforms: FreeBSD `usr.bin/stat` option string `"f:FHlLnqrst:x"`; Apple `file_cmds` stat.c `"f:FHlLnqrst:x"` / `"f:FlLnqrst:x"`. No `c` in either. |
+| **`stat -f %m` on GNU parses `%m` as a filename, prints the filesystem report to stdout, exits 1** — so a BSD-first `\|\|` chain appends to garbage | **CONFIRMED (GNU)**, and the BSD half now measured too | GNU `stat -f %m` → **233 bytes** on stdout, rc 1. BSD `stat -f %m` → `1788279584`, rc **0**, empty stderr. The two fail **asymmetrically**: the GNU-only spelling fails *cleanly* on BSD, the BSD-only spelling fails *dirtily* on GNU. |
+| A third implementation makes output-validation mandatory | **NEW FINDING** | **toybox 0.8.13**: `stat -f %Lp <file>` writes **215 bytes** of filesystem report to **stdout** *and exits **0***. An exit-status test does not merely mis-handle that — it never fires. busybox 1.37.0 behaves like GNU (199 bytes, rc 1). A new assertion **A5** was added to both `_file_mode` gates for this case. |
+| **`date -r`: GNU `--reference=FILE` vs BSD epoch-seconds**, genuinely flipping when a file named with the epoch exists in the cwd | **CONFIRMED** | Same working directory, containing a file named `1000000000` whose mtime year is 1999: GNU `date -u -r 1000000000 +%Y` → **1999**; BSD `date -u -r 1000000000 +%Y` → **2001**. Nuance worth keeping: BSD `-r` accepts *either* — `strtoq` first, and only a non-fully-numeric argument is retried as a pathname (`bsddate -u -r notanumber +%Y` → 1999). That is why the known-answer oracle, not a four-digit shape test, is what makes the dispatch safe. |
+| **BSD/macOS `-d` "sets the kernel daylight-saving flag rather than parsing a date"** | **REFUTED for every BSD shipping now; TRUE historically** | FreeBSD 14.2 `date -u -d @1000000000 +%Y` → `invalid option -- 'd'`, usage on **stderr**, **empty stdout**, rc 1. Its option string is `"f:I::jnRr:uv:z:"` — no `d`. Current macOS is identical (`apple-oss-distributions/shell_cmds` main, same string). The DST reading was real up to and including **`shell_cmds-216.60.1`** (`"d:f:jnRr:t:uv:"`) and is gone by **`shell_cmds-302.60.2`**. The B4 simulation in `_tools/gen/build.sh` is therefore **kept and relabelled** as the *historical macOS* contract — machines presenting it are still in service — and a separate **B5** measures the current contract. Note the modern behaviour could not replace B4: `-d` returning empty is rejected even by a shape test, so it cannot make B4's point. |
+| **`sed -i`: GNU takes no argument, BSD requires a backup suffix**; the tree avoids it via temp-file editing | **CONFIRMED, in both directions** | BSD sed given the GNU spelling `-i 's/alpha/A/' file` consumes the script as the **backup suffix**, then treats the filename as the script: `invalid command code .`, rc **1**, file **unchanged**, no stray backup written. BSD-correct `-i '' 's/…/…/' file` → rc 0, edit applied. Conversely GNU sed given `-i '' script file` → `can't read s/alpha/A/`, rc **2**. Option strings: FreeBSD `"EI:ae:f:i:lnru"`, Apple `"EHI:ae:f:i:lnru"` — `i:` requires an argument in both. The `_sed_i()` temp-file helper in `scripts/verify-check-registry.sh` and `scripts/verify-manifest-pins.sh` uses neither spelling and is unaffected. |
+| **`sha256sum` vs `shasum -a 256`** in `workshop/scripts/_portable.sh` | **CONFIRMED, with one correction to the rationale** | `shasum -a 256` and `sha256sum` produce byte-identical output on this host (Digest::SHA 6.04, the same Perl script macOS ships), and `sha256_file()` returns the correct digest with **only `shasum` on PATH** — the macOS case — as well as with `sha256sum`. The correction: the comment implies BSD lacks `sha256sum`. **FreeBSD base ships `/sbin/sha256sum`** (one of 24 hardlinks to `md5(1)`, per `sbin/md5/Makefile`), it emulates the GNU CLI when invoked under that name, and it parses with `getopt_long`, so the `--` in `sha256sum -- "$f"` is handled. The claim is true of **macOS**, not of BSD generally. Behaviour is correct either way; only the stated reason is narrower than written. |
+| **`#!/usr/bin/env bash` finds bash where BSD/macOS puts it** | **CONFIRMED for FreeBSD by direct filesystem measurement** | The genuine FreeBSD 14.2 rootfs has **`/usr/bin/env`** (14944 bytes) and **no bash anywhere in base** — bash is a package installed to `/usr/local/bin/bash`, which is on the default PATH. So `#!/usr/bin/env bash` is the correct portable form and `#!/bin/bash` would fail outright on FreeBSD. For macOS the same form works (`/usr/bin/env` plus `/bin/bash`), but **that half is source/documentation-level, not measured here** — see §9.4. |
+
+### 9.4 What is still NOT measured, and stays labelled that way
+
+* **No running BSD or macOS kernel was reached.** Everything above is either the
+  genuine vendor source compiled and run on Linux, or a direct read of a genuine
+  FreeBSD rootfs. A kernel-level difference — anything where the syscall, not the
+  utility, decides the answer — would not be caught by this method. None of the
+  claims above turns on one, but the boundary is real and is not papered over.
+* **macOS filesystem layout** (`/usr/bin/env`, `/bin/bash`) is asserted from
+  Apple's shipped source and documentation, not measured on a Mac.
+* **A2 in both `_file_mode` gates remains a SIMULATION by default.** It becomes a
+  measurement only when `VASIC_BSD_STAT` is supplied, and the gate prints which
+  of the two it actually did. It is never relabelled without the evidence.
+* **B4 in `_tools/gen/build.sh` remains a SIMULATION** — deliberately, because
+  what it simulates (historical macOS `-d`) cannot be measured from any current
+  source. It is now labelled as historical rather than as "the BSD contract".
+
+### 9.5 Two corrections to previously recorded measurements
+
+Both are withdrawals, not restatements (§11.4.6).
+
+1. **`scripts/verify-check-registry.sh` attributed a garbage-output measurement
+   to the wrong `||` ordering.** It recorded that the GNU-first chain
+   `stat -c %a f || stat -f %Lp f || printf '?'` produced "220 bytes of
+   filesystem statistics on stdout ... 221 bytes" once the fallback appended.
+   **That does not reproduce.** Re-measured on this host (GNU coreutils 9.7,
+   mode-754 file): GNU-first → `754`, **3 bytes**; BSD-first → **231 bytes** of
+   filesystem report; GNU-first with the file absent → `?`, **1 byte**. The
+   garbage belongs to the **BSD-first** ordering — which is the ordering
+   `portable_mtime` in `_tools/pdf/build-pdfs.sh` historically had. `_file_mode`
+   has no prior form in git history that could have produced the recorded
+   number. The conclusion drawn from it was and is correct; the ordering it was
+   pinned to was not.
+2. **"No BSD userland, no BSD container image, no busybox, no toybox" is
+   withdrawn.** busybox and toybox are both packaged for this host; a FreeBSD
+   14.2 container image pulls; and the vendor source builds. The accurate,
+   narrower statement is the one now in the code: a FreeBSD **userland cannot
+   execute** on this Linux kernel (rc 139, SIGSEGV).
+
+### 9.6 Two dated comments found while measuring — reported, not edited
+
+Neither is a behavioural defect; both are inaccurate *rationales* in
+`workshop/scripts/_portable.sh`, which another agent owns. Recorded here so the
+owner can decide.
+
+* *"GNU `split -d` gives numeric suffixes; BSD split has no -d and errors out."*
+  **Both current FreeBSD and current macOS DO have `split -d`**: FreeBSD 14.2
+  `usr.bin/split` and Apple `text_cmds/split` share the option string
+  `"0::1::2::3::4::5::6::7::8::9::a:b:cdl:n:p:"`, and FreeBSD's has
+  `case 'd': /* Decimal suffix */`. The code is unaffected because
+  `split_numeric()` **probes the capability at run time** rather than branching
+  on platform — which is exactly why it survives the rationale being dated.
+* *"macOS ships `shasum -a 256` and no `sha256sum` at all"* — true of macOS, but
+  the surrounding framing reads as BSD-wide, and **FreeBSD base does ship
+  `sha256sum`**. See §9.3.

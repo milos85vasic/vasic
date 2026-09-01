@@ -115,7 +115,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "902979027a907051dc036668a9c353bd27aedf47"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
+    ref: "f16ea779b82a757daf5e2af013ab4898beb9de1d"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
     why: "The Helix Universal Constitution this repository consumes — the canonical root per §11.4.35. Supplies Constitution.md + the four per-agent mirrors, find_constitution.sh, scripts/gates/ (the propagation + covenant gate family), scripts/post_update_hook.sh (§11.4.164), scripts/hooks/guard-forbidden-commands.sh (§11.4.109(A)) and templates/. Inherited BY REFERENCE, never copied (§11.4.28 / §11.4.177)."
     layout: grouped
     # Live topology: origin fetches github.com:HelixDevelopment/HelixConstitution.git
@@ -124,11 +124,39 @@ deps:
     # NOTE: this repository does not mirror its release tags onto this
     # submodule; the carve-out and its reasoning are in Constitution.md
     # -> "submodules/constitution — the governance submodule itself".
+    # PIN FAST-FORWARDED 2026-09-01, 902979027a90 -> f16ea779b82a, on explicit
+    # operator authorization. It is a true fast-forward and not a rebase:
+    # `git merge-base --is-ancestor 902979027a90 f16ea779b82a` returned 0 and
+    # `git rev-list --left-right --count` returned `0  3` — 0 divergent, 3
+    # behind — and the move was performed with `git merge --ff-only`, which
+    # would have refused anything else. The local branch carried no unpushed
+    # work: 902979027a90 was a local commit here, and it is an ancestor of the
+    # remote head, so nothing was lost.
+    # NOTHING RECORDED IN THIS TREE GOES STALE. `Constitution.md` is the SAME
+    # GIT BLOB at both ends (34eff9d86cadb325721c958d35a411feaad27681, sha256
+    # fe1de96abc84c2fc...), re-measured after checkout at 252 `### §` anchors
+    # and 11,700 lines — so every anchor quotation, line count and gate
+    # population recorded in the carriers still describes the pinned text.
+    # The 3 commits touch only `docs/codegraph/Status.md` and the
+    # `design-toolkit` gitlinks. Nothing was pushed to the constitution
+    # repository; this is a local pin move.
+    # ⚠ NOTE, upstream defect, NOT ours to fix and NOT gated here: f16ea779b82a
+    # adds a SECOND `design-toolkit` gitlink at the constitution's own ROOT
+    # (`create mode 160000 design-toolkit`) alongside the existing
+    # `submodules/design-toolkit`, while its `.gitmodules` still maps the entry
+    # NAMED "design-toolkit" to path `submodules/design-toolkit` only. The root
+    # gitlink is therefore unregistered in `.gitmodules`. Recorded rather than
+    # gated: fixing it means committing to the constitution submodule, which
+    # this repository does not do.
+    # The design-toolkit ref CONFLICT recorded under `conflict_resolution`
+    # below is UNCHANGED by this fast-forward — re-measured 2026-09-01, the
+    # constitution's own helix-deps.yaml still says `ref: 16e4e76` at both
+    # 902979027a90 and f16ea779b82a.
 
   # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
   - name: containers
     ssh_url: git@github.com:vasic-digital/containers.git
-    ref: "4dab992582666a64a4353cd593704cdc969aaa1e"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin
+    ref: "d940b51fc247c285c805799452992da8d09c75b9"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
     # `git submodule add`-ed and staged, so `git ls-tree HEAD
     # submodules/containers` is still empty. That is precisely why
@@ -148,6 +176,131 @@ deps:
     # leaf) at the commit pinned above, so it onboards without the carrier gap
     # that `workshop` had. It also ships NO .github/workflows/ (only
     # .github/FUNDING.yml), so it adds no §11.4.156 CI surface to the fleet.
+
+  - name: LLMProvider
+    ssh_url: git@github.com:vasic-digital/LLMProvider.git
+    ref: "3c1cef79eb95039ed9a414e1c568a815df6dcde9"   # gitlink tracks heads/master; `git tag --points-at HEAD` is empty, so a sha is the only exact pin
+    why: "The organisation's LLM-provider abstraction, adopted under the §11.4.74 catalogue-check rather than rebuilt: a consuming project that needs to talk to a model backend uses this and does not grow its own provider seam. Go module `digital.vasic.llmprovider`; one five-method `LLMProvider` interface (Complete / CompleteStream / HealthCheck / GetCapabilities / ValidateConfig) over 43 concrete adapters under pkg/providers/ — including `generic` for anything speaking the OpenAI-compatible wire format and `ollama` for a locally hosted runtime — plus the operational primitives around them: pkg/circuit (closed/open/half-open breaker), pkg/health, retry with exponential backoff and jitter, pkg/discovery, pkg/apikeys, pkg/http, pkg/i18n. Consuming Go code resolves it via `replace digital.vasic.llmprovider => ./submodules/LLMProvider` in development and this pinned sha in production."
+    layout: grouped
+    # ⚠ STAGED, NOT YET COMMITTED (2026-09-01), exactly as `containers` was: the
+    # gitlink is `git submodule add`-ed and staged, so `git ls-tree HEAD
+    # submodules/LLMProvider` is still empty. scripts/verify-manifest-pins.sh
+    # compares against the INDEX (`git ls-files -s`), so the ref above IS
+    # checked today rather than sitting unverifiable until the adding commit
+    # lands. Index and working-tree HEAD agree here.
+    # Live topology: origin fetches AND pushes github.com:vasic-digital/LLMProvider.git
+    # — one URL, no fan-out, no fetch/push asymmetry, and it is the same URL
+    # .gitmodules declares, so a fresh `git submodule update --init` clones
+    # exactly the repository that receives the pushes (verified by
+    # `git remote -v` plus `git ls-remote` against that URL, 2026-09-01).
+    # ⚠ Its upstreams/ dir declares FOUR further push targets that this checkout
+    # does not wire up as remotes, and one of them — upstreams/github.sh —
+    # names github.com:HelixDevelopment/LLMProvider.git, a DIFFERENT repository
+    # whose own README records a deliberately divergent git history from this
+    # one. Running install_upstreams.sh here would therefore aim a push at a
+    # twin that is not this submodule. Recorded, not wired: it is an operator
+    # decision, and this manifest pins the .gitmodules URL only.
+    # Ships all four §11.4.157 governance carriers, in lockstep at the pinned
+    # commit (one normalised C8 digest, 2db0ffaa...), and its own
+    # helix-deps.yaml (`deps: []` — a genuine leaf, go.mod requires only
+    # logrus / testify / yaml.v3). No .github/ at all, so it adds no §11.4.156
+    # CI surface to the fleet, and no nested gitlink, so it adds no C7 recursion.
+
+  - name: RAG
+    ssh_url: git@github.com:vasic-digital/RAG.git
+    ref: "8aee628e473160c76b9eca99404978c02dd992eb"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty (helixcode-v1.1.0 named an ANCESTOR), so a sha is the only exact pin
+    why: "The organisation's retrieval library, adopted under the §11.4.74 catalogue-check rather than rebuilt: a consuming project that needs to rank documents against a query uses this and does not grow its own retrieval contract. Go module `digital.vasic.rag`; `retriever.Document{ID,Content,Metadata,Score,Source}` is the identity type every stage passes, behind a one-method `Retriever` interface. pkg/chunker (fixed-size / recursive / sentence), pkg/reranker (score, MMR), pkg/hybrid (BM25 keyword, semantic wrapper, RRF and weighted-linear fusion), pkg/pipeline (fluent retrieve→rerank→format builder), pkg/grounding (the deterministic answer-grounding seam contributed upstream from this project on 2026-09-01 under §11.4.74 clause 4 — RetrievalGate with absolute AND relative/margin tests, the three-state answered/declined/unavailable Verdict, ValidateCitations set-membership, ValidateVerbatim, and the model-free Extractive adapter). It deliberately ships NO vector store and NO embedding model — the consumer supplies both. Consuming Go code resolves it via `replace digital.vasic.rag => ./submodules/RAG` in development and this pinned sha in production."
+    layout: grouped
+    # ⚠ STAGED, NOT YET COMMITTED (2026-09-01) — same situation and same reason
+    # as the LLMProvider entry above; the INDEX comparison is what makes the ref
+    # checkable today.
+    # Live topology: origin fetches AND pushes github.com:vasic-digital/RAG.git
+    # — one URL, no fan-out, no fetch/push asymmetry, identical to the
+    # .gitmodules URL (verified by `git remote -v` plus `git ls-remote`,
+    # 2026-09-01). Its upstreams/ dir declares two targets (GitHub.sh — the same
+    # URL as origin — and GitLab.sh) that this checkout does not wire up.
+    # NOTE (§11.4.6): the carrier text this submodule shipped BEFORE the pinned
+    # commit asserted "origin fetch=GitHub, push=GitFlic. Four remotes
+    # configured." That was false of this checkout and is withdrawn in the
+    # pinned commit rather than restated here.
+    # Ships all four §11.4.157 governance carriers, in lockstep at the pinned
+    # commit (one normalised C8 digest, baf3696e...), and its own
+    # helix-deps.yaml (`deps: []` — a genuine leaf, go.mod requires only
+    # testify and its indirects). No .github/ at all, so it adds no §11.4.156
+    # CI surface to the fleet, and no nested gitlink, so it adds no C7 recursion.
+
+
+  # ─── Reusable Go primitives extracted from workshop/ and published PUBLIC
+  #     (operator directive 2026-09-01) ──────────────────────────────────────
+  - name: verdict
+    ssh_url: git@github.com:vasic-digital/verdict.git
+    ref: "477dc35afe60f5f2f94d0c902a5a7a7ce0e4ec6b"   # tag v0.1.1 points at this commit; the sha is the exact pin
+    why: "The three-valued instrument result (0 ok / 1 problem / 2 undetermined) whose numeric value IS the process exit code, so os.Exit(v.Code()) is correct by construction. Extracted from workshop/platform/libs/ and published as its own PUBLIC repository because it lived inside a private submodule and, being a submodule inside a submodule, violated §11.4.28. It exists so `could not determine` is never reported as a pass or a failure: a missing helper (rc=127) must not read as a rule violation, and an ENV/SKIP bucket must not be folded into a pass count. Go module `github.com/vasic-digital/verdict`; ZERO require lines, asserted by TestNoDependencies, so importing it adds nothing to any consumer's go.sum. Catalogue-check §11.4.74: no repo in either organisation carried a three-valued instrument result — Veritas is claim-verification with a free-text verdict plus a confidence score, anti_bluff is shell seams with no Go module, PliniusCommon is gRPC service plumbing."
+    layout: grouped
+    # Live topology: origin fetches AND pushes github.com:vasic-digital/verdict.git;
+    # a second remote mirrors gitlab.com:vasic-digital/verdict.git (§2.1). Both
+    # carry main and the v0.1.0 tag. upstreams/ declares both.
+    # PUBLIC (gh api repos/vasic-digital/verdict --jq .private -> false), which is
+    # the operator's 2026-09-01 requirement for every reusable component repo.
+    # Fresh history: no workshop_curriculum commit, content or fixture was carried
+    # over, so no private material is reachable from this public history.
+    # Ships all four §11.4.157 carriers in lockstep (shared body md5
+    # 3115cf1d32118fe29c9469708a9738d4), MIT LICENSE, its own helix-deps.yaml
+    # (`deps: []` — a genuine leaf). No .github/, so it adds no §11.4.156 CI
+    # surface, and no nested gitlink, so it adds no recursion.
+
+  - name: passage
+    ssh_url: git@github.com:vasic-digital/passage.git
+    ref: "a0ac03d6c154b3b90392845a3c30064dd3172225"   # tag v0.2.0 points at this commit; the sha is the exact pin
+    why: "Stable identity for citable spans of text: a pid is a ULID minted ONCE at ingest, derived from neither content nor position. Both alternatives were measured and both fail in opposite directions — a content-derived id changed when one typo was fixed, and a positional key moved every range when a section was prepended; under either, citations break WHILE THE UI KEEPS RENDERING LINKS to the wrong text. Ships PID/Minter, three anchor modes (inline / sidecar / registry_only), a JSONL-authoritative Registry with a derived SQLite+FTS5 index, and a four-state Outcome in which an unreadable registry surfaces as 503 rather than a 404 claiming the passage does not exist. Extracted from workshop/platform/libs/ and published PUBLIC for the same §11.4.28 reason as verdict. Go module `github.com/vasic-digital/passage`. Catalogue-check §11.4.74: Embeddings is provider adapters only with no identity seam, RAG's chunker is positional (Start/End — the design passage measured and rejected), Document models whole files not spans, and docs_chain is content-hashed — the property passage exists to avoid."
+    layout: grouped
+    # Live topology: origin fetches AND pushes github.com:vasic-digital/passage.git;
+    # a second remote mirrors gitlab.com:vasic-digital/passage.git (§2.1).
+    # PUBLIC (gh api repos/vasic-digital/passage --jq .private -> false).
+    # Fresh history, and all fixtures are synthetic: the pre-publish audit
+    # replaced a real person's name used as a Speaker fixture and neutralised
+    # consumer-shaped path fixtures BEFORE the first push, because a public
+    # repository's history cannot be un-published.
+    # DEPENDS ON `verdict`, which is mounted at THIS root as a sibling — never
+    # nested inside this submodule (§11.4.28). passage's own go.mod requires the
+    # PUBLISHED github.com/vasic-digital/verdict v0.1.1 with no replace, so it
+    # resolves standalone for any external consumer. (An earlier revision of
+    # this comment said v0.1.0; that was already false when written — bde026f
+    # is the commit that moved the require to the immutable v0.1.1 tag.)
+    # Ships all four §11.4.157 carriers in lockstep, MIT LICENSE, and its own
+    # helix-deps.yaml declaring the single own-org dep as root-mounted. No
+    # .github/, no nested gitlink. (A "shared body md5
+    # b18271fdeea71b99ad2510db2bb7278d" recorded here was measured at bde026f
+    # and is WITHDRAWN rather than restated: the carriers changed in the v0.2.0
+    # commit, so the old digest describes text that is no longer pinned. The
+    # lockstep property is re-derived by C8 in
+    # `bash scripts/verify-governance-cascade.sh`, which is the instrument —
+    # do not hand-copy a digest back into this file.)
+    #
+    # v0.2.0 PUBLISHED 2026-09-01 on explicit operator authorization, and it is
+    # a BREAKING release: nothing in it is source-compatible with v0.1.x, and a
+    # derived SQLite file written by v0.1.x is REFUSED rather than migrated in
+    # place. The consumer-shaped API that contradicted this module's own
+    # decoupling claim for two releases is gone — `ChapterSlug` -> `Scope`,
+    # `TStartS` -> `ScopeOrder`, `TEndS`/`Speaker`/`SpeakerSource` -> the
+    # opaque `Attrs` map, the `SpeakerSource` type and `Kind`'s four constants
+    # deleted, `SyncFile` now taking the consumer's `Kind`, and
+    # `WithRecordValidator` added so the consumer's own domain rules run at the
+    # same write-path choke point. Derived schema v1 -> v2, stamped in
+    # `PRAGMA user_version`, `passages_by_chapter` -> `passages_by_scope`.
+    # The full field-by-field and column-by-column mapping and the upgrade
+    # procedure are in the submodule's own CHANGELOG.md — this manifest does
+    # not duplicate them.
+    # Verified at 80f65382 before the tag: `go build ./...` rc=0,
+    # `go vet ./...` rc=0, `go test -race -count=1 ./...` rc=0 at 45 PASS /
+    # 0 FAIL, including the eight-gate decoupling family and its four paired
+    # mutations (§1.1), each observed to fail on its seeded violation.
+    # TAGS ARE IMMUTABLE (§11.4.113). v0.2.0 is a NEW annotated tag object
+    # a82f3cc2f8781ac8b2e969bb631eb6bddac89460 -> commit 80f65382; v0.1.0
+    # (e31e6fb -> c6e6938) and v0.1.1 (992f5c2 -> bde026f) were re-read on both
+    # remotes after the push and are byte-identical to their pre-push values.
+    # Nothing was moved. Both mirrors verified INDEPENDENTLY with `git
+    # ls-remote` rather than from push output, and they agree ref-for-ref.
 
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
@@ -175,7 +328,7 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: "efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "e7f3815ec35c0940515296ffb3481cd0fab4bfa6"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "§11.4.162 OpenDesign UI design-system engine — machine-readable design tokens (§11.4.216), brand contract (§11.4.217), design-library catalogue (§11.4.218). Ships 11 design-specialist agent recipes under agents/."
     layout: flat
     # §11.4.28(C) / INVENTORY gap G11: this repo checks design-toolkit out TWICE
@@ -193,7 +346,7 @@ deps:
 
   - name: ai_interviewing
     ssh_url: git@github.com:milos85vasic/ai_interviewing.git
-    ref: "5ef07e08f202f75f6c0a9d7eda193f6740a1a333"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "cde474fa3e167bfd5c8e63d4ba6d4c184d4c12b6"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
     layout: flat
 
@@ -208,7 +361,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "55076bf943a5158c91dede839ac319c43ddca1ab"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "5b611f97d93cb5f542bebeab65bbf3e295aefa25"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which keeps gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks plus a *.sha256 manifest while the extracted videos stay git-ignored."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL
@@ -229,17 +382,24 @@ transitive_handling:
   # incorporator tooling MUST recurse — top-level project gets the union of all
   # transitively-declared deps, flattened to root."
   #
-  # Honest boundary (§11.4.6) — verified, not assumed: of the eight deps above,
-  # only `constitution` and `containers` ship a helix-deps.yaml. The six owned
-  # product submodules do not (re-checked 2026-08-31, `workshop` included), so a
-  # recursive walk terminates at them for a
+  # Honest boundary (§11.4.6) — verified, not assumed: of the TEN deps above,
+  # four ship a helix-deps.yaml — `constitution`, `containers`, `LLMProvider`
+  # and `RAG`. The six owned product submodules do not (re-checked 2026-09-01,
+  # `workshop` included), so a recursive walk terminates at them for a
   # reason the schema does not model (missing manifest, not a declared leaf).
-  # `containers` terminates the walk for the OPPOSITE, schema-modelled reason:
-  # it ships a manifest declaring `deps: []`, i.e. a genuine leaf (verified
-  # 2026-09-01 by reading submodules/containers/helix-deps.yaml at the pinned
-  # sha). `recursive: true` is declared because the constitution submodule
+  # `containers`, `LLMProvider` and `RAG` terminate the walk for the OPPOSITE,
+  # schema-modelled reason: each ships a manifest declaring `deps: []`, i.e. a
+  # genuine leaf (verified 2026-09-01 by reading
+  # submodules/{containers,LLMProvider,RAG}/helix-deps.yaml at the pinned shas;
+  # both new leaves are corroborated by their go.mod, which requires no
+  # `digital.vasic.*` module and declares no own-org `replace`).
+  # `recursive: true` is declared because the constitution submodule
   # genuinely hosts a further seven own-org deps that consumer tooling must
   # reach.
+  #
+  # The earlier "eight deps / only two manifests" sentence is SUPERSEDED by the
+  # paragraph above, not silently overwritten: it was true of the eight-dep
+  # fleet and is simply no longer the fleet.
   recursive: true
 
   # §11.4.31: "When two submodules declare the same dependency at different

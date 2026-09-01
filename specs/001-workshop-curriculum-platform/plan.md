@@ -85,17 +85,58 @@ against the podman-docker shim; TCP/HTTP/gRPC health checkers; lazy boot with id
 
 *Three gaps named rather than discovered later*:
 - **No bash boot wrapper exists.** The request's "all mandatory bash scripts" is not satisfied by
-  the submodule; lifecycle is a Go API plus Go CLIs. Thin workshop wrappers that invoke `cmd/boot`
-  are *consumption*, so they are §11.4.76-legal. Anything beyond that must be contributed upstream.
+  the submodule; lifecycle is a Go API plus Go CLIs. ~~Thin workshop wrappers that invoke `cmd/boot`
+  are *consumption*, so they are §11.4.76-legal.~~ Anything beyond thin wrapping must be contributed
+  upstream.
+
+  **Corrected 2026-09-01 — `cmd/boot` is not usable as that entry point.** This bullet named the
+  wrong one, and the error was not cosmetic: it would have specified an instrument that reports
+  success over an absent system. Measured in `submodules/containers/cmd/boot/main.go` at gitlink
+  `4dab992` — its flags are only `--env`, `--project`, `--timeout`, `--help`, so there are **no
+  lifecycle verbs and no compose-file flag**; it hardcodes `{"helixagent": localhost:7061}`
+  (`main.go:148–153`); its `BootManager` is built with **no orchestrator and no health checker**;
+  and `runBoot` returns `nil`, so it **exits `0` having started nothing**. A wrapper trusting that
+  exit code would report a healthy stack that does not exist — the §11.4.76(5) bluff shape exactly.
+  *Resolution*: the control plane consumes the submodule's **Go API** (`pkg/compose`, `pkg/health`,
+  `pkg/runtime`) through a `workshop-boot` adapter in `workshop/platform/orchestration/`, which is
+  what §11.4.76(3) actually prescribes. Still consumption — the adapter contains no runtime
+  detection, compose driving or health-check logic of its own. `cmd/boot`'s four defects are
+  upstream debt to be fixed there per §11.4.76(4), staged in
+  `workshop/platform/upstream-contributions/`.
 - `DefaultHelixServices()` is postgres/redis/etcd-shaped, irrelevant here — but not a defect, since
   `ComposeProject.File` accepts an arbitrary compose file, so the workshop supplies its own.
 - **`submodules/containers/scripts/build-all.sh` is broken upstream**: it builds `./cmd/core/` and
   `./cmd/host-agent/`, neither of which exists. Do not use it as a model.
 
-*One blocker it exposed*: the submodule's own four carriers are 414/246/24/24 lines — four
-genuinely different documents, a §11.4.157(B) violation latent upstream. The new C8 in-submodule
-lockstep check catches it, which currently blocks the pre-push hook. Being fixed upstream per
-§11.4.76(4), not worked around locally.
+*One blocker it exposed — now CLEARED; recorded rather than deleted.* ~~The submodule's own four
+carriers are 414/246/24/24 lines — four genuinely different documents, a §11.4.157(B) violation
+latent upstream. The new C8 in-submodule lockstep check catches it, **which currently blocks the
+pre-push hook**. Being fixed upstream per §11.4.76(4), not worked around locally.~~
+
+**RESOLVED 2026-09-01.** The finding was correct; only its tense is now wrong, and a plan that
+leaves a cleared blocker described as live is as misleading as one that hides a real one. The fix
+went upstream — not around it — exactly as §11.4.76(4) requires:
+
+- **Upstream commit** `4dab992` *"govern(carriers): restore §11.4.157(B) four-carrier lockstep"*,
+  touching all four carriers (+2456 / −352). Pushed, not merely local.
+- **Gitlink bumped and verified**: `git ls-tree HEAD submodules/containers` →
+  `160000 commit 4dab992582666a64a4353cd593704cdc969aaa1e`. The umbrella consumes the fixed commit,
+  so the resolution is pinned rather than incidental to a checkout.
+- **Measured carrier sizes now**: 703 / 703 / 703 / 703 lines, replacing 414 / 246 / 24 / 24.
+- **The instrument was re-run, not assumed** (per §11.4.6 — a fix is not a pass until the gate that
+  caught it is observed green). `bash scripts/verify-governance-cascade.sh` on 2026-09-01:
+
+  ```
+  ✅ PASS  C8 IN-SUBMODULE-LOCKSTEP — all 7 owned submodule(s) carry four agent carriers with
+           byte-identical bodies once the per-agent header is normalised (§11.4.157(B))
+  CM-GOVERNANCE-CASCADE: 12 PASS, 0 FAIL, 0 ENV, 7 NOTE          rc=0
+  ```
+
+**The pre-push hook is therefore no longer blocked by this**, and no task is needed to clear it.
+Note the boundary this claim does and does not cross: what was measured is the governance cascade
+returning rc=0 with C8 green. That is the check that was blocking. It is not a claim that every
+other pre-push gate passes — none of those were run for this correction, and their state is not
+asserted here.
 
 **2. Generative capability — resolved, and the answer is "none".** Superseded by premise 5
 below, which measured it. US1–US3 are deliberately sequenced to deliver value without it, and
@@ -170,7 +211,7 @@ Re-evaluated against the design rather than the intent, as the gate requires.
 | Principle | Status | What the design does about it |
 |---|---|---|
 | Evidence-Based Claims | **PASS** | Phase 0 replaced five assumed premises with measurements and withdrew two of this plan's own claims explicitly. `research.md` carries an UNVERIFIED register (U1–U5) naming what settles each. |
-| Honest Instruments | **PASS** | The 0/1/2 contract is bound into the design, not bolted on: `Answer.verdict` has `unavailable` as a first-class third state distinct from `refused`, and D-SEARCH-4 forbids deriving degradation from a liveness probe — measured necessity, since `health_check` returned OK 2 ms before `semantic_search` failed. |
+| Honest Instruments | **PASS** | The 0/1/2 contract is bound into the design, not bolted on: `Answer.status` has `unavailable` as a first-class third state distinct from `declined`, and D-SEARCH-4 forbids deriving degradation from a liveness probe — measured necessity, since `health_check` returned OK 2 ms before `semantic_search` failed. |
 | Governance Fidelity | **PASS** | 24/24 carriers, committed. |
 | Isolation by Default | **PASS** | Every gate this feature adds owes a paired mutation proof (FR-032/SC-012). The quickstart enumerates 14 such proofs as owed rather than assumed. |
 | Comprehensive Documentation | **PASS** | FR-030/031 require the doc set to state what the system cannot do — which now includes real limits: media is reachable only via transcripts (D-SEARCH-3), and answering is asynchronous, not instant (D-LLM-5). |
@@ -226,6 +267,13 @@ workshop/                             # the feature's home (a submodule)
 └── docs/                             # NEW: quickstart, user guide, manual, FAQ, training
 ```
 
+**Decoupling (operator directive, 2026-09-01)**: every component and service must be fully
+decoupled and reusable (FR-043–FR-045, SC-019). Reusable units live in `pkg/`, never `internal/`
+— Go's `internal/` is importable only from within its own module, so it forecloses reuse by
+language rule rather than by style. Only `internal/store` stays private, because chapter and
+curriculum persistence is the one genuinely workshop-specific unit. Where reuse is real, a unit
+becomes its own module on the `digital.vasic.containers` pattern.
+
 **Structure Decision**: mirror `ai_interviewing/platform`'s `backend/` + `frontend/` + `bin/`
 split, because the spec's FR-013 requires a person familiar with one module to navigate the
 other, and because that layout is already proven in this repository. Everything the workshop
@@ -241,9 +289,17 @@ independently cloneable and keeps the umbrella's working tree clean, which FR-03
 
 Marked `[TDD]` in the task breakdown. Chosen where a defect would be silent rather than loud.
 
-- [ ] **Passage identity and cross-reference resolution**: SC-016 demands 100% of references
-      still resolve after correction plus re-index. This fails *invisibly* — links keep
-      rendering, they just point at the wrong text. Tests must exist before the implementation.
+- [ ] **Passage identity and cross-reference resolution**: SC-016 demands 100% of references to
+      passages the curriculum **owns** — transcripts and its own documentation — still resolve
+      after correction plus re-index. This fails *invisibly* — links keep rendering, they just
+      point at the wrong text. Tests must exist before the implementation.
+- [ ] **Code-passage identity (SC-016a)**: for source code the curriculum does **not** own, no
+      anchor can be written into the file, so identity is keyed on symbol path plus a rename alias
+      table (`symbol_aliases`). The criterion is deliberately weaker and is **100% of stale code
+      references fail loudly** — never a silent re-point at different code. That guarantee is
+      exactly the kind a naive implementation converts into a confident wrong answer, so its tests
+      also land first. Contract: `contracts/passage-contract.md` §6.2–6.6, §8 R3/R4, gate
+      G-PID-4. Carries the open **P-U1**: the `symbol` matching key has no confirmed producer yet.
 - [ ] **Refusal behaviour in question answering**: SC-010 requires 10/10 unanswerable questions
       declined. A system that fabricates confidently is the single worst outcome this feature
       can produce, and the governing constitution names it as a release blocker.

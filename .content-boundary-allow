@@ -1,0 +1,98 @@
+# Declared content-boundary exemptions, read by scripts/verify-content-boundary.sh.
+#
+# WHAT THIS FILE IS FOR
+# ---------------------
+# `verify-content-boundary.sh` fails when prose that exists in a PRIVATE
+# repository of this fleet also exists, verbatim, in a PUBLIC one. Some content
+# crosses that line BY DESIGN — design tokens the public design system consumes
+# from a private toolkit, governance carriers staged for propagation, a public
+# corpus quoted inside a private document. Those are not disclosures and a gate
+# that reported them would be switched off within a week.
+#
+# FORMAT — TAB-separated, exactly three fields, no exceptions:
+#
+#     <private-path-glob>  <public-path-glob>  <reason>
+#
+# Both globs are matched against REPOSITORY-QUALIFIED paths, which is how the
+# scanner prints them: `design-toolkit/proposed/learning-kit/kit-tokens.css` on
+# the private side, `design-system/learning-kit/kit-tokens.css` (umbrella, no
+# prefix) or `milosvasic.ru/_layouts/default.html` (submodule, with prefix) on
+# the public side. `*` matches any run of characters INCLUDING `/`.
+#
+# A row with fewer than three non-empty fields is MALFORMED and makes the whole
+# run exit 2 — "could not determine" — never 0. A suppression whose scope cannot
+# be read is worse than no suppression.
+#
+# EVERY ROW APPLIES TO ALL THREE KEY SPACES the scanner now builds — the long
+# `prose` shingle, the `short` heading/list-item key, and the `name` key. A pair
+# is a statement about a FLOW between two paths, and a flow that is legitimate
+# for a paragraph is legitimate for a heading drawn from the same file. If that
+# is ever not true for some row, split the row rather than widening it.
+#
+# THERE IS DELIBERATELY NO `name`-ONLY EXEMPTION SYNTAX. Pardoning "this name,
+# everywhere" would require writing the name into this file, and this file is
+# tracked in a PUBLIC repository — the suppression would be the disclosure. A
+# name finding is pardoned the same way as anything else: by naming the two
+# paths between which it may travel, and saying why.
+#
+# WHY PAIRS AND NOT A PUBLIC-PATH DENYLIST. An exemption authorising design
+# tokens to reach `design-system/` must NOT also authorise a session transcript
+# to reach it. Every row therefore names BOTH sides. Widening either glob widens
+# exactly one flow. This is the same discipline `.hardcoded-paths-allow` applies
+# ("an exemption always carries its justification inline") and the same reason:
+# an unexplained suppression is indistinguishable from a bluff.
+#
+# WHAT IS DELIBERATELY *NOT* IN THIS FILE
+# ---------------------------------------
+# The verbatim quotation of `workshop/chapters/01/… Notes by Gemini.PDF` inside
+# `docs/workshop-curriculum/RECON.md` is NOT exempted. It is a real finding in a
+# public repository and the operator decides what happens to it; silencing it
+# here would be the exact failure this instrument exists to prevent.
+#
+# Editorial overlap between `ai_interviewing/docs/**` and this repository's own
+# site copy (`_content/products/**`, `_analysis/content-briefs/**`) is also NOT
+# exempted. Those describe public open-source projects and are probably benign,
+# but "probably" is not the standard: they are left visible so a human decides
+# rather than a glob.
+#
+# Every row below was derived by RUNNING the scanner and reading what it found,
+# not by anticipating what it might find. Re-derive, do not trust undated:
+#
+#     bash scripts/verify-content-boundary.sh
+# -----------------------------------------------------------------------------
+
+# The public design system consumes the private toolkit's proposed kit verbatim;
+# that transfer is the toolkit's entire stated purpose. Scoped to the kit
+# directory on both sides, so toolkit material OUTSIDE `proposed/learning-kit/`
+# still fails if it appears in `design-system/`.
+design-toolkit/proposed/learning-kit/*	design-system/learning-kit/*	the public design system consumes the private toolkit's proposed learning kit by design; this is a publication path, not a disclosure
+
+# `design-toolkit/qa/` holds the shared token/QA check definitions that
+# `_tests/helixqa/` executes. The two are required to agree; that is the point.
+design-toolkit/qa/*	_tests/helixqa/*	shared QA check definitions that the umbrella harness executes; divergence would be the defect, not the agreement
+
+# `docs/constitution-adoption/propagation/` exists to hold STAGED COPIES of
+# governance carriers on their way into the submodules. Being byte-identical to
+# its destination is the function of every file in it, so a match there is the
+# mechanism working rather than content escaping.
+*	docs/constitution-adoption/propagation/*	staged carrier copies destined for the submodules; byte-identity with the destination is what this directory is for
+
+# The constitution submodule is the UPSTREAM SOURCE of governance text, and it
+# is public. `ai_interviewing/docs/**` quotes that public corpus (the matches
+# resolve to Constitution.pdf / CLAUDE.pdf / GEMINI.pdf, the constitution's own
+# exports), so the flow is public -> private and discloses nothing.
+# STATED LIMIT: this row cannot tell that direction apart from the reverse. If
+# genuinely private ai_interviewing material were ever pasted INTO the public
+# constitution, this row would pardon it. It is scoped to `docs/` for that
+# reason and should be narrowed further if that tree stops being quotation.
+ai_interviewing/docs/*	submodules/constitution/*	the public constitution corpus is the source; these private docs quote it, so the flow is public-to-private
+ai_interviewing/platform/content/*	submodules/constitution/*	interview content generated from the public constitution corpus; same public-to-private direction as the row above
+
+# Governance carriers are propagated verbatim across every repository in the
+# fleet under the §11.4.157 lockstep requirement, private and public alike.
+# Their shared text is a REQUIREMENT of that rule, not a leak from any one of
+# them. Scoped to the four carrier filenames on both sides.
+*/AGENTS.md	*AGENTS.md	§11.4.157 lockstep requires the four carriers to be identical across the fleet; shared text is the rule being obeyed
+*/CLAUDE.md	*CLAUDE.md	§11.4.157 lockstep requires the four carriers to be identical across the fleet; shared text is the rule being obeyed
+*/QWEN.md	*QWEN.md	§11.4.157 lockstep requires the four carriers to be identical across the fleet; shared text is the rule being obeyed
+*/GEMINI.md	*GEMINI.md	§11.4.157 lockstep requires the four carriers to be identical across the fleet; shared text is the rule being obeyed

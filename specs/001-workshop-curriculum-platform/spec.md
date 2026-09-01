@@ -218,6 +218,28 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-038**: System MUST preserve machine-generated transcript output immutably, and MUST record for each passage whether its current text is machine-produced or human-corrected.
 - **FR-039**: System MUST provide a documented redaction step capable of suppressing identified passages, and MUST require it to have been run before any export or publication of chapter content.
 
+**Decoupling and reuse**
+
+- **FR-043**: Every component and service this feature produces MUST be usable independently of
+  the workshop curriculum. A component MUST NOT depend on curriculum-specific types to function.
+- **FR-044**: Components MUST be placed where another project can consume them. Language
+  mechanisms that forbid external import (for example a Go `internal/` package) MUST NOT be used
+  for anything identified as reusable.
+- **FR-045**: Each reusable component MUST be independently testable — its test suite MUST pass
+  without the curriculum present.
+- **FR-046**: Before scaffolding any new component, the canonical submodule catalogue
+  (`vasic-digital` + `HelixDevelopment`, ~142 repos) MUST be surveyed. Where an existing submodule
+  provides the capability, or 80% of it, it MUST be consumed rather than reimplemented; where it is
+  close but incomplete, the gap MUST be contributed upstream (§11.4.74).
+- **FR-047**: Each genuinely new reusable component MUST live in **its own repository** under
+  `vasic-digital` or `HelixDevelopment`, mirrored to GitHub and GitLab, and be consumed as a git
+  submodule mounted at the **project root** (`submodules/<name>`). Nested submodules are forbidden
+  (§11.4.28).
+- **FR-048**: Every such reusable repository MUST be **public**. It therefore MUST NOT contain any
+  workshop content — no transcript text, no participant speech, no chapter material. Its fixtures
+  MUST be synthetic. The curriculum's own content stays in the private `workshop_curriculum`
+  repository.
+
 **Evidence and accessibility**
 
 - **FR-040**: System MUST write the evidence produced by its automated checks to a versioned location within the repository, retained alongside the commit that produced it, rather than to transient logs.
@@ -259,6 +281,15 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
   *Why split*: an unqualified 100% across all passage kinds would have been unachievable, and discovering that during implementation would have produced either a quiet exception or a silently wrong link — the exact failure this criterion exists to prevent. The boundary is drawn where the mechanism actually changes.
 - **SC-017**: The curriculum interface passes an automated WCAG 2.1 Level AA audit with zero violations at Level A or AA, and every search interaction is completable using only the keyboard.
 - **SC-018**: 100% of automated checks write their evidence to the repository's versioned evidence location, verifiable by inspecting that location after a run.
+- **SC-019**: Every component identified as reusable can be imported and exercised by a consumer
+  outside the curriculum, demonstrated by a test that builds and runs it with the curriculum
+  absent. A component that cannot be imported from outside its own module fails this criterion by
+  construction, regardless of how it is written.
+- **SC-020**: 100% of reusable components resolve from a public repository under an owned
+  organisation, mounted at the project root, with zero nested submodules — verifiable by
+  enumerating `.gitmodules` and querying each remote's visibility.
+- **SC-021**: 100% of public reusable repositories contain zero workshop content, verified by a
+  content-boundary check that fails when private-submodule material appears in a public repo.
 
 ## Assumptions
 

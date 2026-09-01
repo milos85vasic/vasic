@@ -455,23 +455,38 @@ glossed:
 | `transcript`, `doc_section`, `diagram` (inside `workshop/`) | Guaranteed | Guaranteed | n/a |
 | `code`, and **any** passage outside `workshop/` | Guaranteed | Guaranteed | **Best-effort; loud failure if unaliased** |
 
-### 6.6 Boundary on SC-016 — flagged, not hidden
+### 6.6 Boundary on SC-016 / SC-016a — flagged, then closed in the spec
 
-SC-016 states, unqualified: *"After a transcript is corrected and the content re-indexed, 100% of
-previously created cross-references and citations still resolve to the passage they originally
-referred to."*
+**Status: the boundary this section first raised has been resolved. `spec.md` was amended; the
+recommendation below was adopted in full.** The history is kept rather than deleted, because the
+recommendation is the reason the criterion reads the way it now does.
 
-- Read literally — **transcripts**, corrected and re-indexed — this contract meets it at 100% by
-  construction (G1 + G2).
-- Extended to **code** passages under symbol rename or file move, 100% holds only when an alias
-  exists.
+**What this section originally said (2026-09-01, superseded).** SC-016 then read *unqualified* —
+"100% of previously created cross-references and citations still resolve" — with no scope on which
+passages. Read literally as transcripts, this contract met it at 100% by construction (G1 + G2);
+extended to code passages under symbol rename or file move, 100% held only when an alias existed.
+That gap was recorded rather than assumed away, with the recommendation that it *"be resolved
+explicitly — either by narrowing SC-016 to the transcript scope it names, or by making an `authored`
+alias a mandatory step of any code rename inside `workshop/`."*
 
-**This boundary is recorded rather than assumed away.** It is a real gap between the success
-criterion's wording and what any anchor-free identity scheme can deliver, and it should be resolved
-explicitly — either by narrowing SC-016 to the transcript scope it names, or by making an
-`authored` alias a mandatory step of any code rename inside `workshop/`. This contract implements
-the second for `workshop/`-owned code (a rename without an alias fails the ingest gate, exit 1) and
-can implement neither for code outside `workshop/`.
+**What was adopted.** Both halves. `spec.md` split the criterion in two:
+
+| Criterion | Scope | Guarantee |
+|---|---|---|
+| **SC-016** | passages the curriculum **owns** — transcripts and its own documentation | 100% of cross-references and citations still resolve after correction plus re-index. Holds **by construction**: the identifier is anchored into the source artifact itself (§3.1, G1, G2). |
+| **SC-016a** | source code the curriculum does **not** own, where no anchor can be written into the file | Identity is keyed on symbol path with a rename alias table (§6.2, §6.4). The promise is deliberately weaker and stated rather than overclaimed: **100% of stale code references fail loudly.** An unresolvable identifier returns not-found and is **never** silently re-pointed at different code. A rename inside the curriculum's own tree without an alias fails ingest rather than shipping a broken link. |
+
+So the first half of the recommendation became SC-016's new scoping clause, and the second half
+became SC-016a's ingest rule — which this contract implements for `workshop/`-owned code (an
+unaliased rename fails the ingest gate, exit `1`, §8 R4) and, for code outside `workshop/`, converts
+into the loud-failure guarantee SC-016a actually claims (§6.5, mint-and-orphan).
+
+**What remains a real limit, and is not closed by the amendment.** SC-016a's guarantee is *loud
+failure*, not *survival*. An unaliased rename of code outside `workshop/` still breaks the citation;
+the contract's promise is only that the break is visible as a `404` rather than hidden behind a
+confident link to the wrong code. That is a materially weaker promise than §6.5's table gives text
+passages, and it stays stated here rather than glossed. It also inherits **P-U1** (§10): the
+`symbol` component of the matching key has no confirmed producer yet.
 
 **Gate G-PID-4**: rename a `workshop/`-owned symbol with an `authored` alias; assert the `pid` is
 preserved and citations resolve. Then rename one **without** an alias; assert the old `pid`
@@ -611,7 +626,8 @@ must FAIL on I1, I3 and I5 simultaneously.
 | SC-002 accuracy re-measurable later | §4.2 F1 (`machine_text` retained) |
 | SC-009 citations resolve and are verifiable | §7.2 C2 (`generation_members` set check) |
 | SC-013 three states distinguished | §7.1 (`undetermined` never collapsed) |
-| **SC-016 100% of references survive correction + re-index** | §5.1 G1, §5.2 G2 — **at 100% for text kinds; boundary for code stated in §6.6** |
+| **SC-016 100% of references to OWNED passages survive correction + re-index** | §5.1 G1, §5.2 G2 — 100% by construction for anchored kinds inside `workshop/` |
+| **SC-016a code identity: 100% of stale code references fail LOUDLY** | §6.2 matching key, §6.4 `symbol_aliases`, §6.5 the guarantee and its limit, §6.6 scope, §8 R3/R4, gate **G-PID-4**. Producer of `symbol` is **UNVERIFIED** — see P-U1 (§10). |
 | FR-032 / SC-012 every gate has a paired mutation | G-PID-1 … G-PID-6 |
 
 ### 9.1 Requirements deliberately **not** covered here

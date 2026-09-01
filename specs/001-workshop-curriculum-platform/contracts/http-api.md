@@ -227,7 +227,7 @@ known to work.*
 | G-HTTP-2 | Same failure; assert the response body has **no** `results` key at all. | Add `"results": []` to the unavailable branch. Gate must FAIL. |
 | G-HTTP-3 | Fail the semantic leg, let lexical return zero rows; assert `status == "unavailable"`, `reason.code == "partial_failure_zero_results"`. | Change the rule to emit `no_match` when any leg succeeded. Gate must FAIL. (This is invariant I5, the one most likely to be "simplified" later.) |
 | G-HTTP-4 | Feed the search service Lumen's literal `"No results found. \| Warning: Index is being updated…"` string; assert `status=="ok"` with `degraded.semantic=="reindexing"` when lexical has rows, and that the raw string appears **only** under `degraded.evidence`. | Forward the upstream string into `results[0].snippet`. Gate must FAIL. |
-| G-HTTP-5 | With ollama stopped: `GET /api/search` returns **200** with real lexical results **and** `POST /api/answer` returns **503** `state:"unavailable"`. | Wire `/api/search` through the answering provider's health check. Gate must FAIL. (FR-025; mirrors research llm-bridging §3 item 5.) |
+| G-HTTP-5 | With ollama stopped: `GET /api/search` returns **200** with real lexical results **and** `POST /api/ask` returns **503** `state:"unavailable"`. | Wire `/api/search` through the answering provider's health check. Gate must FAIL. (FR-025; mirrors research llm-bridging §3 item 5.) |
 | G-HTTP-6 | For 100 randomised outcomes, assert `X-Workshop-Search-Status` header equals `body.status`. | Hardcode the header to `ok`. Gate must FAIL. |
 | G-HTTP-7 | Frontend: render each of the three envelopes; assert the no-results copy does **not** appear for the `unavailable` envelope and the unavailable copy does **not** appear for `no_match`. | Restore the `ai_interviewing` error handler (`error: () => loading.set(false)`). Gate must FAIL. |
 | G-HTTP-8 | Packet/socket assertion: during 200 `/api/suggest` calls, zero requests reach the embedding endpoint. | Add an embedding call to the suggest path. Gate must FAIL. (§3.6, SC-005.) |
@@ -285,7 +285,7 @@ pagination is specified. Adding pagination would be unrequested capability.)
     {
       "slug": "01-ai-workflows",
       "ordinal": 1,
-      "title": "Milos teaching … AI workflows",
+      "title": "Chapter 1 — Session Recording",
       "summary": "…",
       "status": "published",            // "draft" | "transcribed" | "published"
       "recording": {
@@ -739,9 +739,61 @@ live).
 
 ---
 
-### 3.10 `POST /api/answer` and `GET /api/answer/{job_id}` — ask a question, **asynchronously**
+### 3.10 `POST /api/ask` and `GET /api/ask/{job_id}` — ask a question, **asynchronously**
 
 **Traces**: FR-021, FR-022, FR-023, FR-024, FR-025, SC-009, SC-010.
+
+> #### ROUTE NAMES CORRECTED 2026-09-01 — `/api/answer` → `/api/ask`
+>
+> ~~This section named `POST /api/answer`, `GET /api/answer/{job_id}` and
+> `GET /api/answering/status`.~~ Those three names are **withdrawn**, struck through rather than
+> deleted so a reader can tell a corrected name from one that was never wrong. Nothing else in this
+> section changed: every request shape, response shape, status code, normative point A1–A8 and the
+> FR-025 route-separation rule below are unaltered. **Only the spelling of the paths moved.**
+>
+> - *Believed when written (2026-08-31)*: the contract was authored before the answering tree
+>   existed, and `/api/answer` was chosen on paper with nothing to measure it against.
+> - *Measured 2026-09-01*, against the live stack on port 8087, and re-derivable in one line each:
+>
+>   ```bash
+>   curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8087/api/ask/status        # 200
+>   curl -s -o /dev/null -w '%{http_code}\n' 'http://127.0.0.1:8087/api/ask?q=ping'      # 202
+>   curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8087/api/ask/nosuchjob     # 404 job_not_found
+>   curl -s -o /dev/null -w '%{http_code}\n' -X POST http://127.0.0.1:8087/api/answer    # 404
+>   curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8087/api/answering/status  # 404
+>   ```
+>
+>   `platform/backend/pkg/answer/http.go` mounts five routes and every one of them is spelled
+>   `/api/ask`. `/api/answer` and `/api/answering/status` answer `404 page not found` — a plain
+>   404, no contract body.
+>
+> - *Why the CONTRACT moved and not the code*: `/api/ask` is the name that exists. It is served by
+>   five mounted routes, exercised by `pkg/answer/http_test.go` and
+>   `pkg/answer/citations_verified_test.go`, probed by `platform/gates/route-manifest.tsv`, and
+>   documented in the workshop's own user-facing pages and training material. `/api/answer` existed
+>   **only on paper**, and its only appearance in executable code was a *negative* assertion — that
+>   it must 404. Renaming five working routes would invalidate every measurement taken against them
+>   and break documentation that was verified against reality, in exchange for a name whose sole
+>   claim is that this file wrote it down first. A contract earns authority by being the thing the
+>   system is measured against; it does not earn it by being older than the system.
+> - *When it changed*: the answering tree was built at `/api/ask` by a second author as the
+>   standalone `cmd/workshop-ask` binary and later folded into `cmd/workshop-server`. The
+>   divergence was recorded — never hidden — in `platform/gates/route-manifest.tsv`, which held the
+>   three `/api/answer` rows at `NOT_BUILT` specifically so the gap would print as DEBT on every
+>   run until somebody decided it. This is that decision.
+> - *What still holds, unchanged*: `POST /api/answer` and `GET /api/answering/status` MUST still
+>   answer a **plain 404**, never a 405. A retired name must not start aliasing the live one — two
+>   spellings for one resource is the same one-fact-in-two-places defect this correction removes.
+>   That assertion did not move into this contract; it already lives in
+>   `cmd/workshop-server/web_test.go` (`TestUnimplementedApiRoutesAre404OnEveryVerb`) and
+>   `internal/api/gates_test.go`, which is why the manifest rows could be retired without losing
+>   the guard.
+> - *Recorded, NOT resolved by this correction*: the implementation also mounts
+>   `GET /api/ask/{job_id}/stream`, which answers (`404 job_not_found` for an unknown id, measured
+>   2026-09-01). **This contract still defers streaming** — see *"Streaming is deferred, not
+>   offered"* below, and the verification argument there is untouched by the rename. A route that
+>   the contract declines to offer is a **separate, open divergence**, and it is written down here
+>   rather than swept in under a renaming decision it has nothing to do with.
 
 #### The measurements this contract is built on
 
@@ -755,7 +807,7 @@ live).
 - Therefore answering is **asynchronous by contract**, and the `extractive` adapter — which answers
   in ~0.3 s, is genuinely grounded and **cannot fabricate** — is the default *working* path.
 
-#### `POST /api/answer`
+#### `POST /api/ask`
 
 **Request**
 
@@ -770,7 +822,7 @@ live).
 ```jsonc
 {
   "job_id": "ans_01JBX7R2…",
-  "poll": "/api/answer/ans_01JBX7R2…",
+  "poll": "/api/ask/ans_01JBX7R2…",
   "poll_after_ms": 0,                 // 0 for the extractive adapter; ≥2000 for generative
   "estimated_seconds": null,          // NULL while unmeasured — see §8. Never a guessed number.
   "provider": { "name": "extractive", "locality": "local", "model": null }
@@ -800,7 +852,7 @@ construction** with *"model X is an embedding model, not a generative model"* ra
 and `200` from `/api/search` — which is FR-025's acceptance criterion, satisfied out of the box
 rather than by a runtime check.
 
-#### `GET /api/answer/{job_id}`
+#### `GET /api/ask/{job_id}`
 
 Exactly four terminal-or-pending shapes:
 
@@ -823,8 +875,9 @@ Exactly four terminal-or-pending shapes:
 
 // 200 — declined. A CORRECT RESULT, not an error.
 { "status": "declined",
-  "reason": "margin_too_small",     // below_threshold | margin_too_small | unsupported
-                                    // | no_citations | redacted_evidence
+  "reason": "margin_too_small",     // §5.5, closed: below_threshold | margin_too_small
+                                    // | unsupported | no_citations | redacted_evidence
+                                    // NEVER an §5.3 code — the two sets are disjoint (§5.6)
   "message": "The indexed content does not support an answer to this question.",
   "closest": [ /* Hit[] — what was retrieved, shown as context, never as an answer */ ],
   "retrieval": { "top_score": 0.61, "margin": 0.02, "min_score": 0.55, "min_margin": 0.08 } }
@@ -844,7 +897,7 @@ Exactly four terminal-or-pending shapes:
 | A4 | If a cited passage is redacted between generation and delivery, the answer becomes `declined{redacted_evidence}`. Redaction propagates to stored answers, not only to the rendered transcript. | FR-039 |
 | A5 | `retrieval` is returned **even on success**, so a 0.002-margin pass is visible as *fragile* rather than indistinguishable from a confident one. | data-model `Answer.retrieval` |
 | A6 | `min_score`/`min_margin` shipping at `0.0` means *uncalibrated*, and an uncalibrated threshold **refuses everything**. "We never calibrated" fails loudly instead of degrading into "answer everything". | D-LLM-1 |
-| A7 | `unavailable` is a first-class third state, distinct from `declined`. Conflating them would make a missing provider look like a content gap. | FR-025, FR-033, SC-013 |
+| A7 | `unavailable` is a first-class third state, distinct from `declined`. Conflating them would make a missing provider look like a content gap. Enforced mechanically by §5.6: the decline vocabulary (§5.5) and the answering `reason.code` vocabulary (§5.3) are **disjoint**, so `no_provider` and its siblings cannot be filed as refusal reasons. | FR-025, FR-033, SC-013 |
 | A8 | Jobs are in-memory and single-machine. A job id is not durable across a restart; an unknown id ⇒ `404 job_not_found`. Claiming durability would be invented capability. | D1 |
 
 **Streaming is deferred, not offered.** A first token can be tens of seconds away, so streaming
@@ -853,7 +906,7 @@ answer, so streaming would display unverified claims for seconds. If added later
 verified/unverified state must be visible throughout and the answer must not be presentable as
 final until verification completes.
 
-#### `GET /api/answering/status`
+#### `GET /api/ask/status`
 
 **Traces**: FR-023, FR-024, FR-031.
 
@@ -881,7 +934,7 @@ A divergence between declaration and resolved reality is a **fault**, reported a
 
 **FR-025 is enforced architecturally, not by a runtime check**: `/api/search`, `/api/suggest`,
 `/api/chapters`, `/api/passages` are registered on a router group with **no reference to the
-answering package**; `/api/answer` and `/api/answering/status` are the only routes that construct a
+answering package**; `/api/ask` and `/api/ask/status` are the only routes that construct a
 provider. Provider construction failure must not abort server startup. There is no shared goroutine
 pool or connection pool between the answering client and the search path, so a hung 240 s
 generation cannot starve search and break SC-006 for a reason unrelated to search. Gate G-HTTP-5
@@ -986,10 +1039,21 @@ set and no discriminator. That combination is the failure mode FR-020 exists to 
 
 ## 5. Closed enums
 
-**5.1 Inventory.** Four closed enums govern every discriminated field: `status` (§2.5 — `ok` /
-`no_match` / `unavailable`), `error.code` (§5.2), `reason.code` (§5.3) and `degraded.*` (§5.4).
-Closed means a value outside the enum is a contract violation, not an extension point. A new
-failure mode gets a new enum member and a new gate — never a free-text string.
+**5.1 Inventory.** Five closed enums govern every discriminated field:
+
+| Enum | Members | Where |
+|---|---|---|
+| `status` — search/browse envelope | `ok` \| `no_match` \| `unavailable` | §2.5 |
+| `status` — answer job | `pending` \| `answered` \| `declined` \| `unavailable` | §3.10 |
+| `error.code` | request faults (4xx/5xx) | §5.2 |
+| `reason.code` | state 2, *could not determine* | §5.3 |
+| `degraded.*` | state 0 with a caveat | §5.4 |
+| **decline `reason`** | state 1 negative, *determined* | **§5.5** |
+
+`status` carries two vocabularies because it discriminates two different resources; both are closed,
+and the resource decides which applies. Closed means a value outside the enum is a contract
+violation, not an extension point. A new failure mode gets a new enum member and a new gate — never
+a free-text string.
 
 **5.2 `error.code` (4xx/5xx request faults)**
 `empty_query`, `query_too_long`, `malformed_pid`, `unknown_parameter`, `invalid_range`,
@@ -1017,6 +1081,31 @@ failure mode gets a new enum member and a new gate — never a free-text string.
 
 **5.4 `degraded.*` (state 0 with a caveat)**
 `semantic`: `reindexing` \| `partial` \| `stale_generation`. `lexical`: `stale_generation`.
+
+**5.5 decline `reason` (state 1 — determined, negative)**
+
+Carried as a **bare enum string** on `status: "declined"` bodies (§3.10), never as an object. This
+is the only registry of these members; a document that lists them elsewhere is quoting, not
+defining.
+
+| Member | Raised when |
+|---|---|
+| `below_threshold` | Top retrieval score is under `min_score`. The model was never called (L1). |
+| `margin_too_small` | Top-1 to top-2 margin is under `min_margin` — retrieval could not discriminate. |
+| `unsupported` | Support verification (L4) found a claim the cited passages do not entail. |
+| `no_citations` | A citation pid is outside the live generation's member set (A3), so the whole answer is declined rather than silently stripped. |
+| `redacted_evidence` | A cited passage was redacted between generation and delivery (A4). |
+
+**5.6 The two answering vocabularies are disjoint — normative**
+
+§5.5 and the answering-leg rows of §5.3 (`no_provider`, `provider_disabled`,
+`provider_unreachable`, `model_not_generative`, `verification_unavailable`) **share no member, and
+no member may be added to both.** A decline is a judgement about the *content*; `unavailable` is the
+absence of the instrument that would have made that judgement. Filing `no_provider` as a decline
+reason would report a thing that could not run as a thing that was judged — state 2 rendered as
+state 1, which is the precise failure the three-state contract exists to prevent. This rule is what
+makes A7 checkable rather than merely stated: the disjointness is mechanical, so a violation is a
+schema error and not a matter of interpretation.
 
 ---
 
@@ -1064,7 +1153,7 @@ The API cannot enforce rendering, so these obligations are stated here and teste
 | FR-020 honest unavailability | §2 in full; §5.3 |
 | FR-021 answers with citations | §3.10 A2, A3 |
 | FR-022 decline rather than fabricate | §3.10 `declined`, A1 |
-| FR-023 local and external providers | §3.10 `/api/answering/status` |
+| FR-023 local and external providers | §3.10 `/api/ask/status` |
 | FR-024 no external transmission when local | §3.10 `locality`, `locality_verified` |
 | FR-025 search survives answering outage | §3.10 route separation; G-HTTP-5 |
 | FR-027 idempotent extension (observable) | §1.2 `X-Workshop-Index-Generation`; §3.13 |

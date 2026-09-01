@@ -283,30 +283,15 @@ submodules/constitution/upstreams/vasic_digital_gitlab.sh SHEBANG *
 # BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh GNUBSD *
-# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh SERVICE *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh SHEBANG *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/challenges/scripts/no_suspend_calls_challenge.sh SHEBANG *
 # BASELINE: untriaged pre-existing PARALLEL finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/cmd/distributed-test/main.go PARALLEL *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/images/android-test/entrypoint.sh SHEBANG *
 # BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/images/ota-device-emu/docker-compose.example.yml OSPATH *
 # BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/images/ota-device-emu/entrypoint.sh OSPATH *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/install_upstreams.sh SHEBANG *
 # BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/internal/buildpkg/artifacts_test.go HOSTNAME *
@@ -619,21 +604,9 @@ submodules/containers/pkg/vm/qemu_auth_test.go ENDPOINT *
 # BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/pkg/vm/wave20_vm2hard_test.go ENDPOINT *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/scripts/build-all.sh SHEBANG *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/scripts/host-power-management/check-no-suspend-calls.sh SHEBANG *
 # BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/scripts/host-power-management/install-host-suspend-guard.sh SERVICE *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/scripts/host-power-management/install-host-suspend-guard.sh SHEBANG *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/scripts/host-power-management/user_session_no_suspend_bootstrap.sh SHEBANG *
 # BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/scripts/lib/durable-run.sh SERVICE *
@@ -646,15 +619,6 @@ submodules/containers/tests/integration/remote_deployment_test.go ENDPOINT *
 # BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 submodules/containers/tests/security/ssh_security_test.go OSPATH *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/upstreams/github.sh SHEBANG *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/upstreams/vasic_digital_github.sh SHEBANG *
-# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
-# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
-submodules/containers/upstreams/vasic_digital_gitlab.sh SHEBANG *
 
 # ---- vasic.digital ----
 # BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
@@ -665,3 +629,815 @@ vasic.digital/Upstreams/GitHub.sh SHEBANG *
 # BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
 # 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
 workshop/upstreams/GitHub.sh SHEBANG *
+
+# ==============================================================================
+# ---- submodules/LLMProvider and submodules/RAG (added to the fleet 2026-09-01)
+# ==============================================================================
+# Adopted under 11.4.74 reuse-before-reimplement. Adding the two gitlinks put 212
+# more files into the scan universe and surfaced 476 findings that already
+# existed and that this gate could not see. They were TRIAGED, not blanket-
+# baselined; the triage rule is stated once here and every row below obeys it.
+#
+# THE RULE. The SCOPE of a row must equal the SCOPE of the reason justifying it.
+#   * A reason that is structural for a whole file (Go excludes *_test.go from
+#     every production build) earns a file+class row.
+#   * A reason that is about one literal (this string is a vendor API id, not a
+#     machine binding) earns a row pinned to that literal.
+#   * Anything that is neither is DEBT: a BASELINE row with an AUDIT.md id.
+# CLASS is never widened to `*` in this section, so a NEW finding of a DIFFERENT
+# class in an already-covered file still fails the gate.
+#
+# WHAT IS JUSTIFIED, and on what evidence:
+#   (A) *_test.go — `go build` excludes these files from every production
+#       binary, so no literal in them can configure a deployment. Measured
+#       2026-09-01: 28 of the 30 test files carrying findings drive
+#       httptest.NewServer; the other two use a deliberately unreachable port
+#       (127.0.0.1:1) or assert a constructor default, and their single live
+#       path is capability-guarded and t.Skip()s. Making these values
+#       environment-derived would delete the assertion.
+#   (B) FallbackModels / SupportedModels entries — the last-resort list used
+#       ONLY when the live ModelsEndpoint discovery call fails. Measured
+#       2026-09-01: all 107 non-test MODEL list elements sit inside
+#       `FallbackModels: []string{` (106) or `SupportedModels: []string{` (1);
+#       not one is a default selection. This is precisely the shape the gate
+#       own isfallback heuristic exempts - the heuristic is single-line and
+#       cannot see the field name three lines above the literal. The detector
+#       was deliberately NOT widened to compensate: widening a detector to
+#       reach rc=0 is the failure mode this section exists to avoid.
+#   (C) zen.go exported model-id constants - a named catalog with deprecation
+#       notes, for callers to pass in. The only default, DefaultZenModel, is a
+#       symbol reference and never fires.
+#   (D) pattern false positives on the token `codestral`: a provider id, a Go
+#       variable name codestralResp, an i18n message key, an English
+#       description string. None is a model id.
+#
+# WHAT IS DEBT: F23-F28 in docs/environment-adaptability/AUDIT.md. Each is a
+# real defect. NONE of them can be fixed from this repository - they live in
+# other repositories and 11.4.29 forbids editing a tree this repository does not
+# author. The fix lands in each submodule upstream and returns as a gitlink
+# bump. Until then the finding is carried here, loudly, as debt.
+
+# ---- DEBT: F23 - default model frozen on a production path -----------------
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/cerebras/cerebras.go MODEL = "llama3.1-8b"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL = "codestral-latest"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/deepseek/deepseek.go MODEL = "deepseek-coder"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/mistral/mistral.go MODEL = "mistral-large-latest"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/modal/modal.go MODEL = "llama-3.1-8b"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/nlpcloud/nlpcloud.go MODEL = "finetuned-llama-3-70b"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/novita/novita.go MODEL = "meta-llama/llama-3-8b-instruct"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/nvidia/nvidia.go MODEL = "meta/llama-3.1-8b-instruct"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL = "glm-4.5"
+# BASELINE: known defect F23 - docs/environment-adaptability/AUDIT.md. The
+# libraries default model choice, applied when the caller passes an empty model,
+# with no env or config layer behind it. Fix belongs upstream.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL = "glm-4-flash"
+
+# ---- DEBT: F24 - default backend endpoint frozen with no env override ------
+# BASELINE: known defect F24 - docs/environment-adaptability/AUDIT.md. The
+# constructor falls back to a frozen loopback address. The gate own WHAT COUNTS
+# AS DYNAMIC section names the exact fix for this line.
+submodules/LLMProvider/pkg/providers/ollama/ollama.go ENDPOINT http://localhost:11434
+# BASELINE: known defect F24 (mirror) - docs/environment-adaptability/AUDIT.md.
+# Zen HTTP freezes the opencode server address in DefaultZenHTTPConfig and again
+# in the empty-value fallback; the struct-field doc comment restates it.
+submodules/LLMProvider/pkg/providers/zen/zen_http.go ENDPOINT http://localhost:4096
+
+# ---- DEBT: F25 - absolute interpreter path instead of /usr/bin/env ---------
+
+# ---- DEBT: F26 - systemd assumed as THE service manager, unguarded --------
+
+# ---- DEBT: F27 - GNU-only date/stat with a GNU-only fallback ---------------
+# BASELINE: known defect F27 - docs/environment-adaptability/AUDIT.md.
+# date -d and stat -c are GNU-only, and the || branch falls back to stat -c %y,
+# which is GNU-only too - so there is no BSD path at all.
+submodules/LLMProvider/challenges/scripts/host_no_auto_suspend_challenge.sh GNUBSD *
+# BASELINE: known defect F27 - docs/environment-adaptability/AUDIT.md.
+# date -d and stat -c are GNU-only, and the || branch falls back to stat -c %y,
+# which is GNU-only too - so there is no BSD path at all.
+submodules/RAG/challenges/scripts/host_no_auto_suspend_challenge.sh GNUBSD *
+
+# ---- DEBT: F28 - concurrency frozen to one box -----------------------------
+
+# ---- JUSTIFIED (A): *_test.go - excluded from every production build -------
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/discovery/discovery_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/cerebras/cerebras_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/chutes/chutes_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/codestral/codestral_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/cohere/cohere_eof_bug_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/cohere/cohere_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/deepseek/deepseek_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/deepseek/deepseek_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/fireworks/fireworks_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/gemini/gemini_api_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/gemini/gemini_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/generic/generic_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/generic/generic_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/groq/groq_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/mistral/mistral_eof_bug_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/mistral/mistral_test.go HOSTNAME *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/mistral/mistral_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/modal/modal_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/nlpcloud/nlpcloud_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/novita/novita_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/nvidia/nvidia_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/ollama/ollama_responseerror_i18n_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/ollama/ollama_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/replicate/replicate_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/together/together_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/venice/venice_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/zai/zai_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/zen/zen_http_test.go ENDPOINT *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/zen/zen_http_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/zen/zen_test.go MODEL *
+# REASON: (A) test fixture. Go excludes *_test.go from every production build,
+# so this literal configures no deployment; it is the value the assertion exists
+# to compare against, and deriving it from the environment would delete the
+# assertion. Verified 2026-09-01: this suite drives httptest servers, a
+# deliberately unreachable port, or a capability-guarded path that t.Skip()s.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu_test.go MODEL *
+
+# ---- JUSTIFIED (B)(C)(D): vendor API facts, pinned to the literal ----------
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cerebras/cerebras.go MODEL "gpt-oss-120b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cerebras/cerebras.go MODEL "llama3.1-8b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/chutes/chutes.go MODEL "deepseek-ai/DeepSeek-R1",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/chutes/chutes.go MODEL "deepseek-ai/DeepSeek-V3",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/deepseek/deepseek-r1-distill-qwen-32b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-3.1-70b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-3.1-8b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-3.1-8b-instruct-fast",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-3.2-1b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-3.2-3b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/meta/llama-4-scout-17b-16e-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/mistral/mistral-small-3.1-24b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/openai/gpt-oss-120b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/openai/gpt-oss-20b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/qwen/qwen2.5-coder-32b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/qwen/qwen3-30b-a3b-fp8",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cloudflare/cloudflare.go MODEL "@cf/zai/glm-4.7-flash",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL "codestral-2405",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL "codestral-latest",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cohere/cohere.go MODEL "command-r-08-2024",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cohere/cohere.go MODEL "command-r7b-12-2024",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/cohere/cohere.go MODEL "command-r-plus-08-2024",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/deepseek/deepseek.go MODEL "deepseek-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/deepseek/deepseek.go MODEL "deepseek-coder",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/fireworks/fireworks.go MODEL "accounts/fireworks/models/deepseek-r1",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/fireworks/fireworks.go MODEL "accounts/fireworks/models/deepseek-v3",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/fireworks/fireworks.go MODEL "accounts/fireworks/models/qwen2p5-72b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/fireworks/fireworks.go MODEL "accounts/fireworks/models/qwen2p5-coder-32b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/groq/groq.go MODEL "deepseek-r1-distill-llama-70b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/groq/groq.go MODEL "llama-3.1-70b-versatile",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/groq/groq.go MODEL "llama-3.1-8b-instant",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/groq/groq.go MODEL "llama-3.3-70b-versatile",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/groq/groq.go MODEL "llama-4-maverick-17b-128e-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/groq/groq.go MODEL "llama-4-scout-17b-16e-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/mistral/mistral.go MODEL "codestral-latest",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/mistral/mistral.go MODEL "mistral-large-latest",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/mistral/mistral.go MODEL "mistral-medium",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/mistral/mistral.go MODEL "mistral-small-latest",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/modal/modal.go MODEL "llama-3.1-70b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/modal/modal.go MODEL "llama-3.1-8b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/nlpcloud/nlpcloud.go MODEL "finetuned-llama-3-70b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/nlpcloud/nlpcloud.go MODEL "llama-3-70b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/novita/novita.go MODEL "meta-llama/llama-3-70b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/novita/novita.go MODEL "meta-llama/llama-3-8b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/nvidia/nvidia.go MODEL "meta/llama-3.1-70b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/nvidia/nvidia.go MODEL "meta/llama-3.1-8b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/nvidia/nvidia.go MODEL "meta/llama-3.2-1b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/nvidia/nvidia.go MODEL "meta/llama-3.2-3b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-chat-v3-0324:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-r1-distill-llama-70b:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-r1-distill-qwen-14b:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-r1-distill-qwen-32b:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-r1:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "deepseek/deepseek-r1-zero:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "meta-llama/llama-3.1-405b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "meta-llama/llama-3.1-70b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "meta-llama/llama-3.3-70b-instruct:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "meta-llama/llama-4-maverick:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "meta-llama/llama-4-scout:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "mistralai/mistral-large",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "nvidia/llama-3.1-nemotron-ultra-253b-v1:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/openrouter/openrouter.go MODEL "qwen/qwen2.5-vl-3b-instruct:free",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-70b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-8b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-sonar-huge-128k-online",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-sonar-large-128k-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-sonar-large-128k-online",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-sonar-small-128k-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/perplexity/perplexity.go MODEL "llama-3.1-sonar-small-128k-online",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/replicate/replicate.go MODEL "meta/llama-2-13b-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/replicate/replicate.go MODEL "meta/llama-2-70b-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/replicate/replicate.go MODEL "meta/llama-2-7b-chat",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/replicate/replicate.go MODEL "meta/meta-llama-3.1-405b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/replicate/replicate.go MODEL "meta/meta-llama-3-70b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/replicate/replicate.go MODEL "meta/meta-llama-3-8b-instruct",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/siliconflow/siliconflow.go MODEL "deepseek-ai/DeepSeek-V2.5",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/together/together.go MODEL "deepseek-ai/DeepSeek-R1",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/together/together.go MODEL "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/together/together.go MODEL "deepseek-ai/DeepSeek-V3",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/venice/venice.go MODEL "deepseek-r1-671b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/venice/venice.go MODEL "llama-3.1-405b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/venice/venice.go MODEL "llama-3.3-70b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/venice/venice.go MODEL "qwen3-vl-235b-a22b",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/venice/venice.go MODEL "zai-org-glm-4.7",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4.5",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4.5-air",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4.6",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4.7",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4-air",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4-airx",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4-flash",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4-flashx",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4-long",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4-plus",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4v",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-4v-plus",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zai/zai.go MODEL "glm-5",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zen/zen_http.go MODEL "glm-4.7",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL "glm-4",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL "glm-4-air",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL "glm-4-airx",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL "glm-4-flash",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL "glm-4-long",
+# REASON: (B) one entry of a FallbackModels / SupportedModels list - the
+# last-resort catalogue used only when the live ModelsEndpoint discovery call
+# fails. A remote vendor API id, bound to no machine, OS or deployment.
+submodules/LLMProvider/pkg/providers/zhipu/zhipu.go MODEL "glm-4-plus",
+# REASON: (C) an exported model-id constant in the Zen catalogue, carrying its
+# own deprecation note, for callers to pass in. It selects nothing: the only
+# default, DefaultZenModel, is a symbol reference and never fires.
+submodules/LLMProvider/pkg/providers/zen/zen.go MODEL = "glm-4.7"
+# REASON: (C) an exported model-id constant in the Zen catalogue, carrying its
+# own deprecation note, for callers to pass in. It selects nothing: the only
+# default, DefaultZenModel, is a symbol reference and never fires.
+submodules/LLMProvider/pkg/providers/zen/zen.go MODEL = "glm-4.7-free"
+# REASON: (C) an exported model-id constant in the Zen catalogue, carrying its
+# own deprecation note, for callers to pass in. It selects nothing: the only
+# default, DefaultZenModel, is a symbol reference and never fires.
+submodules/LLMProvider/pkg/providers/zen/zen.go MODEL = "glm-5-free"
+# REASON: (C) an exported model-id constant in the Zen catalogue, carrying its
+# own deprecation note, for callers to pass in. It selects nothing: the only
+# default, DefaultZenModel, is a symbol reference and never fires.
+submodules/LLMProvider/pkg/providers/zen/zen.go MODEL = "opencode/glm-4.7-free"
+# REASON: (C) an exported model-id constant in the Zen catalogue, carrying its
+# own deprecation note, for callers to pass in. It selects nothing: the only
+# default, DefaultZenModel, is a symbol reference and never fires.
+submodules/LLMProvider/pkg/providers/zen/zen.go MODEL = "qwen3-coder"
+
+# REASON: (D) pattern false positive - the provider id string "codestral", not a
+# model id. It names the adapter in ProviderName / ProviderID fields.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL "codestral",
+# REASON: (D) pattern false positive - a request-id prefix built from the
+# provider name and a nanosecond timestamp. Not a model id.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL fmt.Sprintf("codestral-%d"
+# REASON: (D) pattern false positive - the Go variable name codestralResp, which
+# happens to contain the provider name. The value is read off the API response.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL codestralResp.Model,
+# REASON: (D) pattern false positive - the same codestralResp variable name.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL codestralResp.Usage.PromptTokens,
+# REASON: (D) pattern false positive - the same codestralResp variable name.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL codestralResp.Usage.CompletionTokens,
+# REASON: (D) pattern false positive - an i18n message KEY, resolved at runtime
+# through i18n.Tr. It carries no model id.
+submodules/LLMProvider/pkg/providers/codestral/codestral.go MODEL "provider.codestral.description"
+# REASON: (D) pattern false positive - the English text of that i18n message
+# ("Mistral AI code-focused model"). Prose in a translation bundle.
+submodules/LLMProvider/pkg/i18n/bundles/active.en.yaml MODEL provider.codestral.description:
+
+# ---- submodules/passage and submodules/verdict -------------------------------
+# FOUR ROWS WERE REMOVED FROM HERE ON 2026-09-01 BECAUSE THE DEFECT WAS FIXED.
+# They baselined `#!/bin/bash` (F25) in
+#   submodules/{passage,verdict}/upstreams/vasic_digital_{github,gitlab}.sh
+# after a concurrent agent added both repositories to helix-deps.yaml deps[] at
+# 11:36 that day, which is what ownership is derived from — so four files that
+# were THIRD-PARTY NOTES at 11:20 were GATING findings by 11:40 without either
+# file changing. All four now carry `#!/usr/bin/env bash` in their own
+# repositories, so the rows named an occurrence that no longer exists.
+#
+# They are deleted rather than kept "just in case", which is the whole point of
+# the stale-rule census that found them: a rule is an exemption at a PATH, not
+# at an occurrence, so a kept-but-dead BASELINE silently pre-approves whatever
+# is written at that path next, AND asserts a defect that is no longer there.
+# Re-derive: head -1 submodules/{passage,verdict}/upstreams/vasic_digital_*.sh
+

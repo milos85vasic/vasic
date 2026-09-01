@@ -9,7 +9,7 @@
  * purely by consuming tokens, and never hardcodes a hex except as a token
  * fallback. No external dependencies, no build step, no framework.
  *
- * Depends on:  the OpenDesign token layer (brand-*/milosvasic.css) + kit-tokens.css
+ * Depends on:  the OpenDesign token layer (brand-<brand>/milosvasic.css) + kit-tokens.css
  * Constitution §11.4.6 — no bluff: all --od-* names resolve against the real
  * OpenDesign contract.
  *

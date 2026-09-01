@@ -25,3 +25,15 @@
 [submodule "submodules/containers"]
 	path = submodules/containers
 	url = git@github.com:vasic-digital/containers.git
+[submodule "submodules/LLMProvider"]
+	path = submodules/LLMProvider
+	url = git@github.com:vasic-digital/LLMProvider.git
+[submodule "submodules/RAG"]
+	path = submodules/RAG
+	url = git@github.com:vasic-digital/RAG.git
+[submodule "submodules/verdict"]
+	path = submodules/verdict
+	url = git@github.com:vasic-digital/verdict.git
+[submodule "submodules/passage"]
+	path = submodules/passage
+	url = git@github.com:vasic-digital/passage.git

@@ -87,10 +87,17 @@ for arg in "$@"; do
         --list)          MODE="list" ;;
         --help|-h)       MODE="help" ;;
         --no-submodules) SWEEP=0 ;;
+        --prove-failure) MODE="prove" ;;
         -*)              echo "FATAL: unknown option '$arg'" >&2; exit 2 ;;
         *)               TARGET="$arg" ;;
     esac
 done
+
+# Absolute path to THIS file, captured BEFORE the `cd` below. The §1.1 proof
+# re-invokes the real entry point dozens of times from inside a sandbox, and a
+# relative ${BASH_SOURCE[0]} stops resolving the moment the working directory
+# moves.
+SELF_ABS="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/$(basename -- "${BASH_SOURCE[0]}")"
 
 if [[ -n "$TARGET" ]]; then
     ROOT="$(cd -- "$TARGET" 2>/dev/null && pwd)" \
@@ -119,6 +126,199 @@ if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
     DIM=$'\033[2m';    NC=$'\033[0m'
 else
     RED=""; GREEN=""; YELLOW=""; DIM=""; NC=""
+fi
+
+# ------------------------------------------------------------------------------
+# §1.1 PAIRED MUTATION PROOF  (--prove-failure)
+#
+# WHY IT EXISTS
+# -------------
+# §1.1 requires every gate to carry a paired mutation demonstrating that it
+# FAILS when the guarded condition is broken. Until 2026-09-01 this file had
+# none, and `scripts/check-registry.tsv` carried it as a `debt` row saying so.
+# A gate that has never been observed failing is not known to work — this
+# project's own constitution names that defect explicitly.
+#
+# THE SHAPE, AND WHY IT IS THIS SHAPE
+# -----------------------------------
+# Copied deliberately from `scripts/verify-check-registry.sh --prove-failure`
+# rather than invented, because two other proofs in this tree were found on
+# 2026-09-01 running their control against the LIVE tree — so any real finding
+# made the control fail and ZERO mutations ever executed. Here:
+#
+#   * the CONTROL is a SYNTHETIC throwaway git repository, green BY
+#     CONSTRUCTION. No state of this repository can redden it, so no state of
+#     this repository can silently switch the battery off.
+#   * the LIVE run still happens FIRST, with the REAL entry point against the
+#     REAL target, because a proof that only ever touches a sandbox while the
+#     real gate cannot start is the other half of the same defect. It is
+#     REPORTED, never gating.
+#
+# Mutations come in PAIRS wherever a suppression mechanism is involved: the
+# planted violation must FAIL (rc 1), and the same violation with an allow-list
+# entry must PASS (rc 0) while still NAMING what it suppressed. A suppression
+# that is not shown to suppress something real proves nothing.
+#
+# Every byte written by this proof lands inside a `mktemp -d`. Nothing under the
+# target repository is created, modified or removed, so no restore is needed.
+# ------------------------------------------------------------------------------
+if [[ "$MODE" == "prove" ]]; then
+    # The literal is ASSEMBLED FROM FRAGMENTS on purpose. Written whole, this
+    # very file would contain a machine-specific path and would trip the audit
+    # it exercises — the proof would break the gate it proves.
+    _u="/Users"
+    SYN_PLANT="${_u}/proofuser/Projects/demo"
+
+    echo "CM-HARDCODED-PATHS §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+
+    p_fails=0
+
+    # ---- PRE-FLIGHT: the REAL entry point against the REAL tree -------------
+    # Reported, never gating. Its job is to prove the instrument STARTS.
+    pf_out="$(bash "$SELF_ABS" "$ROOT" 2>&1)"; pf_rc=$?
+    case "$pf_rc" in
+        0) printf '✅ %-26s the real audit ran against the real tree and returned rc=0 (clean)\n' "PRE-FLIGHT live-run" ;;
+        1) printf 'ℹ %-26s the real audit RAN against the real tree and returned rc=1 (real\n' "PRE-FLIGHT live-run"
+           printf '                           findings). REPORTED, NOT GATING: the battery below uses a\n'
+           printf '                           synthetic control so a red tree cannot disable the proof.\n' ;;
+        2) printf 'ℹ %-26s the real audit RAN and returned rc=2 (could not determine) on the\n' "PRE-FLIGHT live-run"
+           printf '                           real tree. REPORTED, NOT GATING; the battery still runs.\n' ;;
+        *) printf '❌ %-26s undocumented exit code %s; the contract is 0/1/2 only\n' "PRE-FLIGHT live-run" "$pf_rc"
+           p_fails=$((p_fails+1)) ;;
+    esac
+
+    SB="$(mktemp -d "${TMPDIR:-/tmp}/hcpaths-proof.XXXXXX")" \
+        || { echo "UNDET: cannot create a sandbox; the proof could not run" >&2; exit 2; }
+    trap 'rm -rf "$SB"' EXIT INT TERM
+
+    sgit() { git -c user.name=hc-proof -c user.email=hc-proof@invalid \
+                 -c core.hooksPath=/dev/null -c init.defaultBranch=main "$@"; }
+
+    # A repository with no machine-specific path anywhere, no .gitmodules, and
+    # three tracked files. Green by construction. `git add` is enough: the audit
+    # enumerates via `git ls-files`, which reads the INDEX, so no commit (and no
+    # committer identity) is required.
+    mk_control() {
+        local d="$1"
+        rm -rf "$d"; mkdir -p "$d/scripts" "$d/src" || return 1
+        sgit -C "." init -q "$d" >/dev/null 2>&1 || return 1
+        {
+            printf '#!/usr/bin/env bash\n'
+            printf 'ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"\n'
+            printf 'echo "$ROOT"\n'
+        } > "$d/scripts/tool.sh"
+        printf 'package main\n\nfunc main() {}\n' > "$d/src/main.go"
+        printf '# demo\n\nA synthetic repository used only as a proof control.\n' > "$d/README.md"
+        sgit -C "$d" add -A >/dev/null 2>&1 || return 1
+        return 0
+    }
+
+    # p_assert <label> <desc> <want-rc> <needle> <fn...>
+    # The needle requirement is not decoration: a mutation that changes the exit
+    # code without NAMING the offending thing is a weak proof, because its
+    # reader cannot act on it (§11.4.6).
+    p_assert() {
+        local label="$1" desc="$2" want="$3" needle="$4"; shift 4
+        local dir out rc slug
+        slug="$(printf '%s' "$label" | tr -cd 'A-Za-z0-9')"
+        dir="${SB}/mut_${slug}"
+        rm -rf "$dir"
+        if ! cp -r "$PRISTINE" "$dir"; then
+            printf '❌ %-26s could not copy the control\n' "$label"; p_fails=$((p_fails+1)); return
+        fi
+        if ! "$@" "$dir"; then
+            printf '❌ %-26s could not apply the mutation (%s)\n' "$label" "$desc"; p_fails=$((p_fails+1)); rm -rf "$dir"; return
+        fi
+        out="$(bash "$SELF_ABS" "$dir" 2>&1)"; rc=$?
+        if [[ $rc -ne $want ]]; then
+            printf '❌ %-26s %s\n' "$label" "$desc"
+            printf '                           -> rc=%s, wanted %s. THIS GATE WOULD BE A SHAM (§1.1).\n' "$rc" "$want"
+            printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
+            p_fails=$((p_fails+1)); rm -rf "$dir"; return
+        fi
+        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+            printf '❌ %-26s %s\n' "$label" "$desc"
+            printf '                           -> rc=%s as wanted, but the output never NAMED %s.\n' "$rc" "'$needle'"
+            printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
+            p_fails=$((p_fails+1)); rm -rf "$dir"; return
+        fi
+        printf '✅ %-26s %s\n' "$label" "$desc"
+        printf '                           -> rc=%s (wanted %s)%s\n' "$rc" "$want" "${needle:+  [names '$needle']}"
+        rm -rf "$dir"
+    }
+
+    PRISTINE="${SB}/pristine"
+    if ! mk_control "$PRISTINE"; then
+        echo "UNDET: could not build the synthetic control repository" >&2; exit 2
+    fi
+
+    echo "  sandbox: ${SB}"
+    echo "----------------------------------------------------------------------"
+
+    out="$(bash "$SELF_ABS" "$PRISTINE" 2>&1)"; rc=$?
+    if [[ $rc -eq 0 ]]; then
+        printf '✅ %-26s unmutated synthetic repository passes (rc=0), by construction\n' "CONTROL synthetic-green"
+    else
+        printf '❌ %-26s returned rc=%s\n' "CONTROL synthetic-green" "$rc"
+        printf '                           -> ABORTING: ZERO mutations ran, so NOTHING was proved. This is a\n'
+        printf '                              fault in the proof harness, not a statement about this tree.\n'
+        printf '%s\n' "$out" | tail -8 | sed 's/^/        /'
+        exit 1
+    fi
+
+    # ---- the mutations -------------------------------------------------------
+    plant()      { printf 'DATA_DIR="%s"\n' "$SYN_PLANT" >> "$1/scripts/tool.sh"; }
+    plant_note() { printf '# historical bug: it used to say %s\n' "$SYN_PLANT" >> "$1/scripts/tool.sh"; }
+    allow_reason()   { plant "$1" && printf '# REASON: synthetic, justified for the proof\nscripts/tool.sh\n'  > "$1/.hardcoded-paths-allow"; }
+    allow_baseline() { plant "$1" && printf '# BASELINE: synthetic known-unfixed finding\nscripts/tool.sh\n'   > "$1/.hardcoded-paths-allow"; }
+    allow_unmarked() { plant "$1" && printf '# just a comment, no marker at all\nscripts/tool.sh\n'            > "$1/.hardcoded-paths-allow"; }
+    stale_baseline() { printf '# BASELINE: names a file that no longer offends\nsrc/main.go\n'                 > "$1/.hardcoded-paths-allow"; }
+    not_a_repo()     { rm -rf "$1/.git"; }
+    no_such_dir()    { rm -rf "$1"; }
+    empty_universe() { local d="$1"; rm -rf "$d"; mkdir -p "$d" && sgit -C "." init -q "$d" >/dev/null 2>&1; }
+    uninit_sub()     {
+        local d="$1"
+        printf '[submodule "vendor/thing"]\n\tpath = vendor/thing\n\turl = git@github.com:someone/thing.git\n' > "$d/.gitmodules"
+        printf 'schema_version: 1\ndeps:\n  - name: thing\n    ssh_url: git@github.com:someone/thing.git\n'    > "$d/helix-deps.yaml"
+        mkdir -p "$d/vendor/thing" || return 1
+        sgit -C "$d" add -A >/dev/null 2>&1 || true
+        return 0
+    }
+
+    p_assert "H1 violation-caught"   "a machine-specific literal planted in a tracked script         " 1 "scripts/tool.sh"          plant
+    p_assert "H2 REASON-suppresses"  "the SAME violation, allow-listed with '# REASON:'              " 0 "explicitly allowed"       allow_reason
+    p_assert "H3 BASELINE-is-loud"   "the SAME violation, allow-listed with '# BASELINE:'            " 0 "baselined occurrence"     allow_baseline
+    p_assert "H4 UNMARKED-is-named"  "allow-listed with no marker — honoured, but never in silence   " 0 "allow-list entr"          allow_unmarked
+    p_assert "H5 stale-baseline"     "a BASELINE entry that no longer matches anything is reported   " 0 "stale baseline"           stale_baseline
+    p_assert "H6 comment-not-a-bug"  "the literal in a COMMENT only — documenting it is not doing it " 0 "no machine-specific"      plant_note
+    p_assert "H7 target-absent"      "the target directory does not exist — cannot be inspected      " 2 "no such directory"        no_such_dir
+    p_assert "H8 not-a-git-tree"     "the target is not a git working tree — nothing to enumerate    " 2 "not a git working tree"   not_a_repo
+    p_assert "H9 empty-universe"     "zero tracked files — a clean verdict over nothing is a bluff   " 2 "scan universe is empty"   empty_universe
+    p_assert "H10 uninit-submodule"  "a declared submodule is not checked out — NOT a pass, NOT a fail" 2 "not initialised"         uninit_sub
+
+    # ---- restored control ----------------------------------------------------
+    bash "$SELF_ABS" "$PRISTINE" >/dev/null 2>&1; rc=$?
+    if [[ $rc -eq 0 ]]; then
+        printf '✅ %-26s the unmutated control is still green after the battery (rc=0)\n' "CONTROL restored"
+    else
+        printf '❌ %-26s the control no longer passes (rc=%s); a mutation leaked out of its copy\n' "CONTROL restored" "$rc"
+        p_fails=$((p_fails+1))
+    fi
+
+    echo "----------------------------------------------------------------------"
+    if [[ $p_fails -eq 0 ]]; then
+        echo "✅ CM-HARDCODED-PATHS §1.1 MUTATION PROOF: PASS — the REAL entry point ran against"
+        echo "   the REAL tree (reported, never gating), a SYNTHETIC control green by construction"
+        echo "   passed, and 10 mutations each produced the required THREE-VALUED verdict while"
+        echo "   NAMING the offending thing: a planted violation as rc=1; three suppression"
+        echo "   mechanisms as rc=0 that still name what they suppressed; a comment-only mention"
+        echo "   correctly ignored; and four could-not-determine states as rc=2 — never as a pass"
+        echo "   and never as an accusation. The control is still green."
+        exit 0
+    fi
+    echo "❌ CM-HARDCODED-PATHS §1.1 MUTATION PROOF: FAIL — ${p_fails} case(s) did not behave as required"
+    exit 1
 fi
 
 ALLOW_FILE="$ROOT/.hardcoded-paths-allow"

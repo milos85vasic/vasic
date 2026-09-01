@@ -480,31 +480,76 @@ automated report mean the report is wrong.
 
 **Proves**: SC-004 (fresh clone to running in under 15 minutes). Requirements FR-008…FR-013.
 
-**Status: `BLOCKED: BUILD`.** The platform does not exist yet. Note what is *not* blocking it:
-no ASR engine, no generative model, and no open research item. **US2 is the scenario that becomes
-executable the moment the code lands** — it needs nothing from an operator.
+**Status: `PARTIALLY RUNNABLE` (updated 2026-09-01).** ~~`BLOCKED: BUILD`. The platform does not
+exist yet.~~ That status is **withdrawn** — the control plane now exists and runs. Measured on this
+host at 2026-09-01, not read off a document:
+
+```
+podman ps  →  workshop-curriculum_platform_1   Up (healthy)
+curl /api/health → {"status":"ok","pid":1,"chapters":1,"web":false,
+                    "ollama":{"configured":true,"reachable":true}}
+```
+
+**Read the boundary precisely, because "runnable" is not "US2 passes".** What is measured: the
+container stack starts, reports healthy, and serves the API. What is **not** measured and must not
+be inferred: `"web": false` in that same response says the browsing frontend is **not being served
+yet**, so outcomes 2–4 below (chapter list, inline playback, position and progress) remain
+`BLOCKED: BUILD`. The SC-004 end-to-end clock has also not been run from a genuinely fresh clone,
+which is the only measurement that proves SC-004. Nothing here claims it has.
+
+Still not blocking, as before: no ASR engine, no generative model, and no open research item.
 
 **Prerequisites**: a fresh clone; Go 1.26 (verified present: `go1.26.2`); Node 20+ (verified
 present: `v22.19.0`) if the frontend is built rather than shipped prebuilt.
 
-The structure mirrors `ai_interviewing/platform/`, which already has
-`scripts/{build,start,stop,status,restart,ingest}.sh` — FR-013 requires a person familiar with one
-module to navigate the other, so the workshop's script names should match.
+The reference control plane is `ai_interviewing/platform/scripts/`, which already has
+`{build,ingest,restart,start,status,stop}.sh` — FR-013 requires a person familiar with one module to
+navigate the other, so the workshop's script **names** match.
+
+**Path corrected 2026-09-01.** An earlier revision of this guide invoked
+`workshop/platform/scripts/…`, mirroring the reference's directory nesting. That path is
+**withdrawn**: the contract settles the control plane at **`workshop/scripts/`**, alongside the
+pre-existing `extract-videos.sh` / `archive-videos.sh` / `self-test.sh` / `install-hooks.sh` that
+FR-007 already depends on. One script directory per module — a split would leave two with no rule
+for which holds what, which serves FR-013 worse than a structural echo serves it well. See
+[contracts/pipeline-cli.md §2.1](./contracts/pipeline-cli.md) for the full decision. Note also what
+the old text got right and what it did not: the *names* were always correct; the *directory* was the
+mirror carried one level too deep.
 
 ```bash
-# CONTRACT ONLY — never executed. Time the WHOLE block; SC-004 is a clock, not a feeling.
+# Time the WHOLE block; SC-004 is a clock, not a feeling.
 git submodule update --init workshop            # or a fresh clone
 bash workshop/scripts/extract-videos.sh         # RUNNABLE NOW — see US1 step 1
-bash workshop/platform/scripts/start.sh         # CONTRACT ONLY
-# → open the URL the start script prints
-bash workshop/platform/scripts/status.sh        # CONTRACT ONLY
-bash workshop/platform/scripts/stop.sh          # CONTRACT ONLY
+bash workshop/scripts/start.sh                  # RUNNABLE NOW — brings up the container stack
+# → open the URL the start script prints (the API; the browsing UI is not served yet)
+bash workshop/scripts/status.sh                 # RUNNABLE NOW
+bash workshop/scripts/stop.sh                   # RUNNABLE NOW
 ```
+
+`start.sh` brings up a **container stack**; it is not a native process launch. The seam is the
+`workshop-boot` adapter over `submodules/containers`' `pkg/compose` / `pkg/health` / `pkg/runtime`
+Go API — **not** that submodule's `cmd/boot` CLI, which was measured unusable for this workload
+(no compose-file flag, no lifecycle verbs, a hardcoded `helixagent` endpoint, and an exit `0` after
+starting nothing). [contracts/pipeline-cli.md §4.8.0](./contracts/pipeline-cli.md) records that
+measurement in full; the short version is that a wrapper trusting `cmd/boot`'s exit code would
+report a healthy stack that does not exist.
+
+`start.sh` builds on demand, so a fresh clone needs no separate build step — which is what makes the
+SC-004 15-minute budget a single block rather than a sequence.
+
+One host note, so a reader is not surprised: the contract's default port is `8080`, and this host is
+currently running the stack on `8087` via the documented `WORKSHOP_PORT` override. Read the actual
+address from `workshop/platform/run/server.json` rather than assuming either number.
 
 **Expected observable outcome**
 
 1. `start.sh` prints `UP: <url>` and is **idempotent** — a second invocation prints
-   `already running (pid …)` and exits `0`, matching the reference module's behaviour.
+   `already running — nothing to do` and exits `0` **without recreating any container**, matching
+   the reference module's behaviour in contract if not in mechanism. *(Corrected 2026-09-01: this
+   line previously expected `already running (pid …)`. There is no host pid to print — the stack is
+   containerised, and liveness is read from the container state and the resolved endpoint in
+   `workshop/platform/run/server.json`, not from a pidfile. The idempotence guarantee is unchanged;
+   the evidence behind it is.)*
 2. The chapter list shows **Chapter 1** with its title and a summary (FR-008). One chapter is the
    current reality; a list that only works with several is not tested by this.
 3. Opening Chapter 1 shows its transcript and the notes PDF, and **plays the recording inline**
@@ -564,7 +609,7 @@ Per D-SEARCH-2 there are **two search paths**, and conflating them is how SC-005
 
 ```bash
 # CONTRACT ONLY — never executed.
-bash workshop/platform/scripts/bench-suggest.sh --keystrokes 500 --report <evidence-path>
+bash workshop/scripts/bench-suggest.sh --keystrokes 500 --report <evidence-path>
 ```
 
 **Expected observable outcome**: a latency report with p50, **p95** and p99, measured **at the HTTP
@@ -584,7 +629,7 @@ the budget is actually spent or lost.
 
 ```bash
 # CONTRACT ONLY — never executed.
-bash workshop/platform/scripts/bench-search.sh --queries 20 --repeat 5 --report <evidence-path>
+bash workshop/scripts/bench-search.sh --queries 20 --repeat 5 --report <evidence-path>
 ```
 
 **Expected observable outcome**: p95 over the full submit path — retrieval, fusion of lexical and
@@ -622,10 +667,20 @@ The benchmark is **≥20 meaning-based queries with known expected passages**, o
 only after US1 produces a transcript and it is ingested.
 
 ```bash
-# CONTRACT ONLY — never executed.
-bash workshop/platform/scripts/bench-retrieval.sh \
-  --benchmark workshop/platform/qa/retrieval-benchmark.jsonl --report <evidence-path>
+# CONTRACT ONLY — never executed. Neither the script nor the benchmark file exists yet (T118, T064).
+bash workshop/scripts/bench-retrieval.sh \
+  --benchmark workshop/platform/backend/testdata/benchmark/retrieval.tsv --report <evidence-path>
 ```
+
+> **BENCHMARK PATH CORRECTED 2026-09-01.** ~~`workshop/platform/qa/retrieval-benchmark.jsonl`.~~
+> Withdrawn, struck through rather than deleted. This guide and
+> [tasks.md](./tasks.md) named **two different paths in two different formats** for the same input —
+> here `workshop/platform/qa/*.jsonl`, there `workshop/pipeline/benchmark/*.yaml` — and
+> `ls` on 2026-09-01 showed **neither directory exists**. A third location shipped in the meantime
+> and is wired to a working gate (`workshop/platform/backend/testdata/benchmark/questions.tsv`, read
+> by `workshop/platform/backend/gates/bench-answers.sh`), so the canonical location is that one, TSV,
+> for both benchmarks. The full reasoning and the counts measured in the shipped file are recorded
+> once, in [tasks.md](./tasks.md)'s File Structure section, rather than restated here.
 
 **Expected observable outcome**: per-query top-5 hit/miss against the expected `pid`, and two
 headline figures:
@@ -692,19 +747,32 @@ D-LLM-5.
 ```bash
 # CONTRACT ONLY — never executed. See contracts/ for the Provider interface.
 export WORKSHOP_ANSWER_PROVIDER=extractive
-bash workshop/platform/scripts/start.sh
-bash workshop/platform/scripts/bench-answers.sh \
-  --answerable   workshop/platform/qa/answerable-20.jsonl \
-  --unanswerable workshop/platform/qa/unanswerable-10.jsonl \
-  --report <evidence-path>
+bash workshop/scripts/start.sh
+bash workshop/platform/backend/gates/bench-answers.sh
+# reads workshop/platform/backend/testdata/benchmark/questions.tsv by default;
+# override with QUESTIONS=<path> and REPORT=<evidence-path>.
 ```
+
+> **BENCHMARK PATHS AND SCRIPT LOCATION CORRECTED 2026-09-01.**
+> ~~`bash workshop/scripts/bench-answers.sh --answerable workshop/platform/qa/answerable-20.jsonl
+> --unanswerable workshop/platform/qa/unanswerable-10.jsonl --report <evidence-path>`~~ Withdrawn,
+> struck through rather than deleted. Three things measured on 2026-09-01: `workshop/platform/qa/`
+> **does not exist**; the harness shipped at `workshop/platform/backend/gates/bench-answers.sh`, not
+> under `workshop/scripts/`; and it takes **one** file with a `class<TAB>question` schema (`A` =
+> expected answerable, `U` = expected unanswerable) rather than two, because a filename that encodes
+> its own row count is wrong the moment a row is added and two files can drift apart. Its
+> `QUESTIONS=`/`REPORT=` environment overrides replace the `--answerable`/`--unanswerable`/`--report`
+> flags this guide invented. **This is a path correction only** — the expected observable outcomes
+> below are unchanged, and the shipped fixture holds **8 `A` rows against SC-009's ≥20**, so the
+> command above is runnable but does **not** yet satisfy SC-009. See [tasks.md](./tasks.md)'s
+> File Structure correction for the full reasoning and T077 for the remaining work.
 
 **Expected observable outcome**
 
-- **≥20 answerable questions** each return `verdict: answered`, `text`, and **≥1 citation**. Zero
+- **≥20 answerable questions** each return `status: answered`, `text`, and **≥1 citation**. Zero
   citations while `answered` is **structurally undecodable** — the response schema sets
   `"minItems": 1` — so it cannot occur, rather than being caught after the fact.
-- **≥10 unanswerable questions** each return `verdict: refused` with a `refusal_reason` of
+- **≥10 unanswerable questions** each return `status: declined` with a `reason` of
   `below_threshold`, `margin_too_small` or `unsupported`.
 - Every response carries `retrieval` (top score **and margin**) **even on success**, so a
   0.002-margin pass is visible as *fragile* rather than indistinguishable from a confident one.
@@ -804,10 +872,16 @@ guarantee, so the validation is a **negative control** plus a packet capture (D-
 
 **Status: `BLOCKED: BUILD`.** With `WORKSHOP_ANSWER_PROVIDER=none` — which is the **default for a
 fresh clone**, so it cannot leak and cannot bluff — asking a question must return
-`verdict: unavailable` with `refusal_reason: no_provider`, while **browsing and search continue to
+`status: unavailable` with `reason.code: no_provider`, while **browsing and search continue to
 work**.
 
-`unavailable` is a first-class third state, distinct from `refused`. Conflating them would make a
+*(Corrected 2026-09-01 under the C4 arbitration. This line previously read `verdict: unavailable`
+with `refusal_reason: no_provider` — the worst surviving instance of the forked Answer contract,
+because an `unavailable` state carrying a **refusal** reason conflates the exact two states the
+paragraph below insists are distinct. `no_provider` is a cause of `unavailable`, never a reason for
+a decline, and it is not a member of the `reason` enumeration that `declined` draws from.)*
+
+`unavailable` is a first-class third state, distinct from `declined`. Conflating them would make a
 missing provider look like a content gap — the same three-state discipline the preflight applies to
 itself. FR-025 is enforced by **separate route trees** (compile time), not a runtime check, so the
 test is that the browse and search routes are reachable and green while the answer route reports
@@ -993,9 +1067,37 @@ tree**. Whether `scripts/verify-governance-cascade.sh` now passes C1 and C6 on `
 separate question that this guide does **not** answer: run the cascade and read its own verdict.
 Do not infer a green cascade from the presence of four files.
 
-Second: §11.4.76 requires `vasic-digital/containers` as the sole orchestration layer, and it is
-**not** a submodule of this tree. The container work in this feature must resolve that before adding
-a bespoke stack — it is a prerequisite, not a detail.
+Second: §11.4.76 requires `vasic-digital/containers` as the sole orchestration layer.
+~~And it is **not** a submodule of this tree. The container work in this feature must resolve that
+before adding a bespoke stack — it is a prerequisite, not a detail.~~
+
+**WITHDRAWN 2026-09-01 — kept visible rather than quietly replaced, so a reader can tell a
+corrected fact from one that was never wrong.**
+
+- *Believed when written (2026-08-31)*: no `vasic-digital/containers` gitlink was declared here, so
+  §11.4.76(2) was an open prerequisite and the container work was blocked behind an operator
+  decision.
+- *Measured now (2026-09-01)*, and re-derivable in one line:
+
+  ```bash
+  git config -f .gitmodules --get-regexp containers
+  # submodule.submodules/containers.path submodules/containers
+  # submodule.submodules/containers.url  git@github.com:vasic-digital/containers.git
+  ls submodules/containers/cmd            # populated: boot/ among others
+  git ls-tree HEAD submodules/containers  # 160000 commit 4dab992… submodules/containers
+  ```
+
+- *When it changed*: during this feature's own Phase 1 work, between the sentence above being
+  written and this correction being made.
+- *What still holds*: a bespoke Containerfile or compose-only stack is still forbidden by
+  §11.4.76(4). The prerequisite is satisfied; the prohibition is not lifted.
+
+The architecture is therefore **settled and not open**: the workshop is **containerised**, and it
+consumes `submodules/containers` — through its `pkg/compose` / `pkg/health` / `pkg/runtime` Go API,
+which is what §11.4.76(3) actually names, and **not** through its `cmd/boot` CLI, measured unusable
+for this workload. A thin `workshop-boot` adapter over that API plus thin bash wrappers over the
+adapter are *consumption* and so are §11.4.76-legal; anything beyond thin wrapping must be
+contributed upstream. Do not read the struck-through text above as a live open question.
 
 ---
 
