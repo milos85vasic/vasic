@@ -46,6 +46,22 @@ function toUrl(input) {
   return 'file://' + abs;
 }
 
+// Deterministic provenance stamp for the verdict JSON.
+//
+// A caller-pinned SOURCE_DATE_EPOCH — the reproducible-builds convention this
+// repo already follows in _tools/gen/build.sh and _tools/pdf/build-pdfs.sh —
+// yields a real, reproducible `generatedAt`. With it unset we OMIT the field
+// rather than embed a wall clock: these verdicts are COMMITTED evidence
+// (_tests/GATES.md cites them for the visual §11.4.170 proof), and an embedded
+// clock made every regeneration a spurious diff. Mirrors the sibling convention
+// in design-toolkit/qa/run-checks.mjs (`generatedAt_omitted_for_determinism`).
+function provenance() {
+  const sde = process.env.SOURCE_DATE_EPOCH;
+  return (sde && /^[0-9]+$/.test(sde))
+    ? { generatedAt: new Date(Number(sde) * 1000).toISOString() }
+    : { generatedAt_omitted_for_determinism: true };
+}
+
 function hasTool(name) {
   try { execFileSync('which', [name], { stdio: 'pipe' }); return true; }
   catch { return false; }
@@ -176,7 +192,7 @@ async function run() {
 
   const browser = await chromium.launch();
   const report = {
-    schema: 'visual-oracle/1', generatedAt: new Date().toISOString(),
+    schema: 'visual-oracle/1', ...provenance(),
     input: url, name: args.name, viewport: { w: vwv, h: vhv }, themes,
     tesseractPresent: tesseract, thresholds: cfg,
     perTheme: {}, verdict: 'PASS',

@@ -131,13 +131,37 @@ test.describe('milosvasic.ru — AI engineer site (OpenDesign + Jekyll)', () => 
     if (testInfo.project.name !== 'chromium') test.skip();
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
+    // Settle any JS count-up before capturing. milosvasic.ru carries no
+    // `[data-od-count]` today, so this is a no-op here; it is present because
+    // this page DOES load assets/od/motion.js, whose `initCountUp` drives a
+    // 1200 ms requestAnimationFrame text animation that `animations: 'disabled'`
+    // cannot reach. Without it, adding one stat to this page would silently make
+    // the evidence nondeterministic again (that is exactly what happened on
+    // vasic.digital). Costs nothing while there are no counters.
+    if (await page.locator('[data-od-count]').count() > 0) {
+      await page.waitForTimeout(1500); // > the 1200 ms count-up duration
+      const settled = await page.evaluate(() =>
+        [...document.querySelectorAll('[data-od-count]')].every((el) =>
+          !el.hasAttribute('data-od-count-final') ||
+          el.textContent === el.getAttribute('data-od-count-final')));
+      expect(settled, 'count-up still mid-flight — screenshot would be nondeterministic').toBe(true);
+    }
+
+    // `animations: 'disabled'` is what makes this evidence reproducible AND
+    // correct. Playwright fast-forwards finite CSS transitions to completion and
+    // cancels infinite animations to their initial state, which settles all
+    // three sources of pixel drift at once: the theme-swap
+    // `transition: background-color` fade, the `.reveal` IntersectionObserver
+    // opacity transitions, and any looping decorative animation. Without it the
+    // committed "dark theme" shot was a mid-fade frame that never reached the
+    // dark background token at all — a wrong screenshot, not just a noisy one.
     await page.evaluate(() => { localStorage.setItem('mv-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); });
-    await page.screenshot({ path: 'evidence/homepages/milos-desktop-light.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/milos-desktop-light.png', fullPage: true, animations: 'disabled' });
     await page.evaluate(() => { localStorage.setItem('mv-theme', 'dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
-    await page.screenshot({ path: 'evidence/homepages/milos-desktop-dark.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/milos-desktop-dark.png', fullPage: true, animations: 'disabled' });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    await page.screenshot({ path: 'evidence/homepages/milos-mobile.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/milos-mobile.png', fullPage: true, animations: 'disabled' });
   });
 
 });

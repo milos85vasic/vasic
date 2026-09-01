@@ -1,6 +1,124 @@
 # Files allowed to contain machine-specific absolute paths, with the reason.
 # Anything not listed here is a build failure. Keep this list short and justified.
+#
+# TWO KINDS OF ENTRY, following the convention scripts/audit-environment-
+# assumptions.sh established. The marker on the comment block directly above a
+# path decides which:
+#
+#   # REASON:   <why this literal is genuinely justified>
+#               -> justified; invisible in the summary beyond a count.
+#   # BASELINE: <a REAL, KNOWN finding that is deliberately not fixed yet>
+#               -> PRINTED LOUDLY on every run, clean or not. A baseline is
+#                  recorded DEBT, never a justification.
+#
+# A marker carries across a contiguous run of paths; a blank line ends the run.
+# An entry with no marker is still honoured (scripts/test-setup-agents-wizard.sh
+# case J6 depends on that) but is named in an advisory warning on every run,
+# because an unexplained suppression is indistinguishable from a bluff.
+#
+# EVERY path is repository-relative. A path inside a submodule is written with
+# its submodule prefix (`ai_interviewing/...`), which is exactly how the fleet
+# sweep reports it. Baselines are scoped to the FILE, never to a submodule, so a
+# NEW violation in a new file inside an already-baselined submodule still fails.
 
-# This IS the detector: its PATTERN variable must literally contain the path
-# prefixes it searches for. Excluding it is not an exemption from the rule.
+# REASON: this IS the detector: its PATTERN variable must literally contain the
+# path prefixes it searches for. Excluding it is not an exemption from the rule.
 scripts/audit-hardcoded-paths.sh
+
+# REASON: Phase 0 research evidence for specs/001-workshop-curriculum-platform.
+# These documents record the ACTUAL commands run and their ACTUAL output on the
+# host, which is what makes them reproducible evidence rather than assertion —
+# §11.4.6 requires a measured state to be shown, not paraphrased. The absolute
+# paths ARE the finding in every case: that `ffprobe` resolves to a Playwright
+# cache symlink, that the lumen binary lives under a versioned plugin directory,
+# that a CA-bundle path in the shell profile points at a directory which does not
+# exist. Rewriting them as `$(command -v ...)` would destroy the evidence.
+#
+# Scoped to these four files deliberately. `specs/**` is NOT allow-listed: any
+# future script or config under specs/ must still derive its paths.
+specs/001-workshop-curriculum-platform/research/llm-bridging.md
+specs/001-workshop-curriculum-platform/research/search-architecture.md
+specs/001-workshop-curriculum-platform/research/transcription.md
+
+# ==============================================================================
+# BASELINED DEBT — surfaced 2026-09-01 when the submodule fleet sweep was
+# switched on. Until that day this gate enumerated files with a bare
+# `git ls-files` at the umbrella root, where a submodule is a GITLINK: one
+# directory entry, no contents, dropped by the following `[ -f ]` test. MEASURED
+# blind spot: 0 of 180 scanned files were inside any of the nine declared
+# submodules. Every entry below is a finding that ALREADY EXISTED and that the
+# gate could not see.
+#
+# These are recorded, NOT fixed, and NOT excused:
+#   * Fixing them is out of scope for the change that made them visible.
+#   * They live in OTHER repositories. §11.4.29 forbids editing a tree this
+#     repository does not author from here; a fix lands in the submodule's own
+#     upstream and returns as a gitlink bump.
+#   * Nothing here asserts a finding is a defect, and nothing here asserts it is
+#     a false positive. NOBODY HAS TRIAGED THEM. That untriaged state IS the
+#     debt being recorded (§11.4.6: do not report a state you have not verified).
+#
+# Re-derive the live list at any time:
+#     bash scripts/audit-hardcoded-paths.sh
+#     bash scripts/audit-hardcoded-paths.sh --list      # what is scanned, per repo
+# ==============================================================================
+
+# BASELINE: submodules/constitution — 25 files / 43 occurrences at gitlink
+# 9029790 (measured 2026-09-01). Mixed content: the governance carriers and
+# their .html renders quote `/mnt/track1/...` as PROSE inside the §11.4.178
+# anchor text; scripts/gates/*_mutation_test.sh plant `/mnt/track1/...` as the
+# fixture their own mutation proof requires; scripts/translation/ carries live
+# `/Volumes/T7/Projects/...` literals. The last group looks like a genuine
+# defect and the first two look like false positives, but NEITHER has been
+# confirmed, so all are carried at the same honesty level. This tree consumes
+# the constitution BY REFERENCE (§11.4.28 / §11.4.177) and cannot fix any of
+# them here — the fix is an upstream HelixConstitution change plus a bump.
+submodules/constitution/AGENTS.html
+submodules/constitution/AGENTS.md
+submodules/constitution/CLAUDE.html
+submodules/constitution/CLAUDE.md
+submodules/constitution/Constitution.html
+submodules/constitution/Constitution.md
+submodules/constitution/GEMINI.html
+submodules/constitution/GEMINI.md
+submodules/constitution/QWEN.html
+submodules/constitution/QWEN.md
+submodules/constitution/scripts/gates/cm_continuum_resume_engine_present_mutation_test.sh
+submodules/constitution/scripts/gates/cm_feature_directive_mutation_test.sh
+submodules/constitution/scripts/gates/cm_multitrack_engine_in_constitution_mutation_test.sh
+submodules/constitution/scripts/gates/cm_reporting_directives_mutation_test.sh
+submodules/constitution/scripts/llm-alias-health/cmd/llm-alias-health/config_test.go
+submodules/constitution/scripts/llm-alias-health/README.html
+submodules/constitution/scripts/llm-alias-health/README.md
+submodules/constitution/scripts/multitrack/README.html
+submodules/constitution/scripts/multitrack/README.md
+submodules/constitution/scripts/multitrack/test_multitrack_conductor_autoarm.sh
+submodules/constitution/scripts/multitrack/test_multitrack_host_budget_jvm_daemons.sh
+submodules/constitution/scripts/multitrack/test_multitrack_supervisor.sh
+submodules/constitution/scripts/translation/README.html
+submodules/constitution/scripts/translation/README.md
+submodules/constitution/scripts/translation/review-translations.sh
+
+# BASELINE: submodules/containers — 16 files / 39 occurrences at gitlink
+# 0788dd7 (measured 2026-09-01). Predominantly Go *_test.go fixtures using
+# `/home/user/...` and `/Users/op/...` as test data, plus one Containerfile and
+# one report under scripts/resource-policy/. Untriaged, exactly as above. NOTE
+# that this gitlink is STAGED BUT NOT YET COMMITTED at the time of writing
+# (`git ls-tree HEAD submodules/containers` is empty), so these entries describe
+# a submodule that is mid-onboarding.
+submodules/containers/internal/buildpkg/artifacts_test.go
+submodules/containers/internal/buildpkg/executor_test.go
+submodules/containers/pkg/applesim/applesim_test.go
+submodules/containers/pkg/crossbuild/apple_container_test.go
+submodules/containers/pkg/emulator/avdresolve_test.go
+submodules/containers/pkg/emulator/Containerfile
+submodules/containers/pkg/emulator/containerized.go
+submodules/containers/pkg/envconfig/dotenv_test.go
+submodules/containers/pkg/envconfig/parser_test.go
+submodules/containers/pkg/genymotion/genymotion_test.go
+submodules/containers/pkg/network/tunnel_coverage_test.go
+submodules/containers/pkg/remote/bootstrap_test.go
+submodules/containers/pkg/remote/connection/types_test.go
+submodules/containers/pkg/remoteexec/wave20_rx2hard_test.go
+submodules/containers/pkg/remote/types_test.go
+submodules/containers/scripts/resource-policy/apply-report.md

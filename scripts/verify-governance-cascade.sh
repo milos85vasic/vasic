@@ -105,6 +105,37 @@
 #                            derived evidence. A nested gitlink in a namespace
 #                            this tree OWNS is a §11.4.28(C) forbidden own-org
 #                            chain and FAILs even if it were documented.
+#   C8 IN-SUBMODULE-LOCKSTEP  the four agent carriers INSIDE each owned submodule
+#                            agree with one another, once their per-agent header
+#                            is normalised (§11.4.157(B) "no silent drift" —
+#                            the same clause C5 enforces at the root, applied
+#                            where C2/C3 only ever looked at each carrier ALONE).
+#                            C2 asks "does it exist", C3 asks "does it inherit";
+#                            neither compares a submodule's carriers to EACH
+#                            OTHER, so until this check existed a submodule could
+#                            carry four carriers that all passed C2 and C3 while
+#                            saying four different things. That was not
+#                            hypothetical: on 2026-09-01 vasic.digital/QWEN.md
+#                            was found carrying a truncated pointer block plus 55
+#                            lines of stale 2025 project description while its
+#                            three siblings carried the canonical body — a real
+#                            §11.4.157 break that this verifier reported as
+#                            10 PASS / 0 FAIL / rc=0. See "the in-submodule
+#                            recipe" below for why the root's line-24 split
+#                            cannot be reused verbatim here.
+#   C9 MANIFEST-PIN-SYNC     every `helix-deps.yaml` `deps[].ref` equals the
+#                            gitlink the repository actually records for that
+#                            submodule (§11.4.31). C6 above compares dep NAMES;
+#                            this is the other half. Measured 2026-09-01: SEVEN
+#                            of seven recorded refs named commits nothing pointed
+#                            at, while this verifier reported 10 PASS / rc=0 —
+#                            a manifest that certified nothing. DELEGATED to
+#                            `scripts/verify-manifest-pins.sh` (which owns the
+#                            git access and its own §1.1 proof) because this file
+#                            must stay runnable against a plain directory; see
+#                            the long comment on c9_manifest_pins for why an
+#                            inline implementation would destroy the mutation
+#                            proof below.
 #   R1 KNOWN-UNCLEARABLE     REPORTED, never failed on. Four governance carriers
 #                            inside repositories this project does not own; no
 #                            commit this project can make changes them. Full
@@ -137,13 +168,20 @@
 # ── Side-effects ─────────────────────────────────────────────────────────────
 #   None. Default mode only reads. --prove-failure writes ONLY inside a
 #   `mktemp -d` sandbox that is trap-removed on EXIT/INT/TERM. No file in this
-#   repository and no file in ANY submodule working tree is ever written. No git
-#   command is run at all — not even a read-only one — so there is nothing to
-#   mutate. No sudo, no network.
+#   repository and no file in ANY submodule working tree is ever written.
+#   No sudo, no network.
+#   GIT USAGE, stated precisely because this header used to say "no git command
+#   is run at all": C9 runs `git rev-parse --show-toplevel` on the target, and
+#   delegates to scripts/verify-manifest-pins.sh, which runs read-only git
+#   plumbing (`ls-files -s`, `ls-tree`, `rev-parse`). Every one of those is a
+#   read. Nothing is checked out, staged, committed or fetched, and
+#   `git submodule update` is never run. Checks C0..C8 still run no git at all,
+#   which is what keeps this file pointable at a plain directory — C9 detects
+#   that case and records a reasoned NOTE instead of a verdict.
 #
 # ── Dependencies ─────────────────────────────────────────────────────────────
 #   bash, POSIX awk/grep/sed/cp/mkdir/find/sort/cut/tr, sha256sum (coreutils).
-#   bash -n clean. No git command is run — not even a read-only one.
+#   git, for C9 only (read-only plumbing; see Side-effects). bash -n clean.
 #
 # ── Cross-references ─────────────────────────────────────────────────────────
 #   §11.4.32 (this verifier is its step 1), §1.1 (paired mutation — a gate that
@@ -306,6 +344,53 @@ GOVERNANCE_FILES="Constitution.md AGENTS.md CLAUDE.md QWEN.md GEMINI.md"
 # table: "bodies byte-identical from line 24; verify with
 # `tail -n +24 <file> | sha256sum`".
 LOCKSTEP_FROM=24
+
+# ── The IN-SUBMODULE lockstep recipe (C8) — why it is NOT the line-24 split ───
+# §11.4.157(B) forbids silent drift between the four agent carriers. At the
+# umbrella ROOT this project proves it with `tail -n +24` (above), because the
+# root carriers confine their per-agent variance to lines 1..23.
+#
+# Inside a submodule the carriers are a DIFFERENT document — the module pointer
+# carrier — and their per-agent variance is not confined to a leading block. It
+# is scattered: the title (line 1), the `## INHERITED FROM constitution/<NAME>.md`
+# heading (line 3), the "canonical name of the base file" sentence (line ~20),
+# the `@constitution/<NAME>.md` import warning (line ~42), and the "This carrier
+# is read by ..." reader line (line ~51). `tail -n +24` therefore yields FOUR
+# distinct digests for EVERY owned submodule, compliant ones included — measured
+# across all six on 2026-09-01. Reusing the root recipe here would be a gate
+# that FAILs on correct trees, which is worse than no gate at all.
+#
+# So C8 normalises the variance instead of skipping past it:
+#   1. each carrier's OWN name token -> @@SELF@@. Only its own: substituting all
+#      four names in every file would let `CLAUDE.md` say "see AGENTS.md" while
+#      `QWEN.md` says "see GEMINI.md" and call that a match. Measured across the
+#      fleet: no submodule carrier references a FOREIGN carrier name, so nothing
+#      legitimate is caught by the stricter form.
+#   2. the reader line -> @@READER@@, a PLACEHOLDER rather than a deletion, so a
+#      carrier that DROPS its reader line differs from three that keep it and is
+#      reported, instead of being normalised into agreement.
+# Everything else — every governance sentence — is compared byte for byte.
+#
+# Honest boundary (§11.4.6): rule 1 is blind to a drift that consists ONLY of
+# one carrier substituting its own name where a sibling correctly names a real
+# file (e.g. a body sentence mutated from "QWEN.md" to "CLAUDE.md" inside
+# CLAUDE.md). That is inherent to any name-normalising recipe; the alternative —
+# comparing raw bytes — cannot express legitimate per-agent variance at all.
+LOCKSTEP_READER_RE='^This carrier is read by .*$'
+
+# in_submodule_digest <carrier-path> — echoes the normalised sha256 of one
+# in-submodule carrier under the recipe documented above. Empty on failure.
+in_submodule_digest() {
+    # Split across statements: inside ONE `local`, every RHS is expanded before
+    # any name is declared, so a later name could not reference an earlier one
+    # under `set -u` (the house rule this file learned on 2026-08-31).
+    local p="$1"
+    local base
+    base="${p##*/}"; base="${base%.md}"
+    [ -n "$base" ] || return 1
+    sed -e "s/${base}/@@SELF@@/g" -e "s|${LOCKSTEP_READER_RE}|@@READER@@|" "$p" \
+        | sha256sum | cut -d' ' -f1
+}
 
 # R1 — carriers inside repositories this project does not own. `path|owner`.
 KNOWN_UNCLEARABLE="milosvasic.ru/Upstreamable/AGENTS.md|red-elf/Upstreamable (nested gitlink of milosvasic.ru)
@@ -843,6 +928,153 @@ c7_recursion() {
     return 0
 }
 
+# ── C8 — the four carriers INSIDE each owned submodule agree with each other ─
+c8_submodule_lockstep() {
+    local d f p rc=0 subs=0 uninit="" deferred="" broken=""
+    local digests distinct majority majcount outliers line
+
+    for d in $OWNED_ROOTS; do
+        # An uninitialised submodule is COULD-NOT-DETERMINE, never a pass. C2
+        # already ENVs this, so saying so again cannot mask a FAIL: an absent
+        # submodule produces no C2 FAIL of its own, and rc is 2 either way.
+        if [ ! -d "${root}/${d}" ]; then
+            uninit="${uninit} ${d}(absent)"; continue
+        fi
+        if [ -z "$(find "${root}/${d}" -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)" ]; then
+            uninit="${uninit} ${d}(empty)"; continue
+        fi
+
+        # A missing / empty / unreadable carrier is C2's and C3's finding, and
+        # theirs ALONE. If C8 raised ENV here it would push envf>0, and
+        # run_checks returns 2 BEFORE it looks at fail>0 — so a real C2 FAIL
+        # would be reported as "COULD NOT VERIFY" and the violation would
+        # vanish. Deferring with a NOTE keeps the rc=1 verdict intact.
+        digests=""; local incomplete=""
+        for f in $CARRIERS_AGENT; do
+            p="${root}/${d}/${f}"
+            if [ ! -s "$p" ] || [ ! -r "$p" ]; then
+                incomplete="${incomplete} ${f}"; continue
+            fi
+            line="$(in_submodule_digest "$p")" || line=""
+            if [ -z "$line" ]; then
+                incomplete="${incomplete} ${f}(digest-failed)"; continue
+            fi
+            digests="${digests}${line} ${d}/${f}"$'\n'
+        done
+        if [ -n "$incomplete" ]; then
+            # Newline-separated: a bracketed list contains spaces, so word
+            # splitting on it would shred one entry into several.
+            deferred="${deferred}${d}[${incomplete# }]"$'\n'
+            continue
+        fi
+
+        subs=$((subs+1))
+        distinct="$(printf '%s' "$digests" | awk '{print $1}' | sort -u | grep -c .)"
+        [ "$distinct" -eq 1 ] && continue
+
+        # Name the file. A lockstep verdict that does not say WHICH carrier
+        # drifted sends its reader to diff four files by hand (§11.4.6).
+        majority="$(printf '%s' "$digests" | awk '{print $1}' | sort | uniq -c | sort -rn | head -n1 | awk '{print $2}')"
+        majcount="$(printf '%s' "$digests" | awk -v m="$majority" '$1==m' | grep -c .)"
+        if [ "$majcount" -ge 3 ]; then
+            outliers="$(printf '%s' "$digests" | awk -v m="$majority" '$1!=m{printf " %s", $2}')"
+            broken="${broken}${d}: ${outliers# } diverges from the other ${majcount}"$'\n'
+        else
+            outliers="$(printf '%s' "$digests" | awk '{printf " %s", $2}')"
+            broken="${broken}${d}: no majority — ${distinct} distinct bodies across${outliers}"$'\n'
+        fi
+        broken="${broken}$(printf '%s' "$digests" | sed 's/^/             /')"$'\n'
+    done
+
+    if [ -n "$uninit" ]; then
+        env_ "C8 IN-SUBMODULE-LOCKSTEP — owned submodule(s) not checked out:${uninit}; their internal lockstep cannot be read, so this is COULD NOT VERIFY, never a pass. fix: git submodule update --init --recursive"
+        rc=2
+    fi
+    while IFS= read -r line; do
+        [ -n "$line" ] || continue
+        inf "C8 · ${line} — carrier(s) missing or unreadable; internal lockstep not evaluated for this submodule. That finding belongs to C2/C3 above and is not double-counted here (§11.4.3)"
+    done <<< "$deferred"
+
+    if [ -n "$broken" ]; then
+        bad "C8 IN-SUBMODULE-LOCKSTEP — owned submodule(s) whose four agent carriers are NOT in lockstep once the per-agent header is normalised (§11.4.157(B) no silent drift)"
+        printf '%s' "$broken" | sed 's/^/         /'
+        echo "         fix: a governance edit lands in all four carriers of a submodule or in none. The"
+        echo "              per-agent header (title, the constitution/<NAME>.md the pointer names, and the"
+        echo "              'This carrier is read by ...' line) is legitimate variance and is normalised"
+        echo "              away before comparison — anything this check reports is a REAL body difference."
+        echo "              Reproduce one file's normalised digest with:"
+        echo "                b=\$(basename <carrier> .md); sed -e \"s/\${b}/@@SELF@@/g\" \\"
+        echo "                  -e 's|${LOCKSTEP_READER_RE}|@@READER@@|' <carrier> | sha256sum"
+        return 1
+    fi
+    [ "$rc" -eq 2 ] && return 2
+    if [ "$subs" -eq 0 ]; then
+        env_ "C8 IN-SUBMODULE-LOCKSTEP — no owned submodule had a complete, readable carrier set; nothing was actually compared (a blind instrument is not a pass, §11.4.201(7)(b))"
+        return 2
+    fi
+    ok "C8 IN-SUBMODULE-LOCKSTEP — all ${subs} owned submodule(s) carry four agent carriers with byte-identical bodies once the per-agent header is normalised (§11.4.157(B))"
+    return 0
+}
+
+# ── C9 — the manifest's REFS agree with the real gitlinks ───────────────────
+# C6 above compares dep NAMES in both directions. That is only half of
+# §11.4.31, and the missing half was not theoretical: measured on 2026-09-01 at
+# HEAD 63ac4df, SEVEN of seven `deps[].ref` values named commits nothing pointed
+# at, and this verifier reported 10 PASS / 0 FAIL / rc=0 over it. A manifest can
+# name exactly the right submodules and record entirely wrong commits.
+#
+# WHY A SIBLING SCRIPT AND NOT INLINE HERE. Two hard constraints of this file
+# forbid an inline implementation, and both are load-bearing:
+#   1. This verifier's contract is "no git command is run at all" (Side-effects
+#      header) precisely so it can be pointed at a plain DIRECTORY. A pin check
+#      is impossible without git.
+#   2. --prove-failure's specimens are `cp` copies inside a mktemp sandbox —
+#      not git repositories. An inline git check would return COULD-NOT-VERIFY
+#      for every one of them, pushing envf>0 and turning all eight existing
+#      mutations into rc=2. The §1.1 proof this file already carries would be
+#      destroyed by adding a check to it.
+# So the pin half lives in scripts/verify-manifest-pins.sh with its own
+# three-valued contract and its own paired §1.1 proof (8 mutations), and C9 is
+# the delegation that puts it on the same entry points as everything else here:
+# the §11.4.32 sweep's step 1, and the local pre-push hook.
+#
+# THE SKIP IS DECIDABLE AND NARROW. When the target root is not the top level of
+# a git work tree — the case that describes every --prove-failure specimen, and
+# nothing else — C9 records a §11.4.3 reasoned NOTE naming what was not checked
+# and where it IS checked. It is not a silent pass, and it cannot be reached on
+# a real checkout: you cannot make this repository stop being a git work tree
+# without destroying it. On the real tree C9 always runs, so the PRE-FLIGHT
+# live-run in --prove-failure below exercises it end to end on real data.
+c9_manifest_pins() {
+    local pin="${REPO_ROOT}/scripts/verify-manifest-pins.sh" out rc toplevel
+    if [ ! -r "$pin" ]; then
+        env_ "C9 MANIFEST-PIN-SYNC — the pin checker is not readable at ${pin}; the refs half of §11.4.31 cannot be evaluated"
+        echo "         fix: restore scripts/verify-manifest-pins.sh. C6 above only compares dep NAMES; with"
+        echo "              this file gone the manifest could record any commits at all and stay green."
+        return 1
+    fi
+    if ! command -v git >/dev/null 2>&1; then
+        env_ "C9 MANIFEST-PIN-SYNC — git is not on PATH; the live gitlinks cannot be read"
+        return 1
+    fi
+    toplevel="$(git -C "$root" rev-parse --show-toplevel 2>/dev/null)" || toplevel=""
+    if [ -z "$toplevel" ] || [ "$(cd "$toplevel" 2>/dev/null && pwd -P)" != "$(cd "$root" && pwd -P)" ]; then
+        inf "C9 · skipped — '${root}' is not the top level of a git work tree, so it HAS no gitlinks to compare the manifest's refs against (this is the expected shape of a --prove-failure specimen copy). The pins ARE checked on the real tree: bash scripts/verify-manifest-pins.sh"
+        return 0
+    fi
+    out="$(bash "$pin" --root "$root" --quiet 2>&1)"; rc=$?
+    case "$rc" in
+        0) ok "C9 MANIFEST-PIN-SYNC — every helix-deps.yaml deps[].ref equals its live gitlink (§11.4.31); re-derive with scripts/verify-manifest-pins.sh"
+           return 0 ;;
+        1) bad "C9 MANIFEST-PIN-SYNC — helix-deps.yaml records ref(s) that do not match the live gitlink (§11.4.31)"
+           printf '%s\n' "$out" | sed 's/^/         /'
+           return 1 ;;
+        *) env_ "C9 MANIFEST-PIN-SYNC — the pin checker returned rc=${rc} COULD NOT DETERMINE; the refs were not all compared"
+           printf '%s\n' "$out" | sed 's/^/         /'
+           return 1 ;;
+    esac
+}
+
 # ── R1 — reported, never failed on ──────────────────────────────────────────
 r1_known_unclearable() {
     local line p owner present=0 absent=0
@@ -892,6 +1124,8 @@ run_checks() {
     c5_root_lockstep
     c6_manifest_sync
     c7_recursion
+    c8_submodule_lockstep
+    c9_manifest_pins
     r1_known_unclearable
 
     echo "----------------------------------------------------------------------"
@@ -1029,9 +1263,13 @@ prove_failure() {
         return 1
     fi
 
-    # mutate_and_assert <label> <description> <expected-rc> <targets> <fn>
+    # mutate_and_assert <label> <description> <expected-rc> <targets> <expect-substr> <fn>
+    # <expect-substr> "" means rc alone is the assertion. A non-empty value is
+    # additionally required to appear in the mutated run's output — for C8 the
+    # exit code is not enough: §11.4.6 asks the verdict to NAME what broke, and a
+    # gate that FAILs without naming the file is a gate its reader will ignore.
     mutate_and_assert() {
-        local name="$1" desc="$2" want="$3" targets="$4"; shift 4
+        local name="$1" desc="$2" want="$3" targets="$4" expect="$5"; shift 5
         local slug dir
         slug="$(printf '%s' "$name" | tr -cd 'A-Za-z0-9')"
         dir="${sandbox}/mut_${slug}"
@@ -1042,15 +1280,28 @@ prove_failure() {
         if ! "$@" "$dir"; then
             echo "❌ ${name} — could not apply the mutation (${desc})"; mut_fails=$((mut_fails+1)); rm -rf "$dir"; return
         fi
-        bash "$0" --root "$dir" --quiet >/dev/null 2>&1; local mrc=$?
-        if [ "$mrc" -eq "$want" ]; then
-            echo "✅ ${name} — ${desc}"
-            echo "                        -> rc=${mrc} (wanted ${want})  [${targets}]"
-        else
+        local mout mrc
+        mout="$(bash "$0" --root "$dir" 2>&1)"; mrc=$?
+        if [ "$mrc" -ne "$want" ]; then
             echo "❌ ${name} — ${desc}"
             echo "                        -> rc=${mrc}, wanted ${want}. THIS VERIFIER IS A SHAM (§1.1)."
-            bash "$0" --root "$dir" 2>&1 | sed 's/^/        /'
+            printf '%s\n' "$mout" | sed 's/^/        /'
             mut_fails=$((mut_fails+1))
+            rm -rf "$dir"; return
+        fi
+        if [ -n "$expect" ] && ! printf '%s' "$mout" | grep -qF -- "$expect"; then
+            echo "❌ ${name} — ${desc}"
+            echo "                        -> rc=${mrc} as wanted, but the verdict never NAMED '${expect}'."
+            echo "                           A gate that fails without saying what broke is unactionable (§11.4.6)."
+            printf '%s\n' "$mout" | sed 's/^/        /'
+            mut_fails=$((mut_fails+1))
+            rm -rf "$dir"; return
+        fi
+        echo "✅ ${name} — ${desc}"
+        if [ -n "$expect" ]; then
+            echo "                        -> rc=${mrc} (wanted ${want})  [${targets}]  named '${expect}'"
+        else
+            echo "                        -> rc=${mrc} (wanted ${want})  [${targets}]"
         fi
         rm -rf "$dir"
     }
@@ -1070,19 +1321,37 @@ prove_failure() {
     #      for the exit contract itself: an internal error must not masquerade as
     #      a violation verdict.
     m6() { rm -f "$1/${GOVERNANCE_ROOT}/Constitution.md"; }
+    # M7 — the §11.4.157 break C2/C3/C5 were all blind to: ONE carrier inside an
+    #      owned submodule drifts from its three siblings, while remaining
+    #      present, non-empty and a valid pointer carrier. This is the exact
+    #      shape of the real vasic.digital/QWEN.md defect found on 2026-09-01.
+    #      The edit is deliberately placed BELOW the per-agent header so it
+    #      cannot be dismissed as legitimate variance.
+    m7() { printf '\nA governance sentence that landed in one carrier and nowhere else.\n' \
+                  >> "$1/vasic.digital/QWEN.md"; }
+    # M8 — an owned submodule that is not checked out must read as COULD NOT
+    #      DETERMINE (rc=2), NEVER as a pass. Distinct from M6, which removes the
+    #      governance SOURCE; this removes a cascade CONSUMER's contents. Without
+    #      this pairing, C8 could "pass" a fleet it never actually looked at.
+    m8() { rm -f "$1/monetization"/*.md; }
 
-    mutate_and_assert "M1 owned-carrier-removed " "ai_interviewing/QWEN.md deleted from an OWNED submodule            " 1 "C2" m1
-    mutate_and_assert "M2 owned-pointer-stripped" "design-toolkit/GEMINI.md loses its '## INHERITED FROM ' heading    " 1 "C3" m2
-    mutate_and_assert "M3 root-lockstep-broken  " "root GEMINI.md edited below line ${LOCKSTEP_FROM}; the other three unchanged  " 1 "C5" m3
-    mutate_and_assert "M4 manifest-desynced     " "helix-deps.yaml renames the 'monetization' dep; .gitmodules did not " 1 "C6" m4
-    mutate_and_assert "M5 fleet-member-unknown  " ".gitmodules gains an unclassified, unrecorded submodule             " 1 "C1+C6" m5
-    mutate_and_assert "M6 source-missing (ENV)  " "submodules/constitution/Constitution.md removed — an INTERNAL fault " 2 "ENV" m6
+    mutate_and_assert "M1 owned-carrier-removed " "ai_interviewing/QWEN.md deleted from an OWNED submodule            " 1 "C2" "" m1
+    mutate_and_assert "M2 owned-pointer-stripped" "design-toolkit/GEMINI.md loses its '## INHERITED FROM ' heading    " 1 "C3" "" m2
+    mutate_and_assert "M3 root-lockstep-broken  " "root GEMINI.md edited below line ${LOCKSTEP_FROM}; the other three unchanged  " 1 "C5" "" m3
+    mutate_and_assert "M4 manifest-desynced     " "helix-deps.yaml renames the 'monetization' dep; .gitmodules did not " 1 "C6" "" m4
+    mutate_and_assert "M5 fleet-member-unknown  " ".gitmodules gains an unclassified, unrecorded submodule             " 1 "C1+C6" "" m5
+    mutate_and_assert "M6 source-missing (ENV)  " "submodules/constitution/Constitution.md removed — an INTERNAL fault " 2 "ENV" "" m6
+    mutate_and_assert "M7 sub-lockstep-broken   " "vasic.digital/QWEN.md drifts from its 3 siblings; still a valid carrier" 1 "C8" "vasic.digital/QWEN.md" m7
+    mutate_and_assert "M8 owned-sub-uninit (ENV)" "monetization/ emptied — an uninitialised consumer is NOT a pass     " 2 "C2+C8" "" m8
 
     rm -rf "$sandbox"; _sandbox_to_clean=""
     echo "----------------------------------------------------------------------"
     if [ "$mut_fails" -eq 0 ]; then
-        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — control passed, 5 violations were caught as rc=1,"
-        echo "   and the environment fault was reported as rc=2 rather than accusing the tree."
+        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — the real entry point ran on the REAL tree, the"
+        echo "   unmutated control passed, 6 violations were caught as rc=1 (the in-submodule lockstep"
+        echo "   break NAMING the drifted carrier), and both environment faults — a missing governance"
+        echo "   source and an uninitialised cascade consumer — were reported as rc=2 rather than"
+        echo "   accusing the tree or being waved through as a pass."
         return 0
     fi
     echo "❌ ${GATE} §1.1 MUTATION PROOF: FAIL — ${mut_fails} mutation(s) did not produce the required exit code"

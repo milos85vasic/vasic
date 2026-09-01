@@ -33,8 +33,19 @@ test.afterAll(async () => {
   try { prev = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { /* first run */ }
   // Keep one row per site+path+browser (last write wins).
   const key = (r) => `${r.site}${r.path}|${r.browser}`;
-  const merged = new Map(prev.map((r) => [key(r), r]));
-  for (const r of results) merged.set(key(r), r);
+  // Persist only the STABLE, budget-meaningful measurements. `lcpMs` is a
+  // wall-clock timing: it changes on every run with host load, so persisting it
+  // made this committed evidence file permanently dirty. It is also not
+  // asserted against — the assertions below check `bytes`/`requests` against
+  // BUDGET — so it carries no gate value. It is still measured and reported on
+  // the per-test console line and in the HTML report; it is just not written to
+  // the tracked file. Stripping it from `prev` too, so rows left over from an
+  // earlier all-browser run converge instead of carrying a stale timing
+  // forever (the gate runs chromium only).
+  const stable = ({ site, path: p, browser, transferredBytes, requests }) =>
+    ({ site, path: p, browser, transferredBytes, requests });
+  const merged = new Map(prev.map((r) => [key(r), stable(r)]));
+  for (const r of results) merged.set(key(r), stable(r));
   fs.writeFileSync(file, JSON.stringify([...merged.values()], null, 2) + '\n');
 });
 

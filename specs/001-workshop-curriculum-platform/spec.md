@@ -254,7 +254,9 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **SC-013**: The system distinguishes "unable to verify" from "passed" and "failed" in 100% of its checks.
 - **SC-014**: The repository introduces zero active server-side CI workflows.
 - **SC-015**: After completion, the main repository and every submodule report a clean working tree.
-- **SC-016**: After a transcript is corrected and the content re-indexed, 100% of previously created cross-references and citations still resolve to the passage they originally referred to.
+- **SC-016**: After a transcript is corrected and the content re-indexed, **100%** of previously created cross-references and citations to passages the curriculum OWNS — transcripts and its own documentation — still resolve to the passage they originally referred to. This holds by construction, because a minted identifier is anchored into the source artifact itself.
+- **SC-016a**: For passages in source code the curriculum does NOT own, where an identifier anchor cannot be written into the file, identity is keyed on symbol path with a rename alias table. The guarantee is weaker and is stated rather than overclaimed: **100% of stale code references fail loudly** — an unresolvable identifier returns not-found and is never silently re-pointed at different code. A rename inside the curriculum's own tree without an alias fails ingest rather than shipping a broken link.
+  *Why split*: an unqualified 100% across all passage kinds would have been unachievable, and discovering that during implementation would have produced either a quiet exception or a silently wrong link — the exact failure this criterion exists to prevent. The boundary is drawn where the mechanism actually changes.
 - **SC-017**: The curriculum interface passes an automated WCAG 2.1 Level AA audit with zero violations at Level A or AA, and every search interaction is completable using only the keyboard.
 - **SC-018**: 100% of automated checks write their evidence to the repository's versioned evidence location, verifiable by inspecting that location after a run.
 

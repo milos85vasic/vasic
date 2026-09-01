@@ -58,18 +58,44 @@ and none held when measured. Three concern the environment and two concern this 
 earlier claims — both kinds are listed, because a plan that hides its own corrections is not
 evidence of anything.
 
-**1. The reference module is not containerised.** The request says the curriculum must run
-"through the containers same way" as `ai_interviewing`. Measured: `ai_interviewing` contains
-**zero** container definitions. The only `Containerfile`s tracked in the entire repository are
-`_tools/helixtranslate-container/Containerfile` and `…/Containerfile.translator`. The reference
-module runs as a native Go binary (`platform/bin/aicur`, an ELF executable) serving an Angular
-frontend.
+**1. The reference module is not containerised — and a bespoke stack would have been a
+violation.** The request says the curriculum must run "through the containers same way" as
+`ai_interviewing`. Measured: `ai_interviewing` contains **zero** container definitions; it runs as
+a native Go binary (`platform/bin/aicur`) serving an Angular frontend. So "the same way" cannot
+mean copying a setup that does not exist.
 
-*Consequence*: "the same way" cannot mean copying a container setup that does not exist. This
-plan treats containerisation as **new work**, using `_tools/helixtranslate-container/` as the
-in-repo reference for how this project builds containers, and targeting podman since docker is
-absent. The alternative — matching `ai_interviewing` exactly and running natively — is recorded
-in Complexity Tracking as the rejected option, with its reasoning.
+More importantly, the obvious fallback — hand-rolling a Containerfile — is forbidden. **§11.4.76**
+(verified verbatim at `submodules/constitution/Constitution.md:7113`) mandates that for ANY
+containerised workload the project MUST consume `git@github.com:vasic-digital/containers.git` as a
+git submodule, and clause (4) requires **extending it, never reimplementing it**. It was not
+declared in this tree.
+
+*Resolution*: the submodule is now mounted at `submodules/containers` — the tree's `submodules/`
+path is for non-product infrastructure gitlinks (`constitution`, `superspec`), and containers is a
+consumed Go library, not a product. It classifies OWNED automatically, because
+`github.com/vasic-digital` now hosts three declared submodules and the fleet roster derives
+ownership from that evidence rather than a hardcoded list.
+
+*What it actually provides* — verified by building it and running its tests, not read off its
+README: six runtime backends behind one interface with **podman first, explicitly for rootless**
+(satisfying §11.4.161); compose orchestration that detects the compose CLI and resolves to
+`podman-compose` on this host, correctly suppressing the docker-only `--wait` flag and defending
+against the podman-docker shim; TCP/HTTP/gRPC health checkers; lazy boot with idle shutdown; and a
+`cmd/boot` CLI. It is Go-only, which fits — the workshop backend is Go 1.26.2.
+
+*Three gaps named rather than discovered later*:
+- **No bash boot wrapper exists.** The request's "all mandatory bash scripts" is not satisfied by
+  the submodule; lifecycle is a Go API plus Go CLIs. Thin workshop wrappers that invoke `cmd/boot`
+  are *consumption*, so they are §11.4.76-legal. Anything beyond that must be contributed upstream.
+- `DefaultHelixServices()` is postgres/redis/etcd-shaped, irrelevant here — but not a defect, since
+  `ComposeProject.File` accepts an arbitrary compose file, so the workshop supplies its own.
+- **`submodules/containers/scripts/build-all.sh` is broken upstream**: it builds `./cmd/core/` and
+  `./cmd/host-agent/`, neither of which exists. Do not use it as a model.
+
+*One blocker it exposed*: the submodule's own four carriers are 414/246/24/24 lines — four
+genuinely different documents, a §11.4.157(B) violation latent upstream. The new C8 in-submodule
+lockstep check catches it, which currently blocks the pre-push hook. Being fixed upstream per
+§11.4.76(4), not worked around locally.
 
 **2. Generative capability — resolved, and the answer is "none".** Superseded by premise 5
 below, which measured it. US1–US3 are deliberately sequenced to deliver value without it, and
@@ -78,7 +104,7 @@ degrades to a documented operator step rather than blocking the feature.
 
 **3. `ffprobe` is not installed, and `ffmpeg` is not durably installed either.** An earlier
 draft of this plan asserted "ffmpeg/ffprobe 7.0.2 (present on host)". Measured:
-`/home/milosvasic/bin/ffprobe` is a **symlink to Playwright's ffmpeg binary** and rejects
+`$(command -v ffprobe)` resolves to a **symlink to Playwright's ffmpeg binary** and rejects
 `-show_format` ("Unrecognized option"). The original probe ran `ffprobe --version`, which the
 ffmpeg binary accepts — so a tool that does not exist looked present. Both `ffmpeg` and
 `ffprobe` resolve into `~/.cache/ms-playwright/ffmpeg-1011/`, an npx-managed cache that a
@@ -128,14 +154,33 @@ submodule.
 | Principle | Status | Notes |
 |-----------|--------|-------|
 | **Evidence-Based Claims** — no guessing, no fabrication (§11.4) | **PASS** | The spec's Context table records only measured values. FR-004 requires a *measured* accuracy figure, not an assertion. FR-033 forbids reporting a check as passed when it could not run. This plan corrects two premises that measurement disproved rather than carrying them forward. |
-| **Governance Fidelity** — four carriers in lockstep; constitution is authoritative | **NEEDS ATTENTION** | FR-035 covers it, but there is a live prerequisite: the `workshop` submodule currently carries **none** of the four carriers (measured 20/24 across owned submodules), and `scripts/verify-governance-cascade.sh` FAILs C1 and C6 on it. Onboarding `workshop` is a **blocking prerequisite task**, not a polish item — the feature's own home is currently ungoverned. |
+| **Governance Fidelity** — four carriers in lockstep; constitution is authoritative | **PASS** (was NEEDS ATTENTION) | Resolved 2026-09-01, after this row was first written. `workshop` carried none of the four carriers (coverage 20/24) and `verify-governance-cascade.sh` FAILed C1 and C6 on it. All four are now present **and committed** in that submodule at `55076bf` — committing mattered, because until then a fresh `git submodule update --init` would have reconstructed a `workshop` without them. Coverage is 24/24; the verifier reports 10 PASS / 0 FAIL / rc=0, and its `--prove-failure` — which was itself inoperative, failing at CONTROL so zero mutations were ever reached — now runs the real entry point first. |
 | **Isolation by Default** — mutation-paired gates; hardlinked backup before destructive ops (§1.1, §9) | **PASS** | FR-032 and SC-012 require every check to carry a paired proof that it fails when its condition is broken. The transcription pipeline reads source media and never writes to it (FR-006). |
 | **Comprehensive Documentation** — CONTINUATION.md updated; honest boundaries | **PASS** | FR-030/031 mandate the doc set including an explicit statement of what the system cannot do. FR-035 covers CONTINUATION.md. |
 | **Quality Over Speed** — 60% RAM cap, TDD, lint/typecheck before "done" | **PASS** | Execution Strategy below marks the correctness-critical components `[TDD]`. Transcription is chunked and resumable (FR-029), keeping memory bounded rather than loading a 1.8 GB file whole. |
 | **§11.4.156 — no active server-side CI** | **PASS** | FR-034 and SC-014 forbid adding any. The repository's local pre-push gate remains the enforcement point. |
 
-**Gate result: PROCEED**, with one blocking prerequisite recorded — `workshop` submodule
-governance onboarding must land before feature work is considered complete.
+**Gate result (initial): PROCEED**, with one blocking prerequisite — `workshop` governance
+onboarding. That prerequisite is now **discharged** (see the row above).
+
+### Post-design re-check (2026-09-01, after Phase 1)
+
+Re-evaluated against the design rather than the intent, as the gate requires.
+
+| Principle | Status | What the design does about it |
+|---|---|---|
+| Evidence-Based Claims | **PASS** | Phase 0 replaced five assumed premises with measurements and withdrew two of this plan's own claims explicitly. `research.md` carries an UNVERIFIED register (U1–U5) naming what settles each. |
+| Honest Instruments | **PASS** | The 0/1/2 contract is bound into the design, not bolted on: `Answer.verdict` has `unavailable` as a first-class third state distinct from `refused`, and D-SEARCH-4 forbids deriving degradation from a liveness probe — measured necessity, since `health_check` returned OK 2 ms before `semantic_search` failed. |
+| Governance Fidelity | **PASS** | 24/24 carriers, committed. |
+| Isolation by Default | **PASS** | Every gate this feature adds owes a paired mutation proof (FR-032/SC-012). The quickstart enumerates 14 such proofs as owed rather than assumed. |
+| Comprehensive Documentation | **PASS** | FR-030/031 require the doc set to state what the system cannot do — which now includes real limits: media is reachable only via transcripts (D-SEARCH-3), and answering is asynchronous, not instant (D-LLM-5). |
+| Environment Adaptability | **PASS** | The pipeline must detect its media tooling rather than assume it — a rule this plan earned by asserting `ffprobe` was present when it is a Playwright symlink. |
+| Quality Over Speed | **PASS** | Transcription is chunked and resumable, so memory stays bounded rather than loading a 1.8 GB file whole. |
+| §11.4.156 — no server-side CI | **PASS**, and strengthened | Enforcement itself was defective: gate E swept only the umbrella, so an added workflow inside `workshop/` would have shipped unnoticed. Closed and mutation-proven on 2026-09-01. |
+
+**Post-design gate result: PROCEED to `/speckit-tasks`.** No unjustified violation. The two
+Complexity Tracking entries stand, and the second is no longer speculative — D-SEARCH-1 measured
+that Lumen chunk IDs are content-derived, so the passage-identity layer is required.
 
 ## Project Structure
 
@@ -176,7 +221,8 @@ workshop/                             # the feature's home (a submodule)
 │   ├── ingest/                       # passages → stable ids → index
 │   └── crossref/                     # passage relationships
 ├── scripts/                          # existing archive/extract/hooks + NEW run/build/test
-├── containers/                       # NEW: podman definitions (no reference to copy — see above)
+│                                     # NO containers/ dir — orchestration is CONSUMED from
+│                                     # submodules/containers; a local stack violates §11.4.76(4)
 └── docs/                             # NEW: quickstart, user guide, manual, FAQ, training
 ```
 
@@ -255,8 +301,8 @@ Marked `[REVIEW]`.
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| Containerising a module whose reference implementation is *not* containerised | The feature request explicitly requires container-based operation, and containers give the curriculum a reproducible runtime independent of host toolchain drift — a real problem here, where the host has podman but no docker, ugrep rather than GNU grep, and a GPU that must be kept out of the inference path. | Running natively like `ai_interviewing` would match the reference exactly and add zero new concepts. Rejected because it inherits the host-drift problem the repository has already been bitten by repeatedly, and because the operator asked for containers explicitly. Recorded so the decision is visible and reversible. |
-| A passage-identity layer possibly duplicating what the index already provides | FR-037 requires identifiers that survive re-indexing and text correction. | Reusing the index's own chunk identifiers would be simpler and is the preferred outcome. **Not yet rejected** — Phase 0 research is measuring whether they are stable. If they are, this row is withdrawn and the layer is not built. |
+| Adding a submodule dependency (`vasic-digital/containers`) that the reference module does not use | Not actually optional: §11.4.76 mandates it for ANY containerised workload and clause (4) forbids reimplementing it. Hand-rolling a Containerfile would satisfy the operator's container request while violating the constitution the same request demands be respected. | Running natively like `ai_interviewing` adds zero new concepts — but forgoes containers entirely, which the operator asked for explicitly, and inherits the host-drift problem this repo has repeatedly been bitten by (podman-not-docker, ugrep-not-GNU-grep, a GPU that must stay out of the inference path). Writing a bespoke Containerfile was rejected outright as a §11.4.76 violation, not merely as inferior. |
+| A passage-identity layer duplicating what the index appears to provide | FR-037 requires identifiers that survive re-indexing AND text correction. | Reusing Lumen's chunk identifiers was the preferred outcome and is now **rejected on measurement** (D-SEARCH-1): a controlled three-run re-index showed a one-character typo fix changes the id, while a line shift does not — they are content-derived, exactly one of the two forms FR-037 forbids, and the one that breaks on the operation this feature performs most. Built on them, SC-016 would score 0% on every corrected passage with no visible symptom. The ids are not exposed through the CLI or MCP either, leaving only a positional key, which the same experiment showed moves. |
 
 ## Phase Status
 

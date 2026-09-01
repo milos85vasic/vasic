@@ -42,16 +42,54 @@
 # A literal that sits behind ANY of those is a DEFAULT, not an assumption, and
 # is not reported. A bare literal with no such escape hatch is the defect.
 #
-#   ./scripts/audit-environment-assumptions.sh               # audit this repo
+#   ./scripts/audit-environment-assumptions.sh               # this repo + fleet
 #   ./scripts/audit-environment-assumptions.sh /path/to/repo # another checkout
 #   ./scripts/audit-environment-assumptions.sh --list        # scanned universe
 #   ./scripts/audit-environment-assumptions.sh --classes     # class reference
 #   ./scripts/audit-environment-assumptions.sh --allow-list  # effective rules
+#   ./scripts/audit-environment-assumptions.sh --no-submodules   # this repo only
 #
 # Exit 0 = clean · 1 = findings · 2 = could not do its job
 # (three-valued convention, same as scripts/lumen-index-doctor.sh — rc 2 must
 #  never be collapsed into rc 1: a broken checker is not a clean tree, and it is
 #  not a violating tree either.)
+#
+# THE GITLINK BLIND SPOT (fixed 2026-09-01)
+# -----------------------------------------
+# This gate used to enumerate files with a bare `git ls-files` at the umbrella
+# root. A submodule appears there as a GITLINK — one directory entry, no
+# contents — and the `[ -f ... ]` filter below dropped it, because a gitlink is
+# a directory, not a regular file. MEASURED before the fix: `--list` reported
+# 179 files, ZERO of them inside any of the nine declared submodules. The same
+# blind spot was found and fixed in pre-push gate E first; this gate follows
+# that fix's approach so the two cannot drift apart.
+#
+# OWNERSHIP IS DERIVED, NEVER HARDCODED
+# -------------------------------------
+# The fleet comes from `.gitmodules`, so a submodule added tomorrow is swept
+# without editing this file. Ownership comes from `helix-deps.yaml`'s declared
+# `deps[].ssh_url` set — guarded in BOTH directions by
+# `scripts/verify-governance-cascade.sh` check C6, so it cannot drift from
+# `.gitmodules` unnoticed. Same evidence source as `gate_E`.
+#
+#   OWNED         -> findings are real. They FAIL (rc 1).
+#   THIRD-PARTY   -> REPORTED as an out-of-scope NOTE, never a failure and never
+#                    silently omitted (§11.4.156(C) scope, §11.4.29 no
+#                    mass-editing of vendored source).
+#   UNINITIALISED -> rc 2, COULD NOT DETERMINE. Never a pass, never a failure.
+#
+# `submodules/constitution` is OWNED, deliberately: it is declared in
+# `helix-deps.yaml` `deps[]` with an own-org ssh_url, and that declared set IS
+# the rule. Carving it out by name would re-introduce the hardcoded list this
+# sweep exists to avoid — a hardcoded list of one. This tree cannot FIX a
+# finding inside it (§11.4.28 / §11.4.177 — inherited by reference, never
+# copied): the fix lands upstream and returns as a gitlink bump. Until then the
+# finding is carried as an enumerated baseline.
+#
+# HONEST BOUNDARY (§11.4.6): the sweep is ONE level deep, from the repository
+# that declares the fleet. A gitlink OF a submodule is REPORTED as not-swept,
+# never silently skipped, because a nested checkout ships no `helix-deps.yaml`
+# and this gate refuses to classify ownership by guesswork.
 #
 # ALLOW-LIST
 # ----------
@@ -87,14 +125,16 @@ set -uo pipefail
 # run against throwaway repos instead of the live tree.
 TARGET=""
 MODE="audit"
+SWEEP=1
 for arg in "$@"; do
     case "$arg" in
-        --list)       MODE="list" ;;
-        --classes)    MODE="classes" ;;
-        --allow-list) MODE="allow" ;;
-        --help|-h)    MODE="help" ;;
-        -*)           echo "FATAL: unknown option '$arg'" >&2; exit 2 ;;
-        *)            TARGET="$arg" ;;
+        --list)           MODE="list" ;;
+        --classes)        MODE="classes" ;;
+        --allow-list)     MODE="allow" ;;
+        --help|-h)        MODE="help" ;;
+        --no-submodules)  SWEEP=0 ;;
+        -*)               echo "FATAL: unknown option '$arg'" >&2; exit 2 ;;
+        *)                TARGET="$arg" ;;
     esac
 done
 
@@ -325,25 +365,142 @@ SKIP_PREFIX='^(_content|_analysis|_tests/evidence/|docs/|\.superpowers/|node_mod
 KEEP_SUFFIX='\.(sh|bash|py|js|mjs|cjs|ts|go|yml|yaml|toml|cfg|conf|json|disabled)$'
 SKIP_NAME='(package-lock\.json|Gemfile\.lock|go\.sum|\.min\.(js|css)$)'
 
-FILELIST="$(git -C "$ROOT" ls-files 2>/dev/null \
-    | grep -Ev "$SKIP_PREFIX" \
-    | grep -E "$KEEP_SUFFIX" \
-    | grep -Ev "$SKIP_NAME")" || true
+# ---- the submodule fleet -----------------------------------------------------
+# DERIVED from .gitmodules; ownership DERIVED from helix-deps.yaml. No list of
+# submodule names appears anywhere in this file.
+FLEET_OWNED=""      # newline-separated submodule paths
+FLEET_THIRD=""      # newline-separated "path<TAB>url"
+FLEET_UNINIT=""     # newline-separated "path<TAB>reason"
+FLEET_UNCLASSED=""  # gitlinks present but not classifiable from this checkout
+
+if [ "$SWEEP" = "1" ] && [ -r "$ROOT/.gitmodules" ]; then
+    _paths="$(git config -f "$ROOT/.gitmodules" --get-regexp 'submodule\..*\.path' 2>/dev/null | awk '{print $2}')"
+    if [ -n "$_paths" ]; then
+        if [ -r "$ROOT/helix-deps.yaml" ]; then
+            _owned_urls="$(sed -n -E 's/^[[:space:]]*ssh_url:[[:space:]]*(.+)$/\1/p' \
+                           "$ROOT/helix-deps.yaml" 2>/dev/null | tr -d '\r' | sort -u)"
+            while IFS= read -r _p; do
+                [ -n "$_p" ] || continue
+                if [ ! -e "$ROOT/$_p/.git" ] \
+                   || ! git -C "$ROOT/$_p" rev-parse --git-dir >/dev/null 2>&1; then
+                    FLEET_UNINIT="${FLEET_UNINIT}${_p}	not initialised (no usable .git)
+"
+                    continue
+                fi
+                _url="$(git config -f "$ROOT/.gitmodules" --get "submodule.${_p}.url" 2>/dev/null || echo '')"
+                if [ -n "$_url" ] && ! printf '%s\n' "$_owned_urls" | grep -qxF "$_url"; then
+                    FLEET_THIRD="${FLEET_THIRD}${_p}	${_url}
+"
+                else
+                    FLEET_OWNED="${FLEET_OWNED}${_p}
+"
+                fi
+            done <<EOF
+$_paths
+EOF
+        else
+            FLEET_UNCLASSED="$_paths"
+        fi
+    fi
+fi
+
+repo_filelist() {   # $1 = repo path relative to $ROOT ("" = the root itself)
+    _rel="$1"; _dir="$ROOT"; _pfx=""
+    if [ -n "$_rel" ]; then _dir="$ROOT/$_rel"; _pfx="$_rel/"; fi
+    git -C "$_dir" ls-files 2>/dev/null \
+        | grep -Ev "$SKIP_PREFIX" \
+        | grep -E "$KEEP_SUFFIX" \
+        | grep -Ev "$SKIP_NAME" \
+        | awk -v p="$_pfx" '$0 != "" { print p $0 }'
+}
+
+# The SKIP/KEEP filters are applied to each repository's OWN relative paths, so
+# `<submodule>/docs/...` is skipped for the same reason `docs/...` is skipped
+# here — and only then is the submodule prefix attached.
+FILELIST="$(repo_filelist "")" || true
+SWEPT=0
+SWEPT_PATHS=""
+THIRD_PATHS=""
+while IFS= read -r _p; do
+    [ -n "$_p" ] || continue
+    FILELIST="$FILELIST
+$(repo_filelist "$_p")"
+    SWEPT=$((SWEPT+1)); SWEPT_PATHS="${SWEPT_PATHS}${_p}
+"
+done <<EOF
+$FLEET_OWNED
+EOF
+while IFS= read -r _row; do
+    [ -n "$_row" ] || continue
+    _p="${_row%%	*}"
+    THIRD_PATHS="${THIRD_PATHS}${_p}
+"
+    FILELIST="$FILELIST
+$(repo_filelist "$_p")"
+    SWEPT=$((SWEPT+1)); SWEPT_PATHS="${SWEPT_PATHS}${_p}
+"
+done <<EOF
+$FLEET_THIRD
+EOF
 
 # `git ls-files` also lists gitlinks (submodule directories). Drop anything that
 # is not a regular readable file — including files deleted from the work tree.
-SCANNED=""
-while IFS= read -r f; do
-    [ -n "$f" ] || continue
-    [ -f "$ROOT/$f" ] || continue
-    [ -r "$ROOT/$f" ] || continue
-    SCANNED="$SCANNED$f
-"
-done <<EOF
+# Collected through ONE command substitution rather than by appending to a shell
+# variable in the loop: at 179 files the quadratic form was invisible, at the
+# fleet's 1 526 it was measurable.
+SCANNED="$(
+    while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        [ -f "$ROOT/$f" ] || continue
+        [ -r "$ROOT/$f" ] || continue
+        printf '%s\n' "$f"
+    done <<EOF
 $FILELIST
 EOF
+)
+"
 
 FILE_COUNT=$(printf '%s' "$SCANNED" | grep -c . || true)
+
+# Per-repository breakdown of the SCANNED universe, so the table and the verdict
+# can never describe different populations.
+BREAKDOWN=""
+_rootn=$FILE_COUNT
+while IFS= read -r _p; do
+    [ -n "$_p" ] || continue
+    _c=$(printf '%s' "$SCANNED" | grep -c "^$_p/" || true)
+    _rootn=$((_rootn - _c))
+done <<EOF
+$SWEPT_PATHS
+EOF
+BREAKDOWN="$(printf '%-34s %7s  %s' "(umbrella root)" "$_rootn" "self")
+"
+while IFS= read -r _p; do
+    [ -n "$_p" ] || continue
+    BREAKDOWN="$BREAKDOWN$(printf '%-34s %7s  %s' "$_p" \
+        "$(printf '%s' "$SCANNED" | grep -c "^$_p/" || true)" "OWNED")
+"
+done <<EOF
+$FLEET_OWNED
+EOF
+while IFS= read -r _row; do
+    [ -n "$_row" ] || continue
+    _p="${_row%%	*}"
+    BREAKDOWN="$BREAKDOWN$(printf '%-34s %7s  %s' "$_p" \
+        "$(printf '%s' "$SCANNED" | grep -c "^$_p/" || true)" \
+        "THIRD-PARTY (reported, not enforced)")
+"
+done <<EOF
+$FLEET_THIRD
+EOF
+while IFS= read -r _row; do
+    [ -n "$_row" ] || continue
+    BREAKDOWN="$BREAKDOWN$(printf '%-34s %7s  %s' "${_row%%	*}" "-" \
+        "NOT INITIALISED — could not determine")
+"
+done <<EOF
+$FLEET_UNINIT
+EOF
 
 case "$MODE" in
     help)
@@ -353,6 +510,8 @@ case "$MODE" in
         printf '%s\n' "$CLASS_DOC"; exit 0 ;;
     list)
         printf '%s' "$SCANNED"
+        echo "────────────────────────────────────────────────────────"
+        printf '%s' "$BREAKDOWN"
         printf -- '---- %s file(s) in the scan universe\n' "$FILE_COUNT"
         exit 0 ;;
 esac
@@ -364,6 +523,25 @@ if [ "$FILE_COUNT" -eq 0 ]; then
     echo "FATAL: scan universe is empty - refusing to report a clean tree over" >&2
     echo "       zero files. Check the SKIP/KEEP filters or the target repo." >&2
     exit 2
+fi
+
+# ANTI-BLUFF, regression guard for the gitlink blind spot this fix closed: if
+# submodules were swept and contributed NOTHING, the sweep is broken again.
+if [ "$SWEPT" -gt 0 ]; then
+    SUB_ONLY=0
+    while IFS= read -r _p; do
+        [ -n "$_p" ] || continue
+        _c=$(printf '%s' "$SCANNED" | grep -c "^$_p/" || true)
+        SUB_ONLY=$((SUB_ONLY + _c))
+    done <<EOF
+$SWEPT_PATHS
+EOF
+    if [ "$SUB_ONLY" -eq 0 ]; then
+        echo "FATAL: $SWEPT submodule(s) were swept and contributed ZERO files." >&2
+        echo "       That is the exact signature of the gitlink blind spot this" >&2
+        echo "       sweep exists to close. Refusing to report a verdict." >&2
+        exit 2
+    fi
 fi
 
 # ---- assemble the effective allow-list --------------------------------------
@@ -611,8 +789,16 @@ END {
 
 # Relative paths on purpose: we are already cd'd to $ROOT, awk's FILENAME then
 # matches the allow-list rules verbatim and the report needs no path surgery.
-# shellcheck disable=SC2046  # word splitting of the file list is intended
-RESULT="$(awk "$AWK_PROG" "$WORK/allow.tsv" $(cat "$WORK/files.txt") 2>"$WORK/awk.err")"
+#
+# A quoted ARRAY expansion, not `$(cat ...)`: once the fleet is swept, tracked
+# filenames containing spaces enter the universe (workshop/ has them), and word
+# splitting would hand awk a set of paths that do not exist.
+AFILES=()
+while IFS= read -r _af; do
+    [ -n "$_af" ] || continue
+    AFILES[${#AFILES[@]}]="$_af"
+done < "$WORK/files.txt"
+RESULT="$(awk "$AWK_PROG" "$WORK/allow.tsv" "${AFILES[@]}" 2>"$WORK/awk.err")"
 AWK_RC=$?
 if [ $AWK_RC -ne 0 ]; then
     echo "FATAL: the scan itself failed (awk rc=$AWK_RC)" >&2
@@ -621,14 +807,34 @@ if [ $AWK_RC -ne 0 ]; then
 fi
 
 # ---- report ------------------------------------------------------------------
-printf '%s\n' "$RESULT" | grep '^HIT' > "$WORK/hits.tsv" || true
+printf '%s\n' "$RESULT" | grep '^HIT' > "$WORK/hits.all" || true
 
 SUMMARY_LINE="$(printf '%s\n' "$RESULT" | grep '^SUMMARY' | head -1)"
 [ -n "$SUMMARY_LINE" ] || { echo "FATAL: scan produced no summary record" >&2; exit 2; }
 
-HITS=$(printf '%s' "$SUMMARY_LINE"    | cut -f2)
 ALLOWED=$(printf '%s' "$SUMMARY_LINE" | cut -f3)
 BASELINED=$(printf '%s' "$SUMMARY_LINE" | cut -f4)
+
+# Split the findings by OWNERSHIP. A finding in a third-party gitlink is real
+# and is printed, but it is not this tree's to fix and does not fail the gate.
+: > "$WORK/hits.tsv"
+: > "$WORK/hits.third"
+printf '%s' "$THIRD_PATHS" > "$WORK/third.txt"
+if [ -s "$WORK/third.txt" ] && [ -s "$WORK/hits.all" ]; then
+    awk -F'\t' -v OW="$WORK/hits.tsv" -v TH="$WORK/hits.third" '
+        NR == FNR { if ($0 != "") t[++n] = $0 "/"; next }
+        {
+            own = 1
+            for (i = 1; i <= n; i++) if (index($2, t[i]) == 1) { own = 0; break }
+            if (own) print >> OW; else print >> TH
+        }
+    ' "$WORK/third.txt" "$WORK/hits.all"
+else
+    cp "$WORK/hits.all" "$WORK/hits.tsv" 2>/dev/null || true
+fi
+
+HITS=$(grep -c . "$WORK/hits.tsv" || true)
+NOTES=$(grep -c . "$WORK/hits.third" || true)
 
 if [ -s "$WORK/hits.tsv" ]; then
     cur_file=""
@@ -637,13 +843,20 @@ if [ -s "$WORK/hits.tsv" ]; then
             printf '%s❌ %s%s\n' "$RED" "$path" "$NC"
             cur_file="$path"
         fi
-        trimmed="$(printf '%s' "$text" | sed 's/^[[:space:]]*//' | cut -c1-96)"
+        # Pure parameter expansion: `printf | sed | cut` spawned THREE
+        # processes per finding line, which at fleet scale was the single
+        # largest cost in the report phase.
+        trimmed="${text#"${text%%[![:space:]]*}"}"
+        trimmed="${trimmed:0:96}"
         printf '     %s%-9s%s line %-5s %s\n' "$YELLOW" "$cls" "$NC" "$lineno" "$trimmed"
     done < "$WORK/hits.tsv"
 fi
 
 echo "────────────────────────────────────────────────────────"
-printf '%sscanned %d file(s) · %d class(es)%s\n' "$DIM" "$FILE_COUNT" "$(printf '%s\n' "$CLASS_DOC" | grep -c .)" "$NC"
+printf '%sscanned %d file(s) across %d repositor%s · %d class(es)%s\n' \
+    "$DIM" "$FILE_COUNT" "$((SWEPT+1))" \
+    "$( [ "$((SWEPT+1))" -eq 1 ] && echo y || echo ies )" \
+    "$(printf '%s\n' "$CLASS_DOC" | grep -c .)" "$NC"
 
 if [ "$BASELINED" -gt 0 ]; then
     printf '%s⚠️  %d baselined occurrence(s) — REAL, KNOWN, UNFIXED defects in:%s\n' \
@@ -651,6 +864,40 @@ if [ "$BASELINED" -gt 0 ]; then
     printf '%s\n' "$RESULT" | grep '^BASEFILE' | cut -f2 | sort | sed 's/^/     /'
     printf '%s   see docs/environment-adaptability/AUDIT.md — a baseline is a debt,%s\n' "$YELLOW" "$NC"
     printf '%s   not a justification. Do not add to it without a finding id.%s\n' "$YELLOW" "$NC"
+fi
+
+if [ "$NOTES" -gt 0 ]; then
+    printf '%sNOTE — %d frozen environment assumption(s) in THIRD-PARTY gitlink(s).%s\n' \
+        "$YELLOW" "$NOTES" "$NC"
+    printf '%sOUT OF SCOPE per §11.4.156(C) / §11.4.29 — reported so they are never%s\n' "$YELLOW" "$NC"
+    printf '%ssilently omitted; NOT edited here, NOT a failure of this tree:%s\n' "$YELLOW" "$NC"
+    cur_file=""
+    while IFS="$(printf '\t')" read -r _tag path lineno cls text; do
+        if [ "$path" != "$cur_file" ]; then
+            printf '  %s\n' "$path"
+            cur_file="$path"
+        fi
+        trimmed="${text#"${text%%[![:space:]]*}"}"
+        trimmed="${trimmed:0:96}"
+        printf '       %-9s line %-5s %s\n' "$cls" "$lineno" "$trimmed"
+    done < "$WORK/hits.third"
+fi
+
+if [ -n "$FLEET_UNCLASSED" ]; then
+    printf '%sNOT SWEPT — gitlink(s) declared here, but this checkout ships no%s\n' "$YELLOW" "$NC"
+    printf '%shelix-deps.yaml, so ownership cannot be derived and is not guessed:%s\n' "$YELLOW" "$NC"
+    printf '%s\n' "$FLEET_UNCLASSED" | sed 's/^/     /'
+fi
+
+if [ -n "$FLEET_UNINIT" ]; then
+    printf '%s⚠️  COULD NOT DETERMINE — submodule(s) not initialised:%s\n' "$RED" "$NC"
+    printf '%s' "$FLEET_UNINIT" | sed 's/	/: /' | sed 's/^/     /'
+    printf '%s   Their contents are unknown, so this run cannot report a clean tree%s\n' "$RED" "$NC"
+    printf '%s   and cannot report a violating one. NOT a pass, NOT a failure.%s\n' "$RED" "$NC"
+    echo   "   Run: git submodule update --init --recursive"
+    [ "$HITS" -gt 0 ] && printf '%s❌ %d frozen environment assumption(s) also found in owned repos%s\n' \
+        "$RED" "$HITS" "$NC"
+    exit 2
 fi
 
 if [ "$HITS" -eq 0 ]; then

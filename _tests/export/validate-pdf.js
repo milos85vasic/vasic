@@ -43,6 +43,22 @@ function parseArgs(argv) {
 function hasTool(n) { try { execFileSync('which', [n], { stdio: 'pipe' }); return true; } catch { return false; } }
 function sh(cmd, args) { return execFileSync(cmd, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }); }
 
+// Deterministic provenance stamp for the verdict JSON.
+//
+// A caller-pinned SOURCE_DATE_EPOCH — the reproducible-builds convention this
+// repo already follows in _tools/gen/build.sh and _tools/pdf/build-pdfs.sh —
+// yields a real, reproducible `generatedAt`. With it unset we OMIT the field
+// rather than embed a wall clock: these verdicts are COMMITTED evidence
+// (_tests/GATES.md cites them for the export §11.4.168 proof), and an embedded
+// clock made every regeneration a spurious diff. Mirrors the sibling convention
+// in design-toolkit/qa/run-checks.mjs (`generatedAt_omitted_for_determinism`).
+function provenance() {
+  const sde = process.env.SOURCE_DATE_EPOCH;
+  return (sde && /^[0-9]+$/.test(sde))
+    ? { generatedAt: new Date(Number(sde) * 1000).toISOString() }
+    : { generatedAt_omitted_for_determinism: true };
+}
+
 // Raw markup / raw Mermaid source markers that must never appear as body text.
 const LEAK_PATTERNS = [
   { name: 'mermaid:gantt', re: /\bgantt\b/i },
@@ -71,7 +87,7 @@ function run() {
 
   const tools = { pdftotext: hasTool('pdftotext'), pdfimages: hasTool('pdfimages'), pdftoppm: hasTool('pdftoppm'), tesseract: hasTool('tesseract') };
   const report = {
-    schema: 'export-validator/1', generatedAt: new Date().toISOString(),
+    schema: 'export-validator/1', ...provenance(),
     pdf, name: args.name, tools, thresholds: { minWords: args.minWords, minOcrWords: args.minOcrWords, minImages: args.minImages, expect: args.expect },
     checks: [], verdict: 'PASS',
   };

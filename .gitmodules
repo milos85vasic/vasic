@@ -22,3 +22,6 @@
 [submodule "workshop"]
 	path = workshop
 	url = git@github.com:milos85vasic/workshop_curriculum.git
+[submodule "submodules/containers"]
+	path = submodules/containers
+	url = git@github.com:vasic-digital/containers.git

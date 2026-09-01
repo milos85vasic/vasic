@@ -25,12 +25,59 @@
 # `git remote -v` in every working tree, 2026-08-26; re-verified 2026-08-31 with
 # `workshop` in the set, via this file's own recipe #2 below — it printed 0).
 #
-# ── Refs ─────────────────────────────────────────────────────────────────────
-# §11.4.31 says `ref: main   # branch or pinned tag`. Two owned submodules have
-# no tag reachable from their pinned commit, so they carry a pinned sha instead
-# — the same fallback the constitution's own manifest uses ("pinned sha (no
-# upstream tag yet)"). Each such entry names the sha AND the branch the gitlink
-# tracks, so nothing is guessed.
+# ── Refs — WHAT `ref:` MEANS HERE, stated so nobody has to infer it ──────────
+# `ref:` is a PIN, not a souvenir. It is the commit this repository's HEAD
+# points the corresponding gitlink at, and the tree MUST match it. It is NOT a
+# "last known good" record, NOT an aspiration, and NOT informational: a reader
+# may rely on it, and a drift between it and the gitlink is a defect in THIS
+# FILE, to be corrected, never explained away.
+#
+# Re-derive this status — do not trust it undated (project constitution,
+# "Comprehensive Documentation": a document that states a status MUST name the
+# command that re-derives it):
+#
+#     bash scripts/verify-manifest-pins.sh          # 0 in sync / 1 drift / 2 unknown
+#     bash scripts/verify-manifest-pins.sh --fix    # rewrite every drifted ref
+#
+# That gate is wired into `scripts/verify-governance-cascade.sh` as check C9, so
+# it also runs from the §11.4.32 sweep and from the local pre-push hook. Its
+# comparison target is the INDEX gitlink (`git ls-files -s -- <path>`): the
+# commit this repository is about to record, which for a clean tree is the same
+# commit HEAD already records. That target is chosen so the gate fires at
+# `git add` — one step BEFORE an untrue commit exists — and so a submodule being
+# onboarded in the current change-window can still be checked. Divergence
+# between index, HEAD and a submodule's working tree is REPORTED as a note and
+# is never a verdict input; the full reasoning is in the checker's own header.
+#
+# HISTORY, recorded rather than quietly repaired (§11.4.6). Between 2026-08-26
+# and 2026-09-01 every one of the seven refs then present drifted away from its
+# gitlink and NOTHING in the tree could say so: C6 compared dep NAMES in both
+# directions and stayed green over seven wrong commits. Measured at HEAD 63ac4df
+# on 2026-09-01: 7 of 7 recorded refs wrong. The `workshop` entry was untrue in
+# the very commit that created it — 63ac4df added it recording ff59fca and moved
+# the gitlink to 55076bf in the same commit. All seven are corrected below and C9
+# now makes a repeat impossible without a red gate.
+#
+# FORM. §11.4.31 says `ref: main   # branch or pinned tag`. Every entry here
+# records a full 40-character sha instead, for two reasons: three owned
+# submodules (`ai_interviewing`, `monetization`, `workshop`) have no tag at all,
+# and every remaining dep is pinned to a commit PAST its newest tag, so a tag
+# would name a different commit than the gitlink and would be a false pin — the
+# defect the `v1.8.0` entries on the two site submodules actually had. A sha is
+# exact. `scripts/verify-manifest-pins.sh` still accepts a tag or branch ref for
+# future entries and resolves it inside the checkout; an entry whose submodule
+# is not initialised is reported as COULD-NOT-DETERMINE, never as a pass.
+#
+# QUOTED, deliberately. Under YAML 1.1 an unquoted 40-character token that
+# happens to be all digits parses as an INTEGER, and one shaped like `1e5…`
+# can parse as a FLOAT — a pin silently re-typed by the parser. Quoting makes
+# every ref a string no matter which commit it names.
+#
+# NO `git describe` OUTPUT IS RECORDED in these comments. It was, and it went
+# stale invisibly ("4 commits past v1.8.0" is now 5, "51 commits past" is now
+# something else). A comment that restates a derived number is a second thing to
+# keep in sync and the one nothing checks. Durable facts only — which branch a
+# gitlink tracks, whether any tag exists at all — plus the command above.
 #
 # ── NOT specified by §11.4.31, therefore NOT invented here ───────────────────
 # The schema has no field for excluding a third-party gitlink and no field for
@@ -51,9 +98,16 @@
 #    anywhere in this checkout (`submodules/constitution/scripts/` has no such
 #    script, and no file under the submodule matches `*incorporate*`). The
 #    verification proof therefore CANNOT be built from this checkout, and none
-#    is claimed. The manifest is accurate against `git submodule status` (see
-#    the drift recipe at the end), which is a weaker check than the one
-#    §11.4.31 mandates.
+#    is claimed. What IS mechanically checked is weaker than §11.4.31's mandate:
+#    the dep NAMES match `.gitmodules` in both directions
+#    (verify-governance-cascade.sh C6) and every `ref:` matches its gitlink
+#    (C9 / scripts/verify-manifest-pins.sh).
+# 3. WITHDRAWN CLAIM (§11.4.6 requires withdrawal, not quiet replacement). This
+#    file previously asserted "The manifest is accurate against
+#    `git submodule status`". That assertion was FALSE for at least the six days
+#    before 2026-09-01 and nothing measured it — see the HISTORY paragraph in the
+#    Refs section. It is withdrawn, not restated. Accuracy is now a gate result,
+#    not a sentence: run `bash scripts/verify-manifest-pins.sh`.
 
 schema_version: 1
 
@@ -61,7 +115,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: 448981ae3498229c734dc60719f4b19f01d7a75f   # pinned sha; git describe -> v1.0.0-51-g448981a (51 commits past the only semver tag, i.e. NOT tag-pinned)
+    ref: "902979027a907051dc036668a9c353bd27aedf47"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
     why: "The Helix Universal Constitution this repository consumes — the canonical root per §11.4.35. Supplies Constitution.md + the four per-agent mirrors, find_constitution.sh, scripts/gates/ (the propagation + covenant gate family), scripts/post_update_hook.sh (§11.4.164), scripts/hooks/guard-forbidden-commands.sh (§11.4.109(A)) and templates/. Inherited BY REFERENCE, never copied (§11.4.28 / §11.4.177)."
     layout: grouped
     # Live topology: origin fetches github.com:HelixDevelopment/HelixConstitution.git
@@ -71,16 +125,40 @@ deps:
     # submodule; the carve-out and its reasoning are in Constitution.md
     # -> "submodules/constitution — the governance submodule itself".
 
+  # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
+  - name: containers
+    ssh_url: git@github.com:vasic-digital/containers.git
+    ref: "4dab992582666a64a4353cd593704cdc969aaa1e"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin
+    # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
+    # `git submodule add`-ed and staged, so `git ls-tree HEAD
+    # submodules/containers` is still empty. That is precisely why
+    # scripts/verify-manifest-pins.sh compares against the INDEX
+    # (`git ls-files -s`) and not against HEAD: the ref above IS checked today,
+    # against the staged gitlink, instead of sitting unverifiable until the
+    # adding commit lands. Index and working-tree HEAD agree here.
+    why: "The canonical Containers Submodule mandated by §11.4.76 — the authoritative library for container-runtime auto-detection, endpoint discovery, lifecycle/health management, compose orchestration, cross-build and on-demand service boot. Go module `digital.vasic.containers`; consuming Go code resolves it via `replace digital.vasic.containers => ./submodules/containers` in development and this pinned sha in production. Required before any containerised workload (Docker / Podman / Qemu / Kubernetes / container-backed emulators) may land in this tree; §11.4.76(4) forbids reimplementing any of its primitives in-project."
+    layout: grouped
+    # Live topology: origin fetches AND pushes github.com:vasic-digital/containers.git
+    # — a single URL, no fan-out and no fetch/push asymmetry (verified by
+    # `git remote -v` in the working tree, 2026-09-01). Its own upstreams/ dir
+    # declares four further push targets (github, gitlab, and the two
+    # vasic_digital_* recipes) that this checkout's remote set does not wire up.
+    # Ships all four §11.4.157 governance carriers (CLAUDE.md / AGENTS.md /
+    # QWEN.md / GEMINI.md) and its own helix-deps.yaml (`deps: []` — a genuine
+    # leaf) at the commit pinned above, so it onboards without the carrier gap
+    # that `workshop` had. It also ships NO .github/workflows/ (only
+    # .github/FUNDING.yml), so it adds no §11.4.156 CI surface to the fleet.
+
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: v1.8.0    # tag reachable; pinned commit 5a4c3bba8689e9d2c35887b77ee0a6c3da6248b6 == v1.8.0-4-g5a4c3bb (4 commits past v1.8.0)
+    ref: "0bc25012cc33202ced47788a9c301b6a9c15e192"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: v1.8.0    # tag reachable; pinned commit 8385025500ce0595b1fad3ff3fb4c58e93b88504 == v1.8.0-5-g8385025 (5 commits past v1.8.0)
+    ref: "8166fdba295dedc3114188c56e84248717ee7167"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "Site submodule — Jekyll source; its rendered _site/ is git-ignored and must be built before the Playwright suite can serve it. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh."
     layout: flat
     # ⚠ FETCH/PUSH ASYMMETRY (Constitution.md -> "Hazard"): the ssh_url above is
@@ -97,25 +175,31 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: 16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3   # pinned sha; git describe -> v0.2.2-4-g16e4e76 (past the tag)
+    ref: "efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "§11.4.162 OpenDesign UI design-system engine — machine-readable design tokens (§11.4.216), brand contract (§11.4.217), design-library catalogue (§11.4.218). Ships 11 design-specialist agent recipes under agents/."
     layout: flat
     # §11.4.28(C) / INVENTORY gap G11: this repo checks design-toolkit out TWICE
     # — here at the root AND at submodules/constitution/submodules/design-toolkit,
     # which the constitution's own helix-deps.yaml declares under its
-    # §11.4.28(C) hub carve-out. Both gitlinks are at 16e4e76 today, so nothing
-    # is broken now; they can drift independently. THIS entry (the umbrella
-    # root, flat layout) is the authoritative one for this project.
+    # §11.4.28(C) hub carve-out. They HAVE now drifted apart: this root pins
+    # efd2c3fb (above) while submodules/constitution pins its nested copy at
+    # 725e456a and its own helix-deps.yaml still declares 16e4e76 — three
+    # different commits for one dependency. THIS entry (the umbrella root, flat
+    # layout) is the authoritative one for this project; reconciling the other
+    # two is an operator decision inside the constitution submodule, which this
+    # repository does not edit. Re-derive both with:
+    #   git ls-files -s design-toolkit
+    #   git -C submodules/constitution ls-files -s submodules/design-toolkit
 
   - name: ai_interviewing
     ssh_url: git@github.com:milos85vasic/ai_interviewing.git
-    ref: 023abbfdfe12a604144cf420d1ec3d9efaa6e89c   # pinned sha; NO tag reachable (`git describe --tags` finds none); gitlink tracks heads/main
+    ref: "5ef07e08f202f75f6c0a9d7eda193f6740a1a333"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
     layout: flat
 
   - name: monetization
     ssh_url: git@github.com:milos85vasic/monetization.git
-    ref: 1f9f52042a81c9a2d0e0f2f42e3ca9fbf4d7fbfe   # pinned sha; NO tag reachable; gitlink tracks heads/main
+    ref: "54ed7b0f5add52821d18866facb5ee8c75adef69"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "Monetization of existing projects — docs, repos.txt, and the per-provider upstream declaration scripts (GitFlic / GitHub / GitLab / GitVerse)."
     layout: flat
     # Live topology: origin fetches github.com:milos85vasic/monetization.git and
@@ -124,7 +208,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: ff59fca320efd839c9322bcf6f683ccb74754da8   # pinned sha; NO tag reachable (`git tag` lists none, `git describe --tags` -> "No names found"); gitlink tracks heads/main
+    ref: "55076bf943a5158c91dede839ac319c43ddca1ab"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which keeps gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks plus a *.sha256 manifest while the extracted videos stay git-ignored."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL
@@ -145,22 +229,33 @@ transitive_handling:
   # incorporator tooling MUST recurse — top-level project gets the union of all
   # transitively-declared deps, flattened to root."
   #
-  # Honest boundary (§11.4.6) — verified, not assumed: of the seven deps above,
-  # ONLY `constitution` currently ships a helix-deps.yaml. The six owned
+  # Honest boundary (§11.4.6) — verified, not assumed: of the eight deps above,
+  # only `constitution` and `containers` ship a helix-deps.yaml. The six owned
   # product submodules do not (re-checked 2026-08-31, `workshop` included), so a
   # recursive walk terminates at them for a
   # reason the schema does not model (missing manifest, not a declared leaf).
-  # `recursive: true` is declared because the constitution submodule genuinely
-  # hosts a further seven own-org deps that consumer tooling must reach.
+  # `containers` terminates the walk for the OPPOSITE, schema-modelled reason:
+  # it ships a manifest declaring `deps: []`, i.e. a genuine leaf (verified
+  # 2026-09-01 by reading submodules/containers/helix-deps.yaml at the pinned
+  # sha). `recursive: true` is declared because the constitution submodule
+  # genuinely hosts a further seven own-org deps that consumer tooling must
+  # reach.
   recursive: true
 
   # §11.4.31: "When two submodules declare the same dependency at different
   # refs, CONFLICT — operator MUST resolve before incorporation proceeds. The
   # incorporator aborts on conflict (never silently picks one)."
-  # A live instance already exists: `design-toolkit` is declared BOTH here
-  # (ref 16e4e76, layout flat) and in submodules/constitution/helix-deps.yaml
-  # (ref 16e4e76, layout flat). The refs agree today, so there is no conflict
-  # to resolve right now — only the standing possibility of one.
+  # A live instance now EXISTS and is unresolved: `design-toolkit` is declared
+  # BOTH here (ref efd2c3fb, layout flat) and in
+  # submodules/constitution/helix-deps.yaml (ref 16e4e76, layout flat). Those
+  # refs DISAGREE, which is exactly the CONFLICT the clause above describes, so
+  # `operator-required` is now a live obligation rather than a standing
+  # possibility. It is recorded here rather than gated: fixing it means editing
+  # the constitution submodule, which this repository does not do.
+  # `scripts/verify-manifest-pins.sh` deliberately does NOT fail on it — it
+  # checks THIS root's manifest against THIS root's gitlinks and says so in its
+  # own honest-boundaries block, so the two concerns are never conflated.
+  # Re-derive: grep -A2 'name: design-toolkit' submodules/constitution/helix-deps.yaml
   conflict_resolution: operator-required
 
 # §11.4.31: "set true for Android/Kotlin/Apple roots (per §11.4.29 exception)".
@@ -200,6 +295,14 @@ language_specific_subtree: false
 #   # 2. No HTTPS remote anywhere (Hard Stop #2). MUST print 0:
 #   git submodule foreach --quiet 'git remote -v | grep -c "https://" || true' \
 #     | paste -sd+ | bc
-#   # 3. Pin drift — compare each `ref` against the live gitlink:
-#   git submodule status
+#   # 3. Pin drift — compare each `ref:` against the live gitlink. This used to
+#   #    say "git submodule status", which prints the state but decides nothing
+#   #    and was green-by-eye through six days of 7-of-7 drift. It is now a gate
+#   #    with a three-valued contract (0 in sync / 1 drift / 2 could not tell)
+#   #    and a paired §1.1 mutation proof:
+#   bash scripts/verify-manifest-pins.sh
+#   bash scripts/verify-manifest-pins.sh --fix            # correct every drift
+#   bash scripts/verify-manifest-pins.sh --prove-failure  # prove it can FAIL
+#   #    It also runs as check C9 of scripts/verify-governance-cascade.sh, so
+#   #    the §11.4.32 sweep and the local pre-push hook both reach it.
 #

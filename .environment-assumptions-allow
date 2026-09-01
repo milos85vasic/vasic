@@ -1,0 +1,660 @@
+# .environment-assumptions-allow — external allow-list for
+# scripts/audit-environment-assumptions.sh. Read IN ADDITION to the ALLOW_RULES
+# embedded in that script, using the identical syntax:
+#
+#     # REASON:   <why this literal is genuinely justified>
+#     path/to/file            CLASS    substring-of-the-offending-line
+#
+#     # BASELINE: <a REAL, KNOWN finding, deliberately not fixed yet>
+#     path/to/file            CLASS    substring-of-the-offending-line
+#
+# EVERY rule needs its own marker comment on the line directly above it; the
+# gate exits 2 on a rule without one, because an unexplained suppression is
+# indistinguishable from a bluff. CLASS and MATCH may each be `*`; PATH may end
+# in `*` to prefix-match.
+#
+# ==============================================================================
+# WHY THIS FILE EXISTS
+# ==============================================================================
+# Until 2026-09-01 this gate enumerated files with a bare `git ls-files` at the
+# umbrella root. A submodule appears there as a GITLINK — one directory entry,
+# no contents — and the `[ -f ... ]` filter dropped it. MEASURED blind spot:
+# `--list` reported 179 files, ZERO of them inside any of the nine declared
+# submodules, across 9 repositories and ~1 350 additional source files.
+#
+# Switching the fleet sweep on surfaced 197 (file, class) findings that ALREADY
+# EXISTED and that the gate could not see. They are recorded here, NOT fixed and
+# NOT excused:
+#
+#   * Fixing them is out of scope for the change that made them visible, and
+#     several of those trees have other agents working in them right now.
+#   * They live in OTHER repositories. §11.4.29 forbids editing a tree this
+#     repository does not author from here; a fix lands in the submodule's own
+#     upstream and returns as a gitlink bump.
+#   * NOTHING BELOW ASSERTS A FINDING IS A DEFECT, and nothing below asserts it
+#     is a false positive. Nobody has triaged them. That untriaged state IS the
+#     debt being recorded — §11.4.6 forbids reporting a state you have not
+#     verified, in either direction. Spot-checking suggests the population is
+#     mixed: `net.Listen("tcp", "127.0.0.1:0")` in a Go test is the CORRECT
+#     portable idiom, while `thinker.local` baked into a test fixture is the
+#     same operator-machine assumption this gate exists to catch.
+#
+# SCOPE OF EACH ENTRY. One (file, class) pair. NOT a whole submodule, NOT a
+# whole file: a NEW finding of a DIFFERENT class in an already-baselined file
+# still fails, and any finding in any not-listed file still fails.
+#
+# WHAT IS NOT HERE. `submodules/superspec` (upstream WangX0111) is THIRD-PARTY.
+# Its findings are neither baselined nor suppressed — the gate REPORTS them as
+# an out-of-scope NOTE on every run and does not fail on them. `design-toolkit`
+# is clean and needs no entry.
+#
+# Re-derive the live list at any time:
+#     bash scripts/audit-environment-assumptions.sh
+#     bash scripts/audit-environment-assumptions.sh --list   # per-repo universe
+# ==============================================================================
+
+
+# ---- ai_interviewing ----
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+ai_interviewing/platform/backend/cmd/server/main.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+ai_interviewing/platform/backend/internal/server/server_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing MODEL finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+ai_interviewing/platform/content/mcq/interview-preparation-09.json MODEL *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+ai_interviewing/platform/frontend/.vscode/launch.json ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+ai_interviewing/platform/scripts/status.sh ENDPOINT *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+ai_interviewing/upstreams/GitHub.sh SHEBANG *
+
+# ---- milosvasic.ru ----
+# BASELINE: untriaged pre-existing TOOLVER finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+milosvasic.ru/.github/workflows/pages.yml TOOLVER *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+milosvasic.ru/start.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+milosvasic.ru/Upstreams/GitFlic.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+milosvasic.ru/Upstreams/GitHub.sh SHEBANG *
+
+# ---- monetization ----
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+monetization/upstreams/GitFlic.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+monetization/upstreams/GitHub.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+monetization/upstreams/GitLab.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+monetization/upstreams/GitVerse.sh SHEBANG *
+
+# ---- submodules/constitution ----
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_anchor_detects_tail_truncation_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_anchor_record_complete_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_cli_agent_plugins_wired_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_dangerous_combination_fail_closed_mutation_test.sh OSPATH *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_evidence_analyzer_self_validated_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_faq_from_real_questions_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_feature_directive_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_gate_ledger_ratchet_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_healthcheck_covers_served_ports_mutation_test.sh ENDPOINT *
+# BASELINE: untriaged pre-existing TOOLVER finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_healthcheck_covers_served_ports_mutation_test.sh TOOLVER *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_ledger_row_typed_from_closed_vocabulary_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_machine_evidence_at_every_gate_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_reporting_directives_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_rule_binds_to_seam_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_unchallenged_capability_blocks_release_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_unreferenced_gate_bound_or_retired.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/cm_zero_findings_audit_sweep_mutation_test.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/gates/lib/independence_tier.sh GNUBSD *
+# BASELINE: untriaged pre-existing GITREF finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/hooks/test_guard_branch_consistency.sh GITREF *
+# BASELINE: untriaged pre-existing GITREF finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh GITREF *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh SERVICE *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/llm-alias-health/cmd/llm-alias-health/config_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/llm-alias-health/cmd/llm-alias-health/config_test.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/llm-alias-health/cmd/llm-alias-health/main_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/llm-alias-health/cmd/llm-alias-health/probe_chaos_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/llm-alias-health/cmd/llm-alias-health/probe_integration_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/multitrack/multitrack_checkout_owner_lock.sh GNUBSD *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/multitrack/multitrack_checkout_owner_lock.sh OSPATH *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/multitrack/multitrack.sh OSPATH *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/multitrack/test_multitrack_cwd_hook_owner_guard.sh GNUBSD *
+# BASELINE: untriaged pre-existing PARALLEL finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/multitrack/test_multitrack_cwd_hook_owner_guard.sh PARALLEL *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/multitrack/test_multitrack_work_binding_submodule_db.sh GNUBSD *
+# BASELINE: untriaged pre-existing GITREF finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/release_tag.sh GITREF *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/scheduled-work-engine/cmd/scheduled-work/main.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/scheduled-work-engine/test/integration_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/scheduled-work-engine/test/live_smoke.sh ENDPOINT *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/scheduled-work-engine/test/meta_mutation.sh GNUBSD *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/sonarqube/sonarqube_install_check.sh OSPATH *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/sonarqube/sonarqube_lib.sh OSPATH *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/token_efficiency/scoped_read.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/token_efficiency/token_efficiency_lib.sh GNUBSD *
+# BASELINE: untriaged pre-existing MODEL finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/translation/review_translation.py MODEL *
+# BASELINE: untriaged pre-existing MODEL finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/translation/translate-pipeline.sh MODEL *
+# BASELINE: untriaged pre-existing GPU finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/scripts/workable-items/cmd/workable-items/gap_dual_representation_test.go GPU *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/skills/media-validator/media-validator.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/skills/session-sync/session-sync.sh GNUBSD *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/skills/session-sync/session-sync.sh HOSTNAME *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/skills/session-sync/session-sync.sh SHEBANG *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/tests/action_prefix/meta_test_action_prefix_grammar.sh GNUBSD *
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/tests/token_efficiency/meta_test_token_efficiency.sh GNUBSD *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/upstreams/gitflic.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/upstreams/github.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/upstreams/gitlab.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/upstreams/gitverse.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/upstreams/vasic_digital_github.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/constitution/upstreams/vasic_digital_gitlab.sh SHEBANG *
+
+# ---- submodules/containers ----
+# BASELINE: untriaged pre-existing GNUBSD finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh GNUBSD *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh SERVICE *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/challenges/scripts/host_no_auto_suspend_challenge.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/challenges/scripts/no_suspend_calls_challenge.sh SHEBANG *
+# BASELINE: untriaged pre-existing PARALLEL finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/cmd/distributed-test/main.go PARALLEL *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/images/android-test/entrypoint.sh SHEBANG *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/images/ota-device-emu/docker-compose.example.yml OSPATH *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/images/ota-device-emu/entrypoint.sh OSPATH *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/install_upstreams.sh SHEBANG *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/internal/buildpkg/artifacts_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/internal/buildpkg/executor_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/internal/buildpkg/planner_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/internal/netaddr/netaddr_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/applesim/applesim_test.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/brokertest.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/brokertest_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/etcd.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/etcd_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/postgres_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/redis_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/brokertest/wave20_brokhard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/compose/helix_project.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/compose/orchestrator_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/compose/podman_compose_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/compose/wave20_co2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/ctop/wave18_real_runtime_output_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/cuttlefish/accel.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/cuttlefish/chaos_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/cuttlefish/cuttlefish_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/cuttlefish/health_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/cuttlefish/stress_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/cuttlefish/types.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/discovery/discoverer_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/discovery/dns_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/discovery/tcp_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/discovery/wave20_dl2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/distribution/distributed_build_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing TOOLVER finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/distribution/distributed_build_test.go TOOLVER *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/distribution/ports_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/distribution/wave20_di2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/egress/egress_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/egress/wave20_eg2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/egress/wave20_eghard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/adb_hygiene_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/android_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/canary_runner_injection_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/canary_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/containerized.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/containerized_liveness_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/containerized_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/entrypoint.sh ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/matrix_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/network_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/network_test.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/screenshot_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/screenshot_test.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/wave18c_fb2_adb_serial_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/emulator/wave20_emuhard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/builder_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/builder_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/endpoint_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/endpoint_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/hxc218_ipv6_addr_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/wave20_ep2_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/wave20_ep2_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/wave20_ephard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/endpoint/wave20_ephard_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/envconfig/parser_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing HOSTNAME finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/envconfig/parser_test.go HOSTNAME *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/envconfig/template.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/genymotion/genymotion.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/genymotion/genymotion_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/genymotion/genymotion_test.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/genymotion/wave20_genyhard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/grpc_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/helix_infra.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/http_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/hxc218_ipv6_addr_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/tcp_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/wave20_he2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/health/wave20_health2_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/lazyservice/orchestrator_test.go SERVICE *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/monitor/system.go OSPATH *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/monitor/system_internal_test.go OSPATH *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/monitor/wave21_sw2_test.go OSPATH *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/network/port_allocator_coverage_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/network/tunnel_coverage_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/network/wave20_net2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/orchestrator/wave16b_orchestrator_deps_test.go SERVICE *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/orchestrator/wave16_orchestrator_audit_test.go SERVICE *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/orchestrator/wave20_or2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/orchestrator/wave20_or3_deep_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/bootstrap_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/connection_pool_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remoteexec/remoteexec.go SERVICE *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remoteexec/wave17_sshrunner_transport_audit_test.go SERVICE *
+# BASELINE: untriaged pre-existing GPU finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/gpu_parse.go GPU *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/probe.go OSPATH *
+# BASELINE: untriaged pre-existing GPU finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/probe_gpu.go GPU *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/ssh_executor_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/ssh_executor_test.go SERVICE *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/types_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/wave18_remote_hardening_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/remote/wave20_remote2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/runtime/wave20_rthard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/serviceregistry/discover_nilnil_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/serviceregistry/options_coverage_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/serviceregistry/registry_gaps_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/serviceregistry/registry_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/vm/clients_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/vm/matrix_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/vm/qemu_auth_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/pkg/vm/wave20_vm2hard_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/build-all.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/host-power-management/check-no-suspend-calls.sh SHEBANG *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/host-power-management/install-host-suspend-guard.sh SERVICE *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/host-power-management/install-host-suspend-guard.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/host-power-management/user_session_no_suspend_bootstrap.sh SHEBANG *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/lib/durable-run.sh SERVICE *
+# BASELINE: untriaged pre-existing SERVICE finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/scripts/lib/durable-run.test.sh SERVICE *
+# BASELINE: untriaged pre-existing ENDPOINT finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/tests/integration/remote_deployment_test.go ENDPOINT *
+# BASELINE: untriaged pre-existing OSPATH finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/tests/security/ssh_security_test.go OSPATH *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/upstreams/github.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/upstreams/vasic_digital_github.sh SHEBANG *
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+submodules/containers/upstreams/vasic_digital_gitlab.sh SHEBANG *
+
+# ---- vasic.digital ----
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+vasic.digital/Upstreams/GitHub.sh SHEBANG *
+
+# ---- workshop ----
+# BASELINE: untriaged pre-existing SHEBANG finding in an owned submodule, surfaced
+# 2026-09-01 when the fleet sweep was switched on. Debt, not a justification.
+workshop/upstreams/GitHub.sh SHEBANG *

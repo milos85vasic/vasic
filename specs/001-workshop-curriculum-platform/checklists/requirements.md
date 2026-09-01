@@ -66,7 +66,7 @@ Every functional requirement group is measured by at least one success criterion
 | FR-030 … FR-031 (documentation) | SC-004 |
 | FR-032 … FR-033 (evidence) | SC-012, SC-013 |
 | FR-034 … FR-036 (governance) | SC-014, SC-015 |
-| FR-037 … FR-039 (identity, correction, privacy) | SC-016 |
+| FR-037 … FR-039 (identity, correction, privacy) | SC-016, SC-016a |
 | FR-040 (evidence retention) | SC-018 |
 | FR-041 … FR-042 (accessibility) | SC-017 |
 
@@ -96,6 +96,19 @@ The five clarifications closed these taxonomy gaps: passage identity and uniquen
 lifecycle and provenance; privacy handling for an identifiable third party; evidence retention;
 and accessibility. The traceability table above was extended to cover the new requirements —
 had it been left alone, it would have understated coverage while still reading as complete.
+
+## Contracts Review — 2026-09-01
+
+Phase 1 contract authoring surfaced one requirement that could not be met as written, and it was
+corrected rather than absorbed:
+
+**SC-016 claimed 100% link survival across every passage kind.** Achievable for passages the
+curriculum owns, because a minted identifier is anchored into the source artifact. NOT achievable
+for source code the curriculum does not own, where no anchor can be written and identity must fall
+back to a symbol path. Split into SC-016 (owned, 100% by construction) and SC-016a (code, 100% of
+stale references fail LOUDLY rather than silently re-pointing). Left unqualified, implementation
+would have produced either an undocumented exception or a wrong-but-rendering link — the precise
+failure the criterion exists to prevent.
 
 ## Notes
 

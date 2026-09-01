@@ -29,9 +29,21 @@ run_case() {
     const fs = require("node:fs");
     const [fixture, name, expect, rcStr, verdict, logFile, outFile] = process.argv.slice(1);
     const lines = fs.readFileSync(logFile, "utf8").split("\n").filter(Boolean);
+    // Deterministic provenance stamp. A caller-pinned SOURCE_DATE_EPOCH (the
+    // reproducible-builds convention this repo already follows in
+    // _tools/gen/build.sh and _tools/pdf/build-pdfs.sh) yields a real,
+    // reproducible generatedAt. With it unset we OMIT the field rather than
+    // embed a wall clock: this verdict is COMMITTED evidence (_tests/GATES.md
+    // cites it for the portfolio §1.1 gate), and an embedded clock made it
+    // permanently dirty on every run. Mirrors the sibling convention in
+    // design-toolkit/qa/run-checks.mjs (generatedAt_omitted_for_determinism).
+    const sde = process.env.SOURCE_DATE_EPOCH;
+    const provenance = (sde && /^[0-9]+$/.test(sde))
+      ? { generatedAt: new Date(Number(sde) * 1000).toISOString() }
+      : { generatedAt_omitted_for_determinism: true };
     const doc = {
       schema: "portfolio-validator/1",
-      generatedAt: new Date().toISOString(),
+      ...provenance,
       validator: "_tools/portfolio/validate.mjs",
       fixture,
       name,

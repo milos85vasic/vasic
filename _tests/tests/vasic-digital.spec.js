@@ -112,13 +112,41 @@ test.describe('vasic.digital — AI company site (OpenDesign)', () => {
     if (testInfo.project.name !== 'chromium') test.skip();
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
+    // Settle the hero stat count-up BEFORE the first capture. The three
+    // `[data-od-count]` stats are animated by a JS requestAnimationFrame loop
+    // (assets/od/motion.js `initCountUp`): an IntersectionObserver starts them
+    // and for 1200 ms they rewrite textContent from 0 up to the authored value.
+    // `animations: 'disabled'` governs CSS animations/transitions and WAAPI — it
+    // does NOT reach a rAF loop — so without this wait the FIRST screenshot
+    // catches mid-count digits, and because the digit widths differ the whole
+    // hero reflows, which is why this shot drifted across runs while the others
+    // did not. Wait past the animation's own declared duration, then ASSERT the
+    // settled state so a future change fails loudly instead of silently
+    // producing nondeterministic evidence.
+    if (await page.locator('[data-od-count]').count() > 0) {
+      await page.waitForTimeout(1500); // > the 1200 ms count-up duration
+      const settled = await page.evaluate(() =>
+        [...document.querySelectorAll('[data-od-count]')].every((el) =>
+          !el.hasAttribute('data-od-count-final') ||
+          el.textContent === el.getAttribute('data-od-count-final')));
+      expect(settled, 'hero count-up still mid-flight — screenshot would be nondeterministic').toBe(true);
+    }
+
+    // `animations: 'disabled'` is what makes this evidence reproducible AND
+    // correct. Playwright fast-forwards finite CSS transitions to completion and
+    // cancels infinite animations to their initial state, which settles all
+    // three sources of pixel drift at once: the theme-swap
+    // `transition: background-color` fade (vasic-digital.css:246), the `.reveal`
+    // IntersectionObserver opacity transitions, and the two infinite decorative
+    // loops (`vd-aurora-drift` 22s at vasic-digital.css:554, `vd-scan` 6.5s at
+    // :582). Without it these shots sampled a random frame of a running loop.
     await page.evaluate(() => { localStorage.setItem('od-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); });
-    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-light.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-light.png', fullPage: true, animations: 'disabled' });
     await page.evaluate(() => { localStorage.setItem('od-theme', 'dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
-    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-dark.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-dark.png', fullPage: true, animations: 'disabled' });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    await page.screenshot({ path: 'evidence/homepages/vasic-mobile.png', fullPage: true });
+    await page.screenshot({ path: 'evidence/homepages/vasic-mobile.png', fullPage: true, animations: 'disabled' });
   });
 
 });

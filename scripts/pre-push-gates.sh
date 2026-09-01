@@ -116,7 +116,7 @@ ONLY="${PREPUSH_ONLY:-}"
 LOGDIR="$(mktemp -d "${TMPDIR:-/tmp}/vasic-prepush.XXXXXX")" || {
     echo "FATAL: cannot create a log directory" >&2; exit 2; }
 
-PASSED=0; FAILED=0; SKIPPED=0
+PASSED=0; FAILED=0; SKIPPED=0; UNDET=0
 declare -a SUMMARY=()
 
 # ---- Evidence worktree guard (see WORKTREE HYGIENE in the header) ------------
@@ -432,6 +432,26 @@ run_gate() {
         return 0
     fi
 
+    # rc=2 is "COULD NOT DETERMINE", not "FAILED". Until 2026-09-01 this runner
+    # mapped EVERY non-zero child rc to FAILED, so a gate that honestly reported
+    # it could not inspect something was published as a violation of the tree.
+    # That is the same conflation this project has now found five times, and it
+    # was sitting in the runner that judges all the others.
+    #
+    # It still exits non-zero — a blind instrument is never a pass — but it is
+    # counted and printed SEPARATELY from FAIL, matching the `err` convention in
+    # scripts/verify-all-constitution-rules.sh. Distinct from SKIP: a SKIP never
+    # ran (unmet precondition); an UNDET ran and could not reach a verdict.
+    if [[ $rc -eq 2 ]]; then
+        printf '%s⚠ UNDET%s gate %-2s %s  (rc=2, %ss)\n' "$YELLOW" "$NC" "$id" "$name" "$elapsed"
+        printf '        the gate RAN but could not determine a verdict. This is NOT a pass,\n'
+        printf '        and NOT a finding against this tree — the check itself could not see.\n'
+        printf '        log: %s\n' "$log"
+        UNDET=$((UNDET + 1))
+        SUMMARY+=("UNDET|$id|$name|rc=2, log=$log")
+        return 2
+    fi
+
     printf '%s✖ FAIL%s  gate %-2s %s  (rc=%s, %ss)\n' "$RED" "$NC" "$id" "$name" "$rc" "$elapsed"
     printf '        command: %s\n' "$(gate_cmd_text "$id")"
     if [[ "$VERBOSE" != "1" ]]; then
@@ -573,7 +593,7 @@ for row in "${SUMMARY[@]}"; do
     esac
 done
 echo "----------------------------------------------------------------------"
-printf 'passed=%d  failed=%d  skipped=%d\n' "$PASSED" "$FAILED" "$SKIPPED"
+printf 'passed=%d  failed=%d  undetermined=%d  skipped=%d\n' "$PASSED" "$FAILED" "$UNDET" "$SKIPPED"
 
 # Documented deviations are surfaced on EVERY run, pass or fail. A green run that
 # silently carries a known §11.4.156 non-compliance is the "quietly green tree"
@@ -582,6 +602,23 @@ if [[ -s "${LOGDIR}/deviations" ]]; then
     printf '\n%s── DOCUMENTED DEVIATIONS (not overrides; still non-compliant) ──%s\n' "$YELLOW" "$NC"
     sed 's/^/  /' "${LOGDIR}/deviations"
     printf '%s  These do NOT block the push. They are NOT compliance.%s\n' "$YELLOW" "$NC"
+fi
+
+# An UNDETERMINED gate blocks the push for the same reason the `err` counter does
+# in the constitution sweep: a blind instrument is never a pass. It is reported
+# separately from FAILED so nobody hunts a defect that was never demonstrated.
+if [[ $UNDET -gt 0 && $FAILED -eq 0 ]]; then
+    echo
+    echo "${YELLOW}${BOLD}$UNDET gate(s) COULD NOT DETERMINE a verdict (rc=2).${NC}"
+    echo "This is NOT a failure of this tree and NOT a pass. The listed gate(s)"
+    echo "ran but could not see what they needed. Fix the instrument or its"
+    echo "environment, then re-run — do not go looking for a defect in the code."
+    for row in "${SUMMARY[@]}"; do
+        [[ "${row%%|*}" == "UNDET" ]] || continue
+        IFS='|' read -r _ i n d <<<"$row"
+        printf '  gate %-2s %s — %s\n' "$i" "$n" "$d"
+    done
+    exit 1
 fi
 
 if [[ $FAILED -gt 0 ]]; then
