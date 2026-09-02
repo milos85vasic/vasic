@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { VD_BASE, MV_BASE } = require('../env.js');
 
 /**
  * PERMANENT interactive-behavior gate (§11.4.169 integration/behavior type).
@@ -37,7 +38,7 @@ const VIEWPORTS = [
 const SITES = [
   {
     key: 'milosvasic.ru',
-    base: 'http://localhost:8082',
+    base: MV_BASE,
     // Pages that carry full site chrome (header nav, brand, theme, language, back-to-top).
     chromePages: [
       { type: 'home',      path: '/' },
@@ -63,7 +64,7 @@ const SITES = [
   },
   {
     key: 'vasic.digital',
-    base: 'http://localhost:8401',
+    base: VD_BASE,
     chromePages: [
       { type: 'home',      path: '/' },
       { type: 'portfolio', path: '/portfolio/' },

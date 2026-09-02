@@ -62,6 +62,43 @@ to the private corpus left it, so **no total measured before the flip is
 comparable to one measured after**. The incident note's "377 → 232" and this
 document's own older funnel both predate it. Re-derive; do not subtract.
 
+**This table records ONE remote per repository, and `design-toolkit` has two
+with DIFFERENT visibilities.** The fleet is derived from
+`submodule.<name>.url` — a single URL per submodule — plus this tree's own
+remote. `design-toolkit`'s row above says **public**, which is a measured fact
+about its GitHub origin `vasic-digital/design-toolkit`. Measured 2026-09-02, the
+same repository also has a GitLab mirror,
+`git@gitlab.com:vasic-digital/design-toolkit.git`, which is **private**:
+
+```bash
+gh   api repos/vasic-digital/design-toolkit --jq .visibility            # public
+glab api "projects/vasic-digital%2Fdesign-toolkit" | jq -r .visibility  # private
+# and anonymously, which distinguishes "private" from "you have access":
+curl -s -o /dev/null -w '%{http_code}\n' https://api.github.com/repos/vasic-digital/design-toolkit    # 200
+curl -s -o /dev/null -w '%{http_code}\n' https://gitlab.com/api/v4/projects/vasic-digital%2Fdesign-toolkit  # 404
+```
+
+**This does not change any boundary verdict, and the reason is measured rather
+than assumed.** The mirror is 6 commits **behind** the public origin and its
+head is a strict **ancestor** of it, so every commit and every tag the mirror
+advertises is already reachable from the public GitHub head; its merge-request,
+issue, wiki, snippet, package and registry stores are all empty. The private
+side is a strict subset of the public side, so it contributes nothing to the
+private corpus and no total above needs re-deriving on its account. Full
+measurement, the commands, and the honest boundary on what `ls-remote` can and
+cannot see:
+[`constitution-adoption/REMOTE-ASYMMETRY.md` §10](constitution-adoption/REMOTE-ASYMMETRY.md#10-design-toolkits-gitlab-mirror--measured-2026-09-02).
+
+**What this IS evidence of: a single-remote blind spot shared by two gates.**
+Neither this guard nor `scripts/verify-submodule-remote-sync.sh` can see a
+second remote for any submodule, because `.gitmodules` declares exactly one URL
+and neither reads a submodule's named remotes. Today that costs nothing here.
+It would cost something the moment a repository's mirror were *ahead* of, or
+divergent from, the URL in `.gitmodules` — a case no instrument in this tree can
+currently detect. Closing it needs a declared source of mirror URLs and is a
+separate operator decision, specified in §10.6 of that document. **Do not read
+this note as a reason to relax anything.**
+
 **There are three private submodules today, not four and not one.** `workshop`
 holds the session recording and its notes and is the most sensitive;
 `ai_interviewing` and `monetization` are private too, and the same rule governs

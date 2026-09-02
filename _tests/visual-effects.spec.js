@@ -5,7 +5,7 @@ const path = require('path');
 // vasic.digital — visual-effects evidence + a11y gate.
 // Captures the animated hero, a card hover-glow state, mobile, and a
 // prefers-reduced-motion render (motion disabled), and runs axe on the home.
-const BASE = 'http://localhost:8401';
+const { VD_BASE: BASE } = require('./env.js');
 const EV = path.resolve(__dirname, 'evidence/visual-effects');
 
 async function setTheme(page, theme) {

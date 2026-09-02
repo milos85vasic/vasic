@@ -29,6 +29,7 @@
 #   bash scripts/pre-push-gates.sh --install    # install .git/hooks/pre-push
 #   bash scripts/pre-push-gates.sh --uninstall  # remove the installed hook
 #   bash scripts/pre-push-gates.sh --list       # print the gate table, run nothing
+#   bash scripts/pre-push-gates.sh --prove-failure   # the §1.1 paired proof
 #   bash scripts/pre-push-gates.sh --help
 #
 #   `.git/hooks/` is NOT tracked by git, so the hook never travels with a clone.
@@ -97,6 +98,11 @@ else
 fi
 unset _root_from_git
 unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX 2>/dev/null || true
+
+# ABSOLUTE path to this file, resolved BEFORE the cd below. A relative
+# BASH_SOURCE stops resolving the moment the working directory changes, and the
+# paired proof re-invokes this file from inside its sandbox (measured: rc 127).
+SELF_ABS="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/$(basename -- "${BASH_SOURCE[0]}")"
 
 cd "$ROOT" || { echo "FATAL: cannot cd to derived root '$ROOT'" >&2; exit 2; }
 
@@ -630,11 +636,303 @@ usage() {
     sed -n '2,60p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
 }
 
+# ------------------------------------------------------------------------------
+# §1.1 PAIRED MUTATION PROOF  —  --prove-failure
+#
+# WHAT IS UNDER TEST. This RUNNER, not the gates it calls. Its guarded property
+# is the verdict machinery: a failing gate must BLOCK the push and be named; a
+# gate that could not see must be counted as UNDETERMINED and block WITHOUT
+# accusing the tree; an unmet precondition must SKIP with a stated reason and
+# become a FAILURE under PREPUSH_STRICT=1; and §11.4.156(E) must fire on active
+# CI at the umbrella root AND inside an OWNED submodule while leaving a
+# third-party gitlink alone. Every one of those is asserted below by seeding the
+# condition and reading the exit code, not by reading the source.
+#
+# WHY A SYNTHETIC REPOSITORY. Two reasons, both measured rather than assumed:
+#
+#   1. A control that is the real tree is green only while eight real gates are
+#      green — one of which is a Playwright suite that needs a built Jekyll site
+#      and the public internet. A red control returns before the first mutation
+#      and the proof exits having demonstrated nothing. That is the "inoperative
+#      proof" defect recorded in docs/check-registry.md, found in two of this
+#      repository's own gates on 2026-09-01.
+#   2. A full live run is NOT read-only. On success this runner calls
+#      restore_evidence, which runs `git checkout -- _tests/evidence` and
+#      re-applies a patch — it REWRITES TRACKED FILES in the working tree. A
+#      proof must not do that to the repository it is being run in.
+#
+# So the battery runs against a throwaway git repository under `mktemp -d` whose
+# gate 0 is a stub reading its exit code out of a sidecar file: the mutation is
+# DATA, the control is green BY CONSTRUCTION, and nothing outside the sandbox is
+# created, written or removed. PREPUSH_ONLY — which this file's own header
+# documents as being for "debugging / mutation proofs" — keeps each run to the
+# two gates that carry the assertions.
+#
+# THE PRE-FLIGHT IS BOUNDED, AND SAYS SO (§11.4.6). It runs the REAL entry point
+# against the REAL tree as `--list`, which proves the runner starts, derives the
+# real root and enumerates its real gate table. It deliberately does NOT execute
+# the eight gates, for reason 2 above. No claim is made here that they were run.
+# ------------------------------------------------------------------------------
+prove_failure() {
+    local P_PASS=0 P_FAIL=0
+    p_ok()  { P_PASS=$((P_PASS+1)); printf '✅ %-30s %s\n' "$1" "$2"; }
+    p_bad() { P_FAIL=$((P_FAIL+1)); printf '❌ %-30s %s\n' "$1" "$2"; }
+
+    echo "PRE-PUSH-GATES §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+
+    # Even `--list` mktemp's a log directory and does not remove it (by design —
+    # its path is printed for diagnosis), so the pre-flight is given a TMPDIR of
+    # its own and that is cleaned up here. A proof must leave no litter.
+    local pf_out pf_rc pf_tmp
+    pf_tmp="$(mktemp -d "${TMPDIR:-/tmp}/prepush-preflight.XXXXXX")" || {
+        echo "PRE-PUSH-GATES-PROOF: UNDETERMINED — cannot create a scratch dir" >&2; return 2; }
+    pf_out="$(env TMPDIR="$pf_tmp" bash "$SELF_ABS" --list 2>&1)"; pf_rc=$?
+    rm -rf "$pf_tmp"
+    if [[ $pf_rc -eq 0 ]] && printf '%s' "$pf_out" | grep -qF "§11.4.156(E) no active root CI config"; then
+        printf 'ℹ %-30s the real entry point ran against the real tree and enumerated its %s\n' \
+               "PRE-FLIGHT live --list" "$(printf '%s' "$pf_out" | grep -cE '^[E0-9] ')"
+        printf '%-32s real gates. Bounded on purpose: a full live run REWRITES _tests/evidence\n' ""
+        printf '%-32s via restore_evidence, so it is not performed here. REPORTED, never gating.\n' ""
+    else
+        p_bad "PRE-FLIGHT live --list" "the real entry point could not enumerate its own gate table (rc=${pf_rc})"
+    fi
+
+    if ! command -v git >/dev/null 2>&1; then
+        echo "PRE-PUSH-GATES-PROOF: UNDETERMINED — git is not on PATH; no specimen can be built" >&2
+        return 2
+    fi
+
+    # NOT `local`: the EXIT trap below fires after this function has returned, so
+    # a function-scoped name would be unbound by then and `set -u` would kill the
+    # cleanup with "unbound variable" — leaving the sandbox on disk. Measured.
+    PSB="$(mktemp -d "${TMPDIR:-/tmp}/prepush-proof.XXXXXX")" || {
+        echo "PRE-PUSH-GATES-PROOF: UNDETERMINED — cannot create a sandbox" >&2; return 2; }
+    # cleanup: the specimen and this proof run's own log dir both live in TMPDIR
+    # and are removed together. The real repository is never restored because it
+    # is never written to.
+    trap 'rm -rf "${PSB:-}" "${LOGDIR:-}"' EXIT INT TERM
+    echo "  sandbox: $PSB"
+
+    local SPEC="$PSB/tree"
+
+    sgit() {
+        env HOME="$PSB" GIT_CONFIG_NOSYSTEM=1 \
+            git -c user.name=prepush-proof -c user.email=prepush-proof@invalid \
+                -c commit.gpgsign=false -c init.defaultBranch=main "$@"
+    }
+
+    build_specimen() {
+        rm -rf "$SPEC"
+        mkdir -p "$SPEC/scripts" "$SPEC/_tests/evidence" || return 1
+        cp "$SELF_ABS" "$SPEC/scripts/pre-push-gates.sh" || return 1
+        chmod 755 "$SPEC/scripts/pre-push-gates.sh" || return 1
+
+        # gate 0's subject: a stub whose exit code is DATA in a sidecar file.
+        cat > "$SPEC/scripts/audit-hardcoded-paths.sh" <<'STUB0'
+#!/usr/bin/env bash
+f="${BASH_SOURCE[0]}.rc"; rc=0; [ -f "$f" ] && rc="$(cat "$f")"
+echo "synthetic gate 0 reporting rc=${rc}"
+exit "$rc"
+STUB0
+        chmod 755 "$SPEC/scripts/audit-hardcoded-paths.sh" || return 1
+        : > "$SPEC/_tests/evidence/.keep" || return 1
+
+        # The owned-fleet declaration gate E derives ownership from.
+        cat > "$SPEC/helix-deps.yaml" <<'DEPS'
+schema_version: 1
+deps:
+  - name: ownedsub
+    ssh_url: git@github.com:synthetic-org/ownedsub.git
+    ref: "1111111111111111111111111111111111111111"
+DEPS
+        # One OWNED gitlink and one THIRD-PARTY gitlink. Both are real nested git
+        # repositories, so gate E's `git -C <path> ls-files` runs for real.
+        printf '[submodule "ownedsub"]\n\tpath = ownedsub\n\turl = git@github.com:synthetic-org/ownedsub.git\n' \
+            > "$SPEC/.gitmodules" || return 1
+        printf '[submodule "vendorsub"]\n\tpath = vendorsub\n\turl = git@github.com:some-upstream/vendorsub.git\n' \
+            >> "$SPEC/.gitmodules" || return 1
+        local s
+        for s in ownedsub vendorsub; do
+            mkdir -p "$SPEC/$s" || return 1
+            sgit -C "$SPEC/$s" init -q >/dev/null 2>&1 || return 1
+            printf 'placeholder\n' > "$SPEC/$s/README" || return 1
+            sgit -C "$SPEC/$s" add -A >/dev/null 2>&1 || return 1
+            sgit -C "$SPEC/$s" commit -q -m "synthetic submodule" >/dev/null 2>&1 || return 1
+        done
+
+        sgit -C "$SPEC" init -q >/dev/null 2>&1 || return 1
+        sgit -C "$SPEC" add -A -f -- scripts _tests helix-deps.yaml .gitmodules >/dev/null 2>&1 || return 1
+        sgit -C "$SPEC" commit -q -m "synthetic prepush specimen" >/dev/null 2>&1 || return 1
+        return 0
+    }
+
+    # run_spec [VAR=val ...] -- [argv...]   — the REAL runner, from inside $SPEC
+    #
+    # TMPDIR is pointed INSIDE the sandbox. Each invocation of this runner
+    # mktemp's a log directory and deliberately never removes it (the logs are
+    # diagnostic and their path is printed), so a battery of ~16 runs would
+    # otherwise leave 16 stray directories in the host's real TMPDIR every time
+    # the proof is executed. It is set BEFORE "${envs[@]}", so a case that
+    # overrides TMPDIR on purpose — M8 — still wins: env applies assignments
+    # left to right.
+    mkdir -p "$PSB/tmp"
+    run_spec() {
+        local -a envs=()
+        while [[ $# -gt 0 && "$1" != "--" ]]; do envs+=("$1"); shift; done
+        [[ "${1:-}" == "--" ]] && shift
+        ( cd "$SPEC" && env HOME="$PSB" GIT_CONFIG_NOSYSTEM=1 PREPUSH_ONLY="E 0" \
+            TMPDIR="$PSB/tmp" \
+            "${envs[@]}" timeout 300 bash "$SPEC/scripts/pre-push-gates.sh" "$@" 2>&1 )
+    }
+
+    # assert <label> <want-rc> <needle-or-empty> [VAR=val ...] -- [argv...]
+    assert() {
+        local label="$1" want="$2" needle="$3"; shift 3
+        local out rc
+        out="$(run_spec "$@")"; rc=$?
+        if [[ $rc -ne $want ]]; then
+            p_bad "$label" "expected rc=${want}, got rc=${rc}"
+            printf '%s\n' "$out" | tail -8 | sed 's/^/        /'
+            return
+        fi
+        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+            p_bad "$label" "rc=${want} as required, but the output never NAMED '${needle}'"
+            printf '%s\n' "$out" | tail -8 | sed 's/^/        /'
+            return
+        fi
+        p_ok "$label" "rc=${rc}${needle:+, and it named '${needle}'}"
+    }
+
+    build_specimen || {
+        echo "PRE-PUSH-GATES-PROOF: UNDETERMINED — the specimen could not be built" >&2; return 2; }
+
+    # ---- CONTROL -------------------------------------------------------------
+    assert "CONTROL synthetic-green    " 0 "ALL RUN GATES PASSED"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "----------------------------------------------------------------------"
+        echo "❌ PRE-PUSH-GATES §1.1 PROOF: ABORTED — the synthetic control did not pass, so"
+        echo "   ZERO mutations ran and nothing below would have been proved."
+        return 1
+    fi
+
+    # ---- M1  a gate FAILS -> the push is blocked and the gate is named -------
+    printf '1\n' > "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+    assert "M1 gate-fails-blocks-push  " 1 "PUSH BLOCKED"
+    local out
+    out="$(run_spec)"
+    if printf '%s' "$out" | grep -qE 'passed=1[[:space:]]+failed=1[[:space:]]+undetermined=0'; then
+        p_ok "M1b failure-counted-as-FAIL" "the counters read passed=1 failed=1 undetermined=0"
+    else
+        p_bad "M1b failure-counted-as-FAIL" "a failing gate was not counted as a FAIL"
+        printf '%s' "$out" | grep -E 'passed=' | sed 's/^/        /'
+    fi
+    rm -f "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+
+    # ---- M2  a gate is BLIND (rc=2) -> UNDET, blocks, does NOT accuse --------
+    # This is the distinction the runner acquired on 2026-09-01 and that nothing
+    # had ever demonstrated. Asserted here on BOTH halves: the exit code, and the
+    # counters showing it was not laundered into FAILED.
+    printf '2\n' > "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+    assert "M2 gate-blind-is-UNDET     " 1 "COULD NOT DETERMINE a verdict"
+    out="$(run_spec)"
+    if printf '%s' "$out" | grep -qE 'passed=1[[:space:]]+failed=0[[:space:]]+undetermined=1' \
+       && printf '%s' "$out" | grep -qF "NOT a failure of this tree and NOT a pass"; then
+        p_ok "M2b blind-is-not-a-FAIL   " "counters read failed=0 undetermined=1, and it refuses to accuse the tree"
+    else
+        p_bad "M2b blind-is-not-a-FAIL  " "an rc=2 gate was conflated with a FAILURE"
+        printf '%s' "$out" | grep -E 'passed=|UNDET' | sed 's/^/        /'
+    fi
+    rm -f "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+
+    # ---- M3  §11.4.156(A): an active workflow at the umbrella root -----------
+    mkdir -p "$SPEC/.github/workflows"
+    printf 'name: ci\non: [push]\njobs:\n  x:\n    runs-on: ubuntu-latest\n    steps: [{run: "true"}]\n' \
+        > "$SPEC/.github/workflows/ci.yml"
+    sgit -C "$SPEC" add -A -f -- .github >/dev/null 2>&1
+    sgit -C "$SPEC" commit -q -m "seed an active root workflow" >/dev/null 2>&1
+    assert "M3 root-workflow-active    " 1 "§11.4.156 VIOLATION"
+    # ---- M4  no escape hatch: an env switch must not make that pass ----------
+    assert "M4 no-escape-hatch         " 1 "There is no override flag" PREPUSH_SKIP_SLOW=1 --
+    sgit -C "$SPEC" rm -r -q --cached .github >/dev/null 2>&1
+    rm -rf "$SPEC/.github"
+    sgit -C "$SPEC" commit -q -m "remove the seeded workflow" >/dev/null 2>&1
+
+    # ---- M5  the same rule, one level down: an OWNED submodule --------------
+    # The umbrella's own `git ls-files` cannot see inside a gitlink, which is how
+    # this exact violation passed the gate before the submodule sweep existed.
+    mkdir -p "$SPEC/ownedsub/.github/workflows"
+    printf 'name: deploy\non: [push]\njobs: {x: {runs-on: ubuntu-latest, steps: [{run: "true"}]}}\n' \
+        > "$SPEC/ownedsub/.github/workflows/deploy.yml"
+    sgit -C "$SPEC/ownedsub" add -A -f >/dev/null 2>&1
+    sgit -C "$SPEC/ownedsub" commit -q -m "seed an active workflow inside an owned submodule" >/dev/null 2>&1
+    assert "M5 owned-submodule-workflow" 1 "TRACKED in owned submodule(s)"
+    sgit -C "$SPEC/ownedsub" rm -r -q --cached .github >/dev/null 2>&1
+    rm -rf "$SPEC/ownedsub/.github"
+    sgit -C "$SPEC/ownedsub" commit -q -m "remove it" >/dev/null 2>&1
+
+    # ---- M6  the scope rule DISCRIMINATES: a third-party gitlink is reported,
+    #          never failed and never edited (§11.4.156(C) / §11.4.29).
+    #          Without this, M5 would be satisfied by a gate that just always
+    #          fails on any workflow anywhere.
+    mkdir -p "$SPEC/vendorsub/.github/workflows"
+    printf 'name: upstream\non: [push]\njobs: {x: {runs-on: ubuntu-latest, steps: [{run: "true"}]}}\n' \
+        > "$SPEC/vendorsub/.github/workflows/upstream.yml"
+    sgit -C "$SPEC/vendorsub" add -A -f >/dev/null 2>&1
+    sgit -C "$SPEC/vendorsub" commit -q -m "seed an active workflow inside a third-party gitlink" >/dev/null 2>&1
+    assert "M6 third-party-out-of-scope" 0 "ALL RUN GATES PASSED"
+    out="$(run_spec PREPUSH_VERBOSE=1 --)"
+    if printf '%s' "$out" | grep -qF "OUT OF SCOPE" && printf '%s' "$out" | grep -qF "vendorsub"; then
+        p_ok "M6b out-of-scope-is-NAMED " "it is reported by name rather than silently omitted"
+    else
+        p_bad "M6b out-of-scope-is-NAMED" "a third-party finding was dropped instead of reported"
+    fi
+    sgit -C "$SPEC/vendorsub" rm -r -q --cached .github >/dev/null 2>&1
+    rm -rf "$SPEC/vendorsub/.github"
+    sgit -C "$SPEC/vendorsub" commit -q -m "remove it" >/dev/null 2>&1
+
+    # ---- M7  an unmet precondition SKIPs with a reason, and STRICT fails it --
+    assert "M7 precondition-skips      " 0 "SKIPPED with a stated reason" PREPUSH_ONLY="5" --
+    assert "M7b strict-turns-SKIP-FAIL " 1 "PREPUSH_STRICT=1 and the gate cannot run" \
+           PREPUSH_ONLY="5" PREPUSH_STRICT=1 --
+
+    # ---- M8  the runner cannot create its workspace -> rc 2, never 0 --------
+    assert "M8 no-log-dir-is-rc2       " 2 "cannot create a log directory" TMPDIR=/nonexistent --
+
+    # ---- M9  PREPUSH_ONLY runs ONLY what it lists ---------------------------
+    # Seed gate 0 red and exclude it: the run must stay green, or the selector
+    # every mutation above depends on would be meaningless.
+    printf '1\n' > "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+    assert "M9 only-selects-gates      " 0 "ALL RUN GATES PASSED" PREPUSH_ONLY="E" --
+    assert "M9b and-the-red-gate-is-red" 1 "PUSH BLOCKED" PREPUSH_ONLY="E 0" --
+    rm -f "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+
+    # ---- RESTORED CONTROL ---------------------------------------------------
+    assert "CONTROL restored           " 0 "ALL RUN GATES PASSED"
+
+    echo "----------------------------------------------------------------------"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "❌ PRE-PUSH-GATES §1.1 MUTATION PROOF: FAIL — ${P_FAIL} case(s) did not hold."
+        return 1
+    fi
+    echo "✅ PRE-PUSH-GATES §1.1 MUTATION PROOF: PASS — the real entry point ran against the"
+    echo "   real tree (bounded to --list, reported, never gating), a synthetic control that is"
+    echo "   green by construction passed, and 9 mutations were each caught: a failing gate"
+    echo "   blocks the push and is counted as FAILED; a BLIND gate blocks as UNDETERMINED with"
+    echo "   failed=0, refusing to accuse the tree; §11.4.156(E) fires at the umbrella root and"
+    echo "   inside an OWNED submodule while REPORTING a third-party gitlink it must not edit;"
+    echo "   an env switch cannot buy an escape hatch; an unmet precondition SKIPs with a reason"
+    echo "   and FAILs under PREPUSH_STRICT=1; an uncreatable log dir is rc=2, not a pass; and"
+    echo "   PREPUSH_ONLY runs only what it names. Nothing outside the sandbox was written."
+    return 0
+}
+
 # ---- Argument handling -------------------------------------------------------
 case "${1:-}" in
     --install)   install_hook; exit $? ;;
     --uninstall) uninstall_hook; exit $? ;;
     --list)      print_table; exit 0 ;;
+    --prove-failure) prove_failure; exit $? ;;
     --help|-h)   usage; exit 0 ;;
     "")          : ;;
     *)

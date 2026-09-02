@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const BASE = 'http://localhost:8401';
+const { VD_BASE: BASE } = require('../env.js');
 const SLUGS = ['catalogizer','grabtube','shareconnect','panoptic','android-toolkit','asinka','helixtrack-core','helixcode','helixtranslate','helix-flow-platform','llmsverifier','server-factory-core-framework','mail-server-factory','helixtrack-web-client','helixtrack-desktop-client','helixtrack-android-client','helixtrack-ios-client','yole'];
 
 test.describe('vasic.digital — localized article fragments (RU/SR)', () => {

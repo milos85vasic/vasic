@@ -8,22 +8,270 @@
 #
 #   ./scripts/test-setup-agents-wizard.sh            # run everything
 #   ./scripts/test-setup-agents-wizard.sh --no-live  # skip live network/daemon
+#   ./scripts/test-setup-agents-wizard.sh --root DIR # test the wizard in DIR
+#   ./scripts/test-setup-agents-wizard.sh --prove-failure   # its own §1.1 proof
 #
-# Evidence is written to .test-evidence/<UTC timestamp>/
-# Exit status is non-zero if any test fails.
+# Evidence is written to <root>/.test-evidence/<UTC timestamp>/
+#
+# EXIT CODES — three-valued, like every other check in this repository
+#   0  every assertion held
+#   1  at least one assertion FAILED — a real regression in the wizard
+#   2  COULD NOT DETERMINE: the wizard under test could not be located, read or
+#      is empty, or the evidence directory could not be created. Nothing was
+#      tested, and "nothing was tested" is neither a pass nor a failure
+#      (§11.4.6 / SC-013). A suite that records nothing has not certified
+#      anything, so it must never return 0 from that state.
 # ------------------------------------------------------------------------------
 set -uo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+# ABSOLUTE, and resolved before anything can change the working directory: the
+# paired proof re-invokes this file from inside its sandbox, and a relative
+# BASH_SOURCE stops resolving the moment the cwd moves (measured: rc 127).
+SELF_PATH="$SCRIPT_DIR/$(basename -- "${BASH_SOURCE[0]}")"
 PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
-WIZARD="$SCRIPT_DIR/setup-agents-wizard.sh"
 
 RUN_LIVE=1
-[[ "${1:-}" == "--no-live" ]] && RUN_LIVE=0
+PROVE=0
+ROOT_OVERRIDE=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --no-live)       RUN_LIVE=0 ;;
+        --root)          shift; ROOT_OVERRIDE="${1:-}" ;;
+        --prove-failure) PROVE=1 ;;
+        -h|--help)       sed -n '2,25p' "$SELF_PATH" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        *) echo "test-setup-agents-wizard: unknown option '$1'" >&2
+           echo "usage: $0 [--no-live] [--root DIR] [--prove-failure]" >&2
+           exit 2 ;;
+    esac
+    shift
+done
+
+# COULD NOT DETERMINE. Every path here means the suite never got as far as
+# asserting anything, which is a different state from "the wizard is fine".
+undet() {
+    printf 'test-setup-agents-wizard: COULD NOT DETERMINE — %s\n' "$1" >&2
+    printf '  Nothing was tested, so this is neither a pass nor a failure (§11.4.6 / SC-013).\n' >&2
+    exit 2
+}
+
+if [[ -n "$ROOT_OVERRIDE" ]]; then
+    PROJECT_ROOT=$(cd -- "$ROOT_OVERRIDE" &> /dev/null && pwd) \
+        || undet "the target root '$ROOT_OVERRIDE' is not a directory, so the wizard under test cannot be located"
+    SCRIPT_DIR="$PROJECT_ROOT/scripts"
+fi
+WIZARD="$SCRIPT_DIR/setup-agents-wizard.sh"
+
+if [[ $PROVE -eq 1 ]]; then
+    # ══════════════════════════════════════════════════════════════════════════
+    # §1.1 PAIRED MUTATION PROOF  —  --prove-failure
+    #
+    # WHAT IS UNDER TEST. This SUITE. Until now it asserted three-valued
+    # behaviour in the wizard it tests (K23b/K25) while implementing none for
+    # itself, and nothing anywhere demonstrated that it goes red when the wizard
+    # regresses. Both halves are closed here: the rc-2 states above are exercised
+    # as U1..U4, and M1..M4 seed real regressions and require the suite to catch
+    # each one BY NAME.
+    #
+    # WHY THE CONTROL IS THE REAL WIZARD, BYTE-COPIED. A synthetic wizard cannot
+    # be the control: 217 assertions describe this specific file, so a stand-in
+    # would fail the control and the battery would never start. The copy is made
+    # from the real tree and only the ROOT is redirected, so the control run is
+    # simultaneously the evidence that the suite passes on real material — while
+    # every mutation is applied to the COPY and the real wizard is never opened
+    # for writing.
+    #
+    # WHY EACH MUTATION IS NAMED, not merely counted. A suite can go red for the
+    # wrong reason. Every case below asserts the SPECIFIC assertion that must
+    # fail, so "it turned red" cannot stand in for "it caught this".
+    #
+    # The pre-flight runs the REAL suite against the REAL root, then removes ONLY
+    # the evidence directory that run created — reported, never gating.
+    # ══════════════════════════════════════════════════════════════════════════
+    P_PASS=0; P_FAIL=0
+    p_ok()  { P_PASS=$((P_PASS+1)); printf '✅ %-30s %s\n' "$1" "$2"; }
+    p_bad() { P_FAIL=$((P_FAIL+1)); printf '❌ %-30s %s\n' "$1" "$2"; }
+
+    echo "SETUP-AGENTS-WIZARD-SUITE §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+
+    [[ -f "$WIZARD" ]] || undet "the wizard under test is not at $WIZARD, so no specimen can be built"
+
+    # ---- PRE-FLIGHT: the REAL suite against the REAL root --------------------
+    pf_out="$(timeout 900 bash "$SELF_PATH" --no-live 2>&1)"; pf_rc=$?
+    pf_ev="$(printf '%s' "$pf_out" | sed -n 's|^ *results\.tsv *: *\(.*\)/results\.tsv$|\1|p' | tail -1)"
+    case "$pf_rc" in
+        0|1|2) printf 'ℹ %-30s the real suite ran against the real root and returned rc=%s — %s.\n' \
+                      "PRE-FLIGHT live-run" "$pf_rc" \
+                      "$(printf '%s' "$pf_out" | grep -oE 'total=[0-9]+ passed=[0-9]+ failed=[0-9]+ skipped=[0-9]+' | tail -1)"
+               printf '%-32s REPORTED, never gating.\n' "" ;;
+        124)   p_bad "PRE-FLIGHT live-run" "the real suite TIMED OUT on the real root — it cannot start, so it cannot guard anything" ;;
+        *)     p_bad "PRE-FLIGHT live-run" "the real suite exited rc=${pf_rc}, outside its own 0/1/2 contract" ;;
+    esac
+    # Leave the tree as it was found. Guarded so this can only ever remove a
+    # directory this run created under the root's own .test-evidence/.
+    case "$pf_ev" in
+        "$PROJECT_ROOT"/.test-evidence/*) rm -rf -- "$pf_ev"
+            printf '%-32s (its evidence directory was removed; the tree is as it was found)\n' "" ;;
+    esac
+
+    WSB="$(mktemp -d "${TMPDIR:-/tmp}/wizard-suite-proof.XXXXXX")" || {
+        echo "test-setup-agents-wizard: UNDETERMINED — cannot create a sandbox" >&2; exit 2; }
+    trap 'rm -rf "${WSB:-}"' EXIT INT TERM     # cleanup: every specimen lives and dies inside $WSB
+    echo "  sandbox: $WSB"
+
+    SPEC_ROOT="$WSB/root"
+    SPEC_WIZ="$SPEC_ROOT/scripts/setup-agents-wizard.sh"
+
+    build_specimen() {
+        rm -rf "$SPEC_ROOT"
+        mkdir -p "$SPEC_ROOT" || return 1
+        # The suite reads many siblings through SCRIPT_DIR (rollback, remediation,
+        # reindex, doctor, the hardcoded-path audit, and `"$SCRIPT_DIR"/*.sh` in
+        # J8), so the whole directory is mirrored rather than one file cherry-picked.
+        cp -a "$SCRIPT_DIR" "$SPEC_ROOT/scripts" || return 1
+        [[ -s "$SPEC_WIZ" ]] || return 1
+        return 0
+    }
+
+    # _wz_exact <file> <exact-line> <replacement-line>
+    # awk + mv, deliberately NOT `sed -i`: an in-place sed is a GNU/BSD
+    # portability assumption that scripts/audit-environment-assumptions.sh flags
+    # by rule, and a new proof must not add a finding to a sibling gate.
+    _wz_exact() {
+        awk -v want="$2" -v rep="$3" \
+            '$0==want { print rep; n++; next } { print } END { if (n==0) exit 3 }' \
+            "$1" > "$1.mut" || { rm -f "$1.mut"; return 1; }
+        mv "$1.mut" "$1"
+    }
+
+    run_suite() { ( cd "$WSB" && timeout 900 bash "$SELF_PATH" --root "$SPEC_ROOT" --no-live 2>&1 ) }
+
+    # assert_mutation <label> <assertion-name> <mutate-fn>
+    # Requires rc=1 AND that the NAMED assertion is the one reported failing.
+    assert_mutation() {
+        local label="$1" name="$2" fn="$3" out rc
+        if ! build_specimen; then
+            p_bad "$label" "the specimen could not be built — nothing was proved by this case"; return
+        fi
+        if ! "$fn"; then
+            p_bad "$label" "the mutation could not be applied (the anchor line is gone — update this proof)"; return
+        fi
+        out="$(run_suite)"; rc=$?
+        if [[ $rc -ne 1 ]]; then
+            p_bad "$label" "expected rc=1 (a real regression), got rc=${rc}"
+            printf '%s' "$out" | grep -E 'total=|❌' | tail -4 | sed 's/^/        /'
+            return
+        fi
+        if ! printf '%s' "$out" | grep -F '❌' | grep -qF -- "$name"; then
+            p_bad "$label" "the suite went red, but NOT on '${name}' — a red suite is not evidence it caught this"
+            printf '%s' "$out" | grep -F '❌' | head -4 | sed 's/^/        /'
+            return
+        fi
+        p_ok "$label" "rc=1, and the failing assertion is '${name}'"
+    }
+
+    # ---- CONTROL: the real wizard, byte-copied, must pass its own suite ------
+    if ! build_specimen; then
+        echo "test-setup-agents-wizard: UNDETERMINED — the specimen could not be built" >&2; exit 2
+    fi
+    _ctl_out="$(run_suite)"; _ctl_rc=$?
+    if [[ $_ctl_rc -eq 0 ]]; then
+        p_ok "CONTROL real-wizard-copy  " "rc=0 — $(printf '%s' "$_ctl_out" | grep -oE 'total=[0-9]+ passed=[0-9]+ failed=[0-9]+ skipped=[0-9]+' | tail -1)"
+    else
+        p_bad "CONTROL real-wizard-copy " "rc=${_ctl_rc} on an UNMUTATED copy of the real wizard"
+        printf '%s' "$_ctl_out" | grep -F '❌' | head -6 | sed 's/^/        /'
+        echo "----------------------------------------------------------------------"
+        echo "❌ SETUP-AGENTS-WIZARD-SUITE §1.1 PROOF: ABORTED — the control did not pass, so"
+        echo "   ZERO mutations ran and nothing below would have been proved. Fix the wizard"
+        echo "   (or the suite) first; this is not a statement about either mutation battery."
+        exit 1
+    fi
+
+    # ---- M1  the ensure_lumen CALL SITE is deleted --------------------------
+    # A9 exists because exactly this happened once: an audit removed the only
+    # call and the assertion that was supposed to notice still passed, because it
+    # matched the DEFINITION. It now counts call sites; this proves that it does.
+    m1() { _wz_exact "$SPEC_WIZ" "ensure_lumen" "# ensure_lumen  <- call site deleted by the paired proof"; }
+    assert_mutation "M1 ensure_lumen-uncalled  " "A9 ensure_lumen is actually CALLED" m1
+
+    # ---- M2  the lumen MCP subcommand regresses to the bogus one ------------
+    m2() { _wz_exact "$SPEC_WIZ" '            "args": ["stdio"]' '            "args": ["serve"]'; }
+    assert_mutation "M2 lumen-mcp-bogus-subcmd " "A3 lumen MCP uses the real 'stdio' subcommand" m2
+
+    # ---- M3  a guessed npm package name comes back on an EXECUTABLE line ----
+    # The assertion deliberately ignores comments, so the seeded line must be
+    # real code. It is placed in a function nothing calls, so the ONLY thing it
+    # can change is the static-analysis verdict.
+    m3() {
+        printf '\n_proof_seeded_regression() { npm install -g @specify/cli; }\n' >> "$SPEC_WIZ"
+    }
+    assert_mutation "M3 bogus-npm-package-back " "A12 no executable line installs bogus package @specify/cli" m3
+
+    # ---- M4  a delegated-probe CALL SITE is deleted (a different group) -----
+    m4() { _wz_exact "$SPEC_WIZ" "tune_ollama_step" "# tune_ollama_step  <- call site deleted by the paired proof"; }
+    assert_mutation "M4 tune-step-uncalled     " "K21 tune_ollama_step is actually CALLED" m4
+
+    # ---- U1..U4  the three-valued half ---------------------------------------
+    # None of these is a bad-usage error: each is a state in which the suite RAN
+    # and could not test anything. "Nothing was tested" must never read as 0.
+    u_case() {                          # u_case <label> <needle> <argv...>
+        local label="$1" needle="$2"; shift 2
+        local out rc
+        out="$( ( cd "$WSB" && timeout 300 bash "$SELF_PATH" "$@" 2>&1 ) )"; rc=$?
+        if [[ $rc -eq 2 ]] && printf '%s' "$out" | grep -qF -- "$needle"; then
+            p_ok "$label" "rc=2, and it named the reason"
+        else
+            p_bad "$label" "expected rc=2 naming '${needle}', got rc=${rc}"
+            printf '%s\n' "$out" | tail -3 | sed 's/^/        /'
+        fi
+    }
+    build_specimen >/dev/null 2>&1
+    u_case "U1 root-does-not-exist     " "is not a directory" --root "$WSB/no-such-root" --no-live
+    mkdir -p "$WSB/no-wizard/scripts"
+    u_case "U2 wizard-absent           " "is not at" --root "$WSB/no-wizard" --no-live
+    mkdir -p "$WSB/empty-wizard/scripts" && : > "$WSB/empty-wizard/scripts/setup-agents-wizard.sh"
+    u_case "U3 wizard-empty            " "is empty" --root "$WSB/empty-wizard" --no-live
+    # A regular FILE where the evidence directory must go: mkdir -p cannot
+    # succeed against it for ANY uid, so this case does not quietly pass as root.
+    mkdir -p "$WSB/no-evidence/scripts" \
+        && cp "$WIZARD" "$WSB/no-evidence/scripts/setup-agents-wizard.sh" \
+        && printf 'not a directory\n' > "$WSB/no-evidence/.test-evidence"
+    u_case "U4 evidence-unwritable     " "cannot be created" --root "$WSB/no-evidence" --no-live
+
+    # ---- RESTORED CONTROL ----------------------------------------------------
+    build_specimen >/dev/null 2>&1
+    _rst_out="$(run_suite)"; _rst_rc=$?
+    if [[ $_rst_rc -eq 0 ]]; then
+        p_ok "CONTROL restored          " "rc=0 — the unmutated copy is still green after the battery"
+    else
+        p_bad "CONTROL restored         " "rc=${_rst_rc}; a mutation leaked out of its specimen"
+    fi
+
+    echo "----------------------------------------------------------------------"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "❌ SETUP-AGENTS-WIZARD-SUITE §1.1 MUTATION PROOF: FAIL — ${P_FAIL} case(s) did not hold."
+        exit 1
+    fi
+    echo "✅ SETUP-AGENTS-WIZARD-SUITE §1.1 MUTATION PROOF: PASS — the real suite ran against"
+    echo "   the real root (reported, never gating), an unmutated byte-copy of the real wizard"
+    echo "   passed as the control, and 8 mutations were each caught with the right"
+    echo "   three-valued verdict: 4 real regressions as rc=1, each matched to the SPECIFIC"
+    echo "   assertion that must fail rather than to a red run, and 4 could-not-determine"
+    echo "   states as rc=2 — an absent root, an absent wizard, an empty wizard and an"
+    echo "   unwritable evidence directory — none of which may read as a pass."
+    exit 0
+fi
+
+[[ -d "$SCRIPT_DIR" ]] || undet "the scripts directory '$SCRIPT_DIR' does not exist"
+[[ -f "$WIZARD" ]] || undet "the wizard under test is not at $WIZARD"
+[[ -r "$WIZARD" ]] || undet "the wizard at $WIZARD is not readable"
+[[ -s "$WIZARD" ]] || undet "the wizard at $WIZARD is empty — there is nothing to test"
 
 STAMP=$(date -u +%Y%m%dT%H%M%SZ)
 EVIDENCE_DIR="$PROJECT_ROOT/.test-evidence/$STAMP"
-mkdir -p "$EVIDENCE_DIR"
+mkdir -p "$EVIDENCE_DIR" 2>/dev/null \
+    || undet "the evidence directory $EVIDENCE_DIR cannot be created; a run that records nothing proves nothing"
 RESULTS="$EVIDENCE_DIR/results.tsv"
 RUNLOG="$EVIDENCE_DIR/run.log"
 printf 'id\tgroup\tname\tstatus\texpected\tactual\ttimestamp\n' > "$RESULTS"

@@ -10,6 +10,10 @@ const path = require('node:path');
 // VASIC_ROOT overrides the default when the repo root is elsewhere.
 const REPO = process.env.VASIC_ROOT || path.resolve(__dirname, '..');
 const VD_ROOT = path.join(REPO, 'vasic.digital');
+// The port is DERIVED (VD_PORT, via ./env.js), the same value visual-effects.spec.js
+// builds its base URL from — so binding and requesting cannot disagree, and a
+// second checkout can run this with VD_PORT=9401. See ./env.js (F13/F14).
+const { VD_PORT } = require('./env.js');
 // webServer.command is handed to a shell, so single-quote the interpolated path
 // (escaping any embedded quote) — a repo path containing spaces still works.
 const shq = (p) => `'${String(p).replace(/'/g, `'\\''`)}'`;
@@ -21,8 +25,8 @@ module.exports = defineConfig({
   reporter: [['list']],
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `python3 -m http.server 8401 --directory ${shq(VD_ROOT)}`,
-    port: 8401,
+    command: `python3 -m http.server ${VD_PORT} --directory ${shq(VD_ROOT)}`,
+    port: VD_PORT,
     reuseExistingServer: true,
     timeout: 30000,
   },

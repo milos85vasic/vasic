@@ -8,8 +8,7 @@ const { test, expect } = require('@playwright/test');
 //     own language's chrome ON LOAD via the main.js html-lang fix — no manual
 //     switch — while a stored user choice still wins.
 
-const VD = 'http://localhost:8401';   // vasic.digital (static)
-const MV = 'http://localhost:8082';   // milosvasic.ru/_site (jekyll)
+const { VD_BASE: VD, MV_BASE: MV } = require('../env.js');  // vasic.digital (static), milosvasic.ru/_site (jekyll)
 
 test.describe('vasic.digital — server-side localized chrome', () => {
   test('ru product page: Russian nav + footer in the served HTML', async ({ page }) => {

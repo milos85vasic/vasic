@@ -1,6 +1,14 @@
 const { defineConfig, devices } = require('@playwright/test');
 const path = require('path');
 
+// The ports are DERIVED, not frozen — VD_PORT / MV_PORT, from ./env.js, which
+// is the same module every spec reads its base URL from. Binding here and
+// requesting there used to be two independent literals; they are now one value,
+// so they cannot drift apart, and two checkouts can run the suite at once with
+//     VD_PORT=9401 MV_PORT=9082 npx playwright test
+// See the header of ./env.js for the measured defect this replaced (F13/F14).
+const { VD_PORT, MV_PORT } = require('./env.js');
+
 // Resolve the two static site roots RELATIVE to this config (repo/_tests/..),
 // so the suite runs from ANY checkout location (fresh clone, CI runner) without
 // hardcoded absolute paths. REPO is the umbrella root one level up from _tests/.
@@ -47,12 +55,12 @@ module.exports = defineConfig({
   ],
   webServer: [
     {
-      command: `python3 -m http.server 8401 --directory ${VD_ROOT}`,
-      port: 8401, reuseExistingServer: false, timeout: 30000,
+      command: `python3 -m http.server ${VD_PORT} --directory ${VD_ROOT}`,
+      port: VD_PORT, reuseExistingServer: false, timeout: 30000,
     },
     {
-      command: `python3 -m http.server 8082 --directory ${MV_ROOT}`,
-      port: 8082, reuseExistingServer: false, timeout: 30000,
+      command: `python3 -m http.server ${MV_PORT} --directory ${MV_ROOT}`,
+      port: MV_PORT, reuseExistingServer: false, timeout: 30000,
     },
   ],
 });

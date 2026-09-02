@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const BASE = 'http://localhost:8082';
+const { MV_BASE: BASE } = require('../env.js');
 const SLUGS = ['helix-track-core','helix-code','helix-translate','helix-agent','helix-flow-platform','catalogizer','llms-verifier','panoptic','mail-server-factory','share-connect','grab-tube','android-toolkit'];
 
 test.describe('milosvasic.ru — localized article fragments (RU/SR)', () => {

@@ -179,6 +179,47 @@
 #      also authorise a transcript to reach it. Same shape and same discipline
 #      as `.hardcoded-paths-allow`: an unexplained suppression is a bluff.
 #
+# ── THE UNTRACKED HOLE, and `--include-untracked` (2026-09-02) ───────────────
+# Every candidate file above is enumerated with `git ls-files`, which lists
+# TRACKED FILES ONLY. An untracked file in a public working tree was therefore
+# invisible to all three passes — not filtered out, never read.
+#
+# THAT IS NOT A HYPOTHETICAL. On 2026-09-02 an UNTRACKED file in this public
+# umbrella, `specs/001-workshop-curriculum-platform/review.md`, was found to
+# carry verbatim copies of source from the PRIVATE `workshop` submodule (54 of
+# 62 normalised 10-token windows matched one private Go file). This gate ran
+# green over that file every time, because it never opened it. A human-directed
+# agent found it; nothing in this repository did.
+#
+# The window between writing such a file and publishing it permanently is one
+# command wide, and it is a command this project uses by default: the `commit`
+# wrapper runs `git add .`, which stages EVERY untracked file. Write it, run the
+# wrapper, push — and it is in a public repository's history, which is not
+# editable after a push. `scripts/continuation-check.sh` watches neither
+# `specs/**` nor `docs/*.md`, so nothing else raised it either.
+#
+# `--include-untracked` closes that hole. It unions
+# `git ls-files --others --exclude-standard` into the candidate set for the
+# PUBLIC side, alongside the tracked set. Three properties, each deliberate:
+#
+#   * OPT-IN. The default candidate set is unchanged, so a plain run's verdict
+#     and counts are exactly what they were. A pre-push hook that wants the
+#     wider set asks for it; a run comparing against a recorded baseline is not
+#     silently moved underneath.
+#   * `.gitignore` IS RESPECTED — that is what `--exclude-standard` is for.
+#     Ignored paths are build output, caches and vendored trees that are never
+#     pushed, so scanning them would report on files that cannot leak. Mutation
+#     M23d holds that open in both directions.
+#   * PUBLIC SIDE ONLY. The private corpus stays tracked-only, so the KEY SPACE
+#     is unchanged and the two modes differ in exactly one variable: where a key
+#     may be FOUND. An untracked file in a PRIVATE repository is therefore still
+#     not a source of keys — a declared blind spot, held open by mutation M24
+#     rather than implied away.
+#
+# The count of untracked files actually read is printed on every run, and the
+# fact that a default run scanned NONE is printed too. A blind spot that does
+# not announce itself is how this one survived.
+#
 # ── Fleet derivation (nothing is hardcoded) ──────────────────────────────────
 # The fleet is read from `.gitmodules` plus this tree's own remote, exactly as
 # gate_E and the audits do. Visibility is asked of the PROVIDER, never assumed
@@ -216,6 +257,11 @@
 #                         overrides --name-ppm. 0 disables the floor. Used by
 #                         the paired proof, where a fixture is far too small for
 #                         any per-million rate to reach 1.
+#     --include-untracked also scan UNTRACKED files on the PUBLIC side, i.e.
+#                         `git ls-files --others --exclude-standard` unioned
+#                         with the tracked set. OFF by default; `.gitignore` is
+#                         respected; the private key space is unaffected. See
+#                         "THE UNTRACKED HOLE" above.
 #     --allow <file>      declared-exemption file (default <root>/.content-boundary-allow)
 #     --fleet-spec <f>    SYNTHETIC fleet for the paired proof; see below
 #     --prove-failure     run the §1.1 paired mutation battery and exit
@@ -279,6 +325,19 @@
 #     also the short pass's prose-line rule).
 #   * translated, paraphrased or reordered content. This is a verbatim matcher.
 #   * anything in git HISTORY. Every pass reads the working tree only.
+#   * UNTRACKED files in a public repository, UNLESS `--include-untracked` is
+#     given. That was a silent hole until 2026-09-02 and it is now an announced
+#     one: every run prints how many untracked files it read, and a default run
+#     prints that it read none. See "THE UNTRACKED HOLE" above.
+#   * UNTRACKED files in a PRIVATE repository, in EVERY mode. The private corpus
+#     is always tracked-only, so private material that has been written but not
+#     yet committed is not a source of keys and its appearance in a public file
+#     is not detected. `--include-untracked` does NOT change this — it widens
+#     where a key may be found, never what a key is. Mutation M24 holds this
+#     declaration honest: if a later change quietly widens the private side, M24
+#     goes red and says so.
+#   * IGNORED files, in every mode. `--exclude-standard` honours `.gitignore`,
+#     so an ignored public path is never read even with the flag. Mutation M23d.
 #
 # ── Side effects ─────────────────────────────────────────────────────────────
 # NONE. Every provider call is a read. No git command that writes is run: no
@@ -311,6 +370,13 @@ ALLOW_FILE=""
 FLEET_SPEC=""
 PROVE=0
 MIN_CHARS=40
+
+# ── untracked candidates (PUBLIC side only, opt-in) ──────────────────────────
+# OFF by default so a plain run's candidate set — and therefore its verdict and
+# its counts — is byte-for-byte the set this gate has always scanned. See the
+# header note "THE UNTRACKED HOLE".
+INCLUDE_UNTRACKED=0
+UNTRACKED_N=0
 
 # ── short pass (class D2: headings, list items, captions) ────────────────────
 # A separate, NARROWER pass. Its strictness does not come from the window — it
@@ -355,6 +421,7 @@ while [[ $# -gt 0 ]]; do
         --name-rank)   NAME_RANK="${2:-2000}"; shift 2 ;;
         --name-ppm)    NAME_PPM="${2:-25}"; shift 2 ;;
         --name-floor)  NAME_FLOOR="${2:-0}"; shift 2 ;;
+        --include-untracked) INCLUDE_UNTRACKED=1; shift ;;
         --allow)       ALLOW_FILE="${2:-}"; shift 2 ;;
         --fleet-spec)  FLEET_SPEC="${2:-}"; shift 2 ;;
         --prove-failure) PROVE=1; shift ;;
@@ -402,6 +469,16 @@ p_case() { # $1 name  $2 expected  $3 got  $4 ok(0/1)  $5 detail
         P_FAIL=$((P_FAIL + 1)); printf 'FAIL  %-44s expected %-22s got %s\n' "$1" "$2" "$3"
         [[ -n "${5:-}" ]] && printf '      %s\n' "$5"
     fi
+}
+
+# A byte-for-byte content manifest of a fixture, `.git` excluded because git
+# rewrites its index and its logs on every read-ish command and those bytes are
+# not the fixture. `cksum` rather than `sha256sum`: POSIX, so this does not add
+# an eleventh frozen GNU assumption to the tree the environment audit walks.
+fixture_manifest() { # $1 dir
+    ( cd "$1" 2>/dev/null || return 0
+      find . -name .git -prune -o -type f -print 2>/dev/null | LC_ALL=C sort \
+      | while IFS= read -r f; do printf '%s\t%s\n' "$f" "$(cksum <"$f" 2>/dev/null)"; done )
 }
 
 mkrepo() { # $1 dir — a real git repo with one commit, no remote
@@ -820,6 +897,119 @@ M22EOF
     p_case "M22b floor=3 sweeps it — THE DECLARED COST" "rc=0" "rc=$rc" \
         "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # F5 — THE UNTRACKED HOLE (2026-09-02), and `--include-untracked`.
+    #
+    # `git ls-files` lists TRACKED files only, so an untracked file in a public
+    # working tree was never opened by any pass. A real leak went through
+    # exactly that hole in this repository, and the `commit` wrapper's
+    # `git add .` is one command away from making such a file permanent.
+    #
+    # EVERY case below is a PAIR run against the SAME tree, differing only in
+    # the flag. Without that shape a green result could come from the fixture
+    # being clean rather than from the flag doing anything at all.
+    # ══════════════════════════════════════════════════════════════════════════
+
+    # ---- M23a CONTROL: the flag alone must not turn a clean tree red -----
+    #      If `ls-files --others` ever started descending into the private
+    #      gitlink, the private corpus would be scanned as public content and
+    #      every key would match itself. This case is what would catch that.
+    out="$(bash "$self" --root "$B" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M23a CONTROL clean tree + --include-untracked" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+
+    # ---- M23b/c THE HOLE AND THE FIX, same bytes, same place, one flag ---
+    #      The planted content is IDENTICAL to M1's, and so is its directory.
+    #      The ONLY difference between M1 (caught, rc=1) and M23b (missed,
+    #      rc=0) is that this file is untracked. That is the hole, stated as an
+    #      experiment with one variable.
+    cp -a "$B" "$tmp/m23"
+    fixture_manifest "$tmp/m23" >"$tmp/m23.before"
+    { printf '\n'; sed -n '1,3p' "$tmp/m23/priv/chapters/notes.txt"; } >"$tmp/m23/docs/untracked-review.md"
+    local m23u=1
+    git -C "$tmp/m23" status --porcelain -- docs/untracked-review.md 2>/dev/null \
+        | grep -q '^??' && m23u=0
+    p_case "M23b0 the seeded file really is untracked" "?? in git status" \
+        "$( [[ $m23u -eq 0 ]] && echo '??' || echo 'NOT untracked' )" "$m23u" \
+        "$(git -C "$tmp/m23" status --porcelain 2>&1 | head -5)"
+    out="$(bash "$self" --root "$tmp/m23" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
+    p_case "M23b default mode is BLIND to it (the hole)" "rc=0 (the defect)" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+    out="$(bash "$self" --root "$tmp/m23" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked 2>&1)"; rc=$?
+    p_case "M23c --include-untracked CATCHES it" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -6 <<<"$out")"
+    local m23p=1 m23q=1
+    grep -q 'priv/chapters/notes.txt' <<<"$out" && m23p=0
+    grep -q 'docs/untracked-review.md' <<<"$out" && m23q=0
+    p_case "M23c names the private side" "path printed" \
+        "$( [[ $m23p -eq 0 ]] && echo printed || echo ABSENT )" "$m23p" "$(tail -8 <<<"$out")"
+    p_case "M23c names the UNTRACKED public file" "path printed" \
+        "$( [[ $m23q -eq 0 ]] && echo printed || echo ABSENT )" "$m23q" "$(tail -8 <<<"$out")"
+
+    # ---- M23d `.gitignore` IS RESPECTED, and the pair proves why ---------
+    #      An ignored path is build output or a cache; it is never pushed, so
+    #      reading it would report on a file that cannot leak. The second half
+    #      plants the SAME bytes in a NON-ignored untracked file, so the rc=0
+    #      above cannot come from the detector having simply gone quiet.
+    cp -a "$B" "$tmp/m23d"
+    printf 'scratch/\n' >"$tmp/m23d/.gitignore"
+    git -C "$tmp/m23d" add -A >/dev/null 2>&1
+    git -C "$tmp/m23d" -c commit.gpgsign=false commit -qm m23d >/dev/null 2>&1
+    mkdir -p "$tmp/m23d/scratch"
+    { printf '\n'; sed -n '1,3p' "$tmp/m23d/priv/chapters/notes.txt"; } >"$tmp/m23d/scratch/leak.md"
+    out="$(bash "$self" --root "$tmp/m23d" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M23d ignored path is NOT read even with the flag" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+    { printf '\n'; sed -n '1,3p' "$tmp/m23d/priv/chapters/notes.txt"; } >"$tmp/m23d/docs/not-ignored.md"
+    out="$(bash "$self" --root "$tmp/m23d" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M23d2 same bytes, NOT ignored, still caught" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$out"
+
+    # ---- M23e the proof RESTORES what it seeded, byte for byte ----------
+    #      A battery that leaves debris has changed the tree it was measuring.
+    #      Every case here writes inside the mktemp fixture and nowhere else;
+    #      this is the one case that seeds a file into a tree that is then
+    #      re-measured, so it is the one that has to prove restoration.
+    rm -f "$tmp/m23/docs/untracked-review.md"
+    fixture_manifest "$tmp/m23" >"$tmp/m23.after"
+    local m23r=1
+    cmp -s "$tmp/m23.before" "$tmp/m23.after" && m23r=0
+    p_case "M23e fixture restored byte-for-byte" "identical manifest" \
+        "$( [[ $m23r -eq 0 ]] && echo identical || echo DIFFERS )" "$m23r" \
+        "$(diff "$tmp/m23.before" "$tmp/m23.after" 2>&1 | head -5)"
+    out="$(bash "$self" --root "$tmp/m23" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M23e2 restored tree scores clean again" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+
+    # ---- M24 THE DECLARED LIMIT: the PRIVATE side stays tracked-only -----
+    #      The flag widens where a key may be FOUND, never what a key IS. So
+    #      private material written but not yet committed is not a source of
+    #      keys, and its appearance in a public file is NOT detected. That is a
+    #      real remaining blind spot and it is written down as a test, not as a
+    #      comment: if a later change quietly widens the private side, M24a goes
+    #      red and says exactly what changed. M24b is the recall half — commit
+    #      the same private file and the same public copy is caught at once, so
+    #      M24a's rc=0 cannot be the detector being dead.
+    cp -a "$B" "$tmp/m24"
+    cat >"$tmp/m24/priv/chapters/uncommitted-draft.txt" <<'M24PEOF'
+Draft handover memo
+The overnight replay harness reconciles every shard against the ledger snapshot
+before the retention sweeper is allowed to expire any of the older partitions.
+M24PEOF
+    cat >>"$tmp/m24/docs/plan.md" <<'M24QEOF'
+
+The overnight replay harness reconciles every shard against the ledger snapshot
+before the retention sweeper is allowed to expire any of the older partitions.
+M24QEOF
+    out="$(bash "$self" --root "$tmp/m24" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M24a UNTRACKED private file — DECLARED blind spot" "rc=0 (declared cost)" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+    git -C "$tmp/m24/priv" add -A >/dev/null 2>&1
+    git -C "$tmp/m24/priv" -c commit.gpgsign=false commit -qm m24 >/dev/null 2>&1
+    out="$(bash "$self" --root "$tmp/m24" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M24b same bytes, private file COMMITTED, caught" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$out"
+
     # ---- M10 the detector is not constant: it must clear a clean copy ----
     #      after having failed a dirty one, from the SAME fixture.
     out="$(bash "$self" --root "$B" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
@@ -833,10 +1023,10 @@ M22EOF
     bash "$self" --root "$SELF_REPO" --quiet >"$tmp/live.log" 2>&1; lrc=$?
     echo "live run rc=$lrc  ($(tail -n 1 "$tmp/live.log" 2>/dev/null || echo 'no output captured'))"
     echo "  A non-zero live rc is a statement about THIS TREE, not about the"
-    echo "  battery above; all 22 mutations ran against the synthetic fixture."
+    echo "  battery above; all 24 mutations ran against the synthetic fixture."
 
     echo
-    echo "proof: $P_PASS passed, $P_FAIL failed, 22 mutations run"
+    echo "proof: $P_PASS passed, $P_FAIL failed, 24 mutations run"
     [[ $P_FAIL -eq 0 ]]
 }
 
@@ -1285,6 +1475,11 @@ SKIPPED_BIG="$TMPD/skipped.txt"; : >"$SKIPPED_BIG"
 SIZE_CAP=524288
 EMIT_SEQ=0
 
+# Every untracked file the run actually admitted, fully qualified. Printed in
+# the summary because the whole defect being fixed here was a set of files
+# nobody could see was missing.
+UNTRACKED_LIST="$TMPD/untracked.txt"; : >"$UNTRACKED_LIST"
+
 # The umbrella's own path is "."; every label must be plain "docs/x.md", never
 # "./docs/x.md", or an exemption glob written the obvious way would silently
 # fail to match — a false NEGATIVE hiding inside a false-positive guard.
@@ -1315,6 +1510,29 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
     # rather than silently short — which is why the file count is reported.
     git -C "$dir" ls-files -z 2>/dev/null | tr '\0' '\n' \
         | grep -vE '(lock\.json|\.min\.[A-Za-z0-9]+|\.map)$' >"$list" || :
+
+    # ── UNTRACKED candidates, opt-in, PUBLIC side only ────────────────────────
+    # `git ls-files` lists TRACKED files, so an untracked public file was never
+    # opened by any pass — the hole a real leak went through on 2026-09-02. The
+    # union is APPENDED rather than merged-and-sorted so that with the flag OFF
+    # this function computes byte-for-byte the list it always did.
+    #
+    # `--exclude-standard` is what makes `.gitignore` authoritative: build
+    # output, caches and vendored trees are never pushed, so reading them would
+    # report on files that cannot leak. `--others` lists FILES, not directories,
+    # and git does not descend into a submodule's working tree, so each
+    # repository in the fleet still contributes exactly its own untracked files
+    # under its own prefix — no path is counted twice and none is mislabelled.
+    if [[ $INCLUDE_UNTRACKED -eq 1 && "$side" == "pub" ]]; then
+        git -C "$dir" ls-files --others --exclude-standard -z 2>/dev/null | tr '\0' '\n' \
+            | grep -vE '(lock\.json|\.min\.[A-Za-z0-9]+|\.map)$' >"$base.untracked" || :
+        if [[ -s "$base.untracked" ]]; then
+            UNTRACKED_N=$((UNTRACKED_N + $(wc -l <"$base.untracked" | tr -d ' ')))
+            sed "s|^|$pfx|" "$base.untracked" >>"$UNTRACKED_LIST"
+            cat "$base.untracked" >>"$list"
+        fi
+    fi
+
     [[ -s "$list" ]] || return 0
 
     # Binary/text split and sizes, both in BATCHES.
@@ -1750,6 +1968,22 @@ if [[ $QUIET -eq 0 ]]; then
     if [[ $SKIP_N -gt 0 ]]; then
         vsay "  not indexed           $SKIP_N file(s) over the ${SIZE_CAP}-byte cap or machine-generated"
     fi
+    # ALWAYS stated, in BOTH modes. A default run announcing that it read no
+    # untracked file is the whole point: the 2026-09-02 leak survived because
+    # this omission was silent, not because it was disputed.
+    if [[ $INCLUDE_UNTRACKED -eq 1 ]]; then
+        vsay "  untracked (public)    $UNTRACKED_N file(s) read via --include-untracked (git ls-files --others --exclude-standard; .gitignore respected)"
+        if [[ $UNTRACKED_N -gt 0 ]]; then
+            while IFS= read -r u; do vsay "    ${C_DIM}$u${C_OFF}"; done < <(sort "$UNTRACKED_LIST" | head -20)
+            [[ $UNTRACKED_N -gt 20 ]] && vsay "    ${C_DIM}... and $((UNTRACKED_N - 20)) more${C_OFF}"
+        fi
+        vsay "  ${C_DIM}the PRIVATE corpus is still tracked-only in this mode: the flag widens where${C_OFF}"
+        vsay "  ${C_DIM}a key may be FOUND, never what a key IS. See the header's blind-spot list.${C_OFF}"
+    else
+        vsay "  untracked (public)    ${C_YEL}0 file(s) — NOT SCANNED${C_OFF}; pass --include-untracked to read them"
+        vsay "  ${C_DIM}an untracked public file quoting private material is invisible to this run,${C_OFF}"
+        vsay "  ${C_DIM}and 'commit' runs 'git add .', which stages every one of them.${C_OFF}"
+    fi
 fi
 
 RC=0
@@ -1770,6 +2004,11 @@ if [[ $JSON -eq 1 ]]; then
         "$LEAKS" "$LEAKS_PROSE" "$LEAKS_SHORT" "$LEAKS_NAME" "$UNDET_N" "$MULTI_N" "$EXEMPTED" "$SKIP_N"
     printf '  "windows": { "long": %s, "short": %s, "short_line_max": %s, "names": %s },\n' \
         "$WIDTH" "$SHORT_W" "$SHORT_LINEMAX" "$DO_NAMES"
+    # Additive, so a consumer written against the previous shape keeps working.
+    # `files_scanned` is 0 in the default mode BECAUSE nothing was read, not
+    # because nothing was there — `included` is what distinguishes the two.
+    printf '  "untracked": { "included": %s, "side": "public", "files_scanned": %s },\n' \
+        "$INCLUDE_UNTRACKED" "$UNTRACKED_N"
     printf '  "fleet": [\n'
     awk -F'\t' '{printf "%s    {\"path\":\"%s\",\"role\":\"%s\",\"evidence\":\"%s\"}", (NR>1?",\n":""), $1,$2,$3} END{print ""}' "$FLEET"
     printf '  ],\n  "leaks": [\n'

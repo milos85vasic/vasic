@@ -9,8 +9,7 @@ const { test, expect } = require('@playwright/test');
 // offers all 15 and never falls back for a supported language. EN remains the
 // first/default row and the fallback for any UNSUPPORTED language.
 
-const MV = 'http://localhost:8082';   // milosvasic.ru/_site
-const VD = 'http://localhost:8401';   // vasic.digital
+const { MV_BASE: MV, VD_BASE: VD } = require('../env.js');  // milosvasic.ru/_site, vasic.digital
 
 // Every language that ships a PDF (order per the deploy language order).
 const ALL15 = ['EN', 'SR', 'RU', 'DE', 'ES', 'FR', 'BE', 'ZH', 'KK', 'HI', 'JA', 'KO', 'AR', 'TR', 'FA'];

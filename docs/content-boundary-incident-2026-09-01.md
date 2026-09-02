@@ -27,6 +27,9 @@ tracked by a public one. Naming a private *path* is fine. Copying what is inside
 > deferred. §9 assesses all 232 of them, redacts the 29 that are real disclosures, and
 > states why the other 203 are not. **§8's remediation plan is unchanged by §9** and remains
 > prepared, unexecuted, and unauthorized.
+> **§10, §11 and §12 are the third, fourth and fifth waves of the same incident. §13 is NOT a wave
+> of it at all** — it records a **second, separate instance**: a different person, disclosed by a
+> different route, contained without a history rewrite.
 
 ---
 
@@ -1707,6 +1710,439 @@ request and the conversation — remain undone, and they are the two that matter
 
 ---
 
+## 12 · Fifth wave — the 4,249 triaged in full (2026-09-02)
+
+> **Status: NO REDACTION. NOTHING WAS FOUND TO REDACT.** No public file was edited in this
+> wave. `.content-boundary-allow` was **not** touched and `scripts/verify-content-boundary.sh`
+> was **not** touched. The gate still exits **1**, and it should.
+
+§"Wave 4" closed with the `name 57` figure marked *"unfinished business … a known open item,
+not a pass."* This wave closes that item and, for the first time, adjudicates the **prose**
+class as well rather than only its two largest sub-clusters. **The answer to the question the
+operator actually asked — is anything private genuinely exposed right now — is NO, and the
+evidence is below.**
+
+### 12.1 · Reproduced first, judged second
+
+`bash scripts/verify-content-boundary.sh --json` re-run 2026-09-02 against the working tree at
+`e432703`. **Exit 1. 4,249 surviving matches — prose 4,002, short 190, name 57. 0
+undetermined.** Identical to the wave-4 figure in every class, so nothing moved under the
+instrument between the two runs and this wave's triage describes the same corpus wave 4
+measured. Derived exonerations that run: 978 long + 2,558 short path-mask shingles, 1,469
+already-public keys (prose 1,400, short 55, **name 14**), 164 name candidates, 11 public git
+identity forms subtracted, name frequency floor **39** occurrences over **1,581,317** private
+prose tokens, **0** name path-reference pardons, 9 declared pairs pardoning 4,187 matches, 107
+files not indexed.
+
+**The 4,249 is not comparable to 377 / 232 / 203 / 367 / 285 and no trend is claimed.** The
+mechanism is measurable and it is not a new disclosure: the private `workshop` submodule went
+from **53 to 290 tracked files in one commit** (`5b611f9`, 2026-09-01T21:02:46+02:00, 247 files
+changed, 97,035 insertions). This gate indexes tracked files only. The content did not become
+newly *disclosed*; it became newly *visible to the instrument*.
+
+### 12.2 · The name class — 57 rows, 7 digests, **0 people**, and route (a) is not merely clean, it is empty
+
+Method as §10.3: the gate's own `h()` digest re-implemented locally and each digest resolved
+against the public `file:line` it was reported at, by rebuilding that line's capitalised
+2- and 3-token runs with the gate's own emitter (`shingle.awk`, extracted from the script and
+run unmodified). **No name and no matched token run is written into this document.**
+
+**All 26 distinct `(public file, line, digest)` triples resolved — 57 of 57 rows, nothing left
+undetermined — and the 7 digests map to 7 distinct keys with no collision.**
+
+**Derivation route, which was the question that classifies most of them: route (b) contributed
+57 of 57. Route (a) contributed 0.** That is a stronger statement than §10's, and it was
+measured rather than inferred from the source column: the git identities of the three private
+repositories (`ai_interviewing`, `monetization`, `workshop`) number **4**, the identities of
+the ten in-scope public repositories number **9**, and the set difference is **0**. Route (a)
+currently has **no candidates at all** on this tree — every person who has ever committed to a
+private repository here also commits to a public one under the same identity, so the
+subtraction empties it. Route (a) is **inoperative, not exonerating**, and that distinction
+matters for §12.6.
+
+| Digest | Rows | What it resolves to | Where |
+|---|---:|---|---|
+| `04bc71a2` | 35 | a machine-learning model-hub **brand**, 2 tokens | `specs/…/research/transcription.md` ×5 lines |
+| `0d3cb5ee` | 12 | two **LLM-vendor brands** printed adjacently in a provider enumeration | `_content*/sites/vasic-digital.md` ×11, `_analysis/content-briefs/_TECH-STACK.md` |
+| `4411c8a8` | 5 | a generic **document-type heading**, on line 1 | `design-toolkit/knowledge/platforms/*.md` ×5 |
+| `1fd9ab04` | 2 | an **HTTP response-header** name | `docs/workshop-curriculum/RECON.md:540` |
+| `2157bf5e` | 1 | two **model-tier names** printed adjacently | `_analysis/top20/caf-cline.readme.txt:160` |
+| `41735ecf` | 1 | three **vector-database product names**, 3-token form | `submodules/RAG/README.md:426` |
+| `4f8d043f` | 1 | two of the same, 2-token form | `submodules/RAG/README.md:426` |
+
+**Seven of seven are products, brands, protocol tokens or generic headings. Not one is a
+person. Zero redactions.** Every one is the separator-folding false positive the gate's own
+header documents at filter 3c — the detector is behaving as designed and its output is
+correctly red; what it found in this class is not a disclosure.
+
+**The most sensitive private directory in this fleet produced five rows and they are all the
+same brand.** `workshop/chapters/` — the recordings and the third party's notes PDF — is the
+private source of exactly **5** of the 4,249 matches, **all in the name class, all digest
+`04bc71a2`, and zero in prose or short**. The private-side source path is that directory only
+because the brand also occurs there; the matched text is a vendor name in a table of model
+provenances on the public side.
+
+### 12.3 · An eighth digest exists and the allow-list is hiding it — checked, and it is correct to
+
+Re-run with `--allow <empty file>` (a command-line flag; **`.content-boundary-allow` was not
+edited**): **8,434 rows — prose 8,043, short 329, name 62.** The declared exemptions therefore
+suppress 4,185 rows, attributable in full to three pairs and **no others**:
+3,893 `ai_interviewing/docs/* → submodules/constitution/*`,
+176 `ai_interviewing/platform/content/* → submodules/constitution/*`,
+116 `* → docs/constitution-adoption/propagation/*`. The four `§11.4.157` carrier-lockstep pairs
+pardoned **zero** rows this run.
+
+**Exactly one name digest is suppressed by the allow-list, five rows, and it is the only row in
+the whole class that names a real human being.** It is a **published methodology author** — the
+originator of a well-known user-story quality mnemonic — **cited by name in the PUBLIC
+constitution corpus**, and reported at five PDF renders of that corpus. The private side is an
+interview-preparation note that quotes the public corpus. Direction measured, not assumed:
+`submodules/constitution/Constitution.md` first committed **2026-05-14**, its PDF render
+**2026-05-19**, the private note **2026-08-14** — the public source predates the private copy
+by three months. A scholarly attribution in the repository that is itself the source is not a
+disclosure of private material, and the exemption pair describes that flow correctly. **This is
+the one place where the allow-list touches the name class, it was checked rather than trusted,
+and it holds.**
+
+### 12.4 · The prose and short classes — 4,192 rows, copy direction measured for every one
+
+Not sampled. **Every row** was dated: the first-commit timestamp of the private file in its own
+repository against the first-commit timestamp of the public file in its own repository, for all
+306 files involved. **Every one of the 306 resolved; none was left undetermined.**
+
+| Disposition | Rows | Share |
+|---|---:|---:|
+| **PUBLIC IS THE ORIGINAL** — the public file was committed before the private file existed in its repository | **4,112** | **98.1 %** |
+| private file committed first — carried forward to §12.5 | 80 | 1.9 % |
+| **REAL DISCLOSURE** | **0** | **0 %** |
+
+By destination cluster, with the private-first count in each:
+
+| Rows | Cluster | Private-first |
+|---:|---|---:|
+| 2,357 | `workshop/platform/upstream-contributions/**` ↔ `submodules/RAG/pkg/grounding/*`, `submodules/LLMProvider/scripts/*` | 0 |
+| 1,000 | `specs/001-workshop-curriculum-platform/**` ↔ the platform that implements it | 1 |
+| 227 | this repository's own gates and their documentation (`scripts/`, `docs/`) | 79 |
+| 127 | public website copy (`_content*`, `_analysis`, `milosvasic.ru`, `vasic.digital`) | 0 |
+| 112 | the four §11.4.157 governance carriers at this root | 0 |
+| 103 | `submodules/passage` ↔ the private evidence run that exercised it | 0 |
+| 88 | OCR text of rendered public pages under `_tests/evidence/` | 0 |
+| 58 | `design-system/learning-kit/*.css` | 0 |
+| 32 | the public constitution corpus | 0 |
+| 88 | remainder, spread thinly over other public submodules and two root files | 0 |
+
+**The single largest cluster is a private copy of code that was already public, and the private
+repository says so itself.** that directory carries a README whose
+title line declares the contents staged-but-unadopted candidates for contribution to an owned
+submodule, and it records a catalogue survey under §11.4.74 clause 4. (Described, not quoted —
+an earlier draft of this paragraph reproduced that title line verbatim and **the gate
+immediately reported two new short-class rows against this file**. The self-reference guard at
+the foot of this document is not theoretical; it fired within one run.)
+The public `submodules/RAG/pkg/grounding/*.go` were committed at
+**2026-09-01T11:24:47**; the private staging copies at **2026-09-01T21:02:46** — the public
+files predate them by **9 h 38 m**, and the two versions have since diverged (64–212 differing
+lines), which is the shape of a fork of a published file, not of a leak. Same pattern for
+`submodules/LLMProvider/scripts/lib/anchor.py`: public **17:50:52**, private **21:02:46**.
+
+**The second largest is a specification and its implementation, in that order.**
+`specs/001-…/contracts/*.md`, `tasks.md` and `research/*` were committed **2026-09-01T06:47:32
+and 07:51:44**; the entire private `workshop/platform/**` tree entered git in one commit at
+**21:02:46**, 13 hours later. The public spec is the original; the implementation reproduces
+its wording. Redacting any of it would delete the plan to hide the plan.
+
+**`design-system/learning-kit/kit-tokens.css` is byte-identical to its private counterpart and
+that is the design.** The public file was first committed **2026-08-13**, the private frontend
+copy on **2026-09-01**; `.content-boundary-allow` already declares the toolkit→design-system
+publication path for the neighbouring case.
+
+**Website copy is public-first by weeks to months**, reconfirming §10.7 on a larger set —
+e.g. `milosvasic.ru/_article_src/en/helix-agent.md` **2026-06-25** against
+`workshop/curriculum/chapter-01/exercise-01.md` **2026-09-01**, a gap of **68 days**.
+
+**The transcript file is not the problem it looks like.**
+`workshop/curriculum/chapter-01/transcript.md` is the private source of exactly **2** of the
+4,249 rows, both short-class, and both are the same generic navigational heading that any
+document may carry. **No transcript content reaches any public file.** `monetization`
+contributes **0** rows of any class.
+
+### 12.5 · The 80 private-first rows, re-measured at the level of the text itself
+
+File-level dating is a bound on when text entered a *repository*, not on when it was *written*,
+and it mis-scores the case where a NEW public file quotes text that was already public
+elsewhere. All 25 distinct `(public file, line)` pairs behind the 80 rows were therefore
+re-measured with `git log -S` over the line's own text, in both fleets:
+
+- **24 of 25 are public-first or public-only at the text level.** 22 rows are the operator's own
+  `usage()` boilerplate comment — the §9.2 Class N1 finding, a code idiom repeated across his
+  own scripts, carrying no subject matter at all. The rest are gate vocabulary whose public
+  wording does not occur verbatim in any private repository.
+- **1 of 25 is genuinely private-first**, and it is a three-minute gap inside one authoring
+  session: a machine-generated **remedy string** telling an operator to install a common
+  video-tooling dependency, emitted by a private HTTP endpoint and quoted in
+  `scripts/verify-remedy-executability.sh` and `docs/check-registry.md` as that gate's worked
+  example. Private **21:02:46** → public **21:06:00**. **Judged NOT a disclosure and left
+  standing:** the dependency it names was already public in `specs/…/pipeline-cli.md` at
+  **06:47:32** that morning, fourteen hours earlier; the endpoint's own shape is published in
+  `specs/…/contracts/http-api.md`; and the string carries no curriculum text, no participant, no
+  personal data and no credential. The larger 48-row cluster in the same file scored
+  private-first only by file date — its remedy text first appears in the **public** umbrella at
+  **07:51:44**, thirteen hours before the private commit.
+
+### 12.6 · Two independent checks that do not rely on the gate's own exonerations
+
+A gate that clears something is not evidence that the something is absent. Both checks below
+bypass the gate entirely.
+
+1. **The third party's given name — the identifier §11 redacted — is measured absent.** Derived
+   programmatically from the private artefact's own path (never typed, never written down) and
+   searched as a whole word across **every tracked file of all ten in-scope public
+   repositories**, and separately across their tracked **paths**, and separately across this
+   root's untracked working-tree files: **0 occurrences, everywhere.** §11.3's redaction holds
+   in the working tree.
+2. **No personal email address crosses the boundary.** 8 addresses occur in the private
+   repositories, 252 in the public ones, **6 in both** — and all six are machine addresses:
+   four `git@…` SSH remotes for the forge hosts, one package-author address inside a lockfile,
+   one systemd unit address. None is a personal contact for anybody.
+
+### 12.7 · What was deliberately left matching, and why
+
+**Everything.** All 4,249 rows still appear in every run. Nothing was allow-listed, nothing was
+narrowed, no threshold was moved. Adding an exemption to reach rc=0 here would assert boundary
+flows that do not exist and would have to claim, falsely, that a triage found something it
+resolved. **A red gate with a true reason beats a green one with a false reason**, and this
+gate's reason is true: 4,249 verbatim overlaps really do exist between these corpora. What this
+wave establishes is that **not one of them moves private material into public view** — 98.1 %
+because the public file is provably the original, and the remaining 1.9 % because the text is
+shared engineering vocabulary, machine-generated status strings, or by-design propagation.
+
+A reader who disagrees with any disposition can re-derive it: the digests from §12.2's method,
+the copy directions from `git log --diff-filter=A --format=%at` and `git log -S`, the
+allow-list attribution from a `--allow <empty file>` run.
+
+### 12.8 · What this wave did NOT do, and one new forward risk
+
+**It changed nothing about §3, §8B or §11.4.** History still carries the wave-1 and wave-2
+material; the GitHub Support purge is still unsent; the conversation with the third party is
+still the substantive remedy and is still the operator's to have. **No history rewrite was
+performed or prepared in this wave**, and none is implied by it — this wave found nothing that
+would need one. Were a third ever required, what it would have to cover is unchanged and is
+already written down at §8A.7 and §11.6: the four commits orphaned on 2026-09-01, the eight
+orphaned on 2026-09-02, and the `63ac4df32e5f… → 16cd4ba847de…` mapping.
+
+**New, and it is a forward risk rather than a finding:** two paths at this root are
+**untracked**, so the gate does not scan them and this wave's verdict says nothing about them —
+a session-audit document and an in-flight `specs/002-…` planning set, the latter of which does
+reference private repository paths. The commit wrapper runs `git add .`. **They enter scope the
+moment they are committed, and they must be swept then**, exactly as §10.9 warned about this
+file — which is now itself tracked, is now a scanned public destination, and already
+contributes one short-class row of ordinary English. §12 above is written descriptively for
+that reason.
+
+## 13 · A SECOND, SEPARATE INSTANCE — a different person, a path component, no rewrite (2026-09-02)
+
+> **Status: WORKING TREE REDACTED, UNCOMMITTED. NO HISTORY REWRITE — that is the operator's
+> decision, taken explicitly.** This is **not** a sixth wave of the incident recorded above. It is
+> a **separate instance** of the same rule being broken: a different subject, a different source,
+> a different route into the tree, and a different disposition. It is written into this file
+> because this file is where this repository keeps its boundary failures — not because the two are
+> the same event. The name is **not written anywhere in this document**, and must not be.
+
+### 13.1 · Why this is a separate instance and not another wave
+
+§1–§12 concern exactly **one** person: the non-operator **participant** in the 2026-08-27
+recording. This instance concerns a **different** person, referred to here only as
+**`THIRD-PARTY-B`** — the label assigned by the private review at
+`workshop/docs/redaction-review-chapter-01.md` §0. He is **not a party to that recording.** He is a
+person *talked about* in it. Nothing in §1–§12 is about him; nothing in §13 is about the
+participant.
+
+That distinction was **measured**, not taken on the labels' word. Five probes were derived inside a
+single process from `workshop/curriculum/chapter-01/transcript.words.json`, at the exact word
+indices the private review's §3 table records, and none was ever typed:
+
+| Check | How | Result |
+|---|---|---|
+| The participant's probe (**P1**) and `THIRD-PARTY-B`'s probe (**P2**) are different tokens | in-process comparison of the two derived strings | `P1 == P2` → **False** (4 characters vs 6) |
+| P1 is the identifier carried by the recording's own filename — i.e. the one §11 redacted | whole-token split of all **40** entries of `workshop/chapters/01/` | **P1 present**, **P2 absent** |
+
+So `THIRD-PARTY-B`'s name never had the filename route §11 dealt with. It reached the public tree
+by an entirely different one, described next. Conversely, P1 returning **0** in §13.4 below is an
+independent re-confirmation that §11's redaction still holds at the tip.
+
+### 13.2 · What crossed, and where
+
+| | |
+|---|---|
+| File | `docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md` |
+| Lines | **99** and **157** |
+| Context | line 99 is rank 8 of the §3 *"20 largest indexes"* table; line 157 is the same store in the §5 *"LIVE indexes (keep)"* table. Both rows describe index dir `6ea66d6d87cbf1e9` |
+| What | an **absolute filesystem path whose final component is `THIRD-PARTY-B`'s given name** |
+| Class | **D3** — a direct personal identifier — with an aggravating factor |
+
+The aggravating factor is the **parent** directory, which denotes work assignments. The disclosure
+is therefore not a bare given name; it is a given name **plus an implied working relationship**.
+
+**The route is new and worth naming.** Neither line quotes anything. Nothing was copied out of the
+private transcript into this file: the path was captured from a live read-only inventory of the
+Lumen index store, and the *host's own directory layout* carried the name. `docs/content-boundary.md`
+describes the leak vector as quotation — *"copying what is inside it"* — and this one is not a
+quotation, it is a **filesystem listing**. A document can therefore disclose a private fact it never
+read.
+
+Both lines were byte-identical at `HEAD`, and `HEAD` is contained in `origin/main` — measured in the
+private review §7 with `git grep … HEAD` (2 hits) and `git branch -r --contains HEAD`
+(`origin/main`). **It is already public.**
+
+### 13.3 · The redaction — 2 substitutions, one form, containment only
+
+| Before | After |
+|---|---|
+| `…/DATA4TB/Projects/assignments/<given name>` | `…/DATA4TB/Projects/assignments/…` |
+
+One token is removed. The absolute prefix, the parent directory, the index-dir hash, the size, the
+file and chunk counts and both timestamps stay **verbatim**, so both tables keep their meaning and
+their alignment: a reader still learns that store `6ea66d6d87cbf1e9` indexes an assignment project
+of 294 files and 3 208 chunks, 13.0 MB, on the same `Projects` root as every other row.
+
+Two choices are stated rather than left implicit:
+
+- **The prefix was deliberately NOT made portable.** Fourteen other rows of these same two tables
+  carry the identical `/run/media/<user>/DATA4TB/Projects/…` prefix (twenty across the file), and it
+  is the repository owner's own host path, already public across this fleet. Rewriting it on two
+  rows only would break the tables' internal consistency and buy no privacy; rewriting it on all of
+  them would be exactly the widening a containment pass must not do.
+- **The form is this repository's house elision `…`**, the same one §11.3 chose, for the same stated
+  reason — *"a redaction that destroys the finding is a failed redaction"*. Each of the two tables
+  now carries a short **Redaction** note directly beneath it, so the `…` reads as a deliberate
+  elision and never as a truncated path; both point back here.
+
+The substitution was applied by a script that **derives the token from the file's own text at run
+time** and never contains it. There is no rules file, no allow-list, and no artifact of this
+instance that holds the name — nothing was written to a scratch file, and nothing was committed.
+
+### 13.4 · Verification — run-time-derived probes, counts only
+
+Scope is the **public umbrella**: `git grep` at this root, which does not descend into submodules,
+plus a `grep` over every untracked, non-ignored path. Matching was case-**insensitive** and
+whole-word (`git grep -I -n -i -w`).
+
+| Probe | Review's label | Tracked, before | Tracked, after | Untracked, after |
+|---|---|---:|---:|---:|
+| **P1** | `PARTICIPANT-A` | **0** | **0** | **0** |
+| **P2** | `THIRD-PARTY-B` | **2** — `…/LUMEN-STORE-INVENTORY.md:99`, `:157` | **0** | **0** |
+| **P3** | `THIRD-PARTY-C` | **0** | **0** | **0** |
+| **P4** | `THIRD-PARTY-D` | **0** | **0** | **0** |
+| **P5** | `ORG-1` | **0** | **0** | **0** |
+
+The four zero rows are **actual measured empty results**, not unchecked assumptions, and they are
+the finding that matters as much as the hit: **exactly one name crossed.** The private review
+reached the same conclusion independently as its sweep **S9**; this is a second, later measurement
+of it, taken after the redaction.
+
+The *identity* of the disclosure was measured too, not inferred from the review: the final path
+component at `LUMEN-STORE-INVENTORY.md:99` was compared, lowercased, against P2 and found **equal**.
+
+Two boundaries, stated plainly:
+
+- **P2 is still 2 at `HEAD`**, and this change does not move that.
+  `git grep -I -n -i -w -e <derived> HEAD` returns the same two lines after the edit that it
+  returned before it. That is the whole of §13.6.
+- `git grep` at this root does not descend into submodules, so these zeroes say **nothing** about
+  the private `workshop`, `ai_interviewing` or `monetization` modules — where, for `THIRD-PARTY-B`,
+  the name legitimately remains. Private-to-private is not publication.
+
+### 13.5 · Why no gate caught it — the audit built to find absolute paths never looks in `docs/`
+
+`scripts/audit-hardcoded-paths.sh` exists precisely to find absolute host paths in tracked files,
+and its own `PATTERN` matches these two lines exactly. It never saw them, because its `SKIP` filter
+removes `docs/` from the file list **before** the pattern is ever applied:
+
+```
+scripts/audit-hardcoded-paths.sh:328
+  PATTERN='(/Volumes/|/Users/[A-Za-z]|/home/[A-Za-z][A-Za-z0-9_.-]*/|/run/media/[A-Za-z]|/mnt/[A-Za-z][A-Za-z0-9_.-]*/)'
+scripts/audit-hardcoded-paths.sh:333
+  SKIP='^(docs/|_content|_analysis|_tests/evidence/|\.test-evidence/|\.superpowers/|\.ashlrcode/|MANUAL-STEPS\.md)'
+```
+
+Measured at this root, 2026-09-02:
+
+| Question | Command | Result |
+|---|---|---:|
+| Is the file tracked? | `git ls-files \| grep -cx <path>` | **1** |
+| Does it survive the audit's `SKIP` filter? | `git ls-files \| grep -vE "$SKIP" \| grep -cx <path>` | **0** |
+| How many of this repository's `docs/` files does the audit scan? | `git ls-files \| grep -vE "$SKIP" \| grep -c '^docs/'` | **0 of 59** |
+| Do the two disclosed lines at `HEAD` match the audit's own `PATTERN`? | `git show HEAD:<path> \| sed -n '99p;157p' \| grep -cE "$PATTERN"` | **2 of 2** |
+
+The detector was right and the **scope** was wrong. **A blind instrument reports PASS** — the same
+sentence this repository's carriers already apply to gate E and to the two audits, now in a third
+place. Re-measured 2026-09-02, `bash scripts/audit-hardcoded-paths.sh` exits **0** and prints
+*"✅ no machine-specific hardcoded paths (9 file(s) explicitly allowed)"* — a green it returns while
+being structurally incapable of seeing either of the two lines this section is about. That 0 was
+never evidence about `docs/`.
+
+**No gate was edited in this instance and the `SKIP` list was not touched.** Removing `docs/` from
+it is a real change with real consequences — all **59** tracked `docs/` files would enter scope at
+once, and this repository's documentation quotes host paths deliberately and constantly — and it
+belongs to whoever owns `scripts/`, not to a containment pass. It is recorded here as an **open
+finding**, not as a fix.
+
+**The other instrument is NOT blind in the same way, and that distinction matters.**
+`scripts/verify-content-boundary.sh` was run at this root on 2026-09-02, after the redaction:
+
+| Measurement | Result |
+|---|---|
+| Exit | **1** — `LEAK — 10564 surviving match(es) (prose 10235, short 272, name 57); 0 row(s) also could not be determined` |
+| Distinct public `docs/**.md` files named in its output | **84** |
+| Distinct `docs/setup-agents-wizard/` files named | **10** of the directory's 20 |
+| Times it names `LUMEN-STORE-INVENTORY.md` | **0** |
+
+So `docs/` is squarely **inside** this gate's scope — it reads the very directory the disclosure
+lived in, and reports on ten of its files. Its silence on `LUMEN-STORE-INVENTORY.md` is therefore
+**not** a scope failure of the kind §13.5 documents for `audit-hardcoded-paths.sh`.
+
+Honest boundary (§11.4.6), and it is a real one: **that run happened AFTER the redaction, so it is
+not an A/B and it establishes nothing about what the gate would have reported before.** No
+pre-redaction run of this gate exists for these two lines, and none was manufactured — deliberately
+re-introducing a live disclosure into the working tree to obtain a cleaner measurement would be a
+worse act than the missing datum. Whether a single given name inside a filesystem path is a shape
+this gate's `name` and `prose` classes can express is **not** established here and must not be
+recorded as though it were. The `10564` figure is likewise a dated observation of a moving
+detector against a moving fleet; it is not comparable to the `4,249` of §12 or to any earlier
+count, and no trend should be read into the three.
+
+### 13.6 · Containment, not remedy — and the operator decided against a rewrite
+
+**Everything §3 says about the first instance is true here, with the same force.**
+
+1. The working tree is redacted. **The commits are not.**
+2. The name is in the history of a **public** remote, and in **every clone, fork, mirror and
+   provider cache already taken**. History is not editable after a push.
+3. Whether that history has been cloned, scraped, cached or indexed is **UNVERIFIED** and, for most
+   of those channels, unverifiable from here.
+4. After this change lands, the name is still reachable by anyone with a clone at
+   `git show HEAD:docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md`.
+
+**The disposition is containment: no history rewrite, no force-push, and no push at all.** The
+redaction was left uncommitted in the working tree for the operator. This is a deliberate decision
+and it differs from §8B and §11.4, where a rewrite was authorized and executed.
+
+Recorded honestly rather than dressed up: unlike §11.1, **no verbatim wording of that decision was
+captured** by the agent that performed this work. It was relayed to it as *operator decision 17,
+2026-09-02 — containment*, and is written down as exactly that. §11.1's rule stands and is not
+weakened by this paragraph: an authorization that cannot be quoted is recorded as a relayed
+instruction, never promoted into a quotation it never had.
+
+That decision is defensible and it is **not** this document's to second-guess. What this document
+must not allow is the decision being remembered as a closure. **It is not one.** The substantive
+remedy for a disclosure about a person is the same one the status block at the head of this file
+records as still outstanding for the first instance: **telling the person.** That has not been done
+for `THIRD-PARTY-B` either, and it is the operator's to do.
+
+**Do not mark this closed, and do not read any gate result below as bearing on it.** The gate table
+that follows measures the *tip of the tree*. This section is about what is behind it.
+
+---
+
 ## Gate results
 
 Recorded at the end, not the top, so that they are read as evidence and not as a verdict on
@@ -1756,6 +2192,36 @@ name. Nothing here can have created a name-class row.
 before the fleet grew. The current 57 rows have **not** been individually re-adjudicated by
 this wave, and this wave does not claim they have been. That is a **known open item**, not a
 pass.
+
+### Wave 5 — measured 2026-09-02, triage only, no edit to any scanned public file
+
+| Instrument | Exit | Result |
+|---|---|---|
+| `scripts/verify-content-boundary.sh --json` (**wave 5, before**) | **1** | LEAK — **4249** (prose **4002**, short **190**, name **57**), 0 undetermined |
+| `scripts/verify-content-boundary.sh --json` (interim, **this document's own first draft**) | **1** | LEAK — **4251** (prose 4002, short **192**, name 57). **+2, and this document caused them.** §12.4 quoted a private README's title line verbatim; this file is tracked, so it is a scanned public destination and the gate reported it against itself within one run. **Recorded, not hidden** — the draft was corrected to describe the line instead of quoting it. |
+| `scripts/verify-content-boundary.sh --json` (**wave 5, after**) | **1** | LEAK — **4249** (prose **4002**, short **190**, name **57**), 0 undetermined. Row-for-row identical to *before*: **0 new, 0 removed**, verified by set difference over `(class, private, public, line, match)`. **A true null A/B: this wave redacted nothing because it found nothing to redact, and its own edit leaves no residue.** |
+| `scripts/verify-content-boundary.sh --json` (re-verification, later) | **1** | **4251** (prose **4004**, short 190, name 57). **+2, and they are NOT this wave's.** The private `workshop` submodule gained commit `5a71a36` (2026-09-02T08:43:25) while this wave was running — a concurrent agent scaffolding `spec-002` — and two new private `doc.go` files entered the corpus. Both new rows are the same sentence stating a **Go language rule** about `internal/` package visibility, landing on `submodules/verdict/go.mod:22`, whose public file predates them by **21 h 24 m**. Shared technical vocabulary, public-first: **not a disclosure.** This document's own 251 added lines contributed **0** rows; the single row against this file is the pre-existing generic short-class fragment at `:806`. |
+| `scripts/verify-content-boundary.sh --allow <empty file>` (control, not a real run) | **1** | 8434 (prose 8043, short 329, name **62**). Establishes that the 9 declared pairs suppress 4,185 rows and exactly **one** name digest — §12.3. |
+
+**The tree moved under the instrument during this wave, and that is stated rather than
+smoothed over.** Another agent committed inside the private `workshop` submodule and modified
+`specs/001-…/tasks.md` at this root while the triage was in progress. The A/B above is clean
+because *before* and *after* were taken either side of one edit to one file; the later
+re-verification is not an A/B for this wave and is not offered as one. **Any figure in §12 is a
+dated observation of the corpus as it stood at commit `e432703` plus `workshop@5b611f9`.
+Re-derive before relying on it.**
+
+**A second null A/B, and for the same reason as wave 3.** The name class is now fully
+adjudicated — 57 of 57 rows resolved, 7 of 7 digests classified, **0 people, 0 redactions** —
+and the prose and short classes are adjudicated for the first time, by dating **every** row
+rather than sampling: **4,112 of 4,192 are public-first, 80 are not, and 0 are disclosures**.
+The `name 57` figure that wave 4 recorded as *"unfinished business … a known open item, not a
+pass"* is **closed as a finding**; it remains open as a *red gate*, which is the correct
+resting state.
+
+**`.content-boundary-allow` was not touched, no entry was added, and
+`scripts/verify-content-boundary.sh` was not edited.** The only file this wave changed is this
+one.
 
 ### Wave 3 is a null A/B, and that is the correct outcome
 
@@ -1846,6 +2312,24 @@ remaining in either redacted file.
 the registry is consistent and no hardcoded paths were introduced. They say nothing about
 the disclosure, which is still live in `63ac4df` on a public remote.
 
+
+### §13 — measured 2026-09-02, after the redaction. **NOT an A/B, and not a wave.**
+
+Kept apart from the wave rows above on purpose: every pair up there is a before/after of the same
+tree, and this is not one. §13 is a **separate instance**, and only its *after* was measured.
+
+| Instrument | Exit | Result |
+|---|---|---|
+| `scripts/audit-hardcoded-paths.sh` | **0** | *"✅ no machine-specific hardcoded paths (9 file(s) explicitly allowed)"* — green while **structurally unable** to see the two disclosed lines, because its `SKIP` filter drops all **59** tracked `docs/` files before its `PATTERN` is applied. See §13.5. |
+| `scripts/verify-content-boundary.sh` | **1** | LEAK — **10564** surviving matches (prose **10235**, short **272**, name **57**), 0 undetermined. Names **84** distinct public `docs/**.md` files and **10** of the 20 in `docs/setup-agents-wizard/`, and `LUMEN-STORE-INVENTORY.md` **0** times. `docs/` is inside this gate's scope; its silence here is not the blindness §13.5 documents for the other audit. |
+| run-time-derived name probes ×5, public umbrella | — | tracked **0**, untracked **0**, `HEAD` **2** — unchanged. See §13.4. |
+
+**Neither row licenses a conclusion about what the content-boundary gate would have reported
+before the redaction.** No pre-redaction run exists for these two lines and none was manufactured.
+The `10564` is a dated observation of a moving detector against a moving fleet — **not** comparable
+to the `4249` of wave 4 or the `367` of wave 3, and no trend may be read across the three.
+
+---
 
 > **Self-reference guard.** This document deliberately DESCRIBES the false-positive
 > classes rather than quoting them. Writing a capitalised two-token pair here in plain

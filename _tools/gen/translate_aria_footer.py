@@ -20,9 +20,20 @@ CEREBRAS_URL = "https://api.cerebras.ai/v1/chat/completions"
 # Groq's llama-3.3-70b hit its per-day token cap (exhausted by the prior UI
 # runs), so translation falls back to the next headroom provider: Cerebras.
 # Reviewer stays a DIFFERENT model (gpt-oss-120b) on the same headroom provider.
-TRANSLATOR = "zai-glm-4.7"               # Cerebras (Groq 70b hit its per-day cap)
-TRANSLATOR_PROVIDER = "cerebras"
-REVIEWER = "gpt-oss-120b"               # Cerebras (different model)
+# Model ids DERIVED from the environment (AUDIT.md F15). The defaults are the
+# exact literals this pass has always used, so an unset environment reproduces
+# the previous behaviour byte for byte; a retired or rate-capped model is then
+# swapped without editing this file.
+TRANSLATOR = os.environ.get("ARIA_FOOTER_TRANSLATOR_MODEL", "zai-glm-4.7")  # Cerebras
+TRANSLATOR_PROVIDER = os.environ.get("ARIA_FOOTER_TRANSLATOR_PROVIDER", "cerebras")
+REVIEWER = os.environ.get("ARIA_FOOTER_REVIEWER_MODEL", "gpt-oss-120b")  # different model
+REVIEWER_PROVIDER = os.environ.get("ARIA_FOOTER_REVIEWER_PROVIDER", "cerebras")
+# Models that accept the OpenAI-style `reasoning_effort` knob. Comma-separated
+# so a substituted model can declare the same capability; the default is the
+# single id this file used to test for with `==`.
+REASONING_EFFORT_MODELS = [
+    m for m in os.environ.get("UI_REASONING_EFFORT_MODELS", "gpt-oss-120b").split(",") if m
+]
 
 # en source of truth for the 9 remaining chrome keys
 EN = {
@@ -85,7 +96,7 @@ def call(model, system, user, temperature=0.2, retries=5, provider="groq"):
         "response_format": {"type": "json_object"},
         "max_tokens": 4000,
     }
-    if model == "gpt-oss-120b":
+    if model in REASONING_EFFORT_MODELS:
         payload["reasoning_effort"] = "low"
     body = json.dumps(payload).encode()
     last = None
@@ -169,7 +180,7 @@ def review(name, tr):
         "script: %s.\nReview these EN -> translation pairs and return the JSON verdict.\n\n%s"
         % (name, ", ".join(PRESERVE), json.dumps(pairs, ensure_ascii=False, indent=2))
     )
-    txt = call(REVIEWER, system, user, temperature=0.0, provider="cerebras")
+    txt = call(REVIEWER, system, user, temperature=0.0, provider=REVIEWER_PROVIDER)
     try:
         return parse_json(txt)
     except Exception:

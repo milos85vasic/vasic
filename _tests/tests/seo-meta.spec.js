@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { VD_BASE, MV_BASE } = require('../env.js');
 
 // SEO / structured-data assertions (§11.4.169). Per key page:
 //   * exactly one non-empty <title>
@@ -17,12 +18,12 @@ const { test, expect } = require('@playwright/test');
 // _tests/TEST-TYPES.md.
 
 const PAGES = [
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/', hreflang: true },
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/portfolio/', hreflang: true },
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/products/helixtrack.html', hreflang: true },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/', hreflang: false },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/portfolio/', hreflang: true },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/products/helixtrack.html', hreflang: true },
+  { site: 'vasic.digital', base: VD_BASE, path: '/', hreflang: true },
+  { site: 'vasic.digital', base: VD_BASE, path: '/portfolio/', hreflang: true },
+  { site: 'vasic.digital', base: VD_BASE, path: '/products/helixtrack.html', hreflang: true },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/', hreflang: false },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/portfolio/', hreflang: true },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/products/helixtrack.html', hreflang: true },
 ];
 
 function findType(node, out) {

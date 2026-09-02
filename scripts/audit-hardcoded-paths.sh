@@ -327,10 +327,32 @@ ALLOW_FILE="$ROOT/.hardcoded-paths-allow"
 # standard system locations, not somebody's home directory.
 PATTERN='(/Volumes/|/Users/[A-Za-z]|/home/[A-Za-z][A-Za-z0-9_.-]*/|/run/media/[A-Za-z]|/mnt/[A-Za-z][A-Za-z0-9_.-]*/)'
 
-# Prose legitimately quotes real paths; generated evidence is not source.
-# Applied to each repository's OWN relative paths, so `<submodule>/docs/...` is
-# skipped for the same reason `docs/...` is skipped here.
-SKIP='^(docs/|_content|_analysis|_tests/evidence/|\.test-evidence/|\.superpowers/|\.ashlrcode/|MANUAL-STEPS\.md)'
+# Generated evidence is not source. Applied to each repository's OWN relative
+# paths, so `<submodule>/_content/...` is skipped for the same reason
+# `_content/...` is skipped here.
+#
+# THE `docs/` BLIND SPOT — REMOVED 2026-09-02, operator decision 20
+# -----------------------------------------------------------------
+# This list used to begin `^(docs/|...`, on the reasoning "prose legitimately
+# quotes real paths". The reasoning was not wrong; the CONSEQUENCE was. Because
+# SKIP is applied BEFORE `PATTERN`, `docs/**` was never read at all — measured
+# on 2026-09-02, ZERO of the 39 tracked `docs/**.md` files at this root entered
+# the scan universe. A real disclosure sat in one of them, on two lines that
+# BOTH match this file's own `PATTERN`, for as long as it took somebody to look
+# by hand. The detector was right; the scope was wrong.
+#
+# `docs/` is therefore gone from this list and MUST NOT be put back. What
+# surfaced when it was removed is enumerated FILE BY FILE in
+# `.hardcoded-paths-allow` — a blanket regex hides an unbounded future
+# population, a named file does not, and a docs file added tomorrow with a
+# machine-specific path FAILS this gate instead of being skipped in silence.
+#
+# The other entries here are NOT equivalent to it and are deliberately kept:
+# `_content*` and `*/evidence/` are GENERATED trees (renderer output, captured
+# run transcripts) rather than authored documentation, and `.superpowers/` and
+# `.ashlrcode/` are third-party tool state this repository does not author.
+# If one of them is ever shown to hide a disclosure the same way, it goes too.
+SKIP='^(_content|_analysis|_tests/evidence/|\.test-evidence/|\.superpowers/|\.ashlrcode/|MANUAL-STEPS\.md)'
 
 # Known-binary: never read. Known-text: always read, whatever the size.
 # Anything else is read only below MAXBYTES, and is otherwise reported as

@@ -526,6 +526,11 @@ if [ "$PROVE" -eq 1 ]; then
     printf 'OK: an absent remedy was CAUGHT (1), a present-but-unstartable one was\n'
     printf 'CAUGHT (1), an instruction was NOT a finding (0), an empty scan was 2, the\n'
     printf 'mutants parsed, and the subject was restored byte-identically.\n'
+    printf 'MUTATION PROOF: PASS — 4 mutations each produced the verdict they must, over 7\n'
+    printf 'assertions: an absent remedy -> 1, a present-but-unstartable remedy -> 1, an\n'
+    printf 'operator INSTRUCTION -> 0 (never a finding), an empty scan -> 2 (never 0).\n'
+    printf 'Controls: a resolvable remedy -> 0 before and after, and the subject restored\n'
+    printf 'byte-identically (sha256).\n'
     exit 0
 fi
 

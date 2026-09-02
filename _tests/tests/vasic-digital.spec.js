@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const BASE = 'http://localhost:8401';
+const { VD_BASE: BASE } = require('../env.js');
 
 // vasic.digital — AI-development company homepage, rebuilt on the OpenDesign system.
 // Asserts the NEW .od-* structure: header/nav, hero, product cards linking products/,

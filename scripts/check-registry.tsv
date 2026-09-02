@@ -136,14 +136,33 @@ check	hardcoded-paths	scripts/audit-hardcoded-paths.sh	flag	--prove-failure	/non
 check	content-boundary	scripts/verify-content-boundary.sh	flag	--prove-failure	--root /nonexistent
 check	environment-assumptions	scripts/audit-environment-assumptions.sh	flag	--prove-failure	/nonexistent
 
-# ── Registered debt: real checks that do NOT yet satisfy SC-012 / SC-013 ─────
-# Each row states which property is owed. None of these is a pass.
-debt	constitution-rules-sweep	scripts/verify-all-constitution-rules.sh	proof	no --prove-failure and no *_mutation_test.sh sibling; it discovers and runs child gates but nothing demonstrates the SWEEP itself fails when a child gate is silently dropped. Three-valued exit verified: --root /nonexistent -> rc 2, documented at lines 89-93.
-debt	lumen-index-doctor	scripts/lumen-index-doctor.sh	proof	no paired proof. Three-valued exit verified: LUMEN_STORE=/nonexistent -> rc 2 via the private E_NOINDEX=21 mapping, distinct from the live tree's current rc 1.
-debt	ollama-tune	scripts/ollama-tune.sh	proof	no paired proof. Three-valued exit verified: --unit nonexistent.service -> rc 2, and the contract "0 fine, 1 real problem, 2 COULD NOT DETERMINE" is printed by --help.
-debt	prepush-gates	scripts/pre-push-gates.sh	proof	no paired proof. THREE-VALUED IS NOW SATISFIED and this row was narrowed accordingly (re-verified 2026-09-01): run_gate has a distinct UNDET verdict for a child rc=2 (lines ~512-518), the summary prints `undetermined=` as its own counter, and an UNDET run reports "COULD NOT DETERMINE a verdict" and blocks WITHOUT accusing the tree. The earlier claim that run_gate maps every non-zero rc into FAILED is WITHDRAWN, not restated. Only the paired proof is still owed; the file was under concurrent edit by its owner and was deliberately not touched.
-debt	setup-agents-wizard-suite	scripts/test-setup-agents-wizard.sh	proof,three-valued	no paired proof of its own. It ASSERTS three-valued behaviour in the wizard it tests (K16/K17/K20/K23b) but does not implement a distinct rc 2 for its own inability to run; its own exit is non-zero if any test fails.
+# ── The five debt rows that used to live here — CLEARED 2026-09-02 ───────────
+# `constitution-rules-sweep`, `lumen-index-doctor`, `ollama-tune`,
+# `prepush-gates` and `setup-agents-wizard-suite` each owed a paired §1.1 proof
+# (the last of them also owed a three-valued exit of its own). All five now have
+# one, each verified in BOTH directions: it passes on this tree, and it FAILS
+# when the gate it guards is deliberately weakened. They are promoted to `check`
+# rows below rather than left as debt — the RATCHET above requires exactly that,
+# because debt must not outlive the gap it declares.
+#
+# ONE STATED LIMIT survives the promotion and is recorded here rather than
+# hidden by the promotion: the old `constitution-rules-sweep` row named
+# "nothing demonstrates the SWEEP fails when a child gate is silently DROPPED".
+# Its proof now demonstrates the ADD direction (a new gate file is discovered and
+# its failure reddens the sweep, with no edit to the sweep) and MEASURES the drop
+# direction as assertion L1: deleting a gate file lowers the discovered count and
+# the sweep still exits 0, because it keeps no expected-gate ledger. That gap is
+# real, is printed on every `--prove-failure` run, and is NOT asserted away.
+# Closing it means giving the sweep a ledger; see docs/check-registry.md.
+#
+# ── Conforming checks, continued ─────────────────────────────────────────────
+check	constitution-rules-sweep	scripts/verify-all-constitution-rules.sh	flag	--prove-failure	--root /nonexistent
+check	lumen-index-doctor	scripts/lumen-index-doctor.sh	flag	--prove-failure	LUMEN_STORE=/nonexistent
+check	ollama-tune	scripts/ollama-tune.sh	flag	--prove-failure	--unit nonexistent.service
+check	prepush-gates	scripts/pre-push-gates.sh	flag	--prove-failure	TMPDIR=/nonexistent
+check	setup-agents-wizard-suite	scripts/test-setup-agents-wizard.sh	flag	--prove-failure	--root /nonexistent
 check	submodule-remote-sync	scripts/verify-submodule-remote-sync.sh	flag	--prove-failure	--root /nonexistent
 check	mutation-anchor-rot	scripts/verify-mutation-anchors.sh	flag	--prove-failure	--root /nonexistent
 check	private-object-exposure	scripts/verify-private-object-exposure.sh	flag	--prove-failure	--root /nonexistent
 check	remedy-executability	scripts/verify-remedy-executability.sh	flag	--prove-failure	--root /nonexistent
+check	name-in-path	scripts/verify-name-in-path.sh	flag	--prove-failure	--root /nonexistent

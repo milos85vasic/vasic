@@ -227,6 +227,10 @@ LABPROVER
     fi
     printf 'OK: rot was DETECTED (1), a clean fleet PASSED (0), the mutant parsed, the\n'
     printf 'subject was restored byte-identically, and --strict escalated the note (2).\n'
+    printf 'MUTATION PROOF: PASS — 1 mutation caught (renaming the anchored symbol flipped\n'
+    printf 'this detector 0 -> 1), over 5 assertions: control 0, mutant 1, restored control\n'
+    printf '0, --strict escalates the uninstrumented NOTE to 2, and the subject sha256 is\n'
+    printf 'unchanged.\n'
     exit 0
 fi
 

@@ -23,6 +23,12 @@ LANGS = sys.argv[1:] or ["ru", "kk", "hi", "ja", "ko", "tr", "fa", "ar"]
 GAP = float(os.environ.get("UI_GAP", "20"))
 BUDGET = int(os.environ.get("UI_BUDGET", "480"))
 PASSES = int(os.environ.get("UI_PASSES", "6"))
+# Engine provider/model DERIVED from the environment (AUDIT.md F15). The
+# defaults are the exact literals this pipeline has always used, so an unset
+# environment reproduces the previous behaviour byte for byte; a retired or
+# rate-capped model is then swapped without editing this file.
+PROVIDER = os.environ.get("UI_TRANSLATOR_PROVIDER", "zhipu")
+MODEL = os.environ.get("UI_TRANSLATOR_MODEL", "glm-4.5-flash")
 MARK = re.compile(r"^\s*\[\[(\d+)\]\]\s*(.*)$")
 
 # Rotating pool of (api_key, base_url) across independent accounts.
@@ -44,7 +50,7 @@ def call(doc, lang):
     with tempfile.TemporaryDirectory() as d:
         inp, outp = f"{d}/in.md", f"{d}/out.md"
         open(inp, "w").write(doc + "\n")
-        cmd = [ENGINE, "-i", inp, "-o", outp, "-provider", "zhipu", "-model", "glm-4.5-flash",
+        cmd = [ENGINE, "-i", inp, "-o", outp, "-provider", PROVIDER, "-model", MODEL,
                "-api-key", key, "-source-lang", "en", "-target-lang", lang,
                "-script", script_for(lang), "-verify=false", "-timeout", "120s"]
         if base: cmd += ["-base-url", base]

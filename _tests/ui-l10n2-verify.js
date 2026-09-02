@@ -1,5 +1,7 @@
 const { chromium } = require('playwright');
-const BASE='http://localhost:8791';
+// The server this attaches to is started elsewhere; its address is DERIVED
+// (UI_L10N2_PORT / UI_L10N2_BASE via ./env.js), not frozen to one box.
+const { UI_L10N2_BASE: BASE } = require('./env.js');
 (async () => {
   const b = await chromium.launch();
   const out={};

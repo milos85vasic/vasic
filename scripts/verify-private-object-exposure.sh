@@ -450,6 +450,12 @@ if [ "$PROVE" -eq 1 ]; then
     printf 'as reflog-only; the pruned tree returned to a silent rc=0; the scan wrote\n'
     printf 'nothing; and all three could-not-determine shapes returned rc=2 — including\n'
     printf 'the empty nested directory that `rev-parse --git-dir` calls healthy.\n'
+    printf 'MUTATION PROOF: PASS — 6 mutations each produced the verdict they must, over 13\n'
+    printf 'assertions: a genuine foreign object store -> 1; a same-shaped plain-text decoy\n'
+    printf '-> NOT flagged; a reflog-only store -> 0 and still NAMED; an uninitialised\n'
+    printf 'nested submodule -> 2; a missing root -> 2; a non-repository root -> 2. Controls:\n'
+    printf 'an ordinary repository -> 0, the pruned tree -> 0, zero worktree dirt, subject\n'
+    printf 'sha256 unchanged.\n'
     exit 0
 fi
 

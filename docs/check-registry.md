@@ -72,9 +72,15 @@ never reported as compliance. `--strict` turns each debt row into a failure.
 
 | mode | what it does | measured wall clock |
 |---|---|---|
-| default | proof STRUCTURE + executes every rc-2 probe | **0.8–1.1 s** |
+| default | proof STRUCTURE + executes every rc-2 probe | **1.3 s** (2026-09-02) |
 | `--prove-failure` | its own §1.1 paired mutation proof (10 mutations) | **5.6 s** |
-| `--run-proofs` | additionally EXECUTES every registered paired proof | **243 s** |
+| `--run-proofs` | additionally EXECUTES every registered paired proof | **see below** |
+
+The `--run-proofs` figure of **243 s** was measured on 2026-09-01 over 13 check
+rows. Five more were added on 2026-09-02 (see "The conformance gap" below) and
+they are not free: `setup-agents-wizard-suite` alone runs its 217-assertion
+subject six times. Re-measure rather than quoting the old number; it is a
+pre-tag / release-sweep instrument, not a hook.
 
 The trade is declared rather than silently sampled: executing every paired proof
 is the strongest evidence and is far too slow for a hook, so the default run
@@ -101,35 +107,124 @@ Two cautions specific to that host:
    `undetermined=` as its own counter, and an undetermined run says "COULD NOT
    DETERMINE a verdict" and blocks *without* accusing the tree. A
    `verify-check-registry.sh` rc of 2 is therefore reported as what it is. The
-   debt row below was narrowed to `proof` accordingly.
-2. Run it **default mode** in the hook (≈1 s). `--run-proofs` at 243 s does not
-   belong on a push path; it belongs in a pre-tag / release sweep.
+   debt row below was narrowed to `proof` accordingly, and on 2026-09-02 that
+   remaining debt was cleared too.
+   **That withdrawal is no longer read off the source.** It is MEASURED, by
+   `bash scripts/pre-push-gates.sh --prove-failure` mutation M2/M2b: a child gate
+   seeded to return rc=2 makes the runner print `passed=1 failed=0
+   undetermined=1`, say "NOT a failure of this tree and NOT a pass", and exit 1.
+   Re-introducing the old conflation is caught by 8 of the 9 mutations.
+2. Run it **default mode** in the hook (≈1.3 s). `--run-proofs` does not belong
+   on a push path; it belongs in a pre-tag / release sweep.
 
-## The conformance gap, as of 2026-09-01
+## The conformance gap — CLOSED 2026-09-02
 
 Determined empirically by running each entry point, not by reading its prose.
 Re-derive with `bash scripts/verify-check-registry.sh`.
 
-Conforming (paired proof **and** demonstrated rc-2): `constitution-inheritance`,
-`governance-cascade`, `manifest-pins`, `continuation-sync`, `provider-ci`,
-`check-registry`, `hardcoded-paths`, `content-boundary`,
-`environment-assumptions`, `submodule-remote-sync`, `mutation-anchor-rot`,
-`private-object-exposure`.
+**The five DEBT rows this section used to carry are cleared. The registry now
+declares ZERO debt.** Measured 2026-09-02:
 
-Measured 2026-09-01 after `private-object-exposure` was registered:
-**29 PASS / 0 FAIL / 5 DEBT / 0 UNDET, exit 0**, R5 green. That is a count of
-PASS *assertions* (each conforming check contributes an SC-012 row and an
-SC-013 row), not a count of checks.
+```
+bash scripts/verify-check-registry.sh
+# 41 PASS, 0 FAIL, 0 DEBT, 0 UNDET, 0 NOTE  -> exit 0
+```
 
-Owed:
+The earlier figure — **29 PASS / 0 FAIL / 5 DEBT / 0 UNDET, exit 0** on
+2026-09-01, and **31 PASS / 5 DEBT** once `remedy-executability` was registered —
+is superseded, not wrong-at-the-time. PASS counts *assertions* (each conforming
+check contributes an SC-012 row and an SC-013 row), not checks: 18 check rows
+plus the R0/R1/R1b/R2/R5 structural rows.
 
-| check | owes | note |
+The five that were owed, and what each now ships. Every one was verified in
+**both** directions — it passes on this tree, **and** it fails when the gate it
+guards is deliberately weakened, which is the only evidence that separates a
+proof from a decoration:
+
+| check | paired proof | measured |
 |---|---|---|
-| `scripts/verify-all-constitution-rules.sh` | proof | rc-2 verified; nothing demonstrates the sweep fails when a child gate is silently dropped |
-| `scripts/lumen-index-doctor.sh` | proof | rc-2 verified |
-| `scripts/ollama-tune.sh` | proof | rc-2 verified |
-| `scripts/pre-push-gates.sh` | proof | rc-2 now implemented (see the withdrawal above); only the paired proof is still owed |
-| `scripts/test-setup-agents-wizard.sh` | proof, three-valued | asserts three-valued behaviour in the wizard it tests; implements none for itself |
+| `verify-all-constitution-rules.sh` | `--prove-failure` — synthetic consumer tree whose child gates read their exit code from a sidecar file | 10 mutations + 1 stated LIMIT, **7 s**; a sweep that no longer fails on a failing or blind child gate is caught by **6** of them |
+| `lumen-index-doctor.sh` | `--prove-failure` — a throwaway sqlite index built with plain sqlite3 (no sqlite-vec) | 10 mutations, **42 s**; raising the duplicate threshold out of reach and disabling the per-vector tests is caught by **5** |
+| `ollama-tune.sh` | `--prove-failure` — a PATH-shimmed synthetic host (`systemctl`, `journalctl`, `curl`, `podman`, `docker`, `pgrep`, `ss`, `sudo`, `systemd-path`) | 10 mutations, **13 s**; collapsing could-not-determine into "fine" is caught by **7** |
+| `pre-push-gates.sh` | `--prove-failure` — a throwaway git repository with two nested submodules, driven through `PREPUSH_ONLY` | 9 mutations, **4 s**; re-introducing the rc-2→FAILED conflation and removing the push block is caught by **8** |
+| `test-setup-agents-wizard.sh` | `--prove-failure` — the real wizard, byte-copied, mutated four ways; plus its own rc-2 states | 8 mutations, **3 m 32 s**; making a FAILED assertion stop reddening the suite is caught by **8** |
+
+`test-setup-agents-wizard.sh` also owed a **three-valued exit of its own**, and
+now has one: `--root <dir>` that is not a directory, a wizard that is absent,
+unreadable or empty, and an evidence directory that cannot be created are each
+**rc 2**. It previously asserted three-valued behaviour in the wizard it tests
+(K23b/K25) while implementing none for itself.
+
+### The gap the promotion did not close — CLOSED 2026-09-02
+
+The old `constitution-rules-sweep` debt row named a specific missing
+demonstration: *"nothing demonstrates the SWEEP itself fails when a child gate is
+silently dropped."* It was split into two halves, and **both are now closed**:
+
+- **ADD direction — closed.** Mutation M9 drops a new gate file into the gates
+  directory and measures the discovered count moving `3 -> 4`, with the added
+  gate's failure reddening the sweep and **no edit to the sweep**. §11.4.32's
+  "gates are DISCOVERED, never hardcoded" is therefore measured, not asserted.
+- **DROP direction — closed.** The assertion that used to be called **L1**
+  recorded the OPPOSITE result: it deleted a gate file, measured the count
+  falling `3 -> 2`, and recorded that the sweep **still exited 0**, because
+  there was no expected-gate ledger to compare against. It is now **M11**, and
+  it requires the sweep to exit **1** and to NAME the vanished gate. Measured
+  2026-09-02: *"the count fell 3 -> 2, the sweep exited 1 and NAMED the vanished
+  gate."*
+
+#### The ledger, and why it is not a hardcoded list
+
+The blocking design problem was stated in this section and has not gone away:
+**the gate population moved 57 → 286 when the constitution was fast-forwarded**,
+so any expected list written into the sweep is wrong at the next pin — and a
+gate that is wrong at every bump gets deleted or made advisory the first time it
+fires. The expected set is therefore DATA, not code:
+
+`scripts/constitution-gate-ledger.tsv` — TAB-separated, typed rows from a closed
+vocabulary (`pin`, `gate`), the same shape `check-registry.tsv` and the
+constitution's own gate ledgers use. It records the constitution HEAD the
+baseline was taken at plus one row per discovered gate (286 at pin
+`3be10826f3d2`, measured 2026-09-02). It is regenerated only by an explicit
+`bash scripts/verify-all-constitution-rules.sh --update-ledger`, which prints
+what changed — so a population change always lands in a reviewable git diff.
+
+**The discriminator — "the pin moved" vs "a gate vanished" — uses two
+instruments, and the second is what makes the separation real:**
+
+1. **The pin.** The population is a function of the constitution's commit. If
+   the ledger's pin EQUALS the live pin, a ledgered gate that is missing
+   **vanished**. Determined, no git query needed, and this is the case that
+   holds on a tree nobody has bumped.
+2. **Git, when the pin HAS moved.** A missing path that git still reports as
+   TRACKED at the current commit was deleted from the working tree — a vanished
+   gate, **determined**, however far the pin travelled. A missing path that is
+   NOT tracked at the current commit is a gate upstream no longer carries — a
+   legitimate population change, reported as a NOTE and not gating.
+
+Both directions are proved, because either one alone would be worthless: **M13**
+requires an upstream removal across a moved pin NOT to gate (else the ledger
+cries wolf on every bump and gets deleted), and **M14** requires a local
+deletion across a moved pin to STILL be caught and named (else the ledger is a
+rubber stamp that any bump switches off). **M12** requires a deleted ledger, and
+**M12b** a malformed one, to be reported as could-not-determine — deleting the
+ledger must not buy back the old silence. **M15** requires `--update-ledger` to
+restore a clean state deliberately.
+
+**The residual limit, stated rather than asserted away (§11.4.6):** when the pin
+has MOVED *and* the constitution is not a git work tree (a vendored or
+archive-extracted copy), neither instrument applies and attribution is genuinely
+undecidable. The sweep reports that as could-not-determine and exits non-zero —
+a blind instrument is never a pass (§11.4.201(7)(b)) — rather than guessing in
+either direction. M13/M14 require git and SKIP with a reason when it is absent.
+A second, smaller limit: a gate deleted upstream and re-added under a different
+name in the same bump reads as one removal plus one addition. The ledger does
+not track renames, and does not claim to.
+
+**Scope boundary:** the ledger covers the gates discovered under
+`submodules/constitution/scripts/gates/**`. The project-side gate run in step 2b
+(`tests/test_constitution_inheritance.sh`) is a fixed known path already handled
+by an explicit §11.4.3 skip-with-reason, and is not ledgered.
 
 ### The inoperative-proof defect — closed for two, found in a third (2026-09-01)
 
@@ -163,6 +258,42 @@ green by construction, and the runner it compares against —
 
 Consequence, stated rather than implied: `bash scripts/verify-check-registry.sh`
 is **rc 0**, but `--run-proofs` is **rc 1** on account of that one row.
+
+### The 2026-09-02 `--run-proofs` split — rc 1, and NOT for that reason any more
+
+Re-measured 2026-09-02 immediately after the five debt rows were cleared:
+
+```
+bash scripts/verify-check-registry.sh --run-proofs
+# 54 PASS, 5 FAIL, 0 DEBT, 0 UNDET, 0 NOTE  -> exit 1
+# measured twice the same day: 10 m 44 s, then 10 m 17 s — same split both times
+```
+
+**All five newly-promoted checks PASS under `--run-proofs`** — each proof was
+executed and each reported real mutation results. `continuation-sync` now passes
+too. The five FAILs are a *different* set, and every one of them belongs to a
+check this change did not touch: `git diff` reports
+`scripts/verify-check-registry.sh`, `verify-provider-ci.sh`,
+`verify-submodule-remote-sync.sh`, `verify-mutation-anchors.sh`,
+`verify-private-object-exposure.sh` and `verify-remedy-executability.sh` all
+**byte-identical to HEAD**, and the registry diff adds and removes only the five
+rows named above. They are recorded here rather than fixed, because fixing them
+means editing gates that belong to other work in flight:
+
+| row | what `--run-proofs` says | measured cause |
+|---|---|---|
+| `provider-ci` | `--selftest` exited rc=1 | a real assertion failure inside that selftest: `M6b no repository or owner name in body — expected 0 names present, got 1 present`. A genuine finding about that gate, not about this one. |
+| `submodule-remote-sync` | "exited 0 but reported no mutation results" | **a false positive of the meta-check's own heuristic.** The proof runs and returns 0; the meta-check appends `--quiet` because that script *has* a `--quiet` case arm, and `--quiet` suppresses the per-case lines the heuristic looks for. Measured: `--prove-failure --quiet` → rc 0, 23 lines, 0 needle matches. |
+| `mutation-anchor-rot` | same | **same class, different trigger.** These three have no `--quiet` arm, so they run bare — and their summaries are prose (*"rot was DETECTED (1)"*, *"an absent remedy was CAUGHT (1)"*) with neither `M<n>` labels nor the phrase "*N* mutations". Measured bare: rc 0, 0 needle matches. |
+| `private-object-exposure` | same | as above |
+| `remedy-executability` | same | as above |
+
+The heuristic is `(^|[^A-Za-z])M[0-9]` or `[0-9]+\s+(mutation|mutations|drift|
+drifts|caught|passed)`. Four working proofs simply do not speak that way. **The
+right fix is to make those four proofs say what they did — not to loosen the
+heuristic**, which is the only thing standing between this registry and a proof
+that returns 0 without exercising anything. That is left to the owners of those
+gates, with the measurement above so nobody has to re-derive it.
 
 ## Declared scope boundary
 
@@ -657,3 +788,340 @@ is never the guarantee; and `pre-push-gates.sh` carries a hardcoded `GATE_IDS`
 array and was under concurrent edit by its owner. The wiring, when its owner
 takes it, is one id and one `run_gate` arm — the entry point takes no arguments
 and already returns the 0/1/2 the runner expects.
+
+## `content-boundary` — `--include-untracked` added 2026-09-02
+
+**The registry row is UNCHANGED, and that is a statement, not an omission.**
+
+```
+check	content-boundary	scripts/verify-content-boundary.sh	flag	--prove-failure	--root /nonexistent
+```
+
+Entry point, proof kind, proof argument and rc-2 probe are all exactly what they
+were: the check grew a MODE, not a contract. The row is re-verified rather than
+assumed — measured 2026-09-02, `bash scripts/verify-check-registry.sh` exits
+**0** at **41 PASS, 0 FAIL, 0 DEBT, 0 UNDET, 0 NOTE** in 2 s, with
+
+```
+✅ PASS  [content-boundary] SC-012 paired proof: '--prove-failure' is a real case arm in scripts/verify-content-boundary.sh and is non-trivial
+✅ PASS  [content-boundary] SC-013 three-valued exit: probe '--root /nonexistent' -> rc 2, distinct from 0 and 1
+✅ PASS  [R5] anti-drift: every *.sh under scripts tests is registered as a check, debt, or exemption
+```
+
+R5 stays green because no new `*.sh` was added — the mode lives inside the
+already-registered script. That run verifies proof STRUCTURE only and says so;
+the execution evidence is below.
+
+### The hole this closes
+
+Every candidate file in that gate was enumerated with `git ls-files`, which
+lists **tracked files only**. An untracked file in a public working tree was
+therefore not filtered out — it was **never opened**.
+
+That is not a hypothetical. On 2026-09-02 an untracked file in this public
+umbrella, `specs/001-workshop-curriculum-platform/review.md`, was found to carry
+verbatim copies of source from the **private** `workshop` submodule (54 of 62
+normalised 10-token windows matched one private Go file). The gate had been
+green over that file on every run, because it never read it. A human-directed
+agent found it; no instrument in this repository did.
+
+The exposure window is one command wide, and it is a command this project uses
+by default: the `commit` wrapper runs `git add .`, which stages **every**
+untracked file. Write it, run the wrapper, push — and it is in a public
+repository's history, which is not editable after a push.
+`scripts/continuation-check.sh` watches neither `specs/**` nor `docs/*.md`, so
+nothing else raised it either.
+
+### Contract of the new mode
+
+| property | behaviour |
+|---|---|
+| flag | `--include-untracked` — **opt-in**, off by default |
+| candidate set | `git ls-files --others --exclude-standard` unioned with the tracked set |
+| side | **PUBLIC only.** The private corpus stays tracked-only, so the KEY SPACE is unchanged and the two modes differ in exactly one variable: where a key may be *found* |
+| `.gitignore` | **respected** — that is what `--exclude-standard` is for. Ignored paths are build output and caches that are never pushed |
+| submodules | `--others` does not descend into a nested working tree, so each repository still contributes only its own untracked files, under its own prefix |
+| disclosure | the count of untracked files read is printed on **every** run, in **both** modes, and each path is listed. A default run prints `0 file(s) — NOT SCANNED` |
+| JSON | additive `"untracked": { "included", "side", "files_scanned" }`; every pre-existing field keeps its shape |
+| exit codes | unchanged three-valued 0 / 1 / 2 |
+
+### The default did not move — measured, not asserted
+
+The `HEAD` script and the edited script were run against the same tree six
+minutes apart:
+
+```
+# HEAD copy, extracted with `git show HEAD:scripts/verify-content-boundary.sh`
+LEAK — 10589 surviving match(es) (prose 10260, short 272, name 57); 0 row(s) also could not be determined   rc=1
+# edited script, default mode
+LEAK — 10589 surviving match(es) (prose 10260, short 272, name 57); 0 row(s) also could not be determined   rc=1
+```
+
+A full `diff` of the two 21.9k-line reports differs in exactly two places, and
+neither is a finding:
+
+1. the **three added disclosure lines** (`untracked (public) 0 file(s) — NOT
+   SCANNED …`);
+2. `CONTINUATION.md:<n>` → `CONTINUATION.md:<n+34>` on every row that cites it —
+   a **uniform +34** on all 54 such rows, because another agent added net 34
+   lines to that file between the two runs. `git diff --numstat --
+   CONTINUATION.md` showed `775 140` at the time, confirming the file was under
+   concurrent edit. Normalising public line numbers away leaves the three
+   disclosure lines as the *only* difference.
+
+### What the new mode finds on this tree
+
+```
+bash scripts/verify-content-boundary.sh --include-untracked
+LEAK — 10633 surviving match(es) (prose 10297, short 279, name 57); 0 row(s) also could not be determined   rc=1
+untracked (public)    4 file(s) read
+```
+
+**+44 rows** over the default (+37 prose, +7 short, +0 name), from **2** of the
+4 untracked files, against **10 distinct private sources** in **2** private
+submodules:
+
+| untracked public file | rows | private sources it matches |
+|---|---|---|
+| `specs/001-workshop-curriculum-platform/review.md` | 22 prose + 2 short = **24** | `workshop/docs/session-evidence/session-ledger.md` (21), `workshop/docs/training/areas/02-…` (`.md` and `.sections.json`, 2), `workshop/platform/orchestration/go.mod` (1) |
+| `docs/session-instruction-audit-2026-09-01.md` | 15 prose + 5 short = **20** | `workshop/scripts/setup.sh` (12), `workshop/pipeline/extract/verify.py` (2), `workshop/pipeline/extract/verify_export.py` (2), `workshop/docs/knowledge-model-contract.sections.json` (1), `workshop/docs/session-evidence/search-defect-evidence.md` (1), `ai_interviewing/docs/interview-preparation/areas/22-…` (`.md` and `.pdf`, 2) |
+| `_tests/env.js` | 0 | — |
+| `specs/001-workshop-curriculum-platform/redaction-review-summary.md` | 0 | — |
+
+Two facts about that table are worth stating plainly rather than leaving to be
+inferred. First, `workshop/platform/backend/pkg/answer/verify.go` — the private
+file that `review.md` was paraphrased away from earlier the same day — appears
+**nowhere** in it, which is independent corroboration that the paraphrase held.
+Second, the 24 rows `review.md` still produces are against a **different**
+private source that nobody had looked for. Fixing one overlap is not evidence
+about the others; only the scan is.
+
+**These numbers are a dated observation on a tree under concurrent edit.**
+Re-run rather than quoting them. The rise is expected and is not to be tuned
+down: the whole point of the flag is that these rows exist and were invisible.
+
+### Paired proof (§1.1)
+
+`--prove-failure` grew from 22 to **24 mutations**, and the summary keeps the
+`M<n>` / "24 mutations run" form the meta-check's hollow-proof heuristic looks
+for. Every new case is a **pair against the same tree**, differing only in the
+flag — without that shape a green result could come from the fixture being
+clean rather than from the flag doing anything.
+
+| case | expected | what it holds open |
+|---|---|---|
+| `M23a` | rc 0 | the flag alone must not redden a clean tree. If `--others` ever started descending into the private gitlink, the private corpus would be scanned as public content and every key would match itself |
+| `M23b0` | `??` in `git status` | the seeded file really is untracked, so the case cannot pass for the wrong reason |
+| `M23b` | **rc 0 — the defect** | identical bytes to `M1`, in the same directory; the ONLY difference is that the file is untracked, and the default mode is blind to it |
+| `M23c` | rc 1 | `--include-untracked` catches it, and **names both sides**, the untracked public path included |
+| `M23d` | rc 0 | an ignored path is not read even with the flag |
+| `M23d2` | rc 1 | the same bytes in a **non**-ignored untracked file are caught — so `M23d`'s rc 0 is the ignore rule, not a dead detector |
+| `M23e` | identical manifest | the battery **restores** what it seeded, byte for byte (`cksum` over every non-`.git` file, POSIX rather than GNU `sha256sum`) |
+| `M23e2` | rc 0 | the restored tree scores clean again |
+| `M24a` | **rc 0 — declared cost** | an UNTRACKED **private** file is still not a key source. A real remaining blind spot, written as a test so a later change that quietly widens the private side goes red |
+| `M24b` | rc 1 | commit that same private file and the same public copy is caught at once — so `M24a`'s rc 0 is the tracked-only rule, not a dead detector |
+
+Measured **twice**, because `--run-proofs` does not invoke a proof the way a
+human does — it appends `--quiet` to any script that declares that arm, and
+that is precisely what turned `submodule-remote-sync` into a hollow-proof false
+positive:
+
+```
+bash scripts/verify-content-boundary.sh --prove-failure
+  43 passed, 0 failed, 24 mutations run   rc=0   368 s
+bash scripts/verify-content-boundary.sh --prove-failure --quiet
+  43 passed, 0 failed, 24 mutations run   rc=0   233 s
+```
+
+Both outputs match the meta-check's needle
+(`(^|[^A-Za-z])M[0-9]|[0-9]+[[:space:]]+(mutation|mutations|…)`) **44 times**,
+so this check does not become a fifth false positive. It cannot: `run_prove`
+emits through `printf`/`echo` and uses the `QUIET`-gated `say`/`vsay` helpers
+**zero** times, so `--quiet` reaches only the nested scans whose output is
+captured into a variable, never the battery's own report.
+
+The proof's own live-tree pre-flight is REPORTED, never gating, and it recorded
+`rc=1 (LEAK — 10564 …)` on this tree — a statement about the tree, not about
+the battery. The count differs from the 10589 measured 20 minutes earlier
+because the tree is under concurrent edit, which is exactly why these figures
+are dated observations rather than facts.
+
+Every fixture string is synthetic and was written for the proof. No heading,
+sentence or name from any real private document appears in it — a fixture
+carrying the real leaked content would re-leak it into this public repository,
+and the proof would become the incident.
+
+---
+
+## `name-in-path` — added 2026-09-02
+
+| field | value |
+|---|---|
+| row | `check	name-in-path	scripts/verify-name-in-path.sh	flag	--prove-failure	--root /nonexistent` |
+| entry point | `bash scripts/verify-name-in-path.sh` |
+| paired proof | `bash scripts/verify-name-in-path.sh --prove-failure` — **14 mutations** |
+| rc-2 probe | `--root /nonexistent` |
+| exit contract | 0 clean · 1 a name-shaped leaf under a role container · 2 could not determine |
+
+### What it closes
+
+A personal given name belonging to a third party was found on 2026-09-02 in a
+**tracked, committed, pushed** file of this **public** repository. It was not in
+a sentence. It was **the final component of an absolute filesystem path**, in a
+table of indexed directories, under a work-assignments parent:
+
+```
+.../Projects/<assignment-ish directory>/<a person's given name>
+```
+
+Two instruments were in a position to see it and neither did, for two different
+reasons — and the pair is the point, because "we have gates" was true the whole
+time:
+
+| instrument | why it missed | fixed? |
+|---|---|---|
+| `audit-hardcoded-paths.sh` | **scope, not detection.** Both disclosed lines MATCH its own `PATTERN`. Its `SKIP` regex began `^(docs/` and is applied **before** the pattern, so of 39 tracked `docs/**.md` files, **zero** were read. | yes — `docs/` removed from `SKIP` the same day; see the allow-list's own `docs/` block for the measured before/after |
+| `verify-content-boundary.sh` | **question, not scope.** It hunts COPIED PRIVATE CONTENT. A path is not copied content and a name inside a path is not prose. | not applicable — a different question |
+
+So `name-in-path` asks a **third** question that nothing in this tree asked
+before: *does a filesystem path in this repository name a human?*
+
+### The signal, and why both halves are required
+
+A hit needs BOTH:
+
+1. the **parent** component is a **role container** — a directory whose name
+   says its children are people or work assigned to people; and
+2. the **final** component is **name-shaped** — one bare ASCII alphabetic token,
+   3–20 characters, no digits and no separators, `Capitalised` or `lowercase`.
+
+plus an **anchoring** rule: the run must be a genuine absolute path (the `/`
+that opens it is a filesystem root, not part of a URL, a variable, a ratio or a
+relative path) with at least two components.
+
+**No personal name is written in the script, in any fixture, or in any test, and
+none may ever be.** A detector shipping a roster of real names is itself the
+disclosure it was built to prevent. Both vocabularies are role nouns and generic
+technical words; print them and check rather than believing it:
+
+```bash
+bash scripts/verify-name-in-path.sh --vocab
+```
+
+### The precision/recall trade, stated as a measurement
+
+The anchoring rule is not a tidy-up. It was added after measuring the naive
+form on this tree:
+
+| form | findings on this tree | what they were |
+|---|---|---|
+| role-container parent + name-shaped leaf, **no anchoring** | **135** | almost entirely English *alternations* in prose — `client/server`, `person/entity`, `reviewer/author` — and relative asset URLs in CSS. Not paths at all. |
+| the same, **anchored to a real absolute path** | **1** | `/home/<service-account>` in a `Containerfile`, created by `useradd` two lines above it |
+
+135 → 1 is the whole design decision, and it is a decision **for precision and
+against recall**, taken deliberately. The failure mode of a name detector is not
+a missed name; it is a noisy gate everybody learns to ignore, after which it
+catches nothing at all. What that buys is stated as blind spots **B1–B8** in the
+script header and **printed on every single run**, never left implicit — the
+largest being B1 (a name whose parent is not a declared role container is
+invisible) and B8 (a relative path is invisible).
+
+Two subtractions, each with its cost written down:
+
+* **S1** — a closed vocabulary of generic technical words in the leaf position,
+  plus every container word and its `+s` plural (a container name is never a
+  person). *Cost:* a person whose name collides with a generic word is missed.
+* **S2** — this repository's **own** public identity, **derived at run time and
+  never written down**: alphabetic tokens from `git config user.name` /
+  `user.email`, every remote URL (root and submodules), the `.gitmodules` URLs,
+  and the components of this checkout's own absolute path. The owner's own
+  account name under `home/` is not a third-party disclosure, and hard-coding it
+  would put a real name in a tracked file. *Cost:* a third party sharing a token
+  with the owner's identity is missed. Reported as a **count** (32 tokens on
+  this tree, 2026-09-02); the tokens themselves are never printed or stored.
+
+Every surviving hit carries a **corpus frequency** — how often that same token
+occurs as any component of any anchored path anywhere in the scanned universe. A
+leaked personal name occurs once or twice; a service account occurs all over the
+file that created it. It is **reported, never a filter**: as a filter it would
+let a leak hide behind a busy repository.
+
+### The output never reprints the suspected name
+
+A gate that echoes the token it just found into a terminal, a CI log or a pasted
+report has *widened* the disclosure. Findings print as
+
+```
+<file>:<line>  <container>/<REDACTED len=N case=Capitalised|lowercase>  [leaf token occurs K× as a path component corpus-wide]
+```
+
+and the reader opens the file. **All 14 mutations assert this invariant**, not
+just one: every case additionally fails if the planted token appears anywhere in
+the detector's output.
+
+### Measured on this tree, 2026-09-02
+
+```
+bash scripts/verify-name-in-path.sh
+  ✅ no personal-name-shaped final path component under any role-container
+     directory (1 explicitly allowed)
+  scanned 10011 file(s) across 14 repositories        rc=0
+```
+
+The one allowance is `submodules/containers/pkg/emulator/Containerfile:75`, a
+`WORKDIR /home/<account>` whose account is created by `useradd` at line 73 of
+the same file and occurs **31×** as a path component corpus-wide.
+
+**It is LINE-scoped, and that is the default in `.name-in-path-allow`** — a
+deliberate difference from the sibling allow-lists. This gate exists because one
+line of one file disclosed a real person; a file-scoped pardon on a file that
+once carried a name is exactly the mechanism that would hide the next one. The
+cost is stated rather than discovered: a gitlink bump moves the line, the entry
+goes stale, the detector says so, and the finding returns as a failure. For a
+privacy gate a false red costs a minute of reading and a false green costs a
+permanent public disclosure.
+
+### Verified against the real incident shape
+
+Not asserted — measured. The redacted line was reconstructed in a throwaway
+repository with an **invented** given name substituted for the redaction, and
+the detector run against it:
+
+```
+❌ docs/…/LUMEN-STORE-INVENTORY.md:1  assignments/<REDACTED len=9 case=Capitalised>
+   [leaf token occurs 1× as a path component corpus-wide]                     rc=1
+```
+
+It fires, the frequency reads `1×` — the once-or-twice signature of a leaked
+name rather than the 31× of a service account — and the output does not contain
+the planted token. The throwaway repository was deleted; no name, invented or
+otherwise, was written into any tracked file.
+
+### Paired proof
+
+```
+bash scripts/verify-name-in-path.sh --prove-failure     # rc 0, 14 mutations
+```
+
+Shape copied from `audit-hardcoded-paths.sh --prove-failure`: the CONTROL is a
+**synthetic** throwaway repository, green by construction, so no state of this
+tree can redden the control and silently switch the battery off; the live run
+still happens first and is REPORTED, never gating. The planted token is
+**invented** and is assembled from fragments so the joined `<container>/<token>`
+literal never exists in the script — otherwise the proof would plant a finding
+in the detector's own source.
+
+| mutation | asserts |
+|---|---|
+| `N1` | an invented given name as the leaf under a role container → **rc 1**, naming the file |
+| `N2` | the same finding, `# REASON:` allow-listed → rc 0, still naming what it suppressed |
+| `N3` | the same finding, `# BASELINE:` allow-listed → rc 0, printed loudly as debt |
+| `N4` | `path:line` scope pardons **that** line |
+| `N5` | `path:line` scope at a **non-offending** line does **not** pardon → rc 1. Without this, N4 would prove nothing: a pardon that fires regardless of the line is a file-scoped pardon wearing a line number |
+| `N6` | a GENERIC leaf under the same container → rc 0 (**S1** is live) |
+| `N7` | the same token under a NON-container parent → rc 0 (**B1**, blind by design) |
+| `N8` | a hyphenated compound leaf → rc 0 (**B4**, blind by design) |
+| `N9` | leaf equal to a token of the repository's own **derived** identity → rc 0 (**S2** is live — and it is the *same leaf* that fires in N1, so the subtraction is demonstrated rather than asserted) |
+| `N10` | an allow entry matching nothing is reported as stale, never silent |
+| `N11`–`N14` | four could-not-determine states → **rc 2**: absent target, not a git tree, empty scan universe, uninitialised submodule |
+| all 14 | the output never reprints the planted token |

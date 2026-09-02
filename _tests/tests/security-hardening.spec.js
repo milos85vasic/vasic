@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { VD_BASE, MV_BASE } = require('../env.js');
 
 // Security / meta-hardening checks (§11.4.169). For a static GitHub Pages site
 // there is NO application server, so runtime concerns (WAF, rate-limiting,
@@ -12,10 +13,10 @@ const { test, expect } = require('@playwright/test');
 //     documented, since GitHub Pages cannot set a CSP response header).
 
 const PAGES = [
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/' },
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/products/helixtrack.html' },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/' },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/products/helixtrack.html' },
+  { site: 'vasic.digital', base: VD_BASE, path: '/' },
+  { site: 'vasic.digital', base: VD_BASE, path: '/products/helixtrack.html' },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/' },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/products/helixtrack.html' },
 ];
 
 const SECRET_PATTERNS = [

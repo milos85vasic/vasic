@@ -625,8 +625,10 @@ prove_failure() {
     echo "----------------------------------------------------------------------"
     _verdict_emitted=1
     if [ "$mut_fails" -eq 0 ]; then
-        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — 6 states, each proved separately against"
-        echo "   real local git repositories wired by file:// remotes, with no network involved."
+        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — 5 mutations each produced the verdict they"
+        echo "   must, and 2 control assertions passed (7 assertions over 6 fixture states),"
+        echo "   proved against real local git repositories wired by file:// remotes, with no"
+        echo "   network involved."
         echo "   CURRENT is 0; BEHIND, AHEAD and DIVERGED are each 1 AND are named distinctly"
         echo "   rather than conflated; a documented third-party module that is behind stays 0;"
         echo "   and an UNREACHABLE remote is 2 — never 0. That last case is the whole reason"

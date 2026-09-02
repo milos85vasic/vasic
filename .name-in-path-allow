@@ -1,0 +1,52 @@
+# Declared exceptions for scripts/verify-name-in-path.sh — the personal-name-in-
+# path detector. Anything not listed here that the detector finds is a failure.
+#
+# TWO KINDS OF ENTRY, exactly as `.hardcoded-paths-allow` defines them. The
+# marker on the comment block directly above a path decides which:
+#
+#   # REASON:   <why this is demonstrably not a person>
+#               -> justified; invisible in the summary beyond a count.
+#   # BASELINE: <a REAL, KNOWN finding that is deliberately not fixed yet>
+#               -> PRINTED LOUDLY on every run. Recorded DEBT, never a reason.
+#
+# A marker carries across a contiguous run of paths; a blank line ends the run.
+# An unmarked entry is honoured AND named in an advisory warning, because an
+# unexplained suppression is indistinguishable from a bluff.
+#
+# TWO SCOPES, and prefer the narrower one:
+#
+#   docs/thing.md        FILE-scoped   — pardons every finding in that file,
+#                                        including ones that do not exist yet.
+#   docs/thing.md:412    LINE-scoped   — pardons exactly that line.
+#
+# LINE SCOPE IS THE DEFAULT HERE, and that is a deliberate difference from the
+# sibling allow-lists. This gate exists because a single line of a single file
+# disclosed a real person. A file-scoped pardon on a file that once contained a
+# name is precisely the mechanism that would hide the next one.
+#
+# THE COST OF LINE SCOPE IS STATED RATHER THAN DISCOVERED: a line number moves
+# when the file above it changes — and for a path inside a submodule, an
+# ordinary gitlink bump moves it. When that happens the entry goes STALE, the
+# detector prints it as a stale allow entry, and the finding returns as a
+# failure. That is not a defect. For a privacy gate a false red costs a minute
+# of reading; a false green costs a permanent public disclosure.
+#
+# NEVER write a personal name in this file. Entries are PATHS and LINE NUMBERS.
+# If you need to explain why something is not a person, describe the evidence
+# and its location — do not quote the token.
+
+# REASON: a SERVICE ACCOUNT, not a human, and the file itself proves it two
+# lines earlier. `submodules/containers/pkg/emulator/Containerfile` line 73 is
+#     useradd -m -u 1000 -s /bin/bash <account>
+# and line 74 is `USER <account>`; line 75 is the `WORKDIR /home/<account>` that
+# the detector matches. The account is named after the workload the image runs,
+# it is created by the image, and the same token occurs 31× as a path component
+# across the scanned corpus — measured 2026-09-02, and the opposite of the
+# once-or-twice signature a leaked personal name produces.
+#
+# This is LINE-scoped on purpose. `submodules/containers` is a submodule this
+# repository cannot edit (§11.4.29), so the entry cannot be removed by fixing
+# the source; it can only be re-verified. A gitlink bump that moves line 75 will
+# make this entry stale and turn the gate red until somebody looks again, which
+# is the correct behaviour for a privacy gate reading a tree it does not own.
+submodules/containers/pkg/emulator/Containerfile:75

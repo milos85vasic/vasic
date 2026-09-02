@@ -2,10 +2,11 @@
 // the fully-translated localized home (/<lang>/) — body + chrome — not a chrome-
 // only client swap. Closes the "home body doesn't translate on switch" issue.
 const { test, expect } = require('@playwright/test');
+const { VD_BASE, MV_BASE } = require('../env.js');
 
 // vasic.digital (self-contained) — switcher mounted by od-i18n.js.
 test('vasic.digital: EN home → pick Russian → lands on /ru/ with Russian body', async ({ page }) => {
-  await page.goto('http://localhost:8401/');
+  await page.goto(`${VD_BASE}/`);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await page.locator('#od-lang-btn').click();
   await expect(page.locator('#od-lang-menu')).toBeVisible();
@@ -19,7 +20,7 @@ test('vasic.digital: EN home → pick Russian → lands on /ru/ with Russian bod
 });
 
 test('vasic.digital: EN home → pick Arabic → /ar/ is RTL with Arabic body', async ({ page }) => {
-  await page.goto('http://localhost:8401/');
+  await page.goto(`${VD_BASE}/`);
   await page.locator('#od-lang-btn').click();
   await page.locator('#od-lang-menu button[data-lang="ar"]').click();
   await page.waitForURL('**/ar/');
@@ -31,7 +32,7 @@ test('vasic.digital: EN home → pick Arabic → /ar/ is RTL with Arabic body', 
 
 // milosvasic.ru (Jekyll) — switcher in shared layout, driven by main.js + MV_PAGE.
 test('milosvasic.ru: EN home → pick Russian → lands on /ru/ with Russian body', async ({ page }) => {
-  await page.goto('http://localhost:8082/');
+  await page.goto(`${MV_BASE}/`);
   await page.locator('#lang-btn').click();
   await expect(page.locator('.lang-menu.open')).toBeVisible();
   await page.locator('#lang-menu button[data-code="ru"]').click();

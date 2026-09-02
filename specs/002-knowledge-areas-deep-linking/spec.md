@@ -150,11 +150,23 @@ the confidence threshold, so word-level precision is *available*, not *uniformly
 
 ### Session 2026-09-01
 
-Three questions are left open because each genuinely changes the size and the risk of the work and
-none can be settled from evidence in the tree. Everything else the description left unstated was
+Three questions were left open because each genuinely changes the size and the risk of the work and
+none could be settled from evidence in the tree. Everything else the description left unstated was
 decided, and those decisions are recorded under **Assumptions** and **Resolved Decisions** with the
 reasoning, per the operator's standing instruction to take the safest, most stable, risk-free
 option whenever a choice is forced.
+
+**Status, 2026-09-02: two of the three are now DECIDED and ONE remains open.**
+
+| Clarification | Status | Where the decision lives |
+|---|---|---|
+| prose authorship | **OPEN** — genuinely undecided | still bounds T031; no decision record exists |
+| what *"in videos"* covers | **DECIDED 2026-09-02** — spoken **plus** on-screen OCR, extending this spec **in place** | **D5** below; tasks T123–T142 |
+| answering over the new material | **DECIDED 2026-09-02** — build the answer-against-question verifier | T115/T116, marked `[UNBUILT]`, not `[BLOCKED]` |
+
+A decided clarification is not a built one. Both decided questions leave **unbuilt code** behind
+them, and the count that matters for planning is stated plainly in each entry rather than folded
+into a single "resolved".
 
 - **[NEEDS CLARIFICATION: prose authorship]** Area materials in the reference are written prose —
   *"Why this matters"*, *"Core concepts in one page"*, model answers. Three ways to produce the
@@ -169,16 +181,42 @@ option whenever a choice is forced.
   fabrication risk this repository has already measured. *Scope impact*: (a) needs no model and no
   review workflow; (b) needs a review-and-publication gate; (c) needs a model, a grounding
   pipeline, and a fabrication measurement before anything may be published.
-- **[NEEDS CLARIFICATION: what "in videos" covers]** The description requires terms mentioned *"in
-  transcript and video"* to be linked to *"exact times"*. The corpus contains only what was
-  **spoken**. Text that appeared **on screen** — the substance of a screen recording — is not
-  transcribed and is not in the registry, and the one declared content kind that could hold it is
-  measured empty. Linking on-screen occurrences would mean optical character recognition across the
-  whole recording, producing a new passage kind, new timings and a new accuracy obligation of its
-  own. *Scope impact*: spoken-only is a linking feature over data that already exists;
-  spoken-plus-on-screen is a second ingestion pipeline that must be measured before it can be
-  trusted. **This is a question about scope, not about capability** — the OCR engine resolves on
-  this host, so the answer is not forced by the environment.
+- ~~**[NEEDS CLARIFICATION: what "in videos" covers]**~~ **DECIDED 2026-09-02 — spoken PLUS
+  on-screen OCR, extending this specification IN PLACE.** The question is kept in full below,
+  because the decision is only legible against what was actually asked. The description requires
+  terms mentioned *"in transcript and video"* to be linked to *"exact times"*. The corpus contains
+  only what was **spoken**. Text that appeared **on screen** — the substance of a screen recording —
+  is not transcribed and is not in the registry, and the one declared content kind that could hold
+  it is measured empty (`diagram`, 0 passages — starting-state table above). Linking on-screen
+  occurrences would mean optical character recognition across the whole recording, producing a new
+  passage kind, new timings and a new accuracy obligation of its own. *Scope impact*: spoken-only is
+  a linking feature over data that already exists; spoken-plus-on-screen is a second ingestion
+  pipeline that must be measured before it can be trusted. **This was a question about scope, not
+  about capability** — the OCR engine resolves on this host, so the answer was never forced by the
+  environment.
+
+  **The decision, and the three parts of it that bind work.** (1) **Scope**: on-screen text is
+  **in**, so every one of the three consequences the question named is now owed — a new passage
+  kind, new timings, and a new accuracy obligation. (2) **Placement**: this specification is
+  extended **in place** rather than a separate feature 003 being opened, because the new kind joins
+  the *existing* passage registry, the *existing* two-valued precision model and the *existing*
+  mention join; a second spec would have had to restate all three and would have created the second
+  source of truth the reconciliation rules exist to prevent. (3) **Sequencing**: **specify now,
+  build later.** The work is written down as tasks **T123–T142** and is sequenced **after this
+  specification's 28 already-unbuilt tasks**. Nothing in this decision is built, and no checkbox was
+  ticked for it. Full reasoning, alternatives and what would reopen it: **D5** below.
+
+  **The consequence, stated plainly because it changes when this feature can close: spec 002 cannot
+  close until OCR accuracy is MEASURED.** Not designed, not implemented, not reviewed — **measured**,
+  per SC-031 through SC-034, on the chapter the mentions are derived from. Accuracy for automatic
+  speech recognition in this project is a measured quantity with a recorded procedure
+  (`workshop/pipeline/CALIBRATION.md`, `workshop/pipeline/compare_engines.py`,
+  `workshop/scripts/verify-accuracy.sh` — all three present, measured 2026-09-02). Optical character
+  recognition entering the same corpus at a *lower* evidentiary standard than the speech it sits
+  beside would make the corpus's overall accuracy unknown while every published figure continued to
+  look precise. **A task that says "OCR the video" without an accuracy budget is the defect this
+  clarification was raised to prevent, and adding the tasks without the budget would have been
+  answering the question by ignoring it.**
 - **[NEEDS CLARIFICATION: answering over the new material]** Question answering over the workshop
   corpus has a **known, measured, unclosed defect**: on the unanswerable set, 3 of 33 questions were
   answered rather than declined, and separately, *extractive evasion* is undefended — a passage
@@ -730,6 +768,51 @@ that every output appears and that the diff contains no hand-created structural 
   declared but not built must answer as a not-built route rather than being swallowed by the
   single-page application.
 
+**On-screen text — added 2026-09-02 by the decision recorded in D5**
+
+Every requirement in this block is **specified and unbuilt**. They are carried by tasks T123–T142,
+sequenced after this specification's 28 already-unbuilt tasks.
+
+- **FR-060**: On-screen text recognised from a chapter recording MUST enter the corpus as a
+  **passage** of the new kind `screen_text`, minted through the **same** minter as every other
+  passage and resolved through the **same** four-outcome resolver. It MUST NOT be stored in a second
+  registry, mint through a second minter, or carry a second identifier format.
+- **FR-061**: Each `screen_text` passage MUST carry a **visibility interval** — the span across
+  which its text was observed on screen — and the **interval bound**, which is the sampling period
+  the interval is accurate to. The bound MUST be recorded on the passage and carried onto every
+  mention derived from it. It MUST NOT be omitted, and it MUST NOT be presented as zero.
+- **FR-062**: A mention derived from a `screen_text` passage MUST join the **existing two-valued**
+  precision model: it declares `segment` precision and carries its interval bound. **No third
+  precision value may be introduced.** A `screen_text` mention MUST NOT declare `word` precision,
+  because no per-word timing record produced its time.
+- **FR-063**: Every mention MUST declare its **modality** — `spoken` or `on_screen`. Every evidence
+  count on which a publication, coverage or attachment figure depends MUST be taken over
+  **corroboration groups** and not over raw mentions, so that one term both spoken and displayed at
+  one moment counts **once**. Both figures — grouped and raw — MUST be published together. Neither
+  mention may be deleted: both MUST remain individually retrievable and individually navigable.
+- **FR-064**: OCR accuracy MUST be **measured per chapter**, against a hand-truthed ground-truth
+  sample drawn by a recorded, seeded, reproducible rule with the population size published, on
+  **both** axes: **textual** accuracy and **temporal** accuracy — whether a mention's declared
+  visibility interval actually contains the moment its text was on screen. A textual figure alone
+  does not satisfy this requirement, because deep linking depends only on the temporal one and a
+  text-only measurement cannot see a temporal failure at all.
+- **FR-064a**: The accuracy **budget** MUST be **derived from the recorded speech-recognition
+  calibration for the same corpus and read from it at run time**, never written as a literal. It
+  MUST NOT be a guessed threshold. Where the calibration record or the ground-truth sample cannot be
+  read, the check MUST report **could not determine** and MUST NOT pass.
+- **FR-064b**: No OCR-derived mention may be **published** for a chapter until that chapter's
+  accuracy measurement has been observed passing **for that chapter**. Font, resolution and
+  compression differ between recordings, so an accuracy figure measured on one chapter is not
+  evidence about another — the same per-chapter discipline word-timing availability already carries.
+- **FR-065**: OCR output MUST pass the content-boundary check **before** it reaches any public
+  artifact. A screen recording displays material the transcript never contained — window titles,
+  file paths, identifiers, a third party's name in a title bar — so this kind is a **new disclosure
+  surface**, and a boundary check scoped to transcript text does not cover it.
+- **FR-066**: The `screen_text` kind MUST NOT be advertised as an indexed kind until it is
+  **retrievable**, proven by a planted known target rather than by a row count. The corpus already
+  advertises one kind with zero entries, and this requirement exists so that a second one is not
+  created.
+
 ### Key Entities
 
 - **Knowledge Area**: a coherent body of knowledge the workshop covers. The workshop's realisation
@@ -758,6 +841,15 @@ that every output appears and that the diff contains no hand-created structural 
   within it. Distinct from the result itself, because the same passage can be reached through more
   than one containing unit.
 - **Progress**: a learner's state within an area and within a question set.
+- **On-Screen Text Passage** (`screen_text`): a passage whose text was **shown** rather than spoken,
+  read from a chapter recording by optical character recognition. A new **kind** of the existing
+  Passage, not a new entity — it inherits the minter, the resolver, the redaction flag and the
+  mention model unchanged. Carries a visibility interval and the interval bound that interval is
+  accurate to. **Added 2026-09-02; specified and unbuilt.**
+- **Corroboration Group**: the unit evidence is **counted** over. Groups the mentions of one subject
+  whose times overlap within a measured window, so a term both spoken and displayed at one moment is
+  one piece of evidence rather than two. It changes what is counted, never what exists — every
+  grouped mention stays individually retrievable. **Added 2026-09-02; specified and unbuilt.**
 
 ## Success Criteria *(mandatory)*
 
@@ -956,6 +1048,44 @@ found late.
 - **SC-030**: 0 active server-side continuous-integration workflows exist anywhere in the fleet
   after this feature lands. **Measured by**: the existing fleet-wide gate.
 
+**On-screen text — added 2026-09-02, and the reason this feature cannot close on design alone**
+
+Every criterion in this block is **specified and unmeasured**. SC-031 through SC-034 are the ones
+that make *"spec 002 cannot close until OCR accuracy is measured"* a checkable statement rather than
+a sentiment: each names a figure that does not exist yet, and none of them can be satisfied by
+building the pipeline — only by running it and publishing what it produced.
+
+- **SC-031**: OCR **textual** accuracy is measured and published per chapter, as word error rate and
+  character error rate against a hand-truthed ground-truth sample. **Measured by**: a ground-truth
+  sample drawn by a recorded seed with the population size published, scored by the same edit-distance
+  method the speech-recognition calibration already uses, so the two figures are comparable rather
+  than merely adjacent. A published figure with no recorded seed fails.
+- **SC-032**: OCR **temporal** accuracy is measured and published per chapter: the proportion of
+  on-screen mentions whose declared visibility interval contains the frame at which the text was
+  actually on screen. **Measured by**: resolving each sampled mention back to the recording and
+  asserting containment. **This criterion is separate from SC-031 deliberately** — deep linking
+  depends on this figure and on no other, and a perfect textual score is compatible with every
+  interval being wrong.
+- **SC-033**: Both OCR figures are published **beside** the speech-recognition figures for the same
+  corpus, in the same document, in the same run. **Measured by**: a check that reads the recorded
+  speech calibration and asserts both appear together; an OCR figure published alone fails, because a
+  number with nothing to compare it to is not an accuracy claim a reader can act on.
+- **SC-034**: 0 OCR-derived mentions are published for any chapter whose accuracy measurement has
+  not been observed passing **for that chapter**. **Measured by**: joining the published mention set
+  to the per-chapter accuracy records; a mention from an unmeasured or could-not-determine chapter
+  fails. Paired mutation: publish from a chapter whose accuracy run returned could-not-determine —
+  the check must go red.
+- **SC-035**: A term both spoken and displayed at one moment contributes **1** to its area's
+  evidence count, not 2, while **both** of its mentions remain individually retrievable and
+  individually navigable. **Measured by**: seeding exactly that case and asserting the count, the
+  retrievability of both members, and that the grouped and raw figures are both published. Paired
+  mutations: count raw mentions instead of groups; and widen the grouping window to the whole
+  chapter so two genuinely distinct occurrences collapse. Both must go red.
+- **SC-036**: 0 occurrences of on-screen-derived text reach a public artifact without passing the
+  content-boundary check. **Measured by**: the existing boundary check, extended over the OCR output
+  and run before publication. Paired mutation: scope the check to transcript text only — it must go
+  red, because that is precisely the scoping that would let a window title through.
+
 ## Assumptions
 
 Decisions taken where the description did not specify, each chosen for the safest and most stable
@@ -1066,8 +1196,12 @@ option and each revisitable.
 - Authoring material for chapters that do not exist.
 - Translating the curriculum.
 - Replacing or re-architecting the reference module. It is read, never written.
-- Optical character recognition of on-screen content — **pending the second clarification**, which
-  is precisely the question of whether this belongs in scope.
+- ~~Optical character recognition of on-screen content — **pending the second clarification**, which
+  is precisely the question of whether this belongs in scope.~~ **WITHDRAWN 2026-09-02: OCR of
+  on-screen content is now IN SCOPE**, by the decision recorded in the Clarifications block and in
+  **D5**. It is specified as tasks **T123–T142** and is **unbuilt**, sequenced after this
+  specification's 28 already-unbuilt tasks. Do not restate this line as an exclusion — the pending
+  question it referred to has been answered.
 - Automatic grading of free-text answers.
 - A second search system, a streaming service, or any new content delivery infrastructure.
 
@@ -1144,3 +1278,56 @@ into a claim. Withholding is loud, cheap and reversible; serving is quiet and ir
 trusted.
 
 *What would reopen it*: nothing short of abandoning the provenance guarantee itself.
+
+### D5 — On-screen text is in scope, this spec is extended in place, and it is specified before it is built
+
+**Taken by the operator 2026-09-02.** This is the decision that closes the *what "in videos" covers*
+clarification. It has three parts and each was decided separately, because each could have gone the
+other way.
+
+*The question*: the description asks for terms mentioned *"in transcript and video"*. The corpus
+holds only what was **spoken**. Does *"video"* mean the recording as a source of spoken words, or
+does it mean the text visible on screen — the actual substance of a screen recording?
+
+*Decision, part 1 — scope*: **spoken PLUS on-screen.** On-screen text is ingested by optical
+character recognition and becomes linkable evidence like any other passage. The alternative,
+spoken-only, was a linking feature over data that already exists and would have delivered a
+curriculum that could not point at the thing being demonstrated.
+
+*Decision, part 2 — placement*: **this specification is extended in place**, not superseded by a
+feature 003. The new kind joins the existing passage registry, the existing two-valued precision
+model and the existing mention join. A second specification would have had to restate all three,
+and a restatement is a second source of truth — the same failure mode the reconciliation rules
+(contract §2.3) and the "one minter" rule (D-KG-2) are arranged against.
+
+*Decision, part 3 — sequencing*: **specify now, build later**, after the 28 tasks this specification
+already carries unbuilt. Writing the tasks now fixes the accuracy obligation, the deduplication rule
+and the precision decision **before** anybody writes the pipeline that would otherwise settle them
+by accident.
+
+*Why this is the safe choice*: the risk in OCR is not that it fails to run — it runs on this host.
+The risk is that it runs **well enough to look right**, deposits thousands of passages whose text is
+approximately correct and whose timings are approximately placed, and thereby degrades the accuracy
+of a corpus that currently has a measured one. Deciding scope without deciding the accuracy
+obligation would have realised exactly that risk. So the obligation is decided here with the scope:
+per chapter, on two axes, against a budget derived from the recorded speech calibration rather than
+picked (FR-064, FR-064a, FR-064b; SC-031 to SC-034).
+
+*The consequence, recorded rather than discovered later*: **spec 002 cannot close until OCR accuracy
+is measured.** This decision moved the finish line. It is written into the Clarifications block, into
+the task list's global constraints, and into Phase 11's checkpoint, so that a later reader arriving
+at "94 of 122 done" cannot mistake the remaining work for polish.
+
+*Honest boundary*: three things about this decision are **not** claims of capability. (a) The OCR
+engine resolves on this host — measured 2026-09-02, `tesseract` at a user-local path carrying three
+language packs — but *no OCR artifact of any kind exists in the workshop today*, so every task below
+is genuinely unbuilt. (b) The new kind joins a precision model whose `word` branch is **contracted
+and currently unexercised**: `workshop/docs/limits.md` §10.1 and the defects row
+`precision-segment-only` record that every deep link in this deployment resolves at `segment`
+precision. (c) No number in this decision is an accuracy figure. None has been measured, and none may
+be written down until one is.
+
+*What would reopen it*: a measured OCR error rate so far above the recorded speech-recognition
+baseline that on-screen mentions would degrade the corpus rather than extend it — in which case the
+honest response is to publish the figure and withhold the mentions, which FR-064b already requires,
+rather than to lower the budget until the figure passes.

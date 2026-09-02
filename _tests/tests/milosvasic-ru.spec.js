@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const BASE = 'http://localhost:8082';
+const { MV_BASE: BASE } = require('../env.js');
 
 // milosvasic.ru — AI-engineer personal site, reframed on the OpenDesign system while
 // keeping the Jekyll `default` layout chrome (nav, footer, theme + MV_I18N, download popup).

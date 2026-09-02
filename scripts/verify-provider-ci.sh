@@ -243,13 +243,119 @@ run_selftest() {
         st_case "M6a out-of-scope cites push permission" "n/a (none here)" "skipped" 0
     fi
 
-    local hard="" hits=0
+    # M6b  NO REPOSITORY IDENTITY IN THE BODY.
+    #
+    # WHAT CHANGED AND WHY, stated rather than left to be discovered (§11.4.6).
+    # No repository, owner or slug is written in this comment, for the same
+    # reason the case exists — read the run output, which names what it found.
+    #
+    # This case used to split every discovered `owner/repo` slug on "/" and grep
+    # the whole file for each bare component. On 2026-09-02 it reported exactly
+    # one hit, and the hit was NOT a leak. A repository joined this tree in
+    # 2026-09 whose BASENAME is an ordinary English word that this file has used
+    # since long before that repository existed — 15 occurrences, as a shell
+    # variable, as a JSON output key, and in prose. A bare English word in those
+    # positions cannot be a baked-in ownership table: nothing here compares a
+    # discovered repository against it. The old form could not tell the two
+    # apart, so it graded a name COLLISION as a name LEAK. Renaming the English
+    # word would have been a symptom fix that regresses the moment anyone writes
+    # ordinary prose again, and any repository basename can be an English word.
+    #
+    # The fix makes the case test repository IDENTITY — what a baked-in list
+    # must actually contain — and it is a STRENGTHENING, not a relaxation:
+    #   * the FULL SLUG is now searched. It never was, and it is the single most
+    #     likely shape for a hardcoded ownership table.
+    #   * a basename in a path/URL position (`/x`, `:x`, `@x`, `x.git`, `x/`) is
+    #     now searched. It never was.
+    #   * a basename as a `case` ARM or as a `==` / `!=` / `=~` OPERAND is now
+    #     searched — the only shell shapes in which a bare basename could be
+    #     compared against the discovered name.
+    #   * a basename on a line that also names a provider host or any discovered
+    #     OWNER is now searched.
+    #   * the OWNER sweep is unchanged and an owner is NEVER clearable: owner is
+    #     the key ownership is actually derived on, and owner names have no
+    #     ordinary-English use here.
+    # A bare token is cleared ONLY when all of those come back empty AND the
+    # token is a plain lowercase word of 4+ letters, so every name carrying a
+    # hyphen, an underscore, a dot, a digit or a capital cannot take the
+    # clearing route at all.
+    #
+    # The clearing is DERIVED, never declared. An exemption LIST would have to
+    # write a repository name into this file — an allow-list here would BE the
+    # defect M6 forbids. Every cleared token is PRINTED with its occurrence
+    # count, so a clearing is visible rather than silent.
+    local owners_re=""
+    while IFS= read -r o; do
+        [[ -z "$o" || "$o" == \(* ]] && continue
+        owners_re="${owners_re}${owners_re:+|}$(printf '%s' "$o" | sed 's/[][\.^$*+?(){}|\\]/\\&/g')"
+    done < <(jq -r '.rows[].target' "$base" | cut -d/ -f1 | sort -u)
+
+    _ere() { printf '%s' "$1" | sed 's/[][\.^$*+?(){}|\\]/\\&/g'; }
+
+    # A token used where a repository is IDENTIFIED: path, URL or ".git".
+    _identity_position() {
+        local t; t="$(_ere "$1")"
+        grep -qE "([/:@]${t}([^[:alnum:]_.-]|\$)|${t}\.git|(^|[^[:alnum:]_.-])${t}/)" "$self"
+    }
+    # A token COMPARED against something: a `case` ARM anywhere on the line
+    # (`case $x in tok)`, `;; tok|`, a line-leading arm), or the right-hand
+    # operand of `=`, `==`, `!=` or `=~`. The arm alternative is deliberately
+    # NOT line-anchored: a one-line `case $name in tok) ... esac` is the most
+    # compact shape a baked-in ownership table can take, and an anchored form
+    # missed exactly that (measured 2026-09-02 against a seeded mutant).
+    _compared_against() {
+        local t; t="$(_ere "$1")"
+        grep -qE "((^|[[:space:]]|\(|\||;)[*]?\"?${t}\"?[*]?[[:space:]]*[|)]|[!=]=[[:space:]]*\"?${t}\"?([^[:alnum:]_.-]|\$)|=~[[:space:]]*\"?${t}\"?([^[:alnum:]_.-]|\$)|(^|[[:space:]])=[[:space:]]*\"?${t}\"?([^[:alnum:]_.-]|\$))" "$self"
+    }
+    # A token sitting on a line that also names a provider host or an owner.
+    _near_an_owner() {
+        local t; t="$(_ere "$1")"
+        grep -E "(^|[^[:alnum:]_.-])${t}" "$self" \
+            | grep -qE "github\.com|gitlab\.com${owners_re:+|$owners_re}"
+    }
+
+    local hard="" hits=0 cleared="" ncleared=0 nocc
+    # 1. The full slug — unclearable, and never checked before this change.
+    while IFS= read -r slug; do
+        [[ -z "$slug" || "$slug" == \(* ]] && continue
+        [[ "$slug" == */* ]] || continue
+        if grep -qF -- "$slug" "$self"; then
+            hard="${hard}${hard:+ }${slug}(slug)"; hits=$((hits + 1))
+        fi
+    done < <(jq -r '.rows[].target' "$base" | sort -u)
+
+    # 2. Every bare component — owner and basename alike.
     while IFS= read -r nm; do
         [[ -z "$nm" ]] && continue
-        if grep -qF -- "$nm" "$self"; then hard="${hard}${hard:+ }$nm"; hits=$((hits + 1)); fi
+        grep -qF -- "$nm" "$self" || continue
+        nocc="$(grep -cF -- "$nm" "$self")"
+        if _identity_position "$nm"; then
+            hard="${hard}${hard:+ }${nm}(path/URL)"; hits=$((hits + 1)); continue
+        fi
+        if _compared_against "$nm"; then
+            hard="${hard}${hard:+ }${nm}(compared)"; hits=$((hits + 1)); continue
+        fi
+        if _near_an_owner "$nm"; then
+            hard="${hard}${hard:+ }${nm}(beside an owner/host)"; hits=$((hits + 1)); continue
+        fi
+        # An OWNER is never cleared: an owner name has no ordinary-English use
+        # here, and owner is the key ownership is actually derived on.
+        if jq -r '.rows[].target' "$base" | cut -d/ -f1 | grep -qxF -- "$nm"; then
+            hard="${hard}${hard:+ }${nm}(owner)"; hits=$((hits + 1)); continue
+        fi
+        if [[ "$nm" =~ ^[a-z]{4,}$ ]]; then
+            cleared="${cleared}${cleared:+ }${nm}(x${nocc})"; ncleared=$((ncleared + 1)); continue
+        fi
+        hard="${hard}${hard:+ }${nm}(bare name)"; hits=$((hits + 1))
     done < <(jq -r '.rows[].target' "$base" | tr '/' '\n' | sort -u | grep -vE '^(\(|$)' )
-    st_case "M6b no repository or owner name in body" "0 names present" "$hits present" \
+
+    st_case "M6b no repository identity in body" "0 identities present" "$hits present" \
         "$( [[ $hits -eq 0 ]] && echo 0 || echo 1 )" "found: $hard"
+    if [[ $ncleared -gt 0 ]]; then
+        printf '      note: %d token(s) present but DERIVED to be English-word collisions,\n' "$ncleared"
+        printf '            not identities — no path/URL, no comparison, no owner or host on\n'
+        printf '            the line, and each is a plain lowercase word: %s\n' "$cleared"
+    fi
 
     # M7  DISCOVERY uses -e, not -d. A submodule's .git is a FILE; a `-d` test
     #     would find zero of them. Assert that the tree really does present

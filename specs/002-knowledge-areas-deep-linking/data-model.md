@@ -135,6 +135,8 @@ making it mandatory rather than optional is the difference between a guarantee a
 | time span | start and end, for media-backed passages | present exactly when the passage is a transcript segment |
 | **precision** | `word` or `segment` | **required whenever a time span is present** (FR-021, D-KG-1) |
 | timing confidence | the word's probability, when precision is `word` | carried, not discarded — 17.4% of words fall below the flag threshold |
+| **modality** | `spoken` or `on_screen` | **required on every mention** (§2.9, D5). Derived from the passage's kind, never guessed |
+| **interval bound** | the sampling period the time span is accurate to, when the passage is `screen_text` | carried, not discarded — the on-screen analogue of timing confidence (§2.9) |
 | origin | how the mention was found | inspectable |
 
 **Precision is a field, not a convention.** A mention resolved by joining the word sidecar has
@@ -183,6 +185,87 @@ specification requires it to *resolve*, and a thing that must resolve needs a de
 
 The same passage can be reached through more than one containing unit — it may evidence two areas —
 so the locus is a property of the *hit*, not of the passage.
+
+### 2.9 On-Screen Text Passage — the `screen_text` kind
+
+**Added 2026-09-02 by operator decision** (spec §Clarifications, D5). The corpus holds only what was
+**spoken**; the substance of a screen recording is text that was **shown**. This kind is how that
+text becomes addressable. It is a new **passage kind**, not a new entity: it takes the existing
+Passage shape in §0 and fills it, so it inherits the minter, the four-outcome resolver, the redaction
+flag and the mention model without any of them being touched.
+
+| Registry field | How `screen_text` fills it | Invariant |
+|---|---|---|
+| identifier | minted through the **same** minter as every other passage | §1. **No second minter and no second identifier format** |
+| kind | `screen_text` | joins `transcript_segment`, `doc_section`, `code`, `diagram` — a fifth value, not a fifth registry |
+| chapter scope | the chapter whose recording it was read from | exactly one |
+| ordering key | the **visibility onset** — its start time, exactly as a transcript segment's ordering key is its start time | media-backed, so the ordering key is a time |
+| source reference | the recording, plus the **sample range** the text was observed across | the registry's existing path-plus-range shape; the range counts samples, not lines |
+| text | the recognised text | non-empty. An empty recognition is **not a passage** — it is a sample that recognised nothing, and is reported as such |
+| immutable machine text | as for every passage | unchanged |
+| provenance marking | `ocr`, and the engine and settings that produced it | **distinct from `asr`.** A reader must be able to tell which engine produced a passage without inferring it from the kind |
+| confidence | the engine's own confidence for the recognised text | **carried, not discarded** — the on-screen analogue of N3 |
+| uncertainty flag and reason | set when the engine's confidence falls below the recorded threshold | the threshold is recorded, never a literal in code |
+| redaction flag | inherited unchanged | §5 applies to this kind in full |
+| change-detection hash | as for every passage — **explicitly not identity** | unchanged |
+| mint time, ingest run | as for every passage | unchanged |
+
+**Its time span is a visibility interval, and the interval has a bound.** A transcript segment's time
+span comes from the recogniser's own alignment. An on-screen passage's comes from a **sampling grid**:
+the text was first seen at one sample and last seen at another, so the true onset lies within one
+sampling period of the observed onset. That bound is a real quantity, it is not zero, and it is
+**carried on the passage and on every mention derived from it** rather than left for a reader to
+assume away.
+
+**Why this does not add a third precision value.** The temptation is to mint `ocr` as a third value
+of the mention `precision` field. It is refused: `precision` is two-valued and every consumer switches
+on two values (§2.5, contract §3 N1/N2), and a third value changes the wire, the storage and every
+switch — to express something the field does not mean. `precision` records **how the time was
+derived**: from a per-word timing record (`word`), or from the enclosing unit (`segment`). An
+on-screen mention's time is derived from its enclosing visibility interval, so it declares
+**`segment`**, and the interval's accuracy travels beside it as the **interval bound** — exactly as
+timing confidence travels beside `word`. The vocabulary stays two-valued; the honesty is carried in
+a field of its own rather than smuggled into an enum.
+
+**Honest boundary, measured 2026-09-02.** The contract has always been two-valued and word precision
+is *reachable* — the chapter carries a word sidecar of 15,610 records. It is **not produced in this
+deployment**: `workshop/docs/limits.md` §10.1 and the defects row `precision-segment-only` in
+`workshop/platform/gates/defects-registry.tsv` record that every deep link resolves at `segment`
+precision today. This kind therefore joins a model whose second branch is contracted and currently
+unexercised. Do not read "joins the existing precision model" as "word precision is live".
+
+### 2.10 Corroboration Group — what stops a term counting twice
+
+A term said aloud **and** shown on screen at the same moment produces **two** mentions on **two**
+passages. Both are true and both must be navigable — but they are **one teaching moment**, and the
+evidence counts that publication rests on (§2.1 *at least one when published*, §2.2, the attached
+proportion in contract §2.4 A3, and the coverage distribution in contract §4.3 C2) must not silently
+double because the workshop happened to be recorded with a screen.
+
+| Field | Meaning | Invariant |
+|---|---|---|
+| identifier | minted, persisted | §1 |
+| subject | the term or area corroborated | exactly one |
+| members | the mentions grouped | **at least one**; a lone mention is a group of one, so counting is uniform |
+| modalities | the distinct modalities present across the members | derived, never stored twice |
+| window | the overlap tolerance the grouping used | **recorded on the group**, so the arithmetic can be audited |
+
+- **Grouping is by subject and by overlapping time, within a measured window** — never by text
+  equality alone. Two occurrences of one term twenty minutes apart are two occurrences; deduplicating
+  on text alone collapses a corpus into a vocabulary list.
+- **Nothing is deleted.** Both members remain individually retrievable and individually navigable —
+  a learner who wants the moment the term was *shown* gets it. Grouping changes what is **counted**,
+  not what exists.
+- **Evidence counting is over groups; mention counting is over mentions**, and the two figures are
+  published side by side so the difference is visible rather than reconciled in someone's head.
+- **The window is measured, not assumed.** A term is commonly displayed *before* it is discussed, so
+  a coincidence test tuned to zero lag under-groups, and a window widened until the numbers look
+  tidy over-groups. Its value is settled by measurement (**U7**, task T130) with a three-valued exit,
+  and task T131 implements the grouping against the value that measurement returns.
+
+**A subject evidenced only on screen is marked `on-screen-only`** — the modality analogue of
+`uncertain-only` (FR-012). It is a different fact from a subject the workshop actually talked about,
+and a reader who cannot tell them apart will over-read the taxonomy.
 
 ## 3. Relationships — the connectivity matrix, and its storage
 
@@ -249,6 +332,20 @@ targets, enumerated so that none is discovered missing later:
 
 SC-012 measures all eight, with a paired mutation that skips exactly one.
 
+**The eight targets are unchanged by the `screen_text` kind, and that is the point** — it is a
+passage kind, so redacting a `screen_text` passage withdraws its mentions through target 1 and
+cascades through the remaining seven by the same rules. What must be proven rather than assumed is
+that propagation is not written against ASR-derived mentions only; task **T140** asserts it and its
+paired mutation restricts propagation to the spoken modality.
+
+**On-screen text is a wider disclosure surface than the transcript, and the redaction path is not
+the whole answer to that.** A screen recording shows what was never said: window titles, file paths,
+identifiers, a third party's name in a title bar. The transcript can only carry what somebody spoke;
+OCR output carries whatever was visible. The boundary obligation this creates is stated as
+**FR-065** and gated by **G-OCR-11** (task T137), and it applies *before* any OCR-derived text
+reaches a public artifact — redaction removes what has been recognised as needing removal, and the
+boundary check is what recognises it.
+
 ## 6. Invariants the model must not be able to violate
 
 Stated as invariants rather than as tests, because a test can be deleted and an invariant enforced
@@ -266,6 +363,15 @@ in the type cannot be — this is the "an assertion that greps is not a test" ru
 - **I9** — resolution has exactly four outcomes, and "could not determine" is never one of the other
   three.
 - **I10** — every passage is either attached to an area or explicitly classified as unattached.
+- **I11** — the mention `precision` vocabulary has exactly **two** values. A `screen_text` mention
+  declares `segment` and carries its interval bound; it never declares `word`, and no third value
+  exists.
+- **I12** — every mention declares its **modality**, and every evidence count that a publication,
+  coverage or attachment figure rests on is taken over **corroboration groups**, never over raw
+  mentions.
+- **I13** — no OCR-derived mention is published for a chapter whose OCR accuracy has not been
+  **measured for that chapter**. An unmeasured chapter yields could-not-determine, never a default
+  pass.
 
 ## 7. What this model deliberately does not have
 
@@ -278,3 +384,14 @@ in the type cannot be — this is the "an assertion that greps is not a test" ru
   would invite it back in by accident.
 - **No stored reverse edges.** §3 explains why: two representations of one fact can disagree, and
   the disagreement has no symptom.
+- **No third mention precision.** §2.9 explains why: `precision` records how a time was derived, and
+  an on-screen time is derived from its enclosing interval. Adding an `ocr` value would change the
+  wire, the storage and every switch in order to express something the field does not mean, while
+  the fact a reader actually needs — how wide the interval is — travels better as a number than as
+  an enum.
+- **No deletion of the duplicate occurrence.** §2.10 explains why: the on-screen occurrence is a real
+  moment a learner may want to reach. Only the **count** is deduplicated, and both figures are
+  published.
+- **No text-equality deduplication.** Two occurrences of one term at different times are two
+  occurrences. Grouping is by subject **and** overlapping time within a measured window, or it is
+  not grouping — it is a vocabulary list.

@@ -47,10 +47,16 @@ CEREBRAS_URL = "https://api.cerebras.ai/v1/chat/completions"
 # translation and the INDEPENDENT review run on gpt-oss-120b — the review is a
 # separate strict pass at temperature 0, and a programmatic target-script check is
 # the hard completeness gate for every non-Latin language.
-GROQ_TRANSLATOR = "llama-3.3-70b-versatile"      # (capped; unused)
-CEREBRAS_TRANSLATOR = "gpt-oss-120b"            # translator (Cerebras)
-REVIEWER = "gpt-oss-120b"                        # independent review pass (temp 0)
-REVIEWER_PROVIDER = "cerebras"
+# Every model id and provider below is DERIVED from the environment (AUDIT.md
+# F15). The defaults are the exact literals this pipeline has always used, so an
+# unset environment reproduces the previous behaviour byte for byte; when one of
+# the caps described above moves, the substitute is supplied here instead of
+# being edited into the source.
+GROQ_TRANSLATOR = os.environ.get("HOME_GROQ_TRANSLATOR_MODEL", "llama-3.3-70b-versatile")  # (capped; unused)
+CEREBRAS_TRANSLATOR = os.environ.get("HOME_TRANSLATOR_MODEL", "gpt-oss-120b")  # translator
+TRANSLATOR_PROVIDER = os.environ.get("HOME_TRANSLATOR_PROVIDER", "cerebras")
+REVIEWER = os.environ.get("HOME_REVIEWER_MODEL", "gpt-oss-120b")  # independent review (temp 0)
+REVIEWER_PROVIDER = os.environ.get("HOME_REVIEWER_PROVIDER", "cerebras")
 
 SITE_FILES = {
     "milosvasic-ru": "milosvasic-ru.home.json",
@@ -268,11 +274,12 @@ def parse_json(txt):
 
 
 # translator state: once Groq caps out, stay on Cerebras for the rest of the run
-_translator = {"provider": "cerebras", "model": CEREBRAS_TRANSLATOR}
+_translator = {"provider": TRANSLATOR_PROVIDER, "model": CEREBRAS_TRANSLATOR}
 
 
 def translator_call(system, user, temperature=0.2, max_tokens=16000):
-    return call(CEREBRAS_TRANSLATOR, "cerebras", system, user, temperature, max_tokens=max_tokens)
+    return call(CEREBRAS_TRANSLATOR, TRANSLATOR_PROVIDER, system, user, temperature,
+                max_tokens=max_tokens)
 
 
 # ---- translate / review -------------------------------------------------
@@ -309,8 +316,9 @@ def _translate_chunk(name, chunk):
 
 
 def translate_all(name, strings, chunk_size=1000):
-    """Whole-file translation on gpt-oss-120b (fast, all-keys reliable). chunk_size
-    is large enough to send everything in one call; kept as a knob for safety.
+    """Whole-file translation on the configured translator model (fast, all-keys
+    reliable; HOME_TRANSLATOR_MODEL, default gpt-oss-120b). chunk_size is large
+    enough to send everything in one call; kept as a knob for safety.
     Returns {en: tr}."""
     tmap = {}
     # pure brand/tech strings never go to the model — keep verbatim
@@ -402,7 +410,8 @@ def review(name, pairs):
         % (name, ", ".join(PRESERVE_SORTED[:60]), json.dumps(pairs, ensure_ascii=False, indent=1))
     )
     try:
-        return parse_json(call(REVIEWER, "cerebras", system, user, temperature=0.0, max_tokens=4000))
+        return parse_json(call(REVIEWER, REVIEWER_PROVIDER, system, user, temperature=0.0,
+                               max_tokens=4000))
     except Exception as e:
         return {"verdict": "UNKNOWN", "bad_keys": [], "notes": str(e)[:200]}
 

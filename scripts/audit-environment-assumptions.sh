@@ -501,9 +501,17 @@ ALLOW_RULES="$(cat <<'ALLOW_EOF'
 # exempting scripts/audit-hardcoded-paths.sh.
 scripts/audit-environment-assumptions.sh * *
 
-# REASON: the sibling paths audit embeds machine-path prefixes for the same
-# structural reason, and its SKIP/PATTERN strings collide with OSPATH.
-scripts/audit-hardcoded-paths.sh * *
+# DELETED 2026-09-02 - the rule `scripts/audit-hardcoded-paths.sh * *` (REASON)
+# stood here. The gate reported it STALE and the claim was re-derived by hand
+# before deleting: of the twelve class patterns, exactly ONE matches anywhere in
+# that file - an OSPATH hit at line 38, and that line is a `#` comment, which
+# the scanner blanks for `.sh` before any class is tested. Every other class
+# pattern matches zero times and the shebang is already /usr/bin/env. So the
+# rule suppressed nothing, while standing as a blanket `* *` exemption over a
+# whole file: any literal added to it later would have been pardoned silently,
+# at rc 0, with no human ever reading it. Re-derive before restoring it, and if
+# it must come back, come back with a precise MATCH rather than `* *` - the
+# lesson the two GNUBSD rules below already record the hard way.
 
 # REASON: _tools/pdf/build-pdfs.sh runs each spelling SEPARATELY and validates
 # that the OUTPUT is a bare integer before accepting it - portable_mtime, and
@@ -602,40 +610,50 @@ _tools/helixtranslate-container/run.sh OSPATH /usr/local/bin/
 # BASELINE: known defect F12 (mirror) - docs/environment-adaptability/AUDIT.md.
 _tools/helixtranslate-local.sh OSPATH /usr/local/bin/
 
-# BASELINE: known defect F13 - docs/environment-adaptability/AUDIT.md.
-# Playwright binds fixed ports 8401/8082 and shells out to `python3 -m
-# http.server`; no PORT env override, so two checkouts cannot test in parallel.
-_tests/playwright.config.js ENDPOINT *
-# BASELINE: known defect F13 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tests/visual-effects.config.js ENDPOINT *
+# DELETED 2026-09-02 - the six BASELINE rows for F13 and F14 stood here,
+# carrying 45 baselined ENDPOINT occurrences across 22 files under `_tests/`:
+# `_tests/playwright.config.js` and `_tests/visual-effects.config.js` (F13,
+# frozen bound ports), and `_tests/tests/*`, `_tests/tools/motion-audit.cjs`,
+# `_tests/ui-l10n2-verify.js`, `_tests/visual-effects.spec.js` (F14, frozen base
+# URLs). They are gone because the DEFECT is gone, not because the row moved:
+# `_tests/env.js` now derives every port and base from the environment
+# (VD_PORT/MV_PORT, VD_BASE/MV_BASE, MOTION_*, UI_L10N2_*), and both configs,
+# every spec and both standalone drivers read it. That also closes the half of
+# F13/F14 no allow rule could express - the port a config BOUND and the base a
+# spec REQUESTED were two independent literals that could disagree; they are now
+# one value. Measured after the change: the suite runs green on NON-DEFAULT
+# ports, which it could not do at all before. See AUDIT.md F13/F14.
 
-# BASELINE: known defect F14 - docs/environment-adaptability/AUDIT.md.
-# Spec files hardcode http://localhost:8401 / :8082 with no env override.
-# all-languages-link-integrity.spec.js is the counter-example that already
-# does it right (process.env.VD_BASE || ...) and is therefore NOT listed.
-_tests/tests/* ENDPOINT *
-# BASELINE: known defect F14 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tests/tools/motion-audit.cjs ENDPOINT *
-# BASELINE: known defect F14 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tests/ui-l10n2-verify.js ENDPOINT *
-# BASELINE: known defect F14 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tests/visual-effects.spec.js ENDPOINT *
-
-# BASELINE: known defect F15 - docs/environment-adaptability/AUDIT.md.
-# Model ids frozen as bare module constants instead of env-overridable.
-_tools/gen/translate_home.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate_ui_headroom.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/review_ui_all.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate_ui_batch.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate_ui_chunked.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate_ui_all.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate-ui.py MODEL *
+# DELETED 2026-09-02 - the nine BASELINE rows for F15 stood here and below,
+# carrying 17 baselined MODEL occurrences across nine files under `_tools/gen/`:
+# translate_home.py (4), translate_aria_footer.py (3), translate_ui_headroom.py
+# (3), translate_ui_chunked.py (2), and repair_ui_terms.py, translate-ui.py,
+# translate_ui_all.py, translate_ui_batch.py, translate_ui_slow.py (1 each).
+# They are gone because the DEFECT is gone, not because the row moved: every
+# frozen model id is now read from the environment with the former literal as
+# its documented default - UI_TRANSLATOR_PROVIDER / UI_TRANSLATOR_MODEL for the
+# six HelixTranslate engine drivers, UI_HEADROOM_*, ARIA_FOOTER_* and HOME_* for
+# the three direct-HTTP drivers, plus UI_REASONING_EFFORT_MODELS for the
+# capability test that used to compare against a frozen id with `==`. Two of the
+# 17 were DOCSTRING prose (translate_ui_chunked.py:2, translate_home.py:312),
+# already recorded in AUDIT.md §4.6 rows 12-13 as non-defects; they were reworded
+# to name the variable instead of the literal rather than converted into a
+# `# REASON:` row, so the count falls on a real change in both cases. Measured
+# after the change: with the variables unset every constant resolves to the exact
+# former literal, and with them set the engine argv carries the override - see
+# AUDIT.md F15.
+# DELETED 2026-09-02 - the rule `_tools/gen/review_ui_all.py MODEL *`
+# (BASELINE, citing F15) stood here. The gate reported it STALE and the claim
+# was re-derived: the file still exists and is still scanned, and the ONLY
+# MODEL-class token in it is groq/llama-3.3-70b on line 3, inside the module
+# DOCSTRING. The MODEL class requires a quote character on the same line before
+# it counts a model id as CODE rather than prose, and that line carries none, so
+# no occurrence was ever suppressed. `git log -p` over the whole history of that
+# file shows the docstring line is the only occurrence it has ever had - there
+# was never a bare module constant here - which is also why the F15 file list in
+# AUDIT.md never named it. A BASELINE that cites a finding id not covering it
+# and suppresses nothing is rot twice over: it inflated the recorded debt AND
+# stood as a standing MODEL exemption at a path no human would re-read.
 # REASON: this is a PROVIDER REGISTRY - each row is (canonical API endpoint,
 # api-key env var, that providers own default model). The endpoints are the
 # vendors published URLs and the model is overridden by the --model flag that
@@ -671,12 +689,10 @@ _tools/watch-deploy.sh PARALLEL *
 # thinker.local / amber.local plus the operators own ssh login are literals.
 _tools/distribute-helixtranslate.sh HOSTNAME *
 
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/repair_ui_terms.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate_aria_footer.py MODEL *
-# BASELINE: known defect F15 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/gen/translate_ui_slow.py MODEL *
+# DELETED 2026-09-02 - the last three F15 BASELINE rows
+# (`_tools/gen/repair_ui_terms.py`, `translate_aria_footer.py`,
+# `translate_ui_slow.py`, all `MODEL *`) stood here. See the block above for why
+# all nine were removed together.
 
 # BASELINE: known defect F22 - docs/environment-adaptability/AUDIT.md.
 # /proc/uptime is Linux-only. The `|| echo` keeps it non-fatal, so this is LOW,

@@ -171,3 +171,146 @@ specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
 workshop/evidence/phase2-passage-identity/README.md
 workshop/platform/backend/evidence/answering/entailment-e2e-before-after-2026-09-01.txt
 workshop/platform/backend/evidence/answering/entailment-e2e-four-configs-2026-09-01.txt
+
+# ==============================================================================
+# docs/ — the 2026-09-02 blanket-SKIP removal (operator decision 20)
+# ==============================================================================
+# Until 2026-09-02 the scan's SKIP regex began `^(docs/|...` and was applied
+# BEFORE the PATTERN, so `docs/**` in EVERY repository of the fleet was never
+# read at all. MEASURED that day: 0 of the 39 tracked `docs/**.md` files at this
+# root entered the scan universe, while a real disclosure sat in one of them on
+# two lines that BOTH match this gate's own PATTERN. The blind spot is closed by
+# deleting `docs/` from SKIP; what the deletion surfaced is enumerated BY FILE
+# below rather than re-hidden behind a regex.
+#
+# MEASURED IMMEDIATELY BEFORE AND AFTER, on this tree:
+#   before: 5038 files scanned across 14 repositories, 1 unallowed occurrence
+#   after:  5949 files scanned across 14 repositories, 344 unallowed occurrences
+#           across 66 files  (+911 files entered the universe)
+#   the 344 decompose EXACTLY as 239 (this root's docs/) + 104 (submodule docs/)
+#           + 1 (CONTINUATION.md, a PRE-EXISTING finding, unrelated to docs/)
+#
+# NOTHING here is a blanket. Every line is one file. A docs file added tomorrow
+# with a machine-specific path FAILS this gate. Do NOT put `docs/` back in SKIP.
+
+# REASON: ANONYMISED PLACEHOLDERS AND QUOTATIONS OF THIS GATE'S OWN PATTERN — no
+# machine is identified by any of them, which is the entire property the audit
+# exists to protect.
+#
+#   * The wizard user documentation prints sample terminal transcripts in which
+#     the real account name has ALREADY been replaced by the literal token
+#     `you` (`/home/you/.bashrc`, `/home/you/.local/bin/lumen`). Substituting a
+#     placeholder is the remedy, not the defect; the audit matches it only
+#     because `you` is a syntactically valid account name.
+#   * TROUBLESHOOTING.md uses `/home/someone/...` the same way, in a sentence
+#     whose subject IS the substitution.
+#   * AUDIT.md and OPERATIONAL-SCRIPTS.md quote the PATTERN itself
+#     (`/Volumes/ | /Users/<letter> | /home/<name>/ | ...`) and an elided
+#     `/Volumes/…` form. A document cannot describe this detector without
+#     containing the strings the detector looks for.
+#
+# STATED RECALL COST: a genuine leak of an account literally named `you` or
+# `someone`, inside one of these six files, would now be invisible. That is
+# accepted deliberately and is scoped to six named files, never to a tree.
+docs/environment-adaptability/AUDIT.md
+docs/setup-agents-wizard/README.md
+docs/setup-agents-wizard/SAFETY-AND-ROLLBACK.md
+docs/setup-agents-wizard/TROUBLESHOOTING.md
+docs/setup-agents-wizard/USER_GUIDE.md
+docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.md
+
+# BASELINE: this root's own docs/ — 20 files / 192 occurrences, NEWLY VISIBLE on
+# 2026-09-02 and NOT newly created. Read as a population and characterised:
+# captured command output, forensic inventories of what was measured on this
+# host, dated audit reports whose SUBJECT is a hardcoded path, and reproduction
+# recipes inside those reports. Not one of them is executed by anything.
+#
+# WHAT IS *NOT* CLAIMED (§11.4.6). No line-by-line clearance. 192 occurrences
+# were classified by inspecting their matched token and their file's purpose,
+# NOT by adjudicating each line, so these are carried as recorded DEBT — printed
+# loudly on every run — rather than as justified exemptions. Two consequences
+# are stated rather than left to be discovered:
+#   1. Some of these genuinely SHOULD be derived, not written. A reproduction
+#      recipe reading `cd /run/media/<user>/<volume>/Projects/vasic` does not
+#      run on any other checkout. Fixing them is a separate operator decision;
+#      several of these documents are dated evidence that a rewrite would
+#      damage, and several are under concurrent edit by other work.
+#   2. docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md contains, at line 160, the
+#      sentence "This report's own path is safe for Gate 0. audit-hardcoded-
+#      paths.sh skips ^docs/". That claim was true when written and is FALSE as
+#      of this change. It is left in place — correcting a dated report is not
+#      this change's business — and is recorded here so the next reader is not
+#      misled by it. A document that reasons from a blind spot is exactly the
+#      artefact that proves the blind spot was load-bearing.
+docs/constitution-adoption/CI-INVENTORY-11-4-156.md
+docs/constitution-adoption/GATE-TRIAGE.md
+docs/constitution-adoption/INDEX-COVERAGE.md
+docs/constitution-adoption/INVENTORY.md
+docs/constitution-adoption/POST-APPLY-STATE.md
+docs/constitution-adoption/propagation/APPLY.md
+docs/constitution-adoption/README.md
+docs/content-boundary-incident-2026-09-01.md
+docs/SESSION-REPORT.md
+docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md
+docs/setup-agents-wizard/CODEGRAPH-UPGRADE.md
+docs/setup-agents-wizard/INDEPENDENT-VERIFICATION-2.md
+docs/setup-agents-wizard/INDEPENDENT-VERIFICATION.md
+docs/setup-agents-wizard/INDEX-CORRUPTION-RECONCILIATION.md
+docs/setup-agents-wizard/LUMEN-INDEX-INTEGRITY.md
+docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md
+docs/setup-agents-wizard/OLLAMA-REMEDIATION.md
+docs/setup-agents-wizard/RESIDUAL-PATHS-AUDIT.md
+docs/site-health/PRODUCTION-SITE-HEALTH.md
+docs/workshop-curriculum/RECON.md
+
+# BASELINE: submodule docs/ — 39 files / 104 occurrences across five gitlinks
+# (submodules/constitution 24, ai_interviewing 8, workshop 4, design-toolkit 1,
+# submodules/containers 2), measured 2026-09-02. Same surfacing event, same
+# honesty level, and one ADDITIONAL constraint: this repository cannot fix any
+# of them from here. §11.4.29 forbids editing a tree this repository does not
+# author; a fix lands in that submodule's own upstream and returns as a gitlink
+# bump. UNTRIAGED beyond the population-level reading above — and that untriaged
+# state IS what a BASELINE row is for.
+#
+# Naming a path inside a PRIVATE submodule is explicitly permitted by
+# docs/content-boundary.md ("naming a private path is fine; copying what is
+# inside it is not"); no content from any of these files is reproduced here.
+submodules/constitution/docs/research/action_prefix_system/IMPLEMENTATION_REPORT.html
+submodules/constitution/docs/research/action_prefix_system/IMPLEMENTATION_REPORT.md
+submodules/constitution/docs/research/extensions/speckit_superpowers/implementation/CONSTITUTION_INTEGRATION.html
+submodules/constitution/docs/research/extensions/speckit_superpowers/implementation/CONSTITUTION_INTEGRATION.md
+submodules/constitution/docs/research/extensions/speckit_superpowers/implementation/README.html
+submodules/constitution/docs/research/extensions/speckit_superpowers/implementation/README.md
+submodules/constitution/docs/research/extensions/speckit_superpowers/request_with_materials.html
+submodules/constitution/docs/research/extensions/speckit_superpowers/request_with_materials.md
+submodules/constitution/docs/research/extensions/speckit_superpowers/request_with_materials.mdy
+submodules/constitution/docs/research/quality/complaints.tsv
+submodules/constitution/docs/research/quality/CROSS_PROJECT_HELIX_CODE.html
+submodules/constitution/docs/research/quality/CROSS_PROJECT_HELIX_CODE.md
+submodules/constitution/docs/research/quality/OPERATOR_COMPLAINT_MINING.html
+submodules/constitution/docs/research/quality/OPERATOR_COMPLAINT_MINING.md
+submodules/constitution/docs/research/quality/remediation/PROJECT_GAP_AUDIT.html
+submodules/constitution/docs/research/quality/remediation/PROJECT_GAP_AUDIT.md
+submodules/constitution/docs/research/quality/solutions/PHASE4_REVIEW_R2.html
+submodules/constitution/docs/research/quality/solutions/PHASE4_REVIEW_R2.md
+submodules/constitution/docs/research/quality/solutions/poc/sol06_anchor_integrity/evidence/live_mirror_scan.txt
+submodules/constitution/docs/research/quality/solutions/poc/sol06_anchor_integrity/evidence/live_mirror_scan_v2.txt
+submodules/constitution/docs/research/reactive_submodule_sync/DESIGN.html
+submodules/constitution/docs/research/reactive_submodule_sync/DESIGN.md
+submodules/constitution/docs/research/speckit_lifecycle/SPECKIT_SUPERPOWERS_LIFECYCLE_ANCHOR_DRAFT.html
+submodules/constitution/docs/research/speckit_lifecycle/SPECKIT_SUPERPOWERS_LIFECYCLE_ANCHOR_DRAFT.md
+ai_interviewing/docs/improvement-plans/01-helixconstitution.md
+ai_interviewing/docs/improvement-plans/02-helixqa.md
+ai_interviewing/docs/project-deep-dives/01-helixconstitution.html
+ai_interviewing/docs/project-deep-dives/01-helixconstitution.md
+ai_interviewing/docs/project-deep-dives/02-helixqa.html
+ai_interviewing/docs/project-deep-dives/02-helixqa.md
+ai_interviewing/docs/project-deep-dives/04-helixagent.html
+ai_interviewing/docs/project-deep-dives/04-helixagent.md
+workshop/docs/session-evidence/phase1-report.md
+workshop/docs/session-evidence/phase2b-report.md
+workshop/docs/session-evidence/phase5-report.md
+workshop/docs/session-evidence/session-ledger.md
+design-toolkit/docs/hybrid-pipeline.md
+submodules/containers/docs/REMOTE_DEPLOYMENT.html
+submodules/containers/docs/REMOTE_DEPLOYMENT.md

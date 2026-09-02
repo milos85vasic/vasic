@@ -1512,6 +1512,23 @@ workshop/platform/backend/pkg/entail/fixtures/captured-claims-run2.json TOOLVER 
 # routable address would be the defect.
 workshop/platform/backend/internal/api/gates_test.go ENDPOINT net.Listen("tcp", "127.0.0.1:0")
 
+# REASON: the SAME construct as the gates_test.go row above, but a DIFFERENT
+# reason, so it is written out rather than cross-referenced. In
+# TestGateHTTP8c_SuggestWithCatalogStillOpensNoSocket the listener is NOT
+# released — it stays open behind an accept loop that increments an
+# atomic.Int64, and the contract asserted at the end is that the counter is
+# still ZERO after 200 suggest calls over a catalog-backed surface (G-HTTP-8c:
+# suggest must never embed). The endpoint is then DERIVED FROM THE OS, not
+# frozen: `ln.Addr().String()` is read back off the kernel-assigned port and
+# injected into the code under test via `t.Setenv("WORKSHOP_OLLAMA_URL", ...)`.
+# That is an environment override being exercised, which is what this audit
+# asks for, not an environment assumption. Precedent (A), AUDIT.md §4.8: `go
+# build` excludes *_test.go from every production binary, so no literal here
+# can configure a deployment. Pinning any routable or fixed port instead would
+# make the counter meaningless — a zero would then read as "the listener was
+# deaf", which is precisely the failure the fixture is built to exclude.
+workshop/platform/backend/internal/api/suggest_gates_test.go ENDPOINT net.Listen("tcp", "127.0.0.1:0")
+
 # REASON: port 1 is deliberately closed - the test proves a closed port is NOT
 # diagnosed as a locality fault. A reachable value would delete the assertion.
 # Same precedent as the scripts/test-setup-agents-wizard.sh row in the embedded
@@ -1655,3 +1672,84 @@ workshop/pipeline/detect_media.sh GNUBSD readlink -f -- "$bin" 2>/dev/null || pr
 # and the fleet row is then never demoted. Same class as the six already
 # baselined in scripts/verify-check-registry.sh.
 scripts/verify-content-boundary.sh GNUBSD sed -i "s|^$(printf
+
+# ---- JUSTIFIED: recorded MEASUREMENTS, not configuration --------------------
+# A benchmark result file records WHICH MODEL WAS MEASURED. Rewriting that name
+# to an env-derived value would not adapt anything — it would falsify the
+# record, which is the one failure mode worse than a frozen literal. Every row
+# below was checked against the code before being written here, and each is
+# pinned to its key so a future line in the same file inherits nothing.
+#
+# WHAT WAS MEASURED (2026-09-02, from the repository root). The two benchmark
+# .py files were being edited WHILE this was written, so the checks below are
+# quoted as COMMANDS and the code is cited by EXPRESSION, never by line number:
+# a line number recorded here would have been stale within minutes, and a stale
+# citation in an allow-list reads as a bluff.
+#
+#   grep -rn 'embedding_model_under_test\|alternative_model_tested\|alt_model_name' .
+#     -> the only hits are the JSON files themselves plus ONE writer, the
+#        `"alt_model_name": args.alt_model if alt else None` line in
+#        run_retrieval_benchmark.py. No reader anywhere in the tree.
+#   grep -n 'bench\[' workshop/pipeline/benchmark/run_retrieval_benchmark.py
+#   grep -n 'bench\[' workshop/pipeline/benchmark/build_bench_nomic_full.py
+#     -> both scripts dereference ONLY bench["positive_queries"] and
+#        bench["negative_queries"]. The `_meta` object is never accessed.
+#
+# HONEST BOUNDARY (§11.4.6). This does NOT clear the model literals that really
+# ARE configuration — the `--model` / `--alt-model` / `--current-model` argparse
+# defaults in those two scripts. Those select what a future run will measure and
+# belong under an env override; no row here covers them, and their current
+# state is deliberately NOT asserted, because they were in flight when this was
+# written. Only the recorded OUTCOME is allowed here.
+
+# REASON: an OUTPUT. run_retrieval_benchmark.py builds a result dict containing
+# `"alt_model_name": args.alt_model if alt else None` and dumps it to --out,
+# whose default IS this path. It is an echo of the model the run was pointed
+# at, produced AFTER the measurement. Nothing in the tree reads it back.
+workshop/pipeline/benchmark/results.json MODEL "alt_model_name": "nomic-embed-text"
+
+# REASON: an OUTPUT, same class. build_bench_nomic_full.py writes
+# `"model": args.model` into its result dict and dumps it to --out-results,
+# whose default IS this path. The corpus_size, summary and per-query scores
+# beside it are all measurements of THAT model; changing the name would leave
+# 2478 vectors of evidence attributed to a model that never produced them.
+workshop/pipeline/benchmark/results_nomic_full.json MODEL "model": "nomic-embed-text"
+
+# REASON: an OUTPUT, same class and same writer. The 2026-09-02 SC-015 decision
+# run measured nomic-embed-text a SECOND time, with the asymmetric task
+# prefixes the unprefixed run omitted ("search_document: " on every passage,
+# "search_query: " on every query), into a separate index and a separate
+# results file so neither run overwrites the other. build_bench_nomic_full.py
+# writes `"model": args.model` here exactly as it does for the unprefixed file
+# above. The prefixes that distinguish the two runs are recorded IN the file as
+# `doc_prefix` / `query_prefix`, so the pair is self-describing.
+# MEASURED, not assumed: with this file visible to the audit,
+# `bash scripts/audit-environment-assumptions.sh` flagged
+# `MODEL line 2 "model": "nomic-embed-text",` and exited 1; that is the
+# occurrence this row pardons.
+workshop/pipeline/benchmark/results_nomic_full_prefixed.json MODEL "model": "nomic-embed-text"
+
+# REASON: an OUTPUT, and the name is the whole point of the record. This file
+# is the jina leg re-measured OFFLINE — ranking the live index's own stored
+# vectors directly, with no server in the path — so that jina and nomic are
+# compared on the same corpus, the same 26+12 queries and the same ranking
+# code. The served leg in results.json could not supply that: it returned 11 of
+# 26 correct targets as ABSENT from the top 100 and 7 of 12 negatives with ZERO
+# hits, which are properties of the SERVER, not of the model. Rewriting the
+# model name here would attribute 2478 vectors of jina evidence to a model that
+# never produced them. Written by pipeline/benchmark/bench_live_model_offline.py
+# as `"model": args.model`, whose own default is env-overridable
+# ($BENCH_CURRENT_MODEL) and therefore is NOT allow-listed — only this recorded
+# outcome is.
+workshop/pipeline/benchmark/results_jina_full_offline.json MODEL "model": "jina-embeddings-code-cpu"
+
+# REASON: this file IS read as input — both scripts parse it into `bench` — so
+# the distinction matters and was measured rather than assumed: only
+# `positive_queries` and `negative_queries` are ever dereferenced. These two
+# keys sit in `_meta`, which no code path touches. They are provenance — the
+# models the stored query set was validated against when it was built
+# (`"created": "2026-09-02"`, `corpus_generation_at_build: 40`) — and reading
+# them as configuration is the misreading this rule prevents.
+workshop/pipeline/benchmark/retrieval_benchmark.json MODEL "embedding_model_under_test": "jina-embeddings-code-cpu"
+# REASON: the second half of the same `_meta` provenance pair, same evidence.
+workshop/pipeline/benchmark/retrieval_benchmark.json MODEL "alternative_model_tested": "nomic-embed-text"

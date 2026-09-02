@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { VD_BASE, MV_BASE } = require('../env.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -16,10 +17,10 @@ const BUDGET = {
 };
 
 const PAGES = [
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/', lcp: '.od-hero__title' },
-  { site: 'vasic.digital', base: 'http://localhost:8401', path: '/products/helixtrack.html', lcp: 'h1' },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/', lcp: 'h1' },
-  { site: 'milosvasic.ru', base: 'http://localhost:8082', path: '/products/helixtrack.html', lcp: 'h1' },
+  { site: 'vasic.digital', base: VD_BASE, path: '/', lcp: '.od-hero__title' },
+  { site: 'vasic.digital', base: VD_BASE, path: '/products/helixtrack.html', lcp: 'h1' },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/', lcp: 'h1' },
+  { site: 'milosvasic.ru', base: MV_BASE, path: '/products/helixtrack.html', lcp: 'h1' },
 ];
 
 const results = [];

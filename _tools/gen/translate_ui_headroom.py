@@ -3,8 +3,11 @@
 plus an independent review pass on a DIFFERENT model. Self-contained; does NOT
 touch mistral/cohere (the running _content batch) nor the chunked pipeline.
 
-Translator : llama-3.3-70b-versatile  (Groq)
-Reviewer   : openai/gpt-oss-120b      (Groq, different model)
+Translator : llama-3.3-70b-versatile  (Groq)      UI_HEADROOM_TRANSLATOR_MODEL
+Reviewer   : openai/gpt-oss-120b      (Cerebras)  UI_HEADROOM_REVIEWER_MODEL
+
+Both model ids are read from the environment; the values above are the
+defaults, so an unset environment behaves exactly as before.
 """
 import json, os, re, sys, time, urllib.request, urllib.error
 
@@ -18,8 +21,18 @@ GROQ = os.environ["GROQ_API_KEY"]
 CEREBRAS = os.environ["CEREBRAS_API_KEY"]
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 CEREBRAS_URL = "https://api.cerebras.ai/v1/chat/completions"
-TRANSLATOR = "llama-3.3-70b-versatile"        # Groq
-REVIEWER = "gpt-oss-120b"                       # Cerebras (different model + provider)
+# Model ids DERIVED from the environment (AUDIT.md F15). The defaults are the
+# exact literals this pass has always used, so an unset environment reproduces
+# the previous behaviour byte for byte; a retired or rate-capped model is then
+# swapped without editing this file.
+TRANSLATOR = os.environ.get("UI_HEADROOM_TRANSLATOR_MODEL", "llama-3.3-70b-versatile")  # Groq
+REVIEWER = os.environ.get("UI_HEADROOM_REVIEWER_MODEL", "gpt-oss-120b")  # Cerebras (different model + provider)
+# Models that accept the OpenAI-style `reasoning_effort` knob. Comma-separated
+# so a substituted model can declare the same capability; the default is the
+# single id this file used to test for with `==`.
+REASONING_EFFORT_MODELS = [
+    m for m in os.environ.get("UI_REASONING_EFFORT_MODELS", "gpt-oss-120b").split(",") if m
+]
 
 LANGS = {
     "ru": "Russian", "sr": "Serbian (Cyrillic script)", "es": "Spanish",
@@ -74,7 +87,7 @@ def call(model, system, user, temperature=0.2, retries=5, provider="groq"):
         "response_format": {"type": "json_object"},
         "max_tokens": 8000,
     }
-    if model == "gpt-oss-120b":
+    if model in REASONING_EFFORT_MODELS:
         payload["reasoning_effort"] = "low"
     body = json.dumps(payload).encode()
     last = None

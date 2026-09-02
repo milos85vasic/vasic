@@ -28,6 +28,12 @@ GLOSSARY = f"{GEN}/../translate/glossary.json"
 ENGINE = os.environ.get("HELIX_BIN", os.path.join(REPO, "_tools", "helixtranslate-container.sh"))
 KEY = os.environ.get("UI_KEY") or os.environ.get("ZHIPU_API_KEY", "")
 BASEURL = os.environ.get("UI_BASEURL", "")
+# Engine provider/model DERIVED from the environment (AUDIT.md F15). The
+# defaults are the exact literals this pass has always used, so an unset
+# environment reproduces the previous behaviour byte for byte; a retired or
+# rate-capped model is then swapped without editing this file.
+PROVIDER = os.environ.get("UI_TRANSLATOR_PROVIDER", "zhipu")
+MODEL = os.environ.get("UI_TRANSLATOR_MODEL", "glm-4.5-flash")
 LANGS = sys.argv[1:] or ["ru", "sr", "de", "es", "fr", "be", "zh", "kk", "hi", "ja", "ko", "ar", "tr", "fa"]
 LINE = re.compile(r"^\s*\[\[(\d+)\]\]\s*(.*)$")
 TERMSENT = re.compile(r"\[\[T(\d+)\]\]")
@@ -60,7 +66,7 @@ def call(doc, lang):
     with tempfile.TemporaryDirectory() as d:
         inp, outp = f"{d}/in.md", f"{d}/out.md"
         open(inp, "w").write(doc + "\n")
-        cmd = [ENGINE, "-i", inp, "-o", outp, "-provider", "zhipu", "-model", "glm-4.5-flash",
+        cmd = [ENGINE, "-i", inp, "-o", outp, "-provider", PROVIDER, "-model", MODEL,
                "-api-key", KEY, "-source-lang", "en", "-target-lang", lang,
                "-script", script_for(lang), "-verify=false", "-timeout", "120s"]
         if BASEURL: cmd += ["-base-url", BASEURL]

@@ -28,6 +28,12 @@ ENGINE = os.environ.get("HELIX_BIN", os.path.join(TOOLS, "helixtranslate-contain
 PROTECT = f"{TOOLS}/translate/glossary_protect.py"
 GLOSSARY = f"{TOOLS}/translate/glossary.json"
 ZHIPU_KEY = os.environ.get("ZHIPU_API_KEY", "")
+# Engine provider/model DERIVED from the environment (AUDIT.md F15). The
+# defaults are the exact literals this pipeline has always used, so an unset
+# environment reproduces the previous behaviour byte for byte; a retired or
+# rate-capped model is then swapped without editing this file.
+PROVIDER = os.environ.get("UI_TRANSLATOR_PROVIDER", "zhipu")
+MODEL = os.environ.get("UI_TRANSLATOR_MODEL", "glm-4.5-flash")
 
 LANGS = sys.argv[1:] or ["ru", "sr", "es", "fr", "be", "zh", "kk", "hi", "ja", "ko", "ar", "tr", "fa", "de"]
 GAP_SECONDS = float(os.environ.get("UI_GAP", "6"))
@@ -85,7 +91,7 @@ def translate_lang(lang, en, keys):
         for attempt in range(3):
             if os.path.exists(outp): os.remove(outp)
             p = run([ENGINE, "-i", inp, "-o", outp,
-                     "-provider", "zhipu", "-model", "glm-4.5-flash", "-api-key", ZHIPU_KEY,
+                     "-provider", PROVIDER, "-model", MODEL, "-api-key", ZHIPU_KEY,
                      "-source-lang", "en", "-target-lang", lang, "-script", script_for(lang),
                      "-verify=false", "-timeout", "150s"])
             if p.returncode == 0 and os.path.exists(outp) and os.path.getsize(outp) > 1:

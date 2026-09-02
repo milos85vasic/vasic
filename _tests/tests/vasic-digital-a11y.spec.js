@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { AxeBuilder } = require('@axe-core/playwright');
-const BASE = 'http://localhost:8401';
+const { VD_BASE: BASE } = require('../env.js');
 
 // Accessibility coverage for the COMPANY site vasic.digital. Mirrors the
 // milosvasic.ru a11y spec: axe-core scans the three surfaces a visitor

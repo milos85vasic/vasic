@@ -86,7 +86,7 @@ BAK_SUFFIX="vasic-bak"
 
 # ── Modes ─────────────────────────────────────────────────────────────────────
 MODE="report"; FORCE=0; WANT_MEASURE=0; WITH_KEEPALIVE=1
-UNIT_OVERRIDE=""; HOST_OVERRIDE=""
+UNIT_OVERRIDE=""; HOST_OVERRIDE=""; PROVE=0
 
 usage() {
     cat <<EOF
@@ -103,6 +103,8 @@ ${SELF_NAME} — derive and apply ollama concurrency settings from this host.
   --no-keep-alive    tune OLLAMA_NUM_PARALLEL only, leave OLLAMA_KEEP_ALIVE alone
   --unit NAME        override service-unit discovery
   --host URL         override OLLAMA_HOST discovery
+  --prove-failure    run the §1.1 paired mutation proof against a throwaway,
+                     PATH-shimmed host; this host is never written to
   -h, --help         this text
 
 Audit overrides (print different inputs to prove the formula is not a constant):
@@ -124,6 +126,7 @@ while [[ $# -gt 0 ]]; do
         --no-keep-alive)  WITH_KEEPALIVE=0 ;;
         --unit)           shift; UNIT_OVERRIDE="${1:-}" ;;
         --host)           shift; HOST_OVERRIDE="${1:-}" ;;
+        --prove-failure)  PROVE=1 ;;
         -h|--help)        usage; exit 0 ;;
         # A silently ignored typo is how `--forse` once produced an incremental
         # run when a rebuild was intended. Unknown flags are fatal.
@@ -131,6 +134,243 @@ while [[ $# -gt 0 ]]; do
     esac
     shift
 done
+
+if [[ $PROVE -eq 1 ]]; then
+    # ══════════════════════════════════════════════════════════════════════════
+    # §1.1 PAIRED MUTATION PROOF  —  --prove-failure
+    #
+    # WHAT IS UNDER TEST. The verdict: 0 = the running daemon already meets the
+    # computed recommendation, 1 = it does not, 2 = the question could not be
+    # answered. Everything this script asserts about a host is worthless if that
+    # three-way split cannot be shown to move.
+    #
+    # WHY THE HOST IS SHIMMED, NOT MOCKED IN CODE. The subject is a host
+    # detector, so a control built on THIS host is green only while THIS host
+    # happens to be tuned — the "inoperative proof" defect recorded in
+    # docs/check-registry.md. Instead the real code paths run unchanged against a
+    # SYNTHETIC host: `systemctl`, `journalctl`, `curl`, `podman`, `docker`,
+    # `pgrep`, `ss`, `sudo` and `systemd-path` are replaced by stubs on PATH
+    # inside a `mktemp -d`, and the daemon's running OLLAMA_NUM_PARALLEL is data
+    # the stub journal prints. That makes the control green BY CONSTRUCTION and
+    # every mutation a change of evidence rather than a change of code.
+    #
+    # PATH-shimming is this repository's existing idiom for exactly this problem
+    # — scripts/verify-check-registry.sh --prove-filemode shims `stat` the same
+    # way — so it is reused rather than reinvented.
+    #
+    # PINNED CLAMP. OLLAMA_TUNE_MIN/MAX are pinned equal, so RECOMMENDED is the
+    # same integer on every host regardless of how many CPUs or how much memory
+    # the box running this proof has. Without that, a build machine with a
+    # 2-vCPU cgroup and this workstation would need different assertions, and an
+    # assertion that has to be tuned per host is not an assertion.
+    #
+    # HERMETIC. curl is stubbed to fail, so no request leaves this process and
+    # this host's REAL ollama — which may well be running — cannot reach any
+    # verdict below. Nothing outside the sandbox is created, written or removed;
+    # no service is started, stopped or restarted; no config file is touched.
+    # ══════════════════════════════════════════════════════════════════════════
+    P_PASS=0; P_FAIL=0
+    p_ok()  { P_PASS=$((P_PASS+1)); printf '✅ %-30s %s\n' "$1" "$2"; }
+    p_bad() { P_FAIL=$((P_FAIL+1)); printf '❌ %-30s %s\n' "$1" "$2"; }
+
+    echo "OLLAMA-TUNE §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+
+    # ---- PRE-FLIGHT: the REAL entry point on the REAL host — reported --------
+    # report mode is read-only by construction (nothing below `--apply` writes),
+    # so this is safe to run against the live host. It gates nothing.
+    pf_out="$(timeout 180 bash "$SELF_PATH" 2>&1)"; pf_rc=$?
+    case "$pf_rc" in
+        0|1|2) printf 'ℹ %-30s the real entry point ran against the REAL host and returned rc=%s\n' "PRE-FLIGHT live-run" "$pf_rc"
+               printf '%-32s (%s). REPORTED, never gating — the battery below uses a synthetic host.\n' "" \
+                      "$(case $pf_rc in 0) echo "already tuned";; 1) echo "tuning needed";; *) echo "could not determine";; esac)" ;;
+        124)   p_bad "PRE-FLIGHT live-run" "the real entry point TIMED OUT on the real host — it cannot start, so it cannot report" ;;
+        *)     p_bad "PRE-FLIGHT live-run" "the real entry point exited rc=${pf_rc}, outside its own 0/1/2 contract"
+               printf '%s\n' "$pf_out" | tail -3 | sed 's/^/        /' ;;
+    esac
+
+    TSB="$(mktemp -d "${TMPDIR:-/tmp}/ollama-tune-proof.XXXXXX")" || {
+        echo "ollama-tune: UNDETERMINED — cannot create a sandbox; nothing was proved" >&2; exit 2; }
+    trap 'rm -rf "$TSB"' EXIT INT TERM     # cleanup: the synthetic host lives and dies inside $TSB
+    echo "  sandbox: $TSB"
+    mkdir -p "$TSB/bin" || { echo "ollama-tune: UNDETERMINED — cannot populate the sandbox" >&2; exit 2; }
+
+    # -- the synthetic host -----------------------------------------------------
+    cat > "$TSB/bin/systemctl" <<'STUB_SYSTEMCTL'
+#!/usr/bin/env bash
+# A systemd that owns exactly one loaded unit: ollama.service, system scope.
+scope=""
+[ "${1:-}" = "--user" ] && { scope="user"; shift; }
+case "${1:-}" in
+  list-units|list-unit-files)
+      [ -n "$scope" ] && exit 0
+      echo "ollama.service loaded active running Ollama"
+      exit 0 ;;
+  show)
+      [ -n "$scope" ] && exit 0
+      unit="${2:-}"; prop=""; prev=""
+      for a in "$@"; do [ "$prev" = "-p" ] && { prop="$a"; break; }; prev="$a"; done
+      [ "$unit" = "ollama.service" ] || { echo "not-found"; exit 0; }
+      case "$prop" in
+        LoadState)             echo "loaded" ;;
+        ActiveState)           echo "active" ;;
+        FragmentPath)          echo "/usr/lib/systemd/system/ollama.service" ;;
+        ExecStart)             echo "" ;;
+        EnvironmentFiles)      echo "" ;;
+        CPUQuotaPerSecUSec)    echo "infinity" ;;
+        AllowedCPUs)           echo "" ;;
+        ActiveEnterTimestamp)  echo "Mon 2026-09-02 00:00:00 UTC" ;;
+        MainPID)               echo "0" ;;
+        *)                     echo "" ;;
+      esac
+      exit 0 ;;
+esac
+exit 1
+STUB_SYSTEMCTL
+
+    cat > "$TSB/bin/journalctl" <<'STUB_JOURNALCTL'
+#!/usr/bin/env bash
+# ollama's one-shot startup line, with the running value supplied as DATA.
+# PROOF_RUNNING_PARALLEL=none means the daemon logged no such line at all.
+p="${PROOF_RUNNING_PARALLEL:-1}"
+[ "$p" = "none" ] && exit 0
+printf 'Sep 02 00:00:01 synthetic ollama[1]: level=INFO msg="server config" env="map[OLLAMA_KEEP_ALIVE:5m0s OLLAMA_NUM_PARALLEL:%s OLLAMA_MAX_QUEUE:512]"\n' "$p"
+exit 0
+STUB_JOURNALCTL
+
+    # curl fails: the API is unreachable, so nothing leaves this process and the
+    # real ollama on this host cannot influence a single assertion below.
+    printf '#!/usr/bin/env bash\nexit 7\n'            > "$TSB/bin/curl"
+    # No container runtime owns it; no bare process; no established connections;
+    # no sudo; no systemd-path. Each of these is a real branch being pinned.
+    printf '#!/usr/bin/env bash\nexit 1\n'            > "$TSB/bin/podman"
+    printf '#!/usr/bin/env bash\nexit 1\n'            > "$TSB/bin/docker"
+    printf '#!/usr/bin/env bash\nexit 1\n'            > "$TSB/bin/pgrep"
+    printf '#!/usr/bin/env bash\nexit 0\n'            > "$TSB/bin/ss"
+    printf '#!/usr/bin/env bash\nexit 1\n'            > "$TSB/bin/sudo"
+    printf '#!/usr/bin/env bash\nexit 1\n'            > "$TSB/bin/systemd-path"
+    chmod 755 "$TSB/bin"/* || { echo "ollama-tune: UNDETERMINED — cannot chmod the stubs" >&2; exit 2; }
+
+    # Pinned so RECOMMENDED is the same integer on every host (see the header).
+    PIN_MIN=4; PIN_MAX=4
+
+    # run_synth <running-parallel> [extra argv...] — the REAL script, unmodified,
+    # against the synthetic host.
+    run_synth() {
+        local running="$1"; shift
+        env PATH="$TSB/bin:$PATH" \
+            HOME="$TSB" \
+            PROOF_RUNNING_PARALLEL="$running" \
+            OLLAMA_HOST="" \
+            OLLAMA_TUNE_CPUS=8 \
+            OLLAMA_TUNE_AVAIL_MB=32768 \
+            OLLAMA_TUNE_MODEL_MB=512 \
+            OLLAMA_TUNE_MIN="${PIN_MIN}" \
+            OLLAMA_TUNE_MAX="${PIN_MAX}" \
+            timeout 180 bash "$SELF_PATH" "$@" 2>&1
+    }
+
+    # assert <label> <running> <want-rc> <needle> [argv...]
+    assert() {
+        local label="$1" running="$2" want="$3" needle="$4"; shift 4
+        local out rc
+        out="$(run_synth "$running" "$@")"; rc=$?
+        if [[ $rc -ne $want ]]; then
+            p_bad "$label" "expected rc=${want}, got rc=${rc}"
+            printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
+            return
+        fi
+        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+            p_bad "$label" "rc=${want} as required, but the output never NAMED '${needle}'"
+            printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
+            return
+        fi
+        p_ok "$label" "rc=${rc}${needle:+, and it named '${needle}'}"
+    }
+
+    # ---- CONTROL: the synthetic daemon already meets the recommendation -------
+    assert "CONTROL synthetic-tuned    " "$PIN_MAX" 0 "already meets the computed recommendation"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "----------------------------------------------------------------------"
+        echo "❌ OLLAMA-TUNE §1.1 PROOF: ABORTED — the synthetic control did not pass, so ZERO"
+        echo "   mutations ran and nothing below would have been proved."
+        exit 1
+    fi
+
+    # ---- M1  the running value is BELOW the recommendation — the whole point --
+    assert "M1 running-below-recommend " "$((PIN_MAX - 1))" 1 "tuning needed"
+    # ---- M2  the daemon carries no value at all ------------------------------
+    assert "M2 running-value-empty     " "" 1 "tuning needed"
+    # ---- M3  ABOVE the recommendation is fine, not a finding ------------------
+    # A gate that reddens on "more than enough" would be crying wolf.
+    assert "M3 running-above-recommend " "$((PIN_MAX + 3))" 0 "already meets the computed recommendation"
+    # ---- M4  the daemon logged nothing readable -> rc 2, never 0 -------------
+    assert "M4 running-unreadable      " "none" 2 "COULD NOT DETERMINE whether tuning is needed"
+    # ---- M5  the running value is not a number -> rc 2, never a pass ---------
+    assert "M5 running-non-numeric     " "auto" 2 "COULD NOT DETERMINE whether tuning is needed"
+    # ---- M6  the unit does not exist -> nothing owns ollama -> rc 2 ----------
+    assert "M6 unit-not-found          " "$PIN_MAX" 2 "COULD NOT DETERMINE whether tuning is needed" --unit nonexistent.service
+    # ---- M7  a REMOTE daemon has no local surface to tune -> rc 2 ------------
+    # 192.0.2.10 is RFC 5737 TEST-NET-1: reserved for documentation, so it is
+    # never an address of the machine running this proof.
+    assert "M7 remote-daemon           " "$PIN_MAX" 2 "REMOTE daemon" --host 192.0.2.10:11434
+
+    # ---- M8  neither CPU nor memory readable -> COULD NOT DETERMINE ----------
+    # Both caps unknown is the one state where the formula itself abstains. It
+    # must not fall back to a default number.
+    _m8="$(env PATH="$TSB/bin:$PATH" HOME="$TSB" PROOF_RUNNING_PARALLEL=1 OLLAMA_HOST="" \
+               OLLAMA_TUNE_CPUS=0 OLLAMA_TUNE_AVAIL_MB=0 OLLAMA_TUNE_MODEL_MB=512 \
+               OLLAMA_TUNE_MIN="$PIN_MIN" OLLAMA_TUNE_MAX="$PIN_MAX" \
+               timeout 180 bash "$SELF_PATH" 2>&1)"; _m8rc=$?
+    if [[ $_m8rc -eq 2 ]] && printf '%s' "$_m8" | grep -qF "neither CPU nor memory facts were readable"; then
+        p_ok "M8 host-unmeasurable      " "rc=2, and it abstained instead of inventing a number"
+    else
+        p_bad "M8 host-unmeasurable     " "expected rc=2 naming the unreadable host facts, got rc=${_m8rc}"
+    fi
+
+    # ---- M9  the recommendation is COMPUTED, not frozen ----------------------
+    # Same synthetic host, different declared bounds: the printed value must
+    # move. This shows the number follows its inputs; it is not a claim that
+    # every term of the formula was exercised.
+    _a="$(run_synth "$PIN_MAX" | grep -oE 'OLLAMA_NUM_PARALLEL = [0-9]+' | head -1)"
+    _b="$(env PATH="$TSB/bin:$PATH" HOME="$TSB" PROOF_RUNNING_PARALLEL=1 OLLAMA_HOST="" \
+               OLLAMA_TUNE_CPUS=8 OLLAMA_TUNE_AVAIL_MB=32768 OLLAMA_TUNE_MODEL_MB=512 \
+               OLLAMA_TUNE_MIN=7 OLLAMA_TUNE_MAX=7 \
+               timeout 180 bash "$SELF_PATH" 2>&1 | grep -oE 'OLLAMA_NUM_PARALLEL = [0-9]+' | head -1)"
+    if [[ -n "$_a" && -n "$_b" && "$_a" != "$_b" ]]; then
+        p_ok "M9 recommendation-computed" "the printed value moved with its declared bounds: '${_a}' vs '${_b}'"
+    else
+        p_bad "M9 recommendation-computed" "the recommendation did not move with its inputs: '${_a}' vs '${_b}'"
+    fi
+
+    # ---- M10 --print-commands carries the SAME verdict and a real command ----
+    # The mode must not launder a finding into a green exit while printing
+    # instructions nobody is told to run.
+    _m10="$(run_synth "$((PIN_MAX - 1))" --print-commands)"; _m10rc=$?
+    if [[ $_m10rc -eq 1 ]] && printf '%s' "$_m10" | grep -qF "OLLAMA_NUM_PARALLEL=${PIN_MAX}"; then
+        p_ok "M10 print-commands-verdict" "rc=1 (same finding as report mode) and the emitted command carries the computed value"
+    else
+        p_bad "M10 print-commands-verdict" "expected rc=1 with the computed value in the commands, got rc=${_m10rc}"
+    fi
+
+    # ---- RESTORED CONTROL ----------------------------------------------------
+    assert "CONTROL restored          " "$PIN_MAX" 0 "already meets the computed recommendation"
+
+    echo "----------------------------------------------------------------------"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "❌ OLLAMA-TUNE §1.1 MUTATION PROOF: FAIL — ${P_FAIL} case(s) did not hold."
+        exit 1
+    fi
+    echo "✅ OLLAMA-TUNE §1.1 MUTATION PROOF: PASS — the real entry point ran against the real"
+    echo "   host (reported, never gating), a synthetic PATH-shimmed host that is already tuned"
+    echo "   by construction passed as the control, and 10 mutations each moved the verdict the"
+    echo "   right way: 2 real findings as rc=1, 5 could-not-determine states as rc=2 rather"
+    echo "   than as a pass — an unreadable value, a non-numeric value, no owning unit, a"
+    echo "   remote daemon, and an unmeasurable host — plus an over-provisioned daemon that is"
+    echo "   correctly NOT a finding, a recommendation shown to follow its inputs, and"
+    echo "   --print-commands shown to carry the same verdict as report mode."
+    exit 0
+fi
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. WHERE IS OLLAMA?  (local vs remote — a remote daemon has no local surface)

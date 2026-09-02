@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Serial, char-budgeted, resumable UI translator (zhipu / glm-4.5-flash).
+"""Serial, char-budgeted, resumable UI translator.
+
+Provider and model come from UI_TRANSLATOR_PROVIDER / UI_TRANSLATOR_MODEL and
+default to zhipu / glm-4.5-flash, which is what the notes below describe.
 
 Why this shape:
   - zhipu rate-limits (HTTP 429 / code 1302) under concurrency or rapid-fire and
@@ -30,6 +33,12 @@ ENGINE = os.environ.get("HELIX_BIN", os.path.join(REPO, "_tools", "helixtranslat
 # across them does not hit a shared rate limit.
 ZHIPU_KEY = os.environ.get("UI_KEY") or os.environ.get("ZHIPU_API_KEY", "")
 BASEURL = os.environ.get("UI_BASEURL", "")
+# Engine provider/model DERIVED from the environment (AUDIT.md F15). The
+# defaults are the exact literals this pipeline has always used, so an unset
+# environment reproduces the previous behaviour byte for byte; a retired or
+# rate-capped model is then swapped without editing this file.
+PROVIDER = os.environ.get("UI_TRANSLATOR_PROVIDER", "zhipu")
+MODEL = os.environ.get("UI_TRANSLATOR_MODEL", "glm-4.5-flash")
 LANGS = sys.argv[1:] or ["ru", "kk", "hi", "ja", "ko", "tr", "fa", "ar"]
 GAP = float(os.environ.get("UI_GAP", "14"))
 BUDGET = int(os.environ.get("UI_BUDGET", "420"))
@@ -56,8 +65,8 @@ def call_engine(doc, lang):
     with tempfile.TemporaryDirectory() as d:
         inp, outp = f"{d}/in.md", f"{d}/out.md"
         open(inp, "w").write(doc + "\n")
-        cmd = [ENGINE, "-i", inp, "-o", outp, "-provider", "zhipu",
-               "-model", "glm-4.5-flash", "-api-key", ZHIPU_KEY,
+        cmd = [ENGINE, "-i", inp, "-o", outp, "-provider", PROVIDER,
+               "-model", MODEL, "-api-key", ZHIPU_KEY,
                "-source-lang", "en", "-target-lang", lang,
                "-script", script_for(lang), "-verify=false", "-timeout", "120s"]
         if BASEURL:

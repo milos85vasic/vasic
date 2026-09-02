@@ -19,6 +19,10 @@ const http = require('http');
 // so the audit runs from ANY checkout without a hardcoded absolute path.
 // VASIC_ROOT overrides the default when the repo root is elsewhere.
 const REPO = process.env.VASIC_ROOT || path.resolve(__dirname, '..', '..');
+// Ports and bases are DERIVED from ../env.js (MOTION_* pair), never frozen here:
+// the port a server BINDS and the base a browser REQUESTS are now one value, and
+// a second checkout can drive this with MOTION_VD_PORT / MOTION_MV_PORT set.
+const { MOTION_VD_PORT, MOTION_MV_PORT, MOTION_VD_BASE, MOTION_MV_BASE } = require('../env.js');
 const OUT = path.join(REPO, '_tests/evidence/motion-audit');
 const SHOTS = path.join(OUT, 'screenshots');
 const DATA = path.join(OUT, 'data');
@@ -26,13 +30,13 @@ fs.mkdirSync(SHOTS, { recursive: true });
 fs.mkdirSync(DATA, { recursive: true });
 
 const SERVERS = [
-  { root: path.join(REPO, 'milosvasic.ru/_site'), port: 8482 },
-  { root: path.join(REPO, 'vasic.digital'), port: 8481 },
+  { root: path.join(REPO, 'milosvasic.ru/_site'), port: MOTION_MV_PORT, base: MOTION_MV_BASE },
+  { root: path.join(REPO, 'vasic.digital'), port: MOTION_VD_PORT, base: MOTION_VD_BASE },
 ];
 
 const SITES = {
   milos: {
-    base: 'http://localhost:8482',
+    base: MOTION_MV_BASE,
     label: 'milosvasic.ru',
     pages: {
       landing: '/',
@@ -46,7 +50,7 @@ const SITES = {
     themeKey: 'mv-theme',
   },
   vasic: {
-    base: 'http://localhost:8481',
+    base: MOTION_VD_BASE,
     label: 'vasic.digital',
     pages: {
       landing: '/',
@@ -489,7 +493,7 @@ async function auditReducedMotion(browserName, site, siteCfg, pageKey, pagePath)
 (async () => {
   const procs = SERVERS.map((s) => startServer(s.root, s.port));
   try {
-    await Promise.all(SERVERS.map((s) => waitFor(`http://localhost:${s.port}/`)));
+    await Promise.all(SERVERS.map((s) => waitFor(`${s.base}/`)));
     console.log('servers up');
 
     const engines = { chromium, firefox, webkit };

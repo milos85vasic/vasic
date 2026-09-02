@@ -20,7 +20,299 @@ day**, which is the figure the block immediately below carries and the one §4.8
 triaged in **§4.8**, and they are not comparable to the §4.1 numbers because
 they do not describe the same population. Do not add the two together.
 
+## Re-derived state — 2026-09-02
+
+Two things happened here, and only one of them is a fix. **The stale rules were
+deleted; F13 and F14 were fixed in source and their baselines then removed.**
+Removing a baseline without fixing the defect would have moved debt between
+columns and changed nothing the gate can see, so the order matters and is
+recorded: source first, ledger second.
+
+```
+bash scripts/audit-environment-assumptions.sh                    # rc 0 before AND after
+bash scripts/audit-environment-assumptions.sh --strict-allow-list   # rc 1 -> rc 0
+```
+
+| measured | before | after |
+|---|---:|---:|
+| exit code | **0** | **0** |
+| `--strict-allow-list` exit code | **1** | **0** |
+| files scanned | 2 166 | 2 166 |
+| repositories | 14 | 14 |
+| baselined occurrences | **728** | **683**, across 216 files |
+| justified (allow-listed) occurrences | 531 | 533 |
+| allow rules, total | **444** | **436** — 396 external + 40 embedded |
+| **stale** allow rules | **2** of 444 | **0** of 436 |
+| PATH-ABSENT allow rules | 0 | 0 |
+| third-party NOTE | 1 | 1 |
+
+**The +2 on the justified row is NOT this change.** It is
+`scripts/lumen-index-doctor.sh`, edited concurrently by another agent while this
+work ran (`git diff --stat` on it: 229 insertions), which took its existing
+`ENDPOINT` REASON rule from 3 matches to 5. Attributed rather than absorbed
+(§11.4.6). Everything else on that table is accounted for below, exactly:
+**−45 baselined occurrences and −8 allow rules (6 + 2).**
+
+**The 2 stale rules are DELETED** — the owed work the 2026-09-01 block below
+recorded as "recorded here rather than done". Each was re-derived by hand before
+deletion, not merely taken from the gate's own report:
+
+| was at rule-file line | rule | why it was genuinely stale |
+|---:|---|---|
+| 10 | `scripts/audit-hardcoded-paths.sh * *` (REASON) | Of the twelve class patterns, exactly ONE matches anywhere in that file — an `OSPATH` hit at line 38 — and that line is a `#` comment, which the scanner blanks for `.sh` before any class is tested. Every other class pattern matches zero times and the shebang is already `/usr/bin/env`. It suppressed nothing while standing as a blanket `* *` exemption over a whole file. |
+| 134 | `_tools/gen/review_ui_all.py MODEL *` (BASELINE, cited F15) | The file still exists and is still scanned. Its only `MODEL`-class token is `groq/llama-3.3-70b` on line 3, **inside the module docstring**; the `MODEL` class requires a quote character on the same line before it counts a model id as code rather than prose, and that line carries none. `git log -p` over the file's whole history shows that docstring line is the only occurrence it has ever had — there was never a bare module constant — which is why the §4.4 F15 file list never named it. |
+
+**F13 and F14 are CLOSED, in source.** `_tests/env.js` is new and is the single
+place the harness learns where to bind and what to request: `VD_PORT`/`MV_PORT`,
+`VD_BASE`/`MV_BASE`, `MOTION_VD_PORT`/`MOTION_MV_PORT` + bases, and
+`UI_L10N2_PORT`/`UI_L10N2_BASE`, each `process.env`-derived with the old literal
+as the documented default. Both Playwright configs, all 17 affected specs and
+both standalone drivers read it. That also closes the half of F13/F14 that no
+allow rule could express: the port a config **bound** and the base a spec
+**requested** were two independent literals free to disagree, and a disagreement
+surfaced as an assertion about the *site*. They are now one value.
+
+Measured, not asserted:
+
+```
+cd _tests
+npx playwright test --project=chromium tests/vasic-digital.spec.js          # 12 passed
+VD_PORT=9401 MV_PORT=9082 npx playwright test --project=chromium \
+    tests/vasic-digital.spec.js                                            # 12 passed
+VD_PORT=9401 MV_PORT=9082 npx playwright test --project=chromium \
+    tests/seo-meta.spec.js tests/ui-l10n-chrome.spec.js                    # 41 passed
+MOTION_VD_PORT=9481 MOTION_MV_PORT=9482 node tools/motion-audit.cjs        # "servers up"
+UI_L10N2_PORT=9791 node ui-l10n2-verify.js                                 # rc 0, 4 pages
+```
+
+Running on non-default ports was **impossible** before this change; that is the
+whole content of F13. The `motion-audit.cjs` run stops later at
+`browserType.launch: Executable doesn't exist … firefox-1532` — a browser that
+is not installed on this host, unrelated and pre-existing, reported so it is not
+mistaken for a consequence.
+
+**Independent proof that the source, not the ledger, is what changed.** The
+`HEAD` version of the gate — the one that still carries all six F13/F14 baseline
+rows — run against the FIXED tree reports **8 stale allow rules**: the 2 above
+plus the 6 whose defects no longer exist. That is precisely what a fix looks
+like from a gate's point of view, and precisely why leaving the rows behind
+would have been worthless:
+
+```
+git show HEAD:scripts/audit-environment-assumptions.sh > /tmp/orig.sh
+bash /tmp/orig.sh . --strict-allow-list      # rc 1 — "8 STALE allow rule(s)"
+bash scripts/audit-environment-assumptions.sh --strict-allow-list   # rc 0
+```
+
+And `_tests/env.js` itself introduces nothing. It is **untracked** at this
+writing, so `git ls-files` does not show it to the gate; it was therefore
+audited separately, in a synthetic checkout containing the 28 changed/added
+`_tests` files and **no allow rule matching any of them**:
+`bash scripts/audit-environment-assumptions.sh <sandbox>` → rc 0, *"no NEW
+frozen environment assumptions"*, 28 files scanned, zero suppressions used.
+Until those files are committed, the umbrella run's 2 166-file count does not
+include `env.js`.
+
+`bash scripts/audit-environment-assumptions.sh --prove-failure` still exits
+**0** at 13 of 13 mutations after the edits to the gate's own allow-list.
+
+**683 is still debt.** The gate is green and green still does not mean clean.
+**And 683 did not survive the day** — see the F15 slice immediately below, which
+took it to **666**.
+
+### F15 — CLOSED in source, 2026-09-02 (second slice of the same day)
+
+Same order as F13/F14, for the same reason: **source first, ledger second.**
+Removing a baseline without fixing the defect moves debt between columns and
+changes nothing the gate can see.
+
+**The 17 rows, enumerated before anything was touched.** The F15 row in §4.4
+said "15 occurrences" and its file list named nine files summing to 15. The
+gate measures **17**, and the two extra are accounted for exactly: they are the
+`§4.6` rows 12 and 13 docstrings (`translate_ui_chunked.py:2`,
+`translate_home.py:312`), which the blanket `<file> MODEL *` baselines swallowed
+alongside the real defects. The `15` was never a measurement of what the rules
+suppressed. The command that produced the list — the live gate with the nine
+F15 rules stripped from a scratch copy of it, so nothing else changed:
+
+```
+cp scripts/audit-environment-assumptions.sh /tmp/enum.sh
+# delete the nine `_tools/gen/*.py MODEL *` rules and their marker comments
+bash /tmp/enum.sh --no-submodules "$PWD"
+```
+
+| file | line | the frozen literal |
+|---|---:|---|
+| `_tools/gen/repair_ui_terms.py` | 63 | `-provider", "zhipu", "-model", "glm-4.5-flash"` |
+| `_tools/gen/translate-ui.py` | 86 | `"-provider", "zhipu", "-model", "glm-4.5-flash"` |
+| `_tools/gen/translate_aria_footer.py` | 23 | `TRANSLATOR = "zai-glm-4.7"` |
+| `_tools/gen/translate_aria_footer.py` | 25 | `REVIEWER = "gpt-oss-120b"` |
+| `_tools/gen/translate_aria_footer.py` | 88 | `if model == "gpt-oss-120b":` |
+| `_tools/gen/translate_home.py` | 50 | `GROQ_TRANSLATOR = "llama-3.3-70b-versatile"` |
+| `_tools/gen/translate_home.py` | 51 | `CEREBRAS_TRANSLATOR = "gpt-oss-120b"` |
+| `_tools/gen/translate_home.py` | 52 | `REVIEWER = "gpt-oss-120b"` |
+| `_tools/gen/translate_home.py` | 312 | function docstring naming `gpt-oss-120b` |
+| `_tools/gen/translate_ui_all.py` | 81 | `"-provider", "zhipu", "-model", "glm-4.5-flash"` |
+| `_tools/gen/translate_ui_batch.py` | 88 | `"-provider", "zhipu", "-model", "glm-4.5-flash"` |
+| `_tools/gen/translate_ui_chunked.py` | 2 | module docstring naming `glm-4.5-flash` |
+| `_tools/gen/translate_ui_chunked.py` | 60 | `"-model", "glm-4.5-flash"` |
+| `_tools/gen/translate_ui_headroom.py` | 21 | `TRANSLATOR = "llama-3.3-70b-versatile"` |
+| `_tools/gen/translate_ui_headroom.py` | 22 | `REVIEWER = "gpt-oss-120b"` |
+| `_tools/gen/translate_ui_headroom.py` | 77 | `if model == "gpt-oss-120b":` |
+| `_tools/gen/translate_ui_slow.py` | 47 | `-provider", "zhipu", "-model", "glm-4.5-flash"` |
+
+**What replaced them.** Every id is now `os.environ.get(...)` with the former
+literal as the documented default, so an unset environment is byte-identical to
+the previous behaviour. **No new file was created**, deliberately: the gate
+enumerates with a bare `git ls-files`, so an untracked shared helper would be
+invisible to it (that is exactly what happened to `_tests/env.js` in the F13/F14
+slice). Every change lives in an already-tracked file and is therefore fully
+scanned.
+
+| key | default (the former literal) | used by |
+|---|---|---|
+| `UI_TRANSLATOR_PROVIDER` | `zhipu` | the six HelixTranslate engine drivers |
+| `UI_TRANSLATOR_MODEL` | `glm-4.5-flash` | `repair_ui_terms`, `translate-ui`, `translate_ui_all`, `translate_ui_batch`, `translate_ui_chunked`, `translate_ui_slow` |
+| `UI_HEADROOM_TRANSLATOR_MODEL` | `llama-3.3-70b-versatile` | `translate_ui_headroom.py` |
+| `UI_HEADROOM_REVIEWER_MODEL` | `gpt-oss-120b` | `translate_ui_headroom.py` |
+| `ARIA_FOOTER_TRANSLATOR_MODEL` / `_PROVIDER` | `zai-glm-4.7` / `cerebras` | `translate_aria_footer.py` |
+| `ARIA_FOOTER_REVIEWER_MODEL` / `_PROVIDER` | `gpt-oss-120b` / `cerebras` | `translate_aria_footer.py` |
+| `HOME_GROQ_TRANSLATOR_MODEL` | `llama-3.3-70b-versatile` | `translate_home.py` |
+| `HOME_TRANSLATOR_MODEL` / `HOME_TRANSLATOR_PROVIDER` | `gpt-oss-120b` / `cerebras` | `translate_home.py` |
+| `HOME_REVIEWER_MODEL` / `HOME_REVIEWER_PROVIDER` | `gpt-oss-120b` / `cerebras` | `translate_home.py` |
+| `UI_REASONING_EFFORT_MODELS` | `gpt-oss-120b` | `translate_aria_footer.py`, `translate_ui_headroom.py` |
+
+Three decisions in that table are worth stating rather than leaving to be
+inferred:
+
+- **Per-pipeline key spaces, not one shared `TRANSLATOR_MODEL`.** §4.4's
+  remediation column suggested reusing the shell pipeline's names. That would
+  have introduced cross-talk: `_tools/translate/translate-content.sh` already
+  exports `TRANSLATOR_MODEL=mistral-large-latest` for the *document* batch, and
+  a UI driver reading the same key would silently follow it onto a different
+  provider. The `UI_*` prefix is not invented here — `UI_KEY`, `UI_BASEURL`,
+  `UI_WORKERS`, `UI_GAP`, `UI_BUDGET`, `UI_PASSES` already exist in these very
+  files.
+- **The provider moved with the model.** A model override that leaves
+  `-provider zhipu` frozen is a half-fix that fails on the first substitution,
+  so each provider literal adjacent to a derived model became derived too, with
+  its own former literal as the default. The `PROVIDER` class is not one the
+  gate detects; this is wider than the finding, on purpose.
+- **`if model == "gpt-oss-120b"` became a membership test.** That comparison
+  selects the OpenAI-style `reasoning_effort` knob — a *capability* of a model
+  family, not a choice of model — so freezing it would have re-broken the fix
+  the moment a substitute model was supplied. It reads
+  `UI_REASONING_EFFORT_MODELS` (comma-separated, default `gpt-oss-120b`).
+- **The two docstrings were reworded, not allow-listed.** §4.6 rows 12 and 13
+  already judged them non-defects, so a `# REASON:` row would have been
+  defensible — and it would still have been debt moved between columns. They now
+  name the variable instead of the literal, which is a real change and is why
+  the count falls by 17 rather than 15.
+
+Measured, not asserted. Every one of the nine files byte-compiles, and the env
+layer was exercised in both directions:
+
+```
+python3 -m py_compile _tools/gen/{repair_ui_terms,translate-ui,translate_aria_footer,\
+translate_home,translate_ui_all,translate_ui_batch,translate_ui_chunked,\
+translate_ui_headroom,translate_ui_slow}.py                       # rc 0
+```
+
+With every F15 variable **unset**, each module resolves to the exact former
+literal — `PROVIDER='zhipu' MODEL='glm-4.5-flash'` in all six engine drivers;
+`TRANSLATOR='llama-3.3-70b-versatile' REVIEWER='gpt-oss-120b'` in
+`translate_ui_headroom`; `TRANSLATOR='zai-glm-4.7' … REVIEWER='gpt-oss-120b'` in
+`translate_aria_footer`; `GROQ_TRANSLATOR='llama-3.3-70b-versatile'
+CEREBRAS_TRANSLATOR='gpt-oss-120b' REVIEWER='gpt-oss-120b'` in `translate_home`.
+With them **set**, every constant follows the environment. The argv itself was
+checked, not just the constant: with `HELIX_BIN` pointed at a stub that records
+its arguments, `repair_ui_terms.call`, `translate_ui_chunked.call_engine` and
+`translate_ui_slow.call` each emitted
+
+```
+-provider zhipu -model glm-4.5-flash          # variables unset
+-provider probe-prov -model probe-model       # UI_TRANSLATOR_PROVIDER/_MODEL set
+```
+
+**Independent proof that the source, not the ledger, is what changed.** The
+`HEAD` version of the gate — which still carries all ten `_tools/gen/*.py MODEL`
+rules — run against the FIXED tree reports every one of them as **STALE, "path
+IS scanned, rule matched nothing"**:
+
+```
+git show HEAD:scripts/audit-environment-assumptions.sh > /tmp/orig.sh
+bash /tmp/orig.sh --no-submodules --stale-rules "$PWD"
+#   STALE — path IS scanned, rule matched nothing: 17
+#     BASELINE _tools/gen/translate_home.py MODEL *        … and the other nine
+```
+
+(Ten rules, not nine: `review_ui_all.py` was already stale at `HEAD` and was
+deleted earlier the same day — see the table in the F13/F14 block above.)
+
+| measured | before | after |
+|---|---:|---:|
+| `audit-environment-assumptions.sh` exit code | **1** | **1** |
+| `--strict-allow-list` exit code | **1** | **1** |
+| `audit-hardcoded-paths.sh` exit code | **0** | **0** |
+| files scanned | 2 166 | 2 166 |
+| repositories | 14 | 14 |
+| baselined occurrences | **683** | **666** |
+| embedded allow rules | 40 | **31** |
+| **stale** allow rules | 0 | 0 |
+| frozen environment assumptions (findings) | 6 | 7 |
+| `--prove-failure` | 13/13, rc 0 | 13/13, rc 0 |
+
+**Two rows on that table are NOT this change, and saying so is the point.**
+
+1. **The gate exits 1 in both columns, and it did before this slice started.**
+   The findings are `scripts/verify-all-constitution-rules.sh` (3 × `GITREF`,
+   lines 615/619/629) and `workshop/platform/backend/cmd/workshop-server/main.go`
+   (`MODEL`), both outside `_tools/gen/` and both outside the scope of this
+   change. The "rc 0" the F13/F14 block above records was true when written; it
+   is not true now, and this slice did not cause the difference.
+2. **The findings count moved 6 → 7 while this ran.** The seventh is
+   `workshop/platform/backend/cmd/workshop-server/main.go:1078`,
+   `if model == "nomic-embed-text" &&` — a line that appeared in that file's
+   working tree during this work (`git -C workshop diff --stat` on it: 184
+   insertions, 12 deletions against `HEAD`). It is a concurrent agent's edit in
+   a submodule this change never touched. Attributed rather than absorbed
+   (§11.4.6). **After this slice, `_tools/gen/` contributes zero findings and
+   zero baselined occurrences** — `grep -c _tools/gen` over the full report
+   returns **0**.
+
+The external `.environment-assumptions-allow` moved from **391** rules at `HEAD`
+to **398** in the working tree over the same window. That file is modified in
+the working tree, but **not by this change** — no edit in this slice touched it,
+and the +7 rules are another agent's concurrent work on the `workshop` benchmark
+`MODEL` rows. The **−9 embedded** rules
+(`scripts/audit-environment-assumptions.sh`: 40 → 31) are entirely this one's.
+Counted with:
+
+```
+grep -vE '^[[:space:]]*(#|$)' .environment-assumptions-allow | wc -l          # 398
+awk '/^ALLOW_RULES="\$\(cat <</{f=1;next} /^ALLOW_EOF$/{f=0} f' \
+    scripts/audit-environment-assumptions.sh | grep -vE '^[[:space:]]*(#|$)' | wc -l   # 31
+```
+
+**666 is still debt.** The umbrella-root-owned share of it is now **28**,
+measured rather than inferred:
+
+```
+bash scripts/audit-environment-assumptions.sh --no-submodules
+# 28 baselined occurrence(s), 186 file(s) across 1 repository   (was 45 before this slice)
+```
+
+So **638 sit inside submodules** and can only be fixed by commits in the
+repositories this umbrella consumes, returning as gitlink bumps.
+
 ## Re-derived state — 2026-09-01, late
+
+**SUPERSEDED IN PART, 2026-09-02** — see the block above. Specifically: the
+"stale allow rules **2** of 401" row, and the sentence below stating that
+deleting them "is owed work and is recorded here rather than done", are
+**WITHDRAWN**; both rules are gone. The baselined-occurrence figure in this
+block is likewise superseded twice over (708 → 728 → 683). The rest stands as
+the dated observation it was.
 
 Everything below this block was written earlier the same day and had drifted in
 the direction that matters least: it **understated** what had been fixed. It is
@@ -219,9 +511,9 @@ allow-list is keyed on path + class + literal substring, never on line number.
 | **F10** | **HIGH** | `_tools/od/start-daemon.sh:6, 7` | `/Applications/Open Design.app/...` | macOS-only, and there is **no** env override at all. On Linux the daemon never starts and every downstream diagram silently generates nothing. | `OD_APP="${OD_APP:-/Applications/Open Design.app/...}"` plus a per-OS candidate list and an explicit failure when none exists. |
 | **F11** | **HIGH** | `_tools/translate-fleet.sh:56`, `_tools/helixtranslate-container.sh:45`, `_tools/distribute-helixtranslate.sh:66, 68, 73, 74` | `thinker.local`, `amber.local`, `milosvasic@amber.local` | The operator's own two machines, and the podman-vs-docker runtime is selected by matching the hostname string. On any other network the fleet silently targets hosts that do not resolve. | `HOSTS` is already an env var in `translate-fleet.sh` — extend the same treatment to the runtime map (`HT_RUNTIME_MAP`) and to `distribute-helixtranslate.sh`, and derive the runtime with `command -v podman \|\| command -v docker`. |
 | **F12** | **HIGH** | `_tools/helixtranslate-container/run.sh:12`, `_tools/helixtranslate-local.sh:33` | `/usr/local/bin/unified-translator` | Written on the host side of an `ssh` boundary with no override. A container or host that installs elsewhere silently runs nothing; the `1>&2` redirect makes the failure look like normal chatter. | `TRANSLATOR_BIN="${TRANSLATOR_BIN:-unified-translator}"` and let `PATH` resolve it, failing loudly if `command -v` misses. |
-| **F13** | MED | `_tests/playwright.config.js:30, 34`, `_tests/visual-effects.config.js:25` | `port: 8401`, `port: 8082` | Fixed bound ports with no override. Two checkouts cannot test concurrently, and `reuseExistingServer: false` turns an occupied port into a hard failure. | `port: Number(process.env.VD_PORT) \|\| 8401`, and build the `command` string from the same value. |
-| **F14** | MED | 20 files under `_tests/` — see below | `http://localhost:8401`, `http://localhost:8082`, `:8481`, `:8482`, `:8791` | 42 occurrences with no env override. The risk is not a crash: if *another* process already serves on 8401, the suite tests that process and can **pass on the wrong site**. `_tests/tests/all-languages-link-integrity.spec.js` already does it correctly (`process.env.VD_BASE \|\| ...`) and is the model. | One shared `_tests/bases.js` exporting `VD`/`MV` from `process.env`, imported by every spec. |
-| **F15** | LOW | 10 files under `_tools/gen/` and `_tools/` — see below | `"glm-4.5-flash"`, `"llama-3.3-70b-versatile"`, `"gpt-oss-120b"`, `"zai-glm-4.7"` | 15 occurrences as bare module constants and inline argv literals. A retired or rate-capped model silently changes translation output rather than failing. `_tools/translate/translate-content.sh` already does it correctly (`TRANSLATOR_MODEL="${TRANSLATOR_MODEL:-mistral-large-latest}"`). | `os.environ.get("TRANSLATOR_MODEL", "<current>")` — matching the shell pipeline's existing variable names. |
+| **F13** | MED | `_tests/playwright.config.js:30, 34`, `_tests/visual-effects.config.js:25` | `port: 8401`, `port: 8082` | Fixed bound ports with no override. Two checkouts cannot test concurrently, and `reuseExistingServer: false` turns an occupied port into a hard failure. | **CLOSED 2026-09-02.** Both configs now read `VD_PORT` / `MV_PORT` from `_tests/env.js` and build the `python3 -m http.server` command string from the same value, so the port cannot be changed in one place and not the other. Re-derive: `VD_PORT=9401 node -e "console.log(JSON.stringify(require('./playwright.config.js').webServer))"` prints `9401` in both `command` and `port`. |
+| **F14** | MED | 20 files under `_tests/` — see below | `http://localhost:8401`, `http://localhost:8082`, `:8481`, `:8482`, `:8791` | 42 occurrences with no env override. The risk is not a crash: if *another* process already serves on 8401, the suite tests that process and can **pass on the wrong site**. `_tests/tests/all-languages-link-integrity.spec.js` already does it correctly (`process.env.VD_BASE \|\| ...`) and is the model. | **CLOSED 2026-09-02** with exactly the remediation this row prescribed, one file-name apart: `_tests/env.js` (not `bases.js`) exports `VD_BASE`/`MV_BASE` plus the `MOTION_*` and `UI_L10N2_*` pairs, each `process.env`-derived, and is imported by all 17 specs, both configs and both standalone drivers. It covers PORTS as well as bases on purpose, which is what also closes F13 and makes the two impossible to disagree — the failure this row describes ("pass on the wrong site") is exactly a bind/request disagreement. The gate counted **45** occurrences across 22 files at closure, which is F14's 42-in-20 plus F13's 3-in-2 — the two findings shared one `ENDPOINT` rule set and were removed together; the sum is checked, not asserted (`35` under `_tests/tests/*` + `5` + `1` + `1` = the 42 in the file list below, + `2` + `1` for the two configs). `VD_BASE`/`MV_BASE` keep their existing meaning, so `playwright.live.config.js` and `_tools/deploy-langs.sh` are untouched and still win. |
+| **F15** | LOW | 10 files under `_tools/gen/` and `_tools/` — see below | `"glm-4.5-flash"`, `"llama-3.3-70b-versatile"`, `"gpt-oss-120b"`, `"zai-glm-4.7"` | 15 occurrences as bare module constants and inline argv literals. A retired or rate-capped model silently changes translation output rather than failing. `_tools/translate/translate-content.sh` already does it correctly (`TRANSLATOR_MODEL="${TRANSLATOR_MODEL:-mistral-large-latest}"`). **The "15" was never a measurement of what the baseline rules suppressed: the gate counts 17, because the nine blanket `<file> MODEL *` rows also swallowed the two §4.6 docstrings (rows 12–13).** | **CLOSED 2026-09-02, in source, at 17 occurrences across nine files — see the "F15 — CLOSED in source" block near the top of this document for the row-by-row enumeration, the key table, the measured default-vs-override runs and the stale-rule proof.** Remediation as prescribed (`os.environ.get(...)` with the former literal as the default) with one deliberate departure, stated rather than left implicit: the keys are **per-pipeline** (`UI_TRANSLATOR_MODEL`, `UI_HEADROOM_*`, `ARIA_FOOTER_*`, `HOME_*`, `UI_REASONING_EFFORT_MODELS`), **not** the shell pipeline's `TRANSLATOR_MODEL`. Reusing that name would have made a doc-batch export (`TRANSLATOR_MODEL=mistral-large-latest`) silently retarget the UI drivers onto a different provider. The nine `# BASELINE:` rows are deleted from `scripts/audit-environment-assumptions.sh`; the baselined count fell **683 → 666**. Re-derive: `bash scripts/audit-environment-assumptions.sh \| grep -c _tools/gen` → **0**. |
 | **F16** | MED | `design-system/diagrams/_prompts/build-and-generate.sh:13` | `OD_DAEMON_URL=http://127.0.0.1:4321 BYOK_PROVIDER=openai BYOK_BASE_URL=https://api.mistral.ai/v1 BYOK_MODEL=codestral-latest` | Exported with `=`, not `:-`, so it **overwrites** whatever the caller set. `_tools/od/generate.sh` gets this right one directory away. | `export OD_DAEMON_URL="${OD_DAEMON_URL:-http://127.0.0.1:4321}"` etc., i.e. copy `_tools/od/generate.sh`. |
 | **F18** | LOW | `.github/workflows/ci.yml.disabled:166, 171, 178, 185, 189` | `go-version: '1.26'`, `node-version: '20'`, `ruby-version: '3.3'`, `sudo apt-get ...` | The versions are restated instead of read from `_tools/gen/go.mod`, `_tests/package.json` and `milosvasic.ru/.ruby-version`, so they drift silently; `apt-get` is assumed to be *the* package manager. The file is disabled under §11.4.156, but `scripts/pre-push-gates.sh` mirrors its definitions. | `go-version-file:` / `node-version-file:` / `ruby-version-file:`; probe the package manager with `command -v`. |
 | **F19** | MED | `upstreams/GitHub.sh:1` | `#!/bin/bash` | `/bin/bash` does not exist on NixOS and is bash 3.2 on macOS. This is the push wrapper the commit tooling chains into. | `#!/usr/bin/env bash`. |
@@ -251,10 +543,22 @@ allow-list is keyed on path + class + literal substring, never on line number.
 `vasic-digital.spec.js` (1), `_tests/tools/motion-audit.cjs` (5),
 `_tests/ui-l10n2-verify.js` (1), `_tests/visual-effects.spec.js` (1).
 
-**F15 file list** (15 occurrences): `_tools/gen/repair_ui_terms.py` (1),
-`translate-ui.py` (1), `translate_aria_footer.py` (3), `translate_home.py` (3),
-`translate_ui_all.py` (1), `translate_ui_batch.py` (1), `translate_ui_chunked.py` (1),
+**F15 file list.** The 2026-08-31 snapshot said **15 occurrences**:
+`_tools/gen/repair_ui_terms.py` (1), `translate-ui.py` (1),
+`translate_aria_footer.py` (3), `translate_home.py` (3), `translate_ui_all.py` (1),
+`translate_ui_batch.py` (1), `translate_ui_chunked.py` (1),
 `translate_ui_headroom.py` (3), `translate_ui_slow.py` (1).
+
+**That count is superseded, not wrong-at-the-time: the gate measures 17**, and
+the difference is fully accounted for rather than waved at. `translate_home.py`
+is **4**, not 3 (its line 312 function docstring), and `translate_ui_chunked.py`
+is **2**, not 1 (its line 2 module docstring). Both extras are the §4.6 rows
+12–13 that the blanket `<file> MODEL *` baseline rows suppressed silently. The
+file list itself is otherwise exact, and it is the count — not the roster — that
+moved. **All 17 are CLOSED in source as of 2026-09-02**; the per-line
+enumeration is in the "F15 — CLOSED in source" block near the top of this
+document. Re-derive the roster with the rules stripped from a scratch copy of
+the gate, which is how the 17 were enumerated in the first place.
 
 ### 4.5 Findings that were fixed by a concurrent agent while this audit ran
 
@@ -281,8 +585,8 @@ machine-specific.
 | 3–6 | `scripts/lumen-index-doctor.sh:113, 146, 160, 162` | `MODEL`, `ENDPOINT` | The file defines its own `env(name, default)` wrapper over `os.environ` (line ~86). Every literal is the last term of an `env(X) or cfg.get(Y) or "<literal>"` chain whose precedence is copied from lumen's own `applyEnvOverrides`. Line 146 is a docstring. |
 | 7–10 | `scripts/test-setup-agents-wizard.sh:247, 290, 879, 1145` | `OSPATH`, `GNUBSD`, `ENDPOINT` | All four are **test fixtures**. 247 is a `grep -cE` pattern asserting the wizard *never* writes `/etc/sysconfig/ollama`; 290 is an assertion **title string** quoting `sort -V`; 879 writes a synthetic throwaway repo to prove the sibling paths audit does *not* flag `/etc`; 1145 sets `OLLAMA_HOST="http://127.0.0.1:1"` because port 1 must be unreachable for the negative test to mean anything. |
 | 11 | `_tools/od/start-daemon.sh:10` | `ENDPOINT` | A log line. The port is `${OD_PORT:-4321}` from the line above, and `127.0.0.1` is the loopback constant, chosen deliberately so the daemon is not reachable off-box. |
-| 12 | `_tools/gen/translate_ui_chunked.py:2` | `MODEL` | Module docstring prose. |
-| 13 | `_tools/gen/translate_home.py:312` | `MODEL` | Function docstring prose. |
+| 12 | `_tools/gen/translate_ui_chunked.py:2` | `MODEL` | Module docstring prose. **MOOT 2026-09-02** — the judgement stands, but the occurrence is gone: the docstring now names `UI_TRANSLATOR_PROVIDER` / `UI_TRANSLATOR_MODEL` and states the defaults on a following line that carries no quote character, so the class no longer matches. It was reworded rather than converted into a `# REASON:` row, because an allow row would have bought a smaller number at the cost of hiding the line from the next reader. |
+| 13 | `_tools/gen/translate_home.py:312` | `MODEL` | Function docstring prose. **MOOT 2026-09-02** — same treatment: the docstring now says "the configured translator model (`HOME_TRANSLATOR_MODEL`, default `gpt-oss-120b`)", with the literal on a line that carries no quote character. |
 | 14–18 | `_tools/review_translation.py:64–68` | `MODEL` | A **provider registry**: each row is (the vendor's published API endpoint, that vendor's API-key env var, that vendor's own default model). The model is overridden by the documented `--model` flag. Nothing is bound to a machine. |
 | 19 | ~~`.specify/extensions/superspec/.github/workflows/ci.yml:21`~~ → **`submodules/superspec/.github/workflows/ci.yml:21`** | `TOOLVER` `python-version: "3.12"` | **Path corrected 2026-09-01 late:** the gate reports this at the *gitlink*, not at the vendored spec-kit copy. `submodules/superspec` is **third-party upstream** (`WangX0111/superspec`), explicitly outside the owned-submodule set, so it is reported as a NOTE and excluded from the verdict per §11.4.29 — reported so it is never silently omitted, never counted as this tree's failure. Upstream's pin is upstream's to change. It is the **only** third-party NOTE in the current run. |
 
@@ -669,6 +973,14 @@ neither stale row is one of them — both predate this change and both live in t
 _tools/gen/review_ui_all.py MODEL *`), a file the change that recorded this was
 not permitted to edit. They are reported, not cleared.
 
+**SUPERSEDED 2026-09-02 — both are now cleared.** They were deleted, with each
+staleness claim re-derived by hand first; see "Re-derived state — 2026-09-02" at
+the top of this document for the per-rule evidence. `--stale-rules` now prints
+**0 STALE / 0 PATH-ABSENT of 436** and exits 0. The paragraph above is kept
+because the reason it existed — a rule that only ever grows is not a record of
+judgements — is the lesson, and because withdrawing it silently would be the
+same bluff as inventing it.
+
 ---
 
 ## 5. The gate
@@ -738,7 +1050,8 @@ superseded.** They described 174 scanned files; the sweep now covers 1 802 files
 across 14 repositories, so they are not comparable and must not be quoted as
 current.
 
-**Re-measured 2026-09-01 late** — `bash scripts/audit-environment-assumptions.sh`:
+**Re-measured 2026-09-01 late** — `bash scripts/audit-environment-assumptions.sh`
+(**superseded 2026-09-02; kept as the dated observation it was**):
 
 | | |
 |---|---:|
@@ -746,6 +1059,15 @@ current.
 | baselined occurrences | **708**, across 228 files |
 | allow rules, total | **401** — 353 external + 48 embedded |
 | stale allow rules | **2** |
+
+**Re-measured 2026-09-02** — same command:
+
+| | |
+|---|---:|
+| justified (allow-listed) occurrences | **533** |
+| baselined occurrences | **683**, across 216 files |
+| allow rules, total | **436** — 396 external + 40 embedded |
+| stale allow rules | **0** |
 
 The old note behind the "87 vs 85" gap still holds and is kept because it
 explains a deliberate imprecision that survives into the current numbers: two

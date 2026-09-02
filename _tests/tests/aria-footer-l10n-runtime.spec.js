@@ -5,8 +5,7 @@ const { test, expect } = require('@playwright/test');
 // on BOTH sites. Server-side rendering is proven separately by grep; this
 // exercises the JS apply path (milosvasic main.js translate() / vasic od-i18n.js).
 
-const MV = 'http://localhost:8082';   // milosvasic.ru/_site
-const VD = 'http://localhost:8401';   // vasic.digital
+const { MV_BASE: MV, VD_BASE: VD } = require('../env.js');  // milosvasic.ru/_site, vasic.digital
 
 test.describe('runtime language switch re-localizes aria-labels', () => {
 

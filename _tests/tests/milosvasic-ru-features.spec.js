@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const BASE = 'http://localhost:8082';
+const { MV_BASE: BASE } = require('../env.js');
 
 test.describe('milosvasic.ru — download popup (EN/SR/RU chooser)', () => {
 

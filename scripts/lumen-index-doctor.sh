@@ -59,9 +59,11 @@ usage() { awk 'NR==1{next} /^#/{sub(/^# ?/,""); print; next} {exit}' "$0"; }
 
 PROJ=""
 REQUIRE_BACKEND="${LUMEN_DOCTOR_REQUIRE_BACKEND:-0}"
+PROVE=0
 for a in "$@"; do
     case "$a" in
         --require-live-backend) REQUIRE_BACKEND=1 ;;
+        --prove-failure)        PROVE=1 ;;
         --help|-h)              usage; exit 0 ;;
         -*)                     echo "lumen-index-doctor: unknown option '$a'" >&2
                                 echo "usage: $0 [project-path] [--require-live-backend]" >&2
@@ -74,6 +76,233 @@ PROJ="${PROJ:-$(pwd)}"
 # XDG first, $HOME second - matching lumen's config.XDGDataDir() exactly.
 STORE="${LUMEN_STORE:-${XDG_DATA_HOME:-$HOME/.local/share}/lumen}"
 CONFIG="${LUMEN_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/lumen/config.yaml}"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# §1.1 PAIRED MUTATION PROOF  —  --prove-failure
+#
+# WHY THIS SHAPE
+# --------------
+# The defect this doctor exists for is a vector that is well-formed and WRONG.
+# A proof of it must therefore build an index that is well-formed and wrong, and
+# show the doctor going red on it — asserting the prose would be exactly the
+# bluff the doctor was written to end.
+#
+# The control is SYNTHETIC and healthy BY CONSTRUCTION: a throwaway sqlite index
+# generated from the same constants the mutations perturb, so no state of this
+# host's real Lumen store — corrupt, missing, half-built — can redden it and
+# switch the battery off. That failure mode is not hypothetical; it is recorded
+# in docs/check-registry.md as "the inoperative-proof defect", found in two of
+# this repository's gates on 2026-09-01.
+#
+# The LIVE run still happens first, with the REAL entry point against the REAL
+# store, and is REPORTED, never gating: a proof that only ever touches a sandbox
+# while the real instrument cannot start is the other half of the same defect.
+#
+# HERMETIC BY CONSTRUCTION. Every mutation writes only inside a `mktemp -d`.
+# The backend is pointed at a closed port so no network request can succeed and
+# no answer from this host's real ollama can change a verdict. Nothing under the
+# real LUMEN_STORE is opened, for reading or for writing.
+#
+# NOTE ON sqlite-vec: the doctor decodes the shadow tables with plain SQL and
+# never loads the extension, so the specimen is plain sqlite3 — which is the
+# point: if building the specimen needed sqlite-vec, the proof would be testing
+# sqlite-vec rather than the doctor.
+# ══════════════════════════════════════════════════════════════════════════════
+if [[ $PROVE -eq 1 ]]; then
+    echo "LUMEN-INDEX-DOCTOR §1.1 PAIRED MUTATION PROOF"
+    echo "----------------------------------------------------------------------"
+    command -v python3 >/dev/null 2>&1 || {
+        echo "UNDETERMINED: python3 is not on PATH, so no specimen can be built and" >&2
+        echo "  nothing was proved. This is neither a pass nor a fail." >&2
+        exit 2; }
+
+    SELF="${BASH_SOURCE[0]}"
+    P_PASS=0; P_FAIL=0
+
+    # ---- PRE-FLIGHT: the REAL entry point against the REAL store -------------
+    pf_out="$(timeout 120 bash "$SELF" "$PROJ" 2>&1)"; pf_rc=$?
+    case "$pf_rc" in
+        0) printf 'ℹ %-30s the real instrument ran against the real store and returned rc=0 (healthy)\n' "PRE-FLIGHT live-run" ;;
+        1) printf 'ℹ %-30s the real instrument RAN and returned rc=1 (real corruption). REPORTED,\n' "PRE-FLIGHT live-run"
+           printf '%-32s NOT GATING — the battery below uses a synthetic control.\n' "" ;;
+        2) printf 'ℹ %-30s the real instrument RAN and returned rc=2 (could not inspect). REPORTED,\n' "PRE-FLIGHT live-run"
+           printf '%-32s NOT GATING — the battery below uses a synthetic control.\n' "" ;;
+        124) printf '❌ %-30s the real instrument TIMED OUT; it cannot start, so it cannot guard anything\n' "PRE-FLIGHT live-run"
+           P_FAIL=$((P_FAIL+1)) ;;
+        *) printf '❌ %-30s the real instrument exited rc=%s, outside its own 0/1/2 contract\n' "PRE-FLIGHT live-run" "$pf_rc"
+           printf '%s\n' "$pf_out" | tail -3 | sed 's/^/        /'
+           P_FAIL=$((P_FAIL+1)) ;;
+    esac
+
+    SB="$(mktemp -d "${TMPDIR:-/tmp}/lumen-doctor-proof.XXXXXX")" || {
+        echo "UNDETERMINED: cannot create a sandbox; the proof could not run" >&2; exit 2; }
+    trap 'rm -rf "$SB"' EXIT INT TERM      # cleanup: restore by removal, nothing outside $SB is touched
+    echo "  sandbox: $SB"
+
+    SB_PROJ="$SB/project"; mkdir -p "$SB_PROJ" || { echo "UNDETERMINED: cannot populate the sandbox" >&2; exit 2; }
+
+    # build_specimen <store-dir> <mode>
+    # Modes are the states the doctor claims to tell apart. Every one of them is
+    # WELL-FORMED sqlite: nothing here is caught by a parse error.
+    build_specimen() {
+        STORE_DIR="$1" MODE="$2" SPEC_PROJ="$SB_PROJ" python3 - <<'MKPY'
+import os, sqlite3, struct, math, shutil
+
+store = os.environ["STORE_DIR"]; mode = os.environ["MODE"]
+proj  = os.path.realpath(os.environ["SPEC_PROJ"])
+DIM, N = 8, 16
+shutil.rmtree(store, ignore_errors=True)
+d = os.path.join(store, "aaaaaaaaaaaaaaaa")
+os.makedirs(d)
+db = os.path.join(d, "index.db")
+
+def unit(seed):
+    v = [math.sin(seed * 7.0 + j * 3.0) + 0.5 for j in range(DIM)]
+    n = math.sqrt(sum(x * x for x in v))
+    return [x / n for x in v]
+
+vecs = [unit(i) for i in range(N)]
+if   mode == "dup":     vecs = [unit(0)] * 12 + [unit(i) for i in range(1, N - 11)]
+elif mode == "nan":     vecs[3] = [float("nan")] * DIM
+elif mode == "zero":    vecs[5] = [0.0] * DIM
+elif mode == "offnorm": vecs[7] = [x * 2.0 for x in vecs[7]]
+
+blob = b"".join(struct.pack("<%df" % DIM, *v) for v in vecs)
+if mode == "ragged":
+    blob += b"\x01\x02\x03"          # not a whole number of vectors
+
+dims_meta = 9 if mode == "geomclash" else DIM
+vec_name  = "items_notavectortable" if mode == "novec" else "items_vector_chunks00"
+
+c = sqlite3.connect(db)
+c.execute("CREATE TABLE project_meta(key TEXT PRIMARY KEY, value TEXT)")
+c.executemany("INSERT INTO project_meta VALUES (?,?)", [
+    ("project_path", proj), ("embedding_model", "synthetic-embed-v1"),
+    ("vec_dimensions", str(dims_meta))])
+c.execute("CREATE TABLE files(path TEXT, hash TEXT)")
+c.executemany("INSERT INTO files VALUES (?,?)", [("f%d" % i, "h%d" % i) for i in range(4)])
+c.execute("CREATE TABLE chunks(id INTEGER PRIMARY KEY)")
+c.executemany("INSERT INTO chunks VALUES (?)", [(i,) for i in range(N)])
+c.execute("CREATE TABLE %s(vectors BLOB)" % vec_name)
+c.execute("INSERT INTO %s(rowid, vectors) VALUES (1, ?)" % vec_name, (blob,))
+# sqlite-vec's per-block validity bitmap: every one of the N slots is live.
+c.execute("CREATE TABLE items_chunks(validity BLOB, size INTEGER)")
+c.execute("INSERT INTO items_chunks(rowid, validity, size) VALUES (1, ?, ?)",
+          (bytes([0xFF] * ((N + 7) // 8)), N))
+c.commit(); c.close()
+MKPY
+    }
+
+    # run_doctor <store-dir> [extra argv...] -> prints output, returns the rc
+    # The backend is pinned at a closed port and the config at a path that does
+    # not exist, so this host's real ollama and real lumen config cannot reach
+    # any verdict below.
+    run_doctor() {
+        local store="$1"; shift
+        env HOME="$SB" \
+            LUMEN_STORE="$store" \
+            LUMEN_CONFIG="$SB/no-such-config.yaml" \
+            OLLAMA_HOST="127.0.0.1:1" \
+            LUMEN_PROBE_TIMEOUT=1 \
+            timeout 120 bash "$SELF" "$SB_PROJ" "$@" 2>&1
+    }
+
+    p_ok()  { P_PASS=$((P_PASS+1)); printf '✅ %-30s %s\n' "$1" "$2"; }
+    p_bad() { P_FAIL=$((P_FAIL+1)); printf '❌ %-30s %s\n' "$1" "$2"; }
+
+    # assert_case <label> <mode> <want-rc> <needle> [extra argv...]
+    assert_case() {
+        local label="$1" mode="$2" want="$3" needle="$4"; shift 4
+        local store="$SB/store" out rc
+        if ! build_specimen "$store" "$mode"; then
+            p_bad "$label" "the specimen could not be built (mode=$mode) — nothing was proved by this case"
+            return
+        fi
+        out="$(run_doctor "$store" "$@")"; rc=$?
+        if [[ $rc -ne $want ]]; then
+            p_bad "$label" "expected rc=$want, got rc=$rc (mode=$mode)"
+            printf '%s\n' "$out" | tail -5 | sed 's/^/        /'
+            return
+        fi
+        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+            p_bad "$label" "rc=$want as required, but the output never NAMED '$needle' — an unnamed finding is not actionable"
+            printf '%s\n' "$out" | tail -5 | sed 's/^/        /'
+            return
+        fi
+        p_ok "$label" "rc=$rc${needle:+, and it named '$needle'}"
+    }
+
+    # ---- CONTROL: synthetic, healthy by construction -------------------------
+    assert_case "CONTROL synthetic-healthy" clean 0 "index healthy"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "----------------------------------------------------------------------"
+        echo "❌ LUMEN-INDEX-DOCTOR §1.1 PROOF: ABORTED — the synthetic control did not pass,"
+        echo "   so ZERO mutations ran and nothing below would have been proved."
+        exit 1
+    fi
+
+    # ---- The mutations -------------------------------------------------------
+    # M1 is THE one: 12 byte-identical vectors that pass every per-vector test —
+    # no NaN, no Inf, no zero, unit norm, correct width. This is the exact shape
+    # of the GPU fault that a full forensic audit once certified "TRUSTWORTHY".
+    assert_case "M1 stale-duplicate-vectors " dup      1 "duplicate-vector group"
+    assert_case "M2 NaN-vector              " nan      1 "NaN/Inf"
+    assert_case "M3 all-zero-vector         " zero     1 "all-zero"
+    assert_case "M4 off-norm-vector         " offnorm  1 "off-norm"
+    assert_case "M5 ragged-block            " ragged   1 "ragged block"
+    # M6/M7 are the SC-013 half: could-not-inspect must never read as healthy.
+    assert_case "M6 width-disagreement      " geomclash 2 "disagrees with itself"
+    assert_case "M7 no-vector-table         " novec    2 "no sqlite-vec vector table"
+
+    # M8 — the element type is pinned to something that cannot be decoded. It
+    #      needs an env override rather than a specimen change, so it is driven
+    #      explicitly rather than through assert_case.
+    build_specimen "$SB/store" clean >/dev/null 2>&1
+    _m8_out="$(env HOME="$SB" LUMEN_STORE="$SB/store" LUMEN_CONFIG="$SB/no-such-config.yaml" \
+                   OLLAMA_HOST="127.0.0.1:1" LUMEN_PROBE_TIMEOUT=1 LUMEN_VEC_ELEM="not-a-type" \
+                   timeout 120 bash "$SELF" "$SB_PROJ" 2>&1)"; _m8_rc=$?
+    if [[ $_m8_rc -eq 2 ]] && printf '%s' "$_m8_out" | grep -qF "is not one of"; then
+        p_ok "M8 bad-element-type (env)  " "rc=2, and it named the rejected element type"
+    else
+        p_bad "M8 bad-element-type (env)  " "expected rc=2 naming the rejected type, got rc=$_m8_rc"
+    fi
+
+    # M9 — the store holds no index for this project at all. "Nothing to look
+    #      at" is not "nothing wrong": it must be 2, never 0.
+    mkdir -p "$SB/empty-store"
+    _m9_out="$(run_doctor "$SB/empty-store")"; _m9_rc=$?
+    if [[ $_m9_rc -eq 2 ]] && printf '%s' "$_m9_out" | grep -qF "no Lumen index found"; then
+        p_ok "M9 no-index-for-project    " "rc=2, and it named the missing index"
+    else
+        p_bad "M9 no-index-for-project    " "expected rc=2 naming the missing index, got rc=$_m9_rc"
+    fi
+
+    # M10 — --require-live-backend with the backend closed. The doctor must
+    #       refuse to certify from an unverified backend rather than proceed.
+    build_specimen "$SB/store" clean >/dev/null 2>&1
+    _m10_out="$(run_doctor "$SB/store" --require-live-backend)"; _m10_rc=$?
+    if [[ $_m10_rc -eq 2 ]] && printf '%s' "$_m10_out" | grep -qF "backend unreachable"; then
+        p_ok "M10 required-backend-down  " "rc=2, and it refused to report healthy or corrupt"
+    else
+        p_bad "M10 required-backend-down  " "expected rc=2 naming the unreachable backend, got rc=$_m10_rc"
+    fi
+
+    # ---- RESTORED CONTROL ----------------------------------------------------
+    assert_case "CONTROL restored          " clean 0 "index healthy"
+
+    echo "----------------------------------------------------------------------"
+    if [[ $P_FAIL -gt 0 ]]; then
+        echo "❌ LUMEN-INDEX-DOCTOR §1.1 MUTATION PROOF: FAIL — ${P_FAIL} case(s) did not hold."
+        exit 1
+    fi
+    echo "✅ LUMEN-INDEX-DOCTOR §1.1 MUTATION PROOF: PASS — the real entry point ran against"
+    echo "   the real store (reported, never gating), a synthetic control that is healthy by"
+    echo "   construction passed, and 10 mutations were each caught with the right"
+    echo "   three-valued verdict: 5 real corruptions as rc=1 — including the well-formed"
+    echo "   duplicate-vector fault every conventional per-vector test passes — and 5"
+    echo "   could-not-inspect states as rc=2 rather than as a clean bill of health."
+    exit 0
+fi
 
 PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" python3 - <<'PY'
 import os, sqlite3, glob, collections, sys, re, json, hashlib

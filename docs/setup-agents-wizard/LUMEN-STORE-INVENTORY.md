@@ -96,7 +96,7 @@ ACTIVE-REBUILD entries. All four in-flight index directories from §0 are exclud
 | 5 | `0e540668e98c02ce` | LIVE | 125.2 MB | 2247 | 37348 | 2026-07-26 21:21 | `/run/media/milosvasic/DATA4TB/Projects/claude_toolkit` |
 | 6 | `40b9531ba54c9f4f` | LIVE | 45.7 MB | 1000 | 13255 | 2026-08-26 21:10 | `/run/media/milosvasic/DATA4TB/Projects/tmux` |
 | 7 | `06dd1f85fde5febb` | ACTIVE-REBUILD ⚠️**IN FLIGHT** | 15.1 MB | 7 | 1503 | 2026-08-27 20:05 | `/run/media/milosvasic/DATA4TB/Projects/boba/constitution` |
-| 8 | `6ea66d6d87cbf1e9` | LIVE | 13.0 MB | 294 | 3208 | 2026-08-18 21:02 | `/run/media/milosvasic/DATA4TB/Projects/assignments/shlomi` |
+| 8 | `6ea66d6d87cbf1e9` | LIVE | 13.0 MB | 294 | 3208 | 2026-08-18 21:02 | `/run/media/milosvasic/DATA4TB/Projects/assignments/…` |
 | 9 | `8addff8070269398` | LIVE | 6.5 MB | 220 | 1051 | 2026-08-20 17:38 | `/run/media/milosvasic/DATA4TB/Projects/lava/.claude/worktrees/agent-ae3b1805128e2e0c8` |
 | 10 | `35d7137ceae5a7b4` | LIVE | 3.2 MB | 51 | 351 | 2026-07-22 19:59 | `/run/media/milosvasic/DATA4TB/Projects/helix_seller` |
 | 11 | `d0d7a5956ee798fd` | LIVE | 3.2 MB | 66 | 512 | 2026-07-31 17:45 | `/home/milosvasic/Downloads` |
@@ -109,6 +109,11 @@ ACTIVE-REBUILD entries. All four in-flight index directories from §0 are exclud
 | 18 | `0289aee246bb4ef0` | DEAD | 3.1 MB | 2 | 2 | 2026-07-26 20:56 | `/tmp/.private/milosvasic/tmp.B85zEfpw25` |
 | 19 | `0356037ef790e0b0` | DEAD | 3.1 MB | 1 | 1 | 2026-07-26 14:58 | `/tmp/.private/milosvasic/tmp.1eKyQetVKd` |
 | 20 | `0483a5cd64a52c6e` | DEAD | 3.1 MB | 1 | 2 | 2026-07-26 22:27 | `/tmp/.private/milosvasic/tmp.8XhBWPFChO` |
+
+> **Redaction — 2026-09-02.** The `6ea66d6d87cbf1e9` row above (rank 8) ends in `assignments/…`. The `…` is a
+> deliberate elision, not a truncated path: that project path's final component was a third party's given name, and
+> this repository is public. Recorded as a separate instance in
+> [`docs/content-boundary-incident-2026-09-01.md`](../content-boundary-incident-2026-09-01.md) §13.
 
 Everything below rank 20 is a 3.1 MB DEAD scratch index or a 0.1 MB INCOMPLETE stub — the tail is flat and
 uninteresting. The whole store is: 5 real projects, 1 in-flight newcomer, and ~740 pieces of lint.
@@ -154,11 +159,16 @@ The `/tmp` finding also explains the store's shape: 511 of 525 DEAD indexes are 
 | `e7758398337f6aa7` | 139.5 MB | 282 | 2038 | 2026-07-26T22:24:38Z | `/tmp/.private/milosvasic` |
 | `0e540668e98c02ce` | 125.2 MB | 2247 | 37348 | 2026-07-26T19:21:56Z | `/run/media/milosvasic/DATA4TB/Projects/claude_toolkit` |
 | `40b9531ba54c9f4f` | 45.7 MB | 1000 | 13255 | 2026-08-13T09:55:35Z | `/run/media/milosvasic/DATA4TB/Projects/tmux` |
-| `6ea66d6d87cbf1e9` | 13.0 MB | 294 | 3208 | 2026-08-18T19:02:55Z | `/run/media/milosvasic/DATA4TB/Projects/assignments/shlomi` |
+| `6ea66d6d87cbf1e9` | 13.0 MB | 294 | 3208 | 2026-08-18T19:02:55Z | `/run/media/milosvasic/DATA4TB/Projects/assignments/…` |
 | `8addff8070269398` | 6.5 MB | 220 | 1051 | 2026-08-20T15:38:47Z | `/run/media/milosvasic/DATA4TB/Projects/lava/.claude/worktrees/agent-ae3b1805128e2e0c8` |
 | `35d7137ceae5a7b4` | 3.2 MB | 51 | 351 | 2026-07-22T17:59:52Z | `/run/media/milosvasic/DATA4TB/Projects/helix_seller` |
 | `d0d7a5956ee798fd` | 3.2 MB | 66 | 512 | 2026-07-31T15:45:07Z | `/home/milosvasic/Downloads` |
 | `97e1836a7eabe96a` | 0.1 MB | 0 | 0 | 2026-07-12T16:41:04Z | `/home/milosvasic/Downloads/flashing/1.2.1-dev-0.0.3` |
+
+> **Redaction — 2026-09-02.** The `6ea66d6d87cbf1e9` row above ends in `assignments/…`. The `…` is a deliberate
+> elision, not a truncated path: that project path's final component was a third party's given name, and this
+> repository is public. Recorded as a separate instance in
+> [`docs/content-boundary-incident-2026-09-01.md`](../content-boundary-incident-2026-09-01.md) §13.
 
 Two entries are worth a second look, though neither is an orphan by the brief's definition:
 

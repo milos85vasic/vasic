@@ -7,9 +7,11 @@ const { test, expect } = require('@playwright/test');
 // URL resolves. Then re-assert the anti-bluff private-repo guard: no link may
 // deep-link a known-private repo.
 
+const { VD_BASE, MV_BASE } = require('../env.js');
+
 const SITES = [
-  { key: 'vasic.digital', base: 'http://localhost:8401', domain: 'vasic.digital' },
-  { key: 'milosvasic.ru', base: 'http://localhost:8082', domain: 'milosvasic.ru' },
+  { key: 'vasic.digital', base: VD_BASE, domain: 'vasic.digital' },
+  { key: 'milosvasic.ru', base: MV_BASE, domain: 'milosvasic.ru' },
 ];
 
 // Known-private repos/paths that must never be linked (extends the homepage guard).
