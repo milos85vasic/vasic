@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-01T22:55:00Z
-    Synced-Commit: 203061dcb8dd064f394da932ef4e2aba7a814789
+    Last-Updated: 2026-09-02T00:20:00Z
+    Synced-Commit: 9dcfc41c306da085963bb92032f808a5f3236d2a
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -809,6 +809,31 @@ changed commit `63ac4df32e5f… → fc7574b27c7f…`) and, ahead of it, **tellin
 third party**. Both are outward-facing and are the **operator's** to send; no
 agent has taken or may take either. Forks, mirrors, existing clones and
 search/archive caches are unreachable by any of this.
+
+**WAVE 4 (2026-09-02): the third party's FIRST name — redacted; second rewrite
+authorized.** §2 of the incident note deliberately left the first name standing,
+because it is carried only inside the recording's own filename and the person's
+**full** name stood three lines away in prose; removing the weaker identifier
+while the stronger one remained would have accomplished nothing. **§8B removed
+the stronger one**, so that premise expired and the first name became the only
+remaining identifier of that person in a public repository. The decision was
+re-put to the operator, whose answer was verbatim *"Redact + second rewrite"* —
+which is also the §11.4.113 authorization for the second force-push.
+Measured true scope, and it is **smaller** than the opening brief's estimate of
+"19 references across 5 tracked files": a case-sensitive **whole-word** `git grep`
+finds the name on exactly **9 lines in 4 files** — `RECON.md` 62–65,
+`spec.md` 17, `quickstart.md` 83 and 284, `transcription.md` 154 and 1074. The
+brief's larger figure counted every mention of the recording and the notes PDF,
+including the many already written in the elided `…Recording.mp4` form, which
+carry no name. The fifth file it detected is the incident note itself, where the
+filename is already elided; it needed no change. Lower/upper-case whole-word
+variants: **0**. Untracked files: **0**. Case-*insensitive* matching is useless
+here — the token is four characters and a common substring across `_content*/`.
+Redaction form: `…` elision in prose and captured output (the house convention
+these files already use), and an unquoted **glob**
+`workshop/chapters/01/*Recording.mp4` in the two `RUNNABLE NOW` shell blocks,
+which keeps them runnable and resolves to exactly one file. Full record:
+`docs/content-boundary-incident-2026-09-01.md` **§11**.
 
 **Two instrument gaps this incident exposed, both OPEN:**
 `scripts/verify-content-boundary.sh` matches on an **eight-word** window, so it

@@ -149,6 +149,13 @@ whatsoever**. Anything that finds `whisper` on `PATH` and concludes ASR is avail
 
 ## 0. What is actually in the recording — MEASURED
 
+> **Redaction.** Where this document shows the recording or the PDF by name, the filename is
+> elided — `…Recording.mp4`, `…Notes by Gemini.PDF`, and `Milos teaching … AI workflows` in the
+> captured `pdfinfo` title — because the literal name carries a third party's first name. The
+> `…` elides that name and nothing else. `workshop/chapters/01/` holds exactly one of each, so
+> nothing here is ambiguous. See
+> [`docs/content-boundary-incident-2026-09-01.md`](../../../docs/content-boundary-incident-2026-09-01.md) §11.
+
 ```console
 $ cd workshop/chapters/01
 $ ffmpeg -hide_banner -i "…Recording.mp4"

@@ -77,6 +77,13 @@ applied to the preflight itself, and it mirrors the `0` / `1` / `2` convention t
 
 `RUNNABLE NOW`
 
+> **Why the glob.** `workshop/chapters/01/*Recording.mp4` is written as an unquoted glob rather
+> than a literal path because the literal name carries a third party's first name. The glob is
+> not a loss of precision: that directory holds exactly one `*Recording.mp4`, and a glob
+> expansion is not word-split, so the embedded spaces are handled correctly. Same for
+> `*Recording.mp4.sha256` in US1 below. See
+> [`docs/content-boundary-incident-2026-09-01.md`](../../docs/content-boundary-incident-2026-09-01.md) §11.
+
 ```bash
 command -v ffprobe && readlink -f "$(command -v ffprobe)"
 ffprobe -v error -show_format \

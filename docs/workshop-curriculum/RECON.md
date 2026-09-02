@@ -79,6 +79,14 @@ workshop/
     └── GitHub.sh
 ```
 
+> **Redaction.** The `…` inside the four `chapters/01/` filenames is a **deliberate
+> elision of a third party's first name**, not a truncated path. It is the only
+> character removed from those four names; everything else — the subject, the date,
+> the time, the zone and every extension — is verbatim. The recording is addressable
+> without it: `workshop/chapters/01/` holds exactly one `*Recording.mp4`, and a
+> passage inside it is addressed by chapter slug plus `pid`. See
+> [`docs/content-boundary-incident-2026-09-01.md`](../content-boundary-incident-2026-09-01.md) §11.
+
 There are **no** governance carriers (`CLAUDE.md` / `AGENTS.md` / `QWEN.md` /
 `GEMINI.md`), **no** `helix-deps.yaml`, **no** `Containerfile`/`Dockerfile`/compose
 file, **no** source code, **no** curriculum content of any kind. This state is

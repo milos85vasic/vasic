@@ -23,6 +23,11 @@ These facts were measured on 2026-08-31 and constrain the requirements below. Th
 | Reference module | `ai_interviewing/` — carries `platform/`, `assets/`, `docs/`, `scripts/`, and README in md/html/pdf/docx |
 | Chapters today | **1** |
 
+> **Redaction.** The `…` in the recording's filename elides a third party's first name and
+> nothing else. The file is unambiguous without it — `workshop/chapters/01/` holds exactly one
+> `*Recording.mp4` — and passages are addressed by chapter slug plus `pid`, never by filename.
+> See [`docs/content-boundary-incident-2026-09-01.md`](../../docs/content-boundary-incident-2026-09-01.md) §11.
+
 ## Clarifications
 
 ### Session 2026-08-31

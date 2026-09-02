@@ -1399,6 +1399,86 @@ this reason. Either leave the file untracked, or reword that §9.4 line before c
 
 ---
 
+## 11 · Fourth wave — the third party's FIRST name, and the deferred decision reversed (2026-09-02)
+
+> **Status: WORKING TREE REDACTED AND COMMITTED. HISTORY REWRITE — see §11.4.**
+> This wave concerns the one identifier of that person that the first rewrite deliberately
+> left standing: the **first name**, carried inside the recording's own filename. The name
+> is **not written anywhere in this document**, here or above, and must not be.
+
+### 11.1 · Why §2 deferred this, and why that reasoning expired
+
+§2 recorded the filename as *"Not treated as a disclosure, deliberately"*, and the judgement
+was sound **at the time it was made**. The argument was explicit: the filename carries a
+**first name only**, while the same documents carried the person's **full name** in prose
+alongside a date and a subject. Removing the weaker identifier while the stronger one stood
+three lines away would have accomplished nothing.
+
+**§8B removed the stronger one.** Once the full name and the verbatim quotations were purged
+from history and force-pushed, the premise of §2's deferral no longer held: the first name
+became **the only remaining identifier of that person in a public repository**. A decision
+correctly taken against one set of facts had to be re-taken against another. It was put to the
+operator with both halves of the trade stated, and the decision given was, verbatim:
+
+> *"Redact + second rewrite"*
+
+That is also the §11.4.113 authorization for the second force-push. It is recorded here rather
+than paraphrased, because an authorization that cannot be quoted is not an authorization.
+
+### 11.2 · The true reference set — measured, and smaller than the brief predicted
+
+The brief that opened this wave estimated **19 references across 5 tracked files**. That figure
+is **wrong, and wrong in the safe direction** — it counted every mention of the recording and
+of the notes PDF, including the many already written in the elided `…Recording.mp4` and
+`… - Notes by Gemini.PDF` forms, which carry no name at all.
+
+Re-derived at `HEAD` with a case-sensitive **whole-word** `git grep` over all tracked files,
+the name occurs on exactly **9 lines in 4 files** — one occurrence per line, **9 in total**:
+
+| File | Lines | What each is |
+|---|---|---:|
+| `docs/workshop-curriculum/RECON.md` | 62, 63, 64, 65 | the four `chapters/01/` entries of the §1.1 "complete — every path" tree |
+| `specs/001-workshop-curriculum-platform/spec.md` | 17 | the "Verified Starting State" table row naming the source recording |
+| `specs/001-workshop-curriculum-platform/quickstart.md` | 83, 284 | two **`RUNNABLE NOW`** shell commands with the literal path |
+| `specs/001-workshop-curriculum-platform/research/transcription.md` | 154, 1074 | a captured `ffmpeg` invocation, and the `Title:` line of captured `pdfinfo` output |
+
+The **fifth** file the brief detected is **this document**, at §2 — where the filename appears
+in its already-elided form and the name does not appear at all. It needed no redaction and
+received none.
+
+Three further facts, measured rather than assumed:
+
+- **No second spelling.** Whole-word searches for the all-lowercase and all-uppercase variants
+  return **0** across every tracked file. A case-**insensitive** search returns hundreds of
+  files and is worthless here: the token is four characters long and is a common substring of
+  ordinary English and Spanish words throughout `_content*/`. Substring matching on a
+  four-character name is not a detector, it is noise.
+- **Nothing untracked carries it.** `docs/session-instruction-audit-2026-09-01.md` and
+  `specs/002-knowledge-areas-deep-linking/` were scanned: **0**.
+- **The surname is already gone**, as §8B left it. This wave adds nothing on that front.
+
+### 11.3 · The redaction — 9 substitutions, two forms, and why each was chosen
+
+Committed to the working tree first, as a normal commit, **before** any history operation.
+
+| Where | Form used | Why that form |
+|---|---|---|
+| `RECON.md` ×4, `spec.md` ×1, `transcription.md:1074` ×1 | `Milos teaching … AI workflows` | These are **prose and captured output** where the shape of the filename *is* the finding — a "complete — every path" tree, a measured-facts table, and a real `pdfinfo` `Title:` line. `…` is already this repository's house elision, used unprompted at `transcription.md:107`, `:1073`, `RECON.md:1465–1471` and in §2 of this document. One token is removed; subject, date, time, zone and every extension stay verbatim. |
+| `transcription.md:154` ×1 | `"…Recording.mp4"` | The **very next line** of the same captured block already reads `from '…Recording.mp4':`. Matching it is the least invasive edit available and makes the block internally consistent. |
+| `quickstart.md:83, :284` ×2 | `workshop/chapters/01/*Recording.mp4` (unquoted glob) | These two are marked **`RUNNABLE NOW`**. An ellipsis would have turned a runnable command into a broken one — *"a redaction that destroys the finding is a failed redaction"*. The glob keeps them runnable and is not a loss of precision: that directory holds exactly one `*Recording.mp4` and one `*Recording.mp4.sha256`, and a glob expansion is not subject to word splitting, so the embedded spaces are handled correctly without quoting. |
+
+**No document lost a finding.** The recording remains addressable three ways with no filename
+at all: by directory (`workshop/chapters/01/`), by chapter slug (`01-ai-workflows`), and — for
+any passage inside it — by the `pid` that `contracts/passage-contract.md` defines. Each of the
+four files carries a short, explicit **Redaction** note so the `…` reads as a deliberate
+elision and never as a truncated path; each points back here.
+
+The substitution was applied by a script that **derives the token from the text at run time**
+and never contains it. There is no rules file, no allow-list, and no artifact of this wave that
+holds the name.
+
+---
+
 ## Gate results
 
 Recorded at the end, not the top, so that they are read as evidence and not as a verdict on
