@@ -378,7 +378,29 @@ deviation is not an override** and must never be written up as one.
 
 ### spec 002 — knowledge areas & bidirectional deep linking (2026-09-02)
 
-**State: all ten phases IMPLEMENTED. Platform live and serving. Two decisions open.**
+**State: all ten phases IMPLEMENTED and reviewed. Platform live and serving.
+All 8 blocking operator decisions ANSWERED. A content build-out is in progress.**
+
+**START HERE ON RESUME.** The full record of every request, decision, dispatch and
+finding is at `workshop/docs/work-register.md` (PRIVATE submodule — this file is in the
+PUBLIC umbrella, so the detail lives there). The working ledger and all 39 agent
+reports are preserved at `workshop/docs/session-evidence/` — they previously existed
+only in volatile `/tmp` and would have been lost on any session restart.
+
+Read those two before starting new work. Then:
+
+    bash scripts/continuation-check.sh              # must be 0
+    bash scripts/verify-governance-cascade.sh       # 12 PASS / 0 FAIL expected
+    bash workshop/scripts/restart.sh                # NOT `podman restart`
+    curl -s http://127.0.0.1:8087/api/health
+
+**Decisions already taken (do not re-ask):** materials are agent-authored at build
+time; benchmark the embedding model at full scale before switching; the 497-area count
+is NOT over-generation (invalid ratio — see below); push everything to all upstreams;
+record review provenance honestly and keep serving; agent-audit the four remaining
+areas one at a time; wire word-level link precision now; decide a term `external_key`
+convention then mint; review the adopted 450 lines (done — found 14 inert gates); fix
+both git hooks (done).
 
 Spec: `specs/002-knowledge-areas-deep-linking/` (9 files, tracked as of `9b08d8c`;
 it was ENTIRELY UNTRACKED before that — the contract governing 122 tasks existed only
