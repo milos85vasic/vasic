@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-02T06:45:00Z
-    Synced-Commit: 2d629e93e92a36a89ea29abf2ecf5ceb49d75630
+    Last-Updated: 2026-09-02T12:20:00Z
+    Synced-Commit: 1b90daa6
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -375,6 +375,102 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### spec 002 — knowledge areas & bidirectional deep linking (2026-09-02)
+
+**State: all ten phases IMPLEMENTED. Platform live and serving. Two decisions open.**
+
+Spec: `specs/002-knowledge-areas-deep-linking/` (9 files, tracked as of `9b08d8c`;
+it was ENTIRELY UNTRACKED before that — the contract governing 122 tasks existed only
+in a working tree). Normative sources, by full path, because three files in this
+project have colliding section numbers and a bare "contract §N" silently resolves
+against the wrong one:
+  `specs/002-.../contracts/knowledge-graph.md`  — M1-M5 minting, E2/E3 extraction,
+                                                  R1 reconcile, N1 mentions, G-KG-*
+  `specs/002-.../contracts/http-api-delta.md`   — endpoints, A3.x acceptance clauses
+  `specs/002-.../data-model.md`                 — entities; its §2.x means something
+                                                  DIFFERENT from the contract's §2.x
+NOT the referent: `workshop/docs/knowledge-model-contract.md` (document SHAPE only).
+
+**Live and verified** (`http://192.168.1.44:8087`, container
+`workshop-curriculum_platform_1`):
+  semantic + lexical search — 2,478 passages / 550 sources; gibberish correctly
+    returns `no_match`; real queries score 0.65-0.84
+  bidirectional deep linking — an area resolves to `time_span_start_s=227.42`,
+    `time_span_end_s=232.70` in the recording; reverse direction and graph traverse live
+  497 areas, 8,551 terms; chapters, transcript, recording playback, autocomplete
+  four-format export (md/html/docx/pdf); diagrams honestly report code 2
+  runtime filename-disclosure guard on `writeJSON` (~50ms on 10 MB, not 3-6 s)
+
+**Resume commands**
+    bash workshop/scripts/restart.sh          # NOT `podman restart` — that does not
+                                              # pick up a changed compose file
+    cd workshop/platform/backend && CGO_ENABLED=0 go build -o ../bin/workshop-server ./cmd/workshop-server
+    workshop/pipeline/venv/bin/python workshop/pipeline/extract/run_pipeline.py
+    workshop/pipeline/venv/bin/python workshop/pipeline/extract/verify.py --prove-failure
+    workshop/pipeline/venv/bin/python workshop/pipeline/benchmark/run_retrieval_benchmark.py
+
+**BLOCKED / OPEN — two operator decisions**
+
+1. **Retrieval quality fails SC-015 and no floor fixes it.** Measured on the live
+   index: top-1 **4/26 (15.4%)**, top-5 **13/26 (50.0%)**; SC-015 requires >=90% top-5.
+   11 of 26 correct targets are absent from the top 100. Correct hits score 0.622-0.783;
+   negatives 0.641-0.712 — ten of fifteen found positives sit AT OR BELOW the
+   highest-scoring negative, so `floor_calibrated: false` is correct, not laziness.
+   Diagnosis is discrimination-at-scale, NOT simply "a code model reading prose":
+   jina top-1 is 73% on a 152-passage pool and 15% on the 2,478-passage corpus.
+   `nomic-embed-text` scored 80.8% vs jina's 73.1% on the small pool; whether it also
+   degrades at full scale is **NOT MEASURED**. Switching costs 41 min - 10.3 h of
+   embedding against a runner Lumen keeps saturated, and invalidates all 2,478 vectors.
+   **Next step: full-scale offline re-embed-and-benchmark in a low-traffic window.**
+   Benchmark: `workshop/pipeline/benchmark/` (SC-015 — note SC-007/SC-008 are
+   publication-review and reverse-link clauses; a comment in
+   `cmd/workshop-server/main.go` carries the same wrong label and needs correcting).
+
+2. **Area publication floor — a product decision, not a bug.** 497 areas from one
+   chapter is NOT over-generation against the "7 tracks, 37 modules, 137 terms"
+   baseline: that figure comes from a DIFFERENT tool
+   (`workshop/curriculum/chapter-01/knowledge/build.py`, compiling a hand-authored
+   `lexicon.json` into curated ~30-passage segments). Different unit; the ratio is
+   meaningless. Measured cause: 1,474 of 5,112 certain terms (28.8%) are hapax
+   legomena, and `derive.py`'s E5 rule INTENTIONALLY makes a partnerless term its own
+   single-term area. Stopword filtering works (20 canonical stopwords all score 0.0,
+   `certain=False`). Median evidence per added area = 1 passage.
+   **Recommended: a publish/review gate deferring areas below a stated evidence floor
+   from the live grid, leaving extraction untouched so E1/E5 stay honoured.** Cost:
+   hides ~490 real, correctly-scored terms from browsing. Analysis:
+   `scratchpad/sdd/area-overgeneration-analysis.md`.
+
+**KNOWN LIMITS — recorded, not hidden.** Canonical list: `workshop/docs/limits.md`
+§10, linked from quickstart/user-guide/manual/faq. Ten verified TRUE against running
+code. The load-bearing ones:
+  - **All deep links are `segment` precision, never `word`.** 15,610 word timings and
+    the 76-unjoined-word analysis exist; nothing wires them into evidence. "Jump to the
+    exact moment" is currently "jump to the right few seconds".
+  - **Registry/taxonomy sync gap**: the taxonomy asserts 497 area ids; the registry
+    holds 5. Areas are unusable as traversal ORIGINS. Partly caused by an operator-side
+    revert that mistook DESIGNED output for pollution — `minting.py` states plainly
+    that `passages.jsonl` is the one registry that decides attach-vs-mint, so `kg_area`
+    rows there are correct. T106 recovered 492 of 497 ids from taxonomy history after
+    the damage, but does not re-register them.
+  - T038 unmet: the single-term response cannot serve the significance measure's INPUTS
+    (`taxonomy.py` persists only the final score) — reports `inputs_available: false`.
+  - `render_diagram` implemented and never called from `export_area`.
+  - Terms have no minted PID, so they cannot be graph nodes.
+  - `lesson_section` / `question` are not indexed — correctly refused, since no loader
+    or real content exists.
+  - The `writeJSON` guard's extension prefilter is hand-maintained against
+    `catalog.go`'s PRIVATE regex and can drift. Durable fix: export the list.
+
+**BLOCKED, unchanged:** T115/T116 remain gated on the open "answering over the new
+material" clarification in `spec.md`.
+
+**Repeatability (T104/T106):** `docs/prompts/add-a-chapter.md` in the workshop
+submodule carries the per-chapter procedure. T106's taxonomy update path matches an
+established area by EXACT evidencing-passage-set relationship (equal / subset /
+superset / none) — no fuzzy matching, which M5 forbids — and carries identifiers
+forward byte-for-byte.
+
 
 Everything in this section was re-measured on 2026-09-01 against the live tree.
 Statements of the form "X is done" name the command that produced the evidence.
