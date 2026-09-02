@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-02T12:20:00Z
+    Last-Updated: 2026-09-02T17:05:00Z
     Synced-Commit: 1b90daa6
     Authority-Root: submodules/constitution
 
@@ -401,6 +401,44 @@ record review provenance honestly and keep serving; agent-audit the four remaini
 areas one at a time; wire word-level link precision now; decide a term `external_key`
 convention then mint; review the adopted 450 lines (done — found 14 inert gates); fix
 both git hooks (done).
+
+#### Measured state at handoff (workshop `2a22f59`, umbrella `a8bec47`, both pushed)
+
+Registry `curriculum/passages.jsonl` — **11,604 rows across 8 kinds**:
+`kg_term` 8553 · `doc_section` 1172 · `transcript_segment` 1055 · `kg_area` 498 ·
+`code` 251 · **`kg_todo` 27 · `kg_next_point` 24 · `kg_open_question` 14**
+(the last three are the per-chapter extraction: TODOs, next-meeting points and open
+questions are minted entities, not prose.)
+
+LIVE and verified over the LAN at `http://192.168.1.44:8087` (bind is persistent via
+`platform/.env`; the compose default is loopback and WILL regress without it):
+- **word-level deep linking** — `precision:"word"`, `timing_confidence:0.46551`, with a
+  three-state fallback that never collapses: word-joined / `join_attempted:true` +
+  reason (the structural 76-of-15,610 first-word class) / `join_attempted:false`
+  (chapter has no sidecar). Test: `TestResolveWordPrecision_ThreeFailureModesStayDistinct`.
+- semantic search with genuine cosine relevance; gibberish returns `no_match` in all
+  three modes; `filters` echoed on every status including `unavailable`.
+- 498 areas, 8551 terms, chapters, transcript, recording, autocomplete.
+- **2 of 5 areas published** (03 and 01), each with `proposer` != `reviewer` in its
+  review record. Areas 02/04/05 remain honestly unpublished.
+- **44 senior questions, 44/44 served, 0 withheld** — verified against the REAL
+  `assessment.ServeQuestions()`/G-KG-2, with a dangling-citation mutation confirming
+  the verifier can actually withhold.
+
+**Things a resuming agent must not re-derive or re-break:**
+- `bash workshop/scripts/restart.sh`, NEVER `podman restart` (it does not pick up a
+  changed compose file).
+- `git commit -- <paths>` commits WORKING-TREE content and DISCARDS index staging. Use
+  a private index (`GIT_INDEX_FILE` + `write-tree` + `commit-tree` + CAS `update-ref`),
+  then `git reset -q -- <paths>` to refresh the shared index — a stale shared index has
+  twice staged a large revert of landed work.
+- An **auto-commit process** runs in this checkout and has swept an agent's
+  working-tree edit into an unrelated commit. Re-read HEAD immediately before staging.
+- `WebSearch` was exhausted (200/200) this session; `.bashrc` now sets
+  `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION=100000`, effective in a NEW shell.
+- A hook at `~/.claude/hooks/commit-attribution-fixed.sh` now intercepts every
+  `git commit` at USER level, in all repositories. Recorded in the work register;
+  revert by removing the `hooks.PreToolUse` entry in `~/.claude/settings.json`.
 
 Spec: `specs/002-knowledge-areas-deep-linking/` (9 files, tracked as of `9b08d8c`;
 it was ENTIRELY UNTRACKED before that — the contract governing 122 tasks existed only
