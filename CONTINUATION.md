@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-02T06:15:00Z
-    Synced-Commit: f7cad55c8101b1a719426cc615562f2adf4ba628
+    Last-Updated: 2026-09-02T06:45:00Z
+    Synced-Commit: 2d629e93e92a36a89ea29abf2ecf5ceb49d75630
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -862,6 +862,21 @@ unreachable / 0 dangling**, reflog empty. Rewrite itself: **7.72 s, peak RSS
 found 17 in 8; the class is the same and one file wider), and each provenance
 note now records the **two-generation chain** rather than hiding the second move.
 Full measurements: `docs/content-boundary-incident-2026-09-01.md` **§11.4**.
+
+**The push (2026-09-02).** Negative control first: a deliberately wrong lease
+was **refused** (`! [rejected] main -> main (stale info)`, rc=1) and left the
+remote at `9dcfc41`. Then the authorized push,
+`--force-with-lease=refs/heads/main:9dcfc41… origin main:refs/heads/main`, one
+explicit refspec — `+ 9dcfc41...2d629e9 main -> main (forced update)`, rc=0.
+**Confirmed from `git ls-remote`, not from push output**, against all three
+remote names independently: all return `2d629e93e92a…` for `refs/heads/main`,
+the same four tags at their original objects, and no other ref. **The `commit`
+wrapper was NOT used anywhere in this wave** — every commit was
+`git commit --only` with an explicit pathspec and every push a single explicit
+refspec to the umbrella, so **no submodule was committed, pushed or bumped** and
+no site was redeployed. `_tools/deploy-langs.sh` was never invoked.
+Gates: **rc=0, 8/8 PASS** on all three runs (baseline 213.77 s, negative-control
+205 s gate 6, push 203 s gate 6).
 
 **The support request now needs ONE value covering BOTH rewrites.**
 `filter-repo` composed this run's commit-map with the first run's, so the First

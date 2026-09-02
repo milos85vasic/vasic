@@ -1617,7 +1617,49 @@ are the record of the first run and were true when written. Editing them to look
 hindsight is precisely the bluff §11.4.6 forbids. §8B.7 instead carries a **forward pointer**
 to this section, so nobody can read a superseded value as current.
 
-### 11.5 · What this did NOT do — the same four facts, and they have not changed
+### 11.5 · The push
+
+`filter-repo` removed the `origin` remote, as it did the first time; `github` and `upstream`
+survived. It **did not** convert remote-tracking refs into local branches — checked, per
+§8A.8: `refs/remotes/github/main` and `refs/remotes/upstream/main` stayed under `refs/remotes/`
+and were merely rewritten. `origin` was re-added and the remote configuration verified
+**byte-identical** to the pre-rewrite `git config` dump, `pushurl` included. **No `git fetch`
+was run at any point after the rewrite** — a fetch from the un-rewritten remote re-imports the
+very objects the rewrite removed, which is why the explicit `--force-with-lease=<ref>:<sha>`
+form is used: it needs no remote-tracking ref and therefore no fetch.
+
+Two commits were pushed, not one: `f7cad55` (the redaction) and `2d629e9` (this record plus
+the 20 repointed citations). Both were built and verified before either was sent.
+
+**Negative control first (§1.1 paired mutation), against the real remote:**
+
+```
+git push --force-with-lease=refs/heads/main:000…000 origin main:refs/heads/main
+  ! [rejected]  main -> main (stale info)     rc=1     (215.44 s, gates re-run by the hook)
+remote before: 9dcfc41…    remote after: 9dcfc41…   ← UNCHANGED, confirmed by ls-remote
+```
+
+**Then the authorized push:**
+
+```
+git push --force-with-lease=refs/heads/main:9dcfc41c306da085963bb92032f808a5f3236d2a \
+         origin main:refs/heads/main
+  + 9dcfc41...2d629e9  main -> main (forced update)   rc=0   (239.28 s, 203 s of it gate 6)
+```
+
+One explicit refspec. Never `--all`, never `--mirror`, never bare `--force`. **Confirmed from
+`git ls-remote`, not from push output**, against each of the three remote *names* independently
+— all return `2d629e93e92a36a89ea29abf2ecf5ceb49d75630` for `refs/heads/main`, the same four
+tags at their original objects, and **no other ref**. Exactly **one** remote ref was touched.
+
+**The project `commit` wrapper was NOT used, anywhere in this wave.** It runs `git add .` and
+pushes submodules as well as the root, which in the first run redeployed two live production
+websites as a side effect. Every commit here was `git commit --only` with an explicit pathspec,
+and every push was a single explicit refspec to the umbrella. **No submodule was committed,
+pushed or bumped, and `_tools/deploy-langs.sh` was never invoked.** The 13 gitlinks at `HEAD`
+are the same 13 that were there before this wave started.
+
+### 11.6 · What this did NOT do — the same four facts, and they have not changed
 
 **The force-push removed nothing from GitHub.** §8A.6 *demonstrated* this rather than quoting
 it: after a successful `--force-with-lease` on the stand-in remote, the orphaned commit still
@@ -1680,6 +1722,40 @@ Measured 2026-09-01, working tree, nothing committed.
 | `scripts/verify-content-boundary.sh` (**wave 2, after**) | **1** | LEAK — **203** surviving matches, 0 undetermined. Split: `ai_interviewing` 203, `workshop` **0**. |
 | `scripts/verify-content-boundary.sh` (**wave 3, before**) | **1** | LEAK — **367** surviving matches (prose **207**, short **35**, name **125**), 0 undetermined. Split by private source: `ai_interviewing` 117, `workshop` 8 *in the name class*. |
 | `scripts/verify-content-boundary.sh` (**wave 3, after**) | **1** | LEAK — **367** surviving matches (prose **207**, short **35**, name **125**), 0 undetermined. **Identical, by design: this wave redacted nothing because it found nothing to redact.** |
+
+### Wave 4 — measured 2026-09-02, after the redaction, the rewrite and the push
+
+Every one of these was run against the tree that is now on `refs/heads/main`
+(`2d629e93e92a…`). Exit codes are reported verbatim, including the one that is red.
+
+| Instrument | Exit | Result |
+|---|---|---|
+| `scripts/pre-push-gates.sh` — baseline, post-redaction / pre-rewrite | **0** | 8/8 PASS (E, 0–6), 213.77 s |
+| `scripts/pre-push-gates.sh` — via the pre-push hook, negative-control attempt | **0** | 8/8 PASS, gate 6 205 s |
+| `scripts/pre-push-gates.sh` — via the pre-push hook, authorized push | **0** | 8/8 PASS, gate 6 203 s |
+| `scripts/verify-manifest-pins.sh` (C9 standalone) | **0** | **12 MATCH / 0 DRIFT / 0 UNDETERMINED** of 12 declared deps — the pins survived the rewrite exactly as §8A.6 predicted |
+| `scripts/verify-governance-cascade.sh` | **0** | **12 PASS / 0 FAIL / 0 ENV / 8 NOTE** |
+| `scripts/continuation-check.sh` | **0** | **8 PASS / 0 DRIFT / 0 UNDET / 1 NOTE** — "CONTINUATION.md IS IN SYNC" |
+| `scripts/verify-check-registry.sh` | **0** | PASS; proof **structure** verified only — no paired proof was executed, and this run claims none |
+| `scripts/audit-hardcoded-paths.sh` | **0** | clean; 9 files explicitly allow-listed |
+| `scripts/audit-environment-assumptions.sh` | **0** | no NEW frozen assumptions; **526** justified occurrences allow-listed. (An earlier revision of the root carriers records this instrument as **rc=1** with 7 frozen assumptions. That is a dated observation and it has moved; the allow-list has since absorbed them. A baseline is recorded debt, not a justification.) |
+| `scripts/verify-content-boundary.sh` | **1** | LEAK — **4249** surviving matches (prose **4002**, short **190**, name **57**), 0 undetermined; 9 declared exemption pairs pardoning 4187 matches; 107 files not indexed (over the 524,288-byte cap or machine-generated). **RED BY DESIGN and PRE-EXISTING — do not force it green.** |
+
+**Read the content-boundary row carefully; it is not an A/B for this wave.** The earlier
+figures in this document (377 → 232 → 203 → 367) and the **285** recorded in `CONTINUATION.md`
+are **not comparable** to 4249: the fleet grew from 9 declared gitlinks to **13**
+(`submodules/LLMProvider`, `submodules/RAG`, `submodules/passage`, `submodules/verdict` joined),
+and this gate scans submodule interiors, so the corpus it indexes is a different corpus. **No
+before/after claim is made for wave 4 on this gate.** What *can* be said, and is bounded and
+checkable: this wave's edits **removed** 14 occurrences of a name from history and **added**
+only four short "Redaction" notes and this document's §11, none of which contains a personal
+name. Nothing here can have created a name-class row.
+
+**The `name 57` figure is the one to look at, and it is unfinished business.** §10 assessed
+**125** name-class candidates and judged all 125 false positives — at a measurement taken
+before the fleet grew. The current 57 rows have **not** been individually re-adjudicated by
+this wave, and this wave does not claim they have been. That is a **known open item**, not a
+pass.
 
 ### Wave 3 is a null A/B, and that is the correct outcome
 
