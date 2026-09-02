@@ -423,7 +423,8 @@ Playwright (chromium) additionally requires `npm ci` and
 
 Separate from the pre-push gates. Every one is three-valued — **0 clean, 1 a
 real finding, 2 COULD NOT DETERMINE, and 2 is never a pass.** Results below were
-measured on 2026-09-01 and are dated observations, not standing facts:
+measured on 2026-09-01 and are dated observations, not standing facts, **except
+`audit-environment-assumptions.sh`, re-measured 2026-09-02 below.**
 
 ```bash
 bash scripts/continuation-check.sh              # CONTINUATION.md is not stale
@@ -431,7 +432,7 @@ bash scripts/verify-governance-cascade.sh       # 0 — 12 PASS/0 FAIL/0 ENV/8 N
 bash scripts/verify-manifest-pins.sh            # 0 — C9 standalone: 12 MATCH/0 DRIFT/0 UNDET of 12
 bash scripts/verify-check-registry.sh           # 0 — 25 PASS/0 FAIL/5 DEBT/0 UNDET, see below
 bash scripts/audit-hardcoded-paths.sh           # 0 — gate 0, 6 file(s) explicitly allowed
-bash scripts/audit-environment-assumptions.sh   # 1 — RED AGAIN, 10 frozen assumptions, see below
+bash scripts/audit-environment-assumptions.sh   # 0 — GREEN again 2026-09-02, see below
 bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"
 bash scripts/verify-submodule-remote-sync.sh    # 1 — 6 of 12 owned gitlinks drift from their remote
 bash scripts/verify-provider-ci.sh              # provider-side CI probe
@@ -462,30 +463,43 @@ Four of those need reading carefully rather than glancing at:
   paired proof. Zero here means "every registered check is accounted for", and
   the run says so itself: *"Proof STRUCTURE was verified; no paired proof was
   EXECUTED."*
-- **`audit-environment-assumptions.sh` is RED again (exit 1). Its green was
-  real while it lasted, and both states are recorded, because the movement is
-  the point.** The 7 frozen GNU-vs-BSD assumptions this bullet once reported —
-  six in `scripts/verify-check-registry.sh` (GNU-only in-place `sed -i`,
-  `stat -c '%a'`) and one in `scripts/verify-manifest-pins.sh` — **were** fixed
-  with portable helpers, and the audit did go **green (exit 0)** at 1763 files
-  across 14 repositories. Re-measured later on 2026-09-01 it exits **1** with
+- **`audit-environment-assumptions.sh` is GREEN again (exit 0, re-measured
+  2026-09-02). It has now gone green twice and red once, and all three states
+  are recorded, because the movement is the point — the instrument earns
+  belief by actually moving, in both directions, not by sitting at one value.**
+  The earlier cycle: 7 frozen GNU-vs-BSD assumptions (six in
+  `scripts/verify-check-registry.sh` — GNU-only in-place `sed -i`,
+  `stat -c '%a'` — and one in `scripts/verify-manifest-pins.sh`) were fixed with
+  portable helpers, taking the audit **green (exit 0)** at 1763 files across 14
+  repositories; then, re-measured 2026-09-01, it went **red (exit 1)** at
   **10 frozen environment assumptions**, scanning **1794 files across 14
-  repositories in 12 classes**. All 10 sit inside `submodules/LLMProvider`,
-  which joined the owned fleet the same day and brought its own occurrences into
-  scope: `pkg/providers/ai21/ai21_test.go` (2 `MODEL`),
-  `pkg/providers/openrouter/openrouter_test.go` (5 `MODEL`) and
-  `scripts/prove-offline-discovery.sh` (2 `ENDPOINT` + 1 `MODEL`). **The
-  coverage moved with the fleet on its own, with no edit to the audit** — which
-  is the behaviour the fleet-derivation fix was for, and a red verdict earned
-  that way is the instrument working. Read the rest of its output before calling
-  anything clean: it also prints **712 baselined occurrences** — declared,
-  known, unfixed defects, printed on every run by design — **2 STALE allow rules
-  of 405**, where the occurrence each one names is GONE (a rule is an exemption
-  at a PATH, not at an occurrence), and **1 frozen assumption inside a
-  third-party gitlink** (`submodules/superspec/.github/workflows/ci.yml`, a
-  pinned `python-version: "3.12"`), reported out-of-scope under §11.4.156(C) /
-  §11.4.29 so it is never silently omitted. **A baseline is recorded debt, not a
-  justification, and an allow row is not a fix.**
+  repositories in 12 classes** — all 10 inside `submodules/LLMProvider`
+  (`pkg/providers/ai21/ai21_test.go`, `pkg/providers/openrouter/openrouter_test.go`,
+  `scripts/prove-offline-discovery.sh`), which had just joined the owned fleet
+  and brought its own occurrences into scope with no edit to the audit itself.
+  **That figure is now WITHDRAWN, not restated.** Re-measured 2026-09-02,
+  `bash scripts/audit-environment-assumptions.sh` exits **0**, scanning
+  **1987 files across 14 repositories in 12 classes**, and none of the three
+  previously-cited `submodules/LLMProvider` occurrences appears anywhere in its
+  output any more — not flagged, not baselined. That submodule's own commit log
+  (`git -C submodules/LLMProvider log --oneline`) shows the fix landed upstream:
+  `test(ai21): stop asserting AI21's uptime in a unit test`,
+  `test(settings,codestral,ollama): stop freezing real model ids and endpoints
+  in fixtures`, and `fix(providers): default model and endpoint were frozen
+  with no override layer (F23, F24)` — a real fix in the consumed submodule,
+  not a re-baselining in this tree. Read the rest of today's output before
+  calling anything clean: it still prints **728 baselined occurrences**
+  (up from 712, since the fleet keeps moving) — declared, known, unfixed
+  defects, printed on every run by design — **2 STALE allow rules of 439**
+  (up from "of 405" as more rules were added; the two stale ones are unchanged:
+  `scripts/audit-hardcoded-paths.sh` and `_tools/gen/review_ui_all.py`), where
+  the occurrence each one names is GONE (a rule is an exemption at a PATH, not
+  at an occurrence), and **1 frozen assumption inside a third-party gitlink**
+  (`submodules/superspec/.github/workflows/ci.yml`, a pinned
+  `python-version: "3.12"`), reported out-of-scope under §11.4.156(C) /
+  §11.4.29 so it is never silently omitted. **A baseline is recorded debt, not
+  a justification, and an allow row is not a fix — and a green exit here is a
+  measurement of today, not a guarantee about tomorrow's fleet.**
 - **`verify-content-boundary.sh` exits 1 and is MEANT to.** See the "Content
   boundary" section above: ~207 judged non-disclosures are left visible rather
   than allow-listed. A 1 from this gate is a reading assignment, not a
@@ -788,13 +802,20 @@ restated.** What follows constrains what can actually be built here:
   which makes the trap worse, not better: the name on `PATH` still resolves to
   the wrong program. A capability probe that tests only for a name on `PATH`
   will report an engine that is not there while missing the two that are.
-- **A generative model IS available locally.** `ollama list` holds **three**
-  models, not two: `qwen2.5:3b-instruct-q4_K_M` (1.9 GB, **generative**,
-  pulled 2026-09-01) alongside the two **embedding** models
+- **A generative model IS available locally, and it is not merely present —
+  it is wired in.** `ollama list` holds **three** models, not two:
+  `qwen2.5:3b-instruct-q4_K_M` (1.9 GB / 1841 MiB, **generative**, pulled
+  2026-09-01) alongside the two **embedding** models
   `ordis/jina-embeddings-v2-base-code` and `jina-embeddings-code-cpu` (323 MB
   each). "Nothing local can generate prose" is false as of that pull. What a
   3B q4 instruct model is fit FOR is a separate question this line does not
-  answer.
+  answer. **Re-measured 2026-09-02:** the running container
+  `workshop-curriculum_platform_1` has this model in its own argv —
+  `podman inspect workshop-curriculum_platform_1 --format '{{.Config.Cmd}}'`
+  shows `/opt/workshop/bin/workshop-server … -ollama http://127.0.0.1:11434
+  -answer-provider ollama -answer-model qwen2.5:3b-instruct-q4_K_M …` — so the
+  workshop platform's answer path is actually wired to this model today, not
+  merely capable of being wired to it.
 - `podman` is present; `docker` is absent (`command -v podman docker`). No image
   for this repository exists.
 
@@ -809,6 +830,7 @@ workshop/pipeline/venv/bin/python -c 'import faster_whisper, ctranslate2; \
   print(faster_whisper.__version__, ctranslate2.__version__)'
 git -C workshop/pipeline/engines/whisper.cpp describe --tags
 workshop/pipeline/engines/whisper.cpp/build/bin/whisper-cli --help | head -3
+podman inspect workshop-curriculum_platform_1 --format '{{.Config.Cmd}}'   # confirms -answer-model wiring
 ```
 
 ### Live-production test coverage moved out of gate 6, into deploy
