@@ -1445,8 +1445,12 @@ submodules/LLMProvider/pkg/i18n/bundles/active.en.yaml MODEL provider.codestral.
 # ==============================================================================
 # workshop/ — the 2026-09-01 gitlink bump, and its triage
 # ==============================================================================
-# Commit 25fe585e moved the `workshop` gitlink from a near-empty commit to one
-# carrying 247 paths. This gate scans submodule interiors, so 81 findings inside
+# Commit 695c22d3 moved the `workshop` gitlink from a near-empty commit to one
+# carrying 247 paths. (That commit was `cbdb5351` when the finding was recorded,
+# `25fe585e` after the 2026-09-01 authorized content-boundary rewrite, and
+# `695c22d3` after the second one on 2026-09-02. Only the last resolves; see
+# docs/content-boundary-incident-2026-09-01.md §8B and §11.4.)
+# This gate scans submodule interiors, so 81 findings inside
 # `workshop/` became visible in a single index update, plus 1 in the new
 # umbrella-root script that same commit added. NEWLY VISIBLE, NOT NEWLY CREATED.
 #
@@ -1644,7 +1648,7 @@ workshop/pipeline/detect_media.sh GNUBSD readlink -f -- "$bin" 2>/dev/null || pr
 # ---- DEBT: F34 - GNU-only in-place `sed -i` at the umbrella root ------------
 # See docs/environment-adaptability/AUDIT.md finding F34. Same commit, same
 # cause, but this one is NOT inside workshop/ - it is the new umbrella-root
-# script 25fe585e added.
+# script 695c22d3 added.
 
 # BASELINE: F34 - GNU `sed -i` takes no suffix argument; BSD/macOS `sed -i`
 # requires one, so this in-place edit fails there. The `2>/dev/null` hides it

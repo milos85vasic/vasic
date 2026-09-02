@@ -1,16 +1,21 @@
 # Content boundary incident — 2026-09-01
 
-**Status: HISTORY REWRITTEN AND FORCE-PUSHED (2026-09-01). THE INCIDENT IS NOT CLOSED.**
+**Status: HISTORY REWRITTEN AND FORCE-PUSHED TWICE — 2026-09-01 and 2026-09-02.
+THE INCIDENT IS NOT CLOSED.**
 
 Private material was written into this **public** repository, committed, and pushed.
 The working tree was redacted, and on 2026-09-01 the history was rewritten and
 force-pushed under explicit operator authorization — **§8B records that execution with
-its measurements.** What that did *not* do is remove anything from GitHub's servers:
-the orphaned commits and every byte of the four leak blobs **remain fetchable by SHA**
-until GitHub runs a server-side garbage collection, which only **GitHub Support** can
-be asked to do. That request, and telling the third party, are the operator's and are
-**not done**. Nobody may read §8B, or the green gates at the bottom of this file, as a
-closure of this incident.
+its measurements.** On **2026-09-02** a **second** authorized rewrite removed the third
+party's **first name**, which §2 had deliberately left standing and which §8B's success
+turned into the only remaining identifier of that person — **§11 records that one.**
+What neither did is remove anything from GitHub's servers: **twelve** orphaned commits
+and every byte of the leak blobs **remain fetchable by SHA** until GitHub runs a
+server-side garbage collection, which only **GitHub Support** can be asked to do. That
+request — now **one** request covering both rewrites, First Changed Commit
+`63ac4df32e5f… → 16cd4ba847de…` — and telling the third party are the operator's and
+are **not done**. Nobody may read §8B, §11, or the green gates at the bottom of this
+file, as a closure of this incident.
 
 The rule that was broken is stated in [`docs/content-boundary.md`](content-boundary.md):
 never quote, paste, excerpt or transcribe content from a private repository into a file
@@ -1023,6 +1028,14 @@ recorded rather than silently applied. Re-derivation found **more than the five*
 rewritten.** §8.2 said they would become references to a discarded history and that the
 document should say so rather than be edited to hide it. It is said here.
 
+> **SUPERSEDED BY §11.4 — read this before using any SHA in §8B.** A **second** authorized
+> rewrite ran on 2026-09-02. Every "new" SHA in the table above — `fc7574b2`, `7b4df26d`,
+> `4ee9e8de`, `b0ab4b44`, `25fe585e`, `562ecf9c` — was itself discarded by it and **no longer
+> resolves**. §8B is left exactly as written because it is the record of the FIRST run and
+> falsifying it would be the bluff. **The First Changed Commit the support request needs is now
+> `63ac4df32e5f… → 16cd4ba847de…`, not the value above**, and one request now covers both
+> rewrites. The full two-generation mapping is in **§11.4**.
+
 ### 8B.8 · What this did NOT do — state this plainly and do not let it be forgotten
 
 **The force-push removed nothing from GitHub.** §8A.6 demonstrated this rather than quoting
@@ -1476,6 +1489,179 @@ elision and never as a truncated path; each points back here.
 The substitution was applied by a script that **derives the token from the text at run time**
 and never contains it. There is no rules file, no allow-list, and no artifact of this wave that
 holds the name.
+
+### 11.4 · The SECOND rewrite — executed 2026-09-02, in place, under §11.4.113 authorization
+
+> **Status: EXECUTED AND FORCE-PUSHED.** This was done to
+> `/run/media/milosvasic/DATA4TB/Projects/vasic` and to
+> `git@github.com:milos85vasic/vasic.git`. §8, §8A and §8B are left **exactly as written**.
+
+**Preconditions, re-verified rather than inherited.**
+
+| Condition | How verified | Result |
+|---|---|---|
+| Backups exist for the state about to be destroyed | `for-each-ref` + `rev-list` inside each | The two 2026-09-01 mirrors and both hardlinked snapshots hold **pre-first-rewrite** history (`4df8401` / `ee3933d`) — **none of them holds the state this run was about to rewrite.** A new hardlinked bare mirror was therefore created **first**: `…/.vasic-history-mirror-2026-09-02-pre-rewrite2.git`, **106 commits, 494 MB, 11 refs**, made by `git clone --mirror` so its pack is a **hardlink** to the pre-rewrite pack and survives any repack. |
+| Local `HEAD` equals the public remote | `git ls-remote origin`, read-only, no fetch | `9dcfc41c306d…` on both, plus the same four tags and nothing else. |
+| Gates green before anything destructive | `bash scripts/pre-push-gates.sh` | **rc=0, 8/8 PASS, 213.77 s.** |
+| In-flight work of another session preserved | index snapshot to a `700` scratch dir outside the repo | A **staged, unrelated `submodules/constitution` pin bump** (`f16ea77 → f5876a3`, in `helix-deps.yaml` **and** the gitlink) was sitting in the index. `filter-repo` ends with `reset --hard`, which would have discarded it. It was saved out and restored byte-for-byte afterwards, and it was **deliberately kept out of every commit this wave made** — moving the constitution pin is not this wave's authorization to spend. |
+
+**Scope correction — the exhaustive scan found EIGHT carriers, not four.** A `git grep` at `HEAD`
+sees only the tip. `git cat-file --batch-all-objects` sees every object, reachable or not:
+
+| Blob | Path | Occ. | Introduced by |
+|---|---|---:|---|
+| `f4724894` | `docs/workshop-curriculum/RECON.md` | 4 | `fc7574b2` |
+| `c234dde0` | `research/transcription.md` | 2 | `fc7574b2` |
+| `06e9d6c0` · `917b2657` · `6277c3a6` | `spec.md`, three successive versions | 1 · 1 · 1 | `fc7574b2` · `7b4df26d` · `25fe585e` |
+| `935e6bf5` · `1c2f577d` | `quickstart.md`, two successive versions | 2 · 2 | `7b4df26d` · `25fe585e` |
+| **`5e9f9155`** | **`contracts/http-api.md`** | **1** | `7b4df26d` |
+| **Total** | **5 distinct paths** | **14** | |
+
+`contracts/http-api.md` is the one that matters: it carried the name in a JSON example at
+line 288 in `7b4df26d`, and a **later edit removed that line**. So the file is clean at `HEAD`
+and **invisible to every `HEAD`-scoped search** — the §11.2 reference set could not have found
+it. Only the all-objects scan did. All eight carriers were **reachable**; unlike the first run,
+no staged-only intermediates were left behind.
+
+The scan is its own control: **the identical script**, run before and after, and the two
+literals it searches — the exact `Milos teaching <token> AI workflows` disclosure form and the
+**bare token under word boundaries** — returned **the same 8 blobs and the same 14 occurrences**
+before. That equality is itself a finding: **every occurrence of the bare token anywhere in the
+repository is part of the disclosure form.** There is no lexical coincidence to judge.
+
+**Procedure and measured wall-clocks.** Run **in place**, not in a clone: the tip was already
+clean after `9c89ae2`, so only historical commits needed to move, and an in-place run is the
+only one that also leaves a correct checkout.
+
+| Step | What | Wall-clock |
+|---|---|---:|
+| 0 | backup mirror + precondition verification | ~1 s (hardlinked) |
+| 1 | pre-rewrite residue baseline, **all 6,250 blobs / 7,465 objects** | **11.47 s** |
+| 2 | build 8 sha256-pinned redacted replacements + the callback | ~1 s |
+| 3 | `git filter-repo --force --blob-callback …` | **7.72 s**, peak RSS **601 MB** |
+| 4 | post-rewrite residue scan, **all 6,247 blobs / 7,443 objects** | **11.52 s** |
+| 5 | tree / gitlink / identity / tag comparison | ~4 s |
+| 6 | `git fsck --full` | **5.18 s** |
+| 7 | `bash scripts/pre-push-gates.sh` (baseline, before the rewrite) | **213.77 s** |
+
+Peak RSS **601 MB** — under **1 %** of this host's 62 GB, far inside the §12.6 cap. The
+`--blob-callback` route was used, as §8A.9(4) recommends. The callback is a
+`{blob SHA → pinned filename}` map with a sha256 assertion **re-checked on every substitution**;
+it holds only ids, filenames and digests. **The callback, all eight pinned files and the
+manifest were each verified to contain zero occurrences of the token before the rewrite ran.**
+No artifact of this procedure ever held the disclosed text.
+
+**Verification after the rewrite, before the push.**
+
+- **Residue: 0 blobs, 0 occurrences** of either literal across all **6,247 blobs / 7,443
+  objects** under `--batch-all-objects`. Before: **8 blobs, 14 occurrences**.
+- **All 8 carrier blobs and all 9 affected commits are unresolvable locally** —
+  `git cat-file -t` returns *"could not get object info"* for every one, including the
+  pre-first-rewrite SHAs `63ac4df`, `d0b3c64`, `96b2988`, `ee3933d`, `cbdb535`, `4df8401`.
+- **Tree at `HEAD`: 6,260 of 6,260 entries byte-identical. Zero changed.** 0 paths added, 0
+  removed. Correct rather than suspicious: the redaction was already committed at `9c89ae2`.
+- **Gitlinks: 13 of 13 unchanged at `HEAD`; 104 of 104 distinct historical `(path, sha)` pairs
+  unchanged** (compared against the untouched backup mirror, not against a memory of them).
+  `helix-deps.yaml` keeps blob `069f4972` and `.gitmodules` keeps `830bb3ac`. **C9 and
+  `verify-manifest-pins.sh` are unaffected by construction** — a gitlink points *outward*, into
+  an object graph this rewrite never enters.
+- **Identity byte-identical for all 107 commits** — author name, email, date, committer name,
+  email, date and subject, compared as a sorted stream. **98 of 107 SHAs unchanged; 9 moved.**
+- **All 4 tags unchanged**, still at their original objects — they predate `63ac4df`.
+- **`git fsck --full` rc=0, no output. 0 unreachable, 0 dangling, reflog empty.** Objects
+  7,465 (7,412 packed + 53 loose) → **7,443 packed, 0 loose**; pack 493.21 → **493.28 MiB**.
+- Umbrella working tree otherwise unchanged; the pre-existing dirty state inside the
+  `workshop` and `submodules/constitution` submodule working trees was **preserved untouched**.
+
+**Commit map — nine SHAs moved, and the mapping GitHub Support needs.** `filter-repo`
+**composed** this run's map with the first run's, so the left column is the **original public**
+SHA in every row, not the intermediate one. That is what makes a **single** support request
+cover **both** rewrites:
+
+| Original (public, pre-2026-09-01) | Intermediate (first rewrite) | **Final (now)** | Subject |
+|---|---|---|---|
+| `63ac4df32e5f…` | `fc7574b2` | **`16cd4ba847de…`** | SpecKit 001 through plan phase… |
+| `d0b3c6493a7f…` | `7b4df26d` | **`284adfa30809…`** | SpecKit 001 through tasks… |
+| `96b2988ef61f…` | `4ee9e8de` | **`b23978867811…`** | gates: 'could not run' vs 'failed'… |
+| `ee3933d46211…` | `b0ab4b44` | **`6fd4cb2a8c1d…`** | gates: defer live-production specs… |
+| `cbdb5351bee3…` | `25fe585e` | **`695c22d3c92a…`** | feat(platform): workshop curriculum platform… |
+| `4df8401c32b6…` | `562ecf9c` | **`13a13a312fd9…`** | chore(audit): triage the 82 findings… |
+| `203061dcb8dd…` | — | **`ebac0d8a387b…`** | docs(incident): record the executed rewrite… |
+| `9dcfc41c306d…` | — | **`ac6d819d5591…`** | fix(manifest): repoint the two site pins… |
+| `9c89ae2d1e11…` | — | **`f7cad55c8101…`** | redact(content-boundary): elide the first name… |
+
+**First Changed Commit, as `git filter-repo` reports it in
+`.git/filter-repo/first-changed-commits`:**
+
+> old `63ac4df32e5fd40806a50cd38fde8cdc39587c2c` →
+> new `16cd4ba847dea301e0bb308a9d538cbd6328f13e`
+
+**This one value replaces §8B.7's.** The operator now sends **one** request covering both
+rewrites; §8A.7's prepared text needs `<NEW-SHA>` filled with `16cd4ba847de…` and its orphan
+list extended (below).
+
+**Stale citations, re-derived rather than assumed — 20 occurrences in 8 tracked files.**
+`filter-repo` rewrites old hashes in commit *messages*, never inside blob content, so prose
+citations survive untouched and dangling. The first run predicted 5 and found 17; this run
+found **20**, in the same class and one file wider:
+`helix-deps.yaml` ×3, `scripts/verify-governance-cascade.sh` ×2,
+`scripts/verify-manifest-pins.sh` ×3, `docs/check-registry.md` ×3,
+`.environment-assumptions-allow` ×2, `.hardcoded-paths-allow` ×1,
+`docs/environment-adaptability/AUDIT.md` ×2, `CONTINUATION.md` ×4. All 20 were repointed and
+**every replacement SHA was confirmed to resolve.** The citations that already carried a
+"cited as `63ac4df` until 2026-09-01" note now record the **two-generation chain**, because a
+note that hides the second move is the same defect as a dangling SHA.
+
+**Deliberately NOT repointed: every SHA inside §8A and §8B of this document.** Those sections
+are the record of the first run and were true when written. Editing them to look right in
+hindsight is precisely the bluff §11.4.6 forbids. §8B.7 instead carries a **forward pointer**
+to this section, so nobody can read a superseded value as current.
+
+### 11.5 · What this did NOT do — the same four facts, and they have not changed
+
+**The force-push removed nothing from GitHub.** §8A.6 *demonstrated* this rather than quoting
+it: after a successful `--force-with-lease` on the stand-in remote, the orphaned commit still
+resolved and every byte of the leak blob was still readable by SHA; only a **server-side**
+`reflog expire` + `gc --prune=now` made them unresolvable.
+
+**The orphan list has grown, and the operator must send one request covering all of it.** Eight
+further commits were orphaned by this push, and **every one of them carried between three and
+five of the eight name-bearing blobs**:
+
+| Newly orphaned by the 2026-09-02 push | Carrier blobs in its tree |
+|---|---:|
+| `fc7574b27c7f9298b05bb55cc5a0ba024cb9da5f` | 3 |
+| `7b4df26d5684cadbf30a6b7a8ea314e3986a4f34` | 5 |
+| `4ee9e8ded660…` (`b0ab4b44`'s parent) | 5 |
+| `b0ab4b4470578300a1335a21f9dd09c93e5578a6` | 5 |
+| `25fe585ee6fd316fec2566b3bae0de0bc75bc0a4` | 4 |
+| `562ecf9cca2d01beaf9ba8bde7474c465f0169ee` | 4 |
+| `203061dcb8dd064f394da932ef4e2aba7a814789` | 4 |
+| `9dcfc41c306da085963bb92032f808a5f3236d2a` | 4 |
+
+Those are **in addition to** the four orphaned by the 2026-09-01 push (`63ac4df`, `d0b3c64`,
+`96b2988`, `ee3933d`), which carried the **full** name and the verbatim prose and are **still
+fetchable by SHA** because no purge has been run. `9c89ae2d1e11…` is **not** on the list: it
+was created and rewritten locally and never pushed.
+
+1. **Only a GitHub Support purge removes any of it from their storage.** Text at §8A.7; the
+   value it needs is `63ac4df32e5f… → 16cd4ba847de…` (§11.4), and the orphan list is the four
+   above plus the eight here. **It has not been sent. It is the operator's and no agent may
+   send it.**
+2. **Telling the third party remains the substantive remedy.** A name cannot be rotated. Two
+   rewrites do not undo a disclosure; they only stop it continuing.
+3. **Forks, mirrors, existing clones, and search-engine and archive caches are unreachable by
+   any of this.** The clone-traffic question §8B.8 left open is now answerable —
+   `gh api repos/milos85vasic/vasic/traffic/clones` covers the 2026-09-01 exposure window from
+   2026-09-02 onward. **This wave did not run it**; it is a read-only provider query and it is
+   the cheapest evidence available.
+4. **Nothing can be rotated.** No credential was involved in either wave.
+
+**Anyone holding a clone must rebase, not merge** — twice over now. Merging an old branch back
+would reintroduce the deleted content into `main`.
+
+**The incident is still not closed.** Two of the three steps §8A.10 recommends — the purge
+request and the conversation — remain undone, and they are the two that matter.
 
 ---
 

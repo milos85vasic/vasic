@@ -1101,12 +1101,13 @@ c8_submodule_lockstep() {
 # ── C9 — the manifest's REFS agree with the real gitlinks ───────────────────
 # C6 above compares dep NAMES in both directions. That is only half of
 # §11.4.31, and the missing half was not theoretical: measured on 2026-09-01 at
-# HEAD fc7574b2, SEVEN of seven `deps[].ref` values named commits nothing pointed
+# HEAD 16cd4ba8, SEVEN of seven `deps[].ref` values named commits nothing pointed
 # at, and this verifier reported 10 PASS / 0 FAIL / rc=0 over it. A manifest can
 # name exactly the right submodules and record entirely wrong commits.
-# (That HEAD was cited as `63ac4df` until 2026-09-01; the commit was rewritten by
-# the authorized content-boundary remediation of that date and no longer resolves.
-# Its content is now `fc7574b2`. Mapping: docs/content-boundary-incident-2026-09-01.md §8B.)
+# (That HEAD has been renamed twice by authorized content-boundary rewrites:
+# `63ac4df` → `fc7574b2` on 2026-09-01 → `16cd4ba8` on 2026-09-02. Only the last
+# resolves; the measurement is unchanged. Mapping:
+# docs/content-boundary-incident-2026-09-01.md §8B and §11.4.)
 #
 # WHY A SIBLING SCRIPT AND NOT INLINE HERE. Two hard constraints of this file
 # forbid an inline implementation, and both are load-bearing:

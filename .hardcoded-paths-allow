@@ -138,8 +138,12 @@ specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
 # ==============================================================================
 # workshop/ — the 2026-09-01 gitlink bump
 # ==============================================================================
-# Commit 25fe585e moved the `workshop` gitlink from a near-empty commit to one
-# carrying 247 paths, and this gate scans submodule interiors, so 8 occurrences
+# Commit 695c22d3 moved the `workshop` gitlink from a near-empty commit to one
+# carrying 247 paths. (That commit was `cbdb5351` when the finding was recorded,
+# `25fe585e` after the 2026-09-01 authorized content-boundary rewrite, and
+# `695c22d3` after the second one on 2026-09-02. Only the last resolves; see
+# docs/content-boundary-incident-2026-09-01.md §8B and §11.4.)
+# This gate scans submodule interiors, so 8 occurrences
 # across 3 files became visible in one index update. NEWLY VISIBLE, NOT NEWLY
 # CREATED.
 

@@ -149,12 +149,12 @@ audit proofs (10 mutations each).
 A **third** instance is now visible and is *not* fixed: `continuation-sync`
 (`scripts/continuation-check.sh --prove-failure`) also baselines against the
 live tree, so it reports `PROOF FAIL baseline, unmutated` whenever
-`CONTINUATION.md` is stale — which it is today, because commits `7b4df26d`,
-`4ee9e8de` and `b0ab4b44` changed watched governance files without updating it in
-the same commit (§12.10 protection 2). (Those three were cited as `d0b3c64`,
-`96b2988` and `ee3933d` until 2026-09-01; all three were rewritten by the
-authorized content-boundary remediation of that date and no longer resolve. The
-old→new mapping is in `docs/content-boundary-incident-2026-09-01.md` §8B.) It is a *degraded* rather than an
+`CONTINUATION.md` is stale — which it is today, because commits `284adfa3`,
+`b2397886` and `6fd4cb2a` changed watched governance files without updating it in
+the same commit (§12.10 protection 2). (Those three have been renamed twice by authorized
+content-boundary rewrites: `d0b3c64`/`96b2988`/`ee3933d` → `7b4df26d`/`4ee9e8de`/`b0ab4b44`
+on 2026-09-01 → the values above on 2026-09-02. Only the last generation resolves; the
+mappings are in `docs/content-boundary-incident-2026-09-01.md` §8B and §11.4.) It is a *degraded* rather than an
 inoperative proof: its six mutations and its rc-2 branch all still execute and
 pass. It was deliberately left alone because a synthetic control for it must make
 C7 (the §6 gate table vs the live runner) and C8 (production workflow facts)

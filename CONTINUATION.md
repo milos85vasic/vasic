@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-02T00:20:00Z
-    Synced-Commit: 9dcfc41c306da085963bb92032f808a5f3236d2a
+    Last-Updated: 2026-09-02T06:15:00Z
+    Synced-Commit: f7cad55c8101b1a719426cc615562f2adf4ba628
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -264,12 +264,16 @@ for R in "$PIN" "$REM"; do
 done
 ```
 
-The umbrella itself is pushed: `HEAD` = `562ecf9cca2d…` = `refs/heads/main` on
-all three configured remotes (`github`, `origin`, `upstream` — all the same URL,
-`git@github.com:milos85vasic/vasic.git`). That tip is the result of the
-**2026-09-01 authorized history rewrite and force-push** (A9 below); the value
-this line carried before, `ee3933d46211…`, names a commit that no longer exists
-in this repository.
+The umbrella itself is pushed: `HEAD` = `refs/heads/main` on all three
+configured remotes (`github`, `origin`, `upstream` — all the same URL,
+`git@github.com:milos85vasic/vasic.git`). That tip is the result of **two**
+authorized history rewrites and force-pushes — 2026-09-01 and 2026-09-02
+(A9 below). `13a13a312fd9…` was the tip after the first push and is **no longer
+the tip**: four further commits have landed since. Re-derive with
+`git rev-parse HEAD` and `git ls-remote origin refs/heads/main` rather than
+trusting a SHA quoted here. The two values
+this line carried before — `ee3933d46211…` and then `562ecf9cca2d…` — both name
+commits that no longer exist in this repository.
 
 **Clone caveat.** Init the site submodules **non-recursively**:
 `git submodule update --init vasic.digital milosvasic.ru`. `milosvasic.ru`
@@ -805,7 +809,7 @@ leak blobs remain **fetchable by SHA** from `github.com/milos85vasic/vasic` by
 anyone who recorded them, until GitHub runs a server-side garbage collection —
 whose timing is not the repository owner's to control. Ending the exposure needs
 a **GitHub Support purge request** (text prepared at incident note §8A.7, first
-changed commit `63ac4df32e5f… → fc7574b27c7f…`) and, ahead of it, **telling the
+changed commit `63ac4df32e5f… → 16cd4ba847de…`) and, ahead of it, **telling the
 third party**. Both are outward-facing and are the **operator's** to send; no
 agent has taken or may take either. Forks, mirrors, existing clones and
 search/archive caches are unreachable by any of this.
@@ -834,6 +838,44 @@ these files already use), and an unquoted **glob**
 `workshop/chapters/01/*Recording.mp4` in the two `RUNNABLE NOW` shell blocks,
 which keeps them runnable and resolves to exactly one file. Full record:
 `docs/content-boundary-incident-2026-09-01.md` **§11**.
+
+**DONE (2026-09-02, AUTHORIZED, EXECUTED): the SECOND rewrite and force-push.**
+Run **in place**, `--blob-callback` keyed on `blob.original_id` with eight
+sha256-pinned redacted replacements — no rules file, no artifact holding the
+name. A **new hardlinked bare mirror** was made first
+(`…/.vasic-history-mirror-2026-09-02-pre-rewrite2.git`, 106 commits, 494 MB),
+because **every pre-existing backup holds only pre-FIRST-rewrite history** and
+none of them covered the state this run destroyed. **The all-objects scan found
+EIGHT carrier blobs across FIVE paths, not the four the `HEAD` grep could see**
+— the fifth is `specs/001-…/contracts/http-api.md`, which carried the name in a
+JSON example that a later commit deleted, so it is clean at `HEAD` and invisible
+to any `HEAD`-scoped search. Verified after: **0 of 14 occurrences surviving
+across all 6,247 blobs / 7,443 objects** under `--batch-all-objects` (before: 8
+blobs / 14 occurrences, same script — its own positive control); tree at `HEAD`
+**6,260 of 6,260 entries byte-identical**; **13 of 13 gitlinks** and **104 of 104
+historical `(path, sha)` gitlink pairs** unchanged, `helix-deps.yaml` and
+`.gitmodules` blobs unchanged, so **C9 is unaffected by construction**; commit
+identity envelope byte-identical for all **107** commits; **98 of 107 SHAs
+unchanged, 9 moved**; all **4 tags** unchanged; `git fsck --full` rc=0 with **0
+unreachable / 0 dangling**, reflog empty. Rewrite itself: **7.72 s, peak RSS
+601 MB**. **20 stale citations in 8 tracked files** were repointed (the first run
+found 17 in 8; the class is the same and one file wider), and each provenance
+note now records the **two-generation chain** rather than hiding the second move.
+Full measurements: `docs/content-boundary-incident-2026-09-01.md` **§11.4**.
+
+**The support request now needs ONE value covering BOTH rewrites.**
+`filter-repo` composed this run's commit-map with the first run's, so the First
+Changed Commit is reported against the **original public** SHA:
+`63ac4df32e5fd40806a50cd38fde8cdc39587c2c` →
+`16cd4ba847dea301e0bb308a9d538cbd6328f13e`. **This supersedes the
+`fc7574b27c7f…` value recorded for the first run** — that SHA was itself
+discarded by the second rewrite and no longer resolves. The orphan list the
+request must name is now **twelve** commits: the four from 2026-09-01 (`63ac4df`,
+`d0b3c64`, `96b2988`, `ee3933d`) plus the eight orphaned on 2026-09-02
+(`fc7574b2`, `7b4df26d`, `4ee9e8de`, `b0ab4b44`, `25fe585e`, `562ecf9c`,
+`203061dc`, `9dcfc41c`) — **every one of the eight carried between three and five
+of the eight name-bearing blobs.** All twelve remain **fetchable by SHA** from
+GitHub until a server-side purge runs.
 
 **Two instrument gaps this incident exposed, both OPEN:**
 `scripts/verify-content-boundary.sh` matches on an **eight-word** window, so it
@@ -1302,12 +1344,12 @@ implies: `Constitution.md` and `specs/**` are **not** watched, so a change there
 will not be caught mechanically — update this document by hand when you touch
 them.
 
-**Honest boundary on this revision (§11.4.6).** It was written without
-committing anything, so `Synced-Commit` above still points at `HEAD`
-(`562ecf9cca2d…`, re-verified) while this document sits modified in the working
-tree. That is the intended pre-commit state and it makes C3 pass, but it also
+**Honest boundary on this revision (§11.4.6).** `Synced-Commit` above names the
+commit this document was last brought into agreement with — it cannot name the
+commit that carries it, because that commit does not exist until the write is
+done. That is the intended pre-commit state and it makes C3 pass, but it also
 means **the very next commit must carry this document with it** or the guarantee
-is void.
+is void. The earlier value `13a13a312fd9…` is superseded twice over.
 
 This revision touched **only** the four root carriers and this file. Three other
 agents were active in the tree while it was written, and their working sets were
