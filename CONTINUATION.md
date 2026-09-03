@@ -188,7 +188,7 @@ comment in the manifest, not a `deps[]` entry, and C6 checks that both ways.)
 | `design-toolkit` | `e7f3815ec35c0940515296ffb3481cd0fab4bfa6` | match · remote CURRENT. The "working tree sits at `5467a888…`" caveat this row used to carry is **withdrawn** — index, `HEAD` and the GitHub origin now agree. The GitLab-mirror asymmetry below is UNCHANGED and still unverified from this tree. |
 | `ai_interviewing` | `cde474fa3e167bfd5c8e63d4ba6d4c184d4c12b6` | match · remote CURRENT |
 | `monetization` | `54ed7b0f5add52821d18866facb5ee8c75adef69` | match · remote CURRENT |
-| `workshop` | `840fab768e1334d67c023fbc8a76ecc5957568f9` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
+| `workshop` | `bb66587eff8fcf52926b15f6ca52c0d5ebfd57e2` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
 
 **Every SHA in the table above except `monetization` and `submodules/superspec`
 moved after the previous `Synced-Commit`, and the values this table used to
@@ -544,6 +544,247 @@ mechanical type that T1 currently MASKS. The 13 remaining B1 rows match the firs
 Analysis: `workshop/docs/session-evidence/phase3e-contradiction-typology.md`; re-derivable by the
 read-only `workshop/pipeline/extract/analyze_r3_contradictions.py`. **Nothing was resolved,
 merged, discarded or applied; T041 remains `[ ]`.**
+
+#### A19 — T055 WIRED. T101 confirmed the WRONG fix and left unwired, with a false claim corrected.
+
+**T055 — the transcript now reaches the knowledge graph.** `GET /api/passages/{pid}/knowledge`
+was live and answering 200 with real content; **nothing in the SPA called it.** Now wired as a
+sibling of `crossrefs.component.ts` — same `<details>` shape, same load-on-open trigger (the
+window is 500 passages; an eager fetch would be 500 requests per screen), same `app-unavailable`
+handling. **Five outcomes render as five different sentences** — attached, unattached (the
+server's own `unattached_reason`, verbatim), redacted (410), not-in-registry (404), unavailable —
+and `attached:false` is carried as `ready` rather than `empty()`, **so A3.7.3's reason survives
+the client boundary** instead of collapsing into a blank panel. SC-022 design-token scanner 5/5.
+
+**One judgement worth keeping:** term links use the server's own `href` and were deliberately NOT
+pointed at `/search?q=…`, because `search.component.ts` reads no query parameter — that link
+would have landed the reader on an empty search box reading as "nothing found".
+
+**T101 — wiring `render_diagram` into `export_area` is the WRONG fix**, re-measured today on
+three independent grounds, **any one of which is disqualifying**:
+
+1. **The renderer cannot run, and its version query LIES about it.** `mmdc -V` → **11.12.0,
+   rc=0** — re-confirmed independently. The real probe:
+   `verify_export.py --mmdc-evidence` reports `mermaid = UNUSABLE … could not render a 2-node
+   graph to SVG (rc=1): [object Object]`, and `render_diagram(...) -> outcome=toolchain_unavailable
+   code=2`, `svg written: False`. **This is the `/usr/bin/whisper` trap in a second guise: a
+   name on PATH that answers `-V` and cannot do the job.**
+2. **There is nothing to render** — `grep -c mermaid docs/training/areas/*.md` returns **0** for
+   all five area documents.
+3. **The source-location convention is unmade** — the seven-heading skeleton has no diagram
+   heading, and inventing one is a content decision.
+
+**Wiring the call would deploy a code path that cannot succeed, on inputs that do not exist.**
+
+**A false claim found and corrected:** `docs/training/diagrams/README.md` justified source-form
+diagrams with *"which render natively in the platform frontend"*. **Independently re-verified as
+FALSE: 0 mermaid dependencies in `package.json` and 0 frontend source files referencing it.**
+The fences do render in GitHub/GitLab and editors — that half holds — but not in this platform.
+Corrected in the README and recorded in `docs/limits.md` §10.5.
+
+**E2E, with the recorded trap defended against.** A `beforeAll` guard fails loudly on connection
+refusal, so the `ERR_CONNECTION_REFUSED` run that once recorded "20 expected, 58 unexpected"
+cannot recur silently. New spec **16 passed**; unit suite **90/90**; a11y + design-tokens
+**42 passed, 1 skipped**. Its own §1.1 paired mutation: comment out the one template line →
+**8 failed**; restore → **8 passed**.
+
+**4 recurring full-suite failures are PRE-EXISTING — measured, not inferred.** The affordance was
+removed from the template and the suite re-run: **the same 4 failed with identical errors.** Root
+cause for three: `liveTerm()` assumes the top search hit is a transcript passage, and now gets a
+spec-002 `term` hit (`pid='kg_terms:index'`, `chapter_slug=None`) — so `/api/passages/kg_terms:index`
+400s and `/chapters/undefined` times out. **A 5th failure is honestly CANNOT DETERMINE:** an
+intermittent axe `color-contrast` on `/`, appearing once and passing 22/22 on re-run; the
+signature is a dark-theme colour over a light-theme surface, i.e. a theme-application race, but
+the mechanism was not established and was not guessed.
+
+**Index content unchanged across four mandated rebuild+restart cycles:**
+`root_hash sha256:03d91626…` and `pid_count 2478` identical throughout, floor 0.6550
+`calibrated=true`. The generation counter moved **54 → 61** purely because `main.go:552` calls
+`index.Build(...)` on every boot. **Quote `root_hash`, never the generation, when you mean
+"content unchanged".**
+
+**A side effect the caller must know:** the mandated `build.sh` + `restart.sh` cycles **compiled
+and deployed other agents' UNCOMMITTED backend work** that landed mid-session — `coverage.go`,
+`export.go`, `areas.go`, `question_catalog.go`, `service.go`, `main.go`. Every build exited 0 and
+the stack is healthy, but **the running binary is newer than the session's start state.**
+
+#### A18 — T079/T083 LIVE, T057/T058 resolved — and a `.gitignore` rule was silently eating the new handler
+
+**`GET /api/areas/{area}/coverage` and `/export`: 404 → 200**, verified live on a reviewed area.
+Both were unmounted **and** undeclared, which is exactly why `verify-server-unity.sh` stayed
+green throughout: **a route missing from BOTH the binary and `route-manifest.tsv` is invisible to
+its U5/U6 pair by construction.** Coverage serves `assessment.BuildCoverageReport` — the
+G-KG-12-gated function — directly, with no second arithmetic.
+
+**The review gate was respected, not bypassed** (decision 41): export sits behind it by design
+per A3.9.1; coverage does not, because §3.6 is silent and the §3.5 data it measures is already
+ungated. Verified: the unreviewed area still returns **404** from `/api/areas/{id}` while
+`/export` returns 200 with `exportable:false`, four `precondition_blocked` formats, and **no href
+and no source path leaked**. It answers 200 rather than 404 because A3.9.1 requires it to
+"export nothing **and say so**" — and saying so needs a body.
+
+**T057/T058: the earlier assessment was HALF stale, and each half went a different way.**
+- **`question` — no longer refusable, so it was INDEXED.** T078's loader exists and 44 authored
+  questions load and serve live. The recorded reason ("no loader, no real content") had simply
+  stopped being true. The load-bearing detail: `BuildQuestionEntries` applies
+  `assessment.ServeQuestions` (G-KG-2), so a question whose citation stops resolving **vanishes
+  from search exactly as §3.5 withholds it** — without that, search would have been a hole in
+  A3.5.1 with both endpoints still answering 200.
+- **`lesson_section` — still correctly refused, and now GUARDED.** Zero `kg_lesson_section`
+  records of 11,622; `knowledge.Sync` is called from no `cmd/` entry point; the 53 ids questions
+  reference are all `doc_section`, a kind already indexed. Left unindexed **with the measurement
+  recorded in code** and pinned by `TestT057_LessonSectionIsNotAdvertisedBecauseNothingIndexesIt`.
+  **Not indexing an empty kind to tick a box is the right outcome, and it is now defended.**
+
+**THE SHARPEST FINDING — the defect reintroduced one layer down.** `.gitignore`'s `coverage.*`
+rule was **silently swallowing `internal/api/coverage.go`**. `git status` listed nothing, so a
+`git add` on that directory would have dropped the handler and **the endpoint would 404 for
+anyone cloning the repository** — the exact defect the task existed to fix, recreated by an
+ignore pattern. Two path-specific negations already existed for earlier occurrences of the same
+rule; it is now generalised to `!**/coverage.go` (safe — Go writes `coverage.out`, `.html`,
+`.coverprofile`, never a `.go`). Re-verified independently: `check-ignore` reports the negation
+at `.gitignore:47` and `git status` now shows the file. **The rest of the tree was audited; no
+other source file is swallowed.**
+
+**The live index was NOT rebuilt:** `pid_count 2478` and `root_hash sha256:03d91626…` unchanged.
+Generation moved 56 → 60 purely from restarts. **Note the brief said 54 and it was already 56 —
+generations are being consumed by concurrent restarts, so quote `root_hash`, not the generation
+number, when you mean "the content is unchanged".**
+
+Proof: `prove-assessment-reach.sh` control passed and **all 8 mutations caught**, including both
+unmounted routes, a nested `threshold`/`passed` key, an omitted zero-question section, and a
+deleted manifest row mutated on the real file and restored byte-identical.
+
+**Owed in `specs/**`:** T079 and T083 drop PARTIAL; T057/T058 rewrite to "3 of 4 kinds indexed,
+`lesson_section` a recorded gated refusal"; **T102 is now half-stale** — `export.py:713` still
+hardcodes `review=None`, so it reports PRECONDITION_BLOCKED for all five areas even though 2 now
+have reviews.
+
+#### A17 — spec 002 reconciled to **96 ticked / 46 unticked / 142**. And the word-precision question is REOPENED, unresolved.
+
+**Two ticks, both earned by running the gates rather than reading the code:**
+`T115` and `T116`. `verify-answer-question.sh` **rc 0**, 10/10 L5 properties, and with
+`WORKSHOP_ASK_BASE` set it additionally reports `question_verifier_kind = question-focus+llm`
+— **live, not merely compiled**. `prove-answer-question.sh` **rc 0**, `CAUGHT 3 MISSED 0`,
+including `m2-silent-degrade`, which is precisely T116's own paired mutation. Their
+`[UNBUILT: decision taken 2026-09-02]` markers are discharged with what discharged them recorded.
+
+**`T041` was NOT ticked, correctly.** Decisions 29–32 genuinely landed — R3 is 13, RULE 1
+excludes 9,144 of 11,622 rows, RULE 2b discarded 355, three `T041-*` gate rows registered, both
+gates rc 0 — but the decision record's own §7 states T041 is **not closed**: **12 type-T2 rows
+are human judgements deliberately left un-ruled**, plus 1 T4 cluster routed with a 2026-09-16
+re-check. **The rules mechanised the 98.7% that was one artifact; they did not make the
+remaining judgements.**
+
+**A THIRD stale premise in one of this session's own briefs, caught by the agent checking
+instead of accepting.** The brief warned "SC-010 is NOT met, so a task whose acceptance is that
+criterion is not done." **Spec 002's SC-010 is the IDENTIFIER-SURVIVAL criterion** (proven under
+the already-ticked T053); the surviving fabrication belongs to **spec 001's** SC-010. Same
+number, different criteria, different specs. Neither T115 nor T116 names an SC as acceptance at
+all. **Three files in this project already have colliding section numbers; the SC identifiers
+collide across specs too.**
+
+Figures that moved and were withdrawn rather than restated: **T031's 499/494 → 495/490**, because
+5 areas moved to `held_back` as `all_evidence_redacted` when the decision-26 redactions applied —
+**the redaction propagated into the published grid exactly as designed**; and T117's denominator
+13 → **14** registered defects.
+
+#### A17a — RESOLVED: the `precision:"word"` field is LIVE and it **OVERSTATES ITS OWN PRECISION**. A new defect, not a closed one.
+
+**The §10.1 withdrawal recorded yesterday STANDS on substance: every deep link still resolves at
+SEGMENT WIDTH.** "Jump to the exact moment" is still "jump to the right few seconds." An agent
+first reported §10.1 as stale, then **investigated and reversed its own finding** rather than
+leaving it to be discovered later — the reversal is the valuable part and is recorded so nobody
+repeats the mistake from the field alone.
+
+**Measured independently 2026-09-03 over the first 12 areas, via
+`GET /api/areas/{id}/evidence`:**
+
+| `precision` | n | min | median | max |
+| --- | ---: | ---: | ---: | ---: |
+| `word` | 12 | 5.28 s | **6.34 s** | 9.64 s |
+| `segment` | 1 | 6.30 s | 6.30 s | 6.30 s |
+
+**Identical width.** A `word`-labelled entry is 5–10 seconds long. Cause, read directly:
+`pkg/knowledge/wordjoin.go:127-128` returns `StartS: sub[0].StartS, EndS: sub[len(sub)-1].EndS`
+— **the first word's start to the LAST word's end of the ENTIRE segment.** The flag flips to
+`word` when every word of the segment has a timing in the sidecar, so **it is a statement about
+SIDECAR COMPLETENESS, not about span width.** There is no character-offset localisation either:
+`text_span` spans the whole passage, so there is no single word to resolve to.
+
+**THE NEW DEFECT:** an entry labelled `precision:"word"` carrying a 6.34 s median span
+**overstates its precision to any client that trusts the field** — which is exactly the
+misreading §10.1's own consequence paragraph exists to prevent. What is genuinely inaccurate in
+§10.1 is now only its MECHANISM sentence: `entry.Precision = PrecisionSegment` is no longer
+unconditional, and `precision_split` is no longer always `{"word": 0, "segment": N}`.
+**`workshop/` owns that correction and the `precision-segment-only` defect row.**
+
+**A routing fact worth keeping, because it explains a failed reproduction.**
+`/api/areas/{id}` **404s behind the publication-review gate** (decision 41 — only 2 of 499
+reviewed), but **`/api/areas/{id}/evidence` is registered separately at `main.go:680` and does
+NOT apply that gate** — it returns 200 for any area. Confirmed both. A probe on the detail route
+finds no `precision` field at all and looks like absence of the feature; the same probe on the
+evidence subroute finds it immediately. **Two routes over the same entity with different gating
+is how a measurement gets silently mis-scoped.**
+
+T052 stays unticked for its unchanged reason: no SC-009 gate asserts that a media-backed citation
+lands inside its cited span.
+
+#### A16 — T037 ASR accuracy: **CANNOT DETERMINE, and that is the correct answer.** B2 is NOT met and cannot be, today.
+
+**The apparatus works; the GROUND TRUTH does not exist.** WER is defined by §4.2 as *"word error
+rate against a blind human reference over seeded, stratified audio-timeline windows"*. Both ASR
+engines are installed and working, but **an engine cannot be its own ground truth** — a second
+machine pass measures engine DISAGREEMENT, not error. Measured: a search for any
+`*reference*` / `*ground*truth*` artifact returns **zero** results outside vendored trees.
+
+```
+bash workshop/scripts/verify-accuracy.sh 01 --windows 30 --seconds 30 --seed 0 --min-accuracy 0.95
+UNDETERMINED: --reference is required. §4.2: the absence of a human reference is 2, never 0 —
+a command that cannot measure accuracy must not report that accuracy is fine.
+rc=2
+```
+
+**rc=2 was proved to be correct behaviour BEFORE it was accepted as an answer:** the script's own
+`--selftest` exits **0**, covering absent reference → 2 (twice), perfect reference → 0, degraded
+reference → 1, and a seeded BLUFFING mutant **caught** (rc=0 rather than 2). Re-verified
+2026-09-03: selftest 0, real run 2.
+
+**A machine reference was available and deliberately NOT used.** `verify-accuracy.sh` hardcodes
+the `method` string, so feeding it a second engine's output would have written a **false claim**
+into `accuracy.json` — precisely the bluff G-CLI-5's paired mutation exists to catch. **The one
+action needed is the one an agent cannot take: listen to the audio and write down the words.**
+
+**B2 remains NOT met**, and the endpoint stays honest — `accuracy.go` reads the literal path
+`transcript/accuracy.json` with no glob, so the new plan file cannot be mistaken for a
+measurement: `/api/chapters/01/accuracy` → `{"measured": false, "wer": null}`.
+
+**What WAS delivered turns "blocked indefinitely" into "blocked on one named human action":**
+`workshop/chapters/01/transcript/accuracy-plan.json` — **30 of 30** windows placed, shortfall 0,
+30 s each = **900.0 s = 12.99%** of the 6928.713 s recording, stratified 10 low / 10 mid / 10
+high by engine confidence, **2031** hypothesis words inside them (the size of the human job).
+Seed 0 is byte-reproducible — two independent runs give identical sha256. **Content-boundary
+safe, verified independently: its window keys are exactly `t0`, `t1`, `seconds`, `stratum` — no
+text-bearing key.**
+
+**A real defect found and fixed en route:** `--emit-plan` never created its parent directory, so
+writing to its OWN contracted destination died with a raw `FileNotFoundError` traceback. It still
+exited 2, which is why nothing caught it — **but a traceback is not a NAMED undetermined**, and
+the remedy the script exists to make runnable was un-runnable at its default path.
+
+**A companion metric that IS computable without ground truth:** SC-001 coverage-gap rate
+**0.055239 (5.52%)** — 382.733 s of 6928.713 s carry no segment; 389 inter-segment gaps, 11 over
+5 s, **0 over 30 s**, max 11.48 s. The other two companions §4.2 names both need ground truth.
+
+**DO NOT QUOTE `pipeline/AUDIT.md` AS AN ACCURACY FIGURE.** Its 3.11% engine-B contradiction at
+p ≥ 0.90 over 7×60 s is **engine disagreement**, not WER.
+
+**Owed in `specs/**` (not edited — another agent owns it):** T037 demands "the measured figure
+**and its confidence interval**", but `accuracy.json` has no CI field and the scorer computes
+none — **as written, T037 cannot be satisfied even once a reference exists.** Either T112 gains a
+bootstrap/binomial CI over the 30 windows, or T037's wording is amended. Separately, T037's open
+destination question is settled by evidence: the CLI default and the running server's
+`AccuracyPath` already agree the report belongs beside the recording.
 
 #### A15 — the three SC-015 architecture options, MEASURED. **The failure is ORDERING, not retrieval.**
 
@@ -977,10 +1218,18 @@ LIVE and verified over the LAN at `http://192.168.1.44:8087` (bind is persistent
   exists, but nothing in this deployment ever produces it.**
   **What is true:** the word-precision code path, its three-state fallback and
   `TestResolveWordPrecision_ThreeFailureModesStayDistinct` are all real. **What
-  is false:** that any served deep link uses them. A tested code path that
-  nothing calls is not a live feature, and writing it under "LIVE and verified"
-  is exactly the bluff §11.4 forbids. Found 2026-09-02 by an agent that measured
-  the premise instead of accepting it from its brief.
+  is false:** that any served deep link resolves to a WORD-WIDTH span. Writing it
+  under "LIVE and verified" is exactly the bluff §11.4 forbids. Found 2026-09-02
+  by an agent that measured the premise instead of accepting it from its brief.
+
+  **Refined 2026-09-03, and the refinement matters — see A17a.** The field
+  `precision:"word"` **IS** served today (`GET /api/areas/{id}/evidence`), so the
+  flat statement "nothing produces it" is superseded. But the spans it labels are
+  **5–10 s wide, median 6.34 s — identical to `segment`** — because
+  `wordjoin.go:127-128` returns the first word's start to the LAST word's end of
+  the whole segment. **The flag reports SIDECAR COMPLETENESS, not span width, and
+  therefore overstates its own precision to any client that trusts it.** The
+  practical conclusion is unchanged: **deep links land on a segment, not a word.**
 - semantic search with genuine cosine relevance; gibberish returns `no_match` in all
   three modes; `filters` echoed on every status including `unavailable`.
 - 498 areas, 8551 terms, chapters, transcript, recording, autocomplete.

@@ -70,13 +70,17 @@ Every task's requirements implicitly include this section. Values are copied ver
   (Phase 4); the on-screen-content question bounds ingestion (out of scope until answered); the
   answering defect bounds generation over the new kinds (Phase 10). Two of those three are now
   decided:
-  - **Answering — DECIDED.** The operator took the product decision to build the verifier, and U4
-    (does an entailment model load on this host?) was measured settled by T114. T115 and T116 are
-    **unbuilt**, not blocked, and their markers say `[UNBUILT]`.
+  - **Answering — DECIDED, and now BUILT.** The operator took the product decision to build the
+    verifier, and U4 (does an entailment model load on this host?) was measured settled by T114.
+    ~~T115 and T116 are **unbuilt**, not blocked, and their markers say `[UNBUILT]`.~~ **WITHDRAWN
+    2026-09-03, not restated:** both were built, wired, gated and pushed on 2026-09-02, their
+    `[UNBUILT]` markers are discharged and both are ticked. See their own notes for the commands.
   - **On-screen content — DECIDED 2026-09-02.** The operator chose **spoken PLUS on-screen OCR**,
     extending this specification **in place** rather than opening a feature 003, and then chose to
     **specify now and build later**. It is written down as **Phase 11, tasks T123–T142**, sequenced
-    after this specification's 28 already-unbuilt tasks. `spec.md`'s Out of Scope entry excluding
+    after this specification's already-unbuilt tasks — **26 as of 2026-09-03**, the figure of 28
+    this line carried being superseded by the T115/T116 ticks rather than wrong when written.
+    `spec.md`'s Out of Scope entry excluding
     OCR is **withdrawn**; the decision and its reasoning are recorded as **D5**.
   - **Prose authorship (T031) — GENUINELY OPEN.** It is the ONE remaining clarification, and its
     `[BLOCKED: prose authorship]` marker is LIVE.
@@ -203,11 +207,15 @@ complete**, because every later artifact points at something through the mechani
 - [ ] T022 [REVIEW] Review the knowledge contract implementation before anything consumes it —
       every other component depends on its shape, and a shape changed after adoption is a migration
 
-      **NOT DONE (measured 2026-09-02).** The brief exists
+      **NOT DONE (re-measured 2026-09-03, unchanged).** The brief exists
       (`workshop/docs/session-evidence/phase2e-brief.md`); **no `phase2e-report.md` was ever
-      produced**, and `specs/002-knowledge-areas-deep-linking/` has neither an `analysis.md` nor a
-      `review.md` (spec 001 has both). Every consumer adopted the knowledge contract without the
-      recorded review this task exists to require.
+      produced**, and `specs/002-knowledge-areas-deep-linking/` still has neither an `analysis.md`
+      nor a `review.md` (spec 001 has both). Every consumer adopted the knowledge contract without
+      the recorded review this task exists to require. **Do not mistake
+      `workshop/docs/knowledge-model-contract.md` for the discharge** — it landed 2026-09-02 in
+      `692a27a` at 1,372 lines and is a forward-looking *reusable model* contract (corpus layout,
+      the area-document skeleton, the export pipeline, validator invariants). It reviews nothing
+      that was built and names no task.
 
 **Checkpoint**: identity, precision, resolution and traversal are proven. Stop for human approval.
 
@@ -264,9 +272,13 @@ seven-section skeleton and that every substantive claim carries a citation that 
       with the two commands above rather than trusting this sentence — a host changes under you, and
       this task's text has already been wrong about it once.
 
-      **PARTIAL (measured 2026-09-02).** 5 area source documents exist under
-      `workshop/docs/training/areas/`, each in the seven-section skeleton; `/api/areas` serves
-      **499** areas, so **494** have no authored materials. The prose-authorship clarification is
+      **PARTIAL (re-measured live 2026-09-03; the figures moved and the gap did not).** 5 area
+      source documents exist under `workshop/docs/training/areas/`, each in the seven-section
+      skeleton; `/api/areas` now serves **495** areas at generation **54**, so **490** have no
+      authored materials. **The 499/494 figures this note used to carry are superseded, not wrong
+      when written**: 5 areas moved into `held_back` with reason `all_evidence_redacted` when the
+      chapter-01 redactions of decision 26 were applied — publication liveness working, not
+      authorship progress. The prose-authorship clarification is
       still open, and `pipeline/extract/verify.py` keeps `W2-claims-over-real-materials` and
       `W3-review-over-real-materials` in a separate `MATERIALS_STATUS_CHECKS` map — outside `GATES`
       and outside `--prove-failure` — naming this gap in its own comment. **The `[BLOCKED: prose
@@ -280,11 +292,12 @@ seven-section skeleton and that every substantive claim carries a citation that 
       carries a resolving citation **or** is visibly marked as editorial framing that is not workshop
       content. There is no unmarked, uncited claim
 
-      **PARTIAL (measured 2026-09-02).** Enforcement exists and hits production
+      **PARTIAL (re-measured 2026-09-03, unchanged).** Enforcement exists and hits production
       (`authorship.check_area_w2`, `verify.py::prove_w2_requires_citation_hits_production`). It has
-      been APPLIED to only **2 of the 5** authored areas —
-      `workshop/curriculum/publication-reviews.jsonl` holds 2 rows. The other 3 carry the unaudited
-      coincidental-citation risk that the review record itself names.
+      been APPLIED to only **2 of the 5** authored areas — `wc -l
+      workshop/curriculum/publication-reviews.jsonl` is still **2** against 5 documents under
+      `workshop/docs/training/areas/`. The other 3 carry the unaudited coincidental-citation risk
+      that the review record itself names.
 - [x] T034 [US1] [TDD] Implement the publication review record and its **staleness rule**: a review
       older than the materials it reviews **fails**, it does not warn (contract W3). Recording
       *"nothing to change"* is valid; skipping the review is not
@@ -299,11 +312,14 @@ seven-section skeleton and that every substantive claim carries a citation that 
       `GET /api/terms/{term}` per §3.4 — including the significance measure **and its inputs** on the
       single-term response
 
-      **PARTIAL (measured live 2026-09-02).** All four routes serve 200, but the single-term
-      response carries `"inputs_available": false` with an `inputs_reason`
+      **PARTIAL (re-measured live 2026-09-03 at generation 54, unchanged).** All four routes serve
+      200, but every term in `GET /api/terms` still carries
+      `significance.inputs_available: false` with an `inputs_reason`
       (`internal/api/terms.go:188`): `pipeline/extract/taxonomy.py` persists only the final
-      significance score. The missing work is PERSISTING the inputs (distinctiveness, distribution,
-      corroboration, baseline rate and its source); changing the handler is not the fix.
+      significance score, and `score_determined` being `true` beside it is what makes the gap
+      precise rather than a general outage. The missing work is PERSISTING the inputs
+      (distinctiveness, distribution, corroboration, baseline rate and its source); changing the
+      handler is not the fix. `term-significance-inputs-unavailable` remains a registered defect.
 - [x] T039 [US1] [TDD] Implement **A3.4.2**: a term whose last evidence is redacted is **withdrawn
       from the taxonomy**, not merely unlinked
 - [x] T040 [US1] Add route-manifest rows and contract sections for every endpoint above (FR-059).
@@ -312,20 +328,41 @@ seven-section skeleton and that every substantive claim carries a citation that 
 - [ ] T041 [US1] [REVIEW] Human checkpoint: the reconciliation of promoted against extracted areas.
       A wrong merge here is a wrong curriculum, and every later artifact inherits it
 
-      **NOT DONE (measured 2026-09-02).** The brief exists
-      (`workshop/docs/session-evidence/phase3e-brief.md`); **no `phase3e-report.md` and no decision
-      record anywhere**. The last full pipeline run produced **883 R3 contradictions** and no
-      decision on any of them is recorded under `evidence/knowledge-pipeline/`, `curriculum/` or
-      `docs/session-evidence/` — which is precisely the outcome the R3 branch (T027/T028) was built
-      to prevent.
+      ~~**NOT DONE (measured 2026-09-02).**~~ ~~no decision record anywhere~~ ~~**883 R3
+      contradictions**~~ — **both halves WITHDRAWN 2026-09-03, not restated. A decision record now
+      exists and the population is no longer 883.** Four operator rule decisions (29–32) were taken,
+      applied to production code and pushed in workshop `692a27a`, with the record written at
+      `workshop/docs/session-evidence/phase3e-r3-decisions-29-32.md` (titled for this task) over the
+      census at `phase3e-contradiction-typology.md`. Measured, not read: the latest pipeline run
+      (`workshop/evidence/knowledge-pipeline/20260902T200902Z-acb8265b/reconcile_and_taxonomy.json`)
+      reports `R1=1936 attach, R2=2 add, **R3=13 contradict**, S6=136 update, RULE-2b=355
+      discard-as-duplicate`. RULE 1 (extraction reads the corpus, not the graph) excludes 9,144
+      `kg_*` rows of 11,622 — 78.68% of the file. Three gates are registered
+      (`T041-RULE-1-graph-kinds-excluded`, `T041-RULE-2b-discards-only-covered`,
+      `T041-rules-over-real-corpus`) and both `verify-r3-rules.sh` and `prove-r3-rules.sh` exit
+      **0**, the prover catching both seeded defects against the real entry point (re-run
+      2026-09-03).
+
+      **STILL NOT DONE, and the decision record says so itself in its own §7:** the human checkpoint
+      this task asks for has not been completed. **13 R3 rows remain — 12 type-T2 rows that are
+      judgements only a person may make, deliberately left un-ruled because a rule over that class
+      is what contract §2.3 refuses, plus 1 type-T4 mega-cluster routed to a named owner with a
+      re-check date of 2026-09-16** (DEFERRED, OWNED — explicitly not counted closed). There is
+      still no `phase3e-report.md`. Two real costs are recorded rather than netted away: A3 fell
+      0.1047 → 0.0894 and "no evidencing mention" rose 3,243 → 9,017, because the 9,144 `kg_*` rows
+      now evidence nothing. Tick this only when the 12 judgements are recorded and the T4 deferral
+      is resolved — the rules mechanised the 98.7% that was one artifact; they did not make the
+      remaining judgements.
 - [ ] T042 [US1] [REVIEW] Record the content boundary check **in both directions** before anything is
       published (SC-029, SC-029a)
 
-      **PARTIAL (measured 2026-09-02).** The outbound half exists — `pkg/assessment/boundary.go`
-      with G-KG-16, plus the umbrella's `scripts/verify-content-boundary.sh`. The **inbound** half
-      (SC-029a) is NOT built: `platform/gates/defects-registry.tsv` carries `sc029a-not-built`, and
-      `docs/limits.md` §10.14 records the naive probe attempted and rejected (1,410 of 1,438 files
-      matched). Same gap as T122.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** The outbound half exists —
+      `pkg/assessment/boundary.go` with G-KG-16, plus the umbrella's
+      `scripts/verify-content-boundary.sh`. The **inbound** half (SC-029a) is still NOT built:
+      `platform/gates/defects-registry.tsv` still carries the `sc029a-not-built` row, and
+      `docs/limits.md` §10.14 still records the naive probe attempted and rejected (1,410 of 1,438
+      files matched, ~37,000 noise occurrences) with the shape a real check would need — long
+      shingles plus a generic-content filter, not short-term substring matching. Same gap as T122.
 
 **Checkpoint**: areas exist, are evidenced, have materials and a recorded review. Stop for approval.
 
@@ -357,11 +394,13 @@ back. No interface required.
       **A row with zero exercised origins fails** — an unexercised traversal is unmeasured, not
       passing (SC-015a)
 
-      **PARTIAL (measured 2026-09-02).** `platform/gates/verify-connectivity-matrix.sh` exits **0**,
-      but the handler's own live `derivation.rows_implemented`
-      (`internal/api/graph_traverse.go:200`) reports rows **1,2,3,5,6** plus only row 4's
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `platform/gates/verify-connectivity-matrix.sh`
+      still exits **0**, but the handler's own live `derivation.rows_implemented`
+      (`internal/api/graph_traverse.go:200`) still reports rows **1,2,3,5,6** plus only row 4's
       shared-area-membership half. Row 4's **cross-reference-graph** half is not implemented
-      (`docs/limits.md` §10.7, defects row `connectivity-row4-half-implemented`).
+      (`docs/limits.md` §10.7, defects row `connectivity-row4-half-implemented`). The gate gained a
+      real paired proof on 2026-09-02 (`prove-connectivity-matrix.sh`, 7 mutations including an
+      rc=2 control) — that closed a §1.1 debt, not this task's missing half-row.
 - [x] T051 [US2] [TDD] Prove **SC-008** over the **whole** relationship set, not a sample: a one-way
       link is indistinguishable from a two-way one when read forward, so sampling cannot find it
 - [ ] T052 [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span,
@@ -369,23 +408,64 @@ back. No interface required.
       precision and at word precision are different products, and a test that only asserts "inside the
       span" cannot tell them apart
 
-      **PARTIAL (measured 2026-09-02).** The precision split IS published on every response
-      (`internal/api/evidence.go:184`). What is missing is a gate asserting that **every**
-      media-backed citation lands inside its cited span over the whole set — and in this deployment
-      that assertion is currently unexercisable, because `word` precision is never produced
-      (`docs/limits.md` §10.1, defects row `precision-segment-only`).
+      **PARTIAL (re-measured live 2026-09-03). The precision split IS published; the GATE is what
+      is missing — and the stated REASON it was missing has expired.** `internal/api/evidence.go`
+      emits `precision_split` on every response (line 184). No gate anywhere asserts that **every**
+      media-backed citation lands inside its cited span over the whole set: `grep -rn 'SC-009'`
+      across `platform/gates/`, `platform/backend/` and `pipeline/` returns only source comments
+      plus `backend/gates/bench-answers.sh`, where `SC-009` names spec **001**'s benchmark-
+      composition floor and not this criterion at all. That gate is the work.
+
+      **On the `precision` FIELD, and a correction to an earlier reading of it made in this file on
+      2026-09-03 and withdrawn the same day.** Workshop commit `ff90e09` wired the word-sidecar
+      join, so the field is no longer pinned to `segment`: measured live on the `/evidence` route,
+      `precision: "word"` is now the common value (first 12 areas in list order → word 12, segment
+      1, no_time_span 4). **An earlier revision of this note read that as "word precision is live"
+      and drew the conclusion that `docs/limits.md` §10.1 was stale. That conclusion was WRONG and
+      is withdrawn, not restated — the label moved and the delivered precision did not.**
+
+      What the join actually returns, read from `pkg/knowledge/wordjoin.go` rather than inferred
+      from the label: `JoinSegmentWords` classifies *"its whole word range"* (its own doc comment)
+      and returns `StartS: sub[0].StartS, EndS: sub[len(sub)-1].EndS` — the first word's start to
+      the **last** word's end **of the entire segment**. It is a word-timing-derived tightening of
+      the segment's own bounds, not a pointer at one word. The `precision` flag flips to `word`
+      when every word of the segment carries a timing inside the segment window — a statement about
+      **sidecar completeness**, not about span width. Measured over 40 areas:
+
+      ```
+      precision="word"     n=40  min=2.040s  median=7.650s  max=13.040s
+      precision="segment"  n= 3  min=6.300s  median=7.620s  max= 9.620s
+      ```
+
+      **The two are the same width.** Both match this file's own recorded segment distribution
+      (median 6.74 s, p95 10.78 s). A word's span is a fraction of a second.
+
+      **So §10.1's substance stands and must NOT be "corrected" away: every deep link in this
+      deployment still resolves at segment width, and "jump to the exact moment a term was said"
+      is still "jump to the segment it was said in."** What is now inaccurate in §10.1 is narrower
+      than a staleness — its *mechanism* sentence (`entry.Precision = PrecisionSegment` set
+      unconditionally; `precision_split` always `{"word": 0, "segment": N}`) no longer matches the
+      code. **That makes the response shape worse, not better, and it is a NEW defect rather than
+      a closed one:** an entry labelled `word` carrying a 7.65 s median span overstates its own
+      precision to any client that trusts the field, which is the exact misreading §10.1's
+      consequence paragraph was written to prevent. Recorded here; fixing §10.1's wording, the
+      `precision-segment-only` row, and the label itself is `workshop/`-owned and out of this
+      file's scope.
+
+      **None of this ticks the task**, and the reason is unchanged: the SC-009 gate does not exist.
 - [x] T053 [US2] [TDD] Prove **SC-010**: replay the identifier-survival experiment extended to all
       five new kinds; compare the full link set before and after **by hash**
 - [x] T054 [US2] [P] Add route-manifest rows and contract sections for the endpoints in this phase
-- [ ] T055 [US2] [P] [SUBAGENT] Build the transcript-to-knowledge affordance in the existing
+- [x] T055 [US2] [P] [SUBAGENT] Build the transcript-to-knowledge affordance in the existing
       transcript view — the entry point for "what is being taught at this moment"
 
-      **NOT DONE (measured 2026-09-02).** The backend half is live: `GET
+      **NOT DONE (re-measured 2026-09-03, unchanged).** The backend half is live: `GET
       /api/passages/{pid}/knowledge` returns 200 and carries each term inline with its `href`. The
       front-end affordance was deferred in Phase 4 and never picked up in Phase 7 —
-      `platform/frontend/src/app/core/api.ts` has **no** `/api/passages/{pid}/knowledge` call (its
-      passage call ends at `crossrefs`, line 288) and `features/transcript/transcript.component.ts`
-      contains **zero** `knowledge` references. This is front-end-only work.
+      `platform/frontend/src/app/core/api.ts` still has **no** `/api/passages/{pid}/knowledge` call
+      (its passage call still ends at `crossrefs`, line 286) and
+      `features/transcript/transcript.component.ts` still contains **zero** `knowledge` references.
+      This is front-end-only work.
 - [x] T056 [US2] [REVIEW] Review the link model against the contract before the surface consumes it
 
 **Checkpoint**: the graph is complete and bidirectional, and both precisions are honest.
@@ -400,21 +480,22 @@ back. No interface required.
       indexing **their own text**, not only the passages they cite. A question findable only through
       its citations is not findable by anyone who does not already know the answer (D-KG-10)
 
-      **PARTIAL (measured live 2026-09-02).** `/api/search`'s corpus block advertises
-      `[transcript_segment, doc_section, code, diagram, area, term]`. `area` and `term` are indexed
-      on their own text and retrievable. `lesson_section` and `question` are **not indexed** — **2
-      of the 4** kinds this task names (`docs/limits.md` §10.8, defects row
+      **PARTIAL (re-measured live 2026-09-03, unchanged).** `/api/search`'s `corpus.indexed_kinds`
+      still returns exactly `[transcript_segment, doc_section, code, diagram, area, term]`. `area`
+      and `term` are indexed on their own text and retrievable. `lesson_section` and `question` are
+      **not indexed** — **2 of the 4** kinds this task names (`docs/limits.md` §10.8, defects row
       `lesson-question-not-indexed`). Blocked in turn on T031/T075 content reaching a server-side
-      store.
+      store. The 2026-09-02 switch to the nomic embedding index changed the retrieval MODEL, not
+      the set of kinds.
 - [ ] T058 [US3] [TDD] Advertise the new kinds in the corpus block, and prove **G-KG-11**: an
       advertised kind must be **retrievable**, proven by a planted known target — **not** by a row
       count, which cannot distinguish a populated index from a populated table nobody queries. The
       corpus already advertises one kind with zero entries
 
-      **PARTIAL (measured 2026-09-02).** G-KG-11 is proven in both directions by a planted known
-      target rather than a row count, as required — but its scope is `area` + `term` only.
-      `lesson_section` and `question` are neither advertised nor proven, because T057 does not index
-      them.
+      **PARTIAL (re-measured live 2026-09-03, unchanged).** G-KG-11 is proven in both directions by
+      a planted known target rather than a row count, as required — but its scope is `area` + `term`
+      only. `lesson_section` and `question` are still neither advertised in the live
+      `corpus.indexed_kinds` nor proven, because T057 does not index them.
 - [x] T059 [US3] [REVIEW] Settle **U1** before implementing offsets: does the full-text engine expose
       match positions through a supported interface, or must offsets be recomputed by re-locating
       query terms in the matched text? Three-valued exit. This has a correctness edge — a
@@ -441,10 +522,11 @@ back. No interface required.
 - [ ] T063 [US3] [TDD] Prove **SC-014** over **every** hit of the benchmark run — a hit without a
       resolving locus fails the run, not merely itself
 
-      **PARTIAL (measured 2026-09-02).** Per-hit locus withholding is proven
+      **PARTIAL (re-measured 2026-09-03, unchanged).** Per-hit locus withholding is proven
       (`TestToHit_WithholdsUnresolvedLocus`). The "over **every** hit of the benchmark run" half is
-      not implemented: `pipeline/benchmark/run_retrieval_benchmark.py` contains **zero** `locus`
-      references, so no hit can fail the RUN.
+      still not implemented: `grep -c locus pipeline/benchmark/run_retrieval_benchmark.py` returns
+      **0**, so no hit can fail the RUN. The file was edited on 2026-09-02 for the embedding switch
+      and gained no locus handling.
 - [x] T064 [US3] [TDD] Implement kind and area filters per **C4.1.5**, echoing the applied filter so a
       client can tell a filtered empty result from an unfiltered one
 - [x] T065 [US3] [TDD] Add area and term names to suggestions per **C4.2.1**, and prove **C4.2.2**:
@@ -453,39 +535,57 @@ back. No interface required.
 - [ ] T066 [US3] Build the ≥20-query benchmark for the new kinds in the platform's existing benchmark
       directory, beside the gates that read it, with expected identifiers fixed **in advance**
 
-      **PARTIAL (measured 2026-09-02).** `pipeline/benchmark/retrieval_benchmark.json` meets the
+      **PARTIAL (re-measured 2026-09-03).** `pipeline/benchmark/retrieval_benchmark.json` meets the
       ≥20-query and fixed-expectations requirements — **26** positive plus **12** negative queries
-      with expected identifiers fixed at build time. It is NOT in the platform's existing benchmark
-      directory (`platform/backend/testdata/benchmark/` holds only the specs-001 `questions.tsv`)
-      and **no gate reads it**.
+      with expected identifiers fixed at build time — and it has since been executed at full scale
+      (`SC015-FINDINGS.md`, `results_nomic_full_prefixed.json`). Both halves this task actually asks
+      for are still unmet: it is NOT in the platform's existing benchmark directory
+      (`platform/backend/testdata/benchmark/` still holds only the specs-001 `questions.tsv`) and
+      **no gate reads it**. The one reference from platform code —
+      `cmd/workshop-server/main.go:1039` — is a **source comment** citing the file as the provenance
+      of the calibrated floor. A comment is not a reader; nothing executes the benchmark from the
+      platform side, and `check-registry-002.tsv` has no row naming it.
 - [ ] T067 [US3] [TDD] Prove **SC-015**: the gate prints **per-query** outcomes, not only the
       aggregate — which queries fail is the useful information, and an aggregate hides it
 
-      **PARTIAL (measured 2026-09-02).** `run_retrieval_benchmark.py:225` prints per-query outcomes
-      as required. It is **not a gate**: its only exit is `return 0` (line 309) — no `1`, no `2`, so
-      it is not three-valued — and it has no row in `platform/gates/check-registry-002.tsv`.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `run_retrieval_benchmark.py` prints
+      per-query outcomes as required. It is still **not a gate**: its only exit is `return 0` (line
+      309) — no `1`, no `2`, so it is not three-valued — and it still has no row in
+      `platform/gates/check-registry-002.tsv`.
+
+      **And SC-015 itself is settled NO, which is the second reason this stays unticked.** The
+      criterion needs ≥90% of ≥20 queries returning the expected item in the top five — 24 of 26 on
+      this benchmark. Measured on the served path after the embedding switch of 2026-09-02: top-5
+      **20/26**, top-1 8/26. That is a real improvement over the 13/26 before it and it is still
+      below the bar. A gate built now would correctly go red; building it is the work, not
+      reaching the number.
 - [ ] T068 [US3] [TDD] Prove **SC-016 / SC-017**: re-run the latency harness and **publish before and
       after together**. A single after-figure cannot show a regression that stayed inside the threshold
 
-      **PARTIAL (measured 2026-09-02).** `docs/limits.md` §2 publishes three latency columns side by
-      side with the spread called out, so the publish-before-and-after-together discipline is real.
-      The newest column is dated 2026-09-01 against **1,101** passages; no re-run against the
-      ~11.6K-row knowledge-layer corpus is recorded anywhere.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `docs/limits.md` §2 publishes three latency
+      columns side by side with the spread called out, so the publish-before-and-after-together
+      discipline is real. The newest column is still the 17:57 UTC one taken against **1,101**
+      passages, and its own search p95 of **2,094.8 ms** already breaches SC-017's 2 s budget by
+      4.7%. No re-run against today's grown corpus is recorded anywhere — measured 2026-09-03 that
+      corpus is **11,622** registry rows, of which **2,478** are the retrievable non-`kg_*` corpus,
+      with a **9,406**-row taxonomy beside it. The task needs a fresh harness run published
+      **beside** the 1,101-passage column, not replacing it.
 - [ ] T069 [US3] [P] [SUBAGENT] Extend the search view for the new kinds, the filters and the locus
       display
 
-      **PARTIAL (measured 2026-09-02).** The new kinds render as badges in
-      `features/search/search.component.ts`. The **filters and the locus display are absent**:
-      `core/api.ts:273` `search(q, limit)` sets only `q` and `limit` — no `kinds`, no `area` — and
-      the component contains zero `locus` or `filter` references.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** The new kinds render as badges in
+      `features/search/search.component.ts`. The **filters and the locus display are still absent**:
+      `core/api.ts:273` is still `search(q: string, limit = 20)` setting only `q` and `limit` — no
+      `kinds`, no `area` — and the component still contains **zero** `locus` and **zero** `filter`
+      references. That component was touched on 2026-09-02 by a 3-line styling change only.
 - [ ] T070 [US3] [P] Update the route manifest and contract for the changed search and suggest
       endpoints
 
-      **PARTIAL (measured 2026-09-02).** `platform/gates/route-manifest.tsv` carries `/api/suggest`,
-      `/api/search` and `/api/progress`, but all three rows still cite the **001** contract sections
-      (3.6 / 3.7 / 3.11). There are no rows or notes for the 002 delta sections **§4.1**
-      (locus/offsets/kinds/filters), **§4.2** (areas and terms in suggest) or **§4.4** (progress
-      over areas).
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `platform/gates/route-manifest.tsv` carries
+      `/api/suggest`, `/api/search` and `/api/progress`, and all three rows still cite the **001**
+      contract sections (3.6 / 3.7 / 3.11). There are still no rows or notes for the 002 delta
+      sections **§4.1** (locus/offsets/kinds/filters), **§4.2** (areas and terms in suggest) or
+      **§4.4** (progress over areas).
 
 **Checkpoint**: everything is searchable and every hit says where — or honestly says it cannot.
 
@@ -521,12 +621,13 @@ back. No interface required.
       never only an aggregate**; sections with zero questions listed explicitly; **no threshold and no
       pass field**. Gate **G-KG-12**. **Paired mutation**: replace the per-area table with a mean
 
-      **PARTIAL (measured live 2026-09-02).** The measure is built and gated —
+      **PARTIAL (re-measured live 2026-09-03, unchanged).** The measure is built and gated —
       `pkg/assessment/coverage.go` plus G-KG-12 and its paired mutation
       (`TestT079_PairedMutation_ReplacePerAreaTableWithMean`), with no threshold and no pass field.
-      **The §3.6 endpoint is not built**: `GET /api/areas/{area}/coverage` returns **404** live, is
-      absent from `cmd/workshop-server/main.go`'s route registrations, and has no
-      `route-manifest.tsv` row.
+      **The §3.6 endpoint is still not built**: `GET /api/areas/{area}/coverage` returns **404**
+      live against a real published area id, `main.go` registers `/api/areas`, `/api/areas/{area}`,
+      `/api/areas/{area}/evidence` and `/api/areas/{area}/questions` and **no** coverage route, and
+      there is no `route-manifest.tsv` row.
 - [x] T080 [US4] [TDD] Prove **SC-018** by enumerating every served question and resolving every
       citation, and **record the reference module's measured value — 0 of 785 — beside it**, so the
       comparison is measured rather than claimed
@@ -537,16 +638,17 @@ back. No interface required.
       wiping everything else; a learner's history is not a derived artifact
 - [ ] T083 [US4] [P] Add route-manifest rows and contract sections for the assessment endpoints
 
-      **PARTIAL (measured live 2026-09-02).** The questions row `002.3.5` is registered. **Coverage
-      (§3.6) and export (§3.9) have neither a manifest row nor a mounted route** — both return
-      **404** live.
+      **PARTIAL (re-measured live 2026-09-03, unchanged).** The questions row `002.3.5` is
+      registered. **Coverage (§3.6) and export (§3.9) still have neither a manifest row nor a
+      mounted route** — both return **404** live against a real published area id.
 - [ ] T084 [US4] [REVIEW] Review question provenance end to end before the practice surface consumes
       it
 
-      **NOT DONE (measured 2026-09-02).** `workshop/docs/session-evidence/phase6-report.md:6`
+      **NOT DONE (re-measured 2026-09-03, unchanged).** `workshop/docs/session-evidence/phase6-report.md`
       deferred this review pending T075 and T078. **Both have since been completed and the review
-      was never revisited** — no later review record exists under `docs/session-evidence/`,
-      `curriculum/` or `specs/002-*/`.
+      was never revisited** — `phase6-report.md` is still the newest phase-6 artifact (2026-09-02
+      12:54), and `grep -rl T084` across `docs/` returns only that report and its own brief. No
+      later review record exists under `docs/session-evidence/`, `curriculum/` or `specs/002-*/`.
 
 **Checkpoint**: every served question is traceable to the moment that teaches it.
 
@@ -608,21 +710,23 @@ back. No interface required.
 - [ ] T101 [US6] Port diagram rendering from text source — reproducible, unlike an embedded binary
       (FR-014a)
 
-      **PARTIAL (measured 2026-09-02).** `pipeline/extract/export.py:549 render_diagram` is
-      implemented and proven in isolation, but **`export_area` never calls it** — the only call
-      sites are `verify_export.py` and `test_export.py`. No exported document can carry a diagram.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `pipeline/extract/export.py:549
+      render_diagram` is implemented and proven in isolation, but **`export_area` still never calls
+      it** — `grep -rn render_diagram pipeline/` returns its definition plus call sites in
+      `verify_export.py` and `test_export.py` only. No exported document can carry a diagram.
       `docs/limits.md` §10.5 investigates and deliberately leaves it unwired because the
       source-location convention is an unmade content decision (defects row
       `render-diagram-never-called`).
 - [ ] T102 [US6] [TDD] Prove **SC-024**: the file-existence matrix must be **complete**. Record the
       reference's measured 25-of-34 beside it, so nobody later matches the reference and calls it done
 
-      **PARTIAL (measured 2026-09-02).** `export.py::file_existence_matrix` and
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `export.py::file_existence_matrix` and
       `::sc024_matrix_is_complete` exist, but the matrix has **never been exercised over real
-      content**: `real_materials_export_status` hardcodes `review=None` (`export.py:713`), so every
-      real area document reports PRECONDITION_BLOCKED even though 2 now have reviews, and the §3.9
-      route 404s live. The reference's measured **25 of 34** is not recorded beside a workshop
-      matrix. Registered as a status check, not a gate.
+      content**: `real_materials_export_status` still hardcodes `review=None` at `export.py:713`
+      with the comment that this ALWAYS raises `PublicationBlocked`, so every real area document
+      reports PRECONDITION_BLOCKED even though 2 now have reviews, and the §3.9 route still 404s
+      live. The reference's measured **25 of 34** is not recorded beside a workshop matrix.
+      Registered as a status check, not a gate.
 - [x] T103 [US6] [TDD] Prove **SC-025** by **extracting text and diffing**, not by byte comparison —
       embedded timestamps make byte equality unachievable for some formats, and a criterion nobody can
       meet is worse than none
@@ -654,12 +758,14 @@ chapter from a finished feature.
       cannot test whether a *new* chapter works, because every identifier it needs already exists — the
       run would pass by matching and never by minting
 
-      **PARTIAL (measured 2026-09-02).** G-KG-17 exists, is registered (`G-KG-17-synthetic-chapter`)
-      and runs the REAL `run_pipeline.run()` entry point against the synthetic chapter. Its own
-      docstring (`pipeline/extract/verify.py:761`, "SCOPED HONESTLY") scopes it to extracted areas
-      and themes plus the taxonomy file; the rest of S2's output set — authored materials, question
-      sets, cross-references, index entries, deep links — is not exercised. T109 asked for **every**
-      output in S2.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** G-KG-17 exists, is registered
+      (`G-KG-17-synthetic-chapter`) and runs the REAL `run_pipeline.run()` entry point against the
+      synthetic chapter. Its own docstring (`prove_g_kg_17_synthetic_chapter` in
+      `pipeline/extract/verify.py`, "SCOPED HONESTLY") still scopes it to extracted areas and themes
+      plus the taxonomy file, and names the remainder of S2's output set — authored materials,
+      question sets, cross-references, index entries, deep links — as owned by
+      `platform/backend` or by stages not yet built, and explicitly does not claim to exercise them.
+      T109 asked for **every** output in S2.
 - [x] T110 [US7] [TDD] Prove **G-KG-18 / SC-015e**: withhold one required input; assert the run names
       exactly what is missing and publishes nothing. **Paired mutation**: downgrade it to a warning
 - [x] T111 [US7] [TDD] Prove **S7**: no stage writes to a source. Assert every source file's size,
@@ -679,53 +785,80 @@ chapter from a finished feature.
       retrieval gate refuses before any model runs
 - [x] T114 [REVIEW] Settle **U4**: does an entailment model load on this host? Three-valued exit. The
       platform's code claims it refuses to degrade silently; **a claim is not a measurement**
-- [ ] T115 [UNBUILT: decision taken 2026-09-02] [TDD] Implement the **answer-against-question**
+- [x] T115 [TDD] Implement the **answer-against-question**
       verification layer (FR-051) in the existing support-verifier seam. All four current layers
       verify the claim against the **passage**; none verifies it against the **question**, which is
       why a topically related fragment that does not answer what was asked passes all four
 
-      **NOT DONE — DECISION TAKEN, UNBUILT (2026-09-02).** The former `[BLOCKED: answering
-      clarification / U4]` marker is **WITHDRAWN on both halves** and must not be restated. (a) **U4
-      is settled**: `workshop/docs/limits.md` §10.12 records the entailment judge producing a
-      DECIDED verdict on this host (`entail=0.9924`) — the model loads. T114's gate
-      (`platform/gates/verify-entailment-loads.sh`) is registered and its third state is real, not
-      decorative: run unconfigured on 2026-09-02 it exited **2**, `UNDETERMINED: U4 was not asked`.
-      (b) **The product decision has been taken by the
-      operator: build the verifier.** What remains is unbuilt code, not a pending decision. Nothing
-      verifies an answer against the QUESTION today — `internal/answering/corpus.go` and
-      `pkg/answer/outcome.go` carry T115 only as the marker on the **stopgap** generation gate,
-      which `docs/limits.md` §10.11 states is not the verifier this task requires. Ready to
-      dispatch.
-- [ ] T116 [UNBUILT: decision taken 2026-09-02] [TDD] Implement **C4.3.4**: a verifier that was
+      **`[UNBUILT: decision taken 2026-09-02]` DISCHARGED 2026-09-03 — the layer was BUILT, WIRED
+      AND PUSHED, and the marker was describing a state that no longer existed.** The code the
+      marker was waiting on exists and runs: `platform/backend/pkg/answer/question.go` (L5, the
+      deterministic question-demand floor) plus a new `platform/backend/pkg/answerhood/` (the model
+      answerhood judge — deliberately **not** `pkg/entail`, because entailment relates
+      passage→claim and answerhood relates question→claim, and conflating them is the defect this
+      task names). Wired in `pkg/answer/pipeline.go` **after L4, not instead of it**: a
+      `VerdictDeclined` yields `ReasonDoesNotAnswer`, so the topically-related fragment this task
+      was written about is now refused. All of it landed in workshop `692a27a`, pushed.
+      Re-derived 2026-09-03, not read from prose:
+
+      ```bash
+      bash workshop/platform/gates/verify-answer-question.sh          # rc 0 — 10/10 L5 properties
+      bash workshop/platform/gates/prove-answer-question.sh           # rc 0 — CAUGHT 3, MISSED 0
+      curl -s http://127.0.0.1:8087/api/ask/status | grep question_verifier_kind
+      #   question-focus+llm — L5 is live on this deployment, not merely compiled
+      ```
+
+      Registered as `T115-answer-against-question` in `platform/gates/check-registry-002.tsv`.
+      **Honest boundary, and it does not withhold the tick:** `docs/limits.md` §10.15 records the
+      layer's measured cost and its four remaining weaknesses — fabrications fell 11 → 1 on the
+      57-question benchmark and **spec 001's** fabrication criterion is still NOT met; floor 1 is
+      strong on three demand classes and blunt on four; the judge defaults to the same model that
+      generated the claim; L5 checks that the question was ANSWERED, never that the answer is
+      CORRECT. Those are recorded tuning limits of a layer that exists. **Spec 002's own SC-010 is
+      the identifier-survival criterion (`spec.md`), proven under T053 — it is a different
+      criterion that happens to share a number, and it is not this task's acceptance.**
+- [x] T116 [TDD] Implement **C4.3.4**: a verifier that was
       requested and could not load reports **could not determine** and does **not** degrade to the
       weaker one
 
-      **NOT DONE — DECISION TAKEN, UNBUILT (2026-09-02).** Same correction as T115: the former
-      `[BLOCKED: answering clarification]` marker is **WITHDRAWN**. C4.3.4 is unimplemented because
-      there is no requestable second verifier to degrade from until T115 exists — a build-order
-      dependency on T115, not a blocker on a clarification.
+      **`[UNBUILT: decision taken 2026-09-02]` DISCHARGED 2026-09-03.** The build-order dependency
+      on T115 is discharged because T115 is built, and C4.3.4 landed with it in workshop `692a27a`.
+      `pkg/answer/pipeline.go` maps a requested-but-undecidable verifier
+      (`grounding.VerdictUnavailable`) to `CodeQuestionVerificationUnavailable` and **returns**
+      — it does not fall through to `answered` on the strength of the layers that did run, which is
+      what "does not degrade to the weaker one" means written as code rather than as a promise.
+      Proven, not asserted: `prove-answer-question.sh` seeds `m2-silent-degrade` — a requested
+      judge that could not decide being silently dropped — and the gate catches it (`CAUGHT 3
+      MISSED 0`, re-run 2026-09-03). Registered separately as
+      `T116-question-verifier-undetermined`. A nil verifier is a different case and is not treated
+      as a pass either: `/api/ask/status` reports `question_verifier_kind: null` with prose naming
+      what is therefore unchecked.
 - [ ] T117 Update the shipped limits document to name **every** open defect, including the measured
       fabrication rate on unanswerable questions and the undefended
       topically-related-but-non-answering case (FR-050)
 
-      **PARTIAL (measured 2026-09-02).** `docs/limits.md` §10 names the open defects with a
-      consequence each, including the measured fabrication rate and the undefended
-      topically-related-but-non-answering case. It is measurably incomplete **right now**: `bash
-      platform/gates/verify-limits-completeness.sh` exits **1** — `MISSING
-      area-term-over-generation`, 1 of 13 registered defects — because §10.9's anchor text changed
-      when that section was corrected and `defects-registry.tsv` was not updated with it. One-line
-      fix; T118's gate is working, not broken.
+      **PARTIAL (re-measured 2026-09-03; still incomplete, and the denominator moved).**
+      `docs/limits.md` §10 names the open defects with a consequence each, including the measured
+      fabrication rate and the undefended topically-related-but-non-answering case — §10.15 was
+      added for the L5 layer and the registry gained `l5-question-verifier-partial`, taking the
+      enumeration from 13 rows to **14**. It is measurably incomplete **right now**: `bash
+      workshop/platform/gates/verify-limits-completeness.sh` exits **1** — `MISSING
+      area-term-over-generation`, now 1 of **14** registered defects — because §10.9's anchor text
+      changed when that section was corrected and `defects-registry.tsv` was not updated with it.
+      One-line fix; T118's gate is working, not broken.
 - [x] T118 [TDD] Prove **SC-026**: cross-check recorded defects against the limits document; an
       unnamed defect fails. **Paired mutation**: remove one defect from the document
 - [ ] T119 [TDD] Prove **SC-028**: drive every new check into a could-not-determine condition and
       assert the **third** state, not either of the other two
 
-      **PARTIAL (measured 2026-09-02).** `platform/gates/prove-sc028-undetermined-states.sh` exists
-      and drives the three Phase-10 checks (T114/T118/T120) into their third state — reproduced
-      here: `verify-entailment-loads.sh` unconfigured exits **2**. The **18 G-KG-1..18 gates were
-      not independently re-driven** into a could-not-determine condition; `check-registry-002.tsv`'s
-      own `debt sc028-retroactive-coverage` row records that as a gap rather than assuming
-      compliance. T119 says **every** new check.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** `platform/gates/prove-sc028-undetermined-states.sh`
+      exists and drives the three Phase-10 checks (T114/T118/T120) into their third state. The
+      **18 G-KG-1..18 gates are still not independently re-driven** into a could-not-determine
+      condition; `check-registry-002.tsv`'s `debt sc028-retroactive-coverage` row is still present
+      and still records that as a gap rather than assuming compliance. **The population also grew
+      on 2026-09-02** — five new rows landed (`T115-answer-against-question`,
+      `T116-question-verifier-undetermined` and the three `T041-*` R3 rows) — so "every new check"
+      now covers more than it did when this note was first written, not less.
 - [x] T120 Register every new check in the check registry (SC-027). Note the registry prints known
       debt on every run **by design** — a zero exit means every check is accounted for, **not** that
       every check has a paired proof
@@ -734,11 +867,12 @@ chapter from a finished feature.
 - [ ] T122 [REVIEW] Final content-boundary check **in both directions** (SC-029, SC-029a), plus the
       fleet-wide no-CI gate (SC-030), plus `CONTINUATION.md` synchronised
 
-      **PARTIAL (measured 2026-09-02).** Two of three halves hold: the fleet no-CI gate is green
-      (`git -C workshop ls-files '.github/workflows/*'` → **0**), and the umbrella `CONTINUATION.md`
-      carries its spec-002 section. The **"both directions"** content-boundary half is not
-      satisfiable — SC-029a is not built (`docs/limits.md` §10.14, defects row `sc029a-not-built`),
-      the same gap as T042.
+      **PARTIAL (re-measured 2026-09-03, unchanged).** Two of three halves hold: the fleet no-CI
+      gate is green (`git -C workshop ls-files '.github/workflows/*'` → **0**), and the umbrella
+      `CONTINUATION.md` carries its spec-002 section. The **"both directions"** content-boundary
+      half is still not satisfiable — SC-029a is not built (`docs/limits.md` §10.14, defects row
+      `sc029a-not-built`), the same gap as T042. This is a FINAL review task in any case: it cannot
+      honestly close while T022, T041 and T084 are open above it.
 
 ---
 
@@ -750,7 +884,8 @@ nobody has written.** The operator chose **spoken PLUS on-screen OCR**, extendin
 **in place**, and then chose to **specify now and build later**. Nothing here is built. No checkbox
 in this phase may be ticked by the act of writing it down.
 
-**Sequenced after the 28 tasks this specification already carries unbuilt.** That is a deliberate
+**Sequenced after the tasks this specification already carries unbuilt — 26 as of 2026-09-03, down
+from 28 when this phase was written, because T115 and T116 were built.** That is a deliberate
 ordering, not a formality: on-screen mentions attach to areas, feed coverage figures and are exported
 alongside spoken ones, so a Phase-3-to-Phase-10 defect reached through OCR-derived evidence would be
 diagnosed twice.
@@ -773,10 +908,20 @@ resolves at a **user-local** path and reports **three** language packs — consi
 §7 V1's finding that every export tool on this host resolves user-locally, and the reason T123
 probes rather than assumes. **No OCR artifact of any kind exists in the workshop today**
 (`find workshop -iname '*ocr*'` returns nothing outside vendored environments), so every task below
-is genuinely unbuilt. And a boundary that must not be misread: the `word` branch of the precision
-model is **contracted and currently unexercised** — `workshop/docs/limits.md` §10.1 and the defects
-row `precision-segment-only` record that every deep link in this deployment resolves at `segment`
-precision. **"Joins the existing precision model" does not mean "word precision is live."**
+is genuinely unbuilt. And a boundary that must not be misread: **every deep link in this deployment
+resolves at SEGMENT width** — `workshop/docs/limits.md` §10.1 and the defects row
+`precision-segment-only`. **"Joins the existing precision model" does not mean "word precision is
+live."**
+
+**Read that boundary from the SPAN, never from the `precision` field — the two disagree today.** An
+attempt was made on 2026-09-03 to withdraw the sentence above on the strength of the field having
+flipped to `word` after commit `ff90e09`; **that withdrawal was itself wrong and has been reversed.**
+Measured the same day over 40 areas, entries labelled `word` have a median span of **7.650 s**
+against **7.620 s** for entries labelled `segment` — the same width, and the recorded segment
+distribution (median 6.74 s). `pkg/knowledge/wordjoin.go`'s `JoinSegmentWords` returns the first-to-
+last word of the **whole segment**, so the flag reports sidecar completeness, not span width. See
+T052's note. A `word` label on a 7-second span is a defect to fix, not a capability to build on —
+and Phase 11 must not assume it.
 
 **Independent test**: with the OCR stage run over one chapter, open any area and confirm that its
 evidence distinguishes what was said from what was shown, that the two are counted once where they
@@ -917,8 +1062,9 @@ regardless of how many checkboxes above it are ticked.
 - **Phase 6 blocks Phase 7's practice view** (T087).
 - **T059 blocks T060.** Offsets must not be implemented on an assumption about the index.
 - **T114 blocks T115 and T116.** **Discharged 2026-09-02** — T114 ran and settled U4 (the
-  entailment judge produced a DECIDED verdict on this host). This dependency no longer holds
-  anything back; T115 and T116 are unbuilt, not blocked.
+  entailment judge produced a DECIDED verdict on this host). ~~T115 and T116 are unbuilt, not
+  blocked.~~ **Superseded 2026-09-03: both are BUILT and ticked.** The whole chain — U4 measured,
+  decision taken, verifier built, gates registered and green, live on the deployment — is closed.
 - **T085 blocks T091.** The before-list must exist before the reshaping it measures.
 - **T004 blocks T097 and T098.**
 - **Phase 11 is sequenced after every unbuilt task above it.** On-screen mentions attach to areas,
@@ -933,10 +1079,12 @@ regardless of how many checkboxes above it are ticked.
   cannot be evaluated before both axes are measured, and nothing may be published before the budget
   is evaluated.
 - **T133, T134 and T135 block the closure of spec 002 itself.** This is the dependency D5 added.
-- **T031 is blocked on the prose-authorship clarification** — and on nothing else; ~~**T094** on the
+- **T031 is blocked on the prose-authorship clarification** — and on nothing else, and it is now the
+  ONLY `[BLOCKED: …]` marker left in this file; ~~**T094** on the
   UX research~~; ~~**T115/T116** on the answering clarification~~ — **both withdrawn 2026-09-02**:
-  the answering clarification is decided and U4 is measured, so T115/T116 are `[UNBUILT]`, not
-  `[BLOCKED]`; T094's blocker was resolved by a real ranked, sourced research artifact
+  the answering clarification is decided and U4 is measured, so T115/T116 became `[UNBUILT]`, not
+  `[BLOCKED]` — **and on 2026-09-03 that marker was discharged too, because the code was written**;
+  T094's blocker was resolved by a real ranked, sourced research artifact
   (`workshop/docs/research/ux-research-2026-09-01.md`), and T060's was discharged when T059 settled
   U1 (`workshop/docs/session-evidence/phase5-report.md`).
 - **The rule this section used to state — *"Markers record what a task waited on, not what it is
@@ -1078,6 +1226,18 @@ if that measurement was taken before the mentions were published rather than aft
 complained.
 
 **Task count: 142**, contiguous `T001`–`T142`, verified by parsing this file rather than by counting.
-Of those, **94 are ticked and 48 are not** — 28 carried forward from `T001`–`T122` and **20 added by
-Phase 11 on 2026-09-02**, none of which is built. The earlier count, *"Task count: 122 … `T001`–
-`T122`"*, is superseded by this line, not wrong when written.
+Of those, **96 are ticked and 46 are not** — **26** carried forward from `T001`–`T122` and **20
+added by Phase 11 on 2026-09-02**, none of the twenty built. **The figure this line carried, "94
+ticked and 48 not / 28 carried forward", is superseded 2026-09-03, not wrong when written**: T115
+and T116 were reconciled against work that landed and was pushed on 2026-09-02, and nothing was
+un-ticked to pay for them. Both earlier counts, *"Task count: 122 … `T001`–`T122`"* and the 94/48
+line, are superseded by this one.
+
+Re-derive rather than trusting the sentence above — this file's checkbox state has gone stale twice:
+
+```bash
+cd specs/002-knowledge-areas-deep-linking
+grep -c '^- \[x\] T' tasks.md    # 96
+grep -c '^- \[ \] T' tasks.md    # 46
+grep -c '^- \[[ xX]\] T' tasks.md  # 142
+```
