@@ -747,7 +747,87 @@ not.*
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
 
-#### A61 — commercial model RE-GROUNDED, T125 BUILT — and a **staleness blind spot that kept a gate green over a stale source under 29 live claims**.
+#### A65 — **WRITE-RACE INCIDENT on this very file.** Three entries lost twice, and no gate saw it either time.
+
+**What happened, precisely, because the shape matters more than the loss.** Two
+writers touched `CONTINUATION.md` concurrently. Entries **A60, A61 and A62** were
+written and verified, then found gone with the file **byte-identical to `HEAD`**;
+they were restored from the authoring session's own context. **A second write
+then landed between that restore and its commit**, taking two further entries
+with it, and left a **duplicate A61** because both writers had independently
+claimed the next free number.
+
+**Neither loss was malicious and neither was detectable.** An agent restoring
+"its" file cannot know what else moved in it, and **no gate noticed either
+event**: the continuation checker validates the document's *internal* consistency,
+not that yesterday's content is still present. **A handoff document can pass every
+check it has while missing a third of its recent history.**
+
+**Recovery was luck, not a property of the system.** Both restores worked only
+because the authoring session still held the text. **After a context compaction
+those entries — including the session's complete open register — would have been
+unrecoverable.**
+
+**The operational rules that follow, and they cost nothing:**
+- **Commit handoff state immediately after writing it.** The window between edit
+  and commit is exactly the exposure, and in a tree shared by a dozen agents that
+  window is not safe.
+- **Never `git checkout --` a shared file to tidy up.** You cannot know what else
+  is in it.
+- **Section numbering is a shared resource.** Two writers each taking "the next
+  free number" collide invisibly until somebody greps for duplicates. This
+  entry's number was chosen after checking.
+
+**Reconciled: no duplicates, `continuation-check` 0**, and the collision resolved
+in favour of the concurrent agent's entry, whose work was genuinely new.
+
+#### A64 — ingestion tooling BUILT, two never-measured properties proved — and **my own "the document promises a tool that does not exist" is WITHDRAWN as false.**
+
+**The correction first, because it is mine.** I recorded that the ingestion
+document **promises a phase-5 tool that does not exist**, calling it worse than an
+honest gap. **That is false — the tool's name appears in none of the three
+section documents.** They never named it.
+
+**The real defect is adjacent and subtler:** phase 5 was **the only phase naming
+no tool at all** while every other phase named one, so rows were hand-minted with
+nothing to point a reader at. The agent documented the tool it built, then
+corrected **four `NOT BUILT` rows its own work had made false** — the mirror of
+the defect I thought I had found.
+
+**The tool reproduces the existing rows exactly** — re-deriving every id *and*
+re-rendering each row through its own writers, byte-compared: **90/90 at baseline,
+196/196 by the end**. **Nothing in the existing rows had to change.** *If it could
+not reproduce rows that already pass the gate, the tool would be wrong, not the
+rows.*
+
+**TWO PROPERTIES ASSERTED IN PROSE AND NEVER MEASURED — both now are.** The gate
+had a mutation proving it **refuses** a private quote, but **nothing asserted its
+report WITHHOLDS the quote it caught** — the whole point of the rule, since *a
+checker that prints the secret is a second leak*. And the **never-public guard had
+never fired**: an exempt row with no proof, now exercised for both private trees
+plus a measurement that **no override-shaped flag exists**.
+
+**The staleness hole was real and the first design had exactly it** — an
+interval-driven run cannot see a source changing *inside* its interval. Fixed by
+comparing every live capture on every run, so **latency is the schedule's period,
+not the material's interval**; proved both ways, **22 mutations, 22 caught**. The
+decay report **refuses to write itself as Markdown inside the section**, because a
+section check scans Markdown for claim tokens — *it would turn the gate red for
+the crime of reporting decay.*
+
+**A live-ledger defect found and deliberately NOT fixed:** a capture id derives
+from the **content hash alone**, so two materials pointing at one upstream yield
+an identical id, and last-row-wins left one material **owning no capture** —
+**that orphan is staleness-checked by nothing**, since the gate checks
+capture→material and **nothing checks material→capture**. Fixing it re-derives
+every existing id: an operator decision.
+
+**Still NOT BUILT, named:** OCR for scans; selector-scoped capture; JavaScript
+rendering, where **a JS-only page is rc 2, never an empty success**; the
+capture-id fix; and boilerplate removal, a **deliberate non-goal** because *a
+heuristic that drops a nav bar drops a pricing table.*
+
+#### A63 — commercial model RE-GROUNDED, T125 BUILT — and a **staleness blind spot that kept a gate green over a stale source under 29 live claims**.
 
 **THE BLIND SPOT IS THE MOST IMPORTANT THING HERE, and it is recorded as a new
 open question.** A captured source had grown from 111,004 to 287,763 bytes while
