@@ -532,8 +532,37 @@ the one route where caching is correct, because the entity is content-addressed 
 
 **Traces**: FR-009, FR-016. Byte-serves a supporting material with its declared `Content-Type`.
 Same `ETag`/range rules as §3.5.2 (the 412 KB notes PDF does not need them, but one rule is fewer
-rules). `404` when the material id is unknown; `503` when the file is listed in the chapter
+rules). `404` `chapter_not_found` when the slug names no chapter; `404` `material_not_found` when the
+chapter is real and holds no material under that id; `503` when the file is listed in the chapter
 manifest but missing on disk — again, absent-but-expected is state 2.
+
+**That `503` carries `reason.code = "curriculum_unreadable"` (§5.3), and every `503` this route can
+produce carries the same one.** The clause above used to specify the condition and name no code at
+all, which left the one field a client is contractually required to branch on (§6) unstated for a
+response this contract says is reachable — measured and named 2026-09-03, and the omission is
+**WITHDRAWN**. There are four such paths and they are one code because they are one remedy — the
+chapter tree could not be read — while `reason.message` and the diagnostic `reason.evidence` string
+distinguish them:
+
+| Condition | `reason.code` | `reason.leg` |
+|---|---|---|
+| The chapter tree could not be listed, so no slug can be resolved | `curriculum_unreadable` | `curriculum` |
+| The chapter's own directory could not be listed | `curriculum_unreadable` | `curriculum` |
+| The material is listed in the chapter and could not be **opened** | `curriculum_unreadable` | `curriculum` |
+| The material was opened and could not be **measured** (`stat`) | `curriculum_unreadable` | `curriculum` |
+
+Read from the four non-test raise sites in
+`workshop/platform/backend/internal/api/chapters.go` (cited **by path only**), each calling the single
+`writeUnavailable` helper in that same file. That helper is the only way a `503` leaves this handler,
+and it emits `status: "unavailable"` plus a `reason` object with `code`, `leg`, `message` and
+`retry_after_s`, together with the `X-Workshop-Search-Status: unavailable` header — the §4 shape
+exactly. `curriculum_unreadable` is an existing §5.3 member and no code was invented to fill this gap.
+
+**Honest boundary (§11.4.6): this is read from source, not from a live probe.** All four conditions
+require the chapter tree to be unreadable underneath a running server, which was not induced on the
+live deployment. What was measured live is the negative half — `GET /api/chapters` answers `200` with
+chapter `01` present — so the `503` branch is established from the raise sites and the single
+`writeUnavailable` choke point, and is recorded as that.
 
 ---
 
@@ -651,6 +680,73 @@ capability it does not have. The response carries it in-band:
   "media_reached_via": "transcripts and captions only"
 }
 ```
+
+**Ordering of `results` — normative. `score` is NOT the sort key, and a client MUST NOT re-sort by
+it.**
+
+This clause is new on 2026-09-03. Until today §3.7 stated **no** ordering rule at all, and the served
+order happened to be descending `score`. It no longer is. **No written contract was violated by that
+change** — there was nothing here to violate — and that is precisely the argument for writing one:
+an unstated invariant that clients depend on is a contract the server never agreed to and can break
+without notice, which is what just happened.
+
+Measured live 2026-09-03 against the running deployment at generation 67, `GET
+/api/search?q=silence&limit=8`, ranks 1→8:
+
+```
+0.0273  0.0149  0.0143  0.0318  0.0156  0.0149  0.0145  0.0143
+                        ^^^^^^ rank 4 outscores rank 1
+```
+
+Two further queries at the same limit and generation behave the same way: `q=chunk` reads
+`0.0164 0.0323 0.0161 …` and `q=spec` reads `0.0320 0.0307 0.0118 0.0310 …`. **The scores themselves
+did not move; only the order did.**
+
+The ordering that actually applies, in the order it is applied:
+
+1. Candidates are sorted **descending by `score`**, stably.
+2. Hits are withheld and demoted: a hit whose locus does not resolve is dropped entirely (FR-030); a
+   snippet carrying a source-filename shape is dropped by §2.4's disclosure guard; a semantic hit at or below the
+   relevance floor is moved to the near-miss list and is **not** a result. The survivors are
+   truncated to `limit`. **This is the window.**
+3. **The window is then replaced by a permutation of itself.** The permutation is a reciprocal-rank
+   fusion (k=60, the same constant used across legs) of two orderings over the same positions: the
+   incoming score order from step 1, and an Okapi BM25 OR-ranking computed over the window **as its
+   own mini-corpus** — so `idf` and length normalisation are relative to the window, which is what
+   lets a short exact-title row compete with a long transcript segment. The final sort is stable and
+   tie-broken by incoming position, so two equally-fused documents keep their relative order and an
+   identical request returns an identical order.
+4. `score` is **not** rewritten by step 3. It still means what the leg measured — cosine for
+   semantic, bm25 for lexical, RRF-across-legs for fused. That is why `score` and position disagree:
+   the number is preserved deliberately, and preserving it is what breaks the correspondence.
+
+**What step 3 cannot do, and these are structural properties rather than promises.** It is a
+permutation of the served window: it cannot add a hit, cannot remove one, and cannot change a score.
+So `no_match` (reached from an **empty** hit list) is unreachable through it — a permutation of the
+empty list is the empty list — the relevance floor is neither read nor widened, and no near-miss can
+be promoted. It runs on the already-floor-filtered list for exactly that reason.
+
+**The near-miss list is deliberately NOT reordered**, and stays in descending `score`. It is evidence
+about what the floor rejected, and its order is the order that produced the rejection.
+
+**This is switchable and the switch is part of the contract.** The permutation is applied when the
+server's window-rerank option is on. It is on by default and is on in the deployment measured above
+(the server logs `search window rerank=true` at boot and the running container's argv carries
+`-search-window-rerank=true`). Turning it off restores step 1's descending-`score` order exactly,
+because steps 1 and 2 are unchanged by it. **A client must therefore treat the served order as
+authoritative and `score` as a displayable measurement, under either setting** — that rule is the same
+in both configurations, which is what makes it safe to state.
+
+**Honest boundary (§11.4.6).** Three things above are read from
+`workshop/platform/backend/pkg/search/` (cited **by path only**) and not from a live probe: the
+near-miss list's ordering — the three queries measured returned zero near-misses, so no live response
+exercised it; the determinism of step 3; and the claim that disabling the option restores descending
+`score`. On determinism the live evidence is real but thin and is not more than it is: two identical
+`q=silence&limit=8` requests returned an identical order and identical scores. **Two calls do not
+establish a determinism property** — they are consistent with it and would have refuted it had they
+disagreed. The rerank-off configuration was **not** measured, because doing so requires restarting the
+running deployment. What was measured live is the fact this clause exists to record: the served order
+is not descending `score`.
 
 **SC-006 note**: 2 s p95 is achievable only with a long-lived index child process (avoiding the
 measured 2.2 s per-process warm-up) **and** embedding capacity reserved from indexing. During a
@@ -955,6 +1051,86 @@ not an account.
 `404` when `X-Session` has no stored progress (determined negative). `503` when the store is
 unreadable.
 
+**That `503` carries `status: "unavailable"` plus `reason.code = "progress_store_unreadable"` and
+`reason.leg = "progress"` — §4's ordinary `503` row, with no exception.** Measured in-process on
+2026-09-03 by seeding a torn `progress.json` under an `httptest` server built from the real handler:
+
+```jsonc
+// HTTP 503        X-Workshop-Search-Status: unavailable
+{
+  "status": "unavailable",
+  "generation": null,
+  "reason": {
+    "code": "progress_store_unreadable",   // closed enum, §5.3
+    "leg": "progress",
+    "message": "the reading-position store could not be read; this is NOT the same as this session having no stored position",
+    "retry_after_s": null                  // §2.5: null is UNKNOWN, never 0
+  }
+}
+```
+
+Both `503` paths on this route emit that shape — `GET` when the store cannot be read, `POST` when the
+position cannot be stored — from the two non-test raise sites in
+`workshop/platform/backend/internal/api/progress.go` (cited **by path only**), each calling the
+`writeUnavailable` helper. They share one code because they share one failure: `Put` reads the store
+before it writes, so both faults are the same file, and two codes would name one fault twice.
+
+**THE PREVIOUS REVISION OF THIS CLAUSE IS WITHDRAWN, NOT RESTATED — but what it recorded was true
+when written.** It documented this route as **the one documented exception to §4's `503` row**,
+because both raise sites called `writeError` and emitted §1.5's fourth-thing shape instead:
+
+```jsonc
+// HTTP 503 — PRE-FIX, 2026-09-03. No `status`, no `reason`,
+//            and no X-Workshop-Search-Status header at all.
+{ "error": { "code": "internal_error", "message": "the reading-position store could not be read; …" } }
+```
+
+That capture is kept because it is the evidence, and because the deviation is the kind that hides:
+the property this route actually turns on — that an unreadable store is never reported as "you have
+never read anything here" — **held throughout**, so the endpoint's own gate was green the whole
+time. A `503` was a `503` and a `404` was a `404`. What was broken was that this `503` did not
+*parse* like any other `503`, which §6 depends on and no status-code assertion can see.
+
+**Which of the two remedies was taken, and why.** The previous revision named two — teach the route
+`writeUnavailable` and add a `reason.code` member, or amend §4 to admit an `error.code`-shaped
+`503` — and made neither. **The first is now applied.** The second was refused: it would spend a
+contract-wide guarantee, on which every other route and §6's client obligation depend, to
+accommodate one local convenience store. A new `reason.code` member was required because nothing in
+§5.3 fits — `registry_unreadable` is `passages.db` and `curriculum_unreadable` is the chapter's
+pipeline output, and each would send an operator to the wrong file. See §5.3 for the member and
+§5.6 for its disjointness.
+
+**Gated.** Two tests in `internal/api/progress_test.go` (cited **by path only** — see the note at the
+end of this clause) carry it: the older one seeds a corrupt store, requires `503`, and fails if the
+body carries a `not_found` verdict; the new one asserts the envelope above on **both** methods —
+`status`, an object-shaped `reason`, membership of `reason.code` in the closed §5.3 enum, the leg,
+an explicit null `retry_after_s`, and the `X-Workshop-Search-Status` header. Its paired mutation
+reverts either raise site to `writeError`, which compiles and turns it red. **A client may now
+assume a `503` from `/api/progress` parses like a `503` from any other route.**
+
+> **Why the two tests cited in this clause and in §3.7 are named by PATH and never by gate id — the
+> closure check caught this edit, and the catch is worth more than the citation was.** The first
+> draft of both clauses cited the implementation's own gate identifiers: the progress-store one here,
+> the search-disclosure one in §3.7. `tasks.md`'s gate-attachment closure check enumerates gate ids
+> by grepping `contracts/` and requires each to be carried by a task line; writing those two into
+> this file moved its population from **31 to 33** and it immediately reported **`unattached: 2`**,
+> naming both. **The instrument was right.** An id written into `contracts/` is a contract-level
+> obligation that some task must build, and neither of these is one: both name tests that already
+> exist in the backend, cited here as evidence, not commissioned here as work. **The fix was to drop
+> the identifiers — not to widen the check, not to attach them to a task line, and not to touch a
+> single checkbox.** Everything they carried survives as a path, which is what a reader needs in
+> order to go and look. Re-measured after the correction: **31 ids, `unattached: 0`**.
+>
+> **The second half of that lesson is a limitation of the instrument, and it is why this note spells
+> no identifier either.** Because the population is a grep over `contracts/`, a contract document
+> **cannot discuss a gate id without enlisting it** — including in a note explaining why it should
+> not be enlisted. The first attempt at this very paragraph named both ids and left the check at
+> **33 / `unattached: 2`**. There is no way to write "this id is deliberately not a contract gate"
+> inside `contracts/` and have the check agree. The resolution here is to describe the gates and let
+> the cited test files carry their own names; **deliberately misspelling an id to slip past the
+> extractor was considered and refused**, because an instrument that can be evaded by spelling is
+> worth nothing, and the next reader would have no way to tell a dodge from a typo.
+
 ---
 
 ### 3.12 `GET /api/chapters/{chapter}/accuracy` — the measured transcript accuracy
@@ -1037,9 +1213,24 @@ MUST NOT be on any request path.
 There is deliberately **no** response in this contract that pairs HTTP `200` with an empty result
 set and no discriminator. That combination is the failure mode FR-020 exists to prevent.
 
+**The `503` row above has NO exception, and the sentence that used to record one is WITHDRAWN.**
+An earlier revision named `/api/progress` (§3.11) as the single documented deviation: it answered
+`503` with an `error.code` of `internal_error` and no `status` and no `reason.code`. That was a
+correct measurement of the implementation on 2026-09-03, and it has since been **fixed in the
+backend rather than accommodated here** — both of that route's raise sites now emit
+`status: "unavailable"` plus `reason.code = "progress_store_unreadable"` (a new §5.3 member) and
+`reason.leg = "progress"`, re-measured in-process the same day and gated with a paired mutation.
+See §3.11 for both captures, before and after.
+
+**The direction of that fix is the point, and it is worth stating once for the next deviation.** The
+two remedies were to change the code or to widen this row. Widening the row was refused: this row is
+what lets a client write ONE `503` parser, and §6's branch-on-`reason.code` obligation is quantified
+over every route. A contract-wide guarantee is not the right currency for a single endpoint's
+convenience store. **A documented exception here is a debt to be paid, not a shape to be matched.**
+
 ## 5. Closed enums
 
-**5.1 Inventory.** Five closed enums govern every discriminated field:
+**5.1 Inventory.** **Six** closed enums govern every discriminated field:
 
 | Enum | Members | Where |
 |---|---|---|
@@ -1050,6 +1241,29 @@ set and no discriminator. That combination is the failure mode FR-020 exists to 
 | `degraded.*` | state 0 with a caveat | §5.4 |
 | **decline `reason`** | state 1 negative, *determined* | **§5.5** |
 
+**"Five closed enums" is WITHDRAWN as the count of this table, corrected 2026-09-03 by counting the
+rows.** The table has six and has had six for as long as this document has existed; the word was
+never re-derived after the sixth row was written. The count is the load-bearing part of the sentence
+— a reader validating a client against "five" has one closed vocabulary they were never told to
+implement.
+
+**The sixth row was checked for the obvious alternative explanation — that a non-enum had been
+pasted into an enum table — and it is NOT that.** The `decline reason` row is a genuine closed enum
+of the same class as the other five: §5.5 enumerates its members exhaustively, it discriminates a
+single wire field (`reason` on a `status: "declined"` body), and §5.6 makes its disjointness from
+§5.3 normative rather than advisory. The backend carries it as a distinct closed type with its own
+validity predicate and its own `reason` JSON tag, in
+`workshop/platform/backend/pkg/answer/outcome.go` (cited **by path only**), where an out-of-set value
+is rejected rather than serialised. So the row belongs and the number was stale.
+
+**What the miscount actually is a symptom of is visible in the table itself: that row is the only one
+in bold.** Every other row is plain; this one bolds both its `Enum` cell and its `§` cell. Bold on
+exactly the newest row is the trace of an append that updated the table and not the sentence above
+it. **Honest boundary (§11.4.6): git cannot separate the two.** `git log -S'Five closed enums'` and
+`git log -S'decline \`reason\`'` over this path both terminate at the same single commit `695c22d`,
+so the ordering above is read from the formatting, and the formatting is evidence of a late edit, not
+proof of one. It is recorded as the reading it is.
+
 `status` carries two vocabularies because it discriminates two different resources; both are closed,
 and the resource decides which applies. Closed means a value outside the enum is a contract
 violation, not an extension point. A new failure mode gets a new enum member and a new gate — never
@@ -1058,7 +1272,37 @@ a free-text string.
 **5.2 `error.code` (4xx/5xx request faults)**
 `empty_query`, `query_too_long`, `malformed_pid`, `unknown_parameter`, `invalid_range`,
 `multi_range_unsupported`, `chapter_not_found`, `material_not_found`, `job_not_found`,
-`internal_error`.
+`internal_error`, `transcript_not_produced`, `area_not_found`, `area_not_published`,
+`term_withdrawn`, `term_not_found`.
+
+**The last five were added on 2026-09-03 by measurement, not by design, and — as in §5.3 — the
+direction of the gap was implementation-ahead-of-contract, not the reverse.** All five are emitted on
+the wire today by a deployment this contract governs; none of them was listed here. §5.1's rule cuts
+the same way it does for `reason.code`: while a row was missing, a conforming client validating
+against the printed contract had to reject a response the server legitimately produced. Every raise
+site is in `workshop/platform/backend/internal/api/` and is cited **by path only**.
+
+| Code | HTTP | Raised when | Evidence it reaches the wire |
+|---|---|---|---|
+| `transcript_not_produced` | `404` | §3.4's SECOND determined negative: the chapter **exists** and nothing has transcribed it. Deliberately not `chapter_not_found` — "no such chapter" sends a reader to the chapter list, "not transcribed yet" sends them to the pipeline. | Non-test raise site in `internal/api/chapters.go`; asserted on the response body by `internal/api/chapters_test.go`, which requires `error.code == "transcript_not_produced"` and states in its own failure message that `chapter_not_found` is the wrong answer. `go test ./internal/api/` PASS, 2026-09-03. |
+| `area_not_found` | `404` | The area id names no area at all — either absent from the taxonomy, or 002 A3.1.1 applies (zero live evidencing mentions, which that contract treats as never having been returned). | Live probe 2026-09-03 against the running deployment: `GET /api/areas/00000000000000000000000000` ⇒ `404`, body `{"error":{"code":"area_not_found","message":"no such area","field":"area"}}`. Ten non-test raise sites, two each in `areas.go`, `questions.go`, `evidence.go`, `coverage.go` and `export.go`. |
+| `area_not_published` | `404` | 002 A3.2.2: the area is **real** and has live evidence, but carries no recorded publication review, and A3.2.2 says plainly that the area is then not served. Distinct from `area_not_found` — what is missing is a different fact than "no such area". | Live probe 2026-09-03: `GET /api/areas/01M1GWQYWSKZA7A2S59MNV0Z2Q` (an id returned by `GET /api/areas` on that same deployment) ⇒ `404`, body `{"error":{"code":"area_not_published","message":"this area has no recorded publication review; FR-016/FR-048 make a review mandatory to serve an area's materials","field":"area"}}`. |
+| `term_withdrawn` | `404` | 002 A3.4.2: the term is withdrawn from the taxonomy rather than merely unlinked. Two causes, one code, each naming its own `reason` in the message: `all_evidence_redacted` (evidence existed at build time and was redacted or removed) and `no_evidence_at_build` (the taxonomy build never recorded any — an FR-008 build defect, not a redaction). | Two non-test raise sites in `internal/api/terms.go`; asserted on the response body twice by `internal/api/terms_test.go`, both requiring `error.code == "term_withdrawn"`. `go test ./internal/api/` PASS, 2026-09-03. **Not live-probeable on this deployment**: `GET /api/terms` reports `withdrawn: {"count": 0, "terms": []}` over 8,537 terms at generation 67, so no served term is in that state today. |
+| `term_not_found` | `404` | The taxonomy never carried a term of that name at all — as opposed to one withdrawn (above). | Live probe 2026-09-03: `GET /api/terms/knowledge-route-manifest-probe` ⇒ `404`, body `{"error":{"code":"term_not_found","message":"no such term","field":"term"}}`. |
+
+**`transcript_not_produced` closes an inconsistency the implementation had already recorded against
+this document.** `internal/api/api.go`'s declaration of that constant carries an in-source
+`HONEST BOUNDARY (§11.4.6)` note saying §3.4's prose names the code while §5.2's printed inventory
+does not, and resolving it in favour of the endpoint clause that actually describes the response.
+That note was correct and is now discharged from this side: §3.4 and §5.2 agree.
+
+**Honest boundary (§11.4.6) — what these five rows do NOT claim.** They are a statement about the
+codes named here, established one at a time; they are not a re-audit of §5.2 as a whole. `job_not_found`
+and `invalid_range` were carried by this list before today and were **not** re-verified against the
+wire on 2026-09-03, so nothing above should be read as evidence that the remaining ten members are
+each implemented. `term_withdrawn` in particular is established from its raise sites and its passing
+wire-level test, **not** from a live response — the running deployment holds no withdrawn term to
+produce one.
 
 **5.3 `reason.code` (state 2 — could not determine)**
 
@@ -1069,15 +1313,64 @@ a free-text string.
 | `embedding_degenerate_vectors` | semantic | Background distinct-vector probe failed — the mode that returns HTTP 200 with a repeated stale vector: well-formed, non-NaN, correct L2 norm, and completely wrong. It put 758 duplicate vectors into this index on 2026-08-26. |
 | `partial_failure_zero_results` | mixed | Invariant I5: a leg failed and the survivors found nothing. |
 | `lexical_index_unavailable` | lexical | FTS5 database missing, locked or corrupt. |
+| `code_index_unavailable` | lumen | The code-semantics leg's own backend could not be reached. A separate member from `lexical_index_unavailable`, not a reuse of it: a client that retries, or an operator who reports, has to be told **which** backend went down, and borrowing the other leg's code sends both to the wrong one. |
 | `index_no_verified_generation` | index | Nothing is live. |
 | `index_rebuilding_no_fallback` | index | Upstream rebuilding **and** the lexical leg is also down. |
 | `suggest_timeout` | lexical | `suggest_budget_ms` elapsed with zero rows. |
 | `registry_unreadable` | registry | `passages.db` cannot be opened. |
+| `curriculum_unreadable` | curriculum | The chapter's own committed pipeline output — the transcript sidecar carrying the engine, the duration and the segment spans — could not be read (§3.3, §3.4). Not a reuse of `registry_unreadable`, because the two remedies point at different files: an unreadable registry is fixed by re-ingesting, an unreadable curriculum tree by repairing the mount or re-running transcription. |
+| `progress_store_unreadable` | progress | The local reading-position store (`progress.json`) exists and could not be used (§3.11), on either the `GET` read path or the `POST` write path — `Put` reads before it writes, so both are the same file and the same fault. Not a reuse of `registry_unreadable` or `curriculum_unreadable`: this is a **third** file with a **third** remedy — repair or delete one local convenience file, costing a reader their saved positions and nothing else — and borrowing either existing code would send an operator to the wrong one. `progress` is likewise a leg of its own and never appears in a search envelope's `legs` map, because §3.11 is not a retrieval route. |
 | `recording_not_reassembled` | — | 36 parts present, no reassembled file. |
 | `recording_integrity_unverified` / `_stale` / `_mismatch` | — | FR-007 states. |
 | `too_many_readers` | — | Concurrent range readers exceeded. |
 | `no_provider` / `provider_disabled` / `provider_unreachable` / `model_not_generative` | answering | FR-025 states. |
-| `verification_unavailable` | answering | Citation verification itself could not run — never treated as "verified". |
+| `verification_unavailable` | answering | Citation verification itself could not run — never treated as "verified". Names the **passage-facing** layers (L3 citation identity, L4 support); the fix, when there is one, is on the passage side. |
+| `question_verification_unavailable` | answering | The **answer-against-question** layer (L5) was configured, was consulted, and **could not decide** — the model endpoint went away, the deadline elapsed, or the question's demand could not be classified. |
+| `thresholds_uncalibrated` | answering | `min_score` / `min_margin` are still `0.0`, so the admission gate cannot separate answerable from unanswerable. It refuses **as state 2**, never as a decline: an uncalibrated instrument has judged nothing, and filing its refusal under §5.5 would blame the corpus for a missing calibration (A6, D-LLM-1, §8 U5). |
+| `ingest_in_progress` | answering | An exclusive ingest lock is held, so answering is suspended while search keeps serving the existing live generation (D-LLM-10). |
+| `request_cancelled` | answering | The caller went away, or the deadline elapsed, before any verdict existed. No verdict was reached, so none may be reported. |
+| `locality_unverified` | answering | The declared `locality` disagreed with the endpoint's resolved addresses (§3.10 `GET /api/ask/status`). A fault that blocks answering outright — never a warning served alongside an answer. |
+| `generation_gated_pending_clarification` | answering | Retrieval admitted material flagged as requiring answer-against-question verification while that layer is **not built in this deployment**. Distinct from `verification_unavailable`, which is transient and may succeed on the next call, and from `question_verification_unavailable`, which names a layer that exists and did not decide: this one is **standing**, and no restart, provider change or configuration clears it. |
+
+**An EIGHTH row, `progress_store_unreadable`, was added on 2026-09-03 for the opposite reason to the
+seven below — it is the only member here that the implementation did NOT already emit.** It was
+minted to close §4's one documented `503` deviation (§3.11), and it was minted only after the
+existing members were checked against the fault and found to misdescribe it. It is therefore *not*
+a counter-example to the rule stated below: the code and the contract row landed **together**, in
+the same change, with a paired-mutation gate, so there was never an interval in which a conforming
+client would have rejected a legitimate response.
+
+**Seven rows above were added on 2026-09-03 by measurement, not by design, and the direction of the
+gap was the opposite of the one assumed.** They are `code_index_unavailable`,
+`curriculum_unreadable`, `thresholds_uncalibrated`, `ingest_in_progress`, `request_cancelled`,
+`locality_unverified` and `generation_gated_pending_clarification` — seven codes that the
+implementation **already emits on the wire** and that this printed table did not list. The
+enumeration was taken from the two closed vocabularies the backend declares against this section by
+name, in `workshop/platform/backend/pkg/search/envelope.go` and
+`workshop/platform/backend/pkg/answer/outcome.go`, each cited **by path only**; every one of the
+seven has at least one non-test raise site. Two of them carry an in-source note saying this table
+lacks the row and asking for it.
+
+**This matters because §5.3 is closed.** "A value outside the enum is a contract violation, not an
+extension point" (§5.1) cuts both ways: while the row was missing, a conforming client validating
+against the printed contract would have had to reject a response the server legitimately produced.
+A code that is implemented therefore belongs here **more** urgently than one that is not — the
+reverse reading, that this section is a register of unbuilt codes, is **withdrawn**; `registry_unreadable`,
+`suggest_timeout` and `embedding_timeout` have all been implemented since before it was written.
+Codes that are contracted and unbuilt are tracked in §8 and in `tasks.md`, never by omission here.
+
+**`question_verification_unavailable` is a third code, not a reuse of `verification_unavailable`, and
+the difference is operational.** `verification_unavailable` says the machinery that checks a claim
+*against its passages* did not run. This one says the machinery that checks a claim *against the
+question* did not run. An operator reading them needs to know which side to look at, and one code
+covering both would not tell them.
+
+**It is never a degrade.** Where a layer was asked for and then produced no verdict, its verdict may
+not be supplied by some other layer that happens to have completed
+([specs/002-knowledge-areas-deep-linking](../../002-knowledge-areas-deep-linking/contracts/http-api-delta.md)
+C4.3.4, FR-052). Serving `answered` on the strength of the four passage-facing layers, because the
+question-facing one was silent, is exactly the substitution that requirement forbids. This code is
+what refusing that substitution looks like on the wire: state 2, `503`, and no answer.
 
 **5.4 `degraded.*` (state 0 with a caveat)**
 `semantic`: `reindexing` \| `partial` \| `stale_generation`. `lexical`: `stale_generation`.
@@ -1095,17 +1388,53 @@ defining.
 | `unsupported` | Support verification (L4) found a claim the cited passages do not entail. |
 | `no_citations` | A citation pid is outside the live generation's member set (A3), so the whole answer is declined rather than silently stripped. |
 | `redacted_evidence` | A cited passage was redacted between generation and delivery (A4). |
+| `does_not_answer` | Answer-against-question verification (L5) found a claim that its cited passages **do** support and that answers a **different question** than the one asked. |
+
+**Why `does_not_answer` is not `unsupported`, and may never be folded into it — normative.** The two
+sound adjacent and are opposites. `unsupported` means *the cited passages do not state the claim*:
+the generator produced content the corpus does not carry. `does_not_answer` means *the citation is
+exact and the claim is still off-target* — typically a fragment lifted out of a passage on a related
+topic, which clears every passage-facing layer by construction, and a verbatim fragment clears them
+by identity.
+
+**Their remedies point in opposite directions.** An `unsupported` claim needs better evidence — the
+answer is about the right thing and rests on nothing. A `does_not_answer` claim needs a different
+answer — the evidence is impeccable and the answer is about the wrong thing. Reporting the second
+under the first would tell a maintainer to go fix retrieval when the retrieval was fine, and it would
+make the two rates indistinguishable in aggregate, so a system trading one failure for the other
+would look unchanged. Reporting it under the first was considered and **refused** for exactly that
+reason; the member exists so the distinction survives to the wire.
+
+This is the layer that closes the gap the earlier four could not see:
+[specs/002-knowledge-areas-deep-linking](../../002-knowledge-areas-deep-linking/contracts/http-api-delta.md)
+C4.3.3 (FR-051) records that the four existing layers all verify the claim against the **passage**
+and none verifies it against the **question**, which is how a topically related fragment passes all
+four. A claim that fails L5 refuses the **whole** answer — no claim is stripped and the remainder
+served — on the same rule as `no_citations` above.
 
 **5.6 The two answering vocabularies are disjoint — normative**
 
 §5.5 and the answering-leg rows of §5.3 (`no_provider`, `provider_disabled`,
-`provider_unreachable`, `model_not_generative`, `verification_unavailable`) **share no member, and
-no member may be added to both.** A decline is a judgement about the *content*; `unavailable` is the
+`provider_unreachable`, `model_not_generative`, `verification_unavailable`,
+`question_verification_unavailable`, `thresholds_uncalibrated`, `ingest_in_progress`,
+`request_cancelled`, `locality_unverified`, `generation_gated_pending_clarification`) **share no
+member, and no member may be added to both.** A
+decline is a judgement about the *content*; `unavailable` is the
 absence of the instrument that would have made that judgement. Filing `no_provider` as a decline
 reason would report a thing that could not run as a thing that was judged — state 2 rendered as
 state 1, which is the precise failure the three-state contract exists to prevent. This rule is what
 makes A7 checkable rather than merely stated: the disjointness is mechanical, so a violation is a
 schema error and not a matter of interpretation.
+
+**`progress_store_unreadable` is disjoint from §5.5 too, and is deliberately NOT added to the
+enumeration above.** That list is scoped, by its own opening words, to the **answering-leg** rows of
+§5.3, and this member's leg is `progress` — appending it would misstate the section's own scope and
+quietly imply `/api/progress` has an answering path, which it does not. The disjointness it needs is
+satisfied on stronger grounds than membership of a list: §5.5's vocabulary describes a judgement
+about *content* reached by the answering pipeline, and §3.11 neither judges content nor has a
+pipeline, so no decline reason can name this fault and this code can never name a decline. Recorded
+here rather than left inferred, because "it is not in the list" and "it is not disjoint" are
+different facts and only the first is true.
 
 ---
 

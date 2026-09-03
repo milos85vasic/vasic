@@ -304,6 +304,44 @@ gates that `pre-push-gates.sh` runs (`_tools/audit-hardcoding.sh`,
 declared boundary, not a claim that they conform. Widening it is a one-line
 `scanroot` addition.
 
+### The submodules are a HARDER boundary, and it is not one line
+
+Widening a scanroot into a submodule is **not** the same one-line change, and
+the difference was measured rather than assumed on 2026-09-03. R0 makes an
+absent scanroot **rc 2**, and `workshop/` is a **private** submodule, so on any
+clone that cannot initialise it the directory is empty. Measured in a sandbox
+copy of this tree with `scanroot workshop/pipeline` appended and an empty
+`workshop/`:
+
+```
+bash scripts/verify-check-registry.sh --root <sandbox>
+◍ UNDET [REGISTRY] declared scanroot 'workshop/pipeline' is not a directory
+  under <sandbox> — the sweep cannot be performed
+COULD NOT DETERMINE — the registry could not be read, so nothing was verified.
+rc = 2
+```
+
+One added row takes the **entire** umbrella meta-check dark — not just the added
+rows — for every reader without private access. `REGISTRY` is also hardcoded to
+`$ROOT/scripts/check-registry.tsv`, so this instrument cannot be pointed at a
+second file without editing it.
+
+Feature-001's **transcription pipeline** gates are therefore enumerated by their
+own registry **inside** the private submodule, referenced here by path only:
+
+| artefact | path (inside the `workshop` submodule) |
+|---|---|
+| registry | `platform/gates/check-registry-001.tsv` |
+| meta-check | `platform/gates/verify-check-registry-001.sh` |
+| paired proof | `platform/gates/prove-check-registry-001.sh` |
+
+It carries the same closed-vocabulary TSV shape and the same three-valued exit,
+uses this file's hollow-proof heuristic **unchanged**, and its R5 sweep is
+**recursive** with declared `prune` rows — stricter than the `-maxdepth 1` sweep
+here, because two of the gates it registers live one directory down. It is run
+automatically by that module's `scripts/verify.sh`, which discovers every
+`platform/gates/verify-*.sh` at run time.
+
 ## `submodule-remote-sync` — added 2026-09-01
 
 | field | value |

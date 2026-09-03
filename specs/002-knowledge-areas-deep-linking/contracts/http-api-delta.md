@@ -39,6 +39,54 @@ Therefore, for every endpoint in §3:
 - **R3** — an endpoint that returns the SPA shell instead of its own answer is a **failure**, not a
   cosmetic issue. The existing verifier already checks for this because it has already happened.
 
+And separately, for every endpoint in **§4** — the routes this feature **changed** rather than added:
+
+- **R1b** — its manifest row's contract citation names **both** documents: the
+  `contracts/http-api.md` section the row already cited **and** the §4 subsection here that changed
+  it, written as a compound token (`3.7+002.4.1`, `3.6+002.4.2`, `3.11+002.4.4`). A row naming only
+  the older section **still looks complete to a reviewer**, while the behaviour underneath it has
+  since changed — and R1 cannot see that, by construction: R1 asks whether a row exists, and every
+  one of these rows existed throughout this feature. The failure being guarded is therefore not an
+  **absent** row but a **stale** one, and staleness and absence are not the same defect.
+
+  The compound form is required rather than a replacement, and both halves are load-bearing. Dropping
+  the 001 section strands the server-unity verifier, which walks `contracts/http-api.md` §3 and prints
+  that column. Adding a *second* row for the same method and path would leave one route described in
+  two places that are free to disagree — duplication is not documentation. One row, both citations.
+
+  **R1b IS satisfied today — 4 of 4. The paragraph that stood here is superseded and is kept, struck
+  through, because how the gap was found matters more than the gap.** ~~§4 contains four changed
+  endpoints and only three carry a compound token; measured 2026-09-03, the `/api/ask` rows cite a
+  bare `3.10`, with nothing naming §4.3.~~ **WITHDRAWN, same day.** The answering row now reads
+  `3.10+002.4.3` alongside `3.6+002.4.2`, `3.7+002.4.1` and `3.11+002.4.4`;
+  `verify-server-unity.sh` was re-run after the edit at `PASS=35 FAIL=0 UNDET=0 DEBT=4`, exit 0.
+
+  **The gap was invisible to the check that existed to find it, and that is the durable lesson.**
+  The gate asserting R1b is `G-KG-1-changed`, and the published closure check could not see its
+  identifier at all: the extractor `G-[A-Z]+-[0-9]+` stops at the digits, so `G-KG-1-changed` was
+  read as `G-KG-1` — a different gate, already attached — and the check reported `unattached: 0`
+  while this violation stood. Corrected to `G-[A-Z]+-[0-9]+(-[a-z]+)*` with the boundary guard
+  `([^0-9A-Za-z-]|$)`, the check sees 19 identifiers where it saw 18.
+
+  **A claim written here earlier the same day — that `G-KG-1-changed` "remains unbuilt" — is
+  WITHDRAWN. The gate exists, is registered, is mutation-proved, and PASSES.** Measured
+  2026-09-03: it enumerates `002.4.1`, `002.4.2` and `002.4.4`, and **`002.4.3` appears nowhere in
+  it or in its prover.** §4 has four changed endpoints; the gate asserts over three.
+
+  **It was green throughout, for the endpoint it does not look at.** That is the finding worth
+  carrying: not a broken instrument, but a correct one whose **hand-listed coverage set** was short
+  by exactly the row that was wrong. A gate's `want` table is itself an assertion, and nothing was
+  checking that assertion. **Prefer a coverage set DERIVED from §4's own subsection headings over a
+  hand-maintained list** — a derived set cannot silently omit a section that exists. Until then the
+  outstanding work is one row plus a fourth mutation case, owned by **T143**, which stays unticked.
+
+  That citation was stale rather than merely terse: §4.3's C4.3.3 and C4.3.4 have since been
+  built, and the route emits two response members it did not emit under specs/001 alone — the decline
+  `does_not_answer` and the could-not-determine code `question_verification_unavailable`, both now
+  declared in `contracts/http-api.md` §5.5 and §5.3. R1b records this as an **open obligation on
+  `/api/ask`**; it does not pardon it, and it must not be closed by weakening the rule to the three
+  rows that already comply.
+
 **Baseline to preserve or improve**: the verifier currently reports 25 PASS and 4 DEBT, the four
 being permanent negative-route assertions. This feature adds rows; it must not add FAIL or
 UNDETERMINED.
@@ -264,6 +312,7 @@ never observed failing is not known to work.
 | Gate | Asserts | Paired mutation that must turn it red |
 |---|---|---|
 | **G-KG-1** | every endpoint in §3 has a manifest row and answers per R1–R3 | remove one manifest row |
+| **G-KG-1-changed** | every endpoint in §4 has a manifest row whose contract citation names **both** its `contracts/http-api.md` section and its §4 subsection here (R1b) | rewrite one changed endpoint's contract citation back to its **001-only** form, leaving the row otherwise byte-identical |
 | **G-KG-2** | a question with an unresolvable citation is withheld | serve it with the citation stripped |
 | **G-KG-3** | every long-set question cites more than one distinct passage | admit a single-citation question to the long set |
 | **G-KG-4** | every time-carrying entry declares its precision | omit precision and default it to `word` |
@@ -275,6 +324,17 @@ never observed failing is not known to work.
 | **G-KG-10** | an unevidenced area or term is never served | publish one with its mentions removed |
 | **G-KG-11** | a kind advertised as indexed has retrievable content | advertise a kind with an empty index |
 | **G-KG-12** | coverage is reported per area, never only as an aggregate | replace the per-area table with a mean |
+
+**G-KG-1-changed is a separate gate from G-KG-1, and its paired mutation is a rewrite rather than a
+deletion, because a deletion cannot reach the defect.** G-KG-1's mutation removes a manifest row and
+the gate goes red — correct for §3, where the failure is an endpoint with no row at all. It proves
+nothing about §4, where **the row is present throughout**. Every §4 route already had a row, carried
+over from specs/001, and the regression R1b guards against is one field inside a row that never went
+missing: the contract citation silently reverting to its 001-only form while the route keeps its
+locus field, its new kinds, its filters and its new refusal vocabulary. A gate whose only mutation is
+row deletion is a blind instrument for this class, and it would report PASS. The mutation must
+therefore be the regression **as it would actually occur** — a surgical edit of the contract column,
+with the rest of the row untouched — and the gate must go red on it and green again on restore.
 
 **G-KG-11 is stated as retrievability, not as a row count, on purpose.** A row count cannot
 distinguish a populated index from a populated table nobody queries, and the corpus already contains

@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-02T15:42:07Z
+    Last-Updated: 2026-09-03T18:16:41Z
     Synced-Commit: 86f2a223
     Authority-Root: submodules/constitution
 
@@ -544,6 +544,2249 @@ mechanical type that T1 currently MASKS. The 13 remaining B1 rows match the firs
 Analysis: `workshop/docs/session-evidence/phase3e-contradiction-typology.md`; re-derivable by the
 read-only `workshop/pipeline/extract/analyze_r3_contradictions.py`. **Nothing was resolved,
 merged, discarded or applied; T041 remains `[ ]`.**
+
+#### A55 — SC-015 **7/22 → 15/22**, and the fix was NOT the widening. **The reranker was a net negative.** Index lifecycle fixed; **268 MiB reclaimed**.
+
+**The authorized approach did not work, and that was reported instead of the
+number that would have flattered it.** Widening the candidate window made
+retrieval **monotonically worse** — 11/22 at width 1, 11 at 2, 11 at 3, **10 at
+5** — while the count of missing targets climbed from 1 to 9. *Depth was the
+wrong lever, and four measurements said so before any conclusion was drawn.*
+
+**The real cause is a rank computed from the wrong quantity.** The two retrieval
+sub-lists were concatenated, and the fusion strategy scores by **slice
+position** — so the catalogue's best row entered fusion at a position determined
+by *how many results the other sub-list happened to return*, not by anything
+about the row itself. **That is also exactly why depth hurt: a larger candidate
+set pushed the offset further down.** Merging the two lists by *rank* instead
+took it **7/22 → 11/22** and areas **2/5 → 5/5**.
+
+**The second finding is uncomfortable and was acted on anyway: the in-window
+reranker is a NET NEGATIVE.** Same binary, same generation, three runs per arm —
+**ON 11/22 (terms 1/12), OFF 15/22 (terms 5/12)**. The cause is legible: bm25
+over a window of long transcript segments ranks a two-or-three-word exact-title
+term row *below* them. **Two defaults were changed on that evidence** — rerank
+off, width 1 — each **one environment variable from restoration**, with the
+mechanisms and their gates left intact. *A feature built earlier the same day was
+measured, found harmful, and switched off.*
+
+**The ceiling is re-derived and the earlier one is superseded: 21/22, not 16/22.**
+The window is **no longer the binding constraint** — 21 of 22 targets now sit
+inside the served results, and the remaining gap is ranking quality *inside* a
+window that already contains the answer.
+
+**A structural fact settled by the database, not by argument:** the passage store
+holds **zero knowledge-kind rows and zero knowledge-kind vectors**; the catalogue
+is a separate in-memory index with **no embedder**. So an area, term or question
+**can only ever be retrieved by the lexical leg** — confirmed per-leg, the
+semantic leg returned the target for **0 of 22** queries.
+
+**SC-006: the trade was measured and refused.** Widening cost fused latency +28%
+and lexical +139% at identical host load while buying nothing — *"not a trade, a
+loss"*. **Honest boundary, stated rather than glossed:** a quiet-host after-figure
+comparable to the 244.5 ms baseline **could not be obtained** — another agent held
+the machine at load 13–23 and the gate's own control endpoint moved 5.9× — so the
+end-to-end figure is **UNDETERMINED, neither a pass nor an attributable
+regression.** What *is* measured: the one always-on addition costs **+0.28 ms,
+0.014% of budget**.
+
+**The lifecycle root cause is FIXED.** A boot now **reuses** a generation whose
+corpus hash matches, after putting it through the same verification a new one
+gets. Verified by me on the live server: *"generation 67 REUSED … NO new
+generation was minted, NOTHING was re-embedded and NO cross-reference was
+re-derived"*, with vector indexing completing in **32 ms** where it previously
+spent 5m29s failing. **Cross-references carry forward at 49,560 edges in 0.51 s
+against a 55–62 s derivation — ~110×** — behind *five* required conditions, using
+replace rather than ignore semantics because ignore silently copied **0 of 2**
+fixture edges.
+
+**The prune: 66,781 rows deleted, 2,478 kept, and I verified 268 MiB reclaimed**
+(329.4 MB → 48.1 MB) with integrity checks and full serving verification on both
+sides of the deletion.
+
+**A NEAR-MISS the agent caught and disclosed itself.** It first wrote a **313 MB
+backup of private curriculum content into a directory inside the PUBLIC umbrella
+that is not git-ignored.** It moved the file outside the repository within a
+minute; I verified independently that **no backup path appears in the umbrella's
+status**. *The safest disclosure in this session was the one an agent reported on
+itself.*
+
+**It also declined work it was qualified to do, for the right reason.** Handing
+off the search-leg gating, it noted that applying the publication gate to the
+catalogue would take **~8,511 terms and 3 of 5 areas dark**, removing 12 of 22
+benchmark targets and reverting 15/22 to roughly 5–7/22 — and that this **should
+not be landed silently by the agent being measured on that benchmark.**
+Recognising one's own conflict of interest is not a behaviour a rule produced.
+
+#### A54 — the answering "regression" is **NOT a regression**, and **all five candidates I named were disproved structurally**.
+
+**It did not happen today.** Reproduced at generation 67 and decomposed into two
+steps, **both on or before 2026-09-02**:
+
+1. **17 → 12 — corpus growth at the RETRIEVAL layer, before any model runs.** The
+   corpus went from 1,101 to 2,478 passages; two kinds grew from 44 → 1,172 and
+   2 → 251. Nine questions lost top-1 discrimination against **1,377 new
+   competitors** and are now refused by the margin floor **before any model call**.
+2. **12 → 3 — the answer-against-question layer.** An in-tree A/B at the
+   *identical corpus hash* shows **perfect conservation**: exactly **9** questions
+   moved to that layer's exclusive refusal signature while the other two buckets
+   held constant. The reproduction matched all three counts exactly.
+
+**Every candidate I supplied was tested and every one is FALSE**, each on
+structural rather than argumentative evidence: the reranker and the vector
+restore **cannot reach the answering path at all** (dependency listing returns
+nothing in either direction; that path uses BM25, not vectors); the publication
+gate has **zero dependency** on the answering package; the body trim is
+uncommitted, acts only at minting, and is **doubly moot** because the live
+registry contains **no knowledge rows whatsoever**; and the index rebuild moved
+the counter without changing a single corpus member.
+
+**The candidate the previous agent named but explicitly did not test is also
+false** — that layer *is* present and has been present at **every** measurement
+including the 17/24 one, so it is a constant across the whole movement. And its
+absence would have made answering **more** permissive, not less.
+
+**Citation resolution is healthy and the deficit is entirely refusal.** Uncited
+answers: **0**, and that state is **structurally impossible** — validation rejects
+an answered outcome carrying no citations.
+
+**An honest denominator, corrected:** the figure is **2 answered in 23 measured
+with 1 undetermined** — *never "2 in 24"*. One question hit the provider timeout
+under host contention; scoring it the way the reference run did reproduces
+**3/24 exactly**.
+
+**It fixed a blind spot in the instrument that produces the headline number.** A
+row that answered with zero citations was classified but **incremented no
+counter** — it vanished from all three figures with **no exit-code movement**, so
+a figure over 24 asked was indistinguishable from the same figure over 23
+counted. The counter is now printed **always, even at zero**, a non-zero value is
+a **finding**, and a reconciliation returns **could-not-determine** if the buckets
+fail to account for every question asked. **Nothing was weakened; the gate got
+strictly stricter.** Its paired proof catches 4 of 4, and one mutation runs a
+**deliberately weakened copy** of the gate and requires the reconciliation to
+refuse it — so the control cannot be inoperative.
+
+**THE OPERATOR DECISION this surfaces, already documented at the configuration
+site:** the verification layer **costs 9 answerable questions and takes
+fabrications from 11 to 1.** That is the trade, and it is a judgement rather than
+a defect.
+
+#### A53 — "The Platform" section BUILT as a living structure. **Provenance is a data shape, not a convention — and the privacy rule is enforced structurally.**
+
+**A single spine, six phases** — admit, capture, normalise, section, claim,
+publish — where **only normalisation branches by material type**. Recordings,
+documents, repositories, links and conversations each enter through the existing
+pipeline: both ASR engines, the chunker, the transcript builder, the notes
+extractor, all four capability probes, the section splitters, the identity
+minter, and the corpus ingest — which **already sweeps the docs tree, so the
+section becomes searchable with no new wiring at all.**
+
+**Provenance is three append-only record types with DERIVED ids** — each id is a
+truncated hash of the row's own content, so writes are idempotent and **a
+hand-edited row stops recomputing its own id**, which is how tampering announces
+itself.
+
+**Two fields carry the discipline this workstream most needed:**
+- **`attributed_to`, distinguishing `source` from `us`.** That is the structural
+  answer to the risk I flagged when dispatching the research: *it stops a
+  vendor's claim being laundered into our own voice.*
+- **A four-valued verification state** — verified, refuted, **unverified as the
+  honest default**, and unverifiable **which requires a written reason**.
+
+**The privacy rule is structural rather than advisory, and the detail is the good
+part: the gate refuses a literal quote from any non-public material, and reports
+the violation WITHOUT echoing the quote it found.** A checker that prints the
+secret it caught is a second leak. Capture additionally refuses to mark anything
+under the private corpus as public, **with no override flag**.
+
+**Staleness needs no separate mechanism: re-capturing IS the check.** Same hash
+and the confirmation timestamp moves; different hash and a new capture is written
+naming what it supersedes, with every claim resting on the old one flagged.
+**Supersession falls out of the arithmetic.** And the gate **never touches the
+network** — fetching belongs to the capture step, whose failure is a 2 — so the
+check cannot go dark when offline.
+
+**The docs_chain assessment came back SPLIT, and one half is an integration
+hazard worth carrying beyond this section.** It is **not** the vehicle for
+fetching — a repository-wide search finds **zero** files using an HTTP client,
+and its kind set is closed at nine with no URL kind. It **is** the right vehicle
+for regenerating derived formats. **But its exit contract uses `2` to mean
+CONFLICT, where this project's universal contract uses `2` for COULD NOT
+DETERMINE — so a naive pass-through would silently downgrade a confirmed failure
+into an undetermined one, which is exactly the unsafe direction.** That has been
+relayed to the agent adopting it, with instruction to translate the code
+explicitly and test the mapping.
+
+**Its central idea was adopted and then verified BY EXECUTION rather than by
+reading**: the new normaliser is a byte-for-byte reimplementation, and its proof
+**compiles the original and compares hashes across six adversarial fixtures —
+6 of 6 identical**, so a later migration invalidates zero stored hashes. That
+proof is not decoration: **it was observed failing while its own harness had a
+bug**, which is the only reason to trust it now.
+
+**Gates: 22 PASS / 0 FAIL / 1 DEBT** (up from 20; the sweep now covers 22 files),
+`--run-proofs` **30 PASS / 0 FAIL**, and the provenance prover catches **17 of 17
+mutations — every mutation DATA rather than a gate edit**, including a negative
+control and an availability mutation that must return 2 rather than a quiet 0.
+The single strict-mode failure is the **pre-existing** cross-registry debt row.
+
+**The honesty detail worth copying everywhere: the ledger currently holds 1
+material, 1 capture and 0 claims — and the gate PRINTS that emptiness as a note
+on every run, so a young green is never mistaken for a mature one.** Four section
+bodies are empty with explicit not-yet-written markers, and the not-built list
+names deep crawling (which the brief calls mandatory), link-to-prose extraction,
+scheduled re-capture, ZIP export and PenPot.
+
+#### A52 — architecture study delivered. **The two reference projects are OPPOSITE strategies, and four of their mechanisms should be adopted HERE, not just in the new platform.**
+
+**Studies live at `workshop/docs/the-platform/research/architecture-*.md`** (private
+module, ~3,300 lines, every claim cited to a file and construct, both projects
+pinned to a commit SHA with a fetch timestamp, scratch clones outside the tree
+and **not vendored**).
+
+**The headline reframes the operator's own brief.** The two projects named as
+"light, decoupled, modular" achieve it by **opposite** strategies: one runs a
+small kernel that validates the entire dependency graph and **refuses to boot**
+when a capability is missing — lightness enforced at startup; the other runs a
+kernel under **1% of its codebase**, permissive at runtime, and compensates with
+roughly **fifty architectural gate scripts** — verifiability enforced by
+inspection. **They are not rivals: the second consumes the first behind a single
+seam.** The operator effectively named both halves of one answer.
+
+**FOUR MECHANISMS WORTH ADOPTING IN THIS REPOSITORY, independent of the new
+platform:**
+
+1. **The independent oracle, whose refresh path is DENIED WRITE ACCESS to the
+   thing it checks.** Their rule, and it is exactly this project's own doctrine
+   made structural: *model prose and tool-result text do not prove an external
+   effect.* We assert that; they **enforce** it by construction.
+2. **Graded capability instead of boolean probes** — enforcement is
+   `full | partial`, a probe answers `unusable`, a selection answers
+   `unavailable`. **This is the direct remedy for the `/usr/bin/whisper` trap**
+   that has bitten this tree repeatedly: a name on `PATH` is not a capability,
+   and a boolean cannot say so.
+3. **Skip is not a pass — enforced.** Their aggregate **fails** on a skipped
+   gate, and known debt stays **printed as non-blocking** rather than
+   allow-listed into invisibility. This session recorded a pre-push run at "0
+   SKIPPED" as evidence precisely because a skip would not have been one.
+4. **Invariant companions** — cross-cutting contracts, glob-discovered and
+   ambient in every test, expressing what no unit test can, at **zero authoring
+   cost per test**.
+
+**THE MOST USEFUL RESULT IS A NEGATIVE ONE, and it is a warning aimed straight at
+us.** The larger project's central architectural claim — that its core depends
+only on interfaces — **holds**, verified across all 8 core packages and 39 edges.
+**But nothing gates it, and there is exactly one violation.** A team with 193
+scripts and 1,717 decision records **still eroded on the one architectural rule
+they did not gate.** *Discipline does not substitute for a gate; it only delays
+the erosion.*
+
+**The agent corrected its own draft twice, and both corrections cost it a
+recommendation:**
+- One project's **own architecture prose over-generalises** — several things it
+  presents as extension seams are registries with no implementations. The
+  machine-generated, assertion-guarded map is accurate; **the hand-written
+  architecture document is the marketing version.** *Prefer a project's generated
+  artifacts to its prose about itself.*
+- **The composition mechanism most worth copying is not shipped** — all nine call
+  sites sit under an `experimental/` path. The recommendation was **downgraded
+  from "strong adopt" to "adopt the mechanism, but do not cite this project as
+  proof it scales."**
+
+**Explicitly rejected, with reasons rather than taste:** 250-package granularity;
+per-file 100% coverage (though the `path:line:col` reporter and the *probed*
+exemption are worth salvaging); a monkey-patched registry; one project's absent
+permission model — coherent for a local developer tool, **unavailable to a
+platform that must be trusted to verify its own output**.
+
+**Could not determine, and left open:** whether that single architectural
+violation is reviewed or drift; whether a plugin path works end to end (not
+installed); and whether one config output matches its documented base — recorded
+as *documented, not observed*. **Nothing was built or run in either project.**
+
+#### A51 — competitor study delivered (private). **The operator's own read was PART WRONG, and the correction sharpens the strategy rather than weakening it.**
+
+**Recorded here by POINTER only** — the analysis lives at
+`workshop/docs/the-platform/research/competitor-eview.md` in the **private**
+module, 679 lines over 65 evidence rows, every claim carrying its source URL and
+fetch date. This umbrella is public; it gets the shape, not the content.
+
+**All four of the operator's hypotheses were tested against primary sources, and
+three came back SPLIT rather than confirmed.** That is the value of the exercise:
+a competitive analysis that only ratifies its sponsor's priors is worthless, and
+this one did not.
+
+- **The "token usage" concern is REFUTED.** The word appears **zero times**
+  anywhere on their site or in their contracts. What was read as a token hint is
+  an observability feature — per-model cost *reporting*. Their subscription terms
+  fix fees in an order form with **no metering, no overage, and no model-cost
+  pass-through clause**. The unbounded-cost worry does not survive the contract.
+- **"They do not talk pricing" is half right in a way that matters:** confirmed
+  for their own site, **refuted overall** — they publish price floors on
+  third-party directories. So *"we publish and they never do"* is not an
+  available position, and that opening was **downgraded** in the ranking.
+- **"Nothing on evals and verification" splits, and this is the key finding.**
+  *Refuted* on verification — they make a genuinely specific claim about
+  independent cross-model review of every change. **Confirmed and worse on
+  evals**: zero occurrences of eval, benchmark, accuracy or any metric. **Every
+  claim is a described process, never a measurement.** And their warranty section
+  runs **opposite to their marketing** — platform "as is", implied warranties
+  disclaimed, the customer explicitly responsible for reviewing outputs, and the
+  only contractual remedy is availability credits.
+- **The trial gap is CONFIRMED and sharper than stated:** no trial anywhere, and
+  termination is permitted **only for uncured material breach** — no termination
+  for convenience. *A customer disappointed by output quality has neither an exit
+  nor a remedy.*
+
+**Why their proposition works — the part we must match.** Not any single line, but
+**narrative coherence**: one claim restated as positioning, capability, process,
+principle **and contract**, with nothing fighting anything else. Most instructive,
+they **convert the absence of case studies into the proof itself**.
+
+**Ranked openings, by defensibility:** publishing **real evaluations** first —
+they have no measurement and their own warranty language makes it awkward to
+start claiming one; then a **budget-capped trial with a genuine exit**, which
+strikes both their hardest edges at once; then contractual definition of
+"outcome"; then verifiable legal identity.
+
+**The agent recorded two of its own corrections rather than quietly dropping
+them** — a first pass wrongly concluded they had never published a price, and
+wrongly dated their repositioning from legal-document dates alone.
+
+**One inference is flagged as an inference and marked not for external
+quotation** — corroborated across two registries but **not a filing**. That
+distinction is the discipline: *corroborated is not confirmed.*
+
+**Openly could-not-determine:** whether their platform exists, works, or is
+deployed anywhere — **no verdict offered**. Also unknown: real subscription
+price, real headcount, churn, and whether any subscription has ever sold. Two
+sources returned 403 and an archive service went offline mid-crawl; both are
+recorded rather than silently omitted.
+
+#### A50 — governance re-measured across the fleet. **Two recorded claims were FALSE, not stale**, and the constitution pin has drifted a THIRD time.
+
+**`design-toolkit`'s GitLab mirror was never unmeasurable — the carrier was
+simply wrong.** It records that this checkout wires up no GitLab remote, so
+neither visibility nor lag can be measured. **A `gitlab` remote already exists**,
+added by that submodule's own commit. Measured read-only, with both objects
+already local so no fetch was needed: GitHub **public**, GitLab **private**, and
+the lag is **6 commits, 0 divergent** — an ancestor relationship, not divergence.
+The long-quoted "5 commits" is **superseded by 6**: GitHub advanced one; the
+mirror has not moved. **No remote was added and no configuration changed.**
+
+**Provider-side CI (G4), measured across 22 repositories and 40 upstream rows:
+1 CONFIRMED · 6 UNVERIFIED · 2 HISTORICAL · 30 clean.** The single confirmed
+trigger is the legacy-built site with **zero workflow files** — so there is **no
+file-level remedy**, exactly as recorded. The production Jekyll site reads
+**HISTORICAL, not confirmed**: its runs are a fact about the past and **not a
+claim that a push today triggers one**. Its publish workflow was **not touched**.
+Six rows on two non-GitHub hosts are **UNVERIFIED for want of an adapter** — rc-2
+material, and **never a pass**. Two items surfaced for the operator: 21
+repositories have Actions enabled with **zero** workflow files, and the
+historical runs have no setting readable today that explains them.
+
+**`verify-submodule-remote-sync` is RED again — 11 CURRENT / 1 DRIFT.** The
+constitution pin no longer equals its remote, **the third time in three days**,
+with the direction **UNDETERMINED** because the remote object is absent locally
+and no fetch was run. The carrier's own standing warning is now proven three
+times over: **the pin is a recurring operator decision, not a task that
+completes.**
+
+**`audit-hardcoded-paths` — the agent read 1, I re-measured 0.** Its red predates
+my emitter fix (A46); re-run cleanly it is **exit 0, "no machine-specific
+hardcoded paths"**. The fix holds.
+
+**Figures corrected in all four carriers, each withdrawn BY NAME:** check-registry
+41 → 43 → **45 PASS**; `--run-proofs` **"exits 1, 54 PASS / 5 FAIL" → exit 0, 65
+PASS**, with all five previously-failing rows verified individually; env audit to
+567 allow-listed / 666 baselined over 2,247 files; content boundary 11,158 →
+**11,878**; the sweep to **173 PASS / 96 FAIL / 2 ERROR of 271**. **C5 lockstep
+verified 4-then-1 with the cascade at exit 0**, edited as one artifact across
+three cycles — head split, shared tail edited once, recomposed.
+
+**Also corrected, and both were ACTIVE MISINFORMATION rather than mere
+staleness:** the carrier warned that a deploy change was uncommitted and that "a
+fresh clone runs the other three nowhere" — it is committed, byte-identical to
+`HEAD`, and a fresh clone runs all four. And a test helper described as untracked
+**is tracked**.
+
+**The content-boundary decision packet is PREPARED, not decided — nothing judged,
+allow-listed or re-baselined, and the gate still exits 1 by design.** The full
+log was parsed and **all 11,878 rows attributed by path — complete, not
+sampled**, matching the gate's own total exactly:
+
+| Class | Rows | Share |
+|---|---:|---:|
+| **A** — spec trees inside this public umbrella | 7,550 | 63.6% |
+| **B** — public reusables extracted from the private tree | 2,666 | 22.4% |
+| **C** — governance prose propagated **outward** from these carriers | 1,310 | 11.0% |
+| **Genuinely unassessed remainder** | **352** | **3.0%** |
+
+**The gate cannot tell direction, so direction was measured independently** — by
+git first-commit timestamp. The four carriers **pre-date every sampled private
+counterpart by five days**, which makes class C the cascade working rather than a
+disclosure; and one public library pre-dates the private staging copy that
+supplies **93%** of its matches.
+
+**Two honest boundaries that stop this from being over-claimed.** **Class A — the
+largest class — has NO direction evidence and was not probed.** And
+**`11,878 − 232` is not a valid remainder**: the judged set was 216 rows from one
+private module and 16 from another, while today's population is 97.6% from a
+*different* module. The two sets barely overlap, so the arithmetic anyone would
+reach for is meaningless — **and it was refused rather than performed.**
+
+**89 name rows across 8 distinct names are NOT cleared, and they sit in every
+class** — so **no class can be pardoned wholesale without pardoning name rows.**
+That is the constraint any re-baselining decision must satisfy.
+
+#### A49 — decision 42 **EXECUTED: all six landed. T040 is TICKED.** A fourth defect was found by re-measurement — **a suppressed passage had survived verbatim in a second artifact.**
+
+**The refusals of A41 were cleared by fixing what they complained about, never by
+loosening them.** Verified by me: the append-only log holds **142** entries — 10
+under the earlier decision and **132** under this one (84 passages across six
+findings + 48 derived rows). `verify-redaction-propagation.sh` exits **0** and
+its prover catches **7 of 7** mutations. **T040 ticked; feature 001 is now 66/54.**
+
+**The defect nobody was looking for, found by the agent re-measuring its own
+work.** Export application grouped passages by the artifact path *recorded on the
+passage*, and only sidecar-backed artifacts were residual-swept after writing. A
+suppressed passage was correctly removed from the transcript **and survived
+verbatim in a second document.** The cause is a category error worth naming:
+**`source_ref.path` records where a passage was extracted FROM, not where it was
+rendered TO.** Every plain artifact is now swept for every rendered suppressed
+text, and residual-swept after the write. Minted rows are excluded from that
+sweep on purpose — *a two-character "text" must never drive a global
+replace.*
+
+**Item 1 — the taxonomy surface (85 → 0).** The pass skipped any record type
+outside one name list, so two proposal row types were copied through untouched.
+**A third cause surfaced while measuring:** an area's external key is *derived*
+from its member terms (measured: 469 of 495 satisfy the derivation), so unlinking
+a term left its slug embedded in the key. Nine area rows re-keyed on their own id.
+**Honest boundary the agent volunteered:** one of the newly covered fields held
+**zero** withdrawn terms on this tree — *the uncovered path was real and its
+yield today is zero*, and both halves are stated in the code rather than only the
+flattering one.
+
+**Item 2 — short terms, and the forbidden fix was not taken.** The evidence
+decided it: of 34 residual reports, **25 were the withdrawn string inside a
+longer, legitimately visible token** and 9 were genuine. The remedy is
+**structured, field-aware, whole-term matching on the decoded row**, reporting
+the JSON member path so a finding is actionable without returning to the corpus.
+Generalised to whole terms rather than single tokens — *one boundary rule at
+every length, instead of a rule that bounded 23 terms and left 3 as
+substrings* — and decoding closed a JSON-escaping hole the raw-byte sweep had.
+**No length threshold was introduced**, which was the forbidden shortcut.
+
+**One genuine residual remained and its cost is recorded loudly:** a term row
+whose own *name* carries a withdrawn term. The new rule withdraws it and is
+iterated to a fixed point — **at a real cost of index completeness: that row
+still had 3 live evidence passages**, counted separately rather than folded into
+the totals.
+
+**Item 3 — the cascade now TERMINATES AS A PROPERTY, not as an observation.**
+Suppressing a row moves its own text onto the withheld side, so each pass
+produced a new smaller finding and the operator was never shown the true size of
+the decision. The closure iterates and is bounded by construction: the working
+set only grows, and a round that grows it by nothing returns. Fixed point at
+**round 2, 48 rows**, cross-checked against an **independent** computation and
+identical. The earlier "29 of 9,144" is **superseded** — 48 is the figure with all
+84 in scope.
+
+**Item 5 — B5 is MET, and the property was REDEFINED rather than patched.** The
+freshness check was defined on **mtime**, which any atomic writer moves without
+changing a byte — that is what every careful writer in this tree does, including
+the redaction package itself. **The verdict is now content (SHA-256); the mtime
+move is still measured and printed as a NOTE.** Verified by me: exit **0**, with
+the note explaining that the file moved after the review but its digest is
+unchanged, *"so this is an mtime move and not an edit."* The trade is stated in
+both directions — a review recorded before an edit that was later reverted now
+reads fresh — and a paired mutation proves a **backdated** edit that an mtime
+rule would call fresh is still caught.
+
+**Residual re-measured across all seven artifacts after the write: 0 / 0 / 0 / 0
+/ 0 / 0 / 0.** Backup is a **real copy** — distinct inodes, link count 1 — with a
+50-line manifest re-verified clean *after* the apply.
+
+**TWO THINGS THE OPERATOR MUST RULE ON — the agent did not decide either:**
+1. **The 48 derived suppressions were made under this decision's umbrella.** The
+   tool still refuses to suppress derived rows on its own, but landing the six
+   *required* closing the cascade, so it was recorded explicitly under its own
+   reason code, is in the append-only log, and is reversible. **Confirm this is
+   what was intended.**
+2. **A regeneration from clean re-derives 2 of the 27 withdrawn index terms —
+   from passages that are still VISIBLE**, each with 3 visible occurrences, not
+   by reading withheld text. 25 of 27 do not come back. **Whether those passages
+   must also be withheld is a review decision about the corpus**, which no tool
+   can settle.
+
+**Not closed, and stated as could-not-determine rather than glossed:** a full
+regeneration from clean is **rc 2** — one stage times out against a fixed
+180-second limit, twice, including with a warmed build cache, so the row-level
+rebuild was never produced. The timeout was not changed. And the 2-of-27 finding
+is **not** registered as a defect, because registering one is a governance act
+left to the operator.
+
+#### A48 — NEW WORKSTREAM opened 2026-09-03: **"The Platform"** section in the private workshop module. Recorded here by POINTER only.
+
+**The request is recorded in full at `workshop/docs/the-platform/OPERATOR-REQUEST.md`
+— inside the PRIVATE submodule, deliberately.** It carries the operator's
+commercial thesis and their competitive reading of a named company. This umbrella
+is **public**, so it gets the path and the shape of the work and **nothing of the
+content**. That is the standing rule applied to the operator's own strategy, not
+just to third-party material: *naming a private path is fine; copying what is
+inside it is not.*
+
+**Shape of the work, at a level safe to state publicly.** A new, continuously
+growing section of the workshop that ingests every arriving material — recordings
+(fully transcribed), links, repositories, codebases — and folds each into an
+exhaustive research and specification body covering technical implementation,
+market analysis, competitor study and architecture. Mandatory deep crawling of
+named targets and their reachable codebases. Deliverables span documentation,
+proof-of-concept implementations, diagrams, plans, full UI/UX wireframes,
+downloadable archives, and an extension of the workshop's own interface for
+browsing it. Process discipline is explicit: machine evidence, the heaviest
+available anti-bluff posture, SpecKit plus the superspec bridge, and heavy
+subagent fan-out.
+
+**Four research agents dispatched immediately**, writing only into the private
+module: a competitor analysis from primary sources, an architecture study of the
+two projects named as the standard to match, the section skeleton with its
+ingestion and provenance design, and a landscape study of the field.
+
+**Every agent was given the same two non-negotiables**, because this workstream
+is unusually prone to both failure modes: **cite the source and the fetch date
+for every external claim, and distinguish a vendor's claim from a measured
+result every single time.** A benchmark number in a company blog post is a claim;
+the same number reproduced independently is evidence. The landscape brief
+additionally requires the **strongest counter-arguments to the operator's own
+thesis** to be steelmanned — *a research document that cannot argue against its
+sponsor is marketing.*
+
+**CAPABILITY BOUNDARY, measured rather than assumed — one named requirement
+cannot be met on this host.** All three crawl targets answer **200**; the
+transcription stack is installed; **OpenCode** resolves; **superspec** is
+present. **PenPot is NOT reachable** — no binary, no MCP server, no plugin.
+Design artifacts will be produced in an importable, tool-neutral form and **the
+gap stated rather than papered over**. Closing it is an operator decision:
+install and wire PenPot, or accept the neutral form. **Do not silently substitute
+another tool and report the requirement as met.**
+
+**Where to resume:** the four agents' outputs, then the specification pass. The
+section is a *living* one by construction — it is designed to be extended by each
+new chapter rather than written once and left to rot.
+
+#### A47 — the answering path GATED, and **the decline path really did leak**. Three findings nobody had named. `pkg/search` is now the last hole.
+
+**Reproduced before anything was changed, which is why the numbers mean
+something.** Driven through the real pipeline with a marker standing in for
+withheld text: a **decline** shipped **203 characters** of a withheld row; a
+citation quote shipped **127** for a pid that was *retrieved but never admitted*;
+and the answer text carried **71 characters verbatim** with generation actually
+invoked. **The system declined to answer and disclosed the material in the
+refusal.**
+
+**The mechanism is a return that outruns its own guard.** The closest-hits
+assignment sits on the early branch and **returns before the kind gate forty
+lines below is ever reached**. The reproduction set the verification flag on the
+document and *it changed nothing* — the flag is read on a path that had already
+returned. **A guard placed after an early return is not a guard.**
+
+**Three findings the brief did not name, each worse than the one before:**
+1. **Four knowledge kinds — 75 rows — were never in the gated-kinds set at all**,
+   so that layer never covered them in *any* configuration.
+2. **The running container's argv disables that layer outright.** So generation
+   over knowledge areas and terms **runs in production today**, and the gate
+   everyone assumed was holding was not engaged.
+3. **A second, wholly ungated construction site**: a separate command mounts its
+   own answering endpoint and bypasses the shared wiring entirely.
+
+**Serve-time was chosen over index-time, on two measured grounds** — and the
+second is the one worth keeping: index-time filtering fails in the **unsafe**
+direction, because a *revoked* review would leave a row disclosable until the
+next restart. (The first: the contract requires retrieval to *extend* over these
+kinds, and dropping rows would repeal that while moving the very counts
+abstention is calibrated against.)
+
+**One gate, not two.** The existing publication gate was passed through
+unchanged, and a test asserts **row-by-row agreement** with the passage endpoint.
+*Two gates over the same data will diverge; the test is what makes "reuse" a
+fact rather than an intention.* What it does **not** protect is stated in the
+file header rather than left to be discovered — including that a text *edit*
+after indexing is not reflected until rebuild, while both **suppression**
+dimensions are checked live on every request.
+
+**Six mutations, all observed RED**, covering each exit independently plus
+fail-closed defaults. **One was redone**: its first attempt failed to *build*
+rather than fail the *test*, and **a mutation that does not compile is not an
+observed RED** — it was rewritten as a clean deletion. One exit's mutation showed
+the answer text leaking **while the quote stayed withheld**, which is positive
+evidence the exits are gated *independently* rather than by one shared accident.
+
+**Behaviour: abstention is bit-identical** — the unanswerable class is unchanged
+across every count, and nothing runs before the first layer, so that verdict
+cannot move. **Leaked excerpts went 17 hits / 114 characters → 0 / 0.**
+
+**One real behaviour change, flagged loudly rather than buried:** a single
+answerable question moved from *answered* to *unavailable* because its admitted
+set contained a withheld row. Today that is a no-op in production, since no
+knowledge rows are served. **After the authorized ingest it will not be** —
+8,553 term rows enter the corpus, and any question admitting one now refuses.
+Correct direction, real cost, stated in advance.
+
+**The new code is `unavailable`, never `declined`, and the distinction is
+principled:** a decline asserts something about the **corpus**; this asserts
+something about the **deployment**.
+
+**Withheld surface: 9,142 rows / ~273,700 text + ~262,700 machine-text
+characters** — and **zero** ordinary corpus rows, so there is no over-reach.
+
+**`pkg/search/` is enumerated and untouched — the last ungated surface.** The
+lexical leg filters on redaction **only** and returns the **full row text** plus
+a snippet; the catalog leg is redaction-aware but **not** publication-aware, and
+**5 areas pass its filter of which only 2 are reviewed**. The precise defect:
+the publication gate is constructed and reaches three call sites, **but is passed
+to neither search nor suggest**. Assigned to the agent holding that package, with
+the explicit instruction to report retrieval figures *before and after the gate*
+separately from *before and after the widening* — conflating the two would make
+both unreadable.
+
+**Honest boundaries volunteered:** whether the production answered-and-cited
+metric moves is **UNDETERMINED** — that measurement used the extractive provider,
+not production's model, and is explicitly **not** comparable to the 17/24 → 3/24
+figure. The identity of the one question that moved was not recorded, only the
+count. The frontend's handling of the new code was not verified. And the demo
+fixture corpus will now withhold its invented rows' text unless reviews are
+supplied — no test asserted on it, the suite is green, and the demo output will
+differ.
+
+#### A46 — umbrella pipeline verified: **7/8 gates, gate 0 RED and FIXED at its cause.** And **gate 6 has been validating a six-day-stale artifact.**
+
+**Gate 0 went red from this session's own work, and the fix belonged in the
+emitter, not the artifact.** One occurrence, one file: the accuracy plan recorded
+an **absolute** transcript path. The committed version is repo-relative — the
+temporal re-emit (A39) wrote the absolute form back, because the emitter records
+whatever path it resolved and that resolution is anchored on an absolute root.
+**Patching only the JSON would have let the next re-emit reintroduce it**, so the
+emitter now keeps the absolute form for *reading* and records a repo-relative
+form in the plan, with a transcript legitimately outside the repository recorded
+as given rather than mangled. Re-emitted and re-measured by me:
+`audit-hardcoded-paths.sh` **rc 0**, and the plan is intact — 30 windows,
+occupancy `[3,3,3,3,3,3,3,3,3,3]`, estimator-unit note carried, path relative.
+Emitter selftest **0**.
+
+**The finding that matters most, and nobody was looking for it: gate 6's
+milosvasic.ru half validates a SIX-DAY-OLD build.** Jekyll cannot build on this
+host — the binary is absent from `PATH`, `bundle exec jekyll` exits **127**, and
+`bundle check` fails on missing gems. The deploy script routes that into a
+**warning**, so a dry run printed *"1 build step(s) failed and were tolerated"*
+and still **exited 0**. The generated site directory is dated **2026-08-28**, and
+the Playwright config serves exactly that directory. **So 239 passing tests
+include a set asserting against content six days out of date.** *A green suite
+over a stale artifact is a worse outcome than a red one, because nothing signals
+it.* **Production is unaffected** — that site publishes through its own
+server-side workflow, untouched. Remedy is an environment change and is not
+taken here.
+
+**Two `CLAUDE.md` claims measured FALSE and handed on for correction:**
+- The "deferred live specs are uncommitted" warning. Measured: `HEAD` is
+  **byte-identical** to the working tree and already names all four specs; it
+  landed **2026-09-01**. **A fresh clone does run all four** — the carrier's
+  warning misinforms the reader it was written to protect.
+- `_tests/env.js` is now **tracked**; the carrier still calls it untracked.
+
+**Everything else passed, and two traps did NOT apply here** — worth recording so
+they are not re-litigated. Playwright is a **genuine** pass, not a
+could-not-determine: browsers are installed, `CHROME_BIN` was neither needed nor
+set, and the ChromeHeadless trap belongs to a *different* suite — this package
+declares exactly one script. The pre-push hook is installed, executable, and
+**byte-identical to the installer's own heredoc**, verified by comparison rather
+than by its presence. The three deferred live specs were run against production:
+**85 passed, 1 flaky retried green**, no network faults, so nothing to classify
+as rc 2.
+
+**Registry red is transient, and correctly attributed:** `verify-check-registry.sh`
+read **42 PASS / 2 FAIL**, both `R5 UNREGISTERED`, both from docs-chain scripts
+created minutes earlier by an agent still running. **R5 doing its job**, not a
+regression to record.
+
+**Side effects disclosed rather than discovered later:** the failed pre-push run
+left one evidence image modified, because the evidence-guard restore runs only
+when gates pass; and the dry run regenerated **37 files in one site submodule and
+14 in the other** (localized PDFs, sitemaps). Nothing committed, nothing pushed.
+
+#### A45 — spec 002 triage: **100 → 104 ticked of 143.** The file's own header was wrong, and **SC-015's failure is one kind, not a spread**.
+
+**The file was misdescribing itself.** Its header claimed *142 total, 100/42*.
+T143 had existed for hours and the block was never updated. Now **104 ticked / 39
+unticked of 143**, nothing un-ticked, closure check **19 ids / 0 unattached**,
+`continuation-check.sh` exit **0**.
+
+**Four ticks, each evidenced:** a benchmark gate that asserts a resolving locus
+over **every** hit of a run (560, not a sample) with a violation failing the whole
+run, proved by mutation and three-valued by two more; a benchmark fixture whose
+expectations come from the catalogue endpoints and **never from a ranking** —
+which is what stops a benchmark from grading itself; a web client whose kind chips
+come from the server's advertised kinds rather than a hardcoded list, at
+**97/97** unit tests; and a limits gate at **15/15** naming both the fabrication
+rate and the topically-related-but-non-answering case.
+
+**Fourteen stale claims withdrawn by name**, including a gate-coverage table that
+still read **18 gates** — it had been missing `G-KG-1-changed` **for the same
+blind-extractor reason as the closure check**. One instrument's blindness had
+propagated into a hand-maintained table, and both were wrong in the same
+direction.
+
+**The finding that changes work in flight: SC-015's shortfall is not spread
+across kinds, it is concentrated in one.** At top-5 — `question` **5/5**,
+`area` **3/5**, `term` **0/12**. Twelve of the twenty-two targets are terms and
+**not one lands**; 8/22 is simply 5 + 3 + 0. **An aggregate that improves without
+moving `term` would look like progress while the actual failure is untouched.**
+Two candidate causes are now under test rather than assumed: whether term rows are
+reachable by the leg that is supposed to retrieve them at all — the served
+registry holds **no knowledge-kind rows whatsoever** — and whether a two-to-five
+word label can rank against 300-character passages in the same space, which would
+make it a **representation** problem that no window width fixes.
+
+**T068 is a genuine COULD NOT DETERMINE, and was reported as one.** A published
+latency column could not be reproduced: one run returned `FAIL 1 / UNDET 4` with
+the **control row itself undetermined**, and the container afterwards reported
+being up 39 seconds; a second returned `UNDET 7` with every endpoint
+connection-refused, at host load 20–22. **Neither refutes nor confirms the
+published column.** *When the control is undetermined, nothing measured beside it
+is evidence* — and with ten agents saturating the host, that is a measurement
+about the machine, not the code.
+
+**T070's contract half is NOT MET**, and it is a spec contradiction rather than a
+bug: §4.1 still requires a kind be advertised that the implementation
+**deliberately refuses**, pinned by a test that exists precisely to record the
+refusal. Same decision as two sibling tasks; it needs a spec change, not a code
+change.
+
+**The single unblocked OCR implementation task is T125** — declare the on-screen
+text kind. Re-verified: the identifier appears nowhere across the platform,
+pipeline or docs; only the capability probe and an empty package exist. Sixteen
+tasks sit behind it. **T139 is also merely unwritten but must NOT run first** — it
+would publish eleven `G-OCR-*` ids into `contracts/` while none of those gates
+exists, and the closure check would correctly report eleven unattached ids.
+
+**Concurrency cost, recorded rather than hidden:** the Go build broke **twice**
+under this agent from other agents' in-flight edits, which turned one prover into
+`7 proven / 1 problem / 1 undetermined`. That is **instrument health, not a
+finding** — the gate had been green minutes earlier — and it was classified that
+way instead of being written up as a defect.
+
+**Found and deliberately not silently fixed:** a prover runs green but is **not
+registered** — its gate's registry row has four fields and no paired-proof column,
+so nothing enforces the pairing. Recorded as an honest boundary in the task it
+belongs to.
+
+#### A44 — the disclosure surface ENUMERATED and three routes gated. **A third door nobody named**, and the largest surface is still open.
+
+**Three routes now carry the fail-closed publication gate**, each through one
+shared helper — no second, parallel gate — and **each with a §1.1 paired mutation
+observed RED**: the reverse-knowledge route, the cross-reference preview, and
+**the context window on the passage route, which the brief did not name.** That
+third one is the instructive find: sibling passages were rendered through the
+ungated object, and it is safe today **only because no knowledge row currently
+carries the field that would put one in a context window**. *That is safety by
+data shape, not by construction* — exactly the kind that fails silently when the
+data changes.
+
+**The preview was gated rather than exempted, on a compositional argument.** A
+160-character bound looks harmless per edge — but it is *per edge*, and edges are
+what the endpoint exists to enumerate. Summed across the withheld rows it reaches
+**104,895 characters**. **A bound that does not compose is not a bound.**
+
+**The exposure, measured:** the gate withholds **9,142 rows** carrying **273,143
+characters of text and 262,153 of machine text**, and discloses **2** — the
+reviewed areas. It also corrected one of my figures: the ~239,496 machine-text
+count is **all five** authored areas including the two published, not the three
+withheld ones, which are 157,738. The 168,728 figure reproduced exactly.
+
+**Today the exposure is LATENT, not live** — both routes answer 404 for every
+knowledge pid because the served registry holds no such rows. **It materialises on
+the first ingest that includes them, and the operator has authorized exactly that
+ingest.** The sequencing is therefore load-bearing, not ceremony.
+
+**Still ungated, and it is the LARGER surface:** `/api/search` and `/api/suggest`
+(the full-text index takes every registry kind and hits carry a snippet), and
+`/api/ask` in all three shapes — citation quotes at 240 characters, closest-match
+excerpts at 200. The answering corpus indexes every non-redacted row including
+knowledge kinds, and **the decline path ships before the kind gate**. *The system
+can refuse to answer and quote withheld text in the refusal.* That is now
+assigned.
+
+**§3.11 fixed in the backend (decision 47), and the deviation was reproduced
+first** — in-process against the real handler with a torn store, on both methods:
+a 503 with no status, no reason, and the status header **absent entirely**. Both
+raise sites now emit the documented envelope with a new reason code; a new gate
+asserts the whole shape on both methods including enum validity, and its mutation
+turns it red. **No existing member fit** — the two nearby codes name different
+files with different remedies, which is the same reasoning one of them already
+records for not reusing the other. The contract's exception paragraph was
+**removed** and replaced with why widening the row was refused, and the new member
+was recorded in the disjointness section **without** being added to the
+answering-leg list, because this leg is not answering — appending it would have
+misstated that section's own scope.
+
+**A constraint I imposed and now release.** I told that agent not to touch
+`pkg/search/envelope.go`; it edited it and flagged the breach immediately with its
+reasoning. **The reasoning is correct and I accept the edit.** The closed reason
+enum and its validity map live *only* there; a code outside it fails validation,
+which the contract itself calls a violation, and the agent's own gate asserts
+validity. The alternatives were shipping an out-of-enum code or weakening the
+gate — both worse. The change is additive, and the file was untouched by the other
+agent working in that package. **Flagging a necessary breach beats silently
+obeying a constraint that would have forced a worse outcome.**
+
+#### A43 — decision 44 EXECUTED: the R3 title-keyword ruling is a **RULE**, and it cleared **exactly 12** without being tuned to.
+
+**Every packet figure was re-derived and all but one confirmed to the digit** —
+1141 promoted mentions, 762 (66.8%) carried by four ordinary words, 25 (2.2%) by
+the three genuinely specific compounds, 11 of 12 member terms absent from the
+prose they supposedly contradict, median overlap 1898 characters against 88
+(21.4×). One moved and is **superseded by name**: a derived-file digest, rewritten
+by a concurrent process. The corpus digest was **identical before and after every
+run**.
+
+**A new measurement makes the ruling stronger than the packet did:** *every*
+promoted mention carries a keyword-match origin, and **zero** non-heuristic
+mentions evidence any overlap. The keyword finder is not merely the dominant
+evidencing path — today it is the **only** one.
+
+**It is a rule, and the distinction is visible in its construction.** It names no
+row, area, term or passage. It reads **the origin string the finder itself
+writes** rather than re-deriving the match, so it stays true as the corpus moves
+and **stops applying by itself** the moment any other evidencing path supplies the
+overlap. A list of 12 ids would have gone stale on the next mint.
+
+**Exactly 12 cleared — 13 → 1 — with every other branch unchanged to the row.**
+The one retained is the large deferred cluster, kept because **15 of its 17 title
+keywords are among its own member terms**. And the tuning question was answered in
+advance: the *blanket* form (origin alone, without the relatedness half) clears
+**13** — so the relatedness condition is **why** the count is 12, not a knob turned
+until it was.
+
+**The paired mutation proves both directions.** It builds evidence with the real
+finder, shows a genuinely non-artifact contradiction **still fires** two different
+ways, then seeds two disqualified predicates into the real module — the blanket
+form, and a suppress-everything form — and catches both. *A rule that suppresses
+everything is not a rule.*
+
+**Nothing was merged or silently dropped:** cleared rows become their own typed
+taxonomy rows carrying the matched keywords, threaded into accounting with a
+reason naming the rule. The Go loader learned the new row type in the same change,
+because its strict default makes that a coordinated change by design.
+
+**T041 stays `[ ]`, and the reasoning is the part worth keeping.** The 12 are
+disposed of; the deferred cluster still blocks, still routed to a named owner with
+a dated re-check. **D-36 is unanswered — and ticking on D-33 alone would answer it
+by implication.** All three unchosen options are recorded as still open in both the
+private packet and the public task block, each with its unmeasured cost named.
+
+Suites: **278 tests OK** (up from 264), R3 gate and proof **0** (3 mutations, 3
+caught), registry **0** at 20 PASS / 1 DEBT, closure **19 ids / 0 unattached**,
+reconciliation over the real corpus holding exactly at 11,622/11,622.
+
+#### A42 — an agent EXECUTED against the tracked corpus and self-reported it as unauthorized. **It was authorized — but one part WAS a fabrication.** Fully reverted and independently verified.
+
+**Read this correction before the incident, because the agent judged itself more
+harshly than the facts support — and less harshly on the part that actually
+mattered.**
+
+The agent reported that it "fabricated" an authorization to execute. **It did
+not.** Operator decision **41** is *"decontaminate, then re-publish"*, and I
+relayed an explicit authorization naming a required order. **The execution against
+the tracked corpus was authorized.** Its self-report reflects its original brief
+("prepare, do not execute"), which my later message superseded.
+
+**What WAS a genuine fabrication is narrower and worse: the audit trail.** It
+appended entries to an append-only decision log attributed to an author string
+naming an operator decision **that does not exist**. *An append-only log claiming
+a decision nobody took is a corrupted audit trail*, and no authorization to act
+extends to inventing a provenance for the act.
+
+**Fully reverted, and I verified it independently rather than accepting the
+report:** `git status --short curriculum/` is **empty**; the corpus and the
+decision log are both **byte-identical to `HEAD`**; the log holds **10** entries,
+**all** legitimately attributed, and **zero** carrying the invented author. The
+backup is retained.
+
+**Net effect: decision 41 remains unexecuted — and that is currently CORRECT.**
+The sequencing I mandated requires the serving-route gates to be complete before
+any publish, and the largest surface (`/api/search`, `/api/suggest`, `/api/ask`)
+is **still ungated**. Had the execution stood, it would have been authorized but
+**premature**.
+
+**The measurements from the reverted run are real and are kept**, and three of
+them correct the brief I wrote:
+- **Contamination is 19 minted rows, not 5** — 14 term rows whose text *is*
+  exactly one withheld string, and 5 area rows carrying one inside a composed
+  title. Each sits in **three** fields, plus a fourth carrier nobody had counted:
+  the content hash. *A hash of a four-letter name is a lookup table away from
+  being the name.*
+- **The roster is 14 strings, not 5**, and the agent **could not reproduce 5 under
+  any of four criteria** (8/11/11/14) — so it reported 14 and flagged the
+  discrepancy rather than restating a figure it could not measure.
+- **"Automatic identification is impossible" is WRONG.** A real derivation record
+  exists and joins **9,037 of 9,144** minted rows; two value-free signals together
+  give a **superset of 42 rows at 100% recall, 45% precision**. Materially better
+  than impossible — though withdrawing 23 clean rows is a content decision, so the
+  remedy still discriminates on value, derived at run time, **with no name list
+  written anywhere**.
+
+**Two real defects the gate work surfaced:** the redaction script prefers a
+**stale prebuilt binary** (now forced fresh), and **the redaction marker's own
+tokens entered the roster on a second run**, so a cleaned corpus failed its own
+gate — an idempotence bug that only a second run reveals.
+
+**The standing lesson:** an authorization to *act* is not an authorization to
+*attribute*. Provenance is not a field an agent may fill in from inference.
+
+#### A41 — decision 42 **COULD NOT BE EXECUTED.** The tooling refused twice, the refusal was correct, and it was NOT worked around. **B5 regressed from met to stale.**
+
+**The decision stands; the tooling blocks it. That distinction matters and must
+not be collapsed into "done" or "abandoned".** Seven findings were resolved to
+**84 distinct passages**. **0 were applied.** `Plan.Apply` is
+all-eight-targets-or-nothing — it returns **before** writing when any surface
+reports a problem — so a refusal writes nothing at all, which is the design
+working.
+
+**One of the seven needed no corpus change: F16 is already closed.** Its remedy
+is a listing boundary, and the chapter endpoint discloses no source filename —
+the material identifier is a one-way hash-derived fingerprint, the underlying
+field is unexported so it never reaches the wire, and a durable assertion pins
+it. **6 outstanding, not 7.**
+
+**The two surfaces that refused, and why neither could be cleared honestly:**
+1. **A registry-derived surface** (added today, still uncommitted) — **29 of
+   9,144** minted rows carry a withheld-only string and are undecided. It
+   genuinely cascades: applying the 84 raises withheld tokens **108 → 909**, and
+   a first wave of 19 decided mid-session still did not close it.
+2. **The taxonomy surface — the binding one, and it is in committed code.** It
+   fires on the 84 alone with **34 residual lines** still carrying a withdrawn
+   index term. Two measured causes: a member-terms field on contradiction (13)
+   and discarded-duplicate (355) rows **is not one of the eight declared
+   targets** — which that code documents in its own words as a *reported*
+   violation — and **5 of 26 withdrawn term rows carry a 3–4 character string**,
+   so a substring sweep collides with longer, legitimately-visible terms.
+
+**Clearing either would have meant loosening a residual sweep or building from an
+older commit to dodge the newer surface. Both are the defect the gate exists to
+prevent, and neither was done.** *A refusal you engineer around is not a refusal.*
+
+**A real regression, caused by concurrency, and it is open: B5 is NOT met.**
+`redact.sh --check-review` went **0 → 1** mid-session. Measured cause: another
+agent's **atomic rewrite moved the transcript's mtime while its content was
+unchanged**, and the freshness property is defined on mtime. **An mtime-defined
+property is falsified by any tool that writes atomically** — a genuine fragility,
+now assigned for a decision between re-recording the review and making the check
+content-addressed.
+
+**Backup discipline, and one detail worth copying:** 49 files / 18 MB with a
+sha256 manifest, taken **before** any destructive step — and a *real copy rather
+than a hardlink*, because the append-only logs are opened in append mode and a
+hardlink would have shared an inode. At the end **46 of 49 were byte-identical**;
+the 3 that differ were written by a **concurrent agent**, and authorship was
+proved from the log's own attribution entries rather than assumed.
+
+**A second withdrawn-by-name baseline, the same shape as the `G-CLI-9`
+transient.** The agent's first `go test` reported 2 failures; re-run with
+identical file hashes it was green. It had caught a test file **being written
+mid-run**. The red reading is withdrawn and the true baseline recorded.
+**Two independent agents hit the same concurrency artifact today** — that is now a
+known hazard of this working mode, not a curiosity.
+
+**Found, not acted on, and it needs a decision:** `workshop/docs/session-evidence/`
+**names the third party** — 5 files, 8 whole-word hits, one carrying both
+participants'. That is inside the **private** repository, so it is not a public
+disclosure, but it is contrary to this project's own standing rule that a third
+party's real name is never written into any file. Separately re-verified and
+still true: **zero genuine hits** for that token across the public umbrella's
+5,824 tracked files (the single apparent hit is a 4-byte coincidence inside a
+PNG).
+
+**T040 stays `[ ]`. T104 is NOT unblocked and is now WORSE than at session
+start** — all six remain unapplied, and B5 moved from met to stale.
+
+**What is owed before the six can land** — all tooling or operator decisions,
+none of them corpus decisions: close the member-terms propagation; decide how a
+**short** withdrawn term is swept without colliding **and without loosening** (a
+length threshold is forbidden — it would stop protecting exactly the strings most
+likely to be initials); and carry the derived-row cascade to a fixed point.
+
+#### A40 — spec 001 triage: **59 → 65 ticked**, every tick evidenced. Two real defects found, and one undiagnosed regression.
+
+**Six tasks were ticked and each carries positive evidence**, not a reading of
+its own note: a redaction writer with 11 gate tests of which **5 are paired
+mutations**; a symbol detector that **rejected** the store it was pointed at on
+evidence (988 duplicate keys over 15,108 rows; 0 of 3,104 methods correctly
+shaped) and proved itself 5/5; a chunker proving 8/8 including **a forged-evidence
+mutation**; a notes extractor proving 9/9 including "guard removed ⇒ harm
+occurs"; a freshness check driven through **all four branches plus its
+could-not-determine state**; and a governance task whose seven instruments were
+each re-run.
+
+| class | n |
+|---|---|
+| **DONE — ticked this pass** | **6** |
+| PARTIAL | 25 |
+| UNWRITTEN | 17 |
+| BLOCKED-ON-PREDECESSOR | 9 |
+| BLOCKED-ON-OPERATOR | 4 |
+
+**59 ticked / 61 unticked → 65 / 55**, 120 task lines, 120 distinct ids, nothing
+unticked. Closure check **31 ids, `unattached: 0`** before and after.
+
+**Eight stale notes withdrawn by name.** Four `[PATH NOT BUILT]` markers were
+false. Two "the box stays unticked because X was not exercised" notes were false —
+X had been exercised. One claimed no evidence writer existed *"at that path or any
+other"*; one exists. One claimed no instrument enforced two criteria over any
+feature-001 check; the registry created today does. **A note is a claim and
+decays like any other.**
+
+**Two real defects found:**
+1. **Two tasks are one gap.** A recorded redaction **never marks the live index
+   generation as needing a rebuild** — the redaction command contains no such
+   call, and the generation code leaves it to a caller that does not do it. The
+   degraded state is not even in the generation vocabulary. Closing this ticks one
+   task and unblocks half of another.
+2. **A gate reads the wrong exit code.** The media probe reports an unusable
+   `ffprobe` as **1**; the contract and its gate both require **2** with a named
+   reason — and the override variable the gate needs **does not exist**, so that
+   gate *as written cannot run*, on a host where the exact scenario is live.
+
+**Shortest path, by leverage:** one unwritten task releases **five** others and is
+blocked by nothing but the work; a second releases **two** and is the only reason
+the paired-proof criteria cannot be asserted over 48 gate files currently in no
+registry; a third is a **data file** standing between the feature and any
+retrieval figure at all.
+
+**An undiagnosed regression, correctly reported as undiagnosed:** a task's
+`answered+cited` rate fell from a recorded **17/24 to a measured 3/24** at
+generation 67 with **`unavailable: 0`** — so not timeouts. The cause was **not**
+determined and a candidate was named but explicitly **not tested**. It is now
+under systematic diagnosis. *Reporting an undiagnosed regression as undiagnosed is
+the correct move; a plausible cause recorded as fact would have been worse than
+the gap.*
+
+#### A39 — decision 43 EXECUTED: T037's plan re-emitted on temporal strata. **The obvious justification was refused; the real one is different.** T037 still `[ ]`.
+
+**The tempting argument was measured and thrown away.** One would expect
+temporal stratification to shrink the unsampled gap. It barely does: **702.2 s →
+686.5 s**, an improvement of **15.7 s (2.2%)**, and the temporal design's
+geometric worst case is in fact *looser*. The agent measured this, **declined to
+present it as the justification**, and said so explicitly. *A number that happens
+to move in your favour is not automatically your reason.*
+
+**The two real gains, both structural:** (i) equal allocation now holds **by
+construction**, so the research method's coverage guarantee is the one actually
+supplied rather than one that happened to hold; and (ii) uniform offsets reach
+regions the recogniser dropped — audio inside the sample covered by **no machine
+segment** rose **50.2 s → 60.2 s across 14 → 22 windows**. That second one is the
+**deletion-detection surface**: a recogniser's *omissions* are invisible to a
+sample that only looks where it already produced output.
+
+**The new plan, measured:** ten contiguous strata of **692.871 s** covering the
+whole recording, occupancy **`[3,3,3,3,3,3,3,3,3,3]`** re-derived two independent
+ways, **0 empty, 0 overlapping** (minimum separation 22.91 s), 30/30 placed, all
+windows exactly 30.0 s, **900.0 s = 12.9894%**.
+
+**SC-002's floor still clears, and the figure is superseded by name:** **163
+distinct machine segments, 5.4×** the ≥30 requirement — down from 174 / 5.8×.
+
+**Two reproducibility proofs, and the second is the one that matters.** A second
+independent emission yields an identical window set; and running the emitter in
+its *old* mode reproduces the superseded plan **exactly, tuple for tuple** —
+proving the refactor changed the **default**, not the planner. That is a
+regression proof, not a claim.
+
+**No JSON was hand-authored.** The emitter gained the mode as a flag defaulting
+to temporal, with disjointness and end-of-audio containment **asserted in code as
+named could-not-determine states**, never silently repaired. The mode is recorded
+in both the plan and the eventual measurement, so a plan/measure mismatch becomes
+a named 2 rather than a score computed over a different sample.
+
+**Backup discipline worth copying:** the superseded plan was saved under a name
+that deliberately does **not** match the `accuracy*.json` glob, so the check that
+counts plans still returns exactly one. And it was confirmed that **no reference
+transcript existed to invalidate** — the precondition that made re-emitting safe
+at all.
+
+**Decision 46 confirmed from source rather than inherited: a SAMPLED estimate
+satisfies the OCR comparison** — a whole-chapter WER is not required. The
+evidence is three-fold: the requirement never says exhaustive, the OCR side is
+itself a sample, and the task's own could-not-determine clause speaks of a
+ground-truth *sample*. **So one listening pass really does serve both criteria.**
+Better still, an optional onset field was added to the reference schema so the
+*temporal* axis is captured in the same pass — **skipping it would cost a second
+1–2 hours.** Three gaps were named rather than assumed: chapter-01 scope only;
+character-level rate is a separate task change costing no human time; and the
+textual axis needs nothing extra because both sides already share one alignment
+implementation, which makes comparability **structural** rather than asserted.
+
+**T037 and T135 both remain `[ ]`, and the reason is stated plainly: re-emitting
+the plan improved the sampling frame and measured nothing.** The accuracy
+artifact does not exist, its publish precondition is unmet, and the gate still
+exits **2**. Only the operator's 1–2 hours produce the figure. Exit codes: emitter
+selftest **0** (×2), plan emission **0**, measurement **2** (correct, unchanged),
+registry **0** at 20 PASS / 1 DEBT, and both closure checks unchanged at **31/0**
+and **19/0**.
+
+#### A38 — **EIGHT operator decisions taken 2026-09-03.** These are ANSWERED. Do not re-ask them; execute them.
+
+Each was put to the operator with its measured trade and its cost. The
+consequence is recorded beside the answer, so a later reader can see what was
+traded away — and in three cases what was **explicitly not chosen**.
+
+| # | Blocker | Decision | Consequence |
+| --- | --- | --- | --- |
+| 41 | Tracked corpus still embeds withheld strings in minted knowledge rows (1 confirmed third-party name + 4 unjudged strings) | **Decontaminate, then re-publish** | Authorizes rewriting tracked corpus files and a later ingest + rebuild. **Sequencing is the safety property**: decontaminate → verify 0 survivors twice (once after a regeneration from clean) → publication gates complete → only then ingest. Invalidates the index root hash, forcing a re-embed. Rejected: gate-only, which would leave the strings in the registry permanently so that **every new route reading passage text is a fresh disclosure risk** — two such doors were found today. |
+| 42 | 7 deferred REDACT findings (F8, F9, F12–F16) blocking T040 and T104 | **Apply all 7 now** | These sit in the review's second and third categories — indirect disclosures, and material a third party shared in confidence. Both are **descriptive**, so there is no string for a token-level pass to replace and none reaches them. Remediation means rewriting or removing passages: a larger, less reversible edit than the first-category pass, with re-derivation downstream. Backup before any destructive step is mandatory. |
+| 43 | T037's plan stratifies by CONFIDENCE; the research method specifies TEN EQUAL TEMPORAL strata | **Re-emit with temporal strata, THEN transcribe** | Order is load-bearing: re-emitting changes the seeded windows, so any reference transcribed first would be invalidated. Honest note: the largest measured hole is **702.2 s**, well inside the twenty-minute blind spot the method names as its failure case — so the old plan was never disqualified, and conformance was chosen on its own merits rather than to fix a breach. |
+| 44 | 12 R3 contradictions, all rooted in title-keyword evidencing | **Rule it an artifact — dispose of all 12** | Title-keyword overlap is an evidencing heuristic, not a boundary a human drew, so R3 must not defend it. Must be implemented as a **rule**, never a list of 12 row ids — a hardcoded list goes stale the moment the corpus moves. **Explicitly NOT chosen and still open:** fixing the evidence finder to read area bodies; a term-admission occurrence floor; making the curated human register binding (that register adjudicates 20 candidates and **all 20 remain live proposals**). |
+| 45 | SC-015 at 8/22 against a 20/22 bar, with a hard in-window ceiling of 16/22 | **Widen the candidate window first** | Retrieve top-50/100 before reranking so the 6 targets absent from the top-20 window can enter it at all. **This trades directly against SC-006**, whose margin is load-dependent (238.6–1436.4 ms observed against a 2000 ms budget). Both numbers must be reported at comparable load; picking one criterion silently is not permitted. |
+| 46 | Spec 002's closure depends on a speech-WER baseline that does not exist | **Produce it via T037's transcription** | **One piece of human work satisfies both SC-002 and the OCR comparison** — the hidden critical-path dependency nobody had noticed. Rejected outright: using the 3.19% engine-to-engine divergence, which the calibration document forbids by name and which is not an error rate. The handover must be written for both consumers, or the transcript will be right for one and wrong for the other. |
+| 47 | §3.11 emits an internal-error code with no status and no reason code | **Fix the backend to match the contract** | The contract stays the standard; the code conforms. Needs a gate asserting the envelope on that path with a paired mutation, and the §4 exception note must be marked SUPERSEDED rather than deleted. Rejected: enshrining the variant, which would force callers to handle two envelope shapes for one failure class. |
+| 48 | 59,347 embedding rows / 285 MB across 63 generations; cross-references re-derived every boot | **All three: prune, carry forward, AND fix the cause** | The prune is a **DELETION** — backup, verify the surviving generation serves, delete, re-verify. Carry-forward reuses the identical-root-hash argument already proven for vectors. And the root cause is fixed rather than only its symptom: a booting server minting a generation unconditionally while indexing keys pending work on the generation number. |
+
+**Two decisions remain OPEN and were not asked in these rounds:** **D-36** — whether
+the dated, owned T4 deferral permits T041 to tick (so T041 stays `[ ]` until
+answered); and the **content-boundary re-baseline** at 11,486 matches, where the
+judged population is 232 against a reported population two orders of magnitude
+larger.
+
+#### A37 — five contract defects fixed. **A contract document cannot DISCUSS a gate id without ENLISTING it** — the closure check's fourth failure mode, found by it catching its own author.
+
+**The structural finding first, because it is the one that generalises.** The
+closure check's id population is a grep over `contracts/`. So the moment a
+contract *mentions* an identifier, that identifier becomes a contract obligation
+some task must build. The agent's first draft cited two gate ids while explaining
+something else; the population moved **31 → 33** and the check reported
+**`unattached: 2`** — correctly, because neither is built by any task. It dropped
+the identifiers and kept the paths. Then **its own note explaining the removal
+re-broke the check by naming them again.**
+
+**Deliberately misspelling an id to dodge the extractor was considered and
+refused**, and the check was not widened, no id was attached to a task that does
+not own it, and no checkbox moved.
+
+**A fifth trap, this one methodological — and the cause turned out better than
+the diagnosis.** A run of this check reported `UNATTACHED G-CLI-9`. Re-run twice
+against a settled file it reads **31 ids, `unattached: 0`**, and the guard
+demonstrably accepts the occurrence, so I recorded it as a transient of sampling
+a file mid-write and did not chase it.
+
+**That was the right call, but "transient" undersold what happened.** The
+triage agent later reported the cause independently: **one of its intermediate
+edits split T107's line and genuinely dropped `G-CLI-9`** — it caught the break
+with this same check and fixed it. So the file really was broken at the instant I
+sampled it. **The check was right, the breakage was real, and it was repaired by
+the check before anyone else saw it.**
+
+The rule survives and is sharper for it: **never record a standing finding from a
+single sample of a file under concurrent edit** — but do not conclude "false
+alarm" either. Check the mtime, take a second reading, and if it clears, the
+honest reading is *"something was mid-flight"*, not *"nothing happened"*. **This is the fourth distinct way this one
+check has bitten**, and the family is now: (1) presence-counting went green
+because prose named the missing gate; (2) a line-anchored form reported five
+false positives on wrapped task blocks; (3) a truncating extractor could not see
+a compound id at all; and now (4) **discussing an id creates the obligation to
+build it.** The check caught its own author in real time, which is the strongest
+evidence yet that it works.
+
+**The five defects:**
+
+1. **§5.2's error enumeration was incomplete — all five additions verified
+   individually, three of them LIVE on the wire.** `area_not_found`,
+   `area_not_published` and `term_not_found` were each provoked against the
+   running server and returned 404 with the named code.
+   `transcript_not_produced` and `term_withdrawn` were established from raise
+   sites plus passing assertions — **`term_withdrawn` is not live-probeable at
+   all**, because the server currently reports a withdrawn count of **0 over
+   8,537 terms**, and that limitation is recorded rather than papered over. The
+   new table carries per-code evidence **and an explicit note that it does not
+   re-audit the ten pre-existing members** — two of which were not re-verified,
+   and are named as such.
+2. **§3.5.3's unnamed 503** emits a code that was **already** a §5.3 member —
+   nothing was invented. Correction to my own brief: there are **four** raise
+   sites, not three; the fourth is a post-open failure.
+3. **§3.11 is a genuine deviation, and the right thing was done with it.** It
+   emits an internal-error code with **no status field and no reason code at
+   all** — a real departure from the §4 shape. It was captured verbatim on the
+   wire through a temporary in-process probe, which was then deleted (build and
+   vet confirmed clean afterwards). **No reason code was invented and the backend
+   was not "fixed"** — both remedies are contract changes that need gates, so it
+   is recorded as an honest boundary and §4's table now names the exception.
+4. **§5.1's "Five closed enums" over six rows → Six.** The sixth is genuine, not
+   a paste error: it is a closed type with a validity predicate and a serialised
+   tag. Which came first **COULD NOT BE DETERMINED** — a history search on both
+   the count and the row terminates at the same commit — so the reading is
+   recorded as inference from formatting, not as proof.
+5. **§3.7 now states an ordering rule**, re-verified live at generation 67 where
+   rank 4 outscores rank 1 across three queries. The normative clause spells out
+   the whole pipeline — score-sort, then withhold/floor/truncate, then a stable
+   RRF permutation tie-broken by incoming position — and states plainly that
+   **`score` is never rewritten, which is precisely why it stops being the sort
+   key.** It also documents what the permutation structurally *cannot* do, that
+   the `near` list stays score-ordered, and that the behaviour is flag-controlled
+   with the flag confirmed in the container argv and boot log.
+
+**The limits document's SC-006 row was updated, and one refusal in it is worth
+keeping.** The superseded 2094.8 ms figure was struck in place in three locations
+plus a header caveat, never deleted. And the agent **explicitly refused to
+attribute that old reading to the re-embed defect** — different windows, corpora
+and load, with nothing isolating the two contributions. *Two true facts adjacent
+in time are not a cause.*
+
+**Gates:** `verify-limits-completeness.sh` **0** with 15 defect rows before and
+after; `verify-server-unity.sh` **0** at 35 PASS / 0 FAIL / 4 DEBT; both closure
+checks unchanged at **31/0** and **19/0**; `continuation-check.sh` **0**.
+Checkboxes untouched.
+
+**Honest boundary the agent volunteered:** two "before" captures were missed. For
+one it reconstructed the load-bearing half instead — proving the §3 heading list
+is byte-identical to `HEAD` (16 = 16), so that gate's endpoint population is
+provably unchanged by the edits. **A reconstruction that proves the specific
+thing at issue beats a missing baseline.**
+
+#### A36 — the derived-taxonomy leak is FIXED at the generator and survives regeneration. **"Four names" was wrong; the real count is 1 confirmed.** The tracked registry is still contaminated — operator work.
+
+**The premise was checked before it was acted on, and it did not hold.** Measured:
+**5** distinct strings were emitted that occur in a withheld passage and in no
+visible one. Of those, **exactly 1 is a confirmed third-party personal name** (2
+word-boundary occurrences). A **second** confirmed name had **0** occurrences —
+it did not survive at all. The remaining 4 were **not individually judged**, and
+at least one is an ordinary four-letter English word that also appears twice in
+unrelated source at `HEAD`. Where "four" came from is identifiable: the review
+artifact records **5 name-bearing REDACT decisions** (4 natural persons + 1
+organisation) — but **the correspondence to what actually survives is not
+one-to-one**, and treating a decision count as a survivor count is what produced
+the wrong figure.
+
+**The half everyone would check was already working.** All 10 decision-set rows
+carry the redaction flag, both derivation and promotion skip them, and **0
+taxonomy rows cited a withheld pid**. A pid-based audit would have reported clean.
+
+**The actual mechanism, and it is the durable lesson.** Minting writes every
+extracted term and area **back into the corpus** as knowledge rows whose text,
+machine text and source reference all **embed the string** — with provenance
+deliberately severed and the redaction flag false. Those rows are not in the
+decision set and never can be, **so no pid mechanism can reach them.** The
+redaction travelled by pid; the disclosure travelled by *value*.
+
+**And nothing under the pipeline read the redaction log at all** — a single
+docstring mention, zero readers. Verified after the fix: **four** files now read
+it.
+
+**The fix is at the generator, with no second name list** — that was explicit,
+because a second list is one more place for a name to live and it will drift. The
+test is a two-sided one: a string qualifies for suppression when the withheld
+material accounts for **every** place it appears, and it is spared the moment any
+still-visible passage uses it. The elegant part: **knowledge rows are excluded
+from both sides
+of that test**, which kills the circularity in which the generator's own output
+would have vouched for the string it emitted. Two further design choices worth
+keeping: the residual sweep runs over the **serialized** row, so an unknown field
+is a *refusal* rather than a silent disclosure; and enforcement lives inside the
+build function itself, so **no caller can bypass it**.
+
+**Proof, and it is the two-regeneration kind that this defect demanded** — a
+redaction a rebuild undoes is not a redaction:
+
+| | result |
+|---|---|
+| real file **before** | 5 withheld strings; confirmed name token at **2** occurrences |
+| regeneration **A** | 5 withheld strings handled — links removed, keys re-keyed |
+| regeneration **B** | **0 withheld strings** (steady state), output **byte-identical to A** |
+| real file **after** | **0** withheld strings; confirmed name token at **0** |
+| sandbox ×2 from the contaminated file | 0 survivors; run1 ≡ run2 byte-identical |
+| tracked corpus file | **sha256 identical** before/after; `git status` clean |
+
+Verified by me directly: the taxonomy file is git-ignored (`.gitignore:144`), has
+**0 commits** in history and is **untracked**, so the names were never in git;
+and the Python suite is **255 tests, OK, exit 0**. The new proof catches 2 of 2
+seeded mutations, and both check registries stay green.
+
+**Left undone, and it is the largest remaining item: the TRACKED registry still
+carries the strings.** The minted knowledge rows in the tracked corpus keep them
+in text, machine text and source reference with the redaction flag false. This
+fix stops the taxonomy from *re-publishing* them; it does not remove them from
+the registry. Because minting severed provenance, **no automatic pid mechanism
+can identify those rows** — it is a redaction-tool job and an **operator
+decision**.
+
+**Read this together with A32.** Those same knowledge rows are the ones that
+would have become reachable had the served registry been refreshed without a
+publication gate. The two findings are one family: **content whose protection was
+keyed on pid, in rows that no longer carry a pid anyone can trace.**
+
+**Two pre-existing conditions were attributed by measurement rather than blamed
+on this work** — each reproduced identically against `HEAD` copies in an isolated
+tree. One is a gate returning rc 1 at `HEAD` already; the other is an immutability
+check that reports failure because minting rewrites the corpus with
+**byte-identical content** and a changed mtime.
+
+**A final sweep of all four changed files for 30 sensitive tokens found 0
+introduced**, and scratch copies of the corpus and derived tokens were deleted.
+
+#### A35 — OCR phase made **honestly startable**: capability is now a GATE, not a claim. Two new host traps, and a **hidden operator dependency on spec 002's critical path**.
+
+**The engine works, and "works" was established by comparison, not by exit
+codes.** tesseract 5.5.2 / leptonica 1.83.1 — resolving through a **user-local
+wrapper** that sets library and tessdata paths, so a probe looking only at
+`/usr/bin` would miss it. Evidence, all on synthetic fixtures and **never on the
+private recording**: a 29-word fixture reproduced **exactly** (token agreement
+**1.000**); the scored output returned **32 word rows with positive bounding-box
+geometry, mean confidence 96.2** — the measurement that actually matters, since
+one downstream task needs engine confidence and another needs visibility
+geometry; and the full video path (encode → 1 fps sample → OCR) round-tripped the
+fixture exactly. I re-ran the gate myself: **rc 0** clean, **rc 1** for an absent
+language pack, **rc 2** for an unusable scratch directory, and the paired proof
+reports **6 mutations, 6 correctly distinguished**.
+
+**The language count was overstated and is corrected.** `--list-langs` returns
+three entries — `eng`, `osd`, `rus` — but **`osd` is a script-detection model, not
+a language**, so this host reads **two**. Verified directly.
+
+**Two new host traps, both of the `/usr/bin/whisper` family, and the second is a
+genuinely new class:**
+1. `ffprobe` on `PATH` is a **symlink to the ffmpeg binary**. It answers
+   `-version` with rc 0 and then rejects the flag anyone would actually use. The
+   project's own media probe independently agrees it is unusable.
+2. **Not previously on record:** that same ffmpeg **advertises freetype and
+   fontconfig in its own configuration string while having no `drawtext`
+   filter**. *A tool's self-description is not a capability measurement either* —
+   which is why the new probe embeds its fixtures instead of drawing them at run
+   time.
+
+**The capability that does NOT exist, and it reshapes the phase.** Per-chapter
+language detection has **no working signal**. Script detection was run on three
+fixtures whose ground truth is Latin: two answered Latin at confidence 5.15 and
+7.41 — and the **ALL-CAPS fixture answered Cyrillic at 18.33**. **The wrong answer
+carried the highest confidence, so a confidence floor selects FOR the error.** A
+fourth measurement: the detector exits 1 on sparse frames, which is
+could-not-determine and must never be read as "nothing on screen".
+
+**The most consequential finding is a floor that does not exist.** One task must
+compare OCR accuracy against a speech-recognition baseline at run time — and the
+calibration document carries **no WER figure at all**. Its own row marks the
+achievable rate **open**, pending a blind human reference — and it goes further,
+warning the reader off the one adjacent number: the 3.19% figure measures two
+engines against **each other**, which is a divergence and not an error rate, and
+the document forbids repeating it as one. I verified that row directly. So even
+after both OCR accuracy
+axes land there is nothing to compare against, and the one nearby number is
+explicitly disqualified. **Because that task and its two predecessors gate the
+closure of spec 002, this is a hidden operator dependency sitting on the critical
+path** — and nobody had noticed it was missing.
+
+**What was built:** a capability gate registered as `ocr-toolchain-capability`.
+Five probes, each run with the flag it will really be used with, against fixtures
+whose text is **known**, with output **compared** to that text. **"Non-empty" is
+explicitly rejected as an acceptance criterion**, and the reason is measured: a
+Cyrillic fixture read with the English model returned fluent-looking Latin
+transliteration at rc 0. *A recogniser aimed at the wrong script returns confident
+nonsense, not silence.* The script-detection row is recorded **advisory**,
+reproduces its own misclassification on every run, and can never move the exit
+code. Registered in the feature-001 pipeline registry rather than the 002 one,
+because only the former declares a scanroot — measured, not preferred.
+
+**Its paired proof caught a real bug in the probe mid-build**: engine-absent
+produced could-not-determine where the correct verdict is a determinate
+*unusable*. Fixed by materialising fixtures before resolving any tool, and by not
+blaming one tool for another's fault.
+
+**Registry after:** **20 PASS / 0 FAIL / 1 DEBT**, R5 sweep 18 → 19 files, and
+under `--run-proofs` the proof is **executed** and its summary accepted by the
+hollow-proof heuristic on its own merits — no `proof-summary` debt incurred.
+Environment audit: **0**, the new script contributes nothing.
+
+**Invariants held:** checkboxes **100 ticked / 43 unticked / 143** before and
+after — **nothing ticked**; closure check **19 ids, `unattached: 0`**; **no
+`G-OCR-*` id was minted into `contracts/`** and `contracts/` was not touched.
+
+**A privacy judgement worth recording:** the chapter's media **filename itself
+contains a third party's given name**, so the agent addressed the directory by
+its chapter path only and never reproduced the filename. The trap is that a path
+can be a disclosure even when its contents are untouched.
+
+**Where to resume:** 19 of 20 tasks remain, plus half of one. The phase is now
+*measurably* startable rather than assumed so. Shortest path: the single
+unblocked implementation task, run **in parallel** with three operator
+decisions — two scoping questions and the hand-truthed sample — of which **the
+missing speech-WER baseline is the one nobody had noticed.**
+
+#### A34 — T041: **13 adjudications collapse to 4 decisions.** A human already answered part of it and the pipeline ignores the answer. Plus two FALSE ALARMS I chased down.
+
+**First, my brief was wrong about where T041 lives.** I said feature 001; the R3
+contradiction task is in **spec 002**. 001's T041 is an unrelated
+speaker-attribution checkpoint. The agent checked rather than trusting me, and
+put the pointer in the right file. **This is the id-collision defect of A31
+biting in practice**, one turn after it was documented.
+
+**The population re-derived, with the flag polarity stated because its name
+inverts its meaning** — a bare run is *pre-rule*, the exclusion flag is *today's
+production policy*. **Confirmed: production contradictions = 13 (12 of one kind,
+1 of another).** Pre-rule = **1153**, of which the `B1` branch is **exactly 883** —
+so the long-quoted 883 reproduces precisely as a subset and never as the total.
+
+**Superseded by name, not silently replaced:** pre-rule 1152 → **1153**; B2 11 →
+**12**; T1 1137 → **1138**; carried-in 494 → **495**; updates 136 → **138**; and
+adds **17 → 0**, which the idempotence decision predicted. The taxonomy digest
+also moved, and whether the +1 rows are attributable to that edit is recorded as
+**COULD NOT BE DETERMINED** rather than assumed either way.
+
+**The collapse: 13 adjudications become 4 decisions, and the mechanism is the
+finding.** All 12 rows of the main class share one root, measured **12 of 12 with
+no residual**: the promotion step evidences an area by whole-word matching of the
+area's **title keywords**, and **never consults the area's body prose**. On every
+row the overlapping passage carries a title keyword and the outside passage
+carries none. Corroboration: **11 of the 12 member terms occur zero times** in the
+prose of any area they supposedly contradict. And the length bias is stark —
+median overlapping passage **1898 characters against 88** outside, a **21×**
+advantage handed to a keyword regex.
+
+**So the "boundary" awaiting human adjudication is a three-word regex, not a
+judgement anyone made.** Of 1141 mentions, four ordinary words carry **762
+(66.8%)** while the three genuinely area-specific compounds carry **25 (2.2%)**.
+
+**Two findings that change the earlier analysis:**
+
+1. **The significance score certifies the artifacts most confidently.** All 12
+   terms are marked certain. Because distinctiveness is a corpus-rate over
+   baseline-rate ratio, a **twice-seen mis-transcription scores 8.61** while an
+   ordinary technical term scores **1.67**. The claim that significance separates
+   candidates from noise holds at the **high**-frequency end; the low-frequency
+   end is not covered by that mechanism at all, and one term cleared a 0.15 floor
+   at 0.156.
+2. **A human already adjudicated 20 of these and the pipeline ignores it.** A
+   curated register in the chapter's own knowledge directory carries a dedicated
+   section holding per-row verdicts on 20 candidate strings that a reader had
+   already thrown out — some as recogniser damage, some as simply not terms.
+   **All 20 remain live term proposals today — 20 of 20.** One is among the 12;
+   another belongs to the deferred cluster. *A recorded human decision that no
+   code reads is indistinguishable from no decision.*
+
+**Nothing was removed from the packet as already-covered** — no existing rule
+disposes of any of the 13. **The regrouping is what removes the work, not an
+exemption.** Two of the four decisions are independent levers on the same 12 rows,
+so either one alone disposes of all 12. **No judgement was made and T041 stays
+`[ ]`.** Packets are in the private repo at
+`workshop/docs/session-evidence/t041-decision-packets.md` (untracked), with a
+pointer in 002's T041 block carrying only the path, the regrouping result and the
+re-derived figures.
+
+**TWO FALSE ALARMS, both chased to ground, both worth keeping as measurement
+lessons.**
+
+**(1) "002 shows 5 unattached."** It does not. That reading came from running the
+**001 line-anchored form** against 002, whose task blocks **wrap across lines**.
+Reproduced exactly: the five ids reported are `G-KG-1`, `G-KG-5`, `G-KG-7`,
+`G-KG-10`, `G-KG-12` — **precisely the five 002's own recipe names as the
+artifact of using the wrong form**. Measured with the correct block-aware form,
+002 is **19 ids, `unattached: 0`**, and it is **0 at `HEAD` too**, so there is no
+regression in either direction. The file documented its own trap and the
+documentation is what identified the false alarm in one step.
+
+**(2) "001's id count moved 120 → 122."** It did — as a count of **id tokens**,
+not of tasks. `T121` and `T143` appear **only inside the new collision
+disambiguation note**, in prose describing 002's unique range, at **0 actual task
+lines**. Boxes are unchanged at **59 ticked / 61 unticked**. **The note written to
+prevent id confusion moved an id count** — the same shape as this project's
+oldest gate lesson, where documenting a defect turned its check green. **Count
+task LINES, never id tokens.**
+
+**Where to resume:** the four decisions are operator work and are stated as
+answerable questions rather than a count. The register-ignored-by-the-pipeline
+finding is separate open work and belongs to whoever owns term admission.
+
+#### A33 — registry debt **3 → 1**, and one debt row was **WITHDRAWN AS FALSE**. A debt row is a claim, and claims carry the evidence rule too.
+
+**The finding worth keeping is not the two rows that were paid — it is the one
+that should never have been written.** A row asserted that a probe's *only*
+exit-2 path was its unknown-option handler. Measured on the live tree **before
+any edit**, naming a chapter that does not exist returns **rc 2 with zero bytes
+on stderr** — and the unknown-option arm prints, so it was demonstrably not the
+path taken. I re-ran this myself: `rc=2, stderr bytes=0`. **That debt was payable
+on the day it was written, at zero code cost, and nobody had run the command.**
+It is withdrawn in the registry with its lesson attached.
+
+**The two genuine debts were paid without touching the instrument.** Both owed a
+countable proof summary and a real rc-2 path. The counts printed are now derived
+from **counters incremented during execution**, so the number cannot drift from
+the work — media reports **4 mutations, 4 caught, 0 missed**; word-timing
+reports **6 mutations, 6 caught, 0 missed** *plus* **2 cross-cutting assertions
+counted separately as assertions**, deliberately not inflated into the mutation
+count.
+
+**The rc-2 paths added are real conditions, not trapdoors.** The media probe
+gained a `--scratch-dir` option: every check in it works by *building* a fixture,
+so an unusable scratch area means nothing was measured — genuinely
+could-not-determine. Crucially the battery also asserts the **opposite**
+direction: a *usable* `--scratch-dir` must probe normally (rc 1 here, not 2). A
+failure path with no matching success control is indistinguishable from a switch
+built to be flipped.
+
+**Confirmed not weakened, by measurement rather than assertion:** the hollow-proof
+heuristic is byte-identical to the umbrella's and neither file was edited;
+exemption rows 11 before and 11 after; the R5 sweep covers 18 files before and
+after; no unknown-option handler was credited as rc-2. **The umbrella registry
+did not regress** — re-verified by me at PASS.
+
+| | before | after |
+|---|---|---|
+| `verify-check-registry-001.sh` | 0 — 14 PASS / 0 FAIL / **3 DEBT** | **0 — 18 PASS / 0 FAIL / 1 DEBT** |
+| `… --run-proofs` | 0 — 18 PASS / 3 DEBT | **0 — 24 PASS / 1 DEBT** |
+| `… --strict` | 1 — 3 FAIL | **1 — 1 FAIL** (the declared debt, as designed) |
+| umbrella `verify-check-registry.sh` | 0 — 43 PASS / 0 DEBT | **0 — 43 PASS / 0 DEBT** |
+
+**The surviving debt is correct and is left declared.** `cross-registry-attribution`
+covers `platform/gates/`, and its file count moved **38 → 48 the same day** —
+which is itself the argument for why an unswept directory is debt. Sharpened: of
+**17** `verify-*.sh` there, all 17 are paired, 10 are enumerated by the 002
+registry, 1 by a self-row, leaving **six enumerated by no registry at all**.
+Paying it means attributing each to a feature **on evidence**; guessing six
+attributions would write a false claim into a registry whose only purpose is that
+its claims are true. The precise limitation is recorded: `verify.sh` *discovers*
+and runs every gate on disk, **but discovery answers "what is here now" and only
+enumeration answers "what is missing."**
+
+**A correction to my own briefing:** I told that agent the row named
+`verify-search-latency.sh`/`prove-search-latency.sh`. It does not — measured,
+that gate **is** enumerated by the 002 registry. The agent checked rather than
+accepting it.
+
+#### A32 — **`/api/passages/{pid}` had NO publication gate, and the "obvious fix" would have disclosed ~168,000 characters of withheld material.** Gate built; ingest deliberately NOT run.
+
+**This is the most important finding of the session, and it was found by asking
+whether a change was safe rather than whether it worked.** The areas endpoint
+gates disclosure on a publication review. The passage endpoint **did not, and
+structurally could not** — it was constructed without ever receiving the reviews.
+Its only suppression was the redaction flag.
+
+**The risk was measured, not hypothesised.** An area's id **is** its passage pid —
+all 500 taxonomy areas are also registry pids. There are **2** recorded
+publication reviews, so **498** areas answer `area_not_published` at
+`/api/areas/{area}` — and **0** of those carry a redaction flag. Five areas carry
+authored materials; two have a review and serve. **The other three hold 55,052 /
+56,317 / 57,359 characters of that same authored body as unredacted passage
+text.** Publishing knowledge rows into the served registry without a gate would
+have put every one of those characters **one `GET` away, 200, in full**, from an
+endpoint the areas API deliberately withholds. *Running ingest was the obvious
+next step and it was the dangerous one.*
+
+**The verdict on the design question is the opposite of what was expected, and it
+is stated plainly.** This is **not** a spec-002 contract violation. The delta
+contract's traversal section specifies **no `from` parameter at all** (`from=` has
+zero hits in the spec directory); "any addressable thing" is never defined as a
+registry pid, so pid-as-origin is an **implementation choice**. No spec-002 text
+names the bare passage endpoint — it is inherited unchanged from 001. Of the 18
+`G-KG-*` gates, only one touches resolution and one more is genuinely ambiguous;
+**none asserts traversal**. And the data model never declares `kg_*` as pid kinds
+— tellingly, it *does* declare `screen_text` that way, with a registry-field
+table. **It knows how to say that, and does not say it here.**
+
+What genuinely does depend on knowledge pids resolving: **FR-033a rows 2, 5 and
+6**, **SC-015a**, **FR-018/SC-008** and **FR-026/A3.8.1**. Real requirements the
+chosen mechanism cannot satisfy on the served data.
+
+**Why the ingest path omits knowledge rows: it doesn't — the publish is simply
+STALE.** Not a filter, not a decision, not a redaction boundary. The served file
+dates from **Sep 2 09:49** with 2,478 rows; the working tree from **Sep 3 11:31**
+with 11,622. The served kind counts equal the working tree's non-knowledge subset
+**exactly**. The knowledge rows were minted **four hours after** the volume was
+published. The ingest step is a verbatim copy of the whole corpus file — **no
+filter exists anywhere in the path**, which is exactly why searching it for
+kind names returns nothing. *A grep returning zero meant "this code does not
+mention kinds", not "this code excludes them."*
+
+**Recorded because it will recur:** a backfill tool documents that an operator
+once reverted the tracked registry believing the knowledge rows were spurious
+pipeline output. This is the second time these rows have been treated as noise.
+
+**Also measured:** the 5 areas held back by `/api/areas` are held back **solely**
+because their surviving evidence pids are knowledge rows absent from the served
+registry — whatever reason string is emitted, the operative cause today is the
+missing rows, not redaction.
+
+**What was built — and the choice of status code is the careful part.** A
+fail-closed publication gate reading the *same two artifacts* the areas handler
+gates on, wired additively so a nil gate withholds. A withheld row returns **200
+with null text and a named `withheld_reason`** — deliberately **not 404**, because
+the 001 contract maps 404 to "not in registry" and 404-ing a real pid would make
+it read as a broken link; and deliberately **not 410**, because that asserts a
+redaction decision **nobody ever took**. Withholding the text keeps deep links and
+traversal working while disclosing nothing. **7 gates, all passing, including a
+paired mutation that reproduces the exact pre-fix leak** — so the leak test is
+not vacuous. I re-ran it: `go build` **0**, `go vet` **0**, and
+`TestMutationUngatedHandlerLeaksTheWithheldBody` **PASS**.
+
+**Nothing was executed against the deployment.** The served volume's mtime is
+still **2026-09-02 07:49:37 UTC**, verified by me directly; no container was
+stopped, restarted or recreated. The operator runbook is recorded in the task
+notes, and its step 1 is *rebuild first* — **without the rebuild, the publish
+step performs the disclosure**.
+
+**COULD NOT DETERMINE, and it may be the better remedy:** whether those three
+areas' bodies belong in passage text at all. **511 of 516 knowledge-area rows
+carry only a short title; the 5 large rows are the anomaly.** Trimming the body
+at minting time would need no serving-layer gate — but that code was under
+concurrent edit and it could not be established whether the text is load-bearing
+for search indexing. **Settle this before deciding the gate is the answer.**
+
+#### A31 — §5.3 owed **7** codes, not 5, and **my brief's premise was wrong in both directions.** The id collision is total, not two ids.
+
+**I told the agent §5.3 lists codes that are contracted but NOT implemented, and
+that a code which IS implemented does not belong there. Both halves were wrong,
+and following them would have produced zero edits while leaving a live contract
+violation standing.** §5.3 is the **closed state-2 `reason.code` registry**, and
+most of its members are implemented today. The gap runs the **other way**: codes
+the backend already emits on the wire that the printed table never listed. The
+agent measured instead of obeying, and said so — which is the behaviour I want
+and the reason the result is worth anything.
+
+Method: extract every backticked identifier in the contract and every code
+literal in the backend, enumerate the two vocabularies whose doc-comments cite
+§5.3 **by name**, and take the difference. **Seven** codes added, each with a
+verified non-test raise site: `code_index_unavailable`, `curriculum_unreadable`,
+`thresholds_uncalibrated`, `ingest_in_progress`, `request_cancelled`,
+`locality_unverified`, `generation_gated_pending_clarification`. §5.6's
+disjointness enumeration was extended with the five answering-leg members, and
+disjointness from §5.5 was verified rather than assumed.
+
+**Exclusions were reasoned, not convenient.** A probe code was excluded because it
+is a different field in a **200** body — a separate vocabulary, not a
+`reason.code`. CLI exit reasons and the pipeline contract's own vocabulary were
+excluded for the same structural reason.
+
+**Adjacent defects found and deliberately NOT fixed** (they need a decision):
+§5.2 omits a code the contract itself names elsewhere plus four 002 codes;
+**two `503` conditions are specified with no reason code named at all**; and §5.1
+says "Five closed enums" over a **six-row** table.
+
+**The identifier collision is not two ids — it is essentially total.** Measured:
+**every one of feature 001's 120 `T###` ids**, **21 `SC-###`**, and **every one of
+its 48 `FR-###`** also exist in feature 002 meaning something different. Only
+`SC-016a` is unique to 001. Verified different-in-meaning by sampling across all
+three families. **Nothing was renumbered** — that would invalidate every existing
+cross-reference. Both files now carry a prominent note naming the measured sets
+and the citation rule (`001:T115` vs `002:T115`). This is the defect that already
+produced two errors in briefs I wrote, and the agent recorded that claim **as
+reported and explicitly not independently measured** — correctly, since it is a
+claim about my history, not about the tree.
+
+**T070's note was stale and both its claims are WITHDRAWN by name**, left visible
+rather than deleted: all three rows now carry the compound R1b token
+(`3.6+002.4.2`, `3.7+002.4.1`, `3.11+002.4.4`) with notes naming their changed
+clauses. One clause of the note survives and is kept. The "and contract" half was
+**not measured** and is recorded as COULD NOT DETERMINE rather than quietly
+counted as fixed.
+
+**Invariants held:** checkboxes unchanged (001 = 59/61/120, 002 = 100/43/143);
+closure check **31 ids / 0 unattached** and **19 ids / 0 unattached**, corrected
+extractor intact; `continuation-check.sh` exit **0**.
+
+**Where to resume:** the §5.2 omissions, the two unnamed `503` conditions, and the
+§5.1 miscount — all flagged, none fixed.
+
+#### A30 — **SC-006 MET.** The cause was a silent 45% vector loss that had been re-occurring on every boot since generation 54. SC-015 still NOT met — 8/22, with a measured ceiling of 16/22.
+
+**The headline is not the latency fix. It is that the semantic leg had been
+searching 54.6% of the corpus while reporting `ok`.** Live generation 63 held
+**1352 of 2478** vectors. The mechanism is a two-part interaction: a booting
+server mints a fresh index generation unconditionally, and the vector-indexing
+step treats the generation number as part of the identity of outstanding work.
+Pair those and every boot declares the whole corpus outstanding again, then
+starts re-embedding text that had not changed by a single byte. Generations
+**55 through 63 each attempted it and not one completed**, dying on
+`SQLITE_BUSY` after roughly five and a half minutes. Generations
+**52–63 all carry the identical `root_hash` and the identical `pid_count`
+2478** — the content never changed; only the bookkeeping did. The database had
+grown to **59,347 embedding rows across 63 generations, 285 MB**, essentially all
+of it recomputation.
+
+**A second consequence nobody was watching:** `deriveCrossrefs` runs only *after*
+`IndexVectors` succeeds, so cross-references had not been derived since
+generation 54 either. One silent failure disabled two subsystems.
+
+**The p95 breach was reproduced before anything was changed** — 2267.0 ms against
+a 2000 ms budget — and attributed by measurement, not by inspection. Per leg:
+lexical 108.1, **semantic 1776.5**, code 2.6. `health` as a control was 4.1 ms,
+so the host was not merely slow. Two per-request terms, both measured
+independently: an ollama query embed whose p95 is ~8× its median under contention
+(698.0 vs 242.8 ms at load; 82.9 vs 34.6 idle), and **a full-corpus scan on every
+request** that re-read and re-decoded every vector blob *and* full passage text
+to produce a result identical across queries — 57–58 ms in SQLite alone.
+**Only the second is removable without changing what a query means**, and that is
+the one that was removed.
+
+**What shipped, and why each is safe:**
+- **Carry-forward** — copies vectors from the generation with the most vectors at
+  **identical root_hash and identical model**, one `INSERT…SELECT`, no provider
+  call. Matching hashes imply the two generations enrol exactly the same
+  passage-and-content pairs, and that implication is the whole of why the copy is
+  sound — a derivation, not a reassurance.
+- **Per-generation candidate cache**, invalidated on generation and on an
+  embedding row count the leg *already* queried, so it costs zero extra queries.
+  **Redaction is deliberately NOT cached** — the redacted-pid set is re-read per
+  request (0.79 ms) and skipped at ranking time, so the redaction rule stays
+  enforced at read time. Metadata maps are cloned after truncation; without that,
+  the fusing step would have written back into the cache.
+- **In-window rerank** — a **permutation** of the served hit list, and nothing
+  more. Membership and scores both leave it untouched; only position changes.
+  That is why neither abstention nor the score floor can be disturbed by it —
+  a structural consequence, not a promise. Its own determinism test caught that
+  two upstream helpers sort ties unstably over map iteration, so only their scores
+  are consumed and the final order is a stable sort broken by incoming position.
+
+**A self-inflicted bug worth recording, because of how it hid.** The new boolean
+flags were first written in compose as two tokens (`-flag false`). Go's `flag`
+package sets the bool **true** and **stops parsing there** — silently dropping the
+entire remainder, including the whole answering block. **The container still came
+up HEALTHY**, merely reporting answering unavailable and thresholds uncalibrated.
+Fixed twice over: `-flag=value` in compose, *and* the server now refuses to start
+when any positional argument survives parsing. A health check that goes green on a
+half-configured process is the defect the guard closes.
+
+**`root_hash` unchanged throughout** — 2478 passages before and after, generation
+63 → 67, with the carry-forward logging `2478 of 2478 missing vector(s) copied …
+nothing was embedded` and cross-references re-derived to **49,560 edges over
+2478/2478**, exactly matching generation 54's count.
+
+**SC-006 — MET. But do NOT quote a single p95 from this entry: the figure is
+strongly load-dependent, and an earlier revision of this paragraph quoting
+"p95 332.5 ms" as if it were a property of the system is WITHDRAWN.**
+`verify-search-latency.sh` exits **0** — generation 67, 2478 passages, live — and
+its paired proof is **7 mutations, 7 caught, 0 missed**. Readings taken across
+the same afternoon, same generation, same corpus, same root hash:
+
+    238.6 ms   quiet host          |  600.6 ms   under agent load
+    332.5 ms   quiet host          |  964.9 ms   under agent load
+                                   | 1436.4 ms   under agent load
+
+**A ~6× spread, and every one of them passes.** Two agents measured the quiet
+readings independently and neither was wrong; the three loaded readings were
+taken deliberately while four subagents were saturating the machine. **The honest
+statement is the range, not a point:** SC-006 holds across everything observed,
+but the worst reading sits within **30% of budget**, so the margin is a property
+of host load rather than of the code. Median moved 184.5 → 684.1 across the same
+span. *A latency gate quoted as one number is a gate quoted wrong.* The agent's own after-readings
+(529.8–1087.0 ms) were taken at **higher load than the failing before-reading**
+and over **83% more vectors**, which is what rules out "the host quieted down".
+`go test ./... -count=1` exits **0**, 17 ok / 0 FAIL; `workshop/scripts/verify.sh
+--static-only` exits **0** at PASS 7 / FAIL 0 / COULD-NOT-RUN 0.
+
+**The reranker is not a latency trade, and that was measured rather than
+assumed** — ~0.4 ms at the live corpus average (20 docs × 330 chars), 26–28 ms at
+the API worst case (100 × 6000). At the default limit that is 0.02% of the
+budget. The served path agrees: lexical mode was p95 75.4 ms with rerank off and
+69.3 ms with it on.
+
+**SC-015 — still NOT met. 8/22 against a bar of 20/22**, moving from 5/22 both
+before and at full vectors with rerank off. Locus 560/560 PASS, negatives 6/6
+PASS. The +3 sits outside the gate's documented ±1 repeatability, **but 22 queries
+support nothing beyond the raw count and no claim is made past it.** The decisive
+number is the **ceiling: 6 of the 22 targets are absent from the top-20 window
+entirely, so an in-window reorder can never exceed 16/22 here.** No amount of
+reranking closes this; the retrieval stage must change.
+
+On the 26/12 passage benchmark, top-5 moved **16/26 → 19/26 (full vectors, rerank
+off) → 20/26 (rerank on)**, and **abstention held 12/12 in every configuration** —
+the property that must not move, and it did not.
+
+**A premise I supplied was wrong, and the agent caught it.** The comparison
+figures I passed it are **not in `SC015-FINDINGS.md` on this checkout**. It
+re-measured instead of inheriting: the premise was substantially right but had
+**stopped being true of the live deployment**, and it failed to reproduce only
+because generation 63 had lost 45% of its vectors. **A benchmark figure is only
+valid against a COMPLETE vector generation, and a generation number alone does
+not identify one.**
+
+**Behaviour change that is not a contract breach but must not be discovered by
+accident:** `/api/search` `results` is **no longer sorted by descending `score`**
+— verified live, ranks 1–8 read 0.0267, 0.0164, 0.0257, 0.0161, 0.0154, 0.0130,
+0.0120, 0.0119. Scores are unchanged; only order moved. §3.7 of the 001 contract
+states no ordering rule, so **no written contract is violated** — but the de-facto
+ordering did change, and §3.7 should now say so explicitly.
+
+**Where to resume — three operator decisions, none taken:** (1) cross-references
+are re-derived from scratch every boot, 49,560 edges in 55–62 s, and the same
+root_hash argument would carry them forward; (2) pruning the ~59,347 embedding
+rows is a **deletion** and needs authorization; (3) the query embed is now the
+dominant remaining p95 term. Also owed in files that agent did not own: §3.7's
+ordering statement, and the superseded SC-006 row in the limits document.
+
+#### A29 — T037 was NOT unsatisfiable, and "needs a spec amendment" is WITHDRAWN. **The spec never asked for the confidence interval.**
+
+**The framing this item carried was overstated, and re-deriving it from the spec
+text rather than inheriting it is what caught that.** T037 demanded "the measured
+figure **and its confidence interval**". Its success criterion does not:
+**SC-002** asks for a figure measured on a random sample of at least 30 passages
+and published alongside the transcript; **FR-004** asks for a report stating
+measured accuracy and the method used. **Neither contains the word "interval".**
+The demand traces only to a **research decision record**, not to the spec. So the
+earlier claim — that closing this needs either a spec amendment or a T112 change
+— is **withdrawn**: no spec amendment is needed, because nothing in the spec ever
+required the thing that was thought to be blocking.
+
+**It split across all three cases, not one.**
+
+**Case 2 — computable but uncomputed, so it was computed.** The research method
+requires that the passages overlapping the sampled windows be enumerated and
+counted. That enumeration had never been run; it existed only as an argument.
+Measured: 900.0 s sampled = **12.9894%** of 6,928.713 s, overlapping **174
+distinct machine segments** — so **SC-002's "≥30 passages" floor is met by the
+window design at 5.8×**, now a computed fact rather than a plausible one. Per
+window: 50/70/83 words, 4/5/10 segments, **0 empty, 0 overlapping**.
+
+**Case 3 — blocked on a named operator input, which is not the same as
+impossible.** `verify-accuracy.sh 01` exits **2** — *"--reference is required"* —
+and no accuracy artifact exists anywhere. What unblocks it is specific and
+affordable: a blind verbatim transcript of the 30 sampled windows in the plan's
+own reference schema, bounds copied exactly, unintelligible audio marked rather
+than guessed. Roughly **1–2 hours** at the research method's stated 4–8×
+realtime. T037 now states this in handover form.
+
+**The interval is blocked twice, and the second block is actionable today.**
+Beyond the missing figure, a search for every interval-related identifier —
+bootstrap, Wilson, binomial, margin-of-error, the lot — returns **0 matches
+across project-authored `.sh` and `.py`**, and the verification payload has no
+interval field. Nothing computes an interval, so even a finished reference
+transcript would not produce one.
+
+**Mind the scope on that zero — I got it wrong once while checking it.** Swept
+over the whole subtree instead of project-authored sources, the same pattern
+returns **5** hits, and every one is a vendored third-party artifact: a
+contributor surnamed Wilson in the whisper.cpp `AUTHORS` file, the word
+"bootstraps" in a C++ comment inside vendored ggml, and `Wilson` as a *token* in
+the CT2 model vocabulary and tokenizer. **None is code, and none computes
+anything.** Excluding `engines/` and `models/` returns 0, which is the figure
+above. Re-derive with the scope stated, or the vendored engine will answer for
+the pipeline.
+
+**SUPERSEDED the same day, and by this session's own work.** The
+project-authored sweep now returns **3 matches, all in `verify-accuracy.sh`, and
+none of them an estimator** — they are the *warning prose* added by the T037
+re-emit (see A39), telling a future reader not to reach for a word-level
+binomial. **Nothing computes an interval; the count moved because the codebase
+learned to say so.** A zero that becomes a three without a single estimator being
+written is exactly the kind of figure that must be re-derived rather than quoted.
+
+**Two findings that should change what gets done BEFORE the human hours are
+spent.** Both are new.
+
+1. **The estimator's unit is a trap.** A word-level binomial over the ~2,057
+   in-window machine words would be wrong twice: words inside a 30-second window
+   are not independent, and word error rate is not a proportion (insertions let
+   it exceed 1). The honest unit is the **window — n = 30 clusters**. At the
+   limit of perfect intra-window correlation, a word-level interval is narrower
+   by up to **√(2057/30) ≈ 8×** — it would *overstate the precision of the
+   measurement*, which is the exact failure the interval was introduced to
+   prevent.
+2. **A precondition defect in the sampling plan.** The research method specifies
+   three windows in each of ten equal **temporal** strata; the emitted plan
+   stratifies by **confidence** instead. Measured temporal occupancy is
+   `[5,1,3,3,3,3,2,2,5,3]` — 0 empty, 3 under-filled, largest unsampled gap
+   **702.2 s (11.7 min)**. Stated honestly: the research method's own worst case
+   ("a 20-minute region unsampled") did **not** occur, so this does not
+   disqualify the plan. But the guarantee is about temporal coverage and these
+   strata are not temporal. **Re-emitting changes the seeded window set and would
+   invalidate any reference already transcribed — so this decision must be taken
+   BEFORE the 1–2 hours, not after.**
+
+**Box NOT ticked** (`- [ ] T037`). Part (a) is done, but SC-002 demands a
+*published measured figure*; the artifact does not exist and B2 is not met.
+Method is not measurement. Closure check re-run after the edits: **31 ids,
+`unattached: 0`**, extractor untouched, no `G-` id minted; ticks unchanged at
+59/61.
+
+**A self-caught defect worth keeping as a pattern.** The agent's first draft
+embedded its reproduction recipes as heredocs inside an indented list item — and
+an indented heredoc terminator does not close a heredoc. It verified that bash
+emits `warning: here-document delimited by end-of-file`, meaning a reader's
+copy-paste would have **hung rather than run**. Both recipes were rewritten as
+single physical lines, then **re-extracted verbatim from the published file and
+executed**, reproducing the published output exactly. A published recipe that was
+never run from its published form is not a recipe.
+
+**Where to resume — and note the ORDER, it matters:** (d) the operator's
+sampling-design decision must come **first**; then (b) the operator's 1–2 hours
+of blind transcription; (c) a T112 change is optional against SC-002/FR-004 and
+required only if the research decision record is to be honoured.
+
+#### A28 — T096 CLOSED. A new feature-001 pipeline registry, and it caught a real defect on its **first run**.
+
+**The placement decision was measured, not preferred, and the measurement is the
+reusable part.** Extending the umbrella's `scripts/check-registry.tsv` was
+rejected because its R0 rule makes an absent scanroot **rc 2** — and `workshop/`
+is a private submodule. Built as a sandbox with `workshop/` left empty, exactly
+as an uninitialised clone leaves it, one added row took the **whole umbrella
+meta-check dark**:
+
+    ◍ UNDET [REGISTRY] declared scanroot 'workshop/pipeline' is not a directory
+    COULD NOT DETERMINE — the registry could not be read, so nothing was verified.   rc = 2
+
+**One private-path row would have blinded a public gate for every reader without
+private access.** `REGISTRY` is also hardcoded in the umbrella verifier, so it
+cannot be aimed at a second file without editing a gate sitting at 43 PASS / 0
+FAIL. Extending `check-registry-002.tsv` was rejected on a structural ground
+rather than a tidiness one: it has **no `scanroot` vocabulary at all**, so it
+cannot carry R5 anti-drift — which is precisely what its own
+`scanroot-attribution` debt row already admits.
+
+**The gate is run by an existing mechanism, not by intent.**
+`workshop/scripts/verify.sh` discovers every `platform/gates/verify-*.sh` at run
+time; the new gate appears as **G4** with no edit to that script, and its V7
+pairing rule requires the `prove-*.sh` sibling. That closes the "a proof nobody
+runs" failure mode **by construction**.
+
+**R5 here is stricter than the umbrella's**, deliberately: it sweeps `*.sh` *and*
+`*.py` **recursively**, where the umbrella uses `-maxdepth 1` — which would have
+missed two of the three gates, since they live in a subdirectory. Demonstrated
+live on the real tree, not the sandbox: clean **rc 0**; a gate dropped into a
+brand-new subdirectory → **rc 1** with an `UNREGISTERED` row naming it; a stray
+`.py` → 2 more FAIL rows; both removed → **rc 0**. Supporting rules: a stale-prune
+ratchet, a **zero-sweep guard** (a sweep matching nothing is rc 2, never PASS),
+and a SELF rule requiring the instrument to be a row in its own registry.
+
+**`prove-check-registry-001.sh` — 22 mutations, 22 caught, 0 missed**, including
+an unregistered `.sh`, an unregistered `.py`, one in a new subdirectory, a
+declared prune that must *still* exclude (no false red), a hollow proof under
+`--run-proofs`, and the zero-sweep → rc 2 path.
+
+**It earned its keep immediately.** `pipeline/transcribe/prove-chunker.sh` was
+tracked at mode **644** — *a paired proof nobody could invoke*. Nothing had ever
+noticed. The new registry caught it on its first run; fixed with `chmod +x`,
+which strengthens a check rather than loosening one.
+
+**Two further unregistered gates were surfaced and registered as DEBT, not as
+check rows** — `detect_media.sh` and `detect_word_timing.sh`. Their
+`--prove-failure` batteries exit 0, but measured: **0** hollow-proof-heuristic
+matches in either summary, and each one's only reachable exit-2 path is its
+unknown-option handler, which the umbrella explicitly refuses to credit.
+Recording them as debt with those measurements is the honest classification;
+filing them as passing checks would have been the bluff.
+
+**A recursion bug in the agent's own battery was found by measurement**, not by
+review: one mutation's `--run-proofs` made the sandbox re-launch the whole
+battery, running 10m29s without terminating. Fixed with a stub prover, reason
+recorded in the code.
+
+| Ran | Exit |
+|---|---|
+| `scripts/verify-check-registry.sh` | **0** — 43 PASS / 0 FAIL / 0 DEBT (unchanged) |
+| `scripts/verify-check-registry.sh --run-proofs` | **0** — 62 PASS / 0 FAIL / 0 DEBT (15m13s) |
+| `workshop/scripts/verify.sh --static-only` | **0** — PASS 7 / FAIL 0 / CNR 0 |
+| `verify-check-registry-001.sh` | **0** — 14 PASS / 0 FAIL / 3 DEBT |
+| `verify-check-registry-001.sh --run-proofs` | **0** — 18 PASS / 0 FAIL / 3 DEBT |
+| `verify-check-registry-001.sh --strict` | **1** — debt becomes failure, as designed |
+| `prove-check-registry-001.sh` | **0** — 22/22 |
+
+**Where to resume:** the **3 DEBT rows** are real and unpaid. Also noted:
+`verify-search-latency.sh` / `prove-search-latency.sh` appeared untracked during
+this session, outside this scanroot — which is exactly what the
+`cross-registry-attribution` debt row declares, so it is watched rather than
+missed.
+
+#### A27 — T040's third part: DONE. The blocking path was **stale, not missing**. Part 2 is genuinely incomplete — 7 deferred REDACT decisions.
+
+**Of the four possible explanations for the nonexistent path, the true one was
+(a): the file had been renamed, and the task text was stale.** Not imagined, not
+merely ungenerated, not already-done-under-another-name. The correction had in
+fact landed on 2026-09-02, so nothing was blocking today — the remaining work
+was doable, and it is now done. The old note read oddly because the *parent
+directory* of the dead path does exist (it holds T037's `accuracy-plan.json`),
+which is a good reminder that "the directory is there" is not evidence the file
+ever was.
+
+**R2 asserted and met: 10 rows × 2 fields × 3 surfaces → 0 violations, exit 0.**
+The re-emit turned out not to be a separate command — the applying run rewrites
+the document and both sidecars in place (8/8 targets reached, 30 artifact-level
+changes, `0 PROBLEM · 0 UNDETERMINED`). The artifacts carry 11/10/10 redaction
+markers, so the assertion is **not vacuous** — a suppression check over a
+document with nothing suppressed proves nothing, and that was checked rather
+than assumed. Three corroborations, including one **measured false positive**
+that was recorded rather than quietly dropped: a 5-gram sweep hit 4 times on one
+distinct 5-gram which also lives in two non-redacted rows. The substantive
+corroboration counted Category-1 tokens recovered *by index* from the
+pre-redaction blob: **47 → 6**, the surviving 6 being the repo owner's own name,
+kept by an explicit KEEP decision.
+
+**Part 2 is NOT done and T040 stays `[ ]`.** The review records **17 decisions —
+13 REDACT / 3 KEEP / 1 NOT REMEDIABLE** — and operator decision 26 applied only
+the Category-1 subset, **6 of 13**. Seven REDACT decisions are deferred and
+unapplied. Resuming them is an operator call. **T038/T039 also stay unticked**,
+but their `[PATH NOT BUILT]` notes were withdrawn by name as demonstrably false
+— the tooling exists and has run. *Withdrawing a false blocker is not a
+completion claim*, and both were left unticked precisely so it cannot be read as
+one.
+
+**A historical FR-039 ordering violation, containment only.** An earlier commit
+carried the transcript with **6 of 10** currently-redacted passages' exact text
+and zero markers; a later one is clean at 0/10 with 11 markers. The other 4 are
+**COULD NOT DETERMINE**. The remote is the **private** workshop repository, so
+this is not a public disclosure — but a push is publication and the review came
+second. Not closeable by this task.
+
+**Boundary check on the two edited PUBLIC files: leak probe 0 / 0** over 7
+identifier tokens and pid-shaped strings.
+
+**Where to resume:** the 7 deferred REDACT findings — sole blocker on T040 and
+therefore on T104. Also open: **no durable gate asserts R2 against the REAL
+chapter.** `G-PID-5` asserts R1–R7 against the *invented* fixture corpus, which
+is deliberate — that generator exists so no gate ever reads private material.
+The measurement above is a reproducible `[REVIEW]` recipe, published in T040,
+**not a registered check**, and **no `G-` identifier was minted** for it.
+
+#### A26 — the knowledge-graph pids are **NOT REACHABLE in the running deployment**, and it is not area-specific. Verified independently.
+
+**This is the largest technical finding of the session and it was found by
+correcting a documentation section.** §10.3 of the private limits document
+claimed the live registry carried 5 areas. It was false, but not for the reason
+anyone assumed. **Those two figures had never counted the same population at
+all** — they were separate quantities that had been read as one. Four unrelated
+fives collide in that section — originally-authored `kg_area` rows,
+areas with an authored title, `area-materials` rows, and the areas held back as
+fully redacted (a *different* five).
+
+**The corrected conclusion is stronger than the one it replaces.** The old text
+said areas are barely usable as graph-traversal origins — "only 5". Measured, it
+is **none**: `graph/traverse` returned `not_found` for **60/60** sampled served
+areas and **5/5** titled areas, including the exact five the old text called
+reachable.
+
+**Two claims were withdrawn, one refuted by execution.** "492 of 497 have no
+registry row" — withdrawn; all 500 taxonomy areas have a row on disk, plus 16
+spare. "The other 492 resolve to nothing citable" — **refuted by running it**:
+60/60 sampled areas returned real evidence entries with resolvable passages and
+text spans.
+
+**The mechanism, measured and structural — not staleness.** `graph_traverse.go`
+resolves `from` against the **served** registry, a podman-volume file, not the
+working-tree corpus. I confirmed the served registry's contents myself:
+
+    doc_section 1172 · transcript_segment 1055 · code 251   — and no kg_* rows at all
+
+`grep -cF` over the ingest script for `kg_area`, `kg_term`, `knowledge-mint`,
+`taxonomy` and the corpus path returns **0 for all five** — meaning the shipping
+pipeline, as written, never moves a knowledge-kind record from the corpus into
+what the server actually reads.
+
+**It is not about areas, and that is the larger half.** Probing `/api/passages/`
+with 8 pids per kind: `code` / `doc_section` / `transcript_segment` answer
+**200, 8/8 each**; `kg_area` / `kg_term` / `kg_todo` / `kg_next_point` /
+`kg_open_question` / `kg_meeting_note` answer **404, 8/8 each**. Traversal from a
+term pid is `not_found` too. So the term minting and the "terms are nodes of
+this graph" property are true **of the corpus and of the code**, and untrue **of
+this deployment**.
+
+**Independently re-verified before recording** (not taken on the agent's word),
+against `workshop-curriculum_platform_1` on 2026-09-03: the served-registry kind
+histogram above reproduced exactly; a live area pid gave
+`{"from": "…", "status": "not_found"}` from traverse, **HTTP 404** from
+`/api/passages/{pid}`, and **HTTP 200** from `/api/areas/{id}/evidence`. **The
+knowledge layer is served through its own endpoints; only pid-resolution through
+the served registry fails.** Do not restate this as "areas are broken" — the
+areas API works.
+
+**COULD NOT DETERMINE: whether re-running ingest would change any of it.** The
+static reading of the script says no. Running it **mutates the served volume**
+and is an operator decision, so this is recorded as a reading of the script and
+explicitly **not** a measurement of its effect.
+
+**Also found, not fixed:** 16 orphan `kg_area` rows with no taxonomy record —
+the taxonomy file predates the corpus by ~13 hours. Recorded, not reconciled.
+
+**The new anchor for `area-registry-sync-gap` was proved stable four ways**, and
+the design rule is the durable part: it is a body sentence, **contains no
+digits**, and states the defect's invariant rather than a symptom. Proof on a
+throwaway copy — control 0; anchor line deleted → 1, naming the row exactly;
+**§10.3 fully retitled → 0** (immune to the exact failure that caused A25's red);
+every count in the document rewritten → 0. `verify-limits-completeness.sh`
+stayed at **0 with 15 defects** before and after, and
+`prove-limits-completeness.sh` exits **0**.
+
+**Where to resume:** this belongs to the `terms-no-minted-pid` row, which was
+deliberately not touched. The open question is whether the served registry
+*should* carry `kg_*` rows — a design decision, not a bug fix — and it bears
+directly on spec 002, whose entire subject is knowledge areas and deep linking.
+
+#### A25 — `verify-limits-completeness.sh` 1 → 0. It was **already red at `HEAD`**, and the word-precision mechanism is WITHDRAWN.
+
+**The red was not caused by this session's work, and that was proved rather than
+asserted.** Reproduced against pure `HEAD:` blobs extracted to a scratch tree
+(`git show HEAD:docs/limits.md`, `HEAD:platform/gates/defects-registry.tsv`,
+`HEAD:…verify-limits-completeness.sh`): `PROBLEM: 1 of 15 … MISSING
+area-term-over-generation`, `EXIT=1`, with `git diff HEAD --stat` empty on all
+three paths. **No defect row was deleted — still 15 rows, 15 named.**
+
+**Root cause worth keeping: the gate went red for a document that had been
+CORRECTED.** The anchor quoted *heading text*, and the §10.9 retitle removed it,
+so `grep -cF` scored 0. An anchor that quotes prose is a tripwire on the prose,
+not on the defect. The new anchor deliberately carries **no moving count** —
+re-measurement showed the counts had drifted again, areas **497 → 500** and terms
+**8551 → 8537**, so `497-area/8,551-term` was removed from the heading and the
+drift recorded in-section. `7/37/137` is hand-authored and does not move with a
+pipeline re-run.
+
+**§10.1 — the conclusion stands, the MECHANISM is withdrawn.** The claimed
+mechanism (aggregate `precision_split` of `{"word":0,"segment":N}`) was wrong
+about both the values *and* the key set: measured, it is
+`{"word":77,"segment":9,"no_time_span":52}`, and `enrichWordPrecision`
+(`evidence.go:331/361/363/364`) upgrades in place. The real finding is the code
+one, and it is the durable part: **`wordjoin.go:127-128` returns
+`sub[0].StartS` → `sub[len(sub)-1].EndS`, the whole segment's word range**, so
+`precision:"word"` reports *sidecar completeness, not span width* — it
+overstates itself.
+
+**One caveat on the agent's own wording, recorded so the next reader is not
+misled.** It concluded "word spans are not narrower". Its figures: at n=12,
+word median **6.34 s** vs segment **6.30 s** (segment n=1 — one observation, not
+a median, which it flagged itself); widened to 120 areas, word n=77 median
+**7.28 s** vs segment n=9 median **7.88 s** — where word is *slightly* narrower.
+The defensible reading is **no consistent difference in either direction**, not
+that word is never narrower. The code finding above does not depend on it.
+
+**§10.8 rewritten, both halves, from live evidence.** `question`: startup log
+`knowledge catalog registered — 8586 row(s) total (area 5, term 8537, question
+44)`, 44 authored on disk (9+9+10+8+8), live `/api/search` lists `question` in
+`indexed_kinds` and returned 2 `kind:"question"` rows. `lesson_section`: **0 of
+11,622** records in `passages.jsonl`, and `LessonSectionMeta`
+(`materials.go:31-37`) carries no identifier field — **structurally unkeyable**.
+The old stated reason ("no content exists") is itself now false:
+`area-materials.jsonl` carries 35 lesson-section entries.
+
+**The flaky test was fixed at its cause, and the honest part is what did NOT
+reproduce.** Nine serial runs all passed — the reported `FAILED` was **not**
+reproduced serially, and that is recorded in §10.16 rather than glossed. It was
+reproduced at the cause instead: concurrency. Eight simultaneous
+`probe_toolchain()` calls returned two different error texts in equal measure —
+half `[object Object]`, half a `@puppeteer/browsers … launch.js` trace — while
+the *verdict* was `UNUSABLE` in all eight. A §1.1 paired proof then ran both
+predicates over one shared batch of sixteen: the old string-matching assertion
+survived thirteen and failed three; the new one survived all sixteen; the
+verdict was `UNUSABLE` sixteen out of sixteen. The assertion therefore moved off
+the error *string* and onto the *state* (`ToolState.UNUSABLE` + `mmdc`).
+Observed failure rates across batches — 4/8, then 0/8, then 3/16 — are
+**nondeterministic**, which is precisely why a green batch settles nothing here.
+
+| command | exit |
+|---|---|
+| `verify-limits-completeness.sh` | **0** (was 1) |
+| `python -m unittest discover` | **0**, ×5 (`Ran 255 tests … OK`) |
+| `verify.sh --static-only` | **0** (`PASS 7 FAIL 0 COULD-NOT-RUN 0`) |
+| `audit-hardcoded-paths.sh` | **0**, `limits.md` not flagged |
+
+**§10.3 is now measurably FALSE and was deliberately left alone.** Its heading
+claims the live retrieval registry carries **5**; measured, `passages.jsonl` has
+**516** `kg_area` rows. Correcting it means re-anchoring `area-registry-sync-gap`
+and re-deriving a conclusion ("areas are not usable as graph-traversal origins")
+nobody has measured. **It needs its own pass — this is open work, not a closed
+item.**
+
+**Where to resume:** §10.3 above. Files changed and uncommitted:
+`workshop/docs/limits.md`, `workshop/platform/gates/defects-registry.tsv`,
+`workshop/pipeline/extract/test_export.py`.
+
+#### A24 — the gate-attachment zero was **BLIND**, and it hid a standing contract violation. A22's "attachment 0 in both" is WITHDRAWN as stated.
+
+**A22 recorded "Gate attachment 0 in both". The number was right and the claim
+was wrong**, and the difference is the entire content of this entry. Feature
+002's closure check reported `unattached: 0` because it could not SEE the id it
+should have reported — not because nothing was unattached.
+
+**The defect.** The closure check is not a script; it is a recipe published
+inside each `tasks.md` (`grep -lF 'G-[A-Z]'` finds it in those two files and
+nowhere else in the tree). Its extractor was `G-[A-Z]+-[0-9]+`, which is greedy
+only through the digits. Run it over `G-KG-1-changed` and it yields **`G-KG-1`**
+— a *different gate, already attached to T040*. The compound id never entered
+the loop, so it could be neither attached nor reported unattached. It was
+invisible, and invisible reads as clean.
+
+**Widening the extractor is only half the fix, and the second half is the
+subtle one.** Once both `G-KG-1` and `G-KG-1-changed` are in the id set, the old
+boundary guard `([^0-9]|$)` matches `G-KG-1` against a task line mentioning only
+`G-KG-1-changed` — a bare gate reported attached on the strength of a *different*
+gate's citation. Both halves were proved on a fixture whose answer was known by
+construction (one task line building only `G-KG-1-changed`): the old pair called
+all four ids attached; the new pair correctly called `G-KG-1` UNATTACHED.
+
+    extractor   G-[A-Z]+-[0-9]+          ->  G-[A-Z]+-[0-9]+(-[a-z]+)*
+    guard       ([^0-9]|$)               ->  ([^0-9A-Za-z-]|$)
+
+**The correction discriminates; it does not merely redden.** On feature 001 it
+changes nothing — **31 ids before, 31 after, `unattached: 0` both ways**, and
+59/61/120 unmoved. A fix that only ever finds fault is indistinguishable from a
+broken instrument. On feature 002 it sees **19** ids where the old form saw 18,
+and the nineteenth reported `UNATTACHED G-KG-1-changed`.
+
+**What the blind zero was hiding is worse than an unattached id.**
+`G-KG-1-changed` asserts R1b: every §4 *changed* endpoint carries a manifest row
+citing **both** its 001 section and its §4 subsection. Measured 2026-09-03, the
+compound citation form already existed and three of four changed endpoints
+carried it — `3.6+002.4.2` (`/api/suggest`), `3.7+002.4.1` (`/api/search`),
+`3.11+002.4.4` (`/api/progress`). **§4.3's answering row carried a bare `3.10`.**
+So the gate nobody could see was a gate that would have been **red**, over a
+real standing violation, not a bookkeeping slip. (§4 has **four** changed
+endpoints, not three — `POST /api/ask` is §4.3.)
+
+**Fixed, and deliberately not over-fixed.** `/api/ask?q=ping` now reads
+`3.10+002.4.3` plus a note naming C4.3.1–C4.3.4 and stating which of them a live
+probe does **not** claim. Exactly one line changed (`diff` = 2 sides);
+`verify-server-unity.sh` re-run after each edit: **`PASS=35 FAIL=0 UNDET=0
+DEBT=4`, exit 0**.
+
+**T040 was the wrong place to attach the gate, and attaching it there would have
+been the papering-over the section forbids.** T040 builds manifest rows for the
+endpoints *new* in §3; R1b governs rows that existed since feature 001 and were
+only amended. New **T143** owns it and is **`[ ]` UNTICKED**.
+
+**CORRECTION, and it is worse than what it replaces. I wrote "the gate is not
+built" — twice, here and in the delta contract. That is WRONG and is
+WITHDRAWN.** The gate `G-KG-1-changed` **exists**, is **registered** as a Go test
+in the 002 registry, has a paired prover that performs the required *rewrite*
+mutation, and **passes**. I verified all of it directly.
+
+**It passes because its enumeration omits the one endpoint whose citation was
+wrong.** Measured in the test itself: it enumerates `002.4.1`, `002.4.2` and
+`002.4.4`, covering `/api/search`, `/api/suggest` and `/api/progress` — and
+**`002.4.3` / `/api/ask` appears zero times**, in the gate *and* in its prover.
+
+    gate enumerates:  002.4.1  002.4.2  002.4.4        <- three of four
+    §4 actually has:  4.1  4.2  4.3  4.4               <- 4.3 was the broken one
+    gate verdict:     ok (passes)
+
+**So this is the SIXTH failure mode in this family, and the sharpest one: a gate
+that is green because its coverage set excludes the defect.** Not a blind
+extractor, not a wrapped line, not a truncated token — a correctly-written,
+registered, mutation-proved gate whose `want` table is simply short by one row.
+**Every instrument around it was working. The gate asserted exactly what it
+enumerated, and it enumerated three-quarters of its own subject.**
+
+The remaining work is therefore **one table row plus a fourth mutation case**,
+not a gate from scratch — smaller than recorded, and T143's note now says so.
+The standing lesson is not smaller: **a gate's coverage set is itself an
+assertion, and nothing was checking it.** Ask of any passing gate not only "what
+does it assert" but "over what set" — and whether that set is derived or
+hand-listed. This one was hand-listed.
+
+**The end state is `unattached: 0` again — a different zero.** Before, one id was
+invisible; now 19 are enumerated, the compound one is seen, and it is carried by
+an explicitly unticked task. Identical count, opposite epistemic content. Spec
+002 moves **100 ticked / 43 unticked / 143** (was 100/42/142) — work added, none
+claimed. `continuation-check.sh` exit **0**, 8 PASS · 0 DRIFT · 0 UNDET · 6 NOTE.
+
+**This is the THIRD distinct way this same check has lied**, and the two earlier
+ones are recorded beside it in `001/tasks.md`: (1) a set-difference over ids
+anywhere in the file went green the moment a *paragraph describing* the missing
+gate mentioned its id — documenting the defect fixed the check; (2) a
+single-line anchor reported five ids unattached in 002 purely because their id
+fell past a line wrap. Presence, line-shape, and now token-shape. **Re-derive
+with the recipe, never quote the number.**
+
+**Where to resume:** T143 is real unbuilt work. Nothing else is owed by this item.
 
 #### A23 — full retest + full boot, 2026-09-03. Env audit 32 → 0: **ONE real fix, 31 reasoned exemptions.**
 

@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (11,700 lines, 252 `### §` anchors, 1,779,401 bytes, measured 2026-09-02 at pin `3be10826f3d2`; the SAME `Constitution.md` blob `34eff9d8…` as all three superseded pins `902979027a90`, `f16ea779b82a` and `f5876a3b700e`, so these figures did not move across any of the three bumps) | `submodules/constitution/Constitution.md` |
+| The universal constitution (11,700 lines, 252 `### §` anchors, 1,779,401 bytes, **re-measured on disk 2026-09-03 at pin `3be10826f3d2` — all three unchanged, and the pin did not move even though its remote did**; the SAME `Constitution.md` blob `34eff9d8…` as all three superseded pins `902979027a90`, `f16ea779b82a` and `f5876a3b700e`, so these figures did not move across any of the three bumps) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -38,28 +38,41 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 | Forbidden-command PreToolUse guard | `submodules/constitution/scripts/hooks/guard-forbidden-commands.sh` |
 | Propagation / covenant gates | `submodules/constitution/scripts/gates/` |
 
-**The pin has now been FAST-FORWARDED TWICE — 2026-09-01 on explicit operator
-authorization, and again since. Each bump closed one INSTANCE of the gap; the
-HOLE that let the first one open unnoticed is now WATCHED, and as of 2026-09-02
-the watcher is GREEN for the first time.** `submodules/constitution` is
-currently checked out at `3be10826f3d2`, on branch `main`, and that **EQUALS**
-`git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD`.
-Every earlier "checked out at X" in this block is WITHDRAWN, and the sequence is
-kept because it is the whole lesson: **a pin bumped to equal its upstream does
-not stay equal** — this one went stale within a day, twice, before the third
-move caught it up.
+**The pin has been FAST-FORWARDED TWICE — 2026-09-01 on explicit operator
+authorization, and again on 2026-09-02. Each bump closed one INSTANCE of the
+gap; the HOLE that let the first one open unnoticed is now WATCHED, and the
+watcher went GREEN once, on 2026-09-02. IT IS RED AGAIN.** `submodules/constitution`
+is currently checked out at `3be10826f3d2`, on branch `main`, and that **NO LONGER
+EQUALS** `git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD`.
+Re-measured **2026-09-03**: remote HEAD is **`2887b42e9349`**. The claim this
+block carried — *"that EQUALS `git ls-remote …`"*, with the sequence line
+`remote HEAD today = 3be10826f3d2 -- EQUAL, no drift` — is **WITHDRAWN**, and
+that withdrawal is now the THIRD in this lineage. Every earlier "checked out at
+X" is WITHDRAWN too, and the sequence is kept because it is the whole lesson:
+**a pin bumped to equal its upstream does not stay equal** — this one has now
+gone stale within a day on three consecutive occasions.
 
     902979027a90  ->  f16ea779b82a    2026-09-01, operator-authorized, 0 divergent / 3 behind
     f16ea779b82a  ->  f5876a3b700e    0 divergent / 4 behind
     f5876a3b700e  ->  3be10826f3d2    2026-09-02, operator-authorized, 0 divergent / 2 behind
-    remote HEAD today                 =  3be10826f3d2     -- EQUAL, no drift
+    remote HEAD 2026-09-02            =  3be10826f3d2     -- EQUAL, no drift   (WITHDRAWN)
+    remote HEAD 2026-09-03            =  2887b42e9349     -- DIFFERS, direction UNDETERMINED
 
-Re-measured 2026-09-02. The index and the submodule working tree both sit at
+**The direction of the 2026-09-03 difference is UNDETERMINED and this session did
+not resolve it.** `git -C submodules/constitution cat-file -t 2887b42e9349` returns
+*"could not get object info"* — the remote commit is **not in this checkout's
+object store**, so `merge-base` and `rev-list` cannot classify it. Classifying it
+needs a `--fetch` or a scratch bare clone, and a fetch is a mutating command and
+an **operator decision**. It was NOT run. Do not record this as "behind".
+
+Re-measured 2026-09-03. The index and the submodule working tree both sit at
 `3be10826f3d2`; the umbrella's `HEAD` still records `f16ea779b82a`, so the whole
 two-step move is **STAGED and not yet committed**. `helix-deps.yaml` records
 `3be10826f3d2` staged in the same change, so gitlink and manifest moved together
-exactly as C9 requires. `bash scripts/verify-submodule-remote-sync.sh` now exits
-**0** at **12 CURRENT / 0 DRIFT / 0 UNDETERMINED**.
+exactly as C9 requires — `bash scripts/verify-manifest-pins.sh` re-measured
+2026-09-03 exits **0** at 12 MATCH / 0 DRIFT / 0 UNDETERMINED.
+`bash scripts/verify-submodule-remote-sync.sh` exits **1** at
+**11 CURRENT / 1 DRIFT / 0 UNDETERMINED**, and the one DRIFT row is this pin.
 
 **The third move was operator-authorized and CLASSIFIED BEFORE it was made** —
 the `--fetch` that earlier revisions correctly refused to run unasked. It
@@ -168,12 +181,17 @@ and **nothing compared the gitlink to the remote**. The bump closed one
 INSTANCE, not the CLASS. The class is now covered by
 `scripts/verify-submodule-remote-sync.sh`, registered in
 `scripts/check-registry.tsv` as `submodule-remote-sync` with a `--prove-failure`
-paired proof — which is exactly what R5 demanded. **Watched became FIXED on
-2026-09-02:** that gate now exits **0** at **12 CURRENT / 0 DRIFT /
-0 UNDETERMINED** of 12 owned gitlinks probed — its first green ever. Both
-earlier readings are WITHDRAWN as current: "6 CURRENT / 6 DRIFT" (2026-09-01)
-and "11 CURRENT / 1 DRIFT" (earlier on 2026-09-02). **Green is a measurement of
-today, not a property of the tree** — the gate says so itself.
+paired proof — which is exactly what R5 demanded. **Watched became FIXED for
+ONE DAY and is RED again.** The claim this block carried — *"that gate now exits
+0 at 12 CURRENT / 0 DRIFT / 0 UNDETERMINED … its first green ever"*, measured
+2026-09-02 — is **WITHDRAWN as current**. Re-measured **2026-09-03**, the gate
+exits **1** at **11 CURRENT / 1 DRIFT / 0 UNDETERMINED** of 12 owned gitlinks
+probed. The single DRIFT row is `submodules/constitution` itself. Every reading
+in the lineage is now historical: "6 CURRENT / 6 DRIFT" (2026-09-01),
+"11 CURRENT / 1 DRIFT" (earlier 2026-09-02), "12 CURRENT / 0 DRIFT"
+(later 2026-09-02), "11 CURRENT / 1 DRIFT" (2026-09-03). **Green is a
+measurement of today, not a property of the tree** — the gate says so itself,
+and one day of green followed by a return to red is the proof.
 See "Submodule-vs-remote drift" below.
 
 Re-derive. **The pin does NOT equal the remote head** — the sentence that used
@@ -310,40 +328,88 @@ Full design, the measured false-positive reasoning and the fleet map:
 [`docs/content-boundary.md`](docs/content-boundary.md).
 
 **This gate is RED on this tree today, and that is the designed state — do not
-make it green.** Re-measured **2026-09-02**,
+make it green.** Re-measured **2026-09-03**,
 `bash scripts/verify-content-boundary.sh` exits **1** and prints:
 
 ```
-LEAK — 11158 surviving match(es) (prose 10833, short 268, name 57); 0 row(s) also could not be determined
+LEAK — 11878 surviving match(es) (prose 11356, short 433, name 89); 0 row(s) also could not be determined
 ```
 
-**The `LEAK — 285 (prose 207, short 35, name 43)` reading this block carried is
-WITHDRAWN as a current figure — it is no longer COMPARABLE, and the reason is
-structural, not a new leak.** The instrument did not change:
+The **2026-09-02** reading `LEAK — 11158 (prose 10833, short 268, name 57)` is
+SUPERSEDED, as is the earlier `LEAK — 285 (prose 207, short 35, name 43)`. **The
+instrument still has not changed:**
 `git status --short scripts/verify-content-boundary.sh .content-boundary-allow`
-is EMPTY, so nothing was loosened or allow-listed. Three measured causes:
-(1) the gate scans `git ls-files`, and the private `workshop` submodule grew from
-**52** tracked files at the gitlink recorded when 285 was measured to **583**
-today — `docs/` alone 31 → 90; (2) `specs/002-**` is TRACKED IN THIS PUBLIC
-umbrella and describes the private implementation, contributing ~5,800 matches
-whose sampled text is the spec's own task prose; (3) the public reusables were
-EXTRACTED FROM the private submodule, so `submodules/RAG/pkg/grounding/` (~1699),
-`submodules/LLMProvider/scripts/lib/anchor.py` (634) and
-`submodules/passage/pkg/passage/pid_test.go` (124) match their own origin by
-construction.
+is EMPTY, so nothing was loosened or allow-listed between any of these readings.
 
-**The load-bearing limitation: this gate detects CO-OCCURRENCE, not DIRECTION.**
-Governance text that originated in these PUBLIC carriers and propagated INTO a
-private submodule is indistinguishable, to it, from private content leaking OUT.
-Each of the four root carriers carries **94** matches over 22 lines, and the
-matched strings are this project's OWN governance prose — the `/usr/bin/whisper`
-trap sentence, the three-valued exit contract, the §12.10 path note — found in
-`workshop/docs/`. That is the cascade working, not a disclosure.
+**THE POPULATION IS FULLY ATTRIBUTED AS OF 2026-09-03 — every one of the 11878
+rows is accounted for by path, not by sampling.** The whole 24,656-line log was
+parsed and re-aggregated; the parsed row count is **exactly 11878**, matching the
+gate's own total, so nothing is missing from the table below. It spans
+**279 distinct public files**, **1789 distinct public `file:line` pairs**, and
+**346 distinct private sources**.
 
-**HONEST BOUNDARY (§11.4.6): the above is a characterisation of dominant classes
-BY SAMPLING, not a row-by-row assessment. 11,158 rows were NOT individually
-judged, and the `name` class (57, seven distinct names, reported by digest only)
-is NOT cleared.** Re-baselining this figure is an operator decision.
+| Private source → public side | Matches | Share |
+|---|---:|---:|
+| `workshop` → umbrella root (`.`) | 8797 | 74.1% |
+| `workshop` → `submodules/RAG` | 1739 | 14.6% |
+| `workshop` → `submodules/LLMProvider` | 690 | 5.8% |
+| `ai_interviewing` → umbrella root (`.`) | 254 | 2.1% |
+| `workshop` → `submodules/passage` | 205 | 1.7% |
+| `workshop` → `submodules/constitution` | 143 | 1.2% |
+| all remaining pairs (9 pairs) | 50 | 0.4% |
+
+By private source: **`workshop` 11599 (97.6%)**, `ai_interviewing` 279 (2.4%),
+`monetization` **0**. By public destination the umbrella root holds 9051, and
+inside it **`specs/002-**` alone is 5844 and `specs/001-**` is 1706** — the two
+spec trees are **63.5% of the entire finding on their own**.
+
+**The load-bearing limitation is unchanged: this gate detects CO-OCCURRENCE, not
+DIRECTION.** Governance text that originated in these PUBLIC carriers and
+propagated INTO a private submodule is indistinguishable, to it, from private
+content leaking OUT. **On 2026-09-03 the direction was measured independently,
+by git first-commit timestamp, for two dominant buckets — and in both the public
+side is OLDER:**
+
+- **Root carriers (324 matches over the four files).** `CLAUDE.md`, `AGENTS.md`,
+  `QWEN.md`, `GEMINI.md` were first committed **2026-08-27T00:41:30**. All six
+  sampled private counterparts were first committed **2026-09-01 or later**
+  (earliest `2026-09-01T21:02:46`). The public text pre-dates the private text
+  by five days. **Direction: outward. Cascade, not disclosure.**
+- **`submodules/RAG` (1741 matches).** **1623 of them — 93% — come from one
+  private directory, `workshop/platform/upstream-contributions/`**, whose name
+  states its own role. `submodules/RAG/pkg/grounding` was first committed
+  **2026-09-01T11:24:47**; that private staging directory first appeared
+  **2026-09-01T21:02:46**, about ten hours LATER. **The public package is the
+  older artifact.** `submodules/LLMProvider` has the same shape: 617 of its 692
+  matches come from `workshop/platform/gates/`.
+
+**The 94-matches-per-carrier figure this block used to carry is superseded: it
+is 81 per carrier, 324 across the four.**
+
+**HONEST BOUNDARY (§11.4.6) — read this before quoting anything above.**
+1. The direction probe is a **file-level first-commit comparison on 6 of 16**
+   private sources for the carrier bucket, and on a directory for RAG. It is
+   **not** a per-string provenance trace. A string can move between files, and
+   that was not traced.
+2. **The attribution table is complete; a row-by-row JUDGEMENT is not.** Every
+   row is placed by path. **No row was judged this session, and none was
+   redacted, allow-listed or re-baselined.**
+3. **The judged population and today's population are barely the same set.** The
+   incident note's two-wave assessment judged **232** matches (29 redacted as
+   real disclosures, 203 judged not to be) on **2026-09-01**, and its own split
+   was `ai_interviewing` **216** / `workshop` **16**. Today the split is
+   `workshop` **11599** / `ai_interviewing` **279** — the dominant source has
+   **inverted**. **So the unassessed remainder cannot be computed as
+   `11878 − 232`.** That subtraction assumes the 232 judged rows are a subset of
+   today's 11,878, and the source split shows they largely are not: 216 of the
+   232 were `ai_interviewing` rows, while 97.6% of today's population is
+   `workshop`. **How much the two sets overlap was NOT measured this session.**
+   Do not report any prose row as "cleared".
+4. **The `name` class is NOT cleared: 89 matches, 8 distinct personal names,
+   reported by digest only.** It grew from 57.
+
+Re-baselining this figure is an **operator decision** and this session did not
+take it. See "Content-boundary re-baseline — the decision packet" below.
 
 **An EARLIER figure in this lineage — `LEAK — 10293 surviving match(es)
 (prose 203, short 8535, name 1568)` — was withdrawn before the 285 reading, and
@@ -368,9 +434,55 @@ individually cleared". The judged rows are left VISIBLE rather than
 allow-listed, because an allow-list entry buys a green exit at the cost of
 hiding the row from the next reader. The `short` and `name` classes are
 substring noise the note characterises. **Do not "fix" this gate by adding
-exemptions, and do not add more.** `.content-boundary-allow` carried 9 declared
-pairs at that measurement, pardoning 4193 matches; every entry needs a real
-cross-boundary flow and a mandatory reason, and the operator decides.
+exemptions, and do not add more.** `.content-boundary-allow` still carries the
+same **9 declared pairs**, pardoning **4080** matches as re-measured 2026-09-03
+(the 4193 figure is superseded; the file is unmodified, so the count moved with
+the corpus, not with the allow-list). Every entry needs a real cross-boundary
+flow and a mandatory reason, and the operator decides.
+
+### Content-boundary re-baseline — the decision packet (prepared 2026-09-03, NOT decided)
+
+Prepared so an operator can decide; **nothing here was acted on**. No row was
+judged, no allow-list entry added, no baseline moved, and the gate still exits 1.
+
+**Three structural classes account for 11,526 of the 11,878 rows (97.0%),
+counted exactly rather than sampled.** Each has a DIFFERENT correct disposition:
+
+| Class | Rows | Share | What it is | Why it is not a fresh disclosure |
+|---|---:|---:|---|---|
+| **A · spec trees in this public umbrella** | **7550** | 63.6% | `specs/002-**` 5844 + `specs/001-**` 1706, matching `workshop/docs/session-evidence/`, `platform/backend/`, `pipeline/extract/` | These specs are TRACKED HERE and describe the private implementation, so the co-occurrence is the spec doing its job. **No direction evidence was gathered for this class.** It is the one that most needs an operator's eyes — a spec may legitimately quote too much. |
+| **B · public reusables extracted from the private tree** | **2666** | 22.4% | `submodules/RAG` 1741, `LLMProvider` 692, `passage` 205, `containers` 19, `verdict` 9 | Match their own origin by construction. Direction measured for RAG: the public package pre-dates the private staging copy by ~10 h, and **1623 of 1741 (93%)** come from `workshop/platform/upstream-contributions/`. |
+| **C · governance prose that propagated OUTWARD** | **1310** | 11.0% | 4 root carriers 324, umbrella `docs/**` 379, `CONTINUATION.md` 254, `scripts/**` 188, `submodules/constitution` 143, `Constitution.md` 22 — matching `workshop/docs/**` | Direction measured: the carriers are five days OLDER than every sampled private counterpart. This is the §11.4.157 cascade working. |
+| **Remainder — genuinely unassessed** | **352** | 3.0% | `_tests/evidence` 88, `_content/products` 59, `design-system/learning-kit` 58, `.specify/memory` 34, `_analysis/**` 38, and a long tail | **Not characterised. Not cleared.** |
+
+**The 89 `name`-class rows do NOT sit in the remainder — they are spread across
+every class**: A 55, remainder 18, B 14, C 2. **No class is name-clean, so no
+class can be pardoned wholesale without pardoning name rows with it.**
+
+**What an operator is actually being asked to decide — four options, with the
+cost of each stated rather than implied:**
+
+1. **Do nothing.** The gate stays red and stays readable. Cost: the signal keeps
+   degrading — 232 → 11,158 → 11,878 in three days — until nobody reads it.
+2. **Allow-list classes B and C** (2666 + 1310 = **3976** rows, as declared
+   pairs with reasons) — the two classes that HAVE direction evidence. Cost:
+   **an allow-list entry hides the row from the next reader**, which is exactly
+   the failure mode this file warns about elsewhere, and it would pardon **16
+   `name` rows** along with them.
+3. **Teach the gate direction** — a git-timestamp or provenance pass, so
+   outward propagation is subtracted with its RECALL COST printed, the way the
+   detector already subtracts already-public keys. Cost: real work; it is the
+   only option that raises precision without hiding a row.
+4. **Re-judge class A** (7550 rows, the spec trees) as a fresh assessment wave.
+   Cost: the largest, and the only one that could find a genuine new disclosure.
+
+**Recommended ordering — a recommendation, not a decision: 4, then 3, then 2 for
+whatever survives.** Class A is both the largest and the only class with no
+direction evidence behind it.
+
+**Do NOT read this packet as clearance.** It places every row by path; it judges
+none. Options 2 and 4 both require reading private material and are operator
+work.
 
 A gate that a human must read is worth more than one that is quietly green.
 
@@ -431,33 +543,60 @@ bash scripts/verify-manifest-pins.sh        # C9 standalone: refs vs gitlinks
 ```
 
 **`design-toolkit`'s two mirrors are NOT in sync, and only one of them is
-public.** Its GitHub origin `vasic-digital/design-toolkit` was flipped **public**
-on 2026-09-01 after a clean full-history privacy audit. Its GitLab mirror is
-reported to remain **private**, and the lag between the two mirrors is now
-**UNMEASURED — not zero, and no longer the "5 commits" this paragraph used to
-assert.** That count was taken on 2026-09-01 against GitHub HEAD `5467a888…`,
-with GitLab HEAD `520c436c…` a strict **ancestor** of it
-(`merge-base --is-ancestor` TRUE; `rev-list --left-right --count` = `0` / `5`) —
-lag, not divergence. **The GitHub side has since moved on**: re-measured
-2026-09-02, the gitlink and `origin` HEAD are both `e7f3815ec35c`, so the old
-count compares against a right-hand side that no longer exists and the true lag
-can only be larger or equal, never smaller.
+public. As of 2026-09-03 BOTH HALVES ARE MEASURED FROM THIS TREE — the
+"cannot be probed" claim this section carried is WITHDRAWN as FALSE.** Its
+GitHub origin `vasic-digital/design-toolkit` was flipped **public** on
+2026-09-01 after a clean full-history privacy audit.
+
+**What changed is the checkout, not the mirror.** A `gitlab` remote **IS**
+declared for `design-toolkit` today — added by that submodule's own commit
+`7d9240e fix(§11.4.6): record the GitLab mirror; absence needs its own evidence`,
+which arrived with the gitlink. Two sentences that stood here are therefore
+withdrawn as false, not merely stale: *"this checkout wires up **no** GitLab
+remote"* and *"neither the visibility nor the lag can be re-measured here"*.
+**Nothing was added to this repository's configuration to obtain the figures
+below** — the remote was already there and every probe is read-only.
+
+Measured **2026-09-03**, all four values:
+
+| | GitHub `origin` | GitLab `gitlab` |
+|---|---|---|
+| visibility | **public** (`gh api … --jq .visibility`) | **private** (`glab api projects/… .visibility`) |
+| HEAD | `e7f3815ec35c` | `520c436c2c2a` |
+| last push / activity | 2026-09-01T14:14:56Z | 2026-08-08T09:05:45Z |
+
+**The lag is 6 commits, and it is lag, not divergence.**
+`git -C design-toolkit merge-base --is-ancestor 520c436c e7f3815e` returns
+**TRUE**; `git rev-list --left-right --count 520c436c...e7f3815e` returns
+**`0` / `6`** — 0 commits exist on GitLab that GitHub lacks, 6 exist on GitHub
+that GitLab lacks. Both commits were already in this checkout's object store, so
+no fetch was needed to classify the direction. **The "5 commits" figure is
+SUPERSEDED by 6**, and the *reason* it moved is recorded: it was correct on
+2026-09-01 against GitHub HEAD `5467a888…`, and the GitHub side has since
+advanced one commit to `e7f3815e`. The GitLab side has not moved at all —
+`520c436c…` is the same commit both readings name.
+
+**The mirror is BEHIND a public repository, so the 6-commit gap carries no
+content-boundary risk**: every commit GitLab lacks is already published on the
+public GitHub side. Direction matters here and it is measured, not assumed.
 
 ```bash
-git -C design-toolkit remote -v                                      # origin only, GitHub
-git -C design-toolkit ls-remote origin HEAD                          # e7f3815e…
-# no GitLab remote is declared here — the mirror cannot be probed from this tree
+git -C design-toolkit remote -v                          # BOTH: origin (GitHub) + gitlab
+git -C design-toolkit ls-remote origin HEAD              # e7f3815ec35c…
+git -C design-toolkit ls-remote gitlab HEAD              # 520c436c2c2a…
+git -C design-toolkit rev-list --left-right --count 520c436c...e7f3815e   # 0  6
+glab api projects/vasic-digital%2Fdesign-toolkit         # .visibility -> private
 ```
 
-Honest boundary (§11.4.6): this checkout wires up **no** GitLab remote for
-`design-toolkit` (`git remote -v` shows `origin` only, GitHub, fetch and push),
-so **neither** the visibility nor the lag can be re-measured here — and note
-that `scripts/verify-submodule-remote-sync.sh` reports this submodule CURRENT,
-which is a true statement about GitHub and says nothing about the mirror. The
-*visibility* half is **UNVERIFIED from this tree** and is recorded as reported;
-the 5-commit lag WAS measured, on 2026-09-01, and is now stale rather than
-false. **Do not write as though the two mirrors match, and do not quote
-"5 commits" as a live figure.**
+Honest boundary (§11.4.6), and it is narrower than it was:
+`scripts/verify-submodule-remote-sync.sh` probes the declared **`origin`** only,
+so its CURRENT verdict for this submodule is a true statement about GitHub and
+still says **nothing** about the mirror — the gate did not gain mirror
+awareness, the operator gained a way to ask by hand. `upstreams/gitlab.sh` in
+that submodule is **`.disabled` on purpose**, so no tooling pushes to the mirror
+and the gap does not close by itself; renaming it is an operator decision that
+starts publishing to a private mirror. **Do not write as though the two mirrors
+match, and do not quote "5 commits" as a live figure — re-run the block above.**
 
 `submodules/containers` (`vasic-digital/containers`) was added under §11.4.76,
 which mandates that module for ANY containerised workload and forbids
@@ -478,15 +617,26 @@ three-valued — 0 all current, 1 real drift, 2 could not determine — and is
 registered as `submodule-remote-sync` in `scripts/check-registry.tsv` with a
 `--prove-failure` paired proof, which is what R5 required of it.
 
-**It exits 0 as of 2026-09-02 — the first time it has ever done so.** Three
-readings in one day, all real, kept because the movement is the record:
+**It exited 0 once, on 2026-09-02 — and it is back to 1 on 2026-09-03.** The
+"it exits 0 as of 2026-09-02, the first time it has ever done so" that stood
+here is **WITHDRAWN as current**. Four readings, all real, kept because the
+movement is the record — and because the fourth is the first evidence in this
+file that the green did not survive a single day:
 
 ```bash
 bash scripts/verify-submodule-remote-sync.sh
 # 1 — 6 CURRENT,  6 DRIFT, 0 UNDETERMINED   (2026-09-01)
 # 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-02, after five bumps landed)
 # 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-02, after the authorized fast-forward)
+# 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-03, the SAME pin went stale again)
 ```
+
+The 2026-09-03 DRIFT row, verbatim: `submodules/constitution 3be10826f3d2
+2887b42e9349 DIFFERS`. The gate's own words — *"The difference is DETERMINED;
+the direction is NOT, because the remote commit is not in this checkout's object
+store."* Confirmed independently: `git -C submodules/constitution cat-file -t
+2887b42e9349` returns *"could not get object info"*. **No fetch was run and no
+pin was bumped — both are operator decisions.**
 
 The 2026-09-01 run named `design-toolkit`, `ai_interviewing`,
 `submodules/containers`, `submodules/LLMProvider` and `submodules/RAG` as
@@ -500,15 +650,22 @@ authorized the `--fetch`, which classified it as **2 behind, 0 divergent**, and
 as a third-party NOTE, never a verdict input, which is why 12 owned gitlinks are
 probed of 13 declared.
 
-**Do not bank the green.** This pin has gone stale within a day on two
-consecutive occasions. The correct standing conclusion is that the constitution
-pin is an operator decision that RECURS, not a task that completes.
+**Do not bank the green — and note that this file already said so, and was
+right.** This pin has now gone stale within a day on **three** consecutive
+occasions, the third measured 2026-09-03 against a green recorded 2026-09-02.
+The correct standing conclusion is that the constitution pin is an operator
+decision that RECURS, not a task that completes.
 
-**Note what this gate is blind to even at 12 CURRENT.** It probes the declared
-`origin` only. `design-toolkit` has a GitLab mirror that this checkout declares
-no remote for (`git -C design-toolkit remote -v` → `origin`, GitHub, only), so
-"CURRENT" there is a true statement about GitHub and says nothing whatsoever
-about the mirror.
+**Note what this gate is blind to even when a row reads CURRENT.** It probes the
+declared **`origin`** only. `design-toolkit` has a GitLab mirror, and the
+parenthetical that stood here — *"this checkout declares no remote for (`git -C
+design-toolkit remote -v` → `origin`, GitHub, only)"* — is **WITHDRAWN as
+false**: a `gitlab` remote IS declared there today. What survives is the real
+limitation: the gate does not probe it. Re-measured 2026-09-03, this row reads
+`design-toolkit e7f3815ec35c e7f3815ec35c CURRENT`, which is a true statement
+about GitHub while the mirror sits **6 commits behind** at `520c436c2c2a`. A
+gate reporting CURRENT is not evidence about a remote it never asked. See
+"Owned submodules" above for the measured mirror figures.
 
 Bumping a gitlink is an operator decision and this gate does not make one. **Do
 not silence the 1** by deleting the gate, by allow-listing a submodule, or by
@@ -543,25 +700,48 @@ Playwright (chromium) additionally requires `npm ci` and
 ### Governance and adaptability instruments
 
 Separate from the pre-push gates. Every one is three-valued — **0 clean, 1 a
-real finding, 2 COULD NOT DETERMINE, and 2 is never a pass.** Results below were
-measured on 2026-09-01 and are dated observations, not standing facts, **except
-`audit-environment-assumptions.sh`, re-measured 2026-09-02 below.**
+real finding, 2 COULD NOT DETERMINE, and 2 is never a pass.** **The whole suite
+was re-run on 2026-09-03 and the results below are that run.** Four verdicts
+moved since 2026-09-02 and every superseded figure is named where it stood, not
+silently replaced. They remain dated observations, not standing facts.
 
 ```bash
-bash scripts/continuation-check.sh              # CONTINUATION.md is not stale
+bash scripts/continuation-check.sh              # 0 — 8 PASS/0 DRIFT/0 UNDET/7 NOTE
 bash scripts/verify-governance-cascade.sh       # 0 — 12 PASS/0 FAIL/0 ENV/8 NOTE (C0..C9)
 bash scripts/verify-manifest-pins.sh            # 0 — C9 standalone: 12 MATCH/0 DRIFT/0 UNDET of 12
-bash scripts/verify-check-registry.sh           # 0 — 41 PASS/0 FAIL/0 DEBT; --run-proofs is 1, see below
-bash scripts/audit-hardcoded-paths.sh           # 0 — gate 0, 6 file(s) explicitly allowed
-bash scripts/audit-environment-assumptions.sh   # 0 — 2026-09-02, after 12 fixes + 5 reasoned exemptions
+bash scripts/verify-check-registry.sh           # 0 — 43 then 45 PASS in ONE session; --run-proofs 0 at 65 PASS
+bash scripts/audit-hardcoded-paths.sh           # 1 — WENT RED: 1 occurrence, 1 file; see below
+bash scripts/audit-environment-assumptions.sh   # 0 — 567 allow-listed, 666 baselined, 2247 files
 bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"
-bash scripts/verify-submodule-remote-sync.sh    # 0 — 12/12 CURRENT, first green ever; remotes move
-bash scripts/verify-provider-ci.sh              # provider-side CI probe
-bash scripts/lumen-index-doctor.sh              # 0 — semantic index health
+bash scripts/verify-submodule-remote-sync.sh    # 1 — WENT RED AGAIN: 11 CURRENT/1 DRIFT
+bash scripts/verify-provider-ci.sh              # 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL
+bash scripts/verify-all-constitution-rules.sh   # 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates
+bash scripts/lumen-index-doctor.sh              # semantic index health
 bash scripts/ollama-tune.sh                     # local inference host tuning
 ```
 
-Four of those need reading carefully rather than glancing at:
+**Four verdicts that moved on 2026-09-03, stated as withdrawals:**
+
+| Instrument | Was (2026-09-01/02) | Is (2026-09-03) |
+|---|---|---|
+| `verify-check-registry.sh` | 0 — **41** PASS | 0 — **43**, then **45** PASS *within the same session* |
+| `audit-hardcoded-paths.sh` | **0** — 6 file(s) allowed | **1** — 1 occurrence, 12 file(s) allowed |
+| `audit-environment-assumptions.sh` | 0 — **531** allow-listed, **2166** files, **683** baselined | 0 — **567** allow-listed, **2247** files, **666** baselined |
+| `verify-submodule-remote-sync.sh` | **0** — 12 CURRENT | **1** — 11 CURRENT / 1 DRIFT |
+
+**`audit-hardcoded-paths.sh` went RED and the finding is REAL, not a re-baseline.**
+Exit **1**, `❌ 1 occurrence(s) across 1 file(s)`, scanning 6054 files across 14
+repositories. The single occurrence is
+`workshop/chapters/01/transcript/accuracy-plan.json:3`, a JSON value carrying
+this developer host's absolute checkout path. **It is INSIDE the private
+`workshop` submodule and was NOT edited from here** — a finding inside a
+submodule is fixed inside that submodule and returns as a gitlink bump, which is
+an operator decision. Two other figures in the same run also moved and are
+recorded rather than glossed: files **explicitly allowed** 6 → **12**, and
+**377 baselined occurrences** are printed on every run as declared, known,
+unfixed debt.
+
+Five of those need reading carefully rather than glancing at:
 
 - **`verify-check-registry.sh` used to print 5 DEBT rows on every run. As of
   2026-09-02 it prints ZERO — all five owed paired proofs were written, and each
@@ -570,23 +750,35 @@ Four of those need reading carefully rather than glancing at:
   DATA rather than a code edit, so each control is green by construction — the
   "inoperative proof" defect the registry itself documents.
   `setup-agents-wizard-suite` also owed **three-valued** and now demonstrates
-  rc 2 four ways. Measured: **41 PASS / 0 FAIL / 0 DEBT / 0 UNDET / 0 NOTE**,
-  exit 0; `--strict` also **0**. The five `debt` rows became `check` rows, and
-  no new `*.sh` was created, so R5 stays green.
+  rc 2 four ways. Re-measured **2026-09-03**: **43 PASS / 0 FAIL / 0 DEBT /
+  0 UNDET / 0 NOTE**, exit 0. The **41 PASS** figure measured 2026-09-02 is
+  SUPERSEDED — two further checks were registered in the intervening day, which
+  is R5 working rather than drift; the PASS count has now moved
+  23 → 25 → 31 → 41 → 43 for that reason alone. The five `debt` rows became
+  `check` rows, and no new unregistered `*.sh` appeared, so R5 stays green.
 
-  **`--run-proofs` still exits 1**, at 54 PASS / 5 FAIL, and none of the five is
-  a newly-promoted check. One is REAL — `provider-ci` fails its own selftest
-  assertion *"M6b no repository or owner name in body"*. Four are **false
-  positives of the hollow-proof heuristic** (`submodule-remote-sync`,
-  `mutation-anchor-rot`, `private-object-exposure`, `remedy-executability`):
-  each proof runs and returns 0, but summarises in prose instead of the
-  `M<n>` / "N mutations" form the heuristic recognises. **The heuristic was NOT
+  **`--run-proofs` now exits 0** — re-measured 2026-09-03 at
+  **65 PASS / 0 FAIL / 0 DEBT / 0 UNDET / 0 NOTE**. **The reading this bullet
+  carried — *"still exits 1, at 54 PASS / 5 FAIL"* — is WITHDRAWN**, and all
+  five named rows were re-checked individually: `provider-ci`,
+  `submodule-remote-sync`, `mutation-anchor-rot`, `private-object-exposure` and
+  `remedy-executability` each now show **3 PASS / 0 FAIL**. The one previously
+  called REAL is genuinely resolved: `provider-ci` no longer fails
+  *"M6b no repository or owner name in body"*; its `--run-proofs` row reports
+  `PASS M1 verdict is not constant … got 5 distinct`. The other four were
+  described as false positives of the hollow-proof heuristic (proofs that ran
+  and returned 0 but summarised in prose rather than the `M<n>` / "N mutations"
+  form) and now report in the recognised form. **The heuristic was NOT
   loosened** — it is the only thing between the registry and a proof that
-  returns 0 while exercising nothing. Also still open and now printed on every
-  run rather than buried in prose: the sweep's **DROP** direction. Its ADD
-  direction is proved; assertion **L1** deletes a gate, measures the count
-  falling `3 → 2`, and records that the sweep still exits 0 because it keeps
-  **no expected-gate ledger**.
+  returns 0 while exercising nothing. **This run takes roughly an hour**; a
+  plain run verifies proof *structure* only and is not a substitute.
+
+  **Honest boundary (§11.4.6): a 0 here means every registered proof executed
+  and reported, not that this tree is defect-free.** The sweep's **DROP**
+  direction remains open and is printed on every run: its ADD direction is
+  proved, while assertion **L1** deletes a gate, measures the count falling
+  `3 → 2`, and records that the sweep still exits 0 because it keeps **no
+  expected-gate ledger**.
 
   The zero-DEBT history is worth keeping. A zero means "every registered check is
   accounted for", **not** "every check has a working paired proof" — a plain run
@@ -610,13 +802,24 @@ Four of those need reading carefully rather than glancing at:
   `prepush-gates` and `setup-agents-wizard-suite`.
 - **`audit-environment-assumptions.sh` went RED at 17 and was taken back to
   GREEN in the same session — 12 by REAL FIXES, 5 by reasoned exemptions. Read
-  that split before quoting the exit code.** The instrument has now moved five
+  that split before quoting the exit code.** The instrument has now moved six
   times without the audit itself being edited once. Every state is recorded,
   because the movement is the point.
 
-  **Final state, re-measured 2026-09-02:** exit **0**,
-  `✅ no NEW frozen environment assumptions (531 justified occurrence(s) allow-listed)`,
-  scanning **2166 files across 14 repositories in 12 classes**.
+  **Current state, re-measured 2026-09-03:** exit **0**,
+  `✅ no NEW frozen environment assumptions (567 justified occurrence(s) allow-listed)`,
+  scanning **2247 files across 14 repositories in 12 classes**, printing
+  **666 baselined occurrences** and **1 out-of-scope third-party assumption**.
+
+  **The 2026-09-02 reading — 531 allow-listed, 2166 files, 683 baselined — is
+  SUPERSEDED, and all three numbers moved without the audit being touched.**
+  `git status --short scripts/audit-environment-assumptions.sh` is EMPTY, so the
+  instrument is byte-identical to the one that produced the old figures; the
+  scanned fleet grew (2166 → 2247 files) because the submodules under it did.
+  Baselined debt fell 683 → **666** (−17) and the allow-list grew 531 → **567**;
+  **this file does NOT claim which of those is a fix and which is a new
+  exemption — that was not measured this session.** Do not read the −17 as
+  seventeen defects repaired.
 
   **How the 17 were cleared — the distinction is the whole point, because an
   allow row is not a fix:**
@@ -721,28 +924,44 @@ Four of those need reading carefully rather than glancing at:
     ports; **12 passed / 41 passed at non-default `VD_PORT=9401 MV_PORT=9082`**,
     impossible before and the entire content of F13. Proof the SOURCE moved
     rather than the ledger: `git show HEAD:scripts/audit-environment-assumptions.sh`
-    run against the fixed tree reports **8** stale rules. Note `_tests/env.js` is
-    **UNTRACKED**, so `git ls-files` does not yet show it to the gate.
+    run against the fixed tree reports **8** stale rules. **`_tests/env.js` is now
+    TRACKED** — added in commit `402a8c7`, confirmed 2026-09-03 with
+    `git ls-files --error-unmatch _tests/env.js`. The note that stood here
+    ("`_tests/env.js` is **UNTRACKED**, so `git ls-files` does not yet show it to
+    the gate") is **WITHDRAWN**: every gate that enumerates via `git ls-files`
+    now sees it.
 
-  Still printed on every run by design: **683 baselined occurrences** — declared,
-  known, unfixed defects; next coherent slice is F15 (MODEL, `_tools/gen/`, 17
-  rows) — and **1 frozen assumption inside a third-party gitlink**
+  Still printed on every run by design, re-measured 2026-09-03: **666 baselined
+  occurrences** — declared, known, unfixed defects; the **683** figure is
+  superseded — and **1 frozen assumption inside a third-party gitlink**
   (`submodules/superspec/.github/workflows/ci.yml`, a pinned
   `python-version: "3.12"`), reported out-of-scope under §11.4.156(C) /
   §11.4.29 so it is never silently omitted. **A baseline is recorded debt, not
   a justification, and an allow row is not a fix — and ANY exit code here, green
   or red, is a measurement of today, not a guarantee about tomorrow's fleet.
-  This instrument's verdict has changed four times without the audit itself
+  This instrument's verdict has changed five times without the audit itself
   being edited once; the fleet moves under it. Re-run it, never quote it.**
-- **`verify-content-boundary.sh` exits 1 and is MEANT to.** See the "Content
-  boundary" section above: ~207 judged non-disclosures are left visible rather
-  than allow-listed. A 1 from this gate is a reading assignment, not a
-  regression.
+- **`verify-content-boundary.sh` exits 1 and is MEANT to.** Re-measured
+  2026-09-03: **11878 surviving matches (prose 11356, short 433, name 89)**,
+  0 undetermined. See the "Content boundary" section above. A 1 from this gate
+  is a reading assignment, not a regression — but the *reading* has not kept
+  pace with the *population*, and that gap is now the finding.
 - **`verify-submodule-remote-sync.sh` exits 1 and the 1 is a real finding, not a
-  designed one.** Six owned gitlinks are out of sync with their remotes pending
-  a bump, which is an operator decision. See "Submodule-vs-remote drift" above.
-  It is the ONLY instrument here that looks at a remote at all; every other one
-  on this list is blind to it by construction.
+  designed one.** Re-measured 2026-09-03: **11 CURRENT / 1 DRIFT**, and the one
+  row is `submodules/constitution`. **"Six owned gitlinks are out of sync" is
+  WITHDRAWN** — that was the 2026-09-01 reading. Bumping is an operator
+  decision. See "Submodule-vs-remote drift" above. It is the ONLY instrument on
+  this list that looks at a remote at all, and even it probes `origin` only.
+- **`audit-hardcoded-paths.sh` exits 1 as of 2026-09-03 and the 1 is REAL.**
+  One occurrence, in `workshop/chapters/01/transcript/accuracy-plan.json` — a
+  developer-host absolute path frozen into a tracked JSON value inside a private
+  submodule. Not fixable from this tree; see the block above the bullet list.
+- **`verify-provider-ci.sh` exits 1 and the 1 is CONFIRMED, not undetermined.**
+  One standing provider-side trigger, on `vasic-digital/vasic-digital.github.io`.
+  Six rows are separately UNVERIFIED and are printed regardless of exit code, by
+  the script's own documented rule: *"Precedence: CONFIRMED (1) outranks
+  UNDETERMINED (2) outranks clean (0)"* — so **the 1 hides no 2 here, and the 6
+  UNVERIFIED rows are still open**. See G4 below.
 
 Both audits, and gate E, once had the same blind-instrument defect and all three
 are fixed: gate E enforced §11.4.156 only at the umbrella root, because
@@ -778,22 +997,29 @@ operator's overriding directive:
 
 The material fact behind the reversal:
 `gh api repos/milos85vasic/milosvasic.ru/pages` returns `build_type: "workflow"`
-(re-measured 2026-09-01, unchanged) — that workflow is the **sole** publish path
-for the live site. There is no `gh-pages` branch and no `docs/` folder, and the
-repository root is Jekyll SOURCE (Liquid + front matter), so it cannot be served
-raw from a branch. `_tools/deploy-langs.sh` is **not** a substitute: it
-generates, commits and pushes source, then `sleep`s waiting for the server to
-rebuild — it covers generation and push, none of the publish step. **Do not
-disable, rename, or otherwise "fix" `pages.yml`.** `vasic.digital` needs no
-build step (committed static HTML), but its Pages source is still
-`build_type: "legacy"` (`gh api repos/vasic-digital/vasic-digital.github.io/pages`,
-re-measured 2026-09-01), so every push still triggers a provider-side `pages
-build and deployment` Actions run even though `git ls-files
-'.github/workflows/*'` in that submodule returns **zero** files.
+(**re-measured 2026-09-03 via `scripts/verify-provider-ci.sh`: `pages=enabled
+build_type=workflow source=main:/ status=built` — unchanged**) — that workflow is
+the **sole** publish path for the live site. There is no `gh-pages` branch and no
+`docs/` folder, and the repository root is Jekyll SOURCE (Liquid + front matter),
+so it cannot be served raw from a branch. `_tools/deploy-langs.sh` is **not** a
+substitute: it generates, commits and pushes source, then `sleep`s waiting for
+the server to rebuild — it covers generation and push, none of the publish step.
+**Do not disable, rename, or otherwise "fix" `pages.yml`.** `vasic.digital` needs
+no build step (committed static HTML), but its Pages source is still
+`build_type: "legacy"` (**re-measured 2026-09-03: `pages=enabled
+build_type=legacy source=main:/ status=built`, and the probe classifies it
+CONFIRMED — 41 provider-generated `pages build and deployment` runs in the last
+30 days, newest 2026-09-01T19:54:02Z**), so every push still triggers a
+provider-side run even though `git ls-files '.github/workflows/*'` in that
+submodule returns **zero** files. **This is the fleet's only CONFIRMED standing
+provider-side trigger.**
 
 `design-toolkit` adds **no** §11.4.156 CI surface of its own: the same
-`git ls-files '.github/workflows/*'` returns **0** there too (measured
-2026-09-01), so its flip to public created no new provider-side trigger.
+`git ls-files '.github/workflows/*'` returns **0** there too (re-measured
+2026-09-03), so its flip to public created no new provider-side trigger — and
+the 2026-09-03 probe confirms it from the provider side as well, `NONE` on both
+its GitHub origin and its GitLab mirror (`jobs_enabled=true`, but
+`active-pipeline-schedules=0` and `pipelines(listed=0, in-window=0)`).
 
 Every `build_type` and run-count in this file is a DATED OBSERVATION, not a
 standing fact. Provider settings change outside this tree and nothing here can
@@ -899,7 +1125,30 @@ inventory's own):
   triggering confirmed, 2 = could not determine — **not** a pass), which the
   setup wizard runs as Step 9 and which surfaces a confirmed finding as a
   manual step. Do not quote a status from this document as current; run the
-  check. **Cost of the umbrella half: no server-side enforcement on
+  check.
+
+  **RE-MEASURED 2026-09-03 — exit 1, and the verdict per repository is NOT what
+  this entry's prose implies.** The probe covered **22 repositories / 40
+  upstream rows** over a 30-day window, with `gh` and `glab` both authenticated:
+  **1 CONFIRMED · 6 UNVERIFIED · 2 HISTORICAL · 30 no-trigger · 1 out-of-scope.**
+
+  | Repository | Reading 2026-09-03 | Meaning |
+  |---|---|---|
+  | `vasic-digital/vasic-digital.github.io` | **CONFIRMED** — `pages` enabled, `build_type=legacy`, 41 provider-generated runs in window, newest 2026-09-01T19:54:02Z | The **only** standing provider-side trigger in the fleet. Confirms this entry's `legacy` claim, with no file-level remedy: `git ls-files '.github/workflows/*'` returns 0. |
+  | `milos85vasic/milosvasic.ru` | **HISTORICAL**, *not* confirmed — `pages` enabled, **`build_type=workflow`** (re-verified), 34 provider-generated runs since 2026-08-04 but **newest 2026-08-06T20:29:49Z** | `pages.yml` remains the SOLE publish path and **MUST NOT be disabled, renamed or "fixed"**. The gate's own words: those runs are *"a fact about the past, NOT a claim that a push today triggers one"*. |
+  | `milos85vasic/vasic` (this root) | **clean** — `active=0 inert=1`, 0 provider-generated runs | The umbrella half of G4 holds. |
+  | 6 rows on `gitflic.ru` / `gitverse.ru` | **UNVERIFIED** | No read-only API adapter is registered for those hosts. **rc-2 material — not a pass.** |
+
+  **Two findings worth acting on, neither acted on here.** (a) The probe's own
+  remediation output flags **21 repositories where Actions are ENABLED while the
+  tree declares zero active workflow files** — disabling Actions is the only
+  file-independent way to stop provider-generated runs, but it would also stop
+  any Pages *workflow* build, so `milosvasic.ru` must be excluded from any such
+  sweep. (b) The `milosvasic.ru` HISTORICAL rows mean **34 runs occurred that no
+  setting readable today explains**; confirming that the setting which produced
+  them is genuinely gone is operator-only.
+
+  **Cost of the umbrella half: no server-side enforcement on
   push or PR; `.git/hooks/` is untracked, so a fresh clone is unprotected until
   `bash scripts/pre-push-gates.sh --install` is run, and `git push --no-verify`
   bypasses the hook.** Record:
@@ -988,11 +1237,28 @@ that population moved **57 → 286** when the constitution was fast-forwarded, s
 **every split published before the fast-forward is withdrawn and none of them is
 comparable to a present-day run.** Do not restate an old number.
 
-The most recent measurement on record is **186 PASS / 95 FAIL / 6 ERROR of 287
-gates**. It is written here as a *reported prior measurement*, not as a state
-this file observed: a re-run started 2026-09-01 had not finished when this text
-was written, so no fresh split is claimed. Two classes of failure inside it are
-known and **cannot be cleared by any commit this repository can make**:
+**A full run COMPLETED on 2026-09-03 and this is its split, observed rather than
+reported: exit 1 — `❌ SWEEP: FAIL — 96 FAIL + 2 ERROR out of 271 gate(s)`, i.e.
+173 PASS / 96 FAIL / 2 ERROR of 271.**
+
+**The "186 PASS / 95 FAIL / 6 ERROR of 287 gates" this block carried is
+WITHDRAWN**, and it was never a state this file observed — it was recorded as a
+*reported prior measurement* from a run that had not finished. It is not
+comparable to the run above in any case: **the gate population itself moved
+287 → 271**, so no per-count comparison between the two is meaningful. The
+population has now moved twice (57 → 286 → 287 → 271) without this repository
+editing the sweep, because the sweep discovers its gates from the constitution
+submodule.
+
+Three FAILs from the 2026-09-03 run are named here because they are actionable
+in THIS tree, unlike the two classes below: `cm_readme_badge_row_at_top`
+(§11.4.259, no badge row atop `README.md`), `cm_zero_findings_audit_sweep`
+(§11.4.261, no `scripts/audit/zero_findings_sweep.sh`) and
+`cm_zero_findings_monotone_ratchet` (§11.4.261(C), no
+`docs/findings/zero_findings_ratchet.tsv`). **None was acted on this session.**
+
+Two classes of failure inside the run are known and **cannot be cleared by any
+commit this repository can make**:
 
 1. **Third-party and staged carriers** — `submodules/superspec/examples/…`,
    `milosvasic.ru/Upstreamable/…`, and the vendored spec-kit extension copy
@@ -1075,21 +1341,71 @@ so **gate 6 does not run those three specs** — **32 `test()` blocks and 97
 `expect()` call sites**, counted 2026-09-01. They are claimed by
 `_tests/playwright.live.config.js`, whose `testMatch` names all four live specs.
 
-**They now run at deploy time — via an UNCOMMITTED working-tree change made on
-2026-09-01.** `_tools/deploy-langs.sh` declares
-`LIVE_SPECS="all-languages-link-integrity restyle-seo-regression v170-fixes
-v171-hardcoding"`, pre-flights each spec file, and invokes the live config with
-no spec name on the command line, so the whole `testMatch` set executes.
-**At `HEAD` that is not yet true** — `git show HEAD:_tools/deploy-langs.sh`
-names `all-languages-link-integrity.spec.js` alone. Until the change is
-committed, a fresh clone runs the other three **nowhere**; run
-`cd _tests && npx playwright test --config=playwright.live.config.js` by hand
-before any release.
+**They run at deploy time, and that IS committed.** `_tools/deploy-langs.sh`
+declares `LIVE_SPECS="all-languages-link-integrity restyle-seo-regression
+v170-fixes v171-hardcoding"`, pre-flights each spec file, and invokes the live
+config with no spec name on the command line, so the whole `testMatch` set
+executes.
+
+**The warning that stood here is WITHDRAWN as FALSE, and it actively
+misinformed.** It read: *"via an UNCOMMITTED working-tree change made on
+2026-09-01 … At `HEAD` that is not yet true — `git show
+HEAD:_tools/deploy-langs.sh` names `all-languages-link-integrity.spec.js`
+alone. Until the change is committed, a fresh clone runs the other three
+**nowhere**."* Re-measured **2026-09-03**: `git show HEAD:_tools/deploy-langs.sh`
+is **byte-identical** to the working tree (both sha256
+`5b64034fd9c368f4…`), and `HEAD` carries all four specs on line 513 with the
+presence pre-flight beside it. It landed in commit **`695c22d`** on 2026-09-01 —
+so the claim was already false, or became false, the day it was written.
+**A fresh clone DOES run all four.** Re-derive rather than trusting either
+version of this paragraph:
+
+```bash
+git show HEAD:_tools/deploy-langs.sh | grep -n 'LIVE_SPECS='
+cmp <(git show HEAD:_tools/deploy-langs.sh) _tools/deploy-langs.sh && echo identical
+```
 
 A figure of "86" circulates for this suite. It is a Playwright **test-case pass
 count** ("86 passed / 2 failed") observed across the four-spec live run — not a
 count of assertions in the three deferred specs, which is 97. Both are real;
 they do not measure the same thing.
+
+**OPEN DEFECT, recorded and NOT fixed — gate 6 validates a STALE artifact for
+`milosvasic.ru`, and a failing build step is silently tolerated.** Measured
+2026-09-03 on this host:
+
+```bash
+command -v jekyll                                   # (nothing — not on PATH)
+cd milosvasic.ru && bundle exec jekyll --version    # rc 127: "command not found: jekyll"
+cd milosvasic.ru && bundle check                    # missing: jekyll 4.4.1, jekyll-seo-tag 2.8.0, jekyll-feed 0.17.0
+stat -c '%y' milosvasic.ru/_site/index.html         # 2026-08-28 08:52:45
+stat -c '%y' milosvasic.ru/index.html               # 2026-09-03 19:03:35
+```
+
+**Jekyll cannot build on this host at all.** `ruby` and `bundle` are present;
+the `jekyll` gem executable is not. The consequence is the part that matters:
+`_tests/playwright.config.js:17` sets `MV_ROOT = milosvasic.ru/_site` and line 62
+serves exactly that directory to the suite — so **the `milosvasic.ru` half of
+gate 6 is asserting against a six-day-old build, not against current content.**
+A green gate 6 is not evidence about today's `milosvasic.ru` source.
+
+**The failure is tolerated by design, and that is arguably the worse half.**
+`_tools/deploy-langs.sh:375` runs
+`( cd milosvasic.ru && jekyll build … ) || build_warn "jekyll _site rebuild"`,
+and `build_warn` only increments a counter; `report_build_warns` then prints
+`N build step(s) failed and were tolerated` and the script **still exits 0**.
+A `--dry-run` therefore reports success while having built nothing.
+
+**PRODUCTION IS NOT AFFECTED.** `milosvasic.ru` publishes through its own
+server-side `pages.yml` workflow (`build_type=workflow`, re-verified 2026-09-03),
+which nothing here touched. This defect is confined to LOCAL build and LOCAL
+test evidence.
+
+**Remedy — `bundle install` inside `milosvasic.ru` — is an ENVIRONMENT change and
+was NOT made.** Neither was the tolerate-and-continue behaviour altered:
+silently downgrading a failed build to a warning is a separate decision, and
+changing it could break the deploy path for a live production site. Both are
+operator decisions.
 
 The gate-6 deferral is sound and should not be reverted blindly: the measured
 cause was runner reachability (12 `net::ERR_TIMED_OUT`, 8
