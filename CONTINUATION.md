@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-03T21:20:08Z
+    Last-Updated: 2026-09-03T21:26:46Z
     Synced-Commit: 624bb3b
     Authority-Root: submodules/constitution
 
@@ -746,6 +746,73 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A66 — **deep crawling BUILT** (operator-mandated), and its own gate found **six real defects on real data** before anything was committed.
+
+**It found MORE than the hand crawls, which was the test.** Reference architecture
+A went from **1 repo to 10**, pinned from ecosystem pages; architecture B
+reproduced **every figure identically** (8,920 tracked files, 2,866 `.md`, 2,841
+`.ts`), with a package count of 275 against the study's 250 explained rather than
+waved away — the crawler counts every manifest, the study counted only one
+directory shape. The competitor's five pages re-hashed to the **byte-identical
+capture** the hand crawl pinned.
+
+**Where it found LESS, and the reason is honest:** the 403 source and the archive
+snapshots **are not reachable by following links from any seed**. The hand crawl
+reached them **by search**, which this crawler deliberately does not do. Each is
+admissible today by seeding it directly — which was then done for two of them.
+
+**One refusal is exemplary and should be the house standard.** A directory site
+returns **HTTP 403 on its own `robots.txt`**. RFC 9309 reads that as a **complete
+disallow**, so the page **was not requested at all**, the wall was recorded as a
+boundary row, and the run exited **2**. *A crawler that treats an unreadable
+policy as permission is not polite; it is guessing.* Likewise a
+browser-impersonating user agent is **refused with exit 1**, and an absent robots
+file is a rc-2, never an assumption.
+
+**The gate makes ZERO network calls.** It re-derives robots compliance by
+re-parsing **the robots.txt the crawl itself captured**, and re-derives per-host
+inter-request gaps from recorded millisecond timestamps. *A politeness check that
+must go online to check politeness cannot run when the network is the thing that
+failed.*
+
+**One capture path, and it is enforced rather than intended.** Both the capture
+tool and the crawler call one shared entry point, so id derivation, normalisation,
+key order and supersession live in exactly one place — and a proof assertion
+**imports both modules and refuses a crawler that has grown its own writer**.
+
+**SIX REAL DEFECTS, each found by running the gate against what the crawler had
+just written:**
+1. **The capture-id collision the ingestion agent reported is now FIXED at its
+   consequence.** Two materials pointing at one renamed upstream shared an id, and
+   the second **inherited the first's supersession link** — nothing in the
+   provenance gate caught that. Keyed on the **pair** now; **no stored id was
+   invalidated**, and a shared id emits a NOTE.
+2. Repo pins were timestamped **before** the rate-limit sleep, so the journal
+   **understated politeness that had actually been applied**.
+3. `git clone` **bypassed the rate limiter** — pin and clone fired 0.826 s apart.
+4. **The structure file embedded its own study time**, so it could never hash as
+   unchanged — *"I manufactured the exact nonce problem `STALENESS.md` §5 warns
+   about."* Removed; a re-study of an unmoved repo is now a duplicate.
+5. **The crawler churned material rows and overwrote hand-curated titles**, 52
+   growing to 112. Fixed; a re-crawl now adds **zero** rows.
+6. A politeness assertion **false-positived on the robots.txt request itself** —
+   *you cannot learn a policy without asking for it.* The exemption is exactly one
+   row wide and a mutation keeps it that way.
+
+**It dropped its own contaminated output before committing** — 2 capture rows, 110
+mis-stamped journal rows, 59 churned material rows — and re-ran cleanly. *Work
+that was wrong was withdrawn rather than shipped with a caveat.*
+
+**21 mutations, 21 caught**, gate **0**, `--root /nonexistent` **2**, registry
+**0** (3 pre-existing debts, none its own), Python suite **278 unchanged**.
+
+**The provenance gate reads 1, and that is the crawler working.** It re-pinned a
+reference repository and found **its head had moved**, minting a superseding
+capture — so an active claim now rests on old bytes. Resolving it means
+re-anchoring a claim cited by two specification pages, **another agent's
+territory, so it stayed out** and recorded the measured drift as its own verified
+claim instead.
 
 #### A65 — **WRITE-RACE INCIDENT on this very file.** Three entries lost twice, and no gate saw it either time.
 
