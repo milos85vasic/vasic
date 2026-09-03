@@ -188,7 +188,7 @@ comment in the manifest, not a `deps[]` entry, and C6 checks that both ways.)
 | `design-toolkit` | `e7f3815ec35c0940515296ffb3481cd0fab4bfa6` | match · remote CURRENT. The "working tree sits at `5467a888…`" caveat this row used to carry is **withdrawn** — index, `HEAD` and the GitHub origin now agree. The GitLab-mirror asymmetry below is UNCHANGED and still unverified from this tree. |
 | `ai_interviewing` | `cde474fa3e167bfd5c8e63d4ba6d4c184d4c12b6` | match · remote CURRENT |
 | `monetization` | `54ed7b0f5add52821d18866facb5ee8c75adef69` | match · remote CURRENT |
-| `workshop` | `29f14c4025f34a5ce63dac36163b25d5ae121bc7` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
+| `workshop` | `bd7da415532f52ac15bea3e316f9908c98550ec9` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
 
 **Every SHA in the table above except `monetization` and `submodules/superspec`
 moved after the previous `Synced-Commit`, and the values this table used to
@@ -544,6 +544,186 @@ mechanical type that T1 currently MASKS. The 13 remaining B1 rows match the firs
 Analysis: `workshop/docs/session-evidence/phase3e-contradiction-typology.md`; re-derivable by the
 read-only `workshop/pipeline/extract/analyze_r3_contradictions.py`. **Nothing was resolved,
 merged, discarded or applied; T041 remains `[ ]`.**
+
+#### A22 — final reconciliation: spec 002 **100 / 42 / 142**, spec 001 **59 / 61 / 120**. Gate attachment 0 in both.
+
+**Three ticks earned, each with the command:** `T079` (coverage returns **200 for 495 of 495**
+areas, probed one by one, `derivation` reading `"threshold": "NONE"`), `T083` (export 200 on
+**both** sides of the review gate — published `exportable:true`, unpublished `exportable:false`
+with 4× `precondition_blocked`), and `T102`. **Spec 001 earned NO tick and none was invented** —
+notes only.
+
+**Deliberately not ticked:** T057/T058 (3 of 4 kinds), T052, T101, T037.
+
+**A figure this document had been repeating is WITHDRAWN: the answering benchmark's "3
+fabrications" is stale — it is ONE**, per the 2026-09-02 A/B run. The stale figure had propagated
+into T077/T078/T068's notes.
+
+**`lesson_section` is not merely unindexed, it is STRUCTURALLY UNKEYABLE** — 0 of 11,622 registry
+records, and `LessonSectionMeta` has **no identifier field at all**. That is a stronger reason
+than "no content yet", and it is now pinned by a named test.
+
+**Gate attachment `unattached: 0` in BOTH specs** — 31 gates in 001 (line-anchored form), 18 in
+002 (wrap-aware block form) — with the `G-CLI-17` discrimination probe still returning 1, so the
+check is still capable of failing.
+
+**Both files gained a standing rule for the SC collision**, with a verified re-derive command.
+That collision has now caused **two** errors in this session, both in briefs I wrote.
+
+#### A22a — five things left stale ON PURPOSE, each named rather than smoothed
+
+1. **`verify-content-boundary.sh` reports `LEAK — 11244` against CLAUDE.md's recorded 285.**
+   Pre-existing and **CANNOT DETERMINE** without editing files outside that agent's scope. Its own
+   contribution was measured at **zero**: it introduced 19 matches, spotted them, rewrote every
+   passage and re-ran; the only flagged lines remaining in its files are **pre-existing task
+   descriptions that private session briefs had copied public→private**, flagged solely because a
+   checkbox flip touched the line.
+2. **`workshop/docs/limits.md` §10.8 still says `question` is not indexed. That is now FALSE** —
+   44 distinct search entries match 44 served questions.
+3. **A PAIRED-PROOF FLAG GAP, not a proof gap — and the distinction matters.**
+   `verify-sc009-citation-span.sh` and `verify-sc024-export-matrix.sh` both return **rc=2
+   `unknown argument`** for `--prove-failure`. Verified: **standalone `prove-sc009-citation-span.sh`
+   and `prove-sc024-export-matrix.sh` both EXIST and both exit 0.** The proofs are real; the
+   registry's `--prove-failure` convention is what they do not answer. Fixing it is a flag, not a
+   proof.
+4. **Spec 002's own count block was ALREADY WRONG before this reconciliation began** — it claimed
+   96/46 while the tree measured 97/45, because T055 was ticked without its note or the block
+   being updated. **The bookkeeping drifts even within a single session.**
+5. **T037 cannot be satisfied as written, and this is now measured rather than argued:** it demands
+   a confidence interval, `accuracy.json` has no field for one, and
+   `grep -rin 'confidence_interval|ci_low|ci_high|bootstrap|margin_of_error'` over `scripts/` and
+   `pipeline/` returns **0**. Either T112 gains a CI or T037 is amended — an operator choice, not
+   an implementer's.
+
+**A standing caution recorded verbatim from that run: "Treat my counts as a reading of one
+moment."** Another process wrote this tree during it — `export.py` changed 3 minutes after it was
+measured, and a cited line moved 325 → 366. Every conclusion was re-verified afterwards and
+fragile line numbers were dropped from the notes.
+
+#### A21 — spec 001 pipeline (T014/T025/T032) and spec 002 search (T069/T070/T066/T067) BUILT. Two tasks refused on false premises.
+
+**T014 — P-U1 SETTLED, and the rejection is the finding.** Lumen's SQLite store was tested as a
+symbol producer and **REJECTED on measured grounds** — note its premise was partly wrong, since
+the store *does* expose a `symbol` column:
+**948 duplicate `(file_path, symbol)` keys** across 14,650 Go rows (a non-unique key cannot
+identify a passage); **0 of 3,007** Go method rows carry the required shape, with 363 rows fusing
+several declarations under one label; and a key **vanished** after a body edit plus reorder,
+which §6.3 says identity must survive. **A5 — schema and rows survive a forced reindex — PASSED.
+That was the one property the task named for this candidate, and it is not enough: testing only
+it would have confirmed the wrong producer.** The replacement was confirmed at scale: **11,742
+symbols, 908 Go files, 8 trees, 0 duplicate keys, 0 parse failures.**
+
+**Two of its five mutations initially SURVIVED, and both survivals were defects in the MUTATIONS,
+not in the gate** — one keyed an injected duplicate on a fixture-only identifier while the check
+runs against a real tree; the other shuffled with `awk`'s `rand()` and **no `srand()`**, so it
+produced the identical "shuffle" every run. **A mutation that cannot vary cannot prove anything**,
+and both are recorded rather than quietly re-rolled.
+
+**T025 — the chunker found a real property of the recording and refused to paper over it.** At the
+contracted default `--min-silence 0.6` the chapter-1 audio **cannot be chunked**: it places 3
+chunks, then meets a 270-second stretch whose longest pause is **0.50 s**, and exits 1 rather than
+cutting inside speech. At 0.5 it chunks cleanly into 25. **The default was deliberately NOT
+changed — "fitting a constant to one recording is what `audio_energy.py` exists to avoid" — and
+instead the refusal now MEASURES and REPORTS the longest available pause.** Also measured: noise
+floor **−82.1 dBFS at 0.25 s windows** against `AUDIT.md`'s **−32.6 dBFS at 1.0 s** on the same
+file. **Neither is wrong: a noise floor is a property of the recording AND the window.**
+
+**T032 — privacy enforced structurally, not requested.** The notes-PDF extractor refuses any
+destination git would track, checked with `git check-ignore`, **with no override flag**; no output
+field carries running text; every object is stamped `not_ground_truth: true`. The justification is
+measured: of 229 gazetteer terms, **124 classify `person_like`** — over half. Its proof's M9
+**removes the guard and requires the harm to occur**, which is what proves M5 tests anything.
+
+**T069/T070/T066/T067 — surfacing and benchmarking.** The search view now sends `kinds` and
+`area` and renders locus; kind chips derive from `corpus.indexed_kinds` so **`lesson_section` can
+never appear**; the area select lists the **5 titled areas of 495** and *counts* the 490 untitled
+rather than listing bare ULIDs. Verified live rather than assumed: `?kinds=term,area` yields
+`["term","area"]` while `?kinds=term&kinds=area` yields **`["term"]`** — repeated pairs are not
+accumulated. **Nothing renders `precision:"word"` as a word-width span**, recorded in the header.
+Frontend suite 90 → **97 SUCCESS**.
+
+A new `verify-retrieval-benchmark.sh` is **RED BY DESIGN and correctly so**: `top-5 5/22 (22.7%)`
+against a 20/22 bar, with per-query detail showing `question_stem` landing at rank 1 four times of
+five while **every** `area_title` and `term_name` query fails unfiltered. Repeatability measured
+over four runs at identical `root_hash`: 5/22 three times, 6/22 once — **the ±1 spread is recorded
+in the gate header so a one-query move is not misread as a change.** Its `M0-control` proves the
+gate *can* go green, so the live red is a measurement and not a constant.
+
+**Two refusals on false premises: `T038`/`T039` are ALREADY BUILT** (`redact.sh` 172 lines,
+`redaction-review.json` 87 lines — the ground-truth report is superseded), and **`T109` asserts
+outputs owned by stages not yet built**, so a gate for it could not pass.
+
+**Content boundary re-checked after a FALSE ALARM OF MINE.** A malformed grep of mine
+(`-l` with `-c`, and scoped to all of `evidence/` rather than the files the agent wrote) appeared
+to show 15 files carrying name tokens. Re-derived: **all 18 hits are the OWNER's own identity** —
+`github.com/milos85vasic/…` in `go test` output and `/run/media/<owner>/…` in pre-existing
+evidence — and **none is the third party**. `audit-hardcoded-paths.sh` independently exits **0**.
+
+**Handed on, not absorbed:** T015/T016/T017 are now **unblocked** with a named interface
+(`registry.go:628` `KeyStrategy`); **SC-016a is not implementable for TypeScript** because the
+producer is Go-only; **all 251 `kind:"code"` passages carry `.md` source refs**, so nothing in the
+corpus is keyed on a symbol today; **T096 bit directly — there is no registration point for
+feature-001 pipeline gates**, so three new proofs are enforced by nothing; and `lumen index` hung
+**>9 minutes** on a two-file fixture then took **111 ms** minutes later, cause **CANNOT
+DETERMINE**, now bounded by `timeout` reporting UNDETERMINED on expiry.
+
+#### A20 — T102 and T052 BUILT. Four tasks REFUSED with reasons. **Two defects were concealing each other.**
+
+**T102 — and the second defect only became visible once the first was fixed.**
+`export.py:713` hardcoded `review=None`, as recorded. Behind it sat a second: **`area_id` was
+passed as a FILESYSTEM PATH while reviews are keyed by the minted ULID**, so
+`check_publication_precondition`'s subject-mismatch guard would have rejected **every** review
+even if one had loaded. **Neither defect could be observed while the other stood** — the
+hardcoded `None` meant no review was ever looked up, so the key mismatch never had a chance to
+fail visibly. Fixed by reusing the production identity path `verify.check_w3_over_real_materials`
+already established. `real_materials_export_status` is now **read-only by default**; producing
+artifacts is an explicit step.
+
+    before  KNOWN GAP: 5 of 5 real area document(s) export nothing            rc=1
+    after   0/2 complete — determined ABSENT (toolchain usable, never produced) rc=1
+    --produce-real-materials  2/2 areas carry all four formats                rc=0
+
+**SC-012 — exports now honour `redactions.jsonl`, and the guard OUTRANKS the review check.**
+Measured today: **0 of 97** distinct cited pids resolve redacted against 10 redacted pids — so the
+guard is **green by measurement today and enforced by construction from now on, which are
+different facts** and are recorded as such. The publication act itself was verified rather than
+assumed: **116 six-word shingles** drawn from the 10 redacted passages, checked against all **8**
+produced artifacts (4 formats × 2 areas), extracting PDF via `pdftotext` and DOCX via `pandoc` —
+**0 hits**.
+
+**T052 — SC-009 now has a gate, over TWO FULL POPULATIONS, neither sampled.** 96 of 96 served
+media-backed citations land inside their cited span; 3 of 3 authored `cite: PID` markers do too.
+`precision_split` over the cited subset: **word 85, segment 11**. **An honest boundary is stated
+in the gate itself:** the `recording_seek` check is **NOT independent today** — 95 of 95 equal
+`t_start_s`, so the agreement is structural — and it is reported separately **so nobody reads it
+as corroboration**. The cited-subset distribution is printed beside the spec's corpus-wide figures
+so the two populations are never conflated.
+
+**Verified independently, both directions of the review gate:** reviewed area → `exportable true`,
+4 formats present with hrefs and sizes; unreviewed → `exportable false`, 0 formats, and the
+**`source_document` and `lesson_sections` keys ABSENT entirely** — not null, absent. Nothing
+bypassed.
+
+**FOUR TASKS REFUSED, each with a measured reason — and one refusal is the important kind.**
+`T031` (the prose-authorship clarification is genuinely open; `spec.md:163` still reads OPEN),
+`T042` and `T050` (premises re-verified unchanged; not this surface). **`T033` was refused because
+closing it means hand-auditing ~161 claim blocks and rewriting them as citations or editorial
+blockquotes — i.e. AUTHORING AREA PROSE, which the brief forbade.** Measured: 177 of 532 claim
+blocks violate W2 raw, and the 3 unreviewed areas carry 161 of them.
+
+Proofs: `prove-sc024-export-matrix.sh` **8 of 8 mutations caught** — including M8, which refuses
+the reference implementation's own "34 published / 25 complete" figure as a bar — and
+`prove-sc009-citation-span.sh` **9 of 9**, with M6/M7/M8/M9 distinguishing rc=1 from rc=2
+correctly. Gates directory byte-identical by sha256 before and after both runs. Index
+`root_hash sha256:03d91626…` unchanged; no rebuild was needed.
+
+**Three findings handed on rather than absorbed:** `verify-limits-completeness.sh` was **already
+RED at HEAD** — reproduced against `HEAD:` blobs, its anchor vanished when §10.9 was retitled
+yesterday, so it is not this work's doing; `test_export.py::test_probe_toolchain…` is **FLAKY**,
+freezing the failure string `[object Object]` when real `mmdc` fails two different ways (the
+verdict is UNUSABLE either way); and `platform/gates/verify-retrieval-benchmark.sh` appeared
+untracked and **unregistered**, surviving only because the registry's own `scanroot-attribution`
+debt row means there is **no directory-wide anti-drift over `platform/gates/`**.
 
 #### A19 — T055 WIRED. T101 confirmed the WRONG fix and left unwired, with a false claim corrected.
 
