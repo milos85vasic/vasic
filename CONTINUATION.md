@@ -177,7 +177,7 @@ comment in the manifest, not a `deps[]` entry, and C6 checks that both ways.)
 | Submodule | Gitlink | Notes |
 | --- | --- | --- |
 | `submodules/constitution` | `3be10826f3d236edcdb62b7cba81cda4e6d0d47a` | **EQUAL TO ITS REMOTE**, measured 2026-09-02 — no longer the drift row. `HEAD` still records `f16ea779b82a`, so the index carries a **STAGED, uncommitted** two-step fast-forward `f16ea779 → f5876a3b → 3be10826`, each leg verified `--is-ancestor` TRUE with 0 divergent. `helix-deps.yaml` moved with it. See the pin block below. |
-| `submodules/passage` | `a0ac03d6c154b3b90392845a3c30064dd3172225` | match · remote CURRENT |
+| `submodules/passage` | `729cd96a39fefff5675570adff2eeba4faed0d26` | match · remote CURRENT |
 | `submodules/verdict` | `477dc35afe60f5f2f94d0c902a5a7a7ce0e4ec6b` | match · remote CURRENT |
 | `submodules/LLMProvider` | `3c1cef79eb95039ed9a414e1c568a815df6dcde9` | match · remote CURRENT |
 | `submodules/RAG` | `8aee628e473160c76b9eca99404978c02dd992eb` | match · remote CURRENT |
@@ -2414,7 +2414,7 @@ git -C workshop ls-tree -r --name-only HEAD | wc -l
 **Done (2026-09-01), on explicit operator authorization — "Publish v0.2.0 now".**
 `v0.2.0` was cut at `80f65382007f11d461d8f3065efc3f0b9933b9a9` — the word "now"
 this sentence used to carry is withdrawn, because **the gitlink has since moved
-to `a0ac03d6c154b3b90392845a3c30064dd3172225`** (measured 2026-09-02, remote
+to `729cd96a39fefff5675570adff2eeba4faed0d26`** (measured 2026-09-02, remote
 CURRENT). The tag still names the commit below; the submodule has moved past it.
 Annotated tag `v0.2.0` (tag object `a82f3cc2f8781ac8b2e969bb631eb6bddac89460`),
 pushed to BOTH mirrors and verified on each **independently with `git

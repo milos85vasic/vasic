@@ -259,7 +259,7 @@ deps:
 
   - name: passage
     ssh_url: git@github.com:vasic-digital/passage.git
-    ref: "a0ac03d6c154b3b90392845a3c30064dd3172225"   # tag v0.2.0 points at this commit; the sha is the exact pin
+    ref: "729cd96a39fefff5675570adff2eeba4faed0d26"   # tag v0.2.0 points at this commit; the sha is the exact pin
     why: "Stable identity for citable spans of text: a pid is a ULID minted ONCE at ingest, derived from neither content nor position. Both alternatives were measured and both fail in opposite directions — a content-derived id changed when one typo was fixed, and a positional key moved every range when a section was prepended; under either, citations break WHILE THE UI KEEPS RENDERING LINKS to the wrong text. Ships PID/Minter, three anchor modes (inline / sidecar / registry_only), a JSONL-authoritative Registry with a derived SQLite+FTS5 index, and a four-state Outcome in which an unreadable registry surfaces as 503 rather than a 404 claiming the passage does not exist. Extracted from workshop/platform/libs/ and published PUBLIC for the same §11.4.28 reason as verdict. Go module `github.com/vasic-digital/passage`. Catalogue-check §11.4.74: Embeddings is provider adapters only with no identity seam, RAG's chunker is positional (Start/End — the design passage measured and rejected), Document models whole files not spans, and docs_chain is content-hashed — the property passage exists to avoid."
     layout: grouped
     # Live topology: origin fetches AND pushes github.com:vasic-digital/passage.git;
