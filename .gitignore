@@ -88,3 +88,42 @@ MANUAL-STEPS.md
 
 # Local .git backup snapshots of submodules (multi-GB pack files). Never commit.
 workshop-git-backup-*/
+
+# ── Docs Chain (§11.4.106) runtime state and per-run evidence ──────────────
+# The per-context YAML under .docs_chain/contexts/ IS tracked — it is the
+# binding itself, and an untracked binding binds nothing (§11.4.215). Only the
+# regenerable hash baseline and the per-run evidence pack are ignored, exactly
+# as the docs_chain module's own .gitignore prescribes for a consuming project.
+# Regeneration mechanism per §11.4.77: `docs_chain sync --all`.
+.docs_chain/state.json
+*.docs_chain.tmp
+/qa-results/docs_chain/
+
+# ── §11.4.65 Markdown exports: generated on disk, NOT versioned ────────────
+# The `.html` + `.pdf` siblings Docs Chain derives from every in-scope `.md`.
+# They EXIST and stay in sync — that is what §11.4.65 protections 1 and 2
+# require, and scripts/verify-docs-chain.sh checks it ON DISK, not in the
+# index, so ignoring them does not weaken the gate by one assertion.
+#
+# They are not tracked, for a MEASURED reason (2026-09-03). The content-boundary
+# gate reads a text-bearing PDF via pdftotext and HTML as text, so each export
+# re-presents its source's full text to the detector. Measured on this tree:
+#
+#     tracked-only          LEAK — 11973 match(es)
+#     + the 146 exports     LEAK — 24759 match(es)      +12786, +107%
+#
+# Tracking them would therefore more than DOUBLE a gate that is already red by
+# design and must stay readable, while disclosing nothing new — every export is
+# a rendering of a `.md` that is already public. §11.4.30 forbids versioning a
+# build derivative and §11.4.77 is satisfied: the regeneration mechanism is
+# `docs_chain sync --all`, wired and gated.
+#
+# This also resolves, coherently, the pre-existing asymmetry in which the root
+# `/*.pdf` rule above ignored the root PDFs while the root HTML would have been
+# tracked. Reversing this decision is one commented block; the exports are
+# regenerable, so nothing is lost either way.
+/*.html
+/docs/**/*.html
+/docs/**/*.pdf
+/specs/**/*.html
+/specs/**/*.pdf

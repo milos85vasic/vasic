@@ -124,6 +124,7 @@ exempt	scripts/lumen-reindex.sh	mutator: rebuilds the Lumen index; its verdict i
 exempt	scripts/ollama-vulkan-remediation.sh	remediation tool: takes the GPU out of ollama's embedding path; it changes host state rather than judging it
 exempt	scripts/rollback-agents-wizard.sh	rollback tool: replays a setup-agents-wizard manifest in reverse
 exempt	scripts/setup-agents-wizard.sh	interactive installer wizard: mutates $HOME and agent configuration
+exempt	scripts/gen-docs-chain-contexts.sh	generator: DERIVES the Docs Chain contexts from the tree so a document added later is bound; it writes configuration rather than judging the tree. Its output IS judged — scripts/verify-docs-chain.sh re-derives it and FAILS on any difference
 
 # ── Conforming checks: paired proof AND three-valued exit, both verified ─────
 check	constitution-inheritance	tests/test_constitution_inheritance.sh	flag	--prove-failure	--root /nonexistent
@@ -166,3 +167,4 @@ check	mutation-anchor-rot	scripts/verify-mutation-anchors.sh	flag	--prove-failur
 check	private-object-exposure	scripts/verify-private-object-exposure.sh	flag	--prove-failure	--root /nonexistent
 check	remedy-executability	scripts/verify-remedy-executability.sh	flag	--prove-failure	--root /nonexistent
 check	name-in-path	scripts/verify-name-in-path.sh	flag	--prove-failure	--root /nonexistent
+check	docs-chain-sync	scripts/verify-docs-chain.sh	flag	--prove-failure	--root /nonexistent

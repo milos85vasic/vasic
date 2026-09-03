@@ -274,6 +274,14 @@ if [[ "$MODE" == "prove" ]]; then
     allow_baseline() { plant "$1" && printf '# BASELINE: synthetic known-unfixed finding\nscripts/tool.sh\n'   > "$1/.hardcoded-paths-allow"; }
     allow_unmarked() { plant "$1" && printf '# just a comment, no marker at all\nscripts/tool.sh\n'            > "$1/.hardcoded-paths-allow"; }
     stale_baseline() { printf '# BASELINE: names a file that no longer offends\nsrc/main.go\n'                 > "$1/.hardcoded-paths-allow"; }
+    # H11/H12: a URL is a REMOTE address. A path-shaped run inside one is not a
+    # machine-specific path, and this audit really did report a research citation
+    # whose vendor URL contains "/home/publications/". H11 proves the false
+    # positive is gone; H12 proves the exemption did not become a hiding place --
+    # a genuine literal on the SAME LINE as such a URL must still be caught, or
+    # the fix would have handed anyone a one-line way to smuggle a path past it.
+    plant_url()          { printf 'ref <https://example.invalid/home/publications/x>\n' >> "$1/scripts/tool.sh"; }
+    plant_url_and_real() { printf 'ref <https://example.invalid/home/publications/x> DATA="%s"\n' "$SYN_PLANT" >> "$1/scripts/tool.sh"; }
     not_a_repo()     { rm -rf "$1/.git"; }
     no_such_dir()    { rm -rf "$1"; }
     empty_universe() { local d="$1"; rm -rf "$d"; mkdir -p "$d" && sgit -C "." init -q "$d" >/dev/null 2>&1; }
@@ -295,6 +303,8 @@ if [[ "$MODE" == "prove" ]]; then
     p_assert "H7 target-absent"      "the target directory does not exist — cannot be inspected      " 2 "no such directory"        no_such_dir
     p_assert "H8 not-a-git-tree"     "the target is not a git working tree — nothing to enumerate    " 2 "not a git working tree"   not_a_repo
     p_assert "H9 empty-universe"     "zero tracked files — a clean verdict over nothing is a bluff   " 2 "scan universe is empty"   empty_universe
+    p_assert "H11 url-is-not-a-path" "a REMOTE URL whose path happens to contain /home/ — not local    " 0 "no machine-specific"     plant_url
+    p_assert "H12 url-hides-nothing" "a real literal on the SAME LINE as such a URL is still caught    " 1 "scripts/tool.sh"         plant_url_and_real
     p_assert "H10 uninit-submodule"  "a declared submodule is not checked out — NOT a pass, NOT a fail" 2 "not initialised"         uninit_sub
 
     # ---- restored control ----------------------------------------------------
@@ -607,7 +617,16 @@ FNR == 1 {
 {
     if (style == 1 && $0 ~ /^[[:space:]]*#/) next
     if (style == 2 && $0 ~ /^[[:space:]]*(\/\/|\*|\/\*)/) next
-    if ($0 ~ pat) {
+    # A path-shaped substring INSIDE a URL is not a machine-specific path, and
+    # treating one as a finding is a false positive this audit actually produced:
+    # a research citation whose vendor URL contains "/home/publications/" was
+    # reported as somebody home directory. Nothing on a remote host can be a
+    # local path, so URL tokens are blanked BEFORE the pattern is applied.
+    # The probe is a COPY -- the excerpt printed below is still the ORIGINAL
+    # line, because a reader has to see what was actually written.
+    probe = $0
+    gsub(/[a-zA-Z][a-zA-Z0-9+.-]*:\/\/[^[:space:]<>)\]"]*/, " ", probe)
+    if (probe ~ pat) {
         # The record is TAB-separated and the excerpt is its last field, so any
         # TAB inside the source line would split it and print an empty excerpt.
         # Go and Makefile sources are TAB-indented, so this is not theoretical:

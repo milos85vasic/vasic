@@ -1,0 +1,90 @@
+# =============================================================================
+# compose.sites.yml — container definitions for this umbrella's SITE BUILDS.
+#
+# NOTHING starts these services by hand. They are brought up, waited on,
+# inspected and torn down by _tools/containers/cmd/site-build, which drives the
+# runtime exclusively through `digital.vasic.containers`
+# (pkg/runtime + pkg/compose + pkg/logging). Per §11.4.76(1) and (4) the
+# Containers Submodule is the orchestration authority; this file is the
+# service DEFINITION it consumes, not a parallel orchestrator.
+#
+# Why there is no Containerfile here. Both services run a STOCK upstream image
+# with a bind-mounted entrypoint script. Nothing about this workload needs a
+# derived image, so none is built: the smallest thing that fixes the problem is
+# the right thing, and an image we would have to build, tag, cache and keep
+# current is a maintenance surface we do not need. If a derived image ever IS
+# needed, §11.4.76(4) says extend `vasic-digital/containers`
+# (pkg/crossbuild already ships Containerfiles and a Backend seam for exactly
+# that) rather than growing one in this tree.
+#
+# Every image reference and every path is env-derived with a documented
+# default, so a second checkout, a different image tag or a pinned digest needs
+# no edit to this file:
+#
+#   VASIC_ROOT           absolute path of the umbrella repository root
+#                        (REQUIRED — site-build always sets it)
+#   VASIC_JEKYLL_IMAGE   Ruby image for the Jekyll build
+#   VASIC_GO_IMAGE       Go image for the generator's unit tests
+#   VASIC_BUILD_YEAR     optional footer © year pin (see jekyll-build.sh)
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # jekyll-build — rebuild milosvasic.ru/_site.
+  #
+  # This is the service that closes a MEASURED reproducibility hole. On the
+  # development host `bundle exec jekyll` exits 127 and `bundle install` cannot
+  # complete: ruby 3.3.8 is installed but `libruby-devel` is not, so the `json`
+  # gem's C extension fails at extconf with "mkmf.rb can't find header files
+  # for ruby". Installing that package is a root-level operator action. The
+  # container carries its own headers and toolchain, so the build works with no
+  # host privilege at all — for every clone, not only this machine.
+  # ---------------------------------------------------------------------------
+  jekyll-build:
+    image: ${VASIC_JEKYLL_IMAGE:-docker.io/library/ruby:3.3}
+    container_name: vasic-jekyll-build
+    working_dir: /site
+    environment:
+      BUNDLE_PATH: /bundle
+      BUNDLE_JOBS: "4"
+      JEKYLL_ENV: production
+      BUILD_YEAR: ${VASIC_BUILD_YEAR:-}
+    volumes:
+      - ${VASIC_ROOT:?VASIC_ROOT must be set - run via _tools/containers/cmd/site-build}/milosvasic.ru:/site
+      - ${VASIC_ROOT:?VASIC_ROOT must be set}/_tools/containers/compose/jekyll-build.sh:/opt/build/jekyll-build.sh:ro
+      - jekyll-bundle:/bundle
+    command: ["bash", "/opt/build/jekyll-build.sh"]
+    restart: "no"
+
+  # ---------------------------------------------------------------------------
+  # gen-test — run the Go generator's unit tests on a PINNED toolchain.
+  #
+  # `cd _tools/gen && go test ./...` already works on this host, so this service
+  # does not fix a broken thing; it removes the dependency on whichever Go the
+  # host happens to carry. It shares no state with the Jekyll service and does
+  # not write into the source tree (GOCACHE/GOMODCACHE are named volumes).
+  # ---------------------------------------------------------------------------
+  gen-test:
+    image: ${VASIC_GO_IMAGE:-docker.io/library/golang:1.26-alpine}
+    container_name: vasic-gen-test
+    working_dir: /src/_tools/gen
+    environment:
+      GOCACHE: /gocache
+      GOMODCACHE: /gomodcache
+      GOFLAGS: -mod=mod
+    volumes:
+      - ${VASIC_ROOT:?VASIC_ROOT must be set}:/src
+      - go-build-cache:/gocache
+      - go-mod-cache:/gomodcache
+    # -count=1 defeats Go's test cache ON PURPOSE. A cached "ok" is a replay of
+    # a result produced somewhere else at some other time; it is not evidence
+    # that anything ran in this container, and this workload's only claim IS
+    # that it ran here.
+    command: ["go", "test", "-count=1", "./..."]
+    restart: "no"
+
+volumes:
+  jekyll-bundle:
+  go-build-cache:
+  go-mod-cache:

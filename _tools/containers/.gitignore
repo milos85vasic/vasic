@@ -1,0 +1,14 @@
+# The compiled orchestrator. Built on demand by _tools/gen/build.sh (and by
+# hand with `go build -o bin/site-build ./cmd/site-build`), never versioned —
+# §11.4.30 forbids committing a build derivative.
+#
+# It is BUILT rather than `go run`-ed for a measured reason: `go run` collapses
+# every non-zero program exit into 1 and prints "exit status N", which destroys
+# this program's three-valued contract. Measured 2026-09-03, same binary, same
+# arguments:
+#
+#   go run ./cmd/site-build -root /tmp -probe   -> rc 1   (wrong)
+#   ./bin/site-build        -root /tmp -probe   -> rc 2   (correct: COULD NOT DETERMINE)
+#
+# A 2 that arrives as a 1 is an UNDETERMINED result reported as a real failure.
+/bin/

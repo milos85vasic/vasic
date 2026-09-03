@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-03T18:16:41Z
-    Synced-Commit: 86f2a223
+    Last-Updated: 2026-09-03T18:51:57Z
+    Synced-Commit: 624bb3b
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -544,6 +544,275 @@ mechanical type that T1 currently MASKS. The 13 remaining B1 rows match the firs
 Analysis: `workshop/docs/session-evidence/phase3e-contradiction-typology.md`; re-derivable by the
 read-only `workshop/pipeline/extract/analyze_r3_contradictions.py`. **Nothing was resolved,
 merged, discarded or applied; T041 remains `[ ]`.**
+
+#### A59 — the platform SPECIFICATION written: 10 pages, **48 invariants of which 8 are named UNGATED**, and the entry condition was CLOSED rather than ignored.
+
+**The stub's entry condition was not met, and the agent closed it instead of
+proceeding around it.** It required every research finding to already exist as a
+provenance row; measured, there was **1 material and 0 claims**. So it ran the
+section's own ingestion phases first: **9 materials, 9 captures, 90 claims — all
+90 cited**, split 58 `source` / 32 `us` and **82 `unverified` / 8 verified**, with
+`unverified` correctly the default rather than an embarrassment to hide.
+
+**Eight of those claims it verified ITSELF rather than inheriting.** It re-fetched
+the incumbent's contract page live and confirmed the load-bearing absences by
+direct count — *trial*, *pilot*, *evaluation*, *convenience*, *token*,
+*benchmark*, *accuracy* **all zero**. And both reference repositories' heads,
+captured today, **equal the commits the architecture studies pinned**, so those
+studies are provably current against their subjects rather than assumed to be.
+
+**THE ARCHITECTURAL POSITION — partition by ownership, NOT compromise.** The two
+reference strategies are not averaged; they are assigned by role. Everything that
+**decides** is wired in code, whole-graph validated, and **refuses to boot** if
+any verifier, oracle, grader or evidence sink is unprovided. Everything that
+**does** is wired in data — printable, addressable, replaceable — and degrades
+through a graded capability that reaches the verdict. **The stated reason is the
+good part: averaging the two would give a kernel large enough to be rigid and
+permissive enough to boot half-wired** — the worst of both. Dependency inversion
+sits in **two** places deliberately: typed tokens checked at build time in the
+deciding plane, manifest rows swappable without a rebuild in the doing plane. One
+deliberate divergence from the reference: **an unresolved patch target is a boot
+failure, not a silent skip.**
+
+**How a verified outcome is proven, and four things make it checkable rather than
+described:**
+- **`owner` on every fee-linked check**, so a *platform-authored* check is **not
+  fee-linked without countersignature**. That is the contract-level answer to
+  "the agent influenced its own tests" — the failure the landscape study measured
+  as agents scoring near-perfect against an oracle while shipping broken code.
+- **Check state is restored BEFORE grading**, and the result re-measured
+  externally from a clean root, with the untouched set asserted byte-identical.
+- **Four independence tiers** stated on the bundle, plus five anti-gaming
+  instruments with a capped-check tripwire.
+- **A six-command recipe the CLIENT runs themselves**, ending in a digest
+  comparison that must collapse to one. *A proof the buyer can re-run is worth
+  more than any attestation we sign.*
+
+**48 invariants: 40 gated, 8 NAMED UNGATED — and only 2 of the 40 gates exist
+today.** Three of the eight are **unfalsifiable by any machine** and are bounded
+by a **priced human process** rather than pretended into engineering. Naming the
+ungated ones is the direct answer to the study's sharpest negative result: *a
+team with 193 scripts and 1,717 decision records still eroded on the one rule
+they did not gate.*
+
+**It caught its own arithmetic and withdrew it in the page.** A hand count of
+"38 · 30 · 1" was published, then re-derived from the tables and **withdrawn by
+name**, with the re-derivation command printed beside it.
+
+**Twenty open questions, honestly enumerated.** The load-bearing ones: nobody has
+established **who actually pays for verification** — the evidence points at the
+agent *vendor*, not its customer; **no study measures verification at repository
+scale**, so the central claim has no external base rate; every amount is `TO BE
+SET`; and **the ingestion document promises a phase-5 tool that does not exist.**
+
+**Q3 was recorded as open and is now CLOSABLE — a timing artifact worth noting.**
+It states the commercial model rests on no research because the landscape's first
+axis was an empty placeholder. **That was true when read and false thirty minutes
+later** — the landscape agent finished afterwards and that axis is now fully
+populated. Re-grounding is assigned. *Two agents working the same corpus in
+parallel will each be right about a file the other is still writing.*
+
+**Two measured boundaries stated rather than glossed:** the operator's
+token-cost premise is **refuted by the incumbent's own published evidence** and
+the specification does **not** build on it; and **six of eight diagrams could not
+be validated on this host** — the renderer fails on a deliberate two-line control,
+so it is recorded as could-not-determine rather than claimed as a pass.
+
+#### A58 — landscape study: **the benchmark ground is unsound, the wedge is narrower than assumed, and one unfilled research gap sits directly under the platform's core claim.**
+
+**Recorded by POINTER only** — 4,063 lines in the private module, every finding
+carrying a source URL, a fetch status, and a **CLAIM-or-MEASURED label**. The
+umbrella gets the strategic shape, not the material.
+
+**THE FINDING THAT UNDERMINES BENCHMARK-BASED CLAIMS GENERALLY.** The industry's
+most-cited coding benchmark was **retracted by its own steward** after an audit
+found **59.4% of problems flawed** — and its recommended **replacement was
+retracted five months later at ~30% broken**. The stated root cause is
+**specification, not capability**. *Any platform whose credibility rests on a
+benchmark number is building on ground that has collapsed twice in one year.*
+
+**Two more results that constrain the design rather than decorate it:**
+- Given a **formal** specification, verified generation reaches 82% — and
+  **natural-language descriptions add nothing measurable.** Specification
+  acquisition, not generation, is the binding constraint.
+- Agents score near-perfect against a 222-test oracle **while shipping
+  non-functional code**, and chain-of-thought is faithful **under 2%** of the
+  time once a model has hacked something. **A system cannot be trusted to
+  narrate its own correctness** — which is precisely why an oracle must be
+  denied write access to what it checks.
+
+**On the commercial thesis, the evidence is more ambiguous than the competitor
+analysis suggested.** Four of six vendors with a published definition make
+**customer silence** the billing trigger; one bills on a click; one states that
+negative feedback *"will not change the resolution status"*; one grants **no
+audit right** at all. Only **one** documented adjustment mechanism exists in the
+entire category. Adoption sits at **19% of buyers / 13% of agreements**. And the
+strongest cautionary case escalated **4× to ~$1.2B** while the inquiry found **no
+breach of any term** — the failure was scope *definition*.
+
+**The counter-arguments were steelmanned as instructed, and three land hard.**
+Independent measurement puts savings at *"unremarkable"* 10–15%, with one study
+measuring **−19%**. Agency theory says the optimal outcome share is **well below
+1**, while a pure outcome price sets it **at 1**. And every mature outcome-priced
+industry **selects against hard work**. *One applies to this project directly:
+hedged, evidence-qualified output measurably scores LOWER with human raters* —
+which is the cost of the discipline this whole document is written in, stated
+plainly rather than wished away.
+
+**THE MOST ACTIONABLE RESULT — an unfilled gap the operator could fill and
+own.** The strongest oracle-free verification result (75% detection at 8.6%
+false positives, via metamorphic testing) is measured on **single functions**.
+**No study measures property-based or metamorphic verification against
+multi-file agent deliveries.** That gap sits **directly under the platform's core
+claim**, and it is fillable by measurement rather than argument. *Owning a
+measurement nobody has taken is a stronger position than owning an opinion
+everybody has.*
+
+**Commoditised, so effort should not go there:** scaffolds, tool protocols,
+sandboxes at near price parity, orchestration frameworks, code generation, AI
+code review, verified generation *given a spec*, and the supply-chain attestation
+plumbing. **Three-valued outcomes are prior art** in metrology and program
+analysis — this project's novelty is in propagation and aggregation semantics,
+not the idea.
+
+**And the evidence layer's own lesson mirrors ours: enforcement, not
+availability, is the dominant variable.** The one registry that **mandates**
+signing reaches **97.1%**; every registry that merely offers it sits **under
+2%**. Attestation hardware keys were extracted for **under $1,000**, with forged
+quotes accepted by the vendor's own verifier at its highest trust level.
+
+**Honest limits, volunteered:** several foundational sources could not be
+obtained by any route; every figure from one cloud vendor's formal-methods record
+is **that vendor's account of its own success**; and **no lawsuit or regulator
+action over AI outcome billing exists**, so the legal risk is unpriced rather
+than low. The agent also **flagged its own ranking as wrong in-document** and
+**withdrew one of its own URL-log errors by name**.
+
+#### A57 — decisions 49/50 EXECUTED. **The acceptance test PASSED: 0 of 27 terms survive a rebuild.** "2 of 27" was wrong — it is 3. Three residues stay open.
+
+**The ratification could not be a new field, and that constraint produced the
+right answer.** The append-only log's schema is closed — unknown fields
+disallowed, two actions only, contiguous sequence — and re-appending under a new
+reason code is **correctly refused**. So ratification is a re-affirming entry per
+pid: same identifier, same action, **same reason code**, new author and
+timestamp. **48 entries appended; the first 142 lines are byte-identical to the
+pre-session backup and the effective state is unchanged.** Both refusal paths
+were demonstrated **against the real log**, with its digest verified untouched
+afterwards.
+
+**"2 of 27" is SUPERSEDED BY MEASUREMENT: it is 3.** The third was invisible to a
+byte-level whole-word test and appears only through **the real production
+decision point**, which normalises punctuation. *A figure derived from a proxy
+test rather than the deciding code was wrong by one, and the deciding code is the
+only one that counts.* Five visible source passages were withheld under a **new
+reason code naming a distinct ground** — never folded into the original findings.
+The cascade closed at **0**; the log stands at 197 entries and 149 suppressed
+pids.
+
+**The 180-second blocker was fixed WITH the measurement that justifies the new
+value.** A full run from clean takes **241.9 s**, of which the minting stage
+alone takes **199.0 s** — *above the old bound*, so **the two earlier attempts
+could not have succeeded at any host load**. That reclassifies the earlier
+could-not-determine from "the machine was busy" to "the limit was wrong". The new
+bound is 600 s, matching what a sibling tool has carried for the same batch
+through the same bridge. A second blocker was also real: the export surface could
+not resolve a file-plus-JSON-pointer reference, which two of the five passages
+carry.
+
+**THE ACCEPTANCE TEST PASSED, and it is the whole point of decision 50.** A real
+regeneration from clean produced the rebuild — no longer a could-not-determine —
+and **0 of 27 terms were re-emitted, with 0 present anywhere in the regenerated
+index**. The regenerated taxonomy holds 8,507 live term rows and **0 withdrawn**,
+because *the strings were never emitted, so there was nothing to withdraw.*
+
+All gates green: review check, real apply, an idempotent re-run changing **zero
+bytes**, 278 Python tests, the Go suite, redaction propagation 7/7, derived-leak
+4/4, limits 15/15, both registries, and the closure check at 31 ids / 0
+unattached.
+
+**THREE RESIDUES, none closed, and the second is a genuine instrument
+limitation:**
+1. **The set grew 27 → 30 and 3 of the 30 re-derive** — but those three are
+   **collateral withdrawals caused by evidence exhaustion**, not judged unsafe.
+   Recursing the rule onto them would suppress the corpus for no privacy gain, so
+   the agent **stopped at the set the ruling named** rather than expanding its own
+   mandate.
+2. **A nine-character withdrawn term survives in two derived files**, inside a
+   longer string that the exact-replacement pass had nothing to match. **The
+   residual sweep flagged it once and can never flag it again** — the texts are
+   collected *before* materialisation, so on any later run the row already holds
+   the marker. *A one-shot warning is nearly as bad as none*, and it was reported
+   rather than quietly absorbed. The sweep was **not** weakened and no length
+   threshold was added.
+3. **Four visible minted rows carry one of the terms whole-word** and the
+   value-level closure does not name them, because its tokenisation differs from
+   the Python rule's. They do not affect regeneration but they **are served
+   rows**. The tool declined to suppress them on its own authority, and so did
+   the agent.
+
+#### A56 — PenPot wired and a design system whose single source is **PROVEN, not asserted**. And a measured gap: **the data model carries materials the UI cannot render.**
+
+**Decision 3 ("do both") executed.** PenPot is a seven-service compose driven by
+**the existing containers orchestrator** — so §11.4.76 is satisfied with **no new
+orchestration code and no Containerfile**, which is what that anchor demands
+rather than merely prefers. Validated: the compose configuration parses at exit
+**0** with every variable interpolating.
+
+**Six deviations from upstream, each with a stated reason, and two are security
+judgements rather than taste:** there is **no default for the secret key**, so a
+missing secret is a **refusal to start** rather than a silent weak default; and
+every bind is pinned to loopback, because upstream ships email verification
+disabled on **all interfaces** — which on a reachable host is an open-signup
+design tool.
+
+**Nothing was started.** Seven long-lived containers is an operator decision, and
+the runtime claims are therefore upstream documentation plus a validated compose
+file — **not an observation**, and labelled as such.
+
+**The design system's single-source claim is proved by execution.** The build
+parses the **live** brand stylesheet and compares every generated declaration
+per theme against it: **84 of 84 identical**. Six artifacts derive from one token
+source, so a value that could be edited in two places does not exist.
+
+**Three gates, each mutation-proved in both directions — and one of them
+overruled its own author.** The contrast gate **rejected the agent's first
+graph-edge colour** at 2.56:1 against a 3:1 requirement; the committed value is
+the one that passed. *A gate that constrains the person who wrote it is worth
+more than one that ratifies them.* The round-trip mutation also demonstrated
+propagation rather than a single hit — one changed hex surfaced **two** dependent
+tokens.
+
+**The token emitter caught two real bugs during testing**, both of the kind that
+ship silently: relative units emitting **unitless**, so a `1rem` value became
+`1` — **sixteen times too small** — and alpha being dropped whenever the base was
+an alias.
+
+**A sibling generator was assessed and deliberately NOT reused, with measured
+reasons rather than preference** — it is seed-driven where this brand's ramp is
+hand-tuned, and it hardcodes constants that **contradict the live brand**. Its
+own header calls its output a *candidate, not the live CSS*. **Reuse is mandatory
+where it fits; claiming a fit that is not there would be worse than writing
+new code.**
+
+**The finding that matters for the workshop UI: the data model types material
+kinds the interface cannot render.** Zero of the 42 + 83 existing style classes
+define any code, syntax, diagram or template role, and the frontend carries **no
+highlighting, markdown or diagram dependency at all**. The component inventory
+adds five new entries to close that.
+
+**A correction to my own brief, and it left a real gap:** I told the agent the R5
+sweep is recursive over `.sh` and `.py`. That is the **workshop** registry; the
+**umbrella** registry is depth-1 and `.sh`-only. Its new gate is written in a
+third language under `docs/`, so it is **enumerated in no registry at all** —
+and registering it means attributing the work to one spec or the other, which is
+exactly the per-file judgement the standing `cross-registry-attribution` debt row
+**refuses to guess at**. Flagged as an operator decision rather than guessed.
+
+**Could not determine, stated plainly:** no instance was started, so no runtime
+behaviour was observed; the content-boundary gate **timed out at 400 s** under
+host load so its post-change reading is unknown (all files written were inside
+the private module); and one token type's value shape was **omitted rather than
+guessed**, with the omission printed on every run.
 
 #### A55 — SC-015 **7/22 → 15/22**, and the fix was NOT the widening. **The reranker was a net negative.** Index lifecycle fixed; **268 MiB reclaimed**.
 

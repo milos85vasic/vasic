@@ -346,12 +346,96 @@ gen_site milosvasic.ru
 
 if [ -z "$OUT" ] && [ "$DO_JEKYLL" -eq 1 ]; then
   echo "[build] rebuilding milosvasic.ru/_site (jekyll) ..."
-  # Pin the footer © year deterministically (§11.4.65) via an ephemeral,
-  # gitignored config override; falls back to 'now' if absent (ad-hoc builds).
-  printf 'build_year: %s\n' "$BUILD_YEAR" > "$ROOT/milosvasic.ru/_config.deploy.yml"
-  ( cd "$ROOT/milosvasic.ru" && jekyll build --quiet --config _config.yml,_config.deploy.yml )
-  rm -f "$ROOT/milosvasic.ru/_config.deploy.yml"
-  echo "[build] _site rebuilt"
+
+  # ── WHICH JEKYLL? Resolved, never assumed ──────────────────────────────────
+  # This step used to call a BARE `jekyll`. On this development host that binary
+  # is not on PATH at all (`bundle exec jekyll` exits 127) and `bundle install`
+  # cannot fix it: ruby 3.3.8 is installed but `libruby-devel` is NOT, so the
+  # `json` gem's C extension dies at extconf with "mkmf.rb can't find header
+  # files for ruby". Installing that package is a ROOT-level operator action.
+  #
+  # The measured consequence of leaving it broken was not a loud failure — it
+  # was a QUIET one. `set -e` aborted this script here, so _site was simply
+  # never rewritten, while _tests/playwright.config.js kept serving that same
+  # directory. Gate 6 went on reporting a green suite against an artifact that
+  # was six days old.
+  #
+  # So the strategy is RESOLVED at run time, with the winner printed:
+  #   container — the compose service driven by _tools/containers/cmd/site-build,
+  #               which orchestrates podman/docker only through the canonical
+  #               Containers Submodule (§11.4.76). Needs no host ruby at all.
+  #   host      — `bundle exec jekyll`, when the gems really are installed.
+  #   VASIC_JEKYLL_MODE=container|host|auto  forces or frees the choice (auto).
+  #
+  # Container FIRST in auto mode, because it is the mode that works on a clone
+  # with nothing but a container runtime, and the one that cannot silently drift
+  # with whatever ruby the host happens to carry.
+  JEKYLL_MODE="${VASIC_JEKYLL_MODE:-auto}"
+  SITE_BUILD_DIR="$ROOT/_tools/containers"
+  SITE_BUILD_BIN="$SITE_BUILD_DIR/bin/site-build"
+
+  # BUILD the orchestrator; do NOT `go run` it. `go run` collapses every
+  # non-zero program exit into 1 and prints "exit status N" instead, which
+  # destroys the three-valued contract this tree depends on. Measured
+  # 2026-09-03, same code, same arguments:
+  #     go run ./cmd/site-build -root /tmp -probe   -> rc 1   (wrong)
+  #     ./bin/site-build        -root /tmp -probe   -> rc 2   (COULD NOT DETERMINE)
+  # An UNDETERMINED result arriving as a real failure is exactly the confusion
+  # §11.4.6 forbids, so the binary is built and invoked directly.
+  jekyll_container_ready() {
+    [ -d "$SITE_BUILD_DIR" ] || return 1
+    command -v go >/dev/null 2>&1 || return 1
+    ( cd "$SITE_BUILD_DIR" && go build -o "$SITE_BUILD_BIN" ./cmd/site-build ) || return 1
+    "$SITE_BUILD_BIN" -root "$ROOT" -probe >/dev/null 2>&1
+  }
+  jekyll_host_ready() {
+    ( cd "$ROOT/milosvasic.ru" && bundle exec jekyll --version >/dev/null 2>&1 )
+  }
+
+  run_jekyll_container() {
+    "$SITE_BUILD_BIN" -workload jekyll -root "$ROOT" -build-year "$BUILD_YEAR"
+  }
+  run_jekyll_host() {
+    # Pin the footer © year deterministically (§11.4.65) via an ephemeral,
+    # gitignored config override; falls back to 'now' if absent (ad-hoc builds).
+    printf 'build_year: %s\n' "$BUILD_YEAR" > "$ROOT/milosvasic.ru/_config.deploy.yml"
+    ( cd "$ROOT/milosvasic.ru" \
+        && bundle exec jekyll build --quiet --config _config.yml,_config.deploy.yml )
+    local rc=$?
+    rm -f "$ROOT/milosvasic.ru/_config.deploy.yml"
+    return $rc
+  }
+
+  JEKYLL_RAN=""
+  case "$JEKYLL_MODE" in
+    container)
+      jekyll_container_ready || { echo "[build] VASIC_JEKYLL_MODE=container but no container runtime/compose is available" >&2; exit 2; }
+      run_jekyll_container && JEKYLL_RAN=container ;;
+    host)
+      jekyll_host_ready || { echo "[build] VASIC_JEKYLL_MODE=host but 'bundle exec jekyll' does not run here" >&2; exit 2; }
+      run_jekyll_host && JEKYLL_RAN=host ;;
+    auto)
+      if jekyll_container_ready; then
+        run_jekyll_container && JEKYLL_RAN=container
+      elif jekyll_host_ready; then
+        run_jekyll_host && JEKYLL_RAN=host
+      else
+        echo "[build] COULD NOT DETERMINE how to build _site: no container runtime AND no working 'bundle exec jekyll'." >&2
+        echo "[build] Fix ONE of them — install a container runtime (podman/docker), or install the ruby" >&2
+        echo "[build] development headers so 'bundle install' can compile native gems — then re-run." >&2
+        exit 2
+      fi ;;
+    *)
+      echo "[build] unknown VASIC_JEKYLL_MODE='$JEKYLL_MODE' (expected container|host|auto)" >&2; exit 2 ;;
+  esac
+  [ -n "$JEKYLL_RAN" ] || { echo "[build] jekyll build FAILED" >&2; exit 1; }
+
+  # Anti-bluff: a returned-0 build step is not evidence a site exists. The
+  # container path asserts artifact freshness itself; assert existence here for
+  # BOTH paths so the host path is held to the same bar.
+  [ -s "$ROOT/milosvasic.ru/_site/index.html" ] \
+    || { echo "[build] jekyll returned 0 but _site/index.html is missing or empty" >&2; exit 1; }
+  echo "[build] _site rebuilt (mode: $JEKYLL_RAN)"
 fi
 
 echo "[build] done"
