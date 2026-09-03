@@ -188,7 +188,7 @@ comment in the manifest, not a `deps[]` entry, and C6 checks that both ways.)
 | `design-toolkit` | `e7f3815ec35c0940515296ffb3481cd0fab4bfa6` | match · remote CURRENT. The "working tree sits at `5467a888…`" caveat this row used to carry is **withdrawn** — index, `HEAD` and the GitHub origin now agree. The GitLab-mirror asymmetry below is UNCHANGED and still unverified from this tree. |
 | `ai_interviewing` | `cde474fa3e167bfd5c8e63d4ba6d4c184d4c12b6` | match · remote CURRENT |
 | `monetization` | `54ed7b0f5add52821d18866facb5ee8c75adef69` | match · remote CURRENT |
-| `workshop` | `bb66587eff8fcf52926b15f6ca52c0d5ebfd57e2` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
+| `workshop` | `29f14c4025f34a5ce63dac36163b25d5ae121bc7` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
 
 **Every SHA in the table above except `monetization` and `submodules/superspec`
 moved after the previous `Synced-Commit`, and the values this table used to
