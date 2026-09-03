@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "3be10826f3d236edcdb62b7cba81cda4e6d0d47a"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
+    ref: "2887b42e9349201cf30b1c9f97920320d28705ec"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
     why: "The Helix Universal Constitution this repository consumes — the canonical root per §11.4.35. Supplies Constitution.md + the four per-agent mirrors, find_constitution.sh, scripts/gates/ (the propagation + covenant gate family), scripts/post_update_hook.sh (§11.4.164), scripts/hooks/guard-forbidden-commands.sh (§11.4.109(A)) and templates/. Inherited BY REFERENCE, never copied (§11.4.28 / §11.4.177)."
     layout: grouped
     # Live topology: origin fetches github.com:HelixDevelopment/HelixConstitution.git
