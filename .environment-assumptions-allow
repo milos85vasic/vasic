@@ -1753,3 +1753,224 @@ workshop/pipeline/benchmark/results_jina_full_offline.json MODEL "model": "jina-
 workshop/pipeline/benchmark/retrieval_benchmark.json MODEL "embedding_model_under_test": "jina-embeddings-code-cpu"
 # REASON: the second half of the same `_meta` provenance pair, same evidence.
 workshop/pipeline/benchmark/retrieval_benchmark.json MODEL "alternative_model_tested": "nomic-embed-text"
+
+# ==============================================================================
+# 2026-09-03 — the 31 findings that landed with the retrieval-calibration, QA
+# challenge and gate-ledger work of 2026-09-02/03.
+#
+# The batch was 32. ONE of them was a real freeze and was FIXED, not filed:
+# `workshop/platform/backend/cmd/index-embed/main.go` defaulted -ollama to the
+# bare literal `http://127.0.0.1:11434` — F32's shape exactly. It was the only
+# binary here whose backend address had no variable behind it, so a host with
+# ollama elsewhere had to pass argv every time, while the server it mirrors
+# already read $WORKSHOP_OLLAMA_URL. It now
+# reads the SAME variable. Measured after the change: with the variable unset
+# `index-embed -h` prints `(default "http://127.0.0.1:11434")`, byte-identical
+# to the former literal; with it set to http://ollama.example.invalid:9999 the
+# same line prints that.
+#
+# That fix still needs ONE row, and the row is about the GATE, not the code:
+# the envd escape hatch is line-scoped and matches os.Getenv / getenv( / ${V:-},
+# none of which is the two-argument `env(KEY, default)` helper this platform
+# writes. Its two siblings — cmd/workshop-ask/main.go and
+# cmd/workshop-server/main.go — already carry exactly that row, above. So the
+# batch is 31 findings plus 1 fixed-and-recorded, not 32 suppressed.
+#
+# The 31 below are NOT that. Each is either the SUBJECT of a test or a record,
+# or a term of an override chain whose earlier terms were exercised and are
+# written out. The distinction applied throughout: could an OPERATOR need to
+# change this value on a different host? Where the answer was yes, the code
+# changed. Where the value IS the thing under test or the thing recorded,
+# changing it would delete the evidence.
+# ==============================================================================
+
+# ---- JUSTIFIED: the calibration TRIPLE is the subject, not configuration ----
+# calibratedFloor() keys on three things at once — the model name plus both
+# embedding prefixes — and nothing else:
+# it returns 0.655/true for the one such key that was benchmarked and 0.62/false
+# for every other. The model term of that key cannot be read from the
+# environment without turning the flag into a bluff — an operator would then be
+# able to claim `floor_calibrated=true` for a triple nobody measured. The model
+# actually IN FORCE is already fully operator-controlled one layer up:
+# cfg.embedModel comes from env("WORKSHOP_EMBED_MODEL", ...) behind flag
+# -embed-model, which is why the row above this one exists. The literal here is
+# the key of the measured row, not the configured value.
+
+# REASON: the anti-bluff half, G-FLOOR-2. Every `embedModel:` in this file
+# populates one case of the (model, doc-prefix, query-prefix) triple the test
+# exists to discriminate: TestCalibratedFloorSitsInsideTheMeasuredWindow asserts
+# the ONE benchmarked triple reports calibrated, and
+# TestUnmeasuredConfigurationsReportUncalibrated asserts seven neighbours of it
+# — the other model, the same model with no prefixes, with one prefix, with the
+# prefixes swapped, with a trailing space missing — all report UNcalibrated.
+# Parameterising the model away would collapse those seven cases into one and
+# delete the test. TestLatestTagIsTheSameModel needs BOTH spellings of one name
+# on purpose, because ollama treats them as the same model. Measured 2026-09-03:
+# all three pass. Precedent (A), AUDIT.md §4.8 — `go build` excludes *_test.go
+# from every production binary, so no literal here can configure a deployment.
+workshop/platform/backend/cmd/workshop-server/floor_calibration_test.go MODEL embedModel:
+
+# REASON: the production side of the same lookup, and the reason the test above
+# can assert anything. This is the `if` that IDENTIFIES the benchmarked triple;
+# the value it guards (0.655) is a measurement of that model on this corpus,
+# recorded in the 60-line comment directly above the function. An env-derived
+# model name here would let any model inherit nomic's separation window.
+workshop/platform/backend/cmd/workshop-server/main.go MODEL if model == "nomic-embed-text" &&
+
+# ---- JUSTIFIED: flag USAGE TEXT recording a per-model measurement -----------
+# All three lines below are inside the third argument of a flag.StringVar /
+# flag.IntVar call — the usage string — and the VALUE those very calls take is
+# already env-derived on the line above: env("WORKSHOP_EMBED_DOC_PREFIX", "")
+# and envInt("WORKSHOP_EMBED_MAX_CHARS", 0). The gate flags them only because
+# its class test is line-scoped and the env( call sits one physical line up,
+# which is also why the existing `main.go MODEL env("WORKSHOP_` row does not
+# reach them. Same class as the answer/http.go provenance row above: a model id
+# in a sentence that says WHAT WAS MEASURED selects nothing, and rewriting it
+# would attach one model's numbers to another.
+
+# REASON: names which model needs `search_document: `, as the worked example
+# for a flag whose value is env("WORKSHOP_EMBED_DOC_PREFIX", ""). Dropping the
+# model name leaves an example that documents nothing.
+workshop/platform/backend/cmd/workshop-server/main.go MODEL 'search_document: ' for nomic-embed-text)
+# REASON: a dated measurement of ollama's behaviour — the input ceiling is a
+# per-model property, and this sentence is the evidence for the flag existing
+# at all. The number 7000 belongs to the model named beside it.
+workshop/platform/backend/cmd/workshop-server/main.go MODEL refuses nomic-embed-text inputs at 7000 chars
+# REASON: the second half of that same measured sentence, naming the model that
+# needed NO ceiling and its context size. Both names are the comparison.
+workshop/platform/backend/cmd/workshop-server/main.go MODEL and accepts 6000, while jina-embeddings-code-cpu
+
+# ---- JUSTIFIED: a deliberately CLOSED port IS the assertion -----------------
+# Port 1 is chosen because nothing listens on it. Deriving it from the
+# environment would let a reachable value in, and a reachable value deletes the
+# case. Same precedent as the descriptor_test.go rows above and the
+# scripts/test-setup-agents-wizard.sh row in the embedded ALLOW_RULES. The
+# closing quote / line-end is part of each MATCH on purpose: the bare token
+# `127.0.0.1:1` is a prefix of `127.0.0.1:11434` and would silently bless every
+# ollama endpoint in the file.
+
+# REASON: TestUnreachableEndpointIsUndetermined — the judge must report an
+# outage as COULD-NOT-DETERMINE, never as a content finding, or the refusal
+# rate becomes unreadable. Precedent (A), AUDIT.md §4.8.
+workshop/platform/backend/pkg/answerhood/ollama_test.go ENDPOINT NewOllamaJudge("http://127.0.0.1:1"
+# REASON: challenge C.2 points the SHADOW server's embedder at a closed port —
+# the same index directory, nothing deleted, only the query-time embed able to
+# fail — to prove /api/search still answers `ok` with a degraded banner instead
+# of collapsing to zero results. The line directly below it is
+# `[ "$MUT" = live_embedder ] && C2_EMB="$EMB"`, the mutation that swaps in a
+# LIVE embedder to prove the challenge fails when the leg is healthy. Both
+# values are the experiment.
+workshop/platform/qa/challenges/state2-challenges.sh ENDPOINT C2_EMB=http://127.0.0.1:1
+
+# ---- JUSTIFIED: a KERNEL-ASSIGNED ephemeral loopback port ------------------
+# Port 0 means "the kernel chooses", and every URL below is assembled from the
+# port the kernel actually handed out — read back from the stub's own handshake
+# file, from srv.server_address, or from a socket bound and released so the
+# port is provably free. There is no value here for an operator to change: a
+# proof harness that could be aimed at a routable address could be aimed at the
+# LIVE server, which is the one thing a mutation proof must never touch. Same
+# construct and same reasoning as the net.Listen("tcp", "127.0.0.1:0") rows
+# above, and as the _tools/od/start-daemon.sh row in the embedded ALLOW_RULES.
+
+# REASON: the shadow server is booted with -http 127.0.0.1:0 and its address is
+# then READ FROM THE HANDSHAKE FILE it writes, never assumed — the comment
+# directly above shadow_up says exactly that. This line is the refusal to
+# freeze a port, not a frozen port. Covers both the shadow_up helper and the
+# phase-B boot that repeats it inline.
+workshop/platform/qa/challenges/state2-challenges.sh ENDPOINT WORKSHOP_HTTP_ADDR=127.0.0.1:0
+# REASON: the mutating proxy binds ("127.0.0.1", PORT) where PORT is sys.argv[2]
+# — supplied by the caller, typically 0 — and this line PRINTS BACK the port the
+# kernel actually assigned, read off srv.server_address[1]. It is the handshake
+# the caller parses, not a binding.
+workshop/platform/qa/lib/mutating-proxy.py ENDPOINT "http://127.0.0.1:%d" % srv.server_address[1]
+# REASON: start_stub echoes the base URL of the throwaway stub it just started,
+# using the port the stub wrote to $WORK/port after binding 0.
+workshop/platform/gates/prove-assessment-reach.sh ENDPOINT printf 'http://127.0.0.1:%s' "$port"
+# REASON: the base of the throwaway stub this proof starts, from the port the
+# stub published after binding 0. $WORK is a mktemp -d; nothing outside it runs.
+workshop/platform/gates/prove-connectivity-matrix.sh ENDPOINT BASE="http://127.0.0.1:$PORT"
+# REASON: as above, same construct, same throwaway stub.
+workshop/platform/gates/prove-sc009-citation-span.sh ENDPOINT BASE="http://127.0.0.1:$PORT"
+# REASON: as above, same construct, same throwaway stub.
+workshop/platform/gates/prove-sc024-export-matrix.sh ENDPOINT BASE="http://127.0.0.1:$PORT"
+# REASON: as above, same construct, same throwaway stub.
+workshop/platform/gates/prove-retrieval-benchmark.sh ENDPOINT base="http://127.0.0.1:$PORT"
+# REASON: mutation M4 needs an address where nothing is listening. The port is
+# BOUND AND RELEASED by the inline python so it is provably free rather than
+# guessed, which is what keeps the case from going intermittent. The source
+# states the same rationale at the site.
+workshop/platform/gates/prove-retrieval-benchmark.sh ENDPOINT base="http://127.0.0.1:$(python3 -c
+
+# ---- JUSTIFIED: the last term of an env-override chain, exercised ----------
+# Extends the section of the same name above. Each literal is reached ONLY when
+# every higher-authority source is absent, and the chain was run both ways
+# rather than asserted.
+
+# REASON: BASE_URL is seeded from ${WORKSHOP_BASE_URL:-} at line 62, then
+# overridden by --base, then by platform/run/server.json — the handshake file
+# the SERVER itself emits at startup, recording an observed bind rather than a
+# configured intention, which is why it outranks the two static terms below it.
+# This line is the 4th term, the
+# compose default. Measured 2026-09-03 by running THIS FILE unchanged (sha256
+# identical) from a directory with no run/server.json: with WORKSHOP_BASE_URL
+# unset it printed `base: http://127.0.0.1:8087`; with it set to
+# http://moved-host.invalid:19191 it printed that instead.
+workshop/platform/gates/verify-assessment-reach.sh ENDPOINT [ -n "$BASE_URL" ] || BASE_URL="http://127.0.0.1:8087"
+# REASON: the identical four-term chain, seeded from ${WORKSHOP_BASE_URL:-} at
+# line 114. Measured the same way and the same day, with --bench supplied so the
+# benchmark lookup ahead of it does not short-circuit: unset printed
+# `base:      http://127.0.0.1:8087`, set printed
+# `base:      http://moved-host.invalid:19191`.
+workshop/platform/gates/verify-retrieval-benchmark.sh ENDPOINT [ -n "$BASE_URL" ] || BASE_URL="http://127.0.0.1:8087"
+# REASON: this line IS the environment-override branch — the port comes from
+# $WORKSHOP_HTTP_PORT. The gate flags it only because its envd test wants the
+# ${VAR:-default} spelling and this is a bare $VAR inside an `if [ -n ... ]`
+# that has already established the variable is set; writing `${VAR:-8087}` here
+# would add a dead default to please a regex. 127.0.0.1 is the loopback
+# constant the documented override is defined against.
+workshop/platform/qa/lib/_bank.sh ENDPOINT QA_URL="http://127.0.0.1:$WORKSHOP_HTTP_PORT"
+# REASON: the 4th and last term of the chain the block comment above it
+# documents: WORKSHOP_HTTP_URL, then the server handshake file, then
+# WORKSHOP_HTTP_PORT, then the compose default. Every step prints its own
+# source into QA_URL_SRC. Measured 2026-09-03 by calling qa_derive_url four
+# ways: all unset with no handshake file -> http://127.0.0.1:8087 "compose
+# default"; WORKSHOP_HTTP_PORT=19099 -> http://127.0.0.1:19099 "WORKSHOP_HTTP_PORT
+# override"; WORKSHOP_HTTP_URL=http://elsewhere.invalid:1234 -> that URL,
+# "WORKSHOP_HTTP_URL override"; with the real handshake file -> the address it
+# records, "server handshake file". Ordering the literal last is what lets the
+# probe track a relocated port instead of declaring the platform unreachable.
+workshop/platform/qa/lib/_bank.sh ENDPOINT QA_URL="http://127.0.0.1:8087"
+# REASON: THE FIX, not the freeze. -ollama now defaults to
+# env("WORKSHOP_OLLAMA_URL", "http://127.0.0.1:11434") — os.Getenv with a
+# fallback, the identical seam and the identical variable workshop-server reads,
+# so a generation embedded offline and a generation embedded by the server can
+# no longer disagree about which backend produced it. Two independent overrides
+# are live: the variable and the -ollama flag. The gate still reports the line
+# because its envd test is line-scoped and does not know this platform's
+# two-argument env() helper — the same reason the cmd/workshop-ask and
+# cmd/workshop-server rows above exist. Exercised both ways 2026-09-03:
+# unset -> `(default "http://127.0.0.1:11434")`, the exact former literal;
+# WORKSHOP_OLLAMA_URL=http://ollama.example.invalid:9999 ->
+# `(default "http://ollama.example.invalid:9999")`.
+workshop/platform/backend/cmd/index-embed/main.go ENDPOINT env("WORKSHOP_
+
+# ---- JUSTIFIED: the English word "upstream" is not a git ref ---------------
+# All three lines are inside verify-all-constitution-rules.sh's §1.1 mutation
+# battery, which builds a throwaway specimen tree under `mktemp -d` and drives
+# it with spec_git — `git -C "$SPEC/submodules/constitution"`. Measured
+# 2026-09-03: `grep -n remote scripts/verify-all-constitution-rules.sh` returns
+# ZERO lines, so that sandbox has no remote of any name and "upstream" cannot
+# be one. Two of the three are COMMIT MESSAGES and the third is a report
+# sentence; none names a remote, a branch or a ref, and there is nothing in any
+# of them an operator on another host could need to change. The GITREF class is
+# deliberately not exempted by the env-override escape hatch — no variable makes
+# a hardcoded remote portable — so a rule is the only honest instrument here.
+
+# REASON: the commit message of M13's simulated upstream deletion, in a
+# mktemp -d sandbox with no remotes. Prose, not a ref.
+scripts/verify-all-constitution-rules.sh GITREF spec_git commit -qm "upstream removes a gate"
+# REASON: M13's own PASS sentence, explaining why a legitimate upstream removal
+# is a NOTE and not a LEDGER DROP. The wording is the finding.
+scripts/verify-all-constitution-rules.sh GITREF so it is reported as an upstream removal and does NOT gate
+# REASON: the commit message that moves M14's pin a second time, same sandbox.
+scripts/verify-all-constitution-rules.sh GITREF spec_git commit -qm "upstream moves on"

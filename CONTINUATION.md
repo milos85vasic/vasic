@@ -188,7 +188,7 @@ comment in the manifest, not a `deps[]` entry, and C6 checks that both ways.)
 | `design-toolkit` | `e7f3815ec35c0940515296ffb3481cd0fab4bfa6` | match · remote CURRENT. The "working tree sits at `5467a888…`" caveat this row used to carry is **withdrawn** — index, `HEAD` and the GitHub origin now agree. The GitLab-mirror asymmetry below is UNCHANGED and still unverified from this tree. |
 | `ai_interviewing` | `cde474fa3e167bfd5c8e63d4ba6d4c184d4c12b6` | match · remote CURRENT |
 | `monetization` | `54ed7b0f5add52821d18866facb5ee8c75adef69` | match · remote CURRENT |
-| `workshop` | `bd7da415532f52ac15bea3e316f9908c98550ec9` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
+| `workshop` | `7b7a8c9048871f47a6303c9e59c7338c959672df` | match · pushed 2026-09-02 (`b232789..692a27a`) carrying the R3 rules, the redaction mechanism, the L5 question verifier and the nomic index switch. Earlier in the session it was bumped five times (`6af5816`, `50a1591`, `95c6b5c`, `35bb033`, `86f2a22`) — those are the commits C3 flagged as drift. |
 
 **Every SHA in the table above except `monetization` and `submodules/superspec`
 moved after the previous `Synced-Commit`, and the values this table used to
@@ -544,6 +544,60 @@ mechanical type that T1 currently MASKS. The 13 remaining B1 rows match the firs
 Analysis: `workshop/docs/session-evidence/phase3e-contradiction-typology.md`; re-derivable by the
 read-only `workshop/pipeline/extract/analyze_r3_contradictions.py`. **Nothing was resolved,
 merged, discarded or applied; T041 remains `[ ]`.**
+
+#### A23 — full retest + full boot, 2026-09-03. Env audit 32 → 0: **ONE real fix, 31 reasoned exemptions.**
+
+**Every suite run explicitly, not as a push side effect.** Pre-push gates
+**8 passed / 0 failed / 0 undetermined / 0 SKIPPED** — including Playwright chromium at 205 s;
+a SKIP here would not have been a pass. Governance: continuation-check, cascade, manifest-pins,
+remote-sync, check-registry, hardcoded-paths, name-in-path and the sweep paired proof **all 0**.
+Workshop: `verify.sh --static-only` 0, `go build`/`go vet`/`go test ./...` clean, **0 FAIL lines**.
+
+**System booted clean:** `setup.sh --check-only` → **RESULT 0 READY**, `build.sh` 0,
+`restart.sh` → `status.sh` **RUNNING** with health in 2 ms, web bundle 200,
+`question_verifier_kind: question-focus+llm`, review gate holding (reviewed detail 200,
+unreviewed 404), coverage/export/evidence 200 on both. **The capability probe reports mermaid
+UNUSABLE by actually rendering a graph** rather than trusting `mmdc -V`.
+
+**A transient `SQLITE_BUSY` appeared mid-probe and cleared itself — and the server's behaviour
+under it is the point.** It returned `status: unavailable`, `code: lexical_index_unavailable`,
+with the raw `database is locked (5)` as evidence — **a determined unavailability, never an empty
+result set dressed as "nothing matched".**
+
+**A scare of mine, settled by measurement rather than inspection.** A query that returned 4
+results earlier returned 0 after the rebuild, which looked like a lost vector set.
+`verify-retrieval-benchmark.sh` reproduced its prior value **exactly — top-5 5/22, top-1 4/22,
+with 560 hits all carrying a resolving locus.** Nothing was lost. What changed is which side of
+the **0.655 calibrated floor** a query lands on: that is the abstention the nomic switch bought,
+returning less and clearing a measured threshold.
+
+**Env audit 32 → 0, and the split is the finding.** **ONE was a real freeze:**
+`cmd/index-embed/main.go:57` defaulted `-ollama` to a bare loopback URL **with no env layer at
+all** — the only binary in the platform whose backend address had no variable behind it, while
+the `workshop-server` it mirrors already read `$WORKSHOP_OLLAMA_URL`. Fixed to read the same
+variable. **The other 31 were not defects**, earning `# REASON:` rows with evidence:
+**23 rules added, 0 `# BASELINE:` rows** — verified independently, so no debt was moved between
+columns.
+
+Two of those judgements are worth keeping:
+- **`floor_calibration_test.go` (9): the literal is the KEY of a measured row, not a configured
+  value.** `calibratedFloor()` keys on model *and* both prefixes; the actual model in force is
+  already operator-controlled via `WORKSHOP_EMBED_MODEL`. **Env-deriving the key would let ANY
+  model inherit nomic's measured separation window — which is a bluff**, and would collapse seven
+  neighbour cases into one, deleting the test.
+- **`verify-all-constitution-rules.sh` (3 `GITREF`): not git refs at all** — two commit messages
+  and a report sentence containing the English word "upstream". Measured: `grep -n remote` over
+  that file returns **zero** lines, and its `spec_git` sandbox repo has no remote of any name.
+
+**The agent caught ITSELF leaking, and that is the most valuable thing in the run.** Writing the
+REASON rows it echoed engineering prose out of PRIVATE `workshop/` source comments into the
+PUBLIC allow-file — **precisely the failure mode the incident note names: "an agent asked to
+document the work comprehensively reaches for an illustrative quote."** The boundary gate
+attributed **11 surviving matches across 5 lines** to its block; it reworded all five to carry
+the same evidence in its own words and re-measured to **0 rows naming its block**.
+
+Rot census after: **452 rules, 0 STALE, 0 PATH-ABSENT.** All 15 touched files are tracked, so
+the untracked blind spot does not apply and these stay clear.
 
 #### A22 — final reconciliation: spec 002 **100 / 42 / 142**, spec 001 **59 / 61 / 120**. Gate attachment 0 in both.
 
