@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-03T21:26:46Z
+    Last-Updated: 2026-09-03T21:32:48Z
     Synced-Commit: 624bb3b
     Authority-Root: submodules/constitution
 
@@ -586,10 +586,24 @@ measurement, not a rule** — four corpus-neutral moves in a row is what upstrea
 happened to change, and the next one must be measured the same way.
 
 **2 — Class A direction, the larger half, and the method is stronger than the
-one it is compared against.** The gate re-measured at **12745** (prose 12182,
-short 478, name 85) — the 11878 reading is superseded, the instrument unmodified
-(`git status --short` on the gate and the allow-list is EMPTY). Class A is
-**7835 rows, 61.5%**. Every one was dated on both sides at **TEXT level** — for
+one it is compared against.**
+
+**FIRST, A DEFECT IN THE INSTRUMENT ITSELF, found by controlling for my own
+edits: this gate's total is NOT REPRODUCIBLE run-to-run.** Three full runs:
+**12745 / 12846 / 12867**. **Runs 1 and 3 were on a BYTE-IDENTICAL tree** — run 3
+was produced by restoring the four carriers and this file to `HEAD` precisely to
+control for the session's edits — and they disagree by **122 rows**. Ruled out by
+measurement: the gate and `.content-boundary-allow` are unmodified; nothing in
+`workshop/` or the root changed in the window (`find -newermt '3 hours ago'` → 0
+files); the gate allocates a fresh `mktemp -d` per run, so concurrent instances
+cannot share state. **The instability is localised to a DERIVED filter, not to
+row emission** — `already_public` itself differs on identical input (2252 vs
+2261). **The mechanism is UNDETERMINED. That is a 2 and never a pass.** Run 1
+ran alongside two other instances that were killed mid-flight; runs 2 and 3 ran
+alone — a difference between the runs, **not a demonstrated cause.** The `name`
+class held at **85** in all three. **Quote the shares, not the totals.**
+
+Class A is **~7870 rows, 61.3–61.5%**. Every one was dated on both sides at **TEXT level** — for
 each matched string, the earliest commit whose normalised blob actually contains
 it, validated against the gate's own normalisation 24-of-24 — then **widened to
 corpus level**, comparing earliest appearance ANYWHERE public against earliest
@@ -600,28 +614,37 @@ chronological and skips a blob only when no still-undated string could be
 affected, an exact pruning, not a shortcut. Classes B and C were settled by a
 *file-level, sampled* probe; this is neither.
 
-| | Rows | Share |
-|---|---:|---:|
-| **OUTWARD** — public spec committed the text first | **6241** | **79.7%** |
-| **INWARD** — private repository committed it first | **1544** | **19.7%** |
-| **UNDETERMINED** | **50** | **0.6%** |
+**The probe was run independently against ALL THREE gate runs, and that is the
+answer to the instrument's instability: the totals move, the direction does
+not.**
+
+| run | class A rows | OUTWARD | INWARD | UNDETERMINED |
+|---|---:|---:|---:|---:|
+| 1 | 7835 | **6241** (79.7%) | **1544** (19.7%) | 50 (0.6%) |
+| 2 | 7872 | **6240** (79.3%) | **1538** (19.5%) | 94 (1.2%) |
+| 3 | 7890 | **6240** (79.1%) | **1538** (19.5%) | 112 (1.4%) |
+
+**OUTWARD varies by ONE row and INWARD by SIX across three runs whose totals
+differ by 122.** Every extra row a noisier run emits lands in UNDETERMINED —
+strings not committed on one side, i.e. working-tree-only text. **The direction
+finding is robust to the count instability.**
 
 **The widening moved rows BOTH ways — 113 inward→outward and 178
 outward→inward** — which is why it is a probe and not a rationalisation. Lead
 times: outward median 6.1 h, inward median 0.5 h with **92% of inward rows inside
 24 h**. Spec and implementation are written the same day, in both orders.
 
-**Where the inward rows are, because that is the reading assignment:** 1084
+**Where the inward rows are, because that is the reading assignment** (run 1's 1544): 1084
 (70.2%) private source code, 153 session-evidence briefs, 117 training docs, 56
 other docs, 40 data/config, 26 other — and **68 in `workshop/chapters/01/`, the
 private teaching-session material**, all from one JSON artefact, landing in
 `specs/001-…/tasks.md` (45) and `specs/002-…/tasks.md` (23). Three public files
-hold 1120 of the 1544.
+hold 1120 of run 1's 1544.
 
 **HONEST BOUNDARY — the first limit is the one that matters.** *"Private
 committed first"* establishes an **ORDER, not a disclosure**. A symbol name, a
 commit message, a decision made in code and written up afterwards all produce
-INWARD rows with nothing having crossed the boundary. **1544 rows are not 1544
+INWARD rows with nothing having crossed the boundary. **~1540 rows are not ~1540
 leaks and must never be reported as such.** What the number does kill is the
 comfortable assumption that the spec trees are simply outward propagation.
 
@@ -643,7 +666,7 @@ detector never touched, and **a falling name count is not progress**. No class
 can be pardoned wholesale without pardoning name rows with it.
 
 **What this changes in the packet:** option 4 is no longer "re-judge 7550 rows"
-but **"judge the 1544 inward rows plus the 50 undetermined name rows"** — an 80%
+but **"judge the ~1540 inward rows plus the 50 undetermined name rows"** — an 80%
 cut to the reading assignment, bought with evidence rather than with exemptions.
 Option 3, "teach the gate direction", now has a working prototype: this probe ran
 offline over 9,414 file-revisions in under a minute.
@@ -746,6 +769,67 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A67 — three external items closed. **My brief was wrong about the containers module, and the Ruby install is NOT additive — read before running it.**
+
+**1 — The upstream bug is FILED, and the agent found more than I described.**
+Reproduced independently on real podman before reporting: `--tail all` → rc **125**
+`strconv.ParseInt: parsing "all"`, `--tail -1` → the output. Then driven through
+the module's own public API with a throwaway program, reproducing the silence
+exactly — **`Logs()` returns nil error, 0 bytes, nil read error**, with the rc-125
+surfacing **only** through the deferred close. Filed as issue **#2** on the
+upstream repository with both reproductions, the mechanism (only stdout is wired,
+so podman's stderr is lost) and the fix.
+
+**The finding beyond my description is the damning one: this runtime is the ONLY
+one in the package missing the guard.** Two sibling runtimes guard with an integer
+parse and a third with an explicit comparison. **The one-line fix already exists
+three times in its own package.** Docker was **not measured** — that binary and
+three others are absent from this host — and the issue says so rather than
+generalising from one runtime to five.
+
+**2 — The distribution conversion is WRITTEN and explicitly NOT VERIFIED, and my
+premise was partly wrong.** I told the agent the module's remote and distribution
+packages *"exist to do exactly this"*. **Verified by reading every exported
+symbol: they do not.** There is **no** API for remote image build, image
+save/load/tag, image transfer between hosts, running with volume mounts, named
+volume creation, or remote-to-local fetch. What the module *does* provide is solid
+SSH transport — and every SSH and copy operation in the new program goes through
+it, spawning no external client. **The five steps the module cannot express are
+composed commands, each documented in-file with the reason.**
+
+**The remotes are unreachable, and that was proved rather than assumed:** both
+resolve to nothing at rc 255, while the mDNS daemon is active and enumerated many
+other devices on the same subnet in the same minute. **A real absence, not a
+broken resolver.** So the conversion is labelled unverified **in three places** —
+the package comment with its rc-255 evidence, the README table, and its own
+dry-run output. What *is* verified: it builds, vets and formats clean, **9 unit
+tests pass**, the dry run renders the full plan, and **the could-not-determine arm
+fires against the genuinely absent hosts.**
+
+**Two findings that change the picture:** the original script **is itself
+unrunnable here** — its own precondition fails, and the file it needs exists
+nowhere. And its sibling is **not convertible today at all**: it streams a document
+over SSH stdin, and **every implemented module path is stdin-less** — the option
+exists as an interface with **nothing implementing it**. That needs an upstream
+change, so it was declared rather than half-converted.
+
+**Neither script was deleted**, and the reasoning is exactly right: *replacing a
+working script with an unverified one would be a downgrade dressed as compliance.*
+Registry re-run **45 PASS / 0 FAIL / 0 DEBT** — no regression.
+
+**3 — `libruby-devel` was NOT installed, and there is a warning attached that
+matters more than the command.** Root is needed and password-gated; nothing was
+guessed at and nothing left half-installed. The blockage was verified first-hand —
+a live probe returns the missing-header error, and the site's lockfile pins three
+gems with **no precompiled variant**, so all three must compile.
+
+**THE INSTALL IS NOT ADDITIVE.** The installed Ruby is `3.3.8-alt3`; the only
+candidate for the development package is `3.3.12-alt2` and it **depends on a
+matching runtime**, so installing it **forces a Ruby upgrade on a host that builds
+two production sites.** The transaction could not be simulated — that needs write
+access this session lacks. **This is an operator decision, and the container route
+remains the safer answer**, since it already works and changes nothing on the host.
 
 #### A66 — **deep crawling BUILT** (operator-mandated), and its own gate found **six real defects on real data** before anything was committed.
 
