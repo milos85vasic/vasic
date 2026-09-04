@@ -369,7 +369,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "f30820a79f3676c482fd51b9ce79cc05b7cf8a41"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "0fc972910564637030f3f2c01e54f6181875390d"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which keeps gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks plus a *.sha256 manifest while the extracted videos stay git-ignored."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL

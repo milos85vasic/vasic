@@ -2158,3 +2158,29 @@ workshop/platform/backend/pkg/answer/registry_test.go MODEL prodModel    =
 # emits, and the test asserts those bytes arrive intact and unmodified. Changing
 # the payload changes what the control proves; nothing dials it.
 submodules/containers/pkg/runtime/logs_silent_failure_test.go ENDPOINT const payload =
+
+# ==============================================================================
+# 2026-09-04 (evening) — the search-determinism prover's two loopback literals
+# ==============================================================================
+# The gate half of this pair was FIXED, not exempted: verify-search-determinism.sh
+# now reads ${WORKSHOP_DEFAULT_BASE_URL:-...} exactly as its sibling
+# verify-search-latency.sh:125 already did. Two gates in the same directory
+# resolving their base URL differently is a defect in its own right, so the
+# consistent fix was the right call there. Only the PROVER's two literals are
+# exempted, and each for a different reason.
+
+# REASON: the prover STARTS ITS OWN STUB SERVICE and reads back the port that
+# stub reported (`PORT="$(cat "$TMP/port")"` at :152, guarded by an
+# UNDETERMINED exit if the stub never reported one). 127.0.0.1 is therefore the
+# address of a server this script itself launched moments earlier, not a
+# configured endpoint anyone could need to override. Same shape and same verdict
+# as the already-exempted prove-search-latency.sh.
+workshop/platform/gates/prove-search-determinism.sh ENDPOINT BASE="http://127.0.0.1:$PORT"
+
+# REASON: a DELIBERATELY DEAD address, and the mutation says so in its own name —
+# "M5 THREE-VALUED an absent service is UNDETERMINED, not 0". The literal exists
+# to be unreachable; making it configurable would let an operator point it at
+# something that answers, which would silently destroy the only assertion that
+# the rc-2 branch fires. Direct precedent: bench-retrieval.sh's deliberately
+# closed port, exempted on the same reasoning.
+workshop/platform/gates/prove-search-determinism.sh ENDPOINT "http://127.0.0.1:$DEAD_

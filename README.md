@@ -1,5 +1,7 @@
 # vasic
 
+![build](https://img.shields.io/badge/build-passing-brightgreen?vocab=green) ![tests](https://img.shields.io/badge/tests-3%2F7%20types-red?vocab=red) ![coverage](https://img.shields.io/badge/coverage-44.4%25%20no%20target-red?vocab=red) ![security](https://img.shields.io/badge/security-no%20scanner-red?vocab=red) ![docs](https://img.shields.io/badge/docs-no%20register-red?vocab=red) ![diagrams](https://img.shields.io/badge/diagrams-no%20register-red?vocab=red) ![live-health](https://img.shields.io/badge/live%20health-no%20SLO%20instrument-red?vocab=red) ![defects](https://img.shields.io/badge/defects-no%20tracker-red?vocab=red) ![supply-chain](https://img.shields.io/badge/supply%20chain-no%20SLSA%20level-red?vocab=red) ![zero-findings](https://img.shields.io/badge/zero%20findings-26%20tracked-orange?vocab=amber) ![evidence](https://img.shields.io/badge/evidence-22%2F22%20proofs-orange?vocab=amber) ![production-readiness](https://img.shields.io/badge/production%20ready-blocked,%208%20red-red?vocab=red)
+
 Umbrella monorepo for two production websites and the tooling that generates,
 translates, validates and ships them. Nothing here is a framework or a product.
 The sites themselves are git submodules; everything that renders or checks them

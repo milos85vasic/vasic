@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1 id="vasic">vasic</h1>
+<p><img
+src="https://img.shields.io/badge/build-passing-brightgreen?vocab=green"
+alt="build" /> <img
+src="https://img.shields.io/badge/tests-3%2F7%20types-red?vocab=red"
+alt="tests" /> <img
+src="https://img.shields.io/badge/coverage-44.4%25%20no%20target-red?vocab=red"
+alt="coverage" /> <img
+src="https://img.shields.io/badge/security-no%20scanner-red?vocab=red"
+alt="security" /> <img
+src="https://img.shields.io/badge/docs-no%20register-red?vocab=red"
+alt="docs" /> <img
+src="https://img.shields.io/badge/diagrams-no%20register-red?vocab=red"
+alt="diagrams" /> <img
+src="https://img.shields.io/badge/live%20health-no%20SLO%20instrument-red?vocab=red"
+alt="live-health" /> <img
+src="https://img.shields.io/badge/defects-no%20tracker-red?vocab=red"
+alt="defects" /> <img
+src="https://img.shields.io/badge/supply%20chain-no%20SLSA%20level-red?vocab=red"
+alt="supply-chain" /> <img
+src="https://img.shields.io/badge/zero%20findings-26%20tracked-orange?vocab=amber"
+alt="zero-findings" /> <img
+src="https://img.shields.io/badge/evidence-22%2F22%20proofs-orange?vocab=amber"
+alt="evidence" /> <img
+src="https://img.shields.io/badge/production%20ready-blocked,%208%20red-red?vocab=red"
+alt="production-readiness" /></p>
+<p>Umbrella monorepo for two production websites and the tooling that
+generates, translates, validates and ships them. Nothing here is a
+framework or a product. The sites themselves are git submodules;
+everything that renders or checks them lives at the top level of this
+repository.</p>
+<p>Two facts to read before anything else:</p>
+<ul>
+<li><strong>This repository is public. Three of its submodules are
+not.</strong> Referring to a private path is fine. Copying text out of
+one into any file here is a permanent public disclosure, because a push
+cannot be taken back. See <a href="#content-boundary">Content
+boundary</a>.</li>
+<li><strong>There is no server-side CI at this root.</strong> Gate
+enforcement is a local pre-push hook, and <code>.git/hooks/</code> is
+untracked, so a fresh clone enforces nothing until you install it. See
+<a href="#gates-and-how-to-run-them">Gates</a>.</li>
+</ul>
+<hr />
+<h2 id="contents">Contents</h2>
+<ol type="1">
+<li><a href="#what-is-in-here">What is in here</a></li>
+<li><a href="#getting-started">Getting started</a></li>
+<li><a href="#building-the-sites">Building the sites</a></li>
+<li><a href="#gates-and-how-to-run-them">Gates and how to run
+them</a></li>
+<li><a href="#the-instruments">The instruments</a></li>
+<li><a href="#deploys">Deploys</a></li>
+<li><a href="#the-submodule-fleet">The submodule fleet</a></li>
+<li><a href="#content-boundary">Content boundary</a></li>
+<li><a href="#governance">Governance</a></li>
+<li><a href="#what-is-not-done">What is not done</a></li>
+<li><a href="#where-to-go-next">Where to go next</a></li>
+</ol>
+<hr />
+<h2 id="what-is-in-here">What is in here</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vasic.digital/</code></td>
+<td>Site submodule. Committed static HTML, served exactly as committed —
+no build step.</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/</code></td>
+<td>Site submodule. Jekyll source; the rendered <code>_site/</code> is
+git-ignored and must be built before the browser suite can serve
+it.</td>
+</tr>
+<tr>
+<td><code>_tools/gen/</code></td>
+<td>The Go generator (<code>module vasic.digital/tools/gen</code>,
+<code>go 1.26</code>). Renders localized pages for both sites from
+<code>_content*/</code> plus <code>design-system/</code>.</td>
+</tr>
+<tr>
+<td><code>_tools/</code></td>
+<td>The rest of the tooling: <code>translate/</code>, <code>pdf/</code>,
+<code>portfolio/</code>, <code>od/</code>, <code>deploy-langs.sh</code>,
+<code>audit-hardcoding.sh</code>.</td>
+</tr>
+<tr>
+<td><code>design-system/</code></td>
+<td>Per-brand tokens, fonts, icons, motion and component CSS shared by
+both sites. One directory per brand plus shared assets.</td>
+</tr>
+<tr>
+<td><code>_content/</code></td>
+<td>English source content: <code>docs/</code>, <code>portfolio/</code>,
+<code>products/</code>, <code>sites/</code>.</td>
+</tr>
+<tr>
+<td><code>_content_&lt;lang&gt;/</code></td>
+<td>Per-language siblings of <code>_content/</code>, one directory per
+translated language.</td>
+</tr>
+<tr>
+<td><code>_tests/</code></td>
+<td>Playwright suite plus the self-validating harness (visual oracle,
+PDF/OCR export checks, link and sitemap integrity).</td>
+</tr>
+<tr>
+<td><code>scripts/</code></td>
+<td>Governance and adaptability instruments, the pre-push gate runner,
+and the check registry.</td>
+</tr>
+<tr>
+<td><code>tests/</code></td>
+<td>The constitution-inheritance test, kept separate from the browser
+suite.</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td>Per-area documentation: constitution adoption, content boundary,
+environment adaptability, site health, wizard.</td>
+</tr>
+<tr>
+<td><code>specs/</code></td>
+<td>SpecKit feature directories (<code>spec.md</code>,
+<code>plan.md</code>, <code>tasks.md</code>, contracts,
+checklists).</td>
+</tr>
+<tr>
+<td><code>.specify/</code></td>
+<td>SpecKit itself: templates, workflows, scripts and the vendored
+extension copy the workflows use.</td>
+</tr>
+<tr>
+<td><code>_analysis/</code></td>
+<td>Research and inventory notes that fed design and localization
+decisions. Working material, not a contract.</td>
+</tr>
+<tr>
+<td><code>data/</code></td>
+<td>Small data artifacts used by the tooling.</td>
+</tr>
+<tr>
+<td><code>submodules/</code></td>
+<td>Grouped submodules: the governance source, reusable libraries, and
+one third-party dependency.</td>
+</tr>
+<tr>
+<td><code>upstreams/</code></td>
+<td>Per-provider push recipes read by the commit wrapper.</td>
+</tr>
+<tr>
+<td><code>helix-deps.yaml</code></td>
+<td>Machine-readable submodule manifest. Every entry pins a commit that
+must equal the live gitlink.</td>
+</tr>
+<tr>
+<td><code>CLAUDE.md</code>, <code>AGENTS.md</code>,
+<code>QWEN.md</code>, <code>GEMINI.md</code></td>
+<td>The four per-agent governance carriers. Identical from line 19 down,
+and enforced as such.</td>
+</tr>
+<tr>
+<td><code>Constitution.md</code></td>
+<td>This project’s own constitution. It <em>extends</em> the inherited
+one and overrides no clause of it.</td>
+</tr>
+<tr>
+<td><code>CONTINUATION.md</code></td>
+<td>The resumption contract. Read it first when picking work up.</td>
+</tr>
+<tr>
+<td><code>.content-boundary-allow</code>,
+<code>.hardcoded-paths-allow</code></td>
+<td>Declared exemptions for two of the instruments. Each entry needs a
+stated reason; each is a debt, not a fix.</td>
+</tr>
+<tr>
+<td><code>.github/workflows/ci.yml.disabled</code></td>
+<td>The gate definitions, preserved but inert. A provider only reacts to
+its exact trigger filename, so this file starts nothing.</td>
+</tr>
+</tbody>
+</table>
+<p>Re-derive the language list rather than reading one:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1d</span> _content_<span class="pp">*</span>/ <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s#_content_##; s#/##&#39;</span></span></code></pre></div>
+<hr />
+<h2 id="getting-started">Getting started</h2>
+<h3 id="clone-and-initialise-the-two-site-submodules">1. Clone and
+initialise the two site submodules</h3>
+<p>Initialise them <strong>non-recursively</strong>.
+<code>milosvasic.ru</code> carries a nested gitlink whose own
+<code>.gitmodules</code> is a broken zero-byte entry, so a recursive
+checkout of the umbrella fails. That nested tree is excluded from the
+Jekyll build and no gate reads it.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:milos85vasic/vasic.git</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vasic</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> vasic.digital milosvasic.ru</span></code></pre></div>
+<p>Governance work needs one more:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> submodules/constitution</span></code></pre></div>
+<h3 id="toolchains">2. Toolchains</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go 1.26</td>
+<td><code>_tools/gen</code> unit tests, the generator build, the
+hardcoding audit</td>
+</tr>
+<tr>
+<td>Node 20</td>
+<td>the <code>_tests</code> Playwright suite and the portfolio
+validators</td>
+</tr>
+<tr>
+<td>Ruby 3.3 + Bundler</td>
+<td>the <code>milosvasic.ru</code> Jekyll build</td>
+</tr>
+<tr>
+<td><code>poppler-utils</code>, <code>tesseract-ocr</code></td>
+<td>the export self-validation (<code>pdftotext</code>,
+<code>pdfimages</code>, <code>pdftoppm</code>, OCR)</td>
+</tr>
+<tr>
+<td><code>python3</code> with <code>PyYAML</code></td>
+<td>manifest parsing in several instruments</td>
+</tr>
+</tbody>
+</table>
+<p>Without poppler and tesseract the export check reports a stated SKIP
+instead of running. A SKIP is printed loudly and is not a pass.</p>
+<h3 id="verify-the-toolchain-answers">3. Verify the toolchain
+answers</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> version <span class="kw">&amp;&amp;</span> <span class="ex">node</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">ruby</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> <span class="at">--version</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> pdftotext pdfimages pdftoppm tesseract</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml; print(yaml.__version__)&#39;</span></span></code></pre></div>
+<hr />
+<h2 id="building-the-sites">Building the sites</h2>
+<p>The generator reads <code>_content*/</code> and
+<code>design-system/</code> and writes into the two site submodule
+directories. No page is hardcoded.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the generator and render both sites for English, then rebuild _site:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Render one language:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh <span class="at">--lang</span> de</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Render into a scratch directory instead of the live site dirs:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh <span class="at">--out</span> /tmp/render <span class="at">--no-jekyll</span></span></code></pre></div>
+<p>The binary underneath takes explicit flags, which is what
+<code>build.sh</code> drives:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/gen <span class="kw">&amp;&amp;</span> <span class="ex">go</span> build <span class="at">-o</span> gen . <span class="kw">&amp;&amp;</span> <span class="ex">./gen</span> <span class="at">-h</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   -site   vasic.digital | milosvasic.ru</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   -lang   language code (default en)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   -what   all | products | portfolio | home</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   -root   repository root</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   -out    output base dir</span></span></code></pre></div>
+<p><code>milosvasic.ru</code> additionally needs its Jekyll build before
+anything can serve it:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> install <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">JEKYLL_ENV</span><span class="op">=</span>production <span class="ex">bundle</span> exec jekyll build <span class="at">--destination</span> _site</span></code></pre></div>
+<hr />
+<h2 id="gates-and-how-to-run-them">Gates and how to run them</h2>
+<h3 id="there-is-no-ci-at-this-root">There is no CI at this root</h3>
+<p>The workflow that used to run on push is renamed to
+<code>ci.yml.disabled</code> and does nothing. The same gate set is
+enforced by a local hook. Three consequences, stated plainly:</p>
+<ul>
+<li>A fresh clone has <strong>no</strong> enforcement until the hook is
+installed.</li>
+<li><code>git push --no-verify</code> skips the hook and leaves no
+record.</li>
+<li>Nothing on the server re-checks a push that skipped it.</li>
+</ul>
+<p>Confirm the root is free of an active tracked CI config — this must
+print nothing:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$&#39;</span></span></code></pre></div>
+<h3 id="install-the-hook-once-per-clone">Install the hook, once per
+clone</h3>
+<p>The logic is tracked in <code>scripts/pre-push-gates.sh</code>; the
+hook itself is a small shim that runs it, so editing the script takes
+effect with no reinstall.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--install</span>    <span class="co"># write .git/hooks/pre-push</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span>       <span class="co"># print the gate table, run nothing</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh              <span class="co"># run them now</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--uninstall</span>  <span class="co"># remove the shim</span></span></code></pre></div>
+<p><code>--install</code> is idempotent and takes a hardlinked backup of
+any pre-existing <code>pre-push</code> hook before writing over it.</p>
+<h3 id="the-gate-table">The gate table</h3>
+<p>Print it from the runner rather than trusting a copy:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span></span></code></pre></div>
+<p>Measured 2026-09-03, that runner declares eight gates, <code>E</code>
+and <code>0</code> through <code>6</code>: the no-active-root-CI
+self-check, the hardcoded-path audit, the Go unit tests, the hardcoding
+audit, the translation reproducibility self-test, the portfolio
+data-integrity self-validation, the harness self-validation, and the
+Playwright chromium suite with the live all-language crawl excluded.</p>
+<p>Each one, runnable on its own:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-hardcoded-paths.sh</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/gen <span class="kw">&amp;&amp;</span> <span class="ex">go</span> test ./... <span class="kw">;</span> <span class="bu">cd</span> <span class="at">-</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/audit-hardcoding.sh</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/translate/reproducibility-selftest.sh</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/portfolio/self-validate.sh</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tests/run-harness-selfvalidation.sh</span></code></pre></div>
+<p>Four environment switches change how the runner behaves:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PREPUSH_VERBOSE=1</code></td>
+<td>Stream each gate’s output live instead of only on failure</td>
+</tr>
+<tr>
+<td><code>PREPUSH_SKIP_SLOW=1</code></td>
+<td>Skip the full Playwright gate, with a printed reason</td>
+</tr>
+<tr>
+<td><code>PREPUSH_STRICT=1</code></td>
+<td>Treat every SKIP as a failure. Use before a release</td>
+</tr>
+<tr>
+<td><code>PREPUSH_ONLY="E 0 1"</code></td>
+<td>Run only the listed gate ids</td>
+</tr>
+</tbody>
+</table>
+<p>Gates 5 and 6 SKIP with a stated reason when
+<code>_tests/node_modules</code> or the built
+<code>milosvasic.ru/_site</code> is missing. A SKIP is reported loudly
+and is not a pass — <code>PREPUSH_STRICT=1</code> is how you refuse to
+accept one.</p>
+<p>There is deliberately <strong>no</strong> switch that skips gate E.
+The rule it enforces names and refuses the whole family of opt-out flags
+by name, so adding one would be a violation rather than a
+convenience.</p>
+<h3 id="the-browser-suite">The browser suite</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> ci</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> playwright install chromium</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> playwright test <span class="at">--project</span><span class="op">=</span>chromium <span class="at">--grep-invert</span> <span class="st">&quot;all-language&quot;</span></span></code></pre></div>
+<p>Both sites are served locally by the harness. Ports and base URLs
+come from one tracked source, <code>_tests/env.js</code>, so a port and
+the base URL that addresses it cannot drift apart. Every value is
+environment-derived with the previous literal kept as the documented
+default:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">VD_PORT</span><span class="op">=</span>9401 <span class="va">MV_PORT</span><span class="op">=</span>9082 <span class="ex">npx</span> playwright test <span class="at">--project</span><span class="op">=</span>chromium</span></code></pre></div>
+<p>An unparseable port throws when the module loads instead of silently
+falling back. Read <code>_tests/env.js</code> for the full variable
+list.</p>
+<h3 id="which-specs-do-not-run-in-the-push-gate">Which specs do not run
+in the push gate</h3>
+<p><code>_tests/playwright.config.js</code> carries a
+<code>testIgnore</code> that excludes three specs, and the local run
+above excludes a fourth by <code>--grep-invert</code>. All four assert
+against live production, and all four are claimed by
+<code>_tests/playwright.live.config.js</code> instead:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;testIgnore&#39;</span> _tests/playwright.config.js</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;testMatch&#39;</span>  _tests/playwright.live.config.js</span></code></pre></div>
+<p>The reason for the split is measured, not stylistic: gating a push of
+undeployed source on public DNS makes the gate fail for reasons that
+have nothing to do with the change being pushed. The question those
+specs answer is whether what shipped is correct, so they run after a
+deploy, against what shipped. <code>_tools/deploy-langs.sh</code> names
+all four and runs them there.</p>
+<p>Run them by hand before a release:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests <span class="kw">&amp;&amp;</span> <span class="ex">npx</span> playwright test <span class="at">--config</span><span class="op">=</span>playwright.live.config.js</span></code></pre></div>
+<hr />
+<h2 id="the-instruments">The instruments</h2>
+<p>Separate from the push gates. These judge the repository itself — its
+governance wiring, its manifests, its adaptability, and its boundary
+with the private submodules.</p>
+<p><strong>Every one of them is three-valued.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>nothing found</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>a real finding, in the tree</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>no verdict was reached</td>
+</tr>
+</tbody>
+</table>
+<p>An exit of <code>2</code> is not a pass. It reports that the
+instrument could not look at what it judges — an uninitialised
+submodule, no provider client, no network, a missing text extractor —
+and calling that outcome clean would be a bluff. Treat it as work.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it judges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/continuation-check.sh</code></td>
+<td><code>CONTINUATION.md</code> is not stale: entry points it names
+exist and are executable, gap statuses agree with the carriers, and no
+commit changed a watched governance file without updating it</td>
+</tr>
+<tr>
+<td><code>scripts/verify-governance-cascade.sh</code></td>
+<td>The whole governance wiring in one pass: fleet classification from
+evidence, carrier presence, pointer-inheritance form, manifest/fleet
+agreement in both directions, nested gitlinks, per-submodule carrier
+lockstep, and manifest pins</td>
+</tr>
+<tr>
+<td><code>scripts/verify-manifest-pins.sh</code></td>
+<td>Standalone form of the pin check: every <code>helix-deps.yaml</code>
+ref equals the gitlink this repository would commit</td>
+</tr>
+<tr>
+<td><code>scripts/verify-submodule-remote-sync.sh</code></td>
+<td>Every declared gitlink against its remote. The only instrument here
+that looks at a remote at all</td>
+</tr>
+<tr>
+<td><code>scripts/verify-check-registry.sh</code></td>
+<td>The registry itself: every registered check points at a real,
+executable file, and every script under a declared scan root is
+registered</td>
+</tr>
+<tr>
+<td><code>scripts/verify-content-boundary.sh</code></td>
+<td>Private prose appearing in a public repository of the fleet</td>
+</tr>
+<tr>
+<td><code>scripts/verify-private-object-exposure.sh</code></td>
+<td>Private git objects reachable from a public repository</td>
+</tr>
+<tr>
+<td><code>scripts/audit-hardcoded-paths.sh</code></td>
+<td>Machine-specific absolute paths</td>
+</tr>
+<tr>
+<td><code>scripts/audit-environment-assumptions.sh</code></td>
+<td>Frozen hosts, ports, model names, tool versions and GNU-only syntax
+with no override layer</td>
+</tr>
+<tr>
+<td><code>scripts/verify-all-constitution-rules.sh</code></td>
+<td>The full rule sweep. Discovers its gates at run time</td>
+</tr>
+<tr>
+<td><code>scripts/verify-mutation-anchors.sh</code></td>
+<td>Paired-mutation proofs that have rotted away from what they claim to
+guard</td>
+</tr>
+<tr>
+<td><code>scripts/verify-remedy-executability.sh</code></td>
+<td>Remedies printed by other instruments are actually runnable</td>
+</tr>
+<tr>
+<td><code>scripts/verify-name-in-path.sh</code></td>
+<td>Personal names appearing in tracked paths</td>
+</tr>
+<tr>
+<td><code>scripts/verify-provider-ci.sh</code></td>
+<td>What no file-level check can see: Pages build type,
+provider-generated deployment runs, branch protection, Actions
+enablement</td>
+</tr>
+<tr>
+<td><code>scripts/lumen-index-doctor.sh</code></td>
+<td>Health of the local semantic index</td>
+</tr>
+<tr>
+<td><code>scripts/ollama-tune.sh</code></td>
+<td>Concurrency for the local inference host, computed from measured CPU
+and RAM</td>
+</tr>
+</tbody>
+</table>
+<p>Run any of them directly. None of them changes the repository. Two
+touch state outside it and only when told to:
+<code>ollama-tune.sh</code> is report-only unless <code>--apply</code>
+is passed, and <code>lumen-index-doctor.sh</code> inspects an index it
+does not rebuild.</p>
+<p>Each registered check also ships a paired proof that it fails when
+the condition it guards is broken, and a distinct path that returns
+“could not determine”. A gate with no failing case has never been shown
+to catch anything:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh <span class="at">--prove-failure</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh  <span class="at">--prove-failure</span></span></code></pre></div>
+<h3 id="seeing-where-the-tree-stands-right-now">Seeing where the tree
+stands right now</h3>
+<p>Nothing in this file is a substitute for running them. This sequence
+is the short version, and it takes minutes rather than seconds — the
+boundary scan and the rule sweep are both slow:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh          <span class="co"># is the handoff document stale?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh   <span class="co"># is the governance wiring intact?</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh       <span class="co"># is every check accounted for?</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-environment-assumptions.sh</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh     <span class="co"># expect 1; read it, do not silence it</span></span></code></pre></div>
+<p>Record what each one printed, not what this file says it prints.</p>
+<h3 id="the-check-registry">The check registry</h3>
+<p><code>scripts/check-registry.tsv</code> is the enumeration of “every
+check”. It exists because two success criteria in
+<code>specs/001-…/spec.md</code> are quantified over that set, and a
+claim quantified over a set that does not exist cannot be measured.</p>
+<p>It closes the enumeration in both directions. Every row must point at
+a real file, and every <code>*.sh</code> under a declared scan root must
+appear in some row — as a check, a declared debt, or an exemption with a
+stated reason. <strong>Adding a script under <code>scripts/</code>
+therefore fails the registry until it is registered.</strong> That is
+the rule working, not a defect.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh              <span class="co"># structure only</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh <span class="at">--run-proofs</span> <span class="co"># actually execute the paired proofs</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh <span class="at">--strict</span>     <span class="co"># make declared debt block</span></span></code></pre></div>
+<p>A plain run verifies that each check <em>declares</em> a paired
+failure proof and a distinct could-not-determine path. It does not run
+them. <code>--run-proofs</code> does. The distinction matters: a proof
+that returns success while exercising nothing is the failure mode the
+registry was written to catch.</p>
+<p>Reference: <a
+href="docs/check-registry.md"><code>docs/check-registry.md</code></a>.</p>
+<h3 id="two-of-these-are-expected-to-be-non-zero">Two of these are
+expected to be non-zero</h3>
+<ul>
+<li><strong><code>verify-content-boundary.sh</code> exits <code>1</code>
+by design.</strong> See <a href="#content-boundary">Content
+boundary</a>. A finding there is a reading assignment. Do not silence
+it, do not allow-list your way to green.</li>
+<li><strong><code>verify-submodule-remote-sync.sh</code> exits
+<code>1</code> whenever a pin is behind its remote.</strong> Bumping a
+pin is an operator decision, and this instrument does not make one. It
+exits <code>1</code> until an operator acts.</li>
+</ul>
+<p>Neither is a reason to weaken the instrument.</p>
+<hr />
+<h2 id="deploys">Deploys</h2>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/deploy-langs.sh <span class="at">--dry-run</span>   <span class="co"># preview: build, no commit, no push</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/deploy-langs.sh             <span class="co"># the real cycle</span></span></code></pre></div>
+<p>One cycle regenerates English plus every <strong>complete</strong>
+language into both site directories, commits and pushes each site only
+where something actually changed, then validates the live sites. A
+language counts as complete when every source document carries a passing
+review verdict.</p>
+<p>Its exit contract distinguishes five outcomes, and the distinctions
+are load-bearing:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>deployed; live validation passed or was explicitly skipped</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>deployed, and the live suite reached production and found a real
+defect there — act on the sites</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>deployed, but the live suite reached no verdict at all — act on the
+toolchain or the network path, then re-validate</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>refused to deploy: unrelated changes were present in a site
+submodule. Nothing was built, staged, committed or pushed</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>the publish itself failed. Live validation is deliberately skipped,
+because crawling live would report on content this run did not
+publish</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="milosvasic.ru-publishes-itself-and-that-must-not-change"><code>milosvasic.ru</code>
+publishes itself, and that must not change</h3>
+<p><code>milosvasic.ru/.github/workflows/pages.yml</code> is active, and
+it is the only path by which that site is published. Its repository root
+is Jekyll source — Liquid and front matter — so it cannot be served raw
+from a branch, and there is no alternative publishing branch or
+folder.</p>
+<p><code>_tools/deploy-langs.sh</code> is not a substitute. It
+generates, commits and pushes <em>source</em>, then waits for the server
+to rebuild. The rebuild it waits for <strong>is</strong> that workflow.
+Disabling it would not downgrade publishing to manual; it would stop the
+site updating at all.</p>
+<p>Do not disable, rename, or otherwise “fix” that file.</p>
+<p><code>vasic.digital</code> needs no build step, but its Pages source
+setting still makes the provider run a deployment on every push, with
+zero workflow files in its tree. Nothing inside that repository can
+change this.</p>
+<p>Every provider setting named here lives outside this tree and can
+change without leaving a trace in it. Measure instead of quoting:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   0 = no provider-generated triggering found</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 = provider-side triggering confirmed (operator-only to change, in the provider UI)</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 = could not determine — not a pass</span></span></code></pre></div>
+<p>It enumerates the owned repositories from this checkout’s own remotes
+and asks each provider directly. Measured 2026-09-03 it exits
+<code>1</code>, with the confirmed standing trigger being the
+<code>vasic.digital</code> Pages source setting, and six rows reported
+as unverified because no read-only API adapter is registered for those
+hosts. Note the shape of that output: a confirmed finding does not
+suppress the unverified rows. They are printed on every run, so a
+<code>1</code> never hides them and they never read as clean.</p>
+<hr />
+<h2 id="the-submodule-fleet">The submodule fleet</h2>
+<p>The fleet is <strong>derived</strong>, never hardcoded. Two files
+define it, and they are checked against each other in both
+directions:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.path&#39;</span>   <span class="co"># the gitlinks</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml;d=yaml.safe_load(open(&quot;helix-deps.yaml&quot;));print(len(d[&quot;deps&quot;]))&#39;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh    <span class="co"># classifies the fleet from evidence</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh         <span class="co"># every recorded ref vs its live gitlink</span></span></code></pre></div>
+<p>Measured 2026-09-03 by exactly those commands: <strong>13 gitlinks
+are declared, 12 carry a manifest entry, and the cascade classifies 11
+as owned consumers, 1 as the governance source, and 1 as third
+party.</strong> Those numbers move when a submodule is added. The
+commands above are the authority; this paragraph is a dated
+observation.</p>
+<p>Three roles exist:</p>
+<ul>
+<li><strong>Owned consumer</strong> — this project owns it and the
+governance cascade reaches it.</li>
+<li><strong>Governance source</strong> — the constitution. It is the
+head of the cascade, not a consumer of it.</li>
+<li><strong>Third party</strong> — upstream code this project consumes
+and does not own. It is probed and reported, and it is never an input to
+any verdict.</li>
+</ul>
+<h3 id="visibility-is-a-provider-setting-re-derive-it">Visibility is a
+provider setting — re-derive it</h3>
+<p>Visibility is configured outside this repository and changes without
+any commit here. Do not trust the table below; regenerate it:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> <span class="va">$(</span><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.url&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">slug</span><span class="op">=</span><span class="va">${u</span><span class="op">#</span>git@github.com:<span class="va">}</span><span class="kw">;</span> <span class="va">slug</span><span class="op">=</span><span class="va">${slug</span><span class="op">%</span>.git<span class="va">}</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%-45s %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">gh</span> api <span class="st">&quot;repos/</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="at">--jq</span> .visibility <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">||</span> <span class="bu">echo</span> COULD_NOT_DETERMINE<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Measured 2026-09-03 with exactly that loop:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Role</th>
+<th>Visibility</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td>governance source</td>
+<td>public</td>
+<td>The universal constitution this repository inherits: the corpus, the
+four per-agent carriers, the resolver script, the propagation and
+covenant gates, the post-pull hook, and the consumer templates</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td>owned</td>
+<td>public</td>
+<td>Site submodule. Committed static HTML, no build step</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td>owned</td>
+<td>public</td>
+<td>Site submodule. Jekyll source; <code>_site/</code> is
+git-ignored</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td>owned</td>
+<td>public</td>
+<td>Design-system engine: machine-readable tokens, brand contract,
+design-library catalogue, and design-specialist agent recipes</td>
+</tr>
+<tr>
+<td><code>submodules/containers</code></td>
+<td>owned</td>
+<td>public</td>
+<td>The mandated container library — runtime auto-detection, endpoint
+discovery, lifecycle and health, compose orchestration, cross-build,
+on-demand service boot. Go module
+<code>digital.vasic.containers</code></td>
+</tr>
+<tr>
+<td><code>submodules/LLMProvider</code></td>
+<td>owned</td>
+<td>public</td>
+<td>Provider abstraction for model backends: one interface over many
+concrete adapters. Go module <code>digital.vasic.llmprovider</code>.
+Adopted rather than rebuilt</td>
+</tr>
+<tr>
+<td><code>submodules/RAG</code></td>
+<td>owned</td>
+<td>public</td>
+<td>Retrieval library: one document identity type and a one-method
+retriever interface. Go module <code>digital.vasic.rag</code>. Adopted
+rather than rebuilt</td>
+</tr>
+<tr>
+<td><code>submodules/verdict</code></td>
+<td>owned</td>
+<td>public</td>
+<td>The three-valued instrument result whose numeric value <em>is</em>
+the process exit code, so exiting on it is correct by construction</td>
+</tr>
+<tr>
+<td><code>submodules/passage</code></td>
+<td>owned</td>
+<td>public</td>
+<td>Stable identity for citable spans of text, minted once at ingest and
+derived from neither content nor position</td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td>owned</td>
+<td><strong>private</strong></td>
+<td>Interview-preparation corpus and employer due-diligence
+material</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td>owned</td>
+<td><strong>private</strong></td>
+<td>Monetization documentation and the per-provider upstream declaration
+scripts</td>
+</tr>
+<tr>
+<td><code>workshop</code></td>
+<td>owned</td>
+<td><strong>private</strong></td>
+<td>Teaching-curriculum corpus and the platform built against
+<code>specs/001-…</code>. Recorded sessions and their written materials
+live under <code>workshop/chapters/&lt;NN&gt;/</code>, kept in git as
+size-capped, checksum-verified archive parts</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td>third party</td>
+<td>public</td>
+<td>Upstream spec-kit extension. Not owned; excluded from tagging and
+propagation</td>
+</tr>
+</tbody>
+</table>
+<p>The two reusable libraries <code>verdict</code> and
+<code>passage</code> were extracted out of <code>workshop</code> and
+published as their own public repositories precisely because a submodule
+nested inside a submodule is forbidden, and because a general-purpose
+library has no business living inside a private corpus.</p>
+<h3 id="nested-gitlinks">Nested gitlinks</h3>
+<p><code>milosvasic.ru</code> contains one nested gitlink in a namespace
+this project does not own. It is classified from evidence, documented in
+the manifest, and excluded from the cascade — which is also why the
+clone step above is non-recursive.</p>
+<h3 id="the-design-toolkit-mirrors-are-not-in-sync">The
+<code>design-toolkit</code> mirrors are not in sync</h3>
+<p>That submodule has two remotes declared in this checkout, and they
+hold different heads. Re-derive rather than quoting a number:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote <span class="at">-v</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote origin HEAD</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote gitlab HEAD</span></code></pre></div>
+<p>Measured 2026-09-03: the GitLab head is a strict ancestor of the
+GitHub head — six commits behind, zero divergent. That is lag, not
+divergence, and the remote-sync instrument reports this submodule
+current because it probes the declared origin only. “Current” there is a
+statement about one remote.</p>
+<hr />
+<h2 id="content-boundary">Content boundary</h2>
+<p><strong>This repository is public. <code>workshop</code>,
+<code>ai_interviewing</code> and <code>monetization</code> are
+private.</strong> A gitlink publishes a commit id and nothing else, so
+their contents stay private — right up until somebody copies a paragraph
+out.</p>
+<p>The rule is a single line:</p>
+<blockquote>
+<p>Naming a private path is allowed. Copying what is inside it is
+not.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Written into a public file here</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A path under a private submodule, on its own</td>
+<td>allowed</td>
+</tr>
+<tr>
+<td>A filename, a directory, a count of files</td>
+<td>allowed</td>
+</tr>
+<tr>
+<td>A sentence, a heading, a table row, a schema header lifted from
+inside one</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td>A person’s real name carried only by private material</td>
+<td>forbidden</td>
+</tr>
+</tbody>
+</table>
+<p>Nobody does this by being sloppy. It happens while writing
+documentation <em>well</em>: you want an example that makes the point
+concrete, and the most concrete example to hand is the real one. That
+example is the disclosure, and a single paragraph of it stays public for
+good, because a push cannot be edited out of history.</p>
+<p><code>workshop/chapters/**</code> holds a recording of a private
+teaching session with an identifiable third party. <strong>Refer to it
+by path. That person’s name belongs in no file in this
+repository.</strong></p>
+<h3 id="the-instrument">The instrument</h3>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--list-fleet</span>          <span class="co"># the derived public/private map</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--include-untracked</span>   <span class="co"># also read untracked public files</span></span></code></pre></div>
+<p>It shingles the private side, subtracts what is demonstrably already
+public, and reports what survives with both sides named. Legitimate
+cross-boundary flows are declared as private/public
+<strong>pairs</strong> with a mandatory reason in
+<code>.content-boundary-allow</code>.</p>
+<p><strong>It exits <code>1</code>, and that is the designed state. Do
+not make it green.</strong> The surviving matches are left visible
+rather than allow-listed, because an allow-list entry buys a green exit
+at the price of hiding the row from the next reader.</p>
+<p>Three things about that number, stated so it is not misread:</p>
+<ol type="1">
+<li><strong>It detects co-occurrence, not direction.</strong> Governance
+text that originated in this repository’s own carriers and propagated
+<em>into</em> a private submodule is, to this instrument,
+indistinguishable from private text leaking out.</li>
+<li><strong>The count moves when the private side grows</strong>, with
+no change to the instrument and no new disclosure. Compare counts only
+against a run of the same day.</li>
+<li><strong>The rows have not been individually judged.</strong> An
+assessment covering a few hundred matches exists; the reported
+population is far larger. Do not read any figure from it as
+“cleared”.</li>
+</ol>
+<p>Full design and the fleet map: <a
+href="docs/content-boundary.md"><code>docs/content-boundary.md</code></a>.</p>
+<h3 id="untracked-files-are-invisible-to-a-default-run">Untracked files
+are invisible to a default run</h3>
+<p>The scan enumerates tracked files. An untracked public file quoting
+private material is not seen unless <code>--include-untracked</code> is
+passed — and the commit wrapper used in this project stages everything
+untracked. Pass the flag before committing new files.</p>
+<hr />
+<h2 id="governance">Governance</h2>
+<h3 id="where-the-rules-live">Where the rules live</h3>
+<p>The authority is the git submodule at
+<code>submodules/constitution/</code>. Nothing is copied out of it into
+this repository. Note the path: the constitution’s own prose uses a
+top-level <code>constitution/</code> in its examples; here it is
+<code>submodules/constitution/</code>. The bundled resolver finds it
+from any depth:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/find_constitution.sh</span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>What</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The corpus</td>
+<td><code>submodules/constitution/Constitution.md</code></td>
+</tr>
+<tr>
+<td>Claude Code carrier</td>
+<td><code>submodules/constitution/CLAUDE.md</code></td>
+</tr>
+<tr>
+<td>Codex / Cursor / Aider / OpenCode / Crush carrier</td>
+<td><code>submodules/constitution/AGENTS.md</code></td>
+</tr>
+<tr>
+<td>Qwen Code carrier</td>
+<td><code>submodules/constitution/QWEN.md</code></td>
+</tr>
+<tr>
+<td>Gemini CLI carrier</td>
+<td><code>submodules/constitution/GEMINI.md</code></td>
+</tr>
+<tr>
+<td>Parent-walk resolver</td>
+<td><code>submodules/constitution/find_constitution.sh</code></td>
+</tr>
+<tr>
+<td>Post-pull hook</td>
+<td><code>submodules/constitution/scripts/post_update_hook.sh</code></td>
+</tr>
+<tr>
+<td>Forbidden-command guard</td>
+<td><code>submodules/constitution/scripts/hooks/guard-forbidden-commands.sh</code></td>
+</tr>
+<tr>
+<td>Propagation and covenant gates</td>
+<td><code>submodules/constitution/scripts/gates/</code></td>
+</tr>
+</tbody>
+</table>
+<p>Read one anchor rather than the whole corpus:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^### §11.4.35 /{f=1} f&amp;&amp;/^### §11.4.36 /{exit} f{print}&#39;</span> <span class="dt">\</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    submodules/constitution/Constitution.md</span></code></pre></div>
+<h3 id="the-four-root-carriers">The four root carriers</h3>
+<p><code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>QWEN.md</code>
+and <code>GEMINI.md</code> at this root are the same document with four
+different opening sections. Lines 1 to 18 are per-agent; from line 19 to
+end of file all four are byte-identical, and a gate enforces exactly
+that range — it measures where the four actually converge and refuses a
+declared split narrower than the measured one, so there is no
+identical-but- ungated remainder.</p>
+<p>Verify it yourself; expect <code>4</code> then <code>1</code>:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> 18 19<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;from %s: &#39;</span> <span class="st">&quot;</span><span class="va">$N</span><span class="st">&quot;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> f <span class="kw">in</span> CLAUDE.md AGENTS.md QWEN.md GEMINI.md<span class="kw">;</span> <span class="cf">do</span> <span class="fu">tail</span> <span class="at">-n</span> +<span class="va">$N</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span><span class="kw">;</span> <span class="cf">done</span> <span class="dt">\</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><strong>Edit the shared region as one artifact</strong> — split the
+head off, edit the tail once, recompose. Editing four files by hand and
+relying on the gate to catch a slip is how they drift.</p>
+<h3 id="this-projects-own-constitution">This project’s own
+constitution</h3>
+<p><code>Constitution.md</code> at this root is a <em>consumer</em>
+document. It extends the inherited corpus and it overrides nothing in it
+— a consumer may add rules, and may not weaken one it inherits. The only
+legitimate way to record an exception is the explicit override form the
+constitution’s own template defines, and it cannot be used against a
+clause that refuses exemptions by name.</p>
+<p>Measured 2026-09-03: no clause of the universal constitution is
+overridden by this project. Two positions that look like exceptions are
+<strong>documented deviations</strong>, not overrides — see <a
+href="#what-is-not-done">What is not done</a>.</p>
+<h3 id="pointer-inheritance-and-why-it-is-used-here">Pointer
+inheritance, and why it is used here</h3>
+<p>A consumer may wire the inheritance in either of two forms, and the
+rule declares them equivalent: a native import of the carrier, or a
+portable <code>## INHERITED FROM …</code> pointer block as the first
+heading. This repository uses the pointer.</p>
+<p>The reason is cost, and it is stated openly rather than left
+implicit:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> submodules/constitution/Constitution.md submodules/constitution/CLAUDE.md</span></code></pre></div>
+<p>Measured 2026-09-03: the corpus is 1.7 MB and the carrier 784 KB. A
+native import pulls the carrier into context before a session does any
+work at all — on the order of 165 thousand tokens, every session,
+whether or not a single rule is relevant. The pointer carries the same
+authority at no standing cost, and it is the form the constitution’s own
+propagation gates recognise: any carrier whose first line-anchored
+heading outside a code fence is <code>## INHERITED FROM</code> is
+classified as a legitimate pointer consumer.</p>
+<p>The trade is real and worth naming: an agent that does not resolve
+pointers sees less. That is why the carriers restate a short, bounded
+list of critical rules — a list authored by the constitution for exactly
+that purpose — and nothing more.</p>
+<h3 id="the-manifest">The manifest</h3>
+<p><code>helix-deps.yaml</code> records every submodule with its URL,
+its pinned ref, and a stated reason for its presence. A <code>ref</code>
+is a <strong>pin</strong>, not a souvenir: it is the commit the
+corresponding gitlink points at, and the tree must match it.</p>
+<p>Move the gitlink and the manifest entry <strong>in the same
+change</strong>. Staging one without the other makes the pin check fail,
+correctly, until both move.</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh</span></code></pre></div>
+<h3 id="the-submodule-pin-is-a-recurring-decision-not-a-task">The
+submodule pin is a recurring decision, not a task</h3>
+<p><code>scripts/verify-manifest-pins.sh</code> compares the manifest to
+the <strong>local</strong> gitlink. It cannot see a remote, and it never
+could. A submodule arbitrarily far behind its upstream is invisible to
+it and to the cascade check that wraps it.</p>
+<p>Only one instrument here looks at a remote:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span></code></pre></div>
+<p>Measured 2026-09-03 it exits <code>1</code>: the constitution gitlink
+differs from its remote head, with the <em>difference</em> determined
+and the <em>direction</em> not, because the remote commit is not in this
+checkout’s object store. Classifying the direction requires a fetch, and
+a fetch is a mutating command and an operator decision. The read-only
+probes tell you <em>that</em> it differs, never which way:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> submodules/constitution rev-parse HEAD</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD</span></code></pre></div>
+<p>The record in this repository shows that pin brought level with its
+upstream three times, and it differs again today. <strong>Treat it as a
+standing operator decision that recurs, not as something that
+completes.</strong> Do not read any commit id printed in any document
+here as current — run the check.</p>
+<h3 id="the-commit-wrapper">The commit wrapper</h3>
+<p>Use the project’s wrapper rather than direct <code>git add</code> /
+<code>git commit</code> / <code>git push</code> on the main repository.
+It reads the per-provider recipes in <code>upstreams/</code>. It runs
+<code>git add .</code>, which stages everything untracked, so keep
+<code>.gitignore</code> accurate and run the content-boundary scan with
+<code>--include-untracked</code> first.</p>
+<p>Never force-push. A force-push needs explicit per-session
+authorization and a green post-operation gate.</p>
+<hr />
+<h2 id="what-is-not-done">What is not done</h2>
+<p>This section exists because reporting a state you have not verified
+is forbidden here, and because a README that oversells is worse than a
+short one.</p>
+<p>The full audit is <a
+href="docs/constitution-adoption/INVENTORY.md"><code>docs/constitution-adoption/INVENTORY.md</code></a>;
+its own status ledger is the authority for the identifiers below.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Status recorded in the inventory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1, G2, G3, G6, G7</td>
+<td>closed</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>partial, and cannot reach closed from inside this tree</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>partially closed — the commit wrapper exists; git hooks as a
+tracked, travelling artifact do not</td>
+</tr>
+<tr>
+<td>G8</td>
+<td>open — the markdown/export mandate is unmet across the repository,
+no work in flight</td>
+</tr>
+<tr>
+<td>G9, G10, G11</td>
+<td>no verified current status. Do not report them either way without
+re-auditing</td>
+</tr>
+<tr>
+<td>G12</td>
+<td>open — no <code>PreToolUse</code> guard is wired, although the
+canonical guard script sits unused in the constitution submodule</td>
+</tr>
+</tbody>
+</table>
+<p>Re-read the ledger rather than this table:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/Current status ledger/,/^### G1 /p&#39;</span> docs/constitution-adoption/INVENTORY.md</span></code></pre></div>
+<h3
+id="provider-level-non-compliance-with-no-file-level-remedy">Provider-level
+non-compliance, with no file-level remedy</h3>
+<p>Disabling a workflow file stops file-triggered runs. It does not
+reach provider settings — organisation-default required workflows,
+branch-protection required checks, the Pages source setting,
+provider-side scheduled exports. Those are operator-only to change, in a
+provider UI.</p>
+<p>Two known positions, both deliberate, neither an override:</p>
+<ul>
+<li><code>milosvasic.ru</code> keeps an active deploy workflow. It is a
+<strong>documented deviation</strong> taken for production uptime,
+because that workflow is the only publish path the live site has.</li>
+<li><code>vasic.digital</code> is non-compliant at the provider level
+and has <strong>no</strong> file-level remedy, because it has zero
+workflow files.</li>
+</ul>
+<p>The rule those two deviate from names and refuses the exemption
+vocabulary outright, and a consumer may only extend an inherited rule,
+never weaken it. A project-local override is therefore structurally
+impossible, not merely disfavoured. <strong>Do not propose one, and do
+not write either position up as one.</strong></p>
+<p>Record: <a
+href="docs/constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>docs/constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>.
+CI surface inventory: <a
+href="docs/constitution-adoption/CI-INVENTORY-11-4-156.md"><code>docs/constitution-adoption/CI-INVENTORY-11-4-156.md</code></a>.</p>
+<h3
+id="the-content-boundary-incident-of-2026-09-01-is-contained-not-remedied">The
+content-boundary incident of 2026-09-01 is contained, not remedied</h3>
+<p>Private material was written into this public repository, committed,
+and pushed. Three classes crossed the boundary: prose quoted out of a
+private document, script and schema headers copied out of a private
+repository, and a third party’s real name.</p>
+<p><strong>The working tree is redacted. The commits are not.</strong>
+Redaction is containment. Those commits still sit in a public remote,
+and no push can be un-made. Taking the content out of the record means a
+rewrite of published history — an operator decision, prepared and not
+executed.</p>
+<p>Do not read the redaction, or any green gate, as closure. The
+instrument that now watches for a recurrence was written <em>after</em>
+the leak, so it is evidence that the class is watched and evidence of
+nothing about what is already public.</p>
+<p>Forensics, the assessment, and the unexecuted remediation plan: <a
+href="docs/content-boundary-incident-2026-09-01.md"><code>docs/content-boundary-incident-2026-09-01.md</code></a>.</p>
+<h3 id="the-rule-sweep-is-not-green">The rule sweep is not green</h3>
+<p><code>scripts/verify-all-constitution-rules.sh</code> discovers its
+gates at run time, and the set it discovers changes when the
+constitution pin moves. A pass/fail split measured before a pin move is
+therefore not comparable to one measured after it, and the record here
+contains exactly that discontinuity. <strong>Run it; do not quote a
+number for it.</strong></p>
+<p>Two classes of failure inside it cannot be cleared by any commit this
+repository can make, and neither licenses treating the sweep as
+green:</p>
+<ol type="1">
+<li>Third-party and vendored carriers. The cascade check reports these
+as known-unclearable and excludes them from its own verdict; the
+propagation gates inside the sweep still count them. Excluded there
+means not double-counted — never suppressed.</li>
+<li>Defects internal to the constitution submodule, which is upstream
+code this repository consumes rather than owns. The precedent on record
+is that waiting for upstream is the correct response, not committing
+into a repository this project does not own.</li>
+</ol>
+<h3 id="host-capability-is-measured-never-assumed">Host capability is
+measured, never assumed</h3>
+<p>What can be built here depends on what is installed, and that has
+changed under this repository more than once. Two traps are worth naming
+because both have already caused a wrong conclusion:</p>
+<ul>
+<li>A name on <code>PATH</code> proves nothing about what that name is.
+<code>command -v</code> finding a binary is not evidence that the binary
+does what its name suggests.</li>
+<li>A system interpreter and a project virtualenv are different
+environments. A probe run against the wrong one reports a capability
+that is present as absent, or the reverse.</li>
+</ul>
+<p>Probe before relying on any of it:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> podman docker</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list</span></code></pre></div>
+<hr />
+<h2 id="where-to-go-next">Where to go next</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>You want to</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pick up work someone else left</td>
+<td><a href="CONTINUATION.md"><code>CONTINUATION.md</code></a> — the
+resumption contract. It carries a verbatim prompt you can paste into any
+CLI agent, and <code>bash scripts/continuation-check.sh</code> tells you
+whether it is stale before you trust it</td>
+</tr>
+<tr>
+<td>Understand the agent rules that bind work here</td>
+<td><a href="CLAUDE.md"><code>CLAUDE.md</code></a> — or the carrier
+matching your agent, <code>AGENTS.md</code> / <code>QWEN.md</code> /
+<code>GEMINI.md</code>. They are byte-identical from line 19 down</td>
+</tr>
+<tr>
+<td>Understand how the constitution is inherited</td>
+<td><a
+href="docs/constitution-adoption/README.md"><code>docs/constitution-adoption/README.md</code></a>,
+then <a
+href="docs/constitution-adoption/INVENTORY.md"><code>INVENTORY.md</code></a></td>
+</tr>
+<tr>
+<td>Know what may and may not be written here</td>
+<td><a
+href="docs/content-boundary.md"><code>docs/content-boundary.md</code></a>
+and <a
+href="docs/content-boundary-incident-2026-09-01.md"><code>docs/content-boundary-incident-2026-09-01.md</code></a></td>
+</tr>
+<tr>
+<td>Add or change a check</td>
+<td><a
+href="docs/check-registry.md"><code>docs/check-registry.md</code></a>
+and <code>scripts/check-registry.tsv</code></td>
+</tr>
+<tr>
+<td>Understand the environment-adaptability baseline</td>
+<td><a
+href="docs/environment-adaptability/AUDIT.md"><code>docs/environment-adaptability/AUDIT.md</code></a></td>
+</tr>
+<tr>
+<td>See the live-site health record</td>
+<td><a
+href="docs/site-health/PRODUCTION-SITE-HEALTH.md"><code>docs/site-health/PRODUCTION-SITE-HEALTH.md</code></a></td>
+</tr>
+<tr>
+<td>Work on a planned feature</td>
+<td><code>specs/&lt;NNN&gt;-&lt;name&gt;/</code> — <code>spec.md</code>,
+<code>plan.md</code>, <code>tasks.md</code>, <code>contracts/</code>,
+<code>checklists/</code></td>
+</tr>
+<tr>
+<td>Know what the setup wizard could not do for you</td>
+<td><a href="MANUAL-STEPS.md"><code>MANUAL-STEPS.md</code></a></td>
+</tr>
+<tr>
+<td>Read the shared design tokens and brand contracts</td>
+<td><a
+href="design-system/README.md"><code>design-system/README.md</code></a></td>
+</tr>
+<tr>
+<td>Understand the test taxonomy</td>
+<td><a href="_tests/TEST-TYPES.md"><code>_tests/TEST-TYPES.md</code></a>
+and <a href="_tests/GATES.md"><code>_tests/GATES.md</code></a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="before-you-claim-anything-passes">Before you claim anything
+passes</h3>
+<p>Run it. A gate you have not executed is not a pass, and the absence
+of a gate is not one either. Every claim in this file either carries the
+command that produces it or names the document that holds the evidence;
+keep it that way.</p>
+</body>
+</html>

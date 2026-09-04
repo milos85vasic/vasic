@@ -5,6 +5,9 @@ description: docs/** guides, research, incident notes and procedures -> html + p
 # scripts/verify-docs-chain.sh FAILS while this file and the tree disagree.
 # Format set: .html + .pdf per constitution §11.4.65.
 nodes:
+  docs_badges_md:   { kind: markdown, path: docs/BADGES.md }
+  docs_badges_html: { kind: html,     path: docs/BADGES.html }
+  docs_badges_pdf:  { kind: pdf,      path: docs/BADGES.pdf }
   docs_session_report_md:   { kind: markdown, path: docs/SESSION-REPORT.md }
   docs_session_report_html: { kind: html,     path: docs/SESSION-REPORT.html }
   docs_session_report_pdf:  { kind: pdf,      path: docs/SESSION-REPORT.pdf }
@@ -59,6 +62,9 @@ nodes:
   docs_environment_adaptability_audit_md:   { kind: markdown, path: docs/environment-adaptability/AUDIT.md }
   docs_environment_adaptability_audit_html: { kind: html,     path: docs/environment-adaptability/AUDIT.html }
   docs_environment_adaptability_audit_pdf:  { kind: pdf,      path: docs/environment-adaptability/AUDIT.pdf }
+  docs_findings_tracked_md:   { kind: markdown, path: docs/findings/TRACKED.md }
+  docs_findings_tracked_html: { kind: html,     path: docs/findings/TRACKED.html }
+  docs_findings_tracked_pdf:  { kind: pdf,      path: docs/findings/TRACKED.pdf }
   docs_session_instruction_audit_2026_09_01_md:   { kind: markdown, path: docs/session-instruction-audit-2026-09-01.md }
   docs_session_instruction_audit_2026_09_01_html: { kind: html,     path: docs/session-instruction-audit-2026-09-01.html }
   docs_session_instruction_audit_2026_09_01_pdf:  { kind: pdf,      path: docs/session-instruction-audit-2026-09-01.pdf }
@@ -129,6 +135,8 @@ nodes:
   docs_workshop_curriculum_recon_html: { kind: html,     path: docs/workshop-curriculum/RECON.html }
   docs_workshop_curriculum_recon_pdf:  { kind: pdf,      path: docs/workshop-curriculum/RECON.pdf }
 edges:
+  - { type: derive-from, from: docs_badges_md,   to: docs_badges_html, transform: md2html }
+  - { type: derive-from, from: docs_badges_html, to: docs_badges_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_session_report_md,   to: docs_session_report_html, transform: md2html }
   - { type: derive-from, from: docs_session_report_html, to: docs_session_report_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_check_registry_md,   to: docs_check_registry_html, transform: md2html }
@@ -165,6 +173,8 @@ edges:
   - { type: derive-from, from: docs_docs_chain_html, to: docs_docs_chain_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_environment_adaptability_audit_md,   to: docs_environment_adaptability_audit_html, transform: md2html }
   - { type: derive-from, from: docs_environment_adaptability_audit_html, to: docs_environment_adaptability_audit_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_findings_tracked_md,   to: docs_findings_tracked_html, transform: md2html }
+  - { type: derive-from, from: docs_findings_tracked_html, to: docs_findings_tracked_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_session_instruction_audit_2026_09_01_md,   to: docs_session_instruction_audit_2026_09_01_html, transform: md2html }
   - { type: derive-from, from: docs_session_instruction_audit_2026_09_01_html, to: docs_session_instruction_audit_2026_09_01_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_setup_agents_wizard_action_required_md,   to: docs_setup_agents_wizard_action_required_html, transform: md2html }

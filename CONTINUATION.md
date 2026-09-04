@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T17:41:45Z
+    Last-Updated: 2026-09-04T18:12:08Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -954,6 +954,155 @@ declined to claim them.
 seen**; no colour-vision-deficiency simulation was run — the three kind families
 sit 1.03–1.19:1 apart in luminance, so they are *certainly not* greyscale-
 distinguishable, which is why every chip carries a text label.
+
+#### A95 — **Three constitution gates FAIL → PASS, and FOUR SIBLING GATES WERE PASSING VACUOUSLY.** The badge row is mostly RED, and that is the compliant outcome.
+
+### The anchors were READ, and the name is not the requirement
+
+**§11.4.259 is not "add badges".** Its operative clauses:
+
+> *"(C) MACHINE-DERIVED SOURCE DATA. Every badge's color + value is COMPUTED from
+> a live source of truth, NEVER hand-typed… A badge whose provenance is
+> `hand-typed` fails §11.4.259."*
+> *"(F) … a badge-computer that PASSes its golden-RED fixture is the §11.4 bluff
+> itself."*
+> *"a project whose badge row is HONESTLY red is compliant… A badge class that
+> GENUINELY does not apply is GRAY-labeled with a reason, never omitted
+> (silence-as-badge is a §11.4.201(6) FALSE-NULL — the reader assumes green
+> because they see nothing red)."*
+
+So the requirement is a **computer**: twelve enumerated classes, none omittable,
+each derived from a live command, plus fixtures proving it can output RED.
+
+**§11.4.261's ratchet is not a file — it must REFUSE.** *"every subsequent audit
+run's count MUST be ≤ the ratchet snapshot… a run that increases any class's
+count REFUSES the seam… never an invented ratchet."* And *"(E) HONEST 'zero' — a
+project narrowing the vocabulary to declare 'zero' is a §11.4.6 fabrication and a
+release-blocker."*
+
+### FOUR SIBLING GATES WERE PASSING VACUOUSLY
+
+`cm_badge_closed_color_vocabulary`, `cm_badge_machine_derived_source`,
+`cm_badge_self_validated` and `cm_every_finding_closed_or_tracked` were green with
+*"0 badge(s) present, vacuously compliant"* — **and would have gone RED the moment
+anyone added a badge.** All four now pass non-vacuously (12/12 tokens, 12/12
+provenance entries, 26 rows all tracked). **A gate that is green because its
+subject does not exist is not evidence of anything.**
+
+| gate | before | after |
+|---|---|---|
+| `cm_readme_badge_row_at_top` | **1** — no badge row found | **0** — 12 badges |
+| `cm_zero_findings_audit_sweep` | **1** — `SWEEP_SCRIPT_MISSING` | **0** — names all 10 vocabulary + 3 fixture classes |
+| `cm_zero_findings_monotone_ratchet` | **1** — `RATCHET_SNAPSHOT_MISSING` | **0** — every class within ceiling |
+
+*(All three re-run independently from this session: exit 0 each.)*
+
+### The ratchet's first row is MEASURED, not seeded
+
+    shortcomings 0 · gaps 7 · weak-spots 1 · danger-zones 9 · todo-fixme 0
+    skipped-tests 9 · bluffs 0 · unresolved 0 · divergent-stale-orphan 0
+    uncatalogued 0 · TOTAL 26
+
+`gaps 7` is the seven non-CLOSED `G<n>` rows in `INVENTORY.md`; `skipped-tests 9`
+includes `ci.yml.disabled` and the `testIgnore` deferral; `danger-zones 9`
+includes three `eval` in vendored `.specify/scripts/`. Each has a real tracker
+entry with an honest mitigation. **No allow-list, no redaction, and `--selftest`
+proves every detector fires on a planted finding — so the zeros are measured, not
+vacuous.**
+
+**And it refuses:** a new finding above ceiling → **1**; `--write-ratchet`
+declining to RAISE a ceiling → **1**; a missing ratchet → **2**, never 0; a
+blinded detector → **2**. 15/15 caught including a control.
+
+### The badges are truthful, and mostly RED
+
+**1 green, 2 amber, 9 red**, gauge `production ready — blocked, 8 red`. **That is
+§11.4.259's own prescribed output, not a failure to polish.** Drift detection
+fired for real: after two checks were registered, `--check` caught the evidence
+badge reading `20/20` while the live registry said `22/22` — rc 1.
+
+**A judgement call worth reviewing:** the sweep **declares a self-exclusion** — it
+skips its own source in the 4 *pattern* detectors, because it carries the patterns
+it hunts as literals (12 self-matches). Proved to matter: in a temp tree where the
+new files are tracked, the ratchet **refused** at `shortcomings 3 > 0` before the
+exclusion and holds at exactly 26 after. Recall cost stated in the script; the
+other 6 detectors scan it normally.
+
+**It also corrected TWO of my stated baselines**, measured: `verify-docs-chain.sh`
+was **not** 0 when it arrived (C4 stale on `CONTINUATION`'s exports — my drift,
+since cleared), and `audit-environment-assumptions.sh` was **1**, from another
+agent's in-flight files.
+
+**And it caught a wrong instruction of mine:** I told it the proof convention is
+`prove-<name>.sh`. **At the umbrella root that convention does not exist** — zero
+`prove-*.sh` files, and the real pairing is `verify-check-registry.sh` R3 driven
+by the registry's `{flag,sibling}` kind, with 19 of 20 rows using
+`flag --prove-failure`. It followed the **enforced** convention rather than my
+description of it. `prove-<name>.sh` is the WORKSHOP's convention, not the
+umbrella's, and I had conflated them.
+
+#### A96 — **Five loose ends closed, and the flashcard label was thrown away at the LAST expression before the reader.**
+
+**1.** `practice.component.ts:158` was `q.kind === 'mcq' ? 'multiple choice' : 'short answer'` — **a binary ternary over a three-member enum.** The model fix was real and the server serves the kinds correctly typed; **the value survived all the way to the last expression and was discarded there.**
+`vocabulary.ts` declared no question-kind table, so one was added — **and a rule was added to `verify-ui-vocabulary.sh` that DERIVES that domain from `pkg/assessment/question.go`.** *"A ternary cannot be gated; a table can."* Coverage 17 sources / 76 members → **18 / 79**.
+RED-before asserted **at the rendered DOM**: ternary restored → `2 FAILED, 1 SUCCESS`, *"Expected 'short answer' to be 'flashcard'"*; **the MCQ test passed in both states, which is the point — the fix must not be a rename.** Fixed → 3 SUCCESS. A third test walks `codesOf('questionKind')`, so a fourth kind is exercised with no edit.
+
+**2. The `omitempty` sweep: 84 real tags, 7 meaningful-zero, 0 defects, 2 latent.**
+`CitationsVerified` was made **empirical**: the tag **is** real (marshalling `false` drops the key — measured), but the shape is **unreachable** — `Validate` rejects `answered` + `false` at **both** exits, the single answered constructor hardcodes `true`, and the poll path hand-builds a map. **Paired mutation both directions:** removing the tag fails one test; deleting the guard fails the other. Two LATENT rows on the SSE path where nothing reads them — **recorded as an executed test rather than a comment.**
+Context worth keeping: **eight numeric fields are already `*T` specifically to survive `omitempty`**, including the `CorrectIndex *int` that `git log -S` shows was never a plain `int`.
+
+**3.** `verify_bundle.py` **1 → 0** using only the project's own tools; **no verifier was edited.** **4.** `DOWNLOADS.md` gained a measured §5 — and **corrected my figure**: I said 16 mutations, the real number is **23**. It also found `docs/the-platform/README.md` recording *"Measured 2026-09-04: rc 0, 10/10"* **while the gate was exiting 1** — a live PASS-bluff.
+
+**5.** `workshop/CLAUDE.md`: every stale figure withdrawn by name — gates 18/20 → **23/27**, commands nine → **ten** (*"a WRONG LIST, not merely a stale count"* — `answer-providers` was omitted), tracked files 766 → **1,211**, `passages.jsonl` 11,622 → **13,141** rows, spec 001 66 → **69**, spec 002 107 → **110**. **Two claims were FALSE, not stale:** there are **three** `show-toplevel` call sites (not two — `_common.sh:703` was named nowhere and is correct for a different reason), and *"every script anchors on `BASH_SOURCE`"* is false for `_portable.sh`, correctly. **The gate counts moved 22/26 → 23/27 inside the session**, so the document now tells the reader to run the `ls`.
+
+#### A97 — **THE BROWSER FALSIFIED TWO DESIGN CLAIMS. `withdrawn` and `not_requested` are the same rectangle, and a CSS shorthand is why.**
+
+Full suite against the live stack, twice: **248 tests / 21 failed** before, **274 / 13 failed** after. The second run was **re-taken after the restart**, so it measures the build that ships — and it independently confirmed the determinism fix (6 identical `/api/search` calls, identical order).
+
+**Two design claims are FALSE, measured by reading the PAINTED element:**
+1. **`withdrawn` and `not_requested` render identically** — both `dashed 1px rgb(145,134,121)`. Cause: `.idle--back` and `.idle` have **equal specificity, so source order decides — and `.idle`'s `border:` SHORTHAND resets all four sides**, erasing the accent edge.
+2. **`declined` and `working` render identically** — same rule in `workshop.css`.
+
+**Both were left RED with the diagnosis rather than fixed**, and the reason is
+exactly right: *"repairing a component while claiming to verify it defeats the
+point."*
+
+**What DID hold, seen in a browser:** `withheld` vs `unavailable` on all five
+channels — hue >60° apart, chroma strictly lower, painted background-image edge
+vs `none`, ▨ vs ⚠, `role=status`/polite vs `role=alert` — **three of them
+non-chromatic, so it survives greyscale.** A **live** custody surface was reached
+with nothing intercepted.
+
+**`suggestions unavailable` was decided by the CONTRACT, and the SPEC was the
+wrong side.** §6.7 requires only that suggestions be announced through a live
+region and prescribes no wording; the phrase appears nowhere in `specs/**`, while
+the component's sentence is pinned by the unit suite. The test now asserts the
+closed code **plus the absence of determined-negative copy — stronger than the
+regex**, which would have passed on an announcement that also said "nothing
+matches". **No component copy was edited.** That test had a second, unnoticed
+defect: it probed `q=s` and typed `sil` — 503 versus 200, so its skip guard and
+its assertions read different endpoint states.
+
+**The most instructive spec fix: the a11y nav test PASSED, which is worse.**
+`getByRole`'s `name` is a substring match, so *"Search"* silently matched
+*"Ask or search"* — a label it no longer describes. Now `exact`.
+
+**22 screenshots were produced and deliberately NOT committed:**
+`e2e/artifacts/` is git-ignored **as a privacy boundary**, and a spec asserts it
+stays ignored — committing them would break an existing gate. Every fixture is
+**synthetic**, so component, normalisers, template and paint all execute while
+nothing private can reach an image.
+
+**Two live reason codes have no wording** — `/api/areas/<bad>` renders
+*"unlabelled: malformed_pid"* and *"unlabelled: area_not_found"*. The UI is
+honest rather than inventing a phrase, but the gap is real. **And the `ambiguous`
+banner says the same thing twice.** Both dispatched.
+
+**Five failures remain, all backend and all correctly attributed away**: the B9
+uncalibrated floor (the semantic leg labels top-k `above_floor` while
+`mode=lexical` honestly says `no_match`), `/api/passages/{pid}` → 400, a missing
+`deep_link` §3.7 requires, and a route not painting inside 60 s — **which the
+loop does not name on failure.** Dispatched.
 
 #### A94 — **THE SERVED SET WAS NON-DETERMINISTIC, AND THE MECHANISM IS A GO MAP.** Found, explained, fixed, deployed, and verified live: 26 queries, 0 varying.
 

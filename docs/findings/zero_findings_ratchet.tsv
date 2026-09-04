@@ -1,0 +1,24 @@
+# zero_findings_ratchet.tsv — §11.4.261(C) monotone-decreasing ratchet.
+#
+# Per-class and TOTAL ceilings on the §11.4.261 finding count. Every sweep
+# run compares the live count against these numbers; a class that RISES
+# above its ceiling makes the sweep and CM-ZERO-FINDINGS-MONOTONE-RATCHET
+# refuse the seam. A ceiling may only ever be LOWERED, after a real fix.
+#
+# These are MEASURED counts from a real sweep, not a seeded zero. A ratchet
+# whose first row is a lie is worse than no ratchet at all.
+#
+# Recorded: 2026-09-04T17:09:54Z (UTC) at commit 50a9367
+# Format: <class>\t<max-count>. "TOTAL" ceilings the sum.
+#
+shortcomings	0
+gaps	7
+weak-spots	1
+danger-zones	9
+todo-fixme	0
+skipped-tests	9
+bluffs	0
+unresolved	0
+divergent-stale-orphan	0
+uncatalogued	0
+TOTAL	26

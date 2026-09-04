@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TRACKED</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">TRACKED</h1>
+</header>
+<h1 id="tracked-findings-11.4.261d">Tracked findings — §11.4.261(D)</h1>
+<p>Every finding the §11.4.261 audit sweep emits must be either
+<strong>CLOSED</strong> (the code genuinely repaired, with captured
+evidence, so the finding disappears from the sweep) or
+<strong>TRACKED</strong> here, with a real item, an honest provenance
+marker and a reversible-safe mitigation. §11.4.261(D) names the third
+option — “silent absorption” — and forbids it at PASS-bluff severity.
+This file is that honesty seam: it is what makes the word
+<code>"status":"tracked"</code> in <a
+href="zero_findings_ledger.jsonl"><code>zero_findings_ledger.jsonl</code></a>
+mean something.</p>
+<p><strong>A tracked item is not a closed one.</strong> Nothing in this
+file is a claim that a finding has been fixed. Each entry says what was
+measured, why it is still there, and what stops it causing harm before
+it is closed.</p>
+<p><strong>How this file is read by the machine.</strong>
+<code>scripts/audit/zero_findings_sweep.sh</code> looks for a heading of
+the exact form <code>## ZF-&lt;class&gt;</code> and, inside it, a line
+beginning <code>Mitigation:</code>. A finding whose class has no such
+entry is written to the ledger as <code>status: open</code>, which
+correctly turns <code>CM-EVERY-FINDING-CLOSED-OR-TRACKED</code> red. The
+sweep never invents a disposition to buy itself a green — a class that
+acquires its first finding reddens two gates until a human writes an
+entry here.</p>
+<p><strong>On <code>Target:</code> dates.</strong> The sweep’s
+<code>unresolved</code> detector reports any item below whose
+<code>Target:</code> date has passed. <strong>No entry currently carries
+one.</strong> That is deliberate and it is a limitation, not a clean
+bill: setting a completion window is an operator commitment, and this
+file will not manufacture one. The detector states the same limit on
+every run — <em>“an item with no Target: date cannot be past its window
+and is not reported”</em>. Add a <code>Target: YYYY-MM-DD</code> line to
+any entry below and the class becomes live from that moment.</p>
+<hr />
+<h2 id="zf-gaps">ZF-gaps</h2>
+<p><strong>Measured:</strong> 7 findings, every one a row in <a
+href="../constitution-adoption/INVENTORY.md"><code>docs/constitution-adoption/INVENTORY.md</code></a>
+whose recorded status is not CLOSED — G4, G5, G8, G9, G10, G11, G12. The
+sweep does not judge these; it reads the register this repository
+already maintains, so each finding carries a per-finding
+<code>tracker_ref</code> pointing at its own inventory row rather than
+at this entry.</p>
+<p><strong>Why still open.</strong> Three different reasons, and
+collapsing them would be the dishonest move:</p>
+<ul>
+<li><strong>G4</strong> (§11.4.156 CI surface) and <strong>G5</strong>
+(git hooks as a travelling artefact) are PARTIAL because the remaining
+work is <em>outside this tree</em>. G4’s residue is a provider-side
+setting changeable only in a provider UI, and an active deploy workflow
+in the <code>milosvasic.ru</code> submodule kept deliberately for
+production uptime. G5’s residue is <code>.git/hooks/</code>, which git
+does not track.</li>
+<li><strong>G8</strong> (§11.4.65 export mandate) and
+<strong>G12</strong> (no <code>PreToolUse</code> guard wired) are OPEN
+with no work in flight. These are the two entries here that a session
+could actually close.</li>
+<li><strong>G9, G10 and G11</strong> are recorded as NO VERIFIED CURRENT
+STATUS. They are findings <em>because</em> nobody can currently say
+whether they are open or closed — an unknown is not a zero (§11.4.6).
+Re-auditing them is the work.</li>
+</ul>
+<p><strong>Mitigation:</strong> the register itself is the mitigation —
+each row states its own evidence and its own boundary, and
+<code>scripts/continuation-check.sh</code> cross-checks the gap statuses
+in <code>INVENTORY.md</code> against the four root carriers, so a status
+that drifts between the two is caught rather than quietly diverging.</p>
+<hr />
+<h2 id="zf-weak-spots">ZF-weak-spots</h2>
+<p><strong>Measured:</strong> 1 finding —
+<code>scripts/install_skills.sh</code> carries no <code>set -u</code>
+unset-variable guard. Every other tracked shell script under
+<code>scripts/</code> and <code>tests/</code> has one.</p>
+<p><strong>Why still open.</strong> That file is already registered as
+an <strong>exemption</strong> in <code>scripts/check-registry.tsv</code>
+with the reason <em>“installer: shells out to
+<code>npx skills add</code> to populate global skills; asserts nothing
+about this repository”</em>. It is not a gate and it produces no
+verdict, so an unset variable there cannot turn a red instrument green.
+It is left visible here rather than added to a detector allow-list,
+because an allow-list entry hides the row from the next reader while
+this entry shows it to them.</p>
+<p><strong>Mitigation:</strong> the file asserts nothing about this
+tree, so its failure mode is a broken install run — loud, immediate, and
+reversible by re-running it. It touches no repository state and no gate
+verdict.</p>
+<hr />
+<h2 id="zf-danger-zones">ZF-danger-zones</h2>
+<p><strong>Measured:</strong> 9 findings across 8 files — three
+<code>eval "$_paths_output"</code> in the vendored
+<code>.specify/scripts/bash/</code> spec-kit helpers, three
+<code>eval "$var"</code> in <code>scripts/continuation-check.sh</code>,
+<code>scripts/rollback-agents-wizard.sh</code> and
+<code>scripts/setup-agents-wizard.sh</code>, two
+<code>git commit --no-verify</code> inside
+<code>scripts/verify-manifest-pins.sh</code>, and one
+<code>rm -rf "$T"</code> inside a printf template in
+<code>scripts/verify-check-registry.sh</code>.</p>
+<p><strong>Why still open.</strong> These are matches of a genuinely
+dangerous <em>pattern</em>, and whether a given one is dangerous <em>in
+context</em> is a judgement. They are kept in the ledger, visible,
+rather than filtered out by a narrowed detector — narrowing a detector
+to make a count fall is exactly the §11.4.261(E) fabrication:</p>
+<ul>
+<li>The two <code>--no-verify</code> commits in
+<code>verify-manifest-pins.sh</code> run <strong>inside a
+<code>mktemp -d</code> throwaway git repository</strong> built by that
+script’s own mutation proof. Bypassing hooks there is the point: the
+sandbox has no hooks and the proof must not depend on the
+developer’s.</li>
+<li>The <code>rm -rf "$T"</code> in
+<code>verify-check-registry.sh</code> is <strong>text inside a
+<code>printf</code> format string</strong> that the mutation proof
+writes into a synthetic gate. It is not executed by the gate
+itself.</li>
+<li>The three <code>eval "$var"</code> in this repository’s own scripts
+expand a variable the same script assembled from its own literals, never
+from input.</li>
+<li>The three in <code>.specify/scripts/bash/</code> are
+<strong>vendored third-party code</strong> this repository consumes and
+does not own. They cannot be fixed from here.</li>
+</ul>
+<p><strong>Mitigation:</strong> every instance in this repository’s own
+scripts operates on a <code>mktemp -d</code> sandbox or on a
+locally-assembled literal; none reads external input, and none runs on
+the real tree. The vendored spec-kit copies are third-party and out of
+this repository’s control — recorded rather than silently omitted, per
+§11.4.156(C)/§11.4.29. The ratchet ceiling is the live guard: this count
+cannot rise without the sweep refusing the seam.</p>
+<hr />
+<h2 id="zf-skipped-tests">ZF-skipped-tests</h2>
+<p><strong>Measured:</strong> 9 findings — the <code>testIgnore</code>
+line and its explanatory comment in
+<code>_tests/playwright.config.js</code>, four
+<code>test.skip(...)</code> call sites across
+<code>_tests/tests/</code>, two <code>t.Skip(...)</code> in
+<code>_tools/containers/cmd/runtime-probe/main_test.go</code>, and the
+tracked <code>.github/workflows/ci.yml.disabled</code>.</p>
+<p><strong>Why still open.</strong> Each is a documented decision this
+repository can defend, and each is genuinely a skip:</p>
+<ul>
+<li><strong><code>ci.yml.disabled</code></strong> is the §11.4.156(B)
+compliance decision recorded in
+<code>docs/constitution-adoption/DECISION-11-4-156-COMPLY.md</code>.
+Enforcement moved to a local pre-push hook. Re-enabling it would be the
+violation.</li>
+<li><strong><code>testIgnore</code></strong> defers three live-site
+specs out of gate 6 and into <code>_tools/deploy-langs.sh</code>, which
+runs them against what was actually shipped. The measured cause was
+runner reachability — 77 sixty-second <code>page.goto</code> timeouts
+and <strong>zero</strong> genuine assertion failures — while
+<code>curl</code> reached both live sites with <code>http=200</code>.
+The specs run; they run <em>later</em>.</li>
+<li>The four <code>test.skip(...)</code> are
+<strong>runtime-conditional</strong>: three skip a non-chromium project,
+one skips a viewport where the control under test does not exist. They
+are guards against asserting something meaningless, not disabled
+assertions.</li>
+<li>The two <code>t.Skip(...)</code> fire when a Go toolchain or a
+container runtime is absent from the host. One of them already labels
+itself a documented skip.</li>
+</ul>
+<p><strong>Mitigation:</strong> none of these is a silently disabled
+assertion. The three deferred specs run at deploy time against the live
+sites — <code>LIVE_SPECS</code> in <code>_tools/deploy-langs.sh</code>
+names all four, verified present at <code>HEAD</code> — so the coverage
+moved rather than vanished. The conditional skips fail loudly if their
+condition is met and the assertion would have been meaningful. The
+ratchet ceiling stops a tenth skip being added without a decision.</p>
+<hr />
+<h2 id="classes-with-no-tracker-entry">Classes with no tracker
+entry</h2>
+<p><code>shortcomings</code>, <code>todo-fixme</code>,
+<code>bluffs</code>, <code>divergent-stale-orphan</code> and
+<code>uncatalogued</code> measured <strong>0</strong> findings, so no
+entry exists for them and none should be written pre-emptively. This is
+deliberate: a class with no entry has an implicit ratchet ceiling of 0
+<strong>and</strong> no disposition, so its first finding lands in the
+ledger as <code>status: open</code> and reddens both
+<code>CM-ZERO-FINDINGS-MONOTONE-RATCHET</code> and
+<code>CM-EVERY-FINDING-CLOSED-OR-TRACKED</code> at once. Writing a
+speculative entry now would pre-authorise a finding nobody has seen.</p>
+<p><strong>A 0 from a detector is not an empty class.</strong> Each
+detector prints its own recall limit on every run.
+<code>uncatalogued</code> in particular is the §11.4.118
+discovery-pressure class: a genuinely un-catalogued anti-pattern is by
+definition one nobody has named, and no static detector can enumerate
+it. Its 0 is the weakest number the sweep prints, and the sweep says so
+itself.</p>
+</body>
+</html>
