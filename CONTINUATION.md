@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T16:38:12Z
+    Last-Updated: 2026-09-04T16:44:16Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -866,6 +866,160 @@ DIFFERENT one** of the three and require the gate to redden **byte-identical**.
    the component header.
 
 `workshop` HEAD **`1adf0f6`**, pushed.
+
+#### A89 — **THE STALE-BUNDLE GAP IS CLOSED. The merged UI and the new design layer are SERVED, proved by fetching them from the running service.**
+
+A87 recorded the one confirmed gap: the browser was being handed a bundle from
+**13:52** while the merged component landed at **17:32**. It is closed.
+
+**Before, measured:** `grep -rl inquiry platform/web/` → **0 files**.
+
+Rebuilt with the repository's **own** path — `bash workshop/scripts/build.sh`,
+**exit 0** — not an invented `ng` invocation.
+
+**After, and this is fetched FROM THE SERVICE, not read off disk:**
+
+| served asset | status | what it proves |
+|---|---|---|
+| `GET /chunk-QBZGRITJ.js` | **200**, 82,628 B | `intent-verdict` ×1, `data-mode` ×2, **`withdrawn` ×8**, **`"I only wanted the passages"` ×1** |
+| `GET /styles-PACSXHNN.css` | **200**, 65,676 B | **88 distinct `--wk-` tokens** |
+| `GET /` | **200**, 12,431 B | main chunk carries `Ask or search` — the merged nav label |
+
+**No container restart was needed, and the reason is worth recording:**
+`podman inspect` shows `platform/web` is a **BIND MOUNT** of this checkout
+(`…/workshop/platform/web -> /opt/workshop/web`), alongside `chapters`,
+`curriculum`, `docs` and `run`. Only the index volume is a real volume. So a
+rebuild is live the moment it is written. **The production container was never
+stopped, restarted or reconfigured.**
+
+`platform/web/` is untracked build output (git-ignored), so **there is nothing to
+commit** — which is why the deployment gap could exist at all while every gate
+was green.
+
+#### A90 — **The design system is APPLIED — and the agent applying it found NINE of the specification's own colours short.**
+
+The spec verified every edge against `--od-bg` **alone** and concluded *"Every
+kind edge clears 3.0:1. No value falls short."* Re-measured against **all three
+brand grounds AND each edge's own wash** — the adjacent colours WCAG 1.4.11
+actually names, and where a chip on a card really sits — **12 pairs across 9
+tokens fell under 3:1, worst 2.64:1.**
+
+**Repairs move HSL lightness ONLY**; hue and saturation are byte-identical, so
+every hue argument in the spec survives its own correction.
+
+`docs/design-system/contrast.py` reads the hexes **out of the shipped stylesheet**
+and the grounds out of `brand-tokens.css`, so **it cannot disagree with what
+renders**: **rc 0 over 104 pairs**, targets text ≥4.50 / edge ≥3.00 / wash ≥1.20.
+**No figure is rounded up** — `light --wk-rule-strong` on `surface-2` is exactly
+3.00.
+
+**`withdrawn` and `not_requested` were rendering the BYTE-IDENTICAL `class="idle"`
+rectangle.** Seven answer branches now have seven treatments;
+`verify-ui-intent-resolution.sh` prints `branches: answer covers 7 of 7
+AnswerPhase member(s)` — positive evidence it saw the new member rather than a
+vacuous pass.
+
+**`withheld` vs error, five channels, three non-chromatic:** hue 218° vs 0°
+(142° apart); chroma ~14% vs 70–75%; a repeating 45° stripe unique in the system;
+`▨` vs `⚠`; `role="status"`/polite vs `alert`/assertive. **vs empty:** a filled
+ground means content exists behind it.
+
+**Three live surfaces were painting custody in the FAULT colour and no longer
+do** — `transcript.component.ts` `.redaction`, `passage-knowledge.component.ts`
+`.redacted`, and the area page, which drew a held area as "request failed".
+`area_not_published` now renders as `withheld` **with no Retry**.
+
+**A mutation proves it bites:** forcing `isCustodyCode()` to `false` gives
+`TOTAL: 4 FAILED, 215 SUCCESS` — *"an answer that exists and is held must not
+borrow another state."*
+
+**Bundle discipline:** component stylesheet **7.92 kB → 7.75 kB**. The
+`angular.json` budget was **NOT raised**; three globally-declared classes, a
+third private copy of `.diag` and an ad-hoc shadow were removed instead.
+
+**Two defects nobody had named.** `.diag` existed as **three private copies that
+disagreed**, and the inquiry one had **neither `max-height` nor `overflow`** — a
+large upstream blob would have run the page. And **`inquiry.component.ts`
+contained two raw control bytes (U+0000, U+0001)** inside a template literal:
+`grep -c 'lk-radius' <file>` returned **rc 1 with no output** while `grep -a`
+returned **6**. **The file was opaque to every grep-based reader.** The gates were
+unaffected — all three read via `python3` — so this blinded humans and tooling,
+not the instruments.
+
+**Test-count honesty, unprompted:** 193 → 219, and **17 of the 26 are its own**;
+the other 9 arrived from a different agent's specs in the same tree and it
+declined to claim them.
+
+**Could not determine:** no browser was opened, so **the palette has not been
+seen**; no colour-vision-deficiency simulation was run — the three kind families
+sit 1.03–1.19:1 apart in luminance, so they are *certainly not* greyscale-
+distinguishable, which is why every chip carries a text label.
+
+#### A91 — **Three data defects fixed, each proved RED first. `/api/progress` worked all along — the CLIENT's every write was answered 400 and dropped silently.**
+
+**1. 40 of 312 MCQ items in `ai_interviewing` could not be answered.**
+`CorrectIdx int \`json:"correctIndex,omitempty"\`` — the index is **zero-based**,
+so *"the correct answer is choice A"* **is** the Go zero value and
+`encoding/json` dropped the key. The client compares `i === q.correctIndex`
+against `undefined`, so **no choice could ever be right.**
+Measured: **312 items, distribution `{0:40, 1:137, 2:88, 3:47}` — 40 affected
+across 28 files.** **Both fixtures hardcode `CorrectIdx: 1`**, which serialises
+fine, so the suite was **structurally blind**.
+RED first, asserting against the **raw body** (decoding a missing key into an
+`int` yields 0 — the very value that must stay distinguishable from absent):
+*"serialised WITHOUT a `correctIndex` key"* → FAIL. Green after removing
+`,omitempty`.
+**The sweep matters as much as the fix:** `CorrectIdx` was the **only**
+`omitempty` in the whole `ai_interviewing` Go codebase on a type whose zero value
+is meaningful. And **`workshop` got the same field right** —
+`pkg/assessment/question.go:122` models it as `CorrectIndex *int`.
+
+**2. Ten authored flashcards were re-labelled `short`.** The contract names three
+kinds, the Go enum implements three, `learning-kit.css` already ships
+`.lk-flashcard` — **the frontend type was the only layer that did not know.**
+End-to-end on real live data through the *real* normaliser:
+
+    server sends            {mcq:11, short:19, flashcard:8}
+    normaliser at HEAD      {mcq:11, short:27}              <- all 8 folded away
+    normaliser fixed        {mcq:11, short:19, flashcard:8} <- matches exactly
+
+(10 authored, 8 served: 2 are withheld by the citation gate; 44 authored → 38
+served, 6 withheld — **the arithmetic closes exactly.**)
+
+**3. The progress wire mismatch — and the open question is ANSWERED.**
+**The contract decided it, not convenience:** `contracts/http-api.md:1046` §3.11
+specifies `{chapter_slug, pid, t_seconds}`, and the 002 delta extends what
+progress *covers* without restating the body. **The backend was right; the client
+was wrong.** `t_start_s` is a real field — a passage's transcript time span, used
+correctly in six other places; only this one write borrowed it.
+
+Live evidence, before:
+
+    POST {…, t_start_s: 512.4} -> 400  "t_seconds is required…"
+    POST {…, t_seconds: 512.4} -> 200  {"stored":{…}}
+    GET  /api/progress (same session)          -> 200
+    GET  /api/progress (session never written) -> 404
+    GET  /api/progress (no X-Session)          -> 400
+
+**`/api/progress` works, and always did. What never worked was the client's use
+of it: every browser write got a 400 and was dropped INVISIBLY, because a failed
+fire-and-forget write looks like nothing.**
+
+**Test-count movement fully accounted for rather than waved at:** 193 baseline
++ 9 = 202 (RED); 209 = 202 + 7 another agent added; 219 final matches
+`grep -c 'it('` over the tree exactly. **`ng build` first exited 1 on a `TS1005`
+in another agent's mid-edit file** — proved not its own by building an isolated
+copy carrying all its changes with only that file restored to HEAD: **rc 0.**
+
+**OPEN, named rather than left to be found:**
+- **The flashcard fix is model-layer only.** `practice.component.ts:158` renders
+  `q.kind === 'mcq' ? 'multiple choice' : 'short answer'` — a binary ternary, so
+  a flashcard now arrives correctly typed and is **still labelled "short answer"
+  on screen.** One line, in another agent's file.
+- **`ai_interviewing` HEAD `cb4c62a` is NOT pushed** — left as an operator call.
+- `pkg/answer/outcome.go:459` `CitationsVerified bool` carries the **same latent
+  `omitempty` shape**. Reasoned from the code, **not empirically tested** —
+  flagged, not claimed.
 
 #### A88 — **162 reproducible per-material ZIP archives. Two builds, `cmp`: 162 identical / 0 different — AND one changed input byte moves exactly one archive.**
 
