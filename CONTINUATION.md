@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T16:21:31Z
+    Last-Updated: 2026-09-04T16:25:24Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -866,6 +866,97 @@ DIFFERENT one** of the three and require the gate to redden **byte-identical**.
    the component header.
 
 `workshop` HEAD **`1adf0f6`**, pushed.
+
+#### A87 — **LIVE END-TO-END VERIFICATION of the running system. Physical evidence, with controls — not a claim that it works.**
+
+Measured against the live service on **`http://127.0.0.1:8087`** (the container
+runs `network=host`; there is no published port mapping — 8401 and 8432 are both
+wrong and were withdrawn earlier). Taken while five agents were running, so the
+timings are contended and are labelled as such.
+
+### Endpoints — every one answered
+
+| endpoint | status | time | bytes |
+|---|---|---|---:|
+| `/api/health` | **200** | 0.002 s | 234 |
+| `/api/search?q=…&limit=3` | **200** | 13.7 s | 3,281 |
+| `/api/suggest?q=work` | **200** | 0.050 s | 4,006 |
+| `/api/areas` | **200** | 0.036 s | 463,444 |
+| `/api/chapters` | **200** | 0.001 s | 81 |
+
+**Search at 13.7 s is CONTENTION, not a regression** — the idle baseline is
+1.07 s and five agents plus a frontend rebuild were running. Recorded rather
+than quoted as a property. See [[measure-on-a-quiet-tree]].
+
+### The multi-provider wiring is live, and it is the deployed default UNCHANGED
+
+    provider           ollama
+    model              qwen2.5:3b-instruct-q4_K_M
+    locality           local
+    locality_verified  True
+    endpoint           http://127.0.0.1:11434
+    calibrated         True     enabled True     generation 68
+    ollama.reachable   True
+
+That is exactly the container's own argv. **The registry rewrite did not move the
+default**, which is what the multi-provider work claimed and this independently
+confirms.
+
+### A REAL answer job ran end to end — and correctly DECLINED
+
+    GET /api/ask?q=What%20is%20a%20knowledge%20area%3F&wait=1
+      -> HTTP 200, 2682 bytes
+         status  : declined
+         reason  : margin_too_small
+         citations: 0     answer chars: 0
+         provider : ollama / qwen2.5:3b-instruct-q4_K_M / local / verified
+
+**A decline is the system working, not failing.** It refused to answer rather
+than fabricate, and named why. It also corroborates **SC-008 = 0/11 from a second
+direction**: retrieval is not surfacing passages good enough to ground an answer,
+so answering correctly declines. **The two findings are the same finding seen
+from opposite ends.**
+
+### DISCLOSURE SAFETY, verified with a CONTROL — the part that matters most
+
+The corpus holds **13,141 rows, of which 162 carry `redacted`** — matching the
+redaction agent's independently-derived figure of 162 suppressions exactly.
+
+    REDACTED rows          GET /api/passages/<pid>  ->  HTTP 410,  165 bytes
+    NON-REDACTED control   GET /api/passages/<pid>  ->  HTTP 200,  5,239 / 3,411 bytes
+
+**The control is what makes this evidence rather than a blind pass.** Had every
+request returned 410, the probe would have proved nothing about discrimination.
+Different classes get different codes, so the mechanism is discriminating rather
+than uniformly refusing.
+
+**And the refusal itself leaks nothing, measured rather than assumed.** The 410
+body carries exactly three fields — `status: redacted`, the `pid`, and the
+message:
+
+> *"This passage exists and its content has been withheld. The citation is not
+> broken."*
+
+**Zero long words from that row's own 204-character text appear anywhere in the
+refusal body.** The wording is also the right design: it distinguishes
+**withheld** from **broken** — the precise distinction the design work identified
+as critical, since a reader who cannot tell "we are withholding this" from "this
+failed" has been misled by the interface.
+
+### THE ONE CONFIRMED GAP: the browser is served a STALE BUNDLE
+
+    workshop/platform/web/  newest .js mtime  ->  13:52
+    features/inquiry/ committed at            ->  17:32
+
+So the Ask/Search merge exists **in source and in tests (193 passing)** and is
+**not what a browser currently receives**. `platform/web/` is untracked build
+output. **Closing this requires a frontend rebuild and a container restart**, and
+it is blocked until the in-flight design agent finishes editing that same tree —
+rebuilding mid-edit would ship a half-applied design.
+
+**Nothing above is a claim that the whole system is verified.** It verifies the
+API surface, the answering path, the provider wiring and the redaction refusal.
+The UI a human actually sees is, at this moment, the older build.
 
 #### A86 — **`ensure_fresh_binary` had exactly TWO callers, not "a dozen" — my own framing was wrong — and one of them handed its false accusation straight to a human.**
 
