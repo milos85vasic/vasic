@@ -29,6 +29,37 @@ it wins.
 taxonomy file, and no source file modified. **Paired mutation**: make minting unconditional whenever
 no anchor was read in the current run; the gate must go red on all three assertions at once.
 
+### 1.1 `screen_text` — a fifth kind, not a fifth registry
+
+- **M6** — on-screen text recognised from a chapter recording enters the corpus as a **passage** of
+  kind `screen_text` (FR-060, data-model §2.9). It mints through the **same** minter, resolves
+  through the **same** four-outcome resolver, and inherits the **same** append-only redaction log.
+  There is no second registry, no second mint path and no second identifier format.
+- **M7** — its ordering key is the **visibility onset**, exactly as a transcript segment's is its
+  start time, so spoken and on-screen passages of one chapter order on **one** axis.
+- **M8** — it declares `producer = ocr`, **distinct from `asr`**, and that marking is enforced in
+  **both** directions: only a `screen_text` may claim it, and a `screen_text` may claim nothing else.
+  This is **not** the library's `provenance` field, which records whether the text is still the
+  machine's or has been human-corrected — a corrected OCR passage is `human_corrected` **and** `ocr`,
+  and collapsing the two axes would make that state unrepresentable.
+- **M9** — it carries the engine's own **confidence** and the **interval bound** (FR-061). The bound
+  is never omitted and never zero: an interval read off a sampling grid is not exact, so a zero bound
+  is not a tight measurement but a measurement never taken, presented as the tightest possible one.
+- **M10** — an **empty recognition is not a passage**. It is a sample that recognised nothing and is
+  reported as such, so evidence counts are never inflated by rows that evidence nothing.
+
+**Gate G-OCR-2** — assert a `screen_text` mints through the existing minter into the existing
+registry, resolves to all **four** outcomes, orders on its visibility onset, carries producer,
+confidence and interval bound through the existing wire translation with no per-kind branch, and is
+suppressed by the existing redaction log alongside a spoken passage. **Paired mutation**: mint an OCR
+passage through a second identifier format, or strip any one of the invariants above; the gate must
+go red, and it must go red **naming the invariant that broke** — a refusal from an unrelated rule is
+a catch the gate did not make.
+
+**`screen_text` is deliberately NOT advertised as a retrievable kind.** Nothing produces one yet
+(002 T126 is unbuilt and blocked). `diagram` is already an advertised-but-unretrievable kind in this
+deployment, and adding a second instance of that defect to buy a tidier-looking kind list is refused.
+
 ## 2. Promotion, extraction, reconciliation — the order is normative
 
 Order per research D-KG-3. Running these out of order produces a defensible-looking result that has
@@ -262,9 +293,19 @@ Requirements that follow from measurement on this host, not from principle:
 | G-KG-16 | content boundary enforced **in both directions** | here §4.2 Q5 |
 | G-KG-17 | synthetic chapter produces every output, no hand-assembly | here §5 |
 | G-KG-18 | incomplete chapter names what is missing, publishes nothing | here §5 |
+| G-OCR-2 | `screen_text` is a fifth kind, not a fifth registry | here §1.1 |
 
-Eighteen gates, eighteen paired mutations. A gate that has never been observed failing is not known
+Nineteen gates, nineteen paired mutations. A gate that has never been observed failing is not known
 to work, and this repository has twice shipped a proof that could not fail — one whose control
 failed so zero mutations ever ran, one that exercised only sandboxed copies while the real entry
 point could not start. **Every proof here must include a case that runs the real entry point against
 the real tree.**
+
+**G-OCR-2 is the only Phase-11 gate in this table, and the omission of the rest is deliberate.**
+Phase 11 names eleven `G-OCR-*` identifiers in its task list. Ten of them guard code nobody has
+written, and publishing an identifier here before its gate exists inverts the order this contract
+depends on: the closure check requires every gate id in `contracts/` to be carried by a task block,
+and the registry requires every registered check to have a paired demonstration. An id published
+ahead of its gate satisfies both bookkeeping rules while asserting a demonstration that does not
+exist — which is the inoperative-proof defect wearing a contract's clothes. **Build the gate, then
+add the row.**

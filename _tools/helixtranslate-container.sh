@@ -1,5 +1,32 @@
 #!/usr/bin/env bash
 # =============================================================================
+# NOT CONVERTIBLE to the Containers submodule TODAY — measured, not assumed.
+#
+# This shim is a §11.4.76(4) exception that cannot currently be closed, and the
+# reason is a concrete gap in the module rather than a preference for bash.
+#
+# The shim STREAMS THE SOURCE DOCUMENT OVER SSH ON STDIN (`< "$IN"`, line ~54).
+# Every executed path in `digital.vasic.containers` is stdin-less:
+#
+#   remote.RemoteExecutor.Execute(ctx, host, command)        -- no stdin
+#   remote.RemoteExecutor.ExecuteStream(ctx, host, command)  -- stdout only
+#   remoteexec.SSHRunner.Run / .WriteFile                    -- no stdin
+#
+# `pkg/remote/connection` DOES declare `WithStdin(io.Reader) ExecuteOption`
+# (interface.go:146) — but that package is interfaces and option builders ONLY.
+# Nothing in the module implements its `Connection` interface and nothing
+# imports it; there is no constructor that returns one. Verified at gitlink
+# d940b51fc247c285c805799452992da8d09c75b9.
+#
+# Converting this shim therefore requires an UPSTREAM change (a stdin option on
+# RemoteExecutor, or an implementation behind pkg/remote/connection), not a
+# rewrite here. Until then this file stays as it is, declared rather than
+# quietly tolerated.
+#
+# The DISTRIBUTION half of this workload has been converted — see
+# `_tools/containers/cmd/distribute-helixtranslate` and the superseded-notice
+# at the top of `_tools/distribute-helixtranslate.sh`.
+# =============================================================================
 # helixtranslate-container.sh — engine-compatible shim that runs the
 # HelixTranslate unified-translator INSIDE a container on a remote host
 # (thinker.local via podman, amber.local via docker), per the mandate that

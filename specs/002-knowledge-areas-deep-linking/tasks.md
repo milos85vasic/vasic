@@ -255,7 +255,7 @@ complete**, because every later artifact points at something through the mechani
       already reports truncation
 - [x] T021 [P] [TDD] Extend redaction propagation to all **eight** targets in `data-model.md` §5.
       Gate **G-KG-7**. **Paired mutation**: skip exactly one target; the gate must go red
-- [ ] T022 [REVIEW] Review the knowledge contract implementation before anything consumes it —
+- [ ] T022 [REVIEW] Review the knowledge contract implementation before anything consumes it — — **BLOCKER:** none but the work — no `phase2e-report.md` exists, and `specs/002/` has NEITHER an `analysis.md` NOR a `review.md` (spec 001 has both). This is review-record authorship, and it is one of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
       every other component depends on its shape, and a shape changed after adoption is a migration
 
       **NOT DONE (re-measured 2026-09-03, unchanged).** The brief exists
@@ -307,7 +307,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
 - [x] T030 [US1] [TDD] Implement uncertainty marking: a low-confidence term is marked `uncertain`
       (FR-011), and an area evidenced **only** by uncertain passages is marked `uncertain-only`
       (FR-012). 267 of 1,101 passages are uncertain, so this is not a rare branch
-- [ ] T031 [US1] [BLOCKED: prose authorship] [REVIEW] Author area materials in the **seven-section
+- [ ] T031 [US1] [BLOCKED: prose authorship] [REVIEW] Author area materials in the **seven-section — **BLOCKER:** **operator decision** — the prose-authorship clarification is undecided (extractive vs build-time vs run-time). 5 documents are authored with 7 `## ` sections each and 489 areas serve; the earlier "host capability" excuse is WITHDRAWN. This is irreducible authorship, not engineering · **OWNER:** **operator**, then **human prose authorship**
       skeleton**, adapting the two interview-specific sections to the workshop's subject. **Blocked
       on the first clarification, and on that alone** — extractive assembly, agent-authored at build
       time, and run-time generation are three different pieces of work, and nobody has decided which
@@ -341,7 +341,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
 - [x] T032 [US1] [TDD] Implement the authored/assembled marking on every lesson section (FR-017,
       contract W1). Build the field regardless of how the clarification resolves — it costs one field
       and keeps all three options shippable without a schema change
-- [ ] T033 [US1] [TDD] Implement claim citation enforcement (contract W2): every substantive claim
+- [ ] T033 [US1] [TDD] Implement claim citation enforcement (contract W2): every substantive claim — **BLOCKER:** **predecessor T031** — 224 of 532 claim blocks across all 5 documents are uncited or cite a non-resolving pid (48 are exempt Sources entries); W3 is reviewed for 2 of 5. Enforcement cannot land before the prose it enforces is settled · **OWNER:** **implementer**, after T031
       carries a resolving citation **or** is visibly marked as editorial framing that is not workshop
       content. There is no unmarked, uncited claim
 
@@ -361,7 +361,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
 - [x] T037 [US1] [TDD] Implement `GET /api/areas` per wire contract §3.1, including **A3.1.2**: report
       the count of areas held back and why. A client cannot distinguish five areas existing from
       eleven existing and six failing publication unless told
-- [ ] T038 [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and
+- [ ] T038 [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and — **BLOCKER:** none but the work, but the fix is in the PIPELINE not the handler — `taxonomy.py` persists only the final score and never the significance inputs; the handler is already correct and honestly reports `inputs_available:false` with `score_determined:true` over 8,507 served terms · **OWNER:** **implementer** — unblocked today
       `GET /api/terms/{term}` per §3.4 — including the significance measure **and its inputs** on the
       single-term response
 
@@ -508,7 +508,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
       whether that dated deferral permits this checkpoint to close; **the operator has not answered
       it**, and ticking on the strength of D-33 alone would answer D-36 by implication. **Do not
       tick this task until D-36 is answered on the record.**
-- [ ] T042 [US1] [REVIEW] Record the content boundary check **in both directions** before anything is
+- [ ] T042 [US1] [REVIEW] Record the content boundary check **in both directions** before anything is — **BLOCKER:** none but the work — the SC-029a INBOUND half is unbuilt and the `sc029a-not-built` row is live; §10.14 records that the naive probe was rejected, so this needs a long-shingle design rather than a quick check · **OWNER:** **implementer** — unblocked today, design work required
       published (SC-029, SC-029a)
 
       **PARTIAL (re-measured 2026-09-03, unchanged).** The outbound half exists —
@@ -545,7 +545,7 @@ back. No interface required.
 - [x] T049 [US2] [TDD] Implement **A3.8.3**: a hop whose target cannot be resolved **reports its
       outcome and continues**; it is never dropped, because a dropped hop is indistinguishable from a
       hop that never existed
-- [ ] T050 [US2] [TDD] Implement the six-row connectivity matrix (FR-033a) and its exercise harness.
+- [ ] T050 [US2] [TDD] Implement the six-row connectivity matrix (FR-033a) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
       **A row with zero exercised origins fails** — an unexercised traversal is unmeasured, not
       passing (SC-015a)
 
@@ -558,7 +558,7 @@ back. No interface required.
       rc=2 control) — that closed a §1.1 debt, not this task's missing half-row.
 - [x] T051 [US2] [TDD] Prove **SC-008** over the **whole** relationship set, not a sample: a one-way
       link is indistinguishable from a two-way one when read forward, so sampling cannot find it
-- [ ] T052 [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span,
+- [ ] T052 [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span, — **BLOCKER:** **none but the work, and it is now a live REGRESSION rather than a proof debt** — the gate exits **rc 2**, not rc 0: `UNDETERMINED: GET /api/passages/01M1ET0MFM0EYA5TACY1R1JWEQ -> HTTP 410`. A cited passage has since been REDACTED and the gate has no branch for a 410, so ZERO assertions ran. It also still owes its paired mutation · **OWNER:** **implementer** — unblocked today; highest urgency of the 002 set
       **and the precision split is published** alongside the pass rate. A 100% pass at segment
       precision and at word precision are different products, and a test that only asserts "inside the
       span" cannot tell them apart
@@ -671,7 +671,7 @@ back. No interface required.
 
 **Goal**: all four content kinds searchable, every hit says where.
 
-- [ ] T057 [US3] [TDD] Index the four new kinds — `area`, `term`, `lesson_section`, `question` —
+- [x] T057 [US3] [TDD] Index the four new kinds — `area`, `term`, `lesson_section`, `question` —
       indexing **their own text**, not only the passages they cite. A question findable only through
       its citations is not findable by anyone who does not already know the answer (D-KG-10)
 
@@ -718,7 +718,23 @@ back. No interface required.
       **Why this stays unticked:** the task names four kinds and three are indexed. Closing it needs
       either a minted `lesson_section` identity (a data-model change) or an amendment narrowing the
       task to the three kinds that can carry one. **That is a spec decision and it is not made here.**
-- [ ] T058 [US3] [TDD] Advertise the new kinds in the corpus block, and prove **G-KG-11**: an
+
+      **[TICKED 2026-09-04. The blocker note is WITHDRAWN BY NAME: the clause *"That is a spec
+      decision and it is not made here"* is STALE — the decision HAS been made and is written into
+      the contract.** `contracts/http-api-delta.md` C4.1.1 now reads *"`area`, `term` and `question`
+      join the existing kinds"*, with an explicit blockquote recording that **`lesson_section` was
+      REQUIRED here and is WITHDRAWN, 2026-09-03, by operator decision** — 0 of 11,622 records
+      carried the kind and its metadata type has no identifier field, making it structurally
+      unkeyable. `grep -c lesson_section spec.md` = **0**, so the spec never required it either.
+      **Measured live 2026-09-04 at generation 68**, `GET /api/search?q=area` returns
+      `corpus.indexed_kinds = [transcript_segment, doc_section, code, diagram, area, term,
+      question]` — the three contracted kinds are indexed and `lesson_section` is correctly ABSENT
+      rather than advertised-empty, which is the zero-entry-kind defect C4.1.1 forbids. The refusal
+      is test-pinned, not incidental: `TestT057_LessonSectionIsNotAdvertisedBecauseNothingIndexesIt`.
+      `go test -count=1 -run 'TestT057|TestT058|TestGateKG11' ./pkg/search/...` -> **ok, rc 0**.
+      Honest boundary (§11.4.6): the contract amendment is an UNCOMMITTED working-tree change
+      (` M contracts/http-api-delta.md`). The tick is sound; the change is not yet committed]**
+- [x] T058 [US3] [TDD] Advertise the new kinds in the corpus block, and prove **G-KG-11**: an
       advertised kind must be **retrievable**, proven by a planted known target — **not** by a row
       count, which cannot distinguish a populated index from a populated table nobody queries. The
       corpus already advertises one kind with zero entries
@@ -748,6 +764,16 @@ back. No interface required.
 
       **Why this stays unticked:** it is bound to T057 — the fourth kind is neither indexed nor
       advertised, and the same spec decision settles both.
+
+      **[TICKED 2026-09-04, on the same operator amendment as T057 — see that task's evidence.**
+      The corpus block advertises exactly the three contracted kinds. `lesson_section` is absent by
+      a deliberate, test-pinned refusal rather than by omission, and advertising it would itself be
+      a C4.1.1 failure. Exactly one zero-entry kind remains (`diagram`), which C4.1.1 explicitly
+      tolerates as pre-existing while forbidding this feature from ADDING more — and this feature
+      adds none. G-KG-11 verified by `go test -count=1 -run 'TestT057|TestT058|TestGateKG11'
+      ./pkg/search/...` -> **ok, rc 0**; pinning assertions at `pkg/search/knowledge_search_test.go`
+      and `pkg/search/question_search_test.go`. Same honest boundary as T057: the contract
+      amendment is uncommitted]**
 - [x] T059 [US3] [REVIEW] Settle **U1** before implementing offsets: does the full-text engine expose
       match positions through a supported interface, or must offsets be recomputed by re-locating
       query terms in the matched text? Three-valued exit. This has a correctness edge — a
@@ -852,7 +878,7 @@ back. No interface required.
       **Honest boundary (§11.4.6), and it does not withhold the tick:** the benchmark's own RESULT
       is that SC-015 is not met (top-5 8/22). That is T067's finding, not a defect in this artifact;
       a benchmark whose queries all passed on first run would be the suspicious one.
-- [ ] T067 [US3] [TDD] Prove **SC-015**: the gate prints **per-query** outcomes, not only the
+- [ ] T067 [US3] [TDD] Prove **SC-015**: the gate prints **per-query** outcomes, not only the — **BLOCKER:** **retrieval quality, and nobody's decision** — the instrument is built and correct; SC-015 is MEASURED NOT MET at top-5 12/22 (54.5%), top-1 3/22, against a bar of 20/22. The `term` leg is the shortfall · **OWNER:** **implementer** — unblocked, but it is a quality problem, not a wiring problem
       aggregate — which queries fail is the useful information, and an aggregate hides it
 
       **PARTIAL — and the FIRST of the two reasons is DISCHARGED. The claim *"It is still **not a
@@ -893,7 +919,7 @@ back. No interface required.
       in the top five for any of its 12 queries** (7 of 12 rank outside the top 20 entirely; the
       other 5 rank 13–20). `area` and `question` both clear the bar on their own. Recorded here
       because "SC-015 is 36%" reads as a uniform shortfall and it is not one.
-- [ ] T068 [US3] [TDD] Prove **SC-016 / SC-017**: re-run the latency harness and **publish before and
+- [ ] T068 [US3] [TDD] Prove **SC-016 / SC-017**: re-run the latency harness and **publish before and — **BLOCKER:** **NOT "just a quiet host" — that remedy is now IN DOUBT, and this is the correction that matters.** Re-run 2026-09-04: rc **2**, `PASS 0 FAIL 0 UNDET 7`. The gate read the index block cleanly (generation 68, 12,979 passages, live) and then **every** endpoint refused — including the `health CONTROL`, which by the harness's own design makes the fused figure uninterpretable. Immediately afterwards `podman ps` showed `workshop-curriculum_platform_1  Up 46 seconds (starting)` and `/api/health` returned `HTTP=000`: **the container went down underneath a read-only run.** `tasks.md` already records the same sequence on 2026-09-03, so counting this it has happened **three times across two dates, every time during or immediately after `verify-search-latency.sh`**. Host load was FALLING across this run (17.5 -> 9.7), which weakens the load-average explanation the old note leans on. No causal claim is made — co-occurrence is not causation and this was not isolated — but the narrow, checkable claim is: the stated remedy *"one clean re-run, not new code"* has now failed three times identically, so treating this as bad luck risks a fourth identical result · **OWNER:** **implementer first** — find why the container dies under this harness's concurrent request pattern; that outranks the latency figure. **operator** second, for a quiet host, once the stability question is settled
       after together**. A single after-figure cannot show a regression that stayed inside the threshold
 
       **PARTIAL — the note that stood here is STALE and its two claims are WITHDRAWN BY NAME. The
@@ -984,7 +1010,7 @@ back. No interface required.
       task, not `[TDD]`, so no paired mutation is owed by the global constraint — and none of the
       six T069 tests is one. The evidence is 6 behavioural unit tests executing the component, not a
       grep.
-- [ ] T070 [US3] [P] Update the route manifest and contract for the changed search and suggest
+- [x] T070 [US3] [P] Update the route manifest and contract for the changed search and suggest
       endpoints
 
       **CORRECTED 2026-09-03 — the note that stood here has gone STALE, and its two claims are
@@ -1032,6 +1058,17 @@ back. No interface required.
       Its own honest-boundary paragraph says the `/api/ask` rows carry a bare `3.10`; measured the
       same day, the `GET /api/ask?q=ping` row reads `3.10+002.4.3`, so that paragraph is partly
       stale too and is not restated as current here.
+
+      **[TICKED 2026-09-04. The note's clause *"§4.1's C4.1.1 STILL READS `area`, `term`,
+      `lesson_section` and `question` join the existing kinds"* is FALSE and is WITHDRAWN BY NAME**
+      — C4.1.1 reads THREE kinds as of the 2026-09-03 operator amendment, so the contract divergence
+      that was this task's stated residue is CLOSED by the amendment rather than by an edit here.
+      The route-manifest half is met: rows carry the R1b compound contract token naming BOTH
+      documents, verified in `platform/gates/route-manifest.tsv` — `/api/suggest` `3.6+002.4.2`,
+      `/api/search` `3.7+002.4.1`, `/api/progress` `3.11+002.4.4`, `/api/ask` `3.10+002.4.3`. The
+      `/api/search` row records the measured live kind list and states the `lesson_section` refusal
+      in the same breath, so the manifest and the contract now agree. Same honest boundary as T057:
+      the contract amendment is uncommitted]**
 
 **Checkpoint**: everything is searchable and every hit says where — or honestly says it cannot.
 
@@ -1147,7 +1184,7 @@ back. No interface required.
       # 10 wire tests, incl. TestT083_ProbeExportToolchain_NeverAsksForAVersion —
       # the probe makes each tool DO its job rather than answer --version
       ```
-- [ ] T084 [US4] [REVIEW] Review question provenance end to end before the practice surface consumes
+- [ ] T084 [US4] [REVIEW] Review question provenance end to end before the practice surface consumes — **BLOCKER:** none but the work — the only review record is `phase6-report.md` (unchanged since 2026-09-02 12:54) and it merely mentions T084; no later record exists. Pure review-record authorship, and the second of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
       it
 
       **NOT DONE (re-measured 2026-09-03, unchanged).** `workshop/docs/session-evidence/phase6-report.md`
@@ -1213,7 +1250,7 @@ back. No interface required.
 - [x] T099 [US6] [TDD] Implement the publication precondition: an area without a review exports
       nothing **and says so** (FR-048, A3.9.1)
 - [x] T100 [US6] [TDD] Implement citation preservation across all four formats (FR-047)
-- [ ] T101 [US6] Port diagram rendering from text source — reproducible, unlike an embedded binary
+- [ ] T101 [US6] Port diagram rendering from text source — reproducible, unlike an embedded binary — **BLOCKER:** **operator decision** — `mmdc -V` exits 0 but an actual 2-node render exits **1 with no SVG**, `grep -c mermaid` is **0** across all 5 area documents, and there is no decision on where a diagram lives in the seven-section skeleton · **OWNER:** **operator** (content/contract placement), then **implementer**
       (FR-014a)
 
       **OPEN. Re-measured 2026-09-03, and leaving it UNWIRED is now backed by three separate
@@ -1332,7 +1369,7 @@ chapter from a finished feature.
       **Paired mutation**: re-derive area identifiers on each run
 - [x] T108 [US7] Build a **small synthetic chapter** fixture — synthetic, because it must contain no
       workshop content and it must exercise the **minting** path
-- [ ] T109 [US7] [TDD] Prove **G-KG-17 / SC-015c**: run the whole pipeline against the synthetic
+- [ ] T109 [US7] [TDD] Prove **G-KG-17 / SC-015c**: run the whole pipeline against the synthetic — **BLOCKER:** none but the work — `prove_g_kg_17_synthetic_chapter` self-scopes in its own docstring ("SCOPED HONESTLY") to extracted areas/themes plus taxonomy, while T109 asks for EVERY S2 output · **OWNER:** **implementer** — unblocked today
       chapter; assert every output in S2 exists and the diff contains **no hand-created structural
       file and no code change**. **Paired mutation**: remove one stage; the gate must go red naming
       the missing output.
@@ -1455,7 +1492,7 @@ chapter from a finished feature.
       days; re-run the gate rather than quoting 15.
 - [x] T118 [TDD] Prove **SC-026**: cross-check recorded defects against the limits document; an
       unnamed defect fails. **Paired mutation**: remove one defect from the document
-- [ ] T119 [TDD] Prove **SC-028**: drive every new check into a could-not-determine condition and
+- [ ] T119 [TDD] Prove **SC-028**: drive every new check into a could-not-determine condition and — **BLOCKER:** none but the work — SC-028 coverage reaches only 3 Phase-10 checks; the 18 G-KG gates have never been driven to state 2, and the registry population has since grown to 70 checks · **OWNER:** **implementer** — unblocked today
       assert the **third** state, not either of the other two
 
       **PARTIAL (re-measured 2026-09-03, unchanged).** `platform/gates/prove-sc028-undetermined-states.sh`
@@ -1471,7 +1508,7 @@ chapter from a finished feature.
       every check has a paired proof
 - [x] T121 Update the platform's documentation set — quickstart, user guide, manual, FAQ — for the
       knowledge layer, and state plainly what it cannot do
-- [ ] T122 [REVIEW] Final content-boundary check **in both directions** (SC-029, SC-029a), plus the
+- [ ] T122 [REVIEW] Final content-boundary check **in both directions** (SC-029, SC-029a), plus the — **BLOCKER:** **predecessor T042 (SC-029a inbound), plus T022 and T084 as a final review** — 2 of its 3 halves are already green: zero workflow files, and `CONTINUATION.md` carries 19 spec-002 references · **OWNER:** **implementer**, last; needs T042/T022/T084 first
       fleet-wide no-CI gate (SC-030), plus `CONTINUATION.md` synchronised
 
       **PARTIAL (re-measured 2026-09-03, unchanged).** Two of three halves hold: the fleet no-CI
@@ -1495,19 +1532,43 @@ in this phase may be ticked by the act of writing it down.
 one HALF of one task is built, and it is still unticked.** `workshop/pipeline/detect_ocr.sh` now
 exists — the T123 toolchain capability probe, three-valued, registered in
 `platform/gates/check-registry-001.tsv` as `ocr-toolchain-capability`, with a `--prove-failure` that
-executes 6 mutations. **Twenty of twenty boxes in this phase remain unticked**, re-verified
-2026-09-03 in a second reconciliation: `grep -rl screen_text` over `platform/`, `pipeline/` and
-`docs/` returns **nothing**, and `find workshop -iname '*ocr*'` outside vendored environments returns
-`pipeline/detect_ocr.sh` and an empty `platform/backend/ocrprobe/` directory — so T125's passage kind,
-on which T126–T141 all sit, still does not exist. **The file-level count "unchanged at 100 ticked /
-43 unticked" is WITHDRAWN, not restated: it is 104 / 39 of 143 after that reconciliation ticked
-T063, T066, T069 and T117 — none of them in this phase, and nothing here was touched.** Read the
-per-task notes below before planning any of
-this: each of T123–T142 now carries a measured blocked-note naming what blocks it and on whom, and
+executes 6 mutations.
+
+**"Twenty of twenty boxes in this phase remain unticked" is WITHDRAWN as of 2026-09-03, and so is
+every sentence that rested on it. It is NINETEEN of twenty.** T125 is built and ticked. The three
+measurements that supported the old figure are each now false and are named individually rather than
+quietly dropped:
+
+- ~~`grep -rl screen_text` over `platform/`, `pipeline/` and `docs/` returns **nothing**~~ — it now
+  returns `platform/backend/internal/passagestore/domain.go`,
+  `platform/backend/internal/passagestore/screentext_test.go`,
+  `platform/backend/pkg/search/catalog_test.go`, `platform/gates/check-registry-002.tsv` and
+  `pipeline/detect_ocr.sh`.
+- ~~T125's passage kind, on which T126–T141 all sit, still does not exist~~ — it exists,
+  `passagestore.KindScreenText`, with gate **G-OCR-2** and a 13-mutation paired proof registered in
+  `platform/gates/check-registry-002.tsv`.
+- ~~an empty `platform/backend/ocrprobe/` directory~~ — still empty, and still not load-bearing.
+  **The kind was NOT built there.** `ocrprobe/` would have been a second home for OCR vocabulary;
+  the kind belongs in the passage store beside the four it joins, and putting it anywhere else is
+  the "fifth registry" mistake in miniature.
+
+**The file-level count "104 ticked / 39 unticked" is WITHDRAWN, not restated: it is 106 / 37 of 143.**
+The intervening 105 / 38 is also withdrawn — another agent ticked one box outside this phase between
+the two readings, so 104 was already stale when it was written down and 105 was never recorded here
+at all. Exactly one of the two moves is this phase's: T125.
+
+Read the per-task notes below before planning any of
+this: each of T123–T142 carries a measured blocked-note naming what blocks it and on whom, and
 the three classes are not interchangeable — **blocked on an OPERATOR** (T124, T130, T132, and the
 missing speech-WER baseline behind T135), **blocked on a CAPABILITY that was measured rather than
-assumed** (the per-chapter language-detection half of T123), and **merely unwritten** (T125, which is
-the head of the chain, and T139, which is unwritten but must not run first).
+assumed** (the per-chapter language-detection half of T123), and **merely unwritten** (T139, which
+is unwritten but must not run first, and — newly, as a direct consequence of T125 landing — **T129**,
+whose only recorded blocker was the passage kind).
+
+**T125 landing moved four notes below, and they have been rewritten rather than left to rot.**
+T126 is now blocked on T124 alone; T127 on T126 alone; T128 on T124 alone; and **T129 is no longer
+blocked at all**. A dependency note that still names a satisfied blocker is worse than no note — it
+sends the next reader to wait for something that already happened.
 
 **Two preamble claims below are now measured rather than inferred, and one of them changed sign.**
 The OCR engine is not merely present: it reproduced a known fixture exactly, returned per-word
@@ -1570,7 +1631,7 @@ and Phase 11 must not assume it.
 evidence distinguishes what was said from what was shown, that the two are counted once where they
 coincide, and that both accuracy figures are published beside the speech-recognition ones.
 
-- [ ] T123 [UNBUILT] [P] Gate **G-OCR-1** — capability-probe the OCR toolchain per contract §7 **V1**:
+- [ ] T123 [UNBUILT] [P] Gate **G-OCR-1** — capability-probe the OCR toolchain per contract §7 **V1**: — **BLOCKER:** **half BUILT, half blocked on CAPABILITY not on a decision** — the `[UNBUILT]` marker is STALE: `pipeline/detect_ocr.sh` EXISTS (754 lines), is registered as `ocr-toolchain-capability` with a paired proof, and its rc-2 probe is verified live (`--scratch-dir /nonexistent` -> rc 2). What is NOT buildable is per-chapter language detection: tesseract OSD misclassified an all-caps Latin fixture as Cyrillic at the HIGHEST confidence of three fixtures, so a confidence floor selects FOR the error. Resolving it needs a bake-off against T132's hand-truthed sample · **OWNER:** **implementer** for the built half; **blocked on T132** for the language half
       invoke the engine with **the flag that matters**, never `--version`, and detect the recording's
       on-screen language **per chapter** per **V2**. Engine absent, or the needed language pack
       absent, yields **could not determine** — never empty text presented as "nothing on screen".
@@ -1611,7 +1672,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       per-language recognition bake-off scored against **T132**'s hand-truthed sample, so it is
       downstream of T132 rather than of any decision. The probe carries the limitation as an
       `advisory` row that reproduces the measurement on every run and can never move the exit code
-- [ ] T124 [UNBUILT] [REVIEW] Settle **U6** — what sampling period keeps an on-screen visibility
+- [ ] T124 [UNBUILT] [REVIEW] Settle **U6** — what sampling period keeps an on-screen visibility — **BLOCKER:** **operator decision, purely** — every input is already recorded (segment median 6.74 s, p95 10.78 s, max 20.22 s) and frame sampling is measured working. What is missing is the operator CHOOSING a sampling period, which the task forbids rounding to a convenient number · **OWNER:** **operator** — unblocks T126/T127/T128
       interval **no coarser than the segment precision it sits beside**? Measure it against the
       recorded segment distribution (median **6.74 s**, p95 **10.78 s**, max **20.22 s**); do not
       pick a round number. Three-valued exit. Record under `workshop/evidence/`. **T126 and T128 are
@@ -1623,56 +1684,151 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       longer hypothetical — `pipeline/detect_ocr.sh` has now measured frame sampling working on this
       host. What is waiting is the choice of period, which this line explicitly forbids rounding to
       a convenient number
-- [ ] T125 [UNBUILT] [TDD] [REVIEW] Gate **G-OCR-2** — declare `screen_text` as a **passage kind** in
+- [x] T125 [TDD] [REVIEW] Gate **G-OCR-2** — declare `screen_text` as a **passage kind** in
       the registry contract per `data-model.md` §2.9: minted through the **same** minter, resolved
       through the **same** four-outcome resolver, ordering key = visibility onset, provenance `ocr`
       and distinct from `asr`, engine confidence carried, redaction flag inherited. **Paired
       mutation**: mint an OCR passage through a second minter or a second identifier format; the
       gate must go red. **A fifth kind, not a fifth registry** (FR-060)
-      **MERELY UNWRITTEN — measured 2026-09-03. Nothing blocks this but the work, and it is the HEAD
-      of the phase's dependency chain.** No operator decision and no missing capability stands in
-      front of it. The registry it must extend is `workshop/platform/backend/pkg/search/`
-      (`catalog.go`, `service.go`, and the kind strings asserted in `catalog_test.go`). It was not
-      attempted in this pass for two stated reasons rather than one: it is substantial
-      implementation rather than the tractable subset the pass was scoped to, and that package was
-      being edited concurrently by another agent. **T126-T141 all sit behind it**
-- [ ] T126 [UNBUILT] [TDD] Implement sampling and recognition across a chapter recording, producing
+      **BUILT 2026-09-03.** `passagestore.KindScreenText` in
+      `workshop/platform/backend/internal/passagestore/domain.go`, with gate **G-OCR-2** and its
+      paired mutation in `screentext_test.go`, registered in
+      `platform/gates/check-registry-002.tsv` as `G-OCR-2` and
+      `T125-screen-text-paired-mutation` (registry rc **0**, 59 checks, 0 missing).
+      **A PRIOR NOTE ON THIS LINE WAS WRONG AND IS WITHDRAWN, NOT SILENTLY REPLACED.** It said "the
+      registry it must extend is `platform/backend/pkg/search/`". That is the SEARCH INDEX's kind
+      list, not the passage registry. §2.9's table is the field-by-field shape of
+      `passage.Record`, so the registry is the passage registry and its vocabulary lives in
+      `internal/passagestore/domain.go` — the one place the other four kinds are declared. Building
+      it in `pkg/search` would have declared a corpus kind in the retrieval layer, which is the
+      fifth-registry mistake wearing different clothes. The concurrent-editing reason given for
+      deferring was therefore also moot: the file that needed editing was never contended.
+      **What was added.** Five invariants beyond the existing F4/F5, each enforced on the library's
+      own write path through `passage.WithRecordValidator` — so they run at `Put`, at `Sync` and at
+      `Load`, not in a wrapper somebody can forget. **F5 was EXTENDED rather than duplicated**:
+      `screen_text` joins `transcript_segment` as media-backed via `IsMediaBacked`, and the two
+      differ in exactly one respect, deliberately — a transcript segment needs start **strictly
+      before** end because speech has duration, while a `screen_text` permits onset **==** offset,
+      because text seen at ONE sample of the grid has coincident observed bounds and forcing a
+      wider interval would make the record assert a duration nothing measured. **F6** producer
+      `ocr`, enforced in BOTH directions. **F7** interval bound present, finite, strictly positive
+      — FR-061's "never zero" is refused by name, because a zero bound is not a tight measurement
+      but a measurement never taken presented as the tightest possible one. **F8** engine
+      confidence carried, `[0,1]`, caller-normalised so one scale reaches the registry. **F9** no
+      speaker on on-screen text. **F10** an empty recognition is not a passage, guarded by
+      `!Redacted` so it cannot block `RedactionLog.Purge` — the same tension the library resolves
+      between its own F2 and F6, resolved the same way.
+      **`producer` is NOT `passage.Provenance`, and conflating them was the near-miss.** The
+      library's field records whether the text is still the machine's or has been human-corrected.
+      A corrected OCR passage is `human_corrected` **and** `ocr`; one field cannot carry both, and
+      collapsing them would have reclassified every correction as a change of engine.
+      **Proof, verified in BOTH directions — which a green run alone cannot show.** Green: **13
+      mutations, 13 caught, 0 missed**, with the **M0 negative control passing FIRST** (one of this
+      tree's two shipped inoperative proofs failed precisely by having a broken control, so zero
+      mutations ever ran). Red against two deliberately weakened throwaway copies: **W1** gutted
+      `validateScreenText` — 7 uncaught, 1 caught by an unrelated rule, the load-at-rest mutation
+      uncaught; **W2** changed one comparison so a zero bound was permitted, and **exactly M8** went
+      red. W2 is the one that matters: a proof detecting only total removal would not have
+      discriminated it. `domain.go` was restored to its pre-weakening sha256 and re-measured green.
+      **The detect_ocr.sh acceptance rule was copied deliberately.** That probe compares output to
+      KNOWN FIXTURE TEXT and refuses "non-empty" as a criterion, because a recogniser aimed at the
+      wrong script returns confident nonsense rather than silence. Here every positive assertion
+      compares a known VALUE, and every mutation must be refused with a message **naming the
+      invariant it broke** — W1 proved that arm live by reporting `CAUGHT BY THE WRONG RULE` on M12
+      rather than counting a refusal it had not earned.
+      **A hole this change opened, and closed.** Gate **G-SUG-6** (catalog and passage corpus are
+      disjoint, so redaction has ONE authority) asserted disjointness from a HARDCODED list of four
+      kinds. A fifth kind would have left a catalog row claiming `screen_text` passing. The list is
+      now DERIVED from the new `passagestore.PassageKinds`, so the next kind is covered the day it
+      is declared. Re-measured: G-SUG-6 green, 9 rows swept.
+      **`screen_text` is deliberately NOT added to `baseIndexedKinds`.** Nothing produces one yet.
+      `service.go`'s own comment records `diagram` as an existing advertised-but-unretrievable kind
+      and forbids adding a second instance of that defect; the `T057-lesson-section-unindexed`
+      registry row is the same precedent. Advertising a kind no corpus holds is a capability claim
+      with nothing behind it.
+      **Honest boundary.** No `screen_text` passage exists in the corpus — this task declares the
+      KIND, and T126 (blocked on T124, an operator decision) is what produces one. All fixtures are
+      synthetic; nothing was quoted from any recording.
+      **Pre-existing failures, measured rather than assumed.** Four backend tests failed when this
+      work began — `TestGateSUG4_RedactedPassagesNeverSurface`,
+      `TestGateKG11_AdvertisedAreaTermKindsAreRetrievable`, `TestC4_1_5_AreaFilterEchoedAndApplied`,
+      `TestC4_2_1_SuggestOffersAreaAndTermNames`. Each was measured **identical with and without
+      this change** (HEAD's `domain.go` restored, this task's test file held aside), so none is
+      caused by T125. **The "four" figure is now stale and is corrected rather than left standing:
+      three were fixed by another agent's concurrent work during this pass, and ONE remains —
+      `TestGateSUG4` in `internal/api`.** It is neither caused nor fixed here.
+      **`platform/gates/verify-check-registry-001.sh` exits 1 on this tree, and it is NOT this
+      task's.** All 11 R5 violations are unregistered `*.py`/`*.sh` files under
+      `pipeline/the_platform/`, landed by concurrent work; that registry's `pipeline` scanroot
+      sweeps recursively and is catching them exactly as designed. This task added **no** `*.sh` or
+      `*.py` anywhere under `pipeline/`, so it has zero R5 exposure. They are deliberately NOT
+      registered here: registering a gate whose paired proof has not been verified would be the
+      bluff that registry's own header forbids. **T126–T141 no longer sit behind this**
+- [ ] T126 [UNBUILT] [TDD] Implement sampling and recognition across a chapter recording, producing — **BLOCKER:** **predecessor T124** — sampling cannot be implemented before the sampling period is chosen · **OWNER:** **implementer**, after T124
       text plus a **visibility interval** and its **interval bound** (FR-061). The sampling period is
       a **recorded parameter** the run writes into its evidence, never a literal in the code — and
       the bound is never omitted and never presented as zero. Sources open read-only per **S7**
-      **BLOCKED ON T124 (operator) AND T125 — measured 2026-09-03.** The toolchain half is no longer
+      **BLOCKED ON T124 (operator) ALONE — re-measured 2026-09-03, narrowed from "T124 AND T125".**
+      The toolchain half is no longer
       in doubt: `pipeline/detect_ocr.sh` exits 0 and proved frame sampling plus per-word recognition
-      with confidence and geometry on this host, so nothing here is blocked on a capability. What is
-      missing is the sampling period, which T124 must settle and which this task is forbidden to
-      hardcode, and the passage kind T125 must declare first
-- [ ] T127 [UNBUILT] [TDD] Gate **G-OCR-3** — implement the **stability rule**: text visible across
+      with confidence and geometry on this host, so nothing here is blocked on a capability. **T125
+      is now BUILT**, so the passage kind, its `ScreenTextObservation` constructor and its
+      `interval_bound_s` field are all waiting for this task rather than the other way round. What
+      is still missing is the sampling period, which T124 must settle and which this task is
+      forbidden to hardcode — note `ScreenTextObservation` takes it as a PARAMETER precisely so no
+      literal can be smuggled in here
+- [ ] T127 [UNBUILT] [TDD] Gate **G-OCR-3** — implement the **stability rule**: text visible across — **BLOCKER:** **predecessor T124 + T126** · **OWNER:** **implementer**, after T124/T126
       consecutive samples is **one** passage with one interval, not one per sample. **Paired
       mutation**: emit one passage per sample; the gate must go red. This is not tidiness — a static
       slide left up for two minutes would otherwise inflate an area's evidence by the sampling rate,
       and the inflated count is what publication decisions rest on
-      **BLOCKED ON T125 AND T126 — measured 2026-09-03.** The stability rule operates over
-      consecutive samples, and neither the passage kind nor a sampler that emits any exists yet. Not
+      **BLOCKED ON T126 ALONE — re-measured 2026-09-03, narrowed from "T125 AND T126".** The
+      stability rule operates over consecutive samples; **the passage kind now exists** (T125), so
+      what is missing is a sampler that emits any. Not
       blocked on capability: the engine's `tsv` output carries the per-word geometry this rule needs
       to decide that two samples show the same text
-- [ ] T128 [UNBUILT] [TDD] Gate **G-OCR-4** — join `screen_text` mentions to the **existing
+- [ ] T128 [UNBUILT] [TDD] Gate **G-OCR-4** — join `screen_text` mentions to the **existing — **BLOCKER:** **predecessor T124 + T126** · **OWNER:** **implementer**, after T124/T126
       two-valued** precision model (FR-062, contract §3 N1/N2): declare `segment`, carry the
       **interval bound** beside it exactly as `word` precision carries timing confidence (N3).
       **Paired mutations**: (a) introduce a third `precision` value; (b) declare `word` precision on
       an OCR mention. Both must go red — (a) because every consumer switches on two values,
       (b) because no per-word timing record produced that time
-      **BLOCKED ON T125, BOUNDED BY T124 — measured 2026-09-03.** Nothing to join until the kind
-      exists, and the interval bound this task must carry beside `segment` precision is exactly the
-      quantity T124 has not settled. Not blocked on capability
-- [ ] T129 [UNBUILT] [TDD] Gate **G-OCR-5** — record **modality** (`spoken` / `on_screen`) on every
+      **BLOCKED ON T124 (operator) — re-measured 2026-09-03, narrowed from "BLOCKED ON T125,
+      BOUNDED BY T124".** The kind exists now, and it already carries the field this task must
+      propagate: `passagestore.AttrIntervalBoundS`, with `IntervalBound()` to read it and F7
+      guaranteeing it is present, finite and non-zero on every `screen_text`. What is still
+      unsettled is the VALUE, which T124 owns. Not blocked on capability.
+      **Note what T125 did NOT do here**: it put the bound on the PASSAGE. FR-061 also requires it
+      on every MENTION derived from one, and that half is this task's
+- [ ] T129 [UNBUILT] [TDD] Gate **G-OCR-5** — record **modality** (`spoken` / `on_screen`) on every — **BLOCKER:** **predecessor T126** — modality cannot be recorded on mentions that do not exist yet · **OWNER:** **implementer**, after T126
       mention, derived from the passage kind and never guessed, and mark a subject evidenced **only**
       on screen as `on-screen-only`, the modality analogue of `uncertain-only` (FR-012, FR-063).
       **Paired mutation**: default the modality to `spoken` where it is unset; the gate must go red.
       A term the workshop displayed but never discussed is a different fact from one it taught, and
       a reader who cannot tell them apart will over-read the taxonomy
-      **BLOCKED ON T125 — measured 2026-09-03.** Modality is derived from the passage kind, so there
-      is nothing to derive it from until the kind is declared. Not blocked on capability and not on
-      an operator
-- [ ] T130 [UNBUILT] [REVIEW] Settle **U7** — the **corroboration window**. A term is commonly
+      **NO LONGER BLOCKED ON T125 — re-measured 2026-09-03. Its one recorded blocker is gone: the
+      passage kind exists. It was NOT built in the same pass, and the reason is measured rather
+      than a preference.** Modality is "derived from the passage kind, never guessed", and the
+      derivation needs the KIND at the point a mention is minted. It is not available there:
+      `MentionDraft` carries `Passage passage.PID` and nothing else about the passage, and
+      `MentionDraft.Mint(m *passage.Minter)` takes no registry — so deriving the kind means either
+      threading a `*passage.Registry` through `Mint` and every call site, or having
+      `pipeline/mentions/join.py` emit modality in its JSONL. Both are real changes with real blast
+      radius, and "never guessed" forbids the cheap third option of defaulting when the kind cannot
+      be resolved — which is precisely what this task's own paired mutation targets.
+      **It is also COUPLED TO T128, which is operator-blocked.** `Mention.Time` is documented as
+      "nil exactly when Passage is not a transcript segment". A `screen_text` is now media-backed,
+      so a mention on one SHOULD carry a time — its visibility interval, at `segment` precision,
+      with the interval bound beside it. That is T128's shape, and T128 waits on T124 for the
+      bound's value. Building modality first would freeze a mention shape that T128 must then
+      change.
+      **And its second half cannot be exercised against anything real.** Marking a subject
+      `on-screen-only` needs a subject evidenced only on screen; there are ZERO on-screen mentions
+      in the corpus and no path to one until T126 runs. A gate for it today could only ever run on
+      synthetic fixtures, with its production path unreachable — which is the shape of a proof that
+      passes without proving. **Reclassified: merely unwritten, but correctly sequenced AFTER T128,
+      not before it.** Not blocked on capability
+- [ ] T130 [UNBUILT] [REVIEW] Settle **U7** — the **corroboration window**. A term is commonly — **BLOCKER:** **operator decision** — the corroboration window (U7) is an unsettled parameter, same class as T124 · **OWNER:** **operator**
       displayed *before* it is discussed, so measure the observed lead/lag distribution between
       on-screen and spoken occurrences rather than assuming coincidence. Three-valued exit. Record
       under `workshop/evidence/`. **T131 is bounded by this**: a window tuned to zero lag
@@ -1683,7 +1839,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       lead/lag distribution between on-screen and spoken occurrences, and **no OCR output exists in
       this tree to measure a distribution over**. T126 must run first. Settling U7 on the resulting
       distribution is then the operator's decision
-- [ ] T131 [UNBUILT] [TDD] Gate **G-OCR-6** — implement **corroboration grouping** per
+- [ ] T131 [UNBUILT] [TDD] Gate **G-OCR-6** — implement **corroboration grouping** per — **BLOCKER:** **predecessor T130** · **OWNER:** **implementer**, after T130
       `data-model.md` §2.10: mentions of one subject whose times overlap within the measured window
       form one group, and every publication, coverage and attachment figure counts **groups**, never
       raw mentions (FR-063). Both figures are published together; **neither mention is deleted** and
@@ -1693,7 +1849,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       deduplication turns a corpus into a vocabulary list
       **BLOCKED ON T130 — measured 2026-09-03.** The window is the parameter this task groups by,
       and it is unmeasured. Not blocked on capability
-- [ ] T132 [UNBUILT] [TDD] Build the **hand-truthed ground-truth sample** — drawn by a recorded seed
+- [ ] T132 [UNBUILT] [TDD] Build the **hand-truthed ground-truth sample** — drawn by a recorded seed — **BLOCKER:** **irreducible HUMAN LABOUR over a private recording** — hand-truthing a ground-truth sample cannot be delegated to a machine, and this is the SINGLE HIGHEST-LEVERAGE operator item in spec 002: T133, T134, T135, T136, T142 and 002's own closure all sit behind it · **OWNER:** **operator / human labour** — nothing an agent can do
       so it is reproducible, with the **population size published** beside it, matching the sampling
       discipline T081 already uses. This artifact is the input to **both** accuracy axes; a figure
       published without its seed and population is not a measurement anyone can re-derive
@@ -1704,7 +1860,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       against machine output measures nothing. The seed and population-size discipline this line
       asks for is already demonstrated by T081 and needs no new capability. **T133, T134 and —
       through them — the closure of spec 002 all sit behind this operator task**
-- [ ] T133 [UNBUILT] [TDD] Gate **G-OCR-7** — measure **textual** accuracy per chapter: word error
+- [ ] T133 [UNBUILT] [TDD] Gate **G-OCR-7** — measure **textual** accuracy per chapter: word error — **BLOCKER:** **predecessor T132** — textual accuracy is measured AGAINST the hand-truthed sample · **OWNER:** **implementer**, after T132
       rate and character error rate against T132's sample, scored by the **same** edit-distance
       method the speech calibration already uses, so the two figures are comparable rather than
       merely adjacent (FR-064, SC-031). **Paired mutation**: score against the recogniser's own
@@ -1712,7 +1868,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       **BLOCKED ON T132 (operator) — measured 2026-09-03.** There is no ground truth to score
       against. The edit-distance method this must share with the speech calibration already exists
       (`pipeline/compare_engines.py`), so the scorer is not the gap; the reference is
-- [ ] T134 [UNBUILT] [TDD] Gate **G-OCR-8** — measure **temporal** accuracy per chapter: the
+- [ ] T134 [UNBUILT] [TDD] Gate **G-OCR-8** — measure **temporal** accuracy per chapter: the — **BLOCKER:** **predecessor T132** — temporal accuracy is measured against the same sample · **OWNER:** **implementer**, after T132
       proportion of on-screen mentions whose declared visibility interval **contains** the moment the
       text was actually on screen (FR-064, SC-032). **Paired mutation**: assert only that an interval
       exists; the gate must go red. **This axis is separate from T133 deliberately**: deep linking
@@ -1722,7 +1878,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       separation this line already argues for is now measurable in principle:
       `pipeline/detect_ocr.sh` confirmed the engine returns per-word bounding boxes, which is what a
       visibility interval is ultimately derived from
-- [ ] T135 [UNBUILT] [TDD] Gate **G-OCR-9** — implement the **accuracy budget, derived and never
+- [ ] T135 [UNBUILT] [TDD] Gate **G-OCR-9** — implement the **accuracy budget, derived and never — **BLOCKER:** **predecessor T132, AND a second independent operator blocker** — `CALIBRATION.md` carries NO WER figure at all, so the floor this gate must read at run time does not exist. The fix is spec 001's T037(b) blind human reference (30 seeded windows, 15 min audio, costed 1-2 h) — **one piece of human work satisfies both specs** · **OWNER:** **operator / human labour**, then **implementer**
       picked** (FR-064a): the floor is **read at run time** from the recorded speech calibration for
       the same corpus, and the gate publishes the OCR figures and the speech baseline **together**
       (SC-033). Three-valued — calibration record or ground-truth sample unreadable ⇒ **2**, never
@@ -1782,7 +1938,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       up to `√(N_hyp/30) ≈ 8×`, **overstating** precision. **Nothing in this project computes an
       interval today**, and `accuracy.json` carries no interval field — it carries this warning in
       `sample.estimator_unit` instead
-- [ ] T136 [UNBUILT] [TDD] Gate **G-OCR-10** — implement the **per-chapter publication precondition**
+- [ ] T136 [UNBUILT] [TDD] Gate **G-OCR-10** — implement the **per-chapter publication precondition** — **BLOCKER:** **predecessor T133 + T134 + T135** — a publication precondition cannot be enforced before the figures it gates on exist · **OWNER:** **implementer**, after the accuracy chain
       (FR-064b): no OCR-derived mention is published for a chapter until **that chapter's** accuracy
       run has been observed passing. **Paired mutation**: publish from a chapter whose accuracy
       run returned could-not-determine; the gate must go red. Font, resolution and compression differ
@@ -1790,7 +1946,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       same per-chapter discipline **V2** already applies to word timings
       **BLOCKED ON T135 — measured 2026-09-03.** There is no budget to precondition publication on.
       Not blocked on capability
-- [ ] T137 [UNBUILT] [TDD] Gate **G-OCR-11** — extend the content-boundary check over OCR output and
+- [ ] T137 [UNBUILT] [TDD] Gate **G-OCR-11** — extend the content-boundary check over OCR output and — **BLOCKER:** **predecessor T126** — there is no OCR output to extend the content-boundary check over · **OWNER:** **implementer**, after T126
       run it **before** publication (FR-065, SC-036). **Paired mutation**: scope the check to
       transcript text only; the gate must go red. **On-screen text is a wider disclosure surface than
       the transcript** — a recording displays window titles, file paths, identifiers and names that
@@ -1801,14 +1957,14 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       widest disclosure surface in the phase, and the umbrella repository is public while this
       material is not, so it must land BEFORE T141 wires the stage into the chapter-addition path —
       not after
-- [ ] T138 [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an
+- [ ] T138 [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an — **BLOCKER:** **predecessor T126** — nothing to index until `screen_text` mentions are produced · **OWNER:** **implementer**, after T126
       advertised kind must be **retrievable**, proven by a planted known target, **never** by a row
       count. Do not advertise the kind until it is retrievable (FR-066). The corpus already
       advertises `diagram` with **0** entries, and this task exists so a second such kind is not
       created
       **BLOCKED ON T125 — measured 2026-09-03.** Nothing to index until the kind exists. Not blocked
       on capability
-- [ ] T139 [UNBUILT] [P] Add the contract sections and route-manifest rows for the `screen_text`
+- [ ] T139 [UNBUILT] [P] Add the contract sections and route-manifest rows for the `screen_text` — **BLOCKER:** none but the work — contract sections and route-manifest rows can be written ahead of the implementation, and doing so early is cheap · **OWNER:** **implementer** — unblocked today
       kind, its evidence entries and the modality and interval-bound fields (FR-059). Gate
       **G-KG-1**. This task is also what moves gates **G-OCR-1**..**G-OCR-11** into `contracts/`,
       where the gate-attachment closure check enumerates them — they are attached to task lines
@@ -1822,14 +1978,14 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       tree does not have. That is a green instrument reporting on the wrong question, and the
       correct order is gates first, contract second. Measured before and after this pass with the
       corrected extractor: **19 ids, `unattached: 0`**, unchanged
-- [ ] T140 [UNBUILT] [TDD] Prove redaction reaches **OCR-derived** mentions across all eight targets
+- [ ] T140 [UNBUILT] [TDD] Prove redaction reaches **OCR-derived** mentions across all eight targets — **BLOCKER:** **predecessor T126** — redaction cannot be proven to reach OCR-derived mentions that do not exist · **OWNER:** **implementer**, after T126
       in `data-model.md` §5. Gate **G-KG-7** extended. **Paired mutation**: restrict propagation to
       the spoken modality; the gate must go red. The eight targets do not change — what must be
       proven rather than assumed is that the propagation was not written against ASR-derived
       mentions only
       **BLOCKED ON T125 AND T126 — measured 2026-09-03.** There are no OCR-derived mentions for
       redaction to reach. Not blocked on capability
-- [ ] T141 [UNBUILT] [US7] Add the OCR stage to the platform's **existing** chapter-addition path per
+- [ ] T141 [UNBUILT] [US7] Add the OCR stage to the platform's **existing** chapter-addition path per — **BLOCKER:** **predecessor T126 + T136** · **OWNER:** **implementer**, after T126/T136
       **S1** — a stage added, **not a second procedure**; three-valued and resumable per **S3**/**S4**;
       writing to no source per **S7**; writing evidence on every outcome including could-not-determine
       per **S8**. Gate **G-KG-17** extended to assert the OCR outputs appear in the synthetic-chapter
@@ -1837,7 +1993,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       **BLOCKED ON T126 — measured 2026-09-03.** There is no OCR stage to add to the
       chapter-addition path. Not blocked on capability: the two tools the stage would call, frame
       sampling and recognition, are both measured working by `pipeline/detect_ocr.sh`
-- [ ] T142 [UNBUILT] [REVIEW] Publish both OCR accuracy figures **beside** the speech-recognition
+- [ ] T142 [UNBUILT] [REVIEW] Publish both OCR accuracy figures **beside** the speech-recognition — **BLOCKER:** **predecessor T133 + T134, and spec 001's T037** — both OCR accuracy figures must be published BESIDE the speech-recognition figure, and that figure does not exist either · **OWNER:** **implementer**, after T133/T134 and 001's T037
       ones in the shipped limits document and state plainly what OCR cannot do (FR-050 discipline);
       register every check added by this phase (SC-027); and drive each of **G-OCR-1**..**G-OCR-11**
       into its **could-not-determine** condition and assert the third state (SC-028). A figure
@@ -1851,7 +2007,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       `platform/gates/verify-check-registry-001.sh` as that row's registered rc-2 probe. The other
       ten `G-OCR-*` gates do not exist, so nine tenths of this obligation is untouched
 
-- [ ] T143 [UNBUILT] Build **G-KG-1-changed** and its §1.1 paired mutation: assert that every §4
+- [x] T143 Build **G-KG-1-changed** and its §1.1 paired mutation: assert that every §4
       *changed* endpoint carries a route-manifest row whose contract citation names **both** its
       `001/contracts/http-api.md` section and its §4 subsection here (R1b), and prove the gate red
       by **rewriting** one such citation back to its 001-only form — leaving the row otherwise
@@ -1892,13 +2048,59 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       repair is recorded above is enforced by nothing: the next edit that drops that suffix still
       restores the violation silently.
 
-      **This box therefore stays `[ ]`, and the remaining work is now a small, named change rather
+      ~~**This box therefore stays `[ ]`, and the remaining work is now a small, named change rather
       than a gate from scratch:** add the `/api/ask` row to the existing table (and, per §1.1, a
       fourth rewrite case to `prove-knowledge-manifest-mutation.sh`, whose current mutation set does
-      not touch it). Do not tick this on the strength of the gate existing — a gate that enumerates
+      not touch it).~~ Do not tick this on the strength of the gate existing — a gate that enumerates
       three of four obligations is green about the three and blind to the fourth, which is the same
       blind-instrument shape the closure check's own `THE BLIND ZERO` note records one section
-      below.
+      below. **That caveat is retained because it is the standing lesson, and it is now SATISFIED
+      rather than waived — the gate enumerates 4 of 4.**
+
+      **TICKED 2026-09-03. The residue named above is closed, and it was closed by DERIVING both
+      coverage sets rather than by extending either hand list — which is a stronger fix than this
+      task asked for, and deliberately so.** A hand list is what produced the defect: the table
+      enumerated §4.1, §4.2 and §4.4 and omitted §4.3, and nothing anywhere was checking that
+      omission. Adding a fourth literal would have left the next §4.5 exposed to the identical
+      failure. Measured, both directions:
+
+      - **The gate.** `TestGateKG1_ChangedEndpointsCiteTheDeltaContract` no longer carries a `want`
+        table. It locates `contracts/http-api-delta.md` by a parent walk mirroring
+        `verify-server-unity.sh`'s own `find_contract()` (override:
+        `WORKSHOP_HTTP_DELTA_CONTRACT`), parses every `### 4.N` heading under `## 4. Endpoints
+        changed`, and grades each one. It PRINTS the derived population so a green run shows what it
+        graded: *"coverage set DERIVED from …/http-api-delta.md: 4 changed endpoint(s) — §4.1 GET
+        /api/search, §4.2 GET /api/suggest, §4.3 POST /api/ask, §4.4 GET|POST /api/progress"*.
+        Matching is on PATH with the query string stripped, exactly as U6 does, because §4.3's
+        heading says `POST /api/ask` while the probed row is `GET /api/ask?q=ping` and §4.4's says
+        `GET|POST` — requiring the verbs to agree would fail on a disagreement that is not a defect.
+        The delta citation is compared as a whole `+`-joined COMPONENT, not by substring, so
+        `002.4.1` can never be satisfied by `002.4.10`.
+      - **The proof.** `prove-knowledge-manifest-mutation.sh`'s `CHANGED_*` arrays are gone too; its
+        §4 mutation set is derived from the production manifest (every row whose contract column
+        carries a `002.4.N` component). `--list` now reports **12 mutations (8 fixed §3 deletions +
+        4 DERIVED §4 citation rewrites)**, the fourth being `ask-4-3: rewrite /api/ask?q=ping
+        contract column 3.10+002.4.3 -> 3.10`. Full run: **rc 0, `12 proven / 0 problem / 0
+        undetermined`** — so the `/api/ask` citation is now enforced by a mutation that has been
+        OBSERVED turning the gate red, which is what the repair recorded above previously lacked.
+      - **The two derivations are taken from DIFFERENT documents on purpose.** The gate derives from
+        the contract's §4 headings; the proof derives from the manifest's own citations. A row that
+        loses its citation drops out of the proof's set but turns the gate RED, and the proof's
+        preflight refuses to prove anything against an already-red gate (exit 2). Agreement is the
+        evidence; disagreement is an UNDETERMINED, never a silent under-mutation.
+
+      **Honest boundary (§11.4.6), stated because it is a real change in behaviour.** The gate now
+      reads a document that lives in the SUPERPROJECT. Where it cannot be found, the test reports
+      **UNDETERMINED via `t.Fatal`, i.e. as a FAILURE** — `t.Skip` was rejected because a skip exits
+      0 and `check-registry-002.tsv` would read it as a pass. So a workshop checkout taken apart from
+      its superproject now fails this one test instead of passing it vacuously. That mirrors
+      `verify-server-unity.sh` U6, whose own comment says an unreachable contract "is exit 2, not a
+      pass"; the previous test comment argued the opposite and is withdrawn in the file itself.
+
+      **The superseded "measured while re-deriving" note below is retained, not deleted** — it
+      recorded that the paired proof could not be re-run to completion because of a concurrent Go
+      build break. It has since been re-run to completion (rc 0, above). The note stands as the
+      record of a COULD-NOT-DETERMINE that was correctly refused as a pass.
 
       **Measured while re-deriving this, and recorded rather than absorbed: the paired proof could
       NOT be re-run to completion today** — `bash platform/backend/gates/prove-knowledge-manifest-mutation.sh`

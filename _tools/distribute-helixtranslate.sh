@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 # =============================================================================
+# SUPERSEDED — but NOT yet retired, and the distinction is deliberate.
+#
+# This script spawns raw `ssh`, `scp` and `rsync` itself. §11.4.76(4) forbids
+# that: the Containers submodule owns remote execution and a consuming project
+# may not reimplement it. A replacement that drives every SSH/SCP operation
+# through the module now exists:
+#
+#     _tools/containers/cmd/distribute-helixtranslate     (Go, three-valued exit)
+#     go run ./cmd/distribute-helixtranslate -dry-run     (from _tools/containers)
+#
+# WHY THIS FILE IS STILL HERE. The replacement has never been run against a
+# live remote. On 2026-09-03 both target hosts were measured unreachable from
+# the development machine — `ssh` failed at name resolution (rc 255) for both,
+# while avahi-daemon was active and `avahi-browse -at` enumerated many other
+# devices on the same /24. Retiring a working script in favour of an unverified
+# one would be a downgrade dressed up as compliance.
+#
+# So: prefer the Go command. Keep this until someone has run the Go command
+# end to end against thinker/amber and recorded the result. Note that this
+# script is ALSO unrunnable on that machine today — its own line-45 seed-db
+# precondition fails, because no verified_models.db exists anywhere in the
+# helix_translate checkout.
+# =============================================================================
 # distribute-helixtranslate.sh — build the HelixTranslate engine as a container
 # and distribute it to the translation hosts (thinker.local / amber.local), per
 # the mandate that HelixTranslate runs ONLY via containers on those hosts.

@@ -259,7 +259,7 @@ deps:
 
   - name: passage
     ssh_url: git@github.com:vasic-digital/passage.git
-    ref: "729cd96a39fefff5675570adff2eeba4faed0d26"   # tag v0.2.0 points at this commit; the sha is the exact pin
+    ref: "9f92b2f167d79f1b05ca10f9bf862ee9258844a8"   # HEAD is PAST tag v0.2.0 (which points at 729cd96a); the sha is the exact pin
     why: "Stable identity for citable spans of text: a pid is a ULID minted ONCE at ingest, derived from neither content nor position. Both alternatives were measured and both fail in opposite directions — a content-derived id changed when one typo was fixed, and a positional key moved every range when a section was prepended; under either, citations break WHILE THE UI KEEPS RENDERING LINKS to the wrong text. Ships PID/Minter, three anchor modes (inline / sidecar / registry_only), a JSONL-authoritative Registry with a derived SQLite+FTS5 index, and a four-state Outcome in which an unreadable registry surfaces as 503 rather than a 404 claiming the passage does not exist. Extracted from workshop/platform/libs/ and published PUBLIC for the same §11.4.28 reason as verdict. Go module `github.com/vasic-digital/passage`. Catalogue-check §11.4.74: Embeddings is provider adapters only with no identity seam, RAG's chunker is positional (Start/End — the design passage measured and rejected), Document models whole files not spans, and docs_chain is content-hashed — the property passage exists to avoid."
     layout: grouped
     # Live topology: origin fetches AND pushes github.com:vasic-digital/passage.git;
@@ -313,13 +313,13 @@ deps:
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: "31928364a43ed7984fe6999ae958dde87bde3fed"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "948e925f2d8b69027b46ac400aafdaaa9f4127b6"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "1823d62c314af3b26ae41d8a7c9e0bc699189d26"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "f5f13a25eaebb4d8023717040425992a43c53de1"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "Site submodule — Jekyll source; its rendered _site/ is git-ignored and must be built before the Playwright suite can serve it. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh."
     layout: flat
     # ⚠ FETCH/PUSH ASYMMETRY (Constitution.md -> "Hazard"): the ssh_url above is
@@ -369,7 +369,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "83260ee31685f9d89c42ef057d43d74047f154b3"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "a3b0a731c610cc9516c0ec52ec30222674f84a5e"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which keeps gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks plus a *.sha256 manifest while the extracted videos stay git-ignored."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL

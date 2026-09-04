@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (11,700 lines, 252 `### §` anchors, 1,779,401 bytes, **re-measured on disk 2026-09-03 at pin `3be10826f3d2` — all three unchanged, and the pin did not move even though its remote did**; the SAME `Constitution.md` blob `34eff9d8…` as all three superseded pins `902979027a90`, `f16ea779b82a` and `f5876a3b700e`, so these figures did not move across any of the three bumps) | `submodules/constitution/Constitution.md` |
+| The universal constitution (11,700 lines, 252 `### §` anchors, 1,779,401 bytes, **re-measured on disk 2026-09-03 BEFORE AND AFTER the fourth fast-forward, at `3be10826f3d2` and again at `2887b42e9349` — every figure reproduced identically, sha256 `fe1de96abc84c2fc…` on both sides**; the SAME `Constitution.md` blob `34eff9d8…` as all four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, so these figures have not moved across any of the four bumps) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -38,50 +38,71 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 | Forbidden-command PreToolUse guard | `submodules/constitution/scripts/hooks/guard-forbidden-commands.sh` |
 | Propagation / covenant gates | `submodules/constitution/scripts/gates/` |
 
-**The pin has been FAST-FORWARDED TWICE — 2026-09-01 on explicit operator
-authorization, and again on 2026-09-02. Each bump closed one INSTANCE of the
-gap; the HOLE that let the first one open unnoticed is now WATCHED, and the
-watcher went GREEN once, on 2026-09-02. IT IS RED AGAIN.** `submodules/constitution`
-is currently checked out at `3be10826f3d2`, on branch `main`, and that **NO LONGER
-EQUALS** `git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD`.
-Re-measured **2026-09-03**: remote HEAD is **`2887b42e9349`**. The claim this
-block carried — *"that EQUALS `git ls-remote …`"*, with the sequence line
-`remote HEAD today = 3be10826f3d2 -- EQUAL, no drift` — is **WITHDRAWN**, and
-that withdrawal is now the THIRD in this lineage. Every earlier "checked out at
-X" is WITHDRAWN too, and the sequence is kept because it is the whole lesson:
-**a pin bumped to equal its upstream does not stay equal** — this one has now
-gone stale within a day on three consecutive occasions.
+**The pin has now been FAST-FORWARDED FOUR TIMES — 2026-09-01, 2026-09-02, and
+again on 2026-09-03, each on explicit operator authorization. Every bump closed
+one INSTANCE of the gap; the HOLE that let the first one open unnoticed is now
+WATCHED, and the watcher has gone GREEN, RED and GREEN again inside three
+days.** `submodules/constitution` is currently checked out at `2887b42e9349`, on
+branch `main`, and that **EQUALS**
+`git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD` as
+re-measured **2026-09-03 after the fourth move**. Every earlier "checked out at
+X" in this lineage is WITHDRAWN, and the sequence is kept because it is the whole
+lesson: **a pin bumped to equal its upstream does not stay equal** — this one has
+now gone stale within a day on FOUR consecutive occasions, and the green below
+will not survive the night either.
 
     902979027a90  ->  f16ea779b82a    2026-09-01, operator-authorized, 0 divergent / 3 behind
     f16ea779b82a  ->  f5876a3b700e    0 divergent / 4 behind
     f5876a3b700e  ->  3be10826f3d2    2026-09-02, operator-authorized, 0 divergent / 2 behind
     remote HEAD 2026-09-02            =  3be10826f3d2     -- EQUAL, no drift   (WITHDRAWN)
-    remote HEAD 2026-09-03            =  2887b42e9349     -- DIFFERS, direction UNDETERMINED
+    remote HEAD 2026-09-03 (morning)  =  2887b42e9349     -- DIFFERS, direction UNDETERMINED   (WITHDRAWN)
+    3be10826f3d2  ->  2887b42e9349    2026-09-03, operator-authorized, 0 divergent / 1 behind
+    remote HEAD 2026-09-03 (after)    =  2887b42e9349     -- EQUAL, no drift
 
-**The direction of the 2026-09-03 difference is UNDETERMINED and this session did
-not resolve it.** `git -C submodules/constitution cat-file -t 2887b42e9349` returns
-*"could not get object info"* — the remote commit is **not in this checkout's
-object store**, so `merge-base` and `rev-list` cannot classify it. Classifying it
-needs a `--fetch` or a scratch bare clone, and a fetch is a mutating command and
-an **operator decision**. It was NOT run. Do not record this as "behind".
+**The fourth move was operator-authorized and CLASSIFIED BEFORE it was made**,
+and the earlier UNDETERMINED reading was resolved by the authorized `--fetch`
+rather than by assumption. The claim this block carried — *"the direction is
+UNDETERMINED and this session did not resolve it"*, resting on
+`cat-file -t 2887b42e9349` returning *"could not get object info"* — was TRUE
+when written and is now **SUPERSEDED**: the fetch brought the object in, and
+`git merge-base --is-ancestor 3be10826f3d2 2887b42e9349` returned **TRUE** with
+`git rev-list --left-right --count 3be10826…...2887b42e…` returning **`0` / `1`
+— 1 behind, 0 divergent**. `git merge --ff-only` performed it, which would have
+refused anything that was not a true fast-forward.
 
-Re-measured 2026-09-03. The index and the submodule working tree both sit at
-`3be10826f3d2`; the umbrella's `HEAD` still records `f16ea779b82a`, so the whole
-two-step move is **STAGED and not yet committed**. `helix-deps.yaml` records
-`3be10826f3d2` staged in the same change, so gitlink and manifest moved together
-exactly as C9 requires — `bash scripts/verify-manifest-pins.sh` re-measured
-2026-09-03 exits **0** at 12 MATCH / 0 DRIFT / 0 UNDETERMINED.
-`bash scripts/verify-submodule-remote-sync.sh` exits **1** at
-**11 CURRENT / 1 DRIFT / 0 UNDETERMINED**, and the one DRIFT row is this pin.
+**The fourth move touches NO governance document, and that was checked by name
+rather than eyeballed.** `diff --stat` across `3be10826f3d2..2887b42e9349` is
+**five files, 142 insertions, 20 deletions**, from the single commit
+*"fix(helix_code): hc_status reported UP services as DOWN — wrong port + wrong
+scheme"*:
 
-**The third move was operator-authorized and CLASSIFIED BEFORE it was made** —
-the `--fetch` that earlier revisions correctly refused to run unasked. It
-resolved the previously UNDETERMINED direction: `merge-base --is-ancestor
-f5876a3b 3be10826` TRUE, `rev-list --left-right --count` `0` / `2` — **2 behind,
-0 divergent** — and `git merge --ff-only` performed it, which would have refused
-anything else. `diff --stat` touches **two files, both inside the constitution's
-own `scripts/gates/`**; no governance document, no carrier, not
-`Constitution.md`.
+    docs/scripts/helix_code_services.docx      Bin 12354 -> 12805
+    docs/scripts/helix_code_services.html       47 ++++++--
+    docs/scripts/helix_code_services.md         39 +++++---
+    docs/scripts/helix_code_services.pdf       Bin 48214 -> 41698
+    scripts/helix_code/helix_code_services.sh   76 +++++++++++---
+
+Filtering that name list against every governance path — `Constitution.md`, the
+four carriers, `CLAUDE_ANCHORS_FULL.md`, `find_constitution.sh`,
+`helix-deps.yaml`, `templates/`, `scripts/gates/`, `scripts/hooks/` and
+`scripts/post_update_hook.sh` — returns **NONE**. A service-status script and its
+four rendered exports; nothing this repository inherits changed.
+
+Re-measured 2026-09-03 after the move. The index and the submodule working tree
+both sit at `2887b42e9349`; the umbrella's `HEAD` still records `f16ea779b82a`,
+so the whole four-step move is **STAGED and not yet committed**.
+`helix-deps.yaml` records `2887b42e9349` staged in the same change, so gitlink
+and manifest moved together exactly as C9 requires — `bash
+scripts/verify-manifest-pins.sh` exits **0** at 12 MATCH / 0 DRIFT /
+0 UNDETERMINED, and `bash scripts/verify-submodule-remote-sync.sh` is back to
+exit **0** at **12 CURRENT / 0 DRIFT / 0 UNDETERMINED**.
+
+**The third move, kept because its lesson is the same one.** It too was
+classified before it was made: `merge-base --is-ancestor f5876a3b 3be10826` TRUE,
+`rev-list --left-right --count` `0` / `2` — **2 behind, 0 divergent** — and
+`git merge --ff-only` performed it. Its `diff --stat` touched **two files, both
+inside the constitution's own `scripts/gates/`**; no governance document, no
+carrier, not `Constitution.md`.
 
 **C9 went FAIL for exactly as long as the manifest was ahead of the index, and
 that is the gate working.** Moving `helix-deps.yaml` first left the recorded ref
@@ -95,14 +116,28 @@ sessions have now bumped this pin and found it behind upstream again within the
 day. Treat the constitution pin as a standing operator decision, not a task that
 completes.
 
-**Nothing this repository records about the corpus moved in either bump.**
-`Constitution.md` is the SAME git blob `34eff9d86cadb325721c958d35a411feaad27681`
-at all four pins — re-measured ON DISK at `3be10826f3d2` as **11,700 lines, 252
-`### §` anchors, 1,779,401 bytes**. The second bump's `diff --stat` touches two
+**Nothing this repository records about the corpus has moved in any of the four
+bumps, and the fourth was re-measured on both sides of the move rather than
+after it.** `Constitution.md` is the SAME git blob
+`34eff9d86cadb325721c958d35a411feaad27681` at all five pins. Read on disk at
+`3be10826f3d2` and again at `2887b42e9349`, every figure reproduced identically:
+
+| | at `3be10826f3d2` | at `2887b42e9349` |
+|---|---|---|
+| `Constitution.md` blob | `34eff9d8…` | `34eff9d8…` |
+| lines | 11,700 | 11,700 |
+| `### §` anchors | 252 | 252 |
+| bytes | 1,779,401 | 1,779,401 |
+| sha256 | `fe1de96abc84c2fc…` | `fe1de96abc84c2fc…` |
+| `du -h CLAUDE.md` | 784K | 784K |
+| `du -h Constitution.md` | 1.7M | 1.7M |
+
+**No figure in this file needed correcting for the fourth move** — which is a
+measurement, not a rule. The second bump's `diff --stat` likewise touched two
 paths, neither a governance document: `design-toolkit` (1 −) and
-`docs/codegraph/Status.md` (18 +). That is a measured coincidence of what
-upstream happened to change, **not** a guarantee that a pin move is
-corpus-neutral — re-measure after the next one.
+`docs/codegraph/Status.md` (18 +). Four corpus-neutral moves in a row are a
+measured coincidence of what upstream happened to change, **not** a guarantee
+that a pin move is corpus-neutral — re-measure after the next one, on both sides.
 
 Four findings from the FIRST bump, each measured rather than inferred, kept
 because each still describes how a pin move must be done here:
@@ -168,9 +203,9 @@ project does not own.
 Separately, the `design-toolkit` ref CONFLICT recorded under
 `conflict_resolution` in `helix-deps.yaml` is a DIFFERENT thing and is
 **UNCHANGED**: the constitution's own `helix-deps.yaml` says `ref: 16e4e76` at
-all four pins — `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, each read
-directly with `git show <pin>:helix-deps.yaml`. Do not read the gitlink fix as
-closing this.
+all five pins — `902979027a90`, `f16ea779b82a`, `f5876a3b700e`, `3be10826f3d2`
+and `2887b42e9349`, each read directly with `git show <pin>:helix-deps.yaml`. Do
+not read the gitlink fix as closing this.
 
 **The residual risk this block used to report as "not started" is now WATCHED,
 and the watching instrument is RED.** The risk was real and is restated because
@@ -181,25 +216,27 @@ and **nothing compared the gitlink to the remote**. The bump closed one
 INSTANCE, not the CLASS. The class is now covered by
 `scripts/verify-submodule-remote-sync.sh`, registered in
 `scripts/check-registry.tsv` as `submodule-remote-sync` with a `--prove-failure`
-paired proof — which is exactly what R5 demanded. **Watched became FIXED for
-ONE DAY and is RED again.** The claim this block carried — *"that gate now exits
-0 at 12 CURRENT / 0 DRIFT / 0 UNDETERMINED … its first green ever"*, measured
-2026-09-02 — is **WITHDRAWN as current**. Re-measured **2026-09-03**, the gate
-exits **1** at **11 CURRENT / 1 DRIFT / 0 UNDETERMINED** of 12 owned gitlinks
-probed. The single DRIFT row is `submodules/constitution` itself. Every reading
-in the lineage is now historical: "6 CURRENT / 6 DRIFT" (2026-09-01),
-"11 CURRENT / 1 DRIFT" (earlier 2026-09-02), "12 CURRENT / 0 DRIFT"
-(later 2026-09-02), "11 CURRENT / 1 DRIFT" (2026-09-03). **Green is a
-measurement of today, not a property of the tree** — the gate says so itself,
-and one day of green followed by a return to red is the proof.
+paired proof — which is exactly what R5 demanded. **Watched became FIXED, then
+RED, then FIXED again — inside three days.** Re-measured **2026-09-03 after the
+fourth fast-forward**, the gate exits **0** at **12 CURRENT / 0 DRIFT /
+0 UNDETERMINED** of 12 owned gitlinks probed. The reading this block carried
+earlier the same day — *"exits 1 at 11 CURRENT / 1 DRIFT, and the single DRIFT
+row is `submodules/constitution` itself"* — is **WITHDRAWN as current** and was
+true when written. Every reading in the lineage is now historical:
+"6 CURRENT / 6 DRIFT" (2026-09-01), "11 CURRENT / 1 DRIFT" (earlier 2026-09-02),
+"12 CURRENT / 0 DRIFT" (later 2026-09-02), "11 CURRENT / 1 DRIFT" (2026-09-03
+morning), "12 CURRENT / 0 DRIFT" (2026-09-03, after the fourth move). **Green is
+a measurement of today, not a property of the tree** — the gate says so itself,
+and TWO cycles of green-then-red-then-green are the proof. **Do not bank this
+green; the pin has broken it four times.**
 See "Submodule-vs-remote drift" below.
 
-Re-derive. **The pin does NOT equal the remote head** — the sentence that used
-to stand here ("the pin now equals the remote head, so no scratch clone is
-needed") was true for hours and is withdrawn. Classifying the DIRECTION of the
-difference needs either a scratch bare clone or a `git fetch` inside the
-submodule, and a fetch is a mutating command and an operator decision. The
-read-only probes below tell you THAT it differs, never which way:
+Re-derive. **The pin equals the remote head as of the 2026-09-03 re-measurement,
+and that sentence has already been true and then false twice.** When it next
+differs, classifying the DIRECTION needs either a scratch bare clone or a
+`git fetch` inside the submodule, and a fetch is a mutating command and an
+operator decision. The read-only probes below tell you THAT it differs, never
+which way:
 
 ```bash
 git -C submodules/constitution rev-parse HEAD                   # the local pin
@@ -230,8 +267,8 @@ consumer carrier MUST start with either the native `@constitution/CLAUDE.md`
 import OR the portable `## INHERITED FROM ...` pointer block. This repository
 uses the pointer block. The reason is stated openly rather than left implicit:
 `submodules/constitution/CLAUDE.md` is 784 KB and `Constitution.md` is 1.7 MB
-(re-measured 2026-09-02 at pin `3be10826f3d2` with `du -h`, unchanged by the
-second bump; both grew from the 654 KB / 1.53 MB
+(re-measured 2026-09-03 at pin `2887b42e9349` with `du -h`, unchanged by the
+third or fourth bump; both grew from the 654 KB / 1.53 MB
 figures this file used to carry), so a native import would load roughly 165k
 tokens of context into every session before any work begins. Re-derive with
 `du -h` rather than trusting these numbers — they are a dated observation, and
@@ -332,43 +369,71 @@ make it green.** Re-measured **2026-09-03**,
 `bash scripts/verify-content-boundary.sh` exits **1** and prints:
 
 ```
-LEAK — 11878 surviving match(es) (prose 11356, short 433, name 89); 0 row(s) also could not be determined
+LEAK — 12867 surviving match(es) (prose 12299, short 483, name 85); 0 row(s) also could not be determined
 ```
 
-The **2026-09-02** reading `LEAK — 11158 (prose 10833, short 268, name 57)` is
-SUPERSEDED, as is the earlier `LEAK — 285 (prose 207, short 35, name 43)`. **The
-instrument still has not changed:**
-`git status --short scripts/verify-content-boundary.sh .content-boundary-allow`
-is EMPTY, so nothing was loosened or allow-listed between any of these readings.
+**STOP — THIS GATE'S TOTAL IS NOT REPRODUCIBLE RUN-TO-RUN, MEASURED 2026-09-03.
+Do not quote any single number from it as "the" count.** Three full runs were
+taken the same evening. **Runs 1 and 3 were on a BYTE-IDENTICAL tree** — run 3
+was produced by restoring the four carriers and `CONTINUATION.md` to `HEAD`
+precisely to control for the session's own edits — and they disagree by **122
+rows**:
 
-**THE POPULATION IS FULLY ATTRIBUTED AS OF 2026-09-03 — every one of the 11878
-rows is accounted for by path, not by sampling.** The whole 24,656-line log was
-parsed and re-aggregated; the parsed row count is **exactly 11878**, matching the
-gate's own total, so nothing is missing from the table below. It spans
-**279 distinct public files**, **1789 distinct public `file:line` pairs**, and
-**346 distinct private sources**.
+| run | tree | leaks | prose | short | name | already_public |
+|---|---|---:|---:|---:|---:|---:|
+| 1 | pre-edit carriers | 12745 | 12182 | 478 | 85 | 2252 |
+| 2 | post-edit carriers | 12846 | 12280 | 481 | 85 | 2261 |
+| 3 | pre-edit carriers *(same tree as run 1)* | 12867 | 12299 | 483 | 85 | 2261 |
 
-| Private source → public side | Matches | Share |
-|---|---:|---:|
-| `workshop` → umbrella root (`.`) | 8797 | 74.1% |
-| `workshop` → `submodules/RAG` | 1739 | 14.6% |
-| `workshop` → `submodules/LLMProvider` | 690 | 5.8% |
-| `ai_interviewing` → umbrella root (`.`) | 254 | 2.1% |
-| `workshop` → `submodules/passage` | 205 | 1.7% |
-| `workshop` → `submodules/constitution` | 143 | 1.2% |
-| all remaining pairs (9 pairs) | 50 | 0.4% |
+**What this rules out, measured rather than assumed.** The instrument is
+unmodified (`git status --short` on the gate and `.content-boundary-allow` is
+EMPTY). Nothing in `workshop/` or the umbrella root changed during the window
+(`find -newermt '3 hours ago'` returns 0 files). The gate allocates a fresh
+`mktemp -d` per run, so concurrent instances cannot share intermediate state.
+**The instability is localised to a DERIVED filter, not to row emission:**
+`already_public` itself differs on identical input (2252 vs 2261), and that
+filter is recomputed from the corpus on every run. **The exact mechanism is
+UNDETERMINED and was not established — that is a 2, and a 2 is never a pass.**
+Run 1 executed while two other instances of this gate were running and were
+killed mid-flight; runs 2 and 3 ran alone. That is a difference between the runs,
+**not a demonstrated cause.**
 
-By private source: **`workshop` 11599 (97.6%)**, `ai_interviewing` 279 (2.4%),
-`monetization` **0**. By public destination the umbrella root holds 9051, and
-inside it **`specs/002-**` alone is 5844 and `specs/001-**` is 1706** — the two
-spec trees are **63.5% of the entire finding on their own**.
+**What survives the instability, and it is the part that matters:** the class A
+direction split is stable to within 0.6 percentage points across all three runs,
+with **OUTWARD 6240–6241 and INWARD 1538–1544 in absolute terms**. The rows that
+move between runs land in UNDETERMINED. See "Class A direction" below.
+
+Every earlier reading is **SUPERSEDED**: `LEAK — 11878 (prose 11356, short 433,
+name 89)` from earlier the same day, the **2026-09-02** `LEAK — 11158 (prose
+10833, short 268, name 57)`, and `LEAK — 285 (prose 207, short 35, name 43)`.
+Note the `name` class fell **89 → 85** and then held at 85 across all three runs
+while every other class moved; that is the population changing, not a clearance.
+**Treat the percentages and the class shares as the durable figures and the
+absolute totals as ±150.**
+
+**THE POPULATION IS FULLY ATTRIBUTED — every row of each run is accounted for by
+path, not by sampling.** Every run was taken with `--json`, so the tables here
+are aggregated from the gate's own structured row set rather than re-parsed out
+of a log, and each aggregate matches its run's own total exactly. **Figures below
+are from run 3** (12867); read the class SHARES, which move by less than 0.3
+percentage points across the three runs, rather than the counts.
+
+By private source: **`workshop` 12590 (97.8%)**, `ai_interviewing` 277 (2.2%),
+`monetization` **0** — the 97.8 / 2.2 split is identical in all three runs. By
+public destination, `specs/**` holds **7890**, `submodules/**` ~2800,
+`docs/**` 502, `scripts/**` 489, `CONTINUATION.md` 376 and the four root carriers
+408 (**102 each**, superseding the 81-per-carrier figure). Inside `specs/**`,
+**`specs/002-**` is 6104 and `specs/001-**` is 1786** — the two spec trees are
+**61.3% of the entire finding on their own** (61.3–61.5% across the three runs).
 
 **The load-bearing limitation is unchanged: this gate detects CO-OCCURRENCE, not
 DIRECTION.** Governance text that originated in these PUBLIC carriers and
 propagated INTO a private submodule is indistinguishable, to it, from private
 content leaking OUT. **On 2026-09-03 the direction was measured independently,
-by git first-commit timestamp, for two dominant buckets — and in both the public
-side is OLDER:**
+by git first-commit timestamp, for THREE buckets — the two below, and then class
+A, the largest, which had none until that day. Class A is the one to read: see
+"Class A direction" in the decision packet. Its answer is NOT uniformly
+outward.**
 
 - **Root carriers (324 matches over the four files).** `CLAUDE.md`, `AGENTS.md`,
   `QWEN.md`, `GEMINI.md` were first committed **2026-08-27T00:41:30**. All six
@@ -387,10 +452,14 @@ side is OLDER:**
 is 81 per carrier, 324 across the four.**
 
 **HONEST BOUNDARY (§11.4.6) — read this before quoting anything above.**
-1. The direction probe is a **file-level first-commit comparison on 6 of 16**
-   private sources for the carrier bucket, and on a directory for RAG. It is
-   **not** a per-string provenance trace. A string can move between files, and
-   that was not traced.
+1. **The two probes in this section are FILE-level and SAMPLED** — a first-commit
+   comparison on 6 of 16 private sources for the carrier bucket, and on a
+   directory for RAG. Neither is a per-string provenance trace. A string can move
+   between files, and that was not traced for these two buckets. **The class A
+   probe described in the packet below is a different and stronger instrument:
+   TEXT-level, per-string, over the complete class with nothing sampled.** Do not
+   quote the weaker method's caveat as though it applied to class A, and do not
+   quote class A's rigour as though it applied to these two.
 2. **The attribution table is complete; a row-by-row JUDGEMENT is not.** Every
    row is placed by path. **No row was judged this session, and none was
    redacted, allow-listed or re-baselined.**
@@ -398,15 +467,22 @@ is 81 per carrier, 324 across the four.**
    incident note's two-wave assessment judged **232** matches (29 redacted as
    real disclosures, 203 judged not to be) on **2026-09-01**, and its own split
    was `ai_interviewing` **216** / `workshop` **16**. Today the split is
-   `workshop` **11599** / `ai_interviewing` **279** — the dominant source has
+   `workshop` **12468** / `ai_interviewing` **277** — the dominant source has
    **inverted**. **So the unassessed remainder cannot be computed as
-   `11878 − 232`.** That subtraction assumes the 232 judged rows are a subset of
-   today's 11,878, and the source split shows they largely are not: 216 of the
-   232 were `ai_interviewing` rows, while 97.6% of today's population is
-   `workshop`. **How much the two sets overlap was NOT measured this session.**
+   `<today's total> − 232`.** That subtraction assumes the 232 judged rows are a
+   subset of today's ~12,800, and the source split shows they largely are not:
+   216 of the
+   232 were `ai_interviewing` rows, while 97.8% of today's population is
+   `workshop`. **How much the two sets overlap was NOT measured.**
    Do not report any prose row as "cleared".
-4. **The `name` class is NOT cleared: 89 matches, 8 distinct personal names,
-   reported by digest only.** It grew from 57.
+4. **The `name` class is NOT cleared: 85 matches carrying 9 distinct withheld
+   name identifiers, reported by digest only.** The figure this file carried —
+   *"89 matches, 8 distinct personal names"* — is **superseded by measurement**,
+   not by any clearance: the class went 57 → 89 → 85 while the detector was
+   never touched. **A falling name count is not progress.** Direction was NOT
+   established for a single name row, and cannot be with this instrument: the
+   gate withholds the matched text by design, which is the same protection that
+   keeps a real person's name out of an archived artefact.
 
 Re-baselining this figure is an **operator decision** and this session did not
 take it. See "Content-boundary re-baseline — the decision packet" below.
@@ -435,50 +511,142 @@ allow-listed, because an allow-list entry buys a green exit at the cost of
 hiding the row from the next reader. The `short` and `name` classes are
 substring noise the note characterises. **Do not "fix" this gate by adding
 exemptions, and do not add more.** `.content-boundary-allow` still carries the
-same **9 declared pairs**, pardoning **4080** matches as re-measured 2026-09-03
-(the 4193 figure is superseded; the file is unmodified, so the count moved with
-the corpus, not with the allow-list). Every entry needs a real cross-boundary
-flow and a mandatory reason, and the operator decides.
+same **9 declared pairs**, pardoning **4081** matches as re-measured 2026-09-03
+(the 4080 and 4193 figures are superseded; the file is unmodified, so the count
+moved with the corpus, not with the allow-list). Every entry needs a real
+cross-boundary flow and a mandatory reason, and the operator decides.
 
 ### Content-boundary re-baseline — the decision packet (prepared 2026-09-03, NOT decided)
 
 Prepared so an operator can decide; **nothing here was acted on**. No row was
 judged, no allow-list entry added, no baseline moved, and the gate still exits 1.
 
-**Three structural classes account for 11,526 of the 11,878 rows (97.0%),
-counted exactly rather than sampled.** Each has a DIFFERENT correct disposition:
+**Three structural classes account for 97.3% of the rows, counted exactly rather
+than sampled — and the SHARES are stable across all three runs even though the
+totals are not.** Each has a DIFFERENT correct disposition. Counts are run 3:
 
-| Class | Rows | Share | What it is | Why it is not a fresh disclosure |
+| Class | Rows | Share | What it is | Direction evidence |
 |---|---:|---:|---|---|
-| **A · spec trees in this public umbrella** | **7550** | 63.6% | `specs/002-**` 5844 + `specs/001-**` 1706, matching `workshop/docs/session-evidence/`, `platform/backend/`, `pipeline/extract/` | These specs are TRACKED HERE and describe the private implementation, so the co-occurrence is the spec doing its job. **No direction evidence was gathered for this class.** It is the one that most needs an operator's eyes — a spec may legitimately quote too much. |
-| **B · public reusables extracted from the private tree** | **2666** | 22.4% | `submodules/RAG` 1741, `LLMProvider` 692, `passage` 205, `containers` 19, `verdict` 9 | Match their own origin by construction. Direction measured for RAG: the public package pre-dates the private staging copy by ~10 h, and **1623 of 1741 (93%)** come from `workshop/platform/upstream-contributions/`. |
-| **C · governance prose that propagated OUTWARD** | **1310** | 11.0% | 4 root carriers 324, umbrella `docs/**` 379, `CONTINUATION.md` 254, `scripts/**` 188, `submodules/constitution` 143, `Constitution.md` 22 — matching `workshop/docs/**` | Direction measured: the carriers are five days OLDER than every sampled private counterpart. This is the §11.4.157 cascade working. |
-| **Remainder — genuinely unassessed** | **352** | 3.0% | `_tests/evidence` 88, `_content/products` 59, `design-system/learning-kit` 58, `.specify/memory` 34, `_analysis/**` 38, and a long tail | **Not characterised. Not cleared.** |
+| **A · spec trees in this public umbrella** | **7890** | 61.3% | `specs/002-**` 6104 + `specs/001-**` 1786, matching `workshop/docs/session-evidence/`, `platform/backend/`, `pipeline/extract/` | **MEASURED 2026-09-03, text-level, complete, and REPRODUCED on all three runs: ~79% OUTWARD, ~19.5% INWARD.** See "Class A direction" below. **Not uniformly outward — roughly one row in five is private-first.** |
+| **B · public reusables extracted from the private tree** | **2703** | 21.0% | `submodules/RAG` 1742, `LLMProvider` 696, `passage` 220, `containers` 19, `verdict` 9, plus `design-toolkit` 17 | File-level and sampled. Direction measured for RAG: the public package pre-dates the private staging copy by ~10 h, and **93%** come from `workshop/platform/upstream-contributions/`. |
+| **C · governance prose that propagated OUTWARD** | **1922** | 14.9% | umbrella `docs/**` 502, `scripts/**` 489, 4 root carriers 408, `CONTINUATION.md` 376, `submodules/constitution` 125, `Constitution.md` 22 — matching `workshop/docs/**` | File-level and sampled. The carriers are five days OLDER than every sampled private counterpart. This is the §11.4.157 cascade working. |
+| **Remainder — genuinely unassessed** | **352** | 2.7% | `_tests` 88, `_content` 61, `design-system` 58, `_analysis` 39, `.specify` 37, and a long tail | **Not characterised. Not cleared. No direction probe run.** |
 
-**The 89 `name`-class rows do NOT sit in the remainder — they are spread across
-every class**: A 55, remainder 18, B 14, C 2. **No class is name-clean, so no
-class can be pardoned wholesale without pardoning name rows with it.**
+**The 85 `name`-class rows do NOT sit in the remainder — they are spread across
+every class**: A 50, B 19, remainder 14, C 2, **identical in all three runs**.
+**No class is name-clean, so no class can be pardoned wholesale without pardoning
+name rows with it.** The earlier split "A 55, remainder 18, B 14, C 2" over 89
+rows is superseded.
+
+#### Class A direction — measured 2026-09-03, and it is the strongest probe in this file
+
+**Method, stated so it can be attacked.** Every one of the 7835 class A rows was
+dated on BOTH sides at **text level, not file level**: for each matched string,
+walk every commit that ever touched the file it was found in, normalise that
+blob with the gate's own normalisation (`[^A-Za-z0-9]+` → space, lowercased —
+validated against the gate on a 24-of-24 sample), and take the earliest commit
+whose content actually contains the string. That dates the TEXT, not the file
+that carries it, which is the defect in the class B and C probes. It was then
+**widened to corpus level**: for every row, the earliest appearance of that
+string ANYWHERE in the public umbrella was compared against its earliest
+appearance ANYWHERE in the private repository, so a string that moved between
+files is still caught. 55 public and 489 private path-histories were walked for
+the pairwise dating; the widening ranged over the **9,414 file-revisions** the
+two histories hold (umbrella 8,213, `workshop` 1,201). **Nothing sampled, nothing
+extrapolated** — the walk is chronological and skips a blob only when no
+still-undated string could be affected by it, which is an exact pruning rather
+than a shortcut: a string already dated cannot be dated earlier by a later
+commit. Verified for the one case that could have biased it — no string was
+found in both private repositories, so the two-repo merge changed no date.
+
+**The probe was run independently against ALL THREE gate runs, and this is the
+answer to the instrument's own instability**: the totals move, the direction does
+not.
+
+| run | class A rows | OUTWARD | INWARD | UNDETERMINED |
+|---|---:|---:|---:|---:|
+| 1 | 7835 | **6241** (79.7%) | **1544** (19.7%) | 50 (0.6%) |
+| 2 | 7872 | **6240** (79.3%) | **1538** (19.5%) | 94 (1.2%) |
+| 3 | 7890 | **6240** (79.1%) | **1538** (19.5%) | 112 (1.4%) |
+
+**OUTWARD varies by ONE row and INWARD by SIX across three runs whose totals
+differ by 122.** Every extra row a noisier run emits lands in UNDETERMINED —
+these are strings not committed on one side, i.e. working-tree-only text. **The
+direction finding is therefore robust to the count instability**, and it is the
+figure to act on.
+
+**The widening moved rows in BOTH directions, which is why it is not a
+rationalisation**: on run 1, 113 rows flipped INWARD → OUTWARD and **178 flipped
+OUTWARD → INWARD**. A one-sided correction would have been evidence of a biased
+probe.
+
+**Lead times.** OUTWARD: median 6.1 h, max 611 h. INWARD: median 0.5 h, max
+465 h, with **92% of inward rows inside 24 h** — spec and implementation are
+being written the same day, in both orders.
+
+**Where the INWARD rows sit, because that is what an operator must look at:**
+of the 1544 on run 1, **1084 (70.2%) are private SOURCE CODE**, 153 private session-evidence briefs,
+117 private training docs, 56 other private docs, 40 data/config, 26 other — and
+**68 are `workshop/chapters/01/`, the private teaching-session material**, all
+from one JSON artefact, landing in `specs/001-…/tasks.md` (45) and
+`specs/002-…/tasks.md` (23). By public file the inward rows concentrate in
+`specs/002-…/contracts/knowledge-graph.md` (431), `specs/002-…/tasks.md` (410)
+and `specs/001-…/tasks.md` (279). By gate class: 1468 prose, 76 short, 0 name.
+
+**HONEST BOUNDARY — three limits, and the first is the one that matters.**
+1. **"Private committed first" is NOT a finding of disclosure.** It establishes
+   an ORDER, nothing more. A task line written in a commit message, a symbol
+   name, or a design decision made in code and then written up in the spec all
+   produce INWARD rows with no private content having left the boundary. **~1540
+   rows are not ~1540 leaks, and must never be reported as such.** What the number
+   does establish is that the reassuring story — *"the specs are outward
+   propagation"* — is true for four rows in five and **false for the fifth**.
+2. **The 50 UNDETERMINED rows are the entire class A `name` population**, all in
+   `specs/001-…/research/transcription.md`, all carrying ONE withheld identifier.
+   They are undetermined because the gate REDACTS the matched text, so there is
+   nothing to date — the protection and the blind spot are the same mechanism.
+   A weaker FILE-level fallback splits them 30 outward / 20 inward, and **the 20
+   inward include 15 rows whose private side is an `ai_interviewing` document
+   first committed 2026-08-12, twenty days before the public spec file, and 5
+   whose private side is the private recording-notes PDF first committed
+   2026-08-31.** That is file-level only, it is weaker than the text-level
+   result, and it is **not** a determination — it is recorded because it points
+   at the rows an operator should open first.
+3. **No row was judged, redacted, allow-listed or re-baselined**, and the gate
+   still exits 1.
 
 **What an operator is actually being asked to decide — four options, with the
 cost of each stated rather than implied:**
 
 1. **Do nothing.** The gate stays red and stays readable. Cost: the signal keeps
-   degrading — 232 → 11,158 → 11,878 in three days — until nobody reads it.
-2. **Allow-list classes B and C** (2666 + 1310 = **3976** rows, as declared
-   pairs with reasons) — the two classes that HAVE direction evidence. Cost:
-   **an allow-list entry hides the row from the next reader**, which is exactly
-   the failure mode this file warns about elsewhere, and it would pardon **16
-   `name` rows** along with them.
+   degrading — 232 → 11,158 → 11,878 → ~12,800 in three days — until nobody reads
+   it. **And the total is now known not to be reproducible run-to-run**, which
+   makes "watch the number" a weaker plan than it looks.
+2. **Allow-list classes B and C** (2700 + 1861 = **4561** rows, as declared
+   pairs with reasons). Cost: **an allow-list entry hides the row from the next
+   reader**, which is exactly the failure mode this file warns about elsewhere;
+   it would pardon **21 `name` rows** along with them; and the direction evidence
+   behind both classes is **file-level and sampled**, which is weaker than what
+   class A now has.
 3. **Teach the gate direction** — a git-timestamp or provenance pass, so
    outward propagation is subtracted with its RECALL COST printed, the way the
-   detector already subtracts already-public keys. Cost: real work; it is the
-   only option that raises precision without hiding a row.
-4. **Re-judge class A** (7550 rows, the spec trees) as a fresh assessment wave.
-   Cost: the largest, and the only one that could find a genuine new disclosure.
+   detector already subtracts already-public keys. Cost: real work. **The class A
+   probe is a working prototype of exactly this**, run offline over 9,414
+   file-revisions in under a minute, so the feasibility question is answered.
+   It is still the only option that raises precision without hiding a row.
+4. **Judge the ~1540 class A INWARD rows** as a fresh assessment wave — **not all
+   ~7870.** The direction probe has cut the reading assignment by 80% and named
+   where it concentrates: 1084 rows against private source code, 68 against the
+   private teaching-session material, three public files holding 1120 of them.
+   Cost: still the largest, and still the only option that could find a genuine
+   new disclosure.
 
-**Recommended ordering — a recommendation, not a decision: 4, then 3, then 2 for
-whatever survives.** Class A is both the largest and the only class with no
-direction evidence behind it.
+**Recommended ordering — a recommendation, not a decision: 4 (now bounded to the
+~1540 inward rows plus the 50 undetermined name rows), then 3, then 2 for whatever
+survives.** The reason for putting 4 first has CHANGED: class A is no longer the
+class with no direction evidence — it now has the best evidence in this file, and
+that evidence is what makes the reading assignment small enough to be worth
+starting.
 
 **Do NOT read this packet as clearance.** It places every row by path; it judges
 none. Options 2 and 4 both require reading private material and are operator
@@ -600,9 +768,129 @@ match, and do not quote "5 commits" as a live figure — re-run the block above.
 
 `submodules/containers` (`vasic-digital/containers`) was added under §11.4.76,
 which mandates that module for ANY containerised workload and forbids
-reimplementing it — a hand-rolled `Containerfile` is a violation, not merely an
-inferior choice. **Nothing in this repository has yet been built or run in a
-container**; the submodule is present for the workload `specs/001-…` plans.
+reimplementing it.
+
+**The sentence that used to finish that paragraph — *"a hand-rolled
+`Containerfile` is a violation, not merely an inferior choice"* — is WITHDRAWN
+as of 2026-09-04. It overstated the anchor, and an overstated rule is as
+unhelpful as a missed one.** §11.4.76 was re-read verbatim. Its list of what the
+module is authoritative for is *"runtime auto-detection, endpoint discovery,
+lifecycle/health management, compose orchestration, cross-build, emulator
+integration, and on-demand service boot"*; clause 4 forbids adding a missing
+*"runtime … or lifecycle primitive"* *"as a parallel implementation inside the
+consuming project"*; and the closing line names the offence as *"reinventing
+compose orchestration in-project"*. **A container image recipe appears in none
+of those.** Nor could it: the module ships `*.Containerfile` itself under
+`pkg/crossbuild`, and its own planned gate `CM-CONTAINERS-USED` scans a
+`Dockerfile*`-touching change **for an import of `digital.vasic.containers/…`**
+— it treats such a file as a trigger to look for the import, never as the
+violation. Read it precisely: **what is forbidden is the hand-rolled runtime,
+lifecycle and orchestration logic AROUND a container file, not the file.**
+
+**Two claims this block carried are WITHDRAWN as of 2026-09-03, and both were
+false in the direction that flattered the tree.**
+
+- *"The submodule is present for the workload `specs/001-…` plans."* **It has a
+  real consumer now.** `_tools/containers/` was committed 2026-09-03 (`460266c`)
+  with 7 tracked files — `go.mod` requiring `digital.vasic.containers`, `go.sum`,
+  `cmd/site-build/main.go`, `compose/compose.sites.yml`, `compose/jekyll-build.sh`
+  — and its own README records the measurement that made it necessary: before it
+  existed, `grep -rn 'digital.vasic.containers'` outside `submodules/` and
+  `workshop/` returned **zero** hits. **The gitlink was declared,
+  manifest-pinned, cascade-verified and unused** — every gate green over a
+  submodule nothing consumed.
+- *"Nothing in this repository has yet been built or run in a container."*
+  **False.** A fleet container is running on this host right now: `podman ps`
+  shows `workshop-curriculum_platform_1` (image `docker.io/library/alpine:3.20`)
+  **Up 2 hours, healthy**, serving `/opt/workshop/bin/workshop-server` — the
+  private `workshop` submodule's platform workload, not the umbrella root's.
+
+**And a third fact this block never carried at all: the umbrella root has been
+shipping container files and their hand-rolled runtime logic since 2026-06-26.**
+`_tools/helixtranslate-container/Containerfile`,
+`Containerfile.translator` and `run.sh` are **tracked**, first committed in
+`32dfdbd` — three months before `submodules/containers` was adopted. `grep`
+finds **no** reference to `submodules/containers` or `digital.vasic.containers`
+anywhere under that directory. It is recorded here rather than left for the next
+reader to discover.
+
+**A second clause of that paragraph is WITHDRAWN, by name.** It read
+*"referenced by 10 tracked files including `_tools/distribute-helixtranslate.sh`
+and four `_tools/gen/` translation scripts"*, and it silently merged two
+different paths. Re-measured 2026-09-04:
+
+- **10 tracked files reference the DIRECTORY** `_tools/helixtranslate-container/`
+  — the four carriers, `CONTINUATION.md`, `_analysis/CONTAINER-DISTRIBUTION.md`,
+  `docs/environment-adaptability/AUDIT.md`, `docs/workshop-curriculum/RECON.md`,
+  `scripts/audit-environment-assumptions.sh`, and
+  `_tools/distribute-helixtranslate.sh` (whose reference is composed at line 65
+  as `ASSETS="$HERE/helixtranslate-container"`, which a literal-path `grep`
+  misses). The 10 is right; nine of the ten are documentation or an audit rule.
+- **No `_tools/gen/` file is among them.** Those scripts reference
+  `_tools/helixtranslate-container.sh` — a **different file**, the SSH shim —
+  and there are **six** of them, not four: `translate-ui.py`,
+  `translate_ui_all.py`, `translate_ui_batch.py`, `translate_ui_chunked.py`,
+  `translate_ui_slow.py`, `repair_ui_terms.py`.
+
+**The surface was then judged file by file, and it splits three ways rather than
+two.** Full table, with the measurement behind each verdict:
+[`_tools/containers/README.md`](_tools/containers/README.md). In brief — the two
+`Containerfile`s are **not** violations (see the withdrawal above);
+`_tools/helixtranslate-local.sh` **was** one and is **CONVERTED**, its frozen
+`podman` literal replaced by the module's own `runtime.AutoDetect` reached
+through `_tools/containers/cmd/runtime-probe`, verified on this host at all
+three exit codes; `_tools/distribute-helixtranslate.sh` is one whose replacement
+exists but is **UNVERIFIED**; `_tools/helixtranslate-container.sh` and
+`_tools/helixtranslate-container/run.sh` are violations that **cannot be closed
+from this tree** and now carry declared exceptions; and
+`_tools/translate-fleet.sh` is **not** a violation.
+
+**That last verdict was reversed by measurement mid-task and the reversal is the
+point.** Its `host == amber.local ? docker : podman` looked like hand-rolled
+runtime detection. It is not: the module's own `pkg/remote.RemoteHost` carries a
+declared `Runtime string` field — *"the container runtime on this host"* — and
+ships **no** remote runtime detector to defer to
+(`grep -rn 'DetectRuntime\|AutoDetect' pkg/remote pkg/discovery` outside tests
+matches nothing). Naming a REMOTE host's runtime is configuration the module
+expects a consumer to supply. Naming the LOCAL host's runtime is not, which is
+exactly why the same-looking literal in `helixtranslate-local.sh` was a real
+violation and was converted.
+
+**What blocks the rest is one missing upstream primitive, and §11.4.76(4) says
+where it belongs.** Both un-closeable files perform a one-shot `run --rm -i`
+that streams a document on **STDIN**. Measured at gitlink
+`d940b51fc247c285c805799452992da8d09c75b9`: `pkg/runtime`'s `ContainerRuntime`
+interface declares Name, Version, IsAvailable, Start, Stop, Remove, Status,
+List, Stats, Exec and Logs — **no `Run`, no `Create`**, so there is no
+ephemeral-run primitive at all; `Exec(ctx, id, cmd []string)` accepts no stdin;
+and the module's only `WithStdin`
+(`pkg/remote/connection/interface.go:146`) sits in an interfaces-and-options-only
+package that nothing implements and no constructor returns. The fix is an
+upstream change to `vasic-digital/containers`, **never a parallel implementation
+here** — and until it lands, a working script is not to be replaced by an
+unverified rewrite.
+
+**Honest boundary (§11.4.6): whether those particular images were ever built or
+run CANNOT BE DETERMINED from this checkout, and the conversion did not change
+that.** Re-measured 2026-09-04: `podman images` on this host matches
+`helixtranslate` **zero** times, and both remote hosts are **unreachable** —
+`getent hosts` fails to resolve `thinker.local` and `amber.local`, and `ssh
+-o BatchMode=yes` returns **rc 255** for both, which is a measured absence and
+not a broken resolver. So the converted `helixtranslate-local.sh` is verified
+for runtime resolution and exit codes only, **never for an actual translation**,
+and it says so in its own header. Absent image, absent evidence: this is a 2,
+and a 2 is never a pass. Re-derive rather than trusting any of the above:
+
+```bash
+git ls-files | grep -iE 'containerfile|dockerfile|compose'   # the tracked surface
+git ls-files _tools/containers/                              # the consumer
+git grep -l '_tools/helixtranslate-container/' -- .          # 9 literal + 1 composed = 10
+podman ps --format '{{.Names}} {{.Image}} {{.Status}}'       # what is actually running
+podman images | grep -i helixtranslate                       # expect no rows on this host
+( cd _tools/containers && go build -o bin/runtime-probe ./cmd/runtime-probe \
+    && ./bin/runtime-probe )                                 # the module's own answer
+for h in thinker.local amber.local; do getent hosts "$h" || echo "$h unresolvable"; done
+```
 
 ### Submodule-vs-remote drift — a gate exists now, and it is RED
 
@@ -617,11 +905,12 @@ three-valued — 0 all current, 1 real drift, 2 could not determine — and is
 registered as `submodule-remote-sync` in `scripts/check-registry.tsv` with a
 `--prove-failure` paired proof, which is what R5 required of it.
 
-**It exited 0 once, on 2026-09-02 — and it is back to 1 on 2026-09-03.** The
-"it exits 0 as of 2026-09-02, the first time it has ever done so" that stood
-here is **WITHDRAWN as current**. Four readings, all real, kept because the
-movement is the record — and because the fourth is the first evidence in this
-file that the green did not survive a single day:
+**It has now exited 0 twice and 1 three times, and the SAME submodule caused
+every red.** The "it exits 0 as of 2026-09-02, the first time it has ever done
+so" that stood here is **WITHDRAWN as current**; so is the "back to 1 on
+2026-09-03" that replaced it. Five readings, all real, kept because the movement
+is the record — and because readings 3→4→5 are the clearest evidence in this file
+that a green here does not survive the day:
 
 ```bash
 bash scripts/verify-submodule-remote-sync.sh
@@ -629,14 +918,16 @@ bash scripts/verify-submodule-remote-sync.sh
 # 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-02, after five bumps landed)
 # 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-02, after the authorized fast-forward)
 # 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-03, the SAME pin went stale again)
+# 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-03, after the FOURTH authorized fast-forward)
 ```
 
-The 2026-09-03 DRIFT row, verbatim: `submodules/constitution 3be10826f3d2
-2887b42e9349 DIFFERS`. The gate's own words — *"The difference is DETERMINED;
-the direction is NOT, because the remote commit is not in this checkout's object
-store."* Confirmed independently: `git -C submodules/constitution cat-file -t
-2887b42e9349` returns *"could not get object info"*. **No fetch was run and no
-pin was bumped — both are operator decisions.**
+The 2026-09-03 DRIFT row, verbatim, before it was closed:
+`submodules/constitution 3be10826f3d2 2887b42e9349 DIFFERS`. The gate's own
+words at the time — *"The difference is DETERMINED; the direction is NOT, because
+the remote commit is not in this checkout's object store."* **The operator then
+authorized the `--fetch`, which resolved it as 1 behind / 0 divergent, and
+`git merge --ff-only` closed it.** That is the designed sequence: the gate states
+what it cannot know, an operator decides, and only then does a pin move.
 
 The 2026-09-01 run named `design-toolkit`, `ai_interviewing`,
 `submodules/containers`, `submodules/LLMProvider` and `submodules/RAG` as
@@ -713,7 +1004,7 @@ bash scripts/verify-check-registry.sh           # 0 — 43 then 45 PASS in ONE s
 bash scripts/audit-hardcoded-paths.sh           # 1 — WENT RED: 1 occurrence, 1 file; see below
 bash scripts/audit-environment-assumptions.sh   # 0 — 567 allow-listed, 666 baselined, 2247 files
 bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"
-bash scripts/verify-submodule-remote-sync.sh    # 1 — WENT RED AGAIN: 11 CURRENT/1 DRIFT
+bash scripts/verify-submodule-remote-sync.sh    # 0 — RED, THEN GREEN AGAIN: 12 CURRENT/0 DRIFT
 bash scripts/verify-provider-ci.sh              # 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL
 bash scripts/verify-all-constitution-rules.sh   # 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates
 bash scripts/lumen-index-doctor.sh              # semantic index health
@@ -727,7 +1018,8 @@ bash scripts/ollama-tune.sh                     # local inference host tuning
 | `verify-check-registry.sh` | 0 — **41** PASS | 0 — **43**, then **45** PASS *within the same session* |
 | `audit-hardcoded-paths.sh` | **0** — 6 file(s) allowed | **1** — 1 occurrence, 12 file(s) allowed |
 | `audit-environment-assumptions.sh` | 0 — **531** allow-listed, **2166** files, **683** baselined | 0 — **567** allow-listed, **2247** files, **666** baselined |
-| `verify-submodule-remote-sync.sh` | **0** — 12 CURRENT | **1** — 11 CURRENT / 1 DRIFT |
+| `verify-submodule-remote-sync.sh` | **0** — 12 CURRENT | **1** — 11 CURRENT / 1 DRIFT, then **0** — 12 CURRENT after the fourth authorized fast-forward, *both on 2026-09-03* |
+| `verify-content-boundary.sh` | 1 — **11878** (prose 11356, short 433, name 89) | 1 — **12745 / 12846 / 12867 across three runs, two of them on an identical tree**; RED BY DESIGN, and the total is NOT reproducible |
 
 **`audit-hardcoded-paths.sh` went RED and the finding is REAL, not a re-baseline.**
 Exit **1**, `❌ 1 occurrence(s) across 1 file(s)`, scanning 6054 files across 14
@@ -942,16 +1234,26 @@ Five of those need reading carefully rather than glancing at:
   This instrument's verdict has changed five times without the audit itself
   being edited once; the fleet moves under it. Re-run it, never quote it.**
 - **`verify-content-boundary.sh` exits 1 and is MEANT to.** Re-measured
-  2026-09-03: **11878 surviving matches (prose 11356, short 433, name 89)**,
-  0 undetermined. See the "Content boundary" section above. A 1 from this gate
-  is a reading assignment, not a regression — but the *reading* has not kept
-  pace with the *population*, and that gap is now the finding.
-- **`verify-submodule-remote-sync.sh` exits 1 and the 1 is a real finding, not a
-  designed one.** Re-measured 2026-09-03: **11 CURRENT / 1 DRIFT**, and the one
-  row is `submodules/constitution`. **"Six owned gitlinks are out of sync" is
-  WITHDRAWN** — that was the 2026-09-01 reading. Bumping is an operator
-  decision. See "Submodule-vs-remote drift" above. It is the ONLY instrument on
-  this list that looks at a remote at all, and even it probes `origin` only.
+  2026-09-03: **12745 / 12846 / 12867 across three full runs, two of them on a
+  byte-identical tree** (prose 12182–12299, short 478–483, name 85 in all three),
+  0 undetermined; the 11878 reading earlier the same day is superseded, and **the
+  total is now known not to be reproducible run-to-run.** See the
+  "Content boundary" section above. A 1 from this gate is a reading assignment,
+  not a regression — but the *reading* has not kept pace with the *population*,
+  and that gap is still the finding. **What DID move on 2026-09-03 is the
+  reading assignment's SHAPE**: class A, 61.5% of the population, now has
+  text-level direction evidence over its complete row set — 79.7% outward,
+  ~19.5% inward — so the rows an operator must actually open number about 1540,
+  not about 7870. Nothing was judged, allow-listed or re-baselined to achieve that.
+- **`verify-submodule-remote-sync.sh` exits 0 as of 2026-09-03, and that is a
+  measurement of today rather than a property of the tree.** Re-measured after
+  the fourth authorized fast-forward: **12 CURRENT / 0 DRIFT / 0 UNDETERMINED**.
+  Both **"six owned gitlinks are out of sync"** (2026-09-01) and **"11 CURRENT /
+  1 DRIFT"** (2026-09-03 morning) are WITHDRAWN as current. **This gate has now
+  gone red on the constitution pin four times; treat a green as perishable.**
+  Bumping is an operator decision. See "Submodule-vs-remote drift" above. It is
+  the ONLY instrument on this list that looks at a remote at all, and even it
+  probes `origin` only.
 - **`audit-hardcoded-paths.sh` exits 1 as of 2026-09-03 and the 1 is REAL.**
   One occurrence, in `workshop/chapters/01/transcript/accuracy-plan.json` — a
   developer-host absolute path frozen into a tracked JSON value inside a private

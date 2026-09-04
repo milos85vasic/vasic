@@ -239,10 +239,28 @@ was a symlink into an unrelated cache. Presence of a name proves nothing; capabi
 
 ### 4.1 `GET /api/search` — locus, offsets, new kinds, filters
 
-**C4.1.1 — new kinds.** `area`, `term`, `lesson_section` and `question` join the existing kinds. The
+**C4.1.1 — new kinds.** `area`, `term` and `question` join the existing kinds. The
 corpus block that already advertises the indexed kinds must list them, and a kind advertised with
 zero indexed entries is a **failure** — the corpus currently advertises one such kind, and this
 feature must not add more.
+
+> **`lesson_section` was REQUIRED here and is WITHDRAWN, 2026-09-03, by operator decision.** The
+> clause used to list it among the kinds that must be advertised. The implementation deliberately
+> refuses to advertise it, and that refusal is pinned by a test which exists precisely to record it
+> — so the contract and the code knowingly disagreed, and **a contract its own implementation
+> violates on purpose undermines every other clause in the same document.**
+>
+> **The reason it is withdrawn is structural, not "unimplemented", and that distinction is the
+> whole point.** Measured: **0 of 11,622** registry records carry this kind, and its metadata type
+> has **no identifier field** — heading, ordinal, authorship and citation count only. With nothing
+> to key on, a row cannot be minted, so the kind is **not merely unindexed but unkeyable as the
+> data model stands**. Advertising it would breach this clause's own second sentence, which makes a
+> kind advertised with zero entries a failure.
+>
+> **This is a withdrawal, not a deletion, and it is not a promise that the kind is unwanted.**
+> Making it indexable means giving that metadata an identifier — a data-model change rippling
+> through minting, the registry and retrieval, for a kind nothing currently asks for. If that is
+> ever done, restore the requirement here rather than re-deriving it from scratch.
 
 **C4.1.2 — locus.** Every hit carries a locus: its containing unit and its position within it. A hit
 whose locus does not resolve is not returned (FR-030).

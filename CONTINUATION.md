@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T06:47:21Z
+    Last-Updated: 2026-09-04T07:43:30Z
     Synced-Commit: 624bb3b
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,229 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A71 — **SESSION CLOSE-OUT: workshop pushed, a §1.1 gap I shipped closed, and three of my own claims withdrawn.**
+
+Written 2026-09-04, after A70. Everything below is measured; where a figure in
+an earlier entry is now wrong, it is **withdrawn by name** rather than quietly
+replaced.
+
+**1. The workshop is committed and pushed. `a3b0a73`.**
+318 files, +70,964 / −4,262. `83260ee..a3b0a73` to
+`git@github.com:milos85vasic/workshop_curriculum.git`; local and remote sha
+verified EQUAL after the push. Its working tree is **0 entries**. All three of
+its remotes (`github`, `origin`, `upstream`) are the same URL, so one push
+covers all three — do not read "3 remotes" as three destinations.
+
+**2. A §1.1 violation that I shipped, and that the tree had been reporting.**
+`platform/gates/verify-ui-vocabulary.sh` went in **without a paired mutation**.
+`workshop/scripts/verify.sh` had been printing it on every run:
+
+    FAIL V7 gate-mutation-pairing §1.1
+      verify-ui-vocabulary.sh has NO paired mutation (expected prove-ui-vocabulary.sh)
+
+`platform/gates/prove-ui-vocabulary.sh` is now that proof: **11 mutations, 11
+caught, rc 0**. Every mutation is DATA — a broken COPY of the vocabulary module
+or of the twelve backend files the gate derives from — so the proof cannot be
+made to pass by weakening the gate.
+
+  * **M2 is the gate's advertised mechanism under test.** It invents a passage
+    kind (`invented_by_the_proof`) that exists nowhere in the repository and
+    requires the gate to go red **with no edit to the gate**. A gate holding a
+    hand-typed list passes M1 and fails M2 — which is precisely the
+    coverage-set defect this project has now hit three times.
+  * **M0 and M10 are what make the other nine mean anything.** A "gate"
+    hardwired to `exit 1` satisfies all nine defect mutations. M0 requires a
+    pristine copy to PASS; M10 requires a frontend-only code to stay green,
+    because the gate is deliberately one-directional.
+  * **M3–M9 prove the THIRD exit value.** A renamed declaration, a missing
+    source, unparseable or empty `suggest-sources.json`, and a vanished
+    vocabulary group are each **rc 2**, never a silent pass over a domain the
+    gate can no longer enumerate.
+
+**Why it shipped unpaired, which is the reusable lesson:** the gate's own header
+named its proof `prove-ui-vocabulary-mutation.sh`. V7 DERIVES the expected
+filename from the gate's name, so a proof under any other name reads as no proof
+at all. Re-derived after the fix: **19 gates, 0 unpaired.**
+
+**3. WITHDRAWN — my SC-006 FAIL. The first reading was contention, not the system.**
+A verify.sh run measured **p95 13,219.3 ms** against the 2,000 ms budget and
+failed. It was taken while a retrieval benchmark AND a leaked prove-run server
+(see 4) were loading the same host. Re-measured on an idle host:
+
+    search fused    p95 1817.1 ms   median 1027.0 ms   n=40     PASS
+    search lexical  p95   99.2 ms
+    search semantic p95  336.8 ms
+    search code     p95    0.7 ms
+    health CONTROL  p95    2.5 ms   (touches no index — if this moved, the HOST moved)
+
+**Both numbers are real.** The budget was NOT widened. Headroom is **9%**, so
+this is a pass to re-measure, not a property to quote.
+
+**4. A leaked server, and the reason a "healthy" container told me nothing.**
+`prove-retrieval-benchmark`'s empty-generation mutation left a `workshop-server`
+alive on `127.0.0.1:18787` over a temp registry. Killed. Its own cleanup defect
+was found and fixed by the spec agent the same session (an EXIT trap referencing
+a `local` from a returned function died under `set -u`, so `rm -rf` never ran).
+
+**5. WITHDRAWN — every "port 8401" statement I made this session.**
+The platform container runs on **`network=host`**, so the server binds the host
+directly at **`127.0.0.1:8087`**. `podman port` returns EMPTY for it (nothing is
+published, because nothing needs to be), and the `8432` listener belongs to an
+unrelated container. Measured on 8087, idle: `/api/health` **200** 0.003 s,
+`/api/search` **200** 1.07 s, `/api/suggest` **200** 0.05 s, `/api/ask` **202**.
+`/api/status` is **404** — that path does not exist; the index state comes from
+elsewhere.
+
+**I also drafted and withdrew a wrong diagnosis before it stood.** Seeing
+`listening on http://127.0.0.1:8087 (requested 0.0.0.0:8087)` I concluded the
+server had downgraded its bind to loopback and broken container publishing.
+It had not: `baseURL()` at `cmd/workshop-server/main.go:1832` is a **display**
+function that rewrites `0.0.0.0` to `127.0.0.1` for the reported URL only, and
+the handshake file records the true bind, `"addr": "[::]:8087"`. **A log line
+about an address is not a measurement of a bind.**
+
+**6. A 9.2 MB compiled binary was tracked; it is not any more.**
+`platform/orchestration/workshop-boot` was the only tracked ELF in the
+repository. `workshop/scripts/_common.sh:103` writes the control-plane binary to
+`$BIN_DIR` (`platform/bin/workshop-boot`), which `.gitignore:188` already
+covers. Measured before removing: the two copies are **DIFFERENT builds**, and
+`grep -rn 'orchestration/workshop-boot'` finds **no** script, Containerfile or
+compose file referencing the tracked path. `git rm --cached`, left on disk, with
+an ignore rule carrying the §11.4.77 regeneration mechanism.
+
+**7. `workshop/curriculum/passages.jsonl` is BASELINED, and the real fix is upstream.**
+Gate 0 (`audit-hardcoded-paths.sh`) went red on 6 absolute paths in the
+generated corpus. Traced to five source documents — four are
+`workshop/docs/session-evidence/*` which are **already baselined**, so this is
+the same declared debt seen through a derived artifact. `docs/session-evidence/`
+was excluded from the ingest sweep on 2026-09-04, **so a re-ingest drops these
+rows and the baseline row should then be DELETED, not kept.**
+
+**8. The content-boundary gate is DETERMINISTIC. The instability was the tree moving under it.**
+This **withdraws "mechanism UNDETERMINED"** from A11. Four runs against a frozen
+snapshot produced **byte-identical** output — 12,939 (prose 12,368, short 486,
+name 85), every `CB_TRACE` stage count identical. On the live tree the same
+command gave 12,939 / 12,939 / 13,058 / 12,968 with **no gate or allow-list
+edit**, because two tracked files in the private `workshop` submodule were being
+rewritten continuously by another agent; both are private-side key sources, so
+each edit changes the private key space and therefore the total.
+
+**The residual defect is the instrument's SILENCE, not its algorithm:** it
+prints a number with no evidence that the tree it measured stood still. Designed
+fix, not yet implemented: a `corpus_fingerprint()` taken before and after, an
+`--expect-corpus <file>` option so two figures can be proved to come from the
+same tree, and a two-run determinism check inside `--prove-failure`. The verdict
+is unaffected on this tree (`LEAKS>0 → rc 1` outranks `UNDET → rc 2`).
+**12,939 is NOT comparable to the recorded 11,878** and no claim is made about
+the difference: the private corpus changed between the two measurements.
+
+**9. SpecKit counts moved. 001 → 69/120, 002 → 110/143.**
+Closure holds both ways: **001 31 ids / 0 unattached; 002 20 ids / 0
+unattached.** All 84 unticked tasks carry a `BLOCKER` + `OWNER`.
+**T118 is ticked because the harness is BUILT — and its criteria are NOT met.**
+Those are different statements. Against gen 68 / 12,979 passages, live:
+**SC-007 51.9% (14/27)** against a ≥90% bar and **SC-008 0.0% (0/11)** against
+≥80%; rc 1; per-query outcomes in
+`platform/backend/evidence/retrieval/bench-2026-09-04.tsv`. Two earlier attempts
+returned **rc 2** on connection failure rather than booking a false 0%.
+
+**SC-008 = 0/11 is a SYSTEM finding, not a task defect: meaning-based retrieval
+of a SPECIFIC passage is not working on this deployment.** Every zero-overlap
+query returned plausible neighbours clustered near 0.68 with the expected
+passage outside the top 20, and the semantic leg was confirmed serving
+(`legs = {lexical: ok, lumen: skipped, semantic: ok}`) — so this measures a
+healthy two-leg system, not a degraded one. Targets were chosen from the corpus
+first and measured once, not tuned against results.
+
+**A retrieval finding of mine was ALSO wrong and is withdrawn:** I reported
+T064's zero-overlap subset as unprovable, "only 2 of 11 rows clean". My ad-hoc
+tokeniser had no stop-word removal, so the 9 "collisions" were `the`, `and`,
+`is`, `it`, `not`. The harness subtracts a closed, listed `STOPWORDS` set and
+prints the raw pre-subtraction overlap per row. Re-verified: rc 0, 11
+zero-overlap flags re-derived and all true.
+
+**10. C9 was honoured: the four gitlinks and the manifest moved in ONE change.**
+`workshop 83260ee→a3b0a73`, `milosvasic.ru 1823d62→f5f13a2`,
+`vasic.digital 3192836→948e925`, `submodules/passage 729cd96→9f92b2f`, each with
+its `helix-deps.yaml` `ref:` rewritten in the same staging.
+`verify-manifest-pins.sh` → **PASS, all 12 recorded refs equal the gitlink this
+repository will commit**. A stale ANNOTATION was corrected too: `passage`'s
+comment claimed "tag v0.2.0 points at this commit", and after the bump no tag
+points at any of the four new heads.
+
+**11. Two audits went red BECAUSE of the workshop bump. An agent is resolving them.**
+Both were exit 0 before `a3b0a73`; the newly-tracked workshop files brought
+occurrences into scope. `audit-environment-assumptions.sh` → **exit 1, 43
+frozen assumptions**; `audit-hardcoded-paths.sh` → **exit 1**, four
+docs_chain-generated `.sections.json` exports whose source `.md` files are
+already baselined. Dispatched with instructions to bias toward REAL FIX over
+exemption and to leave the umbrella commit to me.
+
+**Fleet state at this entry:** all 13 submodules **0 dirty**, and every one with
+an upstream reports **behind 0 / ahead 0**.
+
+#### A70 — **SESSION WRAP: every request of the last 48 hours, audited against what was actually done.** Two were NOT in the queue and are now.
+
+**Written because the standing rule is absolute: no work, idea or plan may be
+lost, forgotten, ignored or corrupted.** This is the audit, not a summary. Each
+row is a request as given, with its true state. **A request marked done here has
+evidence elsewhere in this document; a request marked open has an owner.**
+
+| # | Request, as given | State |
+|---|---|---|
+| 1 | `continue` — resume by the repository's own contract | **DONE** — contract read, drift gate run first |
+| 2 | Document every request so nothing is lost | **STANDING, HONOURED** — this register is its instrument |
+| 3 | `fan out subagents` (issued ~10×) | **DONE** — 40+ agents dispatched across the session |
+| 4 | Invoke the Superpowers skills | **DONE** — used throughout |
+| 5 | Put every operator-blocked item as interactive questions (3×) | **DONE — 20 decisions taken**, each recorded with its consequence and what was NOT chosen |
+| 6 | "Make sure all SpecKit tasks are all done" | **IN FLIGHT** — 001 at 66/120, 002 at 107/143; ruling is *everything buildable, blockers named* |
+| 7 | `do it all now` | **DONE** |
+| 8 | Commit, push, full retest, boot the system (2×) | **DONE** — platform live and browsable, gates re-run |
+| 9 | Finish anything unfinished | **DONE** — produced the open register at A60 |
+| 10 | `retry any failed actions now!` | **DONE** — all 9 rate-limit deaths resumed with context intact |
+| 11 | Resolve all blockers, no gaps or shortcomings | **DONE** — 20 decisions; residuals named individually |
+| 12 | Main README + docs_chain + all mandatory formats + recursive push | **DONE** — README 32 B → 21,435 B; docs_chain bound at 73 docs / 219 nodes; HTML+PDF derived from the anchor |
+| 13 | Create "The Platform" section, exhaustive research, deep crawling mandatory | **DONE** — 4 research studies, a 10-page specification, and the crawler built and run |
+| 14 | Production ready, restart as we go, tell us when booted | **DONE** — booted and reported; live at 12,979 searchable passages |
+| 15 | What is left unfinished, faulty or incomplete | **DONE** — A60 |
+| 16 | Respawn everything killed | **DONE** |
+| 17 | Nothing may be lost or corrupted | **STANDING** — and it was tested: see the write-race incident at A65 |
+| 18 | Generate content from this session, not the local model | **DONE** — content written by this session; the local model left for the product |
+| 19 | UI labels must be meaningful, not generic | **IN FLIGHT** |
+| 20 | Session wrap: sync everything, clean tree everywhere | **THIS ENTRY** |
+
+**TWO REQUESTS THAT WERE NOT IN THE WORKING QUEUE, found by this audit and now
+recorded rather than lost:**
+
+**(a) Multi-provider model support for the workshop.** Stated as *"ability to use
+some of providers … we will incorporate this mechanism later — use of various
+model providers for the workshop solution."* It was **acknowledged in
+conversation and never written down**, which is precisely how an idea gets lost.
+**It is now a named work item.** Groundwork already exists and should be reused
+rather than rebuilt: `submodules/LLMProvider` is a declared, initialised gitlink
+adopted under the reuse-before-reimplement anchor, and the platform's answer path
+is currently wired to a single local model by container argv. **This is a wiring
+job against an existing seam, not a new subsystem.** The local model stays
+available for the product; the operator's instruction that *this session's models
+do the authoring* is a separate matter and was honoured.
+
+**(b) "All labels in the UI must have meaningful titles"** is broader than the
+one component being worked. It is in flight for the section browser; **the rest
+of the interface has not been swept.** Recorded so the next session does not
+mistake a partial pass for the whole.
+
+**WHAT A FRESH SESSION SHOULD DO ON `continue`:** read §0, run
+`bash scripts/continuation-check.sh` **before anything else**, then read this
+register from A70 downward — newest first. **Do not trust a figure in this
+document; run the command beside it.** Every instrument here is three-valued and
+a 2 is never a pass.
+
+**THE HIGHEST-VALUE UNBLOCKED WORK, in order:** the operator's 1–2 hours of blind
+transcription, which alone unblocks **two** criteria; the ranking gap now that
+retrieval's window is no longer the constraint; and the specified platform, of
+which **0 of 9 build-plan phases have started** while its own machinery is built
+and gated.
 
 #### A69 — **the republish LANDED but the RESTART IS HELD**, the ingest blocker was a stale binary, and `workshop/README.md` went from 32 bytes to 21,435.
 

@@ -59,13 +59,38 @@
 # this repository currently has no document of that class. When one lands, add
 # a docx leg here for that class only — not for the whole tree.
 #
+# ============================================================================
+# SCOPED SINGLE-CONTEXT MODE (--scope / --name), AND WHY IT IS HERE RATHER
+# THAN IN A SECOND GENERATOR
+# ============================================================================
+#
+# A repository other than this one — a submodule adopting its own chain in ITS
+# OWN root, per §11.4.28(B) — frequently wants ONE section bound rather than
+# its whole `docs/` tree: because that section is the unit somebody publishes,
+# and because rendering every PDF in a large tree costs minutes on every gate
+# run. Writing a second generator for that is the duplication §11.4.74 exists
+# to prevent, and it would fork the node-id rule, the md->html->pdf edge shape
+# and the transform names — the three things that MUST agree between whoever
+# emits a context and whoever verifies one.
+#
+# So the shape is a flag, not a fork:
+#
+#   --scope PREFIX   keep only in-scope documents under PREFIX
+#   --name NAME      emit exactly one context, NAME.yaml, named NAME
+#
+# DEFAULT BEHAVIOUR IS UNCHANGED. With neither flag this script emits the same
+# three contexts it always did, byte for byte, so `verify-docs-chain.sh`'s C3
+# re-derivation diff is unaffected.
+#
 # Usage:
 #   bash scripts/gen-docs-chain-contexts.sh              # write to .docs_chain/contexts
 #   bash scripts/gen-docs-chain-contexts.sh --out DIR    # write elsewhere (the verifier does this)
 #   bash scripts/gen-docs-chain-contexts.sh --root DIR
 #   bash scripts/gen-docs-chain-contexts.sh --list       # print the in-scope .md set, one per line
+#   bash scripts/gen-docs-chain-contexts.sh --root DIR --scope docs/<section> --name <section>
 #
-# Exit: 0 wrote/listed · 2 could not determine (no root, not a git repo)
+# Exit: 0 wrote/listed · 2 could not determine (no root, not a git repo, an
+#       empty scope, or --name without --scope)
 
 set -uo pipefail
 
@@ -73,16 +98,28 @@ SELF_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd -- "$SELF_DIR/.." && pwd)"
 OUT=""
 LIST=0
+SCOPE=""
+NAME=""
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --out)     OUT="${2:-}"; shift 2 ;;
         --root)    ROOT="${2:-}"; shift 2 ;;
+        --scope)   SCOPE="${2:-}"; shift 2 ;;
+        --name)    NAME="${2:-}"; shift 2 ;;
         --list)    LIST=1; shift ;;
-        -h|--help) sed -n '1,74p' "${BASH_SOURCE[0]}"; exit 0 ;;
+        -h|--help) sed -n '1,100p' "${BASH_SOURCE[0]}"; exit 0 ;;
         *) printf 'UNDETERMINED: unknown argument %s\n' "$1" >&2; exit 2 ;;
     esac
 done
+
+SCOPE="${SCOPE%/}"
+if [ -n "$NAME" ] && [ -z "$SCOPE" ]; then
+    printf 'UNDETERMINED: --name requires --scope. A single context over the WHOLE\n' >&2
+    printf 'tree would silently replace the three default contexts with one file, and\n' >&2
+    printf 'a verifier that re-derives the default form would then read that as rot.\n' >&2
+    exit 2
+fi
 
 [ -d "$ROOT" ] || { printf 'UNDETERMINED: --root %s is not a directory\n' "$ROOT" >&2; exit 2; }
 git -C "$ROOT" rev-parse --git-dir >/dev/null 2>&1 || {
@@ -164,6 +201,15 @@ in_scope() {
 $subs
 EOF
 
+        # --scope NARROWS the same in-scope set and can never widen it: the
+        # prefix is tested BEFORE the §11.4.65 classification below, so a
+        # document the classification excludes stays excluded whatever prefix
+        # is asked for. `--scope pipeline` therefore selects nothing, which is
+        # the correct answer rather than an escape hatch into source trees.
+        if [ -n "$SCOPE" ]; then
+            case "$f" in "$SCOPE"/*) ;; *) continue ;; esac
+        fi
+
         case "$f" in
             docs/*.md|docs/*/*.md|docs/*/*/*.md|docs/*/*/*/*.md) printf '%s\n' "$f" ;;
             specs/*.md|specs/*/*.md|specs/*/*/*.md|specs/*/*/*/*.md) printf '%s\n' "$f" ;;
@@ -224,6 +270,21 @@ ALL="$(in_scope)"
 [ -n "$ALL" ] || { printf 'UNDETERMINED: the in-scope Markdown set is EMPTY. A generator that\n' >&2
                    printf 'enumerated nothing has not reported a clean tree; it has failed to run.\n' >&2
                    exit 2; }
+
+# --- scoped single-context mode -------------------------------------------
+# One section, one context file. The emitted YAML uses the SAME node ids, the
+# SAME md -> html -> pdf edge shape and the SAME transform names as the default
+# mode, because it is the same emitter — which is the whole reason this is a
+# flag and not a second script.
+if [ -n "$SCOPE" ]; then
+    [ -n "$NAME" ] || NAME="$(printf '%s' "$SCOPE" | sed -e 's#/#-#g')"
+    mkdir -p "$OUT" || { printf 'UNDETERMINED: cannot create %s\n' "$OUT" >&2; exit 2; }
+    emit_context "$NAME" "Every Markdown document under $SCOPE/ -> html + pdf siblings (§11.4.65)" "$ALL" \
+        > "$OUT/$NAME.yaml"
+    printf 'wrote %s/%s.yaml\n' "$OUT" "$NAME"
+    printf '  %s  %s document(s)\n' "$NAME" "$(printf '%s\n' "$ALL" | grep -c . || true)"
+    exit 0
+fi
 
 ROOTMD="$(printf '%s\n' "$ALL" | grep -v '/' || true)"
 DOCSMD="$(printf '%s\n' "$ALL" | grep '^docs/' || true)"

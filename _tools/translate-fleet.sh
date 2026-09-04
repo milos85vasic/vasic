@@ -53,6 +53,19 @@ echo "FLEET tag=$TAG langs=[$LANGS] jobs=$n hosts=[${HOSTLIST[*]}] parallel=$PAR
 # ---- Worker: translate one job on an assigned host -------------------------
 run_job() {
   local site="$1" lang="$2" slug="$3" src="$4" out="$5" host="$6"
+  # §11.4.76 verdict for the line below, measured 2026-09-04 rather than assumed:
+  # this is per-host CONFIGURATION, not a reimplemented primitive. The Containers
+  # Submodule's own `pkg/remote.RemoteHost` carries a declared `Runtime string`
+  # field ("the container runtime on this host"), and it ships NO remote runtime
+  # detector to defer to — `grep -rn 'DetectRuntime\|AutoDetect' pkg/remote
+  # pkg/discovery` outside tests matches nothing at gitlink
+  # d940b51fc247c285c805799452992da8d09c75b9. Naming a remote host's runtime is
+  # exactly what the module expects a consumer to supply.
+  # Contrast `_tools/helixtranslate-local.sh`, which named a runtime for the
+  # LOCAL host: the module DOES own that (`runtime.AutoDetect`), so that literal
+  # was a real §11.4.76(4) violation and was converted.
+  # This script spawns no runtime and no ssh itself; it delegates both to
+  # "$SHIM", whose own header declares the remaining exception.
   local rt="podman"; [ "$host" = "amber.local" ] && rt="docker"
   if HELIX_TRANSLATE_BIN="$SHIM" HT_HOST="$host" HT_RUNTIME="$rt" \
        bash "$PIPE" --in "$src" --out "$out" --lang "$lang" --article >>"$SUM" 2>&1; then
