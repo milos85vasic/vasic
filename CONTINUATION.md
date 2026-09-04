@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T16:58:04Z
+    Last-Updated: 2026-09-04T17:41:45Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -954,6 +954,130 @@ declined to claim them.
 seen**; no colour-vision-deficiency simulation was run — the three kind families
 sit 1.03–1.19:1 apart in luminance, so they are *certainly not* greyscale-
 distinguishable, which is why every chip carries a text label.
+
+#### A94 — **THE SERVED SET WAS NON-DETERMINISTIC, AND THE MECHANISM IS A GO MAP.** Found, explained, fixed, deployed, and verified live: 26 queries, 0 varying.
+
+### The mechanism — determined by measurement, not narrative
+
+`digital.vasic.rag/pkg/reranker.MMRReranker.Rerank`, called by `Service.fuse` on
+**every** request:
+
+```go
+unselected := make(map[int]bool, n)
+for idx := range unselected {        // Go RANDOMIZES map iteration order
+    if mmrScore > bestScore { ... }  // strict >, so the FIRST maximum wins
+}
+```
+
+**Go deliberately randomises map iteration order, and a strict `>` means the
+first maximum encountered wins — so a different element wins each run.**
+
+**And ties are the NORMAL case here, not a corner.** MMR's relevance term is a
+Jaccard word overlap against the **raw query string**, which is exactly **0 for
+any document sharing no literal token with the query — i.e. for every
+paraphrase.** `Rerank` then **truncates to TopK**, so a tie straddling the cut
+decides **whether a document is served at all**.
+
+**Proved directly: 500 identical calls on one tie block gave 24 distinct orders
+and 6 distinct SETS.**
+
+### The measured distribution, before
+
+Queries derived from `pipeline/benchmark/retrieval_benchmark.json` (26 positive
+queries), against production, generation 68, `legs.semantic = ok` every run:
+
+| | SET varies | ORDER varies |
+|---|---|---|
+| limit=10, 6 identical runs each | **14 / 26** | **19 / 26** |
+| limit=5, 8 identical runs each | **8 / 26** | **17 / 26** |
+
+It reproduced the exact signature that opened this: `[6, None, 6, 6, 6, 6]` —
+present five times, absent once, same query, same generation.
+
+**The evidence that LOCATED the defect is the elegant part.** Runs whose ORDER
+differed had **bit-identical score vectors** — positions 1 and 2 both exactly
+`0.8122329492048093`. **That places the defect after scoring and before the
+wire**, which independently rules out embedding non-determinism, leg failure,
+index mutation, deadline truncation, WAL snapshots and the vector cache. No
+separate experiment was needed to eliminate any of them.
+
+### The fix, and the subtlety in it
+
+`pkg/search/determinism.go` — a **TOTAL** order (score desc, **pid asc**).
+**`sort.SliceStable` on score alone is PARTIAL, and a stable sort faithfully
+reproduces whatever non-determinism reaches it** — so stability is not
+determinism. Applied in `split` and in `rankAgainst`, the latter mattering
+independently because it is a truncating sort whose tie order came from SQLite's
+scan order at first cache load.
+
+`fuse` no longer calls MMR at all: its ordering never reached the wire (scores
+were restored by pid and `split` re-sorts by them as its first statement), so
+**its only live effect WAS the random truncation.** The cap expression is carried
+over unchanged.
+
+**MMR's diversity objective was NOT reimplemented** — that needs a deterministic
+argmax inside `digital.vasic.rag/pkg/reranker`, an upstream change to a consumed
+submodule, correctly refused as out of scope.
+
+### NO BAR MOVED, and the agent proved it
+
+**SC-015 is 36/156 = 23.1% before AND after**, same generation, production-
+identical flags. Only 3 of 26 queries changed rank, none crossing the top-5
+boundary. Queries whose target appears in *every* run: **8 → 9**.
+
+### Deployed and verified live — the loop is closed
+
+The fix was committed but **not running**: `platform/bin` is a bind mount and the
+container held the previous binary in memory. So: rebuilt (`workshop/scripts/build.sh`,
+exit 0; the new binary contains `search/determinism.go`), restarted via
+`workshop/scripts/restart.sh` — **a full down/up, never a `compose restart`, because a
+restart that appears to succeed while running the old binary is worse than no
+restart** — and healthy in ~5 s.
+
+*(A transient `unhealthy` was investigated rather than waved past: the
+healthcheck log reads `rc=1, rc=1, rc=0` — two probes fired while the server was
+still writing `server.json`. It self-resolved to `healthy`.)*
+
+**Then the gate was run against the restarted production:**
+
+```
+queries derived from the stored benchmark : 26
+queries actually graded                   : 26
+generation (must be one value)            : 68
+queries with a varying SET                : 0
+queries with a varying ORDER              : 0
+queries with a varying SCORE VECTOR       : 0
+queries that could not be graded          : 0
+PASS: all 26 graded queries served an identical set, order and score vector over 5 runs
+```
+
+**SET 14/26 → 0/26. ORDER 19/26 → 0/26.** Byte-identical lists across a process
+restart.
+
+### The gate and its proof
+
+`verify-search-determinism.sh` — three-valued, queries **derived** from the
+benchmark rather than typed, grading SET / ORDER / SCORE-VECTOR. **It refuses to
+pass vacuously**: an empty service, fewer than 2 results, a moving generation and
+an unreachable stack are each **rc 2**. Against unfixed production it returns
+**1** (14 SET / 19 ORDER / 4 SCORE); against the fixed instance **0**.
+
+`prove-search-determinism.sh` — **rc 0, 8 mutations, 8 PASS**: M1 control
+(constant → 0), M2/M3/M4 non-vacuity (varying set / order / score → 1), M5–M8
+three-valued (absent service, vacuous service, moving generation, absent
+benchmark → 2).
+
+**`determinism_test.go` carries a control that asserts THE LIBRARY DEFECT IS
+STILL REPRODUCIBLE** — so the tests cannot go quietly vacuous if the upstream
+reranker is ever fixed. That is the rarest kind of test and worth copying.
+
+Registered G-DET-1..5; `verify-check-registry-002.sh` **rc 0, 82 checks**.
+
+**Why this outranks the ranking-quality problem it was found beside:** it means
+*every* retrieval figure this project has ever recorded — SC-007, SC-008,
+SC-015, every benchmark — was **a sample from an unknown distribution rather
+than a measurement of the system.** A number you cannot reproduce is not a
+measurement.
 
 #### A93 — **`ai_interviewing` published (`cde474f → cb4c62a`), and the whole fleet is back to 12 CURRENT / 0 DRIFT.**
 
