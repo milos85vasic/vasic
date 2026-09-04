@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T15:03:12Z
+    Last-Updated: 2026-09-04T15:06:44Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,113 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A80 — **The ai_interviewing port is ALREADY HALF DONE and undocumented, "area" means three different things, and a test is graded ON THE CLIENT against a key shipped to the browser.** Three of my premises were wrong.
+
+Plan written to `workshop/docs/ai-interviewing-port/PLAN.md` (899 lines). One new
+file; nothing else modified in either repository; nothing committed.
+
+### Three premises of my brief that MEASUREMENT CONTRADICTS
+
+**1. The port is already roughly half done, and nobody wrote it down.**
+`features/practice/practice.component.ts:16` says, in the source,
+*"PORTED FROM ai_interviewing's practice component."* The `learning-kit` design
+system is present **in full** (1,174 lines). And `internal/api/progress.go:17-19`
+records that workshop's `X-Session` identity was aligned to ai_interviewing's
+**on purpose**. I briefed this as a port to be started; it is a port to be
+**finished and documented**.
+
+**2. Workshop's frontend already carries `practice`, `progress`, `plans` and
+`search` — 16,627 lines against ai_interviewing's 4,842.** The destination is
+larger than the source.
+
+**3. "AREA" IS A THREE-WAY AMBIGUITY, and this one nearly wrecked the fit table.**
+ai_interviewing has 34 areas. Workshop has **37 CURRICULUM areas**
+(`curriculum/chapter-01/knowledge/areas.json`, across 7 tracks) **and 5 PLATFORM
+areas**. The mapping was made 34 → 37. **Mapping onto the 5 would have produced
+NO FIT for entirely the wrong reason** — a plausible-looking table that was
+measuring the wrong noun.
+
+### A — what a LESSON and a TEST actually are, in data terms
+
+A **lesson** is a `lesson` row (`store.go:123-126`): `id, module_id, ord, slug,
+title, body_html, body_md` — titled prose split at `##` headings.
+
+A **test** is a `question` row (`store.go:127-132`): one table, three kinds, and
+**checked three different ways, NONE of them server-side**:
+
+| kind | how it is checked |
+|---|---|
+| `mcq` | `i === q.correctIndex` **on the client**, against a key **shipped to the browser** |
+| `short` | a keyword-overlap *hint* the UI itself calls "not a grade", then learner self-grade |
+| `flashcard` | purely self-graded |
+
+**The Go backend contains no grading function and accepts client-supplied
+`status`/`grade` with zero validation.** Progress is
+`(session_id, item_type, item_id, status, grade, streak, due_at)`, and identity
+is an unauthenticated `Math.random()` string in localStorage — **no user, no
+account, no `user` table.**
+
+**That is a property to decide about before extending, not after.** It is
+defensible for self-study and indefensible for anything assessed. Recorded here
+so the choice is made deliberately.
+
+### B and C — the tables
+
+**Gap table (23 rows): PORT 4 · EXTEND EXISTING 5 · ALREADY COVERED 9 · DO NOT PORT 5.**
+
+**Fit table: FITS 11 · PARTIAL 11 · NO FIT 12.** The 12 NO-FITs have exactly
+three reasons, and **saying so was the right answer rather than forcing a
+match**: seven are conventional full-stack subjects for a different job (Node,
+PostgreSQL, event sourcing, payments, API architecture, React, TypeScript);
+three are genuinely absent from the corpus (code migration, fine-tuning,
+i18n/RTL); two are the **same word for a different discipline** —
+behavioural/leadership there is interview coaching, and "media pipelines" there
+means display output, not ASR.
+
+**THE REVERSE GAP, which I did not ask for and which matters more:** **12
+workshop areas have no source material at all**, including the entire
+`business-and-delivery` track. The port cannot fill those; only authoring can.
+
+### D — data-model verdict: AUTHORED models are the same concept deliberately; SERVED models are not
+
+Workshop's `areas.json` carries ai_interviewing's `Curriculum` shape
+field-for-field — **including `defaultLang`, an i18n field workshop has no i18n
+for** — plus nine identically-named camelCase module fields. Served-side,
+`AreaRecord` is a ULID with **no summary, ordinal, code or track**, and
+**"progress" is one word for two incompatible things on the same route name.**
+
+**Build order, first item: wire the mastery store, which ALREADY EXISTS.**
+`pkg/assessment/progress.go:43-57` declares the record and **nothing calls it.**
+
+### FOUR DEFECTS FOUND IN PASSING, each actionable
+
+1. **10 authored flashcards are silently mislabelled today.** `knowledge.ts:490`
+   coerces `kind: 'flashcard'` to `'short'`. The CSS, the Go enum and the
+   question bank all support flashcards; **only the frontend type does not.**
+2. **40 of 312 ai_interviewing MCQ items cannot be answered correctly.**
+   `omitempty` on an `int` drops `correctIndex` when the correct answer is
+   choice **A** (index 0). **Both test fixtures hardcode index 1, so the suite
+   cannot see it** — the fixtures mask the bug. A textbook case of a test
+   population that is an unchecked assertion.
+3. **A wire mismatch on workshop's own progress route:** the decoder requires
+   `t_seconds` (`progress.go:220`); the client posts `t_start_s`
+   (`api.ts:573`).
+4. **A concurrent agent is mid-restructure of files this plan cites** —
+   `search.component.ts` deleted and renamed to `inquiry/inquiry.component.ts`,
+   `ask.component.ts` deleted. Recorded in the plan as R1 with a re-measure
+   instruction rather than left to rot.
+
+### Could not determine — 11 items; the five that matter
+
+Whether the 40 zero-index MCQs ever failed at runtime (source semantics only,
+nothing executed); whether `/api/progress` works today (**three sources
+disagree**); why `assessment.Progress` was declared and never wired, which
+materially changes the first build step's estimate; how many of the ~510 portable
+questions can actually be anchored to a workshop passage; and why
+`kg_lesson_section` is minted nowhere — **re-derived as 0 across all 13,141 rows
+on today's file** rather than quoting the stale 11,622-row census in
+`coverage.go`.
 
 #### A79 — **G8 CLOSED to 96.8%: 1,642 export files land. 30 documents FAILED and are named, because the cause is a source defect this export refused to paper over.**
 
