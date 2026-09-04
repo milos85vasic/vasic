@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T14:54:39Z
+    Last-Updated: 2026-09-04T14:57:43Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,103 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A78 — **`submodules/containers`: the log reader lied, and it lied for TWO compounding reasons. Both fixed and live-verified. Gitlink `d940b51 → 6d13ad0`.**
+
+**DEFECT 1 REPRODUCED, and the recorded description was accurate but incomplete.**
+Two independent faults compounded, which is why a single-cause fix would have
+left it broken:
+
+1. `defaultLogOptions()` supplies `Tail:"all"`. **`"all"` is DOCKER's sentinel;
+   podman's `--tail` is an INTEGER flag.** So *every default-option call* to
+   `PodmanRuntime.Logs` failed outright:
+   `invalid argument "all" for "--tail" flag … rc=125, 0 bytes stdout`.
+2. `ExecuteStream` returned the raw stdout pipe and called `cmd.Wait` only from
+   `Close`. So `io.ReadAll` returned **(0 bytes, nil error)** — the failure had
+   nowhere to surface.
+
+**Measured through the module's own API, same container, `podman logs` ground
+truth = 26 bytes:**
+
+| | bytes | read error |
+|---|---:|---|
+| before | **0** | `<nil>` |
+| after | **26** | `<nil>` |
+| before, nonexistent container | 0 | **`<nil>`** |
+| after, nonexistent container | 0 | `exit status 125: … no container with name or ID … found` |
+
+The bottom two rows are the real repair: **a caller can now tell "the container
+printed nothing" from "I could not read".** `Read` reaps the child at stdout EOF
+and returns its failure instead of `io.EOF`; stderr is drained into a bounded
+8 KiB buffer and appended to the error; `Wait` is memoised; podman's `--tail` is
+guarded the way `crio.go` and `lxd.go` already guarded it.
+
+**DEFECT 2 CONFIRMED and closed.** There was no `Run`, no `Create`, and no
+reachable stdin anywhere. Added:
+
+    Run(ctx, image string, cmd []string, opts ...RunOption) (*ExecResult, error)
+
+Shaped for the actual consumer: `--rm` on by default; `WithRunStdin` supplies the
+document **and** is what puts `-i` on the command line; results reuse the existing
+`ExecResult` rather than a near-duplicate type; a non-zero **container** exit is
+data in `ExitCode` with a nil error, matching `Exec`. Verified against real
+podman: 34 bytes in, 34 back byte-identical, exit 42 propagated, `--rm` left
+nothing behind.
+
+**STDIN IS NEVER SILENTLY DROPPED, and that design choice is the lesson.**
+`ExecuteWithStdin` is an *optional* interface (`StdinExecutor`) rather than a
+fourth method on the exported `CommandExecutor`, so no external implementer
+breaks; an executor lacking it makes `Run` fail with `ErrStdinUnsupported`
+**without running the command at all**. Degrading to "run it without the document
+and exit 0" would have been **defect 1 all over again**.
+
+**A refusal worth recording as good practice:** kubectl was NOT implemented.
+`kubectl run --rm -i --restart=Never` is real, but needs a pod name `Run` does
+not take and mixes pod-lifecycle output into stdout — and **no cluster is
+reachable here, so it was unmeasurable.** It ships `ErrRunUnsupported` with the
+specific reason instead of an unverified implementation.
+
+**Mutation-proved by reverting each fix and confirming red**, then restoring and
+verifying all three files byte-identical:
+`SILENT FAILURE: command failed but io.ReadAll returned 0 byte(s) and a nil error`
+· `logs --tail all cid` · `SILENTLY DROPPED STDIN`. Controls stayed green under
+every mutation, **and an opposite-direction mutant — a reader that errors even on
+success — is rejected**, so the contract cannot be satisfied by always erroring.
+
+**Verification:** `go build ./...` 0 · `go vet ./...` 0 · `go test ./... -count=1`
+**0, 44 packages ok** · 21 new tests, **37 top-level PASS / 0 FAIL**.
+`bluff-scanner.sh` 1 with 17 hits, **all pre-existing and none in a touched
+file**.
+
+**One caveat, measured rather than waved away:** a first suite run showed
+`pkg/health/TestCheckWithRetry_BackoffFactor` FAIL. `pkg/health` does not depend
+on `pkg/runtime` at all; it passed 5/5 in isolation and green on re-run. **Load
+flake from the other agents, not a regression** — see [[measure-on-a-quiet-tree]].
+
+**CONVERTIBLE CONSUMERS — named, deliberately NOT converted:**
+- `_tools/helixtranslate-container/run.sh` and `_tools/helixtranslate-local.sh`
+  are convertible **now** (local one-shot `run --rm -i` with stdin; `--env-file`
+  fits `WithRunExtraArgs`).
+- `_tools/helixtranslate-container.sh` is **STILL BLOCKED**: it is an SSH shim
+  streaming stdin to a remote host, and `RemoteRuntime.Run` explicitly refuses
+  stdin because `RemoteExecutor` has no `io.Reader` seam. Closing it needs a
+  further change in `pkg/remote`.
+- `pkg/brokertest` (4 sites) is **not** convertible — those use `run -d`
+  (detached) and `Run` waits for exit. A different primitive, not added.
+
+**The GitLab mirror moved too, and that is new information.** This submodule's
+`origin` fans out to **four push URLs**, so the commit landed on **both GitHub
+and the GitLab mirror**; both now read `6d13ad0`. That is a different situation
+from `design-toolkit`, whose mirror this carrier records as 6 commits behind with
+its push recipe deliberately `.disabled`.
+
+**Gitlink and manifest moved together in ONE change** — `verify-manifest-pins.sh`
+PASS at 12 recorded refs equalling the gitlinks this repository will commit.
+
+**Could not determine:** why `workshop-curriculum_platform_1` restarted
+mid-session. `RestartCount=0` with a fresh `StartedAt` means an external
+stop/start. The agent ran only `ps`, `logs`, `inspect`, `images` and `run --rm`
+on a separate ephemeral container.
 
 #### A77 — **All four carriers updated in lockstep: the content-boundary "mechanism UNDETERMINED" verdict is WITHDRAWN, and the gate now instruments its own stability.**
 
