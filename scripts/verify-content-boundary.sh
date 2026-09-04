@@ -264,6 +264,12 @@
 #                         "THE UNTRACKED HOLE" above.
 #     --allow <file>      declared-exemption file (default <root>/.content-boundary-allow)
 #     --fleet-spec <f>    SYNTHETIC fleet for the paired proof; see below
+#     --expect-corpus <f> corpus manifest file. If <f> EXISTS, this run's own
+#                         corpus is compared to it and every difference is an
+#                         UNDETERMINED row naming the path — that is how two
+#                         figures are PROVED to come from the same tree. If <f>
+#                         does not exist, this run WRITES its manifest there for
+#                         a later run to check against. Paths only; no content.
 #     --prove-failure     run the §1.1 paired mutation battery and exit
 #     --help              this text
 #
@@ -339,6 +345,36 @@
 #   * IGNORED files, in every mode. `--exclude-standard` honours `.gitignore`,
 #     so an ignored public path is never read even with the flag. Mutation M23d.
 #
+# ── THE MOVING TREE, and why a number alone is not evidence (2026-09-04) ─────
+# Three consecutive runs of this gate reported 12745 / 12846 / 12867, two of
+# them on a tree believed identical, and the totals were read as an instrument
+# defect. They were not. A dedicated investigation ran the analysis four times
+# against a FROZEN snapshot (`cp -al`, tracked files de-hardlinked, outside the
+# repository) and got BYTE-IDENTICAL output every time. The algorithm is
+# deterministic. What moved was the TREE: two tracked files inside a private
+# submodule were being rewritten by another agent while the runs were in
+# flight, and both are private-side key sources, so every edit changed the
+# private key space and therefore the total.
+#
+# The residual defect was this instrument's SILENCE. It printed a number with
+# no evidence that the tree it measured had stood still — and §11.4 forbids a
+# claim carrying no positive evidence, which a bare count is.
+#
+# So: a manifest of every file this run enumerates (`cksum` per path, POSIX) is
+# taken BEFORE the analysis passes and again AFTER them.
+#   * identical  -> a `corpus STABLE (N files, digest ...)` line is PRINTED.
+#                   Positive evidence, on every run, including green ones.
+#   * different  -> one UNDETERMINED row per changed path, NAMING THE PATH and
+#                   nothing else — never content, never a diff — plus a summary
+#                   row stating that this run's counts are not reproducible.
+# Verdict precedence is UNCHANGED: a leak is still a fact and still outranks
+# UNDETERMINED, so a moving tree can never hide a finding. It can only stop a
+# clean-looking run from being read as a clean tree.
+#
+# What this does NOT do: it does not make the run atomic, and it cannot say
+# WHICH counts a mid-run edit changed. It says the measurement was taken over a
+# moving target, which is the difference between a number and a measurement.
+#
 # ── Side effects ─────────────────────────────────────────────────────────────
 # NONE. Every provider call is a read. No git command that writes is run: no
 # fetch, no push, no checkout, no submodule update, no config write. Nothing in
@@ -370,6 +406,16 @@ ALLOW_FILE=""
 FLEET_SPEC=""
 PROVE=0
 MIN_CHARS=40
+
+# ── corpus stability (2026-09-04) ────────────────────────────────────────────
+# A manifest of every file this run enumerates, taken BEFORE the analysis and
+# again AFTER it. See the header note "THE MOVING TREE".
+EXPECT_CORPUS=""
+CORPUS_N=0
+CORPUS_DIGEST=""
+CORPUS_MOVED=0            # the tree changed BETWEEN this run's own two fingerprints
+CORPUS_EXPECT_MISMATCH=0  # this run's tree differs from the one --expect-corpus names
+CORPUS_DELTA_N=0
 
 # ── untracked candidates (PUBLIC side only, opt-in) ──────────────────────────
 # OFF by default so a plain run's candidate set — and therefore its verdict and
@@ -424,6 +470,7 @@ while [[ $# -gt 0 ]]; do
         --include-untracked) INCLUDE_UNTRACKED=1; shift ;;
         --allow)       ALLOW_FILE="${2:-}"; shift 2 ;;
         --fleet-spec)  FLEET_SPEC="${2:-}"; shift 2 ;;
+        --expect-corpus) EXPECT_CORPUS="${2:-}"; shift 2 ;;
         --prove-failure) PROVE=1; shift ;;
         --help|-h)     usage; exit 0 ;;
         *)             echo "FATAL: unknown option '$1' (try --help)" >&2; exit 2 ;;
@@ -1010,6 +1057,153 @@ M24QEOF
     p_case "M24b same bytes, private file COMMITTED, caught" "rc=1" "rc=$rc" \
         "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$out"
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # F6 — THE MOVING TREE (2026-09-04).
+    #
+    # The gate's totals were read as non-reproducible; the algorithm was proved
+    # deterministic and the TREE was proved to be what moved. These cases hold
+    # BOTH halves of that finding honest:
+    #   * M25 the analysis really is deterministic — same tree, same JSON — and
+    #         the comparison is not vacuously true, because one changed byte
+    #         makes it fail.
+    #   * M26 the before/after fingerprint actually BITES: a file rewritten
+    #         mid-run turns a clean rc=0 into rc=2 and the path is NAMED.
+    #   * M27 --expect-corpus ties two runs to one tree, and refuses when it
+    #         cannot.
+    #   * M28 verdict PRECEDENCE is unchanged: a leak still outranks the new
+    #         undetermined rows, so a moving tree can never hide a finding.
+    # Every case is a PAIR. A stability guard that reported "stable" always
+    # would pass a one-sided test while asserting nothing at all.
+    # ══════════════════════════════════════════════════════════════════════════
+
+    # ---- M25a DETERMINISM: same tree twice, byte-identical --json ---------
+    cp -a "$B" "$tmp/m25"
+    bash "$self" --root "$tmp/m25" --fleet-spec "$SPEC" --allow "$ALLOW" --json >"$tmp/m25.a" 2>/dev/null
+    bash "$self" --root "$tmp/m25" --fleet-spec "$SPEC" --allow "$ALLOW" --json >"$tmp/m25.b" 2>/dev/null
+    local m25a=1
+    cmp -s "$tmp/m25.a" "$tmp/m25.b" && m25a=0
+    p_case "M25a same tree twice: identical --json" "identical" \
+        "$( [[ $m25a -eq 0 ]] && echo identical || echo DIFFERS )" "$m25a" \
+        "$(diff "$tmp/m25.a" "$tmp/m25.b" 2>&1 | head -6)"
+
+    # ---- M25a2 the STABLE line is positive evidence, printed on a PASS ----
+    out="$(bash "$self" --root "$tmp/m25" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
+    local m25e=1; grep -q 'corpus STABLE' <<<"$out" && m25e=0
+    p_case "M25a2 green run PRINTS its stability evidence" "corpus STABLE" \
+        "$( [[ $m25e -eq 0 ]] && echo printed || echo ABSENT )" "$m25e" "$out"
+
+    # ---- M25b NON-VACUITY: one changed byte and the two must DIFFER ------
+    #      Without this half, M25a would pass on an instrument that emitted a
+    #      constant, and "deterministic" would mean "says nothing".
+    printf 'x' >>"$tmp/m25/docs/plan.md"
+    bash "$self" --root "$tmp/m25" --fleet-spec "$SPEC" --allow "$ALLOW" --json >"$tmp/m25.c" 2>/dev/null
+    local m25b=1
+    cmp -s "$tmp/m25.a" "$tmp/m25.c" || m25b=0
+    p_case "M25b one changed byte: --json must DIFFER" "differs" \
+        "$( [[ $m25b -eq 0 ]] && echo differs || echo IDENTICAL )" "$m25b" \
+        "$(head -20 "$tmp/m25.c")"
+
+    # ---- M26 THE GUARD BITES: a file rewritten MID-RUN ---------------------
+    #      The mutation is timed off the gate's OWN signal rather than a sleep:
+    #      --expect-corpus writes its manifest immediately after the PRE-analysis
+    #      fingerprint (temp + mv, so its existence means it is complete), so the
+    #      moment that file appears the before-fingerprint is taken and the after
+    #      one is not. Polling for it makes the window exact instead of racy.
+    cp -a "$B" "$tmp/m26"
+    # CONTROL first: the identical launch with NO mid-run write must be rc=0,
+    # so the rc=2 below can only come from the write.
+    rm -f "$tmp/m26.fp0"
+    out="$(bash "$self" --root "$tmp/m26" --fleet-spec "$SPEC" --allow "$ALLOW" \
+             --expect-corpus "$tmp/m26.fp0" --quiet 2>&1)"; rc=$?
+    p_case "M26a CONTROL same launch, tree held still" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+
+    rm -f "$tmp/m26.fp" "$tmp/m26.out" "$tmp/m26.rc"
+    ( bash "$self" --root "$tmp/m26" --fleet-spec "$SPEC" --allow "$ALLOW" \
+        --expect-corpus "$tmp/m26.fp" >"$tmp/m26.out" 2>&1; echo $? >"$tmp/m26.rc" ) &
+    local mpid=$! mland=1 mi=0
+    while [[ $mi -lt 6000 ]]; do
+        if [[ -f "$tmp/m26.fp" ]]; then
+            printf 'a line written while the gate was running\n' >>"$tmp/m26/docs/plan.md"
+            mland=0; break
+        fi
+        kill -0 "$mpid" 2>/dev/null || break
+        mi=$((mi + 1)); sleep 0.01
+    done
+    wait "$mpid" 2>/dev/null
+    rc="$(cat "$tmp/m26.rc" 2>/dev/null || echo 99)"
+    out="$(cat "$tmp/m26.out" 2>/dev/null)"
+    # A case that could not land its own mutation is a FAILURE, never a silent
+    # skip: a proof that quietly did nothing is the defect this file warns about.
+    p_case "M26b0 the mid-run write landed inside the window" "landed" \
+        "$( [[ $mland -eq 0 ]] && echo landed || echo 'NOT landed' )" "$mland" \
+        "polled $mi time(s) for $tmp/m26.fp"
+    p_case "M26b tree moved mid-run => UNDETERMINED" "rc=2" "rc=$rc" \
+        "$( [[ "$rc" == "2" ]] && echo 0 || echo 1 )" "$(tail -8 <<<"$out")"
+    local m26p=1 m26s=1
+    grep -q 'corpus MOVED during this run: docs/plan.md' <<<"$out" && m26p=0
+    grep -q 'corpus STABLE' <<<"$out" || m26s=0
+    p_case "M26c it NAMES the path that moved" "docs/plan.md named" \
+        "$( [[ $m26p -eq 0 ]] && echo named || echo ABSENT )" "$m26p" "$(tail -10 <<<"$out")"
+    p_case "M26d a moved run does NOT claim stability" "no 'corpus STABLE'" \
+        "$( [[ $m26s -eq 0 ]] && echo absent || echo 'CLAIMED ANYWAY' )" "$m26s" "$(tail -10 <<<"$out")"
+
+    # ---- M27 --expect-corpus: two runs proved to be one tree, or refused --
+    cp -a "$B" "$tmp/m27"
+    rm -f "$tmp/m27.fp"
+    bash "$self" --root "$tmp/m27" --fleet-spec "$SPEC" --allow "$ALLOW" \
+        --expect-corpus "$tmp/m27.fp" --quiet >/dev/null 2>&1
+    local m27w=1; [[ -s "$tmp/m27.fp" ]] && m27w=0
+    p_case "M27a manifest written when the file is absent" "manifest present" \
+        "$( [[ $m27w -eq 0 ]] && echo present || echo ABSENT )" "$m27w" "$tmp/m27.fp"
+    out="$(bash "$self" --root "$tmp/m27" --fleet-spec "$SPEC" --allow "$ALLOW" \
+             --expect-corpus "$tmp/m27.fp" --quiet 2>&1)"; rc=$?
+    p_case "M27b unchanged tree matches its own manifest" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+    printf 'one more ordinary sentence for the record.\n' >>"$tmp/m27/docs/plan.md"
+    out="$(bash "$self" --root "$tmp/m27" --fleet-spec "$SPEC" --allow "$ALLOW" \
+             --expect-corpus "$tmp/m27.fp" 2>&1)"; rc=$?
+    local m27p=1
+    grep -q 'corpus DIFFERS from --expect-corpus: docs/plan.md' <<<"$out" && m27p=0
+    p_case "M27c changed tree is refused, not silently compared" "rc=2" "rc=$rc" \
+        "$( [[ $rc -eq 2 ]] && echo 0 || echo 1 )" "$(tail -8 <<<"$out")"
+    p_case "M27d it NAMES the path that differs" "docs/plan.md named" \
+        "$( [[ $m27p -eq 0 ]] && echo named || echo ABSENT )" "$m27p" "$(tail -10 <<<"$out")"
+
+    # ---- M28 PRECEDENCE is unchanged: a leak outranks a moved corpus ------
+    #      The whole risk of adding an rc=2 source is that it starts masking
+    #      rc=1. This case plants a real leak AND moves the tree mid-run, and
+    #      requires the leak to win.
+    cp -a "$B" "$tmp/m28"
+    { printf '\n'; sed -n '1,3p' "$tmp/m28/priv/chapters/notes.txt"; } >>"$tmp/m28/docs/plan.md"
+    rm -f "$tmp/m28.fp" "$tmp/m28.out" "$tmp/m28.rc"
+    ( bash "$self" --root "$tmp/m28" --fleet-spec "$SPEC" --allow "$ALLOW" \
+        --expect-corpus "$tmp/m28.fp" >"$tmp/m28.out" 2>&1; echo $? >"$tmp/m28.rc" ) &
+    mpid=$!; local m28land=1; mi=0
+    while [[ $mi -lt 6000 ]]; do
+        if [[ -f "$tmp/m28.fp" ]]; then
+            printf 'another line written mid-run\n' >>"$tmp/m28/docs/kit.md"
+            m28land=0; break
+        fi
+        kill -0 "$mpid" 2>/dev/null || break
+        mi=$((mi + 1)); sleep 0.01
+    done
+    wait "$mpid" 2>/dev/null
+    rc="$(cat "$tmp/m28.rc" 2>/dev/null || echo 99)"
+    out="$(cat "$tmp/m28.out" 2>/dev/null)"
+    p_case "M28a the mid-run write landed inside the window" "landed" \
+        "$( [[ $m28land -eq 0 ]] && echo landed || echo 'NOT landed' )" "$m28land" \
+        "polled $mi time(s) for $tmp/m28.fp"
+    p_case "M28b leak outranks a MOVED corpus" "rc=1" "rc=$rc" \
+        "$( [[ "$rc" == "1" ]] && echo 0 || echo 1 )" "$(tail -8 <<<"$out")"
+    local m28m=1 m28l=1
+    grep -q 'corpus MOVED during this run: docs/kit.md' <<<"$out" && m28m=0
+    grep -q 'LEAK —' <<<"$out" && m28l=0
+    p_case "M28c the moved path is still reported, not swallowed" "docs/kit.md named" \
+        "$( [[ $m28m -eq 0 ]] && echo named || echo ABSENT )" "$m28m" "$(tail -12 <<<"$out")"
+    p_case "M28d the leak is still reported" "LEAK printed" \
+        "$( [[ $m28l -eq 0 ]] && echo printed || echo ABSENT )" "$m28l" "$(tail -12 <<<"$out")"
+
     # ---- M10 the detector is not constant: it must clear a clean copy ----
     #      after having failed a dirty one, from the SAME fixture.
     out="$(bash "$self" --root "$B" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
@@ -1023,10 +1217,10 @@ M24QEOF
     bash "$self" --root "$SELF_REPO" --quiet >"$tmp/live.log" 2>&1; lrc=$?
     echo "live run rc=$lrc  ($(tail -n 1 "$tmp/live.log" 2>/dev/null || echo 'no output captured'))"
     echo "  A non-zero live rc is a statement about THIS TREE, not about the"
-    echo "  battery above; all 24 mutations ran against the synthetic fixture."
+    echo "  battery above; all 28 mutations ran against the synthetic fixture."
 
     echo
-    echo "proof: $P_PASS passed, $P_FAIL failed, 24 mutations run"
+    echo "proof: $P_PASS passed, $P_FAIL failed, 28 mutations run"
     [[ $P_FAIL -eq 0 ]]
 }
 
@@ -1083,6 +1277,101 @@ FLEET="$TMPD/fleet.tsv"; : >"$FLEET"
 UNDET=0
 UNDET_ROWS="$TMPD/undet.txt"; : >"$UNDET_ROWS"
 undet() { UNDET=1; printf '%s\n' "$*" >>"$UNDET_ROWS"; }
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CORPUS ENUMERATION AND FINGERPRINT
+#
+# The two `cb_ls_*` helpers are the SINGLE definition of "what this run reads".
+# `emit_repo` calls them and so does `corpus_fingerprint`, so the manifest
+# covers exactly the set the analysis opened. A fingerprint over a DIFFERENT
+# set would be false reassurance, which is worse than no fingerprint at all —
+# hence one definition rather than two that agree today.
+# ══════════════════════════════════════════════════════════════════════════════
+cb_ls_tracked() { # $1 absolute repo dir -> repo-relative names, one per line
+    git -C "$1" ls-files -z 2>/dev/null | tr '\0' '\n' \
+        | grep -vE '(lock\.json|\.min\.[A-Za-z0-9]+|\.map)$' || :
+}
+cb_ls_untracked() { # $1 absolute repo dir -> repo-relative names, one per line
+    git -C "$1" ls-files --others --exclude-standard -z 2>/dev/null | tr '\0' '\n' \
+        | grep -vE '(lock\.json|\.min\.[A-Za-z0-9]+|\.map)$' || :
+}
+
+# `cksum` rather than `sha256sum`: POSIX, so this adds no frozen GNU assumption
+# to the tree `scripts/audit-environment-assumptions.sh` walks. Batched through
+# `xargs` for the same reason the binary/text split is — one process per
+# repository, not one per file. cksum prints "sum octets name", and the name is
+# recovered by LENGTH rather than by field-splitting so a path containing
+# consecutive spaces is not silently rewritten into a different path.
+corpus_fingerprint() { # $1 out-file    rows: qualified-path <TAB> sum:octets
+    local out="$1" p dir pfx lst
+    lst="$TMPD/fp.list"
+    {
+        for p in "${PRIV_PATHS[@]:-}"; do
+            [[ -n "$p" ]] || continue
+            dir="$ROOT/$p"; [[ "$p" == "." ]] && dir="$ROOT"
+            pfx="$p/"; [[ "$p" == "." ]] && pfx=""
+            cb_ls_tracked "$dir" >"$lst"
+            [[ -s "$lst" ]] || continue
+            ( cd "$dir" && xargs -a "$lst" -d '\n' -r cksum 2>/dev/null ) \
+                | awk -v PFX="$pfx" '
+                    match($0, /^[0-9]+ [0-9]+ /) {
+                        s = substr($0, 1, RLENGTH - 1); gsub(/ /, ":", s)
+                        print PFX substr($0, RLENGTH + 1) "\t" s }'
+        done
+        for p in "${PUB_PATHS[@]:-}"; do
+            [[ -n "$p" ]] || continue
+            dir="$ROOT/$p"; [[ "$p" == "." ]] && dir="$ROOT"
+            pfx="$p/"; [[ "$p" == "." ]] && pfx=""
+            cb_ls_tracked "$dir" >"$lst"
+            # The private side stays tracked-only in every mode (see M24), so
+            # the untracked union is asked for on the PUBLIC side only — the
+            # same asymmetry `emit_repo` applies, for the same reason.
+            [[ $INCLUDE_UNTRACKED -eq 1 ]] && cb_ls_untracked "$dir" >>"$lst"
+            [[ -s "$lst" ]] || continue
+            ( cd "$dir" && xargs -a "$lst" -d '\n' -r cksum 2>/dev/null ) \
+                | awk -v PFX="$pfx" '
+                    match($0, /^[0-9]+ [0-9]+ /) {
+                        s = substr($0, 1, RLENGTH - 1); gsub(/ /, ":", s)
+                        print PFX substr($0, RLENGTH + 1) "\t" s }'
+        done
+    } | LC_ALL=C sort -u >"$out"
+    rm -f "$lst"
+}
+
+# Differences between two manifests, as "STATE <TAB> path". Paths ONLY: naming
+# a file that moved is a fact about this run; printing what changed inside it
+# would put private bytes into a public gate's output, which is the incident
+# this whole instrument exists because of.
+corpus_delta() { # $1 old-manifest  $2 new-manifest
+    awk -F'\t' '
+        NR == FNR { a[$1] = $2; next }
+        { b[$1] = $2
+          if (!($1 in a))      print "APPEARED\t" $1
+          else if (a[$1] != $2) print "CHANGED\t"  $1 }
+        END { for (k in a) if (!(k in b)) print "VANISHED\t" k }' "$1" "$2" \
+    | LC_ALL=C sort
+}
+
+# At most this many changed paths are named individually; the rest are reported
+# as a count. Naming 12,000 paths would bury the verdict, and a verdict nobody
+# reads is the failure mode this file warns about elsewhere.
+CORPUS_NAME_MAX=50
+
+corpus_report_delta() { # $1 delta-file  $2 what-happened phrase
+    local d="$1" what="$2" n named=0 st pth
+    n=$(wc -l <"$d" | tr -d ' ')
+    [[ "$n" -eq 0 ]] && return 0
+    while IFS=$'\t' read -r st pth; do
+        [[ -n "${pth:-}" ]] || continue
+        named=$((named + 1))
+        if [[ $named -le $CORPUS_NAME_MAX ]]; then
+            undet "$what: $pth [$st] — path named, content deliberately NOT read"
+        fi
+    done <"$d"
+    [[ "$n" -gt $CORPUS_NAME_MAX ]] && \
+        undet "$what: ... and $((n - CORPUS_NAME_MAX)) further path(s) not named individually"
+    return 0
+}
 
 if [[ $SYNTHETIC -eq 1 ]]; then
     while IFS=$'\t' read -r p role _; do
@@ -1197,6 +1486,43 @@ fi
 
 mapfile -t PRIV_PATHS < <(awk -F'\t' '$2=="private"{print $1}' "$FLEET")
 mapfile -t PUB_PATHS  < <(awk -F'\t' '$2=="public"{print $1}' "$FLEET")
+
+# ── corpus fingerprint, BEFORE anything is analysed ──────────────────────────
+CORPUS_BEFORE="$TMPD/corpus.before"
+CORPUS_AFTER="$TMPD/corpus.after"
+trace "fingerprinting corpus (before)"
+corpus_fingerprint "$CORPUS_BEFORE"
+CORPUS_N=$(wc -l <"$CORPUS_BEFORE" | tr -d ' ')
+trace "corpus fingerprint: $CORPUS_N file(s)"
+
+# ── --expect-corpus: prove two figures came from the same tree ───────────────
+# Existing file  -> compare and report every difference as UNDETERMINED.
+# Missing file   -> write this run's manifest for a later run to check against,
+#                   via a temporary + `mv` so the file never exists half-written
+#                   (a reader polling for it is relying on that).
+if [[ -n "$EXPECT_CORPUS" ]]; then
+    if [[ -e "$EXPECT_CORPUS" ]]; then
+        if [[ ! -r "$EXPECT_CORPUS" ]]; then
+            undet "--expect-corpus '$EXPECT_CORPUS' exists but is unreadable; this run cannot be tied to any earlier one"
+        else
+            corpus_delta "$EXPECT_CORPUS" "$CORPUS_BEFORE" >"$TMPD/corpus.expect.delta"
+            if [[ -s "$TMPD/corpus.expect.delta" ]]; then
+                CORPUS_EXPECT_MISMATCH=1
+                corpus_report_delta "$TMPD/corpus.expect.delta" "corpus DIFFERS from --expect-corpus"
+                undet "corpus DIFFERS from --expect-corpus: $(wc -l <"$TMPD/corpus.expect.delta" | tr -d ' ') path(s); this run's counts are NOT comparable with the run that wrote '$EXPECT_CORPUS'"
+            else
+                vsay "corpus MATCHES --expect-corpus (${EXPECT_CORPUS##*/}, $CORPUS_N files) — this run and that one measured the same tree"
+            fi
+        fi
+    else
+        if cp "$CORPUS_BEFORE" "$EXPECT_CORPUS.part" 2>/dev/null && mv "$EXPECT_CORPUS.part" "$EXPECT_CORPUS" 2>/dev/null; then
+            vsay "corpus manifest WRITTEN to $EXPECT_CORPUS ($CORPUS_N files) — pass it back with --expect-corpus to tie a later run to this tree"
+        else
+            rm -f "$EXPECT_CORPUS.part" 2>/dev/null
+            undet "--expect-corpus '$EXPECT_CORPUS' could not be written; no later run can be tied to this one"
+        fi
+    fi
+fi
 
 # ══════════════════════════════════════════════════════════════════════════════
 # DECLARED EXEMPTIONS
@@ -1508,8 +1834,7 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
     # git rejects such paths on every platform this project targets; if one ever
     # appears, `git ls-files -z` and this filter disagree and the run is wrong
     # rather than silently short — which is why the file count is reported.
-    git -C "$dir" ls-files -z 2>/dev/null | tr '\0' '\n' \
-        | grep -vE '(lock\.json|\.min\.[A-Za-z0-9]+|\.map)$' >"$list" || :
+    cb_ls_tracked "$dir" >"$list"
 
     # ── UNTRACKED candidates, opt-in, PUBLIC side only ────────────────────────
     # `git ls-files` lists TRACKED files, so an untracked public file was never
@@ -1524,8 +1849,7 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
     # repository in the fleet still contributes exactly its own untracked files
     # under its own prefix — no path is counted twice and none is mislabelled.
     if [[ $INCLUDE_UNTRACKED -eq 1 && "$side" == "pub" ]]; then
-        git -C "$dir" ls-files --others --exclude-standard -z 2>/dev/null | tr '\0' '\n' \
-            | grep -vE '(lock\.json|\.min\.[A-Za-z0-9]+|\.map)$' >"$base.untracked" || :
+        cb_ls_untracked "$dir" >"$base.untracked"
         if [[ -s "$base.untracked" ]]; then
             UNTRACKED_N=$((UNTRACKED_N + $(wc -l <"$base.untracked" | tr -d ' ')))
             sed "s|^|$pfx|" "$base.untracked" >>"$UNTRACKED_LIST"
@@ -1878,6 +2202,21 @@ BEGIN{ OFS = "\t"
   for (i = 1; i <= length(A); i++) ORD[substr(A, i, 1)] = i + 32 }
 { print $0, ($1 == "name" ? h($5) : "-") }' "$FINAL" >"$FINAL.id" && mv "$FINAL.id" "$FINAL"
 
+# ── corpus fingerprint, AFTER every pass has read the tree ───────────────────
+# The window this brackets is the whole analysis: the private corpus build, the
+# key derivations, and every public repository scan. A file rewritten anywhere
+# inside it lands here as a named path.
+trace "fingerprinting corpus (after)"
+corpus_fingerprint "$CORPUS_AFTER"
+corpus_delta "$CORPUS_BEFORE" "$CORPUS_AFTER" >"$TMPD/corpus.delta"
+CORPUS_DELTA_N=$(wc -l <"$TMPD/corpus.delta" | tr -d ' ')
+CORPUS_DIGEST=$(printf '%08x' "$(cksum <"$CORPUS_AFTER" | awk '{print $1}')" 2>/dev/null || echo "--------")
+if [[ "$CORPUS_DELTA_N" -gt 0 ]]; then
+    CORPUS_MOVED=1
+    corpus_report_delta "$TMPD/corpus.delta" "corpus MOVED during this run"
+    undet "corpus MOVED during this run: $CORPUS_DELTA_N path(s) changed between the pre-analysis and post-analysis fingerprints; THIS RUN'S COUNTS ARE NOT REPRODUCIBLE and must not be quoted as a measurement of any single tree"
+fi
+
 # Counted from the DEDUPLICATED result, never from the per-class files: the
 # union is `sort -u`'d, so a per-class `wc -l` overstates the total it is meant
 # to decompose. A summary whose parts do not add up to its own total is the
@@ -1986,6 +2325,21 @@ if [[ $QUIET -eq 0 ]]; then
     fi
 fi
 
+# ── corpus stability, PRINTED on every run whatever the verdict ──────────────
+# A pass with no evidence is exactly what §11.4 forbids, so the STABLE line is
+# printed on green runs too. It is the difference between "the number is 12867"
+# and "the number is 12867 and the tree did not move while it was counted".
+say ""
+if [[ $CORPUS_MOVED -eq 1 ]]; then
+    say "${MARK}${C_YEL}${C_BLD}corpus MOVED${C_OFF} — $CORPUS_DELTA_N of $CORPUS_N enumerated file(s) changed between the pre- and post-analysis fingerprints"
+    say "  ${C_DIM}the counts below were measured over a MOVING tree and are not reproducible;${C_OFF}"
+    say "  ${C_DIM}the changed paths are named among the COULD NOT DETERMINE rows above.${C_OFF}"
+else
+    say "${MARK}${C_GRN}corpus STABLE${C_OFF} ($CORPUS_N files, digest ${CORPUS_DIGEST:-}) ${C_DIM}— re-measured after the analysis; the counts below describe one unmoving tree${C_OFF}"
+fi
+[[ $CORPUS_EXPECT_MISMATCH -eq 1 ]] && \
+    say "  ${C_YEL}corpus DIFFERS from --expect-corpus${C_OFF} ${C_DIM}— these counts are not comparable with the run that wrote it${C_OFF}"
+
 RC=0
 [[ $UNDET -eq 1 ]] && RC=2
 [[ $LEAKS -gt 0 ]] && RC=1   # precedence: a leak is a fact and outranks
@@ -2009,6 +2363,13 @@ if [[ $JSON -eq 1 ]]; then
     # because nothing was there — `included` is what distinguishes the two.
     printf '  "untracked": { "included": %s, "side": "public", "files_scanned": %s },\n' \
         "$INCLUDE_UNTRACKED" "$UNTRACKED_N"
+    # Additive. "stable":false means the counts above were measured over a tree
+    # that changed underneath them; "changed" carries only how many paths, and
+    # the paths themselves are in "undetermined" — never their content.
+    printf '  "corpus": { "files": %s, "digest": "%s", "stable": %s, "changed": %s, "matches_expected": %s },\n' \
+        "$CORPUS_N" "$CORPUS_DIGEST" "$( [[ $CORPUS_MOVED -eq 1 ]] && echo false || echo true )" \
+        "$CORPUS_DELTA_N" \
+        "$( [[ -z "$EXPECT_CORPUS" ]] && echo null || { [[ $CORPUS_EXPECT_MISMATCH -eq 1 ]] && echo false || echo true; } )"
     printf '  "fleet": [\n'
     awk -F'\t' '{printf "%s    {\"path\":\"%s\",\"role\":\"%s\",\"evidence\":\"%s\"}", (NR>1?",\n":""), $1,$2,$3} END{print ""}' "$FLEET"
     printf '  ],\n  "leaks": [\n'
