@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T18:12:08Z
+    Last-Updated: 2026-09-04T18:36:45Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -1054,6 +1054,105 @@ Context worth keeping: **eight numeric fields are already `*T` specifically to s
 **3.** `verify_bundle.py` **1 → 0** using only the project's own tools; **no verifier was edited.** **4.** `DOWNLOADS.md` gained a measured §5 — and **corrected my figure**: I said 16 mutations, the real number is **23**. It also found `docs/the-platform/README.md` recording *"Measured 2026-09-04: rc 0, 10/10"* **while the gate was exiting 1** — a live PASS-bluff.
 
 **5.** `workshop/CLAUDE.md`: every stale figure withdrawn by name — gates 18/20 → **23/27**, commands nine → **ten** (*"a WRONG LIST, not merely a stale count"* — `answer-providers` was omitted), tracked files 766 → **1,211**, `passages.jsonl` 11,622 → **13,141** rows, spec 001 66 → **69**, spec 002 107 → **110**. **Two claims were FALSE, not stale:** there are **three** `show-toplevel` call sites (not two — `_common.sh:703` was named nowhere and is correct for a different reason), and *"every script anchors on `BASH_SOURCE`"* is false for `_portable.sh`, correctly. **The gate counts moved 22/26 → 23/27 inside the session**, so the document now tells the reader to run the `ls`.
+
+#### A98 — **Both CSS collisions fixed STRUCTURALLY and proved on rendered pixels. And an alarm about `ng test` is NARROWED by measurement rather than propagated.**
+
+### The two collisions, measured before and after on real elements
+
+Not synthetic divs — `state-working` was held open by a **stalled `/api/ask`** and
+then released into `state-declined`:
+
+| state | BEFORE | AFTER |
+|---|---|---|
+| `not_requested` | `dashed 1px rgb(145,134,121)` | `dashed 1px rgb(145,134,121)` |
+| `withdrawn` | *identical to above* | **`solid 5px rgb(147,71,79)`** |
+| `declined` | `left: solid 5px rgb(147,71,79)`, `img: none` | unchanged |
+| `working` | *identical to declined* | **`left-color: transparent`, `img: repeating-linear-gradient(…6px…11px)`** |
+
+They now differ on **two channels**, not one invisible property.
+
+### Fixed structurally, not patched — and the reasoning is the valuable part
+
+- **`.idle--back` was moved below `.idle` AND its selector changed to
+  `.idle.idle--back`** (specificity 0,2,0 vs 0,1,0). Reordering alone was what the
+  failure message suggested and **would work today — and is one reordering away
+  from breaking again silently.** Specificity makes it order-independent.
+- For `declined`/`working` it did **not** simply add a property. It **removed the
+  `border-left:` and `background:` SHORTHANDS** from the shared block, replaced
+  them with longhands, and gave each state its own `border-left-color`. **Neither
+  state can now erase the other's half of the distinction on source order** — the
+  defect class removed rather than the instance patched.
+- The `working` edge is **form, not hue**: the same accent broken into ticks (work
+  not finished) against `declined`'s continuous rule (work over), so it **survives
+  greyscale**. Nothing animates, so nothing needs undoing under
+  `prefers-reduced-motion`.
+
+### The vocabulary finding was NOT what I briefed, and the correction matters
+
+I said two reason codes had no wording. **They already had entries** —
+`malformed_pid` → *"not a passage identifier"*, `area_not_found` → *"no such
+knowledge area"*. **The real defect was in `state.component.ts`: its lookup chain
+consulted `withheld`, `decline` and `reason` and NEVER `errorCode`, so 14 of the
+15 members of that table were unreachable from any surface.**
+
+**And `verify-ui-vocabulary.sh` was green and was RIGHT to be.** It asserts that
+every backend code has an entry **in the table**, and every one did. **Its
+coverage set is the table, not the render path.** So this was a hole in the *test
+suite*, not in that gate's contract — a distinction worth keeping, because the
+lazy reading would have been "the gate missed it". Closed with a **derived** unit
+guard iterating `VOCABULARIES.errorCode`, proved non-inoperative: removing the
+lookup makes it go red naming all 14. Verified live in the browser against the
+served bundle.
+
+### Budget discipline
+
+Baseline 7.75 kB → edits took it to 7.77 → **trimmed to 7.68 kB, BELOW baseline**,
+with `angular.json` untouched. Five copies of `border-radius: var(--lk-radius, 8px)`
+were grouped into one rule — **the minifier does not merge declarations across
+selectors, so each copy shipped.** Cascade-safety measured, not assumed: nothing
+else sets `border-radius` on those six selectors, and two with a different
+asymmetric radius are deliberately excluded.
+
+**Proof the fix is SERVED**, fetched back over HTTP: `styles-DDUEIR6C.css` carries
+both new rules, and `chunk-FO7EABCQ.js` (200, 82,736 B) shows `.idle` immediately
+followed by `.idle.idle--back`. Old hint text `grep -c` = **0**.
+
+    ng test                       0   223 SUCCESS (222 + 1 new guard)
+    ng build --configuration production  0   inquiry stylesheet 7.68 kB
+    playwright design+inquiry evidence   0   42 passed, 2 skipped — both red tests green
+    verify-ui-labels / vocabulary / intent-resolution   0 / 0 / 0
+    verify-check-registry-001 / -002     0 / 0   checks=82
+
+### THE `ng test` ALARM IS NARROWED — I could not reproduce it as stated
+
+The agent reported: *"`ng test` exits 0 on a compile failure… a run that compiled
+nothing looked like a run that passed"*, and flagged it as a hole in this
+project's unit-test exit contract. **That would be serious — it would make every
+green `ng test` in this session suspect — so it was tested rather than recorded.**
+
+Planted a deliberate compile error twice, restoring cleanly each time:
+
+    spec-side error       (`const broken: = ;`)        -> ng test EXIT=1
+    component-side error  (early backtick in styles:)  -> ng test EXIT=1
+
+Both printed `ERROR [karma-server]: Found 1 load error` **and returned 1**.
+
+**So the exit contract HOLDS for the invocation this project actually uses:
+`ng test --watch=false --browsers=ChromeHeadless`.** The likely difference is
+that bare `ng test` defaults to **watch mode**, which another agent independently
+hit — *"it never exits"* — and an exit code observed from a process that never
+terminates on its own belongs to whatever killed it, not to the test run.
+
+**The alarm is not dismissed; it is BOUNDED.** What is true and worth keeping:
+**bare `ng test` in this workspace does not terminate, so any exit code taken
+from it is meaningless.** Always pass `--watch=false --browsers=ChromeHeadless`.
+What is NOT true is that a compile failure can be seen as a pass under that
+invocation.
+
+**Recorded but not fixed** (correctly, as out of scope): the `anyComponentStyle`
+4 kB *warning* pre-dates this change and still fires at 7.68 kB; only the 8 kB
+error budget was in scope. And whether `working`'s 6px-on / 5px-off tick pitch is
+*optimal* is a design judgement nothing here measured.
 
 #### A97 — **THE BROWSER FALSIFIED TWO DESIGN CLAIMS. `withdrawn` and `not_requested` are the same rectangle, and a CSS shorthand is why.**
 
