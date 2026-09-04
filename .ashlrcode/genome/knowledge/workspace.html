@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>workspace</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">workspace</h1>
+</header>
+<h1 id="workspace">Workspace</h1>
+<blockquote>
+<p>Auto-discovered from child directories at genome init, then extended
+by hand with what each repository IS and where it pushes. Remote data
+verified with <code>git -C &lt;path&gt; remote -v</code> on 2026-08-27;
+it matches the table in <code>Constitution.md</code> (“Project-specific
+remotes”, captured 2026-08-26).</p>
+</blockquote>
+<ul>
+<li><strong>Total directories:</strong> 30</li>
+<li><strong>Git repositories:</strong> 5 discovered as child checkouts
+(+ 2 under <code>submodules/</code>)</li>
+<li><strong>Projects with CLAUDE.md or .claude/:</strong> 5</li>
+</ul>
+<h2 id="the-gitlink-set-.gitmodules-7-entries">The gitlink set
+(<code>.gitmodules</code>, 7 entries)</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it IS</th>
+<th>Owned?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vasic.digital</code></td>
+<td>Company site — <strong>committed static HTML</strong>, served as-is,
+no build step. Output of <code>_tools/gen/</code>.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td>Personal site — <strong>Jekyll source</strong>; rendered
+<code>_site/</code> is git-ignored. Embeds
+<code>red-elf/Upstreamable</code> (third-party, 0-byte gitlink → breaks
+recursive checkout).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td>Deterministic, license-clean design-capability layer over
+OpenDesign. Self-declared <strong>“FIRST INCREMENT — review-ready local
+scaffold”</strong>; generator code specified but not vendored. No CI
+gate reads it.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td>Interview-preparation corpus + employer due-diligence kit for a
+specific role, exported to the four Constitution-mandated formats.
+Content, not code.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td>“Monetization of existing projects” (its whole README body). Docs +
+<code>repos.txt</code>.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>HelixDevelopment/HelixConstitution</code> — the
+<strong>governance submodule</strong> this project consumes. Own-org,
+but deliberately carved out of §4 tag mirroring.</td>
+<td>Governance</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td><code>WangX0111/superspec</code> — <strong>THIRD-PARTY</strong>,
+outside every operator-listed org. Never tagged, never given a carrier,
+never edited (<code>Constitution.md</code> §103).</td>
+<td><strong>No</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Owned set per <code>Constitution.md</code>:
+<code>ai_interviewing</code>, <code>design-toolkit</code>,
+<code>milosvasic.ru</code>, <code>monetization</code>,
+<code>vasic.digital</code>.</p>
+<h2 id="remote-fan-out-verified-2026-08-27">Remote fan-out (verified
+2026-08-27)</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Distinct push URLs</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main <code>vasic</code></td>
+<td><strong>1</strong></td>
+<td><code>origin</code>, <code>github</code>, <code>upstream</code> all
+↔︎ <code>git@github.com:milos85vasic/vasic.git</code></td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><strong>1</strong></td>
+<td>three names, one URL
+(<code>milos85vasic/ai_interviewing</code>)</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><strong>1</strong></td>
+<td>three names, one URL
+(<code>vasic-digital/vasic-digital.github.io</code>)</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><strong>1</strong></td>
+<td><code>origin</code> only
+(<code>vasic-digital/design-toolkit</code>)</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><strong>2</strong></td>
+<td>⚠ fetch/push asymmetry — see below</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><strong>4</strong></td>
+<td><code>origin</code> push → gitflic, github, gitlab, gitverse
+(<code>ssh://…:2222</code>). Named peers
+<code>gitflic</code>/<code>github</code>/<code>gitlab</code>/<code>gitverse</code>,
+<code>upstream</code> ↔︎ gitflic</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><strong>6</strong></td>
+<td><code>origin</code> push → gitflic, github, gitlab, gitverse,
+<strong>plus</strong> <code>vasic-digital/HelixConstitution</code> on
+GitHub and GitLab. Named peers incl. <code>vasic_digital_github</code>,
+<code>vasic_digital_gitlab</code></td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td>1</td>
+<td>third-party; this project pushes nothing here</td>
+</tr>
+</tbody>
+</table>
+<p>All remotes are SSH. Not one <code>https://</code> remote exists in
+the set.</p>
+<p>Four repos have exactly one distinct URL — a GitHub outage makes the
+umbrella, <code>ai_interviewing</code>, <code>vasic.digital</code> and
+<code>design-toolkit</code> unreachable. §2.1 is a SHOULD for consuming
+projects, so this is a recorded posture, not a violation.</p>
+<h3 id="milosvasic.ru-fetches-from-a-url-it-never-pushes-to">⚠
+<code>milosvasic.ru</code> — fetches from a URL it never pushes to</h3>
+<pre><code>origin  fetch  git@github.com:milos85vasic/milosvasic.ru.git
+origin  push   git@gitflic.ru:milosvasic/milosvasic-net-v-2.git
+origin  push   git@github.com:milos85vasic/milosvasic.net.v2.git</code></pre>
+<p><code>milosvasic.ru.git</code> is in <strong>no</strong> remote’s
+push list. <code>.gitmodules</code> pins the submodule URL to that same
+fetch-only repository, so a fresh
+<code>git submodule update --init</code> clones the repo that receives
+<strong>no</strong> pushes — a fresh clone and a long-lived working tree
+can be looking at different histories. Reconciling it is an
+<strong>operator decision</strong> (add the URL to <code>origin</code>’s
+push list, or repoint fetch/<code>.gitmodules</code> at
+<code>milosvasic.net.v2</code>); it is never normalised from here. Full
+write-up: <code>Constitution.md</code>, “⚠ Hazard” subsection.</p>
+<h2 id="local-only-directories-no-remote">Local-only directories (no
+remote)</h2>
+<p><code>_analysis</code>, <code>_content</code> + 14
+<code>_content_&lt;lang&gt;</code> siblings
+(<code>ar be de es fa fr hi ja kk ko ru sr tr zh</code>),
+<code>_tests</code>, <code>_tools</code>, <code>data</code>,
+<code>design-system</code>, <code>docs</code>, <code>scripts</code>,
+<code>submodules</code>, <code>tests</code>, <code>upstreams</code>.</p>
+<h2 id="carriers-in-the-child-repos">Carriers in the child repos</h2>
+<p>All five owned submodules carry a <code>CLAUDE.md</code> opening with
+<code>## INHERITED FROM constitution/CLAUDE.md</code> and a
+<strong>conditional</strong> inheritance preamble (“The inheritance
+below is conditional. Both cases are stated; neither is assumed”). Note
+the path form there is <code>constitution/</code>, not this repository’s
+<code>submodules/constitution/</code>.</p>
+<p>Governance-carrier propagation to the owned submodules is
+<strong>staged, not applied</strong>: drafts live at
+<code>docs/constitution-adoption/propagation/&lt;submodule&gt;/*.staged</code>
+and the operator applies them per
+<code>docs/constitution-adoption/propagation/APPLY.md</code>
+(<code>Constitution.md</code> §102; gap G7 OPEN).</p>
+</body>
+</html>

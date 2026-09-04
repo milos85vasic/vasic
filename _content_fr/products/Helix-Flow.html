@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>Une plateforme unique pour tous vos besoins d’inférence AI —
+exécutez des modèles AI puissants plus rapidement, plus intelligemment,
+à toute échelle, avec des coûts prévisibles.</strong></p>
+<blockquote>
+<p><strong>Avis sur la précision (Helix Constitution §11.4.6) :</strong>
+Helix-Flow dispose d’un dépôt public et vérifiable, mais son fichier
+README se limite à une seule ligne d’accroche, sans possibilité de
+consultation locale ni documentation sur la conception ou
+l’architecture. Seuls deux éléments sont effectivement documentés :
+l’accroche et la composition linguistique du dépôt. Tous les autres
+détails ci-dessous sont soit omis, soit explicitement marqués comme NON
+VÉRIFIÉS. Cette page sert de simple espace réservé et ne doit pas être
+développée tant que des sources fiables ne sont pas fournies.</p>
+</blockquote>
+<h2 id="résumé">Résumé</h2>
+<p>La plateforme Helix-Flow se présente comme un environnement unifié
+pour l’inférence AI — permettant d’exécuter des modèles puissants plus
+rapidement, à toute échelle, avec des coûts prévisibles. <em>(Ce
+positionnement repose uniquement sur l’accroche ; aucune capacité
+concrète n’est documentée dans les sources disponibles.)</em></p>
+<h2 id="description-courte">Description courte</h2>
+<p>La plateforme Helix-Flow (<code>Helix-Flow/Platform</code>) est un
+projet public basé sur Go, présenté comme une solution unique pour
+l’inférence AI à toute échelle, avec des coûts maîtrisés. Son code
+combine Go, Python et Terraform/HCL, suggérant une plateforme
+d’inférence déployée via une approche <em>infrastructure-as-code</em>.
+Les fonctionnalités au-delà de l’accroche sont NON VÉRIFIÉES.</p>
+<h2 id="description-détaillée">Description détaillée</h2>
+<p>La plateforme Helix-Flow est l’unique dépôt de l’organisation GitHub
+<code>Helix-Flow</code> et se présente — via son README d’une seule
+ligne — comme <em>« une plateforme unique pour tous vos besoins
+d’inférence AI »</em>, mettant en avant l’exécution de modèles AI
+puissants, plus rapide et à toute échelle, avec des coûts prévisibles.
+Au-delà de cette accroche, le projet ne fournit aucune documentation
+textuelle, si bien que son architecture, ses fonctionnalités et sa
+conception ne peuvent être décrites à partir des sources sans
+extrapolation.</p>
+<p>Ce que l’on peut <em>objectivement</em> constater, en revanche, c’est
+la composition linguistique du dépôt : il repose principalement sur Go
+et Python dans des proportions quasi égales, avec une part significative
+de Shell, ainsi que de HTML/CSS/JavaScript (une interface web), PL/pgSQL
+(un composant adossé à PostgreSQL), HCL (Terraform /
+<em>infrastructure-as-code</em>) et Mermaid (diagrammes). Pris dans leur
+ensemble, ces éléments <em>suggèrent</em> une plateforme de service
+d’inférence associant une couche de contrôle et de diffusion en Go à des
+outils de modélisation en Python, un stockage de données PostgreSQL, une
+interface utilisateur web et un déploiement cloud géré par IaC — mais
+cette interprétation découle des types de fichiers, <strong>et non d’une
+documentation officielle</strong>. Pour produire une description produit
+précise (motivations, innovations, défis techniques, justification
+technique du choix des technologies), un véritable README, un document
+d’architecture ou une copie locale du code serait nécessaire. Cette page
+s’en tient délibérément à ce que permettent les sources disponibles.</p>
+<h2 id="pourquoi-nous-lavons-créée">Pourquoi nous l’avons créée</h2>
+<p><em>NON VÉRIFIÉ — non documenté dans les sources disponibles.</em>
+L’accroche laisse supposer un objectif d’inférence AI unifiée et
+scalable, avec des coûts prévisibles et maîtrisés, mais aucune
+justification n’est fournie. Aucune motivation n’est explicitée ici.</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Contenu</p>
+<p><em>NON VÉRIFIÉ — non documenté.</em> Omis en l’absence de
+source.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<p><em>NON VÉRIFIÉ — non documenté.</em> Omis en l’absence de
+source.</p>
+<h2 id="principaux-défis-techniques-et-solutions-apportées">Principaux
+défis techniques et solutions apportées</h2>
+<p><em>NON VÉRIFIÉ — non documenté.</em> Omis en l’absence de
+source.</p>
+<h2 id="pile-technologique">Pile technologique</h2>
+<p>Observée uniquement à partir de la composition linguistique du dépôt
+— rôles et justifications NON VÉRIFIÉS :</p>
+<ul>
+<li><strong>Go</strong> — langage principal ; probablement la couche de
+service/contrôle. <em>(Rôle NON VÉRIFIÉ.)</em></li>
+<li><strong>Python</strong> — part quasi équivalente ; probablement
+l’outillage de modélisation/inférence. <em>(Rôle NON VÉRIFIÉ.)</em></li>
+<li><strong>Shell</strong> — scripts de
+construction/déploiement/automatisation. <em>(Rôle NON
+VÉRIFIÉ.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — présence d’un composant de
+stockage de données relationnelles.</li>
+<li><strong>Terraform / HCL</strong> — infrastructure as code, suggérant
+un déploiement provisionné dans le cloud.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — interface utilisateur web
+ou surface de documentation.</li>
+</ul>
+<h2 id="statut-et-notes-de-transparence">Statut et notes de
+transparence</h2>
+<ul>
+<li><strong>Statut : feuille de route / espace réservé.</strong> Ce
+dépôt est le seul de l’organisation <code>Helix-Flow</code> ; il est
+public, a fait l’objet du dernier <em>push</em> le 27-04-2026, ne
+dispose d’aucune page d’accueil définie et n’a pas de licence déclarée.
+En l’absence de documentation réelle, il ne peut être présenté de
+manière responsable avec un niveau de détail produit.</li>
+<li><strong>Licence : À déterminer</strong> (non définie sur le
+dépôt).</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire (un produit
+d’inférence de la famille de plateformes Helix), mais actuellement
+bloqué par l’absence de matériel source. Classé après HelixTrack.</p>
+</body>
+</html>

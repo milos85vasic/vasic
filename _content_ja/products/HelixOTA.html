@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixOTA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixOTA</h1>
+</header>
+<h1 id="helixota">HelixOTA</h1>
+<p><strong>ユニバーサルで完全分離型のOTAアップデートシステム ―
+設計段階からのゼロブリック保証</strong></p>
+<h2 id="概要">概要</h2>
+<p>Helix
+OTAは、ユニバーサルかつ高度に分離されたOTA（Over-The-Air）アップデートシステムです。GoのコントロールプレーンとOSごとのクライアントエージェントで構成され、単一のボードから数百万台規模のデバイス群に至るまで、安全かつ段階的なファームウェア／アプリケーションのアップデートを提供します。最初の対応ターゲットは、Orange
+Pi 5 Max上のAndroid 15です。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>Helix
+OTAは、ユニバーサルなOTAアップデートシステムです。GoのコントロールプレーンとOSごとのクライアントエージェントで構成され、システム破損ゼロ、アップロード検証、きめ細かな段階的ロールアウトを実現します。最初の対応ターゲットはOrange
+Pi 5 Max上のAndroid 15で、Linux／Windows用アダプターも計画中です。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>Helix
+OTAは、ユニバーサルかつ汎用的で、高度に分離されたOTA（Over-The-Air）アップデートシステムであり、唯一絶対の約束を掲げて設計されています。それは、アップデートによって動作中のデバイスが「文鎮化」することは決してあってはならないというものです。このシステムは、Goサーバーの<strong>コントロールプレーン</strong>、OSごとのクライアント<strong>SDK／エージェント</strong>、そして管理用の<strong>ダッシュボード</strong>で構成され、プラットフォームごとに一から作り直すのではなく、プラグイン可能なOSアダプターを通じて<em>あらゆる</em>オペレーティングシステムに組み込めるよう、ゼロから設計されています。最初の提供ターゲットは、Orange
+Pi 5 Max上のAndroid
+15（全バリエーション）で、ビルドパイプラインはフラッシュ用イメージとともに、検証済みのOTA
+<code>.zip</code>ファイルおよび必須のハッシュファイルを生成します。これにより、デバイスに到達する成果物はすべて検証可能なフィンガープリントを持つことが保証されます。Linux、Windows、その他のOSも、同じアダプターシームの先に控えており、必要なのはアダプターの追加であって、システムの書き換えではありません。</p>
+<p>設計は、オペレーターが明示した絶対的な保証を、交渉の余地のないアーキテクチャ上の不変条件として扱うことを基本としています。具体的には、システム破損ゼロ、デプロイ前の成果物の必須検証、きめ細かなロールアウト（全デバイス同時または5／10／30…100％の段階的展開、一時停止・再開制御付き）、フリート全体の可観測性、そして実験室の単一ボードから現場の数百万台規模までの線形スケーラビリティです。この堅牢なアーキテクチャは、デバイス側のネイティブなAndroid
+A/Bアップデート（AOSPの<code>update_engine</code>、AVB／dm-verity、自動ブート失敗時のロールバック機能付き）と、カスタムで分離されたGoコントロールプレーンを組み合わせたものです。これにより、安全性はシリコンに近いブートパスとサーバーの両方に組み込まれ、単一の脆弱なレイヤーに依存することはありません。また、2つのシームが意図的に抽出可能な状態に保たれています。1つはOSアダプターシームで、真のユニバーサリティを約束するもの、もう1つはロールアウトエンジンシームで、段階的なキャンペーンをOSに依存しない形で実現します。システム全体は6つの公開され、独立してバージョン管理された<code>ota-*</code>サブモジュールに分割されており、モノリシックな構造ではなく、再利用可能なビルディングブロックとして機能します。</p>
+<p>Helix
+OTAは現在、仕様／リサーチおよびテストカバレッジの構築フェーズにあります。リポジトリには、正式な設計文書、ドキュメントエクスポートパイプライン、サブモジュールのスキャフォールディングが格納されており、その「ブラフ禁止」のガバナンスに則り、完成した本番用サーバーやエージェントはまだ存在しないことが明示されています。現時点で提供されているのは、設計図とそのスキャフォールディングであり、その旨が正直に明記されています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>OTAは通常、デバイスごと、OSごとに再発明され、不具合のあるアップデートがあればデバイス群全体を文鎮化してしまうリスクを抱えています。Helix
+OTAは、あらゆるOSがアダプターを介して採用可能な、安全性を最優先に設計されたユニバーサルアップデートシステムとして開発されました。ロールバック機能や検証機能は、後付けではなくアーキテクチャに組み込まれた保証として実現されています。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>「デバイスを文鎮化させない」ことや「段階的かつ可観測なロールアウト」を、負荷がかかった際に「うまくいくことを祈る」ベストエフォートの機能として扱うことを拒否しました。これらはブートパスとコントロールプレーンの両方に組み込まれたアーキテクチャ上の不変条件です。さらに、ロールアウトエンジンとOSレイヤーを交換可能なシームとして設計することで、同じコントロールプレーンがAndroidを動かすだけでなく、将来的には他のOSにも対応可能です。アダプターを追加するだけで、フォークもリライトも、信頼済みの安全性保証の再発明も必要ありません。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>二つの抽出可能なシーム</strong> –
+OSアダプターシームとOS非依存のロールアウトエンジンにより、「ユニバーサル」という言葉をマーケティング用語からコードベースの構造的特性へと変貌させました。</li>
+<li><strong>多層防御の安全性</strong>：デバイス側のネイティブA/B（<code>update_engine</code>）
++ AVB/dm-verity +
+自動ブート失敗時のロールバックを、サーバー側の成果物検証の上に重ねて実装。アップデートは複数の独立したゲートを通過しなければ永続化されません。</li>
+<li><strong>カタログ優先、疎結合</strong>の設計：6つの再利用可能で独立してバージョン管理された<code>ota-*</code>サブモジュールに分解。モノリシックなシステムを丸ごと採用するのではなく、必要なものだけを選択して利用できます。</li>
+<li><strong>HTTP/3（QUIC）プライマリトランスポート</strong>：自動HTTP/2フォールバックとBrotli/gzip圧縮のネゴシエーションを備えた、モダンで低遅延な配信システム。障害時には優雅に縮退します。</li>
+<li><strong>ブラフ防止エンジニアリング</strong>：設計とステータスは明示的に「仕様策定フェーズ」とマークされ、未実装の機能が「出荷済み」と主張されることはありません。誠実さは、脚注の免責事項ではなく、第一級のエンジニアリング価値として強制されています。</li>
+</ul>
+<h2
+id="最大の技術的課題とその解決方法">最大の技術的課題とその解決方法</h2>
+<ul>
+<li><strong>不具合のあるアップデートがデバイスを文鎮化させない保証</strong>
+– OTAにおける最も困難な約束。デバイス側のネイティブAndroid
+A/Bを必須化することで解決しました。<code>update_engine</code>は非アクティブスロットに書き込みを行いながら、アクティブスロットは稼働を続け、AVB/dm-verityがブートチェーンを暗号学的に検証します。新しいスロットのブートに失敗した場合、デバイスは自動的にロールバックします。これらはすべて、サーバー側での成果物検証を必須とすることでバックアップされ、破損したペイロードはサーバーを離れる前に検出されます。</li>
+<li><strong>一つのシステムで複数のOSに対応</strong> –
+コアにAndroidの前提を組み込むことを拒否することで解決。プラグ可能なOSアダプターシームがプラットフォーム固有の要素を分離し、OS非依存のロールアウトエンジンシームがキャンペーンロジックの移植性を確保します。それぞれが独立したサブモジュールとして維持されているため、新しいOSへの対応はシステム全体の手術ではなく、追加作業で済みます。</li>
+<li><strong>段階的で停止可能なロールアウト</strong> –
+専用のロールアウトエンジンを用いて解決。このエンジンはパーセンテージコホートと成功/エラーの閾値に基づいて動作し、明示的な停止/進行制御を備えています。HTTPとの結合を意図的に排除しているため、同じエンジンがトランスポートに依存せずにキャンペーンを駆動できます。</li>
+</ul>
+<p>コンテンツ</p>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go + Gin</strong> —
+並行処理モデルと軽量なデプロイメントフットプリントを備え、コントロールプレーン、ロールアウトエンジン、アーティファクトバリデータを駆動し、RESTの<code>/api/v1</code>プライマリインターフェースを公開。</li>
+<li><strong>Kotlin/KMP</strong> — オンデバイスのAndroid
+OTAエージェントがターゲット間でロジックを共有できるよう選定。デバイスループ全体（ポーリング／ダウンロード／検証／適用／レポート）を管理。</li>
+<li><strong>HTTP/3 (QUIC) → HTTP/2</strong> —
+QUICを低遅延かつ回復力のある配信のためのプライマリトランスポートとして採用。モバイル回線のような不安定な環境でも自動的にHTTP/2にフォールバックし、デバイスが取り残されることはない。<strong>Brotli/gzip</strong>はリクエストごとにネゴシエートされ、ペイロードを圧縮。</li>
+<li><strong>PostgreSQL</strong> —
+デバイスレジストリ、キャンペーン、テレメトリ間のリレーショナルインテグリティを確保するために選定。フリート状態の正確性が書き込み速度よりも重視される場面で使用。</li>
+<li><strong>MinIO / S3</strong> —
+アーティファクトのBLOBストレージとして選定。大容量のファームウェアイメージをコモディティなオブジェクトストレージに保存し、リレーショナルレイヤーから分離。</li>
+<li><strong>AOSP <code>update_engine</code> + AVB/dm-verity +
+<code>boot_control</code></strong> — Androidの実績あるVirtual
+A/Bおよび検証済みブート機構を再利用することで、独自のアップデータを開発するよりも安全性が高いと判断。デバイス上でのスロットスワップや暗号化ブート検証を実行。</li>
+<li><strong>React</strong> —
+オペレータがログインし、アーティファクトをアップロード、ロールアウトを管理、フリートの健全性を一元監視する管理ダッシュボードとして選定。</li>
+<li><strong>OpenTelemetry + Prometheus/Grafana</strong> —
+ベンダーニュートラルな計測ツールとして選定。ロールアウトのあらゆる段階をメトリクスやダッシュボードで可視化し、推測に頼らない運用を実現。</li>
+</ul>
+<h2 id="ステータスと正直な注意点">ステータスと正直な注意点</h2>
+<ul>
+<li><strong>ステータス：開発中。</strong>
+プロジェクトの「ブラフ禁止」ガバナンスに基づき、<strong>現時点では動作する本番サーバーやエージェントは存在しない</strong>。これは仕様／リサーチおよびテストカバレッジ構築のフェーズである。リポジトリには権威ある設計コーパス、ドキュメントエクスポートパイプライン、サブモジュールのスキャフォールディングが含まれる。</li>
+<li>6つの公開再利用可能なサブモジュール（<code>ota-protocol</code>、<code>ota-artifact-validator</code>、<code>ota-rollout-engine</code>、<code>ota-update-engine-bridge</code>、<code>ota-android-agent</code>、<code>ota-telemetry-schema</code>）は<code>github.com/HelixDevelopment/</code>配下に存在。</li>
+<li>リポジトリ内のテストカバレッジおよびレイテンシの数値は、プロジェクト独自の進行中の記録であり、第三者による確認は行われていない。READMEで引用されているHelixConstitutionの条項番号は<strong>未検証</strong>。</li>
+<li><strong>ライセンス：Apache-2.0。</strong></li>
+</ul>
+<p><strong>優先度：Helix-プライマリ。</strong></p>
+</body>
+</html>

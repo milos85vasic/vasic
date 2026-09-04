@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>architecture</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">architecture</h1>
+</header>
+<h1 id="architecture">Architecture</h1>
+<blockquote>
+<p>Auto-populated from an ashlr baseline scan at genome init. Edit
+freely to capture intent and tradeoffs that a scanner cannot see.</p>
+</blockquote>
+<h2 id="snapshot">Snapshot</h2>
+<ul>
+<li><strong>Files scanned:</strong> 5000 (truncated)</li>
+<li><strong>Runtime:</strong> Unknown</li>
+<li><strong>Runtime notes:</strong> walk: git ls-files</li>
+<li><strong>Top extensions:</strong> .json (1219), .txt (1185), .png
+(1040), .md (768), .log (451), .html (138)</li>
+</ul>
+<h2 id="largest-source-files">Largest source files</h2>
+<ul>
+<li><code>_tests/evidence/live-v1.5.1/vfx/asset-motion.js</code> — 406
+LOC</li>
+<li><code>_tests/evidence/a11y-audit/run-audit.js</code> — 383 LOC</li>
+<li><code>_tests/evidence/suite/html-report/trace/assets/defaultSettingsView-BNmKHKpQ.js</code>
+— 264 LOC</li>
+</ul>
+<h2 id="top-level-layout">Top-level layout</h2>
+<pre><code>vasic/
+├── .ashlrcode/
+├── _analysis/
+├── _content/
+├── _content_ar/
+├── _content_be/
+├── _content_de/
+├── _content_es/
+├── _content_fa/
+├── _content_fr/
+├── _content_hi/
+├── _content_ja/
+├── _content_kk/
+├── _content_ko/
+├── _content_ru/
+├── _content_sr/
+├── _content_tr/
+├── _content_zh/
+├── _tests/
+├── _tools/
+├── ai_interviewing/
+├── data/
+├── design-system/
+├── design-toolkit/
+├── docs/
+├── milosvasic.ru/
+├── monetization/
+├── scripts/
+├── submodules/
+├── tests/
+├── upstreams/
+├── vasic.digital/
+├── AGENTS.md
+├── CLAUDE.md
+├── Constitution.md
+├── GEMINI.md
+├── MANUAL-STEPS.md
+├── QWEN.md
+├── README.md
+├── helix-deps.yaml</code></pre>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The scanned snapshot above is auto-populated and may be overwritten
+by a re-scan. <strong>Do not hand-edit it.</strong></li>
+<li>The intent-level description — why each top-level directory exists,
+what it owns, and what crosses its boundary — lives in
+<code>vision/architecture.md</code>. Structural hazards are in
+<code>knowledge/discoveries.md</code> — currently one open
+(recursive-checkout failure) and one closed (the hardcoded-absolute-root
+bug, fixed and now guarded by
+<code>scripts/audit-hardcoded-paths.sh</code> as CI Gate 0).</li>
+<li>Scanner caveat: the “Largest source files” list is dominated by
+<code>_tests/evidence/</code>, which is captured Playwright output, not
+source. Real source lives in <code>_tools/gen/</code> (Go),
+<code>_tests/tests/</code> + <code>_tests/tools/</code> (JS), and
+<code>design-system/</code> (CSS).</li>
+</ul>
+</body>
+</html>

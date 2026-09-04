@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">plan</h1>
+</header>
+<h1 id="implementation-plan-static-landing-page">Implementation Plan:
+Static Landing Page</h1>
+<p><strong>Branch</strong>: <code>001-static-landing-page</code> |
+<strong>Date</strong>: 2026-05-30 | <strong>Spec</strong>: <a
+href="./spec.md">spec.md</a></p>
+<p><strong>Input</strong>: Feature specification from
+<code>/specs/001-static-landing-page/spec.md</code></p>
+<h2 id="summary">Summary</h2>
+<p>Build a single-file static landing page (<code>web/index.html</code>)
+for SuperSpec using pure HTML5 + CSS3 with zero build tooling, zero
+JavaScript, and zero external dependencies. The page comprises three
+sections: a full-viewport hero with project name/tagline/CTA, a features
+grid showcasing the five core commands, and a workflow diagram with
+install snippet. All styles are inlined; all content is semantic and
+mobile-first responsive.</p>
+<h2 id="technical-context">Technical Context</h2>
+<p><strong>Language/Version</strong>: HTML5 + CSS3 (no JavaScript)</p>
+<p><strong>Primary Dependencies</strong>: None (self-contained
+single-file delivery)</p>
+<p><strong>Storage</strong>: N/A</p>
+<p><strong>Testing</strong>: Manual browser testing at
+320px/768px/1280px viewports, W3C Markup Validation (zero errors),
+axe-core accessibility audit (zero violations), <code>wc -c</code> page
+weight check (≤64 KB), print preview verification</p>
+<p><strong>Target Platform</strong>: Web browsers — Chrome, Firefox,
+Safari, Edge (last 2 major versions)</p>
+<p><strong>Project Type</strong>: Static web page (marketing/landing
+page)</p>
+<p><strong>Performance Goals</strong>: ≤64 KB uncompressed page weight,
+zero console errors, instant render (no JS to block)</p>
+<p><strong>Constraints</strong>: Single file
+(<code>web/index.html</code>), no external resources, no JavaScript, no
+build tools, WCAG AA color contrast, keyboard navigable,
+<code>file://</code> protocol compatible, print stylesheet required</p>
+<p><strong>Scale/Scope</strong>: Single page, 3 content sections, ~18
+functional requirements</p>
+<h2 id="constitution-check">Constitution Check</h2>
+<p><em>GATE: Must pass before Phase 0 research. Re-check after Phase 1
+design.</em></p>
+<h3 id="pre-design-gate">Pre-Design Gate</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 27%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I. Zero Build, Zero Runtime Dependencies</td>
+<td>✅ PASS</td>
+<td>Spec mandates pure HTML+CSS with no build tooling or runtime deps
+(FR-010)</td>
+</tr>
+<tr>
+<td>II. Semantic HTML First</td>
+<td>✅ PASS</td>
+<td>Spec requires landmark regions, sequential heading hierarchy,
+semantic elements (FR-016, edge cases)</td>
+</tr>
+<tr>
+<td>III. Mobile-First Responsive Design</td>
+<td>✅ PASS</td>
+<td>Spec requires 320px+ support with progressive enhancement (FR-012,
+FR-013)</td>
+</tr>
+<tr>
+<td>IV. Self-Contained Single-File Delivery</td>
+<td>✅ PASS</td>
+<td>Spec requires <code>web/index.html</code> as sole deliverable with
+inlined styles (FR-011, FR-015)</td>
+</tr>
+<tr>
+<td>V. Developer-Audience Clarity</td>
+<td>✅ PASS</td>
+<td>Spec prioritizes technical content — command descriptions, install
+snippet, workflow diagram</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Result</strong>: All 5 principles pass. No violations to
+track.</p>
+<h3 id="post-design-gate-re-check-after-phase-1">Post-Design Gate
+(re-check after Phase 1)</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 27%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I. Zero Build, Zero Runtime Dependencies</td>
+<td>✅ PASS</td>
+<td>Design uses no build tools, no JS, no CDN links, no external
+resources</td>
+</tr>
+<tr>
+<td>II. Semantic HTML First</td>
+<td>✅ PASS</td>
+<td>Design specifies <code>&lt;header&gt;</code>,
+<code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>,
+<code>&lt;footer&gt;</code>, <code>&lt;ol&gt;</code> for workflow,
+<code>&lt;code&gt;</code> for snippet</td>
+</tr>
+<tr>
+<td>III. Mobile-First Responsive Design</td>
+<td>✅ PASS</td>
+<td>Design uses mobile-first CSS with <code>min-width</code> breakpoints
+at 768px and 1024px</td>
+</tr>
+<tr>
+<td>IV. Self-Contained Single-File Delivery</td>
+<td>✅ PASS</td>
+<td>All CSS inlined in <code>&lt;style&gt;</code> tag; system font stack
+(no web fonts); CSS-only step indicator (no images)</td>
+</tr>
+<tr>
+<td>V. Developer-Audience Clarity</td>
+<td>✅ PASS</td>
+<td>Content is concrete and technical: command names, descriptions,
+install command, workflow sequence</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Result</strong>: All 5 principles pass post-design. No
+violations.</p>
+<h2 id="project-structure">Project Structure</h2>
+<h3 id="documentation-this-feature">Documentation (this feature)</h3>
+<pre class="text"><code>specs/001-static-landing-page/
+├── spec.md              # Feature specification
+├── plan.md              # This file
+├── research.md          # Phase 0 output — resolved open questions
+├── data-model.md        # Phase 1 output — content entities
+├── quickstart.md        # Phase 1 output — dev workflow
+└── tasks.md             # Phase 2 output (/speckit-tasks — NOT created by /speckit-plan)</code></pre>
+<h3 id="source-code-repository-root">Source Code (repository root)</h3>
+<pre class="text"><code>web/
+└── index.html           # The entire deliverable — single file, all HTML + inlined CSS</code></pre>
+<p><strong>Structure Decision</strong>: Single-file output per
+Constitution Principle IV. No <code>src/</code>, <code>dist/</code>,
+<code>assets/</code>, or build directories. The <code>web/</code>
+directory contains exactly one file: <code>index.html</code>.</p>
+<h2 id="technical-approach">Technical Approach</h2>
+<h3 id="html-structure">HTML Structure</h3>
+<pre class="text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;SuperSpec — Specification-Driven Development&lt;/title&gt;
+  &lt;style&gt;/* All CSS inlined here */&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;          ← Hero section (h1, tagline, CTA button)
+  &lt;main&gt;
+    &lt;section&gt;       ← Features grid (5 cards in CSS Grid)
+    &lt;section&gt;       ← Workflow diagram (ordered list step indicator) + install snippet
+  &lt;/main&gt;
+  &lt;footer&gt;          ← Minimal footer
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3 id="css-architecture">CSS Architecture</h3>
+<ol type="1">
+<li><strong>Reset/Base</strong>: Minimal CSS reset (box-sizing,
+margin/padding normalization)</li>
+<li><strong>Typography</strong>: System font stack with
+<code>clamp()</code> for responsive font sizing</li>
+<li><strong>Layout</strong>: Flexbox for hero and workflow; CSS Grid for
+features card layout</li>
+<li><strong>Components</strong>: <code>.card</code>,
+<code>.step-indicator</code>, <code>.code-block</code> utility
+classes</li>
+<li><strong>Responsive</strong>: Mobile-first with
+<code>@media (min-width: 768px)</code> and
+<code>@media (min-width: 1024px)</code></li>
+<li><strong>Accessibility</strong>: <code>:focus-visible</code>
+outlines, <code>forced-colors</code> media query adjustments</li>
+<li><strong>Print</strong>: <code>@media print</code> — suppress
+decorative elements, linear flow, serif font</li>
+</ol>
+<h3 id="workflow-diagram-step-indicator">Workflow Diagram (Step
+Indicator)</h3>
+<ul>
+<li>Semantic <code>&lt;ol&gt;</code> with 5 <code>&lt;li&gt;</code>
+items (one per command)</li>
+<li>CSS Flexbox for horizontal layout on wider viewports; vertical stack
+on mobile</li>
+<li>Each step: numbered circle (<code>::before</code> pseudo-element
+with counter) + command name</li>
+<li>Connecting line between steps via <code>::after</code>
+pseudo-element (border-based)</li>
+<li>Last step has no connecting line</li>
+</ul>
+<h3 id="features-grid">Features Grid</h3>
+<ul>
+<li>CSS Grid: <code>grid-template-columns: 1fr</code> on mobile →
+<code>repeat(2, 1fr)</code> at 768px → <code>repeat(3, 1fr)</code> at
+1024px</li>
+<li>Cards use semantic <code>&lt;article&gt;</code> elements with
+<code>&lt;h3&gt;</code> command name and <code>&lt;p&gt;</code>
+description</li>
+<li>Second row centers the remaining 2 cards using flexbox wrapper or
+grid placement</li>
+</ul>
+<h3 id="key-design-decisions">Key Design Decisions</h3>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 27%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Choice</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Get Started” destination</td>
+<td><code>#install</code></td>
+<td>Scrolls to install section; no external URL available yet
+(OQ-001)</td>
+</tr>
+<tr>
+<td>Install command</td>
+<td><code>npm install -g superspec</code></td>
+<td>Standard for developer CLI tools; confirm before production
+(OQ-002)</td>
+</tr>
+<tr>
+<td>Workflow diagram style</td>
+<td>Step indicator (numbered circles + connecting lines)</td>
+<td>Lightweight, consistent rendering, accessible (OQ-003)</td>
+</tr>
+<tr>
+<td>Font strategy</td>
+<td>System font stack</td>
+<td>No external deps per Constitution I &amp; IV</td>
+</tr>
+<tr>
+<td>Layout mechanism</td>
+<td>Flexbox + CSS Grid</td>
+<td>Baseline-supported in all target browsers</td>
+</tr>
+<tr>
+<td>Responsive breakpoints</td>
+<td>768px, 1024px (mobile-first)</td>
+<td>Covers tablet and desktop; aligns with Constitution III</td>
+</tr>
+</tbody>
+</table>
+<h2 id="risks">Risks</h2>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 29%" />
+<col style="width: 21%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Page weight exceeds 64 KB</td>
+<td>Low</td>
+<td>High</td>
+<td>Step indicator pattern chosen over CSS arrows for weight efficiency;
+monitor with <code>wc -c</code> during development; simplify
+typography/layout rules if needed</td>
+</tr>
+<tr>
+<td>CSS rendering inconsistencies across browsers</td>
+<td>Low</td>
+<td>Medium</td>
+<td>Use only baseline CSS features (flexbox, grid,
+<code>clamp()</code>); test in all 4 target browsers</td>
+</tr>
+<tr>
+<td>“Get Started” link points to placeholder</td>
+<td>Medium</td>
+<td>Low</td>
+<td><code>#install</code> provides functional in-page navigation;
+destination URL is trivially updatable</td>
+</tr>
+<tr>
+<td>Install command incorrect</td>
+<td>Medium</td>
+<td>Low</td>
+<td><code>npm install -g superspec</code> is the assumed default; must
+be confirmed before deployment</td>
+</tr>
+<tr>
+<td>Print stylesheet breaks layout</td>
+<td>Low</td>
+<td>Medium</td>
+<td>Dedicated <code>@media print</code> block with explicit overrides;
+verify with Print Preview in all target browsers</td>
+</tr>
+<tr>
+<td>Forced-colors mode removes visual distinction</td>
+<td>Low</td>
+<td>Medium</td>
+<td>Use <code>forced-colors</code> media query to add explicit borders;
+never rely on <code>background-color</code> alone per FR-018</td>
+</tr>
+</tbody>
+</table>
+<h2 id="complexity-tracking">Complexity Tracking</h2>
+<blockquote>
+<p>No constitution violations. This section is empty.</p>
+</blockquote>
+</body>
+</html>

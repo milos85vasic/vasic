@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>任何被追踪的文档均无法失去同步——基于内容哈希、双向、原子化的同步机制。</strong></p>
+<h2 id="概述">概述</h2>
+<p>Docs Chain 是一款通用的、基于 Go
+实现的双向文档与数据库依赖传播引擎。当注册链中的任一成员发生变化——无论是
+Markdown 源文件、HTML/PDF/DOCX 导出文件，还是 SQLite
+数据库——系统均会通过内容哈希检测变更，并以原子化方式将其传播至所有关联成员。</p>
+<h2 id="简要说明">简要说明</h2>
+<p>一款基于 Go 的同步引擎，确保文档与数据库始终保持一致。它采用 Salsa
+风格的内容哈希增量重算机制，基于 DAG（Kahn
+拓扑排序、提前终止、双向同步边、原子重命名 + SQLite
+事务提交），在任一关联文件变动时自动重新生成导出内容。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>Docs Chain 的诞生，源于你第 N+1 次编写那种脆弱的”Markdown
+变动时重新生成
+PDF”脚本后的顿悟。它彻底取代了这一类手工拼凑的同步胶水代码，转而提供一个真正的引擎。它将项目中的文档与数据库视为链式结构的成员，当任一成员变动时，系统会将变更沿所有声明方向传播至每一个关联成员，并以原子化方式重新生成和导出，确保任何被追踪的文件永不失去同步。其设计严谨性直接借鉴自增量构建系统而非脚本逻辑：<strong>变更检测基于内容哈希而非修改时间</strong>，因此
+<code>touch</code>
+命令不会触发任何操作，而单字节修改则会精准触发必要的重建——无误报，无遗漏。用一行话精确概括：它是基于
+DAG 的 Salsa 风格内容哈希增量重算系统，采用 Kahn
+拓扑排序、提前终止以剪枝未变子树、显式声明的双向 <code>sync</code>
+权威边，以及原子重命名 + SQLite
+事务提交机制，确保即使在传播过程中崩溃，也绝不会留下半成品导出文件。该引擎以
+<code>vasic-digital</code> 子模块形式发布，并作为 HelixConstitution
+子模块的核心组件被集成，因此任何采用该框架的项目均可开箱即用 Docs
+Chain，并通过上下文特定的 YAML 注册自定义链。实现状态遵循框架 §11.4.6
+的透明原则：阶段 1–4（核心 DAG +
+哈希、节点适配器/转换器、原子化传播协调器、配置驱动的多上下文 CLI，包含
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>）已实现并测试通过；阶段
+4b 增加通用双向 <code>md-to-sqlite</code>/<code>sqlite-to-md</code>
+内置功能（纯 Go 实现、行级漂移检测、字节稳定的往返转换）及
+<code>colorize-html</code> 内置功能；阶段 5
+的全面端到端真实二进制测试已实现并通过。阶段 6–7（框架分发、ATMOSphere
+集成）仍处于规划阶段，且需操作员手动启用。Herald
+是首个实际下游用户，同步包含 66 份多格式文档的语料库，验证过程无误。</p>
+<h2 id="为何构建它">为何构建它</h2>
+<p>文档、导出内容与数据库在手动维护或脆弱脚本的管理下，瞬间便会失去同步。Docs
+Chain
+将同步过程机械化、内容哈希精确化且原子化，确保链中任意位置的变更都能安全、准确地更新所有下游（及上游）内容。</p>
+<p>内容</p>
+<h2 id="为何是颠覆性变革">为何是颠覆性变革</h2>
+<p>它将编译器和构建系统作者视为理所当然的严格保障机制——基于内容哈希的依赖图、最小化重新计算、原子提交——应用于文档和数据库领域，而这一领域长期以来依赖定时任务和良好愿望勉力维持。真正的双向同步意味着源与导出之间的关系在两个方向上均受强制约束，因此”文档过时”和”导出内容与源不符”不再是反复出现的错误，而是引擎无法容许的状态。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li>基于内容哈希（而非修改时间）的 DAG 增量重算，支持提前终止。</li>
+<li>双向、明确权威的同步链路（文档 ↔︎ 导出 ↔︎ SQLite）。</li>
+<li>原子重命名 + SQLite 事务提交，确保崩溃安全的传播。</li>
+<li>纯 Go 的 <code>md-to-sqlite</code>/<code>sqlite-to-md</code>
+往返转换，支持行级偏差检测。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>误触重建</strong>：通过内容哈希检测而非时间戳解决。</li>
+<li><strong>部分/损坏更新</strong>：通过原子重命名和 SQLite
+事务解决。</li>
+<li><strong>多成员顺序正确性</strong>：通过 Kahn 拓扑排序 +
+提前终止解决。</li>
+<li><strong>能力真实报告</strong>：通过标记每个阶段为”已实现”或”计划中”（依据
+§11.4.6）解决。</li>
+</ul>
+<h2 id="技术栈为何选择及如何实现">技术栈（为何选择及如何实现）</h2>
+<ul>
+<li><strong>Go</strong> ——
+整个引擎（<code>internal/hash</code>、<code>graph</code>、<code>adapter</code>、<code>orchestrator</code>、<code>config</code>、<code>state</code>、<code>runner</code>、<code>cmd/docs_chain</code>）。</li>
+<li><strong>DAG + Kahn 拓扑排序</strong> ——
+依赖顺序排列，支持提前终止。</li>
+<li><strong>SQLite（纯 Go modernc）</strong> ——
+数据库成员及事务性提交。</li>
+<li><strong>fsnotify</strong> —— <code>watch</code>
+守护进程，实现实时传播。</li>
+<li><strong>YAML 配置</strong> —— 每个上下文的链路注册。</li>
+<li><strong>exec: 转换</strong> —— 可插拔的 Markdown→HTML/PDF/DOCX
+生成。</li>
+</ul>
+<blockquote>
+<p>路线图透明度：阶段 6–7（宪法分发、ATMOSphere
+集成）为”计划中”/运营商控制 —— 尚未发布。</p>
+</blockquote>
+</body>
+</html>

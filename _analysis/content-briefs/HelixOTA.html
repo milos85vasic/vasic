@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixOTA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixOTA</h1>
+</header>
+<h1 id="helixota">HelixOTA</h1>
+<p><strong>Tagline:</strong> Universal, decoupled over-the-air updates —
+zero-brick by design.</p>
+<p><strong>Summary:</strong> Helix OTA is a universal, deeply decoupled
+over-the-air update system: a Go control plane plus per-OS client
+agents, designed to deliver safe, staged firmware/app updates to fleets
+ranging from a single board to millions of devices. Its first target is
+Android 15 on the Orange Pi 5 Max.</p>
+<p><strong>Short description (~40 words):</strong> Helix OTA is a
+universal over-the-air update system — a Go control plane plus per-OS
+client agents — engineered for zero system corruption, validated
+uploads, and granular staged rollouts. Its first target is Android 15 on
+Orange Pi 5 Max, with Linux/Windows adapters planned.</p>
+<p><strong>Long description (150-250 words):</strong> Helix OTA is a
+universal, generic, deeply decoupled over-the-air (OTA) update system.
+It comprises a Go server <strong>control plane</strong>, per-OS client
+<strong>SDKs/agents</strong>, and a management
+<strong>dashboard</strong>, designed to be embeddable into any operating
+system through pluggable OS adapters. The first delivery target is
+Android 15 (all variants) on the Orange Pi 5 Max, where the build
+pipeline emits flashing images plus a validated OTA <code>.zip</code>
+and mandatory hash files; Linux, Windows, and other OSes are on the
+roadmap behind the same adapter seam.</p>
+<p>The design centers on operator-stated hard guarantees: zero system
+corruption (an update must never brick a working device), mandatory
+validation of every artifact before deployment, granular rollout
+(all-at-once or staged at 5/10/30…100%), full observability, and scale
+from one board to millions of devices. The locked architecture pairs
+device-side native Android A/B updates (AOSP <code>update_engine</code>
+with AVB/dm-verity and automatic boot-failure rollback) with a custom,
+decoupled Go control plane. Two seams are deliberately extractable — an
+OS-adapter seam (for universality) and a rollout-engine seam (for
+OS-agnostic campaigns) — and the system is decomposed into six public,
+independently-versioned <code>ota-*</code> submodules.</p>
+<p>Helix OTA is currently in a specification/research and test-coverage
+build-out phase; the repository holds the authoritative design corpus,
+the documentation export pipeline, and submodule scaffolding, and it is
+explicit (per its anti-bluff governance) that a finished production
+server and agent do not yet exist.</p>
+<p><strong>Why we built it:</strong> OTA is usually reinvented per
+device and per OS, and a bad update can brick a fleet. Helix OTA was
+built to be one universal, safety-first update system that any OS can
+adopt via adapters, with rollback and validation guarantees baked into
+the architecture rather than bolted on.</p>
+<p><strong>Why it’s a game-changer:</strong> It treats “never brick a
+device” and “roll out gradually and observably” as architectural
+invariants, and it makes the rollout engine and OS layer swappable seams
+— so the same control plane can drive Android today and other operating
+systems later without a rewrite.</p>
+<p><strong>What’s innovative:</strong> - <strong>Two extractable
+seams</strong> (OS-adapter + OS-agnostic rollout engine) for genuine
+universality. - <strong>Defense-in-depth safety</strong>: native A/B
+(<code>update_engine</code>) + AVB/dm-verity + automatic boot-failure
+rollback, on top of server-side artifact validation. -
+<strong>Catalogue-first, decoupled</strong> decomposition into six
+reusable <code>ota-*</code> submodules. - <strong>HTTP/3 (QUIC) primary
+transport</strong> with automatic HTTP/2 fallback and Brotli/gzip
+negotiation. - <strong>Anti-bluff engineering</strong>: design and
+status are explicitly marked as spec-phase; nothing unbuilt is claimed
+as shipped.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Guaranteeing a bad update never bricks a device</em> — solved by
+mandating device-side native Android A/B (<code>update_engine</code> +
+AVB/dm-verity) with automatic boot-failure rollback, plus mandatory
+pre-deploy artifact validation. - <em>One system, many operating
+systems</em> — solved with a pluggable OS-adapter seam and an
+OS-agnostic rollout engine seam, kept as separate submodules. -
+<em>Staged, halt-able rollouts</em> — solved with a dedicated rollout
+engine (percentage cohorts, success/error thresholds, halt/advance) with
+no HTTP coupling.</p>
+<p><strong>Tech stack:</strong> - <strong>Go + Gin</strong> — control
+plane, rollout engine, and validators; REST <code>/api/v1</code> primary
+surface. - <strong>Kotlin/KMP</strong> — the on-device Android OTA agent
+(poll / download / verify / apply / report). - <strong>HTTP/3 (QUIC) →
+HTTP/2</strong> — transport with automatic fallback;
+<strong>Brotli/gzip</strong> negotiated compression. -
+<strong>PostgreSQL</strong> — relational persistence (device registry,
+campaigns, telemetry). - <strong>MinIO / S3</strong> — artifact blob
+storage. - <strong>AOSP <code>update_engine</code> + AVB/dm-verity +
+<code>boot_control</code></strong> — device-side Virtual A/B and
+verified boot. - <strong>React</strong> — management dashboard (login,
+upload, rollout, fleet health). - <strong>OpenTelemetry +
+Prometheus/Grafana</strong> — observability.</p>
+<p><strong>Public links:</strong> - GitHub (umbrella):
+https://github.com/HelixDevelopment/helix_ota (public; the repo may also
+be reachable as <code>ota</code> in the org listing) - Public reusable
+submodules: <code>ota-protocol</code>,
+<code>ota-artifact-validator</code>, <code>ota-rollout-engine</code>,
+<code>ota-update-engine-bridge</code>, <code>ota-android-agent</code>,
+<code>ota-telemetry-schema</code> (all under
+github.com/HelixDevelopment/). - License: Apache-2.0.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Three-planes architecture: control plane (Go/Gin) ↔︎ data plane
+(PostgreSQL/MinIO/OTel) ↔︎ device (KMP agent +
+<code>update_engine</code>), with the two extractable seams highlighted.
+2. Staged rollout funnel: 5% → 10% → 30% → … → 100% with halt/advance
+thresholds. 3. Zero-brick A/B slot swap: slot A active, slot B updated +
+verified, automatic rollback on boot failure. 4. Six <code>ota-*</code>
+submodules as decoupled building blocks feeding the umbrella system.</p>
+<p><strong>Site relevance:</strong> both (vasic.digital as an
+embedded/IoT platform product; milosvasic.ru as a systems-engineering
+highlight — noting it is spec/research phase).</p>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+<p><strong>Source provenance:</strong> - Local repo
+<code>/Volumes/T7/Projects/helix_ota/README.md</code> (Rev 2,
+2026-06-23): scope, guarantees, locked stack, locked architecture, six
+submodules, governance, status. -
+<code>/Volumes/T7/Projects/vasic/_analysis/github-helix-others.{md,json}</code>
+(repo metadata + the six <code>ota-*</code> public submodule entries). -
+UNVERIFIED (flagged in-source by the project): no working production
+server/agent yet — specification/research + test-coverage phase; the
+<code>main_specs/README.md</code> corpus index and the six NEW
+<code>ota-*</code> repos are noted as not-yet-created in the README
+(though harvested data shows the <code>ota-*</code> repos now exist
+publicly); HelixConstitution clause numbers cited in the README are
+UNVERIFIED. Test-coverage figures (e.g., store 85.5%, HTTP p99 ~14 ms)
+are the project’s own in-progress ledger, not independently
+confirmed.</p>
+</body>
+</html>

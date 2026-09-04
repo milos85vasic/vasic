@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>portfolio</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">portfolio</h1>
+<p class="subtitle">A unified, evidence-based portfolio of the Helix
+family, vasic-digital utilities, and the Server Factory toolchain.</p>
+</header>
+<h1 id="портфолио">Портфолио</h1>
+<h2 id="преглед-слика-у-целини">1. Преглед — слика у целини</h2>
+<p>Ово је јединствен, уједињен портфолио који користе и vasic.digital и
+milosvasic.ru. Не описује разбацане споредне пројекте, већ намерно
+пројектовану <strong>флоту</strong>: <strong>велике апликације</strong>
+које се ослањају на <strong>десетине малих, одвојених, независно
+тестираних модула</strong>, а све је подређено заједничкој инжењерској
+<strong>Constitution</strong> и проверено <strong>анти-блуф QA</strong>
+дисциплином. Та структура је оно што га издваја. Већина портфолиа је
+само списак онога што је направљено; ово је систем у којем се сваки
+производ саставља од доказаних, вишекратно употребљивих делова, сваки
+део поштује исте непреговориве правила, а иза сваке рекламиране
+могућности стоји прикупљен доказ. Доминантан језик је
+<strong>Go</strong>, уз Kotlin/KMP, TypeScript/React, Python, Swift и
+Shell тамо где сваки заиста најбоље пристаје — Go за услуге и библиотеке
+високог протока, Kotlin за провизионирање и мултиплатформске мобилне
+апликације, TypeScript за типизоване фронт-ендове, Python за повезивање
+AI/ML.</p>
+<p>Оно што овом раду даје кохерентност јесте чињеница да је дисциплина
+механичка, а не само жељена. Заједничка <strong>Constitution</strong>
+испоручује се као Гит подмодул и наслеђује се у флоти од преко 140
+репозиторијума, тако да свака промена правила аутоматски стиже свуда;
+анти-блуф QA слој одбија да забележи пролаз без доказа у време
+извршавања. Породица <strong>Helix</strong>, флота помоћних алата и
+<strong>Server Factory</strong> алати су три израза једне идеје —
+направи једном, користи свуда и докажи да ради пре него што то прогласиш
+готовим.</p>
+<p>Све што следи приказано је по приоритету:</p>
+<ol type="1">
+<li><strong>Пилони управљања и QA</strong> — HelixConstitution, HelixQA
+(дисциплина која све остало чини поузданим).</li>
+<li><strong>Породица производа Helix</strong> — животни циклус развоја
+AI (HelixTrack на првом месту).</li>
+<li><strong>LLM инфраструктура</strong> — апстракција провајдера,
+оркестрација, верификација.</li>
+<li><strong>Васиц-дигитал помоћни алати</strong> — самостални алати на
+нивоу производа.</li>
+<li><strong>Server Factory</strong> — наслеђе аутоматизације
+инфраструктуре (рангирано последње).</li>
+</ol>
+<p>Уједињујућа теза: <strong>функционалност је готова тек када је
+стварни корисник може да користи и када постоји прикупљен доказ који то
+потврђује.</strong></p>
+<hr />
+<h2 id="пилони-управљања-и-qa">2. Пилони управљања и QA</h2>
+<p>Ова два сегмента долазе на прво место јер све остало у овом
+портфолију позајмљује своју кредибилност од њих. Заједно претварају
+„верујте ми, ради” у проверљиву чињеницу — <strong>Constitution</strong>
+кодира правила, а <strong>HelixQA</strong> доказује да су поштована.</p>
+<ul>
+<li><strong>HelixConstitution</strong> — универзални,
+пројектно-агностички инжењерски правилник испоручиван као Гит подмодул и
+наслеђен у флоти од преко 140 репозиторијума. Анти-блуф контролне тачке,
+имунитет на лажно позитивне резултате, сигурност података и хостова,
+дисциплина покривености; наслеђивање с могућношћу проширења, али без
+слабљења; контролни механизми који претражују све репозиторијуме у флоти
+тражећи обавезне одредбе; свака контролна тачка упарена с мутационим
+тестом који доказује да није лажна.</li>
+<li><strong>HelixQA</strong> — анти-блуф оркестрација QA (Go). Писани
+<strong>YAML</strong> тестови плус потпуно аутономне QA сесије на
+Андроиду, Android TV-у, вебу и десктопу, уз коришћење
+<strong>LLM</strong> и рачунарског вида; нема ПРОЛАЗА без прикупљених
+доказа (снимци екрана, логцат, видео, стацк траце-ови). Обавезан тип QA
+теста према <strong>Constitution</strong> (§11.4.169).</li>
+</ul>
+<h2 id="породица-производа-helix">3. Породица производа Helix</h2>
+<p>Линија Helix представља заставни део: породицу међусобно повезаних
+производа која обухвата цео циклус развоја AI, од планирања и
+спецификације, преко изградње, меморије, превођења, до испоруке. Сваки
+од њих је сам по себи прави производ, али је основна замисао да се
+међусобно допуњују – са истом управљачком структуром, истим модулима за
+поновну употребу и истом дисциплином доказивања која стоји иза свих
+њих.</p>
+<ul>
+<li><strong>HelixTrack</strong> – алтернатива JIRA за слободан свет;
+заставни производ линије Helix-Track.</li>
+<li><strong>HelixAgent</strong> – ансамбл услуга LLM: више модела
+расправља и испоручује одговор на који се сложе, уз избор провајдера
+заснован на верификацији.</li>
+<li><strong>HelixCode</strong> – предузетничка платформа за
+дистрибуирани развој AI; дели посао на раднике којима управља SSH, са
+аутоматским чекпоинтима и повратком на претходно стање; интерфејси REST,
+CLI, TUI, MCP.</li>
+<li><strong>HelixCluster</strong> – дистрибуирани оперативни систем за
+рачунање засновано на AI, од GPU-ова у податковним центрима до ручних
+уређаја на ивици мреже, под једним контролним равнима.</li>
+<li><strong>HelixBuilder</strong> – пипелине покретан AI за изградњу
+апликација, категорију по категорију.</li>
+<li><strong>HelixSkills</strong> – систем вештина за агенте CLI
+засноване на AI, регулисан уставом (вештине, серверски алати MCP, додаци
+Claude Цоде).</li>
+<li><strong>HelixSpecifier</strong> – развој вођен спецификацијама који
+прилагођава церемонијал обиму посла.</li>
+<li><strong>HelixMemory</strong> – један меморијски мозак за агенте AI,
+који спаја четири врхунска мотора.</li>
+<li><strong>HelixTranslate</strong> – превођење књига засновано на
+верификованим моделима; по дизајну искрено, никада са тихим повратком на
+резервни режим.</li>
+<li><strong>HelixTerminator</strong> – терминалска платформа са нултим
+поверењем: свака сесија SSH осигурана, дељена и асистирана од стране
+AI.</li>
+<li><strong>HelixGitpx</strong> – федерисани Гит на десетак хостова;
+један извор истине, огледало свуда.</li>
+<li><strong>HelixOTA</strong> – универзална, одвојена ажурирања
+„овер-тхе-аир”; дизајнирана да никада не блокирају уређај.</li>
+<li><strong>HelixPlay</strong> – претворите било коју машину GPU у
+сопствени уређај за цлоуд-играње.</li>
+<li><strong>Helix-Flow</strong> – производ за инференцију на платформи
+Helix. <em>НЕВЕРИФИКОВАНО / блокирано због извора: јавни репозиторијум
+тренутно садржи само једнолинијски РЕАДМЕ; приказано на нивоу производа
+тек када постоји права документација.</em></li>
+</ul>
+<h2 id="инфраструктура-llm">4. Инфраструктура LLM</h2>
+<p>Испод производа налази се подлога која их чини независним од
+провајдера и поузданим: један интерфејс преко десетина провајдера LLM,
+једна контролна раван за агенте за кодирање без графичког интерфејса и
+један извор истине за верификацију. Ово је слој који омогућава свему
+изнад да мења моделе, преживи прекиде у раду провајдера и одбије да
+верује LLM који не може да докаже да разуме задатак.</p>
+<ul>
+<li><strong>HelixLLM</strong> – један бинарни фајл, шест режима:
+инференција компатибилна са OpenAI и Anthropic преко HTTP/3, локални
+ллама.цпп, ланац оцене резервних опција, пипелине RAG, ReAct
+агенти.</li>
+<li><strong>LLMProvider</strong> – један интерфејс, 43 провајдера, са
+уграђеним прекидачима струјног кола, поновним покушајима и мониторингом
+здравља.</li>
+<li><strong>LLMOrchestrator</strong> – једна контролна раван за сваког
+агента за кодирање без графичког интерфејса (OpenCode, Claude Цоде,
+Gemini, Junie, Qwen Цоде).</li>
+<li><strong>LLMsVerifier</strong> – верификујте, надгледајте,
+оптимизујте: једини извор истине за метаподатке о
+LLM/провајдерима/верификацији, са обавезном провером разумевања
+модела.</li>
+</ul>
+<h2 id="vasic-digital-алати">5. vasic-digital алати</h2>
+<p>Самостални алати на нивоу готовог производа, од којих сваки решава
+сложен проблем на свој начин — а не случајно, истовремено тестирајући
+модуларну флоту у пракси. Распон им је од отпорног мултимедијалног
+система са више протокола до тока обраде курса од markdown-а до видеа,
+па све до мотора за синхронизацију документације и база података са
+хешираним садржајем; неколико њих отворено говори о својој зрелости, а
+те ознаке остају видљиве, а не скривене.</p>
+<ul>
+<li><strong><a
+href="../products/Catalogizer.md">Catalogizer</a></strong> —
+мултимедијални систем за управљање колекцијама са више протокола
+(SMB/FTP/NFS/WebDAV/локално), шифрован, самостално хостован; Go/Gin API
++ React интерфејс; отпорно праћење са подршком за оффлине режим;
+изграђен на 21 <code>digital.vasic.*</code> потмодулу.</li>
+<li><strong><a
+href="../products/Courses-Creator.md">Courses-Creator</a></strong> — ток
+обраде курса од markdown-а до видеа; обогаћивање са више LLM, TTS
+(Bark/SpeechT5), плејери за десктоп/мобилни/web; елегантан режим рада
+без кључа API.</li>
+<li><strong><a
+href="../products/VisionEngine.md">VisionEngine</a></strong> — независни
+Go алат који спаја класични рачунарски вид са LLM виђењем више
+добављача; навигациони графови са BFS + извозом у ДОТ/JSON/Mermaid;
+OpenCV са условним ознакама за изградњу.</li>
+<li><strong><a
+href="../products/DocProcessor.md">DocProcessor</a></strong> — мапа
+функционалности из документације са праћењем покривености верификацијом;
+LLM или хеуристичко/оффлине издвајање; лиценца Апацхе-2.0.</li>
+<li><strong><a href="../products/docs_chain.md">Docs Chain</a></strong>
+— двосмерна, атомска синхронизација документације и база података са
+хешираним садржајем (инкрементално прерачунавање у стилу Салсе преко
+DAG-а). <em>Фазе 1–5 ЗЕЛЕНЕ; Фазе 6–7 У ПЛАНУ.</em></li>
+<li><strong><a href="../products/Herald.md">Herald</a></strong> —
+поуздане обавештења преко више канала са разрешавањем намере у три нивоа
+(команда → LLM → појашњење) на природном језику; први корисник Docs
+Chain.</li>
+<li><strong><a
+href="../products/task_bridge.md">task_bridge</a></strong> — независна,
+двосмерна синхронизација задатака и табела (SQLite једини извор истине ↔︎
+документација ↔︎ ClickUp). <em>Скелет P1 — логика синхронизације још није
+имплементирана.</em></li>
+<li><strong><a
+href="../products/Vasic-Digital-Reusable-Module-Suite.md">Vasic Digital
+Пакет поновљиво употребљивих модула</a></strong> — „стандардна
+библиотека” <code>digital.vasic.*</code>: инфраструктурни примитиви,
+градивни блокови AI и одбрамбени механизми LLM, уз огледало Kotlin
+Multiplatform. <em>Неколико репозиторијума организације је У
+СКЕЛЕТУ/РАЗВОЈУ — означено, а не објављено.</em></li>
+</ul>
+<h2
+id="server-factory-наслеђе-аутоматизације-инфраструктуре-последње-рангиран">6.
+Server Factory (наслеђе аутоматизације инфраструктуре — последње
+рангиран)</h2>
+<p>Рангиран последњи по замисли, а не по квалитету: Server Factory
+алатни ланац претходи линији AI и показује где је филозофија „изгради
+једном, користи свуда” први пут заживела. Његов водећи производ — маил
+сервер који опишете у JSON и поставите било где — зрео је, добро
+тестиран производ; пратећи алати приказани су у својој стварној,
+различитој зрелости, а не уљепшани.</p>
+<ul>
+<li><strong><a href="../products/Mail-Server-Factory.md">Mail Server
+Factory</a></strong> — декларативни JSON → потпуно постављен,
+докераизован маил сервер за 12 врста веза и 25 Linux дистрибуција;
+предузетничка сигурност; извештава о 439 успешно положених тестова и
+чистој SonarQube капији. Водећи производ Server-Factory
+организације.</li>
+<li><strong><a
+href="../products/Server-Factory-Core-Framework.md">Server Factory
+Основни оквир</a></strong> — заједнички Kotlin погон на којем се граде
+све фабрике.</li>
+<li><strong><a href="../products/Qemu-Utils.md">Qemu-Utils</a></strong>
+— VM слике QEMU управљане као артефакти: преузимање/кеширање/покретање,
+компресија/објављивање, мрежно повезивање преко бридге/TAP, ISO
+инсталације; Linux + macOS.</li>
+<li><strong><a
+href="../products/Parallels-Utils.md">Parallels-Utils</a></strong> —
+компресија, објављивање и преузимање VM слика Parallels (macOS) путем
+једноставних фајлова са подешавањима.</li>
+<li><strong><a
+href="../products/Server-Factory-Additional-Components.md">Server
+Factory — Додатне компоненте</a></strong> — фабрике сервиса
+(Web/SonarQube/Цацхинг-Proxy), пакети дефиниција и помоћни алати.
+<em>Фабрике сервиса су документоване као плацехолдери — НЕВЕРИФИКОВАНО /
+у раној фази.</em></li>
+</ul>
+<h2 id="технолошки-индекс-базиран-на-доказима">7. Технолошки индекс
+(базиран на доказима)</h2>
+<ul>
+<li><strong>Језици:</strong> Go (доминантан), Kotlin и Kotlin
+Multiplatform, TypeScript, Python, Swift, Shell; PL/pgSQL; TLA+
+(формалне спецификације у <em>helix_цлустер</em>).</li>
+<li><strong>AI / LLM:</strong> приступ преко 40 провајдера, MCP, RAG,
+базе података вецтор и ембеддингс, планирање
+(HiPlan/MCTS/<em>Tree-of-Thoughts</em>), LLMOps, бенцхмаркинг
+(SWE-bench/HumanEval/MMLU), TTS (Bark/SpeechT5), рачунарски вид +
+LLM-визија, заштитне мере/ред-тим.</li>
+<li><strong>Бацкенд:</strong> Gin, gRPC + Protobuf, HTTP/3 (QUIC),
+WebSockets, Angular, React, Kafka/RabbitMQ.</li>
+<li><strong>Подаци:</strong> PostgreSQL, SQLite, SQLCipher, Redis,
+Neo4j, ClickHouse, MinIO/S3/GCS/Azure.</li>
+<li><strong>Инфра / DevOps:</strong> Docker и Цомпосе, Kubernetes +
+Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels;
+GitHub Actions, Gradle, Make.</li>
+<li><strong>Тестирање / КА:</strong> HelixQA, оквири за изазове са
+мутационим капијама, <code>go test -race</code>, алати за визуелну
+регресију, тестирање на ADB уређајима, SonarQube, скенирање сигурности
+(semgrep/gosec/trivy/snyk/gitleaks/nancy), провера модела TLA+.</li>
+</ul>
+</body>
+</html>

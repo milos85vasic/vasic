@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Catalogizer</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Catalogizer</h1>
+</header>
+<p><strong>高级多协议媒体库管理——自动检测、编目与丰富你拥有的一切</strong></p>
+<h2 id="概要">概要</h2>
+<p>Catalogizer 是一款可自托管的媒体库管理系统，能自动检测、分类并整理跨
+SMB、FTP、NFS、WebDAV
+及本地文件系统的媒体内容，具备实时监控、加密存储、外部元数据丰富及现代化
+React 界面，后端由高性能 Go API 驱动。</p>
+<h2 id="简介">简介</h2>
+<p>一款生产级多协议媒体库管理工具。Go/Gin REST API 可检测
+SMB/FTP/NFS/WebDAV/本地源中的 50 余种媒体类型，从
+TMDB/IMDB/MusicBrainz/Steam 等平台丰富元数据，并通过加密 SQLCipher
+数据库提供实时 React Web 应用。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>多数媒体管理工具要求你先做出妥协：将所有内容整合到同一磁盘、同一格式、同一类型，然后才提供帮助。Catalogizer
+则从相反的前提出发——你的媒体库早已分布在各处，散落于永远无法统一的 NAS
+共享和协议中——并直接与之对接。它支持存储系统已采用的协议——SMB/CIFS、FTP/FTPS、NFS、WebDAV
+及本地文件系统——并通过统一的客户端抽象层将它们整合，使 Windows 共享、FTP
+归档和 WebDAV
+挂载在上层应用看来完全一致，可随意混合、替换或移除，无需修改应用代码。Go
+后端（Gin REST API）持续监控这些数据源，在文件出现时即时检测并分类 50
+余种媒体类型（电影、电视剧、音乐、游戏、软件、纪录片等），并通过
+TMDB、IMDB、TVDB、MusicBrainz、Spotify、Steam
+等外部平台丰富每个条目，将原始文件名转化为包含封面、演职员及元数据的完整编目条目。结果通过
+WebSocket 实时推送至 TypeScript React
+前端，媒体库在摄入过程中即时更新，无需手动刷新，所有元数据均存储于加密的
+SQLCipher 数据库中，并通过基于 JWT 的角色权限认证进行访问控制。</p>
+<p>多数编目工具在共享源断开时便悄然失效，而 Catalogizer
+则专为应对此类故障而设计。临时 SMB
+连接中断会触发指数退避重连、断路器机制（避免对失效主机持续请求）、持续健康监测，以及离线元数据缓存，确保在最后已知良好状态下继续响应用户请求——区别在于，前者可能因”一个
+NAS
+重启导致整个应用崩溃”，而后者则是”单个数据源降级，其余功能正常运行”。除了编目功能，它还可作为媒体库的运维工具：提供增长趋势与质量/版本跟踪分析、专业
+PDF 报告生成、PDF 至图片/文本/HTML
+的转换服务、收藏夹导出/导入（JSON/CSV），以及与 S3、Google
+云存储或本地文件夹的同步功能。它并非一个庞大的单体应用，而是由 21
+个可复用的 <code>digital.vasic.*</code> Go 子模块及 TypeScript
+客户端包精心组装而成，每个模块均经过独立测试与版本控制，相同的经过实战验证的认证、文件系统、流媒体及可观测性组件不仅驱动
+Catalogizer，还支撑着更广泛的产品家族。质量保证并非自说自话：Challenges
+框架与 HelixQA 确保每项宣称的功能均经过反虚假验证，并提供证据支撑。</p>
+<p>内容</p>
+<h2 id="我们为何构建它">我们为何构建它</h2>
+<p>现有的媒体管理工具均假设单一存储后端与单一媒体类型。而真实的收藏分布于多个NAS共享与协议中，一旦某个共享失效便会导致系统崩溃，且涵盖电影、音乐、游戏及软件等多种类型。Catalogizer的诞生，正是为了平等对待所有协议，在网络存储不稳定时依然稳定运行，并为所有内容提供一个权威、丰富且加密的统一目录。</p>
+<h2 id="它为何是颠覆性的">它为何是颠覆性的</h2>
+<p>它将通常需要一整套独立工具才能实现的功能整合为一个可自托管、加密的完整方案：协议无关的摄取机制，平等对待每个存储后端；弹性设计确保存储中断时目录依然可用，而非随之崩溃；多源丰富化处理将原始文件转化为可浏览、带属性的资源库。模块化架构的回报是复利效应：文件系统客户端的加固修复或新增的提供商插件只需部署一次，便能惠及所有使用者，使Catalogizer随着周边生态的完善而持续进化。简而言之，它不再是一个简单的媒体索引，而是一个真正的媒体<em>系统</em>——一个你拥有主权、能抵御基础设施波动、且内部机制经实践验证而非仅凭承诺的系统。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li>统一多协议文件系统客户端（SMB/FTP/NFS/WebDAV/本地存储），通过单一接口调用。</li>
+<li>离线缓存 + 熔断机制，确保存储中断时目录依然可用。</li>
+<li>完全模块化提取，形成21个可复用的<code>digital.vasic.*</code>
+Go子模块及TS客户端模块。</li>
+<li>静态加密目录（SQLCipher），通过WebSocket实时同步至UI。</li>
+<li>基于挑战框架与HelixQA集成的证据驱动质量保障。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>不稳定的网络存储</strong>：通过指数退避、熔断机制、健康检查及带驱逐策略的离线缓存解决，当源不可达时提供缓存元数据服务。</li>
+<li><strong>协议异构性</strong>：通过将所有协议抽象为统一的<code>digital.vasic.filesystem</code>客户端解决，上层逻辑无需感知具体协议。</li>
+<li><strong>数据安全</strong>：通过SQLCipher静态加密、JWT/RBAC权限控制及请求清洗中间件解决。</li>
+<li><strong>大规模可维护性</strong>：通过将通用逻辑提取为独立测试的子模块而非单体架构解决。</li>
+</ul>
+<h2 id="技术栈选择原因与实现方式">技术栈（选择原因与实现方式）</h2>
+<ul>
+<li><strong>Go + Gin</strong> —— 高性能REST
+API核心（<code>catalog-api</code>），针对持续监控工作负载的并发与吞吐优化。</li>
+<li><strong>TypeScript + React + Tailwind（Vite）</strong> ——
+响应式<code>catalog-web</code> UI，支持实时更新。</li>
+<li><strong>WebSockets</strong> —— 后端中心与UI之间的实时数据同步。</li>
+<li><strong>SQLCipher（加密SQLite）</strong> ——
+静态加密元数据存储，通过<code>digital.vasic.database</code>支持双SQLite/PostgreSQL。</li>
+<li><strong>SMB/FTP/NFS/WebDAV客户端</strong> ——
+通过<code>digital.vasic.filesystem</code>实现多协议摄取。</li>
+<li><strong>外部元数据API（TMDB、IMDB、TVDB、MusicBrainz、Spotify、Steam）</strong>
+—— 丰富化提供商插件。</li>
+<li><strong>Prometheus + OpenTelemetry</strong> ——
+通过<code>digital.vasic.observability</code>实现指标与追踪。</li>
+<li><strong>Docker / 构建容器</strong> ——
+可复现构建（Tauri/Rust通过<code>catalogizer-builder</code>路由）。</li>
+<li><strong>Redis</strong> —— 通过<code>digital.vasic.cache</code> /
+<code>ratelimiter</code>实现缓存与限流。</li>
+<li><strong>S3 / Google云存储</strong> —— 云同步与检查点存储。</li>
+</ul>
+</body>
+</html>

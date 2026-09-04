@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p>محتوا</p>
+<p><strong>هیچ سند ردیابی‌شده‌ای نمی‌تواند از هماهنگی خارج شود — مبتنی بر
+هش محتوا، دوسویه، اتمی.</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>Docs Chain موتوری جهانی و پیاده‌سازی‌شده با Go برای انتشار وابستگی‌های
+سند و پایگاه داده به صورت دوسویه است. هنگامی که هر یک از اعضای زنجیره
+ثبت‌شده تغییر کند — منبع مارک‌داون، یک خروجی HTML/PDF/DOCX یا پایگاه داده
+SQLite — این موتور با استفاده از هش محتوا تغییر را شناسایی کرده و آن را
+به صورت اتمی در تمام اعضای متصل منتشر می‌کند.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>موتوری Go که اسناد و پایگاه‌های داده را همگام نگه می‌دارد. این موتور با
+استفاده از بازمحاسبه افزایشی مبتنی بر هش محتوا به سبک سالسا بر روی یک
+گراف جهت‌دار غیرمدور (ترتیب‌بندی توپولوژیک کان، قطع زودهنگام، یال‌های
+همگام‌سازی دوسویه، تغییر نام اتمی + کامیت‌های تراکنشی SQLite)، هرگاه هر یک
+از مصنوعات مرتبط تغییر کند، خروجی‌ها را بازتولید می‌کند.</p>
+<h2 id="توضیح-مفصل">توضیح مفصل</h2>
+<p>Docs Chain چیزی است که زمانی ساخته می‌شود که یک بار بیش از حد، همان
+اسکریپت شکننده «هنگام تغییر مارک‌داون، خروجی PDF را بازتولید کن» را نوشته
+باشید. این موتور جایگزین تمام آن چسب‌های همگام‌سازی دست‌ساز با یک موتور
+واقعی می‌شود. این سیستم اسناد و پایگاه‌های داده یک پروژه را به عنوان اعضای
+یک زنجیره مدل‌سازی می‌کند و هنگامی که هر یک از اعضا تغییر کند، آن تغییر را
+در تمام اعضای متصل و در تمام جهت‌های اعلام‌شده منتشر می‌کند — بازتولید و
+بازصدور به صورت اتمی به گونه‌ای که هیچ مصنوع ردیابی‌شده‌ای هرگز نمی‌تواند از
+هماهنگی خارج شود. طراحی این سیستم دقت خود را مستقیماً از دنیای سیستم‌های
+ساخت افزایشی به ارث برده است، نه از اسکریپت‌نویسی: شناسایی تغییرات بر
+اساس <strong>هش محتوا انجام می‌شود، نه زمان تغییر</strong>، بنابراین یک
+<code>touch</code> هیچ واکنشی ایجاد نمی‌کند و ویرایش یک بایت دقیقاً همان
+بازسازی‌هایی را که باید انجام می‌دهد، فعال می‌کند — بدون هشدارهای کاذب،
+بدون تغییرات از دست‌رفته. به طور رسمی در یک جمله، این سیستم بازمحاسبه
+افزایشی مبتنی بر هش محتوا به سبک سالسا بر روی یک گراف جهت‌دار غیرمدور
+است، با ترتیب‌بندی توپولوژیک کان، قطع زودهنگام که زیردرخت‌های بدون تغییر
+را هرس می‌کند، یال‌های همگام‌سازی دوسویه با مرجعیت اعلام‌شده، و تغییر نام
+اتمی به علاوه کامیت‌های تراکنشی SQLite به گونه‌ای که در صورت خرابی در
+میانه انتشار، هرگز یک خروجی نیمه‌نوشته باقی نمی‌ماند. این موتور به صورت یک
+زیرماژول <code>vasic-digital</code> عرضه می‌شود و به عنوان بخشی اصلی از
+زیرماژول HelixConstitution مصرف می‌گردد، بنابراین هر پروژه‌ای که این
+چارچوب را بپذیرد، Docs Chain را به صورت پیش‌فرض دریافت می‌کند و زنجیره‌های
+خود را از طریق YAMLهای مخصوص هر زمینه ثبت می‌کند. پیاده‌سازی این سیستم در
+مورد وضعیت خود صادق است (بر اساس بند ۱۱٫۴٫۶ چارچوب): فازهای ۱ تا ۴ (گراف
+جهت‌دار غیرمدور اصلی + هشینگ، آداپتورهای گره/تبدیل‌ها، هماهنگ‌کننده انتشار
+با اتمی‌بودن، CLI چندزمینه‌ای مبتنی بر پیکربندی با دستورات
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)
+پیاده‌سازی و آزمایش شده‌اند؛ فاز ۴ب افزونه‌های دوسویه عمومی
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> (خالص Go، انحراف در
+سطح ردیف، رفت‌وبرگشت پایدار در سطح بایت) و افزونه
+<code>colorize-html</code> را اضافه می‌کند؛ فاز ۵ تست جامع واقعی انتها به
+انتها پیاده‌سازی شده و تأیید شده است. فازهای ۶ تا ۷ (توزیع چارچوب، سیم‌کشی
+ATMOSphere) همچنان در مرحله برنامه‌ریزی باقی مانده و دسترسی به آن‌ها محدود
+است. Herald اولین مصرف‌کننده واقعی پایین‌دستی است که همگام‌سازی یک مجموعه
+چندفرمته ۶۶‌سندی را تأیید می‌کند.</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>مستندات، خروجی‌ها و پایگاه‌های داده به محض اینکه به صورت دستی یا با
+اسکریپت‌های شکننده نگهداری شوند، از هم دور می‌شوند. Docs Chain همگام‌سازی
+را مکانیکی، دقیق بر اساس هش محتوا و اتمی می‌کند، به گونه‌ای که تغییری در
+هر نقطه از زنجیره، به درستی و به صورت ایمن تمام موارد پایین‌دستی (و
+بالادستی) را به‌روزرسانی می‌کند.</p>
+<p>محتوا</p>
+<h2 id="چرا-یک-تغییردهنده-بازی-است">چرا یک تغییردهندهٔ بازی است</h2>
+<p>این سیستم تضمین‌های درستیِ به‌سختی به‌دست‌آمده‌ای را که نویسندگان
+کامپایلرها و سیستم‌های ساخت بدیهی می‌پندارند — گراف‌های وابستگی با هش
+محتوا، بازمحاسبهٔ کمینه، کامیت‌های اتمی — به سمت مستندات و پایگاه‌های داده
+نشانه می‌گیرد؛ حوزه‌ای که از دیرباز با کرون‌جاب‌ها و حسن‌نیت‌ها سرپا مانده
+است. همگام‌سازی دوسویه واقعی به این معناست که رابطهٔ میان یک منبع و
+خروجی‌اش در هر دو جهت اعمال می‌شود، پس «مستندات قدیمی شده» و «خروجی با
+منبع همخوانی ندارد» دیگر باگ‌های تکرارشونده نخواهند بود، بلکه حالتی
+می‌شوند که موتور اجازه نمی‌دهد وجود داشته باشد.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>بازمحاسبهٔ افزایشی با هش محتوا (نه زمان تغییر) روی یک گراف جهت‌دار
+غیرمدور با توقف زودهنگام.</li>
+<li>همگام‌سازی دوسویه با لبه‌های اعلام‌شدهٔ مرجعیت (مستندات ↔︎ خروجی‌ها ↔︎
+SQLite).</li>
+<li>کامیت با تغییرنام اتمی + تراکنش SQLite برای انتشار ایمن در برابر
+کرش.</li>
+<li>رفت‌وبرگشت خالص Go از
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> با تشخیص انحراف در
+سطح ردیف.</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>بازسازی‌های کاذب:</strong> با تشخیص هش محتوا به‌جای مهرهای
+زمانی حل شده است.</li>
+<li><strong>به‌روزرسانی‌های جزئی/خراب:</strong> با تغییرنام اتمی و
+تراکنش‌های SQLite حل شده است.</li>
+<li><strong>ترتیب‌دهی صحیح چندعضوی:</strong> با مرتب‌سازی توپولوژیک کان و
+توقف زودهنگام حل شده است.</li>
+<li><strong>گزارش‌دهی صادقانهٔ قابلیت‌ها:</strong> با علامت‌گذاری هر فاز
+به‌عنوان پیاده‌سازی‌شده یا برنامه‌ریزی‌شده طبق بند ۱۱٫۴٫۶ حل شده است.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشتهٔ فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Go</strong> — کل موتور (<code>internal/hash</code>،
+<code>graph</code>، <code>adapter</code>، <code>orchestrator</code>،
+<code>config</code>، <code>state</code>، <code>runner</code>،
+<code>cmd/docs_chain</code>).</li>
+<li><strong>گراف جهت‌دار غیرمدور + مرتب‌سازی توپولوژیک کان</strong> —
+ترتیب‌دهی وابستگی‌ها با توقف زودهنگام.</li>
+<li><strong>SQLite (خالص Go مدرن‌سی)</strong> — اعضای پایگاه داده و
+کامیت‌های تراکنشی.</li>
+<li><strong>fsnotify</strong> — دیمون <code>watch</code> برای انتشار
+زنده.</li>
+<li><strong>پیکربندی YAML</strong> — ثبت زنجیره به‌ازای هر زمینه.</li>
+<li><strong>تبدیل‌های exec</strong> — تولید پلاگین‌پذیر Markdown به
+HTML/PDF/DOCX.</li>
+</ul>
+<blockquote>
+<p>صداقت نقشه‌راه: فازهای ۶–۷ (توزیع قانون اساسی، سیم‌کشی اتمسفر)
+برنامه‌ریزی‌شده/دروازه‌دار برای اپراتور هستند — هنوز منتشر نشده‌اند.</p>
+</blockquote>
+</body>
+</html>

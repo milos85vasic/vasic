@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>Ешқандай бақыланатын құжат үйлесімсіздікке түсе алмайды —
+мазмұндық хэштеу, екі бағытты, атомдық.</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Docs Chain — әмбебап, Go-ті қолданған екі бағытты құжат-және-дерекқор
+тәуелділік тарату қозғалтқышы. Тіркелген тізбектегі кез келген мүше
+өзгерген кезде — Markdown бастапқы мәтіні, HTML/PDF/DOCX экспорты немесе
+SQLite дерекқоры — ол өзгерісті мазмұндық хэш арқылы анықтап, барлық
+байланысқан мүшелерге атомдық түрде таратады.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>Құжаттар мен дерекқорларды үйлесімді сақтайтын Go қозғалтқышы. Salsa
+стиліндегі мазмұндық хэштеу арқылы өсімдік қайта есептеуді DAG (Кан
+топологиялық реттеу, ерте тоқтату, екі бағытты синхрондау қырлары,
+атомдық атау ауыстыру + SQLite транзакциялық коммиттер) бойынша жүзеге
+асырады, байланысқан кез келген артефакт өзгергенде экспорттарды қайта
+жаңартады.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Docs Chain — бұл бір рет артық «Markdown өзгергенде PDF қайта
+жаңарту» деген нәзік shell скриптін жазғаннан кейін жасалатын нәрсе. Ол
+қолдан жасалған синхрондау байланыстардың бәрін нағыз қозғалтқышпен
+алмастырады. Жобаның құжаттары мен дерекқорларын тізбек мүшелері ретінде
+модельдеп, кез келген мүше өзгергенде, ол өзгерісті барлық байланысқан
+мүшелерге әр жарияланған бағытта таратып, қайта жаңарту мен экспорттауды
+атомдық түрде орындайды, сондықтан ешқандай бақыланатын артефакт
+үйлесімсіздікке түсе алмайды. Жобалау принциптері инкременталды құрылыс
+жүйелерінен алынған, скрипттерден емес: өзгеріс анықтауы
+<strong>мазмұндық хэш арқылы, уақыт белгісі арқылы емес</strong>,
+сондықтан <code>touch</code> ештеңеге әсер етпейді, ал бір байттық
+өзгеріс дәл қажетті қайта құруларды ғана іске қосады — жалған алармдар
+мен өткізілген өзгерістер жоқ. Бір жолда формальды түрде айтқанда, бұл
+Salsa стиліндегі мазмұндық хэштеу арқылы өсімдік қайта есептеу DAG
+бойынша, Кан топологиялық реттеумен, өзгермеген тармақтарды ерте
+кесумен, жарияланған билік екі бағытты <code>sync</code> қырларымен,
+атомдық атау ауыстыру мен SQLite транзакциялық коммиттерімен жүзеге
+асырылады, сондықтан тарату барысында апат болса, жартылай жазылған
+экспорт қалмайды. Ол <code>vasic-digital</code> субмодулі ретінде
+жеткізіліп, HelixConstitution субмодулінің негізгі бөлігі ретінде
+қолданылады, сондықтан конституцияны қабылдаған кез келген жоба Docs
+Chain-ды дайын күйінде алып, өз тізбектерін контекстік YAML арқылы
+тіркеуі мүмкін. Іске асыру статусы ашық көрсетілген (конституцияның
+§11.4.6 бөлімі бойынша): 1–4 кезеңдері (негізгі DAG + хэштеу, түйін
+адаптерлері/түрлендірулері, атомдықтығы бар тарату оркестраторы,
+конфигурацияға негізделген көп контексті CLI
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>
+мүмкіндіктерімен) іске асырылып, сынақтан өткен; 4b кезеңі жалпы екі
+бағытты <code>md-to-sqlite</code>/<code>sqlite-to-md</code>
+кіріктірілген модульдерін (таза Go, жол деңгейіндегі үйлесімсіздік, байт
+тұрақты айналым) және <code>colorize-html</code> кіріктірілген модулін
+қосады; 5 кезең толық нақты екі нүкте арасындағы сынақтар іске асырылып,
+ӨТТІ. 6–7 кезеңдері (конституция таратуы, ATMOSphere байланысы)
+ЖОСПАРЛАНҒАН және операторлық бақылауға алынған. Herald — бірінші нақты
+төменгі тұтынушы, 66 құжаттық көп форматты корпус синхрондап, тазалықты
+тексереді.</p>
+<h2 id="неліктен-жасадық">Неліктен жасадық</h2>
+<p>Құжаттама, экспорттар және дерекқорлар қолмен немесе нәзік скрипттер
+арқылы қолдау кезінде бір-бірінен алшақтайды. Docs Chain синхрондауді
+механикалық, мазмұндық хэш дәлдігімен және атомдық түрде жүзеге асырады,
+сондықтан тізбектегі кез келген өзгеріс төменгі (және жоғарғы) ағымдағы
+барлық нәрсені дұрыс және қауіпсіз жаңартады.</p>
+<p>Мазмұн</p>
+<h2 id="неге-бұл-ойынды-өзгертетін-шешім">Неге бұл ойынды өзгертетін
+шешім</h2>
+<p>Компиляторлар мен құрылымдық жүйелердің авторлары әдеттегідей
+қабылдайтын, қиындықпен жеңілген дұрыстық кепілдіктері – мазмұндық
+хештелген тәуелділік графтары, минималды қайта есептеу, атомдық
+коммиттер – осылардың бәрі енді құжаттама мен дерекқорларға бағытталған.
+Бұл сала тарихи тұрғыда cron жұмыстары мен жақсы ниеттерге сүйенген. Шын
+мәніндегі екі бағытты синхрондау дегеніміз – бастапқы дерек көзі мен
+оның экспорты арасындағы байланыстың екі жаққа да қатаң сақталатынын
+білдіреді. Сондықтан “құжаттама ескірген” немесе “экспорт бастапқы дерек
+көзімен сәйкес келмейді” деген мәселелер қайталанып отыратын қателер
+емес, жүйенің мүмкін етпейтін күйлеріне айналады.</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Мазмұндық хеш (уақыт белгісі емес) бойынша DAG-тағы инкременталды
+қайта есептеу және ерте тоқтату.</li>
+<li>Екі бағытты, анықталған билік синхрондау шеттері (құжаттама ↔︎
+экспорт ↔︎ SQLite).</li>
+<li>Атомдық атау ауыстыру + SQLite транзакциялық коммит апатсыз тарату
+үшін.</li>
+<li>Таза-Go <code>md-to-sqlite</code>/<code>sqlite-to-md</code> айналымы
+және жол деңгейіндегі ауытқуды анықтау.</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>Жалған қайта құрулар:</strong> уақыт белгілерінің орнына
+мазмұндық хешті анықтау арқылы шешілді.</li>
+<li><strong>Жартылай/бұзылған жаңартулар:</strong> атомдық атау ауыстыру
+және SQLite транзакциялары арқылы шешілді.</li>
+<li><strong>Көп мүшелі реттіліктің дұрыстығы:</strong> Канның
+топологиялық реттеуі + ерте тоқтату арқылы шешілді.</li>
+<li><strong>Шындыққа сай мүмкіндіктерді хабарлау:</strong> әр кезеңді
+§11.4.6 бөліміне сәйкес IMPLEMENTED немесе PLANNED деп белгілеу арқылы
+шешілді.</li>
+</ul>
+<h2 id="технологиялық-стек-неге-және-қалай">Технологиялық стек (неге
+және қалай)</h2>
+<ul>
+<li><strong>Go</strong> — бүкіл қозғалтқыш (<code>internal/hash</code>,
+<code>graph</code>, <code>adapter</code>, <code>orchestrator</code>,
+<code>config</code>, <code>state</code>, <code>runner</code>,
+<code>cmd/docs_chain</code>).</li>
+<li><strong>DAG + Канның топологиялық сорттауы</strong> —
+тәуелділіктерді реттеу және ерте тоқтату.</li>
+<li><strong>SQLite (таза-Go modernc)</strong> — дерекқор мүшелері мен
+транзакциялық коммиттер.</li>
+<li><strong>fsnotify</strong> — тікелей тарату үшін <code>watch</code>
+демоны.</li>
+<li><strong>YAML конфигурациясы</strong> — әр контекстегі тізбектерді
+тіркеу.</li>
+<li><strong>exec: түрлендірулер</strong> — қосылатын
+Markdown→HTML/PDF/DOCX генерациясы.</li>
+</ul>
+<blockquote>
+<p>Жол картасының шындығы: 6–7 кезеңдер (конституция тарату, ATMOSphere
+байланысы) PLANNED / операторлық шектеулі – әзірге жеткізілмеген.</p>
+</blockquote>
+</body>
+</html>

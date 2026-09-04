@@ -2105,3 +2105,56 @@ workshop/platform/frontend/src/app/core/vocabulary.ts MODEL Renaming an operator
 _tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_BUILD_HOST"
 # REASON: envOr("HT_WORKER_HOST", "<literal>") — as above, one level.
 _tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_WORKER_HOST"
+
+# ==============================================================================
+# 2026-09-04 (later) — the multi-provider registry and two CONTROL tests
+# ==============================================================================
+# Five findings arrived with the answer-provider registry and the containers
+# log-reader fix. Judged one at a time. All four rules below are EXEMPTIONS, not
+# fixes, and each says why a fix would make the thing WORSE rather than better.
+#
+# Contrast worth preserving, because the same file type got the OPPOSITE verdict
+# earlier today: workshop/platform/backend/pkg/search/carryforward_test.go had
+# its two model ids FIXED, because they were arbitrary fixture values that
+# happened to be real shipped model names. registry_test.go below is NOT
+# arbitrary — its values ARE the deployed configuration under test. Same class of
+# file, opposite verdict, and the difference is what the value MEANS.
+
+# REASON: a Go IMPORT PATH, not a model id. The MODEL class matches the vendor
+# name inside "digital.vasic.llmprovider/pkg/providers/<name>". An import path is
+# resolved by the compiler, cannot be environment-derived, and names a package
+# rather than selecting a model at runtime.
+workshop/platform/backend/pkg/answer/registry.go MODEL "digital.vasic.llmprovider/pkg/providers/
+
+# REASON: a CATALOGUE ROW, not a configured value. `hosted("<name>", "<Label>",
+# "pkg/providers/<name>", func(k,u,m string) ...)` declares THAT an adapter
+# exists and how to construct it. The provider's identity is the data this table
+# exists to hold — you cannot env-derive the membership of a catalogue of
+# providers without emptying it. Runtime SELECTION is separately overridable and
+# was verified: it resolves flag > env > literal via
+# env("WORKSHOP_ANSWER_PROVIDER", "none"), and verify-answer-provider-selection.sh
+# derives its coverage from answer.Registrations() rather than from any list.
+workshop/platform/backend/pkg/answer/registry.go MODEL hosted("
+
+# REASON: these constants MIRROR THE DEPLOYED CONTAINER'S ARGV ON PURPOSE, and
+# the file says so at the declaration: "Written as constants rather than
+# repeated, so a test that drifts from the deployed configuration drifts
+# visibly." TestOllamaDispatchIsUnchangedByTheRegistry asserts the registry
+# produces the same concrete type, model, endpoint and locality as the live
+# deployment. Deriving them from the environment would make the test assert that
+# whatever is configured equals whatever is configured — a tautology — and would
+# destroy the only evidence that the Ollama default is unchanged.
+workshop/platform/backend/pkg/answer/registry_test.go ENDPOINT prodEndpoint =
+# REASON: the second half of the same pair — the deployed MODEL id, mirrored from
+# the container's argv for the same reason as prodEndpoint above. Given its own
+# REASON because the audit requires one directly above every rule, and that guard
+# is right: a rule inheriting a neighbour's justification is how an unjustified
+# exemption gets in.
+workshop/platform/backend/pkg/answer/registry_test.go MODEL prodModel    =
+
+# REASON: FIXTURE PAYLOAD BYTES, not an endpoint anyone contacts. In
+# TestExecuteStream_RealBytesArePreserved — the CONTROL proving the log-reader
+# fix does not cost content — this literal is the exact stdout a stub container
+# emits, and the test asserts those bytes arrive intact and unmodified. Changing
+# the payload changes what the control proves; nothing dials it.
+submodules/containers/pkg/runtime/logs_silent_failure_test.go ENDPOINT const payload =

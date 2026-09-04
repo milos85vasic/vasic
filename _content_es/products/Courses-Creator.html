@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Courses-Creator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Courses-Creator</h1>
+</header>
+<p><strong>De Markdown a curso profesional en vídeo — mejorado con AI,
+multiplataforma.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Courses-Creator es un conjunto de herramientas que convierte guiones
+en Markdown en cursos de vídeo profesionales con mejoras potenciadas por
+AI: enriquecimiento de contenido multi-LLM (OpenAI/Anthropic/Ollama),
+TTS y música de fondo de alta calidad, y reproductores para escritorio,
+móvil y web — todo desplegado con Docker e integrado con monitorización
+Prometheus/Grafana.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Transforma Markdown en cursos de vídeo atractivos. Un motor de
+procesamiento Go enriquece el contenido mediante múltiples proveedores
+LLM, genera narración (Bark/SpeechT5 TTS) y música, y los distribuye en
+reproductores Electron para escritorio, React Native para móvil y React
+para web, con despliegue Docker completo y monitorización.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Producir un curso en vídeo suele requerir el trabajo de un pequeño
+estudio: guionizar, grabar la narración, buscar música, editar,
+codificar y luego desarrollar reproductores para cada plataforma que
+puedan usar los alumnos. Courses-Creator comprime toda esa cadena en una
+única entrada —un guion en Markdown— y un solo comando. En su núcleo,
+cuenta con un procesador Go que ejecuta una completa cadena de
+producción de vídeo y audio: enriquece el contenido escrito mediante
+múltiples proveedores LLM (OpenAI, Anthropic y Ollama local), sintetiza
+narración natural con motores de texto a voz (Bark, SpeechT5), añade
+música de fondo y ensambla las piezas en vídeos de curso terminados. La
+tarea del autor se limita a las ideas y las palabras; el sistema se
+encarga de la locución, la banda sonora y la producción. Y como un curso
+solo es útil si la gente puede verlo, la entrega está diseñada para ser
+multiplataforma: una aplicación creadora Electron para escritorio, un
+reproductor React Native para móvil y un reproductor React para web,
+todos alimentados por el mismo sistema REST API y de trabajos en segundo
+plano —un backend, tres clientes de primera categoría, sin necesidad de
+reimplementar para cada superficie.</p>
+<p>Lo crucial es que se trata de infraestructura de producción, no de un
+<em>demo reel</em>. El backend incluye persistencia PostgreSQL,
+procesamiento de trabajos en segundo plano para que los renders largos
+de TTS/vídeo nunca bloqueen el API, implementaciones de servidor MCP
+para mejoras asistidas por herramientas, métricas Prometheus,
+autenticación JWT y un proxy inverso nginx —y todo el conjunto se
+despliega como un <em>Compose</em> Docker con perfiles de monitorización
+Grafana/Prometheus que pueden ponerse en marcha en un solo paso. La capa
+AI es un nivel de mejora, no una dependencia: cada proveedor LLM es
+opcional, por lo que la cadena de producción funciona sin claves API
+para operaciones básicas y activa el enriquecimiento premium en cuanto
+se proporcionan las claves. Esta única decisión hace que la misma
+herramienta sea viable tanto para un aficionado que trabaja sin conexión
+en un portátil como para una empresa que integra su proveedor preferido
+—y toda la cadena de producción multimedia subyacente está respaldada
+por pruebas unitarias, de integración y <em>end-to-end</em>, en lugar de
+basarse en la fe.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Producir vídeos de cursos de forma manual es lento: escribir, narrar,
+musicalizar y editar requieren esfuerzo y herramientas especializadas.
+Courses-Creator reduce todo ese proceso a una cadena impulsada por
+Markdown, de modo que un único guion fuente se convierte en un curso
+producido, con AI cubriendo los vacíos que, de otro modo, los humanos
+tendrían que llenar a mano.</p>
+<h2 id="por-qué-es-un-cambio-radical">Por qué es un cambio radical</h2>
+<p>Transforma la producción de cursos de un oficio especializado y
+multietapa en una cadena de software reproducible: la creación de
+contenidos, el enriquecimiento con AI, la generación de narración y
+música, y la reproducción multiplataforma conviven en un único stack
+implementable. La degradación elegante a un funcionamiento sin clave API
+es su superpoder silencioso: el mismo código base sirve tanto a un
+creador independiente con presupuesto ajustado como a una empresa con
+contrato premium, sin necesidad de reescribir nada en el proceso.</p>
+<h2 id="qué-lo-hace-innovador">Qué lo hace innovador</h2>
+<ul>
+<li>Cadena de Markdown a vídeo con enriquecimiento multi-LLM conectable
+(OpenAI/Anthropic/Ollama).</li>
+<li>Generación integrada de TTS (Bark, SpeechT5) y música de fondo.</li>
+<li>Implementaciones de servidores MCP dentro del motor de procesamiento
+para potenciar herramientas.</li>
+<li>Un backend que da servicio a tres clientes de primera categoría
+(Electron de escritorio, React Native móvil, React web).</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Procesamiento intensivo de medios:</strong> resuelto con una
+cadena Go más procesamiento de trabajos en segundo plano, de modo que
+las tareas largas de TTS/vídeo no bloqueen la API.</li>
+<li><strong>AI opcional pero potente:</strong> resuelto al hacer que los
+proveedores de LLM sean opcionales y conectables, con retroceso elegante
+a funcionalidades básicas.</li>
+<li><strong>Entrega multiplataforma:</strong> resuelto con una API REST
+compartida y tres aplicaciones de reproducción dedicadas.</li>
+<li><strong>Operatividad:</strong> resuelto con perfiles de Docker
+Compose, Prometheus/Grafana y autenticación JWT integrada.</li>
+</ul>
+<h2 id="tecnologías-empleadas-por-qué-y-cómo">Tecnologías empleadas (por
+qué y cómo)</h2>
+<ul>
+<li><strong>Go</strong> — motor de procesamiento principal, API REST,
+ejecutor de trabajos y cadena de procesamiento (972K+ bytes, lenguaje
+dominante).</li>
+<li><strong>TypeScript / React</strong> — reproductor web y UI
+compartida.</li>
+<li><strong>Electron</strong> — aplicación de creación para
+escritorio.</li>
+<li><strong>React Native</strong> — reproductor móvil.</li>
+<li><strong>PostgreSQL</strong> — persistencia de cursos/trabajos.</li>
+<li><strong>Proveedores LLM (OpenAI, Anthropic, Ollama)</strong> —
+enriquecimiento de contenidos.</li>
+<li><strong>TTS (Bark, SpeechT5)</strong> — síntesis de narración.</li>
+<li><strong>Servidores MCP</strong> — integración de herramientas dentro
+del motor.</li>
+<li><strong>Docker Compose + nginx</strong> — implementación full-stack
+y proxy inverso.</li>
+<li><strong>Prometheus + Grafana</strong> — monitorización.</li>
+</ul>
+<blockquote>
+<p>Nota: el <em>README</em> público de inicio rápido utiliza un clon URL
+con marcador de posición <code>your-org</code>.</p>
+</blockquote>
+</body>
+</html>

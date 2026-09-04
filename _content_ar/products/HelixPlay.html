@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixPlay</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixPlay</h1>
+</header>
+<h1 id="helixplay">HelixPlay</h1>
+<p><strong>حوّل أي جهاز مزود بـ GPU إلى جهاز سحابي للألعاب.</strong></p>
+<h2 id="ملخص">ملخص</h2>
+<p>HelixPlay منصة ألعاب سحابية قابلة للاستضافة الذاتية تحول أي جهاز مزود
+بـ GPU إلى مضيف بث عن بُعد، لتقديم تجربة لعب بمستوى الأجهزة المنزلية على
+أجهزة سطح المكتب، والهواتف المحمولة، وأجهزة التلفاز، ومتصفحات الويب.
+بُنيت المنصة كمستودع أحادي مركزي على Go يضم 46 وحدة فرعية، مع عميل ثلاثي
+الطبقات، ويمكن تخصيصها بشعار الشريك.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>HelixPlay منصة ألعاب سحابية مفتوحة وقابلة للاستضافة الذاتية ويمكن
+تخصيصها بشعار الشريك. تحول أي جهاز مزود بـ GPU إلى مضيف بث عن بُعد وتقدم
+تجربة لعب بمستوى الأجهزة المنزلية على أجهزة سطح المكتب، والهواتف
+المحمولة، وأجهزة التلفاز، ومتصفحات الويب عبر WebRTC/QUIC، مع نواة Go
+ومكدس عميل Wails/Flutter/Angular.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>HelixPlay منصة ألعاب سحابية بُنيت كمستودع أحادي مركزي على Go يتألف من
+46 وحدة فرعية في Git. تأخذ أي حاسوب ألعاب تملكه بالفعل وتحوّله إلى مضيف
+بث، لتقديم تجربة بمستوى الأجهزة المنزلية على أجهزة سطح المكتب، والهواتف
+المحمولة، وأجهزة التلفاز، ومتصفحات الويب — قابلة للاستضافة الذاتية،
+مفتوحة، ويمكن تخصيصها بشعار الشريك. الرسالة واضحة: أجهزتك، خدمتك، علامتك
+التجارية، دون الحاجة إلى سحابة طرف ثالث في الوسط.</p>
+<p>يتميز التصميم الأساسي للمشروع بالالتقاء الثلاثي لطبقات العميل — وهو
+رهان معماري جريء يؤتي ثماره في كل مكان آخر. تطبيق سطح المكتب Wails،
+وتطبيق Flutter للهواتف المحمولة وأجهزة التلفاز، وعميل الويب Angular،
+جميعها تعتمد على نواة Go <em>الواحدة</em>، التي تُترجم إلى WASM لمتصفح
+الويب، بحيث يُكتب السلوك مرة واحدة ويُشارك عبر جميع المنصات بدلاً من تفرعه
+إلى ثلاثة مسارات. تحت هذه الطبقة يكمن مسار الوسائط اللحظية: الالتقاط →
+الترميز → التقطيع → الإرسال → فك الترميز → العرض، متصلاً بالتقاط النظام
+الأساسي الأصلي (DXGI / ScreenCaptureKit / PipeWire) ومرمِّزات الأجهزة
+(NVENC / QSV / AMF / VideoToolbox) بحيث يقوم GPU بالعمل الشاق، ويُنقل عبر
+WebRTC (Pion v4)، وQUIC (quic-go)، وحزم بيانات UDP المخصصة التي تُختار
+لتحقيق أقل زمن استجابة بدلاً من الراحة. تتولى النواة الخلفية إدارة
+الجلسات، والمستأجرين، والفهرس، والمصادقة؛ بينما يتعامل وكيل المضيف مع
+الالتقاط والترميز والنقل على الحافة؛ ويجمع mDNS ونقاط الالتقاء الاكتشاف
+معاً بحيث تجد العملاء مضيفهم دون الحاجة إلى إعداد يدوي.</p>
+<p>صُممت HelixPlay من الأساس لتكون منصة SaaS قابلة للتخصيص بشعار الشريك —
+مع تخصيص السمات لكل مستأجر، وترشيح الفهرس، وOAuth2، والفوترة — بحيث يمكن
+للشريك إنشاء خدمة كاملة تحمل علامته التجارية بدلاً من مجرد إعادة تصميم
+سطحية. كما أنها أصلية للحاويات في أدق تفاصيلها: فكل خدمة، وقاعدة بيانات،
+وبناء، واختبار، ومسح تعمل داخل حاويات، مما يجعل المنصة بأكملها قابلة
+لإعادة النشر والتحقق. وكما هو الحال مع بقية عائلة Helix، فإنها تخضع
+لدستور “عدم الخداع” حيث يُقصد من الاختبار الناجح ضمان سلوك حقيقي قابل
+للاستخدام من قبل المستخدم النهائي — وليس مجرد محاكاة ناجحة.</p>
+<h2 id="لماذا-أنشأناها">لماذا أنشأناها</h2>
+<p>الألعاب السحابية التجارية مغلقة، مركزية، ومأجورة. أُنشئت HelixPlay
+لتمكين أي شخص يمتلك جهازاً مزوداً بـ GPU من تشغيل مضيف البث الخاص به —
+مفتوح، قابل للاستضافة الذاتية، ويمكن تخصيصه بشعار الشريك — بدلاً من
+الاعتماد على خدمة طرف ثالث.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-هذا-ثورة-في-المجال">لماذا يُعدّ هذا ثورةً في المجال</h2>
+<p>إنه يدمج ثلاثة عناصر ظلت الخدمات التجارية تفصل بينها: الاستضافة
+الذاتية على أجهزة تتحكم بها، نواة Go مشتركة تُشغّل ثلاثة حزم عملاء في آنٍ
+واحد بحيث تصل المزايا إلى جميع المنصات دفعةً واحدة، والتعدد الإيجاري تحت
+العلامة البيضاء. والنتيجة هي أن الشريك يمكنه إطلاق خدمة سحابية للألعاب
+تحمل علامته التجارية بالكامل على وحدات معالجة الرسوميات <em>الخاصة
+به</em> – حيث يمتلك التجربة والمستخدمين والاقتصاد – بدلاً من إعادة بيع
+سعة على سحابة شخص آخر والعيش ضمن حدودها.</p>
+<h2 id="ما-الجديد">ما الجديد؟</h2>
+<ul>
+<li><strong>تقارب حزم العملاء الثلاث</strong> – تعمل Wails وFlutter
+وAngular جميعاً على نواة Go واحدة (WASM في المتصفح)، بحيث تشترك منصات سطح
+المكتب والهواتف والتلفاز والويب في تنفيذ واحد بدلاً من ثلاثة تنفصل عن
+بعضها بمرور الوقت.</li>
+<li><strong>برنامج خدمة ذاتي الاستضافة تحت العلامة البيضاء</strong> –
+يتضمن تخصيصاً لكل مستأجر، وترشيحاً للفهرس، ومصادقة OAuth2، والفوترة مدمجة،
+بحيث يُقدّم النظام كمنتج قابل للعلامة التجارية وليس مجرد عرض توضيحي.</li>
+<li><strong>نقل البيانات منخفض الكمون الحديث</strong> – WebRTC (Pion)
+وQUIC وبروتوكول UDP المخصص، مقترناً باختيار مشفرات الأجهزة لكل منصة
+(NVENC / QSV / AMF / VideoToolbox)، مُضبّط لتحقيق الاستجابة على حساب
+الراحة.</li>
+<li><strong>بنية معمارية مفككة تضم 46 وحدة فرعية</strong> – مكونات
+منفصلة بوضوح مع كل شيء محصور في الحاويات: كل خدمة وقاعدة بيانات وبناء
+واختبار ومسح يعمل داخل حاوية.</li>
+</ul>
+<h2 id="أكبر-التحديات-التقنية-وكيف-تغلبنا-عليها">أكبر التحديات التقنية
+وكيف تغلبنا عليها</h2>
+<ul>
+<li><strong>البث منخفض الكمون عبر أجهزة غير متجانسة.</strong> كل نظام
+تشغيل وGPU يعرض الالتقاط والترميز بشكل مختلف، والكمون لا يرحم. تم حل
+المشكلة عبر مسار التقاط وترميز مدرك للمنصة – DXGI / ScreenCaptureKit /
+PipeWire يغذي NVENC / QSV / AMF / VideoToolbox – يُنقل عبر WebRTC / QUIC
+/ UDP بحيث تستخدم كل آلة أسرع طريق أصلي للوصول إلى وحدات البكسل.</li>
+<li><strong>منتج واحد عبر سطح المكتب والهواتف والتلفاز والويب.</strong>
+تم حل المشكلة عبر حزم العملاء الثلاث (Wails وFlutter وAngular) التي
+تشترك في نواة Go واحدة تُصرّف إلى WASM للمتصفح، بحيث يظهر الإصلاح أو
+الميزة المكتوبة مرة واحدة على جميع الأسطح الأربعة بدلاً من نقلها أربع
+مرات.</li>
+<li><strong>التشغيل المتعدد الإيجاري تحت العلامة البيضاء.</strong> تم حل
+المشكلة عبر بناء تخصيص لكل مستأجر، وترشيح الفهرس، ومصادقة OAuth2،
+والفوترة مباشرةً في نواة الخلفية، بحيث تصبح عزل المستأجرين والعلامة
+التجارية أساسيات من أسس النظام بدلاً من فروع لكل عميل.</li>
+</ul>
+<h2 id="حزمة-التقنية">حزمة التقنية</h2>
+<ul>
+<li><strong>Go (الإصدار الأساسي 1.26.2 / الإصدارات الفرعية
+1.25+)</strong> – النواة الخلفية المشتركة ووحدة المضيف؛ لغة واحدة تُصرّف
+إلى ملفات ثنائية أصلية <em>وأيضاً</em> إلى WASM، وهو ما يجعل التصميم
+أحادي النواة ومتعدد العملاء ممكناً.</li>
+<li><strong>Wails v2</strong> – عميل سطح المكتب، يربط نواة Go بعرض ويب
+مدمج بحيث يعيد تطبيق سطح المكتب استخدام منطق النواة مباشرةً بدلاً من إعادة
+تنفيذه.</li>
+<li><strong>Flutter 3.29+</strong> – عميل الهواتف/التلفاز، يستدعي نواة
+Go عبر واجهة الوظائف الأجنبية (FFI) للحصول على واجهة مستخدم أصلية على
+الهواتف والتلفزيونات دون الحاجة إلى خلفية ثانية.</li>
+<li><strong>Angular 17+</strong> – عميل الويب، يشغل نفس نواة Go بعد
+تصريفها إلى WASM بحيث يصبح المتصفح سطحاً من الدرجة الأولى وليس سطحاً
+مخففاً.</li>
+<li><strong>WebRTC / Pion v4 وQUIC / quic-go وبروتوكول UDP
+المخصص</strong> – ثلاثة بروتوكولات نقل فوري بحيث تستطيع المنصة اختيار
+المسار الأقل كموناً المتاح لكل شبكة وعميل.</li>
+<li><strong>مشفرات الأجهزة (NVENC / QSV / AMF / VideoToolbox)</strong>
+و<strong>التقاط المنصة (DXGI / ScreenCaptureKit / PipeWire)</strong> –
+مسار الالتقاط والترميز المسرّع بواسطة GPU، يُختار لكل منصة بحيث لا يصبح
+الترميز عنق زجاجة لوحدة المعالجة المركزية.</li>
+<li><strong>الحاويات (Docker/Podman)</strong> – كل خدمة وقاعدة بيانات
+وبناء واختبار ومسح يعمل داخل حاويات، مما يجعل النظام بأكمله قابلاً لإعادة
+النشر والتحقق.</li>
+<li><strong>mDNS / الالتقاء</strong> – اكتشاف المضيف بدون تهيئة بحيث
+تحدد العملاء مضيف البث تلقائياً على الشبكة.</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="ملاحظات-حول-الحالة-والنزاهة">ملاحظات حول الحالة والنزاهة</h2>
+<ul>
+<li><strong>الحالة: تجريبية.</strong> أهداف زمن الاستجابة المحددة في ملف
+README (≤٣٠ ملّي ثانية لشبكة محلية / ≤٥٠ ملّي ثانية لشبكة واسعة في المئين
+٩٩٩)، وتصنيفات “مستوى وحدة التحكم / مستوى PS4 Pro”، وعدد خلايا مصفوفة
+الاختبار هي أهداف التصميم المعلنة للمشروع نفسه، ولم تخضع لاختبارات
+مستقلة، وتُقدّم على هذا الأساس.</li>
+<li><strong>الرخصة: لم تُحدّد بعد.</strong> لم يُكشف عن أي رخصة عبر الرمزين
+GitHub وAPI — غير مُتحقق منها / غير مُعلن عنها.</li>
+</ul>
+<p><strong>درجة الأولوية:</strong> Helix-أساسية.</p>
+</body>
+</html>

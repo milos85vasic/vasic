@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>portfolio</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">portfolio</h1>
+<p class="subtitle">A unified, evidence-based portfolio of the Helix
+family, vasic-digital utilities, and the Server Factory toolchain.</p>
+</header>
+<h1 id="المحفظة">المحفظة</h1>
+<h2 id="نظرة-عامة-الصورة-الكاملة-أولا">١. نظرة عامة — الصورة الكاملة
+أولاً</h2>
+<p>هذه محفظة موحدة واحدة يستخدمها كلّ من vasic.digital وmilosvasic.ru.
+وهي لا تصف مجموعة متفرقة من المشاريع الجانبية، بل
+<strong>أسطولاً</strong> مصمماً بعناية: <strong>تطبيقات منتجات
+كبيرة</strong> مبنية على <strong>عشرات الوحدات الصغيرة المستقلة المختبرة
+بشكل منفصل</strong>، حيث يحكم الكل إطار هندسي مشترك
+<strong>Constitution</strong>، ويتحقق منه نظام <strong>ضمان الجودة
+المضاد للادعاء</strong>. هذا الهيكل هو ما يميزها. فمعظم المحافظ هي مجرد
+قائمة بالأشياء التي بُنيت؛ أما هذه فهي نظام يُجمع فيه كل منتج من أجزاء
+مجربة وقابلة لإعادة الاستخدام، وكل جزء يخضع لنفس القواعد غير القابلة
+للتفاوض، وكل قدرة معلن عنها مدعومة بأدلة ملموسة. اللغة السائدة هنا هي
+<strong>Go</strong>، مع استخدام Kotlin/KMP وTypeScript/React وPython
+وSwift وShell حيثما تناسب كل منها بشكل حقيقي — Go للخدمات والمكتبات
+عالية الإنتاجية، Kotlin للتزويد والتطبيقات متعددة المنصات، TypeScript
+للواجهات الأمامية المكتوبة بأنواع البيانات، Python للصق بين AI وML.</p>
+<p>ما يجعل هذا العمل متماسكاً هو أن الانضباط هنا ميكانيكي وليس طموحاً.
+فالإطار المشترك <strong>Constitution</strong> يُنشر كوحدة فرعية في Git
+ويُورث عبر أسطول يضم أكثر من ١٤٠ مستودعاً، بحيث تنتشر أي تغيير في القاعدة
+في كل مكان؛ كما يرفض نظام ضمان الجودة المضاد للادعاء تسجيل نجاح أي
+اختبار دون دليل تشغيلي. عائلة Helix والأسطول الخدمي وأدوات Server
+Factory هي ثلاث تجليات لفكرة واحدة: ابنِ مرة واحدة، أعد الاستخدام في كل
+مكان، وأثبت أنه يعمل قبل أن تعتبره مكتملاً.</p>
+<p>كل ما يلي يعرض بحسب الأولوية:</p>
+<p>١. <strong>أركان الحوكمة وضمان الجودة</strong> — HelixConstitution
+وHelixQA (الانضباط الذي يجعل الباقي موثوقاً). ٢. <strong>عائلة منتجات
+Helix</strong> — دورة حياة تطوير AI (HelixTrack أولاً). ٣. <strong>البنية
+التحتية LLM</strong> — تجريد المزودين والتنسيق والتحقق. ٤. <strong>أدوات
+vasic-digital المستقلة</strong> — أدوات مستقلة على مستوى المنتجات. ٥.
+<strong>Server Factory</strong> — إرث أتمتة البنية التحتية (مرتبة
+أخيراً).</p>
+<p>الأطروحة الموحدة: <strong>لا يُعتبر الميزة مكتملة إلا عندما يتمكن
+مستخدم حقيقي من استخدامها، وهناك دليل ملموس يثبت ذلك.</strong></p>
+<hr />
+<h2 id="أركان-الحوكمة-وضمان-الجودة">٢. أركان الحوكمة وضمان الجودة</h2>
+<p>يأتي هذان العنصران أولاً لأن كل ما سواهما في هذه المحفظة يستمد
+مصداقيته منهما. فهما معاً يحولان عبارة “ثق بي، إنه يعمل” إلى حقيقة قابلة
+للتدقيق — حيث يُرمّز الإطار <strong>Constitution</strong> القواعد، بينما
+يثبت نظام <strong>HelixQA</strong> أنها اتُبعت.</p>
+<ul>
+<li><strong>HelixConstitution</strong> — كتاب قواعد هندسية شامل وغير
+مرتبط بمشروع محدد، يُنشر كوحدة فرعية في Git ويُورث عبر أسطول يضم أكثر من
+١٤٠ مستودعاً. بوابات أدلة مضادة للادعاء، مناعة ضد الإيجابيات الكاذبة،
+سلامة البيانات والمضيف، انضباط التغطية؛ وراثة قابلة للتوسيع دون إضعاف؛
+بوابات انتشار تبحث عن البنود المطلوبة عبر الأسطول بأكمله؛ وكل بوابة
+مقترنة باختبار تحور يثبت أنها ليست مجرد خدعة.</li>
+<li><strong>HelixQA</strong> — تنسيق ضمان الجودة المضاد للادعاء (Go).
+بنوك اختبارات مكتوبة بلغة YAML بالإضافة إلى جلسات ضمان جودة مستقلة
+بالكامل تعتمد على LLM والرؤية الحاسوبية عبر أنظمة Android وAndroid TV
+والويب وسطح المكتب؛ لا يُسجل نجاح أي اختبار دون أدلة ملموسة (لقطات شاشة،
+سجلات logcat، مقاطع فيديو، تتبع المكدس). نوع الاختبار الإلزامي لضمان
+الجودة وفقاً للإطار <strong>Constitution</strong> (§١١.٤.١٦٩).</li>
+</ul>
+<h2 id="عائلة-منتجات-helix">٣. عائلة منتجات Helix</h2>
+<p>تعدّ سلسلة Helix الرائدة عائلة متكاملة من المنتجات تغطي دورة حياة
+تطوير AI بأكملها، بدءاً من التخطيط والمواصفات مروراً بالبناء والذاكرة
+والترجمة وصولاً إلى التسليم. كل منتج منها قائم بذاته، إلا أن القصد من
+التصميم هو تكاملها معاً: نفس الحوكمة، نفس الوحدات القابلة لإعادة
+الاستخدام، ونفس الانضباط القائم على الأدلة تحت مظلة واحدة.</p>
+<ul>
+<li><strong>HelixTrack</strong> — بديل JIRA للعالم الحر؛ الرائد في خط
+منتجات Helix-Track.</li>
+<li><strong>HelixAgent</strong> — خدمة LLM التجميعية: تتناقش نماذج
+متعددة وتصدر الإجابة التي تتفق عليها، مع اختيار المزودين بناءً على
+التحقق.</li>
+<li><strong>HelixCode</strong> — منصة تطوير AI موزعة على مستوى المؤسسات؛
+تقسم المهام بين العاملين المدارين بواسطة SSH مع نقاط تفتيش واستعادة
+تلقائية؛ واجهات REST وCLI وTUI وMCP.</li>
+<li><strong>HelixCluster</strong> — نظام تشغيل موزع لحوسبة AI، من وحدات
+معالجة الرسوميات في مراكز البيانات إلى الأجهزة المحمولة الطرفية، تحت
+لوحة تحكم واحدة.</li>
+<li><strong>HelixBuilder</strong> — خط إنتاج مدعوم بـAI لبناء التطبيقات،
+فئة تلو الأخرى.</li>
+<li><strong>HelixSkills</strong> — نظام مهارات محكوم ومستند إلى دستور
+خاص بوكلاء CLI من AI (المهارات، خوادم الأدوات MCP، إضافات Claude
+Code).</li>
+<li><strong>HelixSpecifier</strong> — التطوير القائم على المواصفات الذي
+يضبط طقوسه وفقاً لحجم العمل.</li>
+<li><strong>HelixMemory</strong> — دماغ ذاكرة واحد لوكلاء AI، يجمع بين
+أربعة محركات رائدة في فئتها.</li>
+<li><strong>HelixTranslate</strong> — ترجمة كتب تعتمد على النماذج
+المُتحقق منها؛ مصممة لتكون شفافة، ولا تلجأ أبداً إلى التراجع الصامت.</li>
+<li><strong>HelixTerminator</strong> — منصة طرفية بلا ثقة: كل جلسة SSH
+مؤمنة ومشتركة ومساعَدة بواسطة AI.</li>
+<li><strong>HelixGitpx</strong> — Git موحد عبر عشرات المضيفين؛ مصدر واحد
+للحقيقة، متكرر في كل مكان.</li>
+<li><strong>HelixOTA</strong> — تحديثات عبر الهواء عالمية ومستقلة؛ مصممة
+لتكون بلا أعطال.</li>
+<li><strong>HelixPlay</strong> — حوّل أي جهاز GPU إلى جهاز سحابي للألعاب
+خاص بك.</li>
+<li><strong>Helix-Flow</strong> — منتج استدلال لمنصة Helix. <em>غير
+مُتحقق منه / معلق بانتظار المصدر: مستودعه العام يحتوي حالياً على ملف
+README بسطر واحد فقط؛ سيتم تقديمه بالعمق المنتج عند توفر الوثائق
+الحقيقية.</em></li>
+</ul>
+<h2 id="البنية-التحتية-لـllm">٤. البنية التحتية لـLLM</h2>
+<p>تحت المنتجات تكمن الطبقة الأساسية التي تجعلها مستقلة عن المزودين
+وموثوقة: واجهة واحدة فوق عشرات مزودي LLM، ولوحة تحكم واحدة لوكلاء
+الترميز غير المرئيين، ومصدر واحد للحقيقة القائم على التحقق. هذه هي
+الطبقة التي تسمح لكل ما فوقها بتبديل النماذج، والبقاء على قيد العمل
+أثناء انقطاعات المزودين، ورفض الثقة بأي LLM لا يستطيع إثبات فهمه
+للمهمة.</p>
+<ul>
+<li><strong>HelixLLM</strong> — ثنائي واحد بستة أوضاع: استدلال متوافق مع
+OpenAI وAnthropic عبر HTTP/3، llama.cpp محلي، سلسلة تراجع مُقيّمة، خط
+أنابيب RAG، ووكلاء ReAct.</li>
+<li><strong>LLMProvider</strong> — واجهة واحدة لـ٤٣ مزوداً، مع قواطع
+دوائر وإعادة محاولة وآليات صحية مدمجة.</li>
+<li><strong>LLMOrchestrator</strong> — لوحة تحكم واحدة لكل وكلاء الترميز
+غير المرئيين من CLI (OpenCode، Claude Code، Gemini، Junie، Qwen
+Code).</li>
+<li><strong>LLMsVerifier</strong> — تحقق وراقب وحسّن: المصدر الوحيد
+للحقيقة الخاصة ببيانات LLM والمزودين والتحقق، مع بوابة إلزامية لفهم
+النموذج.</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="أدوات-فاسيك-الرقمية">٥. أدوات فاسيك الرقمية</h2>
+<p>أدوات مستقلة ذات مستوى إنتاجي، كل منها يحل مشكلة معقدة بذاتها — وهي،
+ليس من قبيل الصدفة، تختبر أسطول الوحدات القابلة لإعادة الاستخدام بكثافة.
+تتراوح بين نظام وسائط متعدد البروتوكولات مرن إلى خط إنتاج دورات تعليمية
+من ماركداون إلى فيديو، وصولاً إلى محرك مزامنة الوثائق/قواعد البيانات
+المحتوى-المهشّم؛ بعضها صريح بشأن مستوى نضجه، وهذه العلامات تُحفظ ولا
+تُدفن.</p>
+<ul>
+<li><strong><a
+href="../products/Catalogizer.md">Catalogizer</a></strong> — إدارة
+مجموعات الوسائط متعددة البروتوكولات (SMB/FTP/NFS/WebDAV/محلي)، مشفرة
+وقابلة للاستضافة الذاتية؛ واجهة Go/Gin مع API + React؛ مراقبة مرنة تتحمل
+الانقطاع؛ مبنية على ٢١ وحدة فرعية من <code>digital.vasic.*</code>.</li>
+<li><strong><a
+href="../products/Courses-Creator.md">Courses-Creator</a></strong> — خط
+إنتاج دورات تعليمية من ماركداون إلى فيديو؛ إثراء متعدد LLM، TTS
+(Bark/SpeechT5)، ومشغلات سطح المكتب/الهواتف/الويب؛ وضع تشغيل سلس بدون
+مفتاح API.</li>
+<li><strong><a
+href="../products/VisionEngine.md">VisionEngine</a></strong> — مجموعة
+أدوات Go المفككة التي تدمج الرؤية الحاسوبية الكلاسيكية مع رؤية LLM
+متعددة المزودين؛ رسوم بيانية للملاحة مع BFS وتصدير إلى DOT/JSON/Mermaid؛
+بوابة بناء OpenCV محددة بالعلامات.</li>
+<li><strong><a
+href="../products/DocProcessor.md">DocProcessor</a></strong> — خريطة
+الميزات من الوثائق مع تتبع تغطية التحقق؛ استخراج LLM أو استخراج قائم على
+الاستدلال/غير متصل؛ ترخيص Apache-2.0.</li>
+<li><strong><a href="../products/docs_chain.md">Docs Chain</a></strong>
+— مزامنة وثائق/قواعد بيانات ثنائية الاتجاه ذرية المحتوى-المهشّم (إعادة
+حساب تدريجية على نمط Salsa عبر DAG). <em>المراحل ١–٥ مكتملة؛ المراحل ٦–٧
+مخطط لها.</em></li>
+<li><strong><a href="../products/Herald.md">Herald</a></strong> —
+إشعارات متعددة القنوات موثوقة مع تحليل نية ثلاثي المستويات بلغة طبيعية
+(أمر → LLM → توضيح)؛ أول مستهلك لـ Docs Chain.</li>
+<li><strong><a
+href="../products/task_bridge.md">task_bridge</a></strong> — مزامنة
+مهام/لوحات ثنائية الاتجاه مفككة (SQLite مصدر وحيد للحقيقة ↔︎ الوثائق ↔︎
+ClickUp). <em>هيكل المرحلة الأولى — منطق المزامنة لم يُنفذ بعد.</em></li>
+<li><strong><a
+href="../products/Vasic-Digital-Reusable-Module-Suite.md">Vasic Digital
+مجموعة الوحدات القابلة لإعادة الاستخدام</a></strong> — “المكتبة
+القياسية” لـ <code>digital.vasic.*</code>: أساسيات البنية التحتية، لبنات
+بناء AI، وحاجز دفاعي لـ LLM، بالإضافة إلى مرآة Kotlin Multiplatform.
+<em>عدة مستودعات مؤسسية هي في مرحلة السقالات/قيد التطوير — مُعلّمة، وغير
+منشورة.</em></li>
+</ul>
+<h2 id="server-factory-إرث-أتمتة-البنية-التحتية-مصنف-أخيرا">٦. Server
+Factory (إرث أتمتة البنية التحتية — مُصنّف أخيراً)</h2>
+<p>مُصنّف أخيراً عن قصد، وليس لجودة الأدوات: سلسلة أدوات Server Factory
+سبقت خط AI وتُظهر أين تشكلت فلسفة “ابنِ مرةً، أعد الاستخدام في كل مكان”
+لأول مرة. منتجها الرائد — خادم بريد تُصفه في JSON وتُنشره في أي مكان — هو
+منتج ناضج ومُختبر جيداً؛ أما بقية الأدوات المصاحبة فتُقدّم بمستويات نضجها
+الحقيقية دون تجميل.</p>
+<ul>
+<li><strong><a href="../products/Mail-Server-Factory.md">Mail Server
+Factory</a></strong> — خادم بريد Docker مُعد بالكامل عبر JSON التقريرية
+عبر ١٢ نوع اتصال و٢٥ توزيعة Linux؛ أمان مؤسسي؛ يُبلغ عن اجتياز ٤٣٩
+اختباراً وبوابة SonarQube نظيفة. المنتج الرائد لمنظمة
+Server-Factory.</li>
+<li><strong><a
+href="../products/Server-Factory-Core-Framework.md">Server Factory
+الإطار الأساسي</a></strong> — محرك Kotlin المشترك الذي تبنى عليه كل
+المصانع.</li>
+<li><strong><a href="../products/Qemu-Utils.md">Qemu-Utils</a></strong>
+— صور آلات افتراضية QEMU تُدار كقطع أثرية: تحميل/تخزين مؤقت/تشغيل،
+ضغط/نشر، شبكات جسرية/TAP، تثبيت عبر ISO؛ Linux وماك.</li>
+<li><strong><a
+href="../products/Parallels-Utils.md">Parallels-Utils</a></strong> — ضغط
+صور الآلات الافتراضية Parallels (ماك)، نشر واسترجاع عبر ملفات إعدادات
+بسيطة.</li>
+<li><strong><a
+href="../products/Server-Factory-Additional-Components.md">Server
+Factory — المكونات الإضافية</a></strong> — مصانع خدمات
+(ويب/SonarQube/وكيل التخزين المؤقت)، حزم التعريفات، وأدوات مساعدة.
+<em>مصانع الخدمات موثقة بشكل مؤقت — غير مُتحقق منها/في مراحل
+مبكرة.</em></li>
+</ul>
+<p>المحتوى</p>
+<hr />
+<h2 id="مؤشر-التكنولوجيا-قائم-على-الأدلة">٧. مؤشر التكنولوجيا (قائم على
+الأدلة)</h2>
+<ul>
+<li><strong>اللغات:</strong> Go (السائدة)، Kotlin وKotlin Multiplatform،
+TypeScript، Python، Swift، Shell؛ PL/pgSQL؛ TLA+ (المواصفات الرسمية في
+helix_cluster).</li>
+<li><strong>AI / LLM:</strong> وصول إلى أكثر من ٤٠ مزودًا، MCP، RAG،
+قواعد البيانات vector وembeddings، التخطيط (HiPlan/MCTS/شجرة الأفكار)،
+LLMOps، المقارنة المعيارية (SWE-bench/HumanEval/MMLU)، TTS
+(Bark/SpeechT5)، الرؤية الحاسوبية + LLM-vision، الضوابط/الفريق
+الأحمر.</li>
+<li><strong>الواجهة الخلفية:</strong> Gin، gRPC + Protobuf، HTTP/3
+(QUIC)، WebSockets، Angular، React، Kafka/RabbitMQ.</li>
+<li><strong>البيانات:</strong> PostgreSQL، SQLite، SQLCipher، Redis،
+Neo4j، ClickHouse، MinIO/S3/GCS/Azure.</li>
+<li><strong>البنية التحتية/DevOps:</strong> Docker وCompose، Kubernetes
++ Helm، Prometheus + Grafana، OpenTelemetry، QEMU/Libvirt/Parallels؛
+GitHub Actions، Gradle، Make.</li>
+<li><strong>الاختبار/ضمان الجودة:</strong> HelixQA، أطر التحدي مع بوابات
+التحور، <code>go test -race</code>، أدوات اختبار الانحدار البصري، اختبار
+الأجهزة عبر ADB، SonarQube، فحص الأمان
+(semgrep/gosec/trivy/snyk/gitleaks/nancy)، التحقق من النماذج عبر
+TLA+.</li>
+</ul>
+</body>
+</html>

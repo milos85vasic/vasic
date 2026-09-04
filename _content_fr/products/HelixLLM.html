@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixLLM</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixLLM</h1>
+</header>
+<h1 id="helixllm">HelixLLM</h1>
+<p><strong>Un binaire unique, six modes — Inférence compatible OpenAI et
+Anthropic, de votre ordinateur portable à un cluster
+multi-hôte.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>HelixLLM est un système distribué d’inférence LLM de niveau
+entreprise conçu en Go : un binaire unique doté d’un système de modes
+permettant de passer d’un développement sur machine locale à une
+production multi-hôte. Il propose des API entièrement compatibles avec
+OpenAI et Anthropic via HTTP/3, une inférence locale avec llama.cpp, une
+chaîne de secours multi-fournisseurs avec notation, un pipeline RAG et
+un système d’agents ReAct.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>HelixLLM est un système distribué d’inférence LLM basé sur Go,
+fonctionnant avec un seul binaire. Il expose des API compatibles avec
+OpenAI et Anthropic via HTTP/3, exécute une inférence locale avec
+llama.cpp, découvre et note automatiquement des fournisseurs cloud
+gratuits pour former une chaîne de secours, et intègre un pipeline de
+connaissances RAG ainsi qu’un agent ReAct capable d’appeler des outils —
+le tout déployable selon six modes.</p>
+<h2 id="description-détaillée">Description détaillée</h2>
+<p>HelixLLM est un système distribué d’inférence LLM de niveau
+entreprise, développé en Go avec Gin. Son atout principal réside dans le
+fait qu’un seul artefact couvre tous les niveaux d’échelle. Il se
+compile en un binaire unique dont le système de modes détermine, au
+moment du déploiement, ce que ce binaire <em>devient</em> : exécuté en
+mode <code>full</code>, il fonctionne comme une instance tout-en-un sur
+un ordinateur portable, ou bien répartit ses responsabilités entre les
+modes <code>gateway</code>, <code>brain</code>, <code>knowledge</code>,
+<code>agents</code> et <code>control</code> sur plusieurs hôtes — le
+même code, simplement réorganisé plutôt que réécrit, de la machine d’un
+développeur à un cluster de production.</p>
+<p>Il maîtrise deux dialectes à la perfection : des API entièrement
+compatibles avec OpenAI et Anthropic, permettant aux clients SDK
+existants des deux écosystèmes de fonctionner sans modification, le tout
+servi via HTTP/3 (QUIC) avec un basculement automatique vers HTTP/2 et
+TLS 1.3. L’inférence locale s’effectue via llama.cpp avec prise en
+charge de CUDA, Metal et ROCm, ce qui permet au même build d’accélérer
+sur les matériels Nvidia, Apple et AMD. Son point fort réside dans la
+chaîne de secours multi-fournisseurs, qui transforme l’instabilité
+notoire des services d’inférence cloud gratuits en une ressource gérée
+et auto-réparante : HelixLLM découvre automatiquement des modèles
+gratuits auprès de plus de 7 fournisseurs cloud (Chutes, OpenRouter,
+HuggingFace, Nvidia, Cerebras, SambaNova, Together), les évalue via
+LLMsVerifier toutes les 5 minutes, et achemine les requêtes à travers la
+chaîne classée avec un basculement automatique en cas d’erreurs 429/5xx
+— le tout en garantissant toujours llama.cpp local comme solution de
+dernier recours, afin qu’une requête ne soit jamais simplement rejetée
+faute de fournisseur disponible.</p>
+<p>Au-delà de l’inférence brute, HelixLLM constitue une plateforme
+applicative complète : un pipeline de connaissances RAG (ingestion,
+découpage, embedding, recherche vector) et un système d’agents ReAct
+avec appel d’outils, gestion de sessions de conversation et intégration
+RAG sont inclus dans le même binaire. Le système de modes se révèle
+également avantageux au niveau réseau — en mode <code>full</code>,
+toutes les couches communiquent via des appels Go directs en processus,
+sans surcharge réseau, tandis que le même binaire, réparti sur plusieurs
+hôtes, se coordonne via gRPC, SSE et Kafka. Pour parfaire le tout, on
+trouve une négociation de contenu Brotli/gzip, un streaming SSE
+reproduisant à l’identique les formats OpenAI et Anthropic, une
+authentification par clé API et JWT avec limitation de débit, des
+métriques Prometheus, un traçage OpenTelemetry, ainsi qu’un large
+éventail de sous-modules Go dédiés à l’infrastructure de production.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Les équipes ont besoin d’une inférence portable, compatible avec les
+standards et résiliente — sans avoir à réécrire les clients ni dépendre
+d’un seul fournisseur ou d’une seule machine. HelixLLM a été conçu pour
+qu’un même binaire puisse s’exécuter en local pour le développement et
+s’adapter à un cluster de production multi-hôtes, en utilisant les
+dialectes OpenAI et Anthropic déjà exploités par les clients.</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Il condense toute une pile d’inférence — passerelle, inférence
+locale, repli cloud, RAG et agents — en un seul binaire contrôlé par un
+sélecteur de mode, permettant ainsi de choisir l’architecture au moment
+de l’exécution plutôt que de lancer un projet de migration. Et il
+transforme ce qui était autrefois un point faible en atout : la
+fiabilité des fournisseurs cloud devient une préoccupation centrale,
+mesurée en continu, gérée par une chaîne de repli auto-réparante et
+notée, qui réévalue les fournisseurs toutes les quelques minutes et
+bascule systématiquement vers une inférence locale garantie. Ce que cela
+permet, c’est un point de terminaison unique sur lequel on peut vraiment
+compter — compatible avec les standards, portable du portable au
+cluster, et incapable de tomber en panne parce qu’un fournisseur en
+amont a limité le débit ou échoué.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li>Un binaire unique doté d’un système à six modes, capable de
+fonctionner en mode tout-en-un ou en rôles distribués — appels Go
+directs en mode <code>full</code>, gRPC/SSE/Kafka en mode distribué — de
+sorte que la topologie de déploiement évolue sans modification du code
+ni surcoût réseau imprévu.</li>
+<li>Une chaîne de repli multi-fournisseurs auto-découvrante et notée,
+couvrant plus de 7 fournisseurs gratuits, classés en continu par
+LLMsVerifier avec bascule automatique en cas d’erreurs 429/5xx et
+recours garanti à llama.cpp en dernier ressort — transformant la
+capacité des offres gratuites en capacité fiable.</li>
+<li>Des interfaces compatibles à la fois avec OpenAI <em>et</em>
+Anthropic, servies via HTTP/3 avec repli automatique sur HTTP/2,
+permettant aux clients des deux écosystèmes de se connecter sans
+modification.</li>
+<li>Une inférence locale couvrant CUDA, Metal et ROCm à partir d’une
+seule base de code — le même build s’exécute en accéléré sur du matériel
+Nvidia, Apple et AMD.</li>
+</ul>
+<h2 id="principaux-défis-techniques-et-nos-solutions">Principaux défis
+techniques et nos solutions</h2>
+<ul>
+<li><strong>Passer d’un hôte à plusieurs sans réécriture.</strong> La
+plupart des systèmes imposent une frontière stricte entre «
+développement local » et « production distribuée », et la franchir
+implique une refonte architecturale. Nous avons effacé cette frontière
+grâce à un système de modes intégré à un binaire unique : les mêmes
+couches communiquent via des appels directs en mode <code>full</code> et
+basculent de manière transparente vers gRPC/SSE/Kafka en modes
+distribués, si bien que le passage à l’échelle se résume à un changement
+de configuration plutôt qu’à une migration.</li>
+<li><strong>Fournisseurs cloud gratuits, peu fiables et limitant le
+débit.</strong> L’inférence en offre gratuite est rapide… jusqu’à ce
+qu’elle renvoie une erreur 429 ou disparaisse en cours de requête. Nous
+l’avons rendue fiable en découvrant automatiquement les modèles
+disponibles, en les notant avec LLMsVerifier, en surveillant
+proactivement les en-têtes de limitation de débit pour éviter les
+fournisseurs sur le point de brider les requêtes, et en basculant
+automatiquement vers le modèle suivant dans la chaîne classée, jusqu’à
+llama.cpp en local — de sorte que l’instabilité du pool ne touche jamais
+l’appelant.</li>
+<li><strong>Compatibilité des clients entre deux écosystèmes.</strong>
+Réécrire les clients pour adopter un nouveau backend d’inférence est
+inenvisageable. Nous avons implémenté à la fois les formats OpenAI
+<em>et</em> Anthropic — y compris leurs formats de streaming SSE
+distincts — afin que les SDK des deux camps puissent pointer vers
+HelixLLM et fonctionner sans modification.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Go + Gin</strong> — choisis car un runtime monolithique axé
+sur la concurrence est ce qui rend possible l’ensemble du système de
+modes : une seule compilation pouvant servir de serveur local ou de nœud
+de cluster. Il embarque l’intégralité du système ainsi que la couche
+HTTP du gateway.</li>
+<li><strong>HTTP/3 (QUIC) + TLS 1.3, avec repli sur HTTP/2</strong> —
+retenus pour leur transport moderne, à faible latence et résilient aux
+déconnexions, exposé en tant que surface serveur avec négociation
+automatique, permettant aux clients incapables de gérer QUIC de basculer
+discrètement vers HTTP/2.</li>
+<li><strong>llama.cpp (CUDA/Metal/ROCm)</strong> — choisi pour son
+inférence locale portable, accélérée sur les backends Nvidia, Apple et
+AMD à partir d’une seule base de code ; il sert également de fournisseur
+de dernier recours garanti, évitant ainsi à la chaîne de repli de jamais
+atteindre une impasse.</li>
+<li><strong>LLMsVerifier</strong> — adopté pour transformer la question
+<em>« quel fournisseur est performant en ce moment ? »</em> en un
+chiffre ; il évalue et classe la chaîne de repli cloud toutes les 5
+minutes, de sorte que le routage s’adapte à la qualité en temps réel
+plutôt qu’à des hypothèses obsolètes.</li>
+<li><strong>Fournisseurs cloud (Chutes, OpenRouter, HuggingFace, Nvidia,
+Cerebras, SambaNova, Together)</strong> — sélectionnés pour exploiter
+les capacités gratuites de plusieurs sources en amont ; découverts et
+classés automatiquement en une seule chaîne de basculement, aucun
+fournisseur ne constituant un point de défaillance unique.</li>
+<li><strong>gRPC + SSE + Kafka</strong> — retenus comme protocoles de
+transport inter-modes pour les déploiements distribués : gRPC pour les
+appels service à service, SSE pour le streaming, et Kafka pour le flux
+d’événements découplé entre les rôles.</li>
+<li><strong>Magasin de vecteurs / embeddings</strong> — choisi pour
+alimenter le pipeline de connaissances RAG de bout en bout : ingestion,
+découpage, vectorisation et recherche dans les documents qui ancrent les
+réponses du modèle.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> — adoptés pour le suivi
+des métriques et le traçage distribué accompagnant une requête à travers
+tous les modes déployés.</li>
+<li><strong>Sous-modules vasic-digital Go</strong> — choisis pour
+réutiliser des primitives d’infrastructure de production éprouvées
+plutôt que de les reconstruire, garantissant ainsi une cohérence de la
+base du système avec l’ensemble de la pile.</li>
+</ul>
+<h2 id="statut-et-notes-de-transparence">Statut et notes de
+transparence</h2>
+<ul>
+<li><strong>Statut : bêta.</strong> Système d’inférence distribuée
+fonctionnel et en développement actif.</li>
+<li><strong>Licence : à déterminer.</strong> Le dépôt ne déclare aucune
+licence dans ses métadonnées (<code>licenseInfo</code> null) — cette
+information est NON VÉRIFIÉE et doit être clarifiée avant toute mention
+d’une licence.</li>
+<li>Le dépôt canonique pointe actuellement vers
+<code>github.com/HelixDevelopment/llm</code> ; le chemin
+<code>HelixLLM</code> y redirige. Les seuils de couverture et le nombre
+de sous-modules indiqués dans le README sont auto-déclarés.</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire.</p>
+</body>
+</html>

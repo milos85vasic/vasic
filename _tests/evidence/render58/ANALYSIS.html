@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ANALYSIS</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ANALYSIS</h1>
+</header>
+<h1 id="constitution-render-twins-forensic-analysis-2026-08-07">#58 —
+Constitution render-twins: forensic analysis (2026-08-07)</h1>
+<p><strong>Problem:</strong> the <code>.md</code> gained §11.4.237 but
+the tracked <code>.html/.docx/.pdf</code> renders were stale (missing
+it). Goal: regenerate them, matching the operator’s format, with zero
+bluff.</p>
+<h2 id="investigation-evidence-based-systematic-debugging">Investigation
+(evidence-based, systematic-debugging)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Step</th>
+<th>Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pandoc version</td>
+<td>historical renders = <code>pandoc 3.10</code>; local was
+<code>3.9.0.2</code> → upgraded to <code>3.10.1</code>; also fetched the
+exact <code>3.10</code> binary from GitHub releases</td>
+</tr>
+<tr>
+<td>3.10 vs 3.10.1</td>
+<td>default <code>default.html5</code> byte-identical; only
+<code>styles.html</code> differs by one <code>font-size:12pt</code> line
+<strong>inside the <code>document-css</code> block</strong> (which is
+disabled here) → 3.10.1 is output-equivalent for this corpus.
+<code>-V pandoc-version=3.10</code> restores the generator/Creator
+string</td>
+</tr>
+<tr>
+<td><code>&lt;style&gt;</code></td>
+<td><strong>identical across all 5 docs</strong> (hash
+<code>1a9ff4d…</code>) = pandoc default styles <strong>minus the
+<code>document-css</code> body block</strong>; PLUS a 2nd
+<code>&lt;style&gt;</code> = the OpenDesign stylesheet (hash
+<code>7d04bd4…</code>, 347 lines)</td>
+</tr>
+<tr>
+<td>reader</td>
+<td><strong><code>-f gfm</code></strong> — proven by: heading-IDs match
+exactly, table <code>&lt;colgroup&gt;</code> widths absent (gfm), smart
+typography off (straight quotes, <code>--</code> not en-dash)</td>
+</tr>
+<tr>
+<td>head reproduction</td>
+<td>a custom template (operator head + OD styles, title/body
+parameterized) reproduces the <code>&lt;head&gt;</code>
+<strong>byte-for-byte for all 5</strong> (HEAD diff = 0)</td>
+</tr>
+<tr>
+<td>residual body delta</td>
+<td><strong>~5.5k lines, cosmetic:</strong> historical body has
+<code>&amp;quot;</code> where standard pandoc emits literal
+<code>"</code>, + a few TOC <code>&lt;a href&gt;</code> line-wraps</td>
+</tr>
+<tr>
+<td>root cause of residual</td>
+<td><strong>no pandoc reader/writer/flag escapes a source <code>"</code>
+to <code>&amp;quot;</code></strong> (tested <code>-t html</code>,
+<code>-t html5</code>, <code>--ascii</code>, gfm/commonmark/markdown).
+The historical pipeline included a <strong>non-standard post-processing
+step</strong>; source <code>.md</code> has 0 <code>&amp;quot;</code>
+entities. Not reproducible/relevant to correctness — renders
+identically.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resolution-enterprise-governed-reproducible">Resolution
+(enterprise, governed, reproducible)</h2>
+<p>Committed <code>scripts/render/render-governance-twins.sh</code> +
+<code>assets/{governance-template.html5,od-styles.html}</code> (§11.4.65
+export-sync). Regenerated all 15 twins from the current
+<code>.md</code>: - §11.4.237 present in every render (html 6× / docx 4×
+/ pdf 6×); §11.4.236 preserved. - Operator <code>&lt;head&gt;</code> +
+OpenDesign styling reproduced exactly; heading anchors correct; PDFs
+valid (952K–3.1M), Creator <code>pandoc 3.10</code>. - Deterministic:
+<code>SOURCE_DATE_EPOCH=1785674948</code>; pin
+<code>weasyprint==69.0</code> for exact PDF Producer.</p>
+<p><strong>Sole deviation:</strong> the historical
+<code>"</code>→<code>&amp;quot;</code> post-step is not replicated
+(non-standard; identical rendering). Everything else is exact + now
+reproducible forever via the committed script.</p>
+</body>
+</html>

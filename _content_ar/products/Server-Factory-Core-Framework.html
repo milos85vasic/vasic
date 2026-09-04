@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>المحرك المشترك وراء كل أداة Server Factory.</strong></p>
+<h2 id="ملخص">ملخص</h2>
+<p>إطار العمل الأساسي هو إطار Kotlin الذي يدعم عائلة أدوات التزويد
+Server Factory. يوفر هذا الإطار المحرك المشترك والتجريدات التي تعتمد
+عليها مشاريع مثل Mail Server Factory، بحيث يعيد كل “مصنع” استخدام أساس
+واحد تم اختباره ميدانياً بدلاً من إعادة تنفيذ أساسيات التزويد من
+الصفر.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>إطار Kotlin المشترك الذي يشكل أساس منظومة Server Factory. يوفر هذا
+الإطار محرك التزويد المشترك، وتجريدات الاتصال، وآلية خطوات التثبيت التي
+تستهلكها المصانع الفرعية (مثل Mail Server Factory، ومصنع خدمات الويب،
+ومصنع SonarQube، وغيرها).</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>إطار العمل الأساسي هو القطعة الهندسية الهادئة التي تجعل عائلة
+Server-Factory بأكملها ممكنة: المحرك القابل لإعادة الاستخدام الذي تُبنى
+عليه كل أداة “مصنع” فردية (Mail Server Factory، ومصنع خدمات الويب، ومصنع
+SonarQube، ومصنع وكيل التخزين المؤقت). يعتمد نهج Server Factory على
+الأسلوب التصريحي — حيث يصف المستخدم البنية التحتية التي يريدها عبر
+التكوين، ويقوم المصنع بتفسير هذا الوصف لتثبيت البرامج وإعدادها على
+النظام المستهدف — وإطار العمل الأساسي هو المكان الذي توجد فيه الآليات
+المشتركة لهذا النمط: تجريدات الاتصال والنقل التي تصل إلى كل نوع من
+الأنظمة المستهدفة، ونموذج خطوات التثبيت الذي يحدد <em>كيفية</em> تزويد
+البرامج، والأنابيب المشتركة التي كان سيتعين على كل مصنع كتابتها بنفسه.
+إنه الحل لسؤال هيكلي تواجهه كل سلسلة أدوات متعددة المنتجات في النهاية —
+أين يوضع المحرك المشترك؟ — والحصول على هذا الحل الصحيح مرة واحدة هو ما
+يحافظ على تماسك العائلة بدلاً من تجزئتها إلى أربعة أدوات تزويد مختلفة
+قليلاً. من خلال تركيز هذا في إطار Kotlin واحد، تتجنب العائلة تكرار منطق
+التزويد عبر المنتجات وتحافظ على اتساق السلوك: فكل نوع اتصال أو أساسيات
+تثبيت يتم تحسينها في إطار العمل الأساسي تعود بالفائدة على كل المصانع
+الفرعية. يتكون الإطار بالكامل تقريباً من Kotlin (نحو 990 ألف بايت من
+Kotlin مع طبقة رقيقة من Shell)، مما يعكس دوره كمكتبة برمجية بدلاً من
+مجموعة من السكربتات. تربط المستودعات الفرعية به كاعتماديتها المرجعية
+(Parallels-Utils، وQemu-Utils، وأدوات Utils، وحزم التعريفات كلها تشير
+إلى مستودع إطار العمل الأساسي باعتباره مركز المنظومة). تم تصميم ملف
+README الخاص به ليكون موجزاً للغاية — فهو بنية تحتية لمشاريع أخرى، ويتم
+إصدار إصداراته عبر
+<code>version.txt</code>/<code>version_code.txt</code> — وقد سبق ظهوره
+عمل AI اللاحق، مما يجعله جزءاً من تراث سلسلة أدوات DevOps الناضجة في
+المؤسسة.</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>تحتاج كل أداة تزويد إلى نفس الأساس: طرق للاتصال بالأهداف وخطوات
+لتثبيت البرامج وتكوينها. إعادة بناء هذا لكل منتج من شأنه أن يؤدي إلى
+تجزئة السلوك وتكاثر الأخطاء. يركز إطار العمل الأساسي كل ذلك بحيث تشترك
+كل المصانع في محرك واحد موثوق.</p>
+<h2 id="لماذا-يعتبر-نقطة-تحول">لماذا يعتبر نقطة تحول</h2>
+<p>إنه أعلى نقطة تأثير في العائلة بأكملها: فكل نوع اتصال يتم تعزيزه أو
+كل أساسيات تثبيت يتم تحسينها هنا ينتشر هذا التحسين والدقة إلى كل المصانع
+دفعة واحدة، بحيث تتضاعف سلسلة الأدوات بأكملها بفضل استثمار واحد. إنه
+فلسفة “ابنِ مرة واحدة، وأعد الاستخدام في كل مكان” المطبقة حيث تحقق أكبر
+عائد — في طبقة الأساس لأتمتة البنية التحتية، حيث يؤدي إصلاح في المكان
+الصحيح إلى إصلاح كل ما يليه.</p>
+<p>المحتوى</p>
+<h2 id="ما-الجديد-في-الابتكار">ما الجديد في الابتكار</h2>
+<ul>
+<li>إطار عمل قابل لإعادة الاستخدام لتوفير البنية التحتية يجمع بين منطق
+الاتصال وخطوات التثبيت في وحدة واحدة مجردة.</li>
+<li>فصل واضح بين المحرك (الإطار الأساسي) ومصانع المنتجات المحددة.</li>
+<li>توزيع مثبت بالإصدارات (ملفات
+<code>version.txt</code>/<code>version_code.txt</code>) لضمان الاستهلاك
+القابل للتكرار.</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>تجنب تكرار منطق التوفير:</strong> تم حلها باستخراج الآليات
+المشتركة إلى إطار عمل واحد تستهلكه جميع المصانع.</li>
+<li><strong>السلوك المتسق عبر المنتجات:</strong> تم تحقيقه من خلال
+التجريدات المشتركة بحيث تتصرف أنواع الاتصالات والخطوات بشكل متماثل في كل
+مكان.</li>
+<li><strong>(غير مؤكد):</strong> لم تُوثّق واجهات برمجة التطبيقات الداخلية
+المحددة في ملف README العام؛ تعامل تفاصيل الواجهة على أنها غير مؤكدة
+خارج نطاق “إطار العمل المشترك الذي تستهلكه المصانع”.</li>
+</ul>
+<h2 id="مجموعة-الأدوات-التقنية-السبب-والاستخدام">مجموعة الأدوات التقنية
+(السبب والاستخدام)</h2>
+<ul>
+<li><strong>Kotlin</strong> — الإطار الكامل (~990 ألف بايت)؛ لغة عائلة
+Server Factory.</li>
+<li><strong>Shell</strong> — نصوص دعم بسيطة.</li>
+<li><strong>Gradle</strong> — سلسلة أدوات البناء (متسقة مع استخدام
+العائلة لأمر <code>./gradlew</code>).</li>
+</ul>
+<blockquote>
+<p>ملاحظة: يشير GitHub إلى المستودع كنسخة فرعية ضمن منظمة
+Server-Factory. ليس مركزًا على AI؛ يُقدّم كعمود فقري لسلسلة أدوات
+التوفير.</p>
+</blockquote>
+</body>
+</html>

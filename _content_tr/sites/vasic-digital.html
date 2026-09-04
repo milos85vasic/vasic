@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>vasic-digital</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">vasic-digital</h1>
+</header>
+<h1 id="vasic-digital">Vasic Digital</h1>
+<h2 id="kahraman">Kahraman</h2>
+<p><strong>AI tabanlı yazılım mühendisliği, güvenilmek için inşa
+edildi.</strong></p>
+<p>Herhangi biri bir uygulamayı bir LLM’a bir öğleden sonra
+bağlayabilir. Asıl zor olan —bir AI sisteminin demo mu yoksa güvenilir
+bir ürün mü olduğuna karar veren— kısım, modelin etrafındaki her şeydir:
+bir kesintiyi atlatabilen sağlayıcı soyutlaması, ajanları görevde tutan
+orkestrasyon, modelin blöfünü yakalayan doğrulama ve tüm sistemin düzgün
+çalıştığını kanıtlayan yönetişim. İşte bu zor kısım, Vasic Digital’un
+inşa ettiği şeydir. Büyük dil modellerini güvenilir yazılımlara
+dönüştüren modelleri, ajanları, orkestrasyonu ve altyapıyı —ve onları
+dürüst tutan yönetişim katmanını— tasarlayıp sunuyoruz. Tüm bunların
+temelinde tek bir tavizsiz kural yatar: bir özellik, testleri geçtiğinde
+“tamamlanmış” sayılmaz; gerçek bir kullanıcı onu kullanabildiğinde ve
+bunun kanıtı kaydedildiğinde tamamlanır.</p>
+<h2 id="hakkımızda">Hakkımızda</h2>
+<p>Vasic Digital, birbiriyle bağlantılı bir AI geliştirme ürünleri ve
+yeniden kullanılabilir modüller ailesi inşa eden odaklanmış bir
+mühendislik pratiğidir. Tek bir monolit yerine, işler bir filo şeklinde
+organize edilir: düzinelerce küçük, bağımsız olarak test edilmiş,
+birbirinden ayrık modülün üzerine inşa edilen büyük ürün uygulamaları
+—böylece kanıtlanmış parçalar her üründe yeniden inşa edilmek yerine
+tekrar kullanılır. Omurga dil <strong>Go</strong> olup, işe göre
+<strong>Kotlin / Kotlin Multiplatform</strong>,
+<strong>TypeScript/React</strong>, <strong>Python</strong>,
+<strong>Swift</strong> ve <strong>Shell</strong> ile desteklenir: Go
+yüksek verimli hizmetler ve kütüphaneler için, Kotlin tedarik araçları
+ve çapraz platform mobil için, TypeScript tip güvenli ön yüzler için,
+Python ise AI/ML entegrasyonu için kullanılır.</p>
+<p>Filoyu bir arada tutan şey, disiplinin bir hedef olmaktan çıkıp
+mekanik bir hale gelmesidir. Her proje, paylaşılan bir mühendislik
+<strong>Constitution</strong>’ini Git alt modülü olarak devralır
+—böylece bir kural bir kez sıkılaştırıldığında 140’tan fazla depoya
+yayılır— ve bir ürünün sunduğu her yetenek, otomatik, kanıt üreten bir
+testle desteklenmeden “yayınlanmış” sayılmaz. Bu, işin üzerine eklenen
+bir pazarlama dili değil, işin üzerinde çalıştığı işletim modelidir.
+Gerçek avantaj, birikimli etkisidir: çünkü genel endişeler birbirinden
+ayrık, bağımsız olarak test edilmiş modüllerde yaşar, bir düzeltme veya
+iyileştirme tek bir yerde yapılır ve tüm ürünleri bir anda yükseltir;
+her yeni sistem, güvenini zaten kazanmış parçalardan bir araya
+getirilir.</p>
+<h2 id="ne-yaparız">Ne Yaparız</h2>
+<p><strong>AI tabanlı geliştirme.</strong> AI sistemleri için baştan
+sona altyapı inşa ediyoruz:</p>
+<ul>
+<li><strong>Çoklu sağlayıcı LLM erişimi</strong> — 40’tan fazla
+sağlayıcıya (Anthropic/Claude, OpenAI, DeepSeek, Gemini, Mistral,
+Cohere, Groq, xAI/Grok, Qwen, Perplexity, OpenRouter, Together AI,
+Replicate, Cerebras, Cloudflare Workers AI, SiliconFlow ve yerel Ollama
+yedek olarak) tek bir arayüz üzerinden yeniden denemeler, devre
+kesiciler ve sağlık kontrolleriyle erişim sağlayan birinci sınıf bir
+soyutlama.</li>
+<li><strong>Ajan orkestrasyonu</strong> — başsız CLI kodlama ajan
+kontrol düzlemleri, grafik tabanlı ajansal iş akışları, çok turlu “AI
+tartışması” uzlaşısı ve DAG/pipeline çalışma zamanları.</li>
+<li><strong>LLM doğrulaması</strong> — zorunlu anlama kapısı (“Kodumu
+görüyor musun?”) ile modelleri puanlayan, gecikme, akış, fonksiyon
+çağırma, görüntü ve embeddings testlerini içeren bir güven katmanı;
+yalnızca doğrulanmış bir yapılandırma dışa aktarılır.</li>
+<li><strong>Bilgi erişimi ve hafıza</strong> — RAG, vector
+veritabanları, embeddings ve sonsuz bağlam sıkıştırma özelliğine sahip
+birleşik ajan-hafıza motorları (Mem0 + Cognee + Letta).</li>
+<li><strong>Korumalı LLM</strong> — güvenlik bariyerleri, PII tespiti,
+düşmanca kırmızı takım senaryoları ve girdi normalleştirme.</li>
+</ul>
+<p><strong>Helix Ürün Ailesi.</strong> Amiral gemimiz, AI geliştirme
+yaşam döngüsünün tamamını kapsar:</p>
+<ul>
+<li><strong>HelixTrack</strong> — Helix-Track hattının amiral gemisi
+JIRA’a ücretsiz bir alternatif.</li>
+<li><strong>HelixAgent</strong> — Birden fazla modelin tartışarak
+üzerinde uzlaştığı yanıtı sunan bir LLM topluluk hizmeti.</li>
+<li><strong>HelixCode</strong> — İş yükünü SSH tarafından yönetilen
+çalışanlara dağıtan, kontrol noktaları ve geri alma özelliğine sahip
+dağıtık bir AI geliştirme platformu.</li>
+<li><strong>HelixLLM</strong> — Tek bir ikili, altı mod: Dizüstü
+bilgisayardan kümeye kadar OpenAI ve Anthropic uyumlu çıkarım, HTTP/3
+üzerinden.</li>
+<li><strong>HelixCluster</strong> — Veri merkezi GPU’larından
+taşınabilir uç cihazlara kadar AI hesaplamaları için dağıtık bir işletim
+sistemi.</li>
+<li><strong>LLMProvider / LLMOrchestrator / LLMsVerifier</strong> —
+Sağlayıcı soyutlaması, ajan kontrol düzlemi ve doğrulama kaynağı
+gerçekliği.</li>
+<li><strong>HelixMemory, HelixSkills, HelixSpecifier, HelixBuilder,
+HelixTranslate, HelixTerminator, HelixGitpx, HelixOTA,
+HelixPlay</strong> — Bellek yönetimi, denetimli beceriler, şema odaklı
+geliştirme, uygulama oluşturma, doğrulanmış çeviri, sıfır güven
+terminali, federatif Git, güvenli OTA güncellemeleri ve kendi
+sunucunuzda bulut oyunculuğu.</li>
+</ul>
+<p><strong>Araçlar ve Yardımcı Programlar (vasic-digital
+utils).</strong> Kendi başına ayakta durabilen ürün kalitesinde araçlar:
+<strong>Catalogizer</strong> (çok protokollü, şifreli medya koleksiyonu
+yönetimi), <strong>Courses-Creator</strong> (markdown’dan videoya AI
+kurs üretimi), <strong>VisionEngine</strong> (bilgisayarla görü + LLM
+tabanlı kullanıcı arayüzü algısı), <strong>DocProcessor</strong>
+(dokümantasyondan kalite güvencesi için özellik haritası çıkarma),
+<strong>Docs Chain</strong> (içerik tabanlı çift yönlü belge/veritabanı
+senkronizasyonu), <strong>Herald</strong> (doğal dilde çok kanallı
+bildirimler), <strong>task_bridge</strong> (çift yönlü görev/panolar
+arası senkronizasyon) ve <strong>Vasic Digital Yeniden Kullanılabilir
+Modül Paketi</strong> — <code>digital.vasic.*</code> altyapı, AI temel
+bileşenleri ve güvenlik kılavuz modüllerinin “standart kütüphanesi”.</p>
+<p><strong>Altyapı Otomasyonu (Server Factory).</strong> DevOps
+köklerimiz: <strong>Mail Server Factory</strong> ve <strong>Server
+Factory Çekirdek Çerçevesi</strong>, bildirimsel JSON’u farklı bağlantı
+türleri ve Linux dağıtımları üzerinde tam olarak sağlanmış, Dockerize
+sunuculara dönüştüren araçlar. Ayrıca sanal makine görüntü araçları
+(Qemu-Utils, Parallels-Utils) ve destekleyici hizmet fabrikaları.</p>
+<h2 id="teknolojiler">Teknolojiler</h2>
+<p>Gerçek yığına dayalı temel unsurlar:</p>
+<ul>
+<li><strong>Diller:</strong> Go (baskın), Kotlin &amp; Kotlin
+Multiplatform, TypeScript, Python, Swift, Shell; dağıtık sistemler
+çalışmalarında PL/pgSQL ve hatta TLA+ biçimsel şartnameleri.</li>
+<li><strong>AI / LLM:</strong> Çoklu sağlayıcı erişimi (43+ adaptör),
+Model Context Protocol (MCP), RAG, vector veritabanları ve embeddings,
+planlama algoritmaları (HiPlan, MCTS, Tree of Thoughts), LLMOps,
+kıyaslama (SWE-bench/HumanEval/MMLU) ve TTS (Bark, SpeechT5).</li>
+<li><strong>Arka Uç:</strong> Gin (Go), gRPC + Protocol Buffers, HTTP/3
+(QUIC), WebSockets, Angular ve React ön uçları, Kafka/RabbitMQ
+mesajlaşma.</li>
+<li><strong>Veri:</strong> PostgreSQL, SQLite, SQLCipher (depolanırken
+şifreli), Redis, Neo4j, ClickHouse ve nesne depolama
+(MinIO/S3/GCS/Azure).</li>
+<li><strong>Altyapı / DevOps:</strong> Docker &amp; Compose, Kubernetes
++ Helm, Prometheus + Grafana, OpenTelemetry, QEMU/Libvirt/Parallels ve
+CI/CD (GitHub Actions, Gradle ve Make üzerinden).</li>
+<li><strong>Test / Kalite Güvencesi:</strong> Sahtekarlığa karşı HelixQA
+çerçevesi, mutasyon kapılarıyla modül başına Challenge testleri,
+<code>go test -race</code>, görsel regresyon araçları, ADB cihaz
+testleri, SonarQube kapıları ve güvenlik taramaları (semgrep, gosec,
+trivy, snyk, gitleaks, nancy).</li>
+</ul>
+<h2 id="kalite-ve-yönetişim-fark-yaratan-unsurlarımız">Kalite ve
+yönetişim — fark yaratan unsurlarımız</h2>
+<p>Tüm filoyu tutarlı ve güvenilir kılan iki temel unsur var:</p>
+<ul>
+<li><strong>HelixConstitution</strong> — evrensel, projeye özgü olmayan
+bir mühendislik kural kitabı. Git alt modülü olarak sunulan ve 140’tan
+fazla depodan oluşan filodaki her projeye miras bırakılan bu sistem,
+pazarlık kabul etmez bir disiplin kodlar: blöf karşıtı kanıt kapıları,
+yanlış pozitiflere karşı bağışıklık, veri ve sunucu güvenliği,
+dokümantasyon ve kapsam kuralları. Bir proje bu kuralları
+genişletebilir, ama asla zayıflatamaz. Tek bir alt modül güncellemesiyle
+kurallar her yerde yenilenir; yayılım kapıları, gerekli maddeleri
+filodaki tüm depolarda kelimesi kelimesine tarar ve her kapı, kendi
+geçerliliğini kanıtlayan bir mutasyon testi ile desteklenir. Yönetişim,
+bir hedef olmaktan çıkıp denetlenebilir bir gerçekliğe dönüşür.</li>
+<li><strong>HelixQA</strong> — blöf karşıtı kalite güvence
+orkestrasyonu. Yazılı YAML test bankalarını ve tamamen otonom, LLM artı
+bilgisayarlı görü çalışmalarını Android, Android TV, Web ve Masaüstü
+platformlarında koşturur. Çalışma zamanı kanıtı (ekran görüntüleri,
+logcat, video, yığın izleri) olmadan bir BAŞARILI sonucu vermez. “Test
+ettik” demek yerine, “işte video, logcat ve talep kaydı” der.</li>
+</ul>
+<h2 id="konumlandırma-beyanı">Konumlandırma beyanı</h2>
+<p>Herhangi biri bir uygulamayı LLM’a bağlayabilir. Vasic Digital ise
+zor olan kısmı inşa eder: Doğrulanabilir, yeniden kullanılabilir ve
+dürüst AI sistemleri — sağlayıcıdan bağımsız bir AI altyapısı, bunun
+üzerine inşa edilen bir Helix ürünleri yaşam döngüsü ve gönderilen her
+şeyin gerçekten çalıştığını garanti eden, anayasa artı kanıt disiplini.
+Yeşil onay işaretine güvenmenizi istemiyoruz. Onun arkasındaki kanıtı
+size gösteriyoruz.</p>
+<h2 id="iletişim">İletişim</h2>
+<p>Doğrulanabilir bir şeyler inşa edelim.</p>
+<ul>
+<li><strong>E-posta:</strong> <a
+href="mailto:i@mvasic.ru">i@mvasic.ru</a></li>
+<li><strong>GitHub:</strong> <a
+href="https://github.com/vasic-digital">github.com/vasic-digital</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p><strong>すべてのアラートは適切な宛先に届く——コマンド構文は不要。</strong></p>
+<h2 id="概要">概要</h2>
+<p>Heraldはシステムイベントを取り込み、複数の通知チャネルに確実に配信することで、すべてのアラートが適切な場所に届くようにします。利用者は自然な言葉でやり取りし、Heraldは三段階のプロセス（コマンド高速パス→LLMによる意図推論→確認フォールバック）を通じて意図を解釈します。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>イベント取り込みとマルチチャネル通知配信システム。Heraldはシステムイベントをメッセンジャーチャネル全体に確実にルーティングし、利用者が自然な言葉で対話できるようにします。意図の解決は、コマンド高速パス、LLMによる推論、そして確認・質問によるフォールバックという三段階で行われます。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>Heraldは、システムイベントが実際に人間の手で対処できる場所に確実に届くことを保証する通知基盤です。これは地味ながらもミッションクリティカルなレイヤーであり、多くの自家製アラートシステムが静かに失敗する部分でもあります。Heraldはイベントを取り込み、複数の通知チャネルに確実に配信することで、アラートが見落とされたり、無効なチャネルに誤配信されたり、ノイズに埋もれて手遅れになるといったよくある失敗を防ぎます。しかし、確実な配信は半分に過ぎません。もう半分は、人間が応答したいときに何が起こるかです。Heraldは、利用者がアラートボットとのやり取りのために厳格なコマンド構文を覚えるという従来の妥協を拒否します。利用者は単に自然な言葉で書き込むだけで、Heraldは三段階のプロセスを通じてその意図を解決します。まず、明示的なコマンドを即座に認識する高速パス、次にLLM（Claude
+Codeを介した）による自由形式メッセージの意図推論、そして最後に、意図が本当に曖昧な場合には「確認」フォールバックが返信し、タグ付けして質問を投げかけます。この「認識→推論→確認」の階段構造こそが、設計思想の縮図です。一般的なケースは瞬時に確定的に処理され、柔軟なケースはモデルが対応し、不確かなケースは誤ったアクションを起こすような盲目的な推測で解決されることはありません。</p>
+<p>Heraldは参加者と帰属のモデル化も行います。オペレーターのユーザー名環境変数（<code>HERALD_&lt;CHANNEL&gt;_OPERATOR_USERNAME</code>）と参加者・帰属の契約により、<code>created_by</code>/<code>assigned_to</code>フィールドと通知の@メンションが駆動され、誰が何をしたのか、誰に通知されているのかが明確になります。ガバナンス面では、HeraldはHelix
+Constitutionを同居サブモジュールとして継承し、そのルールに従います。また、Docs
+Chainの初期プロダクション利用者でもあり、66件のMarkdown→HTML/PDF/DOCXコーパス全体がDocs
+Chainの<code>exec:</code>変換を通じて接続され、クリーンな検証が行われています。Heraldは主にShell/Goツール群で構成され、仕様は段階的にバージョンアップ（V1→V2→V3→V4の置き換え）されており、メッセンジャーやLLM/エージェントディスパッチャー向けのチャネルごとのオペレーターセットアップガイドも用意されています。</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>アラートは静かに失敗します——誤ったチャネルに送られたり、配信されなかったり、利用者が覚えられない厳格なコマンド構文を要求したり。Heraldは、確実な配信と自然な言葉での応答を可能にすることで、通知を信頼性高く、かつ容易に対処できるものにするために開発されました。</p>
+<p>コンテンツ</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>通常は別々の製品として購入される2つの機能――信頼性の高いマルチチャネル・イベントルーティングと自然言語インターフェース――を融合し、オペレーターが単に話すだけでソフトウェアがその意図を理解するシステムを実現しました。本番環境で信頼できる決め手は、明確化のためのフォールバック機能です。誤発報よりも確認を優先するアラートシステムだからこそ、実際の運用に組み込むことができるのです。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li>3段階のインテント処理：コマンド高速パス → LLMによる推論 →
+確認・質問</li>
+<li>自然言語によるサブスクライバーとの対話（コマンド構文の習得不要）</li>
+<li><code>created_by</code>/<code>assigned_to</code>と@メンションを駆動する参加者帰属契約</li>
+<li>本物のDocs
+Chainコンシューマー（66ドキュメントのコーパス、マルチフォーマット、検証済み）</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>自然言語インテントの曖昧さ</strong>：3段階の認識→推論→確認のプロセスにより、盲目的な推測を排除。</li>
+<li><strong>確実な配信</strong>：イベントの取り込みからマルチチャネル配信までの設計により、アラートが正しい宛先に届く。</li>
+<li><strong>チャネルをまたいだ正確な帰属</strong>：オペレーターのユーザー名環境変数と参加者帰属契約により解決。</li>
+<li><strong>ドキュメントの乖離</strong>：Docs
+Chainを通じたドキュメントコーパスの検証変換により解決。</li>
+</ul>
+<h2 id="テックスタック理由と仕組み">テックスタック（理由と仕組み）</h2>
+<ul>
+<li><strong>Go</strong> ―
+コアイベント／ディスパッチロジック（組織ごとの言語パターン対応）</li>
+<li><strong>Shell</strong> ―
+オペレーター向けツールとセットアップスクリプト</li>
+<li><strong>Claudeコード（LLM）</strong> ―
+フリーフォームメッセージ向けインテント推論層</li>
+<li><strong>メッセンジャーチャネルアダプター</strong> ―
+マルチチャネル通知の配信</li>
+<li><strong>Docs Chain</strong> ―
+ドキュメントビルド／検証パイプライン（Markdown→HTML／PDF／DOCX）</li>
+<li><strong>Helix Constitutionサブモジュール</strong> ―
+継承されたガバナンス／ルール</li>
+</ul>
+</body>
+</html>

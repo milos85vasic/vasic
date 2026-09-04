@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>vasic-digital</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">vasic-digital</h1>
+</header>
+<h1 id="vasic-digital">Vasic Digital</h1>
+<h2 id="البطل">البطل</h2>
+<p><strong>هندسة برمجيات AI الأصلية، مصممة لتكون محل ثقة.</strong></p>
+<p>يمكن لأي شخص توصيل تطبيق بـ LLM في فترة ما بعد الظهر. لكن الجزء الصعب
+— الذي يحدد ما إذا كان نظام AI مجرد عرض توضيحي أم منتجاً يعتمد عليه — هو
+كل ما يحيط بالنموذج: طبقة التجريد التي تتحمل انقطاع الخدمة، والتنسيق
+الذي يحافظ على تركيز الوكلاء، والتحقق الذي يكشف محاولات النموذج للتهرب،
+والحوكمة التي تثبت سلوك النظام بأكمله. هذا الجزء الصعب هو ما تبنيه Vasic
+Digital. نصمم ونصدر أنظمة تطوير AI — النماذج والوكلاء والتنسيق والبنية
+التحتية التي تحول نماذج اللغات الكبيرة إلى برمجيات يعتمد عليها — إلى
+جانب طبقة الحوكمة التي تضمن نزاهتها. وكل ذلك يرتكز على قاعدة واحدة لا
+تقبل المساومة: الميزة لا تُعتبر “منتهية” عند اجتياز الاختبارات؛ بل تنتهي
+عندما يتمكن مستخدم حقيقي من استخدامها بالفعل، وهناك دليل موثق يثبت
+ذلك.</p>
+<h2 id="عن-الشركة">عن الشركة</h2>
+<p>Vasic Digital هي ممارسة هندسية مركزة تبني عائلة مترابطة من منتجات
+تطوير AI ووحدات برمجية قابلة لإعادة الاستخدام. بدلاً من بناء نظام واحد
+متكامل، تُنظم العمل على شكل أسطول: تطبيقات منتجات كبيرة مبنية على عشرات
+الوحدات الصغيرة المستقلة والمختبرة بشكل منفصل، بحيث تُعاد استخدام الأجزاء
+المثبتة عبر جميع المنتجات بدلاً من إعادة بنائها. اللغة الأساسية المستخدمة
+هي <strong>Go</strong>، مدعومة بـ <strong>Kotlin / Kotlin
+Multiplatform</strong>، <strong>TypeScript/React</strong>،
+<strong>Python</strong>، <strong>Swift</strong>،
+و<strong>Shell</strong>، تُختار حسب المهمة: Go للخدمات والمكتبات عالية
+الإنتاجية، Kotlin لأدوات التزويد والتطبيقات متعددة المنصات، TypeScript
+للواجهات الأمامية المكتوبة بأنماط محددة، وPython لربط AI بـ ML.</p>
+<p>ما يربط الأسطول معاً هو الانضباط المطبق آلياً بدلاً من كونه مجرد طموح.
+يرث كل مشروع <strong>Constitution</strong> هندسياً مشتركاً كوحدة فرعية في
+Git — بحيث تنتشر القاعدة المعدلة مرة واحدة عبر أسطول يضم أكثر من 140
+مستودعاً — ويجب أن يدعم كل ميزة يعلن عنها المنتج باختبار آلي ينتج أدلة
+قبل اعتبارها جاهزة للإصدار. هذا ليس مجرد كلام تسويقي يُضاف فوق العمل؛ بل
+هو النموذج التشغيلي الذي يعمل به. الميزة الحقيقية هي الأثر التراكمي: لأن
+المسائل العامة موجودة في وحدات مستقلة ومختبرة بشكل منفصل، فإن أي إصلاح
+أو تحسين يُضاف في مكان واحد يرفع مستوى جميع المنتجات دفعة واحدة، وكل نظام
+جديد يُجمع من أجزاء سبق وأن أثبتت جدارتها.</p>
+<h2 id="ما-نقوم-به">ما نقوم به</h2>
+<p><strong>تطوير قائم على AI.</strong> نبني البنية التحتية لأنظمة AI من
+البداية إلى النهاية:</p>
+<ul>
+<li><strong>الوصول متعدد المزودين لـ LLM</strong> — طبقة تجريد أولى تضم
+أكثر من 40 مزوداً (Anthropic/Claude، OpenAI، DeepSeek، Gemini، Mistral،
+Cohere، Groq، xAI/Grok، Qwen، Perplexity، OpenRouter، Together AI،
+Replicate، Cerebras، Cloudflare Workers AI، SiliconFlow، وخيار العودة
+إلى Ollama المحلي) خلف واجهة واحدة تتضمن إعادة المحاولة، وقواطع الدوائر،
+وفحوصات الصحة.</li>
+<li><strong>تنسيق الوكلاء</strong> — لوحات تحكم برمجية لوكلاء الترميز
+CLI، وسير عمل وكلائي قائم على الرسوم البيانية، وآلية توافق تعتمد على
+“مناظرات AI” متعددة الجولات، وبيئات تشغيل DAG/خطوط الأنابيب.</li>
+<li><strong>التحقق من LLM</strong> — طبقة ثقة تقيم النماذج عبر بوابة فهم
+إلزامية (“هل ترى شفرتي؟”) بالإضافة إلى اختبارات زمن الاستجابة، والبث
+المباشر، واستدعاء الوظائف، والرؤية، واختبارات embeddings، وتُصدر تهيئة
+معتمدة فقط.</li>
+<li><strong>الاسترجاع والذاكرة</strong> — RAG، وقواعد بيانات vector،
+وembeddings، ومحركات ذاكرة وكلائية متكاملة (Mem0 + Cognee + Letta) مع
+ضغط للسياق غير المحدود.</li>
+<li><strong>LLM الدفاعية</strong> — حواجز حماية، وكشف PII، ومجموعات
+اختبار هجومية، وتوحيد المدخلات.</li>
+</ul>
+<p>المحتوى</p>
+<p><strong>عائلة منتجات Helix.</strong> خط منتجاتنا الرائد الذي يغطي
+دورة حياة تطوير AI بالكامل:</p>
+<ul>
+<li><strong>HelixTrack</strong> — بديل للعالم الحر عن JIRA (المنتج
+الرائد في خط Helix-Track).</li>
+<li><strong>HelixAgent</strong> — خدمة LLM الجماعية التي تتيح لعدة نماذج
+مناقشة الإجابات وتقديم النتيجة المتفق عليها.</li>
+<li><strong>HelixCode</strong> — منصة تطوير AI موزعة تقسم المهام على
+عمال مُدارين بواسطة SSH مع إمكانية الحفظ والاستعادة.</li>
+<li><strong>HelixLLM</strong> — ثنائي واحد، ستة أوضاع: استدلال متوافق مع
+OpenAI وAnthropic من الحاسوب المحمول إلى الحوسبة العنقودية عبر
+HTTP/3.</li>
+<li><strong>HelixCluster</strong> — نظام تشغيل موزع لحوسبة AI، من وحدات
+معالجة الرسوميات في مراكز البيانات إلى الأجهزة المحمولة الطرفية.</li>
+<li><strong>LLMProvider / LLMOrchestrator / LLMsVerifier</strong> — طبقة
+التجريد للمزودين، ومستوى التحكم في الوكلاء، ومصدر الحقيقة للتحقق.</li>
+<li><strong>HelixMemory، HelixSkills، HelixSpecifier، HelixBuilder،
+HelixTranslate، HelixTerminator، HelixGitpx، HelixOTA،
+HelixPlay</strong> — الذاكرة، المهارات المُحكمة، التطوير القائم على
+المواصفات، بناء التطبيقات، الترجمة المُتحققة، المحطات الطرفية ذات الثقة
+الصفرية، Git الموحد، تحديثات OTA الآمنة، والألعاب السحابية ذات الاستضافة
+الذاتية.</li>
+</ul>
+<p><strong>الأدوات والمرافق (vasic-digital utils).</strong> أدوات جاهزة
+للإنتاج ومستقلة بذاتها: <strong>Catalogizer</strong> (إدارة الوسائط
+متعددة البروتوكولات والمشفرة)، <strong>Courses-Creator</strong> (إنتاج
+دورات AI من ملفات Markdown إلى فيديو)، <strong>VisionEngine</strong>
+(الرؤية الحاسوبية + إدراك واجهة المستخدم بواسطة LLM)،
+<strong>DocProcessor</strong> (خرائط الميزات من الوثائق لأغراض ضمان
+الجودة)، <strong>Docs Chain</strong> (مزامنة الوثائق/قواعد البيانات
+ثنائية الاتجاه باستخدام التجزئة المحتوى)، <strong>Herald</strong>
+(الإشعارات متعددة القنوات باللغة الطبيعية)، <strong>task_bridge</strong>
+(مزامنة المهام/اللوحات ثنائية الاتجاه)، ومجموعة <strong>Vasic Digital
+للوحدات القابلة لإعادة الاستخدام</strong> — مكتبة
+<code>digital.vasic.*</code> القياسية للبنية التحتية، وحدات AI الأساسية،
+ووحدات الحماية.</p>
+<p><strong>أتمتة البنية التحتية (Server Factory).</strong> إرثنا في
+DevOps: <strong>Mail Server Factory</strong> وإطار عمل <strong>Server
+Factory الأساسي</strong>، اللذان يحولان ملفات JSON التصريحية إلى خوادم
+مُعدة بالكامل ومُحتواة باستخدام Docker عبر أنواع متعددة من الاتصالات
+وتوزيعات Linux، بالإضافة إلى أدوات صور الآلات الافتراضية (Qemu-Utils،
+Parallels-Utils) ومصانع الخدمات الداعمة.</p>
+<h2 id="التقنيات">التقنيات</h2>
+<p>مبنية على بنيتنا الفعلية:</p>
+<ul>
+<li><strong>اللغات:</strong> Go (السائدة)، Kotlin وKotlin Multiplatform،
+TypeScript، Python، Swift، Shell، مع مواصفات PL/pgSQL وحتى TLA+ الرسمية
+في عمل الأنظمة الموزعة.</li>
+<li><strong>AI / LLM:</strong> الوصول متعدد المزودين (43+ محولًا)، Model
+Context Protocol (MCP)، RAG، قواعد بيانات vector وembeddings، خوارزميات
+التخطيط (HiPlan، MCTS، Tree of Thoughts)، LLMOps، القياس المرجعي
+(SWE-bench/HumanEval/MMLU)، وTTS (Bark، SpeechT5).</li>
+<li><strong>الواجهة الخلفية:</strong> Gin (Go)، gRPC + Protocol Buffers،
+HTTP/3 (QUIC)، WebSockets، واجهات Angular وReact الأمامية، ومراسلة
+Kafka/RabbitMQ.</li>
+<li><strong>البيانات:</strong> PostgreSQL، SQLite، SQLCipher (مشفرة
+أثناء التخزين)، Redis، Neo4j، ClickHouse، وتخزين الكائنات
+(MinIO/S3/GCS/Azure).</li>
+<li><strong>البنية التحتية / DevOps:</strong> Docker وCompose،
+Kubernetes + Helm، Prometheus + Grafana، OpenTelemetry،
+QEMU/Libvirt/Parallels، وCI/CD عبر GitHub Actions، Gradle، وMake.</li>
+<li><strong>الاختبار / ضمان الجودة:</strong> إطار عمل HelixQA المضاد
+للخداع، أطقم اختبار التحدي لكل وحدة مع بوابات الطفرات،
+<code>go test -race</code>، أدوات الانحدار البصري، اختبار الأجهزة عبر
+ADB، بوابات SonarQube، والمسح الأمني (semgrep، gosec، trivy، snyk،
+gitleaks، nancy).</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="الجودة-والحوكمة-ما-يميزنا">الجودة والحوكمة — ما يميّزنا</h2>
+<p>ركيزتان تجعلان الأسطول بأكمله متماسكًا وجديرًا بالثقة:</p>
+<ul>
+<li><strong>HelixConstitution</strong> — مدونة قواعد هندسية شاملة
+ومستقلة عن المشاريع، تُنشر كوحدة فرعية في Git وترثها كل المشاريع عبر
+أسطول يضم أكثر من 140 مستودعًا. هذه المدونة تُشفر انضباطًا لا يقبل
+المساومة: بوابات أدلة مضادة للتلاعب، حصانة ضد الإيجابيات الكاذبة، ضمان
+سلامة البيانات والمضيف، وقواعد التوثيق والتغطية التي قد يوسعها المشروع
+لكنه لا يُضعفها أبدًا. تحديث بسيط للوحدة الفرعية يُحدث القواعد في كل مكان؛
+وتعمل بوابات الانتشار على فحص العبارات المطلوبة حرفيًا عبر الأسطول، وكل
+بوابة تُزاوجها اختبارات تحوير تثبت أن البوابة ذاتها ليست مجرد وهم. وهكذا
+تصبح الحوكمة حقيقة قابلة للتدقيق، لا مجرد طموح.</li>
+<li><strong>HelixQA</strong> — تنسيق ضمان الجودة المضاد للتلاعب. يقوم
+بتشغيل بنوك اختبارات <strong>YAML</strong> المكتوبة وجلسات ضمان الجودة
+المستقلة بالكامل المدعومة برؤية الحاسوب <strong>+LLM</strong>، عبر منصات
+أندرويد، أندرويد تي في، الويب، وسطح المكتب، ويرفض إعطاء نتيجة “نجاح” دون
+تقديم أدلة تشغيلية مُلتقطة (لقطات شاشة، سجلات النظام، مقاطع فيديو، تتبع
+الأخطاء). يتحول القول “لقد اختبرناه” إلى “هذه هي الفيديو وسجلات النظام
+والتذكرة”.</li>
+</ul>
+<h2 id="بيان-التموضع">بيان التموضع</h2>
+<p>يمكن لأي شخص ربط تطبيق بـ <strong>LLM</strong>، لكن <strong>Vasic
+Digital</strong> تبني الجزء الصعب: أنظمة <strong>AI</strong> قابلة
+للتحقق وقابلة لإعادة الاستخدام وصادقة — طبقة أساسية <strong>AI</strong>
+مستقلة عن مقدم الخدمة، ودورة حياة لمنتجات <strong>Helix</strong> فوقها،
+وانضباط قائم على دستور وأدلة يضمن أن ما يُصدر فعليًا يعمل. لا نطلب منك
+الثقة في علامة الاختيار الخضراء، بل نريك الأدلة وراءها.</p>
+<h2 id="التواصل">التواصل</h2>
+<p>لنبنِ شيئًا قابلًا للتحقق.</p>
+<ul>
+<li><strong>البريد الإلكتروني:</strong> <a
+href="mailto:i@mvasic.ru">i@mvasic.ru</a></li>
+<li><strong>GitHub:</strong> <a
+href="https://github.com/vasic-digital">github.com/vasic-digital</a></li>
+</ul>
+</body>
+</html>

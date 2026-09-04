@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixQA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixQA</h1>
+</header>
+<h1 id="helixqa">HelixQA</h1>
+<p><strong>Anti-blöf QA orkestrasyonu — her GEÇER sonucunun, gerçek bir
+kullanıcının özelliği kullanabildiğine dair yakalanmış kanıt taşıdığı,
+otonom ve çapraz platform oturumları.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixQA, çapraz platform testleri (Android, Android TV, Web,
+Masaüstü) için geliştirilmiş bir anti-blöf QA orkestrasyon çerçevesidir.
+YAML test bankalarını, gerçek zamanlı çökme tespitini, adım adım kanıt
+yakalamayı ve LLM-artı-bilgisayarla-görü otonom QA oturumlarını bir
+araya getirerek özelliklerin gerçekten uçtan uca çalıştığını kanıtlar.
+Constitution’un zorunlu QA test türüdür (§11.4.169).</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Yazılı test bankalarını ve tam otonom, LLM ve görüntü işleme tabanlı
+QA oturumlarını platformlar arasında çalıştıran bir anti-blöf QA
+orkestratörü (Go). Çökmeleri tespit eder, her adımı yakalanmış
+kanıtlarla (ekran görüntüleri, logcat, video, yığın izleri) doğrular ve
+AI düzeltme hatları için kanıt zengini biletler otomatik olarak
+oluşturur.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>HelixQA, tek ve tavizsiz tasarım odağı Constitution’un §11.4 Operatif
+Kuralı olan bir Go çerçevesidir: yayınlama kriteri “testler geçti”
+değil, “kullanıcılar özelliği kullanabiliyor”dur. Bu nedenle, her GEÇER
+sonucu, yürütme sırasında yakalanmış pozitif çalışma zamanı kanıtı
+taşımalıdır — kanıt yoksa yeşil ışık yok, istisna yok. Hem yazılı hem de
+bilinmeyen durumları kapsayan iki tamamlayıcı modda çalışır. İlk olarak,
+<strong>yazılı test bankaları</strong> — platform hedeflemesi, öncelik,
+sıralı adımlar (ad/eylem/beklenen), etiketler ve dokümantasyon
+referansları içeren <code>TC-XXX</code> vakalarından oluşan YAML
+paketleri — adım adım doğrulama, gerçek zamanlı çökme/ANR tespiti
+(Android için ADB, web/masaüstü için süreç izleme), merkezi kanıt
+toplama ve AI düzeltme hatları için otomatik olarak oluşturulmuş
+Markdown biletleri ile yürütülür. İkinci olarak, <strong>tam otonom QA
+oturumu</strong> uygulamayı LLM destekli ajanlara ve bilgisayarla görüye
+devreder ve dört disiplinli aşamada kontrolsüz olarak çalıştırır:
+kurulum (LLM’lerin seçimi, proje belgelerinden özellik haritasının
+oluşturulması, CLI ajanlarının başlatılması, görüntü işleme motorunun
+hazırlanması), her belgelenmiş özelliğin dolaşıldığı belge odaklı
+doğrulama, kenar durumları ve belgelenmemiş davranışları bilinçli olarak
+test eden merak odaklı keşif, ardından her bulgunun video zaman damgalı
+kanıtlarla ilişkilendirildiği Markdown/HTML/JSON formatında raporlama ve
+temizlik.</p>
+<p>En kritik nokta, kendi ödevini notlandırmamasıdır: Dört harici Go alt
+modülünü (LLMsVerifier, LLMOrchestrator, VisionEngine, DocProcessor)
+entegre eder ve ortak <code>challenges</code> ile
+<code>containers</code> altyapısını kullanır. Böylece uygulamayı gezen
+bileşen, çalışıp çalışmadığını değerlendiren bileşenle aynı değildir.
+Kendi paketi, <code>make anti-bluff</code> (statik tarama + davranış
+çapa manifestosu + mutasyon mandalı) ve yerleşik §1.1 mutasyonuna sahip
+8 aşamalı bir orkestratör Challenge ile başkalarına uyguladığı aynı
+kriterlere tabi tutulur. 15 satırlık test türü kapsama matrisi, her ilan
+edilen yeteneği somut bir yürütülebilir varlığa ve belirli bir
+yakalanmış kanıt biçimine bağlar — böylece çerçevenin kendisi hakkındaki
+iddiaları, test ettiği ürünlere verdiği kararlar kadar kanıta
+dayalıdır.</p>
+<p>İçerik</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Geleneksel Kalite Güvencesi (QA), “doğrulama başarılı” uyarısını
+yeşil ışık olarak kabul eder. İşte tam da bu yüzden Constitution’un
+<em>blöf</em> olarak adlandırdığı başarısızlık sınıfı gözden kaçar:
+kullanıcıya göre çalışmayan bir özellik, raporlarda sorunsuz görünür.
+HelixQA, özellikle QA için bu durumu imkânsız kılmak üzere tasarlandı.
+Bir doğrulamanın BAŞARILI olarak değerlendirilmesi için gerçek çalışma
+sırasında elde edilmiş fiziksel kanıt (ekran görüntüsü, logcat, video,
+yığın izi, rapor) gerektirir ve kanıt olmadan verilen yeşil özet
+satırını, eksik bir özellikle eşdeğer kritik bir hata olarak kabul eder.
+Ayrıca, birçok platformda kapsamlı manuel QA’nın ölçeklenememe sorununu
+da çözer: oturumları tamamen otonom hale getirerek.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Neredeyse hiçbir araçta bir arada bulunmayan iki unsuru
+birleştiriyor: titiz, kanıta dayalı QA geçiş kontrolü ve otonom, kendi
+kendine çalışan keşif. Bir LLM artı görsel algılama aracısı,
+<em>gerçek</em> uygulamayı açar, belgelenmiş her özelliği doğrular,
+kimsenin test yazmadığı belgelenmemiş hataları avlar <em>ve</em> bunu
+yaparken mahkeme kalitesinde bir kanıt zinciri üretir. Böylece “test
+ettik” ifadesi, “işte video, işte logcat, işte bilet” haline gelir.
+Ayrıca Constitution tarafından adlandırılan QA alt modülü olduğu için,
+benimsenmesi tek bir ekibin QA dürüstlüğünü artırmakla kalmaz; aynı
+hamlede tüm ürün ailesindeki kalite tabanını yükseltir.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li><strong>Blöf karşıtı kanıt sözleşmesi</strong> – Her kontrolün
+BAŞARILI sonucu, çalışma zamanı sırasında elde edilmiş kanıtlarla
+bağlanır; yeşil bir CI satırı gerekli görülse de asla yeterli kabul
+edilmez ve kanıtsız yeşil özet, kritik bir hata olarak
+değerlendirilir.</li>
+<li><strong>Otonom belge odaklı + merak odaklı keşif</strong> –
+Belgelenmiş her özelliği doğrular, ardından senaryo dışına çıkarak
+gerçek kullanıcıların karşılaştığı sınır durumları (boş girişler, hızlı
+etkileşimler, belgelenmemiş yollar) araştırır; hiçbir elle yazılmış test
+paketinin öngöremeyeceği durumları tespit eder.</li>
+<li><strong>Görsel kehanet</strong> – GoCV mekanik görüntü işleme ve LLM
+Görsel API, çalışan arayüzü <em>gerçekten görerek</em>, token ve özellik
+düzeyindeki doğrulamaların gözden kaçırdığı görsel hataları
+yakalar.</li>
+<li><strong>Yapıya dayalı, metne dayalı olmayan test bankaları</strong>
+– Banka dizeleri yapıyı tanımlar ve çalışma zamanında LLM tarafından
+oluşturulan soru istemlerini yönlendirir (CONST-046). Böylece tek bir
+banka, arayüz metni çevrildiğinde bile farklı yerellerde çalışmaya devam
+eder.</li>
+<li><strong>AI onarım hatları için hazır biletler</strong> – Otomatik
+oluşturulan Markdown sorunları, tam kanıt paketiyle birlikte gelir ve
+bir insan triyajcısı yerine doğrudan bir onarım aracısına iletilmeye
+hazırdır.</li>
+</ul>
+<h2 id="tüm-ürünlerde-nasıl-kullanılıyor-sunduğu-güçler">Tüm ürünlerde
+nasıl kullanılıyor (sunduğu güçler)</h2>
+<p><strong>Zorunlu kalite sütunu</strong> olarak (Constitution
+§11.4.169, <code>helix_qa</code> alt modülünü gerekli test türlerinden
+biri olarak adlandırır), HelixQA ailesindeki her ürüne aynı güçleri
+kazandırır:</p>
+<ul>
+<li><strong>Otonom QA oturumları:</strong> Tek bir
+<code>helixqa autonomous --project … --platforms android,desktop,web</code>
+komutu, gerçek uygulamaları hedef bir kapsama alanına yönlendiren,
+rapor, bilet ve videolar üreten bir LLM artı görsel algılama aracısını
+serbest bırakır; süreçte insan müdahalesine gerek kalmaz.</li>
+<li><strong>Test bankaları / paketleri:</strong> YAML bankaları (en az
+30 ile 219. tur tabanı), platforma özel, öncelik sıralı ve
+doğruladıkları belgelerle satır satır izlenebilir.</li>
+<li><strong>Kaydedilmiş kanıtlar:</strong> Ekran görüntüleri, logcat,
+video, yığın izleri ve tam zaman çizelgesi – her rapordan merkezi olarak
+erişilebilir ve bağlanabilir, böylece her karar sonradan yeniden
+izlenebilir ve denetlenebilir.</li>
+<li><strong>Bağımsız kararlar (§11.4.141 bağımsızlık ilkesi):</strong>
+LLM destekli <code>issuedetector</code> ve görsel kehanet aracısı,
+uygulamayı gezen aracıdan bağımsız olarak çalışan uygulamanın
+davranışını değerlendirir; böylece bir sistemin kendi işini doğru olarak
+işaretlemesi klasik hatası yapısal olarak engellenir.</li>
+<li><strong>Geçiş kontrolü + mutasyon kilidi:</strong>
+<code>make qa-all</code> / <code>make anti-bluff</code> ve
+<code>challenges/scripts/helixqa_orchestrator_challenge.sh</code> (8
+aşamalı, §1.1 yerleşik mutasyon) komutları, HelixQA’un kendi
+dürüstlüğünü sürekli olarak kanıtlamasını sağlar. Ayrıca, son teslim
+tarihleri altında disiplini devre dışı bırakmak için kasıtlı olarak
+<code>--skip-helixqa</code> gibi bir kaçış yolu bırakılmamıştır.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="en-büyük-teknik-zorluklar-ve-bunları-nasıl-çözdük">En Büyük
+Teknik Zorluklar ve Bunları Nasıl Çözdük</h2>
+<ul>
+<li><strong>QA sürecindeki yanlış pozitiflerin önlenmesi</strong> — blöf
+yakalayan araç, kendisi blöfe dönüşmemeli → her adım, yakalanan
+kanıtlara karşı doğrulanır; kanıt olmadan GEÇER notu, GEÇER yerine hata
+olarak puanlanır; davranış-çapa manifestosu, her ilan edilen yeteneği
+çalıştırılabilir bir teste bağlar (CONST-035), böylece bir yetenek, onu
+uygulayan bir şey olmadan iddia edilemez.</li>
+<li><strong>Tek bir beyinle heterojen platformların yönetilmesi</strong>
+— Android, Android TV, Web ve Masaüstü’nün ortak bir giriş modeli yok →
+tek bir <code>navigator</code> paketi, platforma özel
+ActionExecutor’ları (ADB, Playwright, X11) ve platforma özgü çökme
+dedektörlerini (android/web/masaüstü) soyutlar; böylece orkestrasyon
+mantığı tek sefer yazılır ve platform farklılıkları kenarlarda
+kalır.</li>
+<li><strong>Otonom ajanların kaotik değil, kullanışlı hale
+getirilmesi</strong> — denetimsiz bir LLM, bir uygulamada sonsuza dek
+dolaşabilir → LLMsVerifier doğru modelleri puanlar ve seçer,
+LLMOrchestrator başsız CLI ajanlarını (opencode, claude-code, gemini,
+junie, qwen-code) yönetir, DocProcessor keşfe hedef veren özellik
+haritasını oluşturur ve VisionEngine her kararı, modelin hayal gücü
+yerine ekrandaki gerçek piksellere dayandırır.</li>
+<li><strong>Yerelleştirme güvenli test bankaları</strong> — İngilizce UI
+metnini sabit kodlayan bir test paketi, on beş dilde bozulur → bankalar
+yalnızca yapıyı tanımlar ve kullanıcıya yönelik metinler, çalışma
+zamanında LLM/kaynak yüklenir (CONST-046); böylece aynı banka, yerel
+ayardan bağımsız olarak aynı davranışı doğrular.</li>
+<li><strong>Kapıların sahte olmadığının kanıtlanması</strong> — kendisi
+başarısız olamayan bir blöf önleme kapısı, nihai blöftür → eşleştirilmiş
+§1.1 mutasyonları, bir türün kanıt toplama veya blöf önleme iddiasını
+kaldırır ve kapının BAŞARISIZ olmasını zorunlu kılar; zaman içinde bu
+garantinin sessizce aşınmasını önleyen bir mutasyon mandalı da devreye
+girer.</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go 1.24+ orkestratörü</strong> — <em>neden:</em> QA,
+ürünlerin çalıştığı her yerde çalışmalı; bu nedenle tek bir statik
+olarak bağlanmış, hızlı ve taşınabilir ikili, çalışma zamanı ağır bir
+alternatife tercih edilir; <em>nasıl:</em> <code>cmd/helixqa</code> CLI,
+birleştirilebilir alt komutlar sunar: <code>run</code> /
+<code>list</code> / <code>report</code> / <code>autonomous</code> /
+<code>version</code>.</li>
+<li><strong>YAML test bankaları (<code>pkg/testbank</code>)</strong> —
+<em>neden:</em> test paketleri bildirimsel ve okunabilir olmalı,
+insanlar Go’a dokunmadan düzenleyebilmeli; <em>nasıl:</em>
+<code>version</code>/<code>name</code>/<code>test_cases[]</code> yapısı,
+<code>id</code>, <code>category</code>, <code>priority</code>,
+<code>platforms</code>, sıralı <code>steps[]</code> ve
+<code>documentation_refs[]</code> içerir; bu sayede özellik belgelerine
+izlenebilirlik sağlanır.</li>
+<li><strong>Çökme/ANR dedektörleri (<code>pkg/detector</code>)</strong>
+— <em>neden:</em> en önemli hatalar, etkileşim sırasında canlı olarak
+meydana gelenlerdir, sonradan yapılan bir doğrulama değil;
+<em>nasıl:</em> Android için ADB
+(<code>pidof</code>/<code>logcat</code>/<code>screencap</code>),
+web/masaüstü için <code>pgrep</code> kullanılır; test çalışırken süreç
+izlenir.</li>
+<li><strong>Kanıt toplama (<code>pkg/evidence</code>,
+<code>pkg/session</code>)</strong> — <em>neden:</em> blöf önleme
+sözleşmesi, ancak her GEÇER notunun fiziksel kanıtla desteklenmesi
+halinde gerçektir; <em>nasıl:</em> ekran görüntüleri, logcat, video ve
+yığın izleri, her raporun geri bağlandığı bir
+<code>SessionRecorder</code> zaman çizelgesine kaydedilir.</li>
+<li><strong>Otonom oturum (<code>pkg/autonomous</code>,
+<code>pkg/navigator</code>, <code>pkg/issuedetector</code>)</strong> —
+<em>neden:</em> dört platformda kapsamlı manuel QA ölçeklenemez; bu
+nedenle keşfin kendisi otonom olmalı; <em>nasıl:</em> 4 aşamalı bir
+<code>SessionCoordinator</code>, ActionExecutor’lar (ADB/Playwright/X11)
+ve görsel, UX, erişilebilirlik ve işlevsel hataları kapsayan LLM hata
+tespiti.</li>
+<li><strong>Harici alt modüller</strong> — <em>neden:</em> yeniden
+kullanım ve bağımsızlık (CONST-051), ayrıca — kritik olarak — gezgin ile
+değerlendiricinin ayrılması; <em>nasıl:</em> LLMsVerifier (model
+puanlama), LLMOrchestrator (başsız CLI ajanları), VisionEngine (GoCV +
+LLM Vision), DocProcessor (özellik haritası/kapsam), her biri bağımsız
+olarak sahiplenilen bileşenler.</li>
+<li><strong>Blöf önleme kapıları + mutasyon mandalı</strong> —
+<em>neden:</em> HelixQA’un, §1.1 sözleşmesini her şeyde uyguladığı gibi
+kendisine de uygulanmasını sağlamak; <em>nasıl:</em>
+<code>make anti-bluff</code> taraması, bir davranış-çapa manifestosu ve
+mutasyon mandalı, <code>helixqa_orchestrator_challenge.sh</code> ile 8
+aşamalı bir uçtan uca doğrulayıcı.</li>
+<li><strong>15 satırlık kapsam matrisi
+(<code>docs/test-coverage.md</code>)</strong> — <em>neden:</em>
+CONST-050(B), hiçbir boşluk bırakmayan, tamamen hesaplanabilir bir test
+türü kümesi zorunlu kılar; <em>nasıl:</em> her satır, somut bir
+çalıştırılabilir varlığa ve belirli bir kanıt toplama biçimine bağlanır;
+böylece kapsam, bir iddia değil, kontrol edilen bir gerçek haline
+gelir.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve dürüstlük notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Aktif olarak geliştirilmekte (README
+durum afişi 219. tur). Kendi “anti-blöf” çubuğuna tabi tutuluyor.</li>
+<li><strong>Lisans: Apache-2.0.</strong> Kurulum:
+<code>go install digital.vasic.helixqa/cmd/helixqa@latest</code>.</li>
+</ul>
+<p><strong>Öncelik katmanı:</strong> Helix-birincil — Helix ailesinin
+özelliklerin gerçekten çalıştığını doğrulama yönteminin zorunlu
+kalite/anti-blöf dayanağı.</p>
+</body>
+</html>

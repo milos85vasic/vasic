@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>بازیگران پشتیبان زنجیره ابزار تأمین Server
+Factory</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>فراتر از Mail Server Factory و چارچوب اصلی، سازمان Server-Factory
+شامل چندین مؤلفه کوچک‌تر است: «کارخانه»های اختصاصی هر سرویس (سرویس وب،
+SonarQube، پروکسی کش)، بسته‌های پیکربندی اعلانی (Docker/Stack/Definitions
+نرم‌افزاری) و ابزارهای مشترک Utils. این صفحه به‌جای معرفی آن‌ها به‌عنوان
+محصولات کاملاً مشخص‌شده، به‌طور صادقانه به آن‌ها می‌پردازد — چرا که بسیاری از
+آن‌ها در مراحل اولیه توسعه یا مستندات ناقصی دارند.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>مجموعه‌ای از مخازن پشتیبان Server Factory: Web-Service-Factory،
+SonarQube-Factory و Caching-Proxy-Factory (ابزارهای تأمین هر سرویس،
+عمدتاً در مراحل اولیه توسعه)؛ Docker/Stack/Software-Definitions (بسته‌های
+پیکربندی اعلانی که توسط چارچوب مصرف می‌شوند)؛ و Utils (ابزارهای کمکی
+دسترسی به SSH و ابزارهای عمومی). همگی بر پایه چارچوب اصلی ساخته
+شده‌اند.</p>
+<h2 id="توضیح-مفصل">توضیح مفصل</h2>
+<p>این صفحه مخازن باقی‌مانده Server-Factory را یکجا گردآوری کرده است،
+زیرا به‌صورت جداگانه، بیشتر آن‌ها کوچک یا عمداً کم‌مستند هستند و معرفی هر یک
+به‌عنوان محصولی نهایی، سطح بلوغ آن‌ها را بیش از حد واقعی نشان می‌دهد. این
+مؤلفه‌ها به سه دسته تقسیم می‌شوند. <strong>کارخانه‌های سرویس</strong> از
+الگوی Mail Server Factory برای نقش‌های دیگر سرور پیروی می‌کنند:
+<strong>Caching-Proxy-Factory</strong> («سرور پروکسی کش خود را اجرا
+کنید») ویژگی‌های کلیدی مانند پروکسی کش، گواهی خودامضا و نقطه پایانی HTTP
+برای دریافت گواهی امنیتی را فهرست می‌کند؛
+<strong>SonarQube-Factory</strong> («سرور SonarQube خود را اجرا کنید»)
+برای استفاده در توسعه نرم‌افزار طراحی شده است؛ و
+<strong>Web-Service-Factory</strong> سرور وب را نمونه‌سازی و پیکربندی
+می‌کند تا اهدافی مانند وب‌سایت‌ها و میکروسرویس‌ها را مستقر سازد. هر سه
+پروژه‌هایی بر پایه Kotlin هستند که بر چارچوب اصلی استوارند، اما فایل‌های
+README عمومی آن‌ها عمدتاً جایگاه‌نگهدار («تعیین خواهد شد» برای سازگاری،
+مشخصات، راه‌اندازی و استفاده) هستند — بنابراین قابلیت‌های واقعی آن‌ها فراتر
+از اهداف اعلام‌شده، <strong>تأییدنشده</strong> است. <strong>بسته‌های
+تعاریف</strong> — <strong>Docker-Definitions</strong>،
+<strong>Stack-Definitions</strong> و
+<strong>Software-Definitions</strong> — مخازنی از پیکربندی‌های اعلانی
+هستند که چارچوب از آن‌ها برای دانستن نحوه ساخت/استقرار تصاویر Docker،
+استک‌ها و نرم‌افزارها استفاده می‌کند؛ این بسته‌ها مجموعه‌ای از داده‌های
+نسخه‌بندی‌شده هستند، نه برنامه‌های کاربردی. <strong>Utils</strong> ابزارهای
+کمکی عمومی برای این خانواده فراهم می‌کند، از جمله اسکریپت
+<code>init_ssh_access.sh</code> که کلید SSH را تولید و آن را بر روی
+میزبان راه دور نصب می‌کند تا دسترسی ریشه بدون رمز عبور برای تأمین‌های بعدی
+را ممکن سازد. این مؤلفه‌ها در کنار هم، زنجیره ابزار تأمین حول محصول شاخص
+Mail Server Factory را تکمیل می‌کنند.</p>
+<h2 id="چرایی-ساخت-آن">چرایی ساخت آن</h2>
+<p>مدل Server Factory برای تعمیم‌پذیری طراحی شده است: وقتی می‌توانید یک
+سرور ایمیل را از طریق توصیف اعلانی تأمین کنید، همان موتور باید بتواند
+سرورهای وب، پروکسی‌های کش و سرورهای کنترل کیفیت کد را نیز تأمین کند — با
+تغذیه از بسته‌های تعاریف قابل استفاده مجدد و ابزارهای مشترک، نه منطق
+اختصاصی برای هر نقش. این مخازن همان تعمیم در حال پیشرفت هستند که الگوی
+اثبات‌شده را به انواع جدید سرور گسترش می‌دهند. ارزش آن‌ها در اینجا به‌عنوان
+شاهدی بر دامنه کاربرد این مدل است؛ سطح بلوغ آن‌ها متفاوت است و این صفحه
+عمداً مشخص می‌کند کدام‌یک در مرحله جهت‌دهی و کدام‌یک تکمیل‌شده هستند.</p>
+<p>محتوا</p>
+<h2 id="چرا-انقلابی-است-به-شیوهای-سنجیده">چرا انقلابی است (به شیوه‌ای
+سنجیده)</h2>
+<p>این مجموعه به‌عنوان یک کل، قابلیت استفاده مجدد چارچوب اصلی را در انواع
+مختلف سرورها نشان می‌دهد و داده‌های اعلانی (تعاریف) را از اجرای عملی
+(کارخانه‌ها) جدا می‌سازد. به‌صورت جداگانه، کارخانه‌های سرویس در مراحل
+ابتدایی قرار دارند و باید به‌عنوان جهت‌گیری ارائه شوند، نه محصولات
+نهایی.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>یک چارچوب تأمین منابع که به‌طور کلی برای نقش‌های ایمیل، وب، پروکسی کش
+و SonarQube تعمیم یافته است.</li>
+<li>بسته‌های تعاریف اعلانی (Docker/پشته/نرم‌افزار) که از موتور اجرا جدا
+شده‌اند.</li>
+<li>ابزارهای مشترک (مانند بوت‌استرپ دسترسی بدون رمز عبور با یک دستور SSH)
+که در کارخانه‌ها به‌طور مجدد استفاده می‌شوند.</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>استفاده از یک موتور مشترک برای نقش‌های مختلف سرور:</strong>
+با ساخت هر کارخانه بر پایه چارچوب اصلی حل شده است.</li>
+<li><strong>جداسازی پیکربندی از کد:</strong> با استفاده از مخازن تعاریف
+به‌عنوان بسته‌های داده با نسخه‌بندی مشخص حل شده است.</li>
+<li><strong>(تأییدنشده):</strong> فایل‌های README کارخانه‌های سرویس
+به‌عنوان نگهدارنده موقت هستند؛ کامل بودن پیاده‌سازی آن‌ها از طریق مستندات
+عمومی قابل تأیید نیست — باید به‌عنوان مرحله ابتدایی ارائه شوند.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشته فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Kotlin</strong> — کارخانه سرویس وب، کارخانه SonarQube،
+کارخانه پروکسی کش (ساخته‌شده بر پایه چارچوب اصلی).</li>
+<li><strong>Shell</strong> — ابزارها و بسته‌های تعاریف
+(اسکریپت‌ها/پیکربندی).</li>
+<li><strong>Gradle</strong> — جریان ساخت و تست با
+<code>./gradlew test</code> در کارخانه‌ها.</li>
+<li><strong>Docker</strong> — محیط اجرایی هدف که توسط تعاریف Docker
+توصیف شده است.</li>
+<li><strong>SSH / OpenSSH</strong> — بوت‌استرپ دسترسی بدون رمز عبور
+ابزارها.</li>
+<li><strong>SonarQube</strong> — سروری که کارخانه SonarQube آن را تأمین
+می‌کند (و Mail Server Factory دروازه تمیزی برای آن گزارش می‌دهد).</li>
+</ul>
+<blockquote>
+<p>نکته صداقت: بیشتر این مخازن فورک‌های داخلی سازمان هستند؛ کارخانه‌های
+سرویس به‌صورت نگهدارنده مستند شده و طبق بند ۱۱٫۴٫۶ اساسنامه به‌عنوان
+تأییدنشده علامت‌گذاری شده‌اند. به‌وضوح در رتبه‌ای پایین‌تر از Mail Server
+Factory و چارچوب اصلی قرار دارند.</p>
+</blockquote>
+</body>
+</html>

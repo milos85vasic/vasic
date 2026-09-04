@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p>المحتوى</p>
+<p><strong>لوح مهامك ومصدر الحقيقة الخاص بك، متزامنان بدقة تامة — في كلا
+الاتجاهين.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>task_bridge هو محرك مزامنة عام وغير مترابط ثنائي الاتجاه
+للمهام/الألواح في Go. يحافظ على تزامن مصدر الحقيقة القابل للعمل SQLite
+للمشروع مع وثائق المتتبع ولوح التحكم البعيد (الهدف الأول: ClickUp؛ مخطط
+لإضافة Jira/Linear) باستخدام منطق “آخر تعديل يفوز” الحتمي، مع تنفيذ
+تجريبي أولي وضمانات بعدم الإفساد مطلقًا.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>وحدة فرعية في Go مستقلة عن المشروع، تقوم بمزامنة ثنائية الاتجاه بين
+مصدر الحقيقة القابل للعمل SQLite ↔︎ وثائق المتتبع ↔︎ لوح التحكم البعيد
+(ClickUp أولاً). منطق “آخر تعديل يفوز” الحتمي، تنفيذ تجريبي أولي، وتحقق
+عبر HMAC من خطافات الويب؛ تُحقن جميع بيانات الاعتماد والمعرفات من قبل
+المستهلك أثناء التشغيل.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>في نهاية المطاف، تحتفظ كل فريق بسجلين للعمل نفسه: السجل الحقيقي —
+الكود، الوثائق، قاعدة البيانات الداخلية — والسجل الذي يراقبه المديرون،
+مثل لوح التحكم في ClickUp. ينفصل السجلان في اللحظة التي يُلمس فيها أي
+منهما، وتوفيقهما يدويًا هو بالضبط نوع المهام المملة والمعرضة للأخطاء التي
+لا يقوم بها أحد بشكل موثوق. بُني task_bridge لسد هذه الفجوة من خلال
+التعامل مع التمثيلات الثلاث كنظام واحد يُحافظ على تزامنها التام:
+<strong>مصدر الحقيقة القابل للعمل SQLite للمشروع</strong>،
+و<strong>توثيق المتتبع</strong>، و<strong>لوح التحكم البعيد</strong> —
+حيث يُعد ClickUp أول لوح مدعوم، مع خطط لإضافة Jira وLinear مستقبلًا. تتم
+المزامنة بشكل حتمي (“آخر تعديل يفوز”)، مع تنفيذ تجريبي أولي، ومصممة حول
+وعد واحد غير قابل للتفاوض: لن تفسد البيانات أو تفقدها أبدًا، ولن تترك أي
+جانب متخلفًا بصمت. في مجال قد يؤدي فيه مزامنة غير حذرة إلى الكتابة فوق
+أسبوع من العمل، فإن هذا النهج الآمن هو الهدف الأساسي. من الناحية
+المعمارية، تُعد الوحدة وحدة فرعية صارمة تُستخدم من قبل مشاريع أخرى وهي
+مستقلة تمامًا عن المشروع وفقًا لعقد الفصل في الدستور (§11.4.28): فهي لا
+تحتوي على أي قيم خاصة بالمشروع، وتُحقن جميع بيانات الاعتماد ومعرفات
+اللوح/المجلد وحقول مفاتيح العناصر ومسارات قاعدة البيانات من قبل المستهلك
+أثناء التشغيل عبر <code>pkg/config.Config</code>. تتكون الوحدة من طبقات
+واضحة: CLI
+(<code>reconcile</code>/<code>push</code>/<code>pull</code>/<code>resolve</code>/<code>status</code>/<code>conflicts</code>/<code>init</code>)
+وخادم دائم التشغيل (مستقبل خطافات الويب + مزامنة دورية)؛ غلاف عميل رفيع
+فوق مكتبة <code>raksul/go-clickup</code> المرخصة بموجب MIT؛ محلل يحول
+عناوين URL للألواح/المجلدات إلى معرفات عبر استعلامات API المباشرة (دون
+تخمين لقواعد URL)؛ محول بين العناصر القابلة للعمل المحلية وحقول المهام
+البعيدة؛ محرك مزامنة يعتمد منطق “آخر تعديل يفوز” مع نتائج صراعية
+للتعارضات؛ ومستقبل خطافات ويب يتحقق من توقيع <code>X-Signature</code>
+باستخدام HMAC-SHA256. إنها صريحة بشأن مستوى نضجها: هذا هو الهيكل الأساسي
+للمرحلة الأولى — التصميم، الواجهات، نقاط الدخول، وحدود الفصل جاهزة، لكن
+منطق المزامنة واستدعاءات ClickUp المباشرة لم تُنفذ بعد (كل عنصر وهمي يُرجع
+خطأ صريحًا بعدم التنفيذ، وفقًا لقاعدة “عدم التزييف”).</p>
+<h2 id="لماذا-بنيناه">لماذا بنيناه</h2>
+<p>تحتفظ الفرق بالحالة “الحقيقية” للعمل في الكود/الوثائق بينما يعيش
+المديرون على لوح تحكم مثل ClickUp — وينفصلان باستمرار. يجعل task_bridge
+منهما نظامًا واحدًا، مزامنًا بشكل حتمي وآمن حتى لا يصبح أي جانب متخلفًا أو
+خاطئًا.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-هذا-تغييرا-جذريا-في-قواعد-اللعبة">لماذا يُعدّ هذا تغييرًا
+جذريًا في قواعد اللعبة</h2>
+<p>عادةً ما يكون المزامنة الثنائية للوحات عملية تكامل لمرة واحدة ومبرمجة
+بشكل جامد يعيد كل فريق بناؤها بطريقة سيئة. يعيد task_bridge صياغة هذا
+المفهوم ك مكتبة قابلة لإعادة الاستخدام تُحقن فيها بيانات الاعتماد مع
+ضمانات صارمة لسلامة البيانات — التنفيذ التجريبي أولاً، وآلية “آخر تعديل
+يفوز” الحتمية، والأحداث المُتحقَّق منها باستخدام HMAC — مما يسمح لأي مشروع
+باعتماد تكامل موثوق للوحات من خلال حقن الإعدادات بدلاً من كتابة موصل هش
+آخر مرتبط ببنيته الداخلية.</p>
+<h2 id="ما-هو-المبتكر">ما هو المبتكر</h2>
+<ul>
+<li>مزامنة ثنائية الاتجاه ثلاثية المسارات: SQLite (المصدر الوحيد
+للحقيقة) ↔︎ وثائق المتتبع ↔︎ اللوحة البعيدة.</li>
+<li>فك الارتباط الكامل (§11.4.28): لا قيم للمشروع؛ كلها تُحقن أثناء
+التشغيل.</li>
+<li>حل URL→المعرفات عبر API المباشر بدلاً من تحليل قواعد URL الهش.</li>
+<li>التحقق من صحة أحداث الويب هوك باستخدام HMAC-SHA256 للبث
+المباشر.</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>سلامة البيانات عبر ثلاثة مصادر:</strong> تم حلها باستخدام
+آلية “آخر تعديل يفوز” الحتمية، والتنفيذ التجريبي أولاً، ونتائج صراعية
+واضحة للتعارضات.</li>
+<li><strong>إعادة الاستخدام دون اقتران:</strong> تم حلها عبر حدود حقن
+<code>pkg/config</code> (دون تضمين تفاصيل المشروع في النسخة
+المُصدَّرة).</li>
+<li><strong>تحديد اللوحات بشكل موثوق:</strong> تم حلها من خلال تحويل
+عناوين URL إلى معرفات عبر مسابير API المباشرة.</li>
+<li><strong>الشفافية في البناء:</strong> تم حلها بجعل الوظائف غير
+المنفذة تُرجع أخطاء صريحة بعدم التنفيذ (دون استخدام بدائل وهمية).</li>
+</ul>
+<h2 id="مجموعة-التقنيات-السبب-الكيفية">مجموعة التقنيات (السبب +
+الكيفية)</h2>
+<ul>
+<li><strong>Go</strong> — المحرك، وCLI (<code>cmd/task_bridge</code>)،
+والخادم (<code>cmd/task_bridged</code>).</li>
+<li><strong>SQLite</strong> — المصدر الوحيد للحقيقة للعناصر القابلة
+للعمل.</li>
+<li><strong><code>raksul/go-clickup</code> (MIT)</strong> — غلاف نقل
+ClickUp.</li>
+<li><strong>HMAC-SHA256</strong> — التحقق من توقيع أحداث الويب هوك.</li>
+<li><strong>cron + ويب هوك</strong> — مزامنة الخادم + استقبال الأحداث
+المباشرة.</li>
+<li><strong><code>pkg/config</code></strong> — حدود حقن بيانات
+الاعتماد/المعرفات أثناء التشغيل.</li>
+</ul>
+<blockquote>
+<p>الشفافية في الحالة: هذا <strong>هيكل أولويته P1</strong> — منطق
+المزامنة لم يُنفَّذ بعد. لا تُقدَّم على أنها نسخة جاهزة للإصدار.</p>
+</blockquote>
+</body>
+</html>

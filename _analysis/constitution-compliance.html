@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>constitution-compliance</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">constitution-compliance</h1>
+</header>
+<h1
+id="constitution-conformance-audit-anti-bluff-compliance-matrix">Constitution
+Conformance Audit — Anti-Bluff Compliance Matrix</h1>
+<p><strong>Auditor:</strong> Independent constitution-conformance
+auditor (read-only). <strong>Date:</strong> 2026-08-05.
+<strong>Constitution:</strong>
+<code>submodules/constitution/Constitution.md</code> (working ruleset
+§11.4, ~165 mandates). <strong>Work audited:</strong>
+<code>design-system/</code>,
+<code>_tools/{od,gen,translate,pdf,portfolio}</code>,
+<code>_content/</code> + <code>_content_de/</code>,
+<code>vasic.digital/</code> + <code>milosvasic.ru/</code>,
+<code>milosvasic.ru/downloads/*.pdf</code>, <code>_tests/</code>
+(visual, export, tests, evidence/), <code>_analysis/</code>, git
+state.</p>
+<p><strong>Anti-bluff rule applied:</strong> no verdict is recorded
+without a checked basis (file read, artifact inspected, or command run).
+Every COMPLIANT cites a concrete artifact; every GAP/PARTIAL names the
+specific defect and remediation.</p>
+<p><strong>Headline counts:</strong> COMPLIANT 8 · PARTIAL 5 · GAP 5 ·
+N/A 1.</p>
+<blockquote>
+<p>🔄 <strong>VERIFICATION UPDATE (2026-08-10).</strong> Re-checked on
+disk today; several GAPs recorded 2026-08-05 are now
+<strong>RESOLVED</strong> (the audit rows below are retained for history
+— read them together with this note): - <strong>§11.4.161 (sudo) —
+RESOLVED.</strong> <code>milosvasic.ru/start.sh</code> no longer
+contains <code>sudo</code> (verified
+<code>grep -rn sudo _tools milosvasic.ru vasic.digital</code> → none). -
+<strong>§11.4.77 / §11.4.28 (submodule map) — RESOLVED.</strong>
+<code>.gitmodules</code> now maps all four gitlinks
+(<code>submodules/constitution</code>, <code>milosvasic.ru</code>,
+<code>vasic.digital</code>, <code>design-toolkit</code>). -
+<strong>§11.4.77 (ephemeral engine path) — RESOLVED.</strong>
+<code>translate-content.sh</code>, <code>translate-pipeline.sh</code>,
+and the <code>_tools/gen/*.py</code> UI translators now default the
+engine to the repo-relative committed entrypoint
+<code>_tools/helixtranslate-container.sh</code> (was
+<code>/tmp/helixtranslate</code>); guarded by
+<code>_tools/translate/reproducibility-selftest.sh</code>. -
+<strong>§1.1 (portfolio gate mutation test) — RESOLVED.</strong> Both
+<code>_tests/tools/validate.mutation.test.mjs</code> and the
+harness-style <code>_tools/portfolio/self-validate.sh</code>
+(golden-good=PASS / golden-bad=FAIL, verdict JSON evidence) now exist. -
+<strong>§11.4.162 (company-site diagram brand) — RESOLVED.</strong> All
+33 <code>design-system/diagrams/*.svg</code> accents tokenized to
+<code>var(--od-accent,…)</code>; rendered-pixel proof under
+<code>_tests/evidence/diagrams/brand-accent-proof/</code>. -
+<strong>§11.4.107 (axe coverage) — EXTENDED.</strong>
+<code>_tests/tests/vasic-digital-a11y.spec.js</code> now scans the
+company site (home + product + portfolio), not just milosvasic.ru.</p>
+<p><strong>Still open (verified 2026-08-10):</strong> the non-EN
+UI-label leaks (14
+<code>status.*</code>/<code>tier.*</code>/<code>alt.*</code> keys
+missing from every non-EN block of <code>ui-i18n.json</code>; German
+<code>pf.download</code>/<code>prod.tier</code> untranslated) — these
+require a <strong>HelixTranslate</strong> run (remote container host,
+currently unreachable); per §11.4.140 they are <strong>not</strong>
+hand-translated. See MUST-FIX addendum.</p>
+</blockquote>
+<hr />
+<h2 id="gap-partial-first-sorted-by-severity">GAP / PARTIAL first
+(sorted by severity)</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Mandate</th>
+<th>Applies?</th>
+<th>Verdict</th>
+<th>Evidence / Gap</th>
+<th>Remediation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>§11.4.161</strong> rootless containers / no sudo</td>
+<td>Yes</td>
+<td><strong>GAP</strong></td>
+<td><code>milosvasic.ru/start.sh:3</code> still runs
+<code>sudo bundle install &amp;&amp; bundle exec jekyll serve</code>.
+The sudo the task flagged is <strong>still present</strong>. This is
+also the one live <strong>§12 host-session-safety</strong> concern
+(privilege escalation in a run script). No sudo elsewhere
+(<code>grep -rn sudo _tools vasic.digital milosvasic.ru</code> returns
+only this line).</td>
+<td>Remove <code>sudo</code>; use a user-level Ruby/Bundler
+(<code>bundle config set --local path vendor/bundle</code>) or run
+Jekyll in a rootless container. Add a self-test that greps run scripts
+for <code>sudo</code> and fails.</td>
+</tr>
+<tr>
+<td><strong>§11.4.77</strong> reproducibility from clean clone</td>
+<td>Yes</td>
+<td><strong>GAP</strong></td>
+<td><code>.gitmodules</code> maps <strong>only</strong>
+<code>submodules/constitution</code>. But <code>git ls-files -s</code>
+shows <strong>three</strong> gitlinks (mode 160000):
+<code>milosvasic.ru</code>, <code>vasic.digital</code>,
+<code>submodules/constitution</code>. The two site gitlinks have
+<strong>no <code>.gitmodules</code> entry</strong> →
+<code>git submodule status</code> aborts
+(<code>fatal: no submodule mapping found ... for path 'milosvasic.ru'</code>).
+A clean clone cannot populate the two sites. Also the translation engine
+defaults to an <strong>ephemeral</strong> path:
+<code>HELIX_BIN=${HELIX_BIN:-/tmp/helixtranslate}</code>
+(<code>_tools/translate/translate-content.sh:47</code>) — present now
+(15 MB binary in <code>/tmp</code>) but not in-repo, so re-translation
+is not reproducible from a clean clone.</td>
+<td>Add <code>[submodule]</code> blocks for <code>milosvasic.ru</code>
+and <code>vasic.digital</code> (with URLs) to <code>.gitmodules</code>,
+or de-gitlink and vendor them. Ship HelixTranslate via the committed
+container recipe (<code>_tools/helixtranslate-container.sh</code>) and
+point <code>HELIX_BIN</code> at a repo-relative built artifact, not
+<code>/tmp</code>.</td>
+</tr>
+<tr>
+<td><strong>§11.4.28</strong> submodules-as-equal-codebase +
+decoupling</td>
+<td>Yes</td>
+<td><strong>PARTIAL</strong></td>
+<td>Constitution submodule is correctly wired (<code>.gitmodules</code>
+→ <code>git@github.com:HelixDevelopment/HelixConstitution.git</code>,
+SSH). But the two site submodules are gitlinks without mapping (same
+defect as §11.4.77) — the submodule graph is internally
+inconsistent.</td>
+<td>Same as §11.4.77: register both site submodules properly so each is
+an independently clonable, decoupled codebase.</td>
+</tr>
+<tr>
+<td><strong>§1.1</strong> false-positive immunity (mutation-paired
+gates)</td>
+<td>Yes</td>
+<td><strong>PARTIAL</strong></td>
+<td><strong>Proven for 2 of 3 gates.</strong> Visual oracle (§11.4.170)
+and export validator (§11.4.168) are genuinely mutation-paired:
+<code>_tests/visual/self-validate.sh</code> and
+<code>_tests/export/self-validate.sh</code> each run golden-GOOD (expect
+PASS / rc 0) and golden-BAD (expect FAIL / rc 1) and assert
+<strong>both</strong>; evidence verdict JSONs confirm good=PASS,
+bad=FAIL with concrete findings
+(<code>_tests/evidence/harness/{visual,export}/golden-*.verdict.json</code>).
+<strong>Missing:</strong> the portfolio data gate
+<code>_tools/portfolio/validate.mjs</code> has <strong>no golden-bad
+mutation test</strong> — nothing feeds it a deliberately-broken
+<code>portfolio.json</code> (leaked private repo, excluded slug,
+non-monotonic order) and asserts exit 1. Its immunity is asserted in
+code comments but never demonstrated.</td>
+<td>Add <code>_tools/portfolio/self-validate.sh</code>: run validator on
+a known-good fixture (expect 0) and on a mutated fixture per each
+assertion class (expect 1); capture verdict evidence.</td>
+</tr>
+<tr>
+<td><strong>§11.4.169</strong> mandatory test-type set</td>
+<td>Yes</td>
+<td><strong>PARTIAL</strong></td>
+<td><strong>Present:</strong> e2e/feature
+(<code>_tests/tests/*-features.spec.js</code>, <code>*.spec.js</code>),
+accessibility (<code>milosvasic-ru-a11y.spec.js</code>, axe-core), i18n
+completeness (<code>i18n-completeness.spec.js</code>,
+<code>*-i18n-articles.spec.js</code>), visual-proof
+(<code>_tests/visual</code>), exported-doc (<code>_tests/export</code>).
+Playwright reported 51/51 green (commit <code>42440cd</code>).
+<strong>Absent:</strong> unit, integration, security, ddos, stress,
+chaos, concurrency, memory, perf, challenges, helixqa. Many are arguably
+N/A for two static sites with no server/runtime, but there is <strong>no
+document mapping each required type to a PASS or an explicit justified
+N/A</strong>, so the set is unmet on its face.</td>
+<td>Add a short test-type applicability matrix (which types apply to a
+static-site + PDF + i18n project and why the rest are N/A). Add at least
+unit tests for the JS tools (<code>validate.mjs</code>,
+<code>visual-oracle.js</code>, <code>validate-pdf.js</code>,
+<code>glossary_protect.py</code>) and a security/link-safety scan.</td>
+</tr>
+<tr>
+<td><strong>§11.4.162</strong> OpenDesign mandatory tokens, no ad-hoc
+CSS</td>
+<td>Yes</td>
+<td><strong>PARTIAL</strong></td>
+<td><strong>Strong core:</strong> two brand stylesheets share one token
+foundation with full light + dark overrides and <code>.od-*</code>
+components (<code>design-system/brand-*/*.css</code>,
+<code>README.md</code>); sites link the OD CSS
+(<code>vasic.digital/index.html:9</code>). <strong>Ad-hoc CSS
+remains:</strong> inline diagram <code>&lt;svg&gt;&lt;style&gt;</code>
+blocks hardcode hex instead of <code>var(--od-*)</code> —
+e.g. <code>vasic.digital/products/helixagent.html:68</code>
+<code>svg{--ink:#1e293b;--accent:#a31e39;...}</code>;
+<code>index.html</code> carries a <code>&lt;style&gt;</code> block plus
+<strong>36 inline <code>style=</code> attributes</strong>. Brand
+mismatch: the <strong>company</strong> site’s diagrams use the
+<strong>personal</strong> brand accent <code>#a31e39</code> (crimson)
+instead of company red <code>#dc3545</code>.</td>
+<td>Tokenize diagram palettes from <code>--od-*</code> (or generate
+diagrams from OD tokens); remove inline <code>style=</code> in favor of
+utility classes; fix the company-site diagram accent to the company
+ramp.</td>
+</tr>
+<tr>
+<td><strong>DE localization content quality</strong> (sink of
+§11.4.140/141)</td>
+<td>Yes</td>
+<td><strong>COMPLIANT (resolved 2026-08-07)</strong></td>
+<td>RESOLVED: German was re-translated and re-reviewed to convergence.
+Current DE review set
+(<code>_tests/evidence/translate-new/de/*.review.json</code>) is
+<strong>38 PASS / 0 FAIL / 38 total</strong> — no
+<code>untranslated_leftovers</code>, all sections complete. The files
+this row originally cited (<code>HelixTrack.md.review.json</code>,
+<code>vasic-digital.md.review.json</code>) were superseded by the
+current <code>docs_*</code>/<code>sites_*</code> review-set naming and
+no longer exist. The independent-review gate correctly flipped from
+FAIL→PASS after the content was fixed (proving it is not
+rubber-stamping), consistent with the fleet-wide 14×38/38
+§11.4.236-review status.</td>
+<td>None — DE content is delivered and reviewer-clean.</td>
+</tr>
+<tr>
+<td><strong>§11.4.142</strong> every change independently reviewed
+(different model)</td>
+<td>Yes</td>
+<td><strong>PARTIAL</strong></td>
+<td>Translations are independently reviewed by a
+<strong>different</strong> model (see §11.4.141). A “comprehensive
+review complete (89% PASS)” is referenced in commit <code>42440cd</code>
+and <code>_analysis/</code> reports. But there is <strong>no per-change
+reviewer-model attribution</strong> covering the design-system, site
+markup, and tooling changes — only the translation surface has
+machine-checkable independent-review artifacts.</td>
+<td>Record an independent-review artifact (reviewer model/provider +
+verdict) per non-translation change class, or a signed review log.</td>
+</tr>
+<tr>
+<td><strong>§11.4.107</strong> WCAG contrast, verified independently of
+tokens</td>
+<td>Yes</td>
+<td><strong>PARTIAL (compliant where run)</strong></td>
+<td>Verified <strong>independently of token values</strong> via
+axe-core, which computes contrast from <strong>rendered pixels</strong>:
+<code>_tests/tests/milosvasic-ru-a11y.spec.js</code> runs
+<code>AxeBuilder</code> and asserts no critical/serious violations
+(<code>color-contrast</code> is a serious-impact axe rule and is
+<strong>not</strong> in the disabled list). README documents a
+status-badge contrast fix. <strong>Limitation:</strong> the axe scan
+targets only the <code>milosvasic.ru</code> homepage
+(<code>localhost:8082</code>); it does not cover
+<code>vasic.digital</code>, product/portfolio pages, or the PDFs. No
+standalone contrast tool exists
+(<code>find _tools -iname '*contrast*'</code> empty), so axe is the sole
+oracle.</td>
+<td>Extend the axe scan to <code>vasic.digital</code> and key
+product/portfolio pages (and ideally a contrast check on PDF text) so
+coverage matches the “verified/fixed” claim.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="genuinely-compliant-with-proof">Genuinely COMPLIANT, with
+proof</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Mandate</th>
+<th>Applies?</th>
+<th>Verdict</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>§11.4.170</strong> device-independent host-rendered pixel
+proof per screen × state × {light,dark}; token-equality-only
+forbidden</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td><code>_tests/visual/visual-oracle.js</code> renders <strong>real
+HTML in a headless browser</strong>, captures a PNG + OCR text + a
+geometry oracle (giant-widget/offscreen-clipped/overlap findings)
+<strong>per theme (light+dark)</strong>, and derives verdict from
+findings — not from token equality. Real-page evidence:
+<code>_tests/evidence/pages/SUMMARY.json</code> (10 product pages × 2
+brands × 2 themes, <code>allPass:true</code>),
+<code>_tests/evidence/homepages/oracle-{milos,vasic}/*.verdict.json</code>
+(findings <code>[]</code>, PASS),
+<code>_tests/evidence/portfolio/*.verdict.json</code> (PASS), plus
+manual desktop/mobile/dark PNGs (6 files).</td>
+</tr>
+<tr>
+<td><strong>§11.4.168</strong> exported-doc content + textual + visual
+validation (PDFs)</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td><code>_tests/export/validate-pdf.js</code> runs three families:
+CONTENT (word count + required phrases via pdftotext), TEXTUAL (no raw
+markup/mermaid leak), FULL-VISUAL (pdfimages embedded-image count + OCR
+of rendered pages). Real deliverables pass with captured artifacts:
+<code>_tests/evidence/pdf/cv.verdict.json</code> (809 words, phrases
+“Harness”/“Singidunum”, 4 OCR pages, PASS),
+<code>portfolio.verdict.json</code> (867 words, PASS),
+<code>cover-letter.verdict.json</code>. Self-validation proves the
+validator can fail (golden-bad rejected on faithfulness, no-leak, and
+images).</td>
+</tr>
+<tr>
+<td><strong>§11.4.69</strong> sink-side positive evidence captured</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td>Rendered PNGs, OCR <code>.txt</code>, oracle verdict JSON, and PDF
+verdict JSON are all persisted under
+<code>_tests/evidence/{homepages,pages,portfolio,pdf,diagrams,harness}</code>
+— the observable output of each sink is captured, not merely
+asserted.</td>
+</tr>
+<tr>
+<td><strong>§11.4.140</strong> all translation via HelixTranslate +
+fail-loud</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td><code>_tools/translate/translate-content.sh</code> routes
+translation <strong>only</strong> through <code>$HELIX_BIN</code> (line
+130), runs under <code>set -euo pipefail</code> (line 39), pre-checks
+the engine is executable (<code>[ -x "$HELIX_BIN" ] || die</code> line
+64), and <code>die</code>s with no fallback on engine failure (line 136:
+“no fallback, no hand-translation”). Engine binary present. (Repro
+caveat tracked under §11.4.77.)</td>
+</tr>
+<tr>
+<td><strong>§11.4.141</strong> independent review by a different
+model</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td>Translator = <code>mistral/mistral-large-latest</code>; reviewer =
+<code>groq/llama-3.3-70b-versatile</code> — a different provider
+<strong>and</strong> model. <code>_tools/review_translation.py</code>
+docstring mandates “a different provider/model than the one that
+produced the translation.” Review artifacts carry attribution:
+<code>_tests/evidence/translate-new/de/*.review.json</code> include
+<code>"_provider":"groq","_model":"llama-3.3-70b-versatile"</code>. The
+gate honestly emits FAIL (see DE-content GAP), proving it is not
+rubber-stamping.</td>
+</tr>
+<tr>
+<td><strong>§11.4.6</strong> no-guessing / honesty flags / UNVERIFIED
+markers</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td>Explicit uncertainty markers exist:
+<code>_analysis/OPENDESIGN-ADOPTION-PLAN.md:157</code> carries
+<code>[UNCONFIRMED — verify OpenDesign icon/asset support …]</code>;
+German content includes dedicated “Status &amp; honesty notes” sections
+(flagged by the reviewer); review JSONs record honest FAIL verdicts and
+specific issues rather than asserting success.</td>
+</tr>
+<tr>
+<td><strong>§11.4.27</strong> no fakes beyond unit</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td>Oracles/validators operate on <strong>real</strong> rendered output
+— real headless-browser renders, real generated PDFs, real OCR
+(Tesseract). No mocked sinks. The only synthetic inputs are the golden
+good/bad fixtures, used solely to self-validate the harness (not to
+stand in for product behavior).</td>
+</tr>
+<tr>
+<td><strong>§11.4.10</strong> credentials — no secrets in VCS</td>
+<td>Yes</td>
+<td><strong>COMPLIANT</strong></td>
+<td><code>git grep</code> for <code>sk-…</code>, inline
+<code>API_KEY=…</code>, and private-key headers over tracked files
+returns nothing. <code>.gitignore</code> lines 6–16 exclude
+<code>.env</code>, <code>*.env</code>, <code>api_keys.sh</code>,
+<code>**/api_keys.sh</code>, <code>secrets.sh</code>. Keys are sourced
+at runtime from <code>~/api_keys.sh</code>
+(<code>translate-content.sh</code>), never stored.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="not-applicable-notes">Not applicable / notes</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Verdict</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Commit discipline — Conventional Commits</td>
+<td><strong>N/A (not mandated)</strong></td>
+<td><code>grep -ni "conventional commit" Constitution.md</code> returns
+<strong>nothing</strong> — Conventional Commits is <strong>not</strong>
+a constitutional requirement. Observed commits are free-form (“Bump
+milosvasic.ru submodule…”), which is permissible. The constitution
+instead mandates a <strong>dedicated commit/push script</strong> with
+hook-validation as a named stage and an always-unblocked push
+(§11.4.234, Lava binding <code>scripts/commit-push-all.sh</code>);
+<strong>no such wrapper exists in this repo</strong> (minor process gap,
+not a Conventional-Commits gap). SSH-only transport <strong>is</strong>
+satisfied: all remotes are
+<code>git@github.com:milos85vasic/vasic.git</code>.</td>
+</tr>
+<tr>
+<td>GitHub + GitLab baseline releases</td>
+<td><strong>UNVERIFIED (offline)</strong></td>
+<td><code>git tag</code> is empty locally; release existence on
+GitHub/GitLab could not be checked read-only offline. Not counted as
+compliant or gap — flagged as unverifiable from the clone.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="must-fix-before-deploy">MUST-FIX BEFORE DEPLOY</h2>
+<ol type="1">
+<li><strong>§11.4.161 / §12 — remove <code>sudo</code> from
+<code>milosvasic.ru/start.sh:3</code>.</strong> Concrete, single-line
+privilege-escalation violation; add a run-script sudo-grep self-test to
+keep it out.</li>
+<li><strong>§11.4.77 / §11.4.28 — repair the submodule graph.</strong>
+Add <code>.gitmodules</code> entries for <code>milosvasic.ru</code> and
+<code>vasic.digital</code> (both are gitlinks with no mapping →
+<code>git submodule status</code> fatal → clean clone cannot reproduce
+the sites).</li>
+<li><strong>DE content — RESOLVED (2026-08-07).</strong> German was
+re-translated and re-reviewed to convergence; the current DE review set
+is <strong>38/38 PASS</strong> (0 FAIL, no
+<code>untranslated_leftovers</code>). No longer a gap —
+<code>_content_de</code> is delivered and reviewer-clean.</li>
+<li><strong>§1.1 — add the portfolio validator mutation test.</strong>
+The data gate <code>_tools/portfolio/validate.mjs</code> is the one
+untested-for-false-positives gate; ship a golden-bad fixture proving it
+exits 1.</li>
+<li><strong>§11.4.77 — de-<code>/tmp</code> the translation
+engine.</strong> Point <code>HELIX_BIN</code> at a repo-built artifact
+(via the committed container recipe) so re-translation reproduces from a
+clean clone.</li>
+</ol>
+<h2 id="should-fix-quality-not-deploy-blocking">SHOULD-FIX (quality, not
+deploy-blocking)</h2>
+<ol start="6" type="1">
+<li>§11.4.162 — tokenize inline diagram CSS and remove the 36 inline
+<code>style=</code> attributes; fix the company site’s diagram accent
+(<code>#a31e39</code> crimson → <code>#dc3545</code> red).</li>
+<li>§11.4.107 — extend the axe contrast scan beyond the
+<code>milosvasic.ru</code> homepage to <code>vasic.digital</code> and
+product/portfolio pages.</li>
+<li>§11.4.169 — publish a test-type applicability matrix
+(apply/justified-N/A per required type) and add unit tests for the
+JS/Python tools.</li>
+<li>§11.4.142 — record an independent-review artifact (reviewer model +
+verdict) for non-translation change classes.</li>
+</ol>
+</body>
+</html>

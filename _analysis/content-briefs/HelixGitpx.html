@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>Tagline:</strong> One source of truth, mirrored everywhere —
+federated Git across a dozen hosts.</p>
+<p><strong>Summary:</strong> HelixGitpx (Helix Git Proxy eXtended) is a
+federated Git proxy that keeps a single source of truth mirrored across
+many upstream Git hosts and resolves the inevitable conflicts with
+policy- and AI-assisted flows. It reached v1.0.0 GA.</p>
+<p><strong>Short description (~40 words):</strong> HelixGitpx is a
+federated Git proxy that mirrors one source of truth across a dozen-plus
+Git hosts — GitHub, GitLab, Gitea, Bitbucket, Azure DevOps, AWS
+CodeCommit and more — and resolves sync conflicts with policy- and
+AI-assisted flows. Shipped as v1.0.0 GA.</p>
+<p><strong>Long description (150-250 words):</strong> HelixGitpx —
+“Helix Git Proxy eXtended” — is a federated Git proxy that mirrors a
+single source of truth across many upstream Git hosts and resolves the
+conflicts that inevitably arise when the same repository lives in
+multiple places. Supported upstreams include GitHub, GitLab, GitFlic,
+GitVerse, Gitea, Gitee, Bitbucket, Azure DevOps, AWS CodeCommit,
+Forgejo, SourceHut, and generic Git-over-HTTPS. Where a naive
+multi-remote push would fail or silently diverge, HelixGitpx applies
+policy- and AI-assisted resolution flows.</p>
+<p>The project is at v1.0.0 GA, with milestones
+<code>m1-foundation</code> through <code>m8-ga</code> tagged. It is
+built as a Go monorepo (a platform plus eighteen services, code
+generation, and scaffolding tools), an Angular 19 + Nx web application,
+and Kotlin-Multiplatform + Compose client shells for Android, iOS, and
+Desktop. Platform delivery is Kubernetes-native: Helm charts, Argo CD
+applications, Kustomize overlays, SQL, and OPA policies, with CI
+pipelines gated behind explicit dispatch. Public documentation ships as
+a Docusaurus site (docs.helixgitpx.io) alongside an Astro marketing site
+(helixgitpx.io).</p>
+<p>Governance is strict and constitution-driven: the load-bearing
+document is the project Constitution, whose Article II mandates a
+seven-type testing matrix at 100% coverage per type per module touched,
+with mocks allowed only in unit tests and no skipped tests. A one-shot
+verifier runs every artifact check plus
+<code>go vet</code>/<code>go test</code> across the workspace, and every
+push fans out to all configured upstreams.</p>
+<p><strong>Why we built it:</strong> Keeping a repository authentic
+across many Git hosts — for redundancy, sovereignty, or reach into
+regional platforms — is fragile and manual, and divergent mirrors are
+hard to reconcile. HelixGitpx was built to make multi-upstream mirroring
+a first-class, conflict-aware capability.</p>
+<p><strong>Why it’s a game-changer:</strong> It turns “push to many
+remotes and hope” into a governed federation with a single source of
+truth and automated, policy-plus-AI conflict resolution — across an
+unusually broad set of hosts, including regional ones (GitFlic,
+GitVerse, Gitee) that most tooling ignores.</p>
+<p><strong>What’s innovative:</strong> - <strong>Breadth of
+upstreams</strong> — a dozen-plus Git hosts, including regional
+platforms, behind one proxy. - <strong>Policy- and AI-assisted conflict
+resolution</strong> rather than manual reconciliation. -
+<strong>Single-source-of-truth federation</strong> with an all-upstreams
+push model. - <strong>Rigorous, constitution-enforced testing</strong>
+(seven test types, 100% per-type coverage, no skips) verified by a
+one-shot green-suite script.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Divergence and conflicts across many upstreams</em> — solved with
+policy- and AI-assisted resolution flows over a single source of truth,
+plus an all-upstreams synchronized push. - <em>Uniform support for
+heterogeneous Git hosts</em> — solved with per-upstream configuration
+scripts under <code>Upstreams/</code> and a platform layer abstracting
+the host differences. - <em>Proving correctness before every merge</em>
+— solved with a mandatory seven-type test matrix and
+<code>verify-everything.sh</code> that also short-circuits cleanly when
+no cluster is reachable.</p>
+<p><strong>Tech stack:</strong> - <strong>Go monorepo</strong> —
+platform + 18 services + codegen + scaffolding; core proxy/federation
+engine. - <strong>Angular 19 + Nx</strong> — web application. -
+<strong>Kotlin Multiplatform + Compose</strong> — Android / iOS /
+Desktop client shells from shared code. - <strong>Kubernetes + Helm +
+Argo CD + Kustomize</strong> — cloud-native deployment and GitOps. -
+<strong>OPA (Rego)</strong> — policy enforcement for resolution and
+access. - <strong>Docusaurus</strong> — public documentation site;
+<strong>Astro</strong> — marketing site. - <strong>mise</strong> —
+pinned, reproducible toolchain.</p>
+<p><strong>Public links:</strong> - GitHub:
+https://github.com/HelixDevelopment/HelixGitpx (public, v1.0.0 GA) -
+Docs: docs.helixgitpx.io · Marketing: helixgitpx.io (URLs per README;
+not independently fetched — UNVERIFIED live status) - License:
+Apache-2.0 (code) / CC-BY-SA-4.0 (documentation).</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Hub-and-spoke federation: one source-of-truth hub pushing to a ring of
+host logos (GitHub, GitLab, Gitea, Bitbucket, Azure DevOps, AWS
+CodeCommit, GitFlic, GitVerse, Gitee, Forgejo, SourceHut). 2.
+Conflict-resolution flow: divergent mirrors → policy/AI resolver →
+reconciled single truth. 3. Delivery stack: Go platform + Angular web +
+KMP clients over a Kubernetes/Argo platform layer.</p>
+<p><strong>Site relevance:</strong> both (vasic.digital as a shipped GA
+developer-infrastructure product; milosvasic.ru as a strong flagship — a
+GA, broadly-integrated system).</p>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+<p><strong>Source provenance:</strong> -
+<code>gh api repos/HelixDevelopment/HelixGitpx</code> (metadata: public,
+Go, MIT per API top-level field — but README states Apache-2.0 code /
+CC-BY-SA-4.0 docs; see note, created 2026-04-19, pushed 2026-05-08). -
+<code>gh api repos/HelixDevelopment/HelixGitpx/readme</code> (upstream
+list, GA status/milestones, monorepo layout, test matrix, docs/marketing
+sites). -
+<code>/Volumes/T7/Projects/vasic/_analysis/github-helix-others.{md,json}</code>
+(description). - UNVERIFIED: license mismatch — GitHub API reports
+<code>MIT</code> while the README’s License section states Apache-2.0
+(code) / CC-BY-SA-4.0 (docs); resolve against the actual LICENSE file
+before publishing. Docs/marketing site liveness not fetched. “v1.0.0 GA”
+is the project’s own README claim.</p>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DEFECT-MATRIX</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DEFECT-MATRIX</h1>
+</header>
+<h1 id="deep-live-interaction-sweep-pre-deploy-gate">Deep
+Live-Interaction Sweep — Pre-Deploy Gate</h1>
+<p>Driver: Playwright 1.61 (Chromium ≈ Yandex). Read-only. Built output
+served locally (<code>milosvasic.ru/_site</code> @ :8082,
+<code>vasic.digital</code> @ :8401). Viewports: tablet 1024×768, mobile
+390×844, desktop 1440×900. Raw data: <code>results.json</code> (385
+assertions). Evidence PNGs in this folder.</p>
+<h2 id="verdict-pass-with-one-real-defect">Verdict: PASS with ONE real
+defect</h2>
+<ul>
+<li><strong>314 PASS / 385</strong> on first machine pass.</li>
+<li>After manual verification of every non-PASS row, <strong>only ONE is
+a genuine user-facing defect</strong> (milos mobile nav). The rest are
+harness selector mismatches or by-design.</li>
+</ul>
+<hr />
+<h2 id="genuine-defect-should-be-addressed">Genuine defect (should be
+addressed)</h2>
+<table>
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 7%" />
+<col style="width: 9%" />
+<col style="width: 10%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Sev</th>
+<th>Site</th>
+<th>Pages</th>
+<th>Viewport</th>
+<th>Element</th>
+<th>Selector</th>
+<th>What’s wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>MEDIUM</td>
+<td>milosvasic.ru</td>
+<td>ALL (home, portfolio, all products)</td>
+<td><strong>mobile 390</strong> only</td>
+<td>Primary nav links (Work/Experience/Skills/Contact)</td>
+<td><code>nav.nav .nav-links a</code></td>
+<td>Hidden at ≤760px via
+<code>@media(max-width:760px){.nav-links{display:none}}</code> in
+<code>assets/css/style.css</code>, and there is <strong>NO hamburger /
+mobile menu</strong> replacement. On a phone the 4 in-page section links
+are unreachable. Brand (→home), language, and theme controls DO remain
+in the header, and sections are still reachable by scrolling, so it’s
+degraded — not total breakage. Tablet 1024 and desktop are unaffected
+(breakpoint is 760px). Evidence:
+<code>DEFECT-milos-mobile-390-nav-missing.png</code>,
+<code>DEFECT-milos-mobile-390-fullheader.png</code> vs
+<code>OK-milos-tablet-1024-nav-present.png</code>. vasic.digital’s
+<code>.od-nav</code> stays visible at 390 and passed.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="non-pass-rows-that-were-verified-not-defects-false-positives-by-design">Non-PASS
+rows that were verified NOT defects (false positives / by-design)</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 16%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr>
+<th>Reported</th>
+<th>Rows</th>
+<th>Reality (verified)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vasic Lang switcher “BROKEN — lang unchanged=en”</td>
+<td>15</td>
+<td>FALSE POSITIVE. Harness clicked the first menu item, which is
+<strong>English (current)</strong> → no change. Manual probe: selecting
+Беларуская flips <code>&lt;html lang&gt;</code> en→be in place
+(<code>od-i18n.js applyDict</code>). Switcher works on every vasic
+page/viewport.</td>
+</tr>
+<tr>
+<td>vasic Footer links “MISSING”</td>
+<td>18</td>
+<td>BY DESIGN. <code>&lt;footer class="od-footer"&gt;</code> is
+intentionally text-only (“© 2026 Vasic Digital — built on the OpenDesign
+system.”) with no <code>&lt;a&gt;</code>. milos footer has links (15
+PASS).</td>
+</tr>
+<tr>
+<td>vasic portfolio Theme toggle + Brand “MISSING”</td>
+<td>6</td>
+<td>HARNESS SELECTOR MISS. Portfolio uses <code>#pf-theme-toggle</code>
+(not <code>#od-theme-toggle</code>) and brand as
+<code>a.od-nav__link</code> (not <code>a.od-brand</code>). Probe: theme
+flips null→dark; brand href=<code>../index.html</code> → home. Both
+functional.</td>
+</tr>
+<tr>
+<td>milos article page Theme/Lang/Back-to-top/Footer/Brand
+“MISSING”</td>
+<td>15</td>
+<td>NOT A NAV TARGET. <code>/articles/en/*.html</code> are bare HTML
+fragments (no site chrome, no <code>&lt;title&gt;</code>) injected into
+the on-page article modal. milos home has <strong>0</strong> direct
+<code>&lt;a href*="/articles/"&gt;</code> links — they are never loaded
+as standalone pages. The real “doc” surface is the
+CV/Cover-Letter/Portfolio download modal, which PASSED.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="everything-that-passed-verified-working-both-sites-unless-noted">Everything
+that PASSED (verified working, both sites unless noted)</h2>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header nav links (desktop + tablet, both sites)</td>
+<td>76 PASS — hash links scroll to existing target section; subpage
+<code>/#work</code> etc. navigate to home and land on the section; vasic
+cross-page links navigate.</td>
+</tr>
+<tr>
+<td>Brand / logo → home</td>
+<td>27 PASS (+6 selector-miss that are functional).</td>
+</tr>
+<tr>
+<td>Theme toggle (<code>data-theme</code> flip + persists across
+reload)</td>
+<td>27 PASS (+6 selector-miss functional; milos article n/a).</td>
+</tr>
+<tr>
+<td>Language switcher</td>
+<td>milos 15 PASS (flips <code>&lt;html lang&gt;</code>); vasic verified
+functional (see above).</td>
+</tr>
+<tr>
+<td>Download (milos CV/CL/Portfolio modal opens; PDFs resolve)</td>
+<td>12 PASS — modal opens, referenced PDFs return HTTP 200; vasic
+Portfolio_EN.pdf 200.</td>
+</tr>
+<tr>
+<td>Read-more / product-card links</td>
+<td>6 PASS — navigate to the product page.</td>
+</tr>
+<tr>
+<td>Accordion / disclosure (product pages)</td>
+<td>18 PASS — <code>aria-expanded</code> toggles + panel visibility
+changes.</td>
+</tr>
+<tr>
+<td>Back-to-top floating button</td>
+<td>30 PASS (hidden at top, appears after scroll, click → scrollY 0,
+name “Back to top”); 3 n/a (short article fragment).</td>
+</tr>
+<tr>
+<td>Footer links</td>
+<td>milos 15 PASS all valid href; vasic text-only by design.</td>
+</tr>
+<tr>
+<td>Images (logo, portrait, diagrams) naturalWidth&gt;0</td>
+<td>33/33 PASS — no broken images. vasic brand renders the real
+<code>Assets/Logo.jpeg</code>/<code>logo.webp</code>, not a
+monogram.</td>
+</tr>
+<tr>
+<td>Horizontal overflow (tablet + mobile)</td>
+<td>22/22 PASS — <code>scrollWidth ≤ innerWidth+1</code>
+everywhere.</td>
+</tr>
+<tr>
+<td>Console errors / pageerrors</td>
+<td>33/33 PASS — clean on every page/viewport.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pages-covered">Pages covered</h2>
+<ul>
+<li>milosvasic.ru: <code>/</code>, <code>/portfolio/</code>,
+<code>/products/helixcode.html</code>,
+<code>/products/catalogizer.html</code>,
+<code>/products/mail-server-factory.html</code>,
+<code>/articles/en/catalogizer.html</code></li>
+<li>vasic.digital: <code>/index.html</code>, <code>/portfolio/</code>,
+<code>/products/helixcode.html</code>,
+<code>/products/catalogizer.html</code>,
+<code>/products/mail-server-factory.html</code></li>
+<li>× 3 viewports each.</li>
+</ul>
+</body>
+</html>

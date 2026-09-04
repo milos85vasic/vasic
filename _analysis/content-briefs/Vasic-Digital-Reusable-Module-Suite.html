@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<h1 id="vasic-digital-reusable-module-suite-digital.vasic.">Vasic
+Digital Reusable Module Suite (<code>digital.vasic.*</code>)</h1>
+<p><strong>Tagline:</strong> Build once, reuse everywhere — a fleet of
+small, decoupled, independently-tested Go and KMP modules.</p>
+<p><strong>Summary:</strong> A large family of generic, reusable modules
+published under the <code>digital.vasic.*</code> (Go) and Kotlin
+Multiplatform namespaces. Every module is standalone, independently
+tested and versioned, and consumed as an equal-codebase submodule by
+larger products (Catalogizer, HelixAgent, and the wider fleet). This
+brief consolidates the many small utilities that would be noise as
+individual pages.</p>
+<p><strong>Short description (~40 words):</strong> A curated suite of
+decoupled <code>digital.vasic.*</code> modules — infrastructure
+primitives (auth, cache, database, config, observability), AI/agent
+building blocks (RAG, VectorDB, Embeddings, MCP, Agentic, Planning), and
+defensive-LLM guardrails (RedTeam, Normalize) — plus a Kotlin
+Multiplatform mirror set. Each is generic, tested, and reusable.</p>
+<p><strong>Long description (150–250 words):</strong> The vasic-digital
+org is built on a “constitution + many decoupled reusable submodules”
+philosophy: rather than monoliths, generic functionality is extracted
+into dozens of small modules, each with its own tests, docs, and
+repository, and each strictly decoupled so no consumer’s specifics leak
+in. This brief groups them because individually they are library-scale,
+but together they are a significant engineering asset and a strong “we
+don’t reinvent the wheel” story.</p>
+<p>The suite spans three clusters. <strong>Infrastructure
+primitives</strong> (Go) provide the plumbing every service needs:
+<code>auth</code> (JWT/bcrypt), <code>cache</code> (Redis/TTL),
+<code>database</code> (migrations, dual SQLite/PostgreSQL),
+<code>config</code>, <code>middleware</code>, <code>observability</code>
+(Prometheus/OpenTelemetry), <code>ratelimiter</code>,
+<code>security</code>, <code>storage</code> (S3/MinIO),
+<code>streaming</code> (WebSocket hub), <code>eventbus</code>,
+<code>filesystem</code> (multi-protocol),
+<code>discovery</code>/<code>mdns</code>, <code>http3</code>,
+<code>recovery</code>, <code>concurrency</code>, <code>lazy</code>, and
+more. <strong>AI/agent building blocks</strong> (Go) provide the
+substrate for AI systems: <code>rag</code>, <code>vectordb</code>,
+<code>embeddings</code>, <code>memory</code>, <code>conversation</code>
+(infinite-context compression, event sourcing), <code>mcp</code> (Model
+Context Protocol), <code>toolschema</code>, <code>skillregistry</code>,
+<code>agentic</code> (graph-based workflow orchestration),
+<code>planning</code> (HiPlan/MCTS/Tree-of-Thoughts),
+<code>benchmark</code> (SWE-bench/HumanEval/MMLU), <code>llmops</code>,
+<code>selfimprove</code> (reward modeling/RLHF), and <code>toon</code>
+(Token-Oriented Object Notation). <strong>Defensive-LLM
+guardrails</strong> provide adversarial-robustness tooling:
+<code>RedTeam</code> (YAML-driven adversarial fixtures),
+<code>Normalize</code> (adversarial-input canonicalisation). A parallel
+<strong>Kotlin Multiplatform</strong> set mirrors core modules
+(Auth-KMP, Database-KMP, Security-KMP, UI-Components-KMP, etc.) for
+cross-platform apps.</p>
+<p><strong>Why we built it:</strong> Shipping many products
+(Catalogizer, HelixAgent, Herald, and more) from scratch each time is
+wasteful and inconsistent. Extracting every generic concern into a
+decoupled, tested module means fixes and improvements propagate across
+the whole fleet, and each new product assembles from proven parts.</p>
+<p><strong>Why it’s a game-changer:</strong> It is a private “standard
+library” for building AI-centric backends: infrastructure, AI
+primitives, and guardrails all as drop-in, independently-tested modules
+— enabling small teams to ship product-grade systems fast without
+accumulating duplication.</p>
+<p><strong>What’s innovative:</strong> - Fleet-wide decoupling
+discipline (CONST-051): submodules treated as equal codebases, never
+carrying consumer specifics. - A dedicated AI-primitive layer (RAG,
+VectorDB, Embeddings, MCP, ToolSchema, Agentic, Planning, LLMOps) as
+reusable modules. - A defensive-LLM guardrail cluster (RedTeam,
+Normalize) for adversarial robustness. - Parallel Go + Kotlin
+Multiplatform module sets sharing the same conventions.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Avoiding coupling rot across dozens of modules:</em> solved with the
+constitution’s decoupling contract and runtime injection of consumer
+specifics. - <em>Keeping many modules consistent and tested:</em> solved
+with a shared convention (per-module tests/docs/Challenges) and the
+HelixConstitution governance backbone. - <em>Cross-platform reach:</em>
+solved with a Kotlin Multiplatform mirror of core modules.</p>
+<p><strong>Tech stack (why + how):</strong> - <strong>Go</strong> — the
+majority of modules (<code>digital.vasic.*</code>). - <strong>Kotlin
+Multiplatform</strong> — cross-platform mirror modules
+(Auth/Database/Security/UI/Concurrency/RateLimiter-KMP). - <strong>Redis
+/ PostgreSQL / SQLite</strong> — cache, database, storage primitives. -
+<strong>Prometheus / OpenTelemetry</strong> — observability module. -
+<strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — networking
+modules. - <strong>Vector DB / embeddings / RAG / MCP</strong> —
+AI-primitive modules. - <strong>YAML</strong> — RedTeam adversarial
+fixtures and config.</p>
+<p><strong>Public links:</strong> - GitHub org:
+https://github.com/vasic-digital (modules include <code>auth</code>,
+<code>cache</code>, <code>database</code>, <code>config</code>,
+<code>observability</code>, <code>security</code>, <code>storage</code>,
+<code>streaming</code>, <code>eventbus</code>, <code>ratelimiter</code>,
+<code>middleware</code>, <code>RAG</code>, <code>VectorDB</code>,
+<code>Embeddings</code>, <code>Memory</code>, <code>conversation</code>,
+<code>MCP_Module</code>, <code>ToolSchema</code>,
+<code>SkillRegistry</code>, <code>Agentic</code>, <code>Planning</code>,
+<code>Benchmark</code>, <code>LLMOps</code>, <code>SelfImprove</code>,
+<code>TOON</code>, <code>RedTeam</code>, <code>Normalize</code>,
+<code>http3</code>, <code>mdns</code>, and the <code>*-KMP</code> set) —
+all public. - <strong>UNVERIFIED / WIP:</strong> Several org repos are
+self-marked “SCAFFOLD / WIP” (e.g. <code>PliniusCommon</code>,
+<code>I-LLM</code>, <code>HyperTune</code>, <code>AutoTemp</code>,
+<code>Veritas</code>, <code>Ouroborous</code>, <code>Claritas</code>,
+<code>LeakHub</code>, <code>GandalfSolutions</code>) — present them as
+early-stage/scaffold, not shipped.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Three-cluster module map (Infrastructure / AI primitives / Guardrails)
+with product apps on top. 2. “Standard library” grid of modules, colored
+by maturity (stable vs scaffold). 3. Go ↔︎ KMP mirror pairs. 4. A product
+(e.g. Catalogizer or HelixAgent) exploded into the modules it
+consumes.</p>
+<p><strong>Site relevance:</strong> vasic.digital (engineering-depth /
+reusability / AI-infrastructure). A credibility exhibit rather than a
+single product.</p>
+<p><strong>Priority tier:</strong> vasic-util-secondary</p>
+<p><strong>Source provenance:</strong>
+<code>_analysis/github-vasic-digital.md</code> (full repo list with
+per-module descriptions and SCAFFOLD/WIP flags);
+<code>/Volumes/T7/Projects/catalogizer/README.md</code> (21-module
+<code>digital.vasic.*</code> table + KMP/TS modules);
+<code>gh repo view vasic-digital/LLMProvider</code> (module
+conventions). WIP items flagged per constitution §11.4.6.</p>
+</body>
+</html>

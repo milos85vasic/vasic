@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixConstitution</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixConstitution</h1>
+</header>
+<h1 id="helixconstitution">HelixConstitution</h1>
+<p><strong>La constitution universelle d’ingénierie que tout projet
+hérite — loi anti-bluffer, appliquée mécaniquement, partagée sous forme
+de sous-module Git.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>HelixConstitution est le recueil de règles unique et indépendant des
+projets — ajouté en tant que sous-module Git par chaque projet
+Helix/vasic-digital — qui encode une discipline d’ingénierie non
+négociable (anti-bluffer, validation par preuves uniquement, sécurité
+des données/hôtes, documentation et couverture de tests) et la propage à
+une flotte de plus de 140 dépôts. Il constitue l’épine dorsale de
+gouvernance qui confère une cohérence à l’ensemble de la famille.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>Un Constitution universel et héritable, distribué sous forme de
+sous-module Git. Il définit des règles obligatoires et non négociables —
+barrières anti-bluffer fondées sur des preuves, immunité aux faux
+positifs, sécurité des données et des hôtes, discipline en matière de
+couverture et de documentation — que tout projet consommateur hérite
+automatiquement et peut étendre, mais jamais affaiblir.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>HelixConstitution est la source canonique et unique de vérité pour
+les pratiques d’ingénierie partagées par tous les projets qui
+choisissent de l’adopter en l’ajoutant comme sous-module Git — une loi
+d’ingénierie, distribuée et versionnée exactement comme du code. Son
+élément central — <code>Constitution.md</code> — est un document
+d’environ 1 Mo, versionné en continu, composé de clauses numérotées (la
+famille de conventions §11.4.x, actuellement jusqu’à §11.4.170) ainsi
+que de manuels opérationnels par agent (<code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>)
+qui l’importent par référence, de sorte que les humains et chaque agent
+CLI s’appuient sur un seul et même recueil de règles. L’héritage est
+délibérément structuré en trois couches : la base universelle (ce
+sous-module), la couche projet (un Constitution/CLAUDE/AGENTS propre au
+projet qui l’étend) et une couche facultative par sous-répertoire —
+évaluées de haut en bas, où un projet peut <em>renforcer</em> les
+règles, mais est architecturalement empêché de les <em>affaiblir</em>.
+Le résultat est une flotte de plus de 140 dépôts qui ne peuvent dériver
+silencieusement, car la discipline qu’ils partagent est figée, et non
+simplement mémorisée.</p>
+<p>Le document est intransigeamment agnostique quant au domaine : tout
+ce qui nomme un fournisseur spécifique, une référence matérielle, un
+port ou une version de bibliothèque doit être relégué dans le
+Constitution propre au projet consommateur, et l’universalité n’est
+jamais présumée — elle doit être <em>méritée</em> au regard d’un test
+explicite en quatre parties avant qu’une règle ne soit autorisée dans la
+base. Sa colonne vertébrale philosophique est l’anti-bluffer, exprimée
+sous la forme d’une famille imbriquée de conventions — §1.1 immunité aux
+faux positifs, §11.4 convention de qualité pour l’utilisateur final,
+§11.4.6 interdiction des suppositions, §11.4.69 taxonomie des preuves
+positives — dont l’effet combiné trace une ligne rouge unique : le seuil
+de livraison n’est jamais « les tests passent », mais « un utilisateur
+réel peut utiliser la fonctionnalité », et tout résultat positif doit
+citer une preuve physique capturée, sans quoi il ne compte pas. Un
+document compagnon, <code>submodules-catalogue.md</code> (142 dépôts),
+transforme la question « disposons-nous déjà d’un outil qui fait cela ?
+» en réflexe de consultation du catalogue avant d’écrire une seule ligne
+de nouveau code. Des scripts auxiliaires localisent le sous-module à
+n’importe quelle profondeur d’imbrication et diffusent chaque commit
+vers quatre fournisseurs Git indépendants, de sorte que le recueil de
+règles unique et faisant autorité soit également impossible à
+perdre.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Plusieurs grandes applications produits et des dizaines de
+sous-modules réutilisables découplés, tous signés par le même
+propriétaire, ne cessaient de réinventer les mêmes règles durement
+acquises — et de reproduire la même catégorie d’échecs : des tests et
+des rapports de statut affichant un succès alors que la fonctionnalité
+était défaillante pour l’utilisateur final (« faux positifs » et « faux
+négatifs masqués »). Chaque ancrage médico-légal dans le Constitution
+documente un incident réel (comme le faux positif du routage audio D3 du
+20 mai 2026, où la validation est passée au vert avec un champ « Codec
+en cours d’utilisation » vide, ou l’interface à bouton géant du 25 juin
+2026, qui a réussi les tests d’égalité des jetons alors que l’écran réel
+était corrompu). Le Constitution a été créé pour rendre cette classe
+entière de succès mensongers mécaniquement impossible, une fois pour
+toutes et de manière universelle — afin que cette discipline ne puisse
+plus dériver entre les projets ni être discrètement oubliée.</p>
+<h2 id="pourquoi-cest-un-changement-radical">Pourquoi c’est un
+changement radical</h2>
+<p>Il transforme la culture d’ingénierie, passant de documents que les
+équipes espèrent suivre à un corpus de lois héritées, versionnées et
+appliquées mécaniquement — la différence entre un guide de style et un
+compilateur. Une simple mise à jour de sous-module actualise les règles
+pour l’ensemble du parc en une seule fois, de manière atomique et
+traçable. Un seul pacte anti-faux-positif est <em>garanti</em> présent
+dans chaque dépôt consommateur, non par confiance, mais par construction
+: une porte de propagation vérifie littéralement la présence du numéro
+de clause dans tout le parc, et un test de mutation associé prouve que
+la porte elle-même n’est pas un leurre — si bien que même l’application
+des règles est elle-même appliquée. La gouvernance cesse d’être une
+aspiration consignée sur un wiki que personne ne lit pour devenir un
+fait auditable et testable, sur lequel on peut pointer un job CI.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li><strong>Le Constitution en tant que sous-module</strong> — la loi
+d’ingénierie est distribuée et versionnée exactement comme du code, avec
+des tags délibérés de type <code>v1.0.0</code> et un épinglage par
+projet, de sorte que chaque dépôt sait <em>précisément</em> à quelle
+révision de la loi il est lié.</li>
+<li><strong>L’anti-faux-positif comme doctrine médico-légale de premier
+plan</strong> — chaque clause remonte à un mandat opérationnel mot pour
+mot et, souvent, à l’incident réel qui l’a motivée, si bien que le
+recueil de règles se lit comme une jurisprudence plutôt que comme une
+opinion.</li>
+<li><strong>Le méta-test des règles elles-mêmes (§1.1)</strong> — chaque
+porte est couplée à une mutation qui doit faire basculer le statut de
+PASS à FAIL, de sorte que « la porte n’est pas un simulacre » n’est pas
+une assertion, mais une preuve apportée à chaque exécution ; une porte
+qui ne peut jamais échouer est considérée comme pire qu’aucune porte du
+tout.</li>
+<li><strong>Une universalité méritée</strong> — un test explicite en
+quatre parties détermine si une règle est véritablement universelle ou
+simplement spécifique à un projet, maintenant ainsi la base légère,
+portable et exempte de fuites liées à des fournisseurs.</li>
+</ul>
+<h2
+id="comment-il-est-utilisé-dans-tous-les-produits-les-pouvoirs-quil-confère">Comment
+il est utilisé dans tous les produits (les pouvoirs qu’il confère)</h2>
+<p>En tant que <strong>pilier obligatoire de gouvernance</strong>, le
+HelixConstitution n’est pas un document que la famille consulte — c’est
+la structure porteuse sur laquelle la famille est construite :</p>
+<ul>
+<li><strong>Épine dorsale de la gouvernance</strong> : chaque projet
+Helix/vasic-digital l’intègre comme sous-module et l’importe depuis
+<code>CLAUDE.md</code> / <code>AGENTS.md</code> / <code>QWEN.md</code> /
+son propre <code>Constitution.md</code> ; les règles s’appliquent sans
+condition, dès le premier commit, sans possibilité de dérogation par
+projet.</li>
+<li><strong>Portes et mandats</strong> : il définit le modèle de
+couverture à quatre couches — présence dans le code source, survie à la
+compilation, comportement à l’exécution, porte non truquée — qu’une
+fonctionnalité doit valider sur les quatre niveaux pour être considérée
+comme terminée, ainsi qu’une liste croissante de mandats nommés :
+gestion des identifiants (§11.4.10), synchronisation permanente de la
+documentation (§11.4.60), mandat des sous-modules conteneurs (§11.4.76),
+CodeGraph (§11.4.78), couverture obligatoire des types de tests
+(§11.4.169), et bien d’autres.</li>
+<li><strong>Propagation</strong> : les portes
+<code>CM-COVENANT-114-NNN-PROPAGATION</code> vérifient que le <em>texte
+littéral</em> de la clause est présent dans tout le parc consommateur,
+empêchant ainsi qu’un pacte soit discrètement abandonné dans un recoin
+du système ; la non-conformité bloque irrévocablement une release, sans
+échappatoire possible.</li>
+<li><strong>Découverte</strong> : <code>submodules-catalogue.md</code>
+transforme la question « disposons-nous déjà d’un module qui fait X ? »
+en une réponse immédiate, évitant ainsi de dupliquer les efforts dès la
+phase de conception.</li>
+<li><strong>Cohérence des agents AI</strong> : la même loi est exprimée
+de manière identique pour chaque agent CLI (Claude Code,
+Codex/Cursor/Aider/OpenCode/Crush/Kimi via <code>AGENTS.md</code>, Qwen
+Code via <code>QWEN.md</code>), si bien que, quel que soit l’outil qui
+manipule le code, il obéit à un seul et même pacte.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="principaux-défis-techniques-et-leurs-solutions">Principaux défis
+techniques et leurs solutions</h2>
+<ul>
+<li><strong>Localisation du sous-module à une profondeur d’imbrication
+arbitraire</strong> — une règle enfouie trois sous-modules plus bas doit
+toujours pouvoir trouver la loi sans savoir où elle réside →
+<code>find_constitution.sh</code> remonte les répertoires parents et
+suit récursivement le pointeur du superprojet Git, en respectant une
+redéfinition <code>CONSTITUTION_DIR</code> et deux structures prises en
+charge (<code>constitution/</code>,
+<code>submodules/constitution/</code>), garantissant une résolution
+déterministe quelle que soit la profondeur d’imbrication.</li>
+<li><strong>Maintenir un dépôt unique comme référence sur quatre
+fournisseurs Git</strong> — des miroirs inutiles s’ils divergent →
+<code>install_upstreams.sh</code> lit les dépôts distants déclaratifs
+<code>Upstreams/*.sh</code> et configure <code>origin</code> avec
+plusieurs URL de push, de sorte qu’un simple <code>git push</code> se
+répercute de manière atomique sur GitHub (principal), GitLab, GitFlic et
+GitVerse, sans qu’aucun miroir ne puisse prendre de retard.</li>
+<li><strong>Éviter l’inflation des règles et les fuites de projet dans
+la base universelle</strong> — chaque tentation d’« ajouter ça ici »
+érode la portabilité → le test en quatre parties de l’universalité
+acquise, ainsi que la classification universelle vs. projet (§11.4.17),
+est appliqué à <em>chaque</em> nouvelle règle, renvoyant les
+préoccupations spécifiques au projet vers la couche projet où elles
+doivent figurer.</li>
+<li><strong>Prouver que la barrière d’héritage fonctionne
+réellement</strong> — une barrière que l’on ne voit jamais échouer est
+une barrière en laquelle on ne peut avoir confiance →
+<code>meta_test_inheritance.sh</code>, un méta-test sentinelle, supprime
+délibérément l’ancre §11.4 et vérifie que la barrière la détecte,
+assurant ainsi que le mécanisme de contrôle est continuellement revalidé
+contre les ruptures silencieuses.</li>
+</ul>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Héritage via Git-submodule</strong> — <em>pourquoi</em> :
+les sous-modules Git sont le seul mécanisme permettant à un recueil de
+règles d’être à la fois faisant autorité <em>et</em> versionné par
+consommateur, mis à jour via une incrémentation explicite et vérifiable
+plutôt que par un copier-coller silencieux ; <em>comment</em> : les
+projets consommateurs ajoutent le sous-module et <code>@import</code>
+ses fichiers d’agent, et les trois couches sont évaluées de haut en bas
+avec un contrat strict d’extension (et non d’affaiblissement) à chaque
+frontière.</li>
+<li><strong><code>find_constitution.sh</code></strong> —
+<em>pourquoi</em> : les règles sont inutiles si le code profondément
+imbriqué ne peut les localiser de manière fiable, et le codage en dur
+des chemins casserait dès qu’un projet serait réorganisé ;
+<em>comment</em> : une remontée des répertoires parents couplée à une
+récursion <code>git rev-parse --show-superproject-working-tree</code>,
+sécurisée par une redéfinition <code>CONSTITUTION_DIR</code>, résolvant
+les deux structures prises en charge.</li>
+<li><strong><code>install_upstreams.sh</code> +
+<code>Upstreams/</code></strong> — <em>pourquoi</em> : une redondance
+sur quatre fournisseurs n’est réelle que si elle ne demande aucun effort
+supplémentaire, sinon les miroirs se dégradent ; <em>comment</em> : des
+fichiers <code>.sh</code> déclaratifs par dépôt distant sont
+matérialisés en un seul <code>origin</code> multi-URL, réduisant quatre
+pushs en un seul.</li>
+<li><strong>Méta-tests de mutation §1.1</strong> — <em>pourquoi</em> :
+une barrière qui ne peut jamais échouer est pire qu’aucune, car elle
+génère une fausse confiance ; <em>comment</em> : chaque barrière est
+associée à une mutation (suppression/renommage via <code>sed</code>) qui
+doit faire passer le statut de PASS à FAIL, puis est restaurée, prouvant
+ainsi que chaque barrière mord encore à chaque exécution.</li>
+<li><strong>Barrières de propagation
+(<code>CM-COVENANT-114-NNN-PROPAGATION</code>)</strong> —
+<em>pourquoi</em> : un pacte n’est universel que s’il est vérifiable
+dans <em>chaque</em> consommateur, et pas seulement dans le dépôt phare
+; <em>comment</em> : une recherche littérale du numéro de clause dans
+les consommateurs, soutenue par un méta-test §1.1 couplé prouvant que le
+contrôle de propagation peut lui-même échouer.</li>
+<li><strong><code>submodules-catalogue.md</code> (§11.4.74)</strong> —
+<em>pourquoi</em> : le moyen le plus rapide de violer la discipline
+anti-duplication est d’ignorer ce que l’on possède déjà ;
+<em>comment</em> : un inventaire de 142 dépôts, regroupés par capacité,
+avec une vérification du catalogue enregistrée dans le tracker
+<em>avant</em> tout nouveau scaffolding.</li>
+<li><strong>Export multi-format</strong> — <em>pourquoi</em> : une même
+loi doit être aussi bien consultable par des humains qui la lisent, des
+outils qui la parsent, que par des archives qui la préservent ;
+<em>comment</em> : chaque document canonique est généré aux formats
+<code>.md</code> / <code>.html</code> / <code>.pdf</code> /
+<code>.docx</code> à partir d’une seule source.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="notes-sur-le-statut-et-la-transparence">Notes sur le statut et
+la transparence</h2>
+<ul>
+<li><strong>Statut : déployé.</strong> Versionné activement et utilisé
+comme sous-module dans l’ensemble de la flotte (dépôts publics
+canoniques et miroirs).</li>
+<li><strong>Licence : à déterminer</strong> — non explicitement
+mentionnée dans le matériel source examiné ; à confirmer avec le fichier
+LICENSE du dépôt avant publication.</li>
+<li>Miroirs en amont supplémentaires : GitLab
+<code>helixdevelopment1/helixconstitution</code>, GitFlic
+<code>helixdevelopment/helixconstitution</code>, GitVerse
+<code>helixdevelopment/HelixConstitution</code>.</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire — un pilier de
+gouvernance obligatoire pour la construction de tout ce qui relève de la
+famille Helix.</p>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>conventions</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">conventions</h1>
+</header>
+<h1 id="conventions">Conventions</h1>
+<blockquote>
+<p>The genome-init scan reported “No standard lint/format configs
+detected.” That is accurate — there is no ESLint, Prettier, gofmt-CI or
+RuboCop config at this root. The conventions below are the ones actually
+enforced, by gate scripts, by governance carriers, or by review.</p>
+</blockquote>
+<h2 id="detected-by-scan">Detected by scan</h2>
+<ul>
+<li>No standard lint/format configs at the repository root.</li>
+<li>Enforcement lives in gate scripts (<code>_tools/*.sh</code>,
+<code>_tests/*.sh</code>) and in <code>.github/workflows/ci.yml</code>,
+not in linter config files.</li>
+</ul>
+<h2 id="commits">Commits</h2>
+<ul>
+<li><strong>Use the commit wrapper.</strong>
+<code>commit "&lt;message&gt;"</code> → <code>git add .</code> +
+<code>git commit</code>
+<ul>
+<li><code>push_all.sh</code>, which reads <code>upstreams/*.sh</code>.
+No direct <code>git add</code> / <code>git commit</code> /
+<code>git push</code> on the main repo (<code>CLAUDE.md:95-96</code>,
+<code>:174-181</code>).</li>
+</ul></li>
+<li>The wrapper stages <strong>everything untracked</strong> — verify
+<code>.gitignore</code> first.</li>
+<li>Never force-push without explicit per-session authorization and a
+green §9.1.5 post-op gate.</li>
+<li>Recent history on <code>main</code> is dominated by
+<code>Auto-commit</code> subjects; release commits use the tag-prefixed
+form seen on <code>v1.7.1</code>, <code>v1.7.2</code>,
+<code>v1.8.0</code>.</li>
+</ul>
+<h2 id="file-layout">File layout</h2>
+<ul>
+<li>English source content in
+<code>_content/{docs,portfolio,products,sites}/</code>; translations in
+<code>_content_&lt;lang&gt;/</code> — 14 language siblings, same subtree
+shape minus <code>portfolio/</code>.</li>
+<li>Top-level <code>_</code>-prefixed directories are tooling/source
+(<code>_tools</code>, <code>_tests</code>, <code>_content*</code>,
+<code>_analysis</code>); unprefixed ones are checkouts or outputs.</li>
+<li>Generated site pages belong to <code>_tools/gen/</code>; do not
+hand-edit them inside the site submodules.</li>
+<li>Evidence is tracked on purpose: <code>.gitignore</code> carries an
+explicit <code>!_tests/evidence/</code> negation.</li>
+</ul>
+<h2 id="css-design-system">CSS / design system</h2>
+<ul>
+<li>All classes are <code>od-</code> prefixed; all values are
+<code>var(--od-*)</code>. No ad-hoc CSS
+(<code>design-system/README.md</code>).</li>
+<li>Load order: brand CSS → <code>components-extended.css</code> →
+<code>motion/animations.css</code>.</li>
+<li>Dark theme defined in <strong>both</strong>
+<code>:root[data-theme="dark"]</code> and
+<code>@media (prefers-color-scheme: dark)</code>.</li>
+<li>Every interactive control ships a <code>:focus-visible</code> ring
+and a <code>prefers-reduced-motion</code> guard.</li>
+</ul>
+<h2 id="governance-carriers">Governance carriers</h2>
+<ul>
+<li>Five root carriers must stay in lockstep: <code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>,
+<code>Constitution.md</code>. The four agent carriers are byte-identical
+from line 24 — verify with
+<code>tail -n +24 &lt;file&gt; | sha256sum</code>.</li>
+<li>Every carrier opens with <code>## INHERITED FROM</code> (pointer
+inheritance, never <code>@import</code>).</li>
+<li>In this repository the submodule path is
+<code>submodules/constitution/</code>, <strong>not</strong> the
+<code>constitution/</code> used by the constitution’s own prose and
+templates. Any quoted <code>constitution/&lt;file&gt;</code> means
+<code>submodules/constitution/&lt;file&gt;</code> here
+(<code>CLAUDE.md:41-47</code>).</li>
+</ul>
+<h2 id="language-in-reports">Language in reports</h2>
+<ul>
+<li>No <code>likely</code> / <code>probably</code> / <code>maybe</code>
+/ <code>seems</code> / <code>appears</code> when reporting a cause
+(§11.4.6).</li>
+<li>Unrunnable checks are SKIP-with-reason, never a pass.</li>
+<li>Deviations are disclosed inline — e.g. the <code>§11.4.65</code>
+note at the top of <code>Constitution.md</code> and
+<code>docs/constitution-adoption/README.md</code> declaring the missing
+<code>.html</code>/<code>.pdf</code> siblings as known gap G8.</li>
+</ul>
+<h2 id="toolchains">Toolchains</h2>
+<p>Go 1.26 · Node 20 · Ruby 3.3 + Bundler · poppler-utils ·
+tesseract-ocr (<code>CLAUDE.md:132-134</code>).
+<code>_tools/gen/go.mod</code> declares
+<code>module vasic.digital/tools/gen</code>, <code>go 1.26</code>.</p>
+</body>
+</html>

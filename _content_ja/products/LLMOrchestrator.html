@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMOrchestrator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMOrchestrator</h1>
+</header>
+<h1 id="llmorchestrator">LLMOrchestrator</h1>
+<p><strong>あらゆるヘッドレスCLIコーディングエージェントのための単一コントロールプレーン</strong></p>
+<h2 id="概要">概要</h2>
+<p>LLMOrchestratorは、スタンドアロンかつ再利用可能なGoモジュールであり、ヘッドレスCLIエージェント（OpenCode、Claude
+Code、Gemini、Junie、Qwen
+Code）を生成・管理し、ハイブリッドなパイプ＋ファイルプロトコルを介して通信を行うためのものです。エージェントごとのサーキットブレーカー、プラガブルなマルチプロバイダー選択機能、疎結合のi18n抽象化レイヤー、そしてブラフ防止テスト保証を備えています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>再利用可能なGoモジュールで、ハイブリッドなパイプ＋ファイルプロトコルを通じて複数のLLM駆動のCLIエージェントを生成・制御するための統一インターフェースを提供します。スレッドセーフなエージェントプーリング、サーキットブレーカー、選択可能なルーティング戦略を備え、意図的にコンシューマー非依存で設計されており、プラガブルなi18nトランスレーターを搭載しています。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>LLMOrchestratorは、ヘッドレスCLIコーディングエージェントをオーケストレーションするための共有インフラストラクチャーです。マルチエージェントシステムに必要不可欠でありながら、各プロジェクトが独自に実装しがちなプロセス生成、メッセージフレーミング、結果解析といった機能を、OpenCode、Claude
+Code、Gemini CLI、Junie、Qwen
+Codeなどのツールに対して統一的に提供します。具体的には、統一された<code>Agent</code>インターフェース、スレッドセーフな<code>AgentPool</code>、そして複数のプロバイダーからエージェントを統合管理する<code>MultiProviderPool</code>を提供します。ルーティングは<code>AgentSelector</code>を通じてプラガブルに設計されており、要件を満たさないプロバイダーをスキップするラウンドロビン方式や、フォールバック付きの優先順位方式など、作業の分配方法は選択可能なポリシーとして実装されています。各エージェントは共通の<code>BaseAdapter</code>を基盤とするシンプルなアダプターとして実装されており、プロセスライフサイクル全体（パイプのセットアップ、SIGTERM→SIGKILLによる優雅な停止、再起動、生存確認など）を管理します。これは煩雑でエラーが発生しやすい部分ですが、一度解決されています。</p>
+<p>通信は意図的にハイブリッド方式を採用し、用途に応じた最適なトランスポートを選択します。パイプトランスポートは、リクエストごとに読み取りデッドラインとレスポンス長制限を設けた改行区切りのJSONを使用し、高速なインタラクティブメッセージングを実現します。一方、ファイルトランスポートは、セッションごとのインボックス／アウトボックス／共有ディレクトリを使用し、パイプに収まらない大容量または永続的なデータを扱います。耐障害性は後付けではなく、構造的に組み込まれています。具体的には、エージェントごとに3回連続で失敗すると60秒間のクールダウンを経てハーフオープン状態で再試行するサーキットブレーカーを備え、バックグラウンドのヘルスモニターがエージェントの生存確認を行うため、ダウンしたエージェントは受信トラフィックを待たずに復旧できます。プールの取得はCPUを無駄に消費するビジーウェイトではなく、条件変数を用いてブロックします。また、レスポンスパーサーはステートレスで、並行呼び出しに対しても安全です。モジュールは厳密に疎結合設計が徹底されており、コンシューマー固有の要件が入り込むことはありません。また、ユーザー向けの文字列はすべてプラガブルなi18n
+<code>Translator</code>を通じて処理され、<code>NoopTranslator</code>を使用することで翻訳が存在しない場合にはメッセージIDがそのまま表示され、問題が隠蔽されることなく明示的に示されます。</p>
+<h2 id="開発の背景">開発の背景</h2>
+<p>マルチエージェントシステムでは、CLIエージェントを確実に起動し、通信を行う必要があります。プロジェクトごとにプロセス生成、フレーミング、解析、障害対応を再実装することは非効率的でエラーの原因となります。LLMOrchestratorはこれらを一つの疎結合で再利用可能なモジュールに集約し、その専門性によって再利用性を確保しています。そして、その再利用性は、コンシューマー固有の要件が入り込む瞬間に失われてしまいます。</p>
+<p>コンテンツ</p>
+<h2
+id="なぜこれはゲームチェンジャーなのか">なぜこれはゲームチェンジャーなのか</h2>
+<p>「異種CLIエージェントの軍団を動かす」という作業が、プロジェクトごとの特注エンジニアリング作業から、単なるライブラリのインポートへと変わります。プーリング、サーキットブレーカー、ライフサイクル管理、プラガブルなルーティングといった問題はすでに解決済みで、実績も十分です。さらに、そのアンチブラフテストは「コンパイルが通る」だけで満足せず、実際のシステムをエンドツーエンドで検証するため、並行処理や障害発生時にも信頼できる抽象化が手に入ります。単に図面上で正しそうに見えるだけのものではありません。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>ハイブリッドパイプ＋ファイルプロトコル</strong> –
+インタラクティブな速度（JSON行のstdin/stdout、読み取りデッドライン、レスポンス上限）と、耐久性のあるファイルベースの交換（インボックス／アウトボックス／共有）を両立。レイテンシと耐久性をトレードオフする必要はありません。</li>
+<li><strong>マルチプロバイダープールとプラガブルセレクター</strong> –
+複数のCLIプロバイダーを統合する単一のファサード。ラウンドロビンや優先順ルーティングは、ハードコードではなくポリシーで選択可能です。</li>
+<li><strong>エージェントごとのサーキットブレーカー＋バックグラウンドヘルスモニター</strong>
+– 自動的な劣化と復旧（3回の失敗で60秒間オープン →
+ハーフオープンプローブ）。不安定なエージェントは隔離され、手動介入なしで静かに復帰します。</li>
+<li><strong>ノンビジーウェイトプーリング</strong> –
+<code>Acquire</code>は、<code>sync.Cond</code>上でブロックし、条件に合った健全なエージェントが解放されるか、コンテキストがキャンセルされるまでCPUを消費しません。</li>
+<li><strong>厳密な疎結合＋アンチブラフi18n</strong> –
+<code>NoopTranslator</code>はメッセージIDをそのまま返すため、翻訳漏れがあっても空白でごまかされることはありません。</li>
+<li><strong>セキュリティ・バイ・デフォルト</strong> –
+バイナリパスの許可リストにより、シェル補完やコマンドインジェクションのリスクを排除。さらに、パストラバーサル対策、1MiBのレスポンス上限（暴走出力防止）、APIキーのログマスキングを実装。</li>
+<li><strong>アンチブラフ・チャレンジハーネス</strong> –
+5つのロケール（en/sr/ja/es/de）で実際のディスク／JSON／パーサーのラウンドトリップを実行。機能が壊れた際には必ず非ゼロで終了するミューテーションゲートを併用し、テスト自体が機能することを証明します。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><strong>信頼性の高いエージェントプロセスI/O</strong> –
+スポーンされたCLIプロセスとの通信は一見簡単そうで難しい。ハイブリッドパイプ＋ファイル転送、メッセージ／パーサーコントラクトによるワイヤーフォーマットの合意、<code>BaseAdapter</code>によるプロセスライフサイクルの一元管理（SIGTERMタイムアウトからSIGKILLフォールバックまで含む）で解決。</li>
+<li><strong>ビジーウェイトなしの並行処理</strong> –
+ミューテックス＋条件変数を用いた<code>AgentPool</code>で、<code>Acquire</code>は条件に合ったエージェントが実際に解放されるまでスリープ。ステートレスで副作用のないパーサーにより、複数のゴルーチンからの安全な呼び出しを実現。</li>
+<li><strong>プロバイダー障害の隔離</strong> –
+1つの不良プロバイダーが他を巻き込まないよう、エージェントごとのサーキットブレーカーで影響範囲を限定。ヘルスモニターゴルーチンにより、リクエストがなくても自動的に復旧を促進。</li>
+<li><strong>コンパイルだけでなく正しさの証明</strong> –
+チャレンジャーランナーで、en/sr/ja/es/deの数十の不変条件を実際のシステムで検証。さらに、ミューテーションゲート（<code>LLMORCH_MUTATE_RUNNER=1</code>が失敗する
+→
+ラッパー終了コード99）により、機能が壊れた際にゲート自体がブラフでないことを証明。</li>
+<li><strong>翻訳漏れの不可視化防止</strong> –
+メッセージIDをそのまま返す<code>NoopTranslator</code>の仕組みと、コンシューマーごとの翻訳インジェクションにより、翻訳の欠落が常に可視化されるように解決。</li>
+</ul>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go（バージョン1.25）</strong> —
+優れた並行処理とクリーンなプロセス制御を備え、ライブエージェントプロセスのオーケストレーションにまさに適した選択。モジュール本体、エージェントアダプター、トランスポート、パーサーを実装。</li>
+<li><strong>Go標準ライブラリのみ（+ testify、yaml.v3）</strong> —
+依存関係を最小限に抑え、<em>LLM
+SDKを一切導入しない</em>という意図的な選択。これにより、モジュールは軽量かつ埋め込み可能となり、利用者側にベンダー固有の負担を強いることがない。</li>
+<li><strong>パイプトランスポート（stdio上のJSON-lines）</strong> —
+高速なインタラクティブメッセージングに最適。読み取りデッドラインとレスポンス長制限を設けることで、ハングアップや暴走したエージェントが呼び出し元を停止させるリスクを排除。</li>
+<li><strong>ファイルトランスポート（inbox/outbox/共有）</strong> —
+セッションごとの耐久性と大容量アーティファクトの交換に適した選択。パイプでは不向きな用途に対応。</li>
+<li><strong><code>sync.Mutex</code>/<code>sync.Cond</code></strong> —
+ビジーウェイトなしでブロッキングかつ公平なエージェントプールの取得を実現。</li>
+<li><strong>サーキットブレーカー + ヘルスモニター</strong> —
+エージェントごとの耐障害性と<em>能動的な復旧</em>を両立。単なる障害検知にとどまらない。</li>
+<li><strong><code>pkg/i18n</code> Translator</strong> —
+コア部分から利用者固有の文字列を切り離す、疎結合なローカライゼーションレイヤーとして採用。</li>
+<li><strong>チャレンジハーネス（<code>challenges/runner</code>） +
+Makefile（<code>test -race</code>、<code>fuzz</code>、<code>cover</code>）</strong>
+—
+レース検出やパーサーファジングを含む、対抗条件下での正確性を実証するための厳格な検証フレームワーク。根拠に基づく検証を重視し、推測に頼らない。</li>
+</ul>
+<h2 id="ステータスと正直な注意点">ステータスと正直な注意点</h2>
+<ul>
+<li><strong>ステータス：ベータ版</strong>。複数のHelix/vasicプロジェクトでサブモジュールとして利用される、疎結合な再利用可能モジュール。<strong>ライセンス：Apache-2.0</strong>。GitHubリポジトリは公開済み。</li>
+<li>モデルメタデータはHelixQA経由でLLMsVerifierから提供される。本モジュールはLLMsVerifier/VisionEngine/DocProcessorを直接インポートしない。親アプリケーションの<code>CLAUDE.md</code>（Gin/PostgreSQLなど）に記載されるスタックは<code>helix_code</code>を指し、本モジュールとは異なる。</li>
+</ul>
+<p><strong>優先度</strong>：Helixプライマリ（LLMインフラストラクチャクラスター
+— 疎結合な再利用可能モジュール）。HelixTrackに次ぐ優先順位。</p>
+</body>
+</html>

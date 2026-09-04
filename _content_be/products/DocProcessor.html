@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p>Змест</p>
+<p><strong>Ператварыце дакументацыю ў правераную карту функцый для
+аўтаматызацыі кантролю якасці.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>DocProcessor — гэта аўтаномны, цалкам дэкапліраваны модуль Go, які
+загружае дакументацыю праекта, стварае структурызаваныя карты функцый і
+адсочвае пакрыццё праверкі. Ён распрацаваны для працы з агентамі LLM для
+інтэлектуальнага вымання функцый, але таксама ўключае эўрыстычнае
+выманне для аўтаномнага выкарыстання.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Агностычны да праекта модуль Go для апрацоўкі дакументацыі і вымання
+карт функцый. Ён парсіць дакументы ў структурызаваныя карты функцый і
+адсочвае, якія функцыі правераны — выкарыстоўваючы агенты LLM для
+інтэлектуальнага вымання або эўрыстыку ў аўтаномным рэжыме — і
+забяспечвае аўтаматызацыю кантролю якасці анты-блефавай гарантыяй, якая
+заўсёды адпавядае рэальнасці.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Кожная каманда распрацоўшчыкаў жыве з адной і той жа павольнай
+хлуснёй: дакументацыя абяцае функцыі, тэсты пакрываюць нешта іншае, і
+ніхто не можа з упэўненасцю сказаць, ці апісваюць яны адзін і той жа
+прадукт. DocProcessor існуе, каб зрабіць гэтую прабелю бачнай і
+вымернай. На падставе дакументацыі праекта ён стварае структурызаваную
+карту функцый — пералічаны, прыдатны для машыннай апрацоўкі мадэль
+усяго, што прадукт абяцае рабіць — і адсочвае пакрыццё праверкі ў
+адносінах да яе, каб пытанне «ці правераная гэтая дакументаваная функцыя
+насамрэч?» перастала быць спрэчкай у калідоры і ператварылася ў запыт з
+адказам. Ён наўмысна двухрэжымны: выкарыстоўвае агенты LLM для
+інтэлектуальнага, семантычнага вымання функцый, калі яны даступныя, і
+пераходзіць на эўрыстычны парсер для поўнага аўтаномнага выкарыстання,
+каб ніколі не залежаць ад наяўнасці мадэлі і працаваць аднолькава як у
+ізаляваным CI-заданні, так і на ноўтбуку распрацоўшчыка ў рэжыме
+самалёта.</p>
+<p>Архітэктурна гэта аўтаномны, не прывязаны да праекта, цалкам
+дэкапліраваны модуль Go (CONST-051(B)): ён не ўключае ніякіх спецыфічных
+для праекта значэнняў і ўбудоўваецца спажыўцамі як падмодуль з роўным
+кодэксам, каб любы праект мог яго прыняць без атрымання чужаземных
+здагадак. Ён таксама прытрымліваецца тых самых стандартаў, якія навязвае
+іншым — яго ўласныя сцвярджэнні падпарадкаваны анты-блефавай дамове
+(CONST-035) і правілам поўнага аўтаматызаванага пакрыцця (CONST-048),
+што азначае, што кожная магчымасць, абвешчаная ў яго README, правяраецца
+аўтаматызаваным тэстам або Challenge-скрыптам, які пацвярджае рэальную,
+прыдатную для канчатковага карыстальніка паводзіны, а не проста
+выходзіць з нулявым статусам; карыстальніцкія радкі праходзяць праз
+перакладчык інтэрнацыяналізацыі CONST-046. Сэнс усяго гэтага — замкнуты
+цыкл: DocProcessor з’яўляецца ўваходным бокам цыклу кантролю якасці, які
+замыкае HelixQA — ён выманяе карту функцый з дакументаў, HelixQA
+пацвярджае кожную нанесеную на карту функцыю захопленымі сведчаннямі
+часу выканання, і дакументацыя, тэсты і рэальная паводзіны прадукту
+вымушаны сыходзіцца, замест таго каб ціха разыходзіцца з версіі ў
+версію.</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Дакументацыя і тэсты разыходзяцца: дакументы абяцаюць функцыі, якія
+не правяраюцца ніякімі тэстамі, а кантроль якасці не можа лёгка
+вызначыць, што азначае «поўнае пакрыццё». DocProcessor ператварае
+дакументы ў прыдатную для машыннай апрацоўкі карту функцый, каб пакрыццё
+праверкі можна было вымяраць у адносінах да таго, што было сапраўды
+абяцана.</p>
+<p>Змесціва</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Гэта ператварае найбольш нявызначанае пытанне ў дастаўцы праграмнага
+забеспячэння — <em>«Ці адпавядае тое, што мы адправілі, таму, што мы
+казалі, што адправілі?»</em> — у нешта, што можна аўтаматызаваць і
+правяраць бесперапынна. І робіць гэта без жорсткай залежнасці ад AI:
+LLM-экстракцыя, калі мадэль даступна, эўрыстыкі — калі не, так што адна
+і тая ж гарантыя дзейнічае ў любым асяроддзі — ад аўтаномнага
+апрацоўшчыка да поўнаагентнага канвеера.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Экстракцыя карты дакументацыі-да-функцыяналу з адсочваннем пакрыцця
+праверкі.</li>
+<li>Двайная экстракцыя: на аснове LLM-агентаў ці эўрыстык/афлайн.</li>
+<li>Незалежнасць ад праекта, дэкаплінг без канфігурацыі
+(CONST-051(B)).</li>
+<li>Антыблефная самаправерка: сцвярджэнні ў README падмацаваны
+тэстамі/Challenge’амі (CONST-035/048).</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Работа без мадэлі:</strong> вырашана праз эўрыстычны
+экстрактар-фалабек, што дазваляе модулю працаваць афлайн.</li>
+<li><strong>Сінхранізацыя дакументацыі і рэальнасці:</strong> вырашана
+праз структурызаваныя карты функцыяналу + адсочванне пакрыцця праверкі,
+інтэграваныя ў цыкл забеспячэння якасці.</li>
+<li><strong>Перавыкарыстанне:</strong> вырашана праз строгі дэкаплінг і
+спажыванне субмодуляў у адзінай кодовай базе.</li>
+<li><strong>Давер да ўласных сцвярджэнняў:</strong> вырашана праз
+антыблефныя тэсты/Challenge’і для кожнай дэклараванай магчымасці.</li>
+</ul>
+<h2 id="тэхналагічны-стэк-чаму-як">Тэхналагічны стэк (чаму + як)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — ядро модуля; ліцэнзія Apache-2.0.</li>
+<li><strong>LLM-агенты</strong> — інтэлектуальная семантычная экстракцыя
+функцыяналу (неабавязкова).</li>
+<li><strong>Эўрыстычны парсер</strong> — фалабек для афлайн-экстракцыі
+функцыяналу.</li>
+<li><strong>i18n Translator (<code>pkg/i18n</code>)</strong> —
+лакалізаваныя радкі паводле CONST-046.</li>
+<li><strong>Challenge-харанес</strong> — антыблефная праверка ўласных
+сцвярджэнняў модуля.</li>
+</ul>
+</body>
+</html>

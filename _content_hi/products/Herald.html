@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p>सामग्री</p>
+<p><strong>हर चेतावनी सही गंतव्य तक पहुँचती है — किसी कमांड सिंटैक्स की आवश्यकता
+नहीं।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>Herald सिस्टम इवेंट्स को ग्रहण करता है और उन्हें कई सूचना चैनलों पर विश्वसनीयता से
+वितरित करता है, ताकि हर चेतावनी सही स्थान पर पहुँचे। सदस्य प्राकृतिक भाषा में
+बातचीत करते हैं; Herald तीन स्तरीय प्रक्रिया के माध्यम से उनकी मंशा को समझता है
+(कमांड फास्ट-पाथ → LLM मंशा अनुमान → स्पष्टीकरण के लिए वापसी)।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>एक इवेंट ग्रहण और बहु-चैनल सूचना वितरण प्रणाली। Herald सिस्टम इवेंट्स को संदेशवाहक
+चैनलों पर सही गंतव्यों तक विश्वसनीयता से पहुँचाता है और सदस्यों को प्राकृतिक भाषा में
+बात करने की सुविधा देता है — मंशा को कमांड फास्ट-पाथ, LLM अनुमान और स्पष्टीकरण के
+लिए पूछताछ के माध्यम से स्पष्ट करता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>Herald वह सूचना आधारभूत संरचना है जो यह गारंटी देती है कि सिस्टम इवेंट वास्तव में
+वहाँ पहुँचे जहाँ कोई इंसान उस पर कार्रवाई कर सके — वह साधारण लेकिन मिशन-क्रिटिकल
+परत जहाँ अधिकांश घरेलू अलर्टिंग सिस्टम चुपचाप विफल हो जाते हैं। यह इवेंट्स को ग्रहण
+करता है और उन्हें कई सूचना चैनलों पर विश्वसनीयता से वितरित करता है, उन परिचित
+विफलताओं को समाप्त करता है जहाँ चेतावनी खो जाती है, गलत चैनल पर भेज दी जाती है,
+या शोर में दबकर तब तक बेकार हो जाती है जब तक उसे सुधारने का समय नहीं निकल जाता।
+लेकिन विश्वसनीय वितरण केवल आधी कहानी है; दूसरी आधी वह है जो तब होती है जब कोई
+इंसान प्रतिक्रिया देना चाहता है। यहाँ Herald उस सामान्य समझौते को अस्वीकार करता है
+जहाँ उपयोगकर्ताओं को अलर्टिंग बॉट के साथ बातचीत करने के लिए कठोर कमांड सिंटैक्स याद
+रखना पड़ता है। सदस्य केवल प्राकृतिक भाषा में लिखते हैं, और Herald एक सुनियोजित तीन
+स्तरीय प्रक्रिया के माध्यम से उनकी मंशा को स्पष्ट करता है: एक फास्ट-पाथ जो स्पष्ट
+कमांड्स को तुरंत पहचान लेता है, फिर LLM-आधारित मंशा अनुमान (Claude कोड के माध्यम
+से) मुक्त रूप से लिखे संदेशों के लिए, और अंत में <code>स्पष्टीकरण</code> का विकल्प जो
+अस्पष्ट मंशा होने पर उत्तर देता है, टैग करता है और सवाल पूछता है। यह “पहचान → अनुमान
+→ स्पष्टीकरण” की सीढ़ी पूरी डिज़ाइन दर्शन का लघु रूप है — सामान्य स्थिति तुरंत और
+निर्धारक बनी रहती है, लचीली स्थिति को एक मॉडल द्वारा संभाला जाता है, और
+अनिश्चित स्थिति को कभी भी अंधे अनुमान से हल नहीं किया जाता जो गलत कार्रवाई को
+ट्रिगर कर दे। Herald भागीदारी और श्रेय का भी मॉडल तैयार करता है: एक
+ऑपरेटर-यूज़रनेम एनवायरनमेंट वेरिएबल
+(<code>HERALD_&lt;CHANNEL&gt;_OPERATOR_USERNAME</code>) और एक
+भागीदार/श्रेय अनुबंध <code>created_by</code>/<code>assigned_to</code> फ़ील्ड्स
+और सूचना @-टैगिंग को संचालित करता है, ताकि यह स्पष्ट हो कि किसने क्या किया और किसे
+सूचित किया जा रहा है। शासन के लिहाज से, Herald Helix Constitution को
+सह-स्थापित सबमॉड्यूल के रूप में अपनाता है और उसके नियमों का पालन करता है, और यह
+Docs Chain का एक प्रारंभिक उत्पादन उपभोक्ता है — इसका पूरा 66-दस्तावेज़ों वाला
+Markdown→HTML/PDF/DOCX संग्रह Docs Chain <code>exec:</code> ट्रांसफॉर्म्स के
+माध्यम से जुड़ा हुआ है और साफ़-सुथरा सत्यापित है। Herald मुख्य रूप से Shell/Go टूलिंग है
+जिसमें स्तरित विनिर्देश (V1→V2→V3→V4 अधिरोहण) और प्रति-चैनल ऑपरेटर सेटअप गाइड्स हैं
+— संदेशवाहकों और LLM/एजेंट डिस्पैचर्स के लिए।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>चेतावनियाँ चुपचाप विफल हो जाती हैं — गलत चैनल पर भेज दी जाती हैं, खो जाती हैं,
+या कठोर कमांड सिंटैक्स की माँग करती हैं जिसे उपयोगकर्ता याद नहीं रख पाते। Herald को
+विश्वसनीय वितरण सुनिश्चित करने और लोगों को प्राकृतिक भाषा में प्रतिक्रिया देने की
+सुविधा देने के लिए बनाया गया, ताकि सूचनाएँ भरोसेमंद भी हों और उन पर कार्रवाई करना
+भी आसान हो।</p>
+<p>सामग्री</p>
+<h2 id="यह-कय-एक-गम-चजर-ह">यह क्यों एक गेम-चेंजर है</h2>
+<p>यह दो ऐसी चीज़ों को एकीकृत करता है जिन्हें आमतौर पर अलग-अलग उत्पादों के रूप में
+खरीदा जाता है — विश्वसनीय मल्टी-चैनल इवेंट रूटिंग और प्राकृतिक-भाषा इंटरफ़ेस — एक ऐसी
+प्रणाली में जहाँ ऑपरेटर बस बोलते हैं और सॉफ़्टवेयर समझ लेता है कि उनका क्या मतलब है।
+उत्पादन में भरोसेमंद बनाने वाला विवरण है स्पष्टीकरण पर आधारित फ़ॉलबैक: एक अलर्टिंग
+प्रणाली जो गलत अलर्ट भेजने की बजाय पूछना पसंद करती है, वह प्रणाली है जिसे आप
+वास्तविक स्थिति को छूने की अनुमति दे सकते हैं।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li>तीन-स्तरीय इरादा अनुशासन: कमांड फ़ास्ट-पाथ → LLM अनुमान → स्पष्टीकरण और
+पूछताछ।</li>
+<li>प्राकृतिक-भाषा सब्सक्राइबर इंटरैक्शन (सीखने के लिए कोई कमांड सिंटैक्स नहीं)।</li>
+<li>प्रतिभागी-आरोपण अनुबंध जो
+<code>created_by</code>/<code>assigned_to</code> + @-टैगिंग को संचालित करता
+है।</li>
+<li>वास्तविक Docs Chain उपभोक्ता (66-दस्तावेज़ संग्रह, बहु-प्रारूप, सत्यापित)।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>अस्पष्ट प्राकृतिक-भाषा इरादा:</strong> तीन-स्तरीय
+पहचान/अनुमान/स्पष्टीकरण सीढ़ी के माध्यम से हल किया गया, अंधे अनुमान के बजाय।</li>
+<li><strong>विश्वसनीय फैन-आउट:</strong> समाधान — अंतर्ग्रहण→मल्टी-चैनल डिस्पैच
+डिज़ाइन, ताकि अलर्ट सही गंतव्य तक पहुँचें।</li>
+<li><strong>चैनलों के पार सही आरोपण:</strong> ऑपरेटर-उपयोगकर्ता नाम पर्यावरण
+चर और प्रतिभागी-आरोपण अनुबंध के माध्यम से हल किया गया।</li>
+<li><strong>दस्तावेज़ीकरण में विचलन:</strong> Docs Chain के माध्यम से इसके दस्तावेज़
+संग्रह को जोड़कर हल किया गया, सत्यापित रूपांतरणों के साथ।</li>
+</ul>
+<h2 id="तकनक-सटक-कय-कस">तकनीकी स्टैक (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Go</strong> — मुख्य इवेंट/डिस्पैच तर्क (प्रति संगठन भाषा पैटर्न)।</li>
+<li><strong>Shell</strong> — ऑपरेटर टूलिंग और सेटअप स्क्रिप्ट।</li>
+<li><strong>Claude कोड (LLM)</strong> — मुक्त-रूप संदेशों के लिए इरादा अनुमान
+स्तर।</li>
+<li><strong>मैसेंजर चैनल एडेप्टर</strong> — मल्टी-चैनल अधिसूचना फैन-आउट।</li>
+<li><strong>Docs Chain</strong> — दस्तावेज़ीकरण निर्माण/सत्यापन पाइपलाइन
+(मार्कडाउन→HTML/PDF/DOCX)।</li>
+<li><strong>Helix Constitution सबमॉड्यूल</strong> — विरासत शासन/नियम।</li>
+</ul>
+</body>
+</html>

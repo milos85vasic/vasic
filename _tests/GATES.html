@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GATES</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">GATES</h1>
+</header>
+<h1 id="constitution-gate-check-traceability">Constitution gate → check
+traceability</h1>
+<p>Backlog <strong>D3</strong>. Every named constitution gate literal
+(<code>CM-*</code>) should be greppable inside the exact script that
+satisfies it, so a reviewer can go from the gate name in the governance
+docs (<code>_analysis/OPENDESIGN-ADOPTION-PLAN.md</code>, constitution
+submodule) straight to the runnable check and its evidence — no
+guessing, no bluff.</p>
+<p>The gate literals are now embedded as <code>GATE:</code> echo lines
+near the top <strong>and</strong> in the final PASS/FAIL summary of each
+satisfying script, so:</p>
+<pre><code>grep -rn &quot;CM-HOST-RENDERED-UI-VISUAL-PROOF\|CM-EXPORTED-DOC-VISUALLY-VALIDATED\|CM-OPENDESIGN-UI-SYSTEM&quot; _tests _tools</code></pre>
+<p>lands on the check itself, not only on the docs.</p>
+<blockquote>
+<p>The <code>GATE:</code> echo lines are <strong>additive logging
+only</strong> — they change no exit codes and no behaviour. The checks
+pass/fail exactly as they did before.</p>
+</blockquote>
+<h2 id="traceability-table">Traceability table</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate literal</th>
+<th>§</th>
+<th>Satisfied by (exact command)</th>
+<th>Evidence produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CM-HOST-RENDERED-UI-VISUAL-PROOF</code></td>
+<td>§11.4.170</td>
+<td><code>bash _tests/visual/self-validate.sh</code> (also run via
+<code>bash _tests/run-harness-selfvalidation.sh</code>). Drives
+<code>_tests/visual/visual-oracle.js</code> over
+<code>fixtures/good.html</code> (expect PASS) and
+<code>fixtures/bad.html</code> (expect FAIL); exits 0 only if good=PASS
+<strong>and</strong> bad=FAIL.</td>
+<td>Per-theme host-rendered PNGs + oracle verdict under
+<code>_tests/evidence/harness/visual/</code> (golden-good.<em>,
+golden-bad.</em>). Self-validated (golden-good/golden-bad), so the
+oracle is proven able to FAIL.</td>
+</tr>
+<tr>
+<td><code>CM-EXPORTED-DOC-VISUALLY-VALIDATED</code></td>
+<td>§11.4.168</td>
+<td><code>bash _tests/export/self-validate.sh</code> (also run via
+<code>bash _tests/run-harness-selfvalidation.sh</code>). Builds fixtures
+if missing, then drives <code>_tests/export/validate-pdf.js</code> over
+<code>golden-good.pdf</code> (expect PASS) and
+<code>golden-bad.pdf</code> (expect FAIL) across content + textual +
+full-visual
+(<code>pdftotext</code>/<code>pdfimages</code>/<code>pdftoppm</code>→OCR)
+layers; exits 0 only if good=PASS <strong>and</strong> bad=FAIL.</td>
+<td>Validator verdicts + extracted text/image/OCR artifacts under
+<code>_tests/evidence/harness/export/</code>. Self-validated
+(golden-good/golden-bad).</td>
+</tr>
+<tr>
+<td><code>PORTFOLIO-DATA-INTEGRITY</code> (sibling gate;
+<strong>not</strong> a <code>CM-*</code> literal)</td>
+<td>§1.1 (anti-bluff)</td>
+<td><code>bash _tools/portfolio/self-validate.sh</code>. Drives
+<code>_tools/portfolio/validate.mjs</code> over
+<code>selfvalidate-fixtures/good.json</code> (expect PASS) and
+<code>bad.json</code> (expect FAIL); exits 0 only if the validator is
+mutation-paired (good=PASS, bad=FAIL).</td>
+<td><code>golden-good.verdict.json</code> +
+<code>golden-bad.verdict.json</code> under
+<code>_tests/evidence/harness/portfolio/</code>. The adoption plan (line
+169) lists this as “a portfolio-data-integrity gate” alongside the three
+<code>CM-*</code> gates; it has no <code>CM-*</code> literal of its
+own.</td>
+</tr>
+<tr>
+<td><code>CM-OPENDESIGN-UI-SYSTEM</code></td>
+<td>§11.4.162</td>
+<td><strong>No single self-validate exists.</strong> See the
+partial-evidence section below.</td>
+<td>See below.</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="cm-opendesign-ui-system-honest-partial-evidence-11.4.6-no-bluff"><code>CM-OPENDESIGN-UI-SYSTEM</code>
+— honest partial evidence (§11.4.6, no bluff)</h2>
+<p>There is <strong>no</strong> self-validated (golden-good/golden-bad)
+analyzer that satisfies <code>CM-OPENDESIGN-UI-SYSTEM</code> end-to-end.
+Do <strong>not</strong> treat this gate as green. What currently exists
+is a set of real artifacts that each evidence <em>part</em> of the
+“design-token / no-ad-hoc-CSS, both themes, AA contrast” intent:</p>
+<ul>
+<li><strong>Token-driven diagram rendering</strong> —
+<code>node _tests/tools/diagram-brand-accent-proof.js</code> loads real
+generated product pages in a headless browser, reads the
+<strong>computed</strong> SVG stroke and the resolved
+<code>--od-accent</code> root token per <code>{light,dark}</code>, and
+asserts diagrams resolve to the correct brand token (company ≠ personal
+crimson). This proves colour comes from a resolved design token at
+render time, not an ad-hoc literal. Evidence: PNGs +
+<code>verdict.json</code> under
+<code>_tests/evidence/diagrams/brand-accent-proof/</code>.</li>
+<li><strong>Rendered-pixel AA contrast</strong> —
+<code>_tests/tests/vasic-digital-a11y.spec.js</code> and
+<code>_tests/tests/milosvasic-ru-a11y.spec.js</code> (axe-core) keep the
+<code>color-contrast</code> (WCAG “serious”) rule enforced on real pages
+in the browser, evidencing that the token palette meets AA in the
+rendered UI (§11.4.107).</li>
+<li><strong>No-hardcoding regression</strong> —
+<code>_tests/tests/v171-hardcoding.spec.js</code> guards against
+hardcoded/leaked content on rendered pages (content-level, not
+token-level).</li>
+</ul>
+<h3 id="residual-coverage-gaps-do-not-claim-these-are-covered">Residual
+coverage gaps (do NOT claim these are covered)</h3>
+<ul>
+<li><strong>No self-validated analyzer</strong> for the gate itself (no
+golden-good/golden-bad proving the token check can FAIL) — unlike
+§11.4.168/.170.</li>
+<li><strong>No lint proving ZERO non-token colour/space
+literals</strong> across CSS/inline styles. The adoption plan (line 100)
+demands “zero non-token color/space literals remain (lint)”; that lint
+is <strong>not yet implemented</strong>.</li>
+<li><strong>OpenDesign is not yet consumed as an external
+dependency.</strong> §11.4.162 mandates OpenDesign as <em>the</em> token
+system consumed as a dependency, with tokens “never in CSS custom
+properties or inline styles.” The sites currently use bespoke
+<code>--od-*</code> CSS custom properties, so this core clause is
+<strong>not satisfied</strong> — the evidence above proves
+<em>token-driven</em> rendering, not <em>OpenDesign-sourced</em>
+tokens.</li>
+</ul>
+<p>Until a self-validated token analyzer <strong>and</strong> the
+zero-literal lint exist, and the sites consume OpenDesign as a
+dependency, <code>CM-OPENDESIGN-UI-SYSTEM</code> is <strong>partial /
+provisional</strong>, not green.</p>
+<h2 id="other-cm--literals-in-the-docs-out-of-scope-for-d3">Other
+<code>CM-*</code> literals in the docs (out of scope for D3)</h2>
+<p>These appear in the governance docs but are not wired by the three
+self-validate scripts above and are <strong>not</strong> claimed here:
+<code>CM-NO-LOCAL-RUNTIME</code>, <code>CM-SCRIPT-DOCS-SYNC</code>,
+<code>CM-TEST-CATALOG-FRESH</code>, and the
+<code>CM-COVENANT-114-*-PROPAGATION</code> family. They are listed for
+completeness so this file is not mistaken for a full gate registry.</p>
+<h2 id="how-to-re-verify">How to re-verify</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># §11.4.170 + §11.4.168 — must end with: OVERALL RESULT: PASS</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tests/run-harness-selfvalidation.sh <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-4</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># portfolio-data-integrity — must be rc=0</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/portfolio/self-validate.sh<span class="kw">;</span> <span class="bu">echo</span> rc=<span class="va">$?</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># gate literals are now greppable inside the checks</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-rn</span> <span class="st">&quot;CM-HOST-RENDERED-UI-VISUAL-PROOF\|CM-EXPORTED-DOC-VISUALLY-VALIDATED\|CM-OPENDESIGN-UI-SYSTEM&quot;</span> _tests _tools</span></code></pre></div>
+</body>
+</html>

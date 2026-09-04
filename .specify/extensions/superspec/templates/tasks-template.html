@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Task list template for feature implementation" />
+  <title>tasks-template</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">tasks-template</h1>
+</header>
+<h1 id="tasks-feature-name">Tasks: [FEATURE NAME]</h1>
+<p><strong>Input</strong>: Design documents from
+<code>specs/[###-feature-name]/</code> <strong>Prerequisites</strong>:
+plan.md (required), spec.md (required for user stories)</p>
+<h2 id="task-format">Task Format</h2>
+<pre><code>[ID] [markers] [Story] Description</code></pre>
+<p><strong>Markers</strong>: - <strong>[P]</strong>: Can run in parallel
+(different files, no dependencies) - <strong>[TDD]</strong>: Must follow
+RED-GREEN-REFACTOR (write test → fail → implement → pass → refactor) -
+<strong>[REVIEW]</strong>: Requires code review before proceeding to
+next task - <strong>[SUBAGENT]</strong>: Can be delegated to a subagent
+for parallel execution</p>
+<p><strong>Story labels</strong>: <code>[US1]</code>,
+<code>[US2]</code>, etc. map tasks to user stories for traceability.</p>
+<h2 id="path-conventions">Path Conventions</h2>
+<ul>
+<li><strong>Single project</strong>: <code>src/</code>,
+<code>tests/</code> at repository root</li>
+<li><strong>Web app</strong>: <code>backend/src/</code>,
+<code>frontend/src/</code></li>
+<li><strong>Mobile</strong>: <code>api/src/</code>,
+<code>ios/src/</code> or <code>android/src/</code></li>
+<li>Adjust paths based on plan.md structure decisions</li>
+</ul>
+<!--
+  ============================================================================
+  IMPORTANT: The tasks below are SAMPLE TASKS for illustration purposes only.
+
+  The /speckit.superspec.tasks command MUST replace these with actual tasks based on:
+  - User stories from spec.md (with their priorities P1, P2, P3...)
+  - Technical decisions from plan.md
+  - Execution strategy from plan.md (TDD, parallel, review gates)
+  - Entities from spec.md
+
+  Tasks MUST be organized by user story so each story can be:
+  - Implemented independently
+  - Tested independently
+  - Delivered as an MVP increment
+
+  DO NOT keep these sample tasks in the generated tasks.md file.
+  ============================================================================
+-->
+<h2 id="phase-1-setup-shared-infrastructure">Phase 1: Setup (Shared
+Infrastructure)</h2>
+<p><strong>Purpose</strong>: Project initialization and basic
+structure</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />T001 Create project structure per
+implementation plan</label></li>
+<li><label><input type="checkbox" />T002 Initialize project with
+dependencies</label></li>
+<li><label><input type="checkbox" />T003 [P] Configure linting and
+formatting tools</label></li>
+</ul>
+<p><strong>Execution notes</strong>: No special discipline required.
+Verify project builds before proceeding.</p>
+<hr />
+<h2 id="phase-2-foundational-blocking-prerequisites">Phase 2:
+Foundational (Blocking Prerequisites)</h2>
+<p><strong>Purpose</strong>: Core infrastructure that MUST be complete
+before ANY user story</p>
+<p><strong>CRITICAL</strong>: No user story work can begin until this
+phase is complete.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />T004 [TDD] Setup core data
+models/entities</label></li>
+<li><label><input type="checkbox" />T005 [P] Implement shared
+utilities</label></li>
+<li><label><input type="checkbox" />T006 [P] [REVIEW] Setup API routing
+and middleware</label></li>
+<li><label><input type="checkbox" />T007 Configure error handling and
+logging infrastructure</label></li>
+</ul>
+<p><strong>Execution notes</strong>: Tasks marked [TDD] — write tests
+first, verify they fail, then implement. Tasks marked [REVIEW] — pause
+for human review of API contracts before consumers are built.</p>
+<p><strong>Checkpoint</strong>: Foundation ready. Get human approval
+before starting user stories.</p>
+<hr />
+<h2 id="phase-3-user-story-1---title-priority-p1-mvp">Phase 3: User
+Story 1 - [Title] (Priority: P1) MVP</h2>
+<p><strong>Goal</strong>: [Brief description of what this story
+delivers] <strong>Independent Test</strong>: [How to verify this story
+works on its own]</p>
+<h3 id="tests-for-user-story-1-if-tdd-applies">Tests for User Story 1
+(if TDD applies)</h3>
+<blockquote>
+<p>Write these tests FIRST. Verify they FAIL before implementation.</p>
+</blockquote>
+<ul class="task-list">
+<li><label><input type="checkbox" />T008 [P] [TDD] [US1] Contract test
+for [endpoint] in tests/contract/</label></li>
+<li><label><input type="checkbox" />T009 [P] [TDD] [US1] Integration
+test for [user journey] in tests/integration/</label></li>
+</ul>
+<h3 id="implementation-for-user-story-1">Implementation for User Story
+1</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />T010 [P] [US1] Create [Entity1]
+model in src/models/</label></li>
+<li><label><input type="checkbox" />T011 [P] [US1] Create [Entity2]
+model in src/models/</label></li>
+<li><label><input type="checkbox" />T012 [US1] Implement [Service] in
+src/services/ (depends on T010, T011)</label></li>
+<li><label><input type="checkbox" />T013 [US1] Implement
+[endpoint/feature] in src/</label></li>
+<li><label><input type="checkbox" />T014 [US1] [REVIEW] Add validation
+and error handling</label></li>
+</ul>
+<p><strong>Execution notes</strong>: If
+<code>subagent-driven-development</code> is available, T010 and T011 can
+be dispatched as parallel subagents. T014 requires review before
+proceeding.</p>
+<p><strong>Checkpoint</strong>: User Story 1 fully functional and
+testable. Get human approval.</p>
+<hr />
+<h2 id="phase-4-user-story-2---title-priority-p2">Phase 4: User Story 2
+- [Title] (Priority: P2)</h2>
+<p><strong>Goal</strong>: [Brief description] <strong>Independent
+Test</strong>: [How to verify]</p>
+<h3 id="implementation-for-user-story-2">Implementation for User Story
+2</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />T015 [P] [SUBAGENT] [US2] Create
+[Entity] model</label></li>
+<li><label><input type="checkbox" />T016 [US2] Implement
+[Service]</label></li>
+<li><label><input type="checkbox" />T017 [US2] Implement
+[endpoint/feature]</label></li>
+<li><label><input type="checkbox" />T018 [US2] Integrate with User Story
+1 components (if needed)</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: User Stories 1 AND 2 both work
+independently. Get human approval.</p>
+<hr />
+<p>[Add more user story phases as needed, following the same
+pattern]</p>
+<hr />
+<h2 id="phase-n-polish-cross-cutting-concerns">Phase N: Polish &amp;
+Cross-Cutting Concerns</h2>
+<p><strong>Purpose</strong>: Improvements that affect multiple user
+stories</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />TXXX [P] [SUBAGENT] Documentation
+updates</label></li>
+<li><label><input type="checkbox" />TXXX Code cleanup and
+refactoring</label></li>
+<li><label><input type="checkbox" />TXXX [P] Performance
+optimization</label></li>
+<li><label><input type="checkbox" />TXXX [REVIEW] Security
+hardening</label></li>
+<li><label><input type="checkbox" />TXXX Run full test suite — all tests
+must pass</label></li>
+</ul>
+<p><strong>Execution notes</strong>: Polish phase tasks can largely run
+in parallel. Final security hardening requires review. All tests must
+pass before this phase is considered complete.</p>
+<hr />
+<h2 id="dependencies-execution-order">Dependencies &amp; Execution
+Order</h2>
+<h3 id="phase-dependencies">Phase Dependencies</h3>
+<ul>
+<li><strong>Setup (Phase 1)</strong>: No dependencies — start
+immediately</li>
+<li><strong>Foundational (Phase 2)</strong>: Depends on Setup — BLOCKS
+all user stories</li>
+<li><strong>User Stories (Phase 3+)</strong>: All depend on Foundational
+completion
+<ul>
+<li>Stories can proceed in parallel (if using subagents) or sequentially
+by priority</li>
+</ul></li>
+<li><strong>Polish (Final Phase)</strong>: Depends on all desired user
+stories being complete</li>
+</ul>
+<h3 id="within-each-user-story">Within Each User Story</h3>
+<ol type="1">
+<li>Tests (if [TDD]) MUST be written and FAIL before implementation</li>
+<li>Models before services</li>
+<li>Services before endpoints</li>
+<li>Core implementation before integration</li>
+<li>[REVIEW] tasks pause for human review</li>
+<li>Story complete before moving to next priority</li>
+</ol>
+<h3 id="parallel-opportunities">Parallel Opportunities</h3>
+<ul>
+<li>All tasks marked [P] within the same phase can run in parallel</li>
+<li>All tasks marked [SUBAGENT] can be dispatched to subagents</li>
+<li>Once Foundational phase completes, user stories can start in
+parallel</li>
+<li>Different user stories can be worked on by different subagents</li>
+</ul>
+<hr />
+<h2 id="superpowers-execution">Superpowers Execution</h2>
+<!--
+  This section documents how /speckit.superspec.execute should process this task list.
+  The execute command reads these instructions to determine execution behavior.
+-->
+<h3 id="execution-discipline-by-marker">Execution Discipline by
+Marker</h3>
+<ul>
+<li><strong>[TDD]</strong>: Follow RED-GREEN-REFACTOR. If
+<code>test-driven-development</code> skill is available, read and follow
+its process. Otherwise: write test → run (must fail) → implement → run
+(must pass) → refactor if needed.</li>
+<li><strong>[SUBAGENT]</strong>: If
+<code>subagent-driven-development</code> skill is available, dispatch to
+a subagent. Otherwise: implement sequentially in the current
+session.</li>
+<li><strong>[REVIEW]</strong>: Pause execution. Present completed work
+to user. Wait for explicit approval before continuing.</li>
+<li><strong>[P]</strong>: Launch parallel tasks where possible using the
+Task tool.</li>
+</ul>
+<h3 id="checkpoint-protocol">Checkpoint Protocol</h3>
+<p>At every phase boundary: 1. Summarize what was completed in this
+phase 2. Run applicable tests 3. Report test results 4. Ask user: “Phase
+[N] complete. Proceed to Phase [N+1]?” 5. Only continue after explicit
+user approval</p>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>[P] tasks = different files, no dependencies</li>
+<li>[TDD] tasks = strict RED-GREEN-REFACTOR discipline</li>
+<li>[REVIEW] tasks = human review gate</li>
+<li>[SUBAGENT] tasks = candidate for parallel subagent dispatch</li>
+<li>[Story] label maps task to specific user story for traceability</li>
+<li>Commit after each task or logical group</li>
+<li>Stop at any checkpoint to validate independently</li>
+</ul>
+</body>
+</html>

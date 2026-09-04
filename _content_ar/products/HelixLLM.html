@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixLLM</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixLLM</h1>
+</header>
+<h1 id="helixllm">HelixLLM</h1>
+<p><strong>ثنائي واحد، ستة أوضاع — استدلال متوافق مع OpenAI وAnthropic
+من حاسوبك المحمول إلى مجموعة متعددة المضيفين.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>HelixLLM هو نظام LLM موزّع على مستوى المؤسسات مبنيّ على Go: ثنائي واحد
+بنظام أوضاع يتدرّج من التطوير أحادي المضيف إلى الإنتاج متعدد المضيفين.
+يقدّم واجهات برمجة تطبيقات متوافقة بالكامل مع OpenAI وAnthropic عبر
+HTTP/3، مع استدلال محلي باستخدام llama.cpp، وسلسلة احتياطية متعددة
+المزودين مُقيّمة، وخط أنابيب RAG، ونظام وكيل ReAct.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>HelixLLM هو نظام LLM موزّع ثنائي مبنيّ على Go. يعرض واجهات برمجة
+تطبيقات متوافقة مع OpenAI وAnthropic عبر HTTP/3، ويشغّل استدلالاً محلياً
+باستخدام llama.cpp، ويكتشف تلقائياً ويقيّم مزودي الخدمات السحابية المجانية
+ضمن سلسلة احتياطية، ويضيف خط أنابيب معرفية RAG بالإضافة إلى وكيل ReAct
+القادر على استدعاء الأدوات — قابل للنشر في ستة أوضاع مختلفة.</p>
+<h2 id="وصف-مفصل">وصف مفصّل</h2>
+<p>HelixLLM هو نظام LLM موزّع على مستوى المؤسسات، مبنيّ باستخدام Go وGin،
+وحيلته الأساسية تكمن في أن قطعة برمجية واحدة تخدم جميع المستويات. يُترجم
+إلى ثنائي واحد يحدد نظام الأوضاع عند النشر ماهية هذا الثنائي: شغّله
+كـ<code>full</code> للحصول على مثيل شامل على حاسوب محمول، أو وزّع
+المسؤوليات عبر أوضاع <code>gateway</code> و<code>brain</code>
+و<code>knowledge</code> و<code>agents</code> و<code>control</code> موزّعة
+على عدة مضيفين — نفس الكود يعاد ترتيبه دون إعادة كتابته، من جهاز المطور
+إلى مجموعة الإنتاج.</p>
+<p>يتقن النظام لغتين بطلاقتهما: واجهات برمجة تطبيقات متوافقة بالكامل مع
+OpenAI وAnthropic، بحيث تعمل عملاء SDK الحالية من كلا النظامين دون
+تعديل، وكلها تُقدّم عبر HTTP/3 (QUIC) مع احتياطي تلقائي لـHTTP/2 ودعم TLS
+1.3. يعمل الاستدلال المحلي عبر llama.cpp مع دعم CUDA وMetal وROCm، بحيث
+يسرّع نفس البناء على أجهزة Nvidia وApple وAMD على حد سواء. أما الميزة
+البارزة فهي سلسلة الاحتياطية متعددة المزودين، التي تحول عدم موثوقية
+الاستدلال السحابي المجاني إلى مورد مُدار وقادر على الشفاء الذاتي: يكتشف
+HelixLLM تلقائياً النماذج المجانية من أكثر من 7 مزودي خدمات سحابية
+(Chutes، OpenRouter، HuggingFace، Nvidia، Cerebras، SambaNova،
+Together)، ويقيمها عبر LLMsVerifier كل 5 دقائق، ويوجّه الطلبات عبر
+السلسلة المرتبة مع احتياطي تلقائي للأخطاء 429/5xx — مع ضمان استخدام
+llama.cpp المحلي كملاذ أخير، بحيث لا يفشل الطلب أبداً لعدم توفر مزود.</p>
+<p>بالإضافة إلى الاستدلال الخام، يُعد HelixLLM منصة تطبيقات كاملة: يتضمن
+خط أنابيب معرفية RAG (استيعاب، تجزئة، تضمين، بحث vector) ونظام وكيل
+ReAct مع استدعاء الأدوات، وجلسات المحادثة، وتكامل RAG ضمن نفس الثنائي.
+يؤتي نظام الأوضاع ثماره أيضاً على مستوى الاتصال — ففي وضع
+<code>full</code> تتواصل جميع الطبقات عبر استدعاءات Go المباشرة داخل
+العملية دون أي عبء شبكي، بينما ينسّق الثنائي المتطابق عند توزيعه على عدة
+مضيفين عبر gRPC وSSE وKafka. ويكتمل النظام بمفاوضات المحتوى Brotli/gzip،
+وبث SSE الذي يتطابق مع تنسيقات OpenAI وAnthropic بايتاً ببايت، ومصادقة
+API-key وJWT مع تحديد المعدل، ومقاييس Prometheus، وتتبع OpenTelemetry،
+ومجموعة كبيرة من وحدات Go للبنية التحتية الإنتاجية.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>تحتاج الفرق إلى استدلال قابل للنقل ومتوافق مع المعايير ومرن — دون
+الحاجة إلى إعادة كتابة العملاء أو الارتهان بمزود واحد أو جهاز واحد. تم
+بناء HelixLLM بحيث يمكن لنفس الملف التنفيذي أن يعمل محلياً للتطوير ويتوسع
+ليشمل مجموعة إنتاجية متعددة المضيفين، ويتحدث لهجات OpenAI وAnthropic
+التي يستخدمها العملاء بالفعل.</p>
+<h2 id="لماذا-يعد-ثورة-في-المجال">لماذا يُعد ثورة في المجال</h2>
+<p>إنه يدمج مجموعة كاملة من بنية الاستدلال — البوابة، والاستدلال المحلي،
+والعودة إلى السحابة، وRAG، والوكلاء — في ملف تنفيذي واحد يتحكم فيه مفتاح
+وضع التشغيل، بحيث يصبح قرار نشر البنية المعمارية قراراً يتم اتخاذه في وقت
+التشغيل بدلاً من أن يكون مشروع إعادة منصة. كما يحول ما كان يُعد نقطة ضعف
+إلى ميزة: تصبح موثوقية مزودي السحابة أولوية رئيسية تُقاس باستمرار، وتُدار
+من خلال سلسلة عودة ذاتية الإصلاح تُقيّم المزودين كل بضع دقائق وتتحول دائماً
+إلى الاستدلال المحلي المضمون. الإمكانية التي يتيحها هي نقطة نهاية واحدة
+يمكنك الاعتماد عليها حقاً — متوافقة مع المعايير، قابلة للنقل من الحاسوب
+المحمول إلى المجموعة، وغير قادرة على التوقف عن العمل لأن أحد المزودين
+الرئيسيين قد فرض قيوداً على المعدل أو فشل.</p>
+<h2 id="ما-الجديد-في-هذا-الحل">ما الجديد في هذا الحل</h2>
+<ul>
+<li>ملف تنفيذي واحد بنظام مكون من ستة أوضاع يعمل إما بشكل متكامل أو
+كأدوار موزعة — مكالمات Go المباشرة داخل العملية في وضع
+<code>full</code>، وgRPC/SSE/Kafka عند الفصل — بحيث تتغير طوبولوجيا
+النشر دون تغيير في الكود أو فرض ضرائب شبكية غير مطلوبة.</li>
+<li>سلسلة عودة متعددة المزودين مكتشفة تلقائياً ومقيّمة عبر أكثر من 7
+مزودين مجانيين، تُصنّف باستمرار بواسطة LLMsVerifier مع تجاوز تلقائي لأخطاء
+429/5xx وضمان استخدام llama.cpp كملاذ أخير — تحويل قدرة الطبقة المجانية
+إلى قدرة موثوقة.</li>
+<li>واجهات متوافقة مع كل من OpenAI وAnthropic تُقدّم عبر HTTP/3 مع عودة
+تلقائية إلى HTTP/2، بحيث يتصل العملاء من أي من النظامين البيئيين دون
+تعديل.</li>
+<li>استدلال محلي يشمل CUDA وMetal وROCm من قاعدة كود واحدة — نفس الإصدار
+يعمل بتسريع على أجهزة Nvidia وApple وAMD.</li>
+</ul>
+<h2 id="أكبر-التحديات-التقنية-وكيف-تغلبنا-عليها">أكبر التحديات التقنية
+وكيف تغلبنا عليها</h2>
+<ul>
+<li><strong>التوسع من مضيف واحد إلى عدة مضيفين دون إعادة كتابة.</strong>
+تفرض معظم الأنظمة حداً صارماً بين “التطوير المحلي” و”الإنتاج الموزع”، وعبر
+هذا الحد يتطلب إعادة هيكلة. لقد ألغينا هذا الحد بنظام أوضاع على ملف
+تنفيذي واحد: تتواصل نفس الطبقات عبر مكالمات مباشرة داخل العملية في وضع
+<code>full</code> وتتحول بسلاسة إلى gRPC/SSE/Kafka عبر الأوضاع الموزعة،
+بحيث يصبح التوسع مجرد تغيير في التكوين بدلاً من نقل.</li>
+<li><strong>مزودو السحابة المجانيون غير الموثوقين والمحدودي
+المعدل.</strong> الاستدلال في الطبقة المجانية سريع حتى يفرض قيوداً على
+المعدل أو يختفي أثناء الطلب. جعلناه موثوقاً باكتشاف النماذج المتاحة
+تلقائياً، وتقييمها باستخدام LLMsVerifier، وتتبع رؤوس قيود المعدل بشكل
+استباقي لتوجيه الطلبات بعيداً عن المزودين على وشك التقييد، والعودة
+تلقائياً عبر السلسلة المصنفة إلى llama.cpp المحلي — بحيث لا تصل تقلبات
+المجموعة أبداً إلى المتصل.</li>
+<li><strong>توافق العملاء عبر نظامين بيئيين.</strong> إعادة كتابة
+العملاء لاعتماد خلفية استدلال جديدة أمر غير مقبول. لقد قمنا بتنفيذ أشكال
+API لكل من OpenAI وAnthropic — وصولاً إلى تنسيقات بث SSE المختلفة الخاصة
+بكل منهما — بحيث تشير مجموعات تطوير البرمجيات من أي من المعسكرين إلى
+HelixLLM وتعمل ببساطة.</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="مجموعة-الأدوات-التقنية">مجموعة الأدوات التقنية</h2>
+<ul>
+<li><strong>Go + Gin</strong> — اختيرت لأن بيئة التشغيل ذات الملف
+الثنائي الواحد والموجهة نحو التوازي هي ما يجعل نظام الأوضاع بأكمله
+ممكنًا: بناء واحد يمكن أن يكون خادمًا محليًا أو دورًا ضمن مجموعة خوادم. تحمل
+النظام بأكمله بالإضافة إلى طبقة HTTP الخاصة بالبوابة.</li>
+<li><strong>HTTP/3 (QUIC) + TLS 1.3، مع الرجوع التلقائي إلى
+HTTP/2</strong> — اختيرت لنقل البيانات الحديث منخفض الكمون والمرن في
+الاتصالات، وتُعرض كواجهة الخادم مع التفاوض التلقائي بحيث تعود العملاء غير
+القادرين على استخدام QUIC بهدوء إلى HTTP/2.</li>
+<li><strong>llama.cpp (CUDA/Metal/ROCm)</strong> — اختيرت للاستدلال
+المحلي المحمول الذي يتسارع عبر منصات Nvidia وApple وAMD من قاعدة برمجية
+واحدة؛ كما تعمل كخيار احتياطي مضمون يمنع سلسلة التراجع من الوصول إلى
+طريق مسدود.</li>
+<li><strong>LLMsVerifier</strong> — اختيرت لتحويل “أي مزود جيد الآن” إلى
+رقم؛ حيث تقوم بتقييم وترتيب سلسلة التراجع السحابية كل خمس دقائق بحيث
+تتبع التوجيه الجودة الحية بدلاً من الافتراضات القديمة.</li>
+<li><strong>موفرو الخدمات السحابية (Chutes، OpenRouter، HuggingFace،
+Nvidia، Cerebras، SambaNova، Together)</strong> — اختيروا لاستغلال السعة
+المجانية عبر عدة مصادر؛ حيث يتم اكتشافهم وترتيبهم تلقائيًا في سلسلة تراجع
+واحدة بحيث لا يشكل أي مزود نقطة فشل واحدة.</li>
+<li><strong>gRPC + SSE + Kafka</strong> — اختيروا كوسائط نقل بين الأوضاع
+للنشر الموزع: gRPC للمكالمات بين الخدمات، وSSE للبث المباشر، وKafka
+لتدفق الأحداث المفككة بين الأدوار.</li>
+<li><strong>مخزن المتجهات / embeddings</strong> — اختير لتشغيل خط
+المعرفة RAG من البداية إلى النهاية: استيعاب، تقطيع، تضمين، والبحث في
+المستندات التي تدعم إجابات النموذج.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> — اختيرا لقياس الأداء
+وتتبع الطلبات الموزعة عبر أي أوضاع يتم نشرها.</li>
+<li><strong>وحدات Go الفرعية من vasic-digital</strong> — اختيرت لإعادة
+استخدام المكونات الأساسية للبنية التحتية الإنتاجية المجربة بدلاً من إعادة
+بنائها، مما يحافظ على اتساق أساس النظام مع المجموعة التقنية الأوسع.</li>
+</ul>
+<h2 id="ملاحظات-الحالة-والنزاهة">ملاحظات الحالة والنزاهة</h2>
+<ul>
+<li><strong>الحالة: تجريبية.</strong> نظام استدلال موزع وظيفي قيد
+التطوير النشط.</li>
+<li><strong>الرخصة: لم تُحدد بعد.</strong> المستودع لا يعلن عن رخصة في
+بيانات التعريف (<code>licenseInfo</code> فارغ) — هذا الأمر غير مُتحقق منه
+ويجب حله قبل تحديد الرخصة.</li>
+<li>المستودع المرجعي حاليًا يشير إلى
+<code>github.com/HelixDevelopment/llm</code>؛ بينما يعيد مسار
+<code>HelixLLM</code> التوجيه إليه. أرقام عتبات التغطية وعدد الوحدات
+الفرعية في ملف README هي بيانات ذاتية التقرير.</li>
+</ul>
+<p><strong>درجة الأولوية:</strong> Helix-أساسية.</p>
+</body>
+</html>

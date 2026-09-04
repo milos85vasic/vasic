@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>Server Factory 프로비저닝 툴체인의 보조 구성
+요소들</strong></p>
+<h2 id="개요">개요</h2>
+<p>Mail Server Factory와 코어 프레임워크를 넘어, Server-Factory 조직에는
+여러 작은 구성 요소들이 포함되어 있습니다. 서비스별 ‘팩토리’(웹 서비스,
+SonarQube, 캐싱 프록시), 선언형 설정 팩(Docker/스택/소프트웨어 정의),
+그리고 공유 유틸리티 등이 그것입니다. 이 통합 페이지는 이들을 완전한
+제품으로 포장하기보다는 초기 단계이거나 문서화가 미흡한 부분까지
+솔직하게 다루고 있습니다.</p>
+<h2 id="간략-설명">간략 설명</h2>
+<p>Server Factory를 지원하는 레포지토리 그룹으로, Web-Service-Factory,
+SonarQube-Factory, Caching-Proxy-Factory(서비스별 프로비저닝 도구,
+대부분 초기 단계), Docker/Stack/Software-Definitions(프레임워크에서
+사용하는 선언형 설정 팩), 그리고 Utils(SSH 접근 도우미 및 일반 툴링)가
+있습니다. 모두 코어 프레임워크를 기반으로 합니다.</p>
+<h2 id="상세-설명">상세 설명</h2>
+<p>이 페이지는 나머지 Server-Factory 레포지토리들을 통합하여 설명합니다.
+개별적으로 보면 대부분 규모가 작거나 의도적으로 문서화가 부족한 경우가
+많아, 각각을 완성된 제품처럼 소개하는 것은 성숙도를 과장하는 셈이기
+때문입니다. 이들은 크게 세 가지 그룹으로 나뉩니다.</p>
+<p><strong>서비스 팩토리</strong>는 Mail Server Factory 패턴을 다른 서버
+역할에 적용한 것으로, <strong>Caching-Proxy-Factory</strong>(“자체 캐싱
+프록시 서버 구동”)는 캐싱 프록시, 자체 서명 인증서, 보안 인증서 발급
+HTTP 엔드포인트를 주요 기능으로 소개합니다.
+<strong>SonarQube-Factory</strong>(“자체 SonarQube 서버 구동”)는
+소프트웨어 개발 용도로 설계되었으며,
+<strong>Web-Service-Factory</strong>는 웹사이트나 마이크로서비스 같은
+배포 대상을 인스턴스화하고 구성하는 웹 서버를 제공합니다. 세 가지 모두
+코어 프레임워크를 기반으로 한 Kotlin 프로젝트이지만, 공개된 README는
+대부분 임시 문서(“호환성, 사양, 설정, 사용법 등 추후 업데이트”)에 불과해
+명시된 기능 외의 실제 성능은 <strong>확인되지 않았습니다</strong>.</p>
+<p><strong>정의 팩</strong>인 <strong>Docker-Definitions</strong>,
+<strong>Stack-Definitions</strong>,
+<strong>Software-Definitions</strong>은 프레임워크가 Docker 이미지,
+스택, 소프트웨어를 빌드/배포하는 방법을 정의하는 선언형 설정
+레포지토리입니다. 이들은 애플리케이션이 아닌 버전 고정된 데이터
+팩입니다.</p>
+<p><strong>Utils</strong>는 이 툴체인군을 위한 일반 도우미 기능을
+제공하며, <code>init_ssh_access.sh</code> 스크립트를 포함합니다. 이
+스크립트는 SSH 키를 생성하고 원격 호스트에 설치하여 후속 프로비저닝을
+위한 비밀번호 없는 루트 접근을 가능하게 합니다. 이러한 구성 요소들이
+모여 Mail Server Factory를 중심으로 한 프로비저닝 툴체인을
+완성합니다.</p>
+<h2 id="개발-배경">개발 배경</h2>
+<p>Server Factory 모델은 일반화를 목표로 설계되었습니다. 선언형
+기술서만으로 메일 서버를 프로비저닝할 수 있다면, 동일한 엔진으로 웹
+서버, 캐싱 프록시, 코드 품질 서버도 프로비저닝할 수 있어야 합니다.
+재사용 가능한 정의 팩과 공유 유틸리티를 활용해 역할별 맞춤 로직 없이도
+가능하도록 한 것입니다. 이 레포지토리들은 바로 그러한 일반화의 과정으로,
+검증된 패턴을 새로운 서버 유형으로 확장하는 시도입니다. 이들의 가치는
+모델의 확장성을 보여주는 증거로, 성숙도는 제각각이며 이 페이지는 어떤
+부분이 방향성 제시인지, 어떤 부분이 완성된 상태인지를 명확히 밝히고
+있습니다.</p>
+<p>콘텐츠</p>
+<h2 id="왜-혁신적인-변화인가-신중하게-평가된-관점">왜 혁신적인 변화인가
+(신중하게 평가된 관점)</h2>
+<p>이 세트들은 Core Framework가 다양한 서버 유형에 걸쳐 재사용 가능함을
+보여주며, 선언적 데이터(Definitions)와 실행(factories)을 분리합니다.
+개별적으로 서비스 팩토리는 초기 단계에 있으며, 완성된 제품이 아닌
+방향성으로 제시되어야 합니다.</p>
+<h2 id="혁신적인-점">혁신적인 점</h2>
+<ul>
+<li>메일/웹/캐싱 프록시/SonarQube 역할에 걸쳐 일반화된 하나의 프로비저닝
+프레임워크.</li>
+<li>실행 엔진과 분리된 선언적 Definitions
+팩(Docker/Stack/Software).</li>
+<li>팩토리 간 재사용되는 공유 유틸리티(예: 원클릭 무비밀번호 SSH
+부트스트랩).</li>
+</ul>
+<h2 id="도전-과제-및-해결-방안">도전 과제 및 해결 방안</h2>
+<ul>
+<li><strong>서버 역할 간 하나의 엔진 재사용:</strong> 각 팩토리를 Core
+Framework 기반으로 구축하여 해결.</li>
+<li><strong>설정과 코드 분리:</strong> Definitions 저장소를 버전 고정된
+데이터 팩으로 활용하여 해결.</li>
+<li><strong>(미검증):</strong> 서비스 팩토리의 README는 임시 문서이며,
+공개 문서로는 구현 완결성을 검증할 수 없음 — 초기 단계로 제시.</li>
+</ul>
+<h2 id="기술-스택-이유-및-방법">기술 스택 (이유 및 방법)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Web-Service-Factory, SonarQube-Factory,
+Caching-Proxy-Factory (Core Framework 기반).</li>
+<li><strong>Shell</strong> — 유틸리티 및 Definitions
+팩(스크립트/설정).</li>
+<li><strong>Gradle</strong> — <code>./gradlew test</code> 팩토리 간
+빌드/테스트 흐름.</li>
+<li><strong>Docker</strong> — Docker-Definitions로 기술된 대상
+런타임.</li>
+<li><strong>SSH / OpenSSH</strong> — 유틸리티의 무비밀번호 접근
+부트스트랩.</li>
+<li><strong>SonarQube</strong> — SonarQube-Factory가 프로비저닝하는
+서버(Mail Server Factory가 클린 게이트로 보고).</li>
+</ul>
+<blockquote>
+<p>정직성 고지: 대부분의 저장소는 조직 내 포크이며, 서비스 팩토리는 임시
+문서로 작성되어 헌법 §11.4.6에 따라 미검증으로 표시됨. Mail Server
+Factory 및 Core Framework보다 명확히 하위 등급으로 분류.</p>
+</blockquote>
+</body>
+</html>

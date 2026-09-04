@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>مصدر واحد للحقيقة، مُنعكس في كل مكان — نظام Git موحد عبر عشرات
+المضيفين.</strong></p>
+<h2 id="ملخص">ملخص</h2>
+<p>HelixGitpx (وكيل Git الموحد الموسع Helix) هو وكيل Git موحد يحافظ على
+مصدر واحد للحقيقة منعكساً عبر العديد من مضيفي Git الرئيسيين، ويحل
+النزاعات الحتمية باستخدام تدفقات مدعومة بسياسات وأداة AI. وقد وصل إلى
+الإصدار v1.0.0 GA.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>HelixGitpx هو وكيل Git موحد يعكس مصدراً واحداً للحقيقة عبر أكثر من عشرة
+مضيفين لـ Git — GitHub، GitLab، Gitea، Bitbucket، Azure DevOps، AWS
+CodeCommit وغيرها — ويحل تناقضات المزامنة باستخدام تدفقات مدعومة بسياسات
+وأداة AI. تم إصداره بالإصدار v1.0.0 GA.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>HelixGitpx — “وكيل Git الموحد الموسع Helix” — هو وكيل Git موحد يحافظ
+على مصدر واحد للحقيقة منعكساً عبر العديد من مضيفي Git الرئيسيين، ويحل
+النزاعات التي تنشأ حتماً لحظة وجود المستودع نفسه في أكثر من مكان. تشمل
+المضيفات المدعومة قائمة شاملة لنظام Git البيئي بأكمله: GitHub، GitLab،
+GitFlic، GitVerse، Gitea، Gitee، Bitbucket، Azure DevOps، AWS
+CodeCommit، Forgejo، SourceHut، بالإضافة إلى Git عبر HTTPS العام. ففي
+حين أن عملية <code>git push</code> البسيطة إلى عشرات المستودعات البعيدة
+إما أن تفشل تماماً أو، والأسوأ من ذلك، تسمح للمرايا بالانحراف بصمت، يتدخل
+HelixGitpx بتدفقات حل مدعومة بسياسات وأداة AI لإعادة التوفيق بين
+الاختلافات وإعادتها إلى مصدر واحد موثوق.</p>
+<p>وقد وصل المشروع إلى الإصدار v1.0.0 GA، مع وضع علامات على المراحل من
+<code>m1-foundation</code> إلى <code>m8-ga</code> — مسار متسلسل بالكامل
+من الأساس إلى التوافر العام. تم تصميمه على ثلاثة مستويات لمنتج واحد:
+مستودع Go الأحادي (منصة تضم ثمانية عشر خدمة، وأدوات توليد الأكواد،
+وأدوات التهيئة) الذي يحمل محرك التوحيد؛ تطبيق Angular الويب المكون من 19
++ Nx؛ وقذائف Kotlin متعددة المنصات + Compose التي توفر تجارب أصلية
+لأندرويد، iOS، وسطح المكتب من خلال كود مشترك. يتم تسليم المنصة بطريقة
+Kubernetes الأصلية في جوهرها — مخططات Helm، تطبيقات Argo CD، طبقات
+Kustomize، SQL، وسياسات OPA — مع خطوط أنابيب CI محكومة بعمليات نشر صريحة
+لمنع أي تحديثات عرضية. يتم نشر الوثائق العامة كموقع Docusaurus
+(docs.helixgitpx.io) إلى جانب موقع تسويقي Astro (helixgitpx.io).</p>
+<p>الحوكمة صارمة ومبنية على دستور، وهذا ميزة وليس مجرد إجراء شكلي:
+الوثيقة الحاملة للمشروع هي Constitution، التي تنص مادتها الثانية على
+ضرورة وجود مصفوفة اختبار من سبعة أنواع بتغطية 100% <em>لكل نوع ولكل وحدة
+تم تعديلها</em>، مع السماح بالمحاكاة فقط في اختبارات الوحدة وعدم التسامح
+مع أي اختبار متخطى. يقوم مدقق لمرة واحدة بتشغيل كل فحص للقطع الأثرية
+بالإضافة إلى <code>go vet</code> و<code>go test</code> عبر مساحة العمل
+بأكملها، وكل عملية دفع تنتشر إلى جميع المضيفين الرئيسيين المُعدّين — لذا
+فإن عبارة “المرايا متزامنة” هي شيء يفرضه النظام مع كل التزام بدلاً من أن
+يكون شيئاً يتذكر الإنسان التحقق منه.</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>الحفاظ على صحة المستودع عبر العديد من مضيفي Git — سواء لأغراض
+التكرار، السيادة، أو الوصول إلى منصات إقليمية — أمر هش ويتطلب تدخلاً
+يدوياً، كما أن المرايا المتباينة يصعب توفيقها. تم بناء HelixGitpx لجعل
+عملية المرآة متعددة المضيفين قدرة أساسية واعية بالنزاعات.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-ثورة-في-المجال">لماذا يُعدّ ثورةً في المجال</h2>
+<p>يحوّل هذا النظام ما كان يُعرف بـ”الدفع إلى عدة مستودعات وانتظار الأفضل”
+– تلك الحالة الهشّة والمعتمدة على التدخل اليدوي – إلى اتحادٍ منظمٍ قائمٍ على
+مصدرٍ موثوقٍ وحيدٍ للحقيقة، مع حلّ تلقائي للصراعات مدعومٍ بسياسات ومعرفات AI.
+ويحقق ذلك عبر مجموعة واسعة بشكلٍ غير معتاد من المضيفين، متعمّداً إدراج
+المنصات الإقليمية (GitFlic، GitVerse، Gitee) التي تتجاهلها معظم الأدوات
+بصمت، بحيث تتحوّل التكرار وسيادة البيانات والوصول إلى تلك النظم البيئية
+من عبءٍ صيانةٍ إلى قدرةٍ واحدةٍ تُضبَط مرةً واحدة.</p>
+<h2 id="ما-الجديد">ما الجديد؟</h2>
+<ul>
+<li><strong>تنوّع المصادر العليا</strong> – أكثر من اثنتي عشرة منصة
+استضافة Git، من GitHub وGitLab إلى المنصات الإقليمية مثل GitFlic
+وGitVerse وGitee، جميعها موحّدة خلف وكيلٍ واحد.</li>
+<li><strong>حلّ الصراعات المدعوم بالسياسات ومعرفات AI</strong> – تُعالَج
+الاختلافات بواسطة محرك سياسات ومحلّل AI، وليس عبر مقارنة يدوية
+للمرايا.</li>
+<li><strong>اتحاد قائم على مصدر وحيد للحقيقة</strong> – نموذج دفع شامل
+لجميع المصادر العليا حيث يكون مستودع واحد موثوقاً به هو الحقيقة، وكل مضيف
+هو مرآة تُحافظ على تزامنها التام.</li>
+<li><strong>اختبار صارم يفرضه دستور صارم</strong> – سبعة أنواع من
+الاختبارات بتغطية كاملة لكل نوع دون استثناءات، مثبتة بواسطة نص برمجي
+أخضر اللون يُنفّذ دفعةً واحدة بدلاً من الاعتماد على الثقة العمياء.</li>
+</ul>
+<h2 id="أكبر-التحديات-التقنية-وكيف-تم-التغلب-عليها">أكبر التحديات
+التقنية وكيف تمّ التغلب عليها</h2>
+<ul>
+<li><strong>الاختلافات والصراعات عبر مصادر عليا متعددة.</strong> يبدأ
+المستودع نفسه في الانحراف بمجرد قبول مضيفين مختلفين لتعديلات متباينة. تمّ
+حلّ هذه المشكلة عبر تدفقات حلّ الصراعات المدعومة بالسياسات ومعرفات AI
+والمرتكزة على مصدر وحيد للحقيقة، بالإضافة إلى دفع متزامن لجميع المصادر
+العليا يضمن تقارب جميع المرايا نحو تلك الحقيقة الواحدة.</li>
+<li><strong>دعم موحّد لمنصات Git غير المتجانسة.</strong> لكل منصة آليات
+مصادقة خاصة بها، وخصائص فريدة، ومعرفات API. تمّ التغلب على ذلك عبر نصوص
+ضبط لكل مصدر أعلى تحت مجلد <code>Upstreams/</code> وطبقة منصة تجرد تلك
+الاختلافات، بحيث يصبح إضافة منصة جديدة مسألة ضبط وليس إعادة كتابة.</li>
+<li><strong>إثبات الصحة قبل كل دمج.</strong> تمّ حلّ ذلك عبر مصفوفة
+اختبارات إلزامية من سبعة أنواع ونص برمجي
+<code>verify-everything.sh</code> يعمل كحاجز يُنفّذ مجموعة الفحوصات
+الكاملة – ويتوقف بشكل نظيف عند عدم إمكانية الوصول إلى أي مجموعة، بحيث
+يمكن إثبات الصحة محلياً كما في بيئة التكامل المستمر.</li>
+</ul>
+<h2 id="مجموعة-التقنيات">مجموعة التقنيات</h2>
+<ul>
+<li><strong>مستودع Go الأحادي</strong> – المحرك الأساسي والاتحاد: منصة
+تضم 18 خدمة، توليد أكواد، وهياكل أساسية، محفوظة في مستودع واحد بحيث تُبنى
+وتُختبر المنظومة بأكملها كوحدة واحدة.</li>
+<li><strong>Angular 19 + Nx</strong> – التطبيق الإلكتروني، حيث يوفر Nx
+بنية بناء وتخزين مؤقت للمستودع الأحادي الذي تحتاجه الواجهة الأمامية
+الكبيرة.</li>
+<li><strong>Kotlin Multiplatform + Compose</strong> – أغلفة التطبيقات
+الأصلية لنظامي Android وiOS وسطح المكتب، تُولّد من قاعدة أكواد مشتركة،
+بحيث لا تعني ثلاثة منصات ثلاث تطبيقات منفصلة.</li>
+<li><strong>Kubernetes + Helm + Argo CD + Kustomize</strong> – النشر
+السحابي الأصلي: تُغلّف Helm الإصدار، وتتكيف طبقات Kustomize مع كل بيئة،
+بينما يُنسّق Argo CD عبر GitOps لضمان تطابق حالة المجموعة مع Git.</li>
+<li><strong>OPA (Rego)</strong> – السياسات ككود لحلّ الصراعات والتحكم في
+الوصول، مما يحافظ على قرارات التفويض واضحة وقابلة للتدقيق.</li>
+<li><strong>Docusaurus</strong> – موقع الوثائق العام
+(docs.helixgitpx.io)؛ <strong>Astro</strong> – الموقع التسويقي
+(helixgitpx.io)، حيث يُخصص كل أداة لنوع المحتوى المناسب.</li>
+<li><strong>mise</strong> – سلسلة أدوات مثبتة وقابلة للتكرار بحيث يبني
+كل مساهم وبيئة التكامل المستمر باستخدام الإصدارات ذاتها تماماً.</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="ملاحظات-حول-الحالة-والنزاهة">ملاحظات حول الحالة والنزاهة</h2>
+<ul>
+<li><strong>الحالة: تم الشحن.</strong> يُعلن ملف README للمشروع عن
+الإصدار v1.0.0 GA مع وضع علامات على المراحل من
+<code>m1-foundation</code> وحتى <code>m8-ga</code>. (“v1.0.0 GA” هو ما
+يدّعيه ملف README للمشروع نفسه).</li>
+<li><strong>الرخصة: لم تُحدّد بعد.</strong> تشير تقارير GitHub وAPI إلى
+رخصة <code>MIT</code>، بينما يذكر قسم الرخصة في ملف README رخصة
+Apache-2.0 (للبرنامج) وCC-BY-SA-4.0 (للمستندات) — ينبغي التحقق من ملف
+LICENSE الفعلي قبل النشر.</li>
+<li>عناوين الوثائق (docs.helixgitpx.io) والتسويق (helixgitpx.io) مأخوذة
+من ملف README ولم يتم جلبها بشكل مستقل — حالة التشغيل <strong>غير
+مؤكدة</strong>.</li>
+</ul>
+<p><strong>درجة الأولوية:</strong> Helix-أساسية.</p>
+</body>
+</html>

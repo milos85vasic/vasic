@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>لا يمكن لأي مستند مُتعقَّب أن يخرج عن التزامن — مُجزَّأ المحتوى،
+ثنائي الاتجاه، ذري.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>Docs Chain هو محرك شامل لتنفيذ التبعيات ثنائية الاتجاه بين المستندات
+وقواعد البيانات، يعتمد على Go. عند تغيير أي عنصر في سلسلة مسجلة — سواء
+كان مصدر Markdown أو تصدير من نوع HTML/PDF/DOCX أو قاعدة بيانات SQLite —
+يقوم المحرك باكتشاف التغيير عبر تجزئة المحتوى وينشره عبر جميع العناصر
+المتصلة بشكل ذري.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>محرك Go يحافظ على تزامن المستندات وقواعد البيانات. باستخدام إعادة
+الحساب التزايدي المُجزَّأ المحتوى بأسلوب Salsa عبر رسم بياني موجه (ترتيب
+طوبولوجي Kahn، قطع مبكر، حواف مزامنة ثنائية الاتجاه، عمليات إعادة تسمية
+ذرية + التزام معاملات SQLite)، يقوم بإعادة توليد التصديرات عند تغيير أي
+عنصر مرتبط.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>Docs Chain هو ما تبنيه بعد كتابة نفس السكربت الهش “أعد توليد PDF عند
+تغيير Markdown” مرة واحدة أكثر من اللازم. يحل هذا المحرك محل فئة كاملة
+من أدوات المزامنة اليدوية بمحرك حقيقي. فهو يعامل مستندات المشروع وقواعد
+البيانات كأعضاء في سلسلة، وعند تغيير أي عضو، يقوم بنشر هذا التغيير عبر
+جميع الأعضاء المتصلين في كل اتجاه مُعلن عنه — لإعادة التوليد والتصدير
+بشكل ذري لضمان عدم خروج أي عنصر متعقب عن التزامن، أبداً. يعتمد التصميم
+على الصرامة المستمدة من أنظمة البناء التزايدي بدلاً من السكربتات: يتم
+اكتشاف التغييرات عبر <strong>تجزئة المحتوى، وليس وقت التعديل</strong>،
+لذا فإن أمر <code>touch</code> لا يُطلق أي شيء، بينما يؤدي تعديل بحرف
+واحد إلى إعادة البناء بالضبط لما يجب إعادة بنائه — دون إنذارات كاذبة أو
+تغييرات مفقودة. وبصياغة رسمية في سطر واحد، فهو إعادة حساب تزايدي مُجزَّأ
+المحتوى بأسلوب Salsa عبر رسم بياني موجه، مع ترتيب طوبولوجي Kahn، وقطع
+مبكر يتجاهل الفروع الفرعية دون تغيير، وحواف مزامنة ثنائية الاتجاه ذات
+سلطة مُعلن عنها، بالإضافة إلى إعادة تسمية ذرية والتزام معاملات SQLite
+لضمان عدم ترك أي تصدير نصف مكتوب في حال حدوث عطل أثناء النشر. يُوزَّع
+المحرك كوحدة فرعية لـ <code>vasic-digital</code> ويُستخدم كجزء أساسي من
+الوحدة الفرعية HelixConstitution، بحيث يحصل أي مشروع يتبنى الدستور على
+Docs Chain تلقائياً ويسجل سلاسله الخاصة عبر YAML لكل سياق. يُظهر التنفيذ
+حالته بوضوح (وفقاً للمادة 11.4.6 من الدستور): تم تنفيذ واختبار المراحل
+1–4 (الرسم البياني الموجه الأساسي + التجزئة، محولات/تحولات العقد، منسق
+النشر مع الذرية، CLI متعدد السياقات مدفوع بالتكوين مع أوامر
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)؛
+تضيف المرحلة 4b أدوات مدمجة ثنائية الاتجاه مثل
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> (نقية Go، انحراف على
+مستوى الصف، رحلة ذهاب وإياب مستقرة بالبايت) وأداة
+<code>colorize-html</code>؛ تم تنفيذ المرحلة 5 (اختبار شامل ثنائي
+النهاية في العالم الحقيقي) وهي خضراء. تبقى المراحل 6–7 (توزيع الدستور،
+توصيل ATMOSphere) مُخططاً لها ومقيدة بالمشغل. Herald هو أول مستهلك حقيقي
+في المصب، حيث يقوم بمزامنة مجموعة متعددة التنسيقات تتألف من 66 مستنداً
+تحقق نظافة التزامن.</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>تنفصل الوثائق والتصديرات وقواعد البيانات عن بعضها لحظة صيانتها يدوياً
+أو عبر سكربتات هشة. يجعل Docs Chain المزامنة آلية، دقيقة عبر تجزئة
+المحتوى، وذرية، بحيث يؤدي التغيير في أي مكان من السلسلة إلى تحديث كل شيء
+في المصب (والأعلى) بشكل صحيح وآمن.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-ثورة-في-المجال">لماذا يُعدّ ثورةً في المجال</h2>
+<p>يستعير هذا النظام الضمانات الدقيقة التي يأخذها مؤلفو المترجمات وأنظمة
+البناء كأمر مسلّم به — مثل الرسوم البيانية للتبعيات المعتمدة على تجزئة
+المحتوى، وإعادة الحساب بأقل جهد ممكن، والالتزامات الذرية — ويوجّهها نحو
+مجال الوثائق وقواعد البيانات، الذي ظلّ يعتمد تاريخياً على مهام cron
+والنوايا الحسنة. يضمن المزامنة الثنائية الحقيقية فرض العلاقة بين المصدر
+وصادره في كلا الاتجاهين، بحيث تتحوّل عبارة “الوثائق قديمة” و”الصادر لا
+يتطابق مع المصدر” من أخطاء متكررة إلى حالات لن يسمح المحرّك بوجودها
+أصلاً.</p>
+<h2 id="ما-الجديد">ما الجديد؟</h2>
+<ul>
+<li>إعادة حساب تدريجية معتمدة على تجزئة المحتوى (وليس وقت التعديل) عبر
+رسم بياني موجه غير دوري مع إيقاف مبكر.</li>
+<li>حواف مزامنة ثنائية الاتجاه ذات سلطة معلنة (الوثائق ↔︎ الصادرات ↔︎
+SQLite).</li>
+<li>التزام ذري بإعادة تسمية + معاملة SQLite لضمان انتشار آمن حتى في حال
+الأعطال.</li>
+<li>رحلة ذهاب وإياب خالصة بـ Go من
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> مع كشف الانحراف على
+مستوى الصفوف.</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>إعادة بناء غير ضرورية:</strong> تم حلّها بالكشف عن تجزئة
+المحتوى بدلاً من الطوابع الزمنية.</li>
+<li><strong>تحديثات جزئية أو فاسدة:</strong> تم حلّها بإعادة التسمية
+الذرية ومعاملات SQLite.</li>
+<li><strong>ترتيب الأعضاء المتعدد الصحيح:</strong> تم حلّه بترتيب كان
+الطوبولوجي مع إيقاف مبكر.</li>
+<li><strong>الإبلاغ الصادق عن القدرات:</strong> تم حلّه بوضع علامة على كل
+مرحلة بأنها مُنفّذة أو مُخطط لها وفقاً للفقرة 11.4.6.</li>
+</ul>
+<h2 id="المكدس-التقني-السبب-وكيفية-العمل">المكدس التقني (السبب وكيفية
+العمل)</h2>
+<ul>
+<li><strong>Go</strong> — المحرّك بأكمله (<code>internal/hash</code>،
+<code>graph</code>، <code>adapter</code>، <code>orchestrator</code>،
+<code>config</code>، <code>state</code>، <code>runner</code>،
+<code>cmd/docs_chain</code>).</li>
+<li><strong>الرسم البياني الموجه غير الدوري + ترتيب كان
+الطوبولوجي</strong> — ترتيب التبعيات مع إيقاف مبكر.</li>
+<li><strong>SQLite (نسخة خالصة من Go بمكتبة modernc)</strong> — الأعضاء
+في قاعدة البيانات والالتزامات المعاملاتية.</li>
+<li><strong>fsnotify</strong> — خادم <code>watch</code> للبث
+المباشر.</li>
+<li><strong>تكوين YAML</strong> — تسجيل السلاسل حسب السياق.</li>
+<li><strong>exec: التحويلات</strong> — توليد قابل للتوصيل من Markdown
+إلى HTML/PDF/DOCX.</li>
+</ul>
+<blockquote>
+<p>الصراحة في خارطة الطريق: المرحلتان 6–7 (توزيع الدستور، توصيل
+ATMOSphere) مُخطط لهما / محكومة بالتشغيل — ولم تُصدر بعد.</p>
+</blockquote>
+</body>
+</html>

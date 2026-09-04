@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>backlog</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">backlog</h1>
+</header>
+<h1 id="milestone-backlog">Milestone Backlog</h1>
+<p>Ordered by the strength of the evidence behind each item. Every entry
+below is something the repository already names as remaining work —
+nothing here is speculative roadmap.</p>
+<p>Item numbers are <strong>stable identifiers</strong>, not positions:
+when an item closes it moves to “Closed” at the foot of this file and
+its number is retired, leaving a gap in the open list. A gap therefore
+means <em>done</em>, never <em>missing</em>.</p>
+<h2
+id="resolve-the-two-11.4.156-ci-conflicts-oc-1-oc-2-decided-2026-08-27-partly-closed">1.
+<del>Resolve the two §11.4.156 CI conflicts (OC-1, OC-2)</del> — DECIDED
+2026-08-27, partly closed</h2>
+<p><del>Operator decision, blocked on G5. Root
+<code>.github/workflows/ci.yml</code> and
+<code>milosvasic.ru/.github/workflows/pages.yml</code>. Three permitted
+resolutions are enumerated in <code>Constitution.md</code> OC-1; an
+agent may not pick one.</del></p>
+<p><strong>Decided; not a backlog item any more.</strong> Two
+corrections to the text above: the <em>“three permitted
+resolutions”</em> were only two — an <code>Override §11.4.156</code>
+does not exist (§11.4.156 refuses the exemption vocabulary by name, and
+a consumer carrier may only extend inherited rules) — and the outcome
+differs per file.</p>
+<ul>
+<li><strong>OC-1 — DONE.</strong> <code>.github/workflows/ci.yml</code>
+→ <code>ci.yml.disabled</code>; gates run from
+<code>scripts/pre-push-gates.sh</code> via an installed
+<code>.git/hooks/pre-push</code>. The G5 precondition was satisfied by
+the same work.</li>
+<li><strong>OC-2 — WILL NOT BE DONE.</strong>
+<code>milosvasic.ru/.github/workflows/pages.yml</code> is <strong>ACTIVE
+and stays active</strong>: <code>build_type: "workflow"</code> makes it
+the sole publish path for the live production site. Operator directive:
+<em>“Make sure all pages websites work flawlessly! No website can be
+broken! All websites we have here are running deployed in
+production!”</em> Recorded as a <strong>documented deviation, not an
+override</strong>.</li>
+<li><strong>OC-2b — no remedy exists.</strong>
+<code>vasic.digital</code> triggers
+<code>pages build and deployment</code> on every push from its Pages
+source setting (<code>build_type: "legacy"</code>) with zero workflow
+files in its tree.</li>
+</ul>
+<p>Never propose disabling <code>pages.yml</code>, and never write
+either deviation up as an <code>Override §11.4.156</code>. Record:
+<code>docs/constitution-adoption/DECISION-11-4-156-COMPLY.md</code>
+§0.</p>
+<h2 id="stand-up-the-11.4.75-five-layer-local-enforcement-gap-g5">2.
+Stand up the §11.4.75 five-layer local enforcement (gap G5)</h2>
+<p>The commit wrapper is in place; <strong>git hooks are not</strong>.
+The only non-sample hook at this root is the <code>ashlr</code> genome
+<code>post-commit</code> watcher, which is not a governance layer. This
+is the prerequisite for item 1.</p>
+<h2 id="write-scriptsverify-governance-cascade.sh-oc-3-gap-g3">3. Write
+<code>scripts/verify-governance-cascade.sh</code> (OC-3, gap G3)</h2>
+<p>§11.4.32 step 1 currently reports SKIP-with-reason and never counts
+as a pass.</p>
+<h2 id="apply-the-staged-carriers-to-the-owned-submodules-gap-g7">4.
+Apply the staged carriers to the owned submodules (gap G7)</h2>
+<p>Drafts exist for all five owned submodules under
+<code>docs/constitution-adoption/propagation/</code>. Submodule-first,
+operator-applied, per <code>APPLY.md</code>. Closing this removes the
+one <em>owned</em> carrier (<code>vasic.digital/QWEN.md</code>) from the
+propagation gates’ MISSING list.</p>
+<h2 id="wire-the-pretooluse-forbidden-command-guard-gap-g12">5. Wire the
+<code>PreToolUse</code> forbidden-command guard (gap G12)</h2>
+<p><code>submodules/constitution/scripts/hooks/guard-forbidden-commands.sh</code>
+is present and connected to nothing.</p>
+<h2 id="close-cm-opendesign-ui-system-_testsgates.md">6. Close
+<code>CM-OPENDESIGN-UI-SYSTEM</code> (<code>_tests/GATES.md</code>)</h2>
+<p>Three named sub-items, all currently absent: - a self-validated
+analyzer with golden-good/golden-bad proving the token check can FAIL; -
+a lint proving <strong>zero</strong> non-token colour/space literals
+across CSS and inline styles; - consuming OpenDesign as an external
+dependency rather than as generated output.</p>
+<h2 id="complete-4-tag-mirroring-gap-g10">7. Complete §4 tag mirroring
+(gap G10)</h2>
+<p><code>v1.8.0</code> reached <code>milosvasic.ru</code> and
+<code>vasic.digital</code> only. <code>ai_interviewing</code> and
+<code>monetization</code> have <strong>no reachable tag</strong> at
+their pinned commits.</p>
+<h2 id="markdown-exports-gap-g8">8. §11.4.65 markdown exports (gap
+G8)</h2>
+<p>No <code>.html</code>/<code>.pdf</code> siblings anywhere —
+<code>Constitution.md</code> and
+<code>docs/constitution-adoption/README.md</code> each disclose the
+deviation about themselves at the top of the file.</p>
+<h2 id="de-duplicate-the-design-toolkit-checkout-gap-g11">9.
+De-duplicate the <code>design-toolkit</code> checkout (gap G11)</h2>
+<p>Declared in <code>helix-deps.yaml</code>; two checkouts, shas
+matching at capture time.</p>
+<h2 id="add-a-root-continuation.md-12.10">10. Add a root
+<code>CONTINUATION.md</code> (§12.10)</h2>
+<p><code>CLAUDE.md:189-190</code> records its absence; the restated rule
+currently describes a universal obligation with no artifact behind it
+here.</p>
+<h2 id="reconcile-the-milosvasic.ru-fetchpush-asymmetry">12. Reconcile
+the <code>milosvasic.ru</code> fetch/push asymmetry</h2>
+<p>Operator decision — either add <code>milosvasic.ru.git</code> to
+<code>origin</code>’s push list, or repoint the fetch URL and the
+<code>.gitmodules</code> entry at <code>milosvasic.net.v2</code>. Full
+hazard write-up in <code>Constitution.md</code>; summary in
+<code>knowledge/workspace.md</code>.</p>
+<h2 id="fix-the-11.4.212-readme-orphan-gap-g9">13. Fix the §11.4.212
+README-orphan (gap G9)</h2>
+<p><code>README.md</code> links to nothing but the CI badge, while a
+substantial documentation tree exists under <code>docs/</code> and
+<code>_analysis/</code>.</p>
+<hr />
+<h2 id="closed">Closed</h2>
+<h3
+id="repair-the-two-hardcoded-absolute-build-paths-done-2026-08-27"><del>11.
+Repair the two hardcoded absolute build paths</del> — <strong>DONE
+2026-08-27</strong></h3>
+<p>Closed against live files, not against a claim:</p>
+<ul>
+<li><code>_tools/deploy-langs.sh:14</code> derives the root —
+<code>ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)"</code>
+— and line 15 makes the <code>cd</code> <strong>fatal</strong>, which
+also closes the silent-failure half of the bug (the script runs
+<code>set -uo pipefail</code> without <code>-e</code>). Line 8 is now a
+comment recording the history.</li>
+<li><code>_tests/playwright.config.js:7</code> —
+<code>const REPO = path.resolve(__dirname, '..');</code>; no
+machine-specific literal remains in the file.</li>
+<li><code>.github/workflows/ci.yml:44-52</code> and
+<code>:182-184</code> — the symlink workaround that this item called
+“deliberate” has been <strong>removed</strong>, and both notes are
+phrased as history.</li>
+<li>The sweep removed <strong>33 occurrences across 18
+files</strong>.</li>
+<li>Relapse guard: <code>scripts/audit-hardcoded-paths.sh</code> runs as
+CI <strong>Gate 0</strong>
+(<code>.github/workflows/ci.yml:131-140</code>), exits non-zero on any
+machine-specific absolute root, and currently exits 0 on this tree.</li>
+</ul>
+<p>Narrative in <code>knowledge/discoveries.md</code>; prevention rule
+in <code>vision/anti-patterns.md</code>.</p>
+</body>
+</html>

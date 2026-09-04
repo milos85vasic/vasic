@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>आपकी सभी AI अनुमान आवश्यकताओं के लिए एक मंच — शक्तिशाली AI मॉडल्स को
+तेज़ी से, चतुराई से, किसी भी पैमाने पर और पूर्वानुमानित लागत के साथ
+चलाएँ।</strong></p>
+<blockquote>
+<p><strong>सटीकता नोटिस (Helix Constitution §11.4.6):</strong>
+Helix-Flow का एक वास्तविक, सार्वजनिक स्रोत भंडार है, लेकिन इसकी README केवल एक
+टैगलाइन है और न तो स्थानीय चेकआउट उपलब्ध है और न ही डिज़ाइन/आर्किटेक्चर दस्तावेज़।
+केवल दो चीज़ें वास्तव में दर्ज हैं: टैगलाइन और भंडार की भाषा संरचना। बाकी सभी विवरण
+या तो छोड़े गए हैं या स्पष्ट रूप से अप्रमाणित (UNVERIFIED) चिह्नित हैं। यह पृष्ठ एक
+न्यूनतम प्लेसहोल्डर है, पूर्ण उत्पाद विवरण नहीं, और तब तक विस्तारित नहीं किया जाना
+चाहिए जब तक वास्तविक स्रोत सामग्री उपलब्ध न हो।</p>
+</blockquote>
+<h2 id="सरश">सारांश</h2>
+<p>Helix-Flow प्लेटफ़ॉर्म को AI अनुमान के लिए एक एकीकृत मंच के रूप में प्रस्तुत किया
+गया है — शक्तिशाली मॉडल्स को तेज़ी से, किसी भी पैमाने पर और पूर्वानुमानित लागत के
+साथ चलाने वाला। <em>(स्थिति केवल टैगलाइन से ली गई है; ठोस क्षमताओं का किसी उपलब्ध
+स्रोत में दस्तावेज़ीकरण नहीं है।)</em></p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>Helix-Flow प्लेटफ़ॉर्म (<code>Helix-Flow/Platform</code>) एक सार्वजनिक,
+Go-आधारित परियोजना है जिसे AI अनुमान के लिए किसी भी पैमाने पर पूर्वानुमानित लागत
+के साथ एकल मंच के रूप में प्रस्तुत किया गया है। इसका कोडबेस Go, Python और
+Terraform/HCL का मिश्रण है, जो इंफ्रास्ट्रक्चर-एज़-कोड द्वारा प्रबंधित डिप्लॉयमेंट के
+साथ एक अनुमान प्लेटफ़ॉर्म का संकेत देता है। टैगलाइन से परे क्षमताएँ अप्रमाणित हैं।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>Helix-Flow प्लेटफ़ॉर्म <code>Helix-Flow</code> GitHub संगठन का एकमात्र भंडार
+है और इसे — अपनी एक-पंक्ति README के माध्यम से — “आपकी सभी AI अनुमान आवश्यकताओं के
+लिए एक मंच” के रूप में प्रस्तुत किया गया है, जिसमें शक्तिशाली AI मॉडल्स को तेज़ी से और
+किसी भी पैमाने पर पूर्वानुमानित लागत के साथ चलाने पर जोर दिया गया है। इसके अलावा,
+परियोजना में कोई विस्तृत दस्तावेज़ नहीं है, इसलिए इसके आर्किटेक्चर, विशेषताओं और डिज़ाइन
+का स्रोत के आधार पर वर्णन संभव नहीं है।</p>
+<p>जो <em>तथ्यात्मक रूप से देखा जा सकता है</em>, वह है भंडार की भाषा संरचना: यह
+मुख्य रूप से लगभग समान अनुपात में Go और Python पर आधारित है, जिसमें पर्याप्त Shell के
+साथ-साथ HTML/CSS/JavaScript (वेब इंटरफ़ेस), PL/pgSQL (PostgreSQL-समर्थित
+घटक), HCL (Terraform/इंफ्रास्ट्रक्चर-एज़-कोड), और Mermaid (आरेख) शामिल हैं। इन
+सभी को मिलाकर यह मिश्रण <em>एक अनुमान-सर्विंग प्लेटफ़ॉर्म के अनुरूप है</em>, जिसमें Go
+नियंत्रण/सर्विंग परत, Python मॉडल टूलिंग, PostgreSQL डेटास्टोर, वेब यूआई और
+IaC-प्रबंधित क्लाउड डिप्लॉयमेंट शामिल है — लेकिन यह व्याख्या फ़ाइल प्रकारों से अनुमानित
+है, <strong>दस्तावेज़ीकृत दावा नहीं</strong>। सटीक उत्पाद विवरण (प्रेरणा, नवाचार,
+तकनीकी चुनौतियाँ, ठोस तकनीकी-स्टैक तर्क) के लिए वास्तविक README, आर्किटेक्चर
+दस्तावेज़ या स्थानीय चेकआउट आवश्यक है। यह पृष्ठ जानबूझकर उपलब्ध स्रोतों द्वारा समर्थित
+सीमा तक ही सीमित है।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p><em>अप्रमाणित — किसी उपलब्ध स्रोत में दस्तावेज़ीकृत नहीं।</em> टैगलाइन से एकीकृत,
+मापनीय AI अनुमान और पूर्वानुमानित/नियंत्रित लागत का लक्ष्य प्रकट होता है, लेकिन कोई
+तर्क नहीं दिया गया है। यहाँ कोई प्रेरणा नहीं बताई गई है।</p>
+<h2 id="यह-गम-चजर-कय-ह">यह गेम-चेंजर क्यों है</h2>
+<p>सामग्री</p>
+<p><em>असत्यापित — दस्तावेज़ीकरण नहीं किया गया।</em> स्रोत मिलने तक छोड़ दिया
+गया।</p>
+<h2 id="कय-नवन-ह">क्या नवीन है</h2>
+<p><em>असत्यापित — दस्तावेज़ीकरण नहीं किया गया।</em> स्रोत मिलने तक छोड़ दिया
+गया।</p>
+<h2 id="सबस-बड-तकनक-चनतय-और-उनक-समधन">सबसे बड़ी तकनीकी चुनौतियाँ और उनके
+समाधान</h2>
+<p><em>असत्यापित — दस्तावेज़ीकरण नहीं किया गया।</em> स्रोत मिलने तक छोड़ दिया
+गया।</p>
+<h2 id="तकनक-सरचन-टक-सटक">तकनीकी संरचना (टेक स्टैक)</h2>
+<p>केवल रिपॉजिटरी की भाषा संरचना से अनुमानित — भूमिका और तर्क असत्यापित:</p>
+<ul>
+<li><strong>Go</strong> — प्राथमिक भाषा; संभवतः सर्विंग/नियंत्रण परत।
+<em>(भूमिका असत्यापित।)</em></li>
+<li><strong>Python</strong> — लगभग समान हिस्सेदारी; संभवतः मॉडल/अनुमान
+उपकरण। <em>(भूमिका असत्यापित।)</em></li>
+<li><strong>Shell</strong> — निर्माण/तैनाती/स्वचालन स्क्रिप्टिंग। <em>(भूमिका
+असत्यापित।)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — एक संबंधपरक डेटा स्टोर घटक मौजूद
+है।</li>
+<li><strong>Terraform / HCL</strong> — इंफ्रास्ट्रक्चर-एज़-कोड, जिससे
+क्लाउड-आधारित तैनाती का संकेत मिलता है।</li>
+<li><strong>HTML / CSS / JavaScript</strong> — एक वेब यूआई या दस्तावेज़ीकरण
+इंटरफ़ेस।</li>
+</ul>
+<h2 id="सथत-और-ईमनदर-स-सबधत-टपपणय">स्थिति और ईमानदारी से संबंधित
+टिप्पणियाँ</h2>
+<ul>
+<li><strong>स्थिति: रोडमैप / प्लेसहोल्डर।</strong> यह <code>Helix-Flow</code>
+संगठन का एकमात्र रिपॉजिटरी है; यह सार्वजनिक है, अंतिम पुश 27-04-2026 को हुआ था,
+इसकी कोई होमपेज सेट नहीं है और न ही कोई लाइसेंस घोषित है। जब तक वास्तविक
+दस्तावेज़ीकरण उपलब्ध नहीं होता, इसे उत्पाद के स्तर पर जिम्मेदारीपूर्वक प्रस्तुत नहीं किया
+जा सकता।</li>
+<li><strong>लाइसेंस: निर्धारित किया जाना शेष</strong> (रिपॉजिटरी पर सेट नहीं
+है)।</li>
+</ul>
+<p><strong>प्राथमिकता स्तर:</strong> Helix-प्राथमिक (Helix-प्लेटफ़ॉर्म-परिवार
+का एक अनुमान उत्पाद), लेकिन वर्तमान में स्रोत सामग्री पर अटका हुआ है। HelixTrack के
+बाद आता है।</p>
+</body>
+</html>

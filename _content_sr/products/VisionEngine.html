@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<p><strong>Посматрајте кориснички интерфејс као корисник — рачунарски
+вид плус LLM вид за анализу и навигацију.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>VisionEngine је одвојени Go алат који комбинује класични рачунарски
+вид са LLM заснованим видом како би анализирао корисничке интерфејсе,
+откривао UI елементе и визуелне проблеме, те градио навигационе графове
+прелаза између екрана апликације — са прикључивим вишекорисничким
+видовним позадинама и OpenCV-ом заштићеним иза ознаке за изградњу.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Поново употребљив Go модул за анализу UI-а и изградњу навигационог
+графа. Нуди слој анализатора (UI елементи, разлике између екрана,
+визуелни проблеми), навигациони граф са BFS претрагом путева и извозом у
+ДОТ/JSON/Mermaid формату, као и LLM-визијске адаптере за GPT-4о, Claude,
+Gemini, Qwen-ВЛ и друге.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Већина аутоматизованих тестова корисничког интерфејса је у суштини
+слепа. Ослања се на стабла приступачности и DOM селекторе — машински
+појам интерфејса — и пропушта све оно што човек стварно доживљава: да ли
+је дугме видљиво рендеровано, да ли је распоред покварен, да ли је екран
+на који је стигао онај који је очекивао. VisionEngine премошћује ту
+празнину дајући аутоматизацији право опажање, способност да погледа UI и
+размишља о њему на начин на који би то учинила особа. Организован је у
+четири кооперативна слоја који се граде од сирових пиксела до разумевања
+целе апликације. <strong>Анализатор</strong> дефинише стабилан уговор —
+интерфејсе (<code>Analyzer</code>, <code>VideoProcessor</code>) и типове
+вредности (<code>UIElement</code>, <code>ScreenAnalysis</code>,
+<code>ScreenDiff</code>, <code>Rect</code>, <code>Size</code>,
+<code>TextRegion</code>, <code>VisualIssue</code>,
+<code>ScreenIdentity</code>, <code>Action</code>, <code>KeyFrame</code>)
+са референтном имплементацијом <code>StubAnalyzer</code> — тако да
+корисници могу да откривају елементе, упоређују екране и откривају
+визуелне проблеме у односу на уговор који се неће мењати под њима.
+<strong>Навигациони граф</strong> подиже перспективу са појединачног
+екрана на целу апликацију, моделујући је као усмерени граф прелаза
+између екрана са BFS претрагом путева и три извозна формата (ДОТ, JSON,
+Mermaid), тако да аутоматизација не само да види екран, већ може да
+планира пут до било ког другог — а испоручује се са тестовима за стрес,
+аутоматизацију, интеграцију и безбедност како би се то доказало. Слој
+<strong>LLM вида</strong> додаје савремено мултимодално резоновање:
+интерфејс <code>VisionProvider</code> са адаптерима за OpenAI (GPT-4о),
+Anthropic (Claude), Gemini, Qwen-ВЛ, Kimi, StepGUI, Астица и Ollama,
+састављен преко <code>FallbackChain</code>-а тако да неуспешан,
+ограничен бројем захтева или слабији провајдер отказује поступно, уместо
+да повуче цео процес са собом. Слој <strong>Конфигурације</strong>
+обрађује учитавање и валидацију променљивих окружења, при чему се свака
+порука о грешци која је видљива кориснику прослеђује кроз
+<code>i18n.Translator</code>.</p>
+<p>Одлука која све ово чини заиста примењивим јесте чињеница да тешка
+зависност од нативних библиотека није обавезна. OpenCV везе су заштићене
+ознаком за изградњу иза <code>-tags vision</code>, а подразумевана
+верзија испоручује се са стубовима — тако да цео модул може да се
+компајлира, тестира и покреће на било ком Go 1.25+ хосту без OpenCV
+алата у видокругу, а нативни стек се укључује само када корисник то
+експлицитно захтева. Управо то омогућава да се VisionEngine интегрише у
+обичан ЦИ покретач без потребе за прилагођеном сликом. Потпуно одвојен у
+складу са уставом (ЦОНСТ-051(Б)), укључује се у системе корисника —
+посебно у HelixQA — као подмодул једнаког кода, дајући тестирању UI-а
+заснованом на доказима прави пар очију.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Аутоматизација тестирања корисничког интерфејса која се ослања
+искључиво на стабла приступачности или селекторе пропушта оно што
+корисник заправо види. VisionEngine додаје праву визуелну интелигенцију
+— детекцију елемената, поређење екрана и закључивање засновано на
+LLM-визији — уз мапу навигације кроз екране апликације, тако да
+аутоматизација може и да опажа и да се креће кроз кориснички
+интерфејс.</p>
+<h2 id="зашто-је-револуционарно">Зашто је револуционарно</h2>
+<p>Спаја два иначе некомпатибилна приступа — брзу, детерминистичку
+класичну рачунарску визију и флексибилну, семантичку LLM-визију — иза
+јединственог интерфејса са ланцем резервних решења, тако да корисник
+добија прецизност једног и закључивање другог без потребе за избором. А
+задржавањем OpenCV-а као строго опционе компоненте, уклања се уобичајени
+трошак те моћи: сваки Go пројекат може стећи праву перцепцију
+корисничког интерфејса без увођења нативе визуелног алата у свој буилд
+процес.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Двострука перцепција: класична рачунарска визија (OpenCV/GoCV) плус
+LLM-визија са више провајдера и ланцем резервних решења.</li>
+<li>Граф навигације са BFS алгоритмом за проналажење путања и извозом у
+ДОТ/JSON/Mermaid форматима.</li>
+<li>OpenCV контролисан буилд-таговима како би модул остао
+изградив/тестабилан без нативе зависности.</li>
+<li>Потпуно одвојен, интернационализован, подмодул са истом кодном базом
+(користи га HelixQA).</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Проблем са тешким нативе зависностима:</strong> решено
+помоћу <code>-tags vision</code> гате-а и подразумеваних стубова како би
+ЦИ/хост системи без OpenCV-а и даље могли да се граде и тестирају.</li>
+<li><strong>Непоузданост провајдера визије:</strong> решено интерфејсом
+<code>VisionProvider</code> и композитором
+<code>FallbackChain</code>.</li>
+<li><strong>Мапирање сложених токова апликације:</strong> решено
+усмереним графом навигације уз BFS алгоритам за проналажење путања и
+извоз у више формата.</li>
+<li><strong>Спајање компонената:</strong> решено помоћу ЦОНСТ-051(Б)
+децоуплинг-а и шава за интернационализацију.</li>
+</ul>
+<h2 id="технолошки-стацк-зашто-како">Технолошки стацк (зашто +
+како)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — језгро модула и сва четири слоја.</li>
+<li><strong>GoCV / OpenCV</strong> — класична рачунарска визија,
+контролисана буилд-таговима.</li>
+<li><strong>Провајдери LLM-визије (GPT-4о, Claude, Gemini, Qwen-ВЛ,
+Kimi, StepGUI, Астица, Ollama)</strong> — мултимодално закључивање о
+корисничком интерфејсу путем адаптера.</li>
+<li><strong>Графовски алгоритми (BFS)</strong> — проналажење путања у
+навигацији.</li>
+<li><strong>ДОТ / JSON / Mermaid извозници</strong> — визуализација
+графа навигације.</li>
+<li><strong>и18н преводилац</strong> — одвојене корисничке
+стрингове.</li>
+</ul>
+</body>
+</html>

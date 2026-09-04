@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>batch2-forms</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">batch2-forms</h1>
+</header>
+<p>You are OpenDesign extending an existing, production design system.
+Output a SINGLE valid CSS fragment and NOTHING else — no HTML, no
+Markdown, no commentary, no code fences, no :root token block (tokens
+already exist).</p>
+<p>CONTEXT — the following OpenDesign tokens are ALREADY declared by the
+brand stylesheet and are the ONLY colors/values you may use. Never
+invent a color, never hardcode a hex/rgb; every color MUST be a
+var(–od-*). Use spacing/radius/shadow/motion tokens for sizing wherever
+a token applies; only use a bare structural pixel (1px/2px borders,
+small control dimensions like a 20px checkbox) where NO token can apply,
+exactly like the base system does.</p>
+<p>Available tokens: - Color: –od-bg, –od-surface, –od-surface-2,
+–od-text, –od-text-muted, –od-border, –od-accent, –od-accent-hover,
+–od-accent-active, –od-on-accent, –od-focus, –od-success, –od-warning,
+–od-danger, –od-accent-50..900, –od-shadow-color. - Type:
+–od-font-display/-body/-mono; –od-fs-xs..-3xl;
+–od-lh-tight/-normal/-loose; –od-tracking-tight/-normal/-wide. - Space:
+–od-space-1..-12. Radius: –od-radius-sm/-md/-lg/-xl/-pill. Shadow:
+–od-shadow-sm/-md/-lg. - Motion: –od-dur-fast/-base/-slow,
+–od-ease-standard/-emphasized.</p>
+<p>RULES: 1) Every class prefixed <code>od-</code>. Correct in BOTH
+light and dark purely by inheriting tokens (write NO dark override). 2)
+Custom form controls must be keyboard-accessible: style the real
+<code>&lt;input&gt;</code> where possible and add a visible focus ring
+<code>outline: 2px solid var(--od-focus); outline-offset: 2px;</code> on
+<code>:focus-visible</code> (for controls that hide the native input,
+put the ring on the visual proxy via <code>:focus-visible + ...</code>
+or <code>:has(:focus-visible)</code>). 3) WCAG 2.2 AA contrast.
+Checked/selected state uses –od-accent with –od-on-accent glyphs.
+Disabled = opacity ~0.55 + not-allowed cursor. 4) End with a single
+<code>@media (prefers-reduced-motion: reduce)</code> block neutralizing
+this batch’s transitions/animations.</p>
+<p>GENERATE these components (this batch = FORMS): - od-switch (toggle):
+label <code>od-switch</code>, hidden native
+<code>od-switch__input</code> (checkbox), visual
+<code>od-switch__track</code> (pill, –od-surface-2 off / –od-accent on)
+with <code>od-switch__thumb</code> (translateX on :checked,
+transform-only). Focus ring via <code>:has(:focus-visible)</code> on the
+track. Disabled state. - od-checkbox: <code>od-checkbox</code> label,
+<code>od-checkbox__input</code>, <code>od-checkbox__box</code> (border,
+radius-sm; on :checked → accent fill + on-accent check mark rendered
+with CSS, e.g. a rotated pseudo-element border). Indeterminate
+<code>[data-indeterminate]</code>. - od-radio: <code>od-radio</code>
+label, <code>od-radio__input</code>, <code>od-radio__dot</code>
+(circular; :checked → accent ring + accent dot). - od-range (slider):
+style <code>input[type="range"].od-range</code> cross-browser
+(<code>::-webkit-slider-runnable-track</code>,
+<code>::-webkit-slider-thumb</code>, <code>::-moz-range-track</code>,
+<code>::-moz-range-thumb</code>). Track uses –od-surface-2, filled/thumb
+use –od-accent, thumb has focus ring. - od-segmented (segmented
+control): <code>od-segmented</code> (inline-flex, surface-2 background,
+radius-pill/lg, padding-1), <code>od-segmented__option</code> (button;
+selected <code>[aria-selected="true"]</code> or
+<code>.is-selected</code> → surface/accent raised look with shadow-sm).
+Equal, no layout shift between states. - od-search:
+<code>od-search</code> wrapper (relative), <code>od-search__input</code>
+(od-input look with padding-inline-start for icon room),
+<code>od-search__icon</code> (absolute leading),
+<code>od-search__clear</code> (trailing button, hover). - od-stepper
+(number stepper): <code>od-stepper</code> (inline-flex, border,
+radius-md), <code>od-stepper__btn</code> (− / +, hover/active/disabled),
+<code>od-stepper__input</code> (centered number field, no spin buttons,
+borderless).</p>
+<p>Output only the CSS for these components plus the reduced-motion
+block. Begin directly with a <code>/* FORMS */</code> comment.</p>
+<p>STRICT TOKEN LIST — the ONLY surface tokens are –od-surface and
+–od-surface-2 (there is NO –od-surface-3). There is NO –od-border-hover
+(for a hover border use –od-text-muted or –od-accent). There is NO
+–od-fs-md (the scale is xs, sm, base, lg, xl, 2xl, 3xl). Do NOT
+reference any custom property that is not in the Available tokens list
+above.</p>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>メールサーバーをボス級に運用──JSONで記述し、どこにでもデプロイ</strong></p>
+<h2 id="概要">概要</h2>
+<p>Mail Server
+Factoryは、本番環境対応の自動メールサーバー構築ツールです。ユーザーがシンプルなJSON設定ファイルを記述すると、Factoryがそれを解釈し、対象OS上で必要なインストールと初期化をすべて実行。12種類の接続方式に対応した、Dockerベースの疎結合メールスタックをデプロイします。</p>
+<h2 id="簡単な説明">簡単な説明</h2>
+<p>Kotlin／Shellツールで、JSONの記述をもとに完全にインストールされたDocker化メールサーバーを構築します。12種類の接続方式（SSH、Docker、Kubernetes、AWS
+SSM、Azure、GCP、Libvirtなど）に対応し、包括的なセキュリティフレームワーク、25種類のLinuxディストリビューションをサポート。439件のテストをパスしています。</p>
+<h2 id="詳細説明">詳細説明</h2>
+<p>本格的でセキュアなメールサーバーを立ち上げることは、システム管理における古典的な通過儀礼の一つであり──同時に、最も確実に苦痛を伴う作業の一つでもあります。Postfix、Dovecot、TLS証明書、DNSレコード、ファイアウォールルール、そしてディストリビューションごとの癖をすべて完璧に揃える必要があり、一つでも設定を誤れば、メールが静かにバウンスされたり、オープンリレーになってしまったりします。Mail
+Server
+Factoryは、こうした長年の経験とエラーを生みやすいノウハウをすべてソフトウェアに封じ込めました。見知らぬOS上で各コンポーネントを手作業で設定する代わりに、エンドユーザーはJSONドキュメントで望む結果を記述するだけ。FactoryはそのJSONを読み込み、対象OS上で必要なインストールと初期化手順を正確に実行し、Docker上で動作するメールスタックを立ち上げます。各コンポーネントは疎結合設計となっており、水平スケーラビリティを確保しつつ、個々のコンポーネントを独立してアップグレードや置き換えが可能です。また、意図的にリーチに依存しない設計となっており、12種類の接続方式を通じて、同じツールと同じJSONでローカルマシン、SSH経由のリモートホスト、DockerやKubernetesランタイム、AWS
+SSM／Azureシリアルコンソール／GCP
+OSログイン経由のクラウドインスタンス、Libvirt上のVMなど、どこにでも同じ宣言的記述をデプロイできます。</p>
+<p>サポートするLinuxディストリビューションは25種類に及び、西側系（Ubuntu、Debian、CentOS、Fedora、AlmaLinux、Rocky、openSUSE）、ロシア系（ALT、Astra、ROSA）、中国系（openEuler、openKylin、Deepin）の各ファミリーに対応。preseed／kickstart／cloud-init／autoyastによる無人インストールや、テスト用のQEMUベースVM自動化も可能です。</p>
+<p>エンタープライズ機能も充実しており、AES-256-GCM暗号化、パスワードおよびSSH鍵ポリシーの強制、メールポート（25／587／465／993／995）用の自動ファイアウォール設定、TLS／SSL（証明書検証とHSTS対応）、監査ログ、RBACを備えています。運用面では、JVMチューニング（G1GC）、Caffeineキャッシュ、コネクションプーリング、Prometheus互換メトリクス、構造化ログ、設定のホットリロード、シークレット管理などをサポート。プロジェクトは439件のテストを100％パスし、SonarQubeクオリティゲートもクリーンな状態です。Server-Factory組織のフラッグシッププロジェクトとなっています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>セキュアで本番環境に対応したメールサーバーの構築は、エラーが発生しやすくOSに依存することで知られています。Mail
+Server
+Factoryは、その専門知識を宣言的なJSONモデルと実行エンジンに集約し、正確でセキュアなDocker化されたメールスタックを、手動でのステップバイステップ作業なしに、サポート対象のあらゆるターゲット上で再現可能にします。</p>
+<h2 id="なぜ画期的なのか">なぜ画期的なのか</h2>
+<p>メールサーバーのプロビジョニングを、専門家による数日間の「完璧を期す」作業から、設定ファイルの記述という行為へと格下げし、さらにその行為を12種類の接続方式と25のLinuxディストリビューションに対応させ、企業レベルのセキュリティデフォルトを最初から備えた形でポータブルにします。その結果は再現性があり、<em>検証可能</em>です。同じJSONからは常に同じセキュアなスタックが生成され、プロジェクトが報告する439件の合格テストとクリーンなSonarQubeゲートにより、作業を担うエンジン自体が評判に頼るのではなく、厳密に検証されています。</p>
+<h2 id="革新的な点">革新的な点</h2>
+<ul>
+<li>宣言的なJSON → ターゲットOS上での解釈型インストール／初期化。</li>
+<li>1つのツールで対応する12種類の接続方式（ローカル、SSH、Docker、Kubernetes、AWS
+SSM、Azure、GCP、Libvirtなど）。</li>
+<li>25種類のディストリビューションに対応した無人インストール（preseed/kickstart/cloud-init/autoyast）とQEMUによる自動化。</li>
+<li>疎結合のDocker化スタックによる独立したスケーリング／アップグレード。</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>OS／ディストリビューションの多様性</strong>：ディストリビューションごとのレシピ、無人インストール設定、QEMUベースのクロスディストリビューションテストで解決。</li>
+<li><strong>多数のデプロイターゲットへの対応</strong>：共通のインストールエンジンの下で12種類のプラガブルな接続方式を実装。</li>
+<li><strong>デフォルトでのセキュリティ</strong>：AES-256-GCM、強制的な鍵／パスワードポリシー、自動ファイアウォールルール、TLS／HSTSで解決。</li>
+<li><strong>正確性への信頼</strong>：439件のテストスイート（100％合格）とクリーンなSonarQubeゲートで解決。</li>
+</ul>
+<h2 id="技術スタック理由と方法">技術スタック（理由と方法）</h2>
+<ul>
+<li><strong>Kotlin</strong> —
+Factoryエンジンおよびインストールステップロジック（179Kバイト；Kotlin
+2.0.21）。</li>
+<li><strong>Shell</strong> —
+プロビジョニングスクリプト、ISO／QEMUマネージャー、OS自動化（バイト数で支配的）。</li>
+<li><strong>Docker</strong> —
+デプロイされた疎結合メールスタックのランタイム。</li>
+<li><strong>QEMU</strong> —
+クロスディストリビューションインストールおよびテストのためのVM自動化。</li>
+<li><strong>JSON</strong> — ユーザー向けの宣言的設定フォーマット。</li>
+<li><strong>Gradle 8.14.3／Java 17</strong> —
+ビルドツールチェーン。</li>
+<li><strong>Caffeine</strong> —
+マルチリージョンキャッシュ；<strong>G1GCチューニング済みJVM</strong>によるパフォーマンス向上。</li>
+<li><strong>Prometheus互換メトリクス</strong> —
+モニタリング；Grafana／ELK対応。</li>
+<li><strong>Sieve</strong> —
+メールフィルタリングルール（言語統計では小規模）。</li>
+</ul>
+<blockquote>
+<p>注：GitHubは、Server-Factory組織内でのフォークリポジトリを示します。AI製品ラインよりも前のもので、AIユーティリティではなく、成熟したDevOps／プロビジョニングのフラッグシップとして位置付けられています。</p>
+</blockquote>
+</body>
+</html>

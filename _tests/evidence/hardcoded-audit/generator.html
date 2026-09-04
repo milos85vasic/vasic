@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>generator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">generator</h1>
+</header>
+<h1
+id="hardcoded-content-audit-go-generator-_toolsgen.go">Hardcoded-content
+audit — Go generator (<code>_tools/gen/*.go</code>)</h1>
+<p>Read-only, multi-pass audit for user-facing PROSE/COPY baked into
+code rather than sourced from data/content/i18n
+(<code>_content/**</code>, <code>portfolio.json</code>,
+<code>ui-i18n.json</code>). Constitution §11.4.140/141/236 + OpenDesign
+data-driven mandate.</p>
+<p>Scope: every non-test <code>.go</code> file under
+<code>_tools/gen/</code> (<code>main.go</code>, <code>data.go</code>,
+<code>i18n.go</code>, <code>seo.go</code>, <code>markdown.go</code>,
+<code>home.go</code>, <code>portfolio.go</code>,
+<code>product.go</code>, <code>shells.go</code>). <code>*_test.go</code>
+are assertions, not emitted output → out of scope (noted below).
+<code>_tools/pdf/*</code> is shell/JSON, not Go → out of scope of this
+file.</p>
+<p>Date: 2026-08-07. No files were modified.</p>
+<hr />
+<h2 id="summary-counts">Summary counts</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Count</th>
+<th>Findings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>1</td>
+<td>F1 (creativeHeadings — ~40 English section headings)</td>
+</tr>
+<tr>
+<td>MED</td>
+<td>4</td>
+<td>F2, F3 (untranslated <code>alt</code> text ×2), F4 (hardcoded tier
+stat “3”), F5 (English meta-desc fallback suffix)</td>
+</tr>
+<tr>
+<td>LOW</td>
+<td>3</td>
+<td>F6 (dead <code>portfolioLede</code>/<code>portfolioSummary</code>
+prose consts), F7 (hardcoded “© 2026” year ×3), F8 (JSON-LD
+<code>operatingSystem</code>/<code>applicationCategory</code>
+literals)</td>
+</tr>
+</tbody>
+</table>
+<p>Genuine violations to fix: <strong>8</strong>. False-positives
+explicitly cleared: see “Not violations” — the <code>tOr(...)</code>
+English fallbacks are all backed by present keys and never fire.</p>
+<hr />
+<h2 id="high">HIGH</h2>
+<h3
+id="f1-markdown.go210271-creativeheadings-map-editorialheading-275284">F1
+— <code>markdown.go:210–271</code> <code>creativeHeadings</code> map (+
+<code>editorialHeading</code> 275–284)</h3>
+<p>Literal (truncated):
+<code>"why we built it": {"The problem we set out to solve", "Why this exists", "What drove us to build it", "The itch we had to scratch", "Origin story"}, "why it's a game-changer": {"Why it changes the game", …}, …</code>
+(~40 English section-heading strings across 10 canonical keys).</p>
+<p>Why a violation: these are visitor-facing <strong>section
+headings</strong> rendered onto every product detail page (via
+<code>renderProductAccordion</code> → <code>editorialHeading</code>).
+They are English prose defined entirely in Go with no data/i18n source.
+On the EN pages they <em>replace</em> the author’s markdown
+<code>## heading</code> with a reworded English variant; on localized
+pages the lookup key (English, lowercased) does not match the translated
+heading, so <code>editorialHeading</code> returns the author’s
+translated heading verbatim — meaning the reworded copy exists
+<strong>only</strong> in code and <strong>only</strong> in English, and
+can never be translated or reviewed through the normal pipeline. This is
+the single largest body of hardcoded copy in the generator.</p>
+<p>Severity: HIGH — substantial visitor-facing prose, code-only,
+untranslatable.</p>
+<p>Remediation: move the heading-variant table out of code into a
+data/i18n surface. Two viable shapes: (a) an i18n table
+(e.g. <code>ui-i18n.json</code> keys
+<code>prod.head.&lt;canonicalKey&gt;.&lt;n&gt;</code>) resolved via
+<code>T(lang, …)</code> so localized product pages also get the
+editorial rewording and it goes through reviewer gating; or (b) a
+<code>_content/</code>-side JSON
+(e.g. <code>_content/products/heading-variants.json</code>) loaded at
+gen time. Per constitution the i18n route (a) is preferred because these
+are translatable UI copy. Keep the deterministic per-slug hash
+selection.</p>
+<hr />
+<h2 id="med">MED</h2>
+<h3
+id="f2-home.go196-altportrait-of-miloš-vasić-inside-const-mvportrait">F2
+— <code>home.go:196</code> <code>alt="Portrait of Miloš Vasić"</code>
+(inside <code>const mvPortrait</code>)</h3>
+<p>Why: <code>alt</code> text is user-facing (screen readers /
+image-off) and is hardcoded English with no i18n key (confirmed: no
+<code>alt.*</code> key exists in <code>ui-i18n.json</code>). Emitted on
+every milosvasic.ru home, all languages, always English. Severity: MED
+(untranslated user-facing label). Remediation: add key
+e.g. <code>alt.portrait</code> to <code>ui-i18n.json</code>; convert
+<code>mvPortrait</code> from a <code>const</code> to a func taking
+<code>lang</code> and interpolate
+<code>esc(T(lang,"alt.portrait"))</code>.</p>
+<h3 id="f3-home.go206-altvasic-digital-logo-inside-func-vdherologo">F3 —
+<code>home.go:206</code> <code>alt="Vasic Digital logo"</code> (inside
+<code>func vdHeroLogo</code>)</h3>
+<p>Why: same class as F2 — hardcoded English <code>alt</code> on the
+vasic.digital hero logo, no i18n key. Severity: MED. Remediation: add
+key e.g. <code>alt.brandLogo</code>; pass <code>lang</code> into
+<code>vdHeroLogo</code> (currently takes only <code>prefix</code>) and
+emit <code>esc(T(lang,"alt.brandLogo"))</code>. (Note: the small header
+brand logo at <code>home.go:332</code> uses <code>alt=""</code> —
+correct, decorative; not a finding.)</p>
+<h3 id="f4-portfolio.go134-hardcoded-div-classod-stat__value3div">F4 —
+<code>portfolio.go:134</code> hardcoded
+<code>&lt;div class="od-stat__value"&gt;3&lt;/div&gt;</code></h3>
+<p>Literal: the middle portfolio hero stat value <code>3</code> (the
+“Tiers” count). Why: a number-as-content baked in code instead of
+derived from data. The other two stat values on the same block are
+data-driven (<code>p.Count</code>, <code>helixCount</code>); only the
+tier count is a literal. It happens to equal <code>len(p.Tiers)</code>
+today (portfolio.json <code>tiers</code> has 3 entries) but will
+silently go stale if a tier is added/removed — contradicting the
+data-driven mandate. Severity: MED (stale-risk, data-driven violation).
+Remediation: interpolate <code>len(p.Tiers)</code> (p is already in
+scope in <code>portfolioMainInner</code>) with a <code>%d</code>,
+mirroring <code>p.Count</code>/<code>helixCount</code>.</p>
+<h3 id="f5-product.go154-english-fallback-suffix-in-meta-description">F5
+— <code>product.go:154</code> English fallback suffix in meta
+description</h3>
+<p>Literal:
+<code>desc := firstNonEmpty(e.Summary, e.Tagline, e.Name+" — "+site.Brand+" product.")</code>
+Why: the third arg synthesizes an English meta description
+(<code>product.</code>) baked in code; it feeds
+<code>&lt;meta name=description&gt;</code>,
+<code>og:/twitter:description</code>, and the SoftwareApplication
+JSON-LD <code>description</code>. Currently latent — all 33
+portfolio.json entries have a <code>summary</code> or
+<code>tagline</code>, so it never fires today — but it is hardcoded,
+English-only, non-translatable copy waiting to surface. Severity: MED
+(latent visitor-facing SEO prose; MED because SEO-facing, though
+currently unreached). Remediation: drop the English literal; fall back
+to an i18n template, e.g.
+<code>fmt.Sprintf(T(lang,"prod.desc.fallback"), e.Name, site.Brand)</code>
+with the key in <code>ui-i18n.json</code>, or simply fall back to the
+already-localized page title.</p>
+<hr />
+<h2 id="low">LOW</h2>
+<h3
+id="f6-portfolio.go2021-const-portfoliolede-const-portfoliosummary">F6 —
+<code>portfolio.go:20–21</code> <code>const portfolioLede</code> /
+<code>const portfolioSummary</code></h3>
+<p>Literals:
+<code>"A unified, evidence-based portfolio of the Helix family, …"</code>
+and
+<code>"One fleet: large product applications on top of dozens of small, decoupled, independently-tested modules — governed by a shared engineering Constitution …"</code>.
+Why: full paragraphs of English marketing prose in code.
+<strong>Dead</strong>: grep shows only the definitions — no references.
+The live portfolio lede/summary are correctly sourced via
+<code>T(lang,"pf.lede")</code> / <code>T(lang,"pf.summary")</code>
+(<code>portfolio.go:146,152</code>; keys present for 15 langs). So these
+consts are vestigial hardcoded copy that predates the i18n migration.
+Severity: LOW (not emitted) — but they are exactly the anti-pattern the
+constitution forbids and should be removed to avoid regressions.
+Remediation: delete both consts.</p>
+<h3 id="f7-hardcoded-copyright-year-2026-3">F7 — Hardcoded copyright
+year <code>© 2026</code> (×3)</h3>
+<p>Locations: <code>portfolio.go:236</code>
+(<code>© 2026 %s — %s</code>), <code>product.go:244</code>
+(<code>© 2026 %s — %s.</code>), <code>i18n.go:154</code>
+(<code>"footer.text": "© 2026 " + site.Brand + …</code>). Why: the year
+is content baked in code; it will silently go stale in 2027. The brand
+and suffix on the same lines ARE data-driven (<code>site.Brand</code>,
+<code>T(lang,"footer.suffix")</code>), so only the literal year is the
+issue. Not a translation issue (digits), but a data-driven/freshness
+one. Severity: LOW. Remediation: derive the year
+(<code>time.Now().Year()</code>) or source it from site config;
+centralize the footer string so all three call sites share one
+source.</p>
+<h3
+id="f8-seo.go246-json-ld-operatingsystemapplicationcategory-literals">F8
+— <code>seo.go:246</code> JSON-LD
+<code>operatingSystem</code>/<code>applicationCategory</code>
+literals</h3>
+<p>Literals: <code>"applicationCategory": "DeveloperApplication"</code>,
+<code>"operatingSystem": "Cross-platform"</code> (in
+<code>softwareApplicationNodeLang</code>). Why: borderline. These are
+schema.org structured-data enumerated values, which the audit rules
+classify as legit code strings (JSON-LD <span class="citation"
+data-cites="types/values">@types/values</span>). They are not rendered
+as visible prose. <code>operatingSystem: "Cross-platform"</code> is the
+only one that reads like free text. Severity: LOW / arguably
+not-a-violation. Listed for completeness. Remediation (optional): if
+these ever need to vary per product, move to per-entry fields in
+<code>portfolio.json</code>; otherwise leave as structured-data
+constants.</p>
+<hr />
+<h2 id="not-violations-false-positives-explicitly-cleared">Not
+violations (false-positives explicitly cleared)</h2>
+<ul>
+<li><code>home.go:401,404–407</code>
+<code>tOr(lang,"skip","Skip to content")</code>,
+<code>tOr(lang,"nav.work","Work")</code>,
+<code>tOr(lang,"nav.products","Products")</code>,
+<code>tOr(lang,"nav.contact","Contact")</code> — the English literals
+are <code>tOr</code> <em>fallbacks</em> only. Verified all keys
+(<code>skip</code>, <code>nav.work</code>, <code>nav.products</code>,
+<code>nav.contact</code>, <code>nav.portfolio</code>,
+<code>nav.home</code>) now exist for all 15 languages in
+<code>ui-i18n.json</code>, so <code>T()</code> returns a real
+translation and the fallback never fires. Data-driven; the inline
+comment in <code>i18n.go:50–58</code> is stale but the behavior is
+correct. (Recommend refreshing that comment; not a content bug.)</li>
+<li><code>portfolio.go:85,126,140</code>, <code>product.go:99,161</code>
+<code>// %s</code> eyebrow prefix — the <code>//</code> is a decorative
+monospace design motif; the text is <code>T(lang, …)</code>. OK.</li>
+<li>All <code>esc(T(lang,…))</code> / <code>data-i18n="key"</code> /
+<code>i18nAttr()</code> emissions across <code>home.go</code>,
+<code>portfolio.go</code>, <code>product.go</code>,
+<code>shells.go</code> — data-driven. OK.</li>
+<li><code>product.go:161</code> eyebrow emits <code>esc(e.Tier)</code>
+(e.g. <code>helix-primary</code>) as visible text — it is a raw data ID
+shown to users (a UX nit), but it is sourced from
+<code>portfolio.json</code>, so it is NOT hardcoded-in-code. Out of
+scope here.</li>
+<li>All
+<code>const productStyle/portfolioStyle/vasicHeadExtras/mvHeadStyle/*Symbols/ *ToggleScript</code>
+— CSS, SVG icon paths, and JS. Code, not content. OK.</li>
+<li><code>seo.go</code> robots.txt / sitemap XML scaffolding,
+<code>assetLinks</code>, <code>motionScript</code>,
+DTCG/<code>--od-*</code> token names, class names, Jekyll
+<code>relative_url</code> fragments,
+<code>data-i18n</code>/<code>data-od-count</code>/<code>data-dl</code>
+attribute names, <code>ogLocales</code>/
+<code>langDisplayNames</code>/<code>ogLocale</code>/<code>htmlDir</code>
+maps (locale codes + endonyms, not prose). OK.</li>
+<li><code>*_test.go</code> — expected-output assertions, not generator
+emissions. Out of scope (though F6’s dead consts and F1’s headings are
+indirectly asserted by <code>markdown_test.go</code> — worth checking
+those tests when fixing).</li>
+</ul>
+<hr />
+<h2 id="prioritized-fix-list">Prioritized fix list</h2>
+<ol type="1">
+<li><strong>F1 (HIGH)</strong> — move <code>creativeHeadings</code> to
+i18n (<code>prod.head.*</code> in <code>ui-i18n.json</code>) so product
+section headings are translatable + reviewer-gated.</li>
+<li><strong>F2 + F3 (MED)</strong> — add <code>alt.portrait</code> /
+<code>alt.brandLogo</code> i18n keys; thread <code>lang</code> into
+<code>mvPortrait</code>/<code>vdHeroLogo</code> and use
+<code>T(lang,…)</code>.</li>
+<li><strong>F4 (MED)</strong> — replace literal <code>3</code> with
+<code>len(p.Tiers)</code>.</li>
+<li><strong>F5 (MED)</strong> — replace the <code>product.</code>
+English meta-desc fallback with an i18n template or the localized
+title.</li>
+<li><strong>F6 (LOW)</strong> — delete the dead
+<code>portfolioLede</code>/<code>portfolioSummary</code> consts.</li>
+<li><strong>F7 (LOW)</strong> — derive the footer copyright year instead
+of literal <code>2026</code>; unify the three footer strings.</li>
+<li><strong>F8 (LOW/optional)</strong> — leave JSON-LD enums, or move to
+per-entry data if they must vary.</li>
+</ol>
+</body>
+</html>

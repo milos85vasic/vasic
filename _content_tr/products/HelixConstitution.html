@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixConstitution</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixConstitution</h1>
+</header>
+<h1 id="helixconstitution">HelixConstitution</h1>
+<p><strong>Her projenin miras aldığı evrensel mühendislik anayasası —
+blöf karşıtı yasa, mekanik olarak uygulanan, tek bir Git alt modülü
+olarak paylaşılan.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixConstitution, her Helix/vasic-digital projesine bir Git alt
+modülü olarak eklenen, projeye özgü olmayan tek kural kitabıdır. Bu
+kitap, tartışmasız mühendislik disiplinini (blöf karşıtlığı, yalnızca
+kanıta dayalı doğrulama, veri/konak güvenliği, dokümantasyon ve test
+kapsamı) kodlar ve 140’tan fazla depoya yayar. Tüm ailenin tutarlılığını
+sağlayan yönetişim omurgasıdır.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Evrensel, miras alınabilir bir Constitution, Git alt modülü olarak
+sunulur. Her kullanan projenin otomatik olarak miras aldığı ve
+genişletebileceği ancak asla zayıflatamayacağı zorunlu, tartışmasız
+kuralları tanımlar: blöf karşıtı kanıt kapıları, yanlış pozitif
+bağışıklığı, veri ve konak güvenliği, kapsam ve dokümantasyon
+disiplini.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>HelixConstitution, bir Git alt modülü olarak eklemeyi seçen her proje
+arasında paylaşılan mühendislik uygulamaları için tek ve kesin doğruluk
+kaynağıdır — mühendislik yasası, kod gibi dağıtılmış ve sürüm
+sabitlenmiş haldedir. Merkezinde yer alan <code>Constitution.md</code>,
+sürekli sürümlendirilmiş, numaralandırılmış maddelerden (~1 MB, §11.4.x
+ahit ailesi, şu anda §11.4.170’e kadar) ve her bir aracın işletim
+kılavuzlarından (<code>CLAUDE.md</code>, <code>AGENTS.md</code>,
+<code>QWEN.md</code>, <code>GEMINI.md</code>) oluşur. Bu kılavuzlar,
+ahit belgesini referans alarak insanların ve her CLI aracının tek ve
+aynı kural kitabını okumasını sağlar. Miras alma kasıtlı olarak üç
+katmanlıdır: evrensel temel (bu alt modül), proje katmanı (projenin
+kendi Constitution/CLAUDE/AGENTS uzantıları) ve isteğe bağlı alt dizin
+katmanı — yukarıdan aşağıya değerlendirilir. Bir proje kuralları
+sıkılaştırabilir, ancak mimari olarak zayıflatması yasaktır. Sonuç,
+paylaştıkları disiplinin sabitlenmiş olması sayesinde sessizce
+birbirinden uzaklaşamayan 140’tan fazla depodan oluşan bir filodur.</p>
+<p>Belge, tavizsiz bir şekilde alan bağımsızdır: Belirli bir satıcı,
+donanım SKU’su, port veya kütüphane sürümünü adlandıran her şey,
+tüketici projenin kendi Constitution’una taşınmalıdır. Evrensellik asla
+varsayılmaz — bir kuralın temele girmesi için dört aşamalı açık bir
+testten geçmesi gerekir. Felsefi omurgası, birbiriyle kenetlenmiş
+ahitlerden oluşan blöf karşıtı bir yapıdır: §1.1 yanlış pozitif
+bağışıklığı, §11.4 son kullanıcı kalite ahdi, §11.4.6 tahmin yasağı,
+§11.4.69 pozitif kanıt sınıflandırması. Bunların birleşik etkisi tek bir
+katı çizgidir: Yayınlama ölçütü asla “testler geçti” değil, “gerçek bir
+kullanıcı özelliği kullanabiliyor”dur ve her yeşil sonuç, yakalanmış
+fiziksel kanıta atıfta bulunmalıdır, aksi takdirde geçerli sayılmaz. Bir
+yardımcı <code>submodules-catalogue.md</code> (142 depo) ise “bunu zaten
+yapan bir şeyimiz var mı?” sorusunu, yeni bir kod satırı yazılmadan önce
+katalog öncelikli, yeniden uygulamadan genişletme refleksine dönüştürür.
+Yardımcı betikler, alt modülü herhangi bir iç içe derinlikten bulur ve
+her işlemi dört bağımsız Git sağlayıcısına dağıtır; böylece tek yetkili
+kural kitabı kaybolması da imkansız hale gelir.</p>
+<p>İçerik</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Aynı sahibe ait çok sayıda büyük ürün uygulaması ve düzinelerce
+bağımsız yeniden kullanılabilir alt modül, aynı zor kazanılmış kuralları
+tekrar tekrar türetmeye devam ediyordu — ve aynı başarısızlık sınıfıyla
+karşılaşıyordu: Özellik son kullanıcı için bozuk olmasına rağmen
+testlerin ve durum raporlarının başarı bildirdiği durumlar
+(“BAŞARI-blöf” ve “BAŞARISIZLIK-blöf”). Constitution’daki her adli
+kayıt, gerçek bir olaya işaret eder (örneğin, 20 Mayıs 2026’daki D3 ses
+yönlendirme BAŞARI-blöfünde doğrulama “Kullanılan Kodlayıcı” alanı boş
+olmasına rağmen yeşil yandı, ya da 25 Haziran 2026’daki dev butonlu
+arayüz, gerçek ekran bozuk olmasına rağmen belirteç eşitlik testlerini
+geçti). Constitution, bu tür sahte başarıları bir kez, evrensel olarak
+ve mekanik olarak imkansız hale getirmek için var — böylece disiplin
+projeler arasında kaybolmaz ya da sessizce unutulmaz.</p>
+<h2 id="neden-bir-oyun-değiştirici">Neden bir oyun değiştirici</h2>
+<p>Mühendislik kültürünü, insanların umut ettiği belgelerden miras
+alınan, sürümlendirilmiş, mekanik olarak uygulanan bir yasaya
+dönüştürüyor — bir stil kılavuzu ile derleyici arasındaki fark gibi. Tek
+bir alt modül güncellemesi, kuralları tüm filoya aynı anda, atomik ve
+izlenebilir şekilde yükseltir. Tek bir anti-blöf sözleşmesi, güvenle
+değil yapısal olarak <em>garanti</em> edilir: Her tüketici depoda
+mevcuttur; bir yayılım kapısı, sözleşme numarasını tüm filoda kelimenin
+tam anlamıyla arar ve eşleştirilmiş bir mutasyon testi, kapının
+kendisinin blöf yapmadığını kanıtlar — böylece uygulama bile uygulanır
+hale gelir. Yönetişim, kimsenin okumadığı bir wiki sayfasındaki bir
+heves olmaktan çıkıp, bir CI işine işaret edebileceğiniz denetlenebilir,
+test edilebilir bir gerçekliğe dönüşür.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne</h2>
+<ul>
+<li><strong>Constitution-alt modül olarak</strong> — mühendislik yasası,
+koda tıpkı kod gibi dağıtılır ve sürüm sabitlenir; kasıtlı
+<code>v1.0.0</code> tarzı etiketler ve proje bazında sabitleme ile her
+depo, hangi yasa revizyonuna bağlı olduğunu <em>tam olarak</em>
+bilir.</li>
+<li><strong>Anti-blöf ilk sınıf, adli bir doktrin olarak</strong> — her
+madde, kelimesi kelimesine bir operatör talimatına ve sıklıkla da onu
+motive eden gerçek dünyadaki olaya kadar izlenir; böylece kural kitabı,
+bir görüşler toplamı değil, içtihat hukuku gibi okunur.</li>
+<li><strong>Kuralların meta-test edilmesi (§1.1)</strong> — her kapı,
+BAŞARI→BAŞARISIZLIK dönüşümünü zorunlu kılan bir mutasyonla
+eşleştirilir; böylece “kapı sahte değil” iddiası değil, her çalıştırmada
+kanıtlanır; hiçbir zaman başarısız olamayan bir kapı, hiç kapı
+olmamasından daha kötü kabul edilir.</li>
+<li><strong>Kazanılmış evrensellik</strong> — bir kuralın gerçekten
+evrensel mi yoksa sadece projeye özgü mü olduğunu belirlemek için açık
+bir dört aşamalı test uygulanır; böylece temel, yalın, taşınabilir ve
+satıcı sızıntısından arınmış kalır.</li>
+</ul>
+<h2 id="tüm-ürünlerde-nasıl-kullanılıyor-sağladığı-yetenekler">Tüm
+ürünlerde nasıl kullanılıyor (sağladığı yetenekler)</h2>
+<p>Bir <strong>zorunlu yönetişim sütunu</strong> olarak
+HelixConstitution, aile tarafından danışılan bir belge değil — ailenin
+üzerine inşa edildiği yük taşıyan yapıdır:</p>
+<ul>
+<li><strong>Yönetişim omurgası:</strong> Her Helix/vasic-digital
+projesi, onu bir alt modül olarak ekler ve <code>CLAUDE.md</code> /
+<code>AGENTS.md</code> / <code>QWEN.md</code> ya da kendi
+<code>Constitution.md</code> dosyasından içe aktarır; kurallar, ilk
+commit’ten itibaren koşulsuz olarak uygulanır, proje bazında muafiyet
+yoktur.</li>
+<li><strong>Kapılar ve zorunluluklar:</strong> Dört katmanlı kapsam
+modelini tanımlar — kaynak mevcut, derlemeyi geçer, çalışma zamanında
+davranır, kapı blöf değil — bir özelliğin tamamlanmış sayılabilmesi için
+bu dört seviyeyi geçmesi gerekir; ayrıca büyüyen bir zorunluluklar
+listesi: kimlik bilgileri yönetimi (§11.4.10), belgelerin her zaman
+senkronize olması (§11.4.60), konteyner-alt modül zorunluluğu
+(§11.4.76), CodeGraph (§11.4.78), zorunlu test türü kapsamı (§11.4.169)
+ve daha fazlası.</li>
+<li><strong>Yayılım:</strong> <code>CM-COVENANT-114-NNN-YAYILIM</code>
+kapıları, <em>kelimesi kelimesine</em> madde metninin tüketici filosunda
+mevcut olduğunu doğrular; böylece bir sözleşme, mülkün bir köşesinde
+sessizce düşürülemez; uyumsuzluk, kaçış bayrağı olmaksızın sert bir
+yayın engelleyicisidir.</li>
+<li><strong>Keşif:</strong> <code>submodules-catalogue.md</code>, “X’i
+yapan bir şeyimiz zaten var mı?” sorusunu yeni bir modül oluşturulmadan
+önce tek bakışta yanıtlar hale getirir, yinelenen çabayı kaynağında
+ortadan kaldırır.</li>
+<li><strong>AI ajanlarının tutarlılığı:</strong> Aynı yasa, her CLI
+ajanı için (Claude Code, Codex/Cursor/Aider/OpenCode/Crush/Kimi
+AGENTS.md aracılığıyla, Qwen Code QWEN.md aracılığıyla) aynı şekilde
+ifade edilir; böylece koda hangi araç dokunursa dokunsun, tek ve aynı
+sözleşmeye uyar.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En Büyük Teknik
+Zorluklar ve Çözümlerimiz</h2>
+<ul>
+<li><strong>Keyfi derinlikteki alt modülün konumlandırılması</strong> —
+Üç alt modül derinliğine gömülü bir kural, nerede olduğunu bilmese bile
+yasayı bulmak zorunda → <code>find_constitution.sh</code>, üst
+dizinlerde yukarı doğru yürüyerek git üst proje işaretçisini
+özyinelemeli olarak takip eder, <code>CONSTITUTION_DIR</code> geçersiz
+kılma seçeneğine ve iki desteklenen düzenleme
+(<code>constitution/</code>, <code>submodules/constitution/</code>) uyum
+sağlar; böylece iç içe geçme ne kadar derin olursa olsun çözümleme her
+zaman belirleyicidir.</li>
+<li><strong>Dört Git sağlayıcısı arasında tek bir depoyu yetkili
+tutma</strong> — Senkronizasyonu kaybolan yansılar işe yaramaz →
+<code>install_upstreams.sh</code>, bildirimsel
+<code>Upstreams/*.sh</code> uzak depolarını okur ve
+<code>origin</code>’i birden fazla gönderim URL’si ile yapılandırır;
+böylece tek bir <code>git push</code> komutu GitHub (birincil), GitLab,
+GitFlic ve GitVerse’e atomik olarak dağıtılır ve hiçbir yansı geride
+kalmaz.</li>
+<li><strong>Kural şişkinliğini / evrensel tabana proje sızıntısını
+önleme</strong> — Her “bunu buraya ekle” cazibesi taşınabilirliği
+aşındırır → Kazanılmış evrensellik dört aşamalı testi ve §11.4.17
+evrensel-proje sınıflandırması <em>her</em> yeni kurala uygulanır;
+projeye özgü kaygılar, ait oldukları proje katmanına geri itilir.</li>
+<li><strong>Miras kapısının gerçekten işe yaradığını kanıtlama</strong>
+— Asla başarısız olmadığını görmediğiniz bir kapıya güvenemezsiniz →
+<code>meta_test_inheritance.sh</code>, bir nöbetçi meta testi olarak
+§11.4 çapasını kasten siler ve kapının bunu yakaladığını doğrular;
+böylece uygulama mekanizmasının kendisi, sessiz bozulmalara karşı
+sürekli yeniden doğrulanır.</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Git-alt modül mirası</strong> — <em>neden:</em> Git alt
+modülleri, bir kural kitabının hem yetkili hem de tüketici başına sürüm
+sabitlenmiş olmasını sağlayan tek mekanizmadır; sessiz kopyala-yapıştır
+yerine açık, incelenebilir bir sürüm yükseltmesiyle güncellenir;
+<em>nasıl:</em> Tüketen projeler alt modülü ekler ve ajan dosyalarını
+<code>@import</code> ile alır; üç katman, her sınırda “genişletir,
+zayıflatmaz” sözleşmesiyle yukarıdan aşağıya değerlendirilir.</li>
+<li><strong><code>find_constitution.sh</code></strong> — <em>neden:</em>
+Kurallar, derinlemesine iç içe geçmiş kodlar bunları güvenilir şekilde
+bulamazsa işe yaramaz; yolların sabit kodlanması, bir proje yeniden
+düzenlendiğinde bozulur; <em>nasıl:</em> Üst dizinlerde yürüyüş ve
+<code>git rev-parse --show-superproject-working-tree</code>
+özyinelemesi, <code>CONSTITUTION_DIR</code> geçersiz kılma seçeneğiyle
+desteklenir; her iki desteklenen düzenlemeyi de çözer.</li>
+<li><strong><code>install_upstreams.sh</code> +
+<code>Upstreams/</code></strong> — <em>neden:</em> Dört sağlayıcı
+yedekliliği, bakımı için ekstra çaba gerektiriyorsa gerçek değildir;
+aksi halde yansılar çürür; <em>nasıl:</em> Bildirimsel her uzak depo
+için <code>.sh</code> dosyaları, tek bir çoklu-URL <code>origin</code>
+olarak somutlaştırılır; dört gönderim tek bir komuta indirgenir.</li>
+<li><strong>§1.1 mutasyon meta testleri</strong> — <em>neden:</em> Asla
+başarısız olamayan bir kapı, hiç yoktan daha kötüdür çünkü sahte güven
+üretir; <em>nasıl:</em> Her kapı, PASS→FAIL’e dönüşmesi gereken bir
+sed-çıkar/yeniden adlandırma mutasyonuyla eşleştirilir ve ardından geri
+yüklenir; böylece her kapı, her çalıştırmada hâlâ etkili olduğunu
+kanıtlar.</li>
+<li><strong>Yayılım kapıları
+(<code>CM-COVENANT-114-NNN-YAYILIM</code>)</strong> — <em>neden:</em>
+Bir sözleşme, yalnızca amiral gemisi depoda değil, <em>her</em>
+tüketicide doğrulanabilir şekilde mevcutsa evrenseldir; <em>nasıl:</em>
+Tüketiciler arasında kelime bazında madde numarası araması, kendisinin
+de başarısız olabileceğini kanıtlayan eşleştirilmiş bir §1.1
+mutasyonuyla desteklenir.</li>
+<li><strong><code>submodules-catalogue.md</code> (§11.4.74)</strong> —
+<em>neden:</em> Çoğaltma karşıtı disiplini ihlal etmenin en hızlı yolu,
+zaten sahip olduklarınızı bilmemektir; <em>nasıl:</em> 142 depodan
+oluşan, yetenek gruplarına ayrılmış bir envanter; yeni bir şey
+oluşturulmadan önce katalog kontrolü izleyiciye kaydedilir.</li>
+<li><strong>Çoklu format dışa aktarımı</strong> — <em>neden:</em> Aynı
+yasa, insanlar tarafından okunabilir, araçlar tarafından
+ayrıştırılabilir ve arşivler tarafından korunabilir olmalıdır;
+<em>nasıl:</em> Her resmi belge, tek bir kaynaktan <code>.md</code> /
+<code>.html</code> / <code>.pdf</code> / <code>.docx</code> olarak
+yayılır.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: gönderildi.</strong> Filo genelinde (kamu kanon ve
+yansıtma depoları) aktif olarak sürümlendirilmekte ve bir alt modül
+olarak kullanılmaktadır.</li>
+<li><strong>Lisans: Belirlenmedi</strong> — incelenen kaynak materyalde
+açıkça belirtilmemiştir; yayınlamadan önce depodaki LİSANS dosyası ile
+teyit ediniz.</li>
+<li>Ek yukarı akış yansıtmaları: GitLab
+<code>helixdevelopment1/helixconstitution</code>, GitFlic
+<code>helixdevelopment/helixconstitution</code>, GitVerse
+<code>helixdevelopment/HelixConstitution</code>.</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil — Helix ailesindeki
+her şeyin nasıl inşa edildiğinin zorunlu yönetişim sütunu.</p>
+</body>
+</html>

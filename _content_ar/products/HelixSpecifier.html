@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSpecifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSpecifier</h1>
+</header>
+<h1 id="helixspecifier">HelixSpecifier</h1>
+<p><strong>التطوير الموجَّه بالمواصفات الذي يضبط طقوسه بنفسه بما يتناسب مع
+حجم العمل.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>HelixSpecifier هو محرك Go يدمج ثلاث منهجيات تطوير — سير عمل التطوير
+الموجَّه بالمواصفات من SpecKit، وانضباط التطوير الموجَّه بالاختبارات من
+Superpowers، ودورة حياة الإنجاز المعتمدة على المعالم من GSD — في تدفق
+تكيفي واحد. يصنّف المحرك كل مهمة حسب مستوى الجهد ويتكيف مع حجم العمليات
+وفقاً لذلك.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>HelixSpecifier هو محرك دمج للتطوير الموجَّه بالمواصفات مخصص لوكلاء AI.
+يجمع بين SpecKit وSuperpowers وGSD، يصنّف العمل حسب مستوى الجهد، يشغل
+مراحل المواصفات المدعومة بالمناقشات، يفرض نسبة دنيا بين الاختبارات
+والكود، ويتعلم من كل تدفق مكتمل.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>HelixSpecifier هو محرك دمج للتطوير الموجَّه بالمواصفات (SDD) مكتوب بلغة
+Go (الوحدة <code>digital.vasic.helixspecifier</code>)، ومصمم ليكون مكوناً
+من مجموعة HelixAgent لوكلاء AI. يأخذ ثلاث ممارسات تطوير تعيش عادةً في
+أدوات منفصلة — وعقول منفصلة — ويدمجها في سير عمل تكيفي واحد: عملية
+التطوير الموجَّه بالمواصفات المكونة من سبع مراحل في SpecKit (Constitution،
+تحديد المواصفات، توضيحها، التخطيط، المهام، التحليل، التنفيذ)، وانضباط
+التطوير الموجَّه بالاختبارات في Superpowers مع التنفيذ المتوازي للوكلاء
+الفرعيين، وإدارة دورة حياة الإنجاز المعتمدة على المعالم في GSD. كل ركيزة
+تستمر في أداء ما تجيده؛ أما المحرك فهو ما يجعلها تعمل كتدفق متماسك بدلاً
+من خط أنابيب مخيط يدوياً.</p>
+<p>الفكرة المركزية هنا هي <em>الطقوس التكيفية</em>: يصنّف المحرك العمل
+الوارد حسب مستوى الجهد ويتكيف مع حجم العمليات بما يتناسب معه، بحيث لا
+تُجرّ تصحيحات بسيطة من سطر واحد عبر الطقوس الثقيلة نفسها التي تمر بها
+الميزة الرئيسية — ولا تمر الميزة الرئيسية بمرونة تصحيح الأخطاء المطبعية.
+عشر ميزات رئيسية تُبنى على هذا الأساس: التنفيذ المتوازي للمهام مع حدود
+متزامنة، و”Constitution ككود” قابل للقراءة آلياً يفرض القواعد الإلزامية
+تلقائياً، و”TDD نايكيست” الذي يتتبع ويفرض نسبة دنيا بين الاختبارات
+والتنفيذ، ومناقشات متعددة الجولات بين عدة وكلاء لتحسين المواصفات، وتعلم
+التكيف مع مستويات المهارة، وتحليل الكود القديم، واستخلاص المواصفات
+التنبؤية من الأنماط التاريخية، ونقل المعرفة عبر المشاريع، وضبط الطقوس
+أثناء التشغيل لإعادة ضبطها أثناء التنفيذ، وذاكرة مواصفات دائمة مع بحث
+دلالي.</p>
+<p>يُستخدم المحرك كوحدة Go — عبر <code>go get</code> أو توجيه استبدال
+محلي — خلف محرك API صغير الحجم عن قصد: تسجيل الركائز الثلاث بالإضافة إلى
+مقياس الطقوس وذاكرة المواصفات، وتصنيف جهد العمل، ثم تنفيذ التدفق الكامل
+والحصول على نتيجة مصنفة بالجودة. السطح بسيط؛ أما التنسيق وراءه فليس
+كذلك. وكما هو الحال مع بقية عائلة Helix، يُطوّر المحرك تحت نظام تحقق مضاد
+للخداع، مع مشغل تحديات داخلي يمارس الكود الحقيقي بدلاً من النماذج
+الوهمية.</p>
+<h2 id="لماذا-بنيناه">لماذا بنيناه</h2>
+<p>التطوير الموجَّه بالمواصفات، والتطوير الموجَّه بالاختبارات الصارم، وإدارة
+الإنجاز المعتمدة على المعالم هي عادةً ثلاث ممارسات منفصلة تستخدم ثلاث
+أدوات منفصلة. بُني HelixSpecifier حتى يتمكن وكيل AI (HelixAgent) من تشغيل
+الثلاث كتدفق متماسك ومتكيف ذاتياً بدلاً من خياطتها يدوياً.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-ثورة-في-المجال">لماذا يُعدّ ثورةً في المجال</h2>
+<p>إنه يجعل العملية متناسبة مع حجم العمل — تلقائياً. عادةً ما تعلق الفرق
+عند أحد طرفي نقيض سيئين: إما طقوس صارمة لكل شيء (آمنة لكنها بطيئة،
+ومكروهة في صمت)، أو عدم وجود طقوس على الإطلاق (سريعة حتى تتعثر). يزيل
+HelixSpecifier هذا التناقض من خلال ضبط حجم الطقوس وفقاً لجهد كل مهمة
+مصنّف، ويعيد ضبطها أثناء التنفيذ مع كشف العمل عن نفسه. القدرة التي لم تكن
+ممكنة من قبل هي عملية تُضبط تلقائياً لكل مهمة — وفوق ذلك، قرارات المواصفات
+مدعومة بمناظرة متعددة الجولات والوكلاء، مع تقييم المواقف بدلاً من
+الاعتماد على تخمين أولي لوكيل واحد.</p>
+<h2 id="ما-الجديد">ما الجديد</h2>
+<ul>
+<li><strong>طقوس تكيفية</strong> — مستوى العملية مدفوع بمقاييس الجودة في
+الوقت الفعلي ويُعدل أثناء التنفيذ، وليس ثابتاً مسبقاً.</li>
+<li><strong>اختبار التنمية وفق مبدأ نايكويست</strong> — بوابة نسبة
+الاختبار إلى التنفيذ (الحد الأدنى 2x)، مستوحاة من منطق نظرية أخذ العينات
+لنايكويست: لالتقاط السلوك بدقة، يجب أخذ العينات بمعدل أعلى بكثير من
+معدله، لذا يجب أن تتجاوز الاختبارات الكود الذي تغطيه.</li>
+<li><strong>بنية المناظرة</strong> — تحسين المواصفات عبر جولات متعددة
+ووكلاء متعددين، حيث تُقترح المواقف وتُقيّم وتُجمع، لتحل محل الرأي الواحد
+بمناظرة تنافسية.</li>
+<li><strong>المواصفات التنبؤية</strong> و<strong>النقل عبر
+المشاريع</strong> — يستخرج المحرك الأنماط المتراكمة لتوقع المواصفات ونقل
+المعرفة المكتسبة بشق الأنفس من مشروع إلى آخر.</li>
+<li><strong>Constitution ككود</strong> — قواعد المشروع الإلزامية قابلة
+للقراءة آلياً وتُفرض بواسطة المحرك، بدلاً من تركها لليقظة البشرية.</li>
+</ul>
+<h2 id="أكبر-التحديات-التقنية-وكيف-تغلبنا-عليها">أكبر التحديات التقنية
+وكيف تغلبنا عليها</h2>
+<ul>
+<li><strong>دمج ثلاث منهجيات دون صراع بينها</strong> — تفترض SpecKit
+وSuperpowers وGSD أن كل منها يمتلك سير العمل. تم حل المشكلة بمحرك دمج
+يسجل كل ركيزة خلف واجهة مشتركة ويدفعها عبر دورة حياة تدفق مشتركة، بحيث
+تتكامل في عملية واحدة بدلاً من ثلاث عمليات متصادمة.</li>
+<li><strong>تحديد مقدار العملية التي تحتاجها مهمة معينة</strong> — إذا
+بالغت في التقدير، يتباطأ كل شيء؛ وإذا قللت، تُشحن الأعمال الخطرة دون فحص.
+تم حل المشكلة بمصنف للجهد يضبط حجم العمل، يغذي مقياساً للطقوس يعدل مستوى
+العملية ديناميكياً أثناء التنفيذ.</li>
+<li><strong>الحفاظ على جودة المواصفات دون حاجز بشري لكل قرار</strong> —
+تم حل المشكلة باستبدال المواصفات أحادية الجولات بمناظرة مدعومة بالتكرير،
+حيث يُقيّم الوكلاء المواقف المتنافسة عبر الجولات، وبفرض نسب اختبار التنمية
+وفق مبدأ نايكويست حتى لا يتفوق التنفيذ على اختباراته.</li>
+</ul>
+<h2 id="حزمة-التقنية">حزمة التقنية</h2>
+<ul>
+<li><strong>Go</strong> — اختيرت ليُصدر المحرك كملف ثنائي قابل للاستيراد
+دون تبعيات وقت التشغيل؛ نموذج التوازي فيها هو ما يجعل إرسال المهام
+بالتوازي المحدود وجولات المناظرة متعددة الوكلاء ممكنة دون تعقيدات
+التزامن.</li>
+<li><strong>logrus</strong> — تسجيل منظم مُنسّق عبر المحرك والركائز
+الثلاث، بحيث تصبح قرارات التدفق (التصنيف، تغييرات الطقوس، نتائج
+المناظرة) مقروءة بعد التنفيذ.</li>
+<li><strong>ركيزة SpecKit</strong> — عملية تطوير موجهة بالمواصفات ذات
+المراحل السبع (Constitution → تحديد المواصفات → توضيح → تخطيط → المهام →
+تحليل → تنفيذ)، لتشكل العمود الفقري المنضبط لكيفية تحول المواصفات إلى
+كود.</li>
+<li><strong>ركيزة Superpowers</strong> — انضباط اختبار التنمية مع تنفيذ
+الوكلاء الفرعيين بالتوازي، لتوفر الصرامة في الاختبار أولاً والتفرع الذي
+يحافظ على صدق التنفيذ وسرعة أدائه.</li>
+<li><strong>ركيزة GSD</strong> — إدارة المراحل والمعالم، لمنح التدفق
+إحساسه بـ”الانتهاء” وتقدمه عبر المراحل.</li>
+<li><strong>متجر ذاكرة المواصفات</strong> — فهرس دائم وقابل للبحث
+الدلالي للمواصفات السابقة، وهو الأساس الذي يجعل المواصفات التنبؤية
+والنقل عبر المشاريع ممكناً بدلاً من البدء من الصفر في كل مرة.</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="ملاحظات-الحالة-والنزاهة">ملاحظات الحالة والنزاهة</h2>
+<ul>
+<li><strong>الحالة: تجريبية.</strong> مُستهلَك كوحدة مكوِّنة من Go ضمن
+HelixAgent.</li>
+<li><strong>الرخصة: لم تُحدَّد بعد.</strong> لم يُكشف عن أي رخصة عبر GitHub
+API — غير مُتحقق منها / غير مُصرَّح بها.</li>
+<li>الاسم المعروض “HelixSpecifier” يُحيل إلى المستودع
+<code>specifier</code>.</li>
+</ul>
+<p><strong>درجة الأولوية:</strong> Helix-أساسية.</p>
+</body>
+</html>

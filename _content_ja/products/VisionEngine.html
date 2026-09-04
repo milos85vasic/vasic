@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<p><strong>ユーザーのようにUIを見る——コンピュータビジョンとLLMビジョンによる分析とナビゲーション</strong></p>
+<h2 id="概要">概要</h2>
+<p>VisionEngineは、従来のコンピュータビジョンとLLMベースのビジョンを組み合わせた、分離型のGoツールキットです。ユーザーインターフェースの分析、UI要素や視覚的な問題の検出、アプリ画面遷移のナビゲーショングラフ構築を可能にします。複数のビジョンプロバイダーに対応し、OpenCVはビルドタグによって制御されています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>UI分析とナビゲーショングラフ構築のための再利用可能なGoモジュールです。アナライザー層（UI要素、画面差分、視覚的問題）、BFS経路探索とDOT/JSON/Mermaidエクスポート機能を持つナビゲーショングラフ、そしてGPT-4o、Claude、Gemini、Qwen-VLなどに対応したLLMビジョンアダプターを提供します。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>ほとんどのUIテスト自動化は、事実上「盲目」です。アクセシビリティツリーやDOMセレクターに頼ることで、機械が認識するインターフェースを操作しているに過ぎず、人間が実際に体験する部分——ボタンが正しく表示されているか、レイアウトが崩れていないか、遷移先の画面が期待通りか——を見落としています。VisionEngineは、このギャップを埋めることで、自動化に真の「知覚」を与えます。つまり、人間と同じようにUIを見て、推論する能力を持たせるのです。このツールキットは、生のピクセルデータからアプリ全体の理解に至るまで、4つの協調するレイヤーで構成されています。</p>
+<p><strong>アナライザー</strong>は、安定した契約を定義します。インターフェース（<code>Analyzer</code>、<code>VideoProcessor</code>）や値型（<code>UIElement</code>、<code>ScreenAnalysis</code>、<code>ScreenDiff</code>、<code>Rect</code>、<code>Size</code>、<code>TextRegion</code>、<code>VisualIssue</code>、<code>ScreenIdentity</code>、<code>Action</code>、<code>KeyFrame</code>）を持ち、<code>StubAnalyzer</code>というリファレンス実装も提供されています。これにより、利用者は要素の検出、画面の差分比較、視覚的な問題の発見を、契約が変わることのない安定した基盤の上で行えます。</p>
+<p><strong>ナビゲーショングラフ</strong>は、単一の画面からアプリ全体へと視野を広げ、画面遷移を有向グラフとしてモデル化します。BFSによる経路探索と、3つのエクスポートバックエンド（DOT、JSON、Mermaid）を備えており、自動化は画面を見るだけでなく、任意の画面へのルートを計画できるようになります。さらに、ストレステスト、自動化テスト、統合テスト、セキュリティテストのスイートも提供され、その有効性が実証されています。</p>
+<p><strong>LLMビジョン</strong>レイヤーは、最新のマルチモーダル推論を追加します。<code>VisionProvider</code>インターフェースには、OpenAI（GPT-4o）、Anthropic（Claude）、Gemini、Qwen-VL、Kimi、StepGUI、Astica、Ollamaなどのアダプターが用意されており、<code>FallbackChain</code>によって構成されています。これにより、特定のプロバイダーが失敗したり、レート制限に達したり、性能が不十分な場合でも、次のプロバイダーに自動的にフォールバックし、テスト全体が停止することを防ぎます。</p>
+<p><strong>設定</strong>レイヤーは、環境変数の読み込みと検証を担当し、ユーザー向けのエラーメッセージはすべて<code>i18n.Translator</code>を通じて出力されます。</p>
+<p>このツールキットを実際に採用可能にしているのは、重いネイティブ依存がオプションである点です。OpenCVのバインディングは<code>-tags vision</code>というビルドタグによって制御されており、デフォルトのビルドではスタブが提供されます。そのため、Go
+1.25以降のホストであれば、OpenCVのツールチェーンがなくてもモジュール全体がコンパイル、テスト、実行可能です。ネイティブスタックは、利用者が明示的に選択した場合にのみ組み込まれます。これにより、VisionEngineは特別なイメージを必要とせず、通常のCIランナーにも簡単に導入できます。</p>
+<p>完全に分離された設計（CONST-051(B)に準拠）により、VisionEngineは他のコードベースと同等のサブモジュールとして組み込まれます。特にHelixQAでは、エビデンスに基づくUIテストに「本物の目」を提供しています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>アクセシビリティツリーやセレクタにのみ依存するUIテスト自動化では、ユーザーが実際に目にするものを見逃してしまいます。VisionEngineは、要素検出、画面差分比較、LLMビジョンによる推論といった本物の視覚理解を実現し、さらにアプリ画面のナビゲーション可能なマップを提供することで、自動化がUIを認識し、ルーティングできるようにします。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>通常は相容れない2つのアプローチ――高速で決定論的な従来型コンピュータビジョンと、柔軟で意味理解に優れたLLMビジョン――を単一のインターフェースで統合し、フォールバックチェーンを備えることで、ユーザーは一方の精度ともう一方の推論能力を選択することなく両方を手にできます。さらにOpenCVを厳密にオプション扱いにすることで、そのパワーを得るための従来の負担を排除し、どんなGoプロジェクトでも、ネイティブなビジョンツールチェーンをビルドに組み込むことなく、本物のUI認識を実現できます。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>デュアル認識</strong>：従来型CV（OpenCV/GoCV）とマルチプロバイダーLLMビジョンをフォールバックチェーンで統合。</li>
+<li><strong>ナビゲーショングラフ</strong>：BFS経路探索とDOT/JSON/Mermaid形式でのエクスポートに対応。</li>
+<li><strong>ビルドタグによるOpenCVの制御</strong>：ネイティブ依存なしでもモジュールのビルドとテストが可能。</li>
+<li><strong>完全に分離された国際化対応サブモジュール</strong>：HelixQAでも使用される同一コードベースの独立モジュール。</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>ネイティブ依存の重さ</strong>：<code>-tags vision</code>による制御とデフォルトスタブで解決。OpenCVがなくてもCI/ホスト環境でビルドとテストが可能。</li>
+<li><strong>ビジョンプロバイダーの信頼性低下</strong>：<code>VisionProvider</code>インターフェースと<code>FallbackChain</code>コンポーザーで解決。</li>
+<li><strong>複雑なアプリフローのマッピング</strong>：有向ナビゲーショングラフとBFS経路探索、複数形式でのエクスポートで解決。</li>
+<li><strong>結合度の高さ</strong>：CONST-051(B)による分離とi18nトランスレータシームで解決。</li>
+</ul>
+<h2
+id="技術スタックなぜどのように">技術スタック（なぜ＋どのように）</h2>
+<ul>
+<li><strong>Go（1.25+）</strong>：モジュールコアおよび4つのレイヤー。</li>
+<li><strong>GoCV /
+OpenCV</strong>：従来型コンピュータビジョン。ビルドタグによる制御。</li>
+<li><strong>LLMビジョンプロバイダー（GPT-4o、Claude、Gemini、Qwen-VL、Kimi、StepGUI、Astica、Ollama）</strong>：アダプターを介したマルチモーダルUI推論。</li>
+<li><strong>グラフアルゴリズム（BFS）</strong>：ナビゲーション経路探索。</li>
+<li><strong>DOT / JSON /
+Mermaidエクスポーター</strong>：ナビゲーショングラフの可視化。</li>
+<li><strong>i18nトランスレータ</strong>：分離されたユーザー向け文字列。</li>
+</ul>
+</body>
+</html>

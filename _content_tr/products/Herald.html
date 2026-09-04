@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p><strong>Her uyarı doğru hedefe ulaşır — komut sözdizimi
+gerekmez.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Herald, sistem olaylarını alır ve birden fazla bildirim kanalına
+güvenilir bir şekilde dağıtarak her uyarının doğru yere ulaşmasını
+sağlar. Aboneler doğal dille etkileşimde bulunur; Herald, üç aşamalı bir
+disiplinle (komut hızlı yolu → LLM niyet çıkarımı → netleştirme geri
+dönüşü) amacı tespit eder.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Bir olay alım ve çok kanallı bildirim dağıtım sistemi. Herald, sistem
+olaylarını mesajlaşma kanalları üzerinden doğru hedeflere güvenilir bir
+şekilde yönlendirir ve abonelerin doğal dilde konuşmasına olanak tanır —
+amacı, komut hızlı yolu, LLM çıkarımı ve netleştirme geri dönüşü ile
+çözer.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Herald, bir sistem olayının gerçekten bir insanın harekete
+geçebileceği yere ulaşmasını garanti eden bildirim omurgasıdır — çoğu
+yerel uyarı sisteminin sessizce başarısız olduğu, gözden kaçan ama
+kritik öneme sahip katmandır. Olayları alır ve birden fazla bildirim
+kanalına güvenilir bir şekilde dağıtarak, uyarının kaybolduğu, yanlış
+kanala yönlendirildiği ya da gürültü altında kaybolup artık geç
+kalındığı bilindik başarısızlık senaryolarını ortadan kaldırır. Ancak
+güvenilir teslimat hikâyenin sadece yarısıdır; diğer yarısı, bir insanın
+yanıt vermek istediğinde ne olduğudur. Herald, kullanıcıların bir uyarı
+botuyla etkileşim kurmak için katı bir komut sözdizimini ezberlemek
+zorunda kaldığı alışılmış pazarlığı reddeder. Aboneler basitçe doğal
+dille yazar ve Herald, üç aşamalı bir disiplinle ne demek istediklerini
+çözer: açık komutları anında tanıyan bir hızlı yol, ardından serbest
+biçimli mesajlar için LLM tabanlı niyet çıkarımı (Claude Kodu
+aracılığıyla) ve son olarak niyet gerçekten belirsiz olduğunda soru
+sorarak yanıt veren, etiketleyen ve netleştiren bir
+<code>netleştirme</code> geri dönüşü. Bu “tanı → çıkarım → netleştir”
+merdiveni, tasarım felsefesinin özünü oluşturur — yaygın durum anında ve
+deterministik kalır, esnek durum bir model tarafından ele alınır ve
+belirsiz durum asla yanlış eylemi tetikleyen kör bir tahminle çözülmez.
+Herald ayrıca katılım ve atıf modeller: bir operatör kullanıcı adı ortam
+değişkeni (<code>HERALD_&lt;KANAL&gt;_OPERATÖR_KULLANICIADI</code>) ve
+bir katılımcı/atıf sözleşmesi,
+<code>oluşturan</code>/<code>atanan</code> alanlarını ve bildirim <span
+class="citation" data-cites="etiketlemesini">@etiketlemesini</span>
+yönlendirir; böylece kimin ne yaptığı ve kimin bilgilendirildiği açıkça
+bellidir. Yönetim açısından Herald, Helix Constitution’ı birlikte
+bulunan bir alt modül olarak devralır ve kurallarına uyar; ayrıca Docs
+Chain’ın erken üretim tüketicisidir — 66 belgeden oluşan
+Markdown→HTML/PDF/DOCX derlemesi, Docs Chain <code>exec:</code>
+dönüşümleri aracılığıyla bağlanır ve temiz bir şekilde doğrulanır.
+Herald, öncelikle Shell/Go araçlarıyla katmanlı özellikler (V1→V2→V3→V4
+üstünlük sırası) ve mesajlaşma uygulamaları ile LLM/ajan dağıtıcıları
+için kanal başına operatör kurulum kılavuzları sunar.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik</h2>
+<p>Uyarılar sessizce başarısız olur — yanlış kanala gönderilir, kaybolur
+ya da kullanıcıların hatırlamayacağı katı bir komut sözdizimi
+gerektirir. Herald, güvenilir dağıtımı garanti etmek ve insanların doğal
+dille yanıt verebilmesini sağlamak için geliştirildi; böylece
+bildirimler hem güvenilir hem de harekete geçmesi kolay olur.</p>
+<p>İçerik</p>
+<h2 id="neden-oyun-değiştirici">Neden Oyun Değiştirici?</h2>
+<p>Genellikle ayrı ürünler olarak satın alınan iki unsuru —güvenilir çok
+kanallı olay yönlendirme ve doğal dil arayüzü— tek bir sistemde
+birleştiriyor. Operatörler sadece konuşuyor, yazılım da ne demek
+istediklerini anlıyor. Üretim ortamında güvenilir kılan detay ise
+netleştirme geri dönüşü: Yanlış alarm vermektense sormayı tercih eden
+bir uyarı sistemi, gerçek duruma dokunmasına izin verebileceğiniz bir
+sistemdir.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi Yönleri</h2>
+<ul>
+<li>Üç aşamalı niyet disiplini: komut hızlı yolu → LLM çıkarımı →
+netleştir ve sor.</li>
+<li>Doğal dil abone etkileşimi (öğrenilecek komut sözdizimi yok).</li>
+<li>Katılımcı atıf sözleşmesi ile
+<code>oluşturan</code>/<code>atanan</code> + <span class="citation"
+data-cites="etiketleme">@etiketleme</span>.</li>
+<li>Gerçek Docs Chain tüketicisi (66 belge içeren derlem, çoklu format,
+doğrulanmış).</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve Çözümler</h2>
+<ul>
+<li><strong>Belirsiz doğal dil niyeti:</strong> Kör tahmin yerine üç
+aşamalı tanı/çıkar/netleştir merdiveni ile çözüldü.</li>
+<li><strong>Güvenilir dağıtım:</strong> Uyarıların doğru hedefe
+ulaşmasını sağlayan alım→çok kanallı dağıtım tasarımı ile çözüldü.</li>
+<li><strong>Kanallar arası doğru atıf:</strong> Operatör kullanıcı adı
+ortam değişkeni ve katılımcı atıf sözleşmesi ile çözüldü.</li>
+<li><strong>Dokümantasyon kayması:</strong> Belgelerin Docs Chain
+üzerinden doğrulanmış dönüşümlerle entegre edilmesiyle çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji Yığını (Neden ve
+Nasıl)</h2>
+<ul>
+<li><strong>Go</strong> — temel olay/dağıtım mantığı (kuruluş dili
+kalıplarına göre).</li>
+<li><strong>Shell</strong> — operatör araçları ve kurulum
+betikleri.</li>
+<li><strong>Claude Kodu (LLM)</strong> — serbest metinler için niyet
+çıkarım katmanı.</li>
+<li><strong>Mesajlaşma kanalı adaptörleri</strong> — çok kanallı
+bildirim dağıtımı.</li>
+<li><strong>Docs Chain</strong> — dokümantasyon oluşturma/doğrulama
+hattı (Markdown→HTML/PDF/DOCX).</li>
+<li><strong>Helix Constitution alt modülü</strong> — devralınan
+yönetişim/kurallar.</li>
+</ul>
+</body>
+</html>

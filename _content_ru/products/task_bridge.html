@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p><strong>Ваша доска задач и единый источник истины — идеально
+синхронизированы в обе стороны.</strong></p>
+<h2 id="краткое-описание">Краткое описание</h2>
+<p>task_bridge — это универсальный, развязанный, двунаправленный
+механизм синхронизации задач и досок в Go. Он поддерживает синхронизацию
+рабочих элементов проекта SQLite (единого источника истины) с
+трекер-документацией и удалённой доской (первая цель — ClickUp;
+планируются Jira и Linear) по принципу «последнее изменение побеждает»,
+с предварительным тестированием в сухом режиме и гарантией отсутствия
+повреждения данных.</p>
+<h2 id="краткая-характеристика">Краткая характеристика</h2>
+<p>Универсальный подмодуль Go, обеспечивающий двунаправленную
+синхронизацию рабочих элементов SQLite (единого источника истины) ↔︎
+трекер-документации ↔︎ удалённой доски (сначала ClickUp).
+Детерминированный принцип «последнее изменение побеждает»,
+предварительное тестирование в сухом режиме, вебхуки с проверкой HMAC;
+все учётные данные и идентификаторы передаются потребителем во время
+исполнения.</p>
+<h2 id="подробное-описание">Подробное описание</h2>
+<p>Рано или поздно каждая команда ведёт две версии одной и той же
+работы: реальную — код, документацию, внутреннюю базу данных — и ту, за
+которой следят менеджеры, например доску в ClickUp. Эти версии
+расходятся в тот же момент, когда вносится изменение в одну из них, а
+вручную приводить их в соответствие — утомительная и чреватая ошибками
+задача, которую никто не выполняет надёжно. task_bridge создан, чтобы
+устранить этот разрыв, рассматривая все три представления как единую
+систему, поддерживаемую в синхронном состоянии: <strong>рабочие элементы
+проекта SQLite (единый источник истины)</strong>,
+<strong>трекер-документацию</strong> и <strong>удалённую доску</strong>
+(первая поддерживаемая доска — ClickUp; в планах Jira и Linear).
+Синхронизация детерминирована (последнее изменение побеждает), сначала
+выполняется в сухом режиме и построена на одном непреложном принципе:
+она никогда не повредит и не потеряет данные, а также никогда не оставит
+одну из сторон устаревшей без уведомления. В области, где неосторожная
+синхронизация может перезаписать неделю работы, такая надёжность — это и
+есть главная цель. Архитектурно это строгий подмодуль, используемый
+другими проектами, и он полностью универсален в соответствии с
+контрактом на развязку, закреплённым в конституции (§11.4.28): он не
+содержит специфичных для проекта значений, а все учётные данные,
+идентификаторы досок/папок, поля ключей элементов и пути к базам данных
+передаются потребителем во время исполнения через
+<code>pkg/config.Config</code>. Модуль имеет чёткую многослойную
+структуру: CLI
+(<code>reconcile</code>/<code>push</code>/<code>pull</code>/<code>resolve</code>/<code>status</code>/<code>conflicts</code>/<code>init</code>)
+и долго работающий демон (получатель вебхуков + периодическая
+синхронизация); тонкая клиентская обёртка над MIT-лицензированным
+<code>raksul/go-clickup</code>; резолвер, преобразующий URL досок/папок
+в идентификаторы с помощью живых проб API (без угадывания грамматики
+URL); маппер между локальными рабочими элементами и полями удалённых
+задач; механизм синхронизации по принципу «последнее изменение
+побеждает» с явным разрешением конфликтов; получатель вебхуков с
+проверкой HMAC-SHA256 подписи <code>X-Signature</code>. Модуль честен в
+оценке своей зрелости: это базовый каркас первой приоритетной версии —
+структура, интерфейсы, точки входа и граница развязки готовы, но логика
+синхронизации и вызовы к ClickUp ещё не реализованы (каждый заглушечный
+метод возвращает явную ошибку «не реализовано» в соответствии с правилом
+отсутствия фальшивых данных).</p>
+<h2 id="зачем-мы-его-создали">Зачем мы его создали</h2>
+<p>Команды хранят «реальное» состояние работы в коде и документации, а
+менеджеры живут на досках вроде ClickUp — и эти версии постоянно
+расходятся. task_bridge объединяет их в одну систему, синхронизируя
+детерминированно и безопасно, чтобы ни одна из сторон не устаревала и не
+содержала ошибок.</p>
+<h2 id="почему-это-меняет-правила-игры">Почему это меняет правила
+игры</h2>
+<p>Двусторонняя синхронизация досок обычно реализуется как разовая,
+жёстко зашитая интеграция, которую каждая команда переписывает кое-как.
+task_bridge переосмысливает этот подход, превращая его в
+переиспользуемую библиотеку с инъекцией учётных данных и встроенными
+гарантиями безопасности данных: предварительный прогон,
+детерминированный принцип «последнее изменение побеждает», верификация
+событий через HMAC. Теперь любой проект может внедрить надёжную
+синхронизацию досок, просто подключив конфигурацию, вместо того чтобы
+писать очередной хрупкий коннектор, привязанный к внутренней
+архитектуре.</p>
+<h2 id="что-нового">Что нового</h2>
+<ul>
+<li>Трёхсторонняя двунаправленная синхронизация: SQLite (единый источник
+истины) ↔︎ трекеры документов ↔︎ удалённая доска.</li>
+<li>Полная декуплинг (§11.4.28): никаких жёстко зашитых значений проекта
+— всё подключается в рантайме.</li>
+<li>Динамическое разрешение URL→ID через Live-API вместо ненадёжного
+парсинга URL-грамматики.</li>
+<li>Верификация входящих вебхуков через HMAC-SHA256 для обработки
+событий в реальном времени.</li>
+</ul>
+<h2 id="проблемы-и-решения">Проблемы и решения</h2>
+<ul>
+<li><strong>Безопасность данных при работе с тремя источниками:</strong>
+решено за счёт детерминированного принципа «последнее изменение
+побеждает», предварительного прогона и явного разрешения
+конфликтов.</li>
+<li><strong>Переиспользуемость без привязки к проекту:</strong> решено
+через границу инъекции <code>pkg/config</code> (никаких специфичных для
+проекта данных в коде).</li>
+<li><strong>Надёжная идентификация досок:</strong> решено путём
+преобразования URL в ID через динамические запросы Live-API.</li>
+<li><strong>Честность архитектуры:</strong> решено за счёт того, что
+заглушки возвращают явные ошибки «не реализовано» (никаких фейковых
+ответов).</li>
+</ul>
+<h2 id="технологический-стек-зачем-и-как">Технологический стек (зачем и
+как)</h2>
+<ul>
+<li><strong>Go</strong> — движок, CLI (<code>cmd/task_bridge</code>) и
+демон (<code>cmd/task_bridged</code>).</li>
+<li><strong>SQLite</strong> — единый источник истины для рабочих
+элементов.</li>
+<li><strong><code>raksul/go-clickup</code> (MIT)</strong> — обёртка для
+транспорта ClickUp.</li>
+<li><strong>HMAC-SHA256</strong> — верификация подписей вебхуков.</li>
+<li><strong>cron + вебхуки</strong> — демон для сверки данных и
+обработки событий в реальном времени.</li>
+<li><strong><code>pkg/config</code></strong> — граница инъекции учётных
+данных и ID в рантайме.</li>
+</ul>
+<blockquote>
+<p>Честность статуса: это <strong>P1-каркас</strong> — логика
+синхронизации ещё не реализована. Не представляйте как готовый
+продукт.</p>
+</blockquote>
+</body>
+</html>

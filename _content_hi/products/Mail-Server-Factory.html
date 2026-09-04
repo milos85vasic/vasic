@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>अपना मेल सर्वर बॉस की तरह चलाएँ — इसे JSON में लिखें, कहीं भी तैनात
+करें।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>Mail Server Factory एक उत्पादन-तैयार, स्वचालित मेल-सर्वर प्रोविजनिंग टूल है।
+उपयोगकर्ता एक सरल JSON कॉन्फ़िगरेशन लिखता है; फैक्ट्री उसे पढ़कर लक्षित ऑपरेटिंग
+सिस्टम पर सभी इंस्टॉलेशन और आरंभिक सेटअप कर देती है, जिससे 12 कनेक्शन प्रकारों पर
+Docker-आधारित, ढीले-ढाले जुड़ाव वाला मेल स्टैक तैनात हो जाता है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>एक Kotlin/Shell टूल जो JSON विवरण को पूरी तरह इंस्टॉल्ड, डॉकराइज़्ड मेल सर्वर
+में बदल देता है। यह 12 कनेक्शन प्रकारों (SSH, Docker, Kubernetes, AWS SSM,
+Azure, GCP, Libvirt और अन्य) को सपोर्ट करता है, साथ ही एक पूर्ण सुरक्षा ढाँचा,
+25 Linux वितरण और 439 सफल परीक्षणों के साथ आता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>एक वास्तविक, सुरक्षित मेल सर्वर स्थापित करना सिस्टम एडमिनिस्ट्रेशन का एक क्लासिक
+अनुष्ठान है — और साथ ही सबसे अधिक निराशाजनक अनुभवों में से एक। पोस्टफिक्स, डोवकोट,
+TLS प्रमाणपत्र, DNS रिकॉर्ड, फ़ायरवॉल नियम और प्रति-वितरण विशेषताएँ — सब कुछ
+बिल्कुल सही ढंग से संरेखित होना चाहिए, और एक भी गलत निर्देश चुपचाप मेल रिजेक्ट करवा
+सकता है या ओपन रिले बना सकता है। Mail Server Factory इस पूरे कठिन-से-अर्जित,
+त्रुटि-प्रवण विशेषज्ञता को सॉफ़्टवेयर में समाहित कर देता है। किसी अपरिचित ऑपरेटिंग
+सिस्टम पर हर घटक को हाथ से कॉन्फ़िगर करने के बजाय, अंतिम उपयोगकर्ता वांछित परिणाम
+को एक सरल JSON दस्तावेज़ के रूप में लिखता है; फैक्ट्री उस JSON को पढ़कर लक्षित ऑपरेटिंग
+सिस्टम पर आवश्यक इंस्टॉलेशन और आरंभिक चरणों को क्रियान्वित करती है, जिससे Docker पर
+चलने वाला एक मेल स्टैक खड़ा हो जाता है — जहाँ हर घटक ढीले-ढाले जुड़ाव के साथ डिज़ाइन
+किया गया है। यह डिज़ाइन स्टैक को क्षैतिज रूप से स्केलेबल बनाए रखता है और किसी भी एकल
+घटक को अलग से अपग्रेड या बदला जा सकता है। साथ ही, यह जानबूझकर पहुँच-अज्ञेयवादी है:
+12 कनेक्शन प्रकारों के माध्यम से एक ही टूल और एक ही JSON स्थानीय मशीन, SSH के ज़रिए
+दूरस्थ होस्ट, Docker या Kubernetes रनटाइम, AWS SSM / Azure सीरियल कंसोल /
+GCP OS लॉगिन के माध्यम से क्लाउड इंस्टेंस, या Libvirt के ज़रिए वर्चुअल मशीनों को
+लक्षित कर सकता है — एक ही घोषणात्मक विवरण, जहाँ भी आप इसे निर्देशित करें। यह
+पश्चिमी (उबुन्टू, डेबियन, सेंटओएस, फेडोरा, अल्माLinux, रॉकी, ओपनस्यूज़), रूसी (ALT,
+एस्ट्रा, रोसा) और चीनी (ओपनयूलर, ओपनकाइलिन, दीपिन) परिवारों के 25 Linux
+वितरणों को सपोर्ट करता है, जिसमें प्रीसीड/किकस्टार्ट/क्लाउड-इनिट/ऑटोयास्ट के ज़रिए
+अनअटेंडेड इंस्टॉलेशन और परीक्षण के लिए QEMU-आधारित वीएम ऑटोमेशन शामिल है।</p>
+<p>एंटरप्राइज़ सुविधाएँ व्यापक हैं: AES-256-GCM एन्क्रिप्शन, अनिवार्य पासवर्ड और
+SSH-की नीतियाँ, मेल पोर्ट्स (25/587/465/993/995) के लिए स्वचालित फ़ायरवॉल
+कॉन्फ़िगरेशन, TLS/SSL प्रमाणपत्र सत्यापन और HSTS के साथ सुरक्षा, ऑडिट लॉगिंग और
+RBAC। परिचालन सुविधाओं में JVM ट्यूनिंग (G1GC), कैफ़ीन कैशिंग, कनेक्शन पूलिंग,
+Prometheus-संगत मेट्रिक्स, संरचित लॉगिंग, हॉट-रीलोडिंग कॉन्फ़िगरेशन और सीक्रेट्स
+प्रबंधन शामिल हैं। प्रोजेक्ट में 439 परीक्षण 100% सफलता दर के साथ पास हैं और
+SonarQube गुणवत्ता गेट साफ़ है। यह सर्वर-फैक्ट्री संगठन का प्रमुख प्रोजेक्ट है।</p>
+<p>सामग्री</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>एक सुरक्षित, प्रोडक्शन मेल सर्वर सेटअप करना बेहद त्रुटिप्रवण और ऑपरेटिंग
+सिस्टम-विशिष्ट होता है। Mail Server Factory उस विशेषज्ञता को एक घोषणात्मक JSON
+मॉडल और एक निष्पादन इंजन में समाहित करता है, ताकि बिना मैन्युअल चरण-दर-चरण काम के
+किसी भी समर्थित लक्ष्य पर एक सही, सुरक्षित और डॉकराइज़्ड मेल स्टैक को पुनः निर्मित
+किया जा सके।</p>
+<h2 id="यह-कय-गम-चजर-ह">यह क्यों गेम-चेंजर है</h2>
+<p>यह मेल-सर्वर प्रोविज़निंग को एक विशेषज्ञ, दिनों तक चलने वाले, बिल्कुल सही करने के
+कठिन कार्य से घटाकर केवल कॉन्फ़िगरेशन लिखने का काम बना देता है — फिर उस काम को 12
+कनेक्शन प्रकारों और 25 Linux वितरणों पर पोर्टेबल बनाता है, और बॉक्स से ही एंटरप्राइज़
+सुरक्षा डिफ़ॉल्ट्स के साथ मज़बूत करता है। परिणाम पुनरुत्पादन योग्य और <em>सत्यापन
+योग्य</em> है: हर बार वही JSON वही सुरक्षित स्टैक देता है, और प्रोजेक्ट के 439 पास
+होने वाले टेस्ट और स्वच्छ SonarQube गेट का मतलब है कि काम करने वाला इंजन खुद जवाबदेह
+है, न कि केवल प्रतिष्ठा पर भरोसा किया जाता है।</p>
+<h2 id="कय-ह-नवचर">क्या है नवाचारी</h2>
+<ul>
+<li>घोषणात्मक JSON → लक्ष्य ऑपरेटिंग सिस्टम पर व्याख्यायित
+इंस्टॉलेशन/इनिशियलाइज़ेशन।</li>
+<li>एक ही टूल के पीछे 12 कनेक्शन प्रकार (लोकल, SSH, Docker, Kubernetes, AWS
+SSM, Azure, GCP, Libvirt, और अन्य)।</li>
+<li>25 वितरणों का समर्थन, जिसमें अनअटेंडेड इंस्टॉल
+(preseed/kickstart/cloud-init/autoyast) और QEMU ऑटोमेशन शामिल है।</li>
+<li>स्वतंत्र स्केलिंग/अपग्रेड के लिए ढीले-ढाले ढंग से जुड़ा डॉकराइज़्ड स्टैक।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>ऑपरेटिंग सिस्टम/वितरण विविधता:</strong> प्रति-वितरण रेसिपी,
+अनअटेंडेड-इंस्टॉल कॉन्फ़िगरेशन और QEMU-आधारित क्रॉस-डिस्ट्रो टेस्टिंग से हल।</li>
+<li><strong>कई डिप्लॉयमेंट लक्ष्यों तक पहुँच:</strong> 12 प्लग करने योग्य कनेक्शन
+प्रकारों को एक सामान्य इंस्टॉलेशन इंजन के तहत लाकर हल।</li>
+<li><strong>डिफ़ॉल्ट सुरक्षा:</strong> AES-256-GCM, अनिवार्य कुंजी/पासवर्ड
+नीतियाँ, स्वचालित फ़ायरवॉल नियम और TLS/HSTS से हल।</li>
+<li><strong>सही होने पर भरोसा:</strong> 439 टेस्ट के सूट (100% पास) और स्वच्छ
+SonarQube गेट से हल।</li>
+</ul>
+<h2 id="तकनक-सटक-कय-कस">तकनीकी स्टैक (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Kotlin</strong> — फैक्ट्री इंजन और इंस्टॉलेशन-चरण तर्क (179K बाइट्स;
+Kotlin 2.0.21)।</li>
+<li><strong>Shell</strong> — प्रोविज़निंग स्क्रिप्ट, ISO/QEMU मैनेजर और OS
+ऑटोमेशन (बाइट्स के हिसाब से प्रमुख)।</li>
+<li><strong>Docker</strong> — डिप्लॉय किए गए, ढीले-ढाले ढंग से जुड़े मेल स्टैक के
+लिए रनटाइम।</li>
+<li><strong>QEMU</strong> — क्रॉस-डिस्ट्रीब्यूशन इंस्टॉलेशन और टेस्टिंग के लिए VM
+ऑटोमेशन।</li>
+<li><strong>JSON</strong> — उपयोगकर्ता के लिए घोषणात्मक कॉन्फ़िगरेशन
+प्रारूप।</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — बिल्ड टूलचेन।</li>
+<li><strong>Caffeine</strong> — मल्टी-रीजन कैशिंग; <strong>G1GC-ट्यून्ड
+JVM</strong> प्रदर्शन के लिए।</li>
+<li><strong>Prometheus-संगत मेट्रिक्स</strong> — मॉनिटरिंग;
+Grafana/ELK-तैयार।</li>
+<li><strong>Sieve</strong> — मेल फ़िल्टरिंग नियम (भाषा आँकड़ों में छोटा
+पदचिह्न)।</li>
+</ul>
+<blockquote>
+<p>ध्यान दें: GitHub रिपॉजिटरी को Server-Factory संगठन के भीतर एक फ़ोर्क के रूप में
+चिह्नित करता है। यह AI प्रोडक्ट लाइन से पहले का है; इसे एक परिपक्व
+DevOps/प्रोविज़निंग फ़्लैगशिप के रूप में प्रस्तुत किया गया है, न कि AI उपयोगिता के रूप
+में।</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SUMMARY</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SUMMARY</h1>
+</header>
+<h1
+id="live-verification-evidence-matrix-v1.5.x-read-only-live-production">Live
+Verification Evidence Matrix — v1.5.x (READ-ONLY, live production)</h1>
+<ul>
+<li>Date: 2026-08-07</li>
+<li>Method: raw <code>curl -sSL</code> + Playwright (chromium) + <span
+class="citation"
+data-cites="axe-core/playwright">@axe-core/playwright</span> against
+LIVE URLs only. No generator run, no source edits, no commit/push.</li>
+<li>Sites / deployed versions:
+<ul>
+<li>vasic.digital — v1.5.0 (commit e2f85bc)</li>
+<li>milosvasic.ru — v1.5.1 (commit 00794fb)</li>
+</ul></li>
+<li>Languages (15): EN + 14 non-EN: ar be de es fa fr hi ja kk ko ru sr
+tr zh</li>
+<li>Every claim is backed by a saved artifact under this directory.</li>
+</ul>
+<h2 id="pass-fail-unverified-table">PASS / FAIL / UNVERIFIED table</h2>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 14%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Check</th>
+<th>vasic.digital</th>
+<th>milosvasic.ru</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Root 200</td>
+<td>PASS (200)</td>
+<td>PASS (200)</td>
+<td>curl (this run)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>sitemap.xml reachable</td>
+<td>PASS 525 URLs, own domain only</td>
+<td>PASS 525 URLs, own domain only</td>
+<td>reachability/sitemap-*.xml</td>
+</tr>
+<tr>
+<td>1</td>
+<td>~30 sampled URLs (incl. localized) 200</td>
+<td>PASS 34/34, 0 non-200</td>
+<td>PASS 34/34, 0 non-200</td>
+<td>reachability/samplecheck-*.txt</td>
+</tr>
+<tr>
+<td>2</td>
+<td>14 localized homes: 200 + html lang + dir(rtl ar/fa) + in-language
+hero + no EN-leak</td>
+<td>PASS 14/14</td>
+<td>PASS 14/14</td>
+<td>homes/grid-<em>.txt, homes/page-</em>.html</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Home switcher exposes per-lang home URLs</td>
+<td>PASS OD_PAGE.paths = 14 langs +en</td>
+<td>PASS MV_PAGE.paths = 14 langs +en</td>
+<td>langswitch/*.txt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>D1/D2: localized product/portfolio use ../../assets/od/…, assets
+200</td>
+<td>PASS (7 assets 200)</td>
+<td>n/a (vasic-specific)</td>
+<td>d1d2/d1d2-assets.txt, d1d2/*-assets.txt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>D1/D2: portfolio-&gt;product ../../products/<l>/… 200; Home /<l>/
+200 (ru,de,ar,ja)</td>
+<td>PASS all 200</td>
+<td>n/a</td>
+<td>d1d2/d1d2-resolve.txt</td>
+</tr>
+<tr>
+<td>5</td>
+<td>v1.5.0 VFX in served home (vd-hero, aurora/grid, data-od-count,
+od-magnetic, od-glow)</td>
+<td>PASS (see Note A)</td>
+<td>PASS = ABSENT (all 0)</td>
+<td>vfx/vfx-vasic.txt, vfx/vfx-milos*.txt,
+vfx/vfx-aurora-context.txt</td>
+</tr>
+<tr>
+<td>5</td>
+<td>prefers-reduced-motion in served brand CSS</td>
+<td>PASS (vasic-digital.css 1, animations.css 4, motion.js 1)</td>
+<td>present too (milosvasic.css 1)</td>
+<td>vfx/vfx-vasic.txt</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Per-language PDFs 200 + application/pdf + non-trivial</td>
+<td>PASS 15/15 Portfolio (0.97–1.11 MB)</td>
+<td>PASS 45/45 CV+CL+Portfolio (0.20–0.75 MB)</td>
+<td>pdf/vasic-pdf-grid.txt, pdf/milos-pdf-grid.txt</td>
+</tr>
+<tr>
+<td>6</td>
+<td>downloads.js offers 15 langs</td>
+<td>n/a (no downloads.js; static links)</td>
+<td>PASS ALL15 for cv/cl/portfolio</td>
+<td>pdf/downloads.js</td>
+</tr>
+<tr>
+<td>7</td>
+<td>axe-core serious/critical = 0 (EN home, ru home, ar RTL)</td>
+<td>PASS 0/0 all 3</td>
+<td>PASS 0/0 all 3</td>
+<td>a11y/axe-*.json, a11y/axe-summary.json</td>
+</tr>
+<tr>
+<td>8</td>
+<td>No horizontal overflow <span class="citation"
+data-cites="375/768/1280">@375/768/1280</span></td>
+<td>PASS all</td>
+<td>PASS all</td>
+<td>interactive/interactive-results.json</td>
+</tr>
+<tr>
+<td>8</td>
+<td>No broken images</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>same</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Back-to-top appears on scroll + returns to top</td>
+<td>PASS all viewports</td>
+<td>PASS all viewports</td>
+<td>same + screenshots/*.png</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Nav click navigates</td>
+<td>PASS -&gt; /portfolio/</td>
+<td>PASS -&gt; /#work</td>
+<td>same</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Mobile hamburger works</td>
+<td>n/a</td>
+<td>PASS (#nav-toggle aria-expanded false-&gt;true, menu visible)</td>
+<td>interactive-results.json, screenshots/milos-375.png</td>
+</tr>
+</tbody>
+</table>
+<p>No UNVERIFIED rows. No FAIL rows.</p>
+<h2 id="defect-list">Defect list</h2>
+<p>EMPTY — no defects found. All checks pass on both production
+sites.</p>
+<h2 id="notes-non-defects">Notes (non-defects)</h2>
+<ul>
+<li>Note A — VFX class naming: the v1.5.0 aurora/grid hero effects are
+served on vasic.digital under class names <code>vd-hero__fx</code>
+(wrapper), <code>vd-hero__aurora</code>, <code>vd-hero__grid</code> (CSS
+keyframe <code>vd-aurora-drift</code>), NOT the literal tokens
+<code>od-aurora</code>/<code>od-grid</code> in the brief. Feature
+confirmed in served HTML (vfx/vfx-aurora-context.txt). Other tokens
+matched literally: vd-hero (x11), data-od-count (x3), od-magnetic (x3),
+od-glow (x34). milos home has none of these.</li>
+<li>milosvasic.ru also serves the full product/portfolio catalog (495
+/products/ + 15 /portfolio/ localized URLs, own domain, all sampled 200)
+— by design, not a cross-site leak.</li>
+<li>One transient TLS reset on overlays.css during batch checks;
+immediate retry returned 200 (text/css, 4092 bytes). Recorded in
+d1d2/d1d2-assets.txt.</li>
+</ul>
+<h2 id="artifact-index">Artifact index</h2>
+<ul>
+<li>reachability/ — sitemaps, sample-check logs</li>
+<li>homes/ — 28 localized pages + grids</li>
+<li>langswitch/ — OD_PAGE / MV_PAGE evidence</li>
+<li>d1d2/ — asset + link resolution</li>
+<li>vfx/ — visual-effects token checks + served CSS</li>
+<li>pdf/ — 60 verified PDFs + downloads.js</li>
+<li>a11y/ — 7 axe JSON incl. summary</li>
+<li>interactive/ — interactive-results.json</li>
+<li>screenshots/ — 2 sites x 3 viewports</li>
+</ul>
+</body>
+</html>

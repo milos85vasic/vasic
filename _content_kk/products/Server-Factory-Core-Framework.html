@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>Әрбір Server Factory-тың жалпы қозғалтқышы</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Core Framework – бұл Server Factory құралдары отбасының негізі болып
+табылатын Kotlin фреймворкі. Ол Mail Server Factory сияқты жобалардың
+құрылымына арналған ортақ қозғалтқыш пен абстракцияларды қамтамасыз
+етеді, яғни әрбір «фабрика» бір сынақтан өткен негізді қайталап жасамай,
+оны қайта пайдаланады.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>Server Factory экосистемасының негізіндегі ортақ Kotlin фреймворкі.
+Ол төменгі деңгейдегі фабрикаларға (Mail Server Factory, Web Service
+Factory, SonarQube Factory және басқалары) ортақ орнату қозғалтқышы,
+байланыс абстракциялары мен орнату кезеңдерінің механизмін береді.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Core Framework – бүкіл Server-Factory отбасын мүмкін ететін тыныш
+инженерлік шешім: әрбір жеке «фабрика» өнімі (Mail Server Factory, Web
+Service Factory, SonarQube Factory, Caching Proxy Factory) осы қайта
+пайдаланылатын қозғалтқыштың үстінде құрылады. Server Factory тәсілі
+декларативті – пайдаланушы қажетті инфрақұрылымды конфигурация түрінде
+сипаттайды, ал фабрика бұл сипаттаманы түсіндіріп, мақсатты жүйеде
+бағдарламаны орнатады және іске қосады. Core Framework осы үлгіге ортақ
+механизмдердің нақты орналасқан жері: әр түрлі мақсатты жүйелерге қол
+жеткізу үшін байланыс пен тасымалдау абстракциялары, бағдарламаның қалай
+орнатылатынын кодтаушы орнату кезеңдерінің моделі және әр фабрика өз
+бетінше жасауы тиіс ортақ құбырлар. Бұл көп өнімді құралдар тізбегі
+кездесетін құрылымдық сұраққа жауап – ортақ қозғалтқыш қайда орналасуы
+керек? – және осы жауапты бір рет дұрыс табу отбасының біртұтастығын
+сақтап, төрт әртүрлі орнатушыға бөлінуден сақтайды. Бұл Kotlin
+фреймворкіне біріктірілгендіктен, отбасы өнімдер бойынша орнату
+логикасын қайталамайды және әрекеттердің біркелкілігін сақтайды: Core
+Framework-те жетілдірілген байланыс түрі немесе орнату примитиві әрбір
+төменгі деңгейдегі фабриканың пайдасына айналады. Ол негізінен Kotlin
+(шамамен 990 мың байт Kotlin және жұқа Shell қабаты), өйткені бұл кодтық
+кітапхана ретінде, емес, скрипттер жинағы ретінде қызмет етеді. Төменгі
+деңгейдегі репозиторийлер оны өздерінің негізгі тәуелділігі ретінде
+пайдаланады (Parallels-Utils, Qemu-Utils, Utils және Definitions pack
+барлығы Core Framework репозиторийін экосистема орталығы ретінде
+көрсетеді). Оның README файлы әдейі қысқа – бұл басқа жобаларға арналған
+инфрақұрылым, <code>version.txt</code>/<code>version_code.txt</code>
+арқылы нұсқаланады, және ол кейінгі AI жұмысынан бұрын пайда
+болғандықтан, ұйымның DevOps құралдарының тарихының жетілген бөлігі
+болып табылады.</p>
+<h2 id="неліктен-оны-жасадық">Неліктен оны жасадық</h2>
+<p>Әрбір орнату құралына мақсатты жүйелерге қосылу және бағдарламаны
+орнату/конфигурациялау кезеңдері сияқты ортақ негіз қажет. Әр өнім үшін
+оны қайта жасау әрекеттердің бөлінуіне және қателердің көбеюіне әкелер
+еді. Core Framework оны біріктіріп, әр фабрика бір сенімді қозғалтқышты
+пайдаланады.</p>
+<h2 id="неліктен-бұл-өзгерістің-шешуші-сәті">Неліктен бұл өзгерістің
+шешуші сәті</h2>
+<p>Бұл бүкіл отбасындағы ең жоғары әсерлі нүкте: мұндағы байланыс
+түрінің қатаңдалғаны немесе орнату примитивінің жетілдірілгені әрбір
+фабрикаға бірден дұрыстық пен мүмкіндіктерді тасымалдайды, сондықтан
+бүкіл құралдар тізбегі бір инвестициядан пайда көреді. Бұл «бір рет
+жаса, барлық жерде пайдалан» философиясының инфрақұрылымды
+автоматтандырудың негізгі қабатында – дұрыс жердегі түзету барлық
+төменгі деңгейдегілерді түзеп жіберетін жерде қолданылуы.</p>
+<p>Мәтін мазмұны</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Байланыс пен орнату кезеңдерінің логикасын абстракциялау арқылы бір
+ғана қайта пайдаланылатын құрастыру фреймворкі.</li>
+<li>Движок (Core Framework) пен өнімге арналған фабрикалар арасындағы
+таза бөліну.</li>
+<li>Қайталанғыш тұтыну үшін нұсқаға байланған дистрибуция
+(<code>version.txt</code>/<code>version_code.txt</code>).</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>Құрастыру логикасының қайталануы:</strong> барлық фабрикалар
+тұтынатын бір фреймворкке ортақ механизмді бөлу арқылы шешілді.</li>
+<li><strong>Өнімдер арасындағы әрекет бірлігі:</strong> байланыс түрлері
+мен кезеңдері барлық жерде бірдей әрекет етуі үшін ортақ абстракциялар
+қолданылды.</li>
+<li><strong>(ТЕКСЕРІЛМЕГЕН):</strong> ішкі API-лардың нақты
+егжей-тегжейлері жалпы README құжатында баяндалмаған; интерфейс
+мәліметтерін “фабрикалар тұтынатын ортақ фреймворк” деңгейінен тыс
+тексерілмеген деп есептеу керек.</li>
+</ul>
+<h2 id="техникалық-стегі-неліктен-және-қалай">Техникалық стегі (неліктен
+және қалай)</h2>
+<ul>
+<li><strong>Kotlin</strong> — бүкіл фреймворк (~990K байт); Server
+Factory отбасының тілі.</li>
+<li><strong>Shell</strong> — қолдауға арналған минималды скрипттер.</li>
+<li><strong>Gradle</strong> — құрастыру құралдарының тізбегі (отбасының
+<code>./gradlew</code> қолданысына сәйкес).</li>
+</ul>
+<blockquote>
+<p>Ескерту: GitHub репозиторийі Server-Factory ұйымындағы форк ретінде
+белгіленген. AI-ға бағытталмаған; құрастыру құралдарының негізі ретінде
+ұсынылған.</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<h1 id="visionengine">VisionEngine</h1>
+<p><strong>Tagline:</strong> See the UI like a user — computer vision
+plus LLM vision for analysis and navigation.</p>
+<p><strong>Summary:</strong> VisionEngine is a decoupled Go toolkit that
+combines classic computer vision with LLM-based vision to analyze user
+interfaces, detect UI elements and visual issues, and build navigation
+graphs of app screen transitions — with pluggable multi-provider vision
+backends and OpenCV gated behind a build tag.</p>
+<p><strong>Short description (~40 words):</strong> A reusable Go module
+for UI analysis and navigation-graph construction. It offers an analyzer
+layer (UI elements, screen diffs, visual issues), a navigation graph
+with BFS pathfinding and DOT/JSON/Mermaid export, and LLM-vision
+adapters for GPT-4o, Claude, Gemini, Qwen-VL, and more.</p>
+<p><strong>Long description (150–250 words):</strong> VisionEngine gives
+automation the ability to perceive and reason about user interfaces the
+way a person would. It is organized into four cooperating layers. The
+<strong>Analyzer</strong> defines interfaces (<code>Analyzer</code>,
+<code>VideoProcessor</code>) and value types (<code>UIElement</code>,
+<code>ScreenAnalysis</code>, <code>ScreenDiff</code>, <code>Rect</code>,
+<code>Size</code>, <code>TextRegion</code>, <code>VisualIssue</code>,
+<code>ScreenIdentity</code>, <code>Action</code>, <code>KeyFrame</code>)
+with a <code>StubAnalyzer</code> reference implementation, so consumers
+can analyze screens and diffs against a stable contract. The
+<strong>NavigationGraph</strong> models an app as a directed graph of
+screen transitions with BFS pathfinding and three export back-ends (DOT,
+JSON, Mermaid), and it ships stress/automation/integration/security test
+suites. The <strong>LLM Vision</strong> layer defines a
+<code>VisionProvider</code> interface plus adapters for OpenAI (GPT-4o),
+Anthropic (Claude), Gemini, Qwen-VL, Kimi, StepGUI, Astica, and Ollama,
+composed via a <code>FallbackChain</code> so a failing or weak provider
+degrades gracefully to the next. A <strong>Configuration</strong> layer
+handles env-var loading and validation with all user-facing error
+strings routed through the <code>i18n.Translator</code> seam. Crucially,
+heavy native dependencies are optional: OpenCV bindings are
+build-tag-gated (<code>-tags vision</code>), and the default build ships
+stubs so the entire module is buildable and testable on any Go 1.25+
+host without OpenCV. VisionEngine is fully decoupled per the
+constitution (CONST-051(B)) and is incorporated by consumers — notably
+HelixQA — as an equal-codebase submodule for visual, evidence-driven UI
+testing.</p>
+<p><strong>Why we built it:</strong> UI test automation that relies only
+on accessibility trees or selectors misses what the user actually sees.
+VisionEngine adds real visual understanding — element detection, screen
+diffing, and LLM-vision reasoning — plus a navigable map of app screens,
+so automation can both perceive and route through a UI.</p>
+<p><strong>Why it’s a game-changer:</strong> It fuses deterministic
+computer vision with modern multimodal LLM vision behind one interface
+and a fallback chain, and makes it adoptable anywhere by keeping OpenCV
+optional — so any Go project gains UI perception without heavy native
+prerequisites.</p>
+<p><strong>What’s innovative:</strong> - Dual perception: classic CV
+(OpenCV/GoCV) plus multi-provider LLM vision with a fallback chain. -
+Navigation graph with BFS pathfinding and DOT/JSON/Mermaid export. -
+Build-tag-gated OpenCV so the module stays buildable/testable without
+native deps. - Fully decoupled, i18n-seamed, equal-codebase submodule
+(used by HelixQA).</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Heavy native dependency friction:</em> solved with
+<code>-tags vision</code> gating and default stubs so CI/hosts without
+OpenCV still build and test. - <em>Vision-provider unreliability:</em>
+solved with a <code>VisionProvider</code> interface and
+<code>FallbackChain</code> composer. - <em>Mapping complex app
+flows:</em> solved with a directed navigation graph plus BFS pathfinding
+and multi-format export. - <em>Coupling:</em> solved via CONST-051(B)
+decoupling and the i18n translator seam.</p>
+<p><strong>Tech stack (why + how):</strong> - <strong>Go
+(1.25+)</strong> — module core and all four layers. - <strong>GoCV /
+OpenCV</strong> — classic computer vision, build-tag-gated. -
+<strong>LLM vision providers (GPT-4o, Claude, Gemini, Qwen-VL, Kimi,
+StepGUI, Astica, Ollama)</strong> — multimodal UI reasoning via
+adapters. - <strong>Graph algorithms (BFS)</strong> — navigation
+pathfinding. - <strong>DOT / JSON / Mermaid exporters</strong> —
+navigation-graph visualization. - <strong>i18n Translator</strong> —
+decoupled user-facing strings.</p>
+<p><strong>Public links:</strong> - GitHub (HelixDevelopment):
+https://github.com/HelixDevelopment/VisionEngine (public). - GitHub
+(vasic-digital): https://github.com/vasic-digital/VisionEngine (public).
+- Consumed by HelixQA as an equal-codebase submodule.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Four-layer stack: Analyzer / NavigationGraph / LLM Vision / Config. 2.
+Navigation graph rendered (Mermaid-style) with BFS path highlighted. 3.
+Vision fallback chain across providers. 4. Build-tag split: default stub
+build vs <code>-tags vision</code> OpenCV build.</p>
+<p><strong>Site relevance:</strong> vasic.digital (multimodal AI /
+QA-automation depth). Complements the HelixQA anti-bluff story.</p>
+<p><strong>Priority tier:</strong> vasic-util-secondary</p>
+<p><strong>Source provenance:</strong>
+<code>gh repo view vasic-digital/VisionEngine</code> README (four
+layers, value types, providers, FallbackChain, build-tag gating,
+CONST-051); <code>_analysis/github-helix-others.md</code> (VisionEngine
+listing); <code>_analysis/github-vasic-digital.md</code>
+(size/description).</p>
+</body>
+</html>

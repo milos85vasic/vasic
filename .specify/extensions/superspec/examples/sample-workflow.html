@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>sample-workflow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">sample-workflow</h1>
+</header>
+<h1 id="sample-workflow-user-authentication-feature">Sample Workflow:
+User Authentication Feature</h1>
+<p>This example walks through a complete superspec workflow for a “User
+Authentication” feature in a web application. It demonstrates each
+command, shows abbreviated outputs, and illustrates superpowers
+integration with fallback behavior.</p>
+<h2 id="setup">Setup</h2>
+<p>Assume we have a fresh project with no <code>.specify/</code>
+directory yet.</p>
+<hr />
+<h2 id="phase-0-create-constitution">Phase 0: Create Constitution</h2>
+<pre><code>User: /speckit.constitution TaskFlow</code></pre>
+<p>The agent interviews us about project principles, tech stack, and
+quality gates. After the conversation, it creates:</p>
+<p><strong><code>.specify/memory/constitution.md</code></strong>
+(abbreviated):</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># TaskFlow Constitution</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Principles</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### I. Simplicity First</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>Start simple, YAGNI. Only add complexity when current design cannot solve the problem.</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### II. Test-First</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>TDD mandatory for all business logic. RED-GREEN-REFACTOR strictly enforced.</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### III. Security by Default</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Authentication and authorization on every endpoint. Input validation at boundaries.</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Technology Stack</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Layer <span class="pp">|</span> Technology <span class="pp">|</span> Purpose <span class="pp">|</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|-----------|---------|</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Frontend <span class="pp">|</span> React + TypeScript <span class="pp">|</span> SPA <span class="pp">|</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Backend <span class="pp">|</span> Express + TypeScript <span class="pp">|</span> REST API <span class="pp">|</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Database <span class="pp">|</span> PostgreSQL <span class="pp">|</span> Primary storage <span class="pp">|</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Testing <span class="pp">|</span> Vitest + Supertest <span class="pp">|</span> Unit + integration <span class="pp">|</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Development Workflow</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>(superspec pipeline: constitution → specify → brainstorm → plan → tasks → execute → review)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quality Gates</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Unit tests: REQUIRED (80% coverage)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>TDD discipline: REQUIRED</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Code review: REQUIRED for API contracts and security</span></code></pre></div>
+<hr />
+<h2 id="phase-1-write-feature-spec">Phase 1: Write Feature Spec</h2>
+<pre><code>User: /speckit.specify &quot;User authentication with email/password login, registration, and password reset&quot;</code></pre>
+<p>The agent reads the constitution, interviews us about user stories,
+and creates:</p>
+<p><strong><code>specs/001-user-authentication/spec.md</code></strong>
+(abbreviated):</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Feature Specification: User Authentication</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>**Feature Branch**: <span class="in">`001-user-authentication`</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>**Created**: 2026-04-22</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>**Status**: Draft</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## User Scenarios &amp; Testing</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">### User Story 1 - Email Registration (Priority: P1)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>As a new user, I want to register with my email and password so I can access the app.</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>**Acceptance Scenarios**:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Given a valid email and password, When I submit registration, Then my account is created</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Given an already-registered email, When I submit, Then I see &quot;Email already in use&quot;</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">### User Story 2 - Login (Priority: P1)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>As a registered user, I want to log in with my email and password.</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### User Story 3 - Password Reset (Priority: P2)</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>As a user who forgot my password, I want to reset it via email.</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Edge Cases</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What happens with extremely long passwords?</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How do we handle concurrent registration with the same email?</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Brainstorm Prompts</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>(pre-populated prompts for edge case exploration)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Open Questions</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> # <span class="pp">|</span> Question <span class="pp">|</span> Status <span class="pp">|</span> Resolution <span class="pp">|</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|----------|--------|------------|</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Q1 <span class="pp">|</span> Maximum password length? <span class="pp">|</span> Open <span class="pp">|</span> — <span class="pp">|</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Requirements</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>FR-001: System MUST validate email format</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>FR-002: System MUST hash passwords with bcrypt</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>FR-003: System MUST issue JWT tokens on successful login</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div>
+<hr />
+<h2 id="phase-2-brainstorm-edge-cases">Phase 2: Brainstorm Edge
+Cases</h2>
+<pre><code>User: /speckit.superspec.brainstorm specs/001-user-authentication/spec.md</code></pre>
+<p>The agent checks for superpowers:</p>
+<pre><code>Checking for brainstorming skill...
+✓ Found brainstorming at ~/.agents/skills/brainstorming/SKILL.md
+  Using enhanced questioning protocol.</code></pre>
+<p><em>(If not found, the agent would say: “Superpowers brainstorming
+not detected, using built-in questioning protocol.”)</em></p>
+<p>The agent then asks questions one at a time:</p>
+<pre><code>Agent: Let&#39;s explore boundary conditions first.
+       What should be the minimum and maximum password length?
+       A) 8-64 characters (common standard)
+       B) 8-128 characters (generous)
+       C) 12-256 characters (strict minimum, very generous max)
+       D) Other
+
+User: A) 8-64 characters
+
+Agent: Good. Now for error scenarios:
+       What happens if a user tries to register and the database is temporarily unavailable?
+       A) Show a generic &quot;try again later&quot; error
+       B) Queue the registration and process when DB recovers
+       C) Show specific error with retry button
+
+User: A) Generic error with retry suggestion
+
+Agent: Security question: Should we implement rate limiting on login attempts?
+       A) Yes, lock after 5 failed attempts for 15 minutes
+       B) Yes, progressive delay (1s, 2s, 4s, 8s...)
+       C) Yes, CAPTCHA after 3 failed attempts
+       D) No rate limiting needed
+
+User: C) CAPTCHA after 3 attempts</code></pre>
+<p>After the session, the spec is updated:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## Open Questions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> # <span class="pp">|</span> Question <span class="pp">|</span> Status <span class="pp">|</span> Resolution <span class="pp">|</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|----------|--------|------------|</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Q1 <span class="pp">|</span> Maximum password length? <span class="pp">|</span> Resolved <span class="pp">|</span> 8-64 characters <span class="pp">|</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Q2 <span class="pp">|</span> DB unavailability handling? <span class="pp">|</span> Resolved <span class="pp">|</span> Generic error with retry <span class="pp">|</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Q3 <span class="pp">|</span> Login rate limiting? <span class="pp">|</span> Resolved <span class="pp">|</span> CAPTCHA after 3 failed attempts <span class="pp">|</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Brainstorm Log</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session 2026-04-22</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>**Focus**: Full edge case exploration</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>**Key insights**:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Added password length limits (8-64 chars) to FR-002</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Added rate limiting requirement: CAPTCHA after 3 failed login attempts (new FR-008)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Clarified error handling for DB unavailability</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Identified need for email verification flow (deferred to Phase 2)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>**Spec updates**: Added FR-008 (rate limiting), FR-009 (email verification), updated edge cases</span></code></pre></div>
+<hr />
+<h2 id="phase-3-create-implementation-plan">Phase 3: Create
+Implementation Plan</h2>
+<pre><code>User: /speckit.plan</code></pre>
+<p>The agent reads the spec, researches the codebase, and creates:</p>
+<p><strong><code>specs/001-user-authentication/plan.md</code></strong>
+(abbreviated):</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Implementation Plan: User Authentication</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Implement email/password authentication with registration, login, password reset,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>and rate limiting. JWT-based session management.</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Technical Context</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>**Language/Version**: TypeScript 5.x</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>**Primary Dependencies**: Express, bcrypt, jsonwebtoken, nodemailer</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>**Storage**: PostgreSQL with Prisma ORM</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>**Testing**: Vitest + Supertest</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Constitution Check</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Principle <span class="pp">|</span> Status <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|--------|-------|</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Simplicity First <span class="pp">|</span> PASS <span class="pp">|</span> Standard auth patterns, no over-engineering <span class="pp">|</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Test-First <span class="pp">|</span> PASS <span class="pp">|</span> TDD required for all auth logic <span class="pp">|</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Security by Default <span class="pp">|</span> PASS <span class="pp">|</span> bcrypt, JWT, rate limiting, input validation <span class="pp">|</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Execution Strategy</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### TDD Requirements</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> Auth service (login, register, password reset logic)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> JWT token generation and validation</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> Rate limiting logic</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parallel Execution Opportunities</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>User model + Auth middleware can be built in parallel</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Frontend auth pages can be built in parallel with backend API</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="fu">### Human Checkpoints</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>After foundational setup — verify DB schema</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>After registration flow — verify end-to-end</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>After login flow — verify JWT handling</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Before merge — security review</span></code></pre></div>
+<hr />
+<h2 id="phase-4-decompose-tasks">Phase 4: Decompose Tasks</h2>
+<pre><code>User: /speckit.superspec.tasks</code></pre>
+<p>The agent checks for superpowers:</p>
+<pre><code>Checking for writing-plans skill...
+✗ writing-plans not detected, using template-based decomposition.</code></pre>
+<p>Creates
+<strong><code>specs/001-user-authentication/tasks.md</code></strong>
+(abbreviated):</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tasks: User Authentication</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 1: Setup</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T001 Initialize Prisma with PostgreSQL connection</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T002 <span class="co">[</span><span class="ot">P</span><span class="co">]</span> Configure Vitest + Supertest</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 2: Foundational</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T003 <span class="co">[</span><span class="ot">TDD</span><span class="co">]</span> Create User model with Prisma schema</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T004 <span class="co">[</span><span class="ot">P</span><span class="co">] [TDD]</span> Create auth middleware (JWT validation)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T005 <span class="co">[</span><span class="ot">P</span><span class="co">] [REVIEW]</span> Define API route structure for /api/auth/*</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>**Checkpoint**: Foundation ready. Review API contracts before proceeding.</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 3: User Story 1 - Registration (P1) MVP</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T006 <span class="co">[</span><span class="ot">TDD</span><span class="co">] [US1]</span> Registration service (validate, hash, create user)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T007 <span class="co">[</span><span class="ot">US1</span><span class="co">]</span> POST /api/auth/register endpoint</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T008 <span class="co">[</span><span class="ot">TDD</span><span class="co">] [US1]</span> Email uniqueness validation</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T009 <span class="co">[</span><span class="ot">US1</span><span class="co">]</span> Registration error handling</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>**Checkpoint**: Registration flow works end-to-end.</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 4: User Story 2 - Login (P1)</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T010 <span class="co">[</span><span class="ot">TDD</span><span class="co">] [US2]</span> Login service (verify credentials, issue JWT)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T011 <span class="co">[</span><span class="ot">US2</span><span class="co">]</span> POST /api/auth/login endpoint</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T012 <span class="co">[</span><span class="ot">TDD</span><span class="co">] [US2]</span> Rate limiting with CAPTCHA trigger</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T013 <span class="co">[</span><span class="ot">US2</span><span class="co">]</span> Token refresh endpoint</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>**Checkpoint**: Login flow works end-to-end.</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 5: User Story 3 - Password Reset (P2)</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T014 <span class="co">[</span><span class="ot">TDD</span><span class="co">] [SUBAGENT]</span> <span class="co">[</span><span class="ot">US3</span><span class="co">]</span> Password reset token generation</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T015 <span class="co">[</span><span class="ot">SUBAGENT</span><span class="co">] [US3]</span> Reset email sending via nodemailer</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T016 <span class="co">[</span><span class="ot">TDD</span><span class="co">] [US3]</span> Password reset confirmation endpoint</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 6: Polish</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T017 <span class="co">[</span><span class="ot">P</span><span class="co">] [SUBAGENT]</span> API documentation</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T018 <span class="co">[</span><span class="ot">REVIEW</span><span class="co">]</span> Security hardening review</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T019 Run full test suite — all tests must pass</span></code></pre></div>
+<hr />
+<h2 id="phase-5-execute-implementation">Phase 5: Execute
+Implementation</h2>
+<pre><code>User: /speckit.superspec.execute</code></pre>
+<p>The agent walks through tasks phase by phase:</p>
+<pre><code>Agent: Starting Phase 1: Setup.
+
+[Implements T001: Prisma setup]
+[Implements T002: Vitest config]
+
+Phase 1 complete.
+- T001 ✓ Prisma configured with PostgreSQL
+- T002 ✓ Vitest + Supertest configured
+All setup verified. Proceed to Phase 2?
+
+User: Yes, proceed.
+
+Agent: Starting Phase 2: Foundational.
+
+T003 is marked [TDD]. Following RED-GREEN-REFACTOR:
+  1. Writing test for User model... ✓
+  2. Running test... FAIL (expected — model doesn&#39;t exist yet) ✓
+  3. Implementing User model... ✓
+  4. Running test... PASS ✓
+
+T005 is marked [REVIEW]. API routes defined:
+  POST /api/auth/register
+  POST /api/auth/login
+  POST /api/auth/reset-password
+  POST /api/auth/reset-confirm
+  POST /api/auth/refresh
+
+Please review these API contracts before I proceed.
+
+User: Looks good, proceed.
+
+Agent: Phase 2 complete. Proceeding to Phase 3: Registration...</code></pre>
+<hr />
+<h2 id="phase-6-code-review">Phase 6: Code Review</h2>
+<pre><code>User: /speckit.superspec.review</code></pre>
+<pre><code>Agent: Reviewing implementation against spec...
+
+Checking for requesting-code-review skill...
+✓ Found requesting-code-review at ~/.agents/skills/requesting-code-review/SKILL.md
+  Using enhanced review protocol.
+
+### Review Findings
+
+**Spec Compliance**: 8/8 acceptance scenarios verified ✓
+
+**Issues Found** (confidence &gt;= 80):
+
+1. **Critical** (confidence: 95): Rate limiting resets on server restart
+   - File: src/services/rate-limiter.ts:42
+   - The in-memory counter is lost on restart. Consider Redis-backed storage.
+   - Recommendation: Add Redis adapter for rate limit state
+
+2. **Important** (confidence: 85): Password reset tokens have no expiration
+   - File: src/services/auth.service.ts:128
+   - FR-010 requires tokens to expire after 1 hour, but no TTL is set.
+   - Recommendation: Add `expiresAt` field to reset token generation
+
+No other issues above confidence threshold.</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This walkthrough demonstrated:</p>
+<ol type="1">
+<li><strong>Constitution</strong> → established Simplicity, Test-First,
+Security principles</li>
+<li><strong>Specify</strong> → created 3 user stories with acceptance
+scenarios</li>
+<li><strong>Brainstorm</strong> → discovered rate limiting, password
+length limits, error handling (with superpowers enhancement)</li>
+<li><strong>Plan</strong> → designed technical approach with
+constitution compliance check</li>
+<li><strong>Tasks</strong> → decomposed into 19 tasks with
+<code>[TDD]</code>, <code>[REVIEW]</code>, <code>[SUBAGENT]</code>
+markers</li>
+<li><strong>Execute</strong> → implemented with TDD discipline and human
+checkpoints</li>
+<li><strong>Review</strong> → found 2 issues with confidence-based
+scoring (with superpowers enhancement)</li>
+</ol>
+<p>The spec file was the central artifact — brainstorming refined it,
+planning verified compliance with it, tasks traced back to its user
+stories, and review verified implementation against its acceptance
+scenarios.</p>
+</body>
+</html>

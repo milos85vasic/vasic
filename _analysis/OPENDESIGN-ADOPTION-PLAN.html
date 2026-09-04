@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OPENDESIGN-ADOPTION-PLAN</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">OPENDESIGN-ADOPTION-PLAN</h1>
+</header>
+<h1
+id="opendesign-adoption-plan-all-design-governed-by-opendesign">OpenDesign
+Adoption Plan — All Design Governed by OpenDesign</h1>
+<ul>
+<li><strong>Status:</strong> DRAFT for review (2026-08-05)</li>
+<li><strong>Author:</strong> Milos Vasic + Claude Code</li>
+<li><strong>Scope:</strong> Both sites (<code>milosvasic.ru</code>,
+<code>vasic.digital</code>), all documents, all PDFs, and a
+<strong>fully-automatic multi-page Portfolio</strong> (web section on
+both sites + downloadable PDF) — every user-facing surface.</li>
+<li><strong>Supersedes (in part):</strong>
+<code>_analysis/DESIGN-SPEC.md</code> (2026-06-17), which predates the
+OpenDesign mandate and prescribes a bespoke CSS‑custom‑property token
+system now forbidden by §11.4.162. This plan reconciles it.</li>
+<li><strong>Mandate:</strong> “make sure all design is handled and done
+by OpenDesign.”</li>
+</ul>
+<hr />
+<h2 id="governing-mandates-the-anchors">1. Governing mandates (the
+anchors)</h2>
+<p>Every decision here traces to a Helix Constitution mandate
+(<code>/Volumes/T7/Projects/constitution/Constitution.md</code>). This
+plan is the operationalization of existing law, not new policy.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Mandate</th>
+<th>What it requires here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>§11.4.162 — OpenDesign UI design system</strong></td>
+<td>OpenDesign (github.com/nexu-io/open-design) is THE design-and-token
+system, consumed <strong>as a dependency (npm/equivalent), never
+vendored/forked</strong>. ALL color palettes (light+dark, from brand
+assets), typography scale + spacing, and component tokens
+(radius/shadow/hover/active/focus/animation) are defined in OpenDesign —
+<strong>never in CSS custom properties or inline styles</strong>. Extend
+upstream, never reimplement. Both light+dark variants mandatory.
+Layout-regression prohibition. Gate
+<code>CM-OPENDESIGN-UI-SYSTEM</code>. <strong>No escape
+hatch.</strong></td>
+</tr>
+<tr>
+<td><strong>§11.4.170 — Host-side rendered-UI visual proof</strong></td>
+<td>Every UI surface proven by <strong>device-independent host-rendered
+pixels</strong> per <code>screen × state × {light,dark}</code>, dual
+oracle: (i) golden image-diff + (ii) OCR/vision layout oracle
+(legibility, no overlap/clip/off-screen/giant-unbounded widget).
+<strong>Value/token-equality tests FORBIDDEN as proof.</strong>
+Self-validated analyzer (golden-good/golden-bad). Runs every commit,
+zero hardware. Gate <code>CM-HOST-RENDERED-UI-VISUAL-PROOF</code>.</td>
+</tr>
+<tr>
+<td><strong>§11.4.168 — Exported-document validation</strong></td>
+<td>Every exported HTML/PDF/DOCX independently validated (validator ≠
+generator) across CONTENT + TEXTUAL (no raw markup/diagram source
+leaking) + FULL-VISUAL (<code>pdftotext</code> + <code>pdfimages</code>
++ <code>pdftoppm</code>→OCR) layers. Self-validated
+golden-good/golden-bad. Gate
+<code>CM-EXPORTED-DOC-VISUALLY-VALIDATED</code>.</td>
+</tr>
+<tr>
+<td><strong>§11.4.73 — project-wide MD/HTML/PDF/DOCX
+styling</strong></td>
+<td>The constitution ships <code>styles/default-md.css</code> (7 KB) +
+<code>styles/default-pdf.css</code> (3.5 KB, A4 print). Doc/PDF styling
+composes OpenDesign tokens on top of these.</td>
+</tr>
+<tr>
+<td><strong>§11.4.161 — Rootless containers</strong></td>
+<td>ALL containerized work (incl. the HelixTranslate pipeline + any
+visual-proof containers) must run <strong>Podman rootless</strong>;
+Docker-rootful/<code>sudo</code> FORBIDDEN. Orchestrated via the
+<code>vasic-digital/containers</code> submodule (§11.4.76). Bites
+<code>start.sh</code> (<code>sudo</code>) and the
+<code>amber.local</code> docker host.</td>
+</tr>
+<tr>
+<td><strong>§11.4.107 / §11.4.35 / §11.4.74</strong></td>
+<td>WCAG color contrast still verified independently; brand assets +
+concrete token instantiation supplied per project; missing OpenDesign
+capability is extended upstream via PR.</td>
+</tr>
+<tr>
+<td><strong>§11.4.169</strong></td>
+<td>Visual-proof tests are part of the mandatory closed test-type set;
+challenges + helix_qa submodules apply.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>§11.4.6 (no-guessing) honesty flags</strong> appear inline as
+<code>[UNCONFIRMED — verify in Phase 0]</code>. Nothing below is
+asserted as fact where it hasn’t been verified on disk.</p>
+</blockquote>
+<hr />
+<h2 id="guiding-principles">2. Guiding principles</h2>
+<ol type="1">
+<li><strong>Single source of design truth.</strong> One OpenDesign
+workspace defines every token. No
+<code>#a31e39</code>/<code>#dc3545</code>, no <code>10px</code>, no
+<code>2rem</code> literal ever appears in a site stylesheet again — only
+<code>var(--od-*)</code> (or the SCSS bridge) resolved from OpenDesign’s
+compiled output.</li>
+<li><strong>Extend, never reimplement (§11.4.74).</strong> Missing
+component/token/target → upstream PR to OpenDesign, not local CSS.</li>
+<li><strong>Light + dark are non-negotiable, both from brand
+assets.</strong> Every component ships both.</li>
+<li><strong>Pixels are the proof, tokens are the wiring.</strong>
+§11.4.170 forbids “the token equals X” as UI proof; the rendered PNG +
+OCR is the proof.</li>
+<li><strong>Docs and PDFs are UI too.</strong> The CV, cover letter,
+README, and all exports are governed by the same design system
+(DESIGN.md → tokens → styled export) and validated by §11.4.168.</li>
+<li><strong>Anti-bluff throughout.</strong> Every analyzer
+self-validates with a golden-good/golden-bad pair and a paired §1.1
+mutation; no silent skips.</li>
+</ol>
+<hr />
+<h2 id="target-architecture-design-system-topology">3. Target
+architecture — design-system topology</h2>
+<pre><code>OpenDesign workspace (source of truth, driven via `od` CLI + MCP in Claude Code + desktop app)
+│
+├── foundation/                      # shared, brand-neutral
+│   ├── DESIGN.md                    # brand-grade spec (portable contract)
+│   ├── tokens: typography scale, spacing, radius, shadow, motion, z-index, breakpoints
+│   └── component tokens: button, card, dialog/modal, input, nav, table, badge/chip
+│
+├── brand-milosvasic/                # personal brand theme
+│   ├── palette light+dark  (crimson #a31e39 family, from assets/images/milosvasic*.png)
+│   └── typography binding: Space Grotesk / Inter / JetBrains Mono
+│
+└── brand-vasic-digital/             # company brand theme
+    ├── palette light+dark  (red #dc3545 family, from Assets/Logo.*)
+    └── typography binding: Inter (+ display/mono TBD)
+
+        │ compiles to portable artifacts per brand:
+        ▼
+   dist/&lt;brand&gt;/{tokens.css, DESIGN.md, manifest.json, component fixtures}
+        │
+        ├── milosvasic.ru  (Jekyll)     → imports tokens.css into assets/css/style.scss; @use tokens only
+        ├── vasic.digital  (static)     → &lt;link&gt; dist/brand-vasic-digital/tokens.css; JS/HTML use token classes
+        └── docs+PDFs                    → DESIGN.md + tokens.css + constitution styles/default-*.css
+                                           → pandoc → themed HTML → weasyprint → PDF  (§11.4.168 validated)</code></pre>
+<p><strong>Decision to confirm (§9-A): brand model.</strong> Recommended
+= <strong>one shared foundation + two brand theme packages</strong>
+(above). This gives “one design system governs everything” (§11.4.162)
+while preserving the two distinct brands (personal crimson vs company
+red). Alternative = two fully independent OpenDesign packages (more
+duplication) or one merged brand (loses brand distinction).</p>
+<p><strong>Consumption mechanics
+<code>[UNCONFIRMED — verify in Phase 0]</code>:</strong> whether
+<code>od</code> CLI / the OpenDesign daemon is already installed on this
+machine; the exact schema of OpenDesign’s emitted
+<code>tokens.css</code> and whether it exposes SCSS-consumable variables
+for the Jekyll <code>@use</code> path; whether its PDF/deck export or
+its <code>tokens.css</code> is the right feed for the weasyprint doc
+pipeline. Phase 0 resolves each with captured evidence before any
+migration.</p>
+<hr />
+<h2 id="phased-roadmap">4. Phased roadmap</h2>
+<p>Each phase lists <strong>Deliverables → Evidence (anti-bluff) →
+Gate</strong>. Phases are sequential where dependent; within a phase,
+both sites proceed in parallel.</p>
+<h3
+id="phase-0-preflight-bootstrap-foundations-no-site-changes-yet">Phase 0
+— Preflight &amp; bootstrap (foundations, no site changes yet)</h3>
+<ul>
+<li><strong>Wire the constitution as a submodule</strong> of the
+<code>vasic</code> umbrella (<code>submodules/constitution</code> or
+<code>constitution/</code>) so <code>find_constitution.sh</code>
+resolves and the gates actually apply here (today it governs by
+reference only, NOT checked out).</li>
+<li><strong>Install OpenDesign</strong> and wire it into Claude Code:
+<code>od mcp install claude</code>; stand up the local daemon (rootless
+per §11.4.161). Capture version + <code>od</code> command
+inventory.</li>
+<li><strong>Adopt the <code>vasic-digital/containers</code>
+submodule</strong> as the sole rootless orchestration layer; migrate the
+HelixTranslate hosts off Docker-rootful/<code>sudo</code> (fixes
+<code>start.sh</code> <code>sudo</code>, <code>amber.local</code>
+docker)
+<code>[UNCONFIRMED — confirm amber.local can run Podman rootless]</code>.</li>
+<li><strong>Inventory brand assets (§11.4.35):</strong> canonical
+logos/colors for each brand; document extracted palettes (light+dark)
+with contrast pre-check (§11.4.107).</li>
+<li><strong>Verify OpenDesign token/output schema</strong> and pick the
+concrete consumption path for (a) Jekyll SCSS, (b) static-site CSS, (c)
+pandoc/weasyprint PDFs. Capture a spike PoC that imports a trivial
+OpenDesign token into each of the three targets.</li>
+<li><strong>Evidence:</strong> <code>docs/qa/&lt;run-id&gt;/</code>
+capture of <code>od</code> version, MCP registration, a rendered token
+in all three targets, extracted palette + contrast report.</li>
+<li><strong>Gate:</strong> OpenDesign installed as dependency +
+reachable; constitution submodule resolves via
+<code>find_constitution.sh</code>; three-target PoC renders.</li>
+</ul>
+<h3 id="phase-1-define-the-design-system-in-opendesign">Phase 1 — Define
+the design system in OpenDesign</h3>
+<ul>
+<li>Author the <strong>foundation</strong> (typography scale, spacing,
+radius, shadow, motion, z-index, breakpoints) + <strong>two brand
+themes</strong> (light+dark palettes from Phase-0 assets).</li>
+<li>Define <strong>component tokens</strong> for the full set both sites
+use: button, card, dialog/<strong>modal</strong> (unifying
+milosvasic.ru’s two divergent modals + vasic.digital’s
+<code>articles.css</code> modal), input, nav, table, chip/badge,
+footer.</li>
+<li>Produce <strong>DESIGN.md</strong> per brand (the portable
+brand-grade contract) + compiled <code>tokens.css</code> + component
+fixtures.</li>
+<li><strong>Evidence:</strong> OpenDesign-rendered component fixtures
+per <code>state × {light,dark}</code> for both brands, captured as PNGs;
+contrast report per token pair (§11.4.107).</li>
+<li><strong>Gate:</strong> every planned component has tokens in
+OpenDesign, both themes, contrast ≥ AA;
+<code>CM-OPENDESIGN-UI-SYSTEM</code> provisionally green on the
+fixtures.</li>
+</ul>
+<h3 id="phase-2-migrate-milosvasic.ru-jekyll-to-opendesign">Phase 2 —
+Migrate <code>milosvasic.ru</code> (Jekyll) to OpenDesign</h3>
+<ul>
+<li>Replace the bespoke token block in
+<code>assets/css/style.scss:9-41</code> with an <code>@use</code>/import
+of <code>dist/brand-milosvasic/tokens.css</code>; delete every
+color/space/type literal in favor of tokens.</li>
+<li>Rebuild components off tokens; <strong>unify the two modal
+idioms</strong> (<code>.mv-article-modal</code> vs
+<code>.dl-modal</code>) onto the single OpenDesign modal; keep the real
+WCAG features (skip link, focus-visible, reduced-motion,
+focus-trap).</li>
+<li><strong>Self-host fonts</strong> via OpenDesign typography tokens
+(removes remote Google Fonts); wire <code>&lt;picture&gt;</code>+WebP
+(variants already exist, unused).</li>
+<li>Preserve the no-FOUC <code>data-theme</code> bootstrap; both themes
+now token-driven.</li>
+<li><strong>Evidence:</strong> §11.4.170 host-rendered pixels for every
+changed screen×state×{light,dark}; before/after token-diff (§11.4.162
+regression tool).</li>
+<li><strong>Gate:</strong> <code>CM-OPENDESIGN-UI-SYSTEM</code> +
+<code>CM-HOST-RENDERED-UI-VISUAL-PROOF</code> green; zero non-token
+color/space literals remain (lint).</li>
+</ul>
+<h3 id="phase-3-migrate-vasic.digital-static-to-opendesign">Phase 3 —
+Migrate <code>vasic.digital</code> (static) to OpenDesign</h3>
+<ul>
+<li>Replace <code>css/style.css</code> flat tokens (color/shadow only,
+~20% coverage) + all magic numbers with
+<code>dist/brand-vasic-digital/tokens.css</code>; retire dead
+<code>css/logo.css</code>; fold <code>css/articles.css</code> onto the
+OpenDesign modal.</li>
+<li>Keep glassmorphism/micro-interactions but express them as OpenDesign
+component/motion tokens.</li>
+<li><strong>Fix the i18n coupling</strong> so it stops fighting the
+design system: migrate the brittle positional
+<code>language-switcher.js</code> (<code>navLinks[0]</code>,
+<code>serviceCards[i]</code>) to <code>data-i18n</code> attributes (also
+fixes the 6-of-9 service-card and portfolio-coverage bugs, and the
+stale-stats drift). <em>(This is design-adjacent cleanup that Phase 3
+unblocks; can be split into its own task.)</em></li>
+<li><strong>Evidence:</strong> §11.4.170 rendered pixels per
+screen×state×{light,dark}; token-diff; i18n completeness now
+testable.</li>
+<li><strong>Gate:</strong> same two gates green; both sites now share
+one design system (single brand-red source, no divergence).</li>
+</ul>
+<h3 id="phase-4-docs-pdfs-onto-opendesign">Phase 4 — Docs &amp; PDFs
+onto OpenDesign</h3>
+<ul>
+<li><strong>Consolidate the three CV-PDF generations</strong>
+(<code>downloads/</code>, <code>assets/pdf/</code>, <code>pages/</code>
++ root <code>README.pdf</code>) to a <strong>single Markdown source per
+doc per language</strong>, one pipeline: DESIGN.md +
+<code>tokens.css</code> + constitution
+<code>styles/default-pdf.css</code> → pandoc → themed HTML → weasyprint
+→ PDF. Retire the duplicates.</li>
+<li>Bring README / any exported HTML/DOCX under the same OpenDesign +
+<code>styles/default-md.css</code> styling.</li>
+<li>Extend the CV/Cover-Letter language coverage to match the site
+language set (currently only EN/SR/RU vs 15 UI langs).</li>
+<li><strong>Evidence:</strong> §11.4.168 three-layer validation on EVERY
+exported artifact (<code>pdftotext_body.txt</code> clean,
+<code>pdfimages_manifest.txt</code> present, <code>ocr_pages/</code>
+legible), validator independent of generator, self-validated
+golden-good/golden-bad.</li>
+<li><strong>Gate:</strong>
+<code>CM-EXPORTED-DOC-VISUALLY-VALIDATED</code> green on all
+PDFs/exports.</li>
+</ul>
+<h3 id="phase-5-visual-proof-export-validation-test-harness">Phase 5 —
+Visual-proof + export-validation test harness</h3>
+<ul>
+<li>Build the <strong>§11.4.170 host-render harness</strong> for web:
+Playwright/Storybook snapshots per
+<code>screen × state × {light,dark}</code> for both sites, dual oracle =
+golden image-diff <strong>+</strong> OCR/vision layout oracle
+(overlap/clip/off-screen/giant-widget detection). Self-validate the
+analyzer (golden-bad overlapping-label fixture MUST FAIL). Replace the
+a11y “CSS rule exists” checks with rendered-behavior checks.</li>
+<li>Build the <strong>§11.4.168 export validator</strong>
+(pdftotext/pdfimages/pdftoppm→OCR) with its golden-good/golden-bad
+pair.</li>
+<li><strong>Evidence:</strong> analyzers pass golden-good, fail
+golden-bad; paired §1.1 mutations wired.</li>
+<li><strong>Gate:</strong> both analyzers self-validated; suites produce
+captured PNG/PDF artifacts, not assertions.</li>
+</ul>
+<h3 id="phase-6-ci-enforcement-governance">Phase 6 — CI enforcement
+&amp; governance</h3>
+<ul>
+<li>Add CI (currently <strong>none</strong> runs tests — only a Jekyll
+deploy workflow exists) running: OpenDesign token build → both sites
+build → Playwright + visual-proof + export-validation → axe/contrast →
+the propagation gates.</li>
+<li>Register gates <code>CM-OPENDESIGN-UI-SYSTEM</code>,
+<code>CM-HOST-RENDERED-UI-VISUAL-PROOF</code>,
+<code>CM-EXPORTED-DOC-VISUALLY-VALIDATED</code> (+ propagation literals
+<code>11.4.162/.168/.170</code>).</li>
+<li><strong>Formally supersede</strong>
+<code>_analysis/DESIGN-SPEC.md</code> with this plan; leave a pointer
+stub.</li>
+<li><strong>Gate:</strong> CI red on any ad-hoc CSS, light-only
+component, token-equality-only UI proof, or unvalidated export.</li>
+</ul>
+<hr />
+<h2 id="a.-portfolio-auto-generation-system-both-sites-pdf">4A.
+Portfolio auto-generation system (both sites + PDF)</h2>
+<p><strong>Requirement:</strong> a mechanism that <strong>fully
+automatically generates a multi-page, stunningly-designed
+Portfolio</strong> (fonts/colors/icons via OpenDesign), delivered as (1)
+a <strong>separate section on both websites</strong> and (2) a
+<strong>downloadable PDF</strong>. Web and PDF are two render targets of
+one generator — never hand-authored twice.</p>
+<h3 id="a.1-one-generator-three-outputs-one-design-system">4A.1 One
+generator, three outputs, one design system</h3>
+<pre><code>Verified portfolio DATA (single source of truth, no fabricated metrics — §11.4.6)
+  ← _analysis/MASTER-inventory.md  (deduped, forks/mirrors removed, FEATURED curated)
+  ← _analysis/github-*.json, gitlab-all.json, top20/*.readme.txt + *.langs.json  (API-harvested)
+        │  normalized into a typed portfolio model:
+        │  { slug, name, brand, org, summary, tech[], repos[], links[], highlights[], private? }
+        ▼
+  portfolio generator  (templating + OpenDesign tokens/components/icons)
+        ├── WEB  → milosvasic.ru /portfolio/  (multi-page, Jekyll collection)   + i18n (15 langs)
+        ├── WEB  → vasic.digital /portfolio/   (multi-page, static pages)         + i18n
+        └── PDF  → Portfolio_&lt;brand&gt;_&lt;lang&gt;.pdf  (pandoc → OpenDesign-themed HTML → weasyprint)</code></pre>
+<p>The <strong>web section and the PDF are generated from the same model
++ same OpenDesign design system</strong>, so they stay visually and
+factually identical by construction.</p>
+<h3 id="a.2-content-model-data-integrity">4A.2 Content model &amp; data
+integrity</h3>
+<ul>
+<li><strong>Personal portfolio (milosvasic.ru):</strong> Milos’s
+featured projects (the 12 FEATURED in <code>MASTER-inventory.md</code>)
+— individual authorship framing.</li>
+<li><strong>Company portfolio (vasic.digital):</strong> Vasic Digital’s
+project set (the 18 in the article system) — company/org framing across
+the 5 GitHub orgs.</li>
+<li><strong>Data integrity (mandatory):</strong> metrics come only from
+harvested data — <strong>no fabricated numbers</strong> (§11.4.6);
+private HelixTrack clients are described at product level and
+<strong>never deep-linked</strong> (the existing Playwright guard
+extends to the portfolio pages + PDF); superlative claims are verified
+or softened (as <code>MASTER-inventory.md</code> already flags).</li>
+<li><strong>Regeneration is a command, reproducible from clean clone
+(§11.4.77):</strong> re-run harvest → re-normalize → re-render web+PDF;
+the generator lives in-repo (closing the current reproducibility gap
+where tooling lives outside the site repos).</li>
+</ul>
+<h3 id="a.3-design-opendesign-driven">4A.3 Design
+(OpenDesign-driven)</h3>
+<ul>
+<li>Portfolio-specific <strong>component tokens in OpenDesign</strong>:
+project card, project detail page, tech-badge/chip, org/section header,
+hero, stat tiles, page-footer — light+dark, both brands
+(§11.4.162).</li>
+<li><strong>Icons:</strong> technology + platform + link icons sourced
+through OpenDesign’s component/asset layer (not ad-hoc Font Awesome CDN)
+so web and PDF share one icon set.
+<code>[UNCONFIRMED — verify OpenDesign icon/asset support in Phase 0; if absent, extend upstream per §11.4.74]</code>.</li>
+<li><strong>Multi-page structure:</strong> index (grid of projects,
+filterable by tech/org) + one detail page per project (reuses the
+existing <code>_article_src</code> narratives) — for both web and the
+paginated PDF.</li>
+</ul>
+<h3 id="a.4-delivery">4A.4 Delivery</h3>
+<ul>
+<li><strong>Web section:</strong> <code>/portfolio/</code> on each site,
+linked from nav; multi-page; i18n via each site’s existing mechanism
+(milosvasic.ru <code>data-i18n</code>; vasic.digital after its Phase-3
+<code>data-i18n</code> migration); reactive to theme.</li>
+<li><strong>PDF:</strong>
+<code>Portfolio_Milos_Vasic_&lt;lang&gt;.pdf</code> and
+<code>Portfolio_Vasic_Digital_&lt;lang&gt;.pdf</code>, offered in the
+same download popup as CV/Cover-Letter, generated by the Phase-4
+OpenDesign-themed pandoc→weasyprint pipeline.</li>
+<li><strong>Validation:</strong> web pages proven by §11.4.170
+rendered-pixel proof (screen×state×{light,dark}); every Portfolio PDF
+proven by §11.4.168 three-layer export validation (content complete, no
+raw markup leaking, diagrams/images render, OCR-legible).</li>
+</ul>
+<h3
+id="a.5-roadmap-placement-phase-4b-after-site-migration-doc-pipeline">4A.5
+Roadmap placement — Phase 4B (after site migration + doc pipeline)</h3>
+<p>Depends on: Phase 1 (OpenDesign components incl. portfolio
+card/detail), Phase 2/3 (sites on OpenDesign + vasic.digital
+<code>data-i18n</code>), Phase 4 (OpenDesign-themed PDF pipeline). -
+<strong>Deliverables:</strong> typed portfolio model + normalizer from
+harvested data; the generator; <code>/portfolio/</code> sections on both
+sites; the per-brand/per-language Portfolio PDFs; download-popup
+entries. - <strong>Evidence:</strong> §11.4.170 pixels for portfolio
+index + detail pages (both themes, both sites); §11.4.168 validation on
+every Portfolio PDF; a data-integrity check asserting zero fabricated
+metrics + zero private deep-links. - <strong>Gate:</strong>
+<code>CM-OPENDESIGN-UI-SYSTEM</code> +
+<code>CM-HOST-RENDERED-UI-VISUAL-PROOF</code> (web) +
+<code>CM-EXPORTED-DOC-VISUALLY-VALIDATED</code> (PDF), plus a
+portfolio-data-integrity gate.</p>
+<h2 id="per-site-concrete-work-map-starting-points">5. Per-site concrete
+work map (starting points)</h2>
+<p><strong>milosvasic.ru</strong> -
+<code>assets/css/style.scss:9-41</code> — bespoke <code>:root</code>
+tokens → OpenDesign import. - <code>assets/css/style.scss:462-477</code>
+— legacy <code>.dl-modal</code> → unified OpenDesign modal. -
+<code>_layouts/default.html:21-23</code> — remote Google Fonts →
+self-hosted via tokens. - <code>index.html:33-36</code> — add
+<code>&lt;picture&gt;</code>/WebP. -
+<code>downloads/src/build-pdfs.sh</code> — re-point at OpenDesign-themed
+pipeline; consolidate PDFs. - <code>start.sh</code> — remove
+<code>sudo</code> (§11.4.161).</p>
+<p><strong>vasic.digital</strong> - <code>css/style.css:2-28</code> +
+<code>:1021-1256</code> — flat tokens + glassmorphism → OpenDesign
+tokens. - <code>css/logo.css</code> — delete (dead);
+<code>css/articles.css</code> — fold into OpenDesign modal. -
+<code>js/language-switcher.js:133-268</code> — positional DOM i18n →
+<code>data-i18n</code> (design-unblocking cleanup). -
+<code>js/translations.js</code> — reconcile stale stats/dates; complete
+per-lang dictionaries. - <code>Assets/Logo.jpeg</code> — produce
+optimized transparent asset (feeds brand palette extraction).</p>
+<hr />
+<h2 id="testing-evidence-model-anti-bluff">6. Testing &amp; evidence
+model (anti-bluff)</h2>
+<ul>
+<li><strong>UI:</strong> §11.4.170 rendered-pixel proof is the ONLY
+accepted proof of a UI change; token/value-equality tests may
+supplement, never substitute.</li>
+<li><strong>Docs/PDFs:</strong> §11.4.168 three-layer independent
+validation on every export.</li>
+<li><strong>Every analyzer</strong> self-validated (golden-good PASS /
+golden-bad FAIL) with a paired §1.1 mutation; a validator that passes
+its golden-bad is inadmissible.</li>
+<li><strong>No silent skips</strong> (§11.4.3): the only permitted
+absence is an honest SKIP-with-reason (genuinely missing
+harness/topology), tracked, never silent.</li>
+<li><strong>Contrast</strong> (§11.4.107) verified independently of
+OpenDesign token wiring.</li>
+</ul>
+<hr />
+<h2 id="risks-open-questions">7. Risks &amp; open questions</h2>
+<ol type="1">
+<li><strong>Is OpenDesign installed / how does it emit tokens?</strong>
+<code>[UNCONFIRMED]</code> — Phase 0 spike resolves the exact
+<code>tokens.css</code>/SCSS/PDF consumption path before migration. If
+OpenDesign lacks a needed export target, §11.4.74 = upstream PR, not a
+workaround.</li>
+<li><strong>Brand model</strong> (§9-A): shared-foundation +
+two-brand-themes vs two independent packages vs one merged brand.</li>
+<li><strong>Rootless on amber.local</strong> (§11.4.161): the Docker
+host must move to Podman rootless or be documented as
+structurally-impossible (§11.4.112).</li>
+<li><strong>Reproducibility gap:</strong> render/translate/PDF tooling
+lives outside the site repos; Phase 6 CI forces it into a reproducible
+pipeline.</li>
+<li><strong>Scope creep:</strong> the i18n-coupling fix (vasic.digital)
+and PDF consolidation are design-adjacent; keep as separately-gated
+tasks so design migration isn’t blocked by content bugs.</li>
+<li><strong>DESIGN-SPEC reconciliation:</strong> must be explicitly
+superseded to avoid two conflicting specs.</li>
+</ol>
+<hr />
+<h2 id="suggested-first-increment">8. Suggested first increment</h2>
+<p><strong>Phase 0 + a Phase-1 vertical slice:</strong> install
+OpenDesign + wire MCP, check out the constitution submodule, extract
+both brand palettes, and take <strong>one component (the
+button)</strong> all the way through — defined in OpenDesign → compiled
+tokens.css → consumed by both sites → proven by a §11.4.170
+host-rendered PNG in light+dark on both sites. This validates the entire
+toolchain end-to-end on the smallest surface before scaling to every
+component. (Directly answers the “giant-button bluff” that motivated
+§11.4.170.)</p>
+<hr />
+<h2 id="decisions-needed-before-execution">9. Decisions needed before
+execution</h2>
+<blockquote>
+<p><strong>Provisional defaults adopted 2026-08-05</strong> (recommended
+options, pending explicit confirmation — flip anytime): §9-A = shared
+foundation + two brand themes · §9-B = check constitution submodule in
+during Phase 0 · §9-C = Phase 0 + button vertical slice · §9-D =
+personal 12 / company 18, Portfolio PDFs in all 15 languages.</p>
+</blockquote>
+<ul>
+<li><strong>§9-A Brand model:</strong> confirm shared-foundation +
+two-brand-themes (recommended).</li>
+<li><strong>§9-B Constitution submodule:</strong> check it into the
+<code>vasic</code> umbrella now (recommended) so gates apply, or keep
+governance-by-reference.</li>
+<li><strong>§9-C First increment:</strong> confirm the Phase-0 +
+button-vertical-slice starting point (recommended) vs a different first
+surface.</li>
+<li><strong>§9-D Portfolio (§4A):</strong> confirm one generator →
+web-section-on-both-sites + per-brand/per-language PDF, driven by the
+existing verified repo-inventory data (recommended); confirm personal
+(milosvasic.ru, 12 featured) vs company (vasic.digital, 18) content
+split; confirm PDF language coverage (match the 15-lang site set vs a
+smaller set).</li>
+</ul>
+</body>
+</html>

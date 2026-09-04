@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p><strong>Dein Aufgabenboard und deine Single Source of Truth –
+makellos synchronisiert, in beide Richtungen.</strong></p>
+<hr />
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>task_bridge ist eine generische, entkoppelte, bidirektionale
+Synchronisations-Engine für Aufgaben/Boards in Go. Sie hält die
+<strong>Single Source of Truth</strong> der bearbeitbaren Elemente
+(SQLite) eines Projekts synchron mit dessen Tracker-Dokumenten und einem
+Remote-Board (erster Ziel: ClickUp; Jira/Linear geplant) – nach dem
+Prinzip „letzte Änderung gewinnt”, mit Dry-Run-Vorabprüfung und
+garantierter Datenintegrität.</p>
+<hr />
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Ein projektunabhängiges Go-Submodul, das bidirektional eine
+<strong>Single Source of Truth</strong> für bearbeitbare Elemente
+(SQLite) ↔︎ Tracker-Dokumente ↔︎ ein Remote-Board (zunächst ClickUp)
+synchronisiert. Deterministisch nach dem „letzte Änderung
+gewinnt”-Prinzip, mit Dry-Run-Vorabprüfung und HMAC-gesicherten
+Webhooks; alle Anmeldedaten und IDs werden zur Laufzeit vom Nutzer
+injiziert.</p>
+<hr />
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>Jedes Team führt irgendwann zwei Bücher über dieselbe Arbeit: das
+echte – Code, Dokumentation, eine interne Datenbank – und das, das
+Manager im Blick haben, ein Board wie ClickUp. Die beiden laufen
+auseinander, sobald eine der Seiten bearbeitet wird, und sie manuell
+abzugleichen, ist genau die Art von langweiliger, fehleranfälliger
+Arbeit, die niemand zuverlässig erledigt. task_bridge wurde entwickelt,
+um diese Lücke zu schließen, indem alle drei Repräsentationen als ein
+System behandelt werden, das im Gleichschritt gehalten wird: die
+<strong>Single Source of Truth</strong> der bearbeitbaren Elemente
+(SQLite) eines Projekts, seine <strong>Tracker-Dokumentation</strong>
+und ein <strong>Remote-Board</strong> – zunächst ClickUp, mit Jira und
+Linear als zukünftigen Optionen. Die Synchronisation ist deterministisch
+(„letzte Änderung gewinnt”), erfolgt zunächst im Dry-Run-Modus und ist
+um ein einziges, unverhandelbares Versprechen herum konstruiert: Sie
+wird niemals Daten beschädigen oder verlieren und niemals eine Seite
+unbemerkt veralten lassen. In einem Bereich, in dem eine unachtsame
+Synchronisation eine Woche Arbeit überschreiben kann, ist diese
+Sicherheitsphilosophie der entscheidende Punkt.</p>
+<p>Architektonisch ist es ein striktes Submodul, das von anderen
+Projekten genutzt wird und gemäß dem Entkopplungsvertrag der Verfassung
+(§11.4.28) vollständig projektunabhängig ist: Es liefert keine
+projektspezifischen Werte aus, und alle Anmeldedaten, Board-/Ordner-IDs,
+Feldnamen für Elementschlüssel und Datenbankpfade werden zur Laufzeit
+vom Nutzer über <code>pkg/config.Config</code> injiziert. Das Modul ist
+klar geschichtet: eine CLI-Schnittstelle
+(<code>reconcile</code>/<code>push</code>/<code>pull</code>/<code>resolve</code>/<code>status</code>/<code>conflicts</code>/<code>init</code>)
+und ein langlaufender Daemon (Webhook-Empfänger + Cron-basierte
+Synchronisation); ein schlanker Client-Wrapper über die MIT-lizenzierte
+Bibliothek <code>raksul/go-clickup</code>; ein Resolver, der
+Board-/Ordner-URLs via Live-Probes (API) in IDs umwandelt (ohne
+URL-Grammatik-Raten); ein Mapper zwischen lokalen bearbeitbaren
+Elementen und Remote-Aufgabenfeldern; eine Synchronisations-Engine nach
+dem „letzte Änderung gewinnt”-Prinzip mit expliziten Konfliktlösungen;
+sowie ein Webhook-Empfänger, der <code>X-Signature</code>-HMAC-SHA256
+verifiziert. Es ist transparent in Bezug auf den Reifegrad: Dies ist das
+P1-Grundgerüst – Aufbau, Schnittstellen, Einstiegspunkte und die
+Entkopplungsgrenze sind vorhanden, doch die Synchronisationslogik und
+Live-Aufrufe zu ClickUp sind noch nicht implementiert (jeder Stub gibt
+gemäß der „No-Fakes”-Regel einen expliziten
+<em>Not-Implemented</em>-Fehler zurück).</p>
+<hr />
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Teams halten den „echten” Stand der Arbeit in Code und Dokumentation
+fest, während Manager in einem Board wie ClickUp arbeiten – und die
+beiden laufen ständig auseinander. task_bridge macht sie zu einem
+System, das deterministisch und sicher synchronisiert, sodass keine
+Seite veraltet oder falsch wird.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Zweiseitige Board-Synchronisation ist normalerweise eine einmalige,
+fest verdrahtete Integration, die jedes Team schlecht neu aufbaut.
+<strong>task_bridge</strong> definiert sie neu als wiederverwendbare,
+mit Anmeldedaten injizierte Bibliothek mit strengen
+Datensicherheitsgarantien – Dry-Run zuerst, deterministische
+„Letzte-Änderung-gewinnt”-Logik, HMAC-geprüfte Ereignisse – sodass jedes
+Projekt vertrauenswürdige Board-Integration durch
+Konfigurationseinschleusung nutzen kann, statt erneut einen fragilen
+Konnektor zu schreiben, der an seine internen Strukturen gekoppelt
+ist.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li>Dreiseitige bidirektionale Synchronisation: <strong>SQLite</strong>
+SSoT ↔︎ Tracker-Dokumente ↔︎ Remote-Board.</li>
+<li>Vollständige Entkopplung (§11.4.28): keine projektspezifischen
+Werte; alles wird zur Laufzeit injiziert.</li>
+<li>Live-<strong>API</strong>-<strong>URL→ID</strong>-Auflösung statt
+fragiler <strong>URL</strong>-Grammatik-Parsing.</li>
+<li>HMAC-SHA256-geprüfte Webhook-Verarbeitung für Live-Ereignisse.</li>
+</ul>
+<h2 id="herausforderungen-lösungen">Herausforderungen &amp;
+Lösungen</h2>
+<ul>
+<li><strong>Datensicherheit über drei Quellen hinweg:</strong> gelöst
+durch deterministische „Letzte-Änderung-gewinnt”-Logik, Dry-Run zuerst
+und explizite Konfliktauflösungen.</li>
+<li><strong>Wiederverwendbarkeit ohne Kopplung:</strong> gelöst über die
+<code>pkg/config</code>-Injektionsgrenze (keine projektspezifischen
+Daten im Lieferumfang).</li>
+<li><strong>Zuverlässige Board-Identifikation:</strong> gelöst durch
+URL-zu-ID-Auflösung mittels Live-<strong>API</strong>-Abfragen.</li>
+<li><strong>Ehrliches Scaffolding:</strong> gelöst durch explizite
+„Nicht-implementiert”-Fehler bei nicht umgesetzten Stubs (keine
+Platzhalter).</li>
+</ul>
+<h2 id="technologie-stack-warum-wie">Technologie-Stack (Warum +
+Wie)</h2>
+<ul>
+<li><strong>Go</strong> – Engine, <strong>CLI</strong>
+(<code>cmd/task_bridge</code>) und Daemon
+(<code>cmd/task_bridged</code>).</li>
+<li><strong>SQLite</strong> – die arbeitsfähige Single Source of Truth
+für Elemente.</li>
+<li><strong><code>raksul/go-clickup</code> (MIT)</strong> –
+ClickUp-Transport-Wrapper.</li>
+<li><strong>HMAC-SHA256</strong> – Webhook-Signaturprüfung.</li>
+<li><strong>cron + Webhooks</strong> – Daemon-Abgleich +
+Live-Ereignisverarbeitung.</li>
+<li><strong><code>pkg/config</code></strong> – Laufzeit-Injektionsgrenze
+für Anmeldedaten/IDs.</li>
+</ul>
+<blockquote>
+<p>Status-Transparenz: Dies ist ein <strong>P1-Scaffold</strong> – die
+Synchronisationslogik ist noch nicht implementiert. Nicht als
+ausgeliefert präsentieren.</p>
+</blockquote>
+</body>
+</html>

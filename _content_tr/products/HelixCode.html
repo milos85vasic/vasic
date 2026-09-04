@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCode</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCode</h1>
+</header>
+<h1 id="helixcode">HelixCode</h1>
+<p><strong>İşi dağıtan, koruyan ve asla kaybetmeyen AI tabanlı dağıtık
+geliştirme platformu.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixCode, kurumsal düzeyde, Go tabanlı dağıtık bir AI geliştirme
+platformudur. Geliştirme işlerini, SSH tarafından yönetilen çalışanlar
+ağı üzerinde akıllı bir şekilde bölümlere ayırır, otomatik kontrol
+noktaları ve geri alma işlevleriyle ilerlemeyi korur ve hiçbir işin
+kaybolmamasını sağlar. Çoklu LLM sağlayıcı entegrasyonunu, tam
+geliştirme yaşam döngüsü iş akışlarını ve platformlar arası teslimatı
+REST, CLI, TUI ve MCP arayüzleri altında birleştirir.</p>
+<h2 id="kısa-açıklama">Kısa Açıklama</h2>
+<p>HelixCode, Go ile yazılmış dağıtık bir AI geliştirme platformudur.
+İşleri, SSH tabanlı çalışan ağları üzerinde akıllı görevlere böler,
+otomatik kontrol noktaları ve geri alma ile ilerlemeyi korur, birden
+fazla LLM sağlayıcısını entegre eder ve REST, CLI, TUI ve MCP arayüzleri
+aracılığıyla tam geliştirme yaşam döngüsünü yönetir.</p>
+<h2 id="uzun-açıklama">Uzun Açıklama</h2>
+<p>HelixCode, kurumsal düzeyde dağıtık bir AI geliştirme platformudur
+(<code>dev.helix.code</code>, MIT) ve sloganıyla verdiği basit vaadi
+kelimesi kelimesine yerine getirir: işi böl, koru ve asla yerini
+kaybetme. Akıllı görev bölümü, otomatik iş koruması ve platformlar arası
+geliştirme iş akışları için tasarlanmış olup, dağıtık bilgi işlem
+gereksinimleri için Go ile yazılmıştır. Otomatik kontrol noktaları, geri
+alma ve gerçek zamanlı izleme, isteğe bağlı eklentiler değil, temel
+öncelikler olarak sunulur.</p>
+<p>Mimarisinde, REST + WebSocket + MCP API yüzeyi altında odaklanmış
+çekirdek hizmetler yer alır: JWT kimlik doğrulama ve oturum yönetimi,
+sağlık izleme özelliğine sahip SSH tabanlı çalışan havuzu yönetimi,
+kontrol noktaları ve bağımlılık yönetimi içeren görev yönetimi, proje ve
+iş akışı yönetimi ile birleşik LLM sağlayıcı katmanı. Tüm bunlar
+PostgreSQL üzerinde kalıcı hale getirilirken, Redis isteğe bağlı
+koordinasyon ve önbellek katmanı olarak sunulur. Dağıtık çalışanlar ağ
+üzerinden otomatik olarak kurulur; bu sayede sistemin ölçeklendirilmesi,
+sunucunun bir makineye yönlendirilmesi kadar basit hale gelir. Çoklu
+istemci arayüzleri CLI, terminal kullanıcı arayüzü, REST ve mobil
+çerçeveleri kapsar; böylece aynı platform bir betikten, terminalden veya
+bir uygulamadan erişilebilir.</p>
+<p>HelixCode, baştan sona eksiksiz bir geliştirme yaşam döngüsünü
+yönetir: planlama, oluşturma, test etme ve yeniden yapılandırma iş
+akışları, bağımlılık farkındalığı ve çoklu oturum bağlamı takibiyle
+otomatik olarak yürütülür. Böylece uzun süren bir çalışma, kesintiler ve
+makine sınırları arasında bile akışını korur. Birden fazla LLM
+sağlayıcısını (llama.cpp, Ollama ve OpenAI) tek bir arayüz altında
+birleştirir, mevcut CPU/GPU/belleği algılayarak modele uygun donanım
+seçimi yapar ve zincirleme düşünme ve ağaç tabanlı düşünme gibi ileri
+akıl yürütme stratejilerini, tek seferlik çözümlerin yetersiz kaldığı
+sorunlar için destekler. Model Context Protocol, standartlaştırılmış
+araç ve bağlam alışverişi için birden fazla iletim protokolü üzerinden
+uygulanır. Dağıtık çalışmalar ilerledikçe Slack, Discord, e-posta ve
+Telegram üzerinden çok kanallı bildirimlerle ekipler bilgilendirilir.
+Platform, Linux, macOS, Windows, Aurora OS ve SymphonyOS’u hedefler.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Dağıtık ve AI destekli geliştirme, görevler makineler arasında
+bölündüğünde ya da kesintiye uğradığında genellikle bağlam ve ilerleme
+kaybına yol açar. HelixCode, görev bölmeyi akıllı hale getirmek ve
+çalışma korumasını otomatikleştirmek için inşa edildi — böylece büyük
+bir geliştirme çabası parçalara ayrılabilir, bir çalışan ağına
+dağıtılabilir, kontrol noktaları alınabilir ve durum kaybı olmadan devam
+ettirilebilir ya da geri alınabilir.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Dağıtık AI geliştirmeyi <em>kalıcı</em> hale getiriyor — bu,
+ekiplerin bu parçaları elle bir araya getirirken asla pratik olmayan bir
+yetenek. Normalde üç ayrı araçta bulunan üç şey tek bir platformda
+birleşiyor: dağıtık hesaplama (otomatik kurulum ve sağlık izleme
+özellikli SSH çalışan ağları), AI geliştirme desteği (akıl yürütme ve
+araç çağırma özellikli çoklu sağlayıcı LLMs) ve tam yaşam döngüsü iş
+akışı otomasyonu. Bağlayıcı doku, veritabanı destekli kontrol noktaları:
+Görev durumu, kontrol noktaları ve bağımlılıklar PostgreSQL’da
+saklandığından, birçok makine ve oturumu kapsayan bir iş, tam olarak
+kaldığı yerden geri alınabilir ya da devam ettirilebilir. Kesintiler ve
+bölünmüş çalışmalar, ilerleme kaybının kaynağı olmaktan çıkıp rutin,
+kurtarılabilir olaylara dönüşüyor.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne</h2>
+<ul>
+<li><strong>Çalışma koruması temel bir ilke olarak:</strong> Dağıtık
+geliştirme görevlerine otomatik kontrol noktaları ve geri alma
+uygulanması, böylece ilerleme kesintiye ya da makine arızasına
+uğradığında yok olacağına hayatta kalıyor.</li>
+<li><strong>Donanıma duyarlı model seçimi:</strong> Algılanan
+CPU/GPU/belleği inceleyerek her görevi makinenin gerçekten iyi
+çalıştırabileceği bir modelle eşleştiriyor — çalışan başına manuel
+ayarlama gerektirmiyor.</li>
+<li><strong>Tek platform, beş giriş noktası:</strong> REST, WebSocket,
+CLI, TUI ve MCP; MCP’un kendisi de birden fazla iletim yöntemi üzerinden
+sunuluyor, böylece araçlar ve aracılar nasıl bağlanırlarsa bağlansınlar
+entegre olabiliyor.</li>
+<li><strong>Platformlar arası erişim:</strong> Genellikle masaüstü
+üçlüsüyle sınırlı kalmayıp Aurora OS ve SymphonyOS’u da kapsayarak, çoğu
+aracın göz ardı ettiği platformlara kadar çalışan filosunu
+genişletiyor.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En büyük teknik
+zorluklar ve çözümlerimiz</h2>
+<ul>
+<li><strong>Dağıtık, kesintiye açık görevlerde çalışmanın
+kaybolmaması.</strong> Bir iş makineler arasında bölündüğünde, herhangi
+bir çökme ya da kesinti normalde devam eden işi yarıda bırakır. Biz
+görevi kendisini kontrol noktaları ve bağımlılıkların taşıyıcısı olarak
+modelledik, PostgreSQL’da sakladık; böylece sistem, son iyi duruma geri
+dönebilir ya da oradan devam edebilir — dayanıklılık, kırılgan bellek
+içi durumda değil, veri katmanında yaşıyor.</li>
+<li><strong>Heterojen bir çalışan filosunun yönetimi.</strong> Linux,
+macOS, Windows, Aurora ve SymphonyOS makinelerinden oluşan bir ağ,
+kullanılabilirlik ve kurulum açısından sürekli değişen bir hedef. Bunu,
+SSH tabanlı kayıt, yeni düğümlere otomatik kurulum ve sürekli sağlık
+izleme yapan özel bir çalışan havuzu hizmetiyle çözüyoruz; böylece
+makineler gelip giderken filo biliniyor ve kontrol altında kalıyor.</li>
+<li><strong>Sağlayıcı ve donanım heterojenliği.</strong> LLM arka uçları
+ve bunları çalıştıran makineler yetenek açısından büyük farklılıklar
+gösteriyor. Bunu, birleşik bir LLM sağlayıcı arayüzü arkasına gizledik
+ve bunu, donanım tespiti (CPU/GPU/bellek) ile eşleştirdik; bu da akıllı
+model seçimini yönlendiriyor, böylece doğru model doğru makineye iniyor
+ve çağıran tarafın her ikisi hakkında da akıl yürütmesine gerek
+kalmıyor.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go (1.26+ iç modül)</strong> — Dağıtık işçi sistemi için tam
+olarak ihtiyaç duyulan özelliklere sahip olduğu için seçildi:
+orkestrasyon için ucuz paralellik sağlayan goroutine tabanlı
+eşzamanlılık ve herhangi bir düğüme otomatik olarak yüklenen, bağımsız
+çalışabilen bir ikili dosya. Tüm çekirdek hizmetleri ve CLI/sunucu ikili
+dosyalarını içerir.</li>
+<li><strong>Gin (HTTP çatısı)</strong> — Düşük ek yük ile hızlı ve
+minimal bir REST katmanı sunması nedeniyle seçildi; tüm istemcilerin
+bağlandığı <code>/api/v1</code> yüzeyini (kimlik doğrulama, işçiler,
+görevler, projeler) sunar.</li>
+<li><strong>PostgreSQL 15+ (pgx/v5 üzerinden)</strong> — Dayanıklı kayıt
+sistemi olarak seçildi çünkü kontrol noktaları ve geri alma işlemleri
+için işlemsel kalıcılık gereklidir; dağıtık hesaplama şemasının 11
+tablosunu (kullanıcılar, işçiler, görevler, projeler, oturumlar,
+ysa_sağlayıcıları, bildirimler) barındırarak işlerin korunmasını
+sağlar.</li>
+<li><strong>Redis 7+ (isteğe bağlı, go-redis/v9)</strong> — Zorunlu bir
+bağımlılık haline gelmeden sıcak yolları hızlandıran isteğe bağlı bir
+önbellek ve koordinasyon katmanı olarak seçildi; bu sayede minimal bir
+kurulum yalnızca PostgreSQL ile çalışabilir.</li>
+<li><strong>SSH</strong> — İşçi kontrol iletişim kanalı olarak seçildi
+çünkü zaten her yerde mevcut ve güvenli; özel bir aracıya ihtiyaç
+duymadan tüm havuzda işçi kaydı, otomatik kurulum ve uzaktan komut
+yürütme işlemlerini yönetir.</li>
+<li><strong>Model Context Protocol (MCP)</strong> — Dış araçlar ve
+aracılarla standartlaştırılmış araç ve bağlam alışverişi için seçildi;
+istemcilerin bağlandığı her ortamda çalışabilen çoklu iletişim desteği
+ile uygulandı.</li>
+<li><strong>LLM sağlayıcıları (llama.cpp, Ollama, OpenAI)</strong> —
+Yerel ve barındırılan çıkarım işlemlerini tek bir birleşik arayüz
+altında toplamak için seçildi; böylece donanıma duyarlı seçim, bir
+görevi çağıranın farkında olmadan yerel veya barındırılan bir modele
+yönlendirebilir.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> README dosyası “TAMAMLANMIŞ / tüm 5
+aşama” durumunu bildiriyor; bu tamamlılık proje tarafından beyan edilen
+bir durum olup bağımsız olarak doğrulanmadığı için sayfa bunu beta
+olarak değerlendiriyor.</li>
+<li>Yukarıdaki tüm ayrıntılar, depo README dosyasından alınmıştır;
+pazarlama ifadeleri (sloganlar) kaynak metriklerden ziyade
+editöryeldir.</li>
+</ul>
+<p><strong>Öncelik katmanı:</strong> Helix-birincil.</p>
+</body>
+</html>

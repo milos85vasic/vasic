@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>कोई भी ट्रैक किया गया दस्तावेज़ सिंक से बाहर नहीं हो सकता — कंटेंट-हैश्ड,
+द्विदिशात्मक, परमाण्विक।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>Docs Chain एक सार्वभौमिक, Go-आधारित द्विदिशात्मक दस्तावेज़-और-डेटाबेस
+निर्भरता-प्रसार इंजन है। जब किसी पंजीकृत श्रृंखला के किसी भी सदस्य में परिवर्तन होता है
+— मार्कडाउन स्रोत, HTML/PDF/DOCX निर्यात, या SQLite डेटाबेस — तो यह कंटेंट हैश के
+माध्यम से परिवर्तन का पता लगाता है और उसे परमाण्विक रूप से हर जुड़े सदस्य तक प्रसारित
+करता है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>एक Go इंजन जो दस्तावेज़ों और डेटाबेस को सिंक में रखता है। साल्सा-शैली के कंटेंट-हैश्ड
+वृद्धिशील पुनर्गणना का उपयोग करते हुए एक DAG (कान टोपोलॉजिकल ऑर्डरिंग, अर्ली
+कटऑफ, द्विदिशात्मक सिंक एज, परमाण्विक-रीनेम + SQLite-लेनदेन कमिट्स) पर, यह किसी
+भी जुड़े आर्टिफैक्ट में परिवर्तन होने पर निर्यातों को पुनः उत्पन्न करता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>Docs Chain वही है जिसे आप तब बनाते हैं जब आपने एक ही नाजुक “मार्कडाउन बदलने पर
+PDF को पुनः उत्पन्न करें” शेल स्क्रिप्ट को एक बार ज़्यादा लिख लिया हो। यह उस संपूर्ण
+हस्तनिर्मित सिंक गोंद को एक वास्तविक इंजन से बदल देता है। यह किसी प्रोजेक्ट के
+दस्तावेज़ों और डेटाबेस को एक श्रृंखला के सदस्य के रूप में मॉडल करता है और जब किसी सदस्य में
+परिवर्तन होता है, तो उसे हर घोषित दिशा में हर जुड़े सदस्य तक प्रसारित करता है —
+परमाण्विक रूप से पुनः उत्पन्न और निर्यात करता है ताकि कोई भी ट्रैक किया गया
+आर्टिफैक्ट कभी सिंक से बाहर न हो सके। इसका डिज़ाइन अपनी कठोरता सीधे वृद्धिशील बिल्ड
+सिस्टम की दुनिया से उधार लेता है, न कि स्क्रिप्टिंग से: परिवर्तन का पता <strong>कंटेंट
+हैश से लगाया जाता है, mtime से नहीं</strong>, इसलिए <code>touch</code> कुछ भी
+ट्रिगर नहीं करता और एक-बाइट का संपादन वही पुनर्निर्माण ट्रिगर करता है जो उसे करना
+चाहिए — न झूठी चेतावनी, न छूटा हुआ परिवर्तन। इसे औपचारिक रूप से एक पंक्ति में कहा
+जाए तो यह साल्सा-शैली की कंटेंट-हैश्ड वृद्धिशील पुनर्गणना है एक DAG पर, जिसमें कान
+टोपोलॉजिकल ऑर्डरिंग, अर्ली कटऑफ जो अपरिवर्तित उपवृक्षों को काट देता है,
+घोषित-अधिकार द्विदिशात्मक <code>sync</code> एज, और परमाण्विक-रीनेम प्लस
+SQLite-लेनदेन कमिट्स हैं ताकि प्रसार के बीच में क्रैश होने पर कभी अधूरा निर्यात न रह
+जाए। यह <code>vasic-digital</code> सबमॉड्यूल के रूप में उपलब्ध है और
+HelixConstitution सबमॉड्यूल के मुख्य भाग के रूप में उपयोग किया जाता है, इसलिए कोई
+भी प्रोजेक्ट जो संविधान को अपनाता है, उसे Docs Chain स्वतः प्राप्त हो जाता है और
+अपने संदर्भों के लिए YAML के माध्यम से अपनी श्रृंखलाएँ पंजीकृत करता है। कार्यान्वयन स्थिति
+के प्रति ईमानदार है (संविधान §11.4.6 के अनुसार): चरण 1–4 (कोर DAG + हैशिंग, नोड
+एडेप्टर/ट्रांसफॉर्म, परमाण्विकता के साथ प्रसार ऑर्केस्ट्रेटर, कॉन्फ़िग-चालित बहुसंदर्भ CLI
+जिसमें
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)
+लागू और परीक्षित हैं; चरण-4b में सामान्य द्विदिशात्मक
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> बिल्ट-इन (शुद्ध-Go,
+पंक्ति-स्तरीय ड्रिफ्ट, बाइट-स्थिर राउंड-ट्रिप) और <code>colorize-html</code>
+बिल्ट-इन जोड़े जाते हैं; चरण 5 में व्यापक वास्तविक-बाइनरी e2e लागू और GREEN है। चरण
+6–7 (संविधान वितरण, ATMOSphere वायरिंग) योजनाबद्ध हैं और ऑपरेटर-गेटेड रहेंगे।
+Herald पहला वास्तविक डाउनस्ट्रीम उपभोक्ता है, जो 66-दस्तावेज़ बहु-प्रारूप कॉर्पस को
+सिंक करता है जो स्वच्छता की पुष्टि करता है।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>दस्तावेज़ीकरण, निर्यात और डेटाबेस हाथ से या नाजुक स्क्रिप्ट से बनाए रखने पर तुरंत
+अलग हो जाते हैं। Docs Chain सिंक्रोनाइज़ेशन को यांत्रिक, कंटेंट-हैश-सटीक और परमाण्विक
+बनाता है, ताकि श्रृंखला में कहीं भी परिवर्तन होने पर सब कुछ डाउनस्ट्रीम (और अपस्ट्रीम)
+सही और सुरक्षित रूप से अपडेट हो जाए।</p>
+<p>सामग्री</p>
+<h2 id="यह-कय-एक-गम-चजर-ह">यह क्यों एक गेम-चेंजर है</h2>
+<p>यह उन कठिनाई से अर्जित शुद्धता की गारंटियों को, जिन्हें कंपाइलर और बिल्ड-सिस्टम के
+लेखक स्वाभाविक मानते हैं — कंटेंट-हैश्ड डिपेंडेंसी ग्राफ़, न्यूनतम पुनर्गणना, एटॉमिक कमिट्स —
+दस्तावेज़ीकरण और डेटाबेस की दुनिया में लागू करता है, जो ऐतिहासिक रूप से क्रॉन जॉब्स और
+अच्छे इरादों पर ही निर्भर रहा है। सच्चा द्विदिशात्मक सिंक यह सुनिश्चित करता है कि
+स्रोत और उसके निर्यात के बीच का संबंध दोनों दिशाओं में लागू हो, जिससे “दस्तावेज़ पुराने
+हो गए हैं” और “निर्यात स्रोत से मेल नहीं खाता” जैसे बार-बार आने वाले बग समाप्त हो
+जाते हैं और ऐसी स्थितियाँ बन जाती हैं जिन्हें इंजन कभी उत्पन्न होने ही नहीं देता।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li>कंटेंट-हैश (न कि संशोधन समय) पर आधारित वृद्धिशील पुनर्गणना, जिसमें शीघ्र समाप्ति
+के साथ DAG का उपयोग।</li>
+<li>द्विदिशात्मक, घोषित-अधिकार सिंक किनारे (दस्तावेज़ ↔︎ निर्यात ↔︎ SQLite)।</li>
+<li>क्रैश-सुरक्षित प्रसार के लिए एटॉमिक-रीनेम + SQLite-लेनदेन कमिट।</li>
+<li>शुद्ध-Go <code>md-to-sqlite</code>/<code>sqlite-to-md</code> चक्र, जिसमें
+पंक्ति-स्तरीय विचलन पहचान।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>अनावश्यक पुनर्निर्माण:</strong> कंटेंट-हैश पहचान द्वारा हल (समय-मुद्रा
+के बजाय)।</li>
+<li><strong>आंशिक/भ्रष्ट अपडेट:</strong> एटॉमिक-रीनेम और SQLite लेनदेन द्वारा
+हल।</li>
+<li><strong>सही बहु-सदस्यीय क्रम:</strong> काह्न टोपोलॉजिकल क्रम + शीघ्र
+समाप्ति द्वारा हल।</li>
+<li><strong>ईमानदार क्षमता रिपोर्टिंग:</strong> प्रत्येक चरण को §11.4.6 के
+अनुसार IMPLEMENTED या PLANNED के रूप में चिह्नित करके हल।</li>
+</ul>
+<h2 id="तकनक-ढच-कय-कस">तकनीकी ढाँचा (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Go</strong> — संपूर्ण इंजन (<code>internal/hash</code>,
+<code>graph</code>, <code>adapter</code>, <code>orchestrator</code>,
+<code>config</code>, <code>state</code>, <code>runner</code>,
+<code>cmd/docs_chain</code>)।</li>
+<li><strong>DAG + काह्न टोपोलॉजिकल सॉर्ट</strong> — शीघ्र समाप्ति के साथ
+निर्भरता क्रम।</li>
+<li><strong>SQLite (शुद्ध-Go modernc)</strong> — डेटाबेस सदस्य और लेनदेनात्मक
+कमिट।</li>
+<li><strong>fsnotify</strong> — लाइव प्रसार के लिए <code>watch</code>
+डेमन।</li>
+<li><strong>YAML कॉन्फ़िग</strong> — प्रति-संदर्भ श्रृंखला पंजीकरण।</li>
+<li><strong>exec: ट्रांसफ़ॉर्म</strong> — प्लगइन योग्य Markdown→HTML/PDF/DOCX
+जनरेशन।</li>
+</ul>
+<blockquote>
+<p>रोडमैप की ईमानदारी: चरण 6–7 (संविधान वितरण, ATMOSphere एकीकरण) PLANNED
+/ ऑपरेटर-नियंत्रित हैं — अभी तक जारी नहीं किए गए।</p>
+</blockquote>
+</body>
+</html>

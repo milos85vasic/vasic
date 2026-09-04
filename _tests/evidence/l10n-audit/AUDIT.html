@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AUDIT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AUDIT</h1>
+</header>
+<h1
+id="localization-per-language-seo-audit-generated-chrome-both-sites">Localization
++ per-language SEO audit — generated chrome (both sites)</h1>
+<p>Scope: every <strong>generator-emitted</strong> user-visible string
+that is NOT part of the <code>_content/**</code> docs, plus per-language
+SEO on generated pages. Source of truth is the Go generator
+<code>_tools/gen/</code> (<code>shells.go</code>, <code>seo.go</code>,
+<code>home.go</code>, <code>portfolio.go</code>,
+<code>product.go</code>) and the site JS i18n dictionaries
+(<code>milosvasic.ru/assets/js/i18n.js</code> → <code>MV_I18N</code>;
+<code>vasic.digital/js/translations.js</code>). The
+<code>_content_&lt;lang&gt;/</code> doc-translation batch and
+<code>_tests/evidence/translate-new/</code> are a SEPARATE surface and
+are out of scope (only read, never written).</p>
+<p>LANGS (15): en · ru sr de es fr be zh kk hi ja ko ar tr fa</p>
+<hr />
+<h2 id="surfaces-and-how-each-is-localized">1. Surfaces and how each is
+localized</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Renderer</th>
+<th>Localization mechanism</th>
+<th>State BEFORE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>milosvasic.ru home</td>
+<td>Jekyll <code>_layouts/default.html</code> + <code>home.go</code>
+(jekyll)</td>
+<td>client-side <code>i18n.js</code> (<code>MV_I18N</code>, 15 langs) +
+language switcher</td>
+<td>GOOD (chrome localized)</td>
+</tr>
+<tr>
+<td>vasic.digital home</td>
+<td><code>home.go</code> (standalone)</td>
+<td><code>data-i18n</code> attrs present, but
+<code>translations.js</code> <strong>not loaded</strong> → inert</td>
+<td>EN-ONLY in practice</td>
+</tr>
+<tr>
+<td>Portfolio (both sites)</td>
+<td><code>portfolio.go</code></td>
+<td>none — chrome hard-coded English</td>
+<td>EN-ONLY, all 15</td>
+</tr>
+<tr>
+<td>Product pages (both sites)</td>
+<td><code>product.go</code></td>
+<td>none — chrome hard-coded English</td>
+<td>EN-ONLY, all 15</td>
+</tr>
+</tbody>
+</table>
+<p>Key finding: the <strong>server-rendered</strong> portfolio + product
+pages emitted 100% hard-coded English chrome and English-only SEO
+<strong>for every language</strong>, and no per-language
+product/portfolio pages had ever been generated on disk
+(<code>products/&lt;lang&gt;/</code>,
+<code>portfolio/&lt;lang&gt;/</code> were absent).</p>
+<hr />
+<h2 id="inventory-of-generated-non-content-ui-strings-the-gap-set">2.
+Inventory of generated non-content UI strings (the gap set)</h2>
+<p>These are the strings the generator prints. BEFORE = hard-coded
+English for all 14 non-EN languages (English-fallback). Each now has a
+key in <code>ui-i18n.json</code>.</p>
+<p>Chrome (shells / product / portfolio): - <code>skip</code> “Skip to
+content” (skip link) - <code>nav.home</code> “Home”,
+<code>nav.products</code> “Products”, <code>nav.portfolio</code>
+“Portfolio” - <code>toggle</code> “Toggle theme” (theme-toggle
+aria-label) - <code>footer.suffix</code> “built on the OpenDesign
+system”</p>
+<p>Portfolio body: - <code>pf.eyebrow</code> “unified portfolio”,
+<code>pf.title</code> “Portfolio” - <code>pf.download</code> “Download
+Portfolio (PDF)” - <code>pf.stat.products</code> “Products”,
+<code>pf.stat.tiers</code> “Tiers”, <code>pf.stat.helix</code> “Helix
+products” - <code>pf.overview.eyebrow</code> “overview”,
+<code>pf.overview.title</code> “One fleet, one discipline” -
+<code>pf.readmore</code> “Read more” - <code>pf.lede</code> (hero lede
+paragraph), <code>pf.summary</code> (overview paragraph) -
+<code>tier1/2/3.eyebrow</code> + <code>tier1/2/3.title</code> (six
+tier-section headers)</p>
+<p>Product body: - <code>prod.tier</code> “tier”,
+<code>prod.order</code> “order” (eyebrow “// tier: X · order N”) -
+<code>prod.source</code> “Source”, <code>prod.license</code> “license” -
+<code>prod.architecture</code> “architecture” (diagram figcaption)</p>
+<p>SEO: - <code>kw.vasic</code> / <code>kw.milos</code> (per-site meta
+keywords — previously ABSENT)</p>
+<p>Total: 29 distinct generator UI/SEO keys × 14 non-EN languages =
+<strong>406 strings</strong> that were English-fallback before this
+work.</p>
+<hr />
+<h2 id="per-language-seo-audit-of-generated-pages-before">3.
+Per-language SEO audit of generated pages (BEFORE)</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Before</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;title&gt;</code></td>
+<td>English only</td>
+<td>product = “<Name> — <Brand>”; portfolio = “Portfolio — <Brand>”</td>
+</tr>
+<tr>
+<td><code>meta description</code></td>
+<td>English only</td>
+<td>product = EN summary; portfolio = EN lede</td>
+</tr>
+<tr>
+<td><code>meta keywords</code></td>
+<td><strong>ABSENT</strong></td>
+<td>no keywords tag emitted at all</td>
+</tr>
+<tr>
+<td><code>link canonical</code></td>
+<td>OK</td>
+<td>correct EN canonical per page</td>
+</tr>
+<tr>
+<td>hreflang alternates</td>
+<td>OK (reciprocal)</td>
+<td>full 15-lang matrix + <code>x-default</code>; reciprocal by
+construction</td>
+</tr>
+<tr>
+<td><code>og:*</code> / <code>twitter:*</code></td>
+<td>present, EN</td>
+<td>title/desc English; <strong><code>og:locale</code> hard-coded
+<code>en_US</code></strong> for every language</td>
+</tr>
+<tr>
+<td>JSON-LD</td>
+<td>EN</td>
+<td><code>WebSite.inLanguage</code> = “en”,
+<code>SoftwareApplication.inLanguage</code> = “en” (hard-coded)</td>
+</tr>
+</tbody>
+</table>
+<p>So: hreflang + canonical were already correct;
+<strong>title/description were not translated, keywords were missing
+entirely, and og:locale + JSON-LD inLanguage were hard-coded English on
+every localized page.</strong></p>
+<hr />
+<h2 id="js-i18n-dictionary-audit">4. JS i18n dictionary audit</h2>
+<ul>
+<li><code>MV_I18N</code> (<code>milosvasic.ru/assets/js/i18n.js</code>):
+15 langs, comprehensive home keys (nav, hero, downloads, summary, work
+cards, skills, author, contact). Reviewer-gated per project history.
+GOOD.</li>
+<li><code>translations.js</code>
+(<code>vasic.digital/js/translations.js</code>): 15 langs present, BUT
+the keys are <strong>stale</strong> relative to the regenerated vasic
+home (e.g. it has <code>hero.title</code> = “Excellence in Software
+Engineering” while the generated page uses <code>hero.title</code> =
+“AI-native software engineering, built to be trusted.” and keys like
+<code>hero.eyebrow</code>, <code>hero.cta_products</code>,
+<code>stat.providers</code>, <code>about.body2</code> that
+translations.js does not carry). It is ALSO not loaded by the generated
+<code>index.html</code>. Net effect: the vasic home language switcher is
+non-functional and, if wired as-is, would mistranslate. (Documented gap
+— see §6.)</li>
+<li>Untranslated aria-labels on the milosvasic Jekyll layout (“Change
+language”, “Toggle dark / light theme”, “Close”, “Language”, “Theme”)
+and the footer prose line have no <code>data-i18n</code>. (Minor;
+layout-owned, documented gap.)</li>
+</ul>
+<hr />
+<h2 id="fill-what-changed-in-the-generator-this-work">5. FILL — what
+changed in the generator (this work)</h2>
+<ul>
+<li>New <code>_tools/gen/i18n.go</code> + embedded
+<code>ui-i18n.json</code>: a per-language dictionary
+(<code>T(lang, key)</code> with explicit EN fallback),
+<code>htmlDir</code> (RTL for ar/fa/he/ur), <code>ogLocale</code>,
+<code>siteKeywords</code>. Reviewer-gated translations (see §7).</li>
+<li><code>seo.go</code>: <code>og:locale</code> now per-language;
+<code>meta keywords</code> emitted per-language; JSON-LD
+<code>inLanguage</code> per-language via <code>baseGraphLang</code> /
+<code>softwareApplicationNodeLang</code> (original signatures preserved
+→ non-breaking). <code>pageSEO</code> gained <code>lang</code> +
+<code>keywords</code>.</li>
+<li><code>portfolio.go</code>: hero eyebrow/title/lede, download CTA,
+three stat labels, overview eyebrow/title, summary, all six tier
+headers, per-card “Read more”, skip link, nav (Home/Portfolio),
+theme-toggle aria, footer suffix, <code>&lt;html lang/dir&gt;</code>,
+and the SEO head (title/desc/keywords/og:locale/inLanguage) — all
+localized via <code>T(lang, …)</code> for both the self-contained and
+Jekyll shells.</li>
+<li><code>product.go</code>: eyebrow (“// tier: … · order …”), “Source”,
+“license”, diagram “architecture” caption, skip link, nav
+(Home/Products), theme-toggle aria, footer suffix,
+<code>&lt;html lang/dir&gt;</code>, and SEO head — all localized.
+Product BODY is read-only sourced from
+<code>_content_&lt;lang&gt;/</code> when a translation exists
+(e.g. <code>ru</code>), else EN (that doc surface is owned
+elsewhere).</li>
+<li><code>main.go</code>: threads <code>lang</code> into
+<code>renderProduct</code>.</li>
+</ul>
+<p>Glossary terms (Helix*, LLM, Vasic Digital, Server Factory, PDF, Go,
+Kotlin, …) are preserved verbatim in every translation via
+<code>glossary_protect.py</code> sentinels.</p>
+<hr />
+<h2 id="honest-caveats-residual-gaps-not-closed-here">6. Honest caveats
+/ residual gaps (not closed here)</h2>
+<ol type="1">
+<li><strong>vasic.digital home client i18n</strong>:
+<code>translations.js</code> is stale + unloaded. The generated vasic
+home remains EN-only until <code>translations.js</code> is regenerated
+against the current <code>data-i18n</code> keys (a client-content task)
+and wired into the generated <code>index.html</code>. Server-rendered
+vasic home chrome now uses <code>T()</code> but is only ever generated
+for <code>en</code> (home content data is EN-only), so localization of
+the vasic home still depends on the client switcher. NOT closed.</li>
+<li><strong>milosvasic home</strong>: chrome is already localized
+client-side; the remaining gaps are a few layout aria-labels + footer
+prose without <code>data-i18n</code>, and <code>jekyll-seo-tag</code>
+head being English-only. Layout-owned; NOT closed here.</li>
+<li><strong>Product/portfolio card blurbs + product body</strong> are
+<code>_content</code>-derived (taglines/summaries). Chrome + SEO around
+them is localized; the prose is the separate
+<code>_content_&lt;lang&gt;</code> surface (used read-only where
+present).</li>
+<li><code>TestAvailableLangs</code> currently fails in this checkout
+because <code>_content_de/</code> and <code>_content_sr/</code> are not
+on disk this session (only <code>_content_ru/</code>). This is
+environmental, predates this work, and is not touched (editing
+<code>_content_*</code> is out of scope).</li>
+</ol>
+<p>See <code>coverage-matrix.md</code> for the before→after numbers and
+<code>reviews/</code> for the independent per-language review
+verdicts.</p>
+</body>
+</html>

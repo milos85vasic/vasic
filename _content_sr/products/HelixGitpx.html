@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>Један извор истине, огледало свуда — федерисани Гит на
+десетак хостова.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>HelixGitpx (Helix Гит Proxy eXtended) је федерисани Гит proxy који
+одржава један извор истине огледан на више Гит хостова и решава
+неизбежне конфликте помоћу токова вођених политикама и AI. Стигао је до
+верзије в1.0.0 GA.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>HelixGitpx је федерисани Гит proxy који огледа један извор истине на
+десетак и више Гит хостова — GitHub, GitLab, Gitea, Bitbucket, Azure
+DevOps, AWS CodeCommit и друге — и решава синхронизационе конфликте
+помоћу токова вођених политикама и AI. Издат је као в1.0.0 GA.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>HelixGitpx — „Helix Гит Proxy eXtended” — је федерисани Гит proxy
+који одржава један извор истине огледан на више Гит хостова и решава
+конфликте који се неизбежно јављају чим исти репозиторијум постоји на
+више места. Подржани хостови читају се као мапа целог Гит екосистема:
+GitHub, GitLab, GitFlic, GitVerse, Gitea, Gitee, Bitbucket, Azure
+DevOps, AWS CodeCommit, Forgejo, SourceHut и генерички Гит преко
+ХТТПС-а. Док би наивни <code>git push</code> на десетак удаљених
+репозиторијума или одмах пао или, што је горе, дозволио да се огледала
+тихо разилазе, HelixGitpx ступа на сцену са токовима решавања вођеним
+политикама и AI, који усаглашавају разилажења и враћају их на један
+ауторитативни извор истине.</p>
+<p>Пројекат је стигао до верзије в1.0.0 GA, са означеним прекретницама
+од <code>m1-foundation</code> до <code>m8-ga</code> — потпуно
+дефинисаним путем од основе до опште доступности. Пројектован је као три
+слоја једног производа: Go монорепо (платформа плус осамнаест сервиса,
+алати за генерисање кода и скафолдинг), Angular 19 + Nx веб апликација и
+Kotlin-Мултиплатформ + Цомпосе клијентске љуске које испоручују изворне
+искуство за Android, iOS и десктоп из дељеног кода. Испорука платформе
+је у потпуности Kubernetes-нативе — Helm шеме, Арго ЦД апликације,
+Kustomize слојеви, SQL и OPA политике — са ЦИ цевоводима заштићеним
+експлицитним окидачима како се ништа не би случајно објавило. Јавна
+документација испоручује се као сајт на Доцусаурусу
+(доцс.helixgitpx.ио), уз Astro маркетиншки сајт (helixgitpx.ио).</p>
+<p>Управљање је строго и засновано на уставу, што је одлика, а не пука
+формалност: носиви документ је пројекат Constitution, чији Члан ИИ
+прописује матрицу од седам типова тестирања са 100% покривеношћу <em>по
+типу, по модулу који је измењен</em>, при чему су моцк-ови дозвољени
+само у јединичним тестовима, а ниједан тест се не сме прескочити.
+Верификатор који се покреће једном проверава све артефакте, као и
+<code>go vet</code> и <code>go test</code> у целом радном простору, а
+сваки пусх се шири на све конфигурисане хостове — тако да је „огледала
+синхронизована” нешто што систем намеће на сваком комиту, уместо да се
+човек сећа да провери.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Одржавање аутентичног репозиторијума на више Гит хостова — због
+редунданције, суверенитета или доступности на регионалним платформама —
+је крхко и захтева ручни рад, а разилажења огледала тешко је ускладити.
+HelixGitpx је направљен да синхронизација на више хостова постане
+примарна, конфликтима свесна функционалност.</p>
+<h2 id="зашто-је-ово-револуционарно">Зашто је ово револуционарно</h2>
+<p>Прелази са приступа „гурај на више удаљених репозиторија и надај се
+најбољем” – крхког, ручног статуса кво – на уређену федерацију са једним
+ауторитативним извором истине и аутоматским решавањем конфликата
+заснованим на правилима и AI. То чини на неуобичајено широком спектру
+хостова, намерно укључујући регионалне платформе (GitFlic, GitVerse,
+Gitee) које већина алата тихо игнорише, тако да редунданса, суверенитет
+података и досег у тим екосистемима престају да буду терет за одржавање
+и постају јединствена функционалност коју конфигуришете једном.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li><strong>Ширина упстреам репозиторија</strong> – преко десетак Гит
+хостова, од GitHub и GitLab до регионалних платформи попут GitFlic,
+GitVerse и Gitee, све нормализовано иза једног proxyja.</li>
+<li><strong>Решавање конфликата уз помоћ правила и AI</strong> –
+дивергенција се усклађује помоћу policy мотора и AI решавача, а не
+ручним поређењем огледала.</li>
+<li><strong>Федерација са једним извором истине</strong> – модел слања
+на све упстреам репозиторије где је један ауторитативни репозиториј
+истина, а сваки хост је огледало које се одржава у синхронизацији.</li>
+<li><strong>Строго тестирање засновано на уставу</strong> – седам врста
+тестова са 100% покривеношћу по типу, без прескакања, доказано једним
+скриптом за проверу целог сета, а не засновано на поверењу.</li>
+</ul>
+<h2 id="највећи-технички-изазови-и-како-смо-их-решили">Највећи технички
+изазови и како смо их решили</h2>
+<ul>
+<li><strong>Дивергенција и конфликти на више упстреам
+репозиторија.</strong> Исти репозиториј који постоји на десетак места
+почиње да одступа чим два хоста прихвате различите измене. Решено помоћу
+токова за решавање заснованих на правилима и AI, усидрених на једном
+извору истине, уз синхронизовано слање на све упстреам репозиторије које
+одржава сва огледала у конвергенцији ка тој једној истини.</li>
+<li><strong>Јединствена подршка за хетерогене Гит хостове.</strong>
+Сваки хост има сопствену аутентификацију, специфичности и API. Решено
+помоћу скрипти за конфигурацију по упстреам-у у директоријуму
+<code>Upstreams/</code> и слоја платформе који апстрахује те разлике,
+тако да додавање новог хоста постаје питање конфигурације, а не
+преписивања.</li>
+<li><strong>Доказивање исправности пре сваког спајања.</strong> Решено
+обавезном матрицом тестова са седам типова и једним „једнократним”
+скриптом <code>verify-everything.sh</code> која покреће цео сет провера
+– и прекида се чисто када кластер није доступан, тако да се исправност
+може доказати локално као и у ЦИ окружењу.</li>
+</ul>
+<h2 id="технолошки-стек">Технолошки стек</h2>
+<ul>
+<li><strong>Go монорепо</strong> – основни proxy и федерациони енгине:
+платформа са 18 сервиса, генерисањем кода и скелтонима, смештена у
+једном репозиторијуму тако да се цео енгине гради и тестира као
+целина.</li>
+<li><strong>Angular 19 + Nx</strong> – веб-апликација, где Nx обезбеђује
+структуру за изградњу и кеширање монорепоа која је неопходна за велику
+фронтенд апликацију.</li>
+<li><strong>Kotlin Multiplatform + Цомпосе</strong> – нативе Android,
+iOS и Десктоп клијентске схеллове генерисане из једне заједничке кодне
+базе, тако да три платформе не значе три различите имплементације.</li>
+<li><strong>Kubernetes + Helm + Арго ЦД + Kustomize</strong> –
+цлоуд-нативе испорука: Helm пакује издање, Kustomize overlays
+прилагођавају га по окружењима, а Арго ЦД га усклађује путем GitOps-а
+тако да стање кластера одговара Гит-у.</li>
+<li><strong>OPA (Rego)</strong> – политика као код за решавање
+конфликата и контролу приступа, чиме се одлуке о ауторизацији чувају
+декларативним и проверљивим.</li>
+<li><strong>Docusaurus</strong> – јавни сајт документације
+(доцс.helixgitpx.ио); <strong>Astro</strong> – маркетиншки сајт
+(helixgitpx.ио), где је сваки алат прилагођен типу садржаја.</li>
+<li><strong>мисе</strong> – фиксиран, репродуктиван тоолцхаин тако да
+сваки сарадник и ЦИ руннер гради на тачно истим верзијама.</li>
+</ul>
+<h2 id="напомене-о-статусу-и-искрености">Напомене о статусу и
+искрености</h2>
+<ul>
+<li><strong>Статус: испоручено.</strong> У РЕАДМЕ фајлу пројекта
+наведена је верзија в1.0.0 GA са означеним прекретницама од
+<code>m1-foundation</code> до <code>m8-ga</code>. („в1.0.0 GA” је навод
+из самог РЕАДМЕ фајла пројекта.)</li>
+<li><strong>Лиценца: треба утврдити.</strong> Извештаји GitHub и API
+наводе <code>MIT</code>, док одељак Лиценсе у РЕАДМЕ фајлу наводи
+Апацхе-2.0 (код) / CC-BY-СА-4.0 (документација) — пре објављивања решити
+неслагање у односу на стварни ЛИЦЕНСЕ фајл.</li>
+<li>Документација (доцс.helixgitpx.ио) и маркетиншки садржај
+(helixgitpx.ио) преузети су из РЕАДМЕ фајла и нису независно проверени —
+статус уживо НИЈЕ ПОТВРЂЕН.</li>
+</ul>
+<p><strong>Приоритетни ниво:</strong> Helix-основни.</p>
+</body>
+</html>

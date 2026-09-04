@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>vasic-digital</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">vasic-digital</h1>
+</header>
+<h1 id="vasic-digital">Vasic Digital</h1>
+<h2 id="héros">Héros</h2>
+<p><strong>L’ingénierie logicielle native pour les AI, conçue pour
+inspirer confiance.</strong></p>
+<p>N’importe qui peut brancher une application à un LLM en une
+après-midi. La partie difficile — celle qui détermine si un système AI
+n’est qu’une démo ou un produit fiable — réside dans tout ce qui entoure
+le modèle : l’abstraction des fournisseurs capable de résister à une
+panne, l’orchestration qui maintient les agents sur leur tâche, la
+vérification qui détecte les réponses fantaisistes d’un modèle, et la
+gouvernance qui prouve que l’ensemble fonctionne comme prévu. C’est
+cette partie complexe que construit Vasic Digital. Nous concevons et
+livrons des systèmes de développement AI — modèles, agents,
+orchestration et infrastructure — qui transforment les grands modèles de
+langage en logiciels fiables, accompagnés d’une couche de gouvernance
+pour en garantir l’intégrité. Tout repose sur une règle intransigeante :
+une fonctionnalité n’est pas « terminée » quand les tests passent ; elle
+l’est quand un utilisateur réel peut s’en servir, et qu’il existe des
+preuves tangibles pour le démontrer.</p>
+<h2 id="à-propos">À propos</h2>
+<p>Vasic Digital est une pratique d’ingénierie ciblée qui développe une
+famille interconnectée de produits et de modules réutilisables pour le
+développement AI. Plutôt qu’un monolithe, le travail s’organise comme
+une flotte : des applications produits majeures s’appuyant sur des
+dizaines de petits modules indépendants, testés séparément et découplés
+— de sorte que les composants éprouvés soient réutilisés dans chaque
+produit au lieu d’être réinventés. Le langage principal est
+<strong>Go</strong>, complété par <strong>Kotlin / Kotlin
+Multiplatform</strong>, <strong>TypeScript/React</strong>,
+<strong>Python</strong>, <strong>Swift</strong> et
+<strong>Shell</strong>, choisis en fonction des besoins : Go pour les
+services et bibliothèques à haut débit, Kotlin pour les outils de
+provisionnement et les applications mobiles multiplateformes, TypeScript
+pour les interfaces typées, Python pour l’intégration AI/ML.</p>
+<p>Ce qui unit cette flotte, c’est une discipline rendue mécanique
+plutôt qu’aspirationnelle. Chaque projet hérite d’un
+<strong>Constitution</strong> d’ingénierie partagé sous forme de
+sous-module Git — ainsi, une règle renforcée une fois se propage à
+travers une flotte de plus de 140 dépôts — et chaque fonctionnalité
+annoncée par un produit doit être validée par un test automatisé
+produisant des preuves avant d’être considérée comme livrée. Il ne
+s’agit pas d’un discours marketing plaqué sur le travail ; c’est le
+modèle opérationnel qui le sous-tend. L’avantage réel réside dans
+l’effet cumulatif : comme les préoccupations génériques résident dans
+des modules découplés et testés indépendamment, une correction ou une
+amélioration apportée en un seul endroit bénéficie instantanément à tous
+les produits, et chaque nouveau système est assemblé à partir de
+composants dont la fiabilité a déjà été éprouvée.</p>
+<h2 id="ce-que-nous-faisons">Ce que nous faisons</h2>
+<p><strong>Développement basé sur les AI.</strong> Nous construisons le
+socle des systèmes AI de bout en bout :</p>
+<ul>
+<li><strong>Accès multi-fournisseurs aux LLM</strong> — une abstraction
+propriétaire couvrant plus de 40 fournisseurs (Anthropic/Claude, OpenAI,
+DeepSeek, Gemini, Mistral, Cohere, Groq, xAI/Grok, Qwen, Perplexity,
+OpenRouter, Together AI, Replicate, Cerebras, Cloudflare Workers AI,
+SiliconFlow, et un retour local sur Ollama) derrière une seule
+interface, avec réessais, disjoncteurs et vérifications d’état.</li>
+<li><strong>Orchestration d’agents</strong> — plans de contrôle d’agents
+de codage CLI en mode headless, workflows agentiques basés sur des
+graphes, consensus multi-tours par « débat AI », et moteurs d’exécution
+DAG/pipeline.</li>
+<li><strong>Vérification des LLM</strong> — une couche de confiance qui
+évalue les modèles avec un filtre de compréhension obligatoire («
+Vois-tu mon code ? »), ainsi que des tests de latence, de streaming,
+d’appel de fonctions, de vision et de embeddings, exportant une
+configuration validée uniquement.</li>
+<li><strong>Récupération et mémoire</strong> — RAG, bases de données
+vector, embeddings, et moteurs de mémoire fusionnée pour agents (Mem0 +
+Cognee + Letta) avec compression de contexte illimité.</li>
+<li><strong>LLM défensifs</strong> — garde-fous, détection de PII,
+scénarios adverses de red team, et canonisation des entrées.</li>
+</ul>
+<p><strong>La famille de produits Helix.</strong> Notre gamme phare
+couvre l’intégralité du cycle de développement AI :</p>
+<ul>
+<li><strong>HelixTrack</strong> — une alternative libre à JIRA (le
+produit phare de la gamme Helix-Track).</li>
+<li><strong>HelixAgent</strong> — un service LLM collaboratif permettant
+à plusieurs modèles de débattre avant de livrer une réponse
+consensuelle.</li>
+<li><strong>HelixCode</strong> — une plateforme de développement AI
+distribuée, répartissant les tâches entre des workers gérés par SSH avec
+points de contrôle et retour arrière.</li>
+<li><strong>HelixLLM</strong> — un binaire unique, six modes : inférence
+compatible OpenAI et Anthropic, du portable au cluster, via HTTP/3.</li>
+<li><strong>HelixCluster</strong> — un système d’exploitation distribué
+pour le calcul AI, des GPU de datacenter aux appareils edge
+portables.</li>
+<li><strong>LLMProvider / LLMOrchestrator / LLMsVerifier</strong> —
+l’abstraction fournisseur, le plan de contrôle des agents et la source
+de vérité pour la vérification.</li>
+<li><strong>HelixMemory, HelixSkills, HelixSpecifier, HelixBuilder,
+HelixTranslate, HelixTerminator, HelixGitpx, HelixOTA,
+HelixPlay</strong> — mémoire, compétences régies, développement piloté
+par spécifications, construction d’applications, traduction vérifiée,
+terminaux à confiance zéro, Git fédéré, mises à jour sécurisées de OTA
+et cloud gaming auto-hébergé.</li>
+</ul>
+<p><strong>Outils et utilitaires (vasic-digital utils).</strong> Des
+outils de qualité professionnelle, autonomes :
+<strong>Catalogizer</strong> (gestion multi-protocole de collections de
+médias chiffrés), <strong>Courses-Creator</strong> (production de cours
+AI au format vidéo à partir de Markdown), <strong>VisionEngine</strong>
+(vision par ordinateur + perception d’interface LLM),
+<strong>DocProcessor</strong> (cartographie des fonctionnalités à partir
+de la documentation pour l’assurance qualité), <strong>Docs
+Chain</strong> (synchronisation bidirectionnelle de documents et bases
+de données avec hachage de contenu), <strong>Herald</strong>
+(notifications multicanaux en langage naturel),
+<strong>task_bridge</strong> (synchronisation bidirectionnelle entre
+tâches et tableaux), et la <strong>Suite de modules réutilisables Vasic
+Digital</strong> — la « bibliothèque standard »
+<code>digital.vasic.*</code> des modules d’infrastructure, des
+primitives AI et des garde-fous.</p>
+<p><strong>Automatisation de l’infrastructure (Server Factory).</strong>
+Notre héritage DevOps : <strong>Mail Server Factory</strong> et le
+<strong>Cadre de base Server Factory</strong>, qui transforment des
+configurations JSON déclaratives en serveurs entièrement provisionnés et
+conteneurisés sous Docker, sur divers types de connexions et
+distributions Linux, ainsi que des outils de création d’images VM
+(Qemu-Utils, Parallels-Utils) et des usines de services associés.</p>
+<h2 id="technologies">Technologies</h2>
+<p>Fondées sur notre pile technologique réelle :</p>
+<ul>
+<li><strong>Langages :</strong> Go (dominant), Kotlin &amp; Kotlin
+Multiplatform, TypeScript, Python, Swift, Shell, avec des spécifications
+formelles PL/pgSQL et même TLA+ pour les travaux sur les systèmes
+distribués.</li>
+<li><strong>AI / LLM :</strong> accès multi-fournisseurs (43+
+adaptateurs), Model Context Protocol (MCP), RAG, bases de données vector
+et embeddings, algorithmes de planification (HiPlan, MCTS, Tree of
+Thoughts), LLMOps, outils d’évaluation (SWE-bench/HumanEval/MMLU) et TTS
+(Bark, SpeechT5).</li>
+<li><strong>Backend :</strong> Gin (Go), gRPC + Protocol Buffers, HTTP/3
+(QUIC), WebSockets, interfaces Angular et React, messagerie
+Kafka/RabbitMQ.</li>
+<li><strong>Données :</strong> PostgreSQL, SQLite, SQLCipher (chiffrées
+au repos), Redis, Neo4j, ClickHouse et stockage d’objets
+(MinIO/S3/GCS/Azure).</li>
+<li><strong>Infrastructure / DevOps :</strong> Docker &amp; Compose,
+Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMU/Libvirt/Parallels, et CI/CD via GitHub Actions, Gradle et
+Make.</li>
+<li><strong>Tests / Assurance qualité :</strong> le framework anti-biais
+HelixQA, des harnais de tests par module avec portes de mutation,
+<code>go test -race</code>, outils de régression visuelle, tests sur
+appareils ADB, portes SonarQube et analyses de sécurité (semgrep, gosec,
+trivy, snyk, gitleaks, nancy).</li>
+</ul>
+<h2 id="qualité-et-gouvernance-notre-différenciation">Qualité et
+gouvernance — notre différenciation</h2>
+<p>Deux piliers assurent la cohérence et la fiabilité de l’ensemble de
+la flotte :</p>
+<ul>
+<li><strong>HelixConstitution</strong> — un recueil de règles
+d’ingénierie universel, indépendant des projets, intégré sous forme de
+sous-module Git et hérité par chaque projet au sein d’une flotte de plus
+de 140 dépôts. Il formalise une discipline incontournable — des
+garde-fous anti-bidonnage, une immunité contre les faux positifs, la
+sécurité des données et des hôtes, ainsi que des règles de documentation
+et de couverture — qu’un projet peut étendre, mais jamais affaiblir. Une
+simple mise à jour du sous-module actualise les règles partout ; des
+mécanismes de propagation vérifient littéralement la présence des
+clauses requises dans toute la flotte, et chaque garde-fou est
+accompagné d’un test de mutation prouvant qu’il n’est pas une coquille
+vide. La gouvernance devient un fait vérifiable, et non plus un vœu
+pieux.</li>
+<li><strong>HelixQA</strong> — une orchestration QA anti-bidonnage. Elle
+exécute des batteries de tests YAML rédigés ainsi que des sessions QA
+entièrement autonomes, combinant LLM et vision par ordinateur, sur
+Android, Android TV, Web et Desktop. Elle refuse de valider un PASS sans
+preuves d’exécution capturées (captures d’écran, logcat, vidéo, traces
+de pile). « Nous l’avons testé » devient « voici la vidéo, le logcat et
+le ticket ».</li>
+</ul>
+<h2 id="énoncé-de-positionnement">Énoncé de positionnement</h2>
+<p>N’importe qui peut connecter une application à un LLM. <strong>Vasic
+Digital</strong> construit ce qui est difficile : des systèmes
+<strong>AI</strong> vérifiables, réutilisables et honnêtes — un socle
+<strong>AI</strong> agnostique aux fournisseurs, un cycle de vie de
+produits <strong>Helix</strong> par-dessus, et une discipline
+constitutionnelle assortie de preuves garantissant que ce qui est livré
+fonctionne réellement. Nous ne vous demandons pas de croire sur parole
+la coche verte. Nous vous montrons les preuves qui la sous-tendent.</p>
+<h2 id="contact">Contact</h2>
+<p>Construisons quelque chose de vérifiable.</p>
+<ul>
+<li><strong>Email :</strong> <a
+href="mailto:i@mvasic.ru">i@mvasic.ru</a></li>
+<li><strong>GitHub :</strong> <a
+href="https://github.com/vasic-digital">github.com/vasic-digital</a></li>
+</ul>
+</body>
+</html>

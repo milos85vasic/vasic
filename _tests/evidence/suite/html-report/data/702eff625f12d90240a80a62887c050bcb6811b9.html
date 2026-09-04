@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>702eff625f12d90240a80a62887c050bcb6811b9</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">702eff625f12d90240a80a62887c050bcb6811b9</h1>
+</header>
+<h1 id="instructions">Instructions</h1>
+<ul>
+<li>Following Playwright test failed.</li>
+<li>Explain why, be concise, respect Playwright best practices.</li>
+<li>Provide a snippet of code with the fix, if possible.</li>
+</ul>
+<h1 id="test-info">Test info</h1>
+<ul>
+<li>Name: milosvasic-ru-a11y.spec.js &gt;&gt; milosvasic.ru —
+accessibility &gt;&gt; axe-core accessibility scan — product (no
+critical/serious violations)</li>
+<li>Location: tests/milosvasic-ru-a11y.spec.js:20:5</li>
+</ul>
+<h1 id="error-details">Error details</h1>
+<pre><code>Error: product must have no critical/serious a11y violations
+
+expect(received).toEqual(expected) // deep equality
+
+- Expected  -   1
++ Received  + 513
+
+- Array []
++ Array [
++   Object {
++     &quot;description&quot;: &quot;Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds&quot;,
++     &quot;help&quot;: &quot;Elements must meet minimum color contrast ratio thresholds&quot;,
++     &quot;helpUrl&quot;: &quot;https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright&quot;,
++     &quot;id&quot;: &quot;color-contrast&quot;,
++     &quot;impact&quot;: &quot;serious&quot;,
++     &quot;nodes&quot;: Array [
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-tag--license\&quot;&gt;license: TBD&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-tag--license&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-tag--license\&quot;&gt;license: TBD&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-tag--license&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Go&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(1)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Go&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(1)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Gin&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(2)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Gin&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(2)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;HTTP/3 QUIC&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(3)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;HTTP/3 QUIC&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(3)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;PostgreSQL&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(4)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;PostgreSQL&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(4)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;SQLite&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(5)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;SQLite&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(5)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;SQLCipher&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(6)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;SQLCipher&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(6)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Redis&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(7)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Redis&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(7)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Angular 19&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(8)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Angular 19&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(8)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Tauri 2.0&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(9)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Tauri 2.0&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(9)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Kotlin&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(10)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Kotlin&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(10)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Swift&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(11)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Swift&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(11)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#e9ecef&quot;,
++               &quot;contrastRatio&quot;: 3.95,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Docker&lt;/span&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;.od-chip:nth-child(12)&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 3.95 (foreground color: #6c757d, background color: #e9ecef, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;span class=\&quot;od-chip\&quot;&gt;Docker&lt;/span&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;.od-chip:nth-child(12)&quot;,
++         ],
++       },
++       Object {
++         &quot;all&quot;: Array [],
++         &quot;any&quot;: Array [
++           Object {
++             &quot;data&quot;: Object {
++               &quot;bgColor&quot;: &quot;#f8f9fa&quot;,
++               &quot;contrastRatio&quot;: 4.44,
++               &quot;expectedContrastRatio&quot;: &quot;4.5:1&quot;,
++               &quot;fgColor&quot;: &quot;#6c757d&quot;,
++               &quot;fontSize&quot;: &quot;9.9pt (13.2px)&quot;,
++               &quot;fontWeight&quot;: &quot;normal&quot;,
++               &quot;messageKey&quot;: null,
++             },
++             &quot;id&quot;: &quot;color-contrast&quot;,
++             &quot;impact&quot;: &quot;serious&quot;,
++             &quot;message&quot;: &quot;Element has insufficient color contrast of 4.44 (foreground color: #6c757d, background color: #f8f9fa, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++             &quot;relatedNodes&quot;: Array [
++               Object {
++                 &quot;html&quot;: &quot;&lt;figure class=\&quot;od-diagram\&quot; data-slug=\&quot;helixtrack\&quot;&gt;&quot;,
++                 &quot;target&quot;: Array [
++                   &quot;figure&quot;,
++                 ],
++               },
++             ],
++           },
++         ],
++         &quot;failureSummary&quot;: &quot;Fix any of the following:
++   Element has insufficient color contrast of 4.44 (foreground color: #6c757d, background color: #f8f9fa, font size: 9.9pt (13.2px), font weight: normal). Expected contrast ratio of 4.5:1&quot;,
++         &quot;html&quot;: &quot;&lt;figcaption class=\&quot;od-section__eyebrow\&quot; style=\&quot;margin-top:var(--od-space-2)\&quot;&gt;// architecture&lt;/figcaption&gt;&quot;,
++         &quot;impact&quot;: &quot;serious&quot;,
++         &quot;none&quot;: Array [],
++         &quot;target&quot;: Array [
++           &quot;figcaption&quot;,
++         ],
++       },
++     ],
++     &quot;tags&quot;: Array [
++       &quot;cat.color&quot;,
++       &quot;wcag2aa&quot;,
++       &quot;wcag143&quot;,
++       &quot;TTv5&quot;,
++       &quot;TT13.c&quot;,
++       &quot;EN-301-549&quot;,
++       &quot;EN-9.1.4.3&quot;,
++       &quot;ACT&quot;,
++       &quot;RGAAv4&quot;,
++       &quot;RGAA-3.2.1&quot;,
++     ],
++   },
++ ]</code></pre>
+<h1 id="page-snapshot">Page snapshot</h1>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">generic [active] [ref=e1]</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">link &quot;Skip to content&quot; [ref=e2] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">/url</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;#main&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">banner [ref=e3]</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">link &quot;Miloš Vasić&quot; [ref=e4] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">/url</span><span class="kw">:</span><span class="at"> ../index.html</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e5]</span><span class="kw">:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">navigation &quot;Primary&quot; [ref=e6]</span><span class="kw">:</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">link &quot;Home&quot; [ref=e7] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">/url</span><span class="kw">:</span><span class="at"> ../index.html</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">link &quot;Products&quot; [ref=e8] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">/url</span><span class="kw">:</span><span class="at"> ../index.html</span><span class="co">#products</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">button &quot;Toggle light or dark theme&quot; [ref=e9] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> img [ref=e10]</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">main [ref=e12]</span><span class="kw">:</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">article [ref=e13]</span><span class="kw">:</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e14]</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;// tier: helix-primary · order 1&quot;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">&#39;heading &quot;HelixTrack beta license: TBD&quot; [level=1] [ref=e15]&#39;</span><span class="kw">:</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> HelixTrack</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e16]</span><span class="kw">:</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e17]</span><span class="kw">:</span><span class="at"> beta</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e18]</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;license: TBD&quot;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e19]</span><span class="kw">:</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e20]</span><span class="kw">:</span><span class="at"> Go</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e21]</span><span class="kw">:</span><span class="at"> Gin</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e22]</span><span class="kw">:</span><span class="at"> HTTP/3 QUIC</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e23]</span><span class="kw">:</span><span class="at"> PostgreSQL</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e24]</span><span class="kw">:</span><span class="at"> SQLite</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e25]</span><span class="kw">:</span><span class="at"> SQLCipher</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e26]</span><span class="kw">:</span><span class="at"> Redis</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e27]</span><span class="kw">:</span><span class="at"> Angular 19</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e28]</span><span class="kw">:</span><span class="at"> Tauri 2.0</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e29]</span><span class="kw">:</span><span class="at"> Kotlin</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e30]</span><span class="kw">:</span><span class="at"> Swift</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e31]</span><span class="kw">:</span><span class="at"> Docker</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Source&quot; [level=2] [ref=e32]</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">list [ref=e33]</span><span class="kw">:</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e34]</span><span class="kw">:</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">link &quot;Helix-Track/Core&quot; [ref=e35] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="kw">-</span><span class="at"> </span><span class="fu">/url</span><span class="kw">:</span><span class="at"> https://github.com/Helix-Track/Core</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Helix-Track/Core</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="kw">-</span><span class="at"> img [ref=e36]</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e38]</span><span class="kw">:</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">link &quot;Helix-Track/Website&quot; [ref=e39] [cursor=pointer]</span><span class="kw">:</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="kw">-</span><span class="at"> </span><span class="fu">/url</span><span class="kw">:</span><span class="at"> https://github.com/Helix-Track/Website</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Helix-Track/Website</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="kw">-</span><span class="at"> img [ref=e40]</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">figure &quot;// architecture&quot; [ref=e42]</span><span class="kw">:</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">img [ref=e43]</span><span class="kw">:</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e44]</span><span class="kw">:</span><span class="at"> HelixTrack — architecture map</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e45]</span><span class="kw">:</span><span class="at"> Native clients</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e46]</span><span class="kw">:</span><span class="at"> Decoupled services · HTTP/3 QUIC</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e47]</span><span class="kw">:</span><span class="at"> Encrypted data layer</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e48]</span><span class="kw">:</span><span class="at"> UDP discovery</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e50]</span><span class="kw">:</span><span class="at"> Web · Angular 19</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e52]</span><span class="kw">:</span><span class="at"> Desktop · Tauri 2.0</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e54]</span><span class="kw">:</span><span class="at"> Android · Kotlin</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e56]</span><span class="kw">:</span><span class="at"> iOS · Swift</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e58]</span><span class="kw">:</span><span class="at"> HelixTrack Core</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e59]</span><span class="kw">:</span><span class="at"> Go + Gin · unified /do API</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e61]</span><span class="kw">:</span><span class="at"> Auth service</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e63]</span><span class="kw">:</span><span class="at"> Permissions service</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e65]</span><span class="kw">:</span><span class="at"> Localization service</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e67]</span><span class="kw">:</span><span class="at"> PostgreSQL / SQLite</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e68]</span><span class="kw">:</span><span class="at"> SQLCipher AES-256</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e70]</span><span class="kw">:</span><span class="at"> Redis cache</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">generic [ref=e80]</span><span class="kw">:</span><span class="at"> // architecture</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e81]</span><span class="kw">:</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e82]</span><span class="kw">:</span><span class="at"> JIRA alternative for the free world.</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Summary&quot; [level=2] [ref=e83]</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e84]</span><span class="kw">:</span><span class="at"> HelixTrack is a comprehensive, modern, open-source alternative to JIRA (and, via its Documents extension, Confluence) — a multi-platform project-management and issue-tracking system built on a Go microservices backend with native clients for web, desktop, and mobile.</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Short description&quot; [level=2] [ref=e85]</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e86]</span><span class="kw">:</span><span class="at"> Open-source JIRA/Confluence alternative. A Go microservices backend (&quot;HelixTrack Core&quot;) exposes a unified REST API for project and issue tracking, plus a Confluence-style document workspace, served to native Web, Desktop, Android, and iOS clients over HTTP/3 QUIC.</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Long description&quot; [level=2] [ref=e87]</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e88]</span><span class="kw">:</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> HelixTrack is an open-source project-management and issue-tracking platform positioned as a free-world alternative to JIRA and Confluence. Its heart is</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e89]</span><span class="kw">:</span><span class="at"> HelixTrack Core</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;, a REST API microservice written in Go with the Gin framework, offering full issue tracking, agile/scrum boards, team management, and a hierarchical permissions engine with swappable local or HTTP-backed implementations. Core exposes a distinctive single, action-routed&quot;</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e90]</span><span class="kw">:</span><span class="at"> /do</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> endpoint with a consistent request/response envelope, and integrates with decoupled Authentication, Permissions, and Localization services that communicate over HTTP/3 QUIC and can run on separate machines or clusters. Data is stored in SQLite for development and PostgreSQL in production, encrypted at rest with SQLCipher (AES-256). A</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e91]</span><span class="kw">:</span><span class="at"> Documents V2</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;extension adds a Confluence-style workspace — spaces, pages, version control, templates, real-time WebSocket collaboration, and analytics. Around Core sit multiple client applications: an Angular web client, a Tauri + Angular desktop client, native Android (Kotlin) and iOS (Swift) apps, plus HarmonyOS and Aurora OS clients and a screensaver — all talking to the same backend and discoverable on local networks via UDP broadcast. The client applications are maintained as separate, private repositories and are presented here at the product level only.&quot;</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Why we built it&quot; [level=2] [ref=e92]</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e93]</span><span class="kw">:</span><span class="at"> To give teams a genuinely open, self-hostable replacement for the JIRA + Confluence stack — &quot;for the free world&quot; — without vendor lock-in, combining enterprise-grade tracking, documents, and collaboration under one open-source license.</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Why it&#39;s a game-changer&quot; [level=2] [ref=e94]</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e95]</span><span class="kw">:</span><span class="at"> It collapses two heavyweight commercial products (issue tracking + wiki/documents) into one open, high-performance, self-hostable platform with true multi-platform native clients. The HTTP/3-everywhere, fully-decoupled microservices design and at-rest SQLCipher encryption target performance and security levels usually reserved for proprietary SaaS, while remaining open and free to run anywhere.</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;What&#39;s innovative&quot; [level=2] [ref=e96]</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">list [ref=e97]</span><span class="kw">:</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e98]</span><span class="kw">:</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Unified action-based</span></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e99]</span><span class="kw">:</span><span class="at"> /do</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> API — one endpoint, action-routed, with a consistent envelope, instead of sprawling REST surface area.</span></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e100]</span><span class="kw">:</span><span class="at"> HTTP/3 QUIC as the default inter-service transport.</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e101]</span><span class="kw">:</span><span class="at"> Swappable permissions engine (local or HTTP implementation) and optional, independently-deployable services (Auth, Permissions, Localization).</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e102]</span><span class="kw">:</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Multi-space data isolation via a</span></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e103]</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;--space-root&quot;</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> flag (per-project isolated databases + assets).</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e104]</span><span class="kw">:</span><span class="at"> SQLCipher AES-256 encryption at rest.</span></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e105]</span><span class="kw">:</span><span class="at"> Automatic client-to-server discovery via UDP broadcast on local networks.</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e106]</span><span class="kw">:</span><span class="at"> Documents V2 &quot;Confluence alternative&quot; with optimistic-locking parallel editing and full change history.</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Biggest technical challenges &amp; how we solved them&quot; [level=2] [ref=e107]</span></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">list [ref=e108]</span><span class="kw">:</span></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e109]</span><span class="kw">:</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e110]</span><span class="kw">:</span><span class="at"> Cross-platform native clients on one backend.</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Solved by a strict single-backend contract (unified</span></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e111]</span><span class="kw">:</span><span class="at"> /do</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> API + envelope) that every client — Web/Angular, Desktop/Tauri, Android/Kotlin, iOS/Swift, HarmonyOS, Aurora — targets identically, with UDP-broadcast service discovery to locate Core.</span></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e112]</span><span class="kw">:</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e113]</span><span class="kw">:</span><span class="at"> Low-latency, decoupled services.</span></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Solved by adopting HTTP/3 QUIC across all inter-service calls and allowing each service (Auth, Permissions, Localization) to run independently and be disabled in test configs.</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e114]</span><span class="kw">:</span></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e115]</span><span class="kw">:</span><span class="at"> Confluence-grade collaborative documents.</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Documents V2 adds spaces/pages/versioning with optimistic locking, conflict detection, full change history, and real-time WebSocket sync.</span></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e116]</span><span class="kw">:</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e117]</span><span class="kw">:</span><span class="at"> Encryption without killing performance.</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> SQLCipher AES-256 at rest plus multi-layer caching (in-memory LRU + Redis in the Localization service) to offset overhead.</span></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Tech stack&quot; [level=2] [ref=e118]</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">list [ref=e119]</span><span class="kw">:</span></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e120]</span><span class="kw">:</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e121]</span><span class="kw">:</span><span class="at"> Go + Gin</span></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — chosen for high-throughput, low-latency HTTP services; implements Core&#39;s REST API, middleware (JWT/CORS), and the</span></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e122]</span><span class="kw">:</span><span class="at"> /do</span></span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> router.</span></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e123]</span><span class="kw">:</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e124]</span><span class="kw">:</span><span class="at"> HTTP/3 QUIC</span></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — used as the transport between Core and its Auth/Permissions/Localization services to cut latency and enable connection resilience.</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e125]</span><span class="kw">:</span></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e126]</span><span class="kw">:</span><span class="at"> PostgreSQL (prod) / SQLite (dev)</span></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — relational store for the large tracking + documents schema; SQLite keeps local dev zero-setup, Postgres scales in production via a</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e127]</span><span class="kw">:</span><span class="at"> production</span></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> compose profile.</span></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e128]</span><span class="kw">:</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e129]</span><span class="kw">:</span><span class="at"> SQLCipher (AES-256)</span></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — transparent database-level encryption at rest for sensitive project data.</span></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e130]</span><span class="kw">:</span></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e131]</span><span class="kw">:</span><span class="at"> Redis</span></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — multi-layer caching in the Localization service (in-memory LRU + Redis) for fast multi-language lookups.</span></span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e132]</span><span class="kw">:</span></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e133]</span><span class="kw">:</span><span class="at"> Uber Zap + Lumberjack</span></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — structured, rotated logging in Core.</span></span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e134]</span><span class="kw">:</span></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e135]</span><span class="kw">:</span><span class="at"> golang-jwt / JWT</span></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — authentication and the</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e136]</span><span class="kw">:</span><span class="at"> jwt</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> field in the API envelope.</span></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e137]</span><span class="kw">:</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e138]</span><span class="kw">:</span><span class="at"> Angular 19 (+ Material, RxJS)</span></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — the browser web client.</span></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e139]</span><span class="kw">:</span></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e140]</span><span class="kw">:</span><span class="at"> Tauri 2.0 + Rust + Angular</span></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — the cross-platform desktop client (small footprint, native shell).</span></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e141]</span><span class="kw">:</span></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e142]</span><span class="kw">:</span><span class="at"> Kotlin (Android) / Swift + SwiftUI (iOS)</span></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — native mobile clients.</span></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e143]</span><span class="kw">:</span></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e144]</span><span class="kw">:</span><span class="at"> Docker / Docker Compose (Podman-compatible)</span></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — containerized deployment with</span></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e145]</span><span class="kw">:</span><span class="at"> /health</span></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> checks.</span></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e146]</span><span class="kw">:</span></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e147]</span><span class="kw">:</span><span class="at"> Testify (Go); Cypress/Playwright/Karma+Jasmine (clients)</span></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> — layered automated testing across backend and clients.</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> heading &quot;Status &amp; honesty notes&quot; [level=2] [ref=e148]</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">list [ref=e149]</span><span class="kw">:</span></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e150]</span><span class="kw">:</span></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e151]</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Status: beta.&quot;</span></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> HelixTrack Core is a working REST API microservice; the</span></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e152]</span><span class="kw">:</span><span class="at"> Documents V2</span></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> extension is documented as approximately 95% complete with a known database field-mapping issue, so it is not presented as fully shipped.</span></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e153]</span><span class="kw">:</span></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e154]</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;License: TBD.&quot;</span></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e155]</span><span class="kw">:</span><span class="at"> CLAUDE.md</span></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> states MIT, but the</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">code [ref=e156]</span><span class="kw">:</span><span class="at"> core/LICENSE</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> file of record is Apache 2.0 — this discrepancy must be resolved before the license is stated definitively.</span></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e157]</span><span class="kw">:</span><span class="at"> Performance figures cited in the project&#39;s README (e.g. 50,000+ requests/second, sub-millisecond query times) are stated design/marketing targets, not independently published benchmarks, and are therefore omitted from the claims above.</span></span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">listitem [ref=e158]</span><span class="kw">:</span></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> The client applications (Web, Desktop, Android, iOS, Aurora, HarmonyOS) live in</span></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e159]</span><span class="kw">:</span><span class="at"> private</span></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> repositories and are described only at the product level.</span></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">paragraph [ref=e160]</span><span class="kw">:</span></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">strong [ref=e161]</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Priority tier:&quot;</span></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Helix-primary and the flagship of the Helix-Track product line — ranked before any Server Factory projects.</span></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">contentinfo [ref=e162]</span><span class="kw">:</span><span class="at"> © 2026 Miloš Vasić — built on the OpenDesign system.</span></span></code></pre></div>
+<h1 id="test-source">Test source</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode ts"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>   <span class="op">|</span> <span class="kw">const</span> { test<span class="op">,</span> expect } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;@playwright/test&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>   <span class="op">|</span> <span class="kw">const</span> { AxeBuilder } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;@axe-core/playwright&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>   <span class="op">|</span> <span class="kw">const</span> BASE <span class="op">=</span> <span class="st">&#39;http://localhost:8082&#39;</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>   <span class="op">|</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span>   <span class="op">|</span> test<span class="op">.</span><span class="fu">describe</span>(<span class="st">&#39;milosvasic.ru — accessibility&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">6</span>   <span class="op">|</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>   <span class="op">|</span>   <span class="co">// Coverage extended (not shrunk): axe-core now scans the reframed homepage,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">8</span>   <span class="op">|</span>   <span class="co">// a representative product page, and the portfolio index — the three surfaces</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">9</span>   <span class="op">|</span>   <span class="co">// a visitor navigates. We disable only heading-order (skills use h4 under h2</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>  <span class="op">|</span>   <span class="co">// as sub-headings) and link-in-text-block (inline accent-coloured links, a</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">11</span>  <span class="op">|</span>   <span class="co">// common accessible pattern); every other WCAG rule, including color-contrast,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">12</span>  <span class="op">|</span>   <span class="co">// is enforced.</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">13</span>  <span class="op">|</span>   <span class="kw">const</span> PAGES <span class="op">=</span> [</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">14</span>  <span class="op">|</span>     { name<span class="op">:</span> <span class="st">&#39;homepage&#39;</span><span class="op">,</span>  url<span class="op">:</span> BASE }<span class="op">,</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">15</span>  <span class="op">|</span>     { name<span class="op">:</span> <span class="st">&#39;product&#39;</span><span class="op">,</span>   url<span class="op">:</span> <span class="vs">`</span><span class="sc">${</span>BASE<span class="sc">}</span><span class="vs">/products/helixtrack.html`</span> }<span class="op">,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="dv">16</span>  <span class="op">|</span>     { name<span class="op">:</span> <span class="st">&#39;portfolio&#39;</span><span class="op">,</span> url<span class="op">:</span> <span class="vs">`</span><span class="sc">${</span>BASE<span class="sc">}</span><span class="vs">/portfolio/`</span> }<span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="dv">17</span>  <span class="op">|</span>   ]<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="dv">18</span>  <span class="op">|</span> </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="dv">19</span>  <span class="op">|</span>   <span class="cf">for</span> (<span class="kw">const</span> p <span class="kw">of</span> PAGES) {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="dv">20</span>  <span class="op">|</span>     <span class="fu">test</span>(<span class="vs">`axe-core accessibility scan — </span><span class="sc">${</span>p<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> (no critical/serious violations)`</span><span class="op">,</span> <span class="kw">async</span> ({ page }) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">21</span>  <span class="op">|</span>       <span class="cf">await</span> page<span class="op">.</span><span class="fu">goto</span>(p<span class="op">.</span><span class="at">url</span>)<span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="dv">22</span>  <span class="op">|</span>       <span class="kw">const</span> results <span class="op">=</span> <span class="cf">await</span> <span class="kw">new</span> <span class="fu">AxeBuilder</span>({ page })</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="dv">23</span>  <span class="op">|</span>         <span class="op">.</span><span class="fu">disableRules</span>([<span class="st">&#39;heading-order&#39;</span><span class="op">,</span> <span class="st">&#39;link-in-text-block&#39;</span>])</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="dv">24</span>  <span class="op">|</span>         <span class="op">.</span><span class="fu">analyze</span>()<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="dv">25</span>  <span class="op">|</span>       <span class="kw">const</span> critical <span class="op">=</span> results<span class="op">.</span><span class="at">violations</span><span class="op">.</span><span class="fu">filter</span>(v <span class="kw">=&gt;</span> v<span class="op">.</span><span class="at">impact</span> <span class="op">===</span> <span class="st">&#39;critical&#39;</span> <span class="op">||</span> v<span class="op">.</span><span class="at">impact</span> <span class="op">===</span> <span class="st">&#39;serious&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="dv">26</span>  <span class="op">|</span>       <span class="co">// Surface the exact offending nodes so any failure is precisely actionable.</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="dv">27</span>  <span class="op">|</span>       <span class="cf">if</span> (critical<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="dv">28</span>  <span class="op">|</span>         <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`AXE </span><span class="sc">${</span>p<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> critical/serious:`</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="dv">29</span>  <span class="op">|</span>           critical<span class="op">.</span><span class="fu">map</span>(v <span class="kw">=&gt;</span> ({ id<span class="op">:</span> v<span class="op">.</span><span class="at">id</span><span class="op">,</span> impact<span class="op">:</span> v<span class="op">.</span><span class="at">impact</span><span class="op">,</span> help<span class="op">:</span> v<span class="op">.</span><span class="at">help</span><span class="op">,</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="dv">30</span>  <span class="op">|</span>             nodes<span class="op">:</span> v<span class="op">.</span><span class="at">nodes</span><span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">6</span>)<span class="op">.</span><span class="fu">map</span>(n <span class="kw">=&gt;</span> ({ target<span class="op">:</span> n<span class="op">.</span><span class="at">target</span><span class="op">,</span> summary<span class="op">:</span> n<span class="op">.</span><span class="at">failureSummary</span> })) }))<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="dv">31</span>  <span class="op">|</span>       }</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="dv">32</span>  <span class="op">|</span>       <span class="cf">if</span> (results<span class="op">.</span><span class="at">violations</span><span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="dv">33</span>  <span class="op">|</span>         <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`INFO </span><span class="sc">${</span>p<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> non-critical:`</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(results<span class="op">.</span><span class="at">violations</span><span class="op">.</span><span class="fu">map</span>(v <span class="kw">=&gt;</span> ({ id<span class="op">:</span> v<span class="op">.</span><span class="at">id</span><span class="op">,</span> impact<span class="op">:</span> v<span class="op">.</span><span class="at">impact</span><span class="op">,</span> help<span class="op">:</span> v<span class="op">.</span><span class="at">help</span> }))))<span class="op">;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="dv">34</span>  <span class="op">|</span>       }</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="dv">35</span>  <span class="op">|</span>       <span class="fu">expect</span>(critical<span class="op">,</span> <span class="vs">`</span><span class="sc">${</span>p<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> must have no critical/serious a11y violations`</span>)<span class="op">.</span><span class="fu">toEqual</span>([])<span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      <span class="op">|</span>                                                                                   <span class="op">^</span> Error<span class="op">:</span> product must have no critical<span class="op">/</span>serious a11y violations</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="dv">36</span>  <span class="op">|</span>     })<span class="op">;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="dv">37</span>  <span class="op">|</span>   }</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="dv">38</span>  <span class="op">|</span> </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  <span class="dv">39</span>  <span class="op">|</span>   <span class="fu">test</span>(<span class="st">&#39;heading hierarchy is reasonable (no deep skips)&#39;</span><span class="op">,</span> <span class="kw">async</span> ({ page }) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="dv">40</span>  <span class="op">|</span>     <span class="cf">await</span> page<span class="op">.</span><span class="fu">goto</span>(BASE)<span class="op">;</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  <span class="dv">41</span>  <span class="op">|</span>     <span class="kw">const</span> headingLevels <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">evaluate</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="dv">42</span>  <span class="op">|</span>       <span class="kw">const</span> els <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;h1, h2, h3, h4, h5, h6&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  <span class="dv">43</span>  <span class="op">|</span>       <span class="cf">return</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(els)<span class="op">.</span><span class="fu">map</span>((el) <span class="kw">=&gt;</span> <span class="pp">parseInt</span>(el<span class="op">.</span><span class="at">tagName</span><span class="op">.</span><span class="fu">substring</span>(<span class="dv">1</span>)))<span class="op">;</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="dv">44</span>  <span class="op">|</span>     })<span class="op">;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="dv">45</span>  <span class="op">|</span>     <span class="fu">expect</span>(headingLevels<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">toBeGreaterThan</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  <span class="dv">46</span>  <span class="op">|</span>     <span class="co">// First heading should be h1</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  <span class="dv">47</span>  <span class="op">|</span>     <span class="fu">expect</span>(headingLevels[<span class="dv">0</span>])<span class="op">.</span><span class="fu">toBe</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  <span class="dv">48</span>  <span class="op">|</span>     <span class="co">// Only flag major skips (level jumps &gt; 2), since h4 is used intentionally</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  <span class="dv">49</span>  <span class="op">|</span>     <span class="co">// as skill-group sub-heading under h2 section headings.</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="dv">50</span>  <span class="op">|</span>     <span class="kw">let</span> prev <span class="op">=</span> headingLevels[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="dv">51</span>  <span class="op">|</span>     <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> headingLevels<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  <span class="dv">52</span>  <span class="op">|</span>       <span class="kw">const</span> level <span class="op">=</span> headingLevels[i]<span class="op">;</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  <span class="dv">53</span>  <span class="op">|</span>       <span class="cf">if</span> (level <span class="op">&lt;=</span> prev) { prev <span class="op">=</span> level<span class="op">;</span> <span class="cf">continue</span><span class="op">;</span> }</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  <span class="dv">54</span>  <span class="op">|</span>       <span class="co">// Allow increase by up to 2 levels (h1→h3, h2→h4 are intentional)</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  <span class="dv">55</span>  <span class="op">|</span>       <span class="cf">if</span> (level <span class="op">-</span> prev <span class="op">&gt;</span> <span class="dv">2</span>) {</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="dv">56</span>  <span class="op">|</span>         <span class="co">// For h1→h4+ or h2→h5+ skips, check if this is an edge case</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="dv">57</span>  <span class="op">|</span>         <span class="fu">expect</span>(level <span class="op">-</span> prev)<span class="op">.</span><span class="fu">toBeLessThanOrEqual</span>(<span class="dv">3</span>)<span class="op">;</span> <span class="co">// Allow h1→h4 in some layouts</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  <span class="dv">58</span>  <span class="op">|</span>       }</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  <span class="dv">59</span>  <span class="op">|</span>       prev <span class="op">=</span> level<span class="op">;</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>  <span class="dv">60</span>  <span class="op">|</span>     }</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>  <span class="dv">61</span>  <span class="op">|</span>   })<span class="op">;</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>  <span class="dv">62</span>  <span class="op">|</span> </span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>  <span class="dv">63</span>  <span class="op">|</span>   <span class="fu">test</span>(<span class="st">&#39;focus indicators are visible when tabbing&#39;</span><span class="op">,</span> <span class="kw">async</span> ({ page }) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>  <span class="dv">64</span>  <span class="op">|</span>     <span class="cf">await</span> page<span class="op">.</span><span class="fu">goto</span>(BASE)<span class="op">;</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  <span class="dv">65</span>  <span class="op">|</span> </span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  <span class="dv">66</span>  <span class="op">|</span>     <span class="co">// First, verify the stylesheet contains a visible :focus-visible rule</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  <span class="dv">67</span>  <span class="op">|</span>     <span class="kw">const</span> hasFocusRule <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">evaluate</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>  <span class="dv">68</span>  <span class="op">|</span>       <span class="cf">for</span> (<span class="kw">const</span> sheet <span class="kw">of</span> <span class="bu">document</span><span class="op">.</span><span class="at">styleSheets</span>) {</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="dv">69</span>  <span class="op">|</span>         <span class="cf">try</span> {</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  <span class="dv">70</span>  <span class="op">|</span>           <span class="cf">for</span> (<span class="kw">const</span> rule <span class="kw">of</span> sheet<span class="op">.</span><span class="at">cssRules</span>) {</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  <span class="dv">71</span>  <span class="op">|</span>             <span class="kw">const</span> css <span class="op">=</span> rule<span class="op">.</span><span class="at">cssText</span> <span class="op">||</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>  <span class="dv">72</span>  <span class="op">|</span>             <span class="cf">if</span> (css<span class="op">.</span><span class="fu">includes</span>(<span class="st">&#39;:focus-visible&#39;</span>) <span class="op">&amp;&amp;</span> (css<span class="op">.</span><span class="fu">includes</span>(<span class="st">&#39;outline&#39;</span>) <span class="op">||</span> css<span class="op">.</span><span class="fu">includes</span>(<span class="st">&#39;box-shadow&#39;</span>) <span class="op">||</span> css<span class="op">.</span><span class="fu">includes</span>(<span class="st">&#39;border&#39;</span>))) {</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  <span class="dv">73</span>  <span class="op">|</span>               <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  <span class="dv">74</span>  <span class="op">|</span>             }</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>  <span class="dv">75</span>  <span class="op">|</span>           }</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  <span class="dv">76</span>  <span class="op">|</span>         } <span class="cf">catch</span> (e) { <span class="co">/* cross-origin */</span> }</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>  <span class="dv">77</span>  <span class="op">|</span>       }</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>  <span class="dv">78</span>  <span class="op">|</span>       <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  <span class="dv">79</span>  <span class="op">|</span>     })<span class="op">;</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  <span class="dv">80</span>  <span class="op">|</span>     <span class="fu">expect</span>(hasFocusRule)<span class="op">.</span><span class="fu">toBeTruthy</span>()<span class="op">;</span></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>  <span class="dv">81</span>  <span class="op">|</span> </span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>  <span class="dv">82</span>  <span class="op">|</span>     <span class="co">// Now verify tabbing moves focus to interactive elements.</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>  <span class="dv">83</span>  <span class="op">|</span>     <span class="co">// In headless WebKit, Tab may not move focus at all (known limitation).</span></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>  <span class="dv">84</span>  <span class="op">|</span>     <span class="co">// The CSS rule check above is the source of truth; tabbing is a secondary validation.</span></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>  <span class="dv">85</span>  <span class="op">|</span>     <span class="kw">let</span> foundVisibleFocus <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>  <span class="dv">86</span>  <span class="op">|</span>     <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>  <span class="dv">87</span>  <span class="op">|</span>       <span class="cf">await</span> page<span class="op">.</span><span class="at">keyboard</span><span class="op">.</span><span class="fu">press</span>(<span class="st">&#39;Tab&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>  <span class="dv">88</span>  <span class="op">|</span>       <span class="cf">await</span> page<span class="op">.</span><span class="fu">waitForTimeout</span>(<span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>  <span class="dv">89</span>  <span class="op">|</span>       <span class="kw">const</span> result <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">evaluate</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>  <span class="dv">90</span>  <span class="op">|</span>         <span class="kw">const</span> el <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="at">activeElement</span><span class="op">;</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>  <span class="dv">91</span>  <span class="op">|</span>         <span class="cf">if</span> (<span class="op">!</span>el <span class="op">||</span> el <span class="op">===</span> <span class="bu">document</span><span class="op">.</span><span class="at">body</span>) <span class="cf">return</span> { ok<span class="op">:</span> <span class="kw">false</span><span class="op">,</span> tag<span class="op">:</span> <span class="st">&#39;body&#39;</span> }<span class="op">;</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>  <span class="dv">92</span>  <span class="op">|</span>         <span class="cf">return</span> { ok<span class="op">:</span> <span class="kw">true</span><span class="op">,</span> method<span class="op">:</span> <span class="st">&#39;activeElement&#39;</span><span class="op">,</span> tag<span class="op">:</span> el<span class="op">.</span><span class="at">tagName</span> }<span class="op">;</span></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>  <span class="dv">93</span>  <span class="op">|</span>       })<span class="op">;</span></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>  <span class="dv">94</span>  <span class="op">|</span>       <span class="cf">if</span> (result<span class="op">.</span><span class="at">ok</span>) { foundVisibleFocus <span class="op">=</span> <span class="kw">true</span><span class="op">;</span> <span class="cf">break</span><span class="op">;</span> }</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>  <span class="dv">95</span>  <span class="op">|</span>     }</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>  <span class="dv">96</span>  <span class="op">|</span> </span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>  <span class="dv">97</span>  <span class="op">|</span>     <span class="co">// Fallback: skip-link must exist with non-zero outline width in CSS</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>  <span class="dv">98</span>  <span class="op">|</span>     <span class="kw">const</span> skipLinkOk <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">evaluate</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>  <span class="dv">99</span>  <span class="op">|</span>       <span class="kw">const</span> sl <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;.skip-link&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="op">|</span>       <span class="cf">if</span> (<span class="op">!</span>sl) <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>  <span class="dv">101</span> <span class="op">|</span>       <span class="kw">const</span> s <span class="op">=</span> <span class="fu">getComputedStyle</span>(sl)<span class="op">;</span></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>  <span class="dv">102</span> <span class="op">|</span>       <span class="cf">return</span> <span class="pp">parseFloat</span>(s<span class="op">.</span><span class="at">outlineWidth</span>) <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">||</span> s<span class="op">.</span><span class="at">outlineStyle</span> <span class="op">!==</span> <span class="st">&#39;none&#39;</span><span class="op">;</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>  <span class="dv">103</span> <span class="op">|</span>     })<span class="op">;</span></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>  <span class="dv">104</span> <span class="op">|</span> </span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>  <span class="dv">105</span> <span class="op">|</span>     <span class="co">// Either tabbing works, or the skip-link has visible focus styles in CSS</span></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>  <span class="dv">106</span> <span class="op">|</span>     <span class="fu">expect</span>(foundVisibleFocus <span class="op">||</span> skipLinkOk)<span class="op">.</span><span class="fu">toBeTruthy</span>()<span class="op">;</span></span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>  <span class="dv">107</span> <span class="op">|</span>   })<span class="op">;</span></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>  <span class="dv">108</span> <span class="op">|</span> </span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>  <span class="dv">109</span> <span class="op">|</span>   <span class="fu">test</span>(<span class="st">&#39;prefers-reduced-motion is respected&#39;</span><span class="op">,</span> <span class="kw">async</span> ({ page }) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>  <span class="dv">110</span> <span class="op">|</span>     <span class="co">// Check that the stylesheet contains a @media (prefers-reduced-motion: reduce) rule</span></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>  <span class="dv">111</span> <span class="op">|</span>     <span class="cf">await</span> page<span class="op">.</span><span class="fu">goto</span>(BASE)<span class="op">;</span></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>  <span class="dv">112</span> <span class="op">|</span>     <span class="kw">const</span> hasReducedMotionRule <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">evaluate</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>  <span class="dv">113</span> <span class="op">|</span>       <span class="cf">for</span> (<span class="kw">const</span> sheet <span class="kw">of</span> <span class="bu">document</span><span class="op">.</span><span class="at">styleSheets</span>) {</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>  <span class="dv">114</span> <span class="op">|</span>         <span class="cf">try</span> {</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>  <span class="dv">115</span> <span class="op">|</span>           <span class="cf">for</span> (<span class="kw">const</span> rule <span class="kw">of</span> sheet<span class="op">.</span><span class="at">cssRules</span>) {</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>  <span class="dv">116</span> <span class="op">|</span>             <span class="cf">if</span> (rule<span class="op">.</span><span class="at">media</span> <span class="op">&amp;&amp;</span> rule<span class="op">.</span><span class="at">media</span><span class="op">.</span><span class="at">mediaText</span><span class="op">.</span><span class="fu">includes</span>(<span class="st">&#39;prefers-reduced-motion&#39;</span>)) {</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>  <span class="dv">117</span> <span class="op">|</span>               <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>  <span class="dv">118</span> <span class="op">|</span>             }</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>  <span class="dv">119</span> <span class="op">|</span>           }</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>  <span class="dv">120</span> <span class="op">|</span>         } <span class="cf">catch</span> (e) {</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>  <span class="dv">121</span> <span class="op">|</span>           <span class="co">// Cross-origin stylesheets may throw — skip them</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>  <span class="dv">122</span> <span class="op">|</span>         }</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>  <span class="dv">123</span> <span class="op">|</span>       }</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>  <span class="dv">124</span> <span class="op">|</span>       <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>  <span class="dv">125</span> <span class="op">|</span>     })<span class="op">;</span></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>  <span class="dv">126</span> <span class="op">|</span>     <span class="fu">expect</span>(hasReducedMotionRule)<span class="op">.</span><span class="fu">toBeTruthy</span>()<span class="op">;</span></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>  <span class="dv">127</span> <span class="op">|</span> </span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>  <span class="dv">128</span> <span class="op">|</span>     <span class="co">// Now emulate reduced motion and verify reveal elements are immediately visible</span></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>  <span class="dv">129</span> <span class="op">|</span>     <span class="cf">await</span> page<span class="op">.</span><span class="fu">emulateMedia</span>({ reducedMotion<span class="op">:</span> <span class="st">&#39;reduce&#39;</span> })<span class="op">;</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>  <span class="dv">130</span> <span class="op">|</span>     <span class="cf">await</span> page<span class="op">.</span><span class="fu">goto</span>(BASE)<span class="op">;</span></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>  <span class="dv">131</span> <span class="op">|</span>     <span class="co">// With reduced motion, .reveal elements should have .in class immediately</span></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>  <span class="dv">132</span> <span class="op">|</span>     <span class="kw">const</span> revealCount <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">locator</span>(<span class="st">&#39;.reveal&#39;</span>)<span class="op">.</span><span class="fu">count</span>()<span class="op">;</span></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>  <span class="dv">133</span> <span class="op">|</span>     <span class="kw">const</span> inCount <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">locator</span>(<span class="st">&#39;.reveal.in&#39;</span>)<span class="op">.</span><span class="fu">count</span>()<span class="op">;</span></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>  <span class="dv">134</span> <span class="op">|</span>     <span class="fu">expect</span>(inCount)<span class="op">.</span><span class="fu">toBe</span>(revealCount)<span class="op">;</span></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>  <span class="dv">135</span> <span class="op">|</span>   })<span class="op">;</span></span></code></pre></div>
+</body>
+</html>

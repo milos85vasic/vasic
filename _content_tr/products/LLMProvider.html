@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMProvider</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMProvider</h1>
+</header>
+<h1 id="llmprovider">LLMProvider</h1>
+<p><strong>Tek bir arayüz, 43 sağlayıcı — devre kesici, yeniden deneme
+ve sağlık kontrolü entegre olarak.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>LLMProvider, yeniden kullanılabilir bir Go modülüdür ve birleşik bir
+<code>LLMProvider</code> arayüzü ile bu arayüz etrafında üretim
+dayanıklılık desenlerini tanımlar — devre kesici, sağlık izleme, geri
+çekilmeyle yeniden deneme, tembel yükleme — ve tek bir sözleşme altında
+43 somut sağlayıcı uygulaması sunar. Ayrıca OpenAI uyumlu genel bir
+adaptör ve dürüst, sabit geri dönüş içermeyen model keşfi sağlar.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Tek bir <code>LLMProvider</code> arayüzü (<code>Complete</code>,
+<code>CompleteStream</code>, <code>HealthCheck</code>,
+<code>GetCapabilities</code>, <code>ValidateConfig</code>) sunan yeniden
+kullanılabilir bir Go modülü. 43 sağlayıcı adaptörü ve OpenAI uyumlu
+genel bir adaptör üzerinde hata toleransı ilkeleri — devre kesici,
+sağlık izleyici, rastgele gecikmeli yeniden deneme, tembel başlatma —
+içerir. İş parçacığı güvenli.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>LLMProvider, her LLM tüketen servisin ihtiyaç duyduğu ama neredeyse
+kimsenin düzgün inşa etmediği soyutlama katmanıdır — gerçek trafikle
+karşılaştığında hayatta kalabilen bir sistemle demo arasındaki farkı
+yaratan gözden uzak altyapı. Tek bir yetenek bilincine sahip arayüz —
+<code>Complete</code>, <code>CompleteStream</code>,
+<code>HealthCheck</code>, <code>GetCapabilities</code>,
+<code>ValidateConfig</code> — tanımlar. Böylece uygulama kodu, hangi 43
+arka uç çağrıya yanıt verirse versin, tek bir sözleşmeyi hedefler.
+Ardından, kırılgan sağlayıcı çağrılarını üretim ortamında nefesinizi
+tutmadan çalıştırabileceğiniz bir hale getiren operasyonel
+sağlamlaştırma sunar. Üç durumlu bir devre kesici (kapalı → açık → yarı
+açık), herhangi bir sağlayıcıyı — <em>akış kanalı dahil</em> — şeffaf
+bir şekilde sarar. Boş bir akış, doğru şekilde bir hata olarak sayılır.
+Böylece tek bir sorunlu arka uç, tüm servisi çökertmeden devre kesiciyi
+açabilir. Merkezi bir <code>CircuitBreakerManager</code>, tüm devre
+kesicileri aynı anda izler. Yapılandırılabilir bir sağlık izleyici,
+sağlayıcıları eşik ve aralık kontrolleriyle sürekli olarak sağlıklı /
+bozulmuş / sağlıksız / bilinmeyen durumlarında tarar. Böylece bozulma,
+bir kesintiyle keşfedilmek yerine gözlemlenir. Yeniden deneme mantığı,
+üstüne rastgele gecikme eklenmiş üstel geri çekilme kullanır ve durum
+farkındalığına dayalı kararlar alır — yeniden denenmeye değer hataları
+(429, 5xx, geçici ağ hataları) yeniden dener, 4xx hataları veya iptal
+edilmiş bir bağlam için gereksiz döngü harcamaz. Gecikmeler
+sınırlandırılır, böylece geri çekilme fırtınası kontrolden çıkmaz.
+Tembel başlatma deseni ise her sağlayıcının yapılandırmasını ilk gerçek
+kullanımına kadar erteler — bu bilinçli bir tasarım seçimi olup, 43
+sağlayıcının kaydının neredeyse bedava olmasını sağlar.</p>
+<p>Modül, 43 somut sağlayıcı paketi ile birlikte, <em>herhangi bir</em>
+<code>/v1/chat/completions</code> uç noktasına karşı tam arayüzü
+uygulayan <code>generic</code> OpenAI uyumlu bir adaptör sunar — Bearer
+kimlik doğrulaması, SSE akışı ve doğru <code>[DONE]</code> işleme dahil.
+Böylece özel bir paketi olmayan bir sağlayıcı, adaptörü URL’ye
+yönelttiğiniz anda birinci sınıf bir vatandaş haline gelir. Kimlik
+bilgileri tek bir yerde (<code>apikeys</code>, katı bir
+<code>ApiKey_&lt;Sağlayıcı&gt;</code> kuralıyla) çözümlenir. Bu sayede,
+“test paketinde sabit kodlu anahtar geçer, gerçek anahtar hiç
+bağlanmamış, ürün üretimde bozulur” türündeki tüm hatalar kaynağında
+engellenir. Model keşfi, kasıtlı ve neredeyse inatla dürüsttür: TTL
+önbelleği ardında canlı sağlayıcı API’lerini sorgular ve — yönetişim
+gereği — eski sabit geri dönüş katmanı tamamen silinmiştir. Canlı keşif
+başarısız olduğunda, LLMProvider <em>hiçbir şey</em> döndürmez, böylece
+arayan taraf asla geçerli görünen ama çağrılamayan bir model kimliğiyle
+karşılaşmaz. Tüm bu yapı, eşzamanlı kullanım için iş parçacığı güvenli
+olarak inşa edilmiştir.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Naive LLM çağrıları üretim ortamında başarısız olur — sağlayıcılar
+hız sınırlamasına takılır, performans düşer ya da çöker ve tek bir
+sorunlu arka uç, tüm servisi beraberinde götürebilir. Model katalogları
+sürüklenir, sabit kodlanmış listeler artık çalışmayan çağrı kimlikleri
+verir. LLMProvider, arayüzü, dayanıklılık kalıplarını ve dürüst keşfi
+merkezi hale getirerek her tüketicinin hataya dayanıklılık ve doğruluk
+özelliklerini bedavaya miras almasını sağlar.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>“Bir LLM sağlayıcısını entegre etme” işini tek bir hamleye indiriyor
+— tek bir arayüzü uygulayın ya da jenerik adaptörü bir uç noktaya
+yönlendirin — ardından bu sağlayıcıyı otomatik ve şeffaf bir şekilde
+devre kesici, sağlık izleme ve rastgele gecikmeli yeniden deneme ile
+sarar. Dayanıklılık, her ekibin (kötü bir şekilde, teslim tarihinin
+baskısı altında, ilk kesintiden sonra) yeniden icat ettiği bir şey
+olmaktan çıkıp, kütüphanenin 43 arka uç boyunca varsayılan davranışı
+haline gelir. Güvenilirlik mühendisliği bir kez yazılır, sıkı testlerden
+geçer ve onu içe aktaran herkes tarafından bedavaya miras alınır.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne</h2>
+<ul>
+<li><strong>Tek yetenek bilincine sahip arayüz</strong> — tamamlama,
+akış, sağlık, yetenekler ve yapılandırma doğrulaması, her arka ucun aynı
+şekilde uymak zorunda olduğu tek bir sözleşmeye indirgenir.</li>
+<li><strong>Şeffaf devre kesici sarma — akışlar dahil.</strong> Kesici,
+<code>CompleteStream</code>’in kanalını sadece istek/yanıt değil, korur
+ve boş bir akışı gerçekte olduğu gibi bir başarısızlık olarak ele alır —
+kilitlenme güvenli, kilit dışı dinleyici bildirimiyle.</li>
+<li><strong>43 sağlayıcı paketi + jenerik OpenAI uyumlu adaptör</strong>
+— özel paketler ince kalır ve <code>/v1/chat/completions</code> konuşan
+herhangi bir listelenmemiş satıcı, adaptörü ona yönelttiğiniz anda
+çalışır.</li>
+<li><strong>Tek kimlik doğrulama otoritesi
+(<code>apikeys</code>)</strong> — tam olarak bir yer
+<code>ApiKey_&lt;Sağlayıcı&gt;</code> ortam değişkenlerini okur, yapısal
+olarak “yeşil testler, bozuk ürün” uyumsuzluğunu ortadan kaldırır,
+sadece uyarı vermek yerine.</li>
+<li><strong>Dürüst model keşfi (sabit kodlanmış yedek yok)</strong> —
+TTL önbelleğinin ardındaki canlı sağlayıcı API’leri; başarısızlık
+durumunda <code>nil</code> döner, asla çağrılamayacak kimlikler veren
+eski veya uydurma bir katalog sunmaz.</li>
+<li><strong>Tembel başlatma ile <code>sync.Once</code></strong> —
+yapılandırma ilk kullanıma kadar ertelenir, böylece 43 sağlayıcıyı
+kaydetmek, gerçekten birini çağırana kadar neredeyse hiçbir maliyet
+oluşturmaz.</li>
+<li><strong>Blöf karşıtı, çok dilli Challenge yığını</strong> — devre,
+sağlık ve yeniden deneme davranışını beş farklı bölgede test eden gerçek
+bir çalıştırıcı, eşleştirilmiş mutasyon testi ile kontrol edilir
+(mutasyona uğramamış kod sıfır çıkmalı; enjekte edilen bir mutasyon 99
+çıkış kodunu zorunlu kılmalı), böylece geçen bir test paketi, çalışan
+davranışın kanıtı olur.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En büyük teknik
+zorluklar ve çözümlerimiz</h2>
+<ul>
+<li><strong>Zincirleme sağlayıcı hataları.</strong> Tek bir kararsız
+arka uç, tüm servisi beraberinde sürüklememeli. Üç durumlu devre kesici
+(kapalı → açık → yarı açık) ile çözüldü; bu kesici herhangi bir
+sağlayıcıyı <em>ve onun akışını</em> şeffaf bir şekilde sarar, sürekli
+başarısızlık durumunda açılır, yarı açık durumda iyileşmeyi dener ve
+merkezi bir <code>CircuitBreakerManager</code> tarafından koordine
+edilir.</li>
+<li><strong>Geçici hatalar ve hız sınırlamaları.</strong> Durum
+bilincine sahip üstel geri çekilme artı rastgele gecikme ile çözüldü —
+<code>min(BaşlangıçGecikmesi·Çarpan^(n-1), MaksGecikme) ± rastgele gecikme</code>
+— böylece yeniden denemeler senkronize bir izdihama dönüşmek yerine
+yayılır. Tam olarak yeniden denenmesi gerekenler (429, 500, 502, 503,
+504 ve ağ hataları) yeniden denenir, iptal edilmiş bir bağlam veya diğer
+4xx hataları için boşuna deneme yapılmaz.</li>
+<li><strong>Kayıtlı ama kullanılmayan birçok sağlayıcıya
+ölçeklendirme.</strong> 43 sağlayıcı kayıtlıyken, herhangi bir serviste
+bunların sadece birkaçı aktif olsa, erken başlatma tamamen israf olurdu.
+<code>sync.Once</code> ile korunan tembel başlatma ile çözüldü; böylece
+sadece gerçekten çağırdığınız sağlayıcılar kurulum maliyetini öder.</li>
+<li><strong>Geçersiz model kimlikleri dağıtma.</strong> Sabit kodlanmış
+keşif yedeği katmanı tamamen kaldırılarak (CONST-036’ya göre) ve canlı
+keşif başarısızlığında hiçbir şey döndürülmeyerek çözüldü — ayrıca,
+çağırının önbelleği değiştirememesi veya başka bir okuyucu ile yarışa
+girmemesi için savunmacı kopya döndürme. Doğruluk, bir kural olarak
+değil, yapısal olarak sağlanır.</li>
+<li><strong>Akış + eşzamanlılık doğruluğu.</strong> İnce başarısızlık
+modu, kesicinin kilidi ile dinleyici geri çağırmaları arasında bir
+kilitlenmedir. Dinleyicilerin anlık görüntüsü alınarak ve 5 saniyelik
+zaman aşımı altında kilit dışı bildirim yapılarak çözüldü; ayrıca
+sıfırlama sırasında kilit açılır ve bildirim yapılır — her bileşen
+eşzamanlı kullanım için tasarlanmış ve <code>-race</code> paketi ile
+sabitlenmiştir.</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go (1.25.3)</strong> — birinci sınıf eşzamanlılık, statik
+ikili dosyalar ve güçlü standart kütüphane desteğiyle seçildi; modülü,
+arayüzü, tüm dayanıklılık bileşenlerini ve 43 adaptörü içeriyor.</li>
+<li><strong><code>net/http</code> (standart kütüphane)</strong> —
+kasıtlı olarak bağımlılıktan arındırılmış HTTP: her sağlayıcıya özel
+istemcileri, genel OpenAI uyumlu adaptörü ve canlı keşif çağrılarını
+güçlendiriyor; böylece denetlenmesi veya yamalanması gereken üçüncü
+taraf bir aktarım katmanı bulunmuyor.</li>
+<li><strong>logrus</strong> — yapılandırılmış, seviye tabanlı
+günlükleme: devre kesicinin durum geçişleri ve keşif yolunda
+operatörlerin ihtiyaç duyduğu görünürlüğü sağlıyor.</li>
+<li><strong>testify</strong> — test paketini çalıştırıyor ve kritik önem
+taşıyan mutasyon-dal sabitlemesini gerçekleştiriyor; böylece başarılı
+bir test çalıştırması gerçekten bir anlam ifade ediyor.</li>
+<li><strong>yaml.v3</strong> — uluslararasılaştırma paketlerini ve
+yapılandırmayı, insanlar tarafından düzenlenebilir bir formatta
+ayrıştırıyor.</li>
+<li><strong><code>digital.vasic.models</code></strong> — paylaşılan
+<code>LLMRequest</code> / <code>LLMResponse</code> /
+<code>ProviderCapabilities</code> tipleri tek bir yerde tutuluyor;
+böylece her adaptör aynı söz dağarcığını kullanıyor (belgelenmiş bir
+çalışma zamanı bağımlılığı).</li>
+<li><strong>Birinci taraf paketler</strong> — <code>circuit</code>,
+<code>health</code>, <code>retry</code>, <code>apikeys</code>,
+<code>discovery</code>, <code>providers/</code> (43 sağlayıcı +
+<code>generic</code>) ve <code>i18n</code>: dayanıklılık ve entegrasyon
+yüzeyi, tek bir monolit yerine küçük, bağımsız olarak test edilebilir
+birimlere ayrılmış durumda.</li>
+<li><strong><code>.env</code> + <code>~/api_keys.sh</code>
+(<code>ApiKey_&lt;Sağlayıcı&gt;</code> kuralı)</strong> — kimlik
+bilgileri için tek ve net bir kaynak; böylece testlerde ve üretim
+ortamında anahtarlar aynı şekilde bağlanıyor.</li>
+<li><strong>Makefile yarış koşulu paketi (<code>-race -p 1</code>) +
+Challenge çalıştırıcısı</strong> — sahtekârlığa karşı omurga: yarış
+dedektörü, eşzamanlılık doğruluğunu kanıtlıyor; Challenge çalıştırıcısı
+ise gerçek davranışı kaos, DDoS, ölçeklendirme, stres, canlı keşif ve
+askıya alınmama senaryolarıyla test ediyor.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Bağımsız olarak yeniden kullanılabilir
+bir modül; GitHub deposu herkese açık.</li>
+<li><strong>Lisans: Belirlenmedi.</strong> Tutarsız —
+<code>doc.go</code> MIT lisansını belirtirken, Apache-2.0 tarzında bir
+LICENSE dosyası mevcut; yayınlamadan önce doğrulanmalı.</li>
+<li>LLMsVerifier, model kataloğu için yukarı akıştaki tek gerçek kaynak.
+<code>helix-deps.yaml</code> bildirimi güncel değil
+(<code>deps: []</code> olarak belirtilmiş olmasına rağmen belgeler
+<code>digital.vasic.models</code> bağımlılığını gösteriyor); keşif
+modülündeki “Tier 2 (models.dev)” planlanmış bir iskelet olup aktif
+değil.</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil (LLM-altyapı kümesi
+— bağımsız olarak yeniden kullanılabilir modül). HelixTrack’dan sonra
+geliyor.</p>
+</body>
+</html>

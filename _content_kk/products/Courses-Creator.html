@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Courses-Creator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Courses-Creator</h1>
+</header>
+<p><strong>Маркдаунды кәсіби бейнекурсқа айналдыру — AI-жаңартылған, көп
+платформалы.</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Courses-Creator — маркдаун сценарийлерін AI технологиясымен
+жаңартылған кәсіби бейнекурстарға айналдыратын құралдар жинағы: көп LLM
+провайдерлері арқылы контентті байыту (OpenAI/Anthropic/Ollama), жоғары
+сапалы TTS және фондық музыка, сондай-ақ десктоп, мобильді және веб
+ойнатқыштарға Docker арқылы орнату мен Prometheus/Grafana
+мониторингі.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>Маркдаунды тартымды бейнекурстарға айналдырады. Go өңдеу ядросы
+көптеген LLM провайдерлері арқылы контентті байытады, дикторлық дыбысты
+(Bark/SpeechT5 TTS) және музыканы жасап шығарады, содан кейін Electron
+десктоп, React Native мобильді және React веб ойнатқыштарға жеткізеді,
+толық Docker орнату мен мониторингпен.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Бейнекурс жасау әдетте кішігірім студиялық өндіріс көлеміндегі жұмыс:
+сценарий жазу, дикторлық дыбыс жазу, музыка таңдау, монтаждау, кодтау
+және оқушылар пайдаланатын әрбір платформаға ойнатқыштарды құру.
+Courses-Creator бүкіл бұл тізбекті бір ғана енгізу — маркдаун сценарийі
+— және бір командаға сығады. Оның ортасында Go өңдеу ядросы орналасқан,
+ол толық бейне/дыбыс конвейерін іске қосады: жазылған контентті бірнеше
+LLM провайдерлері (OpenAI, Anthropic және жергілікті Ollama) арқылы
+байытады, мәтіннен дыбысқа айналдыру қозғалтқыштарымен (Bark, SpeechT5)
+табиғи дикторлық дыбыс жасап шығарады, фондық музыканы қосады және дайын
+курс бейнелерін жинақтайды. Автордың жұмысы идеялар мен сөздер
+деңгейінде қалады; жүйе дыбыстауды, музыкалық сүйемелдеуді және
+өндірісті өз мойнына алады. Ал курс тек адамдар оны көре алатындай
+болғанда ғана пайдалы, сондықтан жеткізу әдейі көп платформалы етіп
+жасалған: Electron десктоптық құрушы қосымшасы, React Native мобильді
+ойнатқыш және React веб ойнатқыш — барлығы бір REST API және фондық
+жұмыс жүйесімен қоректенеді. Бір бекенд, үш бірінші дәрежелі клиент,
+әрбір платформа үшін қайта іске қосу жоқ.</p>
+<p>Мұның бастысы — бұл өндірістік инфрақұрылым, демо-ролик емес. Бекенд
+PostgreSQL сақтауды, фондық жұмыс өңдеуді (ұзақ TTS/бейне рендерингі
+API-ді бұғаттамайды), құралдармен толықтырылған жаңарту үшін MCP
+серверлік іске асыруларды, Prometheus метрикаларды, JWT аутентификацияны
+және nginx кері проксиін қамтиды — және бүкіл жүйе бір қадамда Docker
+Compose орнатуы ретінде жеткізіледі, Grafana/Prometheus мониторинг
+профильдерімен. AI — бұл жаңарту қабаты, тәуелділік емес: әрбір LLM
+провайдері міндетті емес, сондықтан конвейер негізгі жұмыс режимінде API
+кілттерісіз де істей алады, ал кілттер берілген сәтте премиум байыту
+іске қосылады. Бұл бір шешім осы құралды ноутбукта офлайн жұмыс істейтін
+әуесқойға да, өз провайдерін таңдаған кәсіпорынға да қолайлы етеді — ал
+бүкіл медиа конвейерінің астына бірлік, интеграциялық және соңғы
+нүктелік сынақтар жасалып, сенімге алынбаған.</p>
+<h2 id="неліктен-жасадық">Неліктен жасадық</h2>
+<p>Бейнекурстарды қолмен жасау баяу процесс: жазу, дыбыстау, музыкалық
+сүйемелдеу және монтаждау әрқайсысы күш пен мамандандырылған құралдарды
+қажет етеді. Courses-Creator бұл процесті маркдаунға негізделген
+конвейерге айналдырады, сондықтан бір сценарий дайын курсқа айналады, ал
+AI адамдар қолмен жасайтын бос орындарды толтырады.</p>
+<p>Мазмұн</p>
+<h2 id="неге-бұл-ойынды-өзгертетін-шешім">Неге бұл ойынды өзгертетін
+шешім</h2>
+<p>Курс жасауды мамандандырылған, көп құралды қолөнерден қайталанғыш
+бағдарламалық құбырға айналдырады: авторлық құру, AI байыту, дауыстық
+және музыкалық генерациялау, сондай-ақ көпплатформалы ойнату – бәрі бір
+жайылмалы стекке біріктірілген. API кілті жоқ режимге табиғи өту – бұл
+тыныш суперкүш: бір кодтық база бюджеттік жеке автордан бастап премиум
+шартты кәсіпорынға дейін қызмет көрсетеді, арасында ештеңе қайта
+жазылмайды.</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Маркдауннан бейнеге дейінгі құбыр, көп LLM байытуға арналған
+қосылатын модульдермен (OpenAI/Anthropic/Ollama).</li>
+<li>Ішкі TTS (Bark, SpeechT5) және фондық музыкалық генерациялау.</li>
+<li>Өңдеу қозғалтқышының ішіндегі MCP серверлік жүзеге асырулары
+құралмен толықтырылған байыту үшін.</li>
+<li>Үш бірінші дәрежелі клиентке (Electron үстел компьютері, React
+Native мобильді құрылғы, React веб) қызмет көрсететін бір бекенд.</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>Ауыр медиа өңдеу:</strong> Go құбыры мен фондық
+тапсырмаларды өңдеу арқылы шешілді, ұзақ TTS/бейне жұмыстары API-ді
+бұғаттамайды.</li>
+<li><strong>Қосымша бірақ қуатты AI:</strong> LLM провайдерлерін қосымша
+және қосылатын етіп жасау арқылы шешілді, негізгі функцияға табиғи ауысу
+қамтамасыз етілді.</li>
+<li><strong>Көпплатформалық тарату:</strong> ортақ REST API және үш
+арнайы ойнатқыш қолданба арқылы шешілді.</li>
+<li><strong>Жұмыс істеу қабілеті:</strong> Docker Compose профильдері,
+Prometheus/Grafana және кіріп көруді растаудың JWT жүйесі арқылы
+шешілді.</li>
+</ul>
+<h2 id="технологиялық-стек-неге-және-қалай">Технологиялық стек (неге
+және қалай)</h2>
+<ul>
+<li><strong>Go</strong> — негізгі өңдеу қозғалтқышы, REST API,
+тапсырмаларды орындаушы, құбыр (972K+ байт, басым тіл).</li>
+<li><strong>TypeScript / React</strong> — веб ойнатқыш және ортақ
+интерфейс.</li>
+<li><strong>Electron</strong> — үстел компьютері үшін авторлық
+қолданба.</li>
+<li><strong>React Native</strong> — мобильді ойнатқыш.</li>
+<li><strong>PostgreSQL</strong> — курс/тапсырмаларды сақтау.</li>
+<li><strong>LLM провайдерлері (OpenAI, Anthropic, Ollama)</strong> —
+мазмұнды байыту.</li>
+<li><strong>TTS (Bark, SpeechT5)</strong> — дауыстық синтездеу.</li>
+<li><strong>MCP серверлері</strong> — қозғалтқыштың ішіндегі құралдарды
+біріктіру.</li>
+<li><strong>Docker Compose + nginx</strong> — толық стек жайылмасы және
+кері прокси.</li>
+<li><strong>Prometheus + Grafana</strong> — мониторинг.</li>
+</ul>
+<blockquote>
+<p>Ескерту: жалпыға қолжетімді README тез бастау нұсқауында
+<code>your-org</code> клон URL пайдаланылады.</p>
+</blockquote>
+</body>
+</html>

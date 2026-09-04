@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Convert existing tasks into actionable, dependency-ordered GitHub issues for the feature based on available design artifacts." />
+  <title>SKILL</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SKILL</h1>
+</header>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before tasks-to-issues
+conversion)</strong>: - Check if <code>.specify/extensions.yml</code>
+exists in the project root. - If it exists, read it and look for entries
+under the <code>hooks.before_taskstoissues</code> key - If the YAML
+cannot be parsed or is invalid, skip hook checking silently and continue
+normally - Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - When constructing slash
+commands from hook command names, replace dots (<code>.</code>) with
+hyphens (<code>-</code>). For example, <code>speckit.git.commit</code> →
+<code>/skill:speckit-git-commit</code>. - For each executable hook,
+output the following based on its <code>optional</code> flag: -
+<strong>Optional hook</strong> (<code>optional: true</code>): ``` ##
+Extension Hooks</p>
+<pre><code>**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Outline.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+<h2 id="outline">Outline</h2>
+<ol type="1">
+<li>Run
+<code>.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks</code>
+from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths
+must be absolute. For single quotes in args like “I’m Groot”, use escape
+syntax: e.g ‘I’'‘m Groot’ (or double-quote if possible: “I’m
+Groot”).</li>
+<li><strong>IF EXISTS</strong>: Load
+<code>.specify/memory/constitution.md</code> for project principles and
+governance constraints.</li>
+<li>From the executed script, extract the path to
+<strong>tasks</strong>.</li>
+<li>Get the Git remote by running:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--get</span> remote.origin.url</span></code></pre></div>
+<blockquote>
+<p>[!CAUTION] ONLY PROCEED TO NEXT STEPS IF THE REMOTE IS A GITHUB
+URL</p>
+</blockquote>
+<ol type="1">
+<li><strong>Fetch existing issues for deduplication</strong>: Before
+creating anything, build the set of task IDs you are about to process
+from <code>tasks.md</code> (each is a <code>T</code> followed by three
+digits, e.g. <code>T001</code>). Then use the GitHub MCP server’s
+<code>list_issues</code> tool to look for issues that already cover
+those IDs. Do not pass a <code>state</code> value, since omitting it
+makes the tool return both open and closed issues. Request
+<code>perPage: 100</code> to keep the number of calls down, and since
+the tool uses cursor-based pagination, request pages with the
+<code>after</code> parameter (using the <code>endCursor</code> from the
+previous response). For each issue title, match it against the task ID
+pattern <code>\bT\d{3}\b</code> (word boundaries so tokens like
+<code>ST001</code> or <code>T0010</code> are not matched by mistake;
+this also recognises titles written as <code>T001 ...</code>,
+<code>T001: ...</code> or <code>[T001] ...</code>) and, when it matches
+one of your task IDs, mark that ID as already having an issue. Stop
+paginating as soon as every task ID has been matched, or when there are
+no more pages, so you do not keep fetching the whole repository’s issue
+history once all task IDs are accounted for. This bounds the number of
+calls on repos with large issue histories and still prevents duplicates
+when the command is re-run after <code>tasks.md</code> is regenerated or
+the skill is re-invoked.</li>
+<li>For each task in the list, use the GitHub MCP server to create a new
+issue in the repository that is representative of the Git remote. Task
+lines in <code>tasks.md</code> start with a markdown checkbox, so first
+strip the leading <code>- [ ]</code> (and any <code>[P]</code> /
+<code>[US#]</code> markers) to recover the task ID and its description.
+Create the issue with a single canonical title of the form
+<code>T001: &lt;description&gt;</code>, with the ID written once
+followed by the task description (for example, the line
+<code>- [ ] T001 Create project structure</code> becomes the title
+<code>T001: Create project structure</code>).
+<ul>
+<li><strong>Skip</strong> any task whose ID is already present in the
+set of existing issues from the previous step, and report it (for
+example, <code>T001 already has an issue, skipping</code>).</li>
+<li>Only create issues for tasks that do not yet have a matching
+issue.</li>
+</ul></li>
+</ol>
+<blockquote>
+<p>[!CAUTION] UNDER NO CIRCUMSTANCES EVER CREATE ISSUES IN REPOSITORIES
+THAT DO NOT MATCH THE REMOTE URL</p>
+</blockquote>
+<h2 id="post-execution-checks">Post-Execution Checks</h2>
+<p><strong>Check for extension hooks (after tasks-to-issues
+conversion)</strong>: Check if <code>.specify/extensions.yml</code>
+exists in the project root. - If it exists, read it and look for entries
+under the <code>hooks.after_taskstoissues</code> key - If the YAML
+cannot be parsed or is invalid, skip hook checking silently and continue
+normally - Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - When constructing slash
+commands from hook command names, replace dots (<code>.</code>) with
+hyphens (<code>-</code>). For example, <code>speckit.git.commit</code> →
+<code>/skill:speckit-git-commit</code>. - For each executable hook,
+output the following based on its <code>optional</code> flag: -
+<strong>Optional hook</strong> (<code>optional: true</code>): ``` ##
+Extension Hooks</p>
+<pre><code>**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+</body>
+</html>

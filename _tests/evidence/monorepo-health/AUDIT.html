@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AUDIT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AUDIT</h1>
+</header>
+<h1 id="vasic-monorepo-health-consistency-audit-read-only">Vasic
+Monorepo — Health &amp; Consistency Audit (READ-ONLY)</h1>
+<ul>
+<li><strong>Date:</strong> 2026-08-07</li>
+<li><strong>Mode:</strong> Read-only. No source edits, commits, pushes,
+generator or deploy runs. Only <code>git</code> read ops,
+<code>curl</code>, and this evidence file were produced.</li>
+<li><strong>Caveat (concurrent deploy):</strong> A
+<code>deploy-langs.sh</code> (v1.6.0 re-style) was <strong>actively
+running during this audit</strong>. It mutated the
+<code>vasic.digital/</code> and <code>milosvasic.ru/</code> submodule
+working trees and <strong>pushed <code>v1.6.0</code> tags + advanced
+<code>main</code> mid-audit</strong> (v1.6.0 tags were absent on the
+first <code>ls-remote</code> pass and present ~minutes later). Findings
+below rely on <strong>stable</strong> data (remote refs, tags, recorded
+gitlinks); dynamic/in-flight items are timestamped and labelled.</li>
+<li><strong>Scope:</strong> umbrella
+<code>/Volumes/T7/Projects/vasic</code>, <code>vasic.digital</code>,
+<code>milosvasic.ru</code>, <code>submodules/constitution</code>,
+<code>design-toolkit</code>. (<code>design-system/</code> is a
+<strong>tracked subdirectory of the umbrella</strong>, not a submodule —
+see Loose Ends.)</li>
+</ul>
+<hr />
+<h2 id="pass-flag-unverified-summary">PASS / FLAG / UNVERIFIED
+summary</h2>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 25%" />
+<col style="width: 28%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Check</th>
+<th>Result</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Umbrella remote sync</td>
+<td><strong>PASS</strong></td>
+<td>branch <code>feat/content-generator</code> HEAD <code>a48554e</code>
+== <code>origin/refs/heads/feat/content-generator</code>
+<code>a48554e</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>vasic.digital remote sync</td>
+<td><strong>PASS</strong> (caught up mid-audit)</td>
+<td>local <code>main</code> now <code>d87a1d6</code> ==
+origin/github/gitlab <code>main</code> <code>d87a1d6</code>. Was
+<code>e2f85bc</code> (behind) early in audit before deploy advanced
+it</td>
+</tr>
+<tr>
+<td>1</td>
+<td>milosvasic.ru remote sync</td>
+<td><strong>PASS</strong> (caught up mid-audit)</td>
+<td>local <code>main</code> now <code>8324f27</code> ==
+origin/github/gitlab/gitflic <code>main</code> <code>8324f27</code>. Was
+<code>1f2b605</code> (behind) early in audit</td>
+</tr>
+<tr>
+<td>1</td>
+<td>milosvasic.ru <code>origin</code> remote config</td>
+<td><strong>FLAG</strong></td>
+<td><code>origin</code> has <strong>split fetch/push URLs</strong>:
+fetch=<code>github.com/milos85vasic/milosvasic.ru</code>,
+push=<code>gitflic.ru/...</code> <strong>and</strong>
+<code>github.com/...net.v2</code> (two push URLs). Non-standard; verify
+intentional</td>
+</tr>
+<tr>
+<td>1</td>
+<td>constitution remote sync</td>
+<td><strong>PASS</strong></td>
+<td><code>main</code> <code>38c9825</code> == <code>origin/main</code>
+<code>38c9825</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>design-toolkit remote sync</td>
+<td><strong>PASS</strong></td>
+<td><code>main</code> <code>74a037f</code> == origin+gitlab
+<code>main</code> <code>74a037f</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Release/pre-restyle tags present</td>
+<td><strong>PASS</strong> (w/ flag)</td>
+<td>Full matrix below. <code>v1.6.0</code> pushed to both sites during
+audit</td>
+</tr>
+<tr>
+<td>2</td>
+<td>milosvasic.ru <code>gitflic</code> mirror tag parity</td>
+<td><strong>FLAG</strong></td>
+<td>gitflic is <strong>missing <code>v0.9.0-baseline</code> and
+<code>v1.0.0</code></strong> tags that github+gitlab carry</td>
+</tr>
+<tr>
+<td>3</td>
+<td>design-toolkit gitlink reachable</td>
+<td><strong>PASS</strong></td>
+<td>umbrella records <code>74a037f</code> = remote <code>main</code> tip
+&amp; <code>v0.2.1^{}</code> → reachable, not dangling</td>
+</tr>
+<tr>
+<td>3</td>
+<td>constitution gitlink reachable</td>
+<td><strong>PASS</strong></td>
+<td>umbrella records <code>38c9825</code> = remote <code>main</code> tip
+→ reachable, not dangling</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Site submodule pointers current</td>
+<td><strong>FLAG</strong> (deploy-in-progress)</td>
+<td>umbrella still records <code>milosvasic.ru=00794fb</code> (v1.5.1)
+&amp; <code>vasic.digital=e2f85bc</code> (v1.5.0/pre-restyle); both
+reachable but <strong>stale</strong> — sites advanced to v1.6.0,
+umbrella bump not yet committed</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Constitution §11.4.236 + §11.4.237</td>
+<td><strong>PASS</strong></td>
+<td>On <code>origin/main:Constitution.md</code>: §11.4.236 ×2, §11.4.237
+×4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>design-toolkit nested in constitution <code>.gitmodules</code></td>
+<td><strong>PASS</strong></td>
+<td><code>origin/main:.gitmodules</code> has
+<code>[submodule "design-toolkit"]</code> →
+<code>github.com:vasic-digital/design-toolkit.git</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>vasic.digital live</td>
+<td><strong>PASS</strong></td>
+<td><code>HTTP 200</code>, 47384 B, <code>server: GitHub.com</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>milosvasic.ru live</td>
+<td><strong>PASS</strong></td>
+<td><code>HTTP 200</code>, 38193 B, <code>server: GitHub.com</code>,
+<code>generator content="Jekyll v4.4.1"</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Re-style (v1.6.0) live?</td>
+<td><strong>UNVERIFIED</strong> (expected — deploy in flight)</td>
+<td>Both roots
+<code>last-modified: Fri, 07 Aug 2026 14:50:15 GMT</code>,
+<strong>unchanged</strong> before &amp; after the v1.6.0 push → Pages
+not yet rebuilt with re-style. Not asserted live</td>
+</tr>
+<tr>
+<td>6</td>
+<td>umbrella secrets .gitignore</td>
+<td><strong>PASS</strong></td>
+<td>ignores <code>.mcp.json</code>, <code>.env</code>,
+<code>*.env</code>, <code>.env.*</code>, <code>api_keys.sh</code>,
+<code>**/api_keys.sh</code>, <code>secrets.sh</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>constitution secrets .gitignore</td>
+<td><strong>PASS</strong> (minor)</td>
+<td>ignores <code>.env</code>/<code>.env.*</code>/<code>*.env</code>
+(whitelists <code>.env.example</code>). <code>.mcp.json</code>
+<strong>not</strong> listed; a tracked
+<code>plugins/scheduled-work/.mcp.json</code> exists (0 real secrets
+inside)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>vasic.digital secrets .gitignore</td>
+<td><strong>FLAG</strong></td>
+<td><strong>No <code>.gitignore</code> tracked at all</strong> — no
+repo-level secret coverage</td>
+</tr>
+<tr>
+<td>6</td>
+<td>design-toolkit secrets .gitignore</td>
+<td><strong>FLAG</strong></td>
+<td><strong>No <code>.gitignore</code> tracked at all</strong> — no
+repo-level secret coverage</td>
+</tr>
+<tr>
+<td>6</td>
+<td>milosvasic.ru secrets .gitignore</td>
+<td><strong>FLAG</strong></td>
+<td><code>.gitignore</code> present but <code>.env</code> line is
+<strong>commented out</strong> (<code># .env</code>); no
+<code>.mcp.json</code>/<code>api_keys</code> coverage</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Leaked real secrets (all repos)</td>
+<td><strong>PASS</strong></td>
+<td>0 real key matches. Only hit =
+<code>submodules/constitution/scripts/hooks/test_credential_scan_lib.sh</code>
+(a credential-scanner <strong>test fixture</strong>, by-design sample
+patterns). No secret values printed</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Stale/forgotten uncommitted work</td>
+<td><strong>PASS</strong></td>
+<td>Only the umbrella tree is dirty, and every change is
+re-style-related (see Loose Ends). Sites/constitution/design-toolkit
+trees clean</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Untracked large files (&gt;5MB)</td>
+<td><strong>PASS</strong></td>
+<td>None found in umbrella working tree</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Detached-HEAD submodules</td>
+<td><strong>PASS</strong></td>
+<td>All submodules on <code>main</code>; umbrella on
+<code>feat/content-generator</code> (intentional restyle branch)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="repos-remotes">1. Repos &amp; remotes</h2>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 20%" />
+<col style="width: 38%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Branch</th>
+<th>HEAD (stable)</th>
+<th>Remotes (excl. <code>upstream</code>)</th>
+<th>Local==remote?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>umbrella</td>
+<td><code>feat/content-generator</code></td>
+<td><code>a48554e</code></td>
+<td><code>origin</code>,<code>github</code> =
+<code>github.com:milos85vasic/vasic.git</code></td>
+<td><strong>YES</strong> (<code>feat</code> tip matches).
+<code>origin/main</code>=<code>a98ad77</code>; feat is 8 ahead / 0
+behind main</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td><code>main</code></td>
+<td><code>d87a1d6</code> (post-deploy)</td>
+<td><code>origin</code>,<code>github</code>=<code>github.com:vasic-digital/vasic-digital.github.io.git</code>;
+<code>gitlab</code>=<code>gitlab.com:milos85vasic/vasic.digital.git</code></td>
+<td><strong>YES</strong> (all 3 remotes
+<code>main</code>=<code>d87a1d6</code>)</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td><code>main</code></td>
+<td><code>8324f27</code> (post-deploy)</td>
+<td><code>origin</code>
+fetch=<code>github.com:milos85vasic/milosvasic.ru.git</code> /
+push=<code>gitflic.ru:...</code>+<code>github.com:...net.v2</code>;
+<code>github</code>=<code>...net.v2</code>;
+<code>gitlab</code>=<code>gitlab.com:milos85vasic/milosvasic.ru.git</code>;
+<code>gitflic</code>=<code>gitflic.ru:milosvasic/milosvasic-net-v-2.git</code></td>
+<td><strong>YES</strong> (all 4 remotes
+<code>main</code>=<code>8324f27</code>) — but see split-URL flag</td>
+</tr>
+<tr>
+<td>submodules/constitution</td>
+<td><code>main</code></td>
+<td><code>38c9825</code></td>
+<td><code>origin</code>=<code>github.com:HelixDevelopment/HelixConstitution.git</code></td>
+<td><strong>YES</strong></td>
+</tr>
+<tr>
+<td>design-toolkit</td>
+<td><code>main</code></td>
+<td><code>74a037f</code></td>
+<td><code>origin</code>=<code>github.com:vasic-digital/design-toolkit.git</code>;
+<code>gitlab</code>=<code>gitlab.com:vasic-digital/design-toolkit.git</code></td>
+<td><strong>YES</strong></td>
+</tr>
+</tbody>
+</table>
+<p>No remote out of sync at final measurement. Note: vasic.digital &amp;
+milosvasic.ru read as <em>behind remote main</em> early in the audit;
+the concurrent deploy advanced the local checkouts to match.
+<code>.gitmodules</code> (umbrella) declares all four submodules.</p>
+<h2 id="tags-per-repo-commit">2. Tags (per repo → commit)</h2>
+<p><strong>umbrella:</strong> <code>pre-restyle</code> →
+<code>8ae909d</code> (annotated;
+<code>^{}</code>=<code>e3228373</code>). No v1.x / no v1.6.0 (umbrella
+is not release-tagged).</p>
+<p><strong>vasic.digital:</strong>
+<code>v0.9.0-baseline</code>=<code>683a717</code>,
+<code>v1.0.0</code>=<code>ad0563c</code>,
+<code>v1.1.0</code>=<code>56d7e8e</code>,
+<code>v1.1.1</code>=<code>41da3ae</code>,
+<code>v1.2.0</code>=<code>2bb9a8b</code>,
+<code>v1.3.0</code>=<code>9b4b64b</code>,
+<code>v1.3.1</code>=<code>8403754</code>,
+<code>v1.4.0</code>=<code>d6575ba</code>,
+<code>v1.5.0</code>(→<code>e2f85bc</code>),
+<code>pre-restyle</code>(→<code>e2f85bc</code>),
+<strong><code>v1.6.0</code>=<code>d87a1d6</code> (pushed during
+audit)</strong>.</p>
+<p><strong>milosvasic.ru:</strong>
+<code>v0.9.0-baseline</code>=<code>fae3b24</code>,
+<code>v1.0.0</code>=<code>c8e06ff</code>,
+<code>v1.1.0</code>=<code>85e74ac</code>,
+<code>v1.1.1</code>=<code>97df136</code>,
+<code>v1.2.0</code>=<code>2e574cf</code>,
+<code>v1.3.0</code>=<code>e48bc61</code>,
+<code>v1.3.1</code>=<code>679e66d</code>,
+<code>v1.4.0</code>=<code>058d3bf</code>,
+<code>v1.5.0</code>(→<code>653362</code>),
+<code>v1.5.1</code>(→<code>00794fb</code>),
+<code>v1.5.2</code>(→<code>1f2b605</code>),
+<code>pre-restyle</code>(→<code>1f2b605</code>),
+<strong><code>v1.6.0</code>(→<code>8324f27</code>) (pushed during
+audit)</strong>. → <strong>FLAG:</strong> <code>gitflic</code> mirror is
+<strong>missing <code>v0.9.0-baseline</code> and
+<code>v1.0.0</code></strong>.</p>
+<p><strong>submodules/constitution:</strong>
+<code>v1.0.0</code>=<code>afead29</code>
+(<code>^{}</code>=<code>19af087</code>);
+<code>git describe</code>=<code>v1.0.0-28-g38c9825</code>.</p>
+<p><strong>design-toolkit:</strong>
+<code>v0.2.0</code>=<code>22b6b2d</code>
+(<code>^{}</code>=<code>13a76eb</code>),
+<code>v0.2.1</code>=<code>ba55f5f</code>
+(<code>^{}</code>=<code>74a037f</code>).</p>
+<h2 id="submodule-pointer-consistency">3. Submodule pointer
+consistency</h2>
+<p>Umbrella committed gitlinks (<code>git ls-tree HEAD</code>):
+<code>design-toolkit</code>=<code>74a037f</code>,
+<code>milosvasic.ru</code>=<code>00794fb</code>,
+<code>vasic.digital</code>=<code>e2f85bc</code>,
+<code>submodules/constitution</code>=<code>38c9825</code>.</p>
+<ul>
+<li><code>design-toolkit 74a037f</code> → equals remote
+<code>main</code> tip &amp; <code>v0.2.1^{}</code> → <strong>reachable,
+not dangling.</strong></li>
+<li><code>submodules/constitution 38c9825</code> → equals remote
+<code>main</code> tip → <strong>reachable, not dangling.</strong></li>
+<li><code>milosvasic.ru 00794fb</code> → equals remote
+<code>v1.5.1^{}</code> → reachable but <strong>STALE</strong> (site now
+at v1.6.0/<code>8324f27</code>).</li>
+<li><code>vasic.digital e2f85bc</code> → equals remote
+<code>v1.5.0^{}</code>/<code>pre-restyle^{}</code> → reachable but
+<strong>STALE</strong> (site now at v1.6.0/<code>d87a1d6</code>).</li>
+</ul>
+<p>No dangling pointers. The two site pointers lag because the deploy’s
+umbrella-side gitlink bump is not yet committed (working tree shows
+<code>M milosvasic.ru</code>, <code>M vasic.digital</code>).</p>
+<h2 id="constitution-governance">4. Constitution governance</h2>
+<p><code>origin/main:Constitution.md</code> contains <strong>§11.4.236
+(×2)</strong> and <strong>§11.4.237 (×4)</strong> (also §11.4.162 ×21).
+Constitution’s <code>origin/main:.gitmodules</code> nests
+<code>design-toolkit</code> (→
+<code>vasic-digital/design-toolkit.git</code>) alongside
+token_optimizer, session_orchestrator, continuum, anti_bluff,
+helix_perf_cache. <strong>PASS.</strong></p>
+<h2 id="live-sites">5. Live sites</h2>
+<ul>
+<li><code>https://vasic.digital/</code> → <strong>HTTP 200</strong>,
+47384 B, <code>server: GitHub.com</code>, <strong>no
+<code>generator</code> meta</strong> (custom Pages workflow),
+<code>last-modified: Fri, 07 Aug 2026 14:50:15 GMT</code>.</li>
+<li><code>https://milosvasic.ru/</code> → <strong>HTTP 200</strong>,
+38193 B, <code>server: GitHub.com</code>,
+<code>generator content="Jekyll v4.4.1"</code>,
+<code>last-modified: Fri, 07 Aug 2026 14:50:15 GMT</code>.</li>
+<li><strong>v1.6.0 re-style deploy IN PROGRESS.</strong>
+<code>last-modified</code> was identical before and after the v1.6.0
+push → the currently served content is the pre-v1.6.0 build. Re-style
+<strong>not asserted live</strong> (UNVERIFIED, as instructed).</li>
+</ul>
+<h2 id="secrets-hygiene">6. Secrets hygiene</h2>
+<ul>
+<li><strong>umbrella:</strong> robust coverage (<code>.mcp.json</code>,
+<code>.env</code>, <code>*.env</code>, <code>.env.*</code>,
+<code>api_keys.sh</code>, <code>**/api_keys.sh</code>,
+<code>secrets.sh</code>, <code>**/secrets.sh</code>) —
+<strong>PASS</strong>.</li>
+<li><strong>constitution:</strong> covers <code>.env</code> variants,
+whitelists
+<code>.env.example</code>/<code>.sample</code>/<code>.template</code>.
+<code>.mcp.json</code> not ignored;
+<code>plugins/scheduled-work/.mcp.json</code> is tracked but contains
+<strong>0</strong> real-secret values — <strong>PASS
+(minor)</strong>.</li>
+<li><strong>vasic.digital:</strong> <strong>no tracked
+<code>.gitignore</code></strong> — <strong>FLAG</strong>.</li>
+<li><strong>design-toolkit:</strong> <strong>no tracked
+<code>.gitignore</code></strong> — <strong>FLAG</strong>.</li>
+<li><strong>milosvasic.ru:</strong> <code>.gitignore</code> present but
+<code>.env</code> is <strong>commented out</strong>
+(<code># .env</code>); no <code>.mcp.json</code>/<code>api_keys</code>
+rule — <strong>FLAG</strong>.</li>
+<li><strong>Leaked real keys:</strong> <strong>0</strong> across all
+repos. Sole pattern hit =
+<code>submodules/constitution/scripts/hooks/test_credential_scan_lib.sh</code>
+(scanner test fixture — benign). No secret values were printed at any
+point.</li>
+</ul>
+<h2 id="loose-ends">7. Loose ends</h2>
+<ul>
+<li><strong>Uncommitted work — umbrella only, all re-style-related (NOT
+stale):</strong> modified
+<code>_tests/evidence/visual-effects/*.png</code> (6 files),
+<code>_tools/gen/build.sh</code>,
+<code>design-system/brand-milosvasic/milosvasic.css</code>,
+<code>design-system/brand-vasic-digital/vasic-digital.css</code>, plus
+submodule-pointer moves <code>M milosvasic.ru</code>,
+<code>M vasic.digital</code>. Untracked:
+<code>_tests/evidence/{closure-final,content-quality-43,restyle}/</code>,
+<code>design-system/brand-vasic-digital/fonts/</code>. All consistent
+with the active v1.6.0 re-style.</li>
+<li><strong>Other repos clean:</strong> vasic.digital, milosvasic.ru,
+constitution, design-toolkit working trees = 0 changes at
+measurement.</li>
+<li><strong>No untracked files &gt;5MB.</strong></li>
+<li><strong>No detached-HEAD submodules</strong> (all on
+<code>main</code>).</li>
+<li><strong><code>design-system/</code></strong> is a <strong>tracked
+subdirectory of the umbrella</strong> (no nested <code>.git</code>, not
+in <code>.gitmodules</code>) — not an orphan repo. Not a defect; noted
+for clarity.</li>
+</ul>
+<hr />
+<h2 id="issues-found">Issues found</h2>
+<ol type="1">
+<li><strong>[FLAG] milosvasic.ru <code>origin</code> remote has
+split/asymmetric URLs</strong> —
+fetch=<code>github.com/milos85vasic/milosvasic.ru</code>,
+push=<code>gitflic.ru/...</code> + a second
+push=<code>github.com/...net.v2</code>. Non-standard multi-push config;
+confirm intentional (risk: pushes fan out to mirrors, fetch from a
+different host).</li>
+<li><strong>[FLAG] milosvasic.ru <code>gitflic</code> mirror missing
+tags</strong> — <code>v0.9.0-baseline</code> and <code>v1.0.0</code>
+present on github+gitlab but absent on gitflic (tag drift between
+mirrors).</li>
+<li><strong>[FLAG] vasic.digital has no tracked
+<code>.gitignore</code></strong> — no repo-level secret coverage (relies
+solely on umbrella-level ignore).</li>
+<li><strong>[FLAG] design-toolkit has no tracked
+<code>.gitignore</code></strong> — same secret-coverage gap.</li>
+<li><strong>[FLAG] milosvasic.ru <code>.gitignore</code> does not ignore
+<code>.env</code></strong> — the <code>.env</code> rule is commented
+out; no <code>.mcp.json</code>/<code>api_keys</code> rules either.</li>
+<li><strong>[FLAG/INFO] Umbrella submodule pointers for both sites are
+stale</strong> — records v1.5.1/v1.5.0 while sites advanced to v1.6.0;
+the umbrella gitlink bump + commit is still pending (expected
+mid-deploy, but must be committed to finish the release).</li>
+<li><strong>[UNVERIFIED/INFO] v1.6.0 re-style not confirmed
+live</strong> — <code>v1.6.0</code> pushed to both site remotes during
+the audit, but served <code>last-modified</code> is unchanged
+(pre-v1.6.0 build still served); Pages rebuild pending. Not a defect at
+time of audit, just incomplete.</li>
+<li><strong>[INFO] constitution tracks
+<code>plugins/scheduled-work/.mcp.json</code></strong> — contains no
+real secrets, but tracking <code>.mcp.json</code> at all is inconsistent
+with the umbrella policy of ignoring it; review whether it should be
+tracked.</li>
+</ol>
+<p><em>No dangling submodule pointers, no leaked real secrets, no
+detached submodules, no stale non-restyle uncommitted work, no oversized
+untracked blobs.</em></p>
+</body>
+</html>

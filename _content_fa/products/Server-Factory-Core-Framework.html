@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p>موتور مشترک پشت هر Server Factory</p>
+<p><strong>چکیده</strong></p>
+<p>چارچوب اصلی، چارچوب Kotlin است که زیربنای خانواده ابزارهای تأمین
+Server Factory را تشکیل می‌دهد. این چارچوب موتور مشترک و انتزاعاتی را
+فراهم می‌آورد که پروژه‌هایی مانند Mail Server Factory بر اساس آن ساخته
+می‌شوند، به‌طوری که هر «کارخانه» به‌جای پیاده‌سازی مجدد مفاهیم پایه تأمین،
+از یک بنیاد آزمایش‌شده در میدان نبرد استفاده می‌کند.</p>
+<p><strong>توضیح کوتاه</strong></p>
+<p>چارچوب مشترک Kotlin در پایه اکوسیستم Server Factory. این چارچوب موتور
+تأمین مشترک، انتزاعات اتصال و سازوکار گام‌های نصب را فراهم می‌کند که توسط
+کارخانه‌های پایین‌دست (Mail Server Factory، کارخانه سرویس وب، کارخانه
+SonarQube و سایرین) مورد استفاده قرار می‌گیرد.</p>
+<p><strong>توضیح مفصل</strong></p>
+<p>چارچوب اصلی آن قطعه بی‌صدای مهندسی است که کل خانواده Server-Factory را
+ممکن می‌سازد: موتوری قابل استفاده مجدد که هر محصول «کارخانه» جداگانه
+(Mail Server Factory، کارخانه سرویس وب، کارخانه SonarQube، کارخانه
+پروکسی کش) بر اساس آن ساخته شده است. رویکرد Server Factory اعلامی است —
+کاربر زیرساختی را که می‌خواهد به‌صورت پیکربندی توصیف می‌کند و یک کارخانه
+این توصیف را تفسیر کرده و نرم‌افزار را بر روی سیستم هدف نصب و راه‌اندازی
+می‌کند — و چارچوب اصلی جایی است که سازوکارهای مشترک این الگو واقعاً در آن
+قرار دارند: انتزاعات اتصال و انتقال که به هر نوع هدف می‌رسند، مدل گام‌های
+نصب که <em>نحوه</em> تأمین نرم‌افزار را کدگذاری می‌کند، و زیرساخت‌های
+مشترکی که هر کارخانه در غیر این صورت باید خود آن را پیاده‌سازی می‌کرد. این
+چارچوب پاسخی است به یک سؤال ساختاری که هر زنجیره ابزاری چندمحصولی در
+نهایت با آن مواجه می‌شود — موتور مشترک کجا باید قرار گیرد؟ — و درست پاسخ
+دادن به این سؤال یک بار است که خانواده را منسجم نگه می‌دارد، به‌جای آنکه
+به چهار تأمین‌کننده با تفاوت‌های ظریف تجزیه شود. با متمرکز کردن این بخش در
+یک چارچوب Kotlin، خانواده از تکرار منطق تأمین در محصولات مختلف جلوگیری
+کرده و رفتار را یکسان نگه می‌دارد: بهبود یک نوع اتصال یا مفهوم پایه نصب
+در چارچوب اصلی به نفع تمام کارخانه‌های پایین‌دست خواهد بود. این چارچوب
+تقریباً تماماً Kotlin است (حدود ۹۹۰ هزار بایت Kotlin با یک لایه نازک
+Shell) که نقش آن را به‌عنوان یک کتابخانه کد به‌جای مجموعه‌ای از اسکریپت‌ها
+منعکس می‌کند. مخازن پایین‌دست آن را به‌عنوان وابستگی اصلی خود پیوند می‌دهند
+(Parallels-Utils، Qemu-Utils، Utils و بسته‌های Definitions همگی به مخزن
+چارچوب اصلی به‌عنوان مرکز اکوسیستم ارجاع می‌دهند). فایل README آن به‌عمد
+مختصر است — این زیرساخت برای پروژه‌های دیگر است و از طریق
+<code>version.txt</code>/<code>version_code.txt</code> نسخه‌بندی می‌شود —
+و پیش از کارهای بعدی AI ساخته شده است، که آن را بخشی از میراث بالغ
+زنجیره ابزار DevOps سازمان می‌سازد.</p>
+<p><strong>چرا آن را ساختیم</strong></p>
+<p>هر ابزار تأمین به یک هسته مشترک نیاز دارد: روش‌هایی برای اتصال به
+اهداف و گام‌هایی برای نصب/پیکربندی نرم‌افزار. بازسازی این هسته برای هر
+محصول باعث تکه‌تکه شدن رفتار و افزایش باگ‌ها می‌شود. چارچوب اصلی آن را
+متمرکز می‌کند تا هر کارخانه از یک موتور قابل اعتماد مشترک بهره ببرد.</p>
+<p><strong>چرا این یک تغییردهنده بازی است</strong></p>
+<p>این بالاترین نقطه اهرمی در کل خانواده است: سخت‌گیری در یک نوع اتصال یا
+بهبود یک مفهوم پایه نصب در اینجا، صحت و قابلیت آن را به تمام کارخانه‌ها
+به‌طور همزمان منتقل می‌کند، به‌طوری که کل زنجیره ابزار از یک سرمایه‌گذاری
+منفرد بهره‌مند می‌شود. این همان فلسفه «یک بار بساز، همه‌جا استفاده کن» است
+که در لایه بنیادین اتوماسیون زیرساخت — جایی که یک اصلاح در جای درست، همه
+چیز را در پایین‌دست اصلاح می‌کند — بیشترین بازده را دارد.</p>
+<p>محتوا</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>چارچوب یکپارچه و قابل استفادهٔ مجدد برای انتزاع منطق اتصال و مراحل
+نصب.</li>
+<li>تفکیک شفاف میان موتور (چارچوب اصلی) و کارخانه‌های محصول‌محور.</li>
+<li>توزیع با نسخه‌بندی ثابت
+(<code>version.txt</code>/<code>version_code.txt</code>) برای مصرف
+تکرارپذیر.</li>
+</ul>
+<h2 id="چالشها-و-راهکارها">چالش‌ها و راهکارها</h2>
+<ul>
+<li><strong>اجتناب از تکرار منطق تأمین:</strong> با استخراج ماشین‌آلات
+مشترک به یک چارچوب واحد که همهٔ کارخانه‌ها از آن استفاده می‌کنند، حل
+شد.</li>
+<li><strong>رفتار یکسان در محصولات مختلف:</strong> با انتزاع‌های مشترک حل
+شد تا انواع اتصال و مراحل به‌طور یکسان در همهٔ موارد عمل کنند.</li>
+<li><strong>(تأییدنشده):</strong> برخی APIهای داخلی در فایل README عمومی
+مستند نشده‌اند؛ جزئیات رابط‌ها را خارج از «چارچوب مشترک مورد استفادهٔ
+کارخانه‌ها» تأییدنشده تلقی کنید.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشتهٔ فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Kotlin</strong> — کل چارچوب (حدود ۹۹۰ کیلوبایت)؛ زبان
+خانوادهٔ Server Factory.</li>
+<li><strong>Shell</strong> — اسکریپت‌های کمکی حداقلی.</li>
+<li><strong>Gradle</strong> — زنجیرهٔ ابزار ساخت (سازگار با استفادهٔ
+خانواده از <code>./gradlew</code>).</li>
+</ul>
+<blockquote>
+<p>نکته: GitHub مخزن را به‌عنوان انشعابی در سازمان Server-Factory مشخص
+می‌کند. این چارچوب AI-محور نیست؛ بلکه به‌عنوان ستون فقرات زنجیرهٔ ابزار
+تأمین ارائه شده است.</p>
+</blockquote>
+</body>
+</html>

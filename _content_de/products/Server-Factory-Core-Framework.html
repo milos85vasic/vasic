@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>Der gemeinsame Motor hinter jedem Server
+Factory.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>Core Framework ist das Kotlin-Grundgerüst, das die Server
+Factory-Familie von Bereitstellungstools trägt. Es stellt den
+gemeinsamen Motor und die Abstraktionen bereit, auf denen Projekte wie
+Mail Server Factory aufbauen, sodass jede „Fabrik” auf einer erprobten
+Grundlage aufsetzt, statt Bereitstellungsprimitive neu zu
+implementieren.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Das gemeinsame Kotlin-Framework im Fundament des Server
+Factory-Ökosystems. Es liefert den einheitlichen Bereitstellungsmotor,
+Verbindungsabstraktionen und die Installationsschritt-Logik, die von
+nachgelagerten Fabriken (Mail Server Factory, Web Service Factory,
+SonarQube Factory u. a.) genutzt werden.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>Core Framework ist das unscheinbare, aber entscheidende
+Ingenieurswerk, das die gesamte Server-Factory-Familie erst möglich
+macht: der wiederverwendbare Motor, auf dem jedes einzelne
+„Factory”-Produkt (Mail Server Factory, Web Service Factory, SonarQube
+Factory, Caching Proxy Factory) aufbaut. Der Server Factory-Ansatz ist
+deklarativ – der Nutzer beschreibt die gewünschte Infrastruktur als
+Konfiguration, und eine Factory interpretiert diese Beschreibung, um
+Software auf einem Zielsystem zu installieren und zu initialisieren.
+Core Framework ist der Ort, an dem die für dieses Muster gemeinsamen
+Mechanismen tatsächlich leben: die Verbindungs- und
+Transportabstraktionen, die jede Art von Zielsystem erreichen, das
+Installationsschritt-Modell, das <em>wie</em> Software bereitgestellt
+wird, kodiert, sowie die gemeinsame Infrastruktur, die jede Factory
+sonst selbst entwickeln müsste. Es ist die Antwort auf eine strukturelle
+Frage, der sich jede Multi-Produkt-Toolchain irgendwann stellen muss:
+<em>Wo gehört der gemeinsame Motor hin?</em> – und diese Antwort einmal
+richtig zu geben, hält die Familie zusammen, statt sie in vier leicht
+unterschiedliche Bereitsteller zerfallen zu lassen. Durch die
+Zentralisierung in einem einzigen Kotlin-Framework vermeidet die
+Familie, Bereitstellungslogik über die Produkte hinweg zu duplizieren,
+und sorgt für konsistentes Verhalten: Eine in Core Framework verbesserte
+Verbindungstechnologie oder ein optimiertes Installationsprimitiv kommt
+jeder nachgelagerten Factory zugute. Es besteht fast ausschließlich aus
+Kotlin (ca. 990 KB Kotlin mit einer dünnen Shell-Schicht), was seiner
+Rolle als Code-Bibliothek und nicht als Sammlung von Skripten
+entspricht. Nachgelagerte Repositories verweisen darauf als ihre
+kanonische Abhängigkeit (Parallels-Utils, Qemu-Utils, Utils und die
+Definitions-Pakete referenzieren das Core-Framework-Repository als
+Drehscheibe des Ökosystems). Die README-Datei ist bewusst knapp gehalten
+– es handelt sich um Infrastruktur für andere Projekte, versioniert über
+<code>version.txt</code>/<code>version_code.txt</code> – und geht der
+späteren AI-Arbeit voraus, was es zu einem Teil des etablierten
+DevOps-Toolchain-Erbes der Organisation macht.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Jedes Bereitstellungstool benötigt denselben Kern: Methoden, um Ziele
+anzubinden, und Schritte, um Software zu installieren und zu
+konfigurieren. Würde man dies für jedes Produkt neu entwickeln,
+entstünden fragmentierte Verhaltensweisen und vervielfachte
+Fehlerquellen. Core Framework zentralisiert diese Logik, sodass alle
+Fabriken auf einen zuverlässigen Motor zurückgreifen.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es ist der Punkt mit der größten Hebelwirkung in der gesamten
+Familie: Eine hier gehärtete Verbindungstechnologie oder ein
+verbessertes Installationsprimitiv verbreitet diese Korrektheit und
+Funktionalität sofort auf alle Fabriken – die gesamte Toolchain
+profitiert von einer einzigen Investition. Es verkörpert die Philosophie
+<em>„Einmal entwickeln, überall nutzen”</em> dort, wo sie den größten
+Nutzen bringt: in der Basisschicht der Infrastrukturautomatisierung, wo
+eine Korrektur am richtigen Ort alles Nachgelagerte mitbehebt.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li>Ein einziges wiederverwendbares Bereitstellungs-Framework, das Logik
+für Verbindungen und Installationsschritte abstrahiert.</li>
+<li>Klare Trennung zwischen der Engine (Core Framework) und
+produktspezifischen Fabriken.</li>
+<li>Versionsgebundene Distribution
+(<code>version.txt</code>/<code>version_code.txt</code>) für
+reproduzierbare Nutzung.</li>
+</ul>
+<h2 id="herausforderungen-lösungen">Herausforderungen &amp;
+Lösungen</h2>
+<ul>
+<li><strong>Vermeidung doppelter Bereitstellungslogik:</strong> gelöst
+durch die Auslagerung gemeinsamer Mechanismen in ein Framework, das von
+allen Fabriken genutzt wird.</li>
+<li><strong>Konsistentes Verhalten über alle Produkte hinweg:</strong>
+gelöst durch gemeinsame Abstraktionen, sodass Verbindungstypen und
+Schritte überall identisch funktionieren.</li>
+<li><strong>(UNBESTÄTIGT):</strong> Bestimmte interne APIs sind in der
+öffentlichen README nicht dokumentiert; Schnittstellendetails gelten
+über das „von den Fabriken genutzte gemeinsame Framework” hinaus als
+unbestätigt.</li>
+</ul>
+<h2 id="technologie-stack-begründung-umsetzung">Technologie-Stack
+(Begründung &amp; Umsetzung)</h2>
+<ul>
+<li><strong>Kotlin</strong> — das gesamte Framework (~990 KB); die
+Sprache der Server Factory-Familie.</li>
+<li><strong>Shell</strong> — minimale unterstützende Skripte.</li>
+<li><strong>Gradle</strong> — Build-Toolchain (konsistent mit der
+familienüblichen Nutzung von <code>./gradlew</code>).</li>
+</ul>
+<blockquote>
+<p>Hinweis: GitHub kennzeichnet das Repository als Fork innerhalb der
+Server-Factory-Organisation. Nicht AI-zentriert; dient als Rückgrat der
+Bereitstellungs-Toolchain.</p>
+</blockquote>
+</body>
+</html>

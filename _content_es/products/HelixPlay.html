@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixPlay</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixPlay</h1>
+</header>
+<h1 id="helixplay">HelixPlay</h1>
+<p><strong>Convierte cualquier máquina GPU en tu propio dispositivo de
+juegos en la nube.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>HelixPlay es una plataforma de juegos en la nube autohospedable que
+transforma cualquier máquina equipada con GPU en un servidor de
+streaming remoto, ofreciendo una experiencia de juego al nivel de
+consola en clientes de escritorio, móviles, televisores y navegadores.
+Está construida como un monorrepositorio centrado en Go, compuesto por
+46 submódulos, con un cliente de triple pila y es personalizable para
+socios bajo marca blanca.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>HelixPlay es una plataforma de juegos en la nube autohospedable,
+abierta y personalizable bajo marca blanca. Convierte cualquier máquina
+equipada con GPU en un servidor de streaming remoto y ofrece una
+experiencia de juego al nivel de consola en clientes de escritorio,
+móviles, televisores y navegadores a través de WebRTC/QUIC, con un
+núcleo basado en Go y una pila de cliente Wails/Flutter/Angular.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>HelixPlay es una plataforma de juegos en la nube construida como un
+monorrepositorio centrado en Go, compuesto por 46 submódulos de Git.
+Toma cualquier PC para juegos que ya poseas y la convierte en un
+servidor de streaming, ofreciendo una experiencia al nivel de consola en
+clientes de escritorio, móviles, televisores y navegadores:
+autohospedable, abierta y personalizable bajo marca blanca para socios.
+La propuesta es clara: tu hardware, tu servicio, tu marca, sin nubes de
+terceros de por medio.</p>
+<p>Su decisión de diseño más distintiva es la convergencia de clientes
+en una triple pila, una apuesta arquitectónica que rinde frutos en todos
+los demás aspectos. Una aplicación de escritorio Wails, una app móvil/TV
+Flutter y un cliente web Angular se ejecutan sobre un <em>único</em>
+núcleo Go, compilado a WASM para el navegador, de modo que el
+comportamiento se escribe una sola vez y se comparte en todas las
+plataformas, en lugar de bifurcarse en tres versiones. Bajo esta capa se
+encuentra la ruta de medios en tiempo real: Captura → Codificación →
+Paquetización → Transmisión → Decodificación → Renderizado, conectada a
+capturas nativas de la plataforma (DXGI / ScreenCaptureKit / PipeWire) y
+codificadores por hardware (NVENC / QSV / AMF / VideoToolbox), de manera
+que el GPU asume la carga pesada. El transporte se realiza a través de
+WebRTC (Pion v4), QUIC (quic-go) y datagramas personalizados UDP,
+seleccionados por su baja latencia en lugar de por comodidad. El núcleo
+del backend gestiona sesiones, inquilinos, catálogo y autenticación; un
+agente en el host se encarga de la captura, codificación y transporte en
+el extremo; y mDNS/rendezvous unifica el descubrimiento para que los
+clientes encuentren su host sin configuración manual.</p>
+<p>HelixPlay está diseñado desde cero para SaaS de marca blanca:
+tematización por inquilino, filtrado de catálogo, OAuth2 y facturación,
+de modo que un socio pueda implementar un servicio completamente
+personalizado en lugar de una simple adaptación superficial. Además, es
+nativo de contenedores en todos los detalles: cada servicio, base de
+datos, compilación, prueba y análisis se ejecuta dentro de contenedores,
+lo que hace que toda la plataforma sea reproducible tanto en despliegue
+como en verificación. Al igual que el resto de la familia Helix, se rige
+por una constitución anti-engaño en la que una prueba exitosa garantiza
+un comportamiento real y utilizable por el usuario final, no un simple
+<em>mock</em> que pasa.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>El <em>cloud gaming</em> comercial es cerrado, centralizado y
+alquilado. HelixPlay se creó para que cualquiera con una máquina GPU
+pueda ejecutar su propio servidor de streaming —abierto, autohospedado y
+personalizable bajo marca blanca— en lugar de depender de un servicio de
+terceros.</p>
+<h2 id="por-qué-es-un-cambio-de-juego">Por qué es un cambio de
+juego</h2>
+<p>Fusiona tres elementos que los servicios comerciales mantienen
+separados: el autoalojamiento en hardware bajo tu control, un único
+núcleo Go que impulsa tres pilas de clientes para que las funciones
+lleguen a todos los entornos al mismo tiempo, y la multitenencia de
+marca blanca. El resultado es que un socio puede lanzar un servicio de
+<em>cloud gaming</em> completamente personalizado en sus
+<em>propias</em> GPUs —controlando la experiencia, los usuarios y la
+economía—, en lugar de revender capacidad en la nube de otro y vivir
+dentro de sus limitaciones.</p>
+<h2 id="qué-lo-hace-innovador">Qué lo hace innovador</h2>
+<ul>
+<li><strong>Convergencia de triple pila de clientes</strong>: Wails,
+Flutter y Angular funcionando sobre un único núcleo Go (WASM en el
+navegador), de modo que escritorio, móvil, TV y web comparten una sola
+implementación en lugar de tres versiones divergentes.</li>
+<li><strong>SaaS autoalojable y de marca blanca</strong>: tematización
+por inquilino, filtrado de catálogo, OAuth2 y facturación integrados, lo
+que permite que la plataforma se distribuya como un producto
+personalizable, no como una demo.</li>
+<li><strong>Transporte de baja latencia moderno</strong>: WebRTC (Pion),
+QUIC y un UDP personalizado, combinados con selección de codificadores
+por hardware según la plataforma (NVENC / QSV / AMF / VideoToolbox),
+optimizados para la capacidad de respuesta por encima de la
+comodidad.</li>
+<li><strong>Arquitectura desacoplada de 46 submódulos</strong>:
+componentes claramente separados con todo nativo de contenedores: cada
+servicio, base de datos, compilación, prueba y análisis se ejecuta en un
+contenedor.</li>
+</ul>
+<h2 id="principales-desafíos-técnicos-y-cómo-los-resolvimos">Principales
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>Transmisión de baja latencia en hardware
+heterogéneo</strong>. Cada sistema operativo y GPU expone la captura y
+la codificación de manera distinta, y la latencia no perdona. Se
+resolvió con una ruta de captura/codificación consciente de la
+plataforma —DXGI / ScreenCaptureKit / PipeWire alimentando NVENC / QSV /
+AMF / VideoToolbox—, transportada mediante WebRTC / QUIC / UDP para que
+cada máquina utilice su ruta nativa más rápida hacia los píxeles.</li>
+<li><strong>Un solo producto para escritorio, móvil, TV y web</strong>.
+Se resolvió con clientes de triple pila (Wails, Flutter, Angular) que
+comparten un único núcleo Go compilado a WASM para el navegador, de modo
+que una corrección o función implementada una vez aparece en las cuatro
+plataformas en lugar de requerir cuatro adaptaciones.</li>
+<li><strong>Operación multitenencia con marca blanca</strong>. Se
+resolvió integrando tematización por inquilino, filtrado de catálogo,
+OAuth2 y facturación directamente en el núcleo del <em>backend</em>, de
+manera que el aislamiento entre inquilinos y la personalización de marca
+son primitivas de la plataforma, no bifurcaciones por cliente.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go (raíz 1.26.2 / submódulos 1.25+)</strong>: el núcleo
+compartido del <em>backend</em> y el agente anfitrión; un único lenguaje
+que se compila tanto a binarios nativos como a WASM, lo que hace posible
+el diseño de núcleo único y múltiples clientes.</li>
+<li><strong>Wails v2</strong>: el cliente de escritorio, que vincula el
+núcleo Go a una <em>webview</em> integrada para que la aplicación de
+escritorio reutilice la lógica del núcleo en lugar de volver a
+implementarla.</li>
+<li><strong>Flutter 3.29+</strong>: el cliente para móvil/TV, que invoca
+el núcleo Go mediante FFI para ofrecer una interfaz nativa en teléfonos
+y televisores sin necesidad de un segundo <em>backend</em>.</li>
+<li><strong>Angular 17+</strong>: el cliente web, que ejecuta el mismo
+núcleo Go compilado a WASM, de modo que el navegador es una superficie
+de primera clase, no una versión reducida.</li>
+<li><strong>WebRTC / Pion v4, QUIC / quic-go, UDP
+personalizado</strong>: tres protocolos de transporte en tiempo real
+para que la plataforma elija la ruta de menor latencia disponible según
+la red y el cliente.</li>
+<li><strong>Codificadores por hardware (NVENC / QSV / AMF /
+VideoToolbox)</strong> y <strong>captura por plataforma (DXGI /
+ScreenCaptureKit / PipeWire)</strong>: la ruta de captura y codificación
+acelerada por GPU, seleccionada por plataforma para que la codificación
+nunca se convierta en un cuello de botella en la CPU.</li>
+<li><strong>Contenedores (Docker/Podman)</strong>: cada servicio, base
+de datos, compilación, prueba y análisis se ejecuta en contenedores, lo
+que hace que todo el sistema sea reproducible tanto en despliegue como
+en verificación.</li>
+<li><strong>mDNS / <em>rendezvous</em></strong>: descubrimiento de
+anfitriones sin configuración para que los clientes localicen
+automáticamente su servidor de transmisión en la red.</li>
+</ul>
+<h2 id="notas-sobre-estado-y-honestidad">Notas sobre estado y
+honestidad</h2>
+<ul>
+<li><strong>Estado: beta.</strong> Los objetivos de latencia del README
+(≤30 ms en LAN / ≤50 ms en WAN p999), el enfoque de “calidad consola /
+calidad PS4 Pro” y el número de celdas de la matriz de pruebas son metas
+de diseño declaradas por el propio proyecto, no han sido verificadas de
+forma independiente y se presentan como tales.</li>
+<li><strong>Licencia: por determinar.</strong> No se detectó ninguna
+LICENCIA mediante los códigos GitHub / API — SIN VERIFICAR / no
+declarada.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix-principal.</p>
+</body>
+</html>

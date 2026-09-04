@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Create or update the project constitution from interactive or provided principle inputs, ensuring all dependent templates stay in sync." />
+  <title>SKILL</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SKILL</h1>
+</header>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before constitution
+update)</strong>: - Check if <code>.specify/extensions.yml</code> exists
+in the project root. - If it exists, read it and look for entries under
+the <code>hooks.before_constitution</code> key - If the YAML cannot be
+parsed or is invalid, skip hook checking silently and continue normally
+- Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - When constructing slash
+commands from hook command names, replace dots (<code>.</code>) with
+hyphens (<code>-</code>). For example, <code>speckit.git.commit</code> →
+<code>/speckit-git-commit</code>. - For each executable hook, output the
+following based on its <code>optional</code> flag: - <strong>Optional
+hook</strong> (<code>optional: true</code>): ``` ## Extension Hooks</p>
+<pre><code>**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Outline.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+<h2 id="outline">Outline</h2>
+<p>You are updating the project constitution at
+<code>.specify/memory/constitution.md</code>. This file is a TEMPLATE
+containing placeholder tokens in square brackets
+(e.g. <code>[PROJECT_NAME]</code>, <code>[PRINCIPLE_1_NAME]</code>).
+Your job is to (a) collect/derive concrete values, (b) fill the template
+precisely, and (c) propagate any amendments across dependent
+artifacts.</p>
+<p><strong>Note</strong>: If
+<code>.specify/memory/constitution.md</code> does not exist yet, it
+should have been initialized from
+<code>.specify/templates/constitution-template.md</code> during project
+setup. If it’s missing, copy the template first.</p>
+<p>Follow this execution flow:</p>
+<ol type="1">
+<li><p>Load the existing constitution at
+<code>.specify/memory/constitution.md</code>.</p>
+<ul>
+<li>Identify every placeholder token of the form
+<code>[ALL_CAPS_IDENTIFIER]</code>. <strong>IMPORTANT</strong>: The user
+might require less or more principles than the ones used in the
+template. If a number is specified, respect that - follow the general
+template. You will update the doc accordingly.</li>
+</ul></li>
+<li><p>Collect/derive values for placeholders:</p>
+<ul>
+<li>If user input (conversation) supplies a value, use it.</li>
+<li>Otherwise infer from existing repo context (README, docs, prior
+constitution versions if embedded).</li>
+<li>For governance dates: <code>RATIFICATION_DATE</code> is the original
+adoption date (if unknown ask or mark TODO),
+<code>LAST_AMENDED_DATE</code> is today if changes are made, otherwise
+keep previous.</li>
+<li><code>CONSTITUTION_VERSION</code> must increment according to
+semantic versioning rules:
+<ul>
+<li>MAJOR: Backward incompatible governance/principle removals or
+redefinitions.</li>
+<li>MINOR: New principle/section added or materially expanded
+guidance.</li>
+<li>PATCH: Clarifications, wording, typo fixes, non-semantic
+refinements.</li>
+</ul></li>
+<li>If version bump type ambiguous, propose reasoning before
+finalizing.</li>
+</ul></li>
+<li><p>Draft the updated constitution content:</p>
+<ul>
+<li>Replace every placeholder with concrete text (no bracketed tokens
+left except intentionally retained template slots that the project has
+chosen not to define yet—explicitly justify any left).</li>
+<li>Preserve heading hierarchy and comments can be removed once replaced
+unless they still add clarifying guidance.</li>
+<li>Ensure each Principle section: succinct name line, paragraph (or
+bullet list) capturing non‑negotiable rules, explicit rationale if not
+obvious.</li>
+<li>Ensure Governance section lists amendment procedure, versioning
+policy, and compliance review expectations.</li>
+</ul></li>
+<li><p>Consistency propagation checklist (convert prior checklist into
+active validations):</p>
+<ul>
+<li>Read <code>.specify/templates/plan-template.md</code> and ensure any
+“Constitution Check” or rules align with updated principles.</li>
+<li>Read <code>.specify/templates/spec-template.md</code> for
+scope/requirements alignment—update if constitution adds/removes
+mandatory sections or constraints.</li>
+<li>Read <code>.specify/templates/tasks-template.md</code> and ensure
+task categorization reflects new or removed principle-driven task types
+(e.g., observability, versioning, testing discipline).</li>
+<li>Read each installed Spec Kit command file for your agent (including
+this one) — named <code>speckit.*</code> or <code>speckit-*</code> (dot
+or hyphen depending on the agent), or laid out as
+<code>speckit-&lt;name&gt;/SKILL.md</code> for skills-based
+integrations, e.g. in <code>.github/agents/</code>,
+<code>.github/skills/</code>, <code>.claude/skills/</code>, or your
+agent’s equivalent commands directory — to verify no outdated references
+(CLAUDE-only or other agent-specific names) remain when generic guidance
+is required.</li>
+<li>Read any runtime guidance docs (e.g., <code>README.md</code>,
+<code>docs/quickstart.md</code>, or agent-specific guidance files if
+present). Update references to principles changed.</li>
+</ul></li>
+<li><p>Produce a Sync Impact Report (prepend as an HTML comment at top
+of the constitution file after update):</p>
+<ul>
+<li>Version change: old → new</li>
+<li>List of modified principles (old title → new title if renamed)</li>
+<li>Added sections</li>
+<li>Removed sections</li>
+<li>Templates requiring updates (✅ updated / ⚠ pending) with file
+paths</li>
+<li>Follow-up TODOs if any placeholders intentionally deferred.</li>
+</ul></li>
+<li><p>Validation before final output:</p>
+<ul>
+<li>No remaining unexplained bracket tokens.</li>
+<li>Version line matches report.</li>
+<li>Dates ISO format YYYY-MM-DD.</li>
+<li>Principles are declarative, testable, and free of vague language
+(“should” → replace with MUST/SHOULD rationale where appropriate).</li>
+</ul></li>
+<li><p>Write the completed constitution back to
+<code>.specify/memory/constitution.md</code> (overwrite).</p></li>
+<li><p>Output a final summary to the user with:</p>
+<ul>
+<li>New version and bump rationale.</li>
+<li>Any files flagged for manual follow-up.</li>
+<li>Suggested commit message (e.g.,
+<code>docs: amend constitution to vX.Y.Z (principle additions + governance update)</code>).</li>
+</ul></li>
+</ol>
+<p>Formatting &amp; Style Requirements:</p>
+<ul>
+<li>Use Markdown headings exactly as in the template (do not
+demote/promote levels).</li>
+<li>Wrap long rationale lines to keep readability (&lt;100 chars
+ideally) but do not hard enforce with awkward breaks.</li>
+<li>Keep a single blank line between sections.</li>
+<li>Avoid trailing whitespace.</li>
+</ul>
+<p>If the user supplies partial updates (e.g., only one principle
+revision), still perform validation and version decision steps.</p>
+<p>If critical info missing (e.g., ratification date truly unknown),
+insert <code>TODO(&lt;FIELD_NAME&gt;): explanation</code> and include in
+the Sync Impact Report under deferred items.</p>
+<p>Do not create a new template; always operate on the existing
+<code>.specify/memory/constitution.md</code> file.</p>
+<h2 id="post-execution-checks">Post-Execution Checks</h2>
+<p><strong>Check for extension hooks (after constitution
+update)</strong>: Check if <code>.specify/extensions.yml</code> exists
+in the project root. - If it exists, read it and look for entries under
+the <code>hooks.after_constitution</code> key - If the YAML cannot be
+parsed or is invalid, skip hook checking silently and continue normally
+- Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - When constructing slash
+commands from hook command names, replace dots (<code>.</code>) with
+hyphens (<code>-</code>). For example, <code>speckit.git.commit</code> →
+<code>/speckit-git-commit</code>. - For each executable hook, output the
+following based on its <code>optional</code> flag: - <strong>Optional
+hook</strong> (<code>optional: true</code>): ``` ## Extension Hooks</p>
+<pre><code>**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>rule-and-designsystem</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">rule-and-designsystem</h1>
+</header>
+<h1
+id="hardcoded-content-audit-the-rule-design-system-data-model">Hardcoded-Content
+Audit — The Rule + Design-System / Data-Model</h1>
+<p>READ-ONLY audit. No source edited. Scope: (A) constitution
+anti-hardcoding mandate; (B) <code>design-system/**</code>, the
+generator/data-loading layer, <code>_content/**</code>; (C) the intended
+data-model map. Date: 2026-08-07.</p>
+<hr />
+<h2
+id="a.-the-rule-constitution-anchors-that-mandate-data-driven-non-hardcoded-content">A.
+THE RULE — constitution anchors that mandate data-driven, non-hardcoded
+content</h2>
+<p>The Constitution
+(<code>submodules/constitution/Constitution.md</code>) has <strong>no
+single “website copy must not be hardcoded” clause</strong>; the mandate
+is <strong>composed</strong> from a small anchor family. The
+load-bearing anchors, quoted verbatim:</p>
+<h3
+id="configurationcontent-supplied-as-data-the-core-as-data-anchor">§11.4.35
+— configuration/content supplied as DATA (the core “as data”
+anchor)</h3>
+<p>Recurring normative phrase across dozens of universal anchors: &gt;
+“…the consuming project supplies its … <strong>as DATA per
+§11.4.35</strong>.” And e.g.: &gt; “consumer-bound path <strong>as DATA
+per §11.4.35</strong>”</p>
+<p>§11.4.35 is the generalized decoupling-to-data rule: project-specific
+values (paths, brand values, language sets, glossary, token values,
+copy) are <strong>injected as data</strong>, never baked in as literals.
+This is the anchor to cite for “content must live in data files, not
+hardcoded in templates/CSS/code.”</p>
+<h3
+id="canonical-machine-readable-design-token-source-anti-hardcoding-for-design-values">§11.4.216
+— canonical machine-readable design-token source (anti-hardcoding for
+design values)</h3>
+<blockquote>
+<p>“§11.4.216 — canonical machine-readable design-token source: ONE CSS
+custom-property file (<code>:root {}</code> +
+<code>[data-theme="dark"]</code> override), <strong>every platform
+consumes GENERATED bindings never hand-copies, no invented
+values</strong> (§11.4.6 applied to design — every color traceable to
+eyedrop/measured-contrast evidence).”</p>
+</blockquote>
+<p>“Never hand-copies, no invented values” = no hardcoded design
+literals; every value derives from the single token source.</p>
+<h3 id="opendesign-is-the-mandated-token-system">§11.4.162 — OpenDesign
+is the MANDATED token system</h3>
+<blockquote>
+<p>“§11.4.162 (OpenDesign) … OpenDesign is the mandated token SYSTEM”
+(and per the design-system README: “no ad-hoc CSS, no other token
+system”). §11.4.190 is the “strict WEB-quality expansion of §11.4.162 …
+host-rendered pixel proof as the correctness oracle.”</p>
+</blockquote>
+<h3 id="real-data-honesty-markers-never-a-fake-flow">§11.4.219 — real
+data, honesty markers, never a fake flow</h3>
+<blockquote>
+<p>“populated with <strong>REALISTIC product data (never lorem-ipsum for
+load-bearing content)</strong> … where the backing backend, contract, or
+product decision does not exist, the screen MUST say so … <strong>NEVER
+a designed-as-if-real fake flow</strong>.”</p>
+</blockquote>
+<p>Load-bearing content must be REAL (from data), and gaps must be
+marked, not faked.</p>
+<h3 id="every-localized-string-is-data-independently-reviewed">§11.4.237
+/ §11.4.140 / §11.4.141 — every localized string is data + independently
+reviewed</h3>
+<p>Every translated artifact (UI strings, pages, PDFs, “any localized
+content”) is produced by the canonical pipeline and independently
+reviewed; the consuming project “supplies its language set, term
+glossary, non-translatable token list … <strong>as DATA per
+§11.4.35</strong>.” Implies: user-facing strings are dictionary entries
+(data), not literals in code.</p>
+<h3 id="anti-bluff-evidence-angle">Anti-bluff / evidence angle</h3>
+<ul>
+<li><strong>§11.4.6</strong> (honest boundary / no invented values) is
+explicitly “applied to design” inside §11.4.216 — a hardcoded/invented
+value is a §11.4.6 bluff.</li>
+<li><strong>§11.4.223</strong> — provenance markers
+<code>[VERIFIED]/[OPERATOR]/[DEFAULT]/[OPEN:id]</code> for design docs;
+open items registered + tracked (§11.4.93/§11.4.197).</li>
+<li>A remediation for any finding below must land the fix as a tracked
+workable item with a RED→GREEN guard, not as prose (§11.4.202/§11.4.205)
+— “a rule that lives only in prose is re-learned per session and skipped
+under pressure.”</li>
+</ul>
+<p><strong>Citation for remediation:</strong> anchor the “no hardcoded
+content” requirement on <strong>§11.4.35</strong> (content/config as
+data) + <strong>§11.4.216/§11.4.162</strong> (design values as generated
+tokens, no invented values) + <strong>§11.4.219</strong> (real data / no
+fake) + <strong>§11.4.6</strong> (invented value = bluff).</p>
+<hr />
+<h2 id="c.-data-model-map-how-content-is-supposed-to-flow">C. DATA-MODEL
+MAP — how content is SUPPOSED to flow</h2>
+<p>The Go generator under <code>_tools/gen/</code> renders both sites
+from data. Anything content-bearing OUTSIDE this model is a candidate
+violation.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Data source</th>
+<th>Feeds</th>
+<th>Loader / type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_content/portfolio/portfolio.json</code></td>
+<td>product metadata (name, slug, tier, status, license, tech, repos,
+summary, tagline) — <strong>“single source of truth for product
+metadata, shared by both sites”</strong></td>
+<td><code>data.go</code> <code>Portfolio</code> /
+<code>loadPortfolio</code></td>
+</tr>
+<tr>
+<td><code>_content/sites/&lt;site&gt;.home.json</code> (+
+<code>.home.&lt;lang&gt;.json</code> ×15)</td>
+<td>homepage content model — hero/section/contact blocks, prose, cards,
+stats, CTAs</td>
+<td><code>data.go</code> <code>HomeDoc</code> / <code>loadHome</code>;
+rendered by <code>home.go</code></td>
+</tr>
+<tr>
+<td><code>_content/products/*.md</code> (+
+<code>_content_&lt;lang&gt;/products/*.md</code>)</td>
+<td>product detail pages (frontmatter + markdown body)</td>
+<td><code>data.go</code> <code>parseFrontmatter</code>;
+<code>product.go</code>, <code>markdown.go</code></td>
+</tr>
+<tr>
+<td><code>_content/docs/*.md</code>, <code>_content/sites/*.md</code> (+
+<code>_content_&lt;lang&gt;/…</code>)</td>
+<td>CV / cover-letter / portfolio docs; per-site page shells</td>
+<td><code>markdown.go</code></td>
+</tr>
+<tr>
+<td><code>_tools/gen/ui-i18n.json</code> (embedded via
+<code>//go:embed</code>)</td>
+<td><strong>every generator-emitted UI/chrome + SEO string</strong>, ×15
+languages; EN is source of truth, non-EN reviewer-gated
+(§11.4.140/141/236)</td>
+<td><code>i18n.go</code> <code>T(lang,key)</code></td>
+</tr>
+<tr>
+<td><code>design-system/brand-*/*.css</code> (<code>:root</code>
+tokens)</td>
+<td>all colors/spacing/type/motion; consumed only via
+<code>var(--od-*)</code></td>
+<td>linked/imported per surface</td>
+</tr>
+<tr>
+<td><code>_content_&lt;lang&gt;/**</code> (15 mirrors: ar be de es fa fr
+hi ja kk ko ru sr tr zh)</td>
+<td>translated content, mirroring
+<code>_content/{docs,products,sites}</code> structure</td>
+<td>same loaders, lang-suffixed</td>
+</tr>
+</tbody>
+</table>
+<p>Correct pattern: <strong>strings → <code>T(lang,key)</code>
+(ui-i18n.json); prose/cards/stats → home.json; product facts →
+portfolio.json + product .md; design values → <code>var(--od-*)</code>
+tokens.</strong> A literal string in Go/CSS/HTML template that is
+visitor-facing prose and bypasses these = violation.</p>
+<hr />
+<h2 id="b.-findings-design-system-generator-content">B. FINDINGS —
+design-system + generator + content</h2>
+<h3
+id="design-system-css-clean-of-hardcoded-prose-decorative-only">Design-system
+CSS — CLEAN of hardcoded prose (decorative only)</h3>
+<p>All <code>content:</code> declarations across
+<code>design-system/**/*.css</code> are <strong>decorative</strong>, not
+visitor-facing prose — NOT violations: -
+<code>components-extended.css</code> —
+<code>content:''</code>/<code>content:""</code> on
+<code>::before/::after</code> (icons, rings, geometric marks): lines
+396, 409, 458, 706, 1009. -
+<code>brand-milosvasic/milosvasic.css:710,716</code> —
+<code>content:""</code> decorative accent bar. -
+<code>brand-vasic-digital/vasic-digital.css:396,562</code> —
+<code>content:""</code> decorative. -
+<code>motion/animations.css:119,154,172,277</code> —
+<code>content:""</code> decorative. - <strong>Borderline
+(LOW/none):</strong> <code>components-extended.css:747</code> breadcrumb
+separator <code>content:'/'</code>. A structural separator glyph
+(chrome), not prose; standard practice. Note only — could be
+tokenized/localized if strictness demanded.</p>
+<p>Other design-system surfaces: -
+<code>design-system/components-extended.css</code> — <strong>0 raw hex
+colors</strong>; 100% <code>var(--od-*)</code> (satisfies §11.4.216).
+GOOD. - <code>design-system/icons/icons.svg</code> — pure
+<code>&lt;symbol&gt;</code>/<code>&lt;path&gt;</code>, <strong>no
+<code>&lt;text&gt;</code></strong>. GOOD. -
+<code>design-system/motion/motion.js</code> — no hardcoded user-facing
+prose; the count-up reads/writes numeric text from
+<code>data-*</code>/<code>textContent</code> only. GOOD. -
+<code>design-system/preview/*.html</code>,
+<code>fonts/preview.html</code>, <code>motion/preview.html</code> —
+contain hardcoded English demo labels, but these are the
+<strong>design-library catalogue / rendered proof fixtures</strong>
+(§11.4.218), NOT shipped visitor content. EXPECTED — not violations.</p>
+<h3
+id="generator-_toolsgen-content-is-data-driven-minor-literals">Generator
+(<code>_tools/gen/**</code>) — content is data-driven; minor
+literals</h3>
+<p><strong>F1 — LOW — hardcoded <code>background:#fff</code> in
+generator-emitted CSS.</strong> - Location:
+<code>_tools/gen/shells.go:32</code> (<code>.od-brand__logo</code>) and
+<code>:35</code> (<code>.vd-hero__logo img</code>); also the
+personal-brand <code>mvHeadStyle</code> uses white chips. - Literal:
+<code>background:#fff</code>. - Why a violation: §11.4.216 “no invented
+values” — a raw color literal in token-governed CSS instead of a
+<code>var(--od-*)</code> token (e.g. a <code>--od-surface-inv</code> /
+logo-plate token). Design value, not content. - Severity: LOW.
+Remediation: add a token for the logo/portrait plate color and reference
+it; or document as an intentional pure-white plate token.</p>
+<p><strong>F2 — LOW — hardcoded copyright year
+<code>© 2026</code>.</strong> - Location:
+<code>_tools/gen/i18n.go:154</code> (switcher footer dict) and
+<code>_tools/gen/product.go:244</code> (product page footer). (The
+standalone home footer uses <code>HomeDoc.Footer</code> from home.json —
+data-driven, OK.) - Literal: <code>"© 2026 "</code>. - Why a violation:
+a fixed datum baked into template/code that should be parameterized
+(build-time year or a data field) — will silently go stale; mild
+§11.4.35 (“as data”) + §11.4.6 (honesty/staleness) concern. - Severity:
+LOW. Remediation: derive the year at generation time or source from site
+data; keep <code>©</code>/suffix in the dict (suffix already is:
+<code>footer.suffix</code>).</p>
+<p><strong>F3 — LOW/INFO — status &amp; tier VALUES emitted verbatim,
+not localized.</strong> - Location:
+<code>_tools/gen/product.go:162,173</code> —
+<code>&lt;span class="od-badge--status   od-badge--status--%s"&gt;%s&lt;/span&gt;</code>
+with both <code>%s = esc(e.Status)</code>; the eyebrow emits
+<code>esc(e.Tier)</code> and <code>esc(e.License)</code> verbatim. -
+Literal: none in code — values come from <code>portfolio.json</code>
+(<code>status</code>, <code>tier</code>, <code>license</code>). So they
+ARE data-driven (compliant with §11.4.35), BUT the visible status/tier
+label text is the raw English value, identical across all 15 localized
+pages (the surrounding labels
+<code>prod.tier</code>/<code>prod.license</code>/<code>prod.order</code>/
+<code>prod.source</code> DO localize via <code>T()</code>). - Why noted:
+a <strong>localization-completeness</strong> gap (§11.4.237) rather than
+a hardcoding violation — human-readable status/tier prose is not run
+through the i18n dictionary. License string is correctly
+non-translatable (proper token). - Severity: LOW / INFO. Remediation (if
+desired): map status/tier codes to
+<code>T(lang, "status.&lt;code&gt;")</code> /
+<code>T(lang,"tier.&lt;code&gt;")</code> dictionary entries; keep
+<code>portfolio.json</code> as the code source.</p>
+<p><strong>Not a violation — <code>tOr</code> English fallbacks
+(<code>home.go:401,404-406</code>).</strong>
+<code>tOr(lang,"skip","Skip to content")</code>,
+<code>nav.work→"Work"</code>, <code>nav.contact→"Contact"</code> look
+like hardcoded copy, but <code>i18n.go</code> <code>tOr</code> returns
+the fallback ONLY when the dictionary lacks the key.
+<strong>Verified</strong>: the embedded <code>ui-i18n.json</code>
+contains <code>skip</code>, <code>nav.work</code>,
+<code>nav.contact</code>, <code>nav.products</code>,
+<code>nav.portfolio</code>, <code>footer.suffix</code>,
+<code>aria.primaryNav</code>, <code>aria.backToTop</code>,
+<code>aria.toggleTheme</code> for <strong>all 15 languages</strong> — so
+the literals are honest EN-source fallbacks that never surface, exactly
+the §11.4.35/§11.4.6 “degrade honestly to EN” pattern the code comments
+describe. GOOD. (Note: the sibling file
+<code>_tools/gen/ui-i18n.en.json</code> is MISSING nav.work/
+nav.contact/aria.* — but it is NOT the embedded/compiled dictionary; the
+<code>//go:embed ui-i18n.json</code> file is complete.
+<code>ui-i18n.en.json</code> appears stale/ secondary — worth a
+follow-up to reconcile or delete, low priority.)</p>
+<h3 id="content-clean"><code>_content/**</code> — CLEAN</h3>
+<p>Structure matches the data model:
+<code>portfolio/portfolio.json</code>, <code>products/*.md</code>,
+<code>docs/*.md</code>, <code>sites/*.home[.&lt;lang&gt;].json</code> +
+<code>sites/*.md</code>, mirrored across 15
+<code>_content_&lt;lang&gt;/</code> trees. No content-bearing literals
+outside the model observed.</p>
+<hr />
+<h2 id="consolidated-view">CONSOLIDATED VIEW</h2>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 17%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Severity</th>
+<th>Location</th>
+<th>Issue</th>
+<th>Anchor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>LOW</td>
+<td><code>_tools/gen/shells.go:32,35</code> (+mv style)</td>
+<td><code>background:#fff</code> raw color literal in token-governed
+CSS</td>
+<td>§11.4.216/§11.4.6</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>LOW</td>
+<td><code>_tools/gen/i18n.go:154</code>,
+<code>product.go:244</code></td>
+<td>hardcoded <code>© 2026</code> year</td>
+<td>§11.4.35/§11.4.6</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>LOW/INFO</td>
+<td><code>_tools/gen/product.go:162,173</code></td>
+<td>status/tier values data-driven but not localized</td>
+<td>§11.4.237</td>
+</tr>
+<tr>
+<td>—</td>
+<td>none</td>
+<td><code>design-system/**</code> CSS/JS/SVG</td>
+<td>decorative <code>content:</code> only; 0 raw hex; no prose</td>
+<td>(clean)</td>
+</tr>
+<tr>
+<td>—</td>
+<td>none</td>
+<td><code>home.go</code> <code>tOr</code> fallbacks</td>
+<td>keys present ×15 in embedded dict; honest EN fallback</td>
+<td>(clean)</td>
+</tr>
+<tr>
+<td>note</td>
+<td>INFO</td>
+<td><code>_tools/gen/ui-i18n.en.json</code></td>
+<td>stale/secondary, missing keys; not compiled</td>
+<td>reconcile</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bottom line:</strong> The design-system and the content
+pipeline are <strong>substantially compliant</strong> with the
+data-driven mandate. The token layer is clean (components-extended.css 0
+raw hex; icons/motion no prose). All shipped visitor copy flows through
+<code>ui-i18n.json</code> (strings), <code>*.home.json</code>
+(prose/cards), and <code>portfolio.json</code> + product
+<code>.md</code> (facts). The only literals found are three LOW-severity
+items in the <strong>generator</strong> (a <code>#fff</code> plate
+color, a <code>© 2026</code> year, and un-localized status/tier values)
+— none are hardcoded prose in shipped templates or CSS. Any remediation
+should land as tracked items with RED→GREEN guards, not prose
+(§11.4.202/§11.4.205).</p>
+</body>
+</html>

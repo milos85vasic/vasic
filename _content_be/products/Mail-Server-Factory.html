@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>Кіруйце сваім поштавым серверам як прафі — апішыце яго ў JSON
+і разгортвайце дзе заўгодна.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>Mail Server Factory — гэта гатовы да прадукцыйнага выкарыстання
+інструмент аўтаматызаванага разгортвання поштавых сервераў. Карыстальнік
+стварае простую канфігурацыю JSON, а Фабрыка інтэрпрэтуе яе і выконвае
+ўсе неабходныя ўстаноўкі і ініцыялізацыі на мэтавай АС, разгортваючы
+паштовы стэк на базе Docker з слаба звязанымі кампанентамі праз 12 тыпаў
+падлучэнняў.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Інструмент Kotlin/Shell, які ператварае апісанне JSON у цалкам
+усталяваны, дакераваны поштавы сервер. Падтрымлівае 12 тыпаў падлучэнняў
+(SSH, Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt і іншыя), поўную
+сістэму бяспекі, 25 дыстрыбутываў Linux і мае 439 паспяхова прайшоных
+тэстаў.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Разгортванне сапраўднага, абароненага поштавага сервера — адзін з
+класічных рытуалаў ініцыяцыі ў сістэмным адміністраванні — і адначасова
+адна з найболей няўдзячных задач. Postfix, Dovecot, сертыфікаты TLS,
+запісы DNS, правілы брандмаўэра і асаблівасці кожнага дыстрыбутыва
+павінны ідэальна супадаць, і адна няслушная дырэктыва можа прывесці да
+ціхага вяртання лістоў або адкрытага рэлею. Mail Server Factory убірае ў
+сябе ўвесь гэты цяжка набыты, схільны да памылак досвед і ўвасабляе яго
+ў праграмным забеспячэнні. Замест таго каб уручную канфігураваць кожны
+кампанент на незнаёмай АС, канчатковы карыстальнік апісвае жаданы вынік
+у выглядзе простага дакумента JSON; Фабрыка счытвае гэты JSON і выконвае
+дакладна тыя крокі ўстаноўкі і ініцыялізацыі, якія патрэбны на мэтавай
+аперацыйнай сістэме, разгортваючы паштовы стэк на базе Docker, дзе кожны
+кампанент слаба звязаны — гэты дызайнерскі выбар забяспечвае
+гарызантальную маштабавасць стэка і дазваляе абнаўляць або замяняць любы
+кампанент асобна. Інструмент наўмысна агностычны да спосабу
+разгортвання: 12 тыпаў падлучэнняў дазваляюць аднаму і tamu ж
+інструменту і аднаму і tamu ж JSON мэткаваць лакальную машыну, аддалены
+хост праз SSH, Docker ці Kubernetes-рунтайм, воблачныя інстансы праз AWS
+SSM / Azure Serial Console / GCP OS Login ці ВМ праз Libvirt — адно і
+тое ж дэкларатыўнае апісанне, якое разгортваецца там, куды вы яго
+накіруеце. Падтрымліваецца 25 дыстрыбутываў Linux з заходніх (Ubuntu,
+Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE), расійскіх (ALT,
+Astra, ROSA) і кітайскіх (openEuler, openKylin, Deepin) сямействаў з
+аўтаматызаванай устаноўкай праз preseed/kickstart/cloud-init/autoyast і
+аўтаматызацыяй ВМ на базе QEMU для тэставання. Карпаратыўныя магчымасці
+шырокія: шыфраванне AES-256-GCM, абавязковыя палітыкі пароляў і
+SSH-ключоў, аўтаматызаваная канфігурацыя брандмаўэра для пошты (парты
+25/587/465/993/995), TLS/SSL з праверкай сертыфікатаў і HSTS, аўдытнае
+лагіраванне і RBAC. Аперацыйныя магчымасці ўключаюць налады JVM (G1GC),
+кэшаванне Caffeine, пулінг злучэнняў, метрыкі, сумяшчальныя з
+Prometheus, структураванае лагіраванне, гарачую перазагрузку
+канфігурацыі і кіраванне сакрэтамі. Праект мае 439 тэстаў з 100%
+праходжаннем і чысты SonarQube-гатунак якасці. Гэта флагманскі праект
+арганізацыі Server-Factory.</p>
+<p>Змест</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Наладка бяспечнага поштавага сервера для прадукцыйнага выкарыстання —
+працэс, вядомы сваёй схільнасцю да памылак і залежнасцю ад аперацыйнай
+сістэмы. Mail Server Factory уключае гэты досвед у дэкларатыўную мадэль
+JSON разам з рухавіком выканання, што дазваляе паўтараць правільна
+наладжаны, абаронены і дакераваны поштавы стэк на любой падтрымліваемай
+платформе без ручной пакрокавай працы.</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Гэта ператварае наладку поштавага сервера з працяглай,
+спецыялізаванай і патрабуючай дакладнасці працэдуры ў просты акт
+напісання канфігурацыі — і робіць гэты акт пераносным на 12 тыпаў
+падлучэнняў і 25 дыстрыбутываў Linux, а таксама абароненым дзякуючы
+прадвызначаным прадукцыйным стандартам бяспекі. Вынік — паўторнае і
+<em>правераемае</em> разгортванне: адна і тая ж JSON заўсёды стварае
+аднолькава абаронены стэк, а 439 паспяхова прайшоўшых тэстаў і чысты
+SonarQube-кантроль азначаюць, што рухавік, які выконвае працу, падлягае
+праверцы, а не проста давярае сваёй рэпутацыі.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Дэкларатыўная JSON → інтэрпрэтаваная ўстаноўка/ініцыялізацыя на
+мэтавай АС.</li>
+<li>12 тыпаў падлучэнняў (лакальнае, SSH, Docker, Kubernetes, AWS SSM,
+Azure, GCP, Libvirt і іншыя) праз адзін інструмент.</li>
+<li>Падтрымка 25 дыстрыбутываў з аўтаматызаванай устаноўкай
+(preseed/kickstart/cloud-init/autoyast) і аўтаматызацыяй праз QEMU.</li>
+<li>Слаба звязаны дакераваны стэк для незалежнага
+маштабавання/абнаўленняў.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Гетэрагеннасць АС/дыстрыбутываў:</strong> вырашана з
+дапамогай рэцэптаў для кожнага дыстрыбутыва, канфігурацый для
+аўтаматызаванай устаноўкі і кросплатформавага тэсціравання на базе
+QEMU.</li>
+<li><strong>Разгортванне на розных платформах:</strong> вырашана
+дзякуючы 12 зменным тыпам падлучэнняў пад адзіным рухавіком
+устаноўкі.</li>
+<li><strong>Бяспека па змоўчванні:</strong> вырашана з выкарыстаннем
+AES-256-GCM, абавязковых палітык ключоў/пароляў, аўтаматызаваных
+правілаў брандмаўэра і TLS/HSTS.</li>
+<li><strong>Давер да правільнасці:</strong> вырашана дзякуючы набору з
+439 тэстаў (100% паспяховых) і чыстаму SonarQube-кантролю.</li>
+</ul>
+<h2 id="тэхнічны-стэк-навошта-як">Тэхнічны стэк (навошта + як)</h2>
+<ul>
+<li><strong>Kotlin</strong> — рухавік Factory і логіка крокаў устаноўкі
+(179K байтаў; Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — скрыпты разгортвання, менеджары ISO/QEMU і
+аўтаматызацыя АС (дамінуе па аб’ёме).</li>
+<li><strong>Docker</strong> — асяроддзе выканання для разгорнутага,
+слаба звязанага поштавага стэка.</li>
+<li><strong>QEMU</strong> — аўтаматызацыя віртуальных машын для
+кросплатформавай устаноўкі і тэсціравання.</li>
+<li><strong>JSON</strong> — дэкларатыўны фармат канфігурацыі для
+карыстальніка.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — інструментарная ланцужок
+зборкі.</li>
+<li><strong>Caffeine</strong> — шматрэгіянальнае кэшаванне; <strong>JVM
+з наладжаным G1GC</strong> для павышэння прадукцыйнасці.</li>
+<li><strong>Метрыкі, сумяшчальныя з Prometheus</strong> — маніторынг;
+гатовасць да Grafana/ELK.</li>
+<li><strong>Sieve</strong> — правілы фільтрацыі пошты (мае невялікую
+вагу ў статыстыцы мовы).</li>
+</ul>
+<blockquote>
+<p>Заўвага: GitHub пазначае рэпазіторый як форк у арганізацыі
+Server-Factory. Папярэднічае лінейцы прадуктаў AI; падаецца як сталая
+DevOps/разгортвальная платформа, а не як утыліта AI.</p>
+</blockquote>
+</body>
+</html>

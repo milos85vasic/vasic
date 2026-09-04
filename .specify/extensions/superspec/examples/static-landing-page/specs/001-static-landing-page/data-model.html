@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>data-model</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">data-model</h1>
+</header>
+<h1 id="data-model-static-landing-page">Data Model: Static Landing
+Page</h1>
+<p><strong>Feature</strong>: 001-static-landing-page |
+<strong>Date</strong>: 2026-05-30</p>
+<h2 id="overview">Overview</h2>
+<p>This is a static content page with no persistent data, no database,
+and no dynamic state. The “data model” describes the structured content
+entities that appear on the page, their fields, and their
+relationships.</p>
+<h2 id="entities">Entities</h2>
+<h3 id="hero-section">Hero Section</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 18%" />
+<col style="width: 37%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Validation</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td>text</td>
+<td>Required, non-empty</td>
+<td>“SuperSpec”</td>
+</tr>
+<tr>
+<td>tagline</td>
+<td>text</td>
+<td>Required, non-empty</td>
+<td>“Specification-driven development for modern teams”</td>
+</tr>
+<tr>
+<td>cta_label</td>
+<td>text</td>
+<td>Required, non-empty</td>
+<td>“Get Started”</td>
+</tr>
+<tr>
+<td>cta_href</td>
+<td>URL/anchor</td>
+<td>Required, valid href</td>
+<td><code>#install</code> (placeholder)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="feature-card">Feature Card</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 18%" />
+<col style="width: 37%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Validation</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>command_name</td>
+<td>text</td>
+<td>Required, non-empty</td>
+<td>One of: status, brainstorm, tasks, execute, review</td>
+</tr>
+<tr>
+<td>description</td>
+<td>text</td>
+<td>Required, 1–2 sentences</td>
+<td>Brief description of command purpose</td>
+</tr>
+<tr>
+<td>sequence_order</td>
+<td>integer</td>
+<td>Required, 1–5</td>
+<td>Display order in grid and workflow</td>
+</tr>
+</tbody>
+</table>
+<h3 id="workflow-step">Workflow Step</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 18%" />
+<col style="width: 37%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Validation</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>step_number</td>
+<td>integer</td>
+<td>Required, 1–5</td>
+<td>Sequential position</td>
+</tr>
+<tr>
+<td>command_name</td>
+<td>text</td>
+<td>Required</td>
+<td>Must match a Feature Card command_name</td>
+</tr>
+<tr>
+<td>is_last</td>
+<td>boolean</td>
+<td>Derived</td>
+<td>If step_number = 5, no connecting line after</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-snippet">Install Snippet</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 18%" />
+<col style="width: 37%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Validation</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>command</td>
+<td>text</td>
+<td>Required, valid shell command</td>
+<td><code>npm install -g superspec</code></td>
+</tr>
+<tr>
+<td>label</td>
+<td>text</td>
+<td>Optional</td>
+<td>“Install” or similar heading text</td>
+</tr>
+</tbody>
+</table>
+<h2 id="relationships">Relationships</h2>
+<pre><code>Hero Section (1) ──contains── (1) CTA → links to Install Snippet
+Feature Card (5) ──ordered by── sequence_order
+Workflow Step (5) ──references── Feature Card.command_name</code></pre>
+<h2 id="static-data-instances">Static Data Instances</h2>
+<h3 id="feature-cards-ordered-by-sequence">Feature Cards (ordered by
+sequence)</h3>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 44%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>command_name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>status</td>
+<td>Check the current state of your specification and implementation
+progress</td>
+</tr>
+<tr>
+<td>2</td>
+<td>brainstorm</td>
+<td>Generate creative ideas and explore solution spaces for your
+feature</td>
+</tr>
+<tr>
+<td>3</td>
+<td>tasks</td>
+<td>Decompose your plan into concrete, actionable implementation
+tasks</td>
+</tr>
+<tr>
+<td>4</td>
+<td>execute</td>
+<td>Run the implementation workflow, processing tasks in order</td>
+</tr>
+<tr>
+<td>5</td>
+<td>review</td>
+<td>Verify the implementation against the specification and
+constitution</td>
+</tr>
+</tbody>
+</table>
+<h2 id="state-transitions">State Transitions</h2>
+<p>N/A — No dynamic state. All content is static and rendered at page
+load.</p>
+</body>
+</html>

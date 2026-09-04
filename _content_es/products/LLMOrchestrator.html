@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMOrchestrator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMOrchestrator</h1>
+</header>
+<h1 id="llmorchestrator">LLMOrchestrator</h1>
+<p><strong>Un plano de control para cada agente de codificación CLI sin
+interfaz gráfica.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>LLMOrchestrator es un módulo Go independiente y reutilizable para
+crear, gestionar y comunicarse con agentes CLI sin interfaz gráfica
+(OpenCode, Claude Code, Gemini, Junie, Qwen Code) mediante un protocolo
+híbrido de tuberías y archivos, con interruptores de circuito por
+agente, selección multi-proveedor conectable, una abstracción de
+internacionalización desacoplada y garantías de pruebas anti-engaño.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un módulo Go reutilizable que ofrece una interfaz unificada para
+crear y controlar múltiples agentes CLI impulsados por LLM a través de
+un protocolo híbrido de tuberías y archivos. Agrupación de agentes con
+seguridad para hilos, interruptores de circuito y estrategias de
+enrutamiento seleccionables, deliberadamente agnóstico al consumidor,
+con un traductor de internacionalización conectable.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>LLMOrchestrator es una infraestructura compartida para orquestar
+agentes de codificación CLI sin interfaz gráfica: la estructura básica
+que todo sistema multiagente necesita en silencio y que suele
+reconstruirse de manera deficiente. En lugar de que cada proyecto vuelva
+a implementar el lanzamiento de procesos, el enmarcado de mensajes y el
+análisis de resultados para herramientas como OpenCode, Claude Code,
+Gemini CLI, Junie y Qwen Code, proporciona una única interfaz
+<code>Agent</code>, un <code>AgentPool</code> seguro para hilos y un
+<code>MultiProviderPool</code> que gestiona agentes de varios
+proveedores tras una única fachada. El enrutamiento es conectable
+mediante un <code>AgentSelector</code>: round-robin que omite
+proveedores que no cumplen requisitos, o con orden de preferencia y
+respaldo, de modo que la distribución del trabajo es una política que se
+elige, no un supuesto codificado. Cada agente concreto es un adaptador
+ligero sobre un <code>BaseAdapter</code> compartido que gestiona todo el
+ciclo de vida del proceso: inicio con configuración de tuberías, parada
+con SIGTERM seguido de SIGKILL, reinicio y verificación de actividad —la
+parte engorrosa y propensa a errores, resuelta de una vez por todas.</p>
+<p>La comunicación es deliberadamente híbrida, adaptando el transporte a
+la tarea. Un transporte por tuberías maneja mensajes JSON delimitados
+por saltos de línea con un plazo de lectura por solicitud y un límite de
+longitud de respuesta para mensajes interactivos rápidos, mientras que
+un transporte por archivos utiliza directorios de
+entrada/salida/compartidos por sesión para artefactos grandes o
+duraderos que no deben residir en una tubería. La resiliencia no es un
+añadido, sino una característica estructural: un interruptor de circuito
+por agente se abre tras tres fallos consecutivos con un enfriamiento de
+60 segundos antes de una prueba en estado semiabierto, y un monitor de
+salud en segundo plano verifica el estado de los agentes para que uno
+caído pueda recuperarse sin esperar a que el tráfico entrante lo
+detecte. La adquisición de agentes en el grupo se bloquea mediante una
+variable de condición en lugar de consumir CPU en espera activa, y el
+analizador de respuestas es sin estado y seguro para llamadas
+concurrentes. El módulo está estrictamente desacoplado —no se permite
+que detalles específicos del consumidor se filtren— y cada cadena
+visible para el usuario pasa por un <code>Translator</code> de
+internacionalización conectable, con un <code>NoopTranslator</code> que
+devuelve los identificadores de mensaje tal cual para que una traducción
+faltante se note claramente en lugar de ocultarse.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Todo sistema multiagente necesita lanzar y comunicarse con agentes
+CLI de manera fiable. Resolver una y otra vez el lanzamiento, el
+enmarcado, el análisis y el manejo de fallos en cada proyecto es
+ineficiente y propenso a errores. LLMOrchestrator centraliza estas
+funciones en un módulo reutilizable y desacoplado, cuya responsabilidad
+especializada lo hace reutilizable —y esa reutilización se destruye en
+el momento en que cualquier detalle específico del consumidor se
+filtra.</p>
+<h2 id="por-qué-es-un-cambio-de-juego">Por qué es un cambio de
+juego</h2>
+<p>Convierte “gestionar un ejército de agentes CLI heterogéneos” de un
+esfuerzo de ingeniería personalizado por proyecto en una simple
+importación de biblioteca: agrupación, interrupción de circuitos,
+gestión del ciclo de vida y enrutamiento conectable ya resueltos y
+probados. Y como sus pruebas anti-engaño ejercitan el sistema real de
+extremo a extremo en lugar de conformarse con “compila”, obtienes una
+abstracción en la que puedes confiar para funcionar bajo concurrencia y
+fallos, no una que solo parezca correcta en un diagrama.</p>
+<h2 id="qué-es-innovador">Qué es innovador</h2>
+<ul>
+<li><strong>Protocolo híbrido tubería+archivo</strong>: velocidad
+interactiva (líneas JSON sobre stdin/stdout, plazos de lectura, límites
+de respuesta) <em>y</em> intercambio duradero basado en archivos
+(bandeja de entrada/salida/compartida) para grandes artefactos, de modo
+que nunca tengas que sacrificar latencia por durabilidad o
+viceversa.</li>
+<li><strong>Grupo multiproveedor con selectores conectables</strong>:
+una única fachada sobre múltiples proveedores CLI, con enrutamiento por
+turnos o basado en preferencias elegido como política en lugar de estar
+integrado.</li>
+<li><strong>Interruptor de circuito por agente + monitor de salud en
+segundo plano</strong>: degradación <em>y</em> recuperación automáticas
+(3 fallos → 60 s abierto → sonda semiabierta), de modo que un agente
+inestable se aísla y luego se reintegra sin intervención manual.</li>
+<li><strong>Agrupación sin espera activa</strong>: <code>Acquire</code>
+se bloquea en <code>sync.Cond</code> hasta que un agente compatible y
+saludable se libera o el contexto se cancela, por lo que esperar no
+consume CPU.</li>
+<li><strong>Desacoplamiento estricto + i18n anti-engaño</strong>: el
+<code>NoopTranslator</code> devuelve los IDs de mensaje tal cual, de
+modo que una traducción faltante es imposible de pasar por alto en lugar
+de quedar en blanco silenciosamente.</li>
+<li><strong>Seguridad por defecto</strong>: una lista blanca de rutas de
+binarios evita la interpolación de shell y, por tanto, cualquier
+superficie de inyección de comandos, respaldada por protección contra
+recorrido de rutas, un límite de 1 MiB en las respuestas para evitar
+salidas descontroladas y el enmascaramiento de claves API en los
+registros.</li>
+<li><strong>Arnés de desafío anti-engaño</strong>: pruebas reales de
+disco/JSON/analizador en cinco idiomas, con una puerta de mutación
+emparejada que debe salir con código distinto de cero cuando la función
+está rota —una prueba que demuestra que realmente puede fallar—.</li>
+</ul>
+<h2 id="mayores-desafíos-técnicos-y-cómo-los-resolvimos">Mayores
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>E/S confiable de procesos agente.</strong> Comunicarse con
+un proceso CLI generado es engañosamente difícil; se resolvió con un
+transporte híbrido tubería+archivo, un contrato de mensaje/analizador
+definido para que ambas partes coincidan en el formato de transmisión, y
+un <code>BaseAdapter</code> que centraliza todo el ciclo de vida del
+proceso, incluyendo un tiempo de espera elegante para SIGTERM que escala
+a un SIGKILL como respaldo.</li>
+<li><strong>Concurrencia sin espera activa.</strong> Se resolvió con un
+<code>AgentPool</code> basado en mutex y variable de condición, donde
+<code>Acquire</code> permanece en espera hasta que un agente con las
+capacidades requeridas se libera, junto con un analizador sin estado y
+libre de efectos secundarios que es seguro invocar desde múltiples
+gorutinas simultáneamente.</li>
+<li><strong>Aislamiento de fallos del proveedor.</strong> Se resolvió
+para que un proveedor defectuoso no arrastre a los demás: los
+interruptores de circuito por agente contienen el radio de explosión, y
+una gorutina de monitor de salud impulsa la recuperación incluso cuando
+no llegan solicitudes que la activen.</li>
+<li><strong>Demostrar corrección, no solo compilación.</strong> Se
+resolvió con un ejecutor de desafíos: docenas de invariantes en
+en/sr/ja/es/de que ejercitan el sistema real, más una puerta de mutación
+emparejada (<code>LLMORCH_MUTATE_RUNNER=1</code> debe fallar → salida
+del wrapper 99) que rompe deliberadamente la función para demostrar que
+la puerta en sí no es un engaño.</li>
+<li><strong>Localización sin fallos silenciosos.</strong> Se resolvió
+con la costura del <code>NoopTranslator</code> de IDs literales y la
+inyección de traductores por consumidor, de modo que cualquier laguna en
+las traducciones siempre sea visible en lugar de ocultarse.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go (1.25)</strong> — seleccionado por su excelente
+concurrencia y control limpio de procesos, exactamente lo que exige la
+orquestación de procesos de agentes en vivo; implementa el módulo, sus
+adaptadores de agentes, transportes y analizador.</li>
+<li><strong>Solo stdlib de Go (+ testify, yaml.v3)</strong> — una
+elección deliberada para mantener la superficie de dependencias al
+mínimo y no incorporar <em>ningún</em> SDK de LLM, de modo que el módulo
+siga siendo ligero y embebible en cualquier consumidor sin arrastrar
+equipaje de proveedores.</li>
+<li><strong>Transporte por tuberías (JSON-lines sobre stdio)</strong> —
+elegido para mensajería interactiva rápida, reforzado con plazos de
+lectura y límites de longitud de respuesta para que un agente bloqueado
+o descontrolado no pueda paralizar al llamante.</li>
+<li><strong>Transporte por archivos (inbox/outbox/compartido)</strong> —
+seleccionado para el intercambio duradero de artefactos grandes por
+sesión, donde una tubería sería la herramienta equivocada.</li>
+<li><strong><code>sync.Mutex</code>/<code>sync.Cond</code></strong> —
+elegidos para implementar la adquisición bloqueante y equitativa de un
+grupo de agentes sin espera activa.</li>
+<li><strong>Cortacircuitos + HealthMonitor</strong> — combinados para
+ofrecer resiliencia por agente <em>y</em> recuperación activa, no solo
+detección de fallos.</li>
+<li><strong>Traductor de <code>pkg/i18n</code></strong> — seleccionado
+como capa de localización desacoplada que mantiene las cadenas
+específicas del consumidor fuera del núcleo.</li>
+<li><strong>Arnés de pruebas (<code>challenges/runner</code>) + Makefile
+(<code>test -race</code>, <code>fuzz</code>,
+<code>cover</code>)</strong> — elegidos para una verificación basada en
+evidencia y sin engaños, que incluye detección de condiciones de carrera
+y fuzzing del analizador, de modo que la corrección se demuestre bajo
+condiciones adversas, no se asuma.</li>
+</ul>
+<h2 id="estado-y-notas-de-transparencia">Estado y notas de
+transparencia</h2>
+<ul>
+<li><strong>Estado: beta.</strong> Un módulo reutilizable y desacoplado,
+consumido como submódulo por múltiples proyectos Helix/vasic.
+<strong>Licencia: Apache-2.0</strong>; el repositorio GitHub es
+público.</li>
+<li>Los metadatos del modelo provienen de LLMsVerifier, puenteados a
+través de HelixQA; este módulo no importa directamente
+LLMsVerifier/VisionEngine/DocProcessor. Las pilas tecnológicas
+referenciadas en el <code>CLAUDE.md</code> de la aplicación principal
+(Gin/PostgreSQL/etc.) describen <code>helix_code</code>, no este
+módulo.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix-principal (clúster de
+infraestructura LLM — módulo reutilizable desacoplado). Se sitúa después
+de HelixTrack.</p>
+</body>
+</html>

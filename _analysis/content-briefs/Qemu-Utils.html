@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<h1 id="qemu-utils">Qemu-Utils</h1>
+<p><strong>Tagline:</strong> QEMU VM images, managed like artifacts —
+download, run, network, publish.</p>
+<p><strong>Summary:</strong> Qemu-Utils is a Server Factory toolkit for
+comprehensive QEMU virtualization management: automated VM image
+distribution and compression, local caching, bridge/TAP network
+configuration, ISO-based OS installation, and cross-platform
+(Linux/macOS) execution with hardware acceleration. Usable standalone or
+within Server Factory.</p>
+<p><strong>Short description (~40 words):</strong> A Shell toolkit for
+QEMU VM lifecycle management. It downloads, caches, and runs
+pre-configured QEMU disk images, compresses and publishes them to remote
+endpoints, automates bridge/TAP networking, supports ISO installs, and
+works on both Linux and macOS with appropriate hardware
+acceleration.</p>
+<p><strong>Long description (150–250 words):</strong> Qemu-Utils brings
+artifact-style management to QEMU virtual machines. Like its Parallels
+sibling, it treats VM images as distributable assets — matrices of
+systems used for development and testing — but targets the
+cross-platform QEMU backend. Its VM image lifecycle covers the full
+loop: download and cache pre-configured QEMU disk images, retrieve them
+automatically from remote endpoints, keep local Compressed/Uncompressed
+caches, and compress and publish images back to remote servers. Beyond
+image handling, it automates the networking that makes VMs actually
+usable: bridge and TAP interface management for VM networking,
+configured automatically. It supports fresh OS installations from ISO
+images, and it is genuinely cross-platform — running on both Linux and
+macOS with appropriate hardware acceleration for each. Configuration and
+operation follow the same simple, script-driven Server Factory pattern,
+and the toolkit can be used as part of a larger Server Factory project
+or completely independently, per the org’s decoupling philosophy. Its
+documentation is more complete than most of the smaller Server Factory
+repos (with sections for overview, features, requirements, quick start,
+configuration, usage, networking, troubleshooting, and architecture),
+reflecting its role as the primary VM-management path for Linux/QEMU
+environments. Together with Parallels-Utils it gives the Server Factory
+ecosystem VM image management across both macOS/Parallels and
+Linux-plus-macOS/QEMU virtualization.</p>
+<p><strong>Why we built it:</strong> Provisioning and testing across
+many OSes needs reproducible VMs, and raw QEMU is low-level and fiddly —
+especially networking and image distribution. Qemu-Utils wraps QEMU into
+a manageable toolkit so images and their networks are reproducible
+across machines.</p>
+<p><strong>Why it’s a game-changer:</strong> It packages QEMU image
+distribution, caching, networking, and ISO installation into one
+cross-platform toolkit — turning ad-hoc <code>qemu-system-*</code>
+invocations into a repeatable, publishable VM workflow.</p>
+<p><strong>What’s innovative:</strong> - Full QEMU image lifecycle:
+download/cache/run + compress/publish, with Compressed/Uncompressed
+caches. - Automated bridge/TAP network configuration for VM
+connectivity. - ISO-based fresh-install support. - Cross-platform (Linux
++ macOS) with hardware acceleration.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> - <em>VM
+networking complexity:</em> solved with automated bridge and TAP
+interface management. - <em>Large image distribution:</em> solved with
+compression, remote publish/retrieve, and local caching. -
+<em>Cross-platform virtualization:</em> solved by supporting Linux and
+macOS with appropriate acceleration. - <em>Fresh provisioning:</em>
+solved with ISO-installation support.</p>
+<p><strong>Tech stack (why + how):</strong> - <strong>Shell</strong> —
+the entire toolkit (~79.5K bytes); scripts for image, network, and VM
+management. - <strong>QEMU</strong> — the virtualization engine being
+managed. - <strong>Bridge / TAP networking</strong> — Linux/macOS VM
+network plumbing. - <strong>ISO images</strong> — OS installation
+source.</p>
+<p><strong>Public links:</strong> - GitHub:
+https://github.com/Server-Factory/Qemu-Utils (public; fork within the
+org). - Part of the Server Factory ecosystem (references
+Core-Framework).</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1. VM
+lifecycle: ISO/image → cache (compressed/uncompressed) → run → publish.
+2. Networking diagram: host bridge + TAP interfaces → VMs. 3.
+Cross-platform split: Linux vs macOS acceleration paths. 4. Image
+distribution: remote endpoint ↔︎ local cache ↔︎ running VM.</p>
+<p><strong>Site relevance:</strong> vasic.digital (DevOps/virtualization
+tooling heritage). Cross-platform companion to Parallels-Utils. Not
+AI-related.</p>
+<p><strong>Priority tier:</strong> serverfactory-tertiary</p>
+<p><strong>Source provenance:</strong>
+<code>gh repo view Server-Factory/Qemu-Utils</code> README (overview,
+features, image lifecycle, networking, ISO install, cross-platform);
+<code>gh api repos/Server-Factory/Qemu-Utils/languages</code> (Shell);
+<code>_analysis/github-helix-others.md</code> (org listing).</p>
+</body>
+</html>

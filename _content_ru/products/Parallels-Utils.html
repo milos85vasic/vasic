@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Parallels-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Parallels-Utils</h1>
+</header>
+<p><strong>Сжимайте, публикуйте и используйте образы виртуальных машин
+Parallels на любом устройстве.</strong></p>
+<h2 id="краткое-описание">Краткое описание</h2>
+<p>Parallels-Utils — это инструментарий Server Factory для управления
+образами виртуальных машин Parallels (macOS): сжатие и синхронизация
+«матриц» образов, используемых для разработки и тестирования, публикация
+их на удалённом сервере, а также загрузка и запуск на нескольких рабочих
+станциях или серверах. Может использоваться как самостоятельно, так и в
+составе Server Factory.</p>
+<h2 id="краткая-аннотация">Краткая аннотация</h2>
+<p>Инструментарий Shell/Python для управления жизненным циклом образов
+виртуальных машин Parallels на macOS. Сжимает и синхронизирует образы
+Parallels, публикует их на удалённом сервере, а также загружает и
+запускает на разных компьютерах — управляется простыми конфигурационными
+файлами, может использоваться как отдельно, так и в составе Server
+Factory.</p>
+<h2 id="подробное-описание">Подробное описание</h2>
+<p>Parallels-Utils решает практическую задачу DevOps для разработки на
+macOS: команды создают «матрицы» виртуальных машин Parallels (разные
+версии ОС и конфигурации для разработки и тестирования), и эти образы
+необходимо сжимать, публиковать, загружать и запускать единообразно на
+множестве устройств. Инструментарий обеспечивает полный жизненный цикл
+таких образов. Механизм синхронизации сжимает образы Parallels и
+поддерживает их актуальность; механизм публикации загружает образы на
+удалённый сервер; а механизм загрузки позволяет любой рабочей станции
+или серверу получить опубликованные образы и запустить их как
+виртуальные машины. Конфигурация намеренно проста и основана на файлах:
+<code>image_location.settings</code> определяет расположение образов в
+файловой системе, <code>image_provider.settings</code> задаёт базовый
+URL для опубликованных образов, а <code>image_sync.sh</code> содержит
+скрипт загрузки — примеры включены в каталог <code>Examples</code>. Для
+публикации операторы используют <code>publish_images.sh</code>, а для
+запуска ВМ — <code>run.sh</code>. Требуется Parallels для
+соответствующей версии macOS и Python 3. Инструментарий спроектирован
+для двойного применения: он может работать как часть более крупного
+проекта Server Factory или полностью самостоятельно, что отражает
+философию децентрализации организации. В комплект даже входит ссылка на
+короткое видео с инструкцией. Как часть семейства Server-Factory, он
+дополняет Qemu-Utils (аналог для Linux/QEMU), обеспечивая управление
+образами виртуальных машин как на macOS/Parallels, так и на
+кроссплатформенных/QEMU бэкендах.</p>
+<h2 id="зачем-мы-его-создали">Зачем мы его создали</h2>
+<p>Распространение единообразных сред разработки и тестирования на базе
+виртуальных машин в команде — трудоёмкий процесс: образы объёмные, и на
+каждом устройстве нужна одна и та же «матрица». Parallels-Utils
+автоматизирует сжатие, публикацию и загрузку, благодаря чему эталонный
+набор виртуальных машин Parallels становится воспроизводимым на любом
+устройстве.</p>
+<h2 id="почему-это-меняет-правила-игры">Почему это меняет правила
+игры</h2>
+<p>Он превращает громоздкие и неудобные образы Parallels в набор
+публикуемых и синхронизируемых артефактов, которые может загрузить и
+запустить любое устройство. Теперь эталонная среда разработки и
+тестирования перестаёт быть тем, что каждый инженер собирает вручную, и
+становится тем, что можно просто получить. Всё это реализовано с помощью
+минимальной конфигурации через файлы настроек и без зависимости от
+остальных компонентов Server Factory, что полностью соответствует
+философии децентрализации организации: полезен сам по себе, но при этом
+хорошо интегрируется в общую экосистему инструментов.</p>
+<h2 id="что-нового">Что нового</h2>
+<ul>
+<li>Сжатие и синхронизация «матриц» образов Parallels для разработки и
+тестирования.</li>
+<li>Рабочий процесс публикации/извлечения, позволяющий использовать
+образы на разных компьютерах.</li>
+<li>Конфигурация на основе файлов настроек
+(расположение/провайдер/синхронизация) с примерами в комплекте.</li>
+<li>Двойное назначение: как самостоятельное решение или компонент Server
+Factory.</li>
+</ul>
+<h2 id="проблемы-и-решения">Проблемы и решения</h2>
+<ul>
+<li><strong>Распространение крупных образов:</strong> решено за счёт
+сжатия и рабочего процесса публикации на удалённую конечную точку с
+последующим извлечением.</li>
+<li><strong>Воспроизводимость на разных машинах:</strong> решено с
+помощью настроек провайдера и расположения, чтобы каждый хост получал
+один и тот же набор образов.</li>
+<li><strong>Удобство использования:</strong> решено за счёт простых
+скриптов <code>publish_images.sh</code> / <code>run.sh</code> и примеров
+файлов настроек.</li>
+</ul>
+<h2 id="технический-стек-зачем-и-как">Технический стек (зачем и
+как)</h2>
+<ul>
+<li><strong>Shell</strong> — скрипты публикации, запуска и синхронизации
+(основной язык, ~5,3 КБ).</li>
+<li><strong>Python 3</strong> — вспомогательные инструменты
+(обязательная зависимость, ~3 КБ).</li>
+<li><strong>Parallels (macOS)</strong> — управляемая виртуализационная
+платформа.</li>
+<li><strong>Файлы настроек (<code>.settings</code>)</strong> —
+декларативная конфигурация для указания расположения, провайдера и
+параметров синхронизации.</li>
+</ul>
+<blockquote>
+<p>Примечание: GitHub обозначает репозиторий как форк в рамках
+организации Server-Factory. Узкоспециализированное решение для macOS. Не
+связано с AI.</p>
+</blockquote>
+</body>
+</html>

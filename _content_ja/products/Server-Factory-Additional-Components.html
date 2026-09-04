@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>Server Factory
+プロビジョニングツールチェーンのサポートコンポーネント</strong></p>
+<h2 id="概要">概要</h2>
+<p>Mail Server Factory とコアフレームワークを超えて、Server-Factory
+組織にはいくつかの小規模なコンポーネントが存在します。サービスごとの「ファクトリー」（Web
+サービス、SonarQube、キャッシングプロキシ）、宣言的な設定パック（Docker/スタック/ソフトウェア定義）、そして共有ユーティリティです。この統合ページでは、それらを完全に仕様化された製品としてではなく、現状のまま――初期段階のものやドキュメントが不十分なものも含めて――正直に紹介します。</p>
+<h2 id="簡単な説明">簡単な説明</h2>
+<p>Server Factory
+を支えるリポジトリ群：Web-Service-Factory、SonarQube-Factory、Caching-Proxy-Factory（サービスごとのプロビジョニングツール、ほとんどが初期段階）、Docker/Stack/Software-Definitions（フレームワークが利用する宣言的設定パック）、そして
+Utils（SSH
+アクセスヘルパーや汎用ツール）。いずれもコアフレームワークを基盤としています。</p>
+<h2 id="詳細説明">詳細説明</h2>
+<p>このページでは、Server-Factory
+の残りのリポジトリを統合しています。個別に見れば、ほとんどが小規模であったり、意図的にドキュメントが不十分であったりするため、それぞれを完成品として紹介することは、その成熟度を過大に伝えることになるからです。これらは大きく三つのグループに分類されます。<strong>サービスファクトリー</strong>は、Mail
+Server Factory
+のパターンを他のサーバー役割に適用したものです。<strong>Caching-Proxy-Factory</strong>（「独自のキャッシングプロキシサーバーを構築」）では、キャッシングプロキシ、自己署名証明書、セキュリティ証明書取得用
+HTTP
+エンドポイントを主な機能として挙げています。<strong>SonarQube-Factory</strong>（「独自の
+SonarQube
+サーバーを構築」）はソフトウェア開発用途を想定しており、<strong>Web-Service-Factory</strong>
+はウェブサイトやマイクロサービスなどのデプロイ対象をインスタンス化・設定します。これら三つはすべて
+Kotlin
+プロジェクトとしてコアフレームワーク上に構築されていますが、公開されている
+README
+はほとんどがプレースホルダー（「互換性」「仕様」「セットアップ」「使用方法」などは「Tbd.」と記載）であり、明示された目的を超える具体的な機能は<strong>未検証</strong>です。<strong>定義パック</strong>――<strong>Docker-Definitions</strong>、<strong>Stack-Definitions</strong>、<strong>Software-Definitions</strong>――は、フレームワークが
+Docker
+イメージ、スタック、ソフトウェアの構築・デプロイ方法を認識するための宣言的設定リポジトリです。これらはアプリケーションではなく、バージョン固定されたデータパックです。<strong>Utils</strong>
+はこのツールチェーンファミリー向けの汎用ヘルパーを提供し、<code>init_ssh_access.sh</code>
+スクリプト（SSH
+鍵を生成し、リモートホストにインストールして、後続のプロビジョニングのためのパスワードレス
+root
+アクセスを可能にする）などが含まれます。これらのコンポーネントが揃うことで、Mail
+Server Factory
+を中心としたプロビジョニングツールチェーンが完成します。</p>
+<h2 id="なぜこれを構築したのか">なぜこれを構築したのか</h2>
+<p>Server Factory
+モデルは汎用化を目指して設計されています。一度、宣言的な記述からメールサーバーをプロビジョニングできるようになれば、同じエンジンでウェブサーバー、キャッシングプロキシ、コード品質サーバーもプロビジョニングできるはずです。そのためには、役割ごとに個別のロジックを組むのではなく、再利用可能な定義パックと共有ユーティリティを活用します。これらのリポジトリは、その汎用化の過程を示すものであり、実績あるパターンを新たなサーバータイプに拡張しています。ここでの価値は、モデルの適用範囲を示す証拠としての意味合いが強く、成熟度は様々です。このページでは、どれが方向性を示すもので、どれが完成品なのかを、意図的に明確にしています。</p>
+<p>コンテンツ</p>
+<h2
+id="なぜこれはゲームチェンジャーなのか慎重な評価">なぜこれはゲームチェンジャーなのか（慎重な評価）</h2>
+<p>このセットは、サーバータイプを問わず「コアフレームワーク」の再利用性を示すとともに、宣言的なデータ（定義）と実行（ファクトリー）を明確に分離しています。個々のサービスファクトリーは初期段階にあり、完成品ではなく方向性を示すものとして提示すべきです。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li>メール／ウェブ／キャッシュプロキシ／SonarQubeといった役割を横断する、単一のプロビジョニングフレームワーク。</li>
+<li>実行エンジンから切り離された宣言的な定義パック（Docker／スタック／ソフトウェア）。</li>
+<li>ファクトリー間で再利用される共通ユーティリティ（例：ワンラインコマンドによるパスワードレスSSHブートストラップ）。</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>サーバーの役割を横断して単一エンジンを再利用する課題</strong>：各ファクトリーをコアフレームワーク上に構築することで解決。</li>
+<li><strong>設定とコードの分離</strong>：定義リポジトリをバージョン固定のデータパックとして扱うことで解決。</li>
+<li><strong>（未検証）</strong>：サービスファクトリーのREADMEはプレースホルダーであり、実装の完成度は公開ドキュメントからは検証できないため、初期段階のものとして提示。</li>
+</ul>
+<h2 id="技術スタック理由と方法">技術スタック（理由と方法）</h2>
+<ul>
+<li><strong>Kotlin</strong> —
+Web-Service-Factory、SonarQube-Factory、Caching-Proxy-Factory（コアフレームワーク上に構築）。</li>
+<li><strong>Shell</strong> —
+ユーティリティおよび定義パック（スクリプト／設定）。</li>
+<li><strong>Gradle</strong> —
+<code>./gradlew test</code>によるファクトリー横断のビルド／テストフロー。</li>
+<li><strong>Docker</strong> —
+Docker-Definitionsで記述されたターゲットランタイム。</li>
+<li><strong>SSH / OpenSSH</strong> —
+ユーティリティのパスワードレスアクセスブートストラップ。</li>
+<li><strong>SonarQube</strong> —
+サーバーSonarQube-Factoryがプロビジョニングする対象（Mail Server
+Factoryがクリーンゲートとしてレポート）。</li>
+</ul>
+<blockquote>
+<p>正直な補足：これらのリポジトリの大半は組織内のフォークであり、サービスファクトリーはプレースホルダーとしてドキュメント化され、憲章§11.4.6に基づき「未検証」とマークされています。Mail
+Server
+Factoryやコアフレームワークよりも明確に下位に位置付けられています。</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU VM görüntüleri, yapıtlar gibi yönetilir — indir,
+çalıştır, ağ kur, yayınla.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Qemu-Utils, kapsamlı QEMU sanallaştırma yönetimi için bir Server
+Factory araç setidir: otomatik VM görüntü dağıtımı ve sıkıştırma, yerel
+önbellekleme, köprü/TAP ağ yapılandırması, ISO tabanlı işletim sistemi
+kurulumu ve donanım hızlandırmalı çapraz platform (Linux/macOS)
+çalıştırma. Tek başına veya Server Factory içinde kullanılabilir.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>QEMU VM yaşam döngüsü yönetimi için bir Shell araç seti. Önceden
+yapılandırılmış QEMU disk görüntülerini indirir, önbelleğe alır ve
+çalıştırır, bunları sıkıştırıp uzak uç noktalara yayınlar, köprü/TAP
+ağını otomatikleştirir, ISO kurulumlarını destekler ve uygun donanım
+hızlandırmasıyla hem Linux hem de macOS üzerinde çalışır.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Qemu-Utils, genellikle gelişigüzel <code>qemu-system-*</code>
+çağrıları yığını olarak bırakılan sanal makinelere, ekiplerin zaten
+derleme çıktıları ve konteyner görüntüleri için uyguladığı yapıt
+yönetimi disiplinini getirir. Parallels kardeşi gibi, VM görüntülerini
+geliştirme ve test süreçlerinde kullanılan dağıtılabilir birinci sınıf
+varlıklar olarak ele alır, ancak gerçek anlamda çapraz platform olan
+QEMU arka ucunu hedefler. Yaşam döngüsü tam bir döngü oluşturur: önceden
+yapılandırılmış QEMU disk görüntülerini indirir ve önbelleğe alır,
+bunları uzak uç noktalardan otomatik olarak çeker, büyük bir görüntünün
+yalnızca bir kez indirilip sonrasında düşük maliyetle çalıştırılmasını
+sağlayan ayrı Sıkıştırılmış ve Sıkıştırılmamış yerel önbellekler tutar,
+görüntüleri sıkıştırıp ekip için uzak sunuculara geri yayınlar. Ayrıca,
+kimsenin erişemediği bir VM işe yaramaz olduğundan, herkesin korktuğu
+kısmı — ağ yapılandırmasını — otomatikleştirir; operatörün elle uğraşmak
+zorunda kalmadan VM bağlantısı için köprü ve TAP arayüzlerini yönetir.
+ISO görüntülerinden sıfırdan işletim sistemi kurulumlarını destekler ve
+gerçek anlamda çapraz platformdur — hem Linux hem de macOS üzerinde, her
+biri için uygun donanım hızlandırmasıyla çalışır. Yapılandırma ve
+kullanım, aynı basit, betik tabanlı Server Factory modelini izler; araç
+seti, daha büyük bir Server Factory projesinin parçası olarak ya da
+kuruluşun bağımsızlık felsefesine uygun olarak tamamen bağımsız
+kullanılabilir. Belgeleri, çoğu küçük Server Factory deposundan daha
+kapsamlıdır (genel bakış, özellikler, gereksinimler, hızlı başlangıç,
+yapılandırma, kullanım, ağ, sorun giderme ve mimari bölümlerini içerir)
+ve Linux/QEMU ortamları için birincil VM yönetim yolu rolünü yansıtır.
+Parallels-Utils ile birlikte, Server Factory ekosistemine hem
+macOS/Parallels hem de Linux ve macOS/QEMU sanallaştırması için VM
+görüntü yönetimi sunar.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik</h2>
+<p>Birçok işletim sistemi üzerinde sağlama ve test yapmak için
+tekrarlanabilir VM’lere ihtiyaç var; ham QEMU ise düşük seviyeli ve
+uğraştırıcı — özellikle ağ ve görüntü dağıtımı konularında. Qemu-Utils,
+QEMU’u yönetilebilir bir araç setine dönüştürerek görüntülerin ve
+ağlarının makineler arasında tekrarlanabilir olmasını sağlar.</p>
+<h2 id="neden-devrim-niteliğinde">Neden devrim niteliğinde</h2>
+<p>Ham QEMU’u zorlaştıran dört unsuru — görüntü dağıtımı, önbellekleme,
+ağ ve ISO kurulumu — tek bir çapraz platform araç setinde birleştirerek,
+karmaşık komut satırı parametrelerini, tüm ekibin Linux ve macOS
+üzerinde aynı şekilde paylaşabileceği ve tekrarlayabileceği,
+yayınlanabilir bir VM iş akışına dönüştürür.</p>
+<p>İçerik</p>
+<h2 id="yenilikçi-yönler">Yenilikçi Yönler</h2>
+<ul>
+<li><strong>Tam QEMU görüntü yaşam döngüsü:</strong> indirme/önbelleğe
+alma/çalıştırma + sıkıştırma/yayınlama, Sıkıştırılmış/Sıkıştırılmamış ön
+belleklerle.</li>
+<li><strong>Sanal makine bağlantısı için otomatik köprü/TAP ağ
+yapılandırması.</strong></li>
+<li><strong>ISO tabanlı sıfırdan kurulum desteği.</strong></li>
+<li><strong>Donanım hızlandırmalı, çapraz platform (Linux + macOS)
+desteği.</strong></li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve Çözümler</h2>
+<ul>
+<li><strong>Sanal makine ağ karmaşıklığı:</strong> Otomatik köprü ve TAP
+arayüzü yönetimiyle çözüldü.</li>
+<li><strong>Büyük görüntü dağıtımı:</strong> Sıkıştırma, uzaktan
+yayınlama/alma ve yerel ön bellekleme ile çözüldü.</li>
+<li><strong>Çapraz platform sanallaştırma:</strong> Linux ve macOS için
+uygun hızlandırma desteğiyle çözüldü.</li>
+<li><strong>Sıfırdan sağlama:</strong> ISO tabanlı kurulum desteğiyle
+çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji Yığını (Neden ve
+Nasıl)</h2>
+<ul>
+<li><strong>Shell</strong> — Tüm araç seti (~79,5K bayt); görüntü, ağ ve
+sanal makine yönetimi için betikler.</li>
+<li><strong>QEMU</strong> — Yönetilen sanallaştırma motoru.</li>
+<li><strong>Köprü / TAP ağ yapısı</strong> — Linux/macOS sanal makine ağ
+altyapısı.</li>
+<li><strong>ISO görüntüleri</strong> — İşletim sistemi kurulum
+kaynağı.</li>
+</ul>
+<blockquote>
+<p>Not: GitHub, Server-Factory organizasyonu içinde bir çatallanma
+olarak işaretlenmiştir. Parallels-Utils’un çapraz platform
+tamamlayıcısıdır. AI ile ilişkili değildir.</p>
+</blockquote>
+</body>
+</html>

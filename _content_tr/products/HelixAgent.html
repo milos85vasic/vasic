@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixAgent</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixAgent</h1>
+</header>
+<h1 id="helixagent">HelixAgent</h1>
+<p><strong>Tek bir model seçmeyin — onların tartışmasını sağlayın ve
+üzerinde uzlaştıkları yanıtı sunun.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixAgent, Go tabanlı, AI destekli bir topluluk (ensemble) LLM
+hizmetidir. Birden fazla dil modelinden gelen yanıtları — çok turlu AI
+tartışma sistemi ve dinamik doğrulama tabanlı sağlayıcı seçimi dahil —
+akıllıca birleştirerek en doğru ve güvenilir çıktıyı üretir.</p>
+<h2 id="kısa-açıklama">Kısa Açıklama</h2>
+<p>HelixAgent, Go tabanlı bir topluluk LLM hizmetidir ve birçok
+sağlayıcıyı tek bir doğru yanıtta birleştirir. Çok turlu AI tartışmaları
+yürütür, sağlayıcıları LLMsVerifier aracılığıyla dinamik olarak puanlar,
+güven ağırlıklı yönlendirme stratejileri kullanır ve üretim özellikleri
+sunar: önbellekleme, izleme, güvenlik korumaları ve OpenAI tarzı
+API’ler.</p>
+<h2 id="uzun-açıklama">Uzun Açıklama</h2>
+<p>HelixAgent, üretime hazır, AI destekli bir topluluk LLM hizmetidir
+(MIT lisanslı). Tek bir modelin yanıtını kesin bir hüküm olarak değil,
+bir hipotez olarak ele alır. Sonucu tek bir sağlayıcıya bağlamak yerine
+— ki bu sağlayıcı yanlış, önyargılı veya geçici olarak erişilemez
+olabilir — birden fazla dil modelinden gelen yanıtları birleştirerek en
+doğru ve güvenilir çıktıya ulaşır. Soru yeterince zorlayıcı olduğunda
+ise modelleri yapılandırılmış, çok turlu bir tartışma sürecinden
+geçirir. Kapsamı geniştir: README dosyasında
+<code>internal/llm/providers/</code> altında birçok LLM sağlayıcısı
+belgelenmiştir; bunlar arasında Claude, DeepSeek, Gemini, Mistral, Qwen
+ve xAI/Grok yer alır.</p>
+<p>Önemli olan, sağlayıcı seçiminin statik bir tercih listesi
+olmamasıdır — bu seçim gerçek zamanlı olarak kazanılır. Entegre
+LLMsVerifier’dan gelen canlı doğrulama puanları, yönlendirmeyi ve en iyi
+performans gösteren sağlayıcıya sorunsuz geçişi sağlar; bir sağlayıcıda
+performans düşüşü olduğunda ise kategorilendirilmiş hata raporlaması
+devreye girer. AI Tartışma Orkestratörü, anlaşmazlıkları sinyale
+dönüştürür: Birden fazla topoloji (ağ, yıldız, zincir) ve disiplinli bir
+aşama protokolü destekler — Öneri → Eleştiri → Değerlendirme → Sentez —
+ve sistem, modeller arasındaki uzlaşmayı zamanla iyileştiren çapraz
+tartışma öğrenimiyle donatılmıştır. Yönlendirme stratejileri, güven
+ağırlıklı seçim, çoğunluk oyu uzlaşısı ve anlamsal niyet tespitini
+kapsar; tüm bunlar gerçek zamanlı akışlı yanıtlarla desteklenir, böylece
+yanıtlar tüm topluluğun karar vermesini beklemek yerine jeton jeton
+gelir.</p>
+<p>Hizmet, yalnızca demo amaçlı değil, üretim ortamında hayatta kalacak
+şekilde tasarlanmıştır: PostgreSQL ve Redis yüksek erişilebilirlikli bir
+veri katmanı oluştururken, Prometheus/Grafana/OpenTelemetry metrikler,
+kontrol panelleri ve izleme sağlar. JWT kimlik doğrulama, hız sınırlama,
+koruma mekanizmaları ve PII tespiti, topluluğu gerçek bir dağıtımın
+gerektirdiği kontrollerle sarar. Yaklaşık yirmi ayrıştırılmış modülden
+(EventBus, Observability, Auth, Storage, VectorDB, Embeddings, RAG,
+Memory, MCP ve diğerleri) oluşur; her biri bağımsız bir işlevi yerine
+getirir. Ayrıca, LLM optimizasyon çerçevesi (anlamsal önbellekleme,
+yapılandırılmış çıktı, geliştirilmiş akış) ve SGLang, LlamaIndex,
+LangChain, Guidance ve LMQL için entegrasyonlar sunar. Tamamlama ve
+topluluk uç noktaları OpenAI uyumlu olduğundan, mevcut bir istemci
+HelixAgent’a yönlendirilerek topluluk tabanlı akıl yürütme elde
+edilebilir — yeniden yazım gerektirmeden.</p>
+<p>İçerik</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Tek bir LLM hatalı, önyargılı veya erişilemez olabilir. HelixAgent,
+uygulamaların aynı anda birçok modelden yararlanabilmesi, yanıtlarını
+ölçülen güvenilirliklerine göre tartabilmesi ve sorunsuz bir şekilde
+yedeklenebilmesi için geliştirildi — tek bir sağlayıcıya bağımlı
+kırılgan bir yapıyı, kendi kendini puanlayan dayanıklı bir topluluğa
+dönüştürmek için.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Çoklu model uzlaşısını işlevselleştiriyor — “birkaç modele sorup
+uzlaştır” yaklaşımını geçici betiklerden çıkarıp üretim hizmetine
+taşıyor. Tek bir sağlayıcıya sabit kodlanıp umut etmek yerine, ekipler
+canlı doğrulama puanlarıyla yönlendirilen yönlendirme, tek seferlik
+yanıtın yeterli olmadığı sorular için yapılandırılmış bir tartışma
+protokolü ve üretim düzeyinde dayanıklılık (yüksek erişilebilirlikli
+veri katmanı, tam gözlemlenebilirlik ve koruma mekanizmaları) elde
+ediyor; tüm bunlar OpenAI uyumlu bir API arkasında sunuluyor. Asıl
+kazanç, kesintisiz benimseme: Tek bir kırılgan sağlayıcı bağımlılığı,
+dayanıklı ve kendi kendini puanlayan bir topluluğa dönüşüyor; mevcut
+istemciler kodu değiştirmek yerine sadece bir uç noktayı güncelleyerek
+geçiş yapabiliyor.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne</h2>
+<ul>
+<li>Model anlaşmazlığını bir kaynak olarak gören yapılandırılmış çok
+turlu AI tartışması: Seçilebilir ağ/yıldız/zincir topolojileri,
+disiplinli bir Öneri→Eleştiri→İnceleme→Sentez protokolü ve zaman içinde
+biriken tartışmalar arası öğrenme.</li>
+<li>Statik bir tercih listesinden ziyade canlı LLMsVerifier puanlarından
+elde edilen dinamik sağlayıcı seçimi — topluluk, şu anda gerçekten
+performans gösteren modele yönlendirme yapıyor ve biri düşüşe geçtiğinde
+sorunsuz bir şekilde yedekleniyor.</li>
+<li>Kendi başına ayakta durabilen, isteğe bağlı olarak dış optimizasyon
+araçları (SGLang, LlamaIndex, LangChain, Guidance, LMQL) eklenebilen
+yerel bir Go LLM optimizasyon çerçevesi (anlamsal önbellek,
+yapılandırılmış çıktı, geliştirilmiş akış).</li>
+<li>Yaklaşık yirmi ayrıştırılmış modülden oluşan modüler bir mimari; bu
+sayede endişeler ayrıştırılabiliyor ve dağıtık bellek, bilgi grafiği
+akışı gibi Büyük Veri özelliklerine kapı aralanıyor.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En büyük teknik
+zorluklar ve çözümlerimiz</h2>
+<ul>
+<li><strong>Birçok eşit olmayan sağlayıcı arasından seçim
+yapmak.</strong> Sağlayıcılar kalite açısından farklılık gösterir ve
+zaman içinde değişir; bu nedenle sabit bir sıralama yarından itibaren
+geçersiz olur. Çözümümüz, seçimi sürekli ölçülebilir hale getirmek oldu:
+LLMsVerifier puanları, güven ağırlıklı ve çoğunluk oylamalı
+yönlendirmeyi besliyor; böylece performansı düşen bir sağlayıcıya
+güvenmek yerine etrafından dolaşılıyor.</li>
+<li><strong>Gerçekten zor sorulara güvenilir yanıt almak.</strong> Tek
+bir model, tek seferde sorulduğunda kendi hatasını yakalayacak bir
+mekanizmaya sahip değil. Tartışma Orkestratörü bunu sağlıyor — çoklu
+topoloji, aşamalı tartışma (Öneri → Eleştiri → İnceleme → Sentez)
+modellerin birbirini sorgulayıp geliştirmelerini zorunlu kılıyor, nihai
+yanıt sentezlenmeden önce.</li>
+<li><strong>Bir topluluğu sadece bir not defterinde değil, üretim
+ortamında çalıştırmak.</strong> Birçok sağlayıcıya dağıtım, arıza
+yüzeyini katlıyor. Bunu PostgreSQL+Redis yüksek erişilebilirlikli veri
+katmanı, sağlayıcı veya yönlendirme hatalarında devreye giren
+Prometheus/Grafana/OpenTelemetry gözlemlenebilirliği ve JWT kimlik
+doğrulama, hız sınırlaması, koruma motoru ile PII tespiti içeren bir
+güvenlik çevresiyle kontrol altına aldık.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go</strong> — Tek bir isteği eşzamanlı olarak birçok
+sağlayıcıya dağıtmak tam da gorutin’lerin yaptığı iş olduğu için
+seçildi; tek bir ikili dosya halinde dağıtım, ~20 modüllük servisin
+gönderimini basit tutuyor. Tüm servisin ve her bir iç modülün temelini
+oluşturuyor.</li>
+<li><strong>Gin (Web API)</strong> — Hızlı ve düşük ek yük sunan bir
+HTTP arayüzü için seçildi; mevcut istemcilerin topluluğu değiştirmeden
+benimseyebilmesini sağlayan, OpenAI uyumlu <code>/v1</code> tamamlama,
+sohbet, akış ve topluluk uç noktalarını sunuyor.</li>
+<li><strong>PostgreSQL</strong> — Oturumlar, analizler ve tartışma
+kayıtları için kalıcı depolama olarak seçildi; böylece fikir birliği
+kararları ve tartışma geçmişi denetlenebilir hale geliyor. Yüksek
+erişilebilirlik veri katmanının temelini oluşturuyor.</li>
+<li><strong>Redis</strong> — Düşük gecikmeli önbellekleme ve görev
+sıralama için seçildi; hem yanıt önbelleklemeyi hem de tekrarlanan veya
+neredeyse aynı olan istemlerin gereksiz çıkarım işlemlerini atlamasını
+sağlayan anlamsal önbellek katmanını güçlendiriyor.</li>
+<li><strong>LLMsVerifier (entegre)</strong> — Sağlayıcı güvenilirliğini
+varsayım olmaktan çıkarıp ölçülebilir bir niceliğe dönüştürmek için
+seçildi; puanları, yönlendirme için sağlayıcıları sıralıyor ve bir
+sağlayıcının performansı düştüğünde yedeklemeyi tetikliyor.</li>
+<li><strong>Prometheus + Grafana + OpenTelemetry</strong> — Birçok
+sağlayıcıyı kapsayan bir topluluğun gözlemlenebilir kalması için
+seçildi; <code>helixagent_*</code> metriklerini, kontrol panellerini ve
+isteğin tüm dağıtım sürecindeki uçtan uca izlemeyi sunuyorlar.</li>
+<li><strong>Model Context Protocol (MCP) adaptörleri</strong> — Açık bir
+protokol aracılığıyla genişletilebilirlik için seçildi; README
+dosyasında, harici araçlar ve bağlamlarla bağlantı kurmak için birçok
+MCP adaptörü listeleniyor.</li>
+<li><strong>Neo4j / ClickHouse / Kafka (Büyük Veri)</strong> — Tek bir
+düğümün ötesine geçmek için seçildi: Neo4j ve ClickHouse, dağıtık bellek
+ve bilgi grafiği özelliklerini desteklerken, Kafka bu grafiği ve olay
+verilerini ölçekli olarak aktarıyor.</li>
+<li><strong>Optimizasyon entegrasyonları (SGLang, LlamaIndex, LangChain,
+Guidance, LMQL)</strong> — Ön ek önbellekleme, bilgi getirme, görev
+ayrıştırma ve kısıtlı üretim gibi isteğe bağlı hizmetler olarak
+eklenebilmeleri için seçildi; böylece daha ağır optimizasyonlar mevcut
+olurken zorunlu olmuyor.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Servis, üretim için hazır olarak
+tanımlanıyor, ancak README dosyasındaki performans ve kapsam rakamları
+(ör. “1000+ istek/saniye”, “&lt;500ms önbellekli”, sağlayıcı ve
+doğrulama betiği sayıları) proje tarafından kendi beyanı olup bağımsız
+olarak doğrulanmamıştır ve burada kasıtlı olarak nitel ifadelerle
+aktarılmıştır.</li>
+<li>README dosyası içindeki sağlayıcı sayıları da değişkenlik
+gösteriyor; sayfa, “çok sayıda sağlayıcı” şeklinde nitel bir çerçeve
+kullanıyor.</li>
+</ul>
+<p><strong>Öncelikli katman:</strong> Helix-birincil.</p>
+</body>
+</html>

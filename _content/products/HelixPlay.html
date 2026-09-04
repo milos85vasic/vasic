@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixPlay</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixPlay</h1>
+</header>
+<h1 id="helixplay">HelixPlay</h1>
+<p><strong>Turn any GPU machine into your own cloud-gaming
+appliance.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>HelixPlay is a self-hostable cloud-gaming platform that turns any
+GPU-equipped machine into a remote streaming host, delivering
+console-class gameplay to desktop, mobile, TV, and browser clients. It
+is built as a Go-centric monorepo of 46 submodules with a triple-stack
+client and is white-labellable for partners.</p>
+<h2 id="short-description">Short description</h2>
+<p>HelixPlay is a self-hostable, open, white-labellable cloud-gaming
+platform. It turns any GPU-equipped machine into a remote streaming host
+and delivers console-class gameplay to desktop, mobile, TV, and browser
+clients over WebRTC/QUIC, with a Go core and a Wails/Flutter/Angular
+client stack.</p>
+<h2 id="long-description">Long description</h2>
+<p>HelixPlay is a cloud-gaming platform built as a Go-centric monorepo
+composed of 46 Git submodules. It takes any gaming PC you already own
+and turns it into a streaming host, delivering console-class experience
+to desktop, mobile, TV, and browser clients — self-hostable, open, and
+white-labellable for partners. The pitch is blunt: your hardware, your
+service, your brand, no third-party cloud in the middle.</p>
+<p>Its defining design choice is triple-stack client convergence — the
+hard architectural bet that pays off everywhere else. A Wails desktop
+app, a Flutter mobile/TV app, and an Angular web client all sit on top
+of a <em>single</em> Go core, compiled to WASM for the browser, so
+behaviour is written once and shared across every surface instead of
+forked three ways. Under that lives the real-time media path: Capture →
+Encode → Packetize → Transmit → Decode → Render, wired to
+platform-native capture (DXGI / ScreenCaptureKit / PipeWire) and
+hardware encoders (NVENC / QSV / AMF / VideoToolbox) so the GPU does the
+heavy lifting, and transported over WebRTC (Pion v4), QUIC (quic-go),
+and custom UDP datagrams chosen for latency rather than convenience. The
+backend core owns sessions, tenants, catalog, and auth; a host agent
+handles capture, encode, and transport at the edge; and mDNS/rendezvous
+stitches discovery together so clients find their host without manual
+wiring.</p>
+<p>HelixPlay is architected from the ground up for white-label SaaS —
+per-tenant theming, catalog filtering, OAuth2, and billing — so a
+partner can stand up a fully branded service rather than a thin reskin.
+And it is container-native to the last detail: every service, database,
+build, test, and scan runs inside containers, which makes the whole
+platform reproducible to deploy and to verify. Like the rest of the
+Helix family, it lives under an anti-bluff constitution where a green
+test is meant to guarantee real, end-user-usable behaviour — not a
+passing mock.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>Commercial cloud gaming is closed, centralized, and rented. HelixPlay
+was built so anyone with a GPU machine can run their own streaming host
+— open, self-hosted, and white-labellable — instead of depending on a
+third-party service.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It fuses three things the commercial services keep apart:
+self-hosting on hardware you control, one shared Go core driving three
+client stacks so features land everywhere at once, and white-label
+multi-tenancy. The result is that a partner can launch a fully branded
+cloud-gaming service on their <em>own</em> GPUs — owning the experience,
+the users, and the economics — instead of reselling capacity on someone
+else’s cloud and living inside its limits.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li><strong>Triple-stack client convergence</strong> — Wails, Flutter,
+and Angular all riding one Go core (WASM in the browser), so desktop,
+mobile, TV, and web share a single implementation instead of three
+drifting ones.</li>
+<li><strong>Self-hostable, white-label SaaS</strong> — per-tenant
+theming, catalog filtering, OAuth2, and billing built in, so the
+platform ships as a brandable product, not a demo.</li>
+<li><strong>Modern low-latency transport</strong> — WebRTC (Pion), QUIC,
+and custom UDP paired with per-platform hardware-encoder selection
+(NVENC / QSV / AMF / VideoToolbox), tuned for responsiveness over
+convenience.</li>
+<li><strong>46-submodule decoupled architecture</strong> — cleanly
+separated components with container-native everything: each service, DB,
+build, test, and scan runs in a container.</li>
+</ul>
+<h2 id="biggest-technical-challenges-how-we-solved-them">Biggest
+technical challenges &amp; how we solved them</h2>
+<ul>
+<li><strong>Low-latency streaming across heterogeneous
+hardware.</strong> Every OS and GPU exposes capture and encode
+differently, and latency is unforgiving. Solved with a platform-aware
+capture/encode path — DXGI / ScreenCaptureKit / PipeWire feeding NVENC /
+QSV / AMF / VideoToolbox — carried over WebRTC / QUIC / UDP so each
+machine uses its own fastest native route to the pixels.</li>
+<li><strong>One product across desktop, mobile, TV, and web.</strong>
+Solved with triple-stack clients (Wails, Flutter, Angular) sharing a
+single Go core compiled to WASM for the browser, so a fix or feature
+written once shows up on all four surfaces instead of being ported four
+times.</li>
+<li><strong>Multi-tenant white-label operation.</strong> Solved by
+building per-tenant theming, catalog filtering, OAuth2, and billing
+directly into the core backend, so tenant isolation and branding are
+platform primitives rather than per-customer forks.</li>
+</ul>
+<h2 id="tech-stack">Tech stack</h2>
+<ul>
+<li><strong>Go (1.26.2 root / 1.25+ submodules)</strong> — the shared
+core backend and host agent; one language that compiles to native
+binaries <em>and</em> to WASM, which is what makes the single-core,
+multi-client design possible.</li>
+<li><strong>Wails v2</strong> — the desktop client, binding the Go core
+to an embedded webview so the desktop app reuses core logic directly
+instead of reimplementing it.</li>
+<li><strong>Flutter 3.29+</strong> — the mobile/TV client, calling into
+the Go core over FFI for a native UI on phones and televisions without a
+second backend.</li>
+<li><strong>Angular 17+</strong> — the web client, running the very same
+Go core compiled to WASM so the browser is a first-class surface, not a
+stripped-down one.</li>
+<li><strong>WebRTC / Pion v4, QUIC / quic-go, custom UDP</strong> —
+three real-time transports so the platform can pick the lowest-latency
+path available for each network and client.</li>
+<li><strong>Hardware encoders (NVENC / QSV / AMF /
+VideoToolbox)</strong> and <strong>platform capture (DXGI /
+ScreenCaptureKit / PipeWire)</strong> — the GPU-accelerated
+capture-and-encode path, selected per platform so encoding never
+bottlenecks on the CPU.</li>
+<li><strong>Containers (Docker/Podman)</strong> — every service,
+database, build, test, and scan runs containerized, making the whole
+system reproducible to deploy and to verify.</li>
+<li><strong>mDNS / rendezvous</strong> — zero-config host discovery so
+clients locate their streaming host automatically on the network.</li>
+</ul>
+<h2 id="status-honesty-notes">Status &amp; honesty notes</h2>
+<ul>
+<li><strong>Status: beta.</strong> The README’s latency targets (≤30 ms
+LAN / ≤50 ms WAN p999), “console-class / PS4-Pro-class” framing, and the
+test-matrix cell count are the project’s own stated design targets, not
+independently benchmarked, and are presented as such.</li>
+<li><strong>License: TBD.</strong> No LICENSE was detected via the
+GitHub API — UNVERIFIED / not declared.</li>
+</ul>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSkills</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSkills</h1>
+</header>
+<h1 id="helixskills">HelixSkills</h1>
+<p><strong>Un système de compétences régi par une constitution pour les
+agents CLI AI.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>HelixSkills est un système de compétences destiné aux agents CLI AI,
+qui intègre le module Helix Constitution en tant que sous-module. Ainsi,
+toutes les règles universelles de gouvernance s’appliquent sans
+condition. Il regroupe des compétences d’agents installables, des
+serveurs d’outils MCP, des plugins Code Claude et des moteurs
+réutilisables au sein d’un catalogue documenté et enregistrable.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>HelixSkills est un système de compétences pour les agents CLI AI. Il
+intègre le module Helix Constitution en tant que sous-module,
+garantissant l’application de toutes les règles universelles, puis
+propose des compétences enregistrables (préfixe d’action, validateur de
+médias, multitrack, synchronisation de session, cycle de vie des
+éléments exploitables, et bien plus), deux serveurs d’outils MCP, deux
+plugins Code Claude et des moteurs réutilisables.</p>
+<h2 id="description-détaillée">Description détaillée</h2>
+<p>HelixSkills (dépôt <code>skills</code>, licence Apache-2.0) est un
+système de compétences pour les agents CLI AI, conçu selon une inversion
+délibérée de l’ordre habituel : la gouvernance prime sur les capacités.
+Il hérite du module Helix Constitution en tant que sous-module
+<code>constitution/</code>, ce qui signifie que chaque règle universelle
+issue de <code>constitution/CLAUDE.md</code> et
+<code>constitution/Constitution.md</code> s’applique sans exception –
+non pas comme une convention que l’agent pourrait respecter, mais comme
+un ensemble de règles physiquement intégré à l’arborescence du projet.
+Un agent adoptant HelixSkills ne peut se soustraire à cette constitution
+: les règles voyagent avec le code.</p>
+<p>Contrairement à la plupart des « frameworks de compétences » qui
+misent sur des abstractions, HelixSkills fournit un inventaire concret
+et enregistrable que l’on peut désigner et installer. Sept compétences
+constitutionnelles s’installent via <code>register.sh</code> :
+<em>action-prefix-system</em>, <em>media-validator</em>,
+<em>multitrack</em>, <em>reporting-workable-items</em>,
+<em>scheduled-work-queue</em>, <em>session-sync</em> et
+<em>workable-item-lifecycle</em> – une gamme allant de niveaux
+intermédiaire à avancé, couvrant tout, depuis la nomenclature
+disciplinée des actions jusqu’à la validation des médias, en passant par
+le cycle de vie complet d’une unité de travail. D’autres compétences en
+projet (présentation d’Android, langage Java/Kotlin, système
+d’exploitation Linux) sont déjà indexées et prêtes à être activées. Deux
+serveurs d’outils MCP (<em>media-validator</em> et
+<em>scheduled-work</em>) exposent ces compétences aux agents via le
+Model Context Protocol, tandis que deux plugins Code Claude
+(<em>helix</em> et <em>scheduled-work</em>) intègrent ces mêmes
+capacités directement dans leur environnement d’exécution – un ensemble
+de compétences unique, accessible aux agents quel que soit leur point
+d’entrée.</p>
+<p>Sous le catalogue se trouvent quatre moteurs réutilisables de niveau
+1 – <em>continuum</em> (implémenté), ainsi que
+<em>session_orchestrator</em>, <em>token_optimizer</em> et
+<em>clickup_sync</em> (en cours de conception) – une infrastructure
+partagée qui évite aux compétences de réinventer les mêmes mécanismes.
+Le <em>token_optimizer</em> seul déclare un graphe de dépendances
+explicite s’étendant aux paquets de l’écosystème vasic-digital (TOON,
+Embeddings, VectorDB, Normalize, conversation) et au LLMProvider de
+HelixDevelopment, rendant son interconnexion inter-dépôts vérifiable
+plutôt qu’implicite. L’ensemble est encadré par une documentation
+rigoureuse : un catalogue de compétences, un index de graphe de
+compétences généré automatiquement, des pages de détails par dépôt, et
+un registre transparent des <em>Lacunes et Risques</em> qui identifie ce
+qui reste à faire. L’intégralité du système est répliquée sur GitHub,
+GitLab, GitFlic et GitVerse pour assurer résilience et accès
+régional.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Les agents CLI et AI ont besoin de fonctionnalités cohérentes,
+gouvernées et réutilisables – et non de scripts ad hoc qui réinventent
+les règles à chaque fois. HelixSkills a été créé pour offrir aux agents
+un ensemble de compétences packagées et enregistrables, lié à une
+constitution partagée, afin que leur comportement reste uniforme et
+traçable pour tous les agents et projets qui l’adoptent.</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Il rend les capacités des agents portables et conformes aux règles
+<em>par construction</em>, et non par discipline. Chaque compétence est
+une unité gouvernée, versionnée et installable, soutenue par un
+sous-module constitutionnel – dès qu’un agent enregistre une compétence,
+il hérite aussi de l’ensemble de règles canonique, sans possibilité de
+dérive. Cela ouvre une possibilité jusqu’alors irréalisable : transférer
+une capacité d’un agent ou d’un projet à un autre en sachant qu’elle
+arrive déjà liée à la même gouvernance, accessible via des interfaces
+standardisées (serveurs MCP et plugins Claude Code) plutôt que par un
+amas de scripts d’intégration sur mesure qui réinventent chacun les
+règles.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li><strong>Constitution en tant que sous-module</strong> : les règles
+de gouvernance universelles sont héritées, et non copiées – intégrées
+dans l’arborescence de sorte que chaque agent utilisateur soit lié au
+même ensemble de règles canonique, avec des mises à jour provenant d’une
+source unique de vérité plutôt que d’une dizaine de copies
+obsolètes.</li>
+<li><strong>Compétences livrées sous forme d’unités
+auto-enregistrables</strong> (<code>register.sh</code>) et intégrées
+dans un index de graphe de compétences généré automatiquement, afin que
+le catalogue reste découvrable et ne se désynchronise jamais de ce qui
+est réellement installé.</li>
+<li><strong>Exposition multi-interface</strong> : le même ensemble de
+compétences est accessible aux agents via les serveurs d’outils MCP
+<em>et</em> les plugins Claude Code – une seule écriture, une
+utilisation dans n’importe quel environnement d’exécution.</li>
+<li><strong>Moteurs réutilisables de profondeur 1</strong> (continuum,
+token_optimizer, session_orchestrator, clickup_sync) partagés à travers
+l’écosystème, chacun portant des déclarations de dépendances
+inter-dépôts explicites et auditable, plutôt qu’un couplage masqué.</li>
+</ul>
+<h2 id="principaux-défis-techniques-et-nos-solutions">Principaux défis
+techniques et nos solutions</h2>
+<ul>
+<li><strong>Maintenir un comportement d’agent cohérent et conforme aux
+règles à travers de nombreuses compétences et agents</strong> –
+réimplémenter la gouvernance pour chaque compétence garantit une
+divergence dans le temps. Résolu en intégrant le Helix Constitution en
+tant que sous-module, de sorte que les règles dans
+<code>constitution/CLAUDE.md</code> et
+<code>constitution/Constitution.md</code> s’appliquent sans condition et
+se mettent à jour depuis une source unique, plutôt que d’être copiées et
+laissées à l’abandon.</li>
+<li><strong>Rendre un ensemble de compétences en croissance installable
+et découvrable</strong> – un catalogue est inutile si personne ne peut
+trouver ou installer ce qu’il contient. Résolu grâce à un script
+d’enregistrement par compétence (<code>register.sh</code>) qui intègre
+chaque compétence lors de l’installation, complété par un graphe de
+compétences INDEX généré automatiquement et une documentation détaillée
+par dépôt, afin que la découverte reflète toujours la réalité.</li>
+<li><strong>Atteindre des agents utilisant différents environnements
+d’exécution</strong> – une même capacité ne devrait pas être réécrite
+pour chaque hôte. Résolu en packagant un seul ensemble de compétences
+derrière les définitions de serveurs d’outils MCP (dans
+<code>constitution/mcp/</code>) et les plugins Claude Code (dans
+<code>constitution/plugins/</code>), de sorte qu’une seule
+implémentation soit exposée sur toutes les interfaces.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Shell (langage principal)</strong> — choisi car les outils
+d’installation et d’enregistrement doivent fonctionner partout où un
+agent est déployé, sans environnement d’exécution à initialiser au
+préalable ; il alimente <code>register.sh</code> et
+<code>install_upstreams</code>, garantissant une intégration sans
+dépendances et entièrement portable.</li>
+<li><strong>Sous-modules Git</strong> — choisis pour hériter de la
+gouvernance sans duplication : le référentiel Helix Constitution est
+monté sous <code>constitution/</code> en tant que référence dynamique,
+de sorte que les mises à jour des règles se propagent via un seul
+pointeur au lieu d’être copiées-collées et oubliées.</li>
+<li><strong>Model Context Protocol (MCP)</strong> — retenu comme
+interface standard, indépendante de l’environnement d’exécution, pour
+les agents ; deux serveurs MCP (media-validator, scheduled-work) sont
+définis sous <code>constitution/mcp/</code> pour exposer des compétences
+sous forme d’outils appelables.</li>
+<li><strong>Plug-ins Claude</strong> — choisis pour intégrer nativement
+des compétences dans l’environnement d’exécution des agents sans couche
+d’adaptation ; deux plug-ins (helix, scheduled-work) sont livrés sous
+<code>constitution/plugins/</code>, reproduisant la surface MCP pour un
+hôte différent.</li>
+<li><strong>Moteurs réutilisables (continuum, token_optimizer,
+session_orchestrator, clickup_sync)</strong> — sélectionnés pour
+extraire les mécanismes partagés des compétences individuelles afin de
+favoriser leur réutilisation entre projets ; token_optimizer, par
+exemple, est connecté aux paquets vasic-digital (TOON, Embeddings,
+VectorDB, Normalize, conversation) et à HelixDevelopment via LLMProvider
+par le biais de dépendances déclarées, plutôt que par du code
+dupliqué.</li>
+<li><strong>Miroir Git multi-hôtes (GitHub, GitLab, GitFlic,
+GitVerse)</strong> — adopté afin qu’une panne d’un seul hôte ou un
+blocage régional ne puisse interrompre l’accès ; le même dépôt est
+maintenu en ligne sur quatre forges pour assurer résilience et
+accessibilité.</li>
+</ul>
+<h2 id="statut-et-notes-de-transparence">Statut et notes de
+transparence</h2>
+<ul>
+<li><strong>Statut : bêta.</strong> Les sept compétences
+constitutionnelles, deux serveurs MCP et deux plug-ins sont livrés ; les
+compétences en version brouillon sont indexées et en attente
+d’activation, et trois des quatre moteurs de premier niveau
+(session_orchestrator, token_optimizer, clickup_sync) sont encore en
+phase de conception.</li>
+<li>Le fichier README désigne le projet sous le nom de
+<code>helix_skills</code> ; le chemin canonique sur GitHub est
+<code>HelixDevelopment/skills</code>. Le nombre de constatations suivies
+dans le README est une donnée auto-déclarée.</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire.</p>
+</body>
+</html>

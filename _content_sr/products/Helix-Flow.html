@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>Једна платформа за све ваше потребе закључивања AI —
+покрећите моћне AI моделе брже, паметније, у било ком обиму, уз
+предвидиве трошкове.</strong></p>
+<blockquote>
+<p><strong>Напомена о тачности (Helix Constitution §11.4.6):</strong>
+Helix-Flow има стваран, јавни изворни репозиторијум, али његов РЕАДМЕ
+садржи само једну реченицу као слоган, а нема локалног прегледа нити
+документације о дизајну/архитектури. Само две ствари су заправо
+документоване: слоган и састав језика у репозиторијуму. Сваки други
+детаљ у наставку је изостављен или експлицитно означен као
+НЕВЕРИФИКОВАН. Ова страница је минималан привремени садржај, а не
+потпуна копија производа, и не би требало да се проширује док се не
+обезбеди стваран изворни материјал.</p>
+</blockquote>
+<h2 id="сажетак">Сажетак</h2>
+<p>Платформа Helix-Flow постављена је као јединствен, уједињен дом за
+закључивање AI — покретање моћних модела брже, у било ком обиму, уз
+трошкове које можете предвидети. <em>(Позиционирање је преузето
+искључиво из слогана; конкретне могућности нису документоване у
+доступним изворима.)</em></p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Платформа Helix-Flow (<code>Helix-Flow/Platform</code>) је јавни
+пројекат заснован на Go, представљен као јединствена платформа за
+закључивање AI у било ком обиму уз предвидиве трошкове. Њен кодни
+репозиторијум комбинује Go, Python и Terraform/ХЦЛ, што сугерише
+платформу за закључивање са имплементацијом управљаном инфраструктуром
+као кодом. Могућности изван слогана су НЕВЕРИФИКОВАНЕ.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Платформа Helix-Flow једини је репозиторијум у организацији
+<code>Helix-Flow</code> GitHub и представљена је — преко свог
+једноредног РЕАДМЕ-а — као „једна платформа за све ваше потребе
+закључивања AI”, са нагласком на брже покретање моћних AI модела у било
+ком обиму уз предвидиве трошкове. Осим тог слогана, пројекат не садржи
+никакву документацију у текстуалном облику, па се његова архитектура,
+функције и дизајн не могу описати на основу изворног кода без
+измишљања.</p>
+<p>Оно што <em>се фактички може уочити</em> јесте састав језика у
+репозиторијуму: претежно Go и Python у приближно једнаким пропорцијама,
+уз знатну заступљеност Shell, као и HTML/CSS/JavaScript (web интерфејс),
+PL/pgSQL (компонента са подршком PostgreSQL), ХЦЛ
+(Terraform/инфраструктура као код) и Mermaid (дијаграми). Свеукупно, та
+комбинација <em>указује на</em> платформу за послуживање закључивања
+која спаја контролни/сервисни слој Go са алатима за моделе Python,
+складиштем података Postgres, web корисничким интерфејсом и
+имплементацијом у облаку управљаном инфраструктуром као кодом — али ово
+тумачење произилази из типова датотека, <strong>а не</strong> из
+документованих тврдњи. Да би се направила прецизна копија производа
+(мотивација, иновације, технички изазови, конкретно образложење
+технолошког стека), потребан је стваран РЕАДМЕ, документација о
+архитектури или локални преглед. Ова страница намерно стаје на ономе што
+подржавају доступни извори.</p>
+<h2 id="зашто-смо-је-изградили">Зашто смо је изградили</h2>
+<p><em>НЕВЕРИФИКОВАНО — није документовано у доступним изворима.</em>
+Слоган наговештава циљ уједињеног, скалабилног закључивања AI са
+предвидивим/управљивим трошковима, али није наведен ниједан разлог. Овде
+се не тврди никаква мотивација.</p>
+<h2 id="зашто-је-револуционарна">Зашто је револуционарна</h2>
+<p><em>НЕВЕРИФИКОВАНО — није документовано.</em> Изостављено док се не
+пронађе извор.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<p><em>НЕВЕРИФИКОВАНО — није документовано.</em> Изостављено док се не
+пронађе извор.</p>
+<h2 id="највећи-технички-изазови-и-како-смо-их-решили">Највећи технички
+изазови и како смо их решили</h2>
+<p><em>НЕВЕРИФИКОВАНО — није документовано.</em> Изостављено док се не
+пронађе извор.</p>
+<h2 id="технолошки-стацк">Технолошки стацк</h2>
+<p>Установљено искључиво на основу састава језика у репозиторијуму —
+улога и образложење су НЕВЕРИФИКОВАНИ:</p>
+<ul>
+<li><strong>Go</strong> — примарни језик; вероватно слој за
+сервисирање/контролу. <em>(Улога НЕВЕРИФИКОВАНА.)</em></li>
+<li><strong>Python</strong> — готово подједнак удео; вероватно алат за
+моделе/инференцију. <em>(Улога НЕВЕРИФИКОВАНА.)</em></li>
+<li><strong>Shell</strong> — скриптовање за изградњу, имплементацију и
+аутоматизацију. <em>(Улога НЕВЕРИФИКОВАНА.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — присутна је компонента
+релационог складишта података.</li>
+<li><strong>Terraform / ХЦЛ</strong> — инфраструктура као код, што
+подразумева имплементацију у облаку.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — веб интерфејс или
+документација.</li>
+</ul>
+<h2 id="статус-и-напомене-о-искрености">Статус и напомене о
+искрености</h2>
+<ul>
+<li><strong>Статус: мапа пута / привремени садржај.</strong> Ово је
+једини репозиторијум у организацији <code>Helix-Flow</code>; јавно је
+доступан, последњи пут ажуриран 27.04.2026, нема постављену почетну
+страницу нити декларисану лиценцу. Док не постоји права документација,
+није одговорно приказивати га у дубини производа.</li>
+<li><strong>Лиценца: биће одређена</strong> (није постављена у
+репозиторијуму).</li>
+</ul>
+<p><strong>Приоритетни ниво:</strong> Helix-примарни (производ за
+инференцију из породице Helix-платформе), али тренутно блокиран због
+недостатка изворног материјала. Рангира се иза HelixTrack.</p>
+</body>
+</html>

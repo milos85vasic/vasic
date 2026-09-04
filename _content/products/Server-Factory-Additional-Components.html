@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>The supporting cast of the Server Factory provisioning
+toolchain.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>Beyond Mail Server Factory and the Core Framework, the Server-Factory
+org contains several smaller components: per-service “factories” (Web
+Service, SonarQube, Caching Proxy), declarative configuration packs
+(Docker/Stack/Software Definitions), and shared Utils. This consolidated
+page covers them honestly — several are early-stage or stub-documented —
+rather than as fully specified products.</p>
+<h2 id="short-description">Short description</h2>
+<p>A group of Server Factory supporting repos: Web-Service-Factory,
+SonarQube-Factory, and Caching-Proxy-Factory (per-service provisioning
+tools, mostly early-stage); Docker/Stack/Software-Definitions
+(declarative config packs consumed by the framework); and Utils
+(SSH-access helpers and general tooling). All build on Core
+Framework.</p>
+<h2 id="long-description">Long description</h2>
+<p>This page consolidates the remaining Server-Factory repositories
+because, individually, most are small or intentionally under-documented,
+and briefing each as a finished product would overstate their maturity.
+They fall into three groups. <strong>Service factories</strong> follow
+the Mail Server Factory pattern for other server roles:
+<strong>Caching-Proxy-Factory</strong> (“Run your own caching proxy
+server”) lists caching proxy, self-signed certificate, and a
+security-certificate-obtain HTTP endpoint as key features;
+<strong>SonarQube-Factory</strong> (“Run your own SonarQube server”) is
+aimed at software-development use; and
+<strong>Web-Service-Factory</strong> instantiates and configures a web
+server to deploy targets such as websites and micro-services. All three
+are Kotlin projects built on the Core Framework, but their public
+READMEs are largely placeholders (“Tbd.” for compatibility,
+specifications, setup, and usage) — so their concrete capabilities
+beyond the stated intent are UNVERIFIED. <strong>Definitions
+packs</strong> — <strong>Docker-Definitions</strong>,
+<strong>Stack-Definitions</strong>, and
+<strong>Software-Definitions</strong> — are declarative configuration
+repositories that the framework consumes to know how to build/deploy
+Docker images, stacks, and software; they are version-pinned data packs
+rather than applications. <strong>Utils</strong> provides general
+helpers for the family, including an <code>init_ssh_access.sh</code>
+script that generates an SSH key and installs it on a remote host to
+enable passwordless root access for subsequent provisioning. Together
+these components round out the provisioning toolchain around the
+flagship Mail Server Factory.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>The Server Factory model is built to generalize: once you can
+provision a mail server from a declarative description, the same engine
+should be able to provision web servers, caching proxies, and
+code-quality servers too — fed by reusable definition packs and shared
+utilities rather than bespoke logic per role. These repos are that
+generalization in progress, extending the proven pattern to new server
+types. Their value here is as evidence of the model’s reach; their
+maturity varies, and this page is deliberately clear about which are
+direction and which are done.</p>
+<h2 id="why-its-a-game-changer-measured">Why it’s a game-changer
+(measured)</h2>
+<p>As a set, they demonstrate the Core Framework’s reusability across
+server types and separate declarative data (Definitions) from execution
+(factories). Individually, the service factories are early-stage and
+should be presented as direction, not finished products.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li>One provisioning framework generalized across
+mail/web/caching-proxy/SonarQube roles.</li>
+<li>Declarative Definitions packs (Docker/Stack/Software) decoupled from
+the execution engine.</li>
+<li>Shared Utils (e.g. one-command passwordless SSH bootstrap) reused
+across factories.</li>
+</ul>
+<h2 id="challenges-solutions">Challenges &amp; solutions</h2>
+<ul>
+<li><strong>Reusing one engine across server roles:</strong> addressed
+by building each factory on Core Framework.</li>
+<li><strong>Separating configuration from code:</strong> addressed by
+the Definitions repos as version-pinned data packs.</li>
+<li><strong>(UNVERIFIED):</strong> the service factories’ READMEs are
+placeholders; their implementation completeness is not verifiable from
+public docs — present as early-stage.</li>
+</ul>
+<h2 id="tech-stack-why-how">Tech stack (why + how)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Web-Service-Factory, SonarQube-Factory,
+Caching-Proxy-Factory (built on Core Framework).</li>
+<li><strong>Shell</strong> — Utils and the Definitions packs
+(scripts/config).</li>
+<li><strong>Gradle</strong> — <code>./gradlew test</code> build/test
+flow across the factories.</li>
+<li><strong>Docker</strong> — target runtime described by
+Docker-Definitions.</li>
+<li><strong>SSH / OpenSSH</strong> — Utils’ passwordless-access
+bootstrap.</li>
+<li><strong>SonarQube</strong> — the server SonarQube-Factory provisions
+(and which Mail Server Factory reports a clean gate against).</li>
+</ul>
+<blockquote>
+<p>Honesty note: most of these repos are forks within the org; the
+service factories are placeholder-documented and marked UNVERIFIED per
+constitution §11.4.6. Ranked clearly below Mail Server Factory and Core
+Framework.</p>
+</blockquote>
+</body>
+</html>

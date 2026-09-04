@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMOrchestrator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMOrchestrator</h1>
+</header>
+<h1 id="llmorchestrator">LLMOrchestrator</h1>
+<p><strong>One control plane for every headless CLI coding
+agent.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>LLMOrchestrator is a standalone, reusable Go module for spawning,
+managing, and communicating with headless CLI agents (OpenCode, Claude
+Code, Gemini, Junie, Qwen Code) over a hybrid pipe+file protocol, with
+per-agent circuit breakers, pluggable multi-provider selection, a
+decoupled i18n abstraction, and anti-bluff test guarantees.</p>
+<h2 id="short-description">Short description</h2>
+<p>A reusable Go module that gives one unified interface to spawn and
+drive multiple LLM-powered CLI agents via a hybrid pipe+file protocol.
+Thread-safe agent pooling with circuit breakers and selectable routing
+strategies, deliberately consumer-agnostic, with a pluggable i18n
+translator.</p>
+<h2 id="long-description">Long description</h2>
+<p>LLMOrchestrator is shared infrastructure for orchestrating headless
+CLI coding agents — the plumbing every multi-agent system quietly needs
+and usually rebuilds badly. Instead of each project re-implementing
+process spawning, message framing, and result parsing for tools like
+OpenCode, Claude Code, Gemini CLI, Junie, and Qwen Code, it provides one
+unified <code>Agent</code> interface, a thread-safe
+<code>AgentPool</code>, and a <code>MultiProviderPool</code> that
+marshals agents from several providers behind a single facade. Routing
+is pluggable via an <code>AgentSelector</code> — round-robin that skips
+providers failing to meet requirements, or preference-ordered with
+fallback — so how work is distributed is a policy you choose, not a
+hardcoded assumption. Each concrete agent is a thin adapter over a
+shared <code>BaseAdapter</code> that owns the full process lifecycle:
+start with pipe setup, graceful SIGTERM-then-SIGKILL stop, restart, and
+liveness — the fiddly, error-prone part, solved once.</p>
+<p>Communication is deliberately hybrid, matching the transport to the
+job. A pipe transport carries newline-delimited JSON with a per-request
+read deadline and a response-length cap for fast interactive messaging,
+while a file transport uses per-session inbox/outbox/shared directories
+for large or durable artifacts that shouldn’t live in a pipe. Resilience
+isn’t an afterthought — it’s structural: a per-agent circuit breaker
+opens after three consecutive failures for a 60-second cooldown before a
+half-open probe, and a background health monitor pings agents so a
+downed agent can recover without waiting for incoming traffic to notice
+it. Pool acquisition blocks on a condition variable rather than burning
+CPU in a busy-wait, and the response parser is stateless and safe to
+call concurrently. The module is strictly decoupled — no consumer
+specifics are permitted to leak in — and every user-facing string passes
+through a pluggable i18n <code>Translator</code>, with a
+<code>NoopTranslator</code> that returns message IDs verbatim so a
+missing translation shows up loudly instead of hiding.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>Every multi-agent system needs to launch and talk to CLI agents
+reliably. Re-solving spawning, framing, parsing, and failure-handling
+per project is wasteful and error-prone. LLMOrchestrator centralizes it
+into one decoupled, reusable module whose specialised responsibility
+makes it reusable — and that reusability is destroyed the moment any
+consumer’s specifics leak in.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It turns “run an army of heterogeneous CLI agents” from a bespoke
+per-project engineering slog into a single library import — pooling,
+circuit breaking, lifecycle management, and pluggable routing already
+solved and hardened. And because its anti-bluff tests exercise the real
+system end-to-end rather than settling for “it compiles,” you get an
+abstraction you can actually trust to work under concurrency and
+failure, not one that merely looks right in a diagram.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li><strong>Hybrid pipe+file protocol</strong> — interactive speed
+(JSON-lines over stdin/stdout, read deadlines, response caps)
+<em>and</em> durable file-based exchange (inbox/outbox/shared) for large
+artifacts, so you never trade latency for durability or vice versa.</li>
+<li><strong>Multi-provider pool with pluggable selectors</strong> — one
+facade over many CLI providers, with round-robin or preference-ordered
+routing chosen as policy rather than baked in.</li>
+<li><strong>Per-agent circuit breaker + background health
+monitor</strong> — automatic degradation <em>and</em> recovery (3
+failures → 60s open → half-open probe), so a flaky agent is isolated and
+then quietly brought back without manual intervention.</li>
+<li><strong>Non-busy-wait pooling</strong> — <code>Acquire</code> blocks
+on <code>sync.Cond</code> until a matching, healthy agent frees up or
+the context is cancelled, so waiting costs no CPU.</li>
+<li><strong>Strict decoupling + anti-bluff i18n</strong> — the
+<code>NoopTranslator</code> returns message IDs verbatim so a missing
+translation is impossible to miss instead of silently blank.</li>
+<li><strong>Security-by-default</strong> — a binary-path allowlist means
+no shell interpolation and therefore no command-injection surface,
+backed by path-traversal protection, a 1 MiB response cap against
+runaway output, and API-key masking in logs.</li>
+<li><strong>Anti-bluff Challenge harness</strong> — real
+disk/JSON/parser round-trips across five locales, with a paired mutation
+gate that must exit non-zero when the feature is broken — a test that
+proves it can actually fail.</li>
+</ul>
+<h2 id="biggest-technical-challenges-how-we-solved-them">Biggest
+technical challenges &amp; how we solved them</h2>
+<ul>
+<li><strong>Reliable agent process I/O.</strong> Talking to a spawned
+CLI process is deceptively hard; solved with a hybrid pipe+file
+transport, a defined message/parser contract so both sides agree on the
+wire format, and a <code>BaseAdapter</code> that centralizes the whole
+process lifecycle including a graceful SIGTERM timeout that escalates to
+a SIGKILL fallback.</li>
+<li><strong>Concurrency without busy-waiting.</strong> Solved with a
+mutex + condition-variable <code>AgentPool</code> where
+<code>Acquire</code> sleeps until a capability-matched agent actually
+frees up, paired with a stateless, side-effect-free parser that is safe
+to call from many goroutines at once.</li>
+<li><strong>Provider failure isolation.</strong> Solved so one bad
+provider can’t drag down the rest: per-agent circuit breakers contain
+the blast radius, and a health-monitor goroutine drives recovery even
+when no requests are arriving to trigger it.</li>
+<li><strong>Proving correctness, not just compilation.</strong> Solved
+with a Challenge runner: dozens of invariants across en/sr/ja/es/de that
+exercise the real system, plus a paired mutation gate
+(<code>LLMORCH_MUTATE_RUNNER=1</code> must fail → wrapper exit 99) that
+deliberately breaks the feature to prove the gate itself isn’t a
+bluff.</li>
+<li><strong>Localization without silent failure.</strong> Solved with
+the verbatim-id <code>NoopTranslator</code> seam and per-consumer
+translator injection, so a gap in translations is always visible rather
+than papered over.</li>
+</ul>
+<h2 id="tech-stack">Tech stack</h2>
+<ul>
+<li><strong>Go (1.25)</strong> — chosen for first-class concurrency and
+clean process control, which is exactly what orchestrating live agent
+processes demands; it implements the module, its agent adapters,
+transports, and parser.</li>
+<li><strong>Go stdlib only (+ testify, yaml.v3)</strong> — a deliberate
+choice to keep the dependency surface minimal and pull in <em>no</em>
+LLM SDKs, so the module stays lightweight and embeddable inside any
+consumer without dragging vendor baggage along.</li>
+<li><strong>Pipe transport (JSON-lines over stdio)</strong> — chosen for
+fast interactive messaging, hardened with read deadlines and
+response-length limits so a hung or runaway agent can’t stall the
+caller.</li>
+<li><strong>File transport (inbox/outbox/shared)</strong> — chosen for
+durable, large-artifact exchange per session, where a pipe would be the
+wrong tool.</li>
+<li><strong><code>sync.Mutex</code>/<code>sync.Cond</code></strong> —
+chosen to implement blocking, fair agent-pool acquisition without
+busy-waiting.</li>
+<li><strong>Circuit breaker + HealthMonitor</strong> — chosen together
+to deliver per-agent resilience <em>and</em> active recovery, not just
+failure detection.</li>
+<li><strong><code>pkg/i18n</code> Translator</strong> — chosen as the
+decoupled localization seam that keeps consumer-specific strings out of
+the core.</li>
+<li><strong>Challenge harness (<code>challenges/runner</code>) +
+Makefile (<code>test -race</code>, <code>fuzz</code>,
+<code>cover</code>)</strong> — chosen for anti-bluff, evidence-backed
+verification, including race detection and parser fuzzing so correctness
+is demonstrated under adversarial conditions, not assumed.</li>
+</ul>
+<h2 id="status-honesty-notes">Status &amp; honesty notes</h2>
+<ul>
+<li><strong>Status: beta.</strong> A decoupled reusable module, consumed
+as a submodule by multiple Helix/vasic projects. <strong>License:
+Apache-2.0</strong>; the GitHub repo is public.</li>
+<li>Model metadata comes from LLMsVerifier bridged via HelixQA; this
+module does not import LLMsVerifier/VisionEngine/DocProcessor directly.
+Stacks referenced in the parent app’s <code>CLAUDE.md</code>
+(Gin/PostgreSQL/etc.) describe <code>helix_code</code>, not this
+module.</li>
+</ul>
+<p><strong>Priority tier:</strong> Helix-primary (LLM-infrastructure
+cluster — decoupled reusable module). Ranks after HelixTrack.</p>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>同期から外れる文書は存在しない —
+コンテンツハッシュ化、双方向、アトミック</strong></p>
+<h2 id="概要">概要</h2>
+<p>Docs
+Chainは、汎用的なGo実装による双方向の文書・データベース依存関係伝播エンジンです。登録されたチェーン内のいずれかの要素が変更されると—Markdownソース、HTML/PDF/DOCX形式のエクスポート、あるいはSQLiteデータベース—コンテンツハッシュによってその変更を検知し、接続された全ての要素に対してアトミックに伝播します。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>文書とデータベースを同期させるGoエンジン。DAG（カーンのトポロジカル順序、早期カットオフ、双方向同期エッジ、アトミックリネーム＋SQLiteトランザクションによるコミット）上で、Salsaスタイルのコンテンツハッシュ化によるインクリメンタル再計算を行い、リンクされた成果物に変更があればエクスポートを再生成します。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>Docs
+Chainは、「Markdownが変更されたらPDFを再生成する」という脆弱なシェルスクリプトを何度も書き直した末に生まれたものです。手作りの同期用接着剤の全てを、本格的なエンジンに置き換えます。プロジェクトの文書やデータベースをチェーンの要素としてモデル化し、いずれかの要素に変更があれば、宣言された全ての方向にその変更を伝播—再生成と再エクスポートをアトミックに行い、追跡対象の成果物が同期から外れることは決してありません。その設計は、スクリプトではなくインクリメンタルビルドシステムの世界から厳密さを借用しています。<strong>変更検知はmtimeではなくコンテンツハッシュで行われる</strong>ため、<code>touch</code>による更新では何も起こらず、1バイトの編集でも必要な再ビルドのみが正確に実行されます—誤検知も見逃しもありません。これを一行で厳密に表現すれば、DAG上でのSalsaスタイルのコンテンツハッシュ化によるインクリメンタル再計算であり、カーンのトポロジカル順序、変更のないサブツリーを刈り取る早期カットオフ、宣言された権限に基づく双方向の<code>sync</code>エッジ、そしてアトミックリネームとSQLiteトランザクションコミットにより、伝播中のクラッシュでも不完全なエクスポートが残ることはありません。<code>vasic-digital</code>のサブモジュールとして提供され、HelixConstitutionサブモジュールのコア部分として利用されるため、憲法を採用したプロジェクトはDocs
+Chainを標準装備し、各コンテキストのYAMLを通じて独自のチェーンを登録します。実装の状況は憲法§11.4.6に基づき正直に公開されています：フェーズ1～4（コアDAG＋ハッシュ化、ノードアダプタ/変換、アトミック性を持つ伝播オーケストレータ、設定駆動のマルチコンテキストCLIと<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>）は実装・テスト済み。フェーズ4bでは汎用的な双方向<code>md-to-sqlite</code>/<code>sqlite-to-md</code>組み込み機能（純粋Go、行レベルのドリフト検知、バイト安定のラウンドトリップ）と<code>colorize-html</code>組み込み機能が追加されます。フェーズ5の包括的な実バイナリエンドツーエンドは実装済みでGREEN。フェーズ6～7（憲法の配布、ATMOSphereとの連携）は計画段階で、オペレータによるゲート制御が予定されています。Heraldは最初の実運用事例であり、66文書のマルチフォーマットコーパスを同期し、正常性を検証しています。</p>
+<h2 id="なぜ作ったのか">なぜ作ったのか</h2>
+<p>文書、エクスポート、データベースは、手作業や脆弱なスクリプトで管理されるとすぐに同期が崩れます。Docs
+Chainは同期を機械的かつコンテンツハッシュに基づく正確なものにし、チェーン内のどこかで変更があれば、下流（および上流）の全てを安全かつ正確に更新します。</p>
+<p>コンテンツ</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>コンパイラやビルドシステムの開発者が当然のように享受してきた、苦労して得た正確性の保証――コンテンツハッシュによる依存グラフ、最小限の再計算、アトミックなコミット――を、これまでcronジョブと善意に頼ってきたドキュメントやデータベースの領域に適用する。真の双方向同期により、ソースとそのエクスポートの関係性が双方向で強制されるため、「ドキュメントが古い」や「エクスポートがソースと一致しない」といった繰り返し発生するバグは、もはやエンジンが許容しない状態となる。</p>
+<h2 id="革新的な点">革新的な点</h2>
+<ul>
+<li>コンテンツハッシュ（mtimeではなく）によるDAG上のインクリメンタル再計算と早期カットオフ。</li>
+<li>双方向かつ権威宣言型の同期エッジ（ドキュメント ↔︎ エクスポート ↔︎
+SQLite）。</li>
+<li>アトミックリネーム +
+SQLiteトランザクションによるクラッシュセーフな伝播。</li>
+<li>純粋Goによる<code>md-to-sqlite</code>/<code>sqlite-to-md</code>ラウンドトリップと行レベルのドリフト検出。</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>不要な再ビルド</strong>：コンテンツハッシュ検出によりタイムスタンプに依存しない解決。</li>
+<li><strong>部分的／破損した更新</strong>：アトミックリネームとSQLiteトランザクションで解決。</li>
+<li><strong>複数メンバーの正しい順序付け</strong>：カーンのトポロジカルソート
++ 早期カットオフで解決。</li>
+<li><strong>正確な機能報告</strong>：各フェーズを§11.4.6に基づきIMPLEMENTEDまたはPLANNEDとして明示。</li>
+</ul>
+<h2 id="技術スタック理由と方法">技術スタック（理由と方法）</h2>
+<ul>
+<li><strong>Go</strong> ―
+エンジン全体（<code>internal/hash</code>、<code>graph</code>、<code>adapter</code>、<code>orchestrator</code>、<code>config</code>、<code>state</code>、<code>runner</code>、<code>cmd/docs_chain</code>）。</li>
+<li><strong>DAG + カーンのトポロジカルソート</strong> ―
+依存関係の順序付けと早期カットオフ。</li>
+<li><strong>SQLite（純粋Go modernc）</strong> ―
+データベースメンバーとトランザクショナルコミット。</li>
+<li><strong>fsnotify</strong> ―
+ライブ伝播のための<code>watch</code>デーモン。</li>
+<li><strong>YAML設定</strong> ― コンテキストごとのチェーン登録。</li>
+<li><strong>exec: 変換</strong> ―
+プラガブルなMarkdown→HTML/PDF/DOCX生成。</li>
+</ul>
+<blockquote>
+<p>ロードマップの透明性：フェーズ6～7（憲法配布、ATMOSphere接続）はPLANNED／オペレータ制限付きで提供
+― まだリリースされていない。</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p><strong>Құжаттаманы QA автоматтандыру үшін растауға болатын
+мүмкіндіктер картасына айналдыру</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>DocProcessor – жоба құжаттамасын жүктейтін, құрылымды мүмкіндіктер
+картасын жасап, растау қамтуын бақылайтын жеке, толық ажыратылған Go
+модулі. Ол LLM агенттерімен интеллектуалды мүмкіндіктерді шығару үшін
+әзірленген, бірақ офлайн қолдану үшін эвристикалық шығаруды да
+қамтиды.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>Жобаға тәуелсіз Go модулі құжаттаманы өңдеу және мүмкіндіктер
+картасын шығару үшін. Ол құжаттаманы құрылымды мүмкіндіктер картасына
+түрлендіріп, қай мүмкіндіктер расталғанын бақылайды – LLM агенттерімен
+интеллектуалды шығаруды пайдаланып немесе офлайн режимде эвристика
+арқылы – QA автоматтандыруына «алдамайтын», шындыққа әрдайым сәйкес
+келетін кепілдік береді.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Әрбір бағдарламалық жасақтама командасы бірдей баяу өтірікпен өмір
+сүреді: құжаттама мүмкіндіктерді уәде етеді, тесттер оған жақын нәрсені
+қамтиды, ал екеуі бірдей өнімді сипаттайтынын ешкім сеніммен айта
+алмайды. DocProcessor осы алшақтықты көрініп, өлшенетін ету үшін бар.
+Жобаның құжаттамасы берілгенде, ол құрылымды мүмкіндіктер картасын
+жасайды – өнімнің барлық уәде еткенін сипаттайтын санақталған, машина
+оқи алатын модель – және растау қамтуын осы картаға сәйкес бақылайды.
+Осылайша «бұл құжатталған мүмкіндік шынымен расталды ма?» деген сұрақ
+дәліздегі талас емес, жауабы бар сұранымға айналады. Ол әдейі екі
+режимді: LLM агенттері қолжетімді болғанда интеллектуалды, семантикалық
+мүмкіндіктерді шығару үшін пайдаланылады, ал толық офлайн қолдану үшін
+эвристикалық парсерге ауысады. Сондықтан ол модельдің болуына қатаң
+тәуелді емес және әуе кеңістігі бөлінген CI жұмысында немесе әуе режимі
+қосылған әзірлеушінің ноутбугінде бірдей жұмыс істейді.</p>
+<p>Архитектуралық тұрғыдан ол жеке, жобаға бейтаныс, толық ажыратылған
+Go модулі (CONST-051(B)) болып табылады: ол жобаға тән мәндерді
+жібермейді және тұтынушылармен тең кодтық базалық кіші модуль ретінде
+қосылады. Осылайша кез келген жоба оны басқа біреудің болжамдарын мұра
+етпей қабылдай алады. Сонымен қатар ол өзін басқаларға талап ететін
+стандартқа бағынады – оның өзінің мәлімдемелері «алдамайтын» келісім
+(CONST-035) және толық автоматтандырылған қамту ережелерімен (CONST-048)
+байланысты. Бұл оның README файлында жарияланған әрбір мүмкіндігі
+автоматтандырылған тест немесе Challenge скрипті арқылы тексеріледі
+дегенді білдіреді, яғни тек нөлдік шығу емес, шынымен пайдаланушыға
+қолжетімді мінез-құлық расталады. Пайдаланушыға көрсетілетін жолдар
+CONST-046 интернационалдандыру аудармасы арқылы өтеді. Бұл барлығының
+мақсаты тұйық цикл: DocProcessor – HelixQA жабатын QA циклінің кіріс
+жағы. Ол құжаттамадан мүмкіндіктер картасын шығарады, HelixQA әрбір
+карталанған мүмкіндікті жұмыс уақытындағы дәлелдермен растайды, ал
+құжаттама, тесттер және жіберілген мінез-құлық шығарылым сайын
+бір-бірінен алыстамай, мәжбүрлеп жақындастырылады.</p>
+<h2 id="неге-оны-жасадық">Неге оны жасадық</h2>
+<p>Құжаттама мен тесттер бір-бірінен алыстайды: құжаттама тест
+растамайтын мүмкіндіктерді уәде етеді, ал QA «толық» дегеннің мағынасын
+оңай анықтай алмайды. DocProcessor құжаттаманы машина оқи алатын
+мүмкіндіктер картасына айналдырады, сондықтан растау қамтуы уәде етілген
+нәрсеге сәйкес өлшенуі мүмкін.</p>
+<p>Мазмұны</p>
+<h2 id="неге-бұл-ойынды-өзгертетін-шешім">Неге бұл ойынды өзгертетін
+шешім</h2>
+<p>Бағдарламалық жасақтаманы жеткізудегі ең бұлыңғыр сұрақ — “Жіберген
+нәрсеміз айтқан нәрсемізге сай ма?” — автоматтандырылып, үздіксіз
+тексерілетін нәрсеге айналады. Сонымен қатар, бұл AI тәуелділігі жоқ
+әдіспен жүзеге асырылады: модель болған кезде LLM экстракциясы, болмаған
+кезде эвристикалық әдістер қолданылады. Нәтижесінде, офлайн режимдегі
+жүргізушіден толық агенттік құбырға дейінгі әрбір ортада бірдей кепілдік
+сақталады.</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Құжаттамадан мүмкіндіктер картасын шығару және верификациялық
+қамтуды бақылау.</li>
+<li>Екі жақты экстракция: LLM агенті арқылы не эвристикалық/офлайн
+әдіспен.</li>
+<li>Жобаның түріне қарамастан, нөлдік конфигурациямен ажыратылған жұмыс
+(CONST-051(B)).</li>
+<li>Өзінің сенімділігін тексеру: README мәлімдемелері сынақтар/Challenge
+арқылы расталады (CONST-035/048).</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>Модельсіз жұмыс:</strong> офлайн режимде жұмыс істеу үшін
+эвристикалық экстрактор қолданылады.</li>
+<li><strong>Құжаттама мен шындықтың үйлесімділігін сақтау:</strong>
+құрылымдық мүмкіндіктер картасы мен верификациялық қамтуды бақылау
+арқылы шешіледі, бұл сапалық тексеру цикліне байланыстырылған.</li>
+<li><strong>Қайта қолдану мүмкіндігі:</strong> қатаң ажырату және бірдей
+кодтық базадағы кіші модульдерді пайдалану арқылы шешіледі.</li>
+<li><strong>Өзінің мәлімдемелерінің сенімділігі:</strong> әрбір
+жарияланған мүмкіндік үшін антиблеф сынақтары/Challenge
+қолданылады.</li>
+</ul>
+<h2 id="техникалық-стегі-неге-және-қалай">Техникалық стегі (неге және
+қалай)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — модульдің негізі; Apache-2.0
+лицензиясы.</li>
+<li><strong>LLM агенттері</strong> — зияткерлік семантикалық
+мүмкіндіктерді шығару (міндетті емес).</li>
+<li><strong>Эвристикалық парсер</strong> — офлайн мүмкіндіктерді
+шығарудың қосалқы әдісі.</li>
+<li><strong>i18n Тілмашы (<code>pkg/i18n</code>)</strong> — CONST-046
+локализацияланған жолдар.</li>
+<li><strong>Challenge жүйесі</strong> — модульдің өз мәлімдемелерін
+антиблефтік верификациялау.</li>
+</ul>
+</body>
+</html>

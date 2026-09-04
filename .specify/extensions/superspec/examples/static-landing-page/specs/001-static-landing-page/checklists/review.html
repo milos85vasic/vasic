@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>review</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">review</h1>
+</header>
+<h1 id="implementation-review-static-landing-page">Implementation
+Review: Static Landing Page</h1>
+<p><strong>Feature</strong>: 001-static-landing-page
+<strong>Date</strong>: 2026-06-02 <strong>Implementation</strong>:
+<code>web/index.html</code> (12,772 bytes) <strong>Review
+scope</strong>: Spec compliance, edge-case coverage, constitution
+compliance, code quality, task completion</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Important</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Suggestion</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>The implementation is structurally sound and covers the majority of
+spec requirements. Page weight is excellent (12.8 KB vs 64 KB budget).
+However, one critical accessibility issue and several important gaps
+were identified.</p>
+<hr />
+<h2 id="spec-compliance-acceptance-scenarios">Spec Compliance —
+Acceptance Scenarios</h2>
+<h3 id="user-story-1-hero-section-p1">User Story 1 — Hero Section
+(P1)</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>AS1.1</strong>:
+Project name “SuperSpec” displayed as most prominent text — ✅
+<code>&lt;h1&gt;SuperSpec&lt;/h1&gt;</code> in hero,
+<code>clamp(2rem, 5vw, 3.5rem)</code> sizing</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS1.2</strong>:
+Tagline visible beneath project name — ✅
+<code>&lt;p class="tagline"&gt;Specification-driven development for modern teams&lt;/p&gt;</code></label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS1.3</strong>:
+“Get Started” button links to valid destination — ✅
+<code>&lt;a href="#install" class="cta-button"&gt;Get Started&lt;/a&gt;</code>
+links to <code>#install</code> section</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS1.4</strong>:
+Hero occupies full viewport height on desktop (≥1024px) — ✅
+<code>min-height: 100vh</code> with flexbox centering</label></li>
+</ul>
+<h3 id="user-story-2-features-grid-p2">User Story 2 — Features Grid
+(P2)</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>AS2.1</strong>:
+Five feature cards displayed — ✅ Five
+<code>&lt;article class="card"&gt;</code> elements for status,
+brainstorm, tasks, execute, review</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS2.2</strong>:
+Each card shows command name and description — ✅ Each card has
+<code>&lt;h3&gt;</code> command name and <code>&lt;p&gt;</code>
+description</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS2.3</strong>:
+Multi-column layout on desktop — ✅ <code>repeat(6, 1fr)</code> with
+<code>grid-column: span 2</code> at 1024px; centered second row via
+<code>nth-child(4)</code> and <code>nth-child(5)</code>
+placement</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS2.4</strong>:
+Cards stack vertically on narrow viewport (≤600px) — ✅ Mobile-first
+<code>grid-template-columns: 1fr</code></label></li>
+</ul>
+<h3 id="user-story-3-workflow-diagram-install-snippet-p3">User Story 3 —
+Workflow Diagram &amp; Install Snippet (P3)</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>AS3.1</strong>:
+Visual diagram displays five commands in sequential flow — ✅
+<code>&lt;ol class="step-list"&gt;</code> with five
+<code>&lt;li&gt;</code> items</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS3.2</strong>:
+Directional relationship between steps is clear — ✅ Connecting lines
+via <code>::after</code> pseudo-elements; horizontal at 768px+, vertical
+on mobile</label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS3.3</strong>:
+Install command in monospaced code block — ✅
+<code>&lt;code class="code-snippet"&gt;npm install -g superspec&lt;/code&gt;</code>
+with <code>var(--font-mono)</code></label></li>
+<li><label><input type="checkbox" checked="" /><strong>AS3.4</strong>:
+Install command is selectable and copyable — ✅ Text content is
+selectable; <code>tabindex="0"</code> for keyboard focus</label></li>
+</ul>
+<hr />
+<h2 id="spec-compliance-functional-requirements">Spec Compliance —
+Functional Requirements</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>FR-001</strong>:
+Hero with project name, tagline, CTA button — ✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-002</strong>:
+“Get Started” links to documentation/quick-start — ✅ Links to
+<code>#install</code></label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-003</strong>:
+Hero centers content vertically and horizontally — ✅ Flexbox
+centering</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-004</strong>:
+Five feature cards for status, brainstorm, tasks, execute, review —
+✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-005</strong>:
+Each card displays command name and description — ✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-006</strong>:
+Multi-column on wide, stack on narrow — ✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-007</strong>:
+Workflow diagram showing sequential flow — ✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-008</strong>:
+Directional progression with visual connectors — ✅ Connecting lines via
+<code>::after</code></label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-009</strong>:
+Install command in monospaced code block — ✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-010</strong>:
+No JavaScript — pure HTML+CSS only — ✅ Zero <code>&lt;script&gt;</code>
+tags, zero JS</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-011</strong>:
+Single file at <code>web/index.html</code> — ✅</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-012</strong>:
+Responsive 320px–1920px+ — ✅ Mobile-first with breakpoints at 768px and
+1024px</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-013</strong>:
+Max-width container for wide screens — ✅
+<code>.container { max-width: 72rem }</code></label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-014</strong>:
+Print stylesheet — ✅ <code>@media print</code> block present with
+ink-friendly rules</label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-015</strong>:
+<code>file://</code> compatible — ✅ No external resources, no
+protocol-relative URLs, no JS</label></li>
+<li><label><input type="checkbox" /><strong>FR-016</strong>: All
+interactive elements keyboard-reachable with visible focus indicators —
+⚠️ <strong>See Critical #1</strong></label></li>
+<li><label><input type="checkbox" checked="" /><strong>FR-017</strong>:
+Install snippet keyboard-focusable — ✅ <code>tabindex="0"</code> on
+<code>&lt;code&gt;</code></label></li>
+<li><label><input type="checkbox" /><strong>FR-018</strong>: Readable
+under forced-colors/high-contrast — ⚠️ <strong>See Important
+#1</strong></label></li>
+</ul>
+<hr />
+<h2 id="edge-case-coverage">Edge Case Coverage</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>JavaScript
+disabled</strong>: Pure HTML+CSS — no JS dependency</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Very wide
+viewports (≥1920px)</strong>: <code>.container</code> with
+<code>max-width: 72rem</code> prevents content stretching</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Very small
+viewports (≤320px)</strong>: Mobile-first layout stacks;
+<code>clamp()</code> for font sizing</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Ultra-wide
+viewports (≥2560px)</strong>: Same max-width constraint
+applies</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Print
+output</strong>: <code>@media print</code> block hides decorative
+elements, forces linear flow, preserves install snippet</label></li>
+<li><label><input type="checkbox" checked="" /><strong>“Get Started”
+link broken/unreachable</strong>: Uses <code>#install</code> (in-page
+anchor) — always functional</label></li>
+<li><label><input type="checkbox"
+checked="" /><strong><code>file://</code> protocol</strong>: No external
+resources, no protocol-relative URLs</label></li>
+<li><label><input type="checkbox" checked="" /><strong>64 KB page weight
+budget</strong>: 12,772 bytes — well within budget</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Security
+surface</strong>: No forms, no JS, no external deps —
+negligible</label></li>
+<li><label><input type="checkbox" /><strong>Keyboard-only
+navigation</strong>: ⚠️ <strong>See Critical #1</strong> — focus
+indicators present but heading hierarchy issue affects screen reader
+flow</label></li>
+<li><label><input type="checkbox" /><strong>Screen reader flow (heading
+hierarchy)</strong>: ⚠️ <strong>See Important #2</strong> — heading
+levels are skipped</label></li>
+<li><label><input type="checkbox" /><strong>Forced-colors / High
+Contrast mode</strong>: ⚠️ <strong>See Important #1</strong> — some
+information may be conveyed by background alone</label></li>
+</ul>
+<hr />
+<h2 id="constitution-compliance">Constitution Compliance</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>I. Zero Build,
+Zero Runtime Dependencies</strong>: No build tools, no JS, no CDN
+links</label></li>
+<li><label><input type="checkbox" checked="" /><strong>II. Semantic HTML
+First</strong>: Landmark regions used (<code>&lt;header&gt;</code>,
+<code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>,
+<code>&lt;footer&gt;</code>) — ⚠️ heading hierarchy issue (see Important
+#2)</label></li>
+<li><label><input type="checkbox" checked="" /><strong>III. Mobile-First
+Responsive Design</strong>: Mobile-first CSS with <code>min-width</code>
+breakpoints</label></li>
+<li><label><input type="checkbox" checked="" /><strong>IV.
+Self-Contained Single-File Delivery</strong>: All CSS inlined in
+<code>&lt;style&gt;</code> tag; system fonts; no images</label></li>
+<li><label><input type="checkbox" checked="" /><strong>V.
+Developer-Audience Clarity</strong>: Technical content — command names,
+descriptions, install command, workflow sequence</label></li>
+</ul>
+<hr />
+<h2 id="task-completion">Task Completion</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T001–T022: All
+implementation tasks complete</label></li>
+<li><label><input type="checkbox" />T023: Keyboard navigation
+verification — requires browser (manual)</label></li>
+<li><label><input type="checkbox" />T024: W3C Markup Validation —
+requires browser (manual)</label></li>
+<li><label><input type="checkbox" />T025: axe-core accessibility audit —
+requires browser (manual)</label></li>
+<li><label><input type="checkbox" checked="" />T026: Page weight check —
+✅ 12,772 bytes (well under 64 KB)</label></li>
+<li><label><input type="checkbox" />T027: Responsive rendering
+validation — requires browser (manual)</label></li>
+<li><label><input type="checkbox" />T028: Print output validation —
+requires browser (manual)</label></li>
+<li><label><input type="checkbox" checked="" />T029:
+<code>file://</code> protocol — verified: no external resources, no
+JS</label></li>
+</ul>
+<hr />
+<h2 id="findings">Findings</h2>
+<h3 id="critical">Critical</h3>
+<h4
+id="hero-h1-inside-header-no-h1-in-main-breaks-heading-hierarchy-for-screen-readers">1.
+Hero <code>&lt;h1&gt;</code> inside <code>&lt;header&gt;</code> — no
+<code>&lt;h1&gt;</code> in <code>&lt;main&gt;</code> breaks heading
+hierarchy for screen readers</h4>
+<p><strong>Confidence</strong>: 90 | <strong>FR-016, Edge case: Screen
+reader flow</strong></p>
+<p>The page has a single <code>&lt;h1&gt;</code> inside
+<code>&lt;header class="hero"&gt;</code>. The spec edge case states:
+“Heading hierarchy MUST be strictly sequential (h1 → h2 → h3, no skipped
+levels).” While the <code>&lt;h1&gt;</code> → <code>&lt;h2&gt;</code> →
+<code>&lt;h3&gt;</code> sequence is technically present, the
+<code>&lt;header&gt;</code> landmark containing <code>&lt;h1&gt;</code>
+before <code>&lt;main&gt;</code> means assistive technology announces
+the hero heading then enters <code>&lt;main&gt;</code> where the first
+heading is <code>&lt;h2&gt;</code>. This is acceptable per WCAG, but the
+real concern is that the two <code>&lt;h2&gt;</code> elements (“Core
+Commands” and “How It Works”) are sibling sections inside
+<code>&lt;main&gt;</code> without a visible <code>&lt;h1&gt;</code> in
+<code>&lt;main&gt;</code>. Some screen reader users navigate by heading
+level and may miss the <code>&lt;h1&gt;</code> in the banner
+landmark.</p>
+<p><strong>Recommendation</strong>: This is a judgment call — the
+current structure is technically valid (one <code>&lt;h1&gt;</code> per
+page, within <code>&lt;header&gt;</code>). However, consider adding
+<code>aria-labelledby</code> on <code>&lt;main&gt;</code> pointing to
+the hero <code>&lt;h1&gt;</code>, or accept this as a low-impact
+structural choice. <strong>No code change strictly required</strong>,
+but flag for manual axe-core verification (T025).</p>
+<hr />
+<h3 id="important">Important</h3>
+<h4
+id="two-h2-headings-inside-section-idworkflow-how-it-works-and-install-are-sibling-h2-elements-inside-the-same-section">2.
+Two <code>&lt;h2&gt;</code> headings inside
+<code>&lt;section id="workflow"&gt;</code> — “How It Works” and
+“Install” are sibling <code>&lt;h2&gt;</code> elements inside the same
+section</h4>
+<p><strong>Confidence</strong>: 95 | <strong>FR-016, Edge case: Screen
+reader flow</strong></p>
+<p>The workflow section contains: -
+<code>&lt;h2&gt;How It Works&lt;/h2&gt;</code> (line ~509) -
+<code>&lt;h2&gt;Install&lt;/h2&gt;</code> (line ~518, inside the
+<code>&lt;div id="install"&gt;</code> within the same section)</p>
+<p>This means two <code>&lt;h2&gt;</code> headings exist inside one
+<code>&lt;section&gt;</code>, with the second one nested inside a
+<code>&lt;div&gt;</code> rather than its own sectioning element. The
+“Install” heading is semantically a sub-topic of the workflow section,
+so it should be an <code>&lt;h3&gt;</code> (or the install block should
+be its own <code>&lt;section&gt;</code>). This creates an ambiguous
+heading hierarchy for screen reader users.</p>
+<p><strong>Recommendation</strong>: Change
+<code>&lt;h2&gt;Install&lt;/h2&gt;</code> to
+<code>&lt;h3&gt;Install&lt;/h3&gt;</code> at
+<code>web/index.html:518</code>, since it is a sub-section of the
+workflow section. This restores the strict h1 → h2 → h3 hierarchy the
+spec requires.</p>
+<h4 id="forced-colors-mode-feature-cards-may-lose-visual-distinction">3.
+Forced-colors mode: feature cards may lose visual distinction</h4>
+<p><strong>Confidence</strong>: 85 | <strong>FR-018</strong></p>
+<p>The <code>forced-colors</code> media query adds
+<code>border: 2px solid ButtonText</code> to <code>.card</code>,
+<code>.cta-button</code>, <code>.code-snippet</code>, and
+<code>.hero</code>. However, the <code>.card</code> uses
+<code>background-color: var(--color-surface)</code> to distinguish it
+from the white page background. In forced-colors mode,
+<code>background: transparent</code> is not explicitly forced, and the
+card’s visual distinction relies partly on the background color. While
+the border helps, the card background may still render as the system’s
+<code>Canvas</code> color, potentially making cards blend with the page.
+The spec edge case states: “CSS MUST NOT rely solely on background-color
+for conveying information.”</p>
+<p><strong>Recommendation</strong>: In the
+<code>@media (forced-colors: active)</code> block, explicitly set
+<code>.card { background: Canvas; }</code> to ensure a consistent
+background in forced-colors mode. The existing border provides
+sufficient visual distinction when combined with a known background.</p>
+<h4
+id="print-stylesheet-step-indicator-connecting-lines-are-hidden-but-step-numbers-may-lose-meaning">4.
+Print stylesheet: step indicator connecting lines are hidden but step
+numbers may lose meaning</h4>
+<p><strong>Confidence</strong>: 80 | <strong>FR-014, Edge case: Print
+output</strong></p>
+<p>In the <code>@media print</code> block,
+<code>.step-list li::after</code> is set to <code>display: none</code>
+(removing connecting lines — correct). The numbered circles via
+<code>::before</code> get
+<code>border: 1pt solid #000; background: transparent; color: #000;</code>
+which preserves them. However, the print stylesheet also sets
+<code>.step-list { display: block; }</code> which removes flex layout.
+The <code>&lt;li&gt;</code> items will render as a standard ordered list
+with CSS counter circles plus the browser’s default list numbering
+(since <code>list-style: none</code> is set in the base CSS). This means
+the steps may appear as numbered circles from the counter
+<em>without</em> the connecting lines, which is correct, but the
+vertical spacing between steps is not explicitly controlled in print —
+they may appear too close together.</p>
+<p><strong>Recommendation</strong>: Add <code>padding: 0.5em 0;</code>
+to <code>.step-list li</code> inside the <code>@media print</code> block
+to ensure adequate spacing between steps when printed vertically.</p>
+<hr />
+<h3 id="suggestions">Suggestions</h3>
+<h4
+id="consider-scroll-behavior-smooth-on-html-for-the-install-anchor-link">5.
+Consider <code>scroll-behavior: smooth</code> on
+<code>&lt;html&gt;</code> for the <code>#install</code> anchor link</h4>
+<p><strong>Confidence</strong>: 80 | <strong>UX enhancement</strong></p>
+<p>The “Get Started” button links to <code>#install</code>. Without
+<code>scroll-behavior: smooth</code>, the browser jumps instantly to the
+install section. Adding <code>html { scroll-behavior: smooth; }</code>
+provides a more polished UX. This is a pure CSS property with no JS
+dependency and is supported in all target browsers.</p>
+<p><strong>Recommendation</strong>: Add
+<code>html { scroll-behavior: smooth; }</code> to the base CSS. Note:
+this is optional and not required by the spec.</p>
+<h4 id="consider-scroll-margin-top-on-install-target">6. Consider
+<code>scroll-margin-top</code> on <code>#install</code> target</h4>
+<p><strong>Confidence</strong>: 80 | <strong>UX enhancement</strong></p>
+<p>When navigating to <code>#install</code>, the browser scrolls the
+install block to the very top of the viewport. Adding
+<code>scroll-margin-top</code> or <code>scroll-padding-top</code> on
+<code>#install</code> would provide breathing room above the target,
+preventing the heading from being flush against the viewport edge.</p>
+<p><strong>Recommendation</strong>: Add
+<code>#install { scroll-margin-top: 2rem; }</code> to the base CSS.</p>
+<h4
+id="the-hero-div-classcontainer-wrapper-is-redundant-for-flex-centering">7.
+The hero <code>&lt;div class="container"&gt;</code> wrapper is redundant
+for flex centering</h4>
+<p><strong>Confidence</strong>: 80 | <strong>Code quality</strong></p>
+<p>The hero section uses
+<code>display: flex; align-items: center; justify-content: center;</code>
+on the <code>&lt;header&gt;</code>, and the content is wrapped in a
+<code>&lt;div class="container"&gt;</code>. The container applies
+<code>max-width: 72rem</code> and horizontal padding. This is correct
+for constraining content width, but the flex centering on the parent
+already centers the child. The container is needed for the max-width
+constraint, so this is fine — just noting it’s doing double duty.</p>
+<p><strong>Recommendation</strong>: No change needed. The pattern is
+correct.</p>
+<h4
+id="the-transition-property-on-.cta-button-is-a-minor-violation-of-no-javascript-spirit">8.
+The <code>transition</code> property on <code>.cta-button</code> is a
+minor violation of “no JavaScript” spirit</h4>
+<p><strong>Confidence</strong>: 80 | <strong>Constitution
+consideration</strong></p>
+<p>The <code>.cta-button</code> uses
+<code>transition: background-color 0.2s, border-color 0.2s;</code>. CSS
+transitions are purely CSS and require no JavaScript. They are
+baseline-supported in all target browsers. This is fully compliant with
+the spec and constitution. Noting for completeness — no issue.</p>
+<p><strong>Recommendation</strong>: No change needed.</p>
+<hr />
+<h2 id="manual-validation-remaining">Manual Validation Remaining</h2>
+<p>The following tasks require browser-based manual testing and cannot
+be verified in this code review:</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 48%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr>
+<th>Task</th>
+<th>Description</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T023</td>
+<td>Keyboard navigation — Tab reaches all interactive elements, focus
+indicators visible</td>
+<td>⏳ Requires browser</td>
+</tr>
+<tr>
+<td>T024</td>
+<td>W3C Markup Validation — zero errors</td>
+<td>⏳ Requires browser</td>
+</tr>
+<tr>
+<td>T025</td>
+<td>axe-core accessibility audit — zero violations</td>
+<td>⏳ Requires browser</td>
+</tr>
+<tr>
+<td>T027</td>
+<td>Responsive rendering at 320px, 768px, 1280px</td>
+<td>⏳ Requires browser</td>
+</tr>
+<tr>
+<td>T028</td>
+<td>Print output — linear, ink-friendly flow</td>
+<td>⏳ Requires browser</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommendation</strong>: Run manual validation before marking
+the feature as production-ready. The heading hierarchy fix (Important
+#2) should be applied first to improve axe-core results.</p>
+<hr />
+<h2 id="verdict">Verdict</h2>
+<p><strong>Conditional Pass</strong> — The implementation faithfully
+covers 16 of 18 functional requirements and all three user stories. One
+code fix is recommended before manual validation:</p>
+<ol type="1">
+<li><strong>Apply Important #2</strong>: Change
+<code>&lt;h2&gt;Install&lt;/h2&gt;</code> to
+<code>&lt;h3&gt;Install&lt;/h3&gt;</code> to fix heading hierarchy (high
+confidence, quick fix)</li>
+</ol>
+<p>The critical finding (heading hierarchy with <code>&lt;h1&gt;</code>
+in <code>&lt;header&gt;</code>) is a judgment call — the current
+structure is technically valid HTML5 but may benefit from manual
+axe-core verification. The forced-colors and print spacing improvements
+are recommended but not blocking.</p>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1 id="superpowers-bridge-for-spec-kit">Superpowers Bridge for
+Spec-Kit</h1>
+<p><strong>Specification-Driven Development with
+Superpowers</strong></p>
+<p>Superpowers Bridge is a <a
+href="https://github.com/github/spec-kit">spec-kit</a> extension that
+integrates <a
+href="https://github.com/obra/superpowers">obra/superpowers</a> agent
+capabilities into the spec-kit development workflow. It works with any
+spec-kit compatible coding agent, including <a
+href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code">Claude
+Code</a>, <a href="https://github.com/openai/codex">Codex CLI</a> and
+others.</p>
+<p>Spec-kit provides the document structure and governance
+(constitution, specifications, plans, tasks). Superpowers provides deep
+clarification (brainstorming), intelligent task decomposition
+(writing-plans), and engineering execution discipline (TDD,
+subagent-driven development, code review).</p>
+<h2 id="architecture">Architecture</h2>
+<figure>
+<img src="assets/workflow-overview-en.png"
+alt="AI-Powered: End-to-End Development Workflow (SDD)" />
+<figcaption aria-hidden="true">AI-Powered: End-to-End Development
+Workflow (SDD)</figcaption>
+</figure>
+<p>The workflow orchestrates 6 phases — from project definition through
+engineering implementation — with spec-kit handling governance artifacts
+and superpowers providing intelligent clarification, decomposition, and
+execution capabilities.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="via-spec-kit-cli-recommended">Via Spec-Kit CLI
+(Recommended)</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">specify</span> extension add superspec</span></code></pre></div>
+<h3 id="from-source">From Source</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clone the repository</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/WangX0111/superspec.git</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install via spec-kit from local path</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">specify</span> extension add ./superspec <span class="at">--dev</span></span></code></pre></div>
+<h3 id="as-an-agent-skill">As an Agent Skill</h3>
+<p>If you’re using a coding CLI agent (Claude Code, Codex CLI, etc.) and
+want to use this as a skill rather than a spec-kit extension, symlink
+it:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Claude Code</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.claude/skills/superspec</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Codex CLI</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.codex/skills/superspec</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Other agents (common convention)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.agents/skills/superspec</span></code></pre></div>
+<h3 id="optional-install-superpowers">Optional: Install Superpowers</h3>
+<p>Superpowers Bridge works standalone, but for enhanced capabilities
+install superpowers skills:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install obra/superpowers (see their repo for latest instructions)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Skills should be placed in ~/.agents/skills/ or .agents/skills/</span></span></code></pre></div>
+<h2 id="commands">Commands</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.superspec.status</code></td>
+<td>Show current progress and suggest next step</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.brainstorm</code></td>
+<td>Deep-dive edge cases and refine a spec document</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.tasks</code></td>
+<td>Generate phased task breakdown with execution markers</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.execute</code></td>
+<td>Orchestrate implementation with TDD + subagents</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.review</code></td>
+<td>Run code review against spec requirements</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong>: This extension adds 5 commands on top of the
+core spec-kit commands (<code>/speckit.constitution</code>,
+<code>/speckit.specify</code>, <code>/speckit.plan</code>,
+<code>/speckit.tasks</code>, <code>/speckit.checklist</code>). The core
+commands are provided by spec-kit itself.</p>
+</blockquote>
+<h2 id="resumable-by-design">Resumable by Design</h2>
+<p>All project state is persisted as plain-text markdown and YAML files
+— under <code>.specify/memory/</code> for governance
+(<code>constitution.md</code>) and under <code>specs/NNN-*/</code> for
+per-feature state (<code>spec.md</code>, <code>plan.md</code>,
+<code>tasks.md</code>, <code>progress.yml</code>). When a session is
+interrupted — agent timeout, user leaves, CLI crash — no progress is
+lost. Run <code>/speckit.superspec.status</code> in a new session to see
+exactly where you left off:</p>
+<pre><code>Superspec Project Status
+========================
+Constitution: Done
+Features:
+  001-user-auth    [####------] execute (Phase 5/6) — 11/19 tasks done
+  002-photo-upload [##--------] brainstorm (Phase 2/6) — 2 open questions
+
+Suggested next step: /speckit.superspec.execute 001</code></pre>
+<p>Each command automatically detects previous progress and resumes from
+the interruption point — skipping completed work, continuing from open
+questions or unchecked tasks.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="initialize-project-governance">1. Initialize Project
+Governance</h3>
+<pre><code>/speckit.constitution MyProject</code></pre>
+<p>This creates the <code>.specify/</code> directory structure and
+interviews you about core principles, technology stack, and quality
+gates.</p>
+<h3 id="write-your-first-spec">2. Write Your First Spec</h3>
+<pre><code>/speckit.specify &quot;User authentication with email and password&quot;</code></pre>
+<p>This creates a feature specification at
+<code>specs/001-user-authentication/spec.md</code> with user stories,
+requirements, and success criteria.</p>
+<h3 id="brainstorm-edge-cases">3. Brainstorm Edge Cases</h3>
+<pre><code>/speckit.superspec.brainstorm specs/001-user-authentication/spec.md</code></pre>
+<p>The agent asks probing questions one at a time to discover boundary
+conditions, error scenarios, security concerns, and UX pitfalls you may
+not have considered.</p>
+<h3 id="plan-and-execute">4. Plan and Execute</h3>
+<pre><code>/speckit.plan                            # Create technical implementation plan
+/speckit.superspec.tasks               # Generate task breakdown with execution markers
+/speckit.superspec.execute             # Implement with TDD discipline and checkpoints
+/speckit.superspec.review              # Verify implementation against spec</code></pre>
+<h2 id="real-world-example">Real-World Example</h2>
+<p>To see what spec-kit + superspec actually produces after a complete
+run, browse the <a
+href="examples/static-landing-page/"><code>examples/static-landing-page/</code></a>
+snapshot — the verbatim disk output from a real Claude Code session
+driven through all 7 stages (constitution → specify → brainstorm → plan
+→ tasks → execute → review).</p>
+<p>Open <a
+href="examples/static-landing-page/web/index.html"><code>examples/static-landing-page/web/index.html</code></a>
+in any browser to view the AI-generated landing page directly. The
+accompanying <a href="examples/static-landing-page/README.md">snapshot
+README</a> explains how the artifacts were produced and how to reproduce
+them via <a
+href="scripts/e2e-agent-claude.sh"><code>scripts/e2e-agent-claude.sh</code></a>.</p>
+<h2 id="project-structure">Project Structure</h2>
+<p>After initialization, your project will contain two top-level
+directories created by spec-kit — <code>.specify/</code> for tool
+metadata and <code>specs/</code> for feature artifacts:</p>
+<pre><code>your-project/
+├── .specify/
+│   ├── memory/
+│   │   └── constitution.md      # Project governance principles
+│   ├── superpowers.yml          # Superpowers detection status (auto-managed)
+│   └── templates/               # Document templates
+├── specs/
+│   └── 001-feature-name/
+│       ├── spec.md              # Feature specification
+│       ├── plan.md              # Implementation plan
+│       ├── tasks.md             # Task breakdown
+│       ├── progress.yml         # Phase progress tracker (auto-managed)
+│       └── checklist-*.md       # Generated checklists
+└── ... (your source code)</code></pre>
+<h2 id="workflow">Workflow</h2>
+<pre><code>Constitution → Specify → Brainstorm → Plan → Tasks → Execute → Review
+                            ↑     ↓
+                            └─────┘  (iterate until spec is solid)</code></pre>
+<p>Each phase has an explicit gate — prerequisites are verified before
+proceeding. Human checkpoints ensure you control when to advance.</p>
+<h2 id="superpowers-integration">Superpowers Integration</h2>
+<p>When obra/superpowers skills are installed, superspec automatically
+detects and uses them:</p>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 30%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>Superspec Command</th>
+<th>Enhanced By</th>
+<th>Fallback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brainstorm</code></td>
+<td><code>brainstorming</code> skill</td>
+<td>Built-in questioning protocol</td>
+</tr>
+<tr>
+<td><code>tasks</code></td>
+<td><code>writing-plans</code> skill</td>
+<td>Template-based decomposition</td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td><code>executing-plans</code> +
+<code>subagent-driven-development</code> +
+<code>test-driven-development</code></td>
+<td>Sequential execution with manual confirmation</td>
+</tr>
+<tr>
+<td><code>review</code></td>
+<td><code>requesting-code-review</code> skill</td>
+<td>Built-in review checklist</td>
+</tr>
+</tbody>
+</table>
+<p>See <a
+href="references/superpowers-bridge.md">superpowers-bridge.md</a> for
+full integration details.</p>
+<h2 id="contributing-to-the-spec-kit-extension-registry">Contributing to
+the Spec-Kit Extension Registry</h2>
+<p>To submit this extension to the <a
+href="https://github.com/github/spec-kit/tree/main/extensions">spec-kit
+community catalog</a>:</p>
+<ol type="1">
+<li><strong>Fork</strong> the <code>github/spec-kit</code>
+repository</li>
+<li><strong>Add an entry</strong> to
+<code>extensions/catalog.community.json</code>:</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;superpowers&quot;</span><span class="fu">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Superpowers Bridge&quot;</span><span class="fu">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;Bridges spec-kit with obra/superpowers capabilities (brainstorming, writing-plans, TDD, subagent-driven-development, code-review)&quot;</span><span class="fu">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Superspec Contributors&quot;</span><span class="fu">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;repository&quot;</span><span class="fu">:</span> <span class="st">&quot;https://github.com/WangX0111/superspec&quot;</span><span class="fu">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;verified&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;tags&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;superpowers&quot;</span><span class="ot">,</span> <span class="st">&quot;brainstorming&quot;</span><span class="ot">,</span> <span class="st">&quot;tdd&quot;</span><span class="ot">,</span> <span class="st">&quot;code-review&quot;</span><span class="ot">,</span> <span class="st">&quot;subagent&quot;</span><span class="ot">,</span> <span class="st">&quot;workflow&quot;</span><span class="ot">]</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<ol start="3" type="1">
+<li><strong>Add a row</strong> to the Community Extensions table in the
+spec-kit <code>README.md</code></li>
+<li><strong>Submit a Pull Request</strong> using the extension
+submission template</li>
+<li>Allow 3-7 business days for automated checks and manual review</li>
+</ol>
+<p>See the full <a
+href="https://github.com/github/spec-kit/blob/main/extensions/EXTENSION-PUBLISHING-GUIDE.md">Extension
+Publishing Guide</a> for details.</p>
+<h2 id="license">License</h2>
+<p>MIT</p>
+<hr />
+<h1 id="superpowers-bridge中文说明">Superpowers Bridge（中文说明）</h1>
+<p><strong>规格驱动开发 + 超级能力</strong></p>
+<p>Superpowers Bridge 是一个 <a
+href="https://github.com/github/spec-kit">spec-kit</a> 扩展，将 <a
+href="https://github.com/obra/superpowers">obra/superpowers</a>
+代理能力集成到 spec-kit 开发工作流中。它兼容所有支持 spec-kit
+的编程代理，包括 <a
+href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code">Claude
+Code</a>、 <a href="https://github.com/openai/codex">Codex CLI</a>
+等。</p>
+<p>Spec-kit 提供文档结构和治理（宪章、规格、计划、任务）。 Superpowers
+提供深度澄清（头脑风暴）、智能任务拆解（计划编写）和工程执行纪律（TDD、子代理驱动开发、代码审查）。</p>
+<h2 id="架构概览">架构概览</h2>
+<figure>
+<img src="assets/workflow-overview-zh.png"
+alt="AI助力: 端到端开发工作流（SDD）" />
+<figcaption aria-hidden="true">AI助力:
+端到端开发工作流（SDD）</figcaption>
+</figure>
+<p>工作流编排 6 个阶段——从项目定义到工程实现——spec-kit
+负责治理文档，superpowers 提供智能澄清、任务拆解和执行能力。</p>
+<h2 id="安装">安装</h2>
+<h3 id="通过-spec-kit-cli推荐">通过 Spec-Kit CLI（推荐）</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">specify</span> extension add superspec</span></code></pre></div>
+<h3 id="从源码安装">从源码安装</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 克隆仓库</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/WangX0111/superspec.git</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 从本地路径安装</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">specify</span> extension add ./superspec <span class="at">--dev</span></span></code></pre></div>
+<h3 id="作为代理技能安装">作为代理技能安装</h3>
+<p>如果你使用 Claude Code、Codex CLI 等，希望将其作为技能而非 spec-kit
+扩展使用：</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Claude Code</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.claude/skills/superspec</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Codex CLI</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.codex/skills/superspec</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 其他代理（通用约定）</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.agents/skills/superspec</span></code></pre></div>
+<h3 id="可选安装-superpowers">可选：安装 Superpowers</h3>
+<p>Superpowers Bridge 可以独立工作，但安装 superpowers
+技能可获得增强能力：</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 安装 obra/superpowers（具体方式请参见其仓库）</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 技能应放置在 ~/.agents/skills/ 或 .agents/skills/</span></span></code></pre></div>
+<h2 id="命令列表">命令列表</h2>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.superspec.status</code></td>
+<td>显示当前进度并建议下一步操作</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.brainstorm</code></td>
+<td>深入探索边界情况，完善规格文档</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.tasks</code></td>
+<td>生成分阶段任务清单（含执行标记）</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.execute</code></td>
+<td>以 TDD + 子代理编排方式执行实现</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.review</code></td>
+<td>对照规格进行代码审查</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>：此扩展在 spec-kit
+核心命令（<code>/speckit.constitution</code>、<code>/speckit.specify</code>、
+<code>/speckit.plan</code>、<code>/speckit.tasks</code>、<code>/speckit.checklist</code>）基础上增加
+5 个命令。 核心命令由 spec-kit 自身提供。</p>
+</blockquote>
+<h2 id="可中断恢复">可中断恢复</h2>
+<p>所有项目状态以纯文本（Markdown + YAML）持久化——治理资产（宪章）在
+<code>.specify/memory/</code> 下，
+每个功能的状态（规格、计划、任务、进度）在 <code>specs/NNN-*/</code>
+下。 会话中断时——代理超时、用户离开、CLI 崩溃——不会丢失任何进度。
+在新会话中运行 <code>/speckit.superspec.status</code>
+即可查看中断点：</p>
+<pre><code>Superspec 项目状态
+==================
+宪章: 已完成
+Superpowers:  brainstorming (已检测), writing-plans (未安装)
+
+功能:
+  001-user-auth    [####------] 执行中 (阶段 5/6) — 11/19 任务完成
+  002-photo-upload [##--------] 头脑风暴 (阶段 2/6) — 2 个待解决问题
+
+建议下一步: /speckit.superspec.execute 001</code></pre>
+<p>每个命令会自动检测之前的进度并从中断点恢复——跳过已完成的工作，从未解决的问题或未完成的任务继续。</p>
+<h2 id="快速开始">快速开始</h2>
+<h3 id="初始化项目治理">1. 初始化项目治理</h3>
+<pre><code>/speckit.constitution 我的项目</code></pre>
+<p>创建 <code>.specify/</code>
+目录结构，并引导你定义核心原则、技术栈和质量门禁。</p>
+<h3 id="编写第一个功能规格">2. 编写第一个功能规格</h3>
+<pre><code>/speckit.specify &quot;用户邮箱密码登录认证&quot;</code></pre>
+<p>在 <code>specs/001-user-authentication/spec.md</code>
+创建功能规格，包含用户故事、需求和成功标准。</p>
+<h3 id="头脑风暴边界情况">3. 头脑风暴边界情况</h3>
+<pre><code>/speckit.superspec.brainstorm specs/001-user-authentication/spec.md</code></pre>
+<p>代理逐个提出探索性问题，发现你可能没有想到的边界条件、错误场景、安全隐患和用户体验陷阱。</p>
+<h3 id="规划与执行">4. 规划与执行</h3>
+<pre><code>/speckit.plan                            # 创建技术实现方案
+/speckit.superspec.tasks               # 生成任务拆解（含执行标记）
+/speckit.superspec.execute             # 以 TDD 纪律和检查点方式实现
+/speckit.superspec.review              # 对照规格验证实现</code></pre>
+<h2 id="真实样例">真实样例</h2>
+<p>想看 spec-kit + superspec 实际跑完一遍的成果？查看 <a
+href="examples/static-landing-page/"><code>examples/static-landing-page/</code></a>
+—— 这是一次真实 Claude Code 会话完整走完 7 阶段（宪章 → 规格 → 头脑风暴
+→ 计划 → 任务 → 执行 → 审查）后落到磁盘上的所有产物原样副本。</p>
+<p>直接用浏览器打开 <a
+href="examples/static-landing-page/web/index.html"><code>examples/static-landing-page/web/index.html</code></a>
+即可看到 AI 生成的落地页。配套 <a
+href="examples/static-landing-page/README.md">样例 README</a>
+详细说明了产生过程， 以及如何用 <a
+href="scripts/e2e-agent-claude.sh"><code>scripts/e2e-agent-claude.sh</code></a>
+复现这次快照。</p>
+<h2 id="工作流">工作流</h2>
+<pre><code>宪章 → 规格 → 头脑风暴 → 计划 → 任务 → 执行 → 审查
+                ↑     ↓
+                └─────┘（反复迭代直到规格完善）</code></pre>
+<p>每个阶段都有明确的门禁——在推进前验证前置条件。人工检查点确保你控制推进节奏。</p>
+<h2 id="superpowers-集成">Superpowers 集成</h2>
+<p>当安装了 obra/superpowers 技能时，Superpowers Bridge
+会自动检测并使用：</p>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 38%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr>
+<th>命令</th>
+<th>增强来源</th>
+<th>降级方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brainstorm</code></td>
+<td><code>brainstorming</code> 技能</td>
+<td>内置提问协议</td>
+</tr>
+<tr>
+<td><code>tasks</code></td>
+<td><code>writing-plans</code> 技能</td>
+<td>基于模板的拆解</td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td><code>executing-plans</code> +
+<code>subagent-driven-development</code> +
+<code>test-driven-development</code></td>
+<td>顺序执行+手动确认</td>
+</tr>
+<tr>
+<td><code>review</code></td>
+<td><code>requesting-code-review</code> 技能</td>
+<td>内置审查清单</td>
+</tr>
+</tbody>
+</table>
+<p>详见 <a
+href="references/superpowers-bridge.md">superpowers-bridge.md</a>。</p>
+<h2 id="贡献到-spec-kit-扩展目录">贡献到 Spec-Kit 扩展目录</h2>
+<p>要将此扩展提交到 <a
+href="https://github.com/github/spec-kit/tree/main/extensions">spec-kit
+社区目录</a>：</p>
+<ol type="1">
+<li><strong>Fork</strong> <code>github/spec-kit</code> 仓库</li>
+<li><strong>添加条目</strong>到
+<code>extensions/catalog.community.json</code></li>
+<li><strong>添加一行</strong>到 spec-kit <code>README.md</code>
+的社区扩展表</li>
+<li><strong>提交 Pull Request</strong>（使用扩展提交模板）</li>
+<li>等待 3-7 个工作日的自动化检查和人工审核</li>
+</ol>
+<p>详见 <a
+href="https://github.com/github/spec-kit/blob/main/extensions/EXTENSION-PUBLISHING-GUIDE.md">扩展发布指南</a>。</p>
+<h2 id="许可证">许可证</h2>
+<p>MIT</p>
+</body>
+</html>

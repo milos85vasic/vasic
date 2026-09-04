@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T14:57:43Z
+    Last-Updated: 2026-09-04T15:03:12Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,117 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A79 — **G8 CLOSED to 96.8%: 1,642 export files land. 30 documents FAILED and are named, because the cause is a source defect this export refused to paper over.**
+
+**The operator chose "export everything" with the cost stated** — ~1,702 files
+into a PUBLIC repository, a larger content-boundary scan surface, and
+irreversibility in public history. Delivered.
+
+| | |
+|---|---:|
+| tracked markdown at the umbrella root | **924** |
+| already had both siblings | 73 |
+| in scope | **851** |
+| produced | **821 `.html` + 821 `.pdf` = 1,642 files** |
+| bytes added | **70,997,765 (67.7 MiB)** — 13.4 HTML, 57.6 PDF, mean PDF 69 KiB |
+| coverage | **894 / 924 = 96.8%**, from 7.9% |
+
+**The generator was MATCHED, not guessed, and the proof is a byte comparison.**
+Docs Chain's own builtins were read out of
+`submodules/constitution/submodules/docs_chain/internal/adapter/derived.go`
+(`pandoc --standalone --from=markdown --to=html --metadata title=<basename>`;
+`weasyprint --base-url <live pdf path>`; `SOURCE_DATE_EPOCH=946684800`), then
+three already-exported documents were regenerated and came back **`cmp`-identical
+to docs_chain's own output**. docs_chain itself was NOT driven: its context
+generator classifies only root / `docs/` / `specs/`, so widening it would break
+cascade check C3's re-derivation diff, and a full `sync` of 924 documents
+extrapolates to **~5.7 h**.
+
+**Verification was exhaustive, not sampled: 894 PDFs checked with `file(1)` —
+894 valid, 0 invalid, 0 empty**; 894 HTML non-empty; **zero orphans in either
+direction.** The generator now deletes the HTML if the PDF fails, **so a
+half-export cannot masquerade as done** — which is the failure mode that would
+otherwise inflate a coverage number.
+
+---
+
+### The 30 failures are REAL, NAMED, and not worked around
+
+15 language trees × 2 documents: `<tree>/products/HelixBuilder.md` and
+`<tree>/products/Vasic-Digital-Reusable-Module-Suite.md`, for `_content` and
+`_content_{ar,be,de,es,fa,fr,hi,ja,kk,ko,ru,sr,tr,zh}`.
+
+The real error: `Error parsing YAML metadata … did not find expected '-'
+indicator`. **The cause is a SOURCE-CONTENT defect, not a pipeline defect.**
+`HelixBuilder.md` line 16 reads
+`  - "Pick your pipeline" grid of category tiles (…)` — YAML takes the leading
+`"` as the start of a quoted scalar and then hits invalid trailing text. **docs_chain
+would fail identically**, so this is a latent defect the export merely surfaced.
+
+**The fix belongs in the frontmatter and was deliberately NOT made here:**
+`_content/**` is CONTENT, not export, and an export run has no business editing
+the documents it is exporting.
+
+---
+
+### Two audits measured AFTER staging, which is the check the agent could not make
+
+Both read `git ls-files`, i.e. the INDEX — so an untracked-tree green says
+nothing about a committed one. Re-run with all 1,642 files staged:
+
+- **`audit-hardcoded-paths.sh` → 0.** The prediction held. `.pdf` is in `BIN_EXT`
+  and never read; `.html` **is** in `TEXT_EXT`, so 181 exports entered the audit —
+  **zero machine-path hits, with a control needle confirming the grep could see
+  the pattern**, so that zero is evidence rather than a blind instrument.
+- **29 exports DO contain machine paths** — all under `_analysis/`,
+  `_tests/evidence/`, `.ashlrcode/`, every one matched by the audit's `SKIP`
+  regex, so the gate stays green **by construction rather than by luck**. No new
+  disclosure (those paths are already in the public `.md` sources) but they are
+  now duplicated into 29 further files. Recorded for awareness.
+- **`audit-environment-assumptions.sh` → 1**, and **none of it was the exports**.
+  Five findings, all `.go`, from the two agents that finished alongside.
+
+### The five environment findings: judged individually, all four rules EXEMPTIONS
+
+**And one of them is the exact opposite verdict to an earlier one today, which is
+the point.** `pkg/search/carryforward_test.go` had its model ids **FIXED** this
+morning because they were arbitrary fixture values that happened to be real
+shipped model names. `pkg/answer/registry_test.go` keeps its literals, because
+they are **not arbitrary — they ARE the deployed configuration under test.** Same
+class of file, opposite verdict; the difference is what the value MEANS.
+
+| finding | verdict | why |
+|---|---|---|
+| `registry.go:52` `"digital.vasic.llmprovider/pkg/providers/codestral"` | EXEMPT | a Go **import path**; resolved by the compiler, cannot be env-derived |
+| `registry.go:239` `hosted("codestral", …)` | EXEMPT | a **catalogue row**. You cannot env-derive the membership of a catalogue of providers without emptying it. Runtime SELECTION is separately overridable (flag > env > literal) and the gate derives coverage from `answer.Registrations()` |
+| `registry_test.go:24-25` `prodEndpoint` / `prodModel` | EXEMPT | they **mirror the container's argv on purpose** — the file says so: *"a test that drifts from the deployed configuration drifts visibly."* Env-deriving them makes the test assert that whatever is configured equals whatever is configured — a tautology destroying the only evidence the Ollama default is unchanged |
+| `logs_silent_failure_test.go:162` `const payload` | EXEMPT | **fixture payload bytes**, the exact stdout a stub emits, in the CONTROL proving the log-reader fix costs no content. Nothing dials it |
+
+**The gate caught me writing a bad rule, and it was right.** Two rules were put
+under one `# REASON:` block; it returned **rc 2 — FATAL: malformed allow-list —
+every rule needs a '# REASON:' … directly above it**, naming the line. **A rule
+inheriting a neighbour's justification is exactly how an unjustified exemption
+gets in.** Each now carries its own reason.
+Re-measured: **exit 0, 593 justified occurrences allow-listed**, and
+**`--strict-allow-list` exit 0** — no rule added is stale.
+
+---
+
+### Debris: it WAS ours, and the generator is now hardened against it
+
+The eight hidden `.dc*` files (4 HTML staging temps + 4 `.err`) were produced by
+this pipeline and survived only because the earlier run was **killed mid-flight
+by the auth expiry**; normal completion removes them. All eight deleted. The
+generator now captures stderr into a variable — **no `.err` file is ever
+created** — and cleans temps via an `EXIT/INT/TERM/HUP` trap, so a kill cannot
+leave debris again.
+
+**Two outlier PDFs**, both in the vendored `.specify/extensions/superspec/` tree:
+`README.pdf` 8.99 MiB and `SKILL.pdf` 7.60 MiB. Note docs-chain deliberately
+EXCLUDES `.specify/` as a vendored third-party tree; **51 exports exist there
+only because the decision was "export everything"** — worth revisiting if
+repository size becomes the binding concern.
 
 #### A78 — **`submodules/containers`: the log reader lied, and it lied for TWO compounding reasons. Both fixed and live-verified. Gitlink `d940b51 → 6d13ad0`.**
 

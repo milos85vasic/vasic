@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>単一の真実の源泉を、あらゆる場所にミラーリング——数十のホストにまたがる連合型Git</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixGitpx（Helix Git Proxy
+eXtended）は、単一の真実の源泉を複数の上流Gitホストにミラーリングし、避けられない競合をポリシーおよびAI支援のフローで解決する連合型Gitプロキシです。v1.0.0
+GAに到達しました。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>HelixGitpxは、単一の真実の源泉を10以上のGitホスト——GitHub、GitLab、Gitea、Bitbucket、Azure
+DevOps、AWS
+CodeCommitなど——にミラーリングし、同期の競合をポリシーおよびAI支援のフローで解決する連合型Gitプロキシです。v1.0.0
+GAとしてリリースされました。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixGitpx（「Helix Git Proxy
+eXtended」）は、単一の真実の源泉を複数の上流Gitホストにミラーリングし、同一リポジトリが複数の場所に存在する瞬間に必然的に発生する競合を解決する連合型Gitプロキシです。対応する上流ホストはGitエコシステム全体を網羅するかのようで、GitHub、GitLab、GitFlic、GitVerse、Gitea、Gitee、Bitbucket、Azure
+DevOps、AWS
+CodeCommit、Forgejo、SourceHut、そして汎用的なGit-over-HTTPSなどが含まれます。単純な<code>git push</code>を十数か所のリモートに行うと、失敗するか、あるいはさらに悪いことにミラーが静かに乖離してしまう可能性がありますが、HelixGitpxはポリシーおよびAI支援の解決フローを介して、乖離を一つの権威ある真実へと調停します。</p>
+<p>プロジェクトはv1.0.0
+GAに到達し、<code>m1-foundation</code>から<code>m8-ga</code>までのマイルストーンがタグ付けされています——基盤から一般提供までの完全なロードマップです。製品は三層構造で設計されており、連合エンジンを担うGoモノレポ（プラットフォーム、18のサービス、コード生成、スキャフォールディングツール）、Angular
+19 + Nxウェブアプリケーション、そしてKotlin-Multiplatform +
+Composeクライアントシェルが共通コードからAndroid、iOS、デスクトップ向けのネイティブ体験を提供します。プラットフォームのデリバリーはKubernetesネイティブを核とし——Helmチャート、Argo
+CDアプリケーション、Kustomizeオーバーレイ、SQL、OPAポリシー——CIパイプラインは明示的なディスパッチによって制御され、誤ってデプロイされることはありません。公開ドキュメントはDocusaurusサイト（docs.helixgitpx.io）として提供され、Astroによるマーケティングサイト（helixgitpx.io）と併せて公開されています。</p>
+<p>ガバナンスは厳格かつ憲法主導であり、それは形式ではなく機能です。プロジェクトの基幹文書であるConstitutionの第2条は、7種類のテストマトリックスを<em>変更されたモジュールごとに100%のカバレッジで</em>実施することを義務付けており、モックはユニットテストでのみ許可され、テストのスキップは一切認められません。ワンショットの検証ツールがすべてのアーティファクトチェックに加え、<code>go vet</code>と<code>go test</code>をワークスペース全体で実行し、すべてのプッシュは設定されたすべての上流ホストに展開されます——「ミラーが同期している」ことは、人間が確認するのではなく、システムがコミットごとに強制するものなのです。</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>複数のGitホストにまたがってリポジトリの整合性を保つことは——冗長性、主権、あるいは地域プラットフォームへのアクセスのためであっても——脆弱で手作業に頼る部分が多く、乖離したミラーの調停は困難です。HelixGitpxは、複数の上流ホストへのミラーリングを、競合を認識した第一級の機能として実現するために開発されました。</p>
+<p>コンテンツ</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>「複数のリモートにプッシュして祈る」という脆弱で手動の現状を、統制された連合体へと変革します。単一の信頼できる情報源と、自動化されたポリシー＋AIによる競合解決を実現し、さらに通常のツールが無視しがちな地域プラットフォーム（GitFlic、GitVerse、Giteeなど）も意図的にカバー。これにより、冗長性やデータ主権、それらのエコシステムへのリーチが、維持管理の負担から、一度設定するだけの単一機能へと進化します。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>アップストリームの幅広さ</strong> –
+GitHubやGitLabから、GitFlic、GitVerse、Giteeなどの地域プラットフォームまで、10を超えるGitホストを一つのプロキシで統一。</li>
+<li><strong>ポリシー＆AI支援の競合解決</strong> –
+分岐はポリシーエンジンとAIリゾルバーによって自動調整され、手作業でのミラーリング比較は不要。</li>
+<li><strong>単一情報源連合</strong> –
+すべてのアップストリームに対するプッシュモデルで、一つの権威あるリポジトリが真実となり、すべてのホストは同期されたミラーとして機能。</li>
+<li><strong>厳格な憲法強制テスト</strong> –
+7種類のテストをタイプごとに100%カバーし、スキップなし。信頼ではなく、ワンショットのグリーンスイートスクリプトで証明。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><strong>多数のアップストリーム間での分岐と競合</strong>。同じリポジトリが複数の場所に存在すると、二つのホストが異なる書き込みを受け入れた瞬間に乖離が発生。解決策は、単一の情報源を基盤としたポリシー＆AI支援の解決フローと、すべてのアップストリームを同期させるプッシュにより、すべてのミラーがその真実に収束する仕組み。</li>
+<li><strong>多様なGitホストへの均一サポート</strong>。各ホストには独自の認証、癖、APIが存在。解決策は、<code>Upstreams/</code>配下のアップストリームごとの設定スクリプトと、それらの違いを抽象化するプラットフォーム層。新しいホストの追加は設定作業で済み、書き直しは不要。</li>
+<li><strong>マージ前の正確性の証明</strong>。解決策は、必須の7種類のテストマトリックスと、<code>verify-everything.sh</code>ワンショットゲート。フルチェックセットを実行し、クラスターにアクセスできない場合はクリーンに短絡。これにより、CIだけでなくローカルでも正確性が証明可能。</li>
+</ul>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Goモノレポ</strong> –
+コアプロキシと連合エンジン：プラットフォーム＋18のサービス、コード生成、スキャフォールディングを一つのリポジトリに集約。エンジン全体が単一のユニットとしてビルド・テストされる。</li>
+<li><strong>Angular 19 + Nx</strong> –
+ウェブアプリケーション。Nxが大規模フロントエンドに必要なモノレポのビルド／キャッシュ構造を提供。</li>
+<li><strong>Kotlin Multiplatform + Compose</strong> –
+ネイティブAndroid、iOS、デスクトップクライアント。一つの共有コードベースから生成され、3つのプラットフォームが3つの実装を意味しない。</li>
+<li><strong>Kubernetes + Helm + Argo CD + Kustomize</strong> –
+クラウドネイティブデリバリー：Helmがリリースをパッケージ化、Kustomizeが環境ごとにオーバーレイ適用、Argo
+CDがGitOpsでクラスター状態をGitと同期。</li>
+<li><strong>OPA (Rego)</strong> –
+競合解決とアクセス制御のためのポリシー・アズ・コード。認可判断を宣言的かつ監査可能に。</li>
+<li><strong>Docusaurus</strong> –
+公式ドキュメントサイト（docs.helixgitpx.io）；<strong>Astro</strong> –
+マーケティングサイト（helixgitpx.io）。それぞれのコンテンツタイプに最適なツールを採用。</li>
+<li><strong>mise</strong> –
+固定された再現可能なツールチェーン。すべての貢献者とCIランナーが同一バージョンでビルド。</li>
+</ul>
+<p>内容</p>
+<h2
+id="ステータスおよび正確性に関する注意事項">ステータスおよび正確性に関する注意事項</h2>
+<ul>
+<li><strong>ステータス：出荷済み。</strong>
+プロジェクトのREADMEでは、マイルストーン<code>m1-foundation</code>から<code>m8-ga</code>までがタグ付けされたv1.0.0
+GAと宣言されている。（「v1.0.0
+GA」はプロジェクトのREADMEによる主張。）</li>
+<li><strong>ライセンス：未確定。</strong>
+GitHubおよびAPIのレポートでは<code>MIT</code>と記載されているが、READMEのライセンスセクションではApache-2.0（コード）およびCC-BY-SA-4.0（ドキュメント）と記述されている。公開前に実際のLICENSEファイルと照合すること。</li>
+<li>ドキュメント（docs.helixgitpx.io）およびマーケティング（helixgitpx.io）のURLはREADMEに基づくものであり、独立して取得されたものではない。稼働状況は<strong>未検証</strong>。</li>
+</ul>
+<p><strong>優先度区分：</strong> Helix-プライマリ。</p>
+</body>
+</html>

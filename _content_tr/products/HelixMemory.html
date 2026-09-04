@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixMemory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixMemory</h1>
+</header>
+<h1 id="helixmemory">HelixMemory</h1>
+<p><strong>AI ajanları için tek bir hafıza beyni — dört üstün
+performanslı motor, birleştirilmiş.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixMemory, dört önde gelen hafıza sistemini (Mem0, Cognee, Letta,
+Graphiti) tek bir bilişsel hafıza motorunda birleştiren bir Go SDK’dır.
+Bu motor, bu sistemleri paralel olarak tarar ve sonuçları birleştirir.
+AI uygulamalarına, dört ayrı hafıza katmanı yerine tek bir dayanıklı,
+tekrarsız ve yeniden sıralanmış hafıza katmanı sunar.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>HelixMemory, Mem0, Cognee, Letta ve Graphiti’u AI uygulamaları için
+tek bir birleşik bilişsel hafıza motorunda birleştiren bir Go SDK’dır.
+Yazma işlemlerini akıllıca yönlendirir, tüm arka uçları paralel olarak
+tarar ve sonuçları üç aşamalı bir toplama-tekilleştirme-yeniden sıralama
+hattı aracılığıyla birleştirir.</p>
+<h2 id="ayrıntılı-açıklama">Ayrıntılı açıklama</h2>
+<p>HelixMemory, AI uygulamaları için birleşik bir bilişsel hafıza
+motorudur ve bir Go SDK (modül <code>digital.vasic.helixmemory</code>,
+Go 1.25+) olarak sunulur. Temel varsayımı, hiçbir hafıza projesinin her
+alanda en iyi olamayacağıdır — bu nedenle, sıfırdan hafıza yeniden
+uygulamak ve tek bir projenin kör noktalarını devralmak yerine, dört
+üstün sistemin her birinin güçlü yönlerinden yararlanmasını sağlar:
+dinamik bilgi çıkarma ve tercih yönetimi için Mem0, ECL boru hatlarıyla
+oluşturulan anlamsal bilgi grafikleri için Cognee, düzenlenebilir hafıza
+blokları ve uyku zamanı hesaplamalarıyla durum bilgisi taşıyan bir ajan
+çalışma zamanı için Letta, ve zaman içinde bilgilerin nasıl değiştiğini
+değerlendiren iki zamanlı bir bilgi grafiği için Graphiti.</p>
+<p>Bu dört bağımsız depoyu tek bir beyne dönüştüren şey, birleştirme
+motorudur. Yazma yolunda, gelen her hafıza içeriğine göre
+sınıflandırılır ve en uygun arka uca yönlendirilir. Okuma yolunda ise
+sorgu, tüm arka uçlara paralel olarak dağıtılır ve ham sonuçlar üç
+aşamalı bir birleştirme hattına —toplama, tekilleştirme ve ardından
+kaynaklar arası yeniden sıralama— akar. Böylece çağıran taraf, dört
+gürültülü ve örtüşen sonuç kümesi yerine yalnızca tek bir temiz,
+sıralanmış yanıt görür. Her arka uç, sorunsuz bir şekilde devre dışı
+bırakılabilmesi için devre kesicilerle sarılmıştır: Bir motor
+çöktüğünde, devre kesici devreye girer ve kalan arka uçlar, tüm hafıza
+katmanını beraberinde sürüklemeden hizmet vermeye devam eder. Motor,
+doğrudan bir hafıza sağlayıcısının yerine geçebilecek şekilde
+<code>MemoryStore</code> arayüzünü uyguladığı için, çağıran tarafın
+mimarisini değiştirmeye gerek kalmaz. Prometheus metrikleri ise
+yönlendirme ve birleştirme süreçlerinin iç işleyişini tamamen
+gözlemlenebilir hale getirir.</p>
+<p>HelixMemory, daha geniş Helix AI topluluğu olan HelixAgent için
+hafıza katmanı olarak geliştirilmiştir ve ailenin blöf karşıtı test
+disiplinini hafıza alanına taşır: Dahili bir meydan okuma çalıştırıcısı,
+yönlendirme, birleştirme, çevirici ve devre kesici gibi gerçek üretim
+kod yollarını çalıştırırken, eşlenik mutasyon sarmalayıcısı kasıtlı
+olarak değişmezleri bozarak testlerin, mantık hatalı olduğunda gerçekten
+başarısız olduğunu kanıtlar. Bu sayede, yeşil bir test paketi gerçekten
+bir anlam ifade eder.</p>
+<p>İçerik</p>
+<p>AI ajanlarının uzun ömürlü, yüksek kaliteli belleğe ihtiyacı var,
+ancak ekosistem parçalanmış durumda — her bellek projesi (Mem0, Cognee,
+Letta, Graphiti) bir konuda güçlü, diğerlerinde zayıf. HelixMemory,
+HelixAgent için bu sistemlerin güçlü yönlerini tek bir bellek yüzeyinde
+birleştirmek, herhangi birine bağımlılık yaratmadan sunmak üzere
+tasarlandı.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor?</h2>
+<p>Zorunlu seçimi ortadan kaldırıyor. Normalde aynı yuva için rekabet
+eden dört bellek sistemi, tek bir arayüzün arkasında tamamlayıcı arka
+uçlara dönüşüyor — böylece bir uygulama, dinamik gerçek çıkarma,
+anlamsal bilgi grafikleri, durum tabanlı ajan belleği ve çift zamanlı
+akıl yürütmeyi <em>eş zamanlı olarak</em> elde ediyor; yinelenen
+verilerin ayıklanması ve kaynaklar arası yeniden sıralama otomatik
+olarak hallediliyor. Daha önce pratik olmayan şey, “hangi bellek
+motorunu benimsemeliyiz?” sorusunu yanlış bir ikilem olarak görmek:
+HelixMemory, tek bir <code>MemoryStore</code> arayüzü arkasında tüm bu
+sistemlerin güçlü yönlerine sahip olmanızı sağlıyor, tek bir motorun kör
+noktalarını devralmadan ya da bağımlılık yaratmadan.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li><strong>Çoklu arka uç füzyonu</strong> (topla → yinelenenleri ayıkla
+→ kaynaklar arası yeniden sırala): Çağrıyı tek bir depoya bağlamak
+yerine, tek bir sıralanmış sonuç kümesi döndürür.</li>
+<li><strong>Akıllı yazma yönlendirmesi</strong>: Her bellek içeriğine
+göre sınıflandırılır ve en uygun depoya gönderilir; böylece doğru veri
+doğru depoda yer alır.</li>
+<li><strong>Arka uç başına devre kesicilerle zarif bozulma</strong>:
+Başarısız olan bir motor izole edilir, sistem çökmez ve diğerleri hizmet
+vermeye devam eder.</li>
+<li><strong>Uyku zamanında hesaplama birleştirmesi</strong> (Letta
+aracılığıyla): Bellek, yalnızca sorgu anında değil, boşta kalınan
+sürelerde yeniden düzenlenir.</li>
+<li><strong>Sahtekârlık karşıtı doğrulama</strong>: Gerçek üretim
+koduyla çalışan bir meydan okuma yürütücüsü, bir değişmezlik tersine
+çevrildiğinde başarısız olması gereken bir mutasyon sarmalayıcısıyla
+eşleştirilir — böylece test kapısının gerçek bir kontrol olduğu,
+totolojiden ibaret olmadığı kanıtlanır.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümleri">En büyük teknik
+zorluklar ve çözümleri</h2>
+<ul>
+<li><strong>Dört farklı arka ucu tek bir tutarlı sonuç kümesinde
+birleştirmek</strong> — Her motor belleği kendi biçiminde döndürür ve
+bunları naif bir şekilde birleştirmek yinelenen sonuçlar ve
+karşılaştırılamaz sıralamalar üretir. Çözüm: Kaynaklar arasında
+toplayan, örtüşmeleri ayıklayan ve her şeyi ortak bir zeminde yeniden
+sıralayan, birleştirilmiş sayım değişmezliğini testlerde doğrulayan tip
+güvenli bir füzyon motoru.</li>
+<li><strong>Bir arka uç çöktüğünde sistemin ayakta kalması</strong> —
+Ulaşılamayan bir bellek motoru tüm katmanı durduramaz. Çözüm: Her arka
+uç için devre kesiciler, kapalı → açık (başarısızlık eşiğinden sonra) →
+yarı açık (zaman aşımından sonra) durum makinesi kullanarak sorunlu arka
+ucu izole eder ve sistem sağlıklı olanlardan hizmet vermeye devam eder,
+ta ki sorunlu olan düzelene kadar.</li>
+<li><strong>Bellek mantığının yalnızca derlenmekle kalmayıp gerçekten
+çalıştığını kanıtlamak</strong> — Yeşil bir test paketi, testlerin
+başarısız olamayacağı durumda anlamsızdır. Çözüm: Gerçek üretim kodunu
+(yönlendirme, füzyon, çevirici, devre kesici) çalıştıran bir süreç içi
+meydan okuma yürütücüsü ve değişmezlikleri tersine çevirerek testlerin
+kırmızıya dönmesini zorunlu kılan eşleştirilmiş bir mutasyon
+sarmalayıcısı — böylece kontrol kapısının totoloji olmadığı
+doğrulanır.</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — Tek SDK ve çalışma zamanı; dört arka
+uç arasında paralel okuma dağıtımı bir eşzamanlılık sorunu olduğundan ve
+Go’un goroutine’leri bu işlemi düşük maliyetli kıldığından, ayrıca
+arayüz türleriyle tüm sistemin tek bir temiz dikiş noktası
+(<code>MemoryStore</code>) sunduğundan tercih edildi.</li>
+<li><strong>Mem0</strong> — Dinamik olgu çıkarımı ve tercih yönetimi
+arka ucu; kullanıcının gerçekte neyi tercih ettiği / hangi olguların öne
+çıktığı bellek dilimini yönetmek için kullanılır.</li>
+<li><strong>Cognee</strong> — ECL boru hatları üzerine inşa edilmiş
+anlamsal bilgi grafiği arka ucu; düz olgular yerine yapılandırılmış,
+ilişkili bilgileri tutmak için kullanılır.</li>
+<li><strong>Letta</strong> — Düzenlenebilir bellek blokları ve uyku
+süresi hesaplamaları içeren durum bilgisi taşıyan ajan çalışma zamanı
+arka ucu; belleğin canlı ajan durumu olarak kalıcı olması ve boşta
+kalınan dönemlerde birleştirilmesi gereken durumlarda kullanılır.</li>
+<li><strong>Graphiti</strong> — İki zamanlı bilgi grafiği arka ucu;
+olguların ve ilişkilerin yalnızca mevcut değerlerini değil, zaman
+içindeki değişimlerini de değerlendirmek için kullanılır.</li>
+<li><strong>PostgreSQL + Neo4j + Redis</strong> — Arka uçların üzerinde
+çalıştığı gerçek veri depoları; <code>make infra-start</code> komutuyla
+gerçek entegrasyon testi için ayağa kaldırılır ve test paketi canlı
+altyapı üzerinde çalıştırılarak taklitler yerine gerçek sistemler
+sınanır.</li>
+<li><strong>Prometheus</strong> — Ölçüm ve gözlemlenebilirlik, füzyon
+boru hattı üzerinden entegre edilmiştir; böylece yönlendirme ve füzyon
+davranışları üretim ortamında ölçülebilir hale gelir, sistem bir kara
+kutu olmaktan çıkar.</li>
+<li><strong>Çok dilli çeviri dikiş noktası</strong> — Ad alanı
+(<code>helixmemory_</code>) altında tutulan bir metin yüzeyi; gelecekte
+kullanıcıya yönelik katmanın çekirdek yapıya dokunmadan
+yerelleştirilebilmesi için hazırda bekletilir.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Çalışan SDK; HelixAgent için bellek
+katmanı olarak geliştirildi.</li>
+<li><strong>Lisans: Belirlenmedi.</strong> GitHub API aracılığıyla
+LICENSE dosyası tespit edilemedi — DOĞRULANMAMIŞ / beyan edilmemiş.</li>
+<li>“HelixMemory” görüntü adı, <code>memory</code> deposuna karşılık
+gelir. README’de belirtilen doğruluk oranları, HelixMemory ölçümleri
+değil, yukarı akış tedarikçilerinin iddialarıdır ve burada yer
+almamıştır.</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil.</p>
+</body>
+</html>

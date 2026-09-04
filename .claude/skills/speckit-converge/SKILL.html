@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Assess the current codebase against the feature’s spec, plan, and tasks, then append any remaining unbuilt work as new tasks to tasks.md so implement can complete it." />
+  <title>SKILL</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SKILL</h1>
+</header>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before convergence)</strong>:</p>
+<ul>
+<li>Check if <code>.specify/extensions.yml</code> exists in the project
+root.</li>
+<li>If it exists, read it and look for entries under the
+<code>hooks.before_converge</code> key</li>
+<li>If the YAML cannot be parsed or is invalid, skip hook checking
+silently and continue normally</li>
+<li>Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default.</li>
+<li>For each remaining hook, do <strong>not</strong> attempt to
+interpret or evaluate hook <code>condition</code> expressions:
+<ul>
+<li>If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable</li>
+<li>If the hook defines a non-empty <code>condition</code>, skip the
+hook and leave condition evaluation to the HookExecutor
+implementation</li>
+</ul></li>
+<li>When constructing slash commands from hook command names, replace
+dots (<code>.</code>) with hyphens (<code>-</code>). For example,
+<code>speckit.git.commit</code> → <code>/speckit-git-commit</code>.</li>
+<li>For each executable hook, output the following based on its
+<code>optional</code> flag:
+<ul>
+<li><p><strong>Optional hook</strong> (<code>optional: true</code>):</p>
+<pre class="text"><code>## Extension Hooks
+
+**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`</code></pre></li>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre class="text"><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Goal.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+</ul></li>
+<li>If no hooks are registered or <code>.specify/extensions.yml</code>
+does not exist, skip silently</li>
+</ul>
+<h2 id="goal">Goal</h2>
+<p>Close the gap between what a feature’s specification, plan, and tasks
+call for and what the codebase currently implements. Read
+<code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> as
+the <strong>sole source of intent</strong> (with the constitution as
+governing constraints), assess the current state of the code, determine
+which requirements, acceptance criteria, plan decisions, and existing
+tasks are unmet, incomplete, or only partially satisfied, and
+<strong>append each piece of remaining work as a new, traceable
+task</strong> at the bottom of <code>tasks.md</code> so that
+<code>/speckit-implement</code> can complete it. This command MUST run
+only after <code>/speckit-implement</code> has run on the current
+<code>tasks.md</code>, and after <code>/speckit-tasks</code> has
+produced a complete <code>tasks.md</code>.</p>
+<p>This is <strong>not</strong> a diff tool and does
+<strong>not</strong> track changes. It assesses the present state of the
+code relative to the feature’s artifacts — no git, no branch comparison,
+no history.</p>
+<h2 id="operating-constraints">Operating Constraints</h2>
+<p><strong>APPEND-ONLY, NEVER REWRITE</strong>: The command’s
+<strong>only</strong> write is appending a new
+<code>## Phase N: Convergence</code> section to <code>tasks.md</code>.
+It MUST NOT:</p>
+<ul>
+<li>modify <code>spec.md</code> or <code>plan.md</code> in any way;</li>
+<li>rewrite, renumber, reorder, or delete any existing task (including
+tasks from a prior Convergence phase);</li>
+<li>modify, create, or delete any application code — completing the
+appended tasks is the job of <code>/speckit-implement</code>.</li>
+</ul>
+<p>When the codebase already satisfies everything, the command MUST
+leave <code>tasks.md</code> <strong>byte-for-byte unchanged</strong> (no
+empty Convergence header) and report a clean result.</p>
+<p><strong>Constitution Authority</strong>: The project constitution
+(<code>.specify/memory/constitution.md</code>) is
+<strong>non-negotiable</strong>. Code that violates a MUST principle is
+the highest-severity finding and produces a corresponding remediation
+task. If the constitution is an unfilled template, skip constitution
+checks gracefully rather than failing.</p>
+<h2 id="execution-steps">Execution Steps</h2>
+<h3 id="initialize-convergence-context">1. Initialize Convergence
+Context</h3>
+<p>Run
+<code>.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks</code>
+once from repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS.
+Derive absolute paths:</p>
+<ul>
+<li>SPEC = FEATURE_DIR/spec.md</li>
+<li>PLAN = FEATURE_DIR/plan.md</li>
+<li>TASKS = FEATURE_DIR/tasks.md</li>
+<li>CONSTITUTION = <code>.specify/memory/constitution.md</code> (if
+present) If <code>spec.md</code>, <code>plan.md</code>, or
+<code>tasks.md</code> is missing, STOP with a clear, actionable message
+naming the prerequisite command to run (<code>/speckit-specify</code>
+for a missing spec, <code>/speckit-plan</code> for a missing plan,
+<code>/speckit-tasks</code> for missing tasks). Do not produce partial
+output. For single quotes in args like “I’m Groot”, use escape syntax:
+e.g ‘I’'‘m Groot’ (or double-quote if possible: “I’m Groot”).</li>
+</ul>
+<h3 id="load-artifacts-progressive-disclosure">2. Load Artifacts
+(Progressive Disclosure)</h3>
+<p>Load only the minimal necessary context from each artifact:</p>
+<p><strong>From spec.md:</strong></p>
+<ul>
+<li>Functional Requirements (FR-###)</li>
+<li>Success Criteria (SC-###) — include only items requiring buildable
+work; exclude post-launch outcome metrics and business KPIs</li>
+<li>User Stories and their Acceptance Scenarios</li>
+<li>Edge Cases (if present)</li>
+</ul>
+<p><strong>From plan.md:</strong></p>
+<ul>
+<li>Architecture/stack choices and technical decisions</li>
+<li>Data Model references</li>
+<li>Phases and named touch-points (files/components the plan says will
+be created or edited)</li>
+<li>Technical constraints</li>
+</ul>
+<p><strong>From tasks.md:</strong></p>
+<ul>
+<li>Task IDs (to compute the next ID and next phase number)</li>
+<li>Descriptions, phase grouping, and referenced file paths</li>
+</ul>
+<p><strong>From constitution (if not an unfilled template):</strong></p>
+<ul>
+<li>Principle names and MUST/SHOULD normative statements</li>
+</ul>
+<h3 id="build-the-intent-inventory">3. Build the Intent Inventory</h3>
+<p>Create an internal model (do not echo raw artifacts):</p>
+<ul>
+<li><strong>Requirements inventory</strong>: one stable key per FR-### /
+SC-### / user-story acceptance scenario (e.g. <code>US1/AC2</code>),
+plus the plan decisions and constitution principles that impose
+buildable obligations.</li>
+<li><strong>Code-scope map</strong>: from the file paths named in
+<code>plan.md</code> and <code>tasks.md</code>, plus a keyword search
+for the concepts each requirement describes, derive the set of source
+files and components in scope for assessment. Bound the assessment to
+these — do <strong>not</strong> infer scope beyond what the artifacts
+define.</li>
+</ul>
+<h3 id="assess-the-codebase-and-classify-findings">4. Assess the
+Codebase and Classify Findings</h3>
+<p>For each item in the intent inventory, inspect the current code in
+scope and produce a <code>Finding</code> only where there is a gap.
+Classify every finding by <strong>gap type</strong>:</p>
+<ul>
+<li><strong><code>missing</code></strong>: the required work is absent
+from the code entirely.</li>
+<li><strong><code>partial</code></strong>: the work exists but does not
+yet fully satisfy the requirement / acceptance criterion / plan
+decision.</li>
+<li><strong><code>contradicts</code></strong>: the code does something
+that conflicts with stated intent or a constitution MUST principle.</li>
+<li><strong><code>unrequested</code></strong>: the code contains work
+not called for by the spec, plan, or tasks (surfaced for awareness —
+converge does <strong>not</strong> delete code, it only appends a task
+to review/justify or remove it).</li>
+</ul>
+<p>Each <code>Finding</code> records: a stable id, the
+<code>source-ref</code> it traces to, the <code>gap-type</code>, a
+severity, and a short human-readable description with the evidence (the
+file/area observed).</p>
+<p><strong>Edge cases:</strong></p>
+<ul>
+<li><strong>Little or no code yet</strong>: treat the entire specified
+scope as <code>missing</code> remaining work rather than failing.</li>
+<li><strong>Nothing remains</strong>: produce zero findings and follow
+the converged branch in Step 7.</li>
+</ul>
+<h3 id="assign-severity">5. Assign Severity</h3>
+<ul>
+<li><strong>CRITICAL</strong>: violates a constitution MUST principle,
+or a <code>missing</code>/<code>contradicts</code> gap that blocks
+baseline functionality of a P1 user story.</li>
+<li><strong>HIGH</strong>: a <code>missing</code> or
+<code>partial</code> gap on a core functional requirement or acceptance
+criterion.</li>
+<li><strong>MEDIUM</strong>: a <code>partial</code> gap on a secondary
+requirement, or an <code>unrequested</code> addition with unclear
+justification.</li>
+<li><strong>LOW</strong>: minor partial gaps, polish, or low-risk
+<code>unrequested</code> additions.</li>
+</ul>
+<h3 id="present-the-in-session-findings-summary">6. Present the
+In-Session Findings Summary</h3>
+<p>Before appending anything, output a compact, severity-graded summary
+(no file writes yet):</p>
+<h2 id="convergence-findings">Convergence Findings</h2>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Gap Type</th>
+<th>Severity</th>
+<th>Source</th>
+<th>Evidence</th>
+<th>Remaining Work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>missing</td>
+<td>HIGH</td>
+<td>FR-008</td>
+<td>Example: no append-only guard detected in path/to/module.py when
+writing tasks.md</td>
+<td>Add append-only enforcement</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summary metrics:</strong></p>
+<ul>
+<li>Requirements / acceptance criteria checked</li>
+<li>Plan decisions checked</li>
+<li>Constitution principles checked (or “skipped — template”)</li>
+<li>Findings by gap type (missing / partial / contradicts /
+unrequested)</li>
+<li>Findings by severity</li>
+</ul>
+<h3 id="append-convergence-tasks-or-report-converged">7. Append
+Convergence Tasks (or report converged)</h3>
+<p><strong>If there are one or more actionable findings</strong>
+(<code>tasks_appended</code> outcome):</p>
+<p>Append to the <strong>end</strong> of <code>tasks.md</code>, per the
+append contract:</p>
+<ol type="1">
+<li><p>Scan all existing task IDs; let <code>M</code> be the maximum.
+Determine the next phase number <code>N</code> (highest existing phase +
+1).</p></li>
+<li><p>Write a single new section header
+<code>## Phase N: Convergence</code>.</p></li>
+<li><p>Emit one checklist item per actionable finding, ordered
+CRITICAL/HIGH first, assigning zero-padded IDs
+<code>T{M+1:03d}, T{M+2:03d}, …</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> T042 <span class="dt">&lt;</span><span class="kw">imperative</span><span class="ot"> description</span><span class="dt">&gt;</span> per <span class="dt">&lt;</span><span class="kw">source-ref</span><span class="dt">&gt;</span> (<span class="dt">&lt;</span><span class="kw">gap-type</span><span class="dt">&gt;</span>)</span></code></pre></div>
+<p><code>&lt;source-ref&gt;</code> traces the task to its origin:
+e.g. <code>FR-003</code>, <code>SC-002</code>, <code>US1/AC2</code>,
+<code>plan: storage decision</code>, <code>Constitution II</code>.</p>
+<p><code>&lt;gap-type&gt;</code> is one of <code>missing</code>,
+<code>partial</code>, <code>contradicts</code>,
+<code>unrequested</code>.</p>
+<p>Constitution-violation tasks MUST be emitted first and described as
+<code>CRITICAL</code>.</p></li>
+<li><p>Never reuse or renumber existing IDs. If a prior Convergence
+phase exists, add a new, separately-numbered one below it — do not touch
+the old one.</p></li>
+</ol>
+<p><strong>If there are no actionable findings</strong>
+(<code>converged</code> outcome):</p>
+<ul>
+<li>Do <strong>not</strong> modify <code>tasks.md</code> at all — no
+empty phase header.</li>
+<li>Report: <strong>“✅ Converged — the implementation satisfies the
+spec, plan, and tasks.”</strong></li>
+<li>Include the summary counts of what was checked.</li>
+</ul>
+<h3 id="provide-next-actions-handoff">8. Provide Next Actions
+(Handoff)</h3>
+<ul>
+<li>On <code>tasks_appended</code>: state how many tasks were appended
+under which phase, and recommend running <code>/speckit-implement</code>
+to complete them; note that a follow-up converge run will find fewer or
+no remaining items.</li>
+<li>On <code>converged</code>: recommend proceeding to review / opening
+a PR. No further implement pass is needed for this feature’s specified
+scope.</li>
+</ul>
+<h3 id="check-for-extension-hooks">9. Check for extension hooks</h3>
+<p>After producing the result, check if
+<code>.specify/extensions.yml</code> exists in the project root.</p>
+<ul>
+<li>If it exists, read it and look for entries under the
+<code>hooks.after_converge</code> key</li>
+<li>If the YAML cannot be parsed or is invalid, skip hook checking
+silently and continue normally</li>
+<li>Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default.</li>
+<li>For each remaining hook, do <strong>not</strong> attempt to
+interpret or evaluate hook <code>condition</code> expressions:
+<ul>
+<li>If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable</li>
+<li>If the hook defines a non-empty <code>condition</code>, skip the
+hook and leave condition evaluation to the HookExecutor
+implementation</li>
+</ul></li>
+<li>Report the convergence outcome (<code>converged</code> or
+<code>tasks_appended</code>) in-session before listing any hooks, so
+users can decide whether to run optional follow-up commands.</li>
+<li>When constructing slash commands from hook command names, replace
+dots (<code>.</code>) with hyphens (<code>-</code>). For example,
+<code>speckit.git.commit</code> → <code>/speckit-git-commit</code>.</li>
+<li>For each executable hook, output the following based on its
+<code>optional</code> flag:
+<ul>
+<li><p><strong>Optional hook</strong> (<code>optional: true</code>):</p>
+<pre class="text"><code>## Extension Hooks
+
+**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`</code></pre></li>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre class="text"><code>## Extension Hooks
+
+**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+</ul></li>
+<li>If no hooks are registered or <code>.specify/extensions.yml</code>
+does not exist, skip silently</li>
+</ul>
+</body>
+</html>

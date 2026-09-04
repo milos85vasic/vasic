@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCode</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCode</h1>
+</header>
+<h1 id="helixcode">HelixCode</h1>
+<p><strong>作業を分割し、保存し、進行状況を決して失わない分散型AI開発プラットフォーム</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixCodeは、エンタープライズグレードのGoベース分散型AI開発プラットフォームです。SSHで管理されたワーカーのネットワークに開発作業を知的に分割し、自動チェックポイントとロールバック機能により作業の損失を防ぎます。複数のLLMプロバイダーとの統合、開発ライフサイクル全体のワークフロー、クロスプラットフォーム対応をREST、CLI、TUI、MCPインターフェースのもとに統合しています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>HelixCodeは、Goで記述された分散型AI開発プラットフォームです。SSHベースのワーカーネットワークに作業を知的に分割し、自動チェックポイントとロールバックで進行状況を保護します。複数のLLMプロバイダーを統合し、REST、CLI、TUI、MCPインターフェースを通じて開発ライフサイクル全体をサポートします。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixCodeは、エンタープライズグレードの分散型AI開発プラットフォーム（<code>dev.helix.code</code>、MITライセンス）であり、そのキャッチフレーズが示すシンプルな約束を文字通り実現します。それは「作業を分割し、保存し、進行状況を決して失わない」というものです。知的なタスク分割、自動作業保存、クロスプラットフォーム開発ワークフローを設計理念とし、分散コンピューティングに求められる並行処理と単一バイナリのポータビリティを実現するためにGoで記述されています。自動チェックポイント、ロールバック、リアルタイム監視は、オプションのアドオンではなく、第一級の機能として組み込まれています。</p>
+<p>そのアーキテクチャは、REST + WebSocket +
+MCPのAPIレイヤーを、集中的なコアサービス群の上に構築しています。これには、JWT認証とセッション管理、ヘルスモニタリング付きSSHベースのワーカープール管理、チェックポイントと依存関係処理を備えたタスク管理、プロジェクトおよびワークフロー管理、統合LLMプロバイダーレイヤーが含まれます。これらはすべてPostgreSQL上に永続化され、Redisはオプションの調整およびキャッシング層として利用可能です。分散ワーカーはネットワーク上で自動インストールされるため、サーバーをマシンに向けるだけでスケールアウトが可能です。また、CLI、ターミナルUI、REST、モバイルフレームワークといった複数のクライアントインターフェースを備えているため、スクリプト、ターミナル、アプリから同じプラットフォームにアクセスできます。</p>
+<p>HelixCodeは、開発ライフサイクル全体をエンドツーエンドでサポートします。計画、ビルド、テスト、リファクタリングのワークフローは、依存関係を認識し、複数セッションのコンテキストを追跡するため、長時間にわたる作業も中断やマシンの切り替えを跨いで継続できます。複数のLLMプロバイダー（llama.cpp、Ollama、OpenAI）を単一のインターフェースで統合し、利用可能なCPU/GPU/メモリを検出してモデルをマシンに適合させるハードウェア対応のモデル選択機能を備えています。また、単一の処理では不十分な問題に対して、連鎖思考やツリー思考といった高度な推論戦略もサポートしています。Model
+Context
+Protocolは複数のトランスポートを介して実装され、標準化されたツールやコンテキストの交換が可能です。さらに、Slack、Discord、メール、Telegramを通じたマルチチャネル通知により、分散作業の進捗状況をチームに伝えます。対応プラットフォームはLinux、macOS、Windows、Aurora
+OS、SymphonyOSです。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>分散型かつAI支援の開発では、タスクが複数のマシンに分割されたり中断されたりすると、コンテキストや進捗が失われがちです。HelixCodeは、タスクの分割をインテリジェントに行い、作業の保存を自動化することで、大規模な開発作業を分割し、ワーカーネットワークに分散させ、チェックポイントを設定し、状態を失うことなく再開やロールバックを可能にします。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>分散型AI開発を「耐久性のある」ものに変える――これは、チームが手作業でこれらの要素を組み合わせていた時代には実現不可能だった機能です。従来は3つの異なるツールに分かれていたものが、1つのプラットフォームに統合されます。分散コンピューティング（SSHワーカーネットワークによる自動インストールとヘルスモニタリング）、AI開発支援（複数プロバイダーのLLMによる推論とツール呼び出し）、そしてフルライフサイクルのワークフロー自動化です。これらを結びつけるのは、データベースを基盤としたチェックポイント機能です。タスクの状態、チェックポイント、依存関係がPostgreSQLに永続化されるため、複数のマシンやセッションにまたがるジョブでも、中断したまさにその地点からロールバックや再開が可能です。中断や作業の分割は、進捗の喪失要因ではなく、日常的で回復可能なイベントへと変わります。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>作業保存をコア機能として実装</strong>：分散型開発タスクに自動チェックポイントとロールバックを適用し、中断やマシン障害が発生しても進捗が失われることなく、そのまま維持されます。</li>
+<li><strong>ハードウェア認識型モデル選択</strong>：検出されたCPU/GPU/メモリを分析し、各タスクに対して実際に適切に動作するモデルを自動的に割り当て――ワーカーごとの手動調整は不要です。</li>
+<li><strong>1つのプラットフォーム、5つのアクセス方法</strong>：REST、WebSocket、CLI、TUI、そしてMCPを提供。MCP自体も複数のトランスポート経由で公開されており、ツールやエージェントはどのような接続方法でも統合可能です。</li>
+<li><strong>クロスプラットフォーム対応</strong>：従来のデスクトップOS（Linux、macOS、Windows）にとどまらず、Aurora
+OSやSymphonyOSにも対応。多くのツールが無視するプラットフォームまでワーカーフリートを拡大します。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><strong>分散型で中断可能なタスクにおける作業の喪失防止</strong>。ジョブが複数のマシンに分割されると、クラッシュや中断が発生した場合、進行中の作業が孤立してしまうのが一般的です。私たちはタスク自体をチェックポイントと依存関係の担い手としてモデル化し、PostgreSQLに永続化することで、システムは最後の正常な状態にロールバックしたり、そこから再開したりできるようにしました。この耐久性は、脆弱なメモリ内状態ではなく、データ層に組み込まれています。</li>
+<li><strong>異種混合ワーカーフリートの管理</strong>。Linux、macOS、Windows、Aurora、SymphonyOSなどのマシンで構成されるネットワークは、可用性やセットアップが常に変動します。これに対処するため、SSHベースの登録、新規ノードへの自動インストール、継続的なヘルスモニタリングを行う専用のワーカープールサービスを導入。これにより、マシンの出入りがあってもフリートは常に把握・制御可能な状態を維持します。</li>
+<li><strong>プロバイダーとハードウェアの多様性</strong>。LLMのバックエンドやそれを実行するマシンは、性能が大きく異なります。これを統一されたLLMプロバイダーインターフェースで隠蔽し、ハードウェア検出（CPU/GPU/メモリ）と組み合わせることで、インテリジェントなモデル選択を実現。呼び出し側がプロバイダーやハードウェアを意識することなく、適切なモデルが適切なマシンに割り当てられます。</li>
+</ul>
+<p>コンテンツ</p>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go（1.26+ 内部モジュール）</strong> —
+ゴルーチンベースの並行処理と単一バイナリ出力が、分散ワーカーシステムに求められる要件に完璧に合致するため採用。オーケストレーションに必要な低コストな並列処理と、あらゆるノードに自動インストール可能な自己完結型バイナリを実現。コアサービスとCLI/serverバイナリを全て内包。</li>
+<li><strong>Gin（HTTPフレームワーク）</strong> —
+軽量かつ高速なRESTレイヤーを低オーバーヘッドで提供するため採用。全てのクライアントが利用する<code>/api/v1</code>インターフェース（認証、ワーカー、タスク、プロジェクト）を提供。</li>
+<li><strong>PostgreSQL 15+（pgx/v5経由）</strong> —
+チェックポイントやロールバックに不可欠なトランザクショナルな永続性を確保するため、耐久性のあるシステム・オブ・レコードとして採用。11のテーブルから成る分散コンピューティングスキーマ（ユーザー、ワーカー、タスク、プロジェクト、セッション、llm_providers、通知）を保持し、作業の永続化を実現。</li>
+<li><strong>Redis 7+（オプション、go-redis/v9）</strong> —
+キャッシュや調整層としてオプションで利用可能。ホットパスの高速化を図りつつ、最小限のデプロイではPostgresのみでも稼働可能なよう、ハードな依存関係にはしない設計。</li>
+<li><strong>SSH</strong> —
+ワーカーコントロールのトランスポートとして採用。既に広く普及し、セキュリティも確立されているため、ワーカー登録、自動インストール、リモートコマンド実行をプール全体で行う際、専用エージェントの事前デプロイが不要。</li>
+<li><strong>Model Context Protocol（MCP）</strong> —
+標準化されたツールやコンテキストの交換プロトコルとして採用。外部ツールやエージェントが単一のオープンプロトコルを介して統合可能。クライアントの接続環境に応じたマルチトランスポート対応を実装。</li>
+<li><strong>LLMプロバイダー（llama.cpp、Ollama、OpenAI）</strong> —
+ローカルおよびホステッド推論を統一インターフェースでカバーするため採用。ハードウェアに応じたタスクルーティングが可能で、呼び出し側はローカルモデルとホステッドモデルの違いを意識する必要なし。</li>
+</ul>
+<h2 id="ステータスと正直な注意点">ステータスと正直な注意点</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+READMEでは「完全完了／全5フェーズ」と自己申告されているが、これはプロジェクト側の主張であり、第三者による検証は行われていないため、本ページではベータ版として扱う。</li>
+<li>上記の詳細は全てリポジトリのREADMEに基づく。マーケティング表現（キャッチコピーなど）は編集上のものであり、ソースメトリクスではない。</li>
+</ul>
+<p><strong>優先度：</strong> Helixプライマリ。</p>
+</body>
+</html>

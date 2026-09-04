@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>cover-letter</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">cover-letter</h1>
+</header>
+<h1 id="cover-letter">Cover Letter</h1>
+<p>Dear Hiring Team,</p>
+<p>I am writing to express my interest in engineering roles focused on
+building production AI systems. I am an AI engineer who builds the
+unglamorous, load-bearing part of AI software: the LLM infrastructure,
+the autonomous agents and orchestration, and the QA and governance
+layers that make them trustworthy in production.</p>
+<p>Over the past years I have designed and shipped an interconnected
+family of AI-development products. The Helix line spans the full
+lifecycle — HelixAgent (an ensemble LLM service where multiple models
+debate and ship the answer they agree on), HelixCode (a distributed AI
+development platform that divides work across SSH-managed workers with
+checkpoint/rollback), HelixLLM (a single binary serving OpenAI- and
+Anthropic-compatible inference over HTTP/3), and the LLM-infrastructure
+trio LLMProvider, LLMOrchestrator, and LLMsVerifier (one interface over
+43 providers, a control plane for headless CLI agents, and a
+verification source of truth). Around these I built product-grade tools
+such as Catalogizer (multi-protocol, encrypted media management) and
+Courses-Creator (an AI markdown-to-video course pipeline), all standing
+on a fleet of small, decoupled, independently-tested Go and Kotlin
+Multiplatform modules.</p>
+<p>What I think sets my work apart is a discipline I take seriously:
+<strong>anti-bluff engineering.</strong> I maintain a universal
+engineering Constitution, distributed as a Git submodule and inherited
+across a 140+-repository fleet, that makes one rule mechanically
+enforceable — a feature is not done when the tests pass, it is done when
+a real user can use it and there is captured evidence to prove it. I
+pair that with HelixQA, an anti-bluff QA orchestrator that runs
+autonomous LLM-and-computer-vision sessions across Android, Web, and
+Desktop and refuses to score a PASS without a screenshot, a logcat, or a
+video. I build systems that don’t just look finished; they demonstrably
+are.</p>
+<p>Technically I work primarily in Go, with Kotlin/KMP,
+TypeScript/React, Python, Swift, and Shell, across REST/gRPC/HTTP/3
+services, PostgreSQL/SQLite/Redis/ClickHouse data layers, and
+Docker/Kubernetes/Prometheus operations. I am comfortable owning a
+system from provider abstraction and retrieval all the way to the
+evidence trail that proves it works.</p>
+<p>I would welcome the chance to bring that combination — deep
+AI-systems engineering plus a genuine, verifiable quality discipline —
+to your team. Thank you for your consideration; my portfolio and public
+repositories are available at milosvasic.ru and vasic.digital.</p>
+<p>Sincerely, Miloš Vasić milos85vasic@gmail.com</p>
+</body>
+</html>

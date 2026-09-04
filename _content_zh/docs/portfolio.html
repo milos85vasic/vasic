@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>portfolio</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">portfolio</h1>
+<p class="subtitle">A unified, evidence-based portfolio of the Helix
+family, vasic-digital utilities, and the Server Factory toolchain.</p>
+</header>
+<h1 id="作品集">作品集</h1>
+<h2 id="概览先见全局">1. 概览——先见全局</h2>
+<p>这是一个由vasic.digital与milosvasic.ru共同使用的统一作品集。它描述的并非零散的副业项目，而是经过精心设计的<strong>产品矩阵</strong>：<strong>大型应用产品</strong>构建于<strong>数十个小型、解耦、独立测试的模块</strong>之上，整体由共享的工程<strong>Constitution</strong>统领，并通过<strong>反虚假质检</strong>机制验证。这种结构正是其与众不同之处。多数作品集仅是已完成项目的清单；而这里呈现的，是一个完整的系统——每个产品均由经过验证的可复用组件组装而成，每个组件均遵循相同的不可妥协规则，每一项宣称的功能背后都有实证支撑。主导语言为<strong>Go</strong>，辅以Kotlin/KMP、TypeScript/React、Python、Swift及Shell，各取所长——<strong>Go</strong>用于高吞吐量服务与库，Kotlin用于资源配置与跨平台移动端，TypeScript用于类型化前端，Python则作为AI/ML的粘合层。</p>
+<p>让整个作品体系凝聚一致的，是其纪律的机械性而非愿景性。共享的<strong>Constitution</strong>以Git子模块形式发布，并被140多个代码库继承，因此单一规则变更即可全局生效；反虚假质检层则拒绝在缺乏运行时证明的情况下记录通过。Helix产品系列、实用工具矩阵及Server
+Factory工具链，均是同一理念的三种表达——构建一次，复用无处不在，并证明其有效后方可宣告完成。</p>
+<p>以下内容按优先级排序：</p>
+<ol type="1">
+<li><strong>治理与质检支柱</strong>——HelixConstitution、HelixQA（确保其余部分可信的基石）。</li>
+<li><strong>Helix产品系列</strong>——AI开发生命周期（优先采用HelixTrack）。</li>
+<li><strong>LLM基础设施</strong>——供应商抽象、编排、验证。</li>
+<li><strong>vasic-digital实用工具</strong>——产品级独立工具。</li>
+<li><strong>Server
+Factory</strong>——基础设施自动化遗产（排序靠后）。</li>
+</ol>
+<p>统一核心理念：<strong>功能只有在真实用户能够使用且有实证证明时，方可视为完成。</strong></p>
+<hr />
+<h2 id="治理与质检支柱">2. 治理与质检支柱</h2>
+<p>这两项居于首位，因为作品集中的其他内容均借由它们获得可信度。二者共同将”相信我，它能用”转化为可审计的事实——<strong>Constitution</strong>编码规则，<strong>HelixQA</strong>证明规则被遵循。</p>
+<ul>
+<li><strong>HelixConstitution</strong>——通用的、与项目无关的工程规则手册，以Git子模块形式发布，并被140多个代码库继承。具备反虚假验证门禁、假阳性免疫、数据/主机安全、覆盖率纪律；支持扩展但不可削弱的继承机制；全矩阵传播门禁通过grep检查必备条款；每个门禁均配有变异测试，以证明其并非摆设。</li>
+<li><strong>HelixQA</strong>——反虚假质检编排（基于Go）。包含书面<strong>YAML</strong>测试库，以及全自动的LLM与计算机视觉质检流程，覆盖Android、Android
+TV、Web及桌面端；无实证（截图、logcat、视频、堆栈跟踪）则不予通过。<strong>Constitution</strong>强制要求的质检类型（§11.4.169）。</li>
+</ul>
+<h2 id="helix-产品家族">3. Helix 产品家族</h2>
+<p>Helix 系列是旗舰产品线：一个紧密衔接的产品家族，覆盖整个 AI
+开发生命周期，从规划与需求定义，到构建、记忆、翻译及交付。每款产品均为独立实体，但设计初衷在于彼此组合——统一的治理框架、可复用的模块，以及贯穿所有产品的严谨验证机制。</p>
+<ul>
+<li><strong>HelixTrack</strong> —— 面向自由世界的 JIRA
+替代方案；Helix-Track 系列的旗舰产品。</li>
+<li><strong>HelixAgent</strong> —— 集成式 LLM
+服务：多模型协同决策，输出共识答案，并基于验证结果选择服务提供方。</li>
+<li><strong>HelixCode</strong> —— 企业级分布式 AI 开发平台；将任务分配至
+SSH 管理的工作节点，支持自动检查点/回滚；提供 REST、CLI、TUI 及 MCP
+接口。</li>
+<li><strong>HelixCluster</strong> —— 面向 AI
+计算的分布式操作系统，从数据中心 GPU
+到边缘手持设备，均由单一控制平面统一管理。</li>
+<li><strong>HelixBuilder</strong> —— 基于 AI
+的应用构建流水线，按类别逐步构建。</li>
+<li><strong>HelixSkills</strong> —— 受治理且基于宪章的 CLI AI
+代理技能系统（技能、MCP 工具服务器、Claude Code 插件）。</li>
+<li><strong>HelixSpecifier</strong> ——
+规模化的规约驱动开发，仪式感与工作量匹配。</li>
+<li><strong>HelixMemory</strong> —— 面向 AI
+代理的统一记忆大脑，融合四大顶尖引擎。</li>
+<li><strong>HelixTranslate</strong> ——
+经验证的模型书籍翻译；设计上诚实透明，绝不静默回退。</li>
+<li><strong>HelixTerminator</strong> —— 零信任终端平台：每个 SSH
+会话均受保护、可共享，并获得 AI 辅助。</li>
+<li><strong>HelixGitpx</strong> —— 跨十余家主机的联邦 Git
+系统；单一真相源，全局镜像同步。</li>
+<li><strong>HelixOTA</strong> ——
+通用的解耦空中更新机制；设计上确保零砖化风险。</li>
+<li><strong>HelixPlay</strong> —— 将任意 GPU
+设备转化为私有云游戏终端。</li>
+<li><strong>Helix-Flow</strong> —— Helix 平台推理产品。<em>未验证 /
+因源码限制暂缓：其公开仓库目前仅有一行
+README；待真实文档完善后再深入展示产品细节。</em></li>
+</ul>
+<h2 id="llm-基础设施">4. LLM 基础设施</h2>
+<p>产品之下，是确保其与提供方无关且可靠运行的基础层：统一接口整合数十家
+LLM
+提供商，单一控制平面管理无界面编码代理，以及唯一的验证真相源。正是这一层，使上层产品能够灵活切换模型、应对提供方宕机，并拒绝信任无法证明理解任务的
+LLM 服务。</p>
+<ul>
+<li><strong>HelixLLM</strong> —— 单一二进制，六种模式：支持 OpenAI 及
+Anthropic 兼容推理（基于 HTTP/3、本地 llama.cpp、评分式回退链、RAG
+流水线、ReAct 代理）。</li>
+<li><strong>LLMProvider</strong> —— 单一接口，43
+家提供商，内置断路器、重试机制及健康检查。</li>
+<li><strong>LLMOrchestrator</strong> —— 面向所有无界面 CLI
+编码代理（OpenCode、Claude Code、Gemini、Junie、Qwen
+Code）的统一控制平面。</li>
+<li><strong>LLMsVerifier</strong> ——
+验证、监控、优化：LLM/提供商/验证元数据的唯一真相源，并强制要求模型理解任务的准入门槛。</li>
+</ul>
+<p>内容</p>
+<h2 id="vasic-digital-实用工具">5. Vasic-Digital 实用工具</h2>
+<p>这些独立的产品级工具各自解决了一个棘手的难题——同时也在实战中验证了可复用模块库的能力。它们涵盖了从弹性多协议媒体系统到
+Markdown
+转视频课程流水线，再到内容哈希化文档/数据库同步引擎等多种工具；部分工具坦诚公布了其成熟度，这些标识均保留而非隐藏。</p>
+<ul>
+<li><strong><a
+href="../products/Catalogizer.md">Catalogizer</a></strong> ——
+支持多协议（SMB/FTP/NFS/WebDAV/本地）、加密、可自托管的媒体库管理工具；基于
+Go/Gin API + React UI；具备弹性离线容错监控功能；构建于 21 个
+<code>digital.vasic.*</code> 子模块之上。</li>
+<li><strong><a
+href="../products/Courses-Creator.md">Courses-Creator</a></strong> ——
+Markdown 转视频课程流水线；支持多 LLM
+内容增强、TTS（Bark/SpeechT5）、桌面/移动/网页播放器；优雅兼容无 API
+密钥模式。</li>
+<li><strong><a
+href="../products/VisionEngine.md">VisionEngine</a></strong> —— 解耦的
+Go 工具包，融合经典计算机视觉与多供应商 LLM
+视觉技术；支持导航图生成（BFS + DOT/JSON/Mermaid 导出）；OpenCV
+构建标签门控。</li>
+<li><strong><a
+href="../products/DocProcessor.md">DocProcessor</a></strong> ——
+文档到功能映射工具，附带验证覆盖率追踪；支持 LLM 或启发式/离线提取；基于
+Apache-2.0 协议。</li>
+<li><strong><a href="../products/docs_chain.md">Docs Chain</a></strong>
+—— 内容哈希化、双向、原子化文档/数据库同步（基于 DAG 的 Salsa
+风格增量重算）。<em>阶段 1–5 已就绪；阶段 6–7 规划中。</em></li>
+<li><strong><a href="../products/Herald.md">Herald</a></strong> ——
+可靠的多渠道通知系统，具备自然语言三层意图解析（命令 → LLM →
+确认）；首个 Docs Chain 消费者。</li>
+<li><strong><a
+href="../products/task_bridge.md">task_bridge</a></strong> ——
+解耦的双向任务/看板同步（SQLite 单一真相源 ↔︎ 文档 ↔︎ ClickUp）。<em>P1
+阶段搭建完成——同步逻辑尚未实现。</em></li>
+<li><strong><a
+href="../products/Vasic-Digital-Reusable-Module-Suite.md">Vasic Digital
+可复用模块套件</a></strong> ——
+<code>digital.vasic.*</code>「标准库」：基础设施原语、AI
+构建模块及防御性 LLM 防护机制，外加 Kotlin Multiplatform
+镜像。<em>多个组织仓库处于搭建/开发中——已标识，未发布。</em></li>
+</ul>
+<h2 id="server-factory基础设施自动化传承按设计排末位">6. Server
+Factory（基础设施自动化传承——按设计排末位）</h2>
+<p>按设计而非质量排末位：Server Factory 工具链早于 AI
+系列诞生，展示了「一次构建，随处复用」理念的最初形态。其旗舰产品——一款可通过
+JSON
+描述并部署于任意环境的邮件服务器——是一款成熟且经过充分验证的产品；其余配套工具则按实际成熟度呈现，而非刻意包装。</p>
+<ul>
+<li><strong><a href="../products/Mail-Server-Factory.md">Mail Server
+Factory</a></strong> —— 通过声明式 JSON 生成完全预配置的 Docker
+化邮件服务器，支持 12 种连接类型及 25 种 Linux
+发行版；具备企业级安全性；已通过 439 项测试及 SonarQube
+门禁检查。Server-Factory 组织的旗舰产品。</li>
+<li><strong><a
+href="../products/Server-Factory-Core-Framework.md">Server Factory
+核心框架</a></strong> —— 所有工厂构建所依赖的共享 Kotlin 引擎。</li>
+<li><strong><a href="../products/Qemu-Utils.md">Qemu-Utils</a></strong>
+—— 将 QEMU 虚拟机镜像视作制品管理：下载/缓存/运行、压缩/发布、桥接/TAP
+网络、ISO 安装；支持 Linux 及 macOS。</li>
+<li><strong><a
+href="../products/Parallels-Utils.md">Parallels-Utils</a></strong> ——
+Parallels（macOS）虚拟机镜像的压缩、发布及检索，通过简单配置文件实现。</li>
+<li><strong><a
+href="../products/Server-Factory-Additional-Components.md">Server
+Factory —— 附加组件</a></strong> ——
+服务工厂（Web/SonarQube/缓存代理）、定义包及实用工具。<em>服务工厂文档为占位说明——未验证/早期阶段。</em></li>
+</ul>
+<h2 id="技术指标基于实证">7. 技术指标（基于实证）</h2>
+<ul>
+<li><strong>语言：</strong> Go（主导）、Kotlin &amp; Kotlin
+Multiplatform、TypeScript、Python、Swift、Shell；PL/pgSQL；TLA+（螺旋集群中的正式规格）。</li>
+<li><strong>AI / LLM：</strong> 40+ 供应商接入、MCP、RAG、vector
+数据库及
+embeddings、规划（HiPlan/MCTS/思维树）、LLMOps、基准测试（SWE-bench/HumanEval/MMLU）、TTS（Bark/SpeechT5）、计算机视觉
++ LLM 视觉、防护栏/红队测试。</li>
+<li><strong>后端：</strong> Gin、gRPC +
+Protobuf、HTTP/3（QUIC）、WebSockets、Angular、React、Kafka/RabbitMQ。</li>
+<li><strong>数据：</strong>
+PostgreSQL、SQLite、SQLCipher、Redis、Neo4j、ClickHouse、MinIO/S3/GCS/Azure。</li>
+<li><strong>基础设施 / 运维：</strong> Docker &amp; Compose、Kubernetes
++ Helm、Prometheus +
+Grafana、OpenTelemetry、QEMU/Libvirt/Parallels；GitHub
+Actions、Gradle、Make。</li>
+<li><strong>测试 / 质量保证：</strong>
+HelixQA、带变异门的挑战测试框架、<code>go test -race</code>、视觉回归测试工具、ADB
+设备测试、SonarQube、安全扫描（semgrep/gosec/trivy/snyk/gitleaks/nancy）、TLA+
+模型检查。</li>
+</ul>
+</body>
+</html>

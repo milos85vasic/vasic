@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSpecifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSpecifier</h1>
+</header>
+<h1 id="helixspecifier">HelixSpecifier</h1>
+<p><strong>Spezifikationsgetriebene Entwicklung, die ihren eigenen
+Formalismus an den Arbeitsaufwand anpasst.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>HelixSpecifier ist eine Go-Engine, die drei Entwicklungsmethoden –
+SpecKits spezifikationsgetriebenen Workflow, Superpowers TDD-Disziplin
+und GSDs Meilenstein-Lebenszyklus – zu einem adaptiven Prozess vereint.
+Sie klassifiziert jede Aufgabe nach Aufwand und skaliert den
+Prozessumfang entsprechend nach oben oder unten.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>HelixSpecifier ist eine Engine für spezifikationsgetriebene
+Entwicklung, die für AI-Agenten konzipiert ist. Sie kombiniert SpecKit,
+Superpowers und GSD, klassifiziert Aufgaben nach Aufwand, führt
+debattengestützte Spezifikationsphasen durch, erzwingt ein
+Mindestverhältnis von Tests zu Code und lernt aus jedem abgeschlossenen
+Prozess.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>HelixSpecifier ist eine Engine für spezifikationsgetriebene
+Entwicklung (SDD), geschrieben in Go (Modul
+<code>digital.vasic.helixspecifier</code>) und als Komponente des
+HelixAgent-AI-Ensembles konzipiert. Sie vereint drei
+Entwicklungsansätze, die normalerweise in drei separaten Tools – und
+drei unterschiedlichen Denkweisen – verankert sind, zu einem adaptiven
+Workflow: SpecKits siebenphasigen SDD-Prozess (Constitution,
+Spezifizieren, Klären, Planen, Aufgaben, Analysieren, Implementieren),
+Superpowers testgetriebene Disziplin mit paralleler
+Subagenten-Ausführung sowie GSDs Meilenstein-Lebenszyklus-Management.
+Jeder dieser Pfeiler erfüllt weiterhin seine ursprüngliche Funktion; die
+Engine sorgt jedoch dafür, dass sie als kohärenter Gesamtprozess
+ablaufen – statt als manuell zusammengefügter Workflow.</p>
+<p>Ihr zentrales Konzept ist der <em>adaptive Formalismus</em>: Die
+Engine klassifiziert eingehende Aufgaben nach Aufwand und passt den
+Prozessumfang entsprechend an. So durchläuft eine Einzeilen-Korrektur
+nicht denselben aufwendigen Ablauf wie ein großes Feature – und ein
+großes Feature wird nicht mit der Sorglosigkeit einer
+Tippfehler-Korrektur abgehandelt. Zehn Kernfunktionen bauen auf diesem
+Grundprinzip auf: parallele Aufgabenausführung mit begrenzter
+Nebenläufigkeit, ein maschinenlesbares „Constitution as Code”, das
+verbindliche Regeln automatisch durchsetzt, „Nyquist-TDD”, das ein
+Mindestverhältnis von Tests zu Implementierung überwacht und erzwingt,
+mehrstufige Multi-Agenten-Debatten zur Spezifikationsverfeinerung,
+adaptive Kompetenzlernfähigkeit, Brownfield-Analyse von Legacy-Code,
+prädiktive Spezifikationen auf Basis historischer Muster,
+projektübergreifender Wissensaustausch, dynamische Anpassung des
+Formalismus während der Laufzeit sowie ein persistenter
+Spezifikationsspeicher mit semantischer Suche.</p>
+<p>Die Engine wird als Go-Modul genutzt – entweder über
+<code>go get</code> oder eine lokale <code>replace</code>-Direktive –
+und ist hinter einer bewusst schlanken Engine-API verborgen: Man
+registriert die drei Pfeiler sowie einen Formalismus-Skalierer und einen
+Spezifikationsspeicher, klassifiziert den Aufwand der Aufgabe und führt
+den gesamten Prozess aus, um ein qualitätsbewertetes Ergebnis zu
+erhalten. Die Oberfläche ist einfach; die Orchestrierung dahinter ist es
+nicht. Wie der Rest der Helix-Familie wird sie unter einem
+Anti-Bluff-Verifizierungsregime entwickelt, bei dem ein
+In-Prozess-Challenge-Runner echten Code statt Mocks ausführt.</p>
+<h2 id="warum-wir-sie-entwickelt-haben">Warum wir sie entwickelt
+haben</h2>
+<p>Spezifikationsgetriebene Entwicklung, rigoroses TDD und
+Meilenstein-Management sind normalerweise drei separate Praktiken mit
+drei separaten Tools. HelixSpecifier wurde entwickelt, damit ein
+AI-Agent (HelixAgent) alle drei als einen kohärenten, selbstskalierenden
+Workflow nutzen kann – statt sie manuell zusammenfügen zu müssen.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es macht den Prozess automatisch proportional zur Arbeit. Teams
+stecken normalerweise in einer von zwei ungünstigen Extremsituationen
+fest: übermäßige Formalitäten bei allem (sicher, aber langsam und
+heimlich verhasst) oder Formalitäten bei nichts (schnell, bis es das
+nicht mehr ist). HelixSpecifier löst diesen Kompromiss auf, indem es den
+Formalismus an den klassifizierten Aufwand jeder Aufgabe anpasst und ihn
+zur Laufzeit neu justiert, sobald sich die Arbeit offenbart. Die
+Fähigkeit, die vorher nicht praktikabel war, ist ein Prozess, der sich
+pro Aufgabe selbst optimiert – und darüber hinaus
+Spezifikationsentscheidungen, die nicht auf einer ersten Einschätzung
+eines Einzelnen beruhen, sondern auf einer mehrstufigen, multiagenten
+Debatte mit Positionsbewertung.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li><strong>Adaptiver Formalismus</strong> – Prozessniveau wird durch
+Echtzeit-Qualitätsmetriken gesteuert und zur Laufzeit angepasst, nicht
+im Voraus festgelegt.</li>
+<li><strong>Nyquist-TDD</strong> – ein
+Test-zu-Implementierungs-Verhältnis-Gate (mindestens 2:1), das sich die
+Logik des Nyquist-Shannon-Abtasttheorems zunutze macht: Um Verhalten
+treu abzubilden, muss man es deutlich häufiger abtasten als es auftritt
+– Tests müssen also das gemessene Codevolumen übertreffen.</li>
+<li><strong>Debattenarchitektur</strong> – mehrstufige,
+multiagentenbasierte Spezifikationsverfeinerung, bei der Positionen
+vorgeschlagen, bewertet und konvergiert werden, um Einzelmeinungen durch
+einen adversariellen Prozess zu ersetzen.</li>
+<li><strong>Prädiktive Spezifikation</strong> und
+<strong>projektübergreifender Wissenstransfer</strong> – die Engine
+analysiert akkumulierte Workflows, um Spezifikationen vorherzusagen und
+hart erarbeitetes Wissen von einem Projekt ins nächste zu
+übertragen.</li>
+<li><strong>Constitution als Code</strong> – verbindliche Projektregeln
+werden maschinenlesbar gemacht und von der Engine durchgesetzt, statt
+auf die Wachsamkeit von Reviewern angewiesen zu sein.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Drei Methodologien zusammenführen, ohne dass sie sich
+gegenseitig behindern</strong> – SpecKit, Superpowers und GSD gehen
+jeweils davon aus, den Workflow zu dominieren. Gelöst wurde dies mit
+einer Fusions-Engine, die jede Säule hinter einer gemeinsamen
+Schnittstelle registriert und sie durch einen gemeinsamen
+Prozesslebenszyklus steuert, sodass sie sich zu einem einzigen Ablauf
+verbinden, statt drei kollidierende Systeme zu bilden.</li>
+<li><strong>Entscheiden, wie viel Prozess eine bestimmte Aufgabe
+tatsächlich benötigt</strong> – zu viel, und alles kriecht; zu wenig,
+und riskante Arbeit wird ungeprüft ausgeliefert. Gelöst mit einem
+Aufwandsklassifikator, der die Arbeit bewertet und einen
+Formalismus-Skalierer speist, der das Prozessniveau dynamisch anpasst,
+während die Ausführung voranschreitet.</li>
+<li><strong>Spezifikationsqualität hochhalten, ohne bei jeder
+Entscheidung einen menschlichen Gatekeeper einzusetzen</strong> – gelöst
+durch den Ersatz von Einmal-Spezifikationen durch debattengestützte
+Verfeinerung, bei der Agenten konkurrierende Positionen über mehrere
+Runden hinweg bewerten, sowie durch die Durchsetzung von
+Nyquist-TDD-Verhältnissen, damit die Implementierung nicht schneller
+voranschreitet als ihre Tests.</li>
+</ul>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<ul>
+<li><strong>Go</strong> – gewählt, damit die Engine als einzelnes
+importierbares Binary ohne Laufzeit-Overhead ausgeliefert werden kann;
+sein Nebenläufigkeitsmodell macht die parallelisierte Aufgabenverteilung
+mit begrenzter Parallelität und die mehrstufigen Debattenrunden
+handhabbar, statt zu einem Threading-Albtraum zu werden.</li>
+<li><strong>logrus</strong> – strukturierte Protokollierung, die durch
+die Engine und alle drei Säulen läuft, sodass Entscheidungen eines
+Workflows (Klassifizierung, Formalismus-Anpassungen, Debattenergebnisse)
+im Nachhinein nachvollziehbar sind.</li>
+<li><strong>SpecKit-Säule</strong> – der siebenphasige,
+spezifikationsgetriebene Entwicklungsprozess (Constitution →
+Spezifizieren → Klären → Planen → Aufgaben → Analysieren →
+Implementieren), der das disziplinierte Rückgrat dafür bildet, wie aus
+einer Spezifikation Code wird.</li>
+<li><strong>Superpowers-Säule</strong> – TDD-Disziplin mit paralleler
+Subagenten-Ausführung, die für testgetriebene Strenge sorgt und durch
+Aufteilung die Implementierung ehrlich und schnell hält.</li>
+<li><strong>GSD-Säule</strong> – Meilenstein- und
+Lebenszyklusmanagement, das dem Workflow sein Gefühl von
+„Fertigstellung” und seinen Fortschritt durch die Phasen verleiht.</li>
+<li><strong>Spec-Memory-Store</strong> – ein persistenter, semantisch
+durchsuchbarer Index vergangener Spezifikationen, das Substrat, das
+prädiktive Spezifikation und projektübergreifenden Wissenstransfer
+ermöglicht, statt jedes Mal bei null anzufangen.</li>
+</ul>
+<h2 id="status--ehrlichkeitshinweise">Status- &amp;
+Ehrlichkeitshinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> Als Go-Modulkomponente von HelixAgent
+verwendet.</li>
+<li><strong>Lizenz: Noch nicht festgelegt.</strong> Keine LIZENZ über
+den GitHub-API-Prozess erkannt — UNBESTÄTIGT / nicht deklariert.</li>
+<li>Der Anzeigename <em>„HelixSpecifier”</em> verweist auf das
+Repository <code>specifier</code>.</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär.</p>
+</body>
+</html>

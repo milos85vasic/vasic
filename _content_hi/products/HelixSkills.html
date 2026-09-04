@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSkills</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSkills</h1>
+</header>
+<h1 id="helixskills">HelixSkills</h1>
+<p><strong>CLI AI एजेंटों के लिए एक शासित, संविधान-समर्थित कौशल
+प्रणाली।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>HelixSkills, CLI AI एजेंटों के लिए एक कौशल प्रणाली है जो Helix Constitution
+को एक उप-मॉड्यूल के रूप में अपनाती है, जिससे हर सार्वभौमिक शासन नियम बिना शर्त लागू
+होता है। यह इंस्टॉल करने योग्य एजेंट कौशल, MCP टूल सर्वर, Claude कोड प्लगइन्स और
+पुनः उपयोगी इंजनों को एक पंजीकरण योग्य, प्रलेखित कैटलॉग के पीछे संयोजित करता है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>HelixSkills, CLI AI एजेंटों के लिए एक कौशल प्रणाली है। यह Helix
+Constitution को उप-मॉड्यूल के रूप में समाहित करता है ताकि सभी सार्वभौमिक नियम
+लागू हों, फिर पंजीकरण योग्य कौशल (एक्शन-प्रिफ़िक्स, मीडिया-वैलिडेटर, मल्टीट्रैक,
+सत्र-सिंक, कार्य योग्य आइटम जीवनचक्र, और अन्य), दो MCP टूल सर्वर, दो Claude कोड
+प्लगइन्स और पुनः उपयोगी इंजनों को प्रस्तुत करता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>HelixSkills (रिपॉजिटरी <code>skills</code>, Apache-2.0) CLI AI एजेंटों के
+लिए एक कौशल प्रणाली है, और यह सामान्य क्रम का एक जानबूझकर उलटाव से शुरू होती है:
+शासन पहले, क्षमता बाद में। यह Helix Constitution को अपने
+<code>constitution/</code> उप-मॉड्यूल के रूप में अपनाती है, जिससे
+<code>constitution/CLAUDE.md</code> और
+<code>constitution/Constitution.md</code> के हर सार्वभौमिक नियम बिना शर्त
+लागू होते हैं — न कि किसी परंपरा के रूप में जिसे एजेंट मानने का विकल्प चुन सके, बल्कि एक
+नियम-सेट के रूप में जो परियोजना के कोड ट्री में भौतिक रूप से समाहित है। जो एजेंट
+HelixSkills को अपनाता है, वह संविधान से बाहर नहीं निकल सकता; नियम कोड के साथ
+ही यात्रा करते हैं।</p>
+<p>जहाँ अधिकांश “कौशल फ्रेमवर्क” अमूर्त अवधारणाओं का व्यापार करते हैं, वहीं
+HelixSkills एक ठोस, पंजीकरण योग्य सूची प्रदान करता है जिसे आप इंगित कर सकते हैं और
+इंस्टॉल कर सकते हैं। सात संविधान कौशल <code>register.sh</code> के माध्यम से इंस्टॉल
+होते हैं: एक्शन-प्रिफ़िक्स-सिस्टम, मीडिया-वैलिडेटर, मल्टीट्रैक, रिपोर्टिंग-वर्केबल-आइटम्स,
+शेड्यूल्ड-वर्क-क्यू, सत्र-सिंक, और वर्केबल-आइटम-लाइफसाइकल — एक ऐसा विस्तार जो मध्यम से
+उन्नत स्तर तक फैला है, जिसमें अनुशासित एक्शन नामकरण से लेकर मीडिया सत्यापन और कार्य
+की इकाई के पूर्ण जीवनचक्र तक सब कुछ शामिल है। अतिरिक्त प्रारूपण कौशल (एंड्रॉइड
+अवलोकन, Java/Kotlin भाषा, Linux ओएस) पहले से ही अनुक्रमित और सक्रियण की
+प्रतीक्षा में हैं। दो MCP टूल सर्वर (मीडिया-वैलिडेटर, शेड्यूल्ड-वर्क) उन कौशलों को Model
+Context Protocol के माध्यम से एजेंटों तक पहुँचाते हैं, जबकि दो Claude कोड प्लगइन्स
+(हेलिक्स, शेड्यूल्ड-वर्क) उन्हीं क्षमताओं को सीधे एजेंट रनटाइम में समाहित कर देते हैं — एक
+ही कौशल सेट, जो एजेंट जिस भी माध्यम से संवाद करते हैं, उसके माध्यम से पहुँचता है।</p>
+<p>कैटलॉग के नीचे चार गहराई-1 पुनः उपयोगी इंजन स्थित हैं — कॉन्टिनम (कार्यान्वित),
+साथ ही सत्र_ऑर्केस्ट्रेटर, टोकन_ऑप्टिमाइज़र, और क्लिकअप_सिंक (डिज़ाइन में) — वह साझा
+मशीनरी जो कौशलों को एक ही प्लंबिंग को बार-बार बनाने से रोकती है। टोकन_ऑप्टिमाइज़र
+अकेले ही वासिक-डिजिटल पारिस्थितिकी तंत्र के पैकेजों (टून, एम्बेडिंग्स, वेक्टरडीबी,
+नॉर्मलाइज़, कन्वर्सेशन) और HelixDevelopment के LLMProvider तक एक स्पष्ट निर्भरता
+ग्राफ़ घोषित करता है, जिससे इसकी क्रॉस-रिपॉजिटरी वायरिंग स्पष्ट और ऑडिट योग्य
+होती है, न कि अंतर्निहित। इसके चारों ओर अनुशासित प्रलेखन चलता है: एक कौशल कैटलॉग,
+एक स्वतः-जनित कौशल-ग्राफ़ सूचकांक, प्रति-रिपॉजिटरी विस्तृत पृष्ठ, और एक स्पष्ट “गैप्स
+एंड रिस्क्स” रजिस्टर जो उन चीज़ों को नामित करता है जो अभी तक पूरी नहीं हुई हैं। पूरी
+प्रणाली GitHub, GitLab, GitFlic और गिटवर्स पर मिरर की गई है ताकि लचीलापन और
+क्षेत्रीय पहुँच सुनिश्चित हो सके।</p>
+<p>सामग्री</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>CLI और AI एजेंट्स को ऐसी क्षमताओं की ज़रूरत होती है जो सुसंगत, नियंत्रित और
+पुनःप्रयोगी हों—न कि हर बार नियमों को नए सिरे से गढ़ने वाले तदर्थ स्क्रिप्ट्स।
+HelixSkills को एजेंट्स को एक पैकेज्ड, पंजीकरण योग्य कौशल-सेट देने के लिए बनाया गया है
+जो एक साझा संविधान से बंधा होता है, ताकि हर एजेंट और परियोजना में व्यवहार सुसंगत और
+ऑडिट योग्य बना रहे जो इसे अपनाता है।</p>
+<h2 id="यह-कय-गम-चजर-ह">यह क्यों गेम-चेंजर है</h2>
+<p>यह एजेंट की क्षमता को अनुशासन के बजाय <em>निर्माण के स्तर पर</em> पोर्टेबल और
+नियम-अनुपालक बनाता है। हर कौशल एक नियंत्रित, संस्करणित, इंस्टॉल करने योग्य इकाई है
+जो एक संविधान उप-मॉड्यूल द्वारा समर्थित है—इसलिए जैसे ही कोई एजेंट किसी कौशल को
+पंजीकृत करता है, वह स्वतः ही मानक नियम-सेट को भी विरासत में पा लेता है, जिसमें
+विचलन की कोई गुंजाइश नहीं रहती। इससे वह संभव हो पाता है जो पहले व्यावहारिक नहीं
+था: एक क्षमता को एक एजेंट या परियोजना से दूसरी में ले जाना और यह जानना कि वह उसी
+शासन-व्यवस्था से बंधी पहुँचती है, जो MCP सर्वर और Claude कोड प्लगइन्स जैसे मानक
+इंटरफेस के माध्यम से उपलब्ध होती है—न कि हर बार नियमों को नए सिरे से गढ़ने वाले तदर्थ
+गोंद-स्क्रिप्ट्स के ढेर के रूप में।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li><strong>उप-मॉड्यूल के रूप में Constitution</strong>: सार्वभौमिक शासन-नियम
+विरासत में मिलते हैं, नकल नहीं—इन्हें ट्री में माउंट किया जाता है ताकि हर उपभोग करने
+वाला एजेंट उसी मानक नियम-सेट से बंधा रहे, जिसमें अपडेट एक ही स्रोत से प्रवाहित होते
+हैं, न कि दर्जनों पुराने कॉपियों से।</li>
+<li><strong>स्व-पंजीकरण इकाइयों के रूप में कौशल</strong>
+(<code>register.sh</code>): इन्हें एक स्वतः-जनित कौशल-ग्राफ इंडेक्स में जोड़ा जाता
+है, ताकि कैटलॉग खोजने योग्य बना रहे और कभी भी इंस्टॉल किए गए कौशलों से असिंक्रनाइज़
+न हो।</li>
+<li><strong>बहु-सतही प्रदर्शन</strong>: एक ही कौशल-सेट MCP टूल सर्वर
+<em>और</em> Claude कोड प्लगइन्स के माध्यम से एजेंट्स तक पहुँचता है—एक बार लिखें, जिस
+भी रनटाइम का एजेंट उपयोग करे, उससे संवाद करें।</li>
+<li><strong>पुनःप्रयोगी गहराई-1 इंजन</strong> (continuum, token_optimizer,
+session_orchestrator, clickup_sync) जो पूरे पारिस्थितिकी तंत्र में साझा किए जाते
+हैं, प्रत्येक में स्पष्ट, ऑडिट योग्य क्रॉस-रिपॉजिटरी निर्भरता घोषणाएँ होती हैं, न कि
+छिपे हुए जुड़ाव।</li>
+</ul>
+<h2 id="सबस-बड-तकनक-चनतय-और-उनक-समधन">सबसे बड़ी तकनीकी चुनौतियाँ और उनके
+समाधान</h2>
+<ul>
+<li><strong>कई कौशलों और एजेंट्स में एजेंट व्यवहार को सुसंगत और नियम-अनुपालक बनाए
+रखना</strong>—प्रत्येक कौशल के लिए शासन को फिर से लागू करने से समय के साथ विचलन
+सुनिश्चित होता है। इसका समाधान Helix Constitution को उप-मॉड्यूल के रूप में माउंट
+करके किया गया, ताकि <code>constitution/CLAUDE.md</code> और
+<code>constitution/Constitution.md</code> में दिए गए नियम बिना शर्त लागू हों
+और एक ही अपस्ट्रीम से अपडेट होते रहें, न कि कॉपी करके छोड़ दिए जाएँ।</li>
+<li><strong>बढ़ते कौशल-सेट को इंस्टॉल करने योग्य और खोजने योग्य बनाना</strong>—एक
+कैटलॉग तब बेकार है जब कोई उसमें मौजूद चीज़ों को ढूँढ़ या इंस्टॉल न कर सके। इसका समाधान
+प्रति-कौशल <code>register.sh</code> पंजीकरण से किया गया, जो इंस्टॉल के समय हर
+कौशल को जोड़ता है, साथ ही एक स्वतः-जनित INDEX कौशल-ग्राफ और प्रति-रिपॉजिटरी
+विस्तृत दस्तावेज़ भी दिए गए, ताकि खोज वास्तविकता के अनुरूप बनी रहे।</li>
+<li><strong>विभिन्न रनटाइम बोलने वाले एजेंट्स तक पहुँचना</strong>—एक ही क्षमता को
+हर होस्ट के लिए फिर से नहीं बनाया जाना चाहिए। इसका समाधान एक ही कौशल-सेट को
+MCP टूल-सर्वर परिभाषाओं (<code>constitution/mcp/</code> के तहत) और Claude
+कोड प्लगइन्स (<code>constitution/plugins/</code> के तहत) के पीछे पैक करके किया
+गया, ताकि एक ही कार्यान्वयन सभी सतहों पर उपलब्ध हो।</li>
+</ul>
+<p>सामग्री</p>
+<h2 id="तकनक-सरचन">तकनीकी संरचना</h2>
+<ul>
+<li><strong>Shell (प्राथमिक भाषा)</strong> — चुना गया क्योंकि एजेंट के रहने वाले
+किसी भी स्थान पर इंस्टॉल और पंजीकरण टूलिंग को बिना किसी रनटाइम के पहले बूटस्ट्रैप
+किए चलना होता है; यह <code>register.sh</code> और
+<code>install_upstreams</code> को शक्ति प्रदान करता है, जिससे आरंभिक
+निर्भरता-मुक्त और पोर्टेबल बना रहता है।</li>
+<li><strong>गिट सबमॉड्यूल्स</strong> — चुना गया शासन को बिना नकल के विरासत में
+लेने के लिए: Helix Constitution को <code>constitution/</code> में एक सक्रिय
+संदर्भ के रूप में माउंट किया गया है, ताकि नियमों के अपडेट एक पॉइंटर के माध्यम से
+प्रसारित हों न कि कॉपी-पेस्ट और भुला दिए जाएँ।</li>
+<li><strong>Model Context Protocol (MCP)</strong> — एजेंटों के लिए मानक,
+रनटाइम-अज्ञेयवादी टूल इंटरफ़ेस के रूप में चुना गया; दो MCP सर्वर (media-validator,
+scheduled-work) <code>constitution/mcp/</code> के तहत परिभाषित किए गए हैं
+ताकि कौशल को कॉल करने योग्य टूल के रूप में उजागर किया जा सके।</li>
+<li><strong>Claude कोड प्लगइन्स</strong> — चुना गया ताकि उन कौशलों को बिना
+किसी अतिरिक्त गोंद के सीधे एजेंट रनटाइम में डाला जा सके; दो प्लगइन्स (helix,
+scheduled-work) <code>constitution/plugins/</code> के तहत भेजे जाते हैं, जो एक
+अलग होस्ट के लिए MCP सतह का प्रतिबिंब हैं।</li>
+<li><strong>पुनः प्रयोज्य इंजन (continuum, token_optimizer,
+session_orchestrator, clickup_sync)</strong> — चुने गए ताकि साझा मशीनरी को
+व्यक्तिगत कौशलों से अलग करके परियोजनाओं में पुनः उपयोग किया जा सके; उदाहरण के लिए,
+token_optimizer को vasic-digital पैकेजों (TOON, Embeddings, VectorDB,
+Normalize, conversation) और HelixDevelopment के LLMProvider से घोषित
+निर्भरताओं के माध्यम से जोड़ा गया है न कि नकल किए गए कोड से।</li>
+<li><strong>मल्टी-होस्ट गिट मिररिंग (GitHub, GitLab, GitFlic,
+GitVerse)</strong> — चुना गया ताकि किसी एक होस्ट की विफलता या क्षेत्रीय
+प्रतिबंध से पहुंच बाधित न हो; एक ही रिपॉजिटरी को चार अलग-अलग प्लेटफार्मों पर
+सक्रिय रखा गया है ताकि लचीलापन और पहुंच सुनिश्चित हो सके।</li>
+</ul>
+<h2 id="सथत-और-ईमनदर-सबध-टपपणय">स्थिति और ईमानदारी संबंधी टिप्पणियाँ</h2>
+<ul>
+<li><strong>स्थिति: बीटा।</strong> सात संविधान कौशल, दो MCP सर्वर और दो
+प्लगइन्स भेजे जा चुके हैं; प्रारूपणाधीन कौशल अनुक्रमित हैं और सक्रियण की प्रतीक्षा में हैं,
+जबकि चार गहराई-1 इंजनों में से तीन (session_orchestrator, token_optimizer,
+clickup_sync) अभी डिज़ाइन चरण में हैं।</li>
+<li>README में परियोजना को <code>helix_skills</code> के रूप में संदर्भित किया
+गया है; GitHub पर प्रामाणिक पथ <code>HelixDevelopment/skills</code> है।
+README में उल्लिखित ट्रैक्ड-फाइंडिंग्स की संख्या एक स्व-रिपोर्टेड आँकड़ा है।</li>
+</ul>
+<p><strong>प्राथमिकता स्तर:</strong> Helix-प्राथमिक।</p>
+</body>
+</html>

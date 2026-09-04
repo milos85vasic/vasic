@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>maintenance</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">maintenance</h1>
+</header>
+<h1 id="genome-maintenance-how-this-genome-stays-honest">Genome
+maintenance — how this genome stays honest</h1>
+<blockquote>
+<p><code>meta/</code> did not exist at genome init (the 15 manifest
+sections are 4 vision + 3 strategies + 6 knowledge + 2 milestones). This
+directory and file were added to hold the maintenance contract. It is
+<strong>not</strong> listed in <code>manifest.json</code>, so it is not
+part of retrieval routing — treat it as a contract for humans and agents
+editing the genome, not as routing context.</p>
+</blockquote>
+<h2 id="the-one-rule-that-outranks-the-rest">The one rule that outranks
+the rest</h2>
+<p>This repository’s governing principle is §11.4.6: <strong>do not
+report a state you have not verified.</strong> The genome is subject to
+it. A genome section that states something no file supports is a bluff
+with a nicer filename.</p>
+<p>Concretely: - Every non-obvious claim carries the file it came from —
+path plus line range where the line is stable. - Anything not stated in
+the repository is labelled <strong>(inferred)</strong> inline. - A
+template section with no honest content <strong>stays a
+template</strong>. Padding it with plausible prose is worse than leaving
+it empty.</p>
+<h2 id="where-each-kind-of-fact-belongs">Where each kind of fact
+belongs</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why the project exists</td>
+<td><code>vision/north-star.md</code></td>
+</tr>
+<tr>
+<td>Why the layout is shaped this way</td>
+<td><code>vision/architecture.md</code> (intent)</td>
+</tr>
+<tr>
+<td>Scanned file/extension inventory</td>
+<td><code>knowledge/architecture.md</code> (auto-populated — do not
+hand-duplicate)</td>
+</tr>
+<tr>
+<td>Enforced rules, with enforcement point</td>
+<td><code>vision/principles.md</code></td>
+</tr>
+<tr>
+<td>Concrete failures + explicit prohibitions</td>
+<td><code>vision/anti-patterns.md</code></td>
+</tr>
+<tr>
+<td>How to build / test / deploy / commit</td>
+<td><code>strategies/active.md</code></td>
+</tr>
+<tr>
+<td>In-flight, self-labelled-unfinished work</td>
+<td><code>strategies/experiments.md</code></td>
+</tr>
+<tr>
+<td>Something tried and abandoned, with the post-mortem</td>
+<td><code>strategies/graveyard.md</code></td>
+</tr>
+<tr>
+<td>A decision and its consequences</td>
+<td><code>knowledge/decisions.md</code> (<strong>append
+only</strong>)</td>
+</tr>
+<tr>
+<td>A surprising, verified fact</td>
+<td><code>knowledge/discoveries.md</code></td>
+</tr>
+<tr>
+<td>Toolchains, packages, hosting contract</td>
+<td><code>knowledge/dependencies.md</code></td>
+</tr>
+<tr>
+<td>Repo identity + remote fan-out</td>
+<td><code>knowledge/workspace.md</code></td>
+</tr>
+<tr>
+<td>Style/layout/commit conventions</td>
+<td><code>knowledge/conventions.md</code></td>
+</tr>
+<tr>
+<td>Open work, with evidence</td>
+<td><code>milestones/current.md</code>,
+<code>milestones/backlog.md</code></td>
+</tr>
+<tr>
+<td>Shipped, tagged work</td>
+<td><code>milestones/completed/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="triggers-to-refresh">Triggers to refresh</h2>
+<p>Refresh the named section when one of these lands:</p>
+<ul>
+<li><strong><code>git remote -v</code> changes anywhere</strong> →
+<code>knowledge/workspace.md</code>. The <code>milosvasic.ru</code>
+fetch/push asymmetry and the <code>monetization</code> (4) /
+<code>submodules/constitution</code> (6) fan-outs are the volatile
+parts.</li>
+<li><strong><code>.gitmodules</code> gains or loses an entry</strong> →
+<code>knowledge/workspace.md</code> +
+<code>knowledge/decisions.md</code> if ownership changes.</li>
+<li><strong>A gap in <code>Constitution.md</code>’s table flips
+CLOSED/OPEN, or an OC resolves</strong> →
+<code>milestones/current.md</code> and
+<code>milestones/backlog.md</code>. Copy the repository’s own state
+word; do not re-adjudicate.</li>
+<li><strong>A new tag</strong> →
+<code>milestones/completed/releases.md</code>.</li>
+<li><strong>A gate is added, removed, or reclassified in
+<code>_tests/GATES.md</code> /
+<code>_tests/TEST-TYPES.md</code></strong> →
+<code>strategies/active.md</code>.</li>
+<li><strong><code>.github/workflows/ci.yml</code> or
+<code>_tools/deploy-langs.sh</code> changes</strong> →
+<code>strategies/active.md</code>. <em>(The old sub-clause on this
+trigger — “and <code>knowledge/discoveries.md</code> if the hardcoded
+absolute paths are finally fixed” — has <strong>fired and been
+executed</strong> on 2026-08-27: the paths are derived,
+<code>discoveries.md</code>, <code>vision/anti-patterns.md</code>, both
+<code>architecture.md</code> files and
+<code>milestones/backlog.md</code> item 11 were updated to match, and
+<code>scripts/audit-hardcoded-paths.sh</code> now guards the invariant
+as CI Gate 0. It is retired, not pending.)</em></li>
+<li><strong><code>scripts/audit-hardcoded-paths.sh</code> or
+<code>.hardcoded-paths-allow</code> changes</strong> →
+<code>vision/anti-patterns.md</code> (the “what prevents a relapse”
+clause) and <code>strategies/active.md</code>.</li>
+<li><strong><code>.lumenignore</code> or the embedding model
+changes</strong> → <code>knowledge/dependencies.md</code> +
+<code>knowledge/decisions.md</code> (ADR-0007).</li>
+</ul>
+<h2 id="boundaries">Boundaries</h2>
+<ul>
+<li><strong>The genome never edits the repository.</strong> It is
+derived context. If the genome and a source file disagree, the source
+file wins and the genome is the thing to fix.</li>
+<li><strong>Precedence when sources disagree:</strong>
+<code>submodules/constitution</code> &gt; root
+<code>Constitution.md</code> &gt; the four agent carriers &gt;
+<code>README.md</code> &gt; everything else (<code>CLAUDE.md:10</code>,
+<code>Constitution.md</code> §101). Where two roots contradict each
+other today, record the contradiction rather than picking a winner.</li>
+<li><strong><code>knowledge/architecture.md</code> and
+<code>knowledge/workspace.md</code> have auto-populated
+headers.</strong> Extend below them; a re-scan may overwrite the scanned
+portion.</li>
+<li><strong><code>knowledge/decisions.md</code> is append-only</strong>
+— its own header says so.</li>
+<li>Do not run <code>lumen index</code> / <code>lumen purge</code> /
+<code>codegraph index</code> as part of a genome refresh. Use
+<code>scripts/lumen-reindex.sh</code> and
+<code>scripts/lumen-index-doctor.sh</code>, and
+<code>codegraph sync</code> for the graph.</li>
+</ul>
+<h2 id="mechanics">Mechanics</h2>
+<ul>
+<li><code>.ashlrcode/genome/manifest.json</code> indexes the 15 original
+sections with per-section <code>tokens</code> and
+<code>updatedAt</code>. <strong>Hand edits to section files do not
+update it.</strong> After a substantial hand edit, refresh it with the
+ashlr genome tooling rather than editing the counts by hand.</li>
+<li><code>proposals.jsonl</code> collects agent-proposed additions
+(<code>section</code>, <code>operation</code>, <code>content</code>,
+<code>rationale</code>, <code>contentHash</code>) awaiting
+consolidation. Use <code>ashlr__genome_propose</code> to add and
+<code>ashlr__genome_consolidate</code> to merge;
+<code>ashlr__genome_status</code> reports state.</li>
+<li><code>.git/hooks/post-commit</code> backgrounds
+<code>scripts/genome-commit-watcher.ts</code> via bun (best-effort,
+never blocks a commit). It is an ashlr hook, <strong>not</strong> a
+§11.4.75 governance layer — do not count it toward gap G5.</li>
+<li><code>evolution/</code> is empty at generation 1.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>Споредни елементи алата Server Factory за
+провизионирање.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>Поред Mail Server Factory и Основног оквира, организација
+Server-Factory обухвата неколико мањих компоненти: „фабрике” по услузи
+(Web Сервице, SonarQube, Кеширајући proxy), декларативне конфигурационе
+пакете (Docker/Стацк/Дефиниције софтвера) и заједничке помоћне алате
+(Утилс). Ова консолидована страница приказује их искрено – неке су у
+раној фази или тек делимично документоване – уместо да их представља као
+потпуно дефинисане производе.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Група репозиторијума који подржавају Server Factory:
+Web-Сервице-Factory, SonarQube-Factory и Цацхинг-Proxy-Factory (алати за
+провизионирање по услузи, углавном у раној фази);
+Docker/Стацк/Software-Дефинитионс (декларативни конфигурациони пакети
+које користи оквир); и Утилс (помоћни алати за приступ SSH и општу
+алатку). Све се ослањају на Основни оквир.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Ова страница обједињује преостале репозиторијуме Сервер-Factoryja јер
+су, појединачно, већина њих мали или намерно недовољно документовани, па
+би их представљање као готових производа преценило њихову зрелост. Могу
+се поделити у три групе. <strong>Фабрике услуга</strong> следе образац
+Mail Server Factory за друге улоге сервера:
+<strong>Цацхинг-Proxy-Factory</strong> („Покрените сопствени кеширајући
+proxy сервер”) наводи кеширајући proxy, сертификат са самопотписом и
+ХТТП крајњу тачку за добијање сигурносног сертификата као кључне
+функције; <strong>SonarQube-Factory</strong> („Покрените сопствени
+SonarQube сервер”) намењен је развоју софтвера; а
+<strong>Web-Сервице-Factory</strong> инстанцира и конфигурира веб-сервер
+за имплементацију циљева као што су веб-сајтови и микроуслуге. Све три
+су Kotlin пројекти изграђени на Основном оквиру, али њихови јавни РЕАДМЕ
+фајлови углавном служе као привремени садржај („Тбд.” за компатибилност,
+спецификације, подешавање и употребу) – па су њихове конкретне
+могућности изван наведене намене НЕВЕРИФИКОВАНЕ. <strong>Дефинициони
+пакети</strong> – <strong>Docker-Дефинитионс</strong>,
+<strong>Стацк-Дефинитионс</strong> и
+<strong>Software-Дефинитионс</strong> – јесу декларативни конфигурациони
+репозиторијуми које оквир користи да би знао како да гради/имплементира
+слике Docker, стекове и софтвер; то су верзијски везани пакети података,
+а не апликације. <strong>Утилс</strong> пружа опште помоћне алате за
+породицу, укључујући скрипт <code>init_ssh_access.sh</code> који
+генерише кључ SSH и инсталира га на удаљени хост како би омогућио роот
+приступ без лозинке за накнадно провизионирање. Заједно, ове компоненте
+заокружују ланац алата за провизионирање око водећег Mail Server
+Factory.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Модел Server Factory створен је да буде универзално применљив: када
+једном можете да провизионирате мејл-сервер из декларативног описа, исти
+механизам би требало да може да провизионира и веб-сервер, кеширајуће
+proxyje и сервере за контролу квалитета кода – напајане поновљиво
+употребљивим дефиниционим пакетима и заједничким помоћним алатима,
+уместо прилагођене логике за сваку улогу. Ови репозиторијуми
+представљају управо ту генерализацију у развоју, проширујући доказани
+образац на нове типове сервера. Њихова вредност овде је као доказ досега
+модела; њихова зрелост варира, а ова страница намерно разјашњава шта је
+тек у плану, а шта је већ остварено.</p>
+<h2 id="зашто-је-ово-револуционарно-умерено">Зашто је ово револуционарно
+(умерено)</h2>
+<p>Као скуп, ови алати демонстрирају поновну употребљивост Основног
+оквира на различитим типовима сервера и раздвајају декларативне податке
+(Дефиниције) од извршавања (фабрике). Појединачно, фабрике услуга су у
+раној фази и треба их представити као смернице, а не као готове
+производе.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Један оквир за обезбеђивање генерализован за улоге мејла, веба,
+кеширајућег проксија и SonarQube.</li>
+<li>Декларативни пакети Дефиниција (Docker/Стацк/Software) одвојени од
+извршног мотора.</li>
+<li>Дељене алатке (нпр. једнокомандно подизање система без лозинке путем
+SSH) поново коришћене у фабрикама.</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Коришћење једног мотора за различите улоге сервера:</strong>
+решено изградњом сваке фабрике на Основном оквиру.</li>
+<li><strong>Раздвајање конфигурације од кода:</strong> решено
+репозиторијумима Дефиниција као верзијски означеним пакетима
+података.</li>
+<li><strong>(НЕВЕРИФИКОВАНО):</strong> РЕАДМЕ фајлови фабрика услуга су
+привремени; њихова потпуност имплементације није проверљива из јавне
+документације — представити као рано-стадијумске.</li>
+</ul>
+<h2 id="технолошки-стек-зашто-како">Технолошки стек (зашто + како)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Фабрика веб-услуга, Фабрика SonarQube,
+Фабрика кеширајућег проксија (изграђене на Основном оквиру).</li>
+<li><strong>Shell</strong> — Алатке и пакети Дефиниција
+(скрипте/конфигурације).</li>
+<li><strong>Gradle</strong> — ток изградње/тестирања
+<code>./gradlew test</code> у фабрикама.</li>
+<li><strong>Docker</strong> — циљно извршно окружење описано
+Дефиницијама Docker.</li>
+<li><strong>SSH / OpenSSH</strong> — подизање система без лозинке путем
+алатки.</li>
+<li><strong>SonarQube</strong> — сервер који обезбеђује Фабрика
+SonarQube (и против којег Mail Server Factory извештава о чистој
+провери).</li>
+</ul>
+<blockquote>
+<p>Напомена о искрености: већина ових репозиторијума су форкови унутар
+организације; фабрике услуга су документоване као привремене и означене
+као НЕВЕРИФИКОВАНЕ према уставу §11.4.6. Јасно рангиране испод Mail
+Server Factory и Основног оквира.</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p>コンテンツ</p>
+<p><strong>タスクボードと信頼できる唯一の情報源を、完璧に双方向同期。</strong></p>
+<h2 id="概要">概要</h2>
+<p>task_bridgeは、Go内に実装された汎用的で分離型の双方向タスク／ボード同期エンジンです。プロジェクトの作業可能アイテム（SQLite）を信頼できる唯一の情報源として、トラッカー文書およびリモートボード（第一ターゲット：ClickUp、Jira／Linearは計画中）との間で、決定論的な「最終編集優先」、ドライラン優先、データ破損なしのセマンティクスを用いて同期します。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>プロジェクトに依存しないGoのサブモジュールで、SQLiteの作業可能アイテム（SSoT）↔︎
+トラッカー文書 ↔︎
+リモートボード（ClickUpを最初にサポート）を双方向同期します。決定論的な「最終編集優先」、ドライラン優先、HMAC検証済みウェブフックを採用。すべての認証情報とIDは、実行時に利用者側から注入されます。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>どのチームも、やがて同じ作業の二つの台帳を持つようになります。一つは実際の作業を反映したもの――コード、文書、内部データベース――もう一つはマネージャーが監視するボード（ClickUpなど）です。どちらか一方に手を加えた瞬間から、二つの台帳は乖離し始め、手作業での調整はまさに面倒でミスが起こりやすい作業となり、誰も確実に行わなくなります。task_bridgeは、このギャップを解消するために設計されました。プロジェクトの<strong>作業可能アイテム（SQLite）を信頼できる唯一の情報源</strong>とし、その<strong>トラッカー文書</strong>と<strong>リモートボード</strong>（最初にサポートするのはClickUp、将来的にはJiraやLinearも対象）を、一つのシステムとして連動させます。同期は決定論的（「最終編集優先」）、ドライラン優先で、絶対に譲れない約束が一つあります。それは、データを破損させたり失ったりせず、片方の情報が古くなったまま放置されることもないというものです。不注意な同期で一週間分の作業が上書きされるような状況では、この安全性こそがすべてです。</p>
+<p>アーキテクチャ的には、他のプロジェクトに利用される厳密なサブモジュールであり、憲章の分離契約（§11.4.28）に基づき、完全にプロジェクトに依存しません。プロジェクト固有の値は一切含まず、すべての認証情報、ボード／フォルダーID、アイテムキー項目、データベースパスは、利用者が実行時に<code>pkg/config.Config</code>を通じて注入します。モジュールは明確に階層化されており、CLI（<code>reconcile</code>／<code>push</code>／<code>pull</code>／<code>resolve</code>／<code>status</code>／<code>conflicts</code>／<code>init</code>）と、長時間稼働するデーモン（ウェブフック受信＋定期的な調整）で構成されます。また、MITライセンスの<code>raksul/go-clickup</code>をラップした薄いクライアント、ボード／フォルダーURLをライブのAPIプローブでIDに変換するリゾルバー（URLの文法推測は行わない）、ローカルの作業可能アイテムとリモートタスクフィールドをマッピングするコンポーネント、明示的な競合解決を伴う「最終編集優先」同期エンジン、そして<code>X-Signature</code>のHMAC-SHA256検証を行うウェブフック受信機能を備えています。</p>
+<p>成熟度については正直に述べると、これはP1の骨格です。レイアウト、インターフェース、エントリーポイント、分離境界は整備されていますが、同期ロジックとClickUpへのライブコールはまだ実装されていません（すべてのスタブは「未実装」エラーを明示的に返す、フェイクなしのルールに従っています）。</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>チームは「実際の」作業状態をコードや文書に保持し、マネージャーはClickUpのようなボードで管理しますが、両者は常に乖離していきます。task_bridgeは、これらを一つのシステムとして扱い、決定論的かつ安全に同期することで、どちらの情報も古くなったり不正確になったりしないようにします。</p>
+<p>コンテンツ</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>双方向のボード同期は通常、一度限りの固定的な統合であり、どのチームも不完全な形で再構築している。task_bridgeはこれを、再利用可能でクレデンシャル注入型のライブラリとして再定義し、データ安全性の保証を最初から組み込んだ――ドライラン優先、決定論的な最終編集優先、HMAC検証済みイベント――これにより、どのプロジェクトも脆弱なコネクタを再び書くことなく、設定を注入するだけで信頼性の高いボード統合を採用できる。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li>三方向双方向同期：SQLite SSoT ↔︎ トラッカー文書 ↔︎ リモートボード</li>
+<li>完全な疎結合（§11.4.28）：プロジェクト固有の値は一切なし、すべて実行時に注入</li>
+<li>Live-API URL→ID解決による、脆弱なURL文法解析の排除</li>
+<li>HMAC-SHA256検証済みウェブフックによるリアルタイムイベント取り込み</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>三つのソース間でのデータ安全性</strong>：決定論的な最終編集優先、ドライラン優先、明示的な競合結果により解決</li>
+<li><strong>結合なしでの再利用性</strong>：<code>pkg/config</code>注入境界（プロジェクト固有の情報は含まず）により解決</li>
+<li><strong>信頼性の高いボード識別</strong>：Live
+APIプローブによるURLからIDへの解決で解決</li>
+<li><strong>正直な足場</strong>：未実装のスタブは明示的な「未実装」エラーを返す（偽装なし）ことで解決</li>
+</ul>
+<h2 id="技術スタック理由と方法">技術スタック（理由と方法）</h2>
+<ul>
+<li><strong>Go</strong> ―
+エンジン、CLI（<code>cmd/task_bridge</code>）、およびデーモン（<code>cmd/task_bridged</code>）</li>
+<li><strong>SQLite</strong> ― ワーク可能アイテムの単一情報源</li>
+<li><strong><code>raksul/go-clickup</code>（MIT）</strong> ―
+ClickUpトランスポートラッパー</li>
+<li><strong>HMAC-SHA256</strong> ― ウェブフック署名検証</li>
+<li><strong>cron + ウェブフック</strong> ― デーモン調整 +
+リアルタイムイベント取り込み</li>
+<li><strong><code>pkg/config</code></strong> ―
+実行時クレデンシャル/ID注入境界</li>
+</ul>
+<blockquote>
+<p>ステータスの正直さ：これは<strong>P1足場</strong>段階であり、同期ロジックはまだ実装されていない。出荷済みとして提示しないこと。</p>
+</blockquote>
+</body>
+</html>

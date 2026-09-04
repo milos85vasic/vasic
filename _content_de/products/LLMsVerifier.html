@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMsVerifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMsVerifier</h1>
+</header>
+<h1 id="llmsverifier">LLMsVerifier</h1>
+<p><strong>Verifizieren. Überwachen. Optimieren.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>LLMsVerifier ist eine Enterprise-Plattform zur Verifizierung,
+Überwachung und Optimierung von Large Language Models verschiedener
+Anbieter. Sie basiert auf einem obligatorischen „Siehst du meinen
+Code?“-Verifikationstest, sodass nur Modelle, die nachweislich
+funktionieren, als nutzbar markiert oder exportiert werden.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Eine Go-Plattform, die LLMs über mehrere Anbieter hinweg verifiziert,
+benchmarkt, überwacht und optimiert. Jedes Modell muss einen
+obligatorischen Code-Sichtbarkeitstest bestehen, bevor es eingesetzt
+wird. Anschließend durchläuft es Latenz-, Streaming-, Funktionsaufruf-,
+Bildverarbeitungs- und Embedding-Prüfungen. Nur verifizierte
+Konfigurationen werden für AI- und CLI-Tools exportiert.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>LLMsVerifier ist eine umfassende Plattform zur Verifizierung,
+Überwachung und Optimierung der Leistung von LLM-Modellen verschiedener
+Anbieter. Ihr zentrales Prinzip lautet <em>obligatorische
+Verifizierung</em> – und sie setzt es kompromisslos durch: Bevor ein
+Modell als nutzbar markiert oder in eine exportierte Konfiguration
+übernommen wird, muss es einen „Siehst du meinen Code?“-Test bestehen,
+der echte HTTP-Aufrufe an den Anbieter sendet und die Antwort auf echte
+Verständnisfähigkeit analysiert – nicht auf eine plausibel wirkende
+Echo-Antwort. Ein Modell, das Ihre Eingabe nicht nachweislich sieht und
+versteht, erhält niemals das „nutzbar”-Flag.</p>
+<p>Nach dieser Hürde führt die Verifizierungs-Engine eine vollständige
+Reihe von Fähigkeitstests durch – Existenz, Reaktionsfähigkeit, Latenz,
+Streaming, Funktionsaufrufe, Bildverarbeitung und embeddings. Die
+Reporter-Engine wandelt die Ergebnisse in Markdown- und JSON-Berichte
+um, auf deren Grundlage Sie Maßnahmen ergreifen können.</p>
+<p>Das System ist modular und ereignisgesteuert aufgebaut und bietet
+CLI-, TUI-, Web- sowie REST- und API-Schnittstellen, die auf einem Kern
+aus Verifizierungs-Engine, Reporter-Engine und Konfigurationsmanager
+basieren. Doch LLMsVerifier geht über die reine Verifizierung hinaus:
+Erweiterte Schichten implementieren ein Supervisor/Worker-Muster für
+LLM-gestützte Aufgabenzerlegung, ein gleitendes Fenster mit
+LLM-Zusammenfassung für die Kontextverwaltung, sodass sehr lange
+Sitzungen nicht abrupt abbrechen, cloudbasierte Checkpoints sowie ein
+Failover-System mit Circuit Breakern und latenzbasiertem Routing.</p>
+<p>Die umgebende Infrastruktur ist produktionsreif gestaltet: ein
+Pub/Sub-Ereignisbus, Cron-Scheduling, Erkennung von Preisen und Limits,
+eine vector-Datenbank für RAG sowie ein Exportsystem. Eine
+charakteristische Markierungskonvention fügt jedem generierten
+Anbieter/Modell das Suffix <code>(llmsvd)</code> hinzu, sodass
+verifizierte Ausgaben auf einen Blick erkennbar sind und niemals mit
+ungeprüften verwechselt werden können. Nur verifizierte Modelle werden
+in exportierte Konfigurationen für AI- und CLI-Tools wie OpenCode, Crush
+und Claude Code übernommen.</p>
+<p>Die Plattform liefert das operative Tooling, das Teams in der
+Produktion tatsächlich benötigen:
+Docker-/Kubernetes-/Helm-Bereitstellung,
+Prometheus-/Grafana-Überwachung, LDAP/SSO sowie SQLCipher-verschlüsselte
+Speicherung.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Weil reine Konfigurationsprüfungen unzuverlässig sind – ein
+API-Schlüssel kann ablaufen, ein Modell veraltet sein, und eine
+Konfigurationsdatei sagt nichts über echte Latenz, echte Fehler oder
+darüber aus, ob das Modell Ihre Eingabe überhaupt sieht und versteht.
+LLMsVerifier ersetzt das Prinzip „Es steht in der Konfiguration, also
+muss es funktionieren” durch Nachweis: Nur Modelle, die nachweislich
+korrekt antworten, werden als nutzbar markiert und exportiert.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es macht LLM-Flotten <em>vertrauenswürdig</em> – ein Wort, das in
+einem Bereich, in dem Konfigurationen oft durch Auslassungen lügen,
+selten verdient wird. Statt darauf zu hoffen, dass ein konfiguriertes
+Modell funktioniert, erhalten Teams eine durchgesetzte, testbare
+Garantie, dass jedes eingesetzte Modell echte Verifizierung durchlaufen
+hat. Überwachung, Failover-Mechanismen und der Export ausschließlich
+verifizierter Modelle schließen den Kreis von der Validierung bis zur
+Produktion. Innerhalb des Helix-Ökosystems wird es zur einzigen Quelle
+der Wahrheit für LLM-Modelle, Anbieter und Verifizierungsmetadaten:
+Andere Dienste (darunter HelixTranslate) richten sich danach aus, sodass
+eine gesamte Plattform eine einzige ehrliche Antwort auf die Frage
+erhält: <em>„Welche Modelle funktionieren gerade wirklich?“</em> – statt
+dass jedes Team seine eigene optimistische Vermutung pflegt.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li><strong>Verpflichtende „Siehst du meinen
+Code?“-Verifizierung</strong> – eine echte, HTTP-gestützte
+Verständnisprüfung, die ein Modell bestehen muss, bevor es überhaupt
+nutzbar ist; das prägende Alleinstellungsmerkmal des Produkts und der
+Grund, warum nichts Ungeprüftes durchrutscht.</li>
+<li><strong>Export ausschließlich verifizierter Konfigurationen</strong>
+– generierte Konfigurationen für AI-CLI-Tools enthalten <em>nur</em>
+Modelle, die die Verifizierung bestanden haben, sodass die ausgelieferte
+Konfiguration nicht heimlich ein fehlerhaftes Modell wieder
+einführt.</li>
+<li><strong><code>(llmsvd)</code>-Branding-Suffix-System</strong> –
+jeder generierte Anbieter und jedes Modell trägt ein nachverfolgbares
+Suffix, das die verifizierte Herkunft überall sichtbar macht, wohin die
+Ausgabe gelangt.</li>
+<li><strong>Fähigkeitserkennung</strong> über zahlreiche CLI-Agenten und
+-Anbieter hinweg – es erfasst Streaming-Typen (SSE, WebSocket, JSONL,
+EventStream), Komprimierung und Caching-Verhalten, statt sie einfach
+vorauszusetzen.</li>
+<li><strong>Robustes Failover</strong> – Schutzschalter, latenzbasiertes
+Routing, das bei Überschreiten einer Schwelle für die Zeit bis zum
+ersten Token umleitet, Gesundheitsprüfungen und gewichtete
+Traffic-Verteilung halten eine Flotte reaktionsfähig, selbst wenn
+einzelne Anbieter instabil werden.</li>
+<li><strong>Langfristige Autonomie</strong> – ein
+Supervisor/Worker-Zerlegungsmuster in Kombination mit Checkpointing und
+Speicherintegration ermöglicht ausgedehnte Sitzungen, die sonst an
+Kontextgrenzen scheitern würden.</li>
+<li><strong>RAG-/vector-DB-Integration</strong> zur Anreicherung des
+Kontexts mit fundierten Daten.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Beweisen, dass ein Modell tatsächlich funktioniert – und
+nicht nur konfiguriert ist.</strong> Genau das ist der Kern und zugleich
+die größte Hürde. Gelöst durch den verpflichtenden
+Code-Sichtbarkeitstest, der echte API-Aufrufe durchführt und die
+Antworten auf tatsächliche Verständnisfähigkeit analysiert, gestützt auf
+eine breite Palette von Fähigkeitstests – und anschließend durch die
+Weigerung, etwas zu exportieren, das nicht bestanden hat. So entscheidet
+nicht die Konfiguration, sondern der Nachweis über die
+Produktionsfreigabe.</li>
+<li><strong>Zuverlässigkeit trotz zahlreicher unzuverlässiger
+Drittanbieter.</strong> Gelöst mit einem Failover-Orchestrator, der
+Anbieterinstabilität als Normalfall behandelt: Schutzschalter markieren
+einen Anbieter nach N Fehlern in M Sekunden als beeinträchtigt,
+latenzbasiertes Routing lenkt von langsamen Endpunkten weg, regelmäßige
+Gesundheitschecks prüfen auf Erholung, und gewichtetes Routing
+balanciert kostengünstige mit Premium-Modellen.</li>
+<li><strong>Aufrechterhaltung sehr langer, autonomer Sitzungen.</strong>
+Gelöst durch das Supervisor/Worker-Zerlegungsmuster, das große Aufgaben
+in handhabbare Teile aufspaltet, periodisches Checkpointing in
+Cloud-Speicher, damit Fortschritte Unterbrechungen überstehen, und ein
+mehrschichtiges Kontextmanagement (gleitendes Fenster +
+LLM-Zusammenfassung + RAG), sodass das Modell den roten Faden behält,
+ohne in Tokens zu ertrinken.</li>
+<li><strong>Anbieter-Wildwuchs.</strong> Gelöst, indem zahlreiche
+anbieterspezifische Go-Adapter hinter einer gemeinsamen Schnittstelle
+verborgen werden, wobei die eigentlichen Endpunkte zentral verwaltet
+werden – sodass das Hinzufügen eines Anbieters eine isolierte Änderung
+bleibt und nicht durch den gesamten Codebase hallt.</li>
+</ul>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<ul>
+<li><strong>Go</strong> — als Kernplattformsprache aufgrund ihrer
+Nebenläufigkeit ausgewählt; sie treibt eine multithreaded
+Verifier-Engine an, die viele Modelle parallel prüfen kann, sowie die
+umliegenden Dienste.</li>
+<li><strong>Gin</strong> — als REST-API-Server gewählt, der
+JWT-Authentifizierung, Ratenbegrenzung sowie WebSocket-/SSE-Endpunkte
+bereitstellt.</li>
+<li><strong>SQLite + SQLCipher</strong> — für eingebettete Speicherung
+mit verschlüsselter Datenbank gewählt, da Verifizierungsdaten
+(Schlüssel, Ergebnisse) sensibel sind und standardmäßig im Ruhezustand
+verschlüsselt werden sollten.</li>
+<li><strong>Redis</strong> — als Caching-Schicht ausgewählt, um schnelle
+Abfragen von Verifizierungsdaten und Metadaten zu gewährleisten.</li>
+<li><strong>RabbitMQ + Kafka</strong> — zur Unterstützung der
+ereignisgesteuerten Architektur gewählt: Nachrichtenübermittlung und
+Streaming, die Produzenten und Konsumenten innerhalb der Plattform
+entkoppeln.</li>
+<li><strong>gRPC + Protocol Buffers</strong> — für stark typisierte
+Kommunikation zwischen Diensten und den Transport von Ereignissen
+zwischen Komponenten ausgewählt.</li>
+<li><strong>QUIC / HTTP-3 (quic-go)</strong> — für moderne
+Transportunterstützung gewählt (die Repository-Dokumentation weist
+darauf hin, dass die Verfügbarkeit von HTTP/3-Anbietern begrenzt ist —
+eine angebotene Funktion, keine universelle Aussage).</li>
+<li><strong>JWT + LDAP/NTLM</strong> — für Unternehmensauthentifizierung
+gewählt, damit sich die Plattform nahtlos in bestehende
+Unternehmensidentitäten (SSO/SAML/OIDC) einfügt (laut Dokumentation
+unterstützt).</li>
+<li><strong>Viper (Konfiguration), Logrus (Logging), Brotli/compress
+(Komprimierung)</strong> — die operativen Grundlagen: flexible
+Konfiguration, strukturierte Protokollierung und
+Payload-Komprimierung.</li>
+<li><strong>Angular</strong> — für die Web-Einzelanwendung ausgewählt,
+das visuelle Frontend für Verifizierung und Überwachung.</li>
+<li><strong>Python + JavaScript-SDKs</strong> — gewählt, um
+Entwicklungsteams erstklassigen Zugriff zu bieten, dokumentiert über
+OpenAPI/Swagger.</li>
+<li><strong>Docker, Kubernetes, Helm</strong> — für die
+Produktionsbereitstellung mit Gesundheitsüberwachung und automatischer
+Skalierung gewählt, damit sich ein Verifizierungs-Cluster wie jeder
+moderne Dienst skalieren lässt.</li>
+<li><strong>Prometheus + Grafana</strong> — für Metriken und Dashboards
+ausgewählt, um die Gesundheit der Plattform selbst genauso beobachtbar
+zu machen wie die Modelle, die sie überwacht.</li>
+<li><strong>Testify (Go) + node –test/jsdom (Web)</strong> — für
+mehrschichtiges Testen des Go-Kerns und des Web-Frontends gewählt.</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> Der Go-Quellcode implementiert echte
+HTTP-Verifizierung (ein veraltetes Dokument, das Verifizierung als reine
+Konfiguration beschreibt, ist lediglich ein Wunschbild — der Code ist
+maßgeblich).</li>
+<li><strong>Lizenz: Noch nicht festgelegt.</strong> Die README gibt MIT
+an, während ein Dockerfile-Label Apache-2.0 nennt — vor der
+Veröffentlichung klären.</li>
+<li>Anbieteranzahl: Die README spricht von „12 Adaptern”, doch das
+<em>providers</em>-Verzeichnis listet etwa 26 auf — als „12+ / weitere
+in Arbeit” behandeln. Zahlreiche Dateien mit dem Status „FINAL/COMPLETE”
+existieren; maßgeblich sind Code, Dokumentation und
+<code>go.mod</code>.</li>
+<li>Das Repository befindet sich in der
+<code>vasic-digital</code>-Organisation, fungiert jedoch funktional als
+Vertrauensschicht des Helix-LLM-Infrastrukturclusters.</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär
+(LLM-Infrastrukturcluster; einzige Quelle der Wahrheit für
+LLM-/Anbieter-/Verifizierungsmetadaten). Rangiert nach HelixTrack.</p>
+</body>
+</html>

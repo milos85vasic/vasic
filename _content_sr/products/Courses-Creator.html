@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Courses-Creator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Courses-Creator</h1>
+</header>
+<p><strong>Markdown унутра, професионални видео курс напоље — побољшан
+AI, за више платформи.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>Courses-Creator је алат који претвара markdown скрипте у
+професионалне видео курсеве с побољшањима покретаним AI: обогаћивање
+садржаја путем више LLM пружаоца (OpenAI/Anthropic/Ollama),
+висококвалитетни TTS и позадинска музика, те десктоп, мобилни и веб
+плејери — све распоређено путем Docker са Prometheus/Grafana
+мониторингом.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Претвара markdown у привлачне видео курсеве. Go процесорски мотор
+обогаћује садржај преко више LLM пружаоца, генерише нарацију
+(Bark/SpeechT5 TTS) и музику, те испоручује на Electron десктоп, React
+Native мобилне и React веб плејере, уз потпуно Docker распоређивање и
+мониторинг.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Производња видео курса обично захтева рад целе мале продукцијске
+куће: писање сценарија, снимање нарације, проналажење музике, монтажа,
+кодирање, а затим израда плејера за сваку платформу коју полазници могу
+користити. Courses-Creator цео тај процес сабија у један улаз — markdown
+скрипту — и једну команду. У његовом средишту налази се Go процесорски
+језгро које покреће комплетну видео/аудио линију: обогаћује писани
+садржај преко више LLM пружаоца (OpenAI, Anthropic и локални Ollama),
+синтетизује природну нарацију помоћу текст-у-говор мотора (Bark,
+SpeechT5), додаје позадинску музику и саставља све делове у готове видео
+курсеве. Ауторов посао остаје на нивоу идеја и речи; систем се брине о
+гласу, музици и продукцији. А будући да курс има смисла само ако га људи
+могу гледати, испорука је дизајнирана за више платформи: Electron
+десктоп апликација за креирање, React Native мобилни плејер и React веб
+плејер, сви напајани истим REST API системом и позадинским процесима —
+један бацкенд, три врхунска клијента, без поновне имплементације за
+сваку платформу.</p>
+<p>Кључно је да се ради о продукцијској инфраструктури, а не о демо
+снимку. Бацкенд подржава PostgreSQL перзистенцију, обраду позадинских
+послова тако да дуге TTS/видео рендеровање никада не блокира API, MCP
+серверске имплементације за побољшања уз помоћ алата, Prometheus
+метрике, JWT аутентификацију и nginx реверсе proxy — а све се то
+испоручује као Docker Цомпосе распоређивање са Grafana/Prometheus
+мониторинг профилима које можете покренути у једном кораку. AI је слој
+за побољшање, а не зависност: сваки LLM пружалац је опциони, тако да
+линија ради и без API кључева за основни рад, а премиум обогаћења се
+активирају чим се кључеви додају. Та једна одлука чини исти алат
+погодним и за хобисте који раде оффлине на лаптопу и за предузећа која
+интегришу свог омиљеног пружаоца — а цела медијска линија покривена је
+јединичним, интеграционим и енд-то-енд тестовима, уместо да се све
+заснива на поверењу.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Ручна производња видео курсева је спора: писање, нарација, музика и
+монтажа захтевају труд и специјализоване алате. Courses-Creator све то
+сабија у markdown линију вођену једним извором, где скрипта постаје
+готов курс, а AI попуњава празнине које би људи иначе ручно
+попуњавали.</p>
+<h2 id="зашто-је-ово-револуционарно">Зашто је ово револуционарно</h2>
+<p>Процес израде курсева претвара из специјализованог заната који
+захтева више алата у поновљиву софтверску цевоводну структуру: писање,
+обогаћивање AI, генерисање нарације и музике, као и репродукција на више
+платформи – све је то интегрисано у један расположиви пакет. Елегантно
+снижавање перформанси при раду без кључа API представља тиху надмоћ –
+исти кодни базен опслужује и самосталног креатора с ограниченим буџетом
+и предузеће с уговором о премиум услугама, без потребе за
+преправкама.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Цевовод од Markdowna до видеа с прикључивим обогаћивањем LLM
+(OpenAI/Anthropic/Ollama).</li>
+<li>Уграђена генерација TTS (Bark, SpeechT5) и позадинске музике.</li>
+<li>Имплементације MCP сервера унутар процесног мотора за побољшање уз
+помоћ алата.</li>
+<li>Један бацкенд који опслужује три примарна клијента (Electron за
+десктоп, React Native за мобилне уређаје, React за веб).</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Захтевна обрада медија:</strong> решено помоћу Go цевовода и
+обраде позадинских послова, тако да дуготрајни послови TTS/видеа не
+блокирају API.</li>
+<li><strong>Опционо, али моћно обогаћивање AI:</strong> решено тако што
+су провајдери LLM опциони и прикључиви, с елегантним повратком на
+основне функционалности.</li>
+<li><strong>Испорука на више платформи:</strong> решено заједничким REST
+API и три наменска плејер апликације.</li>
+<li><strong>Оперативност:</strong> решено помоћу Docker Цомпосе профила,
+Prometheus/Grafana и уграђене JWT аутентификације.</li>
+</ul>
+<h2 id="технолошки-стек-зашто-како">Технолошки стек (зашто + како)</h2>
+<ul>
+<li><strong>Go</strong> – основни процесни мотор, REST API, извршитељ
+послова, цевовод (972К+ бајтова, доминантни језик).</li>
+<li><strong>TypeScript / React</strong> – веб плејер и заједнички
+кориснички интерфејс.</li>
+<li><strong>Electron</strong> – десктоп апликација за креирање.</li>
+<li><strong>React Native</strong> – мобилни плејер.</li>
+<li><strong>PostgreSQL</strong> – перзистенција курсева/послова.</li>
+<li><strong>Провајдери LLM (OpenAI, Anthropic, Ollama)</strong> –
+побољшање садржаја.</li>
+<li><strong>TTS (Bark, SpeechT5)</strong> – синтеза нарације.</li>
+<li><strong>MCP сервери</strong> – интеграција алата унутар мотора.</li>
+<li><strong>Docker Цомпосе + nginx</strong> – распоређивање целог стека
+и реверсе proxy.</li>
+<li><strong>Prometheus + Grafana</strong> – надгледање.</li>
+</ul>
+<blockquote>
+<p>Напомена: јавни РЕАДМЕ водич за брзи почетак користи резервисани клон
+<code>your-org</code> URL.</p>
+</blockquote>
+</body>
+</html>

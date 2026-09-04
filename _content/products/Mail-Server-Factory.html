@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>Run your mail server like the boss — describe it in JSON,
+deploy it anywhere.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>Mail Server Factory is a production-ready, automated mail-server
+provisioning tool. The user writes a simple JSON configuration; the
+Factory interprets it and performs all installations and initializations
+on the target OS, deploying a Docker-based, loosely-coupled mail stack
+across 12 connection types.</p>
+<h2 id="short-description">Short description</h2>
+<p>A Kotlin/Shell tool that turns a JSON description into a fully
+installed, Dockerized mail server. It supports 12 connection types (SSH,
+Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt, and more), a full
+security framework, 25 Linux distributions, and ships with 439 passing
+tests.</p>
+<h2 id="long-description">Long description</h2>
+<p>Standing up a real, secure mail server is one of the classic rites of
+passage in systems administration — and one of the most reliably
+miserable. Postfix, Dovecot, TLS certificates, DNS records, firewall
+rules, and per-distribution quirks all have to line up perfectly, and a
+single wrong directive means silently bounced mail or an open relay.
+Mail Server Factory takes that entire body of hard-won, error-prone
+expertise and captures it in software. Instead of hand-configuring each
+piece across an unfamiliar OS, the end-user writes the desired outcome
+as a simple JSON document; the Factory reads that JSON and executes the
+exact installation and initialization steps required on the target
+operating system, standing up a mail stack that runs on Docker with
+every component loosely coupled — a design choice that keeps the stack
+horizontally scalable and lets any single component be upgraded or
+replaced in isolation. And it is deliberately reach-agnostic: 12
+connection types let the identical tool and identical JSON target a
+local machine, a remote host over SSH, a Docker or Kubernetes runtime,
+cloud instances via AWS SSM / Azure Serial Console / GCP OS Login, or
+VMs via Libvirt — the same declarative description, provisioned wherever
+you point it. It supports 25 Linux distributions across Western (Ubuntu,
+Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE), Russian (ALT,
+Astra, ROSA), and Chinese (openEuler, openKylin, Deepin) families, with
+unattended installation via preseed/kickstart/cloud-init/autoyast and
+QEMU-based VM automation for testing. Enterprise features are extensive:
+AES-256-GCM encryption, enforced password and SSH-key policies,
+automated firewall configuration for mail ports (25/587/465/993/995),
+TLS/SSL with certificate validation and HSTS, audit logging, and RBAC.
+Operational features include JVM tuning (G1GC), Caffeine caching,
+connection pooling, Prometheus-compatible metrics, structured logging,
+hot-reloading configuration, and secrets management. The project reports
+439 tests at 100% pass and a clean SonarQube quality gate. It is the
+flagship of the Server-Factory org.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>Setting up a secure, production mail server is notoriously
+error-prone and OS-specific. Mail Server Factory captures that expertise
+in a declarative JSON model plus an execution engine, so a correct,
+secured, Dockerized mail stack can be reproduced on any supported target
+without manual step-by-step work.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It demotes mail-server provisioning from a specialist, days-long,
+get-it-exactly-right ordeal to an act of writing configuration — then
+makes that act portable across 12 connection types and 25 Linux
+distributions and hardened by enterprise security defaults out of the
+box. The result is reproducible and <em>verifiable</em>: the same JSON
+yields the same secured stack every time, and the project’s reported 439
+passing tests and clean SonarQube gate mean the engine doing the work is
+itself held to account rather than trusted on reputation.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li>Declarative JSON → interpreted installation/initialization on the
+target OS.</li>
+<li>12 connection types (local, SSH, Docker, Kubernetes, AWS SSM, Azure,
+GCP, Libvirt, and more) behind one tool.</li>
+<li>25-distribution support with unattended install
+(preseed/kickstart/cloud-init/autoyast) and QEMU automation.</li>
+<li>Loosely-coupled Dockerized stack for independent
+scaling/upgrades.</li>
+</ul>
+<h2 id="challenges-solutions">Challenges &amp; solutions</h2>
+<ul>
+<li><strong>OS/distribution heterogeneity:</strong> solved with
+per-distribution recipes, unattended-install configs, and QEMU-based
+cross-distro testing.</li>
+<li><strong>Reaching many deploy targets:</strong> solved with 12
+pluggable connection types under a common installation engine.</li>
+<li><strong>Security by default:</strong> solved with AES-256-GCM,
+enforced key/password policies, automated firewall rules, and
+TLS/HSTS.</li>
+<li><strong>Trust in correctness:</strong> solved with a 439-test suite
+(100% passing) and a clean SonarQube gate.</li>
+</ul>
+<h2 id="tech-stack-why-how">Tech stack (why + how)</h2>
+<ul>
+<li><strong>Kotlin</strong> — the Factory engine and installation-step
+logic (179K bytes; Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — provisioning scripts, ISO/QEMU managers,
+and OS automation (dominant by bytes).</li>
+<li><strong>Docker</strong> — the runtime for the deployed,
+loosely-coupled mail stack.</li>
+<li><strong>QEMU</strong> — VM automation for cross-distribution
+installation and testing.</li>
+<li><strong>JSON</strong> — the user-facing declarative configuration
+format.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — build toolchain.</li>
+<li><strong>Caffeine</strong> — multi-region caching; <strong>G1GC-tuned
+JVM</strong> for performance.</li>
+<li><strong>Prometheus-compatible metrics</strong> — monitoring;
+Grafana/ELK-ready.</li>
+<li><strong>Sieve</strong> — mail filtering rules (small footprint in
+language stats).</li>
+</ul>
+<blockquote>
+<p>Note: GitHub marks the repository as a fork within the Server-Factory
+org. Predates the AI product line; presented as a mature
+DevOps/provisioning flagship, not an AI utility.</p>
+</blockquote>
+</body>
+</html>

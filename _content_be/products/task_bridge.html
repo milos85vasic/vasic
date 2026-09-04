@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p><strong>Ваша таск-борда і ваш адзіны крыніца праўды — ідэальна
+сінхранізаваныя ў абодва бакі.</strong></p>
+<h2 id="агульны-агляд">Агульны агляд</h2>
+<p>task_bridge — гэта ўніверсальны, дэкапліраваны, двухбаковы рухавік
+сінхранізацыі таск/борд у Go. Ён падтрымлівае сінхранізацыю адзінай
+крыніцы праўды (SSoT) праекта па рабочых элементах (SQLite) з яго
+дакументацыяй у трэкеры і аддаленай бордай (першы цэль — ClickUp;
+плануецца Jira/Linear), выкарыстоўваючы дэтэрмінісцкую логіку «перамагае
+апошняя змена», спачатку «сухая праверка» і семантыку без страт і
+пашкоджанняў.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Праектна-незалежны падмадуль Go, які двухбакова сінхранізуе SSoT
+рабочых элементаў SQLite ↔︎ дакументацыю ў трэкеры ↔︎ аддаленую борду
+(спачатку ClickUp). Дэтэрмінісцкая логіка «перамагае апошняя змена»,
+спачатку «сухая праверка», вебхукі з праверкай HMAC; усе крэды і
+ідэнтыфікатары ўводзяцца спажыўцом падчас выканання.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Раней ці позна кожная каманда вядзе дзве кнігі адной і той жа працы:
+сапраўдную — код, дакументы, унутраную базу даных — і ту, за якой сочаць
+менеджары, борду накшталт ClickUp. Яны разыходзяцца ў момант, калі хоць
+адзін бок змяняецца, а ручная ўзгадненне — гэта менавіта той нудны,
+схільны да памылак занятак, які ніхто не робіць рэгулярна. task_bridge
+створаны, каб знішчыць гэтую прабелю, разглядаючы ўсе тры прадстаўленні
+як адзіную сістэму, якая павінна заставацца ў поўнай сінхранізацыі:
+<strong>адзіная крыніца праўды па рабочых элементах праекта
+(SQLite)</strong>, яго <strong>дакументацыю ў трэкеры</strong> і
+<strong>аддаленую борду</strong> — першай падтрымліваецца ClickUp, а
+Jira і Linear плануюцца ў будучыні. Сінхранізацыя дэтэрмінісцкая
+(«перамагае апошняя змена»), спачатку праходзіць «сухую праверку» і
+спраектавана вакол адзінай нязменнай абяцанкі: яна ніколі не пашкодзіць
+і не страціць даныя і ніколі не пакіне адзін бок састарэлым. У сферы,
+дзе неасцярожная сінхранізацыя можа знішчыць тыдзень працы, менавіта
+гэтая бяспека і ёсць галоўны сэнс. Архітэктурна гэта строгі падмадуль,
+які спажываецца іншымі праектамі і цалкам праектна-незалежны згодна з
+кантрактам дэкаплінгу канстытуцыі (§11.4.28): ён не ўключае ніякіх
+праектна-спецыфічных значэнняў, а ўсе крэды, ідэнтыфікатары борд/папкі,
+палі ключоў элементаў і шляхі да баз даных уводзяцца спажыўцом падчас
+выканання праз <code>pkg/config.Config</code>. Модуль пабудаваны па
+ўзроўнях: CLI
+(<code>reconcile</code>/<code>push</code>/<code>pull</code>/<code>resolve</code>/<code>status</code>/<code>conflicts</code>/<code>init</code>)
+і доўгажывучы дэман (прымальнік вебхукаў + cron-узгадненне); тонкая
+абгортка кліента над MIT-ліцэнзаваным <code>raksul/go-clickup</code>;
+рэзальвер, які пераўтварае URL борд/папкі ў ідэнтыфікатары праз жывыя
+праверкі API (без здагадак па граматыцы URL); мапер паміж лакальнымі
+рабочымі элементамі і палямі аддаленых задач; рухавік сінхранізацыі з
+логікай «перамагае апошняя змена» і вырашэннем канфліктаў; прымальнік
+вебхукаў з праверкай <code>X-Signature</code> HMAC-SHA256. Ён адкрыта
+гаворыць пра сваю сталасць: гэта P1-каркас — разметка, інтэрфейсы,
+кропкі ўваходу і мяжа дэкаплінгу на месцы, але логіка сінхранізацыі і
+жывыя запыты да ClickUp яшчэ не рэалізаваны (кожны заглушка вяртае
+відавочную памылку «не рэалізавана» згодна з правілам «без фэйкаў»).</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Каманды захоўваюць «сапраўдны» стан працы ў кодзе/дакументах, а
+менеджары жывуць на бордзе накшталт ClickUp — і яны пастаянна
+разыходзяцца. task_bridge робіць іх адзінай сістэмай, сінхранізуючы
+дэтэрмінісцка і бяспечна, каб ні адзін бок не састарэў і не стаў
+няправільным.</p>
+<p>Змест</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Двухбаковая сінхранізацыя дошак звычайна з’яўляецца аднаразовай,
+жорстка прывязанай інтэграцыяй, якую кожная каманда дрэнна перапісвае
+нанова. task_bridge пераасэнсоўвае яе як паўторна выкарыстоўваемую
+бібліятэку з ін’екцыяй аўтэнтыфікацыйных дадзеных і строгімі гарантыямі
+бяспекі даных — спачатку тэст-рэжым, дэтэрмінісцкае правіла апошняй
+змены, падпісаныя HMAC-паведамленні — каб любы праект мог атрымаць
+надзейную інтэграцыю з дошкамі праз ін’екцыю канфігурацыі, а не праз
+напісанне чарговага крохкага канэктара, звязанага з унутранай
+архітэктурай.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Трохбаковая двухбаковая сінхранізацыя: SQLite SSoT ↔︎ дакументы
+трэкера ↔︎ аддаленая дошка.</li>
+<li>Поўная дэкаплінгаванасць (§11.4.28): ніякіх праектных зменных; усе
+дадзеныя ін’ектуюцца падчас выканання.</li>
+<li>Развязванне URL→ID у рэжыме Live-API замест крохкага парсінгу
+URL-граматыкі.</li>
+<li>Падпісаныя HMAC-SHA256 вэбхукі для прыёму падзей у рэжыме рэальнага
+часу.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Бяспека даных паміж трыма крыніцамі:</strong> вырашана праз
+дэтэрмінісцкае правіла апошняй змены, тэст-рэжым і відавочныя вынікі
+канфліктаў.</li>
+<li><strong>Паўторнае выкарыстанне без звязвання:</strong> вырашана праз
+мяжу ін’екцыі <code>pkg/config</code> (няма праектных дэталяў у
+пастаўцы).</li>
+<li><strong>Надзейная ідэнтыфікацыя дошак:</strong> вырашана праз
+пераўтварэнне URL у ID з дапамогай жывых API-прабаў.</li>
+<li><strong>Часнасць каркаса:</strong> вырашана праз вяртанне відавочных
+памылак “не рэалізавана” ў заглушках (няма імітацый).</li>
+</ul>
+<h2 id="тэхнічны-стэк-чаму-як">Тэхнічны стэк (чаму + як)</h2>
+<ul>
+<li><strong>Go</strong> — рухавік, CLI (<code>cmd/task_bridge</code>) і
+дэман (<code>cmd/task_bridged</code>).</li>
+<li><strong>SQLite</strong> — адзіная крыніца праўды для працаздольных
+элементаў.</li>
+<li><strong><code>raksul/go-clickup</code> (MIT)</strong> — абгортка
+транспарту ClickUp.</li>
+<li><strong>HMAC-SHA256</strong> — праверка подпісу вэбхукаў.</li>
+<li><strong>cron + вэбхукі</strong> — рэкансіляцыя дэмана + прыём падзей
+у рэжыме рэальнага часу.</li>
+<li><strong><code>pkg/config</code></strong> — мяжа ін’екцыі
+аўтэнтыфікацыйных дадзеных/ID падчас выканання.</li>
+</ul>
+<blockquote>
+<p>Часнасць статусу: гэта <strong>P1-каркас</strong> — логіка
+сінхранізацыі яшчэ не рэалізавана. Не падавайце як гатовы прадукт.</p>
+</blockquote>
+</body>
+</html>

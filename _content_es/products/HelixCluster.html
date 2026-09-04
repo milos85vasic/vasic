@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCluster</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCluster</h1>
+</header>
+<h1 id="helixcluster">HelixCluster</h1>
+<p><strong>Un sistema operativo distribuido para cómputo AI —desde GPUs
+en centros de datos hasta dispositivos portátiles en el edge, bajo un
+único plano de control.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Helix Cluster OS es un sistema operativo distribuido de próxima
+generación que orquesta el cómputo en nodos heterogéneos —desde GPUs en
+centros de datos hasta SBCs en el edge y dispositivos portátiles—,
+unificando la programación de HPC, la orquestación de contenedores, la
+inferencia AI/ML, la operación federada de múltiples clústeres y
+sesiones multiusuario seguras bajo un único plano de control.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un clúster de cómputo distribuido basado en Go / compartición de GPU.
+Unifica la programación de HPC (un planificador de dos niveles basado en
+el modelo Omega), la orquestación de contenedores, el enrutamiento de
+inferencia AI, la federación y sesiones multiusuario seguras en nodos
+heterogéneos, coordinados mediante chismes SWIM y consenso Raft, con
+cifrado postcuántico de extremo a extremo.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Helix Cluster OS orquesta cargas de trabajo de cómputo en hardware
+radicalmente heterogéneo —GPUs en centros de datos, computadoras de
+placa única en el edge, incluso dispositivos portátiles— bajo un único
+plano de control, tratando un rack de A100s y un puñado de SBCs como una
+única malla direccionable en lugar de una docena de islas incompatibles.
+Se trata de un espacio de trabajo Go (un monorepo más submódulos de git)
+que implementa una pila de siete capas, desde el sustrato de hardware L0
+hasta la federación y observabilidad en L7, coordinado por catorce
+microservicios en el plano de control. La membresía de nodos se rastrea
+mediante chismes SWIM y descubrimiento, lo que permite que la malla se
+autorrepare a medida que los nodos se unen o abandonan; el estado
+fuertemente consistente se gestiona mediante consenso Raft, organizado
+en grupos Raft por fragmento con lecturas locales en el titular del
+arrendamiento para mayor velocidad y cercado STONITH para garantizar que
+un nodo particionado no pueda corromper el estado compartido. La
+ubicación de cargas de trabajo pasa por un planificador de dos niveles
+basado en el modelo Omega —concurrencia optimista, coincidencia ClassAd,
+programación en grupo, preempción por multiplicador de valor y ubicación
+basada en restricciones—, pero va más allá de lo que jamás hizo un
+planificador HPC clásico: enrutamiento consciente de la huella de
+carbono y el costo/TCO, escalado automático hacia la nube en ráfagas y
+adaptadores de mercado (Akash, io.net, RunPod, AWS Spot, Chutes) que
+permiten que un trabajo se desborde hacia capacidad alquilada cuando se
+agota el suministro local.</p>
+<p>Los usuarios finales no ven directamente ninguna de estas
+complejidades; interactúan a través de un modelo de sesión limpio
+(asignaciones de cómputo), una terminal interactiva WebSocket/PTY, una
+ruta interna de inferencia AI y lecturas de utilización de recursos. La
+seguridad es una capa de primera clase, no un añadido: identidad SPIFFE,
+atestación de dispositivos (desafío/respuesta, prueba de trabajo GPU,
+sellado), una puerta de control de exportaciones KYC y un transporte
+cifrado de extremo a extremo postcuántico basado en un intercambio de
+claves híbrido X25519 + ML-KEM-768 con protección de registros AEAD y
+rechazo de repeticiones, diseñado para que el tráfico capturado hoy siga
+siendo confidencial incluso frente a un adversario cuántico del mañana.
+La corrección no se afirma, se <em>demuestra</em>: pruebas de simulación
+determinista (ejecuciones con semillas al estilo FoundationDB, inyección
+de fallos, simulación de red, reproducción byte a byte y un verificador
+de linealizabilidad Porcupine) reproducen fallos distribuidos bajo
+demanda, y las pruebas de mutación emparejadas obligatorias demuestran
+que las pruebas de protección realmente funcionan. La arquitectura y la
+documentación se mantienen fieles a la realidad mediante linters
+mecánicos que hacen fallar la compilación en el momento en que la
+realidad y la documentación se desvían.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Para ejecutar cargas de trabajo AI y HPC en niveles de hardware
+radicalmente distintos sin tener que ensamblar planificadores,
+orquestadores y pilas de inferencia por separado —y hacerlo con la
+garantía de ingeniería de que cada funcionalidad implementada demuestra
+<em>comportamiento real del usuario final</em> (nunca pruebas en verde
+sobre stubs) y de que cada capacidad específica del sistema operativo
+emplea un recurso nativo real por plataforma (sin simulaciones
+exclusivas de Linux). El problema que motiva el proyecto, citado en el
+modelo de gobernanza del repositorio, es el modo de fallo “las pruebas
+pasan, pero la funcionalidad no funciona en la práctica”, que el
+proyecto está explícitamente diseñado para eliminar.</p>
+<h2 id="por-qué-es-un-cambio-de-paradigma">Por qué es un cambio de
+paradigma</h2>
+<p>Consolida cinco elementos que normalmente son cinco pilas
+independientes —planificación de HPC, orquestación de contenedores,
+inferencia AI, federación multiclúster y sesiones multiusuario seguras—
+en un único plano de control que abarca desde GPUs en centros de datos
+hasta dispositivos de borde portátiles. Y lo logra con un rigor
+presupuestario reservado habitualmente para infraestructuras
+especializadas: corrección de nivel de métodos formales
+(especificaciones TLA+, simulación determinista, verificación de
+linealizabilidad) y transporte confidencial postcuántico, el tipo de
+garantías que la mayoría de los orquestadores ni siquiera intentan.
+Además de la diferenciación técnica, la colocación consciente de costes
+y emisiones, junto con la capacidad de escalar a mercados en la nube, lo
+convierten también en una <em>palanca económica</em>: el planificador
+puede buscar automáticamente capacidad más barata, ecológica o sobrante,
+de modo que una misma carga de trabajo cueste menos y genere menos
+emisiones sin que nadie tenga que reescribir el trabajo.</p>
+<h2 id="qué-lo-hace-innovador">Qué lo hace innovador</h2>
+<ul>
+<li><strong>Pruebas de simulación determinista (DST)</strong> — un
+simulador con semilla, totalmente reproducible, que inyecta fallos,
+desviaciones de reloj y particiones de red, las reproduce byte a byte y
+ejecuta el resultado a través de un verificador de linealizabilidad
+Porcupine, de modo que un <em>Heisenbug</em> detectado una vez pueda
+reproducirse a demanda para siempre.</li>
+<li><strong>Planificador de dos niveles modelo Omega</strong> —
+colocación con concurrencia optimista, emparejamiento mediante ClassAd,
+planificación por grupos y preempción basada en multiplicadores de
+valor, un diseño de estado compartido que permite a múltiples
+planificadores operar sobre un mismo clúster sin cuellos de botella
+centrales.</li>
+<li><strong>Cableado de inferencia confidencial con cifrado E2EE
+postcuántico</strong> — un intercambio de claves híbrido X25519 +
+ML-KEM-768 con vinculación de pares de claves de respuesta por solicitud
+y AEAD con rechazo de repeticiones (los primitivos criptográficos son
+reales y probados; el recorrido confidencial multinodo completo sigue
+explícitamente en fase PLANIFICADA/bloqueada).</li>
+<li><strong>Confianza basada en atestación</strong> — los nodos deben
+<em>demostrar</em> qué son: identidad SPIFFE, prueba de trabajo GPU,
+sellado de dispositivo, una puerta de control de exportaciones KYC y
+generación de documentación conforme al Reglamento AI de la UE, de modo
+que la confianza se gana mediante evidencia, no se asume por posición en
+la red.</li>
+<li><strong>Orquestación consciente de costes y emisiones</strong> —
+modelado de TCO, colocación con conciencia de huella de carbono,
+escalado a la nube, reserva de conmutación por error N+K y adaptadores
+para mercados en la nube, convirtiendo el precio y las emisiones en
+entradas de primera clase para la planificación, en lugar de
+consideraciones secundarias.</li>
+<li><strong>Consenso Multi-Raft</strong> — grupos Raft por fragmento con
+lecturas locales en el titular del arrendamiento para consistencia de
+baja latencia, respaldados por cercado STONITH (IPMI/EC2/Azure/SBD), de
+modo que un nodo bloqueado se elimina de forma decisiva, sin riesgo de
+corromper el estado.</li>
+<li><strong>Límites mecánicos contra la deriva</strong> —
+<code>archlint</code> falla la compilación en el instante en que un
+componente documentado apunta a una ruta de paquete inexistente, y un
+motor de cadena de documentación mantiene la coherencia byte a byte
+entre Markdown/HTML/PDF/DOCX, de modo que la documentación no pueda
+mentir silenciosamente sobre el código.</li>
+</ul>
+<h2 id="mayores-desafíos-técnicos-y-cómo-los-resolvimos">Mayores
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>“PASS-bluff” (pruebas que pasan en funciones no
+operativas).</strong> El modo de fallo que todo el proyecto busca
+erradicar: un conjunto de pruebas en verde sobre <em>stubs</em>. Se
+solucionó con pruebas de mutación emparejadas obligatorias —cada
+elemento de trabajo incluye una prueba de guardia nominada que debe
+<em>fallar</em> ante una mutación independiente del código antes de
+marcarse como completado, de modo que una prueba que pasa demuestre
+ejercer un comportamiento real en lugar de un <em>mock</em>—.</li>
+<li><strong>Paridad multiplataforma (sin <em>mocks</em> exclusivos de
+Linux).</strong> Se resolvió con una interfaz compartida dividida por
+etiquetas de compilación en facilidades genuinas por sistema operativo
+—Linux con <em>cgroup</em> <code>/proc</code> / WireGuard del kernel,
+macOS con <code>sysctl</code> / <code>vm_stat</code> / IOKit /
+<code>wireguard-go</code>— y luego verificada con un oráculo
+independiente por sistema operativo, para que cada plataforma reporte su
+estado nativo real en lugar de una ficción basada en Linux.</li>
+<li><strong>Corrección distribuida bajo fallos.</strong> Se solucionó
+con pruebas de simulación determinista y un verificador de
+linealizabilidad que genera y reproduce particiones, caídas y
+desincronización de relojes, respaldado por especificaciones formales
+TLA+ que definen los invariantes de consenso y programación antes de
+escribir una sola línea de código.</li>
+<li><strong>Desviación en documentación y arquitectura.</strong> Se
+resolvió con <code>archlint</code>, que falla la compilación ante
+cualquier paquete documentado pero inexistente, y una verificación
+<code>docs_chain</code> sin escapatoria —la desviación se convierte en
+un error de compilación, no en una página wiki obsoleta—.</li>
+<li><strong>Delimitación honesta del trabajo incompleto.</strong> El
+recorrido de inferencia multinodo confidencial está deliberadamente
+protegido por un <em>ticket</em> y etiquetado como “aún no validado de
+extremo a extremo” en lugar de presentarse como entregado —la misma
+disciplina se aplica a lo que <em>no</em> está hecho que a lo que
+sí—.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go (go.mod: 1.25 / <em>toolchain</em> 1.26.4)</strong> — el
+lenguaje del plano de control en un espacio de trabajo de ~30 módulos;
+elegido por su concurrencia económica con <em>goroutines</em> y binarios
+estáticos que se despliegan de manera idéntica desde el centro de datos
+hasta el <em>edge</em>—.</li>
+<li><strong>Zig (0.14+) + C/C++</strong> — utilizado exactamente donde
+el <em>runtime</em> de Go se interpone: en primitivas de sistema de bajo
+nivel y núcleos GPU que requieren control determinista y libre de
+asignaciones sobre el <em>hardware</em>—.</li>
+<li><strong>gRPC + Protocol Buffers</strong> — cada API entre
+subsistemas (<code>api/v1/</code>) es un contrato tipado y versionado,
+de modo que los catorce microservicios evolucionan sin romperse entre sí
+ni crear formatos de intercambio manuales—.</li>
+<li><strong>Raft (<em>etcd-raft</em>) + <em>gossip</em> SWIM</strong> —
+una división intencional: Raft gestiona el estado que <em>debe</em> ser
+fuertemente consistente, mientras que el <em>gossip</em> SWIM maneja la
+membresía y el descubrimiento a escala, donde el consenso sería
+demasiado pesado—.</li>
+<li><strong>PostgreSQL 16, Redis 7, etcd v3.5, SQLite</strong> — el
+almacén adecuado para cada tarea: PostgreSQL para estado relacional
+duradero, Redis para caché en caliente, etcd para coordinación y SQLite
+embebido para el registro local de elementos de trabajo HXC—.</li>
+<li><strong>NATS 2.10 (<em>JetStream</em>), Kafka 4.0 (<em>KRaft</em>),
+RabbitMQ 3.13</strong> — tres <em>backbones</em> de mensajería para tres
+tipos de tráfico: NATS/<em>JetStream</em> para eventos internos rápidos,
+Kafka para flujos duraderos de alto rendimiento y RabbitMQ para
+semántica clásica de <em>broker</em>—.</li>
+<li><strong>Malla WireGuard + ML-KEM-768/X25519 +
+AES-256-GCM/ChaCha20-Poly1305 + HKDF</strong> — WireGuard para una malla
+ligera nodo a nodo, envuelta en un apretón de manos híbrido poscuántico
+y registros AEAD, de modo que el transporte sea confidencial tanto
+frente a atacantes clásicos como cuánticos—.</li>
+<li><strong>SPIFFE + JWT (HS256) + RBAC basado en ámbitos + OPA</strong>
+— identidad y autorización en capas: SPIFFE para identidad de carga de
+trabajo, JWT para <em>tokens</em>, RBAC basado en ámbitos para acceso
+grueso y OPA para expresar políticas granulares como código—.</li>
+<li><strong>Prometheus v2.50, Grafana 10.4, Jaeger 1.55, trazado
+W3C</strong> — métricas, paneles y trazas distribuidas con propagación
+de contexto W3C, para seguir una solicitud a través de servicios y capas
+de <em>hardware</em>—.</li>
+<li><strong>HashiCorp Vault 1.16</strong> — secretos y material
+criptográfico mantenidos fuera del código y la configuración, emitidos
+bajo auditoría—.</li>
+<li><strong>Docker Compose, Kubernetes (<em>kustomize</em>,
+<em>securityContext</em> endurecido), Helm</strong> — Compose para el
+despliegue local y Kubernetes/Helm con contextos de seguridad
+endurecidos para despliegues reales, una misma definición promovida en
+todos los entornos—.</li>
+<li><strong>React + TypeScript + Vite (Node 20+)</strong> — una interfaz
+web rápida y con tipado seguro para sesiones, terminales y utilización
+de <em>pools</em>—.</li>
+<li><strong>TLA+</strong> — especificación formal de los invariantes de
+consenso y programación, de modo que las propiedades más difíciles de
+probar se demuestran a nivel de diseño antes de la implementación—.</li>
+</ul>
+<h2 id="notas-sobre-estado-y-honestidad">Notas sobre estado y
+honestidad</h2>
+<ul>
+<li><strong>Estado: en desarrollo.</strong> La versión es temprana
+(<code>0.1.0-dev</code>). Varias funciones avanzadas —inferencia
+confidencial multinodo de ida y vuelta, liquidación en el mercado y
+población de programación basada en atestaciones— están explícitamente
+etiquetadas como PLANIFICADAS / con infraestructura restringida en el
+repositorio y <strong>no</strong> se presentan como completamente
+funcionales. Las cifras de cobertura son autoinformadas.</li>
+<li><strong>Licencia: por determinar.</strong> No está claramente
+declarada; los enlaces <code>HelixCluster/HelixCluster</code> y las URL
+de <code>helixcluster.io</code> del gráfico Helm son marcadores de
+posición no verificados que no coinciden con los repositorios
+reales.</li>
+<li>Los proyectos de la pila LLM incluidos (LLMOrchestrator,
+LLMProvider, LLMsVerifier) son submódulos desacoplados, no servidores de
+modelos alojados dentro del clúster.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix-principal (clúster
+LLM-infraestructura —el sustrato de cómputo que puede alojar cargas de
+trabajo de inferencia y cómputo). Tiene menor prioridad que
+HelixTrack.</p>
+</body>
+</html>

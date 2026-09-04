@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_TECH-STACK</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">_TECH-STACK</h1>
+</header>
+<h1 id="technology-stack-vasic-digital-helixdevelopment">Technology
+Stack — vasic-digital + HelixDevelopment</h1>
+<p>Consolidated, deduped technology inventory for AI-development-centric
+positioning. Drawn from harvested language data
+(<code>_analysis/top20/*.langs.json</code>), repo metadata
+(<code>_analysis/github-vasic-digital.md</code>,
+<code>_analysis/github-helix-others.md</code>), the local Catalogizer
+repo, and per-repo READMEs (<code>gh repo view</code>). Scope is the two
+first-party orgs; the 49 <code>caf-*</code> fork/mirror repos and the
+ATMOSphere backup mirrors are <strong>excluded</strong> because their
+languages reflect upstream projects, not first-party work. Items not
+directly evidenced are marked <strong>UNVERIFIED</strong>.</p>
+<hr />
+<h2 id="languages">Languages</h2>
+<ul>
+<li><strong>Go</strong> — the dominant first-party language and backbone
+of nearly every product and reusable module (HelixAgent 28.7M bytes,
+HelixCode 18.5M, helix_cluster 15.4M, LLMsVerifier 6.4M,
+Helix-Track/Core 5.1M, HelixTranslate 5.1M, Courses-Creator 972K,
+Catalogizer, and the entire <code>digital.vasic.*</code> module fleet).
+Used for high-throughput REST services, concurrent workers, and
+libraries.</li>
+<li><strong>Kotlin</strong> — Server Factory family (Core-Framework
+990K, Mail-Server-Factory 179K), Kotlin Multiplatform modules, Android
+clients, and Games. Used for JVM provisioning tooling and cross-platform
+mobile.</li>
+<li><strong>TypeScript</strong> — React web apps and typed client
+libraries (Catalogizer web + <code>*-React</code>/<code>*-TS</code>
+packages, HelixTrack Desktop/Web clients, Courses-Creator players). Used
+for frontends and shared type contracts.</li>
+<li><strong>JavaScript / HTML / CSS</strong> — web UIs and generated
+documentation sites (large HTML byte counts in
+LLMOrchestrator/DocProcessor/Open-Rag are generated docs).</li>
+<li><strong>Python</strong> — AI/ML glue and tooling: TTS and
+enhancement in Courses-Creator, scripts across Helix repos,
+Parallels-Utils helpers. Also the LLMsVerifier Python SDK.</li>
+<li><strong>Shell</strong> — pervasive: build pipelines, provisioning
+(Server Factory is majority Shell), QEMU/ISO managers, and module
+scaffolding.</li>
+<li><strong>Swift</strong> — HelixTrack iOS client; small native pieces
+in HelixAgent.</li>
+<li><strong>Java</strong> — Android-adjacent code and
+ATMOSphere-SmartTube (mirror; excluded from first-party count but Java
+appears in Games/Android).</li>
+<li><strong>Rust</strong> — present first-party in HelixAgent (316K
+bytes); otherwise mostly <code>caf-*</code> forks (excluded).
+Catalogizer uses Rust/Tauri for desktop builds.</li>
+<li><strong>PL/pgSQL</strong> — PostgreSQL stored procedures/migrations
+(HelixAgent 276K, Helix-Track/Core 62K, Courses-Creator 4K).</li>
+<li><strong>TLA+</strong> — formal specification in helix_cluster (316K
+bytes); evidence of formal-methods rigor in distributed-systems
+work.</li>
+<li><strong>HCL / Terraform</strong> — infrastructure-as-code in
+Helix-Flow/Platform (19K bytes). <strong>UNVERIFIED</strong> beyond
+presence; treat as IaC-managed deployment.</li>
+<li><strong>C / C++</strong> — small native components (ffmpeg-kit;
+SmartTube mirror). Minor first-party footprint.</li>
+</ul>
+<h2 id="ai-llm">AI / LLM</h2>
+<ul>
+<li><strong>Multi-provider LLM access</strong> — first-party abstraction
+over 40+ providers via LLMProvider (43 adapters + a generic
+OpenAI-compatible adapter), 47+ in HelixAgent, 12 verified adapters in
+LLMsVerifier. Providers evidenced in READMEs: <strong>Anthropic/Claude,
+OpenAI, DeepSeek, Gemini, Mistral, Cohere, Groq, xAI/Grok, Qwen,
+Perplexity, OpenRouter, Together AI, Replicate, Cerebras, Cloudflare
+Workers AI, SiliconFlow, Ollama (local, fallback)</strong>. Used behind
+one interface with retry/circuit-breaker/health.</li>
+<li><strong>LLM verification</strong> — LLMsVerifier’s mandatory “Do you
+see my code?” comprehension gate plus
+latency/streaming/function-calling/vision/embeddings tests;
+verified-only config export. The trust layer for model selection.</li>
+<li><strong>Model Context Protocol (MCP)</strong> — first-party
+<code>MCP_Module</code> and 45+ MCP adapters in HelixAgent; MCP servers
+in Courses-Creator. Used to extend agents with external
+tools/context.</li>
+<li><strong>RAG (retrieval-augmented generation)</strong> —
+<code>RAG</code> module; RAG optimization in LLMsVerifier and HelixAgent
+context management.</li>
+<li><strong>Vector databases &amp; embeddings</strong> —
+<code>VectorDB</code> and <code>Embeddings</code> modules; semantic
+search/knowledge retrieval.</li>
+<li><strong>Agent orchestration</strong> — LLMOrchestrator (headless CLI
+agents: OpenCode, Claude Code, Gemini, Junie, Qwen Code),
+<code>Agentic</code> (graph-based workflows), DebateOrchestrator +
+HelixAgent “AI debate ensemble” (multi-round consensus), DagOrchestrator
++ PipelineRuntime (dataflow/DAG).</li>
+<li><strong>Planning algorithms</strong> — <code>Planning</code> module
+implements HiPlan, MCTS, and Tree of Thoughts.</li>
+<li><strong>LLMOps</strong> — <code>LLMOps</code> module: evaluation,
+experiments, datasets, prompt versioning.</li>
+<li><strong>Benchmarking</strong> — <code>Benchmark</code> module
+targets SWE-bench, HumanEval, MMLU.</li>
+<li><strong>Self-improvement / RLHF</strong> — <code>SelfImprove</code>
+module: reward modeling, RLHF, optimizer. <strong>UNVERIFIED</strong>
+maturity.</li>
+<li><strong>Agent memory</strong> — HelixMemory (fuses Mem0 + Cognee +
+Letta), plus <code>Memory</code> and <code>conversation</code>
+(infinite-context compression, event sourcing).</li>
+<li><strong>Spec-driven development</strong> — HelixSpecifier (fuses
+SpecKit + Superpowers + GSD); SpecKit auto-activation (7-phase flow) in
+HelixAgent.</li>
+<li><strong>Skill / tool systems</strong> — <code>SkillRegistry</code>,
+<code>ToolSchema</code> for AI agent tool/skill registration and
+validation.</li>
+<li><strong>Text-to-speech</strong> — Bark and SpeechT5 in
+Courses-Creator.</li>
+<li><strong>Computer vision + LLM vision</strong> — VisionEngine
+(GoCV/OpenCV build-tag-gated + vision providers
+GPT-4o/Claude/Gemini/Qwen-VL/Kimi/StepGUI/Astica/Ollama, fallback chain)
+for UI analysis.</li>
+<li><strong>Guardrails / defensive-LLM</strong> — HelixAgent guardrails
+engine + PII detection; <code>RedTeam</code> (YAML adversarial fixtures)
+and <code>Normalize</code> (adversarial-input canonicalisation). WIP
+scaffolds
+<code>Claritas</code>/<code>LeakHub</code>/<code>GandalfSolutions</code>/<code>Veritas</code>/<code>Ouroborous</code>
+are <strong>UNVERIFIED / early-stage</strong>.</li>
+<li><strong>Semantic cache</strong> — GPTCache-inspired response cache
+in HelixAgent.</li>
+</ul>
+<h2 id="backend-frameworks">Backend / Frameworks</h2>
+<ul>
+<li><strong>Gin (Go)</strong> — the standard REST framework across
+HelixAgent, HelixCode, Helix-Track/Core, LLMsVerifier, and Catalogizer.
+Chosen for throughput (Helix-Track/Core claims 50k+ req/s).</li>
+<li><strong>gRPC + Protocol Buffers</strong> — inter-service comms/event
+transport in LLMsVerifier; gRPC support in HelixAgent.</li>
+<li><strong>HTTP/3 (QUIC via quic-go)</strong> — first-party
+<code>http3</code> module; used by HelixTranslate and LLMsVerifier for
+modern transport.</li>
+<li><strong>WebSockets</strong> — <code>streaming</code> module (hub
+with rooms/topics); real-time UIs in Catalogizer, HelixTranslate,
+Courses-Creator.</li>
+<li><strong>Angular</strong> — LLMsVerifier web SPA (per repo
+docs).</li>
+<li><strong>React (+ Tailwind, Redux Toolkit, i18next)</strong> —
+Catalogizer web, Courses-Creator players, HelixTrack web, and reusable
+<code>*-React</code>/<code>*-TS</code> modules.</li>
+<li><strong>Messaging/event bus</strong> — first-party
+<code>EventBus</code> module; RabbitMQ + Kafka in LLMsVerifier; Kafka in
+HelixAgent BigData.</li>
+</ul>
+<h2 id="mobile-desktop">Mobile / Desktop</h2>
+<ul>
+<li><strong>Android (Kotlin)</strong> — HelixTrack Android client,
+Catalogizer Android + Android TV apps, Games.</li>
+<li><strong>Kotlin Multiplatform (KMP)</strong> — cross-platform module
+set (Auth-KMP, Database-KMP, Security-KMP, UI-Components-KMP with
+Compose, Concurrency-KMP, RateLimiter-KMP, Config-KMP, Document-KMP,
+Formatters-KMP, Storage-KMP).</li>
+<li><strong>iOS (Swift)</strong> — HelixTrack iOS client.</li>
+<li><strong>Electron</strong> — desktop apps for Courses-Creator
+(creator) and Catalogizer.</li>
+<li><strong>React Native</strong> — Courses-Creator mobile player.</li>
+<li><strong>Tauri + Rust</strong> — Catalogizer desktop builds (routed
+through a <code>catalogizer-builder</code> container).</li>
+<li><strong>AOSP / Android 15</strong> — ATMOSphere firmware for Orange
+Pi 5 Max (mirror family; noted for completeness, excluded from product
+scope).</li>
+</ul>
+<h2 id="data-db">Data / DB</h2>
+<ul>
+<li><strong>PostgreSQL</strong> — primary relational store for
+HelixAgent (HA with clustering), Courses-Creator, and others (PL/pgSQL
+evidence).</li>
+<li><strong>SQLite</strong> — embedded store used widely: task_bridge
+SSoT, docs_chain DB members (pure-Go modernc driver), and the
+<code>database</code> module’s dual SQLite/PostgreSQL support.</li>
+<li><strong>SQLCipher</strong> — encrypted-at-rest databases in
+Catalogizer, LLMsVerifier, and Helix-Track/Core.</li>
+<li><strong>Redis</strong> — caching and rate limiting
+(<code>cache</code>, <code>ratelimiter</code> modules; HelixAgent,
+LLMsVerifier).</li>
+<li><strong>Neo4j</strong> — knowledge-graph streaming in HelixAgent
+BigData.</li>
+<li><strong>ClickHouse</strong> — analytical/BigData store in
+HelixAgent.</li>
+<li><strong>Object storage (MinIO / Amazon S3 / Google Cloud Storage /
+Azure)</strong> — <code>storage</code> module abstraction; Catalogizer
+cloud sync; LLMsVerifier cloud checkpoint backup.</li>
+<li><strong>Vector databases</strong> — <code>VectorDB</code> module for
+semantic search (specific engine not named —
+<strong>UNVERIFIED</strong>).</li>
+</ul>
+<h2 id="infra-devops-containers">Infra / DevOps / Containers</h2>
+<ul>
+<li><strong>Docker &amp; Docker Compose</strong> — near-universal
+packaging/deployment (HelixAgent, Catalogizer, Courses-Creator,
+LLMsVerifier, Mail Server Factory stack).</li>
+<li><strong>Kubernetes (+ Helm)</strong> — LLMsVerifier deployment; a
+Mail Server Factory connection type; HelixAgent scaling.</li>
+<li><strong>Prometheus + Grafana</strong> — metrics/dashboards across
+HelixAgent, Catalogizer, Courses-Creator, LLMsVerifier, Mail Server
+Factory.</li>
+<li><strong>OpenTelemetry</strong> — tracing via the
+<code>observability</code> module.</li>
+<li><strong>QEMU / Libvirt / Parallels</strong> — VM image management
+(Qemu-Utils, Parallels-Utils; Mail Server Factory unattended-install
+testing).</li>
+<li><strong>Cloud provider integrations</strong> — AWS SSM, Azure Serial
+Console, GCP OS Login as Mail Server Factory connection types;
+S3/GCS/Azure for storage.</li>
+<li><strong>Terraform / HCL</strong> — IaC in Helix-Flow/Platform
+(<strong>UNVERIFIED</strong> beyond presence).</li>
+<li><strong>nginx</strong> — reverse proxy (Courses-Creator).</li>
+<li><strong>systemd hardening</strong> — OOM-Protect (workstation OOM
+protection).</li>
+<li><strong>mDNS / service discovery</strong> — <code>mdns</code> and
+<code>discovery</code> modules (RFC 6762/6763 LAN discovery).</li>
+<li><strong>jemalloc</strong> — memory allocator in the containerized
+<code>tmux</code> build.</li>
+<li><strong>CI/CD</strong> — GitHub Actions (HelixAgent, LLMsVerifier);
+Gradle for Kotlin/Server Factory; Make for Go builds.</li>
+<li><strong>Governance-as-submodule</strong> — HelixConstitution
+(CLAUDE.md/AGENTS.md/CONST-* rules) + Docs Chain (content-hashed doc/DB
+sync) shared across the fleet.</li>
+</ul>
+<h2 id="testing-qa">Testing / QA</h2>
+<ul>
+<li><strong>Anti-bluff QA framework</strong> — HelixQA (evidence-gated
+cross-platform testing) built on the
+<code>digital.vasic.challenges</code> framework; every PASS must carry
+runtime evidence.</li>
+<li><strong>Challenge harnesses</strong> — per-module real-behavior
+invariants with paired mutation gates (evidenced in LLMOrchestrator,
+LLMProvider, DocProcessor) that must fail when the feature is
+broken.</li>
+<li><strong>Go testing</strong> — <code>go test -race</code>, testify
+assertions, and parser fuzzing across modules.</li>
+<li><strong>Visual regression testing</strong> —
+<code>VisualRegression</code>, <code>ScreenDiff</code>,
+<code>ReplayBuffer</code>, <code>TrainingCollector</code> modules for
+UI/visual automation.</li>
+<li><strong>ADB-based device testing</strong> — Android/Android TV
+crash/ANR detection in HelixQA.</li>
+<li><strong>SonarQube</strong> — code-quality gates (Mail Server Factory
+reports 100% gate; SonarQube-Factory provisions the server).</li>
+<li><strong>Security scanning</strong> — Catalogizer repo configures
+semgrep, gosec, trivy, snyk, gitleaks, and nancy (dependency/secret/SAST
+scanning).</li>
+<li><strong>TLA+ model checking</strong> — formal specs in
+helix_cluster.</li>
+<li><strong>Playwright</strong> — browser E2E used in the milosvasic.ru
+localization work (per repo commit history); <strong>UNVERIFIED</strong>
+as a standard across the two orgs — treat as project-specific
+tooling.</li>
+</ul>
+<hr />
+<h3 id="provenance-caveats">Provenance &amp; caveats</h3>
+<ul>
+<li>Language byte counts: <code>_analysis/top20/*.langs.json</code> and
+<code>gh api .../languages</code>.</li>
+<li>Feature/tech claims: repo READMEs via <code>gh repo view</code>
+(HelixAgent, LLMsVerifier, Courses-Creator, LLMProvider,
+LLMOrchestrator, VisionEngine, DocProcessor, Herald, docs_chain,
+task_bridge, Mail-Server-Factory, Qemu-Utils, Parallels-Utils) and the
+local Catalogizer README.</li>
+<li>Org overviews: <code>_analysis/github-vasic-digital.md</code>,
+<code>_analysis/github-helix-others.md</code>.</li>
+<li><code>caf-*</code> forks and ATMOSphere backup mirrors are excluded
+as non-first-party. WIP/scaffold repos and any tech not directly
+evidenced are marked <strong>UNVERIFIED</strong> per Constitution
+§11.4.6 (no fabrication).</li>
+</ul>
+</body>
+</html>

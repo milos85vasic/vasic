@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>vasic-digital</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">vasic-digital</h1>
+</header>
+<h1 id="vasic-digital">Vasic Digital</h1>
+<h2 id="герой">Герой</h2>
+<p><strong>Распрацоўка сістэм на базе AI, створаная для
+даверу.</strong></p>
+<p>Любы можа падключыць дадатак да LLM за паўдня. Складанасць — гэта
+тое, што вырашае, ці будзе сістэма на базе AI дэманстрацыяй ці надзейным
+прадуктам, — усё, што вакол мадэлі: абстракцыя пастаўшчыка, якая
+перажывае збоі, аркестроўка, што трымае агентаў на задачы, праверка,
+якая выкрывае блеф мадэлі, і кіраванне, якое пацвярджае, што ўся сістэма
+паводзіць сябе належным чынам. Гэтую складанасць і стварае Vasic
+Digital. Мы распрацоўваем і выпускаем сістэмы распрацоўкі на базе AI —
+мадэлі, агенты, аркестроўку і інфраструктуру, якія ператвараюць вялікія
+моўныя мадэлі ў надзейнае праграмнае забеспячэнне, — разам з пластом
+кіравання, які гарантуе іх сумленнасць. Усё гэта абапіраецца на адзін
+непахісны прынцып: функцыя не лічыцца «гатоўнай», калі прайшлі тэсты;
+яна гатовая, калі рэальны карыстальнік можа ёю карыстацца, і ёсць
+зафіксаваныя доказы гэтага.</p>
+<h2 id="пра-нас">Пра нас</h2>
+<p>Vasic Digital — гэта вузкаспецыялізаваная інжынерная практыка, якая
+стварае ўзаемазвязаную сям’ю прадуктаў і паўторна выкарыстоўваемых
+модуляў для распрацоўкі на базе AI. Замест аднаго маналіту праца
+арганізавана як флот: вялікія прадуктовыя дадаткі на базе дзясяткаў
+невялікіх, незалежна пратэставаных і развязаных модуляў — так правераныя
+кампаненты паўторна выкарыстоўваюцца ва ўсіх прадуктах замест таго, каб
+перапісваць іх нанова. Асноўная мова — <strong>Go</strong>, дапаўняецца
+<strong>Kotlin / Kotlin Multiplatform</strong>,
+<strong>TypeScript/React</strong>, <strong>Python</strong>,
+<strong>Swift</strong> і <strong>Shell</strong>, якія выбіраюцца ў
+залежнасці ад задачы: Go для высоканагружаных сэрвісаў і бібліятэк,
+Kotlin для інструментаў разгортвання і кросплатформавай мабільнай
+распрацоўкі, TypeScript для тыпізаваных франтэндаў, Python для звязвання
+AI/ML.</p>
+<p>Што аб’ядноўвае флот — гэта дысцыпліна, якая ператворана ў механічны
+працэс, а не застаецца проста жаданнем. Кожны праект атрымлівае агульны
+інжынерны <strong>Constitution</strong> як Git-субмодуль — так змененае
+адзін раз правіла распаўсюджваецца па флоце з больш чым 140
+рэпазіторыямі, — і кожная дэклараваная магчымасць прадукту павінна быць
+падмацавана аўтаматызаваным тэстам, які генеруе доказы, перш чым лічыцца
+выпушчанай. Гэта не маркетынгавыя словы, накінутыя на працу; гэта
+аперацыйная мадэль, на якой праца і будуецца. Сапраўдная перавага — у
+кумулятыўным эфекце: паколькі агульныя задачы вырашаны ў развязаных,
+незалежна пратэставаных модулях, выпраўленне ці паляпшэнне ўносіцца ў
+адно месца і паднімае ўсе прадукты адначасова, а кожная новая сістэма
+збіраецца з кампанентаў, якія ўжо заслужылі давер.</p>
+<h2 id="чым-мы-займаемся">Чым мы займаемся</h2>
+<p><strong>Распрацоўка на базе AI.</strong> Мы ствараем аснову для
+сістэм на базе AI ад пачатку да канца:</p>
+<ul>
+<li><strong>Доступ да LLM ад некалькіх пастаўшчыкаў</strong> — уласная
+абстракцыя для 40+ пастаўшчыкоў (Anthropic/Claude, OpenAI, DeepSeek,
+Gemini, Mistral, Cohere, Groq, xAI/Grok, Qwen, Perplexity, OpenRouter,
+Together AI, Replicate, Cerebras, Cloudflare Workers AI, SiliconFlow і
+лакальны Ollama як рэзервовы варыянт) праз адзін інтэрфейс з паўторнымі
+спробамі, засцерагальнікамі і праверкай стану.</li>
+<li><strong>Аркестроўка агентаў</strong> — бязгалаўкавыя панэлі
+кіравання кадзіруючымі агентамі CLI, графічныя агенцкія працоўныя
+працэсы, шматраундовы кансэнсус «дэбатаў AI» і рантаймы
+DAG/канвеераў.</li>
+<li><strong>Праверка LLM</strong> — пласт даверу, які ацэньвае мадэлі з
+абавязковай перашкодай разумення («Ці бачыш ты мой код?») плюс тэсты на
+затрымку, стрымінг, выклік функцый, візуальнае ўспрыманне і embeddings,
+экспартуючы канфігурацыю толькі з праверанымі мадэлямі.</li>
+<li><strong>Пошук і памяць</strong> — RAG, базы даных vector, embeddings
+і злітыя рухавічкі памяці агентаў (Mem0 + Cognee + Letta) з кампрэсіяй
+бясконцага кантэксту.</li>
+<li><strong>Абарончая работа з LLM</strong> — засцерагальныя бар’еры,
+выяўленне PII, тэставыя сцэнары ад адваротнай каманды і кананізацыя
+ўваходных даных.</li>
+</ul>
+<p>Змесціва</p>
+<p><strong>Сямейства прадуктаў Helix.</strong> Наша флагманская лінейка
+ахоплівае поўны цыкл распрацоўкі AI:</p>
+<ul>
+<li><strong>HelixTrack</strong> — свабодная альтэрнатыва JIRA (флагману
+лінейкі Helix-Track).</li>
+<li><strong>HelixAgent</strong> — ансамблевы сэрвіс LLM, які дазваляе
+некалькім мадэлям дыскутаваць і падае адказ, з якім яны
+ўзгадняюцца.</li>
+<li><strong>HelixCode</strong> — размеркаваная платформа распрацоўкі AI,
+якая размяркоўвае задачы паміж працаўнікамі, кіраванымі SSH, з
+магчымасцю чэкпойнтаў і адкату.</li>
+<li><strong>HelixLLM</strong> — адзін бінарны файл, шэсць рэжымаў:
+сумяшчальная з OpenAI і Anthropic інферэнцыя ад ноўтбука да кластара
+праз HTTP/3.</li>
+<li><strong>HelixCluster</strong> — размеркаваная аперацыйная сістэма
+для вылічэнняў AI ад GPU у датацэнтрах да мабільных прылад на краі
+сеткі.</li>
+<li><strong>LLMProvider / LLMOrchestrator / LLMsVerifier</strong> —
+абстракцыя пастаўшчыка, кантрольная панель агентаў і крыніца праўды для
+верыфікацыі.</li>
+<li><strong>HelixMemory, HelixSkills, HelixSpecifier, HelixBuilder,
+HelixTranslate, HelixTerminator, HelixGitpx, HelixOTA,
+HelixPlay</strong> — памяць, кіраваныя навыкі, распрацоўка на аснове
+спецыфікацый, стварэнне прыкладанняў, правераная трансляцыя, тэрміналы з
+нулявой давернасцю, федэраваны Git, бяспечныя абнаўленні OTA і
+самастойны воблачны геймінг.</li>
+</ul>
+<p><strong>Інструменты і ўтыліты (vasic-digital utils).</strong>
+Прафесійныя інструменты, якія існуюць самастойна:
+<strong>Catalogizer</strong> (кіраванне мультыпратаколльным шыфраваным
+збором медыя), <strong>Courses-Creator</strong> (вытворчасць курсаў AI з
+markdown у відэа), <strong>VisionEngine</strong> (камп’ютарны зрок +
+UI-ўспрыманне LLM), <strong>DocProcessor</strong> (стварэнне карты
+функцый з дакументацыі для забеспячэння якасці), <strong>Docs
+Chain</strong> (двухбаковы сінхрон дакументаў і баз даных з кантролем
+зместу), <strong>Herald</strong> (мультыканальныя апавяшчэнні на
+натуральнай мове), <strong>task_bridge</strong> (двухбаковы сінхрон
+задач і дошак), а таксама <strong>Vasic Digital Reusable Module
+Suite</strong> — стандартная бібліятэка <code>digital.vasic.*</code> для
+інфраструктуры, прымітываў AI і модуляў кантролю.</p>
+<p><strong>Аўтаматызацыя інфраструктуры (Server Factory).</strong> Наша
+DevOps-спадчына: <strong>Mail Server Factory</strong> і <strong>Server
+Factory Core Framework</strong>, якія пераўтвараюць дэкларатыўныя JSON у
+поўнасцю разгорнутыя Docker-серверы на розных тыпах злучэнняў і
+дыстрыбутывах Linux, а таксама інструменты для віртуальных машын
+(Qemu-Utils, Parallels-Utils) і фабрыкі дапаможных сэрвісаў.</p>
+<h2 id="тэхналогіі">Тэхналогіі</h2>
+<p>Заснавана на нашым рэальным стэку:</p>
+<ul>
+<li><strong>Мовы праграмавання:</strong> Go (дамінуючая), Kotlin і
+Kotlin Multiplatform, TypeScript, Python, Swift, Shell, а таксама
+PL/pgSQL і нават фармальныя спецыфікацыі TLA+ у працы з размеркаванымі
+сістэмамі.</li>
+<li><strong>AI / LLM:</strong> мультыправайдарскі доступ (43+
+адаптараў), Model Context Protocol (MCP), RAG, базы даных vector і
+embeddings, алгарытмы планавання (HiPlan, MCTS, Tree of Thoughts),
+LLMOps, бенчмаркінг (SWE-bench/HumanEval/MMLU) і TTS (Bark,
+SpeechT5).</li>
+<li><strong>Бэкэнд:</strong> Gin (Go), gRPC + Protocol Buffers, HTTP/3
+(QUIC), WebSockets, Angular і React-фронтэнды, абмен паведамленнямі
+Kafka/RabbitMQ.</li>
+<li><strong>Дадзеныя:</strong> PostgreSQL, SQLite, SQLCipher (шыфруюцца
+ў спакоі), Redis, Neo4j, ClickHouse і аб’ектнае захоўванне
+(MinIO/S3/GCS/Azure).</li>
+<li><strong>Інфраструктура / DevOps:</strong> Docker і Compose,
+Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry,
+QEMU/Libvirt/Parallels, а таксама CI/CD праз GitHub Actions, Gradle і
+Make.</li>
+<li><strong>Тэсціраванне / Кантроль якасці:</strong> антыблефавая
+платформа HelixQA, Challenge-харасоўкі для кожнага модуля з мутацыйнымі
+бар’ерамі, <code>go test -race</code>, інструменты візуальнай рэгрэсіі,
+тэсціраванне прылад праз ADB, бар’еры SonarQube і сканаванне бяспекі
+(semgrep, gosec, trivy, snyk, gitleaks, nancy).</li>
+</ul>
+<p>Змесціва</p>
+<h2 id="якасць-і-кіраванне-наша-адметнасць">Якасць і кіраванне — наша
+адметнасць</h2>
+<p>Два слупкі робяць усю флотылію ўзгодненай і надзейнай:</p>
+<ul>
+<li><strong>HelixConstitution</strong> — універсальны, незалежны ад
+праекта збор інжынерных правілаў, які пастаўляецца як Git-субмодуль і
+атрымліваецца ў спадчыну кожным праектам у флотыліі з больш чым 140
+рэпазіторыямі. Ён змяшчае неабмеркавальную дысцыпліну — бар’еры супраць
+падману, імунітэт да ілжыва-пазітыўных вынікаў, бяспеку даных і хоста,
+правілы дакументавання і пакрыцця тэстамі — якія праект можа пашыраць,
+але ніколі не аслабляць. Адзінае абнаўленне субмодуля ўсюды абнаўляе
+правілы; працэдуры распаўсюджвання літаральна правяраюць наяўнасць
+патрабаваных пунктаў па ўсёй флотыліі, і кожны бар’ер суправаджаецца
+мутацыйным тэстам, які пацвярджае, што сам бар’ер не з’яўляецца фікцыяй.
+Кіраванне становіцца аўдытабельным фактам, а не марыцьбой.</li>
+<li><strong>HelixQA</strong> — аркестрацыя антыпадманнага забеспячэння
+якасці. Яна запускае напісаныя банкі тэстаў <strong>YAML</strong> і
+цалкам аўтаномныя сесіі забеспячэння якасці з выкарыстаннем
+<strong>LLM</strong> і камп’ютарнага зроку на платформах Android,
+Android TV, Web і Desktop, і адмаўляецца прызнаваць вынік «ПРАЙШЛА» без
+зафіксаваных доказаў працы ў рэжыме рэальнага часу (здымкі экрана,
+logcat, відэа, stack traces). «Мы гэта пратэставалі» ператвараецца ў
+«вось відэа, logcat і заяўка».</li>
+</ul>
+<h2 id="пазіцыянаванне">Пазіцыянаванне</h2>
+<p>Каму заўгодна можа падключыць дадатак да <strong>LLM</strong>.
+<strong>Vasic Digital</strong> стварае тое, што сапраўды складана:
+<strong>AI</strong>-сістэмы, якія можна праверыць, паўторна
+выкарыстоўваць і яны сумленныя — незалежная ад пастаўшчыка
+<strong>AI</strong>-аснова, жыццёвы цыкл
+<strong>Helix</strong>-прадуктаў на яе базе і дысцыпліна канстытуцыі з
+доказамі, якая гарантуе, што тое, што адпраўляецца, сапраўды працуе. Мы
+не просім паверыць зялёнай галачцы. Мы паказваем доказы, якія стаяць за
+ёй.</p>
+<h2 id="кантакты">Кантакты</h2>
+<p>Давайце стварым нешта, што можна праверыць.</p>
+<ul>
+<li><strong>Электронная пошта:</strong> <a
+href="mailto:i@mvasic.ru">i@mvasic.ru</a></li>
+<li><strong>GitHub:</strong> <a
+href="https://github.com/vasic-digital">github.com/vasic-digital</a></li>
+</ul>
+</body>
+</html>

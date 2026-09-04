@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSpecifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSpecifier</h1>
+</header>
+<h1 id="helixspecifier">HelixSpecifier</h1>
+<p><strong>Tagline:</strong> Spec-driven development that scales its own
+ceremony to the work.</p>
+<p><strong>Summary:</strong> HelixSpecifier is a Go engine that fuses
+three development methodologies — SpecKit’s spec-driven workflow,
+Superpowers’ TDD discipline, and GSD’s milestone lifecycle — into one
+adaptive flow. It classifies each task by effort and scales the amount
+of process up or down accordingly.</p>
+<p><strong>Short description (~40 words):</strong> HelixSpecifier is a
+spec-driven development fusion engine for AI agents. It combines
+SpecKit, Superpowers and GSD, classifies work by effort level, runs
+debate-backed specification phases, enforces a minimum test-to-code
+ratio, and learns from every completed flow.</p>
+<p><strong>Long description (150-250 words):</strong> HelixSpecifier is
+a spec-driven development (SDD) fusion engine written in Go (module
+<code>digital.vasic.helixspecifier</code>), built as a component of the
+HelixAgent AI ensemble. It unifies three complementary development
+pillars into a single adaptive workflow: SpecKit’s seven-phase SDD
+process (Constitution, Specify, Clarify, Plan, Tasks, Analyze,
+Implement), Superpowers’ test-driven discipline with parallel subagent
+execution, and GSD’s milestone lifecycle management.</p>
+<p>Its central idea is <em>adaptive ceremony</em>: the engine classifies
+incoming work by effort level and scales the amount of process to match,
+so a small change does not drag the full ceremony of a large feature.
+Ten power features build on this — bounded-concurrency parallel task
+execution, a machine-readable “Constitution as Code” that enforces
+mandatory rules, “Nyquist TDD” that tracks and enforces a minimum
+test-to-implementation ratio, multi-round multi-agent debate for
+specification refinement, adaptive skill-proficiency learning,
+brownfield analysis of legacy code, predictive specification from
+historical patterns, cross-project knowledge transfer, runtime ceremony
+adjustment, and a persistent spec memory with semantic search.</p>
+<p>It is consumed as a Go module, either via <code>go get</code> or a
+local replace directive, and exposes a simple engine API: register the
+three pillars plus a ceremony scaler and spec memory, classify effort,
+then execute the full flow and receive a quality-scored result. Like the
+rest of the Helix family, it is developed under an anti-bluff
+verification regime with an in-process challenge runner over real
+code.</p>
+<p><strong>Why we built it:</strong> Spec-driven development, rigorous
+TDD, and milestone management are usually three separate practices with
+three separate tools. HelixSpecifier was built so an AI agent
+(HelixAgent) can run all three as one coherent, self-scaling workflow
+instead of stitching them together by hand.</p>
+<p><strong>Why it’s a game-changer:</strong> It makes process
+proportional to the work. Instead of applying heavyweight ceremony
+everywhere (slow) or nowhere (risky), the engine sizes the ceremony to
+the effort automatically — and backs specification decisions with a
+multi-agent debate rather than a single opinion.</p>
+<p><strong>What’s innovative:</strong> - <strong>Adaptive
+ceremony</strong> driven by real-time quality metrics. - <strong>Nyquist
+TDD</strong> — a test-to-implementation ratio gate (minimum 2x) inspired
+by the Nyquist sampling theorem. - <strong>Debate architecture</strong>
+— multi-round, multi-agent specification refinement with position
+scoring. - <strong>Predictive specification</strong> and
+<strong>cross-project transfer</strong> that learn from accumulated
+flows. - <strong>Constitution as Code</strong> — machine-readable,
+enforced project rules.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Merging three methodologies without conflict</em> — solved with a
+fusion engine that registers each pillar behind a common interface and
+orchestrates them through a single flow lifecycle. - <em>Deciding how
+much process a task needs</em> — solved with an effort classifier plus a
+ceremony scaler that adjusts dynamically during execution. - <em>Keeping
+specification quality high</em> — solved with debate-backed refinement
+(position scoring across rounds) and enforced TDD ratios.</p>
+<p><strong>Tech stack:</strong> - <strong>Go</strong> —
+single-binary/importable engine; concurrency powers bounded-parallel
+task dispatch and the debate rounds. - <strong>logrus</strong> —
+structured logging across the engine and pillars. - <strong>SpecKit
+pillar</strong> — seven-phase spec-driven-development process
+implementation. - <strong>Superpowers pillar</strong> — TDD discipline
+with parallel subagent execution. - <strong>GSD pillar</strong> —
+milestone/lifecycle management. - <strong>Spec memory store</strong> —
+persistent, semantically searchable specification index for learning and
+transfer.</p>
+<p><strong>Public links:</strong> - GitHub:
+https://github.com/HelixDevelopment/specifier (public; the display name
+“HelixSpecifier” maps to the repo <code>specifier</code>) - License: no
+LICENSE detected via the GitHub API — UNVERIFIED / not declared.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Three-pillars-to-one-flow diagram (SpecKit + Superpowers + GSD → fusion
+engine → executed flow with quality score). 2. Adaptive-ceremony dial:
+effort level in → ceremony level out, shown as a scaling gauge. 3.
+Debate architecture: multiple agents proposing/scoring positions across
+rounds converging on a spec.</p>
+<p><strong>Site relevance:</strong> both (vasic.digital as an AI
+developer-tooling product; milosvasic.ru as an AI-engineering /
+methodology highlight).</p>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+<p><strong>Source provenance:</strong> -
+<code>gh api repos/HelixDevelopment/specifier</code> (metadata: public,
+Go, no license, created 2026-02-24, pushed 2026-06-24). -
+<code>gh api repos/HelixDevelopment/specifier/readme</code> (three
+pillars, 10 features, API usage, effort classification). -
+<code>/Volumes/T7/Projects/vasic/_analysis/github-helix-others.{md,json}</code>
+(description, HelixAgent relationship). - UNVERIFIED: license not
+declared. “Debate ensemble” positioning taken from README + harvested
+notes.</p>
+</body>
+</html>

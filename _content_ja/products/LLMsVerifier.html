@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMsVerifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMsVerifier</h1>
+</header>
+<h1 id="llmsverifier">LLMsVerifier</h1>
+<p><strong>検証。監視。最適化。</strong></p>
+<h2 id="概要">概要</h2>
+<p>LLMsVerifierは、複数のプロバイダーにまたがる大規模言語モデル（LLM）を検証・監視・最適化するエンタープライズグレードのプラットフォームです。「私のコードが見えますか？」という必須の検証テストに基づいて構築されており、実際に機能することが証明されたモデルのみが「使用可能」とマークされ、エクスポートされます。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>複数のプロバイダーにまたがるLLMを検証・ベンチマーク・監視・最適化するGoプラットフォーム。すべてのモデルは使用前に必須のコード可視性テストに合格する必要があり、その後レイテンシー、ストリーミング、関数呼び出し、ビジョン、埋め込みのチェックを実施し、検証済みの設定のみをAIやCLIツールにエクスポートします。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>LLMsVerifierは、複数のプロバイダーにまたがるLLMのパフォーマンスを検証・監視・最適化する包括的なプラットフォームです。その核となる原則は<em>必須検証</em>であり、これに関しては一切妥協しません。どのモデルも「使用可能」とマークされるか、エクスポートされた設定に組み込まれる前に、「私のコードが見えますか？」というテストに合格する必要があります。このテストでは、プロバイダーに対して実際のHTTPリクエストを送信し、その応答を分析して、単なるもっともらしいエコーではなく、真の理解が示されているかを確認します。入力内容を実際に認識し理解できないモデルは、「使用可能」フラグを獲得することはありません。この関門をクリアした後、Verifier
+Engineは存在確認、応答性、レイテンシー、ストリーミング、関数呼び出し、ビジョン、embeddingsなど、包括的な能力テストを実行し、Reporter
+Engineがその結果をマークダウンやJSONレポートに変換して、実行可能な形で提供します。</p>
+<p>システムはモジュール式かつイベント駆動型で、Verifier Engine、Reporter
+Engine、Configuration
+Managerをコアとし、CLI、TUI、Web、REST、APIといったインターフェースを提供します。検証にとどまらず、高度なレイヤーではLLMを活用したタスク分解のためのSupervisor/Workerパターン、非常に長いセッションでも崩壊しないようスライディングウィンドウとLLMによる要約を用いたコンテキスト管理、クラウドベースのチェックポイント、サーキットブレーカーとレイテンシーベースのルーティングを備えたフェイルオーバーシステムを実装しています。周辺インフラは本番環境に対応した構成となっており、pub/subイベントバス、cronスケジューリング、価格・制限の検出、RAG用のvectorデータベース、エクスポートシステムを備えています。また、生成されたプロバイダーやモデルにはすべて「(llmsvd)」という接尾辞が付加されるため、検証済みの出力は一目で識別可能で、未検証のものと混同されることはありません。さらに、検証済みのモデルのみが、OpenCode、Crush、Claude
+CodeなどのAIやCLIツール向けにエクスポートされた設定に書き込まれます。本番環境で実際に必要とされる運用ツールも標準装備されており、Docker/Kubernetes/Helmによるデプロイメント、Prometheus/Grafanaによる監視、LDAP/SSO、SQLCipher暗号化ストレージなどが含まれます。</p>
+<h2 id="開発の背景">開発の背景</h2>
+<p>設定ファイルのチェックだけでは信頼性に欠けるからです。APIのキーが期限切れになったり、モデルが非推奨になったりすることがありますが、設定ファイルからは実際のレイテンシーやエラー、モデルが本当に入力内容を認識し理解しているかどうかは分かりません。LLMsVerifierは、「設定ファイルに記載されているから動くはず」という考え方を排し、実際に正しく応答することが証明されたモデルのみを「使用可能」とマークし、エクスポートするという証拠主義を採用しています。</p>
+<p>コンテンツ</p>
+<h2
+id="なぜこれはゲームチェンジャーなのか">なぜこれはゲームチェンジャーなのか</h2>
+<p>LLMのフリートに「信頼できる」という、設定が省略によって嘘をつくことの多いこの領域ではめったに与えられない評価をもたらします。設定したモデルが機能することを願うのではなく、実際の検証を通過したモデルだけが稼働し、監視、フェイルオーバー、検証済みのみのエクスポートによって、証明から本番環境までのループが閉じられます。Helixエコシステム内では、LLMのモデル、プロバイダー、検証メタデータに対する唯一の信頼できる情報源となり、他のサービス（HelixTranslateなど）はこれに基づいてルーティングされるため、プラットフォーム全体が「今どのモデルが実際に機能しているのか」という一つの正直な答えを継承します。各チームがそれぞれの希望的観測を維持する必要はありません。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>「私のコードが見えますか？」の必須検証</strong> –
+モデルが使用可能になる前に通過しなければならない、実際のHTTPベースの理解度チェック。製品の最大の特徴であり、未検証のものが紛れ込む余地を与えない理由です。</li>
+<li><strong>検証済みのみの設定エクスポート</strong> –
+AIやCLIツール向けに生成される設定には、検証を通過したモデル<strong>のみ</strong>が含まれるため、壊れたモデルがこっそりと再導入されることはありません。</li>
+<li><strong><code>(llmsvd)</code>
+ブランディングサフィックスシステム</strong> –
+生成されたプロバイダーやモデルにはすべて追跡可能なサフィックスが付与され、出力がどこに伝播しても検証済みの来歴が可視化されます。</li>
+<li><strong>多数のCLIエージェント・プロバイダーにわたる機能検出</strong>
+–
+ストリーミング形式（SSE、WebSocket、JSONL、EventStream）、圧縮、キャッシュ動作を仮定せずに指紋認証します。</li>
+<li><strong>レジリエントなフェイルオーバー</strong> –
+サーキットブレーカー、レイテンシーベースのルーティング（初回トークンまでの時間が閾値を超えると再ルーティング）、ヘルスプローブ、重み付きトラフィック分割により、個々のプロバイダーが不安定になってもフリートは応答性を維持します。</li>
+<li><strong>長時間の自律稼働</strong> –
+スーパーバイザー／ワーカー分割パターンに加え、チェックポイントとメモリ統合により、コンテキストが枯渇することなく長時間のセッションを維持します。</li>
+<li><strong>RAG／vector-DBとの連携</strong>によるグラウンデッドコンテキストの強化。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><strong>モデルが「設定されている」だけでなく「実際に機能する」ことを証明すること。</strong>
+これが最大の目的であり、最も難しい部分でした。実際のAPI呼び出しを行い、肯定的な理解が得られるかどうかを分析する必須のコード可視性テストと、幅広い機能テストによって解決。さらに、検証を通過しなかったものは一切エクスポートしないことで、設定ではなく証明が本番環境へのゲートとなります。</li>
+<li><strong>多数の不安定なサードパーティプロバイダーにわたる信頼性の確保。</strong>
+プロバイダーの不安定性を通常の状態として扱うフェイルオーバーオーケストレーターによって解決。N回の失敗がM秒以内に発生したらプロバイダーを劣化とマークするサーキットブレーカー、遅いエンドポイントを避けるレイテンシーベースのルーティング、回復を確認する定期的なヘルスチェック、コスト効率と高品質モデルのバランスを取る重み付きルーティングを採用。</li>
+<li><strong>非常に長時間の自律セッションの維持。</strong>
+大きな作業を扱いやすい単位に分割するスーパーバイザー／ワーカー分割パターン、中断しても進捗を維持するクラウドストレージへの定期的なチェックポイント、階層化されたコンテキスト管理（スライディングウィンドウ＋LLM要約＋RAG）により、モデルがトークンに埋もれることなくスレッドを維持します。</li>
+<li><strong>プロバイダーの乱立。</strong>
+多数のプロバイダー固有のGoアダプターを一つの共通インターフェースの背後に隠蔽し、実際のエンドポイントを中央で管理することで解決。プロバイダーの追加は局所的な変更に留まり、コードベース全体に波及しません。</li>
+</ul>
+<p>コンテンツ</p>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go</strong> —
+並行処理に優れているため、コアプラットフォーム言語として採用。マルチスレッドのVerifier
+Engineを駆動し、複数のモデルを並列に検証可能。周辺サービスも統括する。</li>
+<li><strong>Gin</strong> — REST
+APIサーバーとして採用。JWT認証、レートリミット、WebSocket/SSEエンドポイントを担当。</li>
+<li><strong>SQLite + SQLCipher</strong> —
+データベースレベルの暗号化を備えた組み込みストレージとして採用。検証データ（キー、結果）は機密性が高く、デフォルトで保存時暗号化が必要なため。</li>
+<li><strong>Redis</strong> —
+キャッシュ層として採用。頻繁にアクセスされる検証やメタデータのルックアップを高速化。</li>
+<li><strong>RabbitMQ + Kafka</strong> —
+イベント駆動型アーキテクチャを支えるために採用。メッセージングとストリーミングにより、プラットフォーム全体でプロデューサーとコンシューマーを疎結合化。</li>
+<li><strong>gRPC + Protocol Buffers</strong> —
+型安全なサービス間通信とコンポーネント間のイベント転送を実現するために採用。</li>
+<li><strong>QUIC / HTTP-3 (quic-go)</strong> —
+最新のトランスポートプロトコルをサポートするために採用（リポジトリのドキュメントではHTTP/3プロバイダーの利用可能性が限定的と明記されており、これは「提供機能」であって「普遍的な主張」ではない）。</li>
+<li><strong>JWT + LDAP/NTLM</strong> —
+エンタープライズ認証として採用。既存の企業ID（SSO/SAML/OIDC）にシームレスに統合可能（ドキュメント上の記載）。</li>
+<li><strong>Viper（設定）、Logrus（ロギング）、Brotli/compress（圧縮）</strong>
+— 運用基盤：柔軟な設定管理、構造化ログ、ペイロード圧縮。</li>
+<li><strong>Angular</strong> —
+Webシングルページアプリケーションとして採用。検証とモニタリングの視覚的なフロントドア。</li>
+<li><strong>Python + JavaScript SDK</strong> —
+クライアントチームに第一級のアクセス手段を提供。OpenAPI/Swaggerによるドキュメント整備。</li>
+<li><strong>Docker、Kubernetes、Helm</strong> —
+本番環境へのデプロイメントを支えるために採用。ヘルスモニタリングとオートスケーリングにより、検証フリートは現代的なサービスと同様にスケール可能。</li>
+<li><strong>Prometheus + Grafana</strong> —
+メトリクスとダッシュボードを提供。プラットフォーム自体の健全性を、監視対象のモデルと同じように可視化。</li>
+<li><strong>Testify（Go） + node –test/jsdom（Web）</strong> —
+GoコアとWebフロントエンドにわたる多層的なテストを実現。</li>
+</ul>
+<h2 id="ステータスと率直な注意点">ステータスと率直な注意点</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+Goのソースコードは実際のHTTP検証を実装済み（検証を設定のみで行うとする古いドキュメントは理想的な記述であり、現状とは異なる。コードが正確な情報源）。</li>
+<li><strong>ライセンス：未定。</strong>
+READMEにはMITと記載されているが、DockerfileのラベルにはApache-2.0と記載。公開前に解決が必要。</li>
+<li>プロバイダー数：READMEには「12のアダプター」と記載されているが、プロバイダーディレクトリには約26のエントリーが存在。「12以上
+/
+開発中のものも含む」と捉えること。多数の「FINAL/COMPLETE」ステータスファイルが存在するが、コード、ドキュメント、<code>go.mod</code>が信頼できる情報源。</li>
+<li>リポジトリは<code>vasic-digital</code>組織に属しているが、機能的にはHelix
+LLMインフラストラクチャクラスターの信頼レイヤーとして機能。</li>
+</ul>
+<p><strong>優先度</strong>：Helixプライマリ（LLMインフラストラクチャクラスター。LLM/プロバイダー/検証メタデータの唯一の情報源）。HelixTrackに次ぐ優先度。</p>
+</body>
+</html>

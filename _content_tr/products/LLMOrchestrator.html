@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMOrchestrator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMOrchestrator</h1>
+</header>
+<h1 id="llmorchestrator">LLMOrchestrator</h1>
+<p><strong>Her başsız CLI kodlama aracı için tek bir kontrol
+düzlemi.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>LLMOrchestrator, başsız CLI ajanlarını (OpenCode, Claude Code,
+Gemini, Junie, Qwen Code) oluşturmak, yönetmek ve hibrit boru+dosya
+protokolü üzerinden iletişim kurmak için bağımsız, yeniden
+kullanılabilir bir Go modülüdür. Ajan başına devre kesiciler,
+takılabilir çoklu sağlayıcı seçimi, bağımsız i18n soyutlaması ve
+sahtecilik önleyici test garantileri sunar.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Birden fazla LLM destekli CLI ajanını oluşturup yönetmek için tek bir
+birleşik arayüz sağlayan, yeniden kullanılabilir bir Go modülü. Hibrit
+boru+dosya protokolü üzerinden çalışan, devre kesicili ve seçilebilir
+yönlendirme stratejilerine sahip iş parçacığı güvenli ajan havuzu.
+Kasıtlı olarak tüketiciye bağımlı olmayan yapıda, takılabilir i18n
+çevirici ile birlikte gelir.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>LLMOrchestrator, başsız CLI kodlama ajanlarını düzenlemek için ortak
+bir altyapıdır — çoklu ajan sistemlerinin sessizce ihtiyaç duyduğu ve
+genellikle kötü şekilde yeniden inşa ettiği temel yapı. OpenCode, Claude
+Code, Gemini CLI, Junie ve Qwen Code gibi araçlar için süreç oluşturma,
+mesaj çerçevelendirme ve sonuç ayrıştırma işlemlerini her proje yeniden
+uygulamak yerine, tek bir birleşik <code>Agent</code> arayüzü, iş
+parçacığı güvenli <code>AgentPool</code> ve birden fazla sağlayıcıyı tek
+bir arayüz altında toplayan <code>MultiProviderPool</code> sunar.
+Yönlendirme, <code>AgentSelector</code> aracılığıyla takılabilir hale
+getirilmiştir — gereksinimleri karşılamayan sağlayıcıları atlayan
+döngüsel dağıtım veya öncelik sıralı yedekleme — böylece işin nasıl
+dağıtılacağı sizin belirleyeceğiniz bir politika olur, sabit kodlanmış
+bir varsayım değil. Her somut ajan, süreç yaşam döngüsünün tamamını
+yöneten ortak bir <code>BaseAdapter</code> üzerinden ince bir
+adaptördür: boru kurulumuyla başlayan, SIGTERM ardından SIGKILL ile
+nazikçe durdurma, yeniden başlatma ve canlılık kontrolü — karmaşık ve
+hataya açık kısımlar, tek seferde çözülmüş.</p>
+<p>İletişim kasıtlı olarak hibrittir, işe uygun taşıma yöntemi
+kullanılır. Boru taşıma, hızlı etkileşimli mesajlaşma için satır sonu
+ile ayrılmış JSON iletilerini, isteğe bağlı okuma zaman aşımı ve yanıt
+uzunluğu sınırıyla taşırken; dosya taşıma, boruda yaşamaması gereken
+büyük veya kalıcı veriler için oturum başına gelen/giden/kullanılan
+dizinler kullanır. Dayanıklılık sonradan akla gelen bir düşünce değil,
+yapısaldır: her ajan için devre kesici, üç ardışık başarısızlıktan sonra
+60 saniyelik soğuma süresi için açılır ve yarı açık durumda bir deneme
+yapılır; arka planda çalışan bir sağlık monitörü ajanları sürekli
+kontrol eder, böylece çökmüş bir ajan gelen trafik beklemeden kendini
+toparlayabilir. Havuzdan ajan alma işlemi, CPU’yu meşgul eden bir
+bekleme döngüsü yerine koşul değişkeni üzerinde bloke olur ve yanıt
+ayrıştırıcısı durum bilgisi taşımayan, eşzamanlı çağrılara güvenli bir
+yapıdadır. Modül kesinlikle bağımsızdır — tüketiciye özgü hiçbir detay
+sızmaz — ve tüm kullanıcıya yönelik metinler, eksik çevirinin fark
+edilmesini sağlayan <code>NoopTranslator</code> ile mesaj kimliklerini
+aynen döndüren takılabilir bir i18n <code>Translator</code> üzerinden
+geçer.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik</h2>
+<p>Her çoklu ajan sistemi, CLI ajanlarını güvenilir şekilde başlatmak ve
+onlarla iletişim kurmak zorundadır. Süreç oluşturma, çerçevelendirme,
+ayrıştırma ve hata yönetimini her projede yeniden çözmek hem verimsiz
+hem de hataya açıktır. LLMOrchestrator, bu işlevleri tek bir bağımsız,
+yeniden kullanılabilir modülde toplar; uzmanlaşmış sorumluluğu sayesinde
+yeniden kullanılabilir hale gelir — ve bu yeniden kullanılabilirlik,
+tüketiciye özgü herhangi bir detay sızarsa yok olur.</p>
+<p>İçerik</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden Oyunun Kurallarını
+Değiştiriyor?</h2>
+<p>“Farklı CLI ajanlarından oluşan bir orduyu yönetmek” artık projeye
+özel zahmetli bir mühendislik uğraşı olmaktan çıkıyor; tek bir kütüphane
+içe aktarımıyla havuzlama, devre kesici, yaşam döngüsü yönetimi ve
+takılabilir yönlendirme gibi sorunlar çözülmüş ve sağlamlaştırılmış
+halde geliyor. Üstelik “derleniyor” demekle yetinmeyip gerçek sistemi
+uçtan uca test eden blöf karşıtı testler sayesinde, eşzamanlılık ve hata
+durumlarında da güvenebileceğiniz bir soyutlama elde ediyorsunuz —
+sadece şemada doğru görünen değil.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi Yönleri</h2>
+<ul>
+<li><strong>Hibrit boru+dosya protokolü</strong> — etkileşimli hız (JSON
+satırları stdin/stdout üzerinden, okuma zaman aşımı, yanıt sınırları)
+<em>ve</em> büyük veri aktarımları için dayanıklı dosya tabanlı değişim
+(gelen/giden/ortak klasörler), böylece gecikmeyi dayanıklılıkla takas
+etmeniz gerekmez.</li>
+<li><strong>Takılabilir seçicilerle çok sağlayıcılı havuz</strong> —
+birçok CLI sağlayıcısı için tek bir arayüz, yönlendirme politikası
+olarak yuvarlak masa veya tercih sıralaması seçimi, kodun içine gömülü
+değil.</li>
+<li><strong>Ajan başına devre kesici + arka planda sağlık
+izleme</strong> — otomatik bozulma <em>ve</em> kurtarma (3 hata → 60
+saniye açık → yarı açık deneme), böylece sorunlu bir ajan izole edilir
+ve manuel müdahale olmadan sessizce geri alınır.</li>
+<li><strong>Boşta beklemeyen havuzlama</strong> — <code>Acquire</code>,
+eşleşen sağlıklı bir ajan boşalana veya bağlam iptal edilene kadar
+<code>sync.Cond</code> üzerinde bloklanır, böylece beklemenin CPU
+maliyeti sıfırdır.</li>
+<li><strong>Sıkı ayrıştırma + blöf karşıtı uluslararasılaştırma</strong>
+— <code>NoopTranslator</code>, mesaj kimliklerini aynen döndürür,
+böylece eksik çeviri gözden kaçmaz, sessizce boşluk bırakmaz.</li>
+<li><strong>Güvenlik varsayılanı</strong> — ikili dosya yolu izin
+listesi, kabuk yerleştirmeyi ve dolayısıyla komut enjeksiyonu yüzeyini
+ortadan kaldırır; yol geçişi koruması, 1 MiB yanıt sınırı (kontrolsüz
+çıktıya karşı) ve günlüklerde API anahtar maskelemesiyle
+desteklenir.</li>
+<li><strong>Blöf Karşıtı Zorluk aracı</strong> — beş farklı dilde gerçek
+disk/JSON/ayrıştırıcı döngüleri, özelliğin bozulduğunda sıfırdan farklı
+çıkış yapması gereken eşlenik bir mutasyon kapısıyla — sistemin
+gerçekten başarısız olabileceğini kanıtlayan bir test.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümleri">En Büyük Teknik
+Zorluklar ve Çözümleri</h2>
+<ul>
+<li><strong>Güvenilir ajan süreci G/Ç.</strong> Başlatılan bir CLI
+süreciyle iletişim kurmak aldatıcı derecede zordur; hibrit boru+dosya
+taşıma, mesaj/ayrıştırıcı sözleşmesiyle iki tarafın da kablo formatında
+anlaşması ve tüm süreç yaşam döngüsünü merkezi hale getiren bir
+<code>BaseAdapter</code> ile çözüldü — SIGTERM zaman aşımına nazik geçiş
+ve SIGKILL yedekleme dahil.</li>
+<li><strong>Boşta beklemeden eşzamanlılık.</strong>
+<code>Acquire</code>’ın, yetenekleri eşleşen bir ajan gerçekten boşalana
+kadar uyuduğu bir mutex + koşul değişkeni <code>AgentPool</code> ile
+çözüldü; yan etkisiz, durum bilgisi olmayan bir ayrıştırıcı da birçok
+goroutine’den aynı anda güvenle çağrılabilir.</li>
+<li><strong>Sağlayıcı hatası izolasyonu.</strong> Bir sağlayıcının
+diğerlerini etkilememesi için çözüldü: ajan başına devre kesiciler
+patlama yarıçapını sınırlar, sağlık izleme goroutine’i ise istek gelmese
+bile kurtarmayı sürdürür.</li>
+<li><strong>Sadece derlenme değil, doğruluğun kanıtlanması.</strong>
+Zorluk çalıştırıcısıyla çözüldü: en/sr/ja/es/de dillerinde gerçek
+sistemi çalıştıran düzinelerce değişmez, artı özelliği kasten bozan bir
+mutasyon kapısı (<code>LLMORCH_MUTATE_RUNNER=1</code> başarısız olmalı →
+sarıcı çıkış kodu 99) — kapının kendisinin blöf olmadığını
+kanıtlar.</li>
+<li><strong>Sessiz başarısızlık olmadan yerelleştirme.</strong> Mesaj
+kimliklerini aynen döndüren <code>NoopTranslator</code> arayüzü ve
+tüketici başına çevirmen enjeksiyonuyla çözüldü — çeviri eksikliği her
+zaman görünür, örtbas edilmez.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go (1.25)</strong> — birinci sınıf eşzamanlılık ve temiz
+süreç yönetimi sunduğu için tercih edildi; bu da canlı ajan süreçlerinin
+orkestrasyonu için tam olarak gereken özellikler. Modülün kendisi, ajan
+adaptörleri, taşıma katmanları ve ayrıştırıcıyı içerir.</li>
+<li><strong>Go standart kütüphanesi (+ testify, yaml.v3)</strong> —
+bağımlılık yüzeyini minimumda tutmak ve <em>hiçbir</em> LLM SDK’sını
+dahil etmemek için bilinçli bir seçim; böylece modül hafif kalır ve
+herhangi bir tüketiciye gömülebilir, satıcı bağımlılıkları
+taşınmaz.</li>
+<li><strong>Boru taşıma katmanı (stdio üzerinden
+JSON-satırları)</strong> — hızlı etkileşimli mesajlaşma için seçildi;
+okuma zaman aşımı ve yanıt uzunluğu sınırlarıyla güçlendirildi, böylece
+takılı kalan veya kontrolden çıkmış bir ajan çağıran tarafı bloke
+edemez.</li>
+<li><strong>Dosya taşıma katmanı (gelen/giden/paylaşılan)</strong> —
+oturum başına dayanıklı ve büyük veri alışverişi için seçildi; burada
+boru kullanımı yanlış bir tercih olurdu.</li>
+<li><strong><code>sync.Mutex</code>/<code>sync.Cond</code></strong> —
+bloke edici, adil ajan havuzu edinimi için seçildi; meşgul bekleme
+olmadan uygulanır.</li>
+<li><strong>Devre kesici + Sağlık İzleyici</strong> — yalnızca hata
+tespiti değil, aynı zamanda ajan başına dayanıklılık <em>ve</em> aktif
+kurtarma sağlamak için birlikte seçildi.</li>
+<li><strong><code>pkg/i18n</code> Çevirmen</strong> — tüketiciye özgü
+dizelerin çekirdekten ayrı tutulmasını sağlayan, bağımsız yerelleştirme
+arayüzü olarak tercih edildi.</li>
+<li><strong>Zorluk test ortamı (<code>challenges/runner</code>) +
+Makefile (<code>test -race</code>, <code>fuzz</code>,
+<code>cover</code>)</strong> — blöf karşıtı, kanıta dayalı doğrulama
+için seçildi; yarış koşulu tespiti ve ayrıştırıcı fuzzing testleriyle,
+doğruluğun varsayılmak yerine düşmanca koşullar altında kanıtlanması
+sağlanır.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Birden fazla Helix/vasic projesinde
+alt modül olarak kullanılan, bağımsız ve yeniden kullanılabilir bir
+modül. <strong>Lisans: Apache-2.0</strong>; GitHub deposu herkese
+açık.</li>
+<li>Model meta verileri HelixQA üzerinden köprülenen LLMsVerifier’dan
+gelir; bu modül LLMsVerifier/VisionEngine/DocProcessor’u doğrudan içe
+aktarmaz. Üst uygulamanın <code>CLAUDE.md</code> dosyasında
+(Gin/PostgreSQL vb.) bahsedilen yığınlar <code>helix_code</code> ile
+ilgilidir, bu modülle değil.</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-öncelikli (LLM-altyapı
+kümesi — bağımsız yeniden kullanılabilir modül). HelixTrack’dan sonra
+gelir.</p>
+</body>
+</html>

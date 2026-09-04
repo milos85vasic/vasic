@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>workflow-guide</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">workflow-guide</h1>
+</header>
+<h1 id="superspec-workflow-guide">Superspec Workflow Guide</h1>
+<p>This guide provides detailed phase-by-phase instructions for the
+superspec development workflow. The SKILL.md file references this
+document for progressive disclosure — the agent reads relevant sections
+as needed during command execution.</p>
+<h2 id="phase-0-project-initialization">Phase 0: Project
+Initialization</h2>
+<p><strong>Command</strong>: <code>/speckit.constitution</code>
+<strong>Gate</strong>: None — this is the entry point.
+<strong>Output</strong>: <code>.specify/</code> directory structure +
+<code>memory/constitution.md</code></p>
+<h3 id="steps">Steps</h3>
+<ol type="1">
+<li><p><strong>Create directory structure</strong>:</p>
+<pre><code>.specify/
+├── memory/
+├── specs/
+└── templates/</code></pre></li>
+<li><p><strong>Copy templates</strong> from the superspec skill’s
+<code>templates/</code> directory into <code>.specify/templates/</code>.
+This gives the project its own copy of templates that can be
+customized.</p></li>
+<li><p><strong>Interview the user</strong> about:</p>
+<ul>
+<li>Project name and purpose</li>
+<li>Core principles (3-7 principles, each with a clear name and
+description)</li>
+<li>Technology stack (layers, technologies, purposes)</li>
+<li>Development workflow preferences (which quality gates to
+enforce)</li>
+<li>Governance rules</li>
+</ul></li>
+<li><p><strong>Generate constitution</strong> using
+<code>constitution-template.md</code> as skeleton. Fill in all sections
+based on user responses. Ensure the “Development Workflow” and “Quality
+Gates” sections are populated.</p></li>
+<li><p><strong>Write</strong> to
+<code>.specify/memory/constitution.md</code></p></li>
+</ol>
+<h3 id="verification">Verification</h3>
+<ul>
+<li>File exists at <code>.specify/memory/constitution.md</code></li>
+<li>All template placeholders replaced with actual content</li>
+<li>At least 3 core principles defined</li>
+<li>Quality gates section has at least one requirement marked</li>
+</ul>
+<hr />
+<h2 id="phase-1-specification">Phase 1: Specification</h2>
+<p><strong>Command</strong>: <code>/speckit.specify</code>
+<strong>Gate</strong>: Constitution must exist at
+<code>.specify/memory/constitution.md</code> <strong>Output</strong>:
+<code>specs/NNN-feature-name/spec.md</code></p>
+<h3 id="steps-1">Steps</h3>
+<ol type="1">
+<li><p><strong>Verify constitution</strong> exists. If not, guide user
+to run <code>/speckit.constitution</code> first.</p></li>
+<li><p><strong>Determine spec number</strong>: Scan <code>specs/</code>
+for existing directories. Next number = highest existing + 1,
+zero-padded to 3 digits (001, 002, …).</p></li>
+<li><p><strong>Read constitution</strong> to understand project
+constraints and principles.</p></li>
+<li><p><strong>Interview the user</strong> about:</p>
+<ul>
+<li>Feature name and high-level description</li>
+<li>User scenarios (who does what, why, expected outcomes)</li>
+<li>Priority ranking of scenarios (P1, P2, P3)</li>
+<li>Known requirements and constraints</li>
+<li>Success criteria (measurable outcomes)</li>
+<li>Assumptions</li>
+</ul></li>
+<li><p><strong>Generate spec</strong> using
+<code>spec-template.md</code> as skeleton.</p>
+<ul>
+<li>Fill in user stories with Given/When/Then acceptance scenarios</li>
+<li>Mark functional requirements with MUST/SHOULD/MAY</li>
+<li>Flag unclear items as <code>[NEEDS CLARIFICATION]</code></li>
+<li>Leave “Open Questions”, “Brainstorm Log”, and “Brainstorm Prompts”
+sections with initial prompts but no resolved content</li>
+</ul></li>
+<li><p><strong>Write</strong> to
+<code>specs/NNN-feature-name/spec.md</code></p></li>
+<li><p><strong>Suggest next step</strong>: “Run
+<code>/speckit.superspec.brainstorm specs/NNN-feature-name/spec.md</code>
+to discover edge cases before planning.”</p></li>
+</ol>
+<h3 id="verification-1">Verification</h3>
+<ul>
+<li>File exists at expected path</li>
+<li>At least one user story with acceptance scenarios</li>
+<li>Priority assigned to each user story</li>
+<li>Functional requirements section populated</li>
+<li>Success criteria section populated</li>
+</ul>
+<hr />
+<h2 id="phase-2-brainstorming">Phase 2: Brainstorming</h2>
+<p><strong>Command</strong>: <code>/speckit.superspec.brainstorm</code>
+<strong>Gate</strong>: Target spec file must exist.
+<strong>Output</strong>: Updated spec file (edge cases, open questions,
+brainstorm log).</p>
+<h3 id="superpowers-integration">Superpowers Integration</h3>
+<p>If the <code>brainstorming</code> skill is detected (see <a
+href="superpowers-bridge.md">superpowers-bridge.md</a>): - Read its
+SKILL.md and follow its questioning protocol - Adapt outputs to update
+the spec file instead of creating separate documents - Follow its
+session structure (one question at a time, multiple choice when
+possible)</p>
+<h3 id="built-in-fallback-protocol">Built-in Fallback Protocol</h3>
+<p>When superpowers brainstorming is not available, use this 5-category
+questioning protocol:</p>
+<h4 id="category-1-boundary-conditions">Category 1: Boundary
+Conditions</h4>
+<p>Ask about minimum/maximum values, empty states, and edge-of-range
+inputs. - “What happens when [input] is empty?” - “What’s the maximum
+number of [items] the system should handle?” - “What happens at exactly
+the boundary of [limit]?”</p>
+<h4 id="category-2-error-scenarios">Category 2: Error Scenarios</h4>
+<p>Ask about failure modes, recovery, and degradation. - “What happens
+when [external service] is unavailable?” - “How should the system
+recover from [failure type]?” - “What error message should the user see
+when [scenario]?”</p>
+<h4 id="category-3-scale-performance">Category 3: Scale &amp;
+Performance</h4>
+<p>Ask about load, concurrency, and resource constraints. - “What
+happens with [N]x expected traffic?” - “Are there rate limits needed for
+[operation]?” - “What’s the acceptable response time for [action]?”</p>
+<h4 id="category-4-security-privacy">Category 4: Security &amp;
+Privacy</h4>
+<p>Ask about attack vectors, data protection, and authorization. - “Can
+[feature] be abused by [actor type]?” - “What data needs to be encrypted
+or redacted?” - “Who should NOT have access to [resource]?”</p>
+<h4 id="category-5-user-experience">Category 5: User Experience</h4>
+<p>Ask about confusion points, accessibility, and unintended usage. -
+“What if the user tries to [unintended action]?” - “How does this work
+for users with [accessibility need]?” - “What happens if the user
+navigates away mid-<a href="#process">process</a>?”</p>
+<h3 id="process">Process</h3>
+<ol type="1">
+<li><p><strong>Read the spec</strong> and identify areas with thin
+coverage or placeholder edge cases.</p></li>
+<li><p><strong>Ask ONE question at a time</strong>. Wait for the user’s
+answer before proceeding. Prefer multiple-choice format when possible
+for efficient exploration.</p></li>
+<li><p><strong>After each answer</strong>:</p>
+<ul>
+<li>If it reveals a new requirement: add to spec’s Functional
+Requirements</li>
+<li>If it resolves an open question: update the Open Questions
+table</li>
+<li>If it reveals an edge case: add to the Edge Cases section</li>
+<li>If it changes an acceptance scenario: update the relevant user
+story</li>
+</ul></li>
+<li><p><strong>Continue</strong> through all 5 categories, skipping
+questions already covered by the spec.</p></li>
+<li><p><strong>When the user says the spec is ready</strong> (or all
+categories explored):</p>
+<ul>
+<li>Add a dated entry to the “Brainstorm Log” section</li>
+<li>Summarize: number of questions explored, insights discovered, spec
+updates made</li>
+<li>Suggest: “Run <code>/speckit.plan</code> to create the
+implementation plan.”</li>
+</ul></li>
+</ol>
+<h3 id="iteration">Iteration</h3>
+<p>This phase can be run multiple times. Each session: - Starts by
+reading previous brainstorm log entries to avoid repeating questions -
+Focuses on the user-specified topic (if provided) or unexplored
+categories - Appends a new entry to the brainstorm log</p>
+<hr />
+<h2 id="phase-3-planning">Phase 3: Planning</h2>
+<p><strong>Command</strong>: <code>/speckit.plan</code>
+<strong>Gate</strong>: Spec file must exist. Brainstorm is recommended
+but not required. <strong>Output</strong>:
+<code>specs/NNN-feature-name/plan.md</code></p>
+<h3 id="steps-2">Steps</h3>
+<ol type="1">
+<li><p><strong>Read inputs</strong>: spec file, constitution, any
+previous plan for this feature.</p></li>
+<li><p><strong>Constitution compliance check</strong>: Verify the
+planned approach respects every principle. Document results in the
+“Constitution Check” table.</p></li>
+<li><p><strong>Research the codebase</strong>: Use Glob, Grep, and Read
+tools to determine:</p>
+<ul>
+<li>Language/framework already in use</li>
+<li>Existing patterns and conventions</li>
+<li>Files that will need modification</li>
+<li>Testing framework in use</li>
+</ul></li>
+<li><p><strong>Design project structure</strong>: Determine which files
+to create or modify. Document in the “Source Code” section of the
+plan.</p></li>
+<li><p><strong>Determine execution strategy</strong>:</p>
+<ul>
+<li>Which components need TDD? (complex logic, critical paths)</li>
+<li>Which work streams can run in parallel? (independent files)</li>
+<li>Where are human checkpoints needed? (before integration, before
+merge)</li>
+<li>What needs code review? (APIs, security, data models)</li>
+</ul></li>
+<li><p><strong>Superpowers integration</strong>: If
+<code>writing-plans</code> skill is detected, read it and use its
+blueprint process to enhance the execution strategy section.</p></li>
+<li><p><strong>Generate plan</strong> using
+<code>plan-template.md</code> as skeleton. Fill all sections.</p></li>
+<li><p><strong>Write</strong> to
+<code>specs/NNN-feature-name/plan.md</code></p></li>
+</ol>
+<h3 id="verification-2">Verification</h3>
+<ul>
+<li>Constitution check table completed — no unresolved violations</li>
+<li>Technical context filled (no remaining NEEDS CLARIFICATION without
+good reason)</li>
+<li>Project structure documented with real file paths</li>
+<li>Execution strategy populated with at least TDD and checkpoint
+decisions</li>
+</ul>
+<hr />
+<h2 id="phase-4-task-decomposition">Phase 4: Task Decomposition</h2>
+<p><strong>Command</strong>: <code>/speckit.superspec.tasks</code>
+<strong>Gate</strong>: Plan must exist for the target feature.
+<strong>Output</strong>:
+<code>specs/NNN-feature-name/tasks.md</code></p>
+<h3 id="steps-3">Steps</h3>
+<ol type="1">
+<li><p><strong>Read inputs</strong>: plan, spec, constitution.</p></li>
+<li><p><strong>Superpowers integration</strong>: If
+<code>writing-plans</code> skill is detected, read it and follow its
+task decomposition process, but structure the output using
+<code>tasks-template.md</code> format.</p></li>
+<li><p><strong>Decompose</strong> the plan into phases:</p>
+<ul>
+<li>Phase 1: Setup (project structure, dependencies)</li>
+<li>Phase 2: Foundational (blocking prerequisites)</li>
+<li>Phase 3+: One phase per user story, ordered by priority</li>
+<li>Final phase: Polish and cross-cutting concerns</li>
+</ul></li>
+<li><p><strong>Apply execution markers</strong> from the plan’s
+execution strategy:</p>
+<ul>
+<li><code>[TDD]</code> for components identified as needing test-first
+approach</li>
+<li><code>[REVIEW]</code> for components identified as needing review
+gates</li>
+<li><code>[SUBAGENT]</code> for independent work streams</li>
+<li><code>[P]</code> for tasks within the same phase that can run in
+parallel</li>
+</ul></li>
+<li><p><strong>Define checkpoints</strong> at each phase
+boundary.</p></li>
+<li><p><strong>Document dependencies</strong> and execution
+order.</p></li>
+<li><p><strong>Write</strong> to
+<code>specs/NNN-feature-name/tasks.md</code></p></li>
+</ol>
+<h3 id="verification-3">Verification</h3>
+<ul>
+<li>Every user story from the spec has corresponding tasks</li>
+<li>Tasks are traceable to user stories via <code>[US#]</code>
+labels</li>
+<li>Execution markers match the plan’s execution strategy</li>
+<li>Phase dependencies are documented</li>
+<li>At least one checkpoint per phase transition</li>
+</ul>
+<hr />
+<h2 id="phase-5-execution">Phase 5: Execution</h2>
+<p><strong>Command</strong>: <code>/speckit.superspec.execute</code>
+<strong>Gate</strong>: Tasks file must exist for the target feature.
+<strong>Output</strong>: Code changes, updated task checkboxes.</p>
+<h3 id="steps-4">Steps</h3>
+<ol type="1">
+<li><p><strong>Read inputs</strong>: tasks, plan, spec,
+constitution.</p></li>
+<li><p><strong>Superpowers detection</strong>: Check for
+<code>executing-plans</code>, <code>subagent-driven-development</code>,
+and <code>test-driven-development</code> skills.</p></li>
+<li><p><strong>Walk through tasks</strong> phase by phase, respecting
+execution markers:</p>
+<p><strong>For <code>[TDD]</code> tasks</strong>:</p>
+<ul>
+<li>Write the test first</li>
+<li>Run it — verify it FAILS</li>
+<li>Implement the minimum code to pass</li>
+<li>Run it — verify it PASSES</li>
+<li>Refactor if needed</li>
+<li>If TDD skill available: follow its full process</li>
+</ul>
+<p><strong>For <code>[SUBAGENT]</code> tasks</strong>:</p>
+<ul>
+<li>If subagent skill available: follow its dispatch protocol</li>
+<li>Otherwise: implement sequentially</li>
+<li>If marked <code>[P]</code> as well: use the Task tool for parallel
+execution</li>
+</ul>
+<p><strong>For <code>[REVIEW]</code> tasks</strong>:</p>
+<ul>
+<li>Complete the implementation</li>
+<li>Present the changes to the user</li>
+<li>Wait for explicit approval before continuing</li>
+</ul>
+<p><strong>For <code>[P]</code> tasks</strong>:</p>
+<ul>
+<li>Launch parallel tasks using the Task tool where possible</li>
+<li>Ensure no dependency conflicts between parallel tasks</li>
+</ul></li>
+<li><p><strong>At each checkpoint</strong>:</p>
+<ul>
+<li>Summarize completed work</li>
+<li>Run applicable tests</li>
+<li>Report results</li>
+<li>Ask: “Phase [N] complete. Proceed to Phase [N+1]?”</li>
+<li>Wait for explicit user approval</li>
+</ul></li>
+<li><p><strong>Update task checkboxes</strong> in <code>tasks.md</code>
+as each task completes.</p></li>
+</ol>
+<h3 id="human-checkpoint-protocol">Human Checkpoint Protocol</h3>
+<p>The agent MUST: - Never skip a phase checkpoint - Present a clear
+summary of what was done - Report test results if tests were run - Wait
+for explicit “proceed” or “continue” from the user - If the user
+requests changes, address them before proceeding</p>
+<hr />
+<h2 id="phase-6-review">Phase 6: Review</h2>
+<p><strong>Command</strong>: <code>/speckit.superspec.review</code>
+<strong>Gate</strong>: Implementation must exist (at least some tasks
+completed). <strong>Output</strong>: Review findings reported to
+user.</p>
+<h3 id="steps-5">Steps</h3>
+<ol type="1">
+<li><p><strong>Read inputs</strong>: spec (acceptance scenarios), plan
+(constitution check), constitution (principles).</p></li>
+<li><p><strong>Superpowers detection</strong>: If
+<code>requesting-code-review</code> skill is available, follow its
+review protocol.</p></li>
+<li><p><strong>Review dimensions</strong> (built-in protocol):</p>
+<ol type="a">
+<li><p><strong>Spec compliance</strong>: For each acceptance scenario in
+the spec, verify it is implemented and can be demonstrated.</p></li>
+<li><p><strong>Edge case coverage</strong>: For each edge case in the
+spec (including those from brainstorming), verify handling
+exists.</p></li>
+<li><p><strong>Constitution compliance</strong>: For each principle,
+verify the implementation respects it.</p></li>
+<li><p><strong>Code quality</strong>: Check for correctness, security,
+error handling, performance.</p></li>
+<li><p><strong>Test coverage</strong>: Verify tests exist for critical
+paths.</p></li>
+</ol></li>
+<li><p><strong>Report findings</strong> with:</p>
+<ul>
+<li>Confidence score (0-100, only report issues &gt;= 80)</li>
+<li>Severity (Critical / Important / Suggestion)</li>
+<li>File path and line reference</li>
+<li>Specific recommendation</li>
+</ul></li>
+<li><p><strong>Group</strong> by severity, highest first.</p></li>
+</ol>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 20%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Command</th>
+<th>Gate</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>/speckit.constitution</code></td>
+<td>None</td>
+<td><code>.specify/memory/constitution.md</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>/speckit.specify</code></td>
+<td>Constitution exists</td>
+<td><code>specs/NNN/spec.md</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>/speckit.superspec.brainstorm</code></td>
+<td>Spec exists</td>
+<td>Updated spec.md</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>/speckit.plan</code></td>
+<td>Spec exists</td>
+<td><code>specs/NNN/plan.md</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>/speckit.superspec.tasks</code></td>
+<td>Plan exists</td>
+<td><code>specs/NNN/tasks.md</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>/speckit.superspec.execute</code></td>
+<td>Tasks exist</td>
+<td>Code + updated tasks.md</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>/speckit.superspec.review</code></td>
+<td>Implementation exists</td>
+<td>Review report</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="session-resumability">Session Resumability</h2>
+<p>Superspec is designed to survive session interruptions. All state
+lives in plain-text files under <code>.specify/memory/</code>
+(governance — <code>constitution.md</code>) and
+<code>specs/NNN-*/</code> (per-feature — <code>spec.md</code>,
+<code>plan.md</code>, <code>tasks.md</code>, <code>progress.yml</code>).
+This section documents how the agent detects and resumes work.</p>
+<h3 id="progress-file-progress.yml">Progress File:
+<code>progress.yml</code></h3>
+<p>Each feature spec directory may contain a <code>progress.yml</code>
+file:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">feature</span><span class="kw">:</span><span class="at"> user-authentication</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">created</span><span class="kw">:</span><span class="at"> 2026-04-22</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">current_phase</span><span class="kw">:</span><span class="at"> execute</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">phases</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">constitution</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> done</span><span class="kw">,</span><span class="at"> </span><span class="fu">updated</span><span class="kw">:</span><span class="at"> 2026-04-22 </span><span class="kw">}</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">specify</span><span class="kw">:</span><span class="at">      </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> done</span><span class="kw">,</span><span class="at"> </span><span class="fu">updated</span><span class="kw">:</span><span class="at"> 2026-04-22 </span><span class="kw">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">brainstorm</span><span class="kw">:</span><span class="at">   </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> done</span><span class="kw">,</span><span class="at"> </span><span class="fu">updated</span><span class="kw">:</span><span class="at"> 2026-04-22</span><span class="kw">,</span><span class="at"> </span><span class="fu">sessions</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span><span class="at"> </span><span class="kw">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">plan</span><span class="kw">:</span><span class="at">         </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> done</span><span class="kw">,</span><span class="at"> </span><span class="fu">updated</span><span class="kw">:</span><span class="at"> 2026-04-22 </span><span class="kw">}</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tasks</span><span class="kw">:</span><span class="at">        </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> done</span><span class="kw">,</span><span class="at"> </span><span class="fu">updated</span><span class="kw">:</span><span class="at"> 2026-04-22 </span><span class="kw">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">execute</span><span class="kw">:</span><span class="at">      </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> in_progress</span><span class="kw">,</span><span class="at"> </span><span class="fu">updated</span><span class="kw">:</span><span class="at"> 2026-04-22</span><span class="kw">,</span><span class="at"> </span><span class="fu">current_task</span><span class="kw">:</span><span class="at"> T012</span><span class="kw">,</span><span class="at"> </span><span class="fu">completed_tasks</span><span class="kw">:</span><span class="at"> </span><span class="dv">11</span><span class="kw">,</span><span class="at"> </span><span class="fu">total_tasks</span><span class="kw">:</span><span class="at"> </span><span class="dv">19</span><span class="at"> </span><span class="kw">}</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">review</span><span class="kw">:</span><span class="at">       </span><span class="kw">{</span><span class="at"> </span><span class="fu">status</span><span class="kw">:</span><span class="at"> pending </span><span class="kw">}</span></span></code></pre></div>
+<h3 id="resume-check-protocol">Resume Check Protocol</h3>
+<p>Every superspec command begins with:</p>
+<ol type="1">
+<li><strong>Scan <code>.specify/</code></strong> — does it exist? Are
+there spec directories?</li>
+<li><strong>Read <code>superpowers.yml</code></strong> — which
+superpowers skills are available? If the file does not exist, run
+detection and create it.</li>
+<li><strong>Read <code>progress.yml</code></strong> — what phase is each
+feature in?</li>
+<li><strong>If no <code>progress.yml</code></strong>: Infer progress
+from file existence:
+<ul>
+<li><code>constitution.md</code> → constitution done</li>
+<li><code>spec.md</code> → specify done</li>
+<li><code>spec.md</code> has Brainstorm Log entries → brainstorm was run
+at least once</li>
+<li><code>plan.md</code> → plan done</li>
+<li><code>tasks.md</code> → tasks done</li>
+<li><code>tasks.md</code> has <code>[x]</code> checkboxes → execute in
+progress</li>
+</ul></li>
+<li><strong>Report</strong> current state to the user (including
+superpowers status) before proceeding</li>
+<li><strong>Resume</strong> from the detected point (see phase-specific
+rules below)</li>
+</ol>
+<h3 id="phase-specific-resume-rules">Phase-Specific Resume Rules</h3>
+<p><strong>Constitution</strong> (<code>in_progress</code>): - Re-read
+<code>constitution.md</code> - Identify sections still containing
+template placeholders (<code>[PRINCIPLE_NAME]</code>, etc.) - Ask user
+about remaining sections only</p>
+<p><strong>Specify</strong> (<code>in_progress</code>): - Re-read
+<code>spec.md</code> - Look for <code>[NEEDS CLARIFICATION]</code>
+markers and empty placeholder sections - Continue the interview for
+unresolved items only</p>
+<p><strong>Brainstorm</strong> (<code>in_progress</code>): - Re-read
+<code>spec.md</code> Brainstorm Log to see which sessions have been
+completed - Re-read Open Questions table — count <code>Open</code> vs
+<code>Resolved</code> - Skip categories already covered in previous
+sessions - Resume from the first unexplored category or open
+question</p>
+<p><strong>Plan</strong> (<code>in_progress</code>): - Re-read
+<code>plan.md</code> - Look for <code>NEEDS CLARIFICATION</code> fields
+- Fill in missing technical context; do not regenerate completed
+sections</p>
+<p><strong>Tasks</strong> (<code>in_progress</code>): - Re-read
+<code>tasks.md</code> - Verify all user stories from
+<code>spec.md</code> have corresponding tasks - Add missing tasks
+without disrupting existing task numbering</p>
+<p><strong>Execute</strong> (<code>in_progress</code>): - Re-read
+<code>tasks.md</code> — parse checkboxes - Count <code>[x]</code>
+(completed) vs <code>[ ]</code> (remaining) - Identify the
+<strong>current phase</strong> (first phase with unchecked tasks) - Skip
+all completed tasks; resume from the first <code>[ ]</code> task in that
+phase - If a phase checkpoint was not yet confirmed, re-present the
+checkpoint summary</p>
+<p><strong>Review</strong> (<code>in_progress</code>): - Re-read any
+existing checklist files - Continue from unchecked review items</p>
+<h3 id="writing-progress.yml">Writing <code>progress.yml</code></h3>
+<p>The agent updates <code>progress.yml</code> at these moments:</p>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Event</th>
+<th>Update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command starts</td>
+<td>Set phase to <code>in_progress</code>, update timestamp</td>
+</tr>
+<tr>
+<td>Command completes successfully</td>
+<td>Set phase to <code>done</code>, update timestamp</td>
+</tr>
+<tr>
+<td>Brainstorm session ends</td>
+<td>Increment <code>sessions</code> counter</td>
+</tr>
+<tr>
+<td>Task checkbox toggled during execute</td>
+<td>Update <code>completed_tasks</code> and
+<code>current_task</code></td>
+</tr>
+<tr>
+<td>User explicitly skips a phase</td>
+<td>Set phase to <code>skipped</code></td>
+</tr>
+</tbody>
+</table>
+<p>If <code>progress.yml</code> does not exist when a command runs,
+create it with all prior phases inferred as <code>done</code> based on
+existing files.</p>
+<h3 id="superpowers-status-file-superpowers.yml">Superpowers Status
+File: <code>superpowers.yml</code></h3>
+<p>A project-level file <code>.specify/superpowers.yml</code> persists
+the superpowers detection results so they are <strong>visible in the
+project docs</strong> and <strong>don’t require re-detection on every
+command</strong>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># .specify/superpowers.yml</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">last_checked</span><span class="kw">:</span><span class="at"> 2026-04-22T14:30:00</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">skills</span><span class="kw">:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">brainstorming</span><span class="kw">:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">detected</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ~/.agents/skills/brainstorming/SKILL.md</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">writing-plans</span><span class="kw">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">detected</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ~/.agents/skills/writing-plans/SKILL.md</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">executing-plans</span><span class="kw">:</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">detected</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">subagent-driven-development</span><span class="kw">:</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">detected</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">test-driven-development</span><span class="kw">:</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">detected</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">path</span><span class="kw">:</span><span class="at"> .agents/skills/test-driven-development/SKILL.md</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">requesting-code-review</span><span class="kw">:</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">detected</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
+<p><strong>When to update <code>superpowers.yml</code></strong>:</p>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Event</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.constitution</code> (first run)</td>
+<td>Create the file with full detection results</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.status</code></td>
+<td>Re-run detection, update the file</td>
+</tr>
+<tr>
+<td>Any command that needs a superpowers skill</td>
+<td>If the skill was previously <code>detected: false</code>, re-check
+once (user may have installed it)</td>
+</tr>
+<tr>
+<td>User manually edits the file</td>
+<td>Respect the manual override — do not overwrite</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why persist this</strong>:</p>
+<ol type="1">
+<li><strong>Visibility</strong>: Anyone reading <code>.specify/</code>
+can see which superpowers the project uses</li>
+<li><strong>Auditability</strong>: The <code>last_checked</code>
+timestamp shows when detection last ran</li>
+<li><strong>Speed</strong>: No need to check the filesystem on every
+command invocation</li>
+<li><strong>Override</strong>: Users can manually set
+<code>detected: true/false</code> to force behavior</li>
+</ol>
+<p><strong>Reading superpowers status during resume</strong>:</p>
+<p>When the resume check runs, it reads <code>superpowers.yml</code>
+instead of re-detecting. This means a command like
+<code>/speckit.superspec.brainstorm</code> will use the cached detection
+result to decide between enhanced mode (superpowers) and fallback mode
+(built-in). If a skill was <code>detected: false</code> last time, the
+command does a single re-check before falling back — in case the user
+installed it since the last session.</p>
+</body>
+</html>

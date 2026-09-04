@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec</h1>
+</header>
+<h1 id="feature-specification-static-landing-page">Feature
+Specification: Static Landing Page</h1>
+<p><strong>Feature Branch</strong>:
+<code>001-static-landing-page</code></p>
+<p><strong>Created</strong>: 2026-05-30</p>
+<p><strong>Status</strong>: Draft</p>
+<p><strong>Input</strong>: User description: “Static landing page for
+superspec. Three priorities: P1: Hero section with project name,
+tagline, and a ‘Get Started’ button. P2: Features grid showing the 5
+core commands (status, brainstorm, tasks, execute, review). P3: Workflow
+diagram and an install command snippet. Output target: web/index.html,
+pure HTML+CSS, no JavaScript build.”</p>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<h3 id="user-story-1---hero-section-priority-p1">User Story 1 - Hero
+Section (Priority: P1)</h3>
+<p>A first-time visitor arrives at the landing page and immediately sees
+the project name (“SuperSpec”), a concise tagline describing what the
+project does, and a prominent “Get Started” call-to-action button. The
+visitor can click the button to navigate to documentation or a
+quick-start guide. The hero section fills the viewport on load,
+delivering an instant understanding of the project’s purpose.</p>
+<p><strong>Why this priority</strong>: The hero section is the single
+most important element — it communicates the project’s identity and
+value proposition within seconds. Without it, the page has no focal
+point and visitors bounce.</p>
+<p><strong>Independent Test</strong>: Can be fully tested by loading the
+page and verifying that (1) the project name is visible and prominent,
+(2) a tagline appears beneath it, and (3) a “Get Started” button is
+present and links to a valid destination. Delivers immediate value by
+establishing brand presence.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a visitor loads the landing page in a
+browser, <strong>When</strong> the page renders, <strong>Then</strong>
+the project name “SuperSpec” is displayed as the most prominent text
+element in the hero section</li>
+<li><strong>Given</strong> a visitor loads the landing page,
+<strong>When</strong> the page renders, <strong>Then</strong> a tagline
+summarizing the project’s purpose is visible directly beneath the
+project name</li>
+<li><strong>Given</strong> a visitor views the hero section,
+<strong>When</strong> they click the “Get Started” button,
+<strong>Then</strong> they are navigated to the project documentation or
+quick-start destination</li>
+<li><strong>Given</strong> a visitor loads the page on a desktop
+viewport (≥1024px wide), <strong>When</strong> the hero section renders,
+<strong>Then</strong> it occupies the full viewport height and centers
+content both horizontally and vertically</li>
+</ol>
+<hr />
+<h3 id="user-story-2---features-grid-priority-p2">User Story 2 -
+Features Grid (Priority: P2)</h3>
+<p>A visitor exploring the page scrolls past the hero and encounters a
+features grid that showcases the five core SuperSpec commands:
+<strong>status</strong>, <strong>brainstorm</strong>,
+<strong>tasks</strong>, <strong>execute</strong>, and
+<strong>review</strong>. Each command is presented as a card with its
+name and a brief description of what it does. The grid arranges the
+cards in a visually balanced layout that is easy to scan.</p>
+<p><strong>Why this priority</strong>: The features grid educates
+visitors about the core capabilities, turning curiosity into
+understanding. It directly supports the decision to adopt the tool but
+is secondary to the hero’s identity-establishing role.</p>
+<p><strong>Independent Test</strong>: Can be fully tested by scrolling
+to the features section and verifying that all five commands appear as
+distinct cards with names and descriptions. Delivers value by
+communicating product capabilities.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a visitor scrolls to the features section,
+<strong>When</strong> it renders, <strong>Then</strong> five feature
+cards are displayed — one each for status, brainstorm, tasks, execute,
+and review</li>
+<li><strong>Given</strong> a visitor views the features grid,
+<strong>When</strong> they read a card, <strong>Then</strong> the card
+shows the command name and a one- or two-sentence description of its
+purpose</li>
+<li><strong>Given</strong> a visitor views the features section on a
+desktop viewport, <strong>When</strong> the grid renders,
+<strong>Then</strong> the five cards are arranged in a balanced
+multi-column layout (e.g., 3 across then 2, or 5 across)</li>
+<li><strong>Given</strong> a visitor views the features section on a
+narrow viewport (≤600px), <strong>When</strong> the grid renders,
+<strong>Then</strong> the cards stack vertically for readability</li>
+</ol>
+<hr />
+<h3
+id="user-story-3---workflow-diagram-install-snippet-priority-p3">User
+Story 3 - Workflow Diagram &amp; Install Snippet (Priority: P3)</h3>
+<p>A visitor who wants to try SuperSpec finds a workflow diagram
+illustrating the typical command sequence (status → brainstorm → tasks →
+execute → review) and a copyable install command snippet. The diagram
+shows the flow between commands, helping the visitor understand the
+intended workflow. The install snippet provides the exact command needed
+to get started.</p>
+<p><strong>Why this priority</strong>: This section converts interested
+visitors into users by showing them both how the tool works (diagram)
+and how to get it (install command). It supports adoption but depends on
+the hero and features sections having already established interest.</p>
+<p><strong>Independent Test</strong>: Can be fully tested by scrolling
+to the workflow section and verifying that (1) a diagram showing the
+five-command flow is rendered and (2) an install command snippet is
+displayed. Delivers value by providing an actionable next step.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a visitor scrolls to the workflow section,
+<strong>When</strong> it renders, <strong>Then</strong> a visual diagram
+displays the five commands connected in a sequential flow: status →
+brainstorm → tasks → execute → review</li>
+<li><strong>Given</strong> a visitor views the workflow diagram,
+<strong>When</strong> they examine it, <strong>Then</strong> the
+directional relationship between each step is clear (left-to-right or
+top-to-bottom progression with arrows or connectors)</li>
+<li><strong>Given</strong> a visitor views the install section,
+<strong>When</strong> they read it, <strong>Then</strong> an install
+command snippet is displayed in a monospaced, visually distinct code
+block</li>
+<li><strong>Given</strong> a visitor views the install snippet,
+<strong>When</strong> they select the text, <strong>Then</strong> they
+can copy the complete install command</li>
+</ol>
+<hr />
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li>What happens when the page is loaded with JavaScript disabled? Since
+the page is pure HTML+CSS, all content must render without any
+JavaScript dependency.</li>
+<li>What happens on very wide viewports (≥1920px)? Content should remain
+readable and not stretch to fill the entire width — a max-width
+container should be used.</li>
+<li>What happens on very small viewports (≤320px, e.g., older phones)?
+Content should remain legible with appropriate font sizing and
+stacking.</li>
+<li>What happens on ultra-wide viewports (≥2560px)? Content must remain
+within a max-width container centered on screen — lines should not
+stretch to fill the full viewport width, as that destroys
+readability.</li>
+<li>What happens when the page is printed? A <code>@media print</code>
+stylesheet must hide decorative elements and present content in a
+linear, ink-friendly flow. The hero, features, and workflow sections
+should be visually separated by spacing rather than color. The install
+snippet should remain visible and copyable in print.</li>
+<li>What happens if the “Get Started” link destination doesn’t exist or
+becomes unreachable? The button MUST still render and function as a
+valid hyperlink. If no external documentation URL is available, a
+placeholder anchor (<code>#</code>) or a scroll-to-install-section link
+should be used. The final destination is tracked as an Open
+Question.</li>
+<li>What happens when the page is opened from a local
+<code>file://</code> URL (no HTTP server)? Since the page is
+self-contained with no external dependencies, it must render identically
+via <code>file://</code> as it does over HTTP. No protocol-relative or
+<code>//</code> URLs should appear anywhere in the markup.</li>
+<li>What happens if the CSS for the workflow diagram (arrows,
+connectors, step indicators) pushes the total page weight near or over
+the 64 KB constitutional limit? The diagram implementation MUST be
+designed with page weight in mind — if CSS-drawn arrows exceed budget, a
+simpler step-indicator pattern (numbered circles with connecting lines)
+must be used instead.</li>
+<li><strong>Security surface</strong>: The page has no user input, no
+forms, no cookies, no JavaScript, and no external resource loading —
+therefore the attack surface is negligible. No security edge cases
+require mitigation beyond the constitutional constraints (single-file,
+no external deps, no JS).</li>
+<li><strong>Keyboard-only navigation</strong>: All interactive elements
+(the “Get Started” button, any clickable content) MUST be reachable via
+Tab and activatable via Enter/Space. The page MUST provide a visible
+focus indicator (using <code>:focus-visible</code> or
+<code>:focus</code> outlines) that meets WCAG AA contrast requirements.
+The install snippet should be selectable via keyboard (e.g., a
+tabindex-0 container that can receive focus for text selection).</li>
+<li><strong>Screen reader flow</strong>: Heading hierarchy MUST be
+strictly sequential (h1 → h2 → h3, no skipped levels). Landmark regions
+(<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>,
+<code>&lt;section&gt;</code>, <code>&lt;footer&gt;</code>) MUST be used
+to convey page structure to assistive technology. Feature cards should
+use appropriate ARIA roles or semantic elements so their grouping is
+announced correctly.</li>
+<li><strong>Forced-colors / High Contrast mode</strong>: When the OS
+applies forced colors or a high-contrast theme (e.g., Windows High
+Contrast mode), the page MUST remain readable and functional. CSS MUST
+NOT rely solely on background-color for conveying information — borders,
+text, and icons must use <code>currentColor</code> or explicit
+foreground colors that adapt to forced-colors palettes. The
+<code>forced-colors</code> media query SHOULD be used to adjust
+borders/outlines where needed.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<ul>
+<li><strong>FR-001</strong>: The page MUST display a hero section
+containing the project name “SuperSpec”, a tagline, and a “Get Started”
+button</li>
+<li><strong>FR-002</strong>: The “Get Started” button MUST link to the
+project documentation or quick-start guide</li>
+<li><strong>FR-003</strong>: The hero section MUST center its content
+vertically and horizontally within the viewport</li>
+<li><strong>FR-004</strong>: The page MUST display a features grid with
+five cards, one for each core command: status, brainstorm, tasks,
+execute, review</li>
+<li><strong>FR-005</strong>: Each feature card MUST display the command
+name and a brief description of its purpose</li>
+<li><strong>FR-006</strong>: The features grid MUST use a multi-column
+layout on wider viewports and stack vertically on narrow viewports</li>
+<li><strong>FR-007</strong>: The page MUST display a workflow diagram
+showing the sequential flow of the five commands</li>
+<li><strong>FR-008</strong>: The workflow diagram MUST indicate
+directional progression between commands using visual connectors (arrows
+or lines)</li>
+<li><strong>FR-009</strong>: The page MUST display an install command
+snippet in a monospaced code block</li>
+<li><strong>FR-010</strong>: The entire page MUST render correctly
+without any JavaScript — pure HTML and CSS only</li>
+<li><strong>FR-011</strong>: The page MUST be served from a single file
+at <code>web/index.html</code></li>
+<li><strong>FR-012</strong>: The page MUST be responsive and readable
+across viewport widths from 320px to 1920px+</li>
+<li><strong>FR-013</strong>: The page content MUST be constrained to a
+maximum width for readability on very wide screens</li>
+<li><strong>FR-014</strong>: The page MUST include a
+<code>@media print</code> stylesheet that renders content in a linear,
+ink-friendly flow, hides decorative/background elements, and preserves
+the install snippet visibility</li>
+<li><strong>FR-015</strong>: The page MUST render identically when
+opened via <code>file://</code> protocol as it does over HTTP — no
+protocol-relative URLs or external resource references are
+permitted</li>
+<li><strong>FR-016</strong>: All interactive elements MUST be
+keyboard-reachable (Tab) and keyboard-activatable (Enter/Space) with
+visible focus indicators that meet WCAG AA contrast</li>
+<li><strong>FR-017</strong>: The install snippet container MUST be
+keyboard-focusable (tabindex) so users can select and copy the command
+without a mouse</li>
+<li><strong>FR-018</strong>: The page MUST remain readable and
+functional under OS-level forced-colors / high-contrast modes — no
+information conveyed by background-color alone</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<ul>
+<li><strong>SC-001</strong>: A visitor can identify the project name and
+purpose within 5 seconds of page load</li>
+<li><strong>SC-002</strong>: All five core commands are visible and
+scannable without scrolling on desktop viewports (hero + features grid
+above the fold or with minimal scroll)</li>
+<li><strong>SC-003</strong>: The install command can be selected and
+copied in a single text-selection action</li>
+<li><strong>SC-004</strong>: The page renders completely with zero
+JavaScript execution — validated by loading with JavaScript disabled in
+browser settings</li>
+<li><strong>SC-005</strong>: The page is fully readable and navigable on
+any viewport width from 320px to 1920px</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li>The “Get Started” button links to an existing documentation page or
+external URL; the specific destination will be determined during
+implementation based on available project resources</li>
+<li>The workflow diagram can be implemented using pure CSS (e.g.,
+flexbox/grid with CSS-drawn arrows) rather than an image file, keeping
+the page self-contained</li>
+<li>The tagline content will be defined during implementation; a
+reasonable default such as “Specification-driven development for modern
+teams” may be used</li>
+<li>The install command will be a standard package manager command
+(e.g., <code>npm install -g superspec</code> or similar); the exact
+command will be confirmed during implementation</li>
+<li>No external font CDN or asset loading is required — system fonts or
+web-safe fonts are acceptable</li>
+<li>The page is a standalone marketing/landing page and does not need to
+integrate with an existing site template</li>
+</ul>
+<h2 id="open-questions">Open Questions</h2>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 35%" />
+<col style="width: 28%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OQ-001</td>
+<td>What is the final destination URL for the “Get Started” button?</td>
+<td>Open</td>
+<td>Placeholder anchor (<code>#</code>) or scroll-to-install used until
+a documentation URL is confirmed. Must be resolved before production
+deployment.</td>
+</tr>
+<tr>
+<td>OQ-002</td>
+<td>What is the exact install command to display in the snippet?</td>
+<td>Open</td>
+<td>Assumed <code>npm install -g superspec</code> but must be confirmed
+against actual package publish name and registry.</td>
+</tr>
+<tr>
+<td>OQ-003</td>
+<td>Should the workflow diagram use CSS-drawn arrows or a CSS-only step
+indicator (numbered circles with connecting lines)?</td>
+<td>Open</td>
+<td>CSS-drawn arrows may have rendering differences across browsers. A
+simpler step-indicator pattern (numbered circles + horizontal rule) is
+more robust but less visually expressive.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="brainstorm-log">Brainstorm Log</h2>
+<h3 id="initial-brainstorm-session">2026-05-30 — Initial Brainstorm
+Session</h3>
+<p><strong>Categories explored</strong>: Boundary conditions, Error
+scenarios, Scale &amp; performance, Security &amp; privacy, User
+experience</p>
+<p><strong>Key insights</strong>:</p>
+<ol type="1">
+<li><strong>Print stylesheet needed</strong> — The page should render
+cleanly when printed, with decorative elements hidden and content in a
+linear flow. Added FR-014.</li>
+<li><strong>Ultra-wide viewport handling</strong> — Content must stay
+within a max-width container on ≥2560px displays. Already partially
+covered by FR-013 but now explicitly called out as an edge case.</li>
+<li><strong>“Get Started” link is unresolved</strong> — The destination
+URL is unknown. Using a placeholder for now; tracked as OQ-001.</li>
+<li><strong><code>file://</code> protocol support</strong> — Page must
+work identically when opened locally. Added FR-015 after identifying
+that protocol-relative URLs would break this.</li>
+<li><strong>64 KB page weight budget risk</strong> — CSS-heavy workflow
+diagrams could push the file size toward the constitutional limit. Added
+edge case with fallback strategy (simpler step indicator if arrows
+exceed budget).</li>
+<li><strong>Negligible security surface</strong> — No forms, no JS, no
+external deps. Acknowledged in edge cases; no additional mitigations
+needed.</li>
+<li><strong>Accessibility beyond WCAG AA</strong> — Added explicit edge
+cases and requirements (FR-016, FR-017, FR-018) for keyboard navigation,
+screen reader landmark structure, and forced-colors/high-contrast mode
+support.</li>
+</ol>
+<p><strong>New requirements added</strong>: FR-014, FR-015, FR-016,
+FR-017, FR-018 <strong>New edge cases added</strong>: 5 (print,
+ultra-wide, file://, 64 KB budget, security surface, keyboard nav,
+screen reader, forced-colors) <strong>Open questions raised</strong>:
+OQ-001, OQ-002, OQ-003</p>
+</body>
+</html>

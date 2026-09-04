@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Courses-Creator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Courses-Creator</h1>
+</header>
+<p><strong>Markdown girdisi, profesyonel video kursu çıktısı —
+AI-geliştirilmiş, çoklu platform.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Courses-Creator, markdown betiklerini AI destekli geliştirmelerle
+profesyonel video kurslarına dönüştüren bir araç setidir: çoklu LLM
+içerik zenginleştirmesi (OpenAI/Anthropic/Ollama), yüksek kaliteli TTS
+ve fon müziği ile masaüstü, mobil ve web oynatıcıları — hepsi Docker
+dağıtımı ve Prometheus/Grafana izleme sistemiyle birlikte.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Markdown dosyalarını etkileşimli video kurslarına dönüştürür. Bir Go
+işleme motoru, çoklu LLM sağlayıcıları aracılığıyla içeriği
+zenginleştirir, anlatım (Bark/SpeechT5 TTS) ve müzik üretir, Electron
+masaüstü, React Native mobil ve React web oynatıcılarına tam Docker
+dağıtımı ve izleme sistemiyle sunar.</p>
+<h2 id="detaylı-açıklama">Detaylı açıklama</h2>
+<p>Bir video kursu üretmek, normalde küçük bir prodüksiyon stüdyosunun
+tüm iş yükünü gerektirir: senaryo yazımı, anlatım kaydı, müzik temini,
+kurgu, kodlama ve ardından kursu izleyebilecek her platform için
+oynatıcı geliştirme. Courses-Creator, bu sürecin tamamını tek bir girdi
+—bir markdown betiği— ve tek bir komutla sıkıştırır. Merkezinde, tam bir
+video/ses iş akışı yürüten bir Go çekirdek işlemci bulunur: yazılı
+içeriği çoklu LLM sağlayıcıları (OpenAI, Anthropic ve yerel Ollama)
+aracılığıyla geliştirir, metinden sese dönüştürme motorlarıyla (Bark,
+SpeechT5) doğal anlatım sentezler, fon müziği ekler ve parçaları
+tamamlanmış kurs videolarına dönüştürür. Yazarın görevi fikir ve
+kelimeler düzeyinde kalır; sistem seslendirme, müzik ve prodüksiyonu
+üstlenir. Ayrıca bir kursun faydalı olması için izlenebilir olması
+gerekir; bu nedenle dağıtım, tasarım gereği çoklu platformdur: bir
+Electron masaüstü oluşturma uygulaması, bir React Native mobil oynatıcı
+ve bir React web oynatıcı — hepsi aynı REST API ve arka plan iş sistemi
+tarafından beslenir. Tek bir arka uç, üç birinci sınıf istemci, her
+yüzey için yeniden uygulama yok.</p>
+<p>Önemli olan, bunun bir prodüksiyon altyapısı olması, gösteri amaçlı
+bir demo değil. Arka uç, PostgreSQL kalıcılığı, arka plan iş işleme
+(böylece uzun TTS/video renderları hiçbir zaman API’ı engellemez), araç
+destekli geliştirme için MCP sunucu uygulamaları, Prometheus metrikleri,
+JWT kimlik doğrulamasını ve bir nginx ters proxy’yi içerir — ve tüm
+bunlar, tek adımda ayağa kaldırabileceğiniz bir Docker Compose dağıtımı
+ve Grafana/Prometheus izleme profilleriyle birlikte gelir. AI, bir
+bağımlılık değil, bir geliştirme katmanıdır: her LLM sağlayıcısı
+opsiyoneldir; bu nedenle temel işlemler için sıfır API anahtarıyla
+çalışır ve anahtarlar sağlandığı anda premium zenginleştirme devreye
+girer. Bu tek karar, aynı aracı hem dizüstü bilgisayarda çevrimdışı
+çalışan bir hobi kullanıcısı hem de tercih ettiği sağlayıcıyı entegre
+eden bir işletme için kullanılabilir kılar — ve altındaki tüm medya iş
+akışı, inanç yerine birim, entegrasyon ve uçtan uca testlerle
+desteklenir.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik</h2>
+<p>Video kurslarını manuel olarak üretmek yavaştır: yazım, anlatım,
+müzik ve kurgu her biri çaba ve uzman araçlar gerektirir.
+Courses-Creator, bu süreci markdown tabanlı bir iş akışına indirgeyerek
+tek bir kaynak betiğin üretilmiş bir kursa dönüşmesini sağlar; AI ise
+insanların elle yapacağı işleri otomatik olarak tamamlar.</p>
+<p>İçerik</p>
+<h2 id="neden-bir-oyun-değiştirici">Neden bir oyun değiştirici?</h2>
+<p>Kurs üretimini, uzmanlık gerektiren çok araçlı bir zanaatten
+tekrarlanabilir bir yazılım hattına dönüştürüyor: içerik oluşturma, AI
+zenginleştirmesi, anlatım ve müzik üretimi ile çoklu platform oynatma,
+tek bir dağıtılabilir yığında bir araya geliyor. API anahtarsız
+çalışmaya zarif geçiş, sessiz süper güç — aynı kod tabanı, bütçe odaklı
+bir solo yaratıcıdan premium sağlayıcı sözleşmesi olan bir işletmeye
+kadar herkese hizmet ediyor, arada hiçbir şey yeniden yazılmadan.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne?</h2>
+<ul>
+<li>Çoklu LLM zenginleştirme eklentileriyle (OpenAI/Anthropic/Ollama)
+Markdown’dan videoya hat.</li>
+<li>Yerleşik TTS (Bark, SpeechT5) ve arka plan müziği üretimi.</li>
+<li>Araç destekli geliştirme için işleme motoru içinde MCP sunucu
+uygulamaları.</li>
+<li>Tek bir arka uçla üç birinci sınıf istemciye (Electron masaüstü,
+React Native mobil, React web) hizmet.</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve çözümler</h2>
+<ul>
+<li><strong>Yoğun medya işleme:</strong> Go hattı ve arka planda çalışan
+iş süreçleriyle çözüldü; böylece uzun TTS/video işleri API’yi bloke
+etmiyor.</li>
+<li><strong>İsteğe bağlı ama güçlü AI:</strong> LLM sağlayıcıları isteğe
+bağlı ve takılabilir hale getirilerek, temel işlevlere zarif bir geri
+dönüş sağlandı.</li>
+<li><strong>Çoklu platform dağıtımı:</strong> Ortak bir REST API ve üç
+ayrı oynatıcı uygulamasıyla çözüldü.</li>
+<li><strong>İşletilebilirlik:</strong> Docker Compose profilleri,
+Prometheus/Grafana ve yerleşik JWT kimlik doğrulama ile sağlandı.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-nasıl">Teknoloji yığını (neden +
+nasıl)</h2>
+<ul>
+<li><strong>Go</strong> — çekirdek işlem motoru, REST API, iş
+çalıştırıcı, hat (972K+ bayt, baskın dil).</li>
+<li><strong>TypeScript / React</strong> — web oynatıcı ve ortak
+kullanıcı arayüzü.</li>
+<li><strong>Electron</strong> — masaüstü içerik oluşturma
+uygulaması.</li>
+<li><strong>React Native</strong> — mobil oynatıcı.</li>
+<li><strong>PostgreSQL</strong> — kurs/iş kalıcılığı.</li>
+<li><strong>LLM sağlayıcıları (OpenAI, Anthropic, Ollama)</strong> —
+içerik zenginleştirme.</li>
+<li><strong>TTS (Bark, SpeechT5)</strong> — anlatım sentezi.</li>
+<li><strong>MCP sunucuları</strong> — motor içinde araç
+entegrasyonu.</li>
+<li><strong>Docker Compose + nginx</strong> — tam yığın dağıtım ve ters
+proxy.</li>
+<li><strong>Prometheus + Grafana</strong> — izleme.</li>
+</ul>
+<blockquote>
+<p>Not: Genel README hızlı başlangıçta <code>your-org</code> klonu için
+URL yer tutucu kullanılır.</p>
+</blockquote>
+</body>
+</html>

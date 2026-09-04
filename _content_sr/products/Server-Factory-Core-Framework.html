@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>Заједнички погон иза сваког Server Factory.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>Цоре Framework је Kotlin оквир који чини темељ породице алата за
+провизионирање Server Factory. Пружа заједнички погон и апстракције на
+којима граде пројекти попут Mail Server Factory, тако да свака „фабрика”
+користи једну испробану основу уместо да поново имплементира примитивне
+функције провизионирања.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Заједнички Kotlin оквир у основи екосистема Server Factory. Он
+обезбеђује заједнички провизиони погон, апстракције конекција и
+механизам корака инсталације које користе фабрике низводно (Mail Server
+Factory, Web Сервице Factory, SonarQube Factory и друге).</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Цоре Framework је тиха инжењерска компонента која омогућава читаву
+породицу Server-Factory: поновљиви погон на којем се гради сваки
+појединачни производ „фабрике” (Mail Server Factory, Web Сервице
+Factory, SonarQube Factory, Цацхинг Proxy Factory). Приступ Server
+Factory је декларативан — корисник описује инфраструктуру коју жели
+путем конфигурације, а фабрика тумачи тај опис како би инсталирала и
+иницијализовала софтвер на циљном систему — а Цоре Framework је место
+где се налази заједничка машинерија тог обрасца: апстракције конекција и
+транспорта које досежу сваку врсту циља, модел корака инсталације који
+кодира <em>начин</em> на који се софтвер провизионира, као и заједничка
+инфраструктура коју би иначе свака фабрика морала да пише за себе. Он је
+одговор на структурално питање са којим се пре или касније суочава сваки
+вишенаменски ланац алата — где смештати заједнички погон? — а правилно
+решење тог питања једном за свагда одржава породицу кохерентном уместо
+да се распадне на четири благо различита провизионера. Централизацијом у
+један Kotlin оквир, породица избегава дуплирање логике провизионирања у
+производима и одржава конзистентно понашање: свако побољшање типа
+конекције или примитива инсталације у Цоре Framework-у користи свим
+фабрикама низводно. Готово у потпуности је Kotlin (око 990К бајтова
+Kotlin кода са танким слојем Shell), што одражава његову улогу
+библиотеке кода, а не збирке скрипти. Репозиторијуми низводно га наводе
+као своју каноничку зависност (Parallels-Utils, Qemu-Utils, Утилс и
+Дефинитионс пакети сви референцирају Цоре Framework репозиторијум као
+чвориште екосистема). Његов РЕАДМЕ је намерно минималан — он је
+инфраструктура за друге пројекте, верзионисан путем
+<code>version.txt</code>/<code>version_code.txt</code> — и претходи
+каснијем раду на AI, што га чини делом зрелог DevOps алата наслеђа
+организације.</p>
+<h2 id="зашто-смо-га-изградили">Зашто смо га изградили</h2>
+<p>Сваки алат за провизионирање захтева исто језгро: начине за
+повезивање са циљевима и кораке за инсталацију/конфигурацију софтвера.
+Поновно изградња тог језгра за сваки производ довела би до фрагментације
+понашања и умножавања грешака. Цоре Framework га централизује тако да
+све фабрике деле један поуздан погон.</p>
+<h2 id="зашто-је-револуционаран">Зашто је револуционаран</h2>
+<p>То је тачка највећег утицаја у читавој породици: свако отврдњавање
+типа конекције или побољшање примитива инсталације овде одмах се преноси
+на све фабрике, тако да читав ланац алата напредује захваљујући једној
+инвестицији. То је филозофија „изгради једном, користи свуда” примењена
+тамо где највише исплати — на слоју основе инфраструктурне
+аутоматизације, где поправка на правом месту поправља све низводно.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Јединствени вишекратно употребљив оквир за обезбеђивање који
+апстрахује логику повезивања и корака инсталације.</li>
+<li>Чиста подела између мотора (Основни оквир) и фабрика специфичних за
+производ.</li>
+<li>Дистрибуција са фиксираном верзијом
+(<code>version.txt</code>/<code>version_code.txt</code>) за
+репродуктивну потрошњу.</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Избегавање дуплирања логике обезбеђивања:</strong> решено
+издвајањем заједничке машинерије у један оквир који користе све
+фабрике.</li>
+<li><strong>Конзистентно понашање у свим производима:</strong> решено
+заједничким апстракцијама тако да се типови веза и кораци понашају
+идентично свуда.</li>
+<li><strong>(НЕВЕРИФИКОВАНО):</strong> одређени интерни API-ји нису
+документовани у јавном РЕАДМЕ фајлу; детаље интерфејса третирати као
+неверификоване изван „заједничког оквира који користе фабрике”.</li>
+</ul>
+<h2 id="технолошки-стек-зашто-како">Технолошки стек (зашто + како)</h2>
+<ul>
+<li><strong>Kotlin</strong> — цео оквир (~990К бајтова); језик из
+породице Server Factory.</li>
+<li><strong>Shell</strong> — минимални помоћни скриптови.</li>
+<li><strong>Gradle</strong> — алат за изградњу (у складу са употребом
+<code>./gradlew</code> у породици).</li>
+</ul>
+<blockquote>
+<p>Напомена: GitHub означава репозиторијум као форк унутар организације
+Server-Factory. Није фокусиран на AI; представљен као кичма алата за
+обезбеђивање.</p>
+</blockquote>
+</body>
+</html>

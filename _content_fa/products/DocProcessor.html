@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p>محتوا</p>
+<p><strong>تبدیل مستندات به نقشه ویژگی‌های قابل راستی‌آزمایی برای
+خودکارسازی تضمین کیفیت</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>DocProcessor یک ماژول مستقل و کاملاً جدا از Go است که مستندات پروژه را
+بارگذاری می‌کند، نقشه‌های ساختاریافته ویژگی‌ها را می‌سازد و پوشش راستی‌آزمایی
+را ردیابی می‌کند. این ماژول برای کار با عامل‌های LLM جهت استخراج هوشمند
+ویژگی‌ها طراحی شده است، اما شامل استخراج اکتشافی برای استفاده آفلاین نیز
+می‌شود.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>ماژول Go مستقل از پروژه برای پردازش مستندات و استخراج نقشه ویژگی‌ها.
+این ماژول مستندات را به نقشه‌های ساختاریافته ویژگی‌ها تجزیه می‌کند و پیگیری
+می‌کند که کدام ویژگی‌ها راستی‌آزمایی شده‌اند — با استفاده از عامل‌های LLM
+برای استخراج هوشمند یا اکتشافات آفلاین — و تضمین می‌کند که خودکارسازی
+تضمین کیفیت همواره با واقعیت مطابقت دارد و هیچ‌گونه اغراق یا نادرستی در
+آن راه ندارد.</p>
+<h2 id="توضیح-بلند">توضیح بلند</h2>
+<p>هر تیم نرم‌افزاری با یک دروغ آهسته و همیشگی زندگی می‌کند: مستندات
+ویژگی‌هایی را وعده می‌دهد، تست‌ها چیزی نزدیک به آن را پوشش می‌دهند و هیچ‌کس
+نمی‌تواند با اطمینان بگوید که آیا این دو یک محصول را توصیف می‌کنند یا نه.
+DocProcessor برای آشکار و قابل اندازه‌گیری کردن این شکاف وجود دارد. با در
+اختیار داشتن مستندات یک پروژه، این ماژول یک نقشه ساختاریافته ویژگی‌ها
+می‌سازد — مدلی شمارش‌شده و قابل خواندن توسط ماشین از تمام آنچه محصول ادعا
+می‌کند انجام می‌دهد — و پوشش راستی‌آزمایی را در برابر آن ردیابی می‌کند، به
+طوری که پرسش «آیا این ویژگی مستندشده واقعاً اثبات شده است؟» دیگر به
+بحث‌های راهرویی ختم نشود و به پرسشی با پاسخ مشخص تبدیل شود. این ماژول
+عمداً دوحالته طراحی شده است: زمانی که عامل LLM در دسترس باشد، از آن برای
+استخراج هوشمند و معنایی ویژگی‌ها استفاده می‌کند و در غیر این صورت به یک
+تجزیه‌گر اکتشافی برای استفاده کاملاً آفلاین بازمی‌گردد. به این ترتیب، هرگز
+به وجود یک مدل وابسته نمی‌شود و به یکسان در یک وظیفه CI بدون اتصال به
+شبکه یا روی لپ‌تاپ توسعه‌دهنده‌ای که در حالت پرواز کار می‌کند، اجرا
+می‌شود.</p>
+<p>از نظر معماری، این ماژول یک ماژول مستقل، ناآشنا به پروژه و کاملاً جدا
+از Go است (CONST-051(B)): هیچ مقدار خاص پروژه‌ای را ارسال نمی‌کند و توسط
+مصرف‌کنندگان به عنوان یک زیرماژول هم‌سطح با کد اصلی گنجانده می‌شود،
+بنابراین هر پروژه‌ای می‌تواند آن را بدون به ارث بردن فرضیات دیگران به کار
+گیرد. همچنین خود را ملزم به رعایت همان استانداردی می‌کند که بر دیگران
+تحمیل می‌کند — ادعاهای خود را تحت پیمان ضداغراق (CONST-035) و قوانین پوشش
+خودکارسازی کامل (CONST-048) قرار می‌دهد، به این معنا که هر قابلیتی که
+فایل README آن تبلیغ می‌کند، توسط یک تست خودکار یا اسکریپت چالش مورد
+آزمایش قرار می‌گیرد تا رفتار واقعی و قابل استفاده توسط کاربر نهایی را
+تأیید کند، نه صرفاً خروجی صفر؛ رشته‌های قابل مشاهده توسط کاربر از طریق
+درزگاه مترجم i18n CONST-046 هدایت می‌شوند. هدف از همه این‌ها ایجاد یک چرخه
+بسته است: DocProcessor سمت ورودی چرخه تضمین کیفیت است که HelixQA آن را
+تکمیل می‌کند — این ماژول نقشه ویژگی‌ها را از مستندات استخراج می‌کند،
+HelixQA هر ویژگی نقشه‌برداری‌شده را با شواهد اجرایی ضبط‌شده اثبات می‌کند و
+مستندات، تست‌ها و رفتار تحویل‌شده مجبور می‌شوند به جای آنکه به آرامی در هر
+نسخه از هم دور شوند، به هم نزدیک شوند.</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>مستندات و تست‌ها از هم دور می‌شوند: مستندات ویژگی‌هایی را وعده می‌دهند که
+هیچ تستی آن‌ها را اثبات نمی‌کند و تضمین کیفیت نمی‌تواند به سادگی تشخیص دهد
+که «کامل» به چه معناست. DocProcessor مستندات را به نقشه ویژگی‌های قابل
+خواندن توسط ماشین تبدیل می‌کند تا پوشش راستی‌آزمایی بر اساس آنچه واقعاً
+وعده داده شده است، اندازه‌گیری شود.</p>
+<p>محتوا</p>
+<h2 id="چرا-یک-تغییردهنده-بازی-است">چرا یک تغییردهندهٔ بازی است</h2>
+<p>این ابزار، سؤالی مبهم در تحویل نرم‌افزار — «آیا آنچه تحویل داده‌ایم با
+آنچه گفته‌ایم تحویل داده‌ایم مطابقت دارد؟» — را به چیزی تبدیل می‌کند که
+قابل خودکارسازی و بررسی مستمر است، و این کار را بدون وابستگی سخت به AI
+انجام می‌دهد: استخراج LLM زمانی که مدل در دسترس باشد، و روش‌های ابتکاری در
+صورت عدم دسترسی، به‌گونه‌ای که تضمین یکسانی در همهٔ محیط‌ها از یک اجراگر
+آفلاین تا یک خط لولهٔ کاملاً خودکار برقرار باشد.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>استخراج نگاشت مستندات به ویژگی‌ها با ردیابی پوشش تأیید.</li>
+<li>استخراج دوگانه: مبتنی بر عامل LLM یا ابتکاری/آفلاین.</li>
+<li>جداسازی بدون نیاز به پیکربندی و مستقل از پروژه (CONST-051(B)).</li>
+<li>خودتأیید ضدفریب: ادعاهای فایل README با تست‌ها/چالش‌ها پشتیبانی می‌شوند
+(CONST-035/048).</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>عملکرد بدون نیاز به مدل:</strong> با استفاده از یک استخراج‌گر
+ابتکاری به‌عنوان جایگزین حل شده تا ماژول به‌صورت آفلاین کار کند.</li>
+<li><strong>هماهنگ نگه‌داشتن مستندات و واقعیت:</strong> با نگاشت ویژگی‌های
+ساختاریافته و ردیابی پوشش تأیید حل شده که در چرخهٔ تضمین کیفیت ادغام شده
+است.</li>
+<li><strong>قابلیت استفادهٔ مجدد:</strong> از طریق جداسازی سخت‌گیرانه و
+مصرف زیرماژول‌ها در یک کدبیس برابر حل شده است.</li>
+<li><strong>اعتبار ادعاهای خود ابزار:</strong> با تست‌ها/چالش‌های ضدفریب
+برای هر قابلیت تبلیغ‌شده حل شده است.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشتهٔ فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Go (نسخهٔ ۱٫۲۵ به بالا)</strong> — هستهٔ ماژول؛ تحت مجوز آپاچی
+۲٫۰.</li>
+<li><strong>عوامل LLM</strong> — استخراج هوشمند ویژگی‌های معنایی
+(اختیاری).</li>
+<li><strong>تجزیه‌گر ابتکاری</strong> — جایگزین استخراج ویژگی‌ها در حالت
+آفلاین.</li>
+<li><strong>مترجم چندزبانه (<code>pkg/i18n</code>)</strong> — رشته‌های
+محلی‌سازی‌شدهٔ CONST-046.</li>
+<li><strong>چارچوب چالش</strong> — تأیید ضدفریب ادعاهای خود ماژول.</li>
+</ul>
+</body>
+</html>

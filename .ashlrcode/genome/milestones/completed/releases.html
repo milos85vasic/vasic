@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>releases</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">releases</h1>
+</header>
+<h1 id="shipped-releases">Shipped releases</h1>
+<p>Evidence: <code>git tag</code> on the umbrella (4 tags) plus
+<code>_analysis/CHANGELOG.md</code>. Tag subjects are quoted from
+<code>git log -1 --format='%ci %s' &lt;tag&gt;</code>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Date</th>
+<th>Subject</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>v1.8.0</code></td>
+<td>2026-08-08</td>
+<td>apply brand-anchored hybrid tokens to live (crimson M3 palette
+refinement)</td>
+</tr>
+<tr>
+<td><code>v1.7.2</code></td>
+<td>2026-08-08</td>
+<td>chore: bump site pointers — vasic.digital <code>217d535</code>,
+milosvasic.ru <code>9a3d350</code></td>
+</tr>
+<tr>
+<td><code>v1.7.1</code></td>
+<td>2026-08-08</td>
+<td>eliminate hardcoded content — localized footer/blurbs/meta,
+deterministic © year, Linux latinization; bump all pointers</td>
+</tr>
+<tr>
+<td><code>pre-restyle</code></td>
+<td>2026-08-07</td>
+<td>Bump submodules: design-toolkit expansion v2 (<code>13a76eb</code>)
++ constitution (<code>7819e23</code>) — <strong>rollback restore
+point</strong>, not a release</td>
+</tr>
+</tbody>
+</table>
+<p><code>v1.8.0</code> is present on <code>milosvasic.ru</code> and
+<code>vasic.digital</code> only; §4 mirroring to the other owned
+submodules is incomplete (gap G10).</p>
+<h2 id="v1.6.0-bold-re-style-both-sites">v1.6.0 — bold re-style, both
+sites</h2>
+<p>The only release with a narrative entry
+(<code>_analysis/CHANGELOG.md</code>; full detail in
+<code>_analysis/RESTYLE-v1.6.0.md</code>). Each property was generated
+as two candidates and Candidate A shipped on both:</p>
+<ul>
+<li><strong>vasic.digital → “MACHINA”</strong> — Bricolage Grotesque
+display, sharp 0–4px corners, whole-page blueprint grid, GPU-only
+scanline/aurora motion, deep dark red <code>#8f1d2d</code>
+retained.</li>
+<li><strong>milosvasic.ru → “TERMINAL BRUTALIST”</strong> — uppercase
+Anton display, 2px ink frames, hard offset print-shadows,
+engineering-grid texture, crimson <code>#a31e39</code> retained.</li>
+</ul>
+<p>New self-hosted OFL faces (latin + latin-ext, no CDN); Inter and
+JetBrains Mono unchanged. Verified from
+<code>_tests/evidence/restyle/</code>: <strong>0 serious/critical and 0
+total axe violations</strong> on every page/theme, <strong>0 horizontal
+overflow</strong> on desktop and mobile, milos behaviour intact
+(hamburger, 15-item language switcher, 15-language download modal,
+back-to-top), reduced-motion and reduced-transparency fallbacks
+present.</p>
+<p>Rollback restore points recorded at the time: vasic
+<code>v1.5.0</code>, milos <code>v1.5.2</code>, umbrella
+<code>pre-restyle</code>. Rejected alternates are parked, not deleted —
+see <code>strategies/graveyard.md</code>.</p>
+<h2 id="note-on-release-cadence">Note on release cadence</h2>
+<p><code>_analysis/CHANGELOG.md</code> documents <strong>only</strong>
+v1.6.0. There is no changelog entry for v1.7.1, v1.7.2 or v1.8.0 — their
+tag subjects above are the whole record. The
+<code>submodules/constitution</code> and
+<code>submodules/superspec</code> changelogs belong to those upstream
+projects, not to this one.</p>
+</body>
+</html>

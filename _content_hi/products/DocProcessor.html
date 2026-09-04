@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p>सामग्री</p>
+<p><strong>प्रलेखन को क्यूए स्वचालन के लिए एक सत्यापन योग्य फीचर मैप में
+बदलें।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>DocProcessor एक स्वतंत्र, पूर्णतः अलग किया गया Go मॉड्यूल है जो प्रोजेक्ट प्रलेखन
+लोड करता है, संरचित फीचर मैप बनाता है और सत्यापन कवरेज को ट्रैक करता है। इसे LLM
+एजेंटों के साथ बुद्धिमान फीचर निष्कर्षण के लिए डिज़ाइन किया गया है, लेकिन इसमें ऑफ़लाइन
+उपयोग के लिए ह्यूरिस्टिक निष्कर्षण भी शामिल है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>प्रोजेक्ट-अज्ञेयवादी Go मॉड्यूल प्रलेखन प्रसंस्करण और फीचर-मैप निष्कर्षण के लिए। यह
+प्रलेखन को संरचित फीचर मैप में पार्स करता है और ट्रैक करता है कि कौन-से फीचर सत्यापित
+हैं—बुद्धिमान निष्कर्षण के लिए LLM एजेंटों का उपयोग करके या ऑफ़लाइन ह्यूरिस्टिक्स के
+माध्यम से—जो क्यूए स्वचालन को एक अचूक, हमेशा-वास्तविकता से मेल खाने वाली गारंटी
+प्रदान करता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>हर सॉफ़्टवेयर टीम एक ही धीमे झूठ के साथ जीती है: प्रलेखन फीचर का वादा करता है,
+टेस्ट कुछ और कवर करते हैं, और कोई भी यह कहने का आत्मविश्वास नहीं रखता कि दोनों एक
+ही उत्पाद का वर्णन कर रहे हैं। DocProcessor इसी अंतर को दृश्यमान और मापने योग्य
+बनाने के लिए मौजूद है। किसी प्रोजेक्ट के प्रलेखन को देखते हुए, यह एक संरचित फीचर मैप
+बनाता है—उत्पाद द्वारा किए जाने वाले हर दावे का एक गणनीय, मशीन-पठनीय मॉडल—और
+इसके विरुद्ध सत्यापन कवरेज को ट्रैक करता है, ताकि “क्या यह प्रलेखित फीचर वास्तव में
+साबित हुआ है?” जैसा सवाल गलियारे की बहस न रहकर एक ऐसा प्रश्न बन जाए जिसका उत्तर
+हो। यह जानबूझकर दोहरे मोड में काम करता है: जब उपलब्ध हो तो यह LLM एजेंटों का
+उपयोग बुद्धिमान, सिमेंटिक फीचर निष्कर्षण के लिए करता है, और पूरी तरह ऑफ़लाइन उपयोग
+के लिए ह्यूरिस्टिक पार्सर पर निर्भर करता है, ताकि यह कभी भी किसी मॉडल पर कठोर
+निर्भर न रहे और एक एयर-गैप्ड सीआई जॉब या डेवलपर के हवाई जहाज़ मोड वाले लैपटॉप पर
+समान रूप से चले।</p>
+<p>वास्तुशिल्पीय रूप से यह एक स्वतंत्र, प्रोजेक्ट-अज्ञेयवादी, पूर्णतः अलग किया गया Go
+मॉड्यूल (CONST-051(B)) है: यह कोई प्रोजेक्ट-विशिष्ट मान नहीं भेजता और उपभोक्ताओं
+द्वारा समान-कोडबेस सबमॉड्यूल के रूप में शामिल किया जाता है, ताकि कोई भी प्रोजेक्ट इसे
+अपनाए बिना किसी और के पूर्वधारणाओं को विरासत में न ले। यह स्वयं पर भी वही मानक
+लागू करता है जो दूसरों पर थोपता है—इसके अपने दावे एंटी-ब्लफ़ प्रतिज्ञा (CONST-035) और
+पूर्ण-स्वचालन कवरेज नियमों (CONST-048) से बंधे हैं, जिसका अर्थ है कि इसके README में
+विज्ञापित हर क्षमता का एक स्वचालित टेस्ट या चैलेंज स्क्रिप्ट द्वारा अभ्यास किया जाता
+है जो केवल शून्य पर समाप्त होने के बजाय वास्तविक, अंतिम-उपयोगकर्ता के लिए उपयोगी
+व्यवहार की पुष्टि करता है; उपयोगकर्ता-सामना वाले स्ट्रिंग्स CONST-046 i18n अनुवादक
+सीम से गुजरते हैं। इसका उद्देश्य एक बंद लूप बनाना है: DocProcessor क्यूए चक्र का इनपुट
+पक्ष है जिसे HelixQA पूरा करता है—यह प्रलेखन से फीचर मैप निकालता है, HelixQA प्रत्येक
+मैप किए गए फीचर को कैप्चर किए गए रनटाइम प्रमाण के साथ साबित करता है, और प्रलेखन,
+टेस्ट और शिप किया गया व्यवहार रिलीज़ दर रिलीज़ चुपचाप अलग होने के बजाय एक-दूसरे के
+साथ मेल खाने के लिए बाध्य होते हैं।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>प्रलेखन और टेस्ट अलग हो जाते हैं: प्रलेखन ऐसे फीचर का वादा करता है जिसका कोई टेस्ट
+प्रमाण नहीं देता, और क्यूए आसानी से यह नहीं बता सकता कि “पूर्ण” का क्या अर्थ है।
+DocProcessor प्रलेखन को एक मशीन-पठनीय फीचर मैप में बदलता है ताकि सत्यापन कवरेज
+को वास्तव में वादे के अनुसार मापा जा सके।</p>
+<p>सामग्री</p>
+<h2 id="यह-कय-एक-गम-चजर-ह">यह क्यों एक गेम-चेंजर है</h2>
+<p>यह सॉफ़्टवेयर डिलीवरी के सबसे अस्पष्ट सवाल—“क्या हमने जो भेजा, वह वही है जो हमने
+भेजने का दावा किया था?”—को एक स्वचालित और निरंतर जाँच योग्य प्रक्रिया में बदल देता
+है। और यह बिना किसी कड़े <strong>AI</strong> निर्भरता के संभव होता है: जब मॉडल
+उपलब्ध हो तो <strong>LLM</strong> निष्कर्षण, और जब न हो तो अनुमान-आधारित
+विधियाँ, ताकि यह गारंटी हर परिवेश में बनी रहे—चाहे वह ऑफ़लाइन रनर हो या पूरी तरह
+स्वचालित पाइपलाइन।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li>दस्तावेज़ीकरण से फीचर-मैप निष्कर्षण, सत्यापन-कवरेज ट्रैकिंग के साथ।</li>
+<li>दोहरा निष्कर्षण: <strong>LLM</strong>-एजेंट संचालित या अनुमान/ऑफ़लाइन।</li>
+<li>प्रोजेक्ट-अज्ञेयवादी, शून्य-कॉन्फ़िगरेशन डिकपलिंग
+(<strong>CONST-051(B)</strong>)।</li>
+<li>ब्लफ़-रोधी स्व-सत्यापन: README के दावों की पुष्टि टेस्ट/चैलेंज के ज़रिए
+(<strong>CONST-035/048</strong>)।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>मॉडल-ऑप्शनल ऑपरेशन:</strong> अनुमान-आधारित निष्कर्षक फ़ॉलबैक से हल,
+ताकि मॉड्यूल ऑफ़लाइन भी काम करे।</li>
+<li><strong>दस्तावेज़ और वास्तविकता को समन्वित रखना:</strong> संरचित फीचर-मैप
+और सत्यापन-कवरेज ट्रैकिंग से हल, जो QA लूप से जुड़ा है।</li>
+<li><strong>पुन:प्रयोगिता:</strong> सख्त डिकपलिंग और समान कोडबेस सबमॉड्यूल
+उपभोग से हल।</li>
+<li><strong>अपने दावों की विश्वसनीयता:</strong> हर विज्ञापित क्षमता के लिए
+ब्लफ़-रोधी टेस्ट/चैलेंज से हल।</li>
+</ul>
+<h2 id="तकनक-ढच-कय-कस">तकनीकी ढाँचा (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — मॉड्यूल का मुख्य भाग; Apache-2.0 लाइसेंस
+प्राप्त।</li>
+<li><strong>LLM एजेंट</strong> — बुद्धिमान सिमेंटिक फीचर निष्कर्षण
+(वैकल्पिक)।</li>
+<li><strong>अनुमान-आधारित पार्सर</strong> — ऑफ़लाइन फीचर निष्कर्षण का
+फ़ॉलबैक।</li>
+<li><strong>i18n अनुवादक (<code>pkg/i18n</code>)</strong> —
+<strong>CONST-046</strong> स्थानीयकृत स्ट्रिंग्स।</li>
+<li><strong>चैलेंज हार्नेस</strong> — मॉड्यूल के स्वयं के दावों का ब्लफ़-रोधी
+सत्यापन।</li>
+</ul>
+</body>
+</html>

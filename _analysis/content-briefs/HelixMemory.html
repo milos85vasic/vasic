@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixMemory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixMemory</h1>
+</header>
+<h1 id="helixmemory">HelixMemory</h1>
+<p><strong>Tagline:</strong> One memory brain for AI agents — four
+best-in-class engines, fused.</p>
+<p><strong>Summary:</strong> HelixMemory is a Go SDK that unifies four
+leading memory systems (Mem0, Cognee, Letta, Graphiti) into a single
+cognitive memory engine that searches them in parallel and fuses the
+results. It gives AI applications one durable, deduplicated, re-ranked
+memory layer instead of four disconnected ones.</p>
+<p><strong>Short description (~40 words):</strong> HelixMemory is a Go
+SDK that fuses Mem0, Cognee, Letta and Graphiti into one unified
+cognitive memory engine for AI applications. It routes writes
+intelligently, searches every backend in parallel, and fuses results
+through a three-stage collect-dedupe-rerank pipeline.</p>
+<p><strong>Long description (150-250 words):</strong> HelixMemory is a
+unified cognitive memory engine for AI applications, delivered as a Go
+SDK (module <code>digital.vasic.helixmemory</code>, Go 1.25+). Rather
+than re-implementing memory from scratch, it orchestrates four
+best-in-class systems and lets each do what it does best: Mem0 for
+dynamic fact extraction and preference management, Cognee for semantic
+knowledge graphs via ECL pipelines, Letta for stateful agent runtime
+with editable memory blocks and sleep-time compute, and Graphiti for a
+bi-temporal knowledge graph.</p>
+<p>A fusion engine ties them together. Writes are classified by content
+and routed to the optimal backend; reads fan out across all backends in
+parallel and pass through a three-stage fusion pipeline — collection,
+deduplication, and cross-source re-ranking — so the caller sees one
+clean, ranked memory result. Circuit breakers provide graceful
+degradation: if one backend is down, the rest keep serving. A drop-in
+<code>MemoryStore</code> interface makes it a direct replacement for a
+plain memory provider, and Prometheus metrics expose full
+observability.</p>
+<p>HelixMemory was built as the memory layer for HelixAgent, the wider
+Helix AI ensemble. It follows the family’s anti-bluff testing
+discipline: an in-process challenge runner exercises real production
+code (routing, fusion, translator, circuit breaker) and a
+paired-mutation wrapper proves the tests actually fail when the
+invariants are broken.</p>
+<p><strong>Why we built it:</strong> AI agents need long-lived,
+high-quality memory, but the ecosystem is fragmented — each memory
+project (Mem0, Cognee, Letta, Graphiti) is strong at one thing and weak
+at others. HelixMemory was built to give HelixAgent a single memory
+surface that combines their strengths without forcing a lock-in to any
+one of them.</p>
+<p><strong>Why it’s a game-changer:</strong> It turns four competing
+memory systems into complementary backends behind one interface. Teams
+get fact extraction, semantic graphs, stateful agent memory, and
+temporal reasoning at once — with automatic deduplication and re-ranking
+— instead of choosing one and living with its blind spots.</p>
+<p><strong>What’s innovative:</strong> - Multi-backend
+<strong>fusion</strong> (collect → dedupe → cross-source re-rank) rather
+than a single store. - <strong>Intelligent routing</strong> that
+classifies memory by content and sends it to the best-suited engine. -
+<strong>Graceful degradation</strong> via per-backend circuit breakers.
+- <strong>Sleep-time compute</strong> consolidation during idle periods.
+- Anti-bluff verification: challenge runner over real code plus a
+paired-mutation proof that the gate is not a tautology.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Reconciling heterogeneous backends into one result set</em> — solved
+with a typed fusion engine that deduplicates overlapping results and
+re-ranks across sources, with the fused-count invariant asserted in
+tests. - <em>Reliability when a backend fails</em> — solved with circuit
+breakers (closed → open after threshold → half-open after timeout) so
+the system keeps serving from healthy backends. - <em>Proving the memory
+logic actually works, not just compiles</em> — solved with an in-process
+challenge runner over production code and a mutation wrapper that must
+fail when an invariant is flipped.</p>
+<p><strong>Tech stack:</strong> - <strong>Go (1.25+)</strong> — single
+SDK/runtime; chosen for concurrency (parallel backend fan-out) and a
+clean interface surface (<code>MemoryStore</code>). -
+<strong>Mem0</strong> — dynamic fact extraction + preference management
+backend. - <strong>Cognee</strong> — semantic knowledge-graph backend
+built on ECL pipelines. - <strong>Letta</strong> — stateful
+agent-runtime backend with editable memory blocks and sleep-time
+compute. - <strong>Graphiti</strong> — temporal (bi-temporal)
+knowledge-graph backend. - <strong>PostgreSQL + Neo4j + Redis</strong> —
+used by the real backend stack for integration testing
+(<code>make infra-start</code>). - <strong>Prometheus</strong> —
+metrics/observability across the fusion pipeline. - <strong>i18n
+translator seam</strong> — namespaced (<code>helixmemory_</code>) string
+surface for any future user-facing layer.</p>
+<p><strong>Public links:</strong> - GitHub:
+https://github.com/HelixDevelopment/memory (public; note: the display
+name “HelixMemory” maps to the repo <code>memory</code>) - License: no
+LICENSE detected via the GitHub API — UNVERIFIED / not declared.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Fusion architecture diagram: four backend boxes (Mem0 / Cognee / Letta /
+Graphiti) feeding a central router and a three-stage fusion pipeline
+into one unified result. 2. Write-vs-read flow: a memory being
+classified and routed on write; a query fanning out and re-ranking on
+read. 3. Circuit-breaker state machine (closed → open → half-open)
+illustrating graceful degradation.</p>
+<p><strong>Site relevance:</strong> both (vasic.digital as a
+developer/AI-infrastructure product; milosvasic.ru as a flagship
+AI-engineering highlight).</p>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+<p><strong>Source provenance:</strong> -
+<code>gh api repos/HelixDevelopment/memory</code> (metadata: public, Go,
+no license, created 2026-02-24, pushed 2026-06-24, 1 star). -
+<code>gh api repos/HelixDevelopment/memory/readme</code> (features,
+fusion stages, backends, anti-bluff round-274 runner). -
+<code>/Volumes/T7/Projects/vasic/_analysis/github-helix-others.{md,json}</code>
+(description, product-family relationships). - UNVERIFIED: license not
+declared; accuracy figures cited in README (e.g., Mem0 “26%+ over
+baseline”, Cognee “38+ connectors”) are upstream vendors’ claims, not
+HelixMemory measurements — omitted from marketing copy above.</p>
+</body>
+</html>

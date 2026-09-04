@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p><strong>将文档转化为可验证的功能地图，用于 QA 自动化。</strong></p>
+<h2 id="概要">概要</h2>
+<p>DocProcessor 是一个独立、完全解耦的 Go
+模块，负责加载项目文档、构建结构化功能地图并跟踪验证覆盖率。它设计用于与
+LLM
+智能体协同工作，实现智能特征提取，同时也内置启发式提取功能，支持离线使用。</p>
+<h2 id="简介">简介</h2>
+<p>一个与项目无关的 Go
+文档处理模块，用于解析文档并提取功能地图。它将文档转化为结构化功能地图，并跟踪已验证的功能——通过
+LLM 智能体实现智能提取，或在离线状态下使用启发式算法——为 QA
+自动化提供”反虚假承诺”的保证，确保结果始终与实际一致。</p>
+<h2 id="详细描述">详细描述</h2>
+<p>每个软件团队都面临同一个隐秘的谎言：文档描述的功能与测试覆盖的内容相去甚远，无人能确信两者是否指向同一个产品。DocProcessor
+的存在就是为了让这一差距变得可见且可衡量。基于项目文档，它构建出一份结构化的功能地图——即产品宣称实现的所有功能的枚举式、机器可读模型——并跟踪其验证覆盖率，使”这个文档中描述的功能是否已得到实际验证”不再是走廊争论的话题，而是一个可查询的答案。它刻意采用双模式设计：在智能体可用时，使用
+LLM
+智能体进行语义化特征提取；在离线环境下，则回退至启发式解析器，确保不依赖任何模型，无论是在隔离的
+CI 任务中，还是在开发者飞行模式下的笔记本电脑上，均能一致运行。</p>
+<p>在架构上，它是一个独立、与项目无关、完全解耦的 Go
+模块（CONST-051(B)）：不内置任何项目特定值，由使用方以同等代码库子模块的形式集成，因此任何项目均可采用，无需继承他人的假设。同时，它也以身作则，遵循自身强制执行的标准——其所有声明均受”反虚假承诺”约定（CONST-035）和全自动化覆盖规则（CONST-048）约束，这意味着其
+README
+中宣称的每一项功能，都由自动化测试或挑战脚本验证，确保真正可用于最终用户，而非仅仅”退出码为零”；面向用户的字符串则通过
+CONST-046 国际化翻译接口处理。这一切的核心在于形成闭环：DocProcessor 是
+QA 流程的输入端，由 HelixQA 完成闭环——它从文档中提取功能地图，HelixQA
+则通过捕获的运行时证据验证每一项功能，从而迫使文档、测试与实际交付的行为趋于一致，而非在版本迭代中悄然偏离。</p>
+<h2 id="为何开发">为何开发</h2>
+<p>文档与测试渐行渐远：文档承诺的功能无测试验证，QA
+无法轻易判断何为”完整”。DocProcessor
+将文档转化为机器可读的功能地图，使验证覆盖率能够以实际承诺的内容为基准进行衡量。</p>
+<p>内容</p>
+<h2 id="为何堪称变革性突破">为何堪称变革性突破</h2>
+<p>它将软件交付中最模糊的问题——“我们交付的产品是否与当初承诺的一致？”——转化为可自动化、持续验证的流程。且这一转化无需依赖硬性的AI条件：无论是否有模型可用，均可通过LLM提取（模型支持时）或启发式算法（模型缺失时）实现，确保从离线运行器到全智能管道的每个环境中，验证结果始终如一。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li><strong>文档-功能映射提取</strong>，并同步跟踪验证覆盖率。</li>
+<li><strong>双重提取机制</strong>：支持LLM智能代理驱动或启发式/离线模式。</li>
+<li><strong>项目无关、零配置解耦</strong>（CONST-051(B)）。</li>
+<li><strong>防虚假验证</strong>：README中的所有声明均由测试/验证挑战（Challenge）背书（CONST-035/048）。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>模型可选运行</strong>：通过启发式提取器回退机制解决，确保模块在离线环境下正常工作。</li>
+<li><strong>文档与现实保持一致</strong>：通过结构化功能映射+验证覆盖率跟踪解决，并纳入质量保证闭环。</li>
+<li><strong>复用性</strong>：通过严格解耦及同代码库子模块调用实现。</li>
+<li><strong>自身声明的可信度</strong>：通过针对每项宣称功能的防虚假测试/验证挑战解决。</li>
+</ul>
+<h2 id="技术栈选型依据与实现方式">技术栈（选型依据与实现方式）</h2>
+<ul>
+<li><strong>Go（1.25+版本）</strong> ——
+模块核心，基于Apache-2.0协议开源。</li>
+<li><strong>LLM智能代理</strong> —— 语义化功能提取（可选）。</li>
+<li><strong>启发式解析器</strong> —— 离线功能提取的备用方案。</li>
+<li><strong>国际化翻译组件（<code>pkg/i18n</code>）</strong> ——
+支持CONST-046本地化字符串。</li>
+<li><strong>验证挑战框架</strong> —— 对模块自身声明进行防虚假验证。</li>
+</ul>
+</body>
+</html>

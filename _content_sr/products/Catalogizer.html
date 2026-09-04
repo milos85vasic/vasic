@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Catalogizer</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Catalogizer</h1>
+</header>
+<p><strong>Напредно управљање мултимедијалним колекцијама са подршком за
+више протокола — откривање, каталогизација и обогаћивање свега што
+поседујете.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>Catalogizer је систем за управљање мултимедијалним колекцијама који
+се може самостално хостовати и аутоматски открива, категоризује и
+организује медије на SMB, FTP, NFS, WebDAV и локалним фајл-системима, уз
+праћење у реалном времену, шифровано складиштење, обогаћивање спољним
+метаподацима и модеран React интерфејс подржан високоперформансним Go
+API бацкендом.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Професионални управљач мултимедијалних библиотека са подршком за више
+протокола. Go/Gin REST API препознаје преко 50 врста медија са извора
+попут SMB/FTP/NFS/WebDAV/локалних система, обогаћује их подацима из
+TMDB/IMDB/MusicBrainz/Steam и других извора, те служи React
+веб-апликацију у реалном времену преко шифроване SQLCipher базе
+података.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Већина управљача медијима захтева да се прво предате: све пребаците
+на један диск, у једном формату, једне врсте, и тек онда ће вам помоћи.
+Catalogizer полази од супротне премисе — ваша колекција већ постоји тамо
+где постоји, распрострањена на NAS дељеним ресурсима и протоколима који
+се никада неће усагласити — и прилази јој на њеном терену. Подржава
+протоколе које складишта већ користе — SMB/CIFS, FTP/FTPS, NFS, WebDAV и
+локалне фајл-системе — иза јединствене клијентске апстракције, тако да
+Windows дељени ресурс, FTP архива и WebDAV тачка монтирања изгледају
+идентично вишим слојевима и могу се мешати, замењивати или повлачити без
+додиривања апликативног кода. Go бацкенд (Gin REST API) непрестано
+надгледа те изворе, открива и класификује преко 50 врста медија
+(филмови, серије, музика, игре, софтвер, документарци) чим се фајлови
+појаве, те обогаћује сваку ставку из низа спољњих провајдера — TMDB,
+IMDB, TVDB, MusicBrainz, Spotify, Steam и других — тако да обичан назив
+фајла постаје потпуно опремљен каталогизован унос са уметничким делима,
+глумачком поставом и метаподацима. Резултати се стримују на TypeScript
+React фронтенд путем WebSocket-а, тако да се библиотека ажурира уживо
+током ингестије, уместо на ручно освежавање, а сваки бајт метаподатака
+чува се у шифрованој SQLCipher бази података заштићеној JWT
+аутентификацијом заснованом на улогама.</p>
+<p>Док већина каталогизатора пада чим дељени ресурс откаже, Catalogizer
+је пројектован да остане употребљив и током прекида. Привремени квар на
+SMB-у се апсорбује експоненцијалним поновним повезивањем, прекидачем
+кола који спречава бомбардовање неактивног хоста, сталним праћењем
+здравља система и кешом метаподатака која наставља да одговара на
+корисничке захтеве из последњег познатог исправног стања — разлика
+између „цела апликација је пала јер се један NAS рестартовао” и „један
+извор је деградиран, али све остало ради”. Поред каталогизације, служи и
+као оперативни алат за колекцију: аналитика о трендовима раста и праћењу
+квалитета/верзија, генерисање професионалних PDF извештаја, услуга
+конверзије PDF у слику/текст/HTML, извоз/увоз фаворита (JSON/CSV) и
+синхронизација са облаком на S3, Google Цлоуд Стораге или локалним
+фолдерима. И није то монолит који је случајно велики — намерно је
+састављен од 21 поново употребљивог <code>digital.vasic.*</code> Go
+подмодула и TypeScript клијентских пакета, од којих је сваки независно
+тестиран и верзиран, тако да исте испробане компоненте за
+аутентификацију, фајл-системе, стримовање и надгледање које покрећу
+Catalogizer покрећу и ширу породицу производа. Контрола квалитета није
+само декларативна: оквир Цхалленгес и HelixQA подвргавају сваку
+рекламирану функционалност провери заснованој на доказима, без празних
+обећања.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Постојећи управљачи медијским садржајем полазе од претпоставке да
+постоји један складишни бацкенд и један тип медија. Праве колекције
+распростиру се преко више NAS дељених ресурса и протокола, пропадају
+када неки ресурс откаже и мешају филмове, музику, игре и софтвер.
+Catalogizer је створен да све протоколе третира једнако, преживи
+нестабилна мрежна складишта и пружи један ауторитативан, обогаћен и
+енкриптован каталог над свим садржајима.</p>
+<h2 id="зашто-је-револуционаран">Зашто је револуционаран</h2>
+<p>У једном самостално хостованом, енкриптованом пакету обједињује оно
+што иначе захтева читав низ одвојених алата: унос независан од протокола
+који све складишне бацкендове третира подједнако, отпорност која каталог
+одржава живим током прекида складишта уместо да с њима пада, и богато
+обогаћивање из више извора које претвара сирове фајлове у прегледну,
+атрибутирану библиотеку. Добитак модуларне архитектуре је кумулативан:
+свако побољшање у клијенту фајл система или нови додатак за провајдера
+примени се једном и унапређује све потрошаче, тако да Catalogizer
+постепено постаје бољи како и окружење око њега напредује. Укратко, то
+је разлика између медијског индекса и медијског <em>система</em> – оног
+који је ваш, који преживљава нестабилну инфраструктуру и чија је
+унутрашња логика доказана, а не само обећана.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Уједињени клијент фајл система за више протокола
+(SMB/FTP/NFS/WebDAV/локално) иза једног интерфејса.</li>
+<li>Офлајн кеш + прекидач струјног кола како би каталог остао употребљив
+током прекида складишта.</li>
+<li>Потпуно издвајање у 21 поново употребљив
+<code>digital.vasic.*</code> Go подмодул и ТС клијентске модуле.</li>
+<li>Каталог енкриптован на месту складиштења (SQLCipher) са
+синхронизацијом у реалном времену (WebSocket) према UI.</li>
+<li>Доказани квалитет путем Цхалленгес оквира и HelixQA
+интеграције.</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Нестабилна мрежна складишта:</strong> решено
+експоненцијалним повлачењем, прекидачем струјног кола, здравственим
+проверама и офлајн кешом са политиком избацивања који служи кешираним
+метаподацима када извори нису доступни.</li>
+<li><strong>Хетерогеност протокола:</strong> решено апстракцијом сваког
+протокола иза заједничког <code>digital.vasic.filesystem</code> клијента
+тако да виши слојеви нису свесни протокола.</li>
+<li><strong>Сигурност података:</strong> решено енкрипцијом на месту
+складиштења (SQLCipher) уз JWT/RBAC аутентификацију и middleware за
+санитизацију захтева.</li>
+<li><strong>Одрживост на великој скали:</strong> решено издвајањем све
+генеричке логике у независно тестиране подмодуле уместо у монолит.</li>
+</ul>
+<h2 id="технолошки-стек-зашто-како">Технолошки стек (зашто + како)</h2>
+<ul>
+<li><strong>Go + Gin</strong> — високоперформативно REST API језгро
+(<code>catalog-api</code>); изабрано због конкурентности и пропусности
+при непрекидном праћењу.</li>
+<li><strong>TypeScript + React + Tailwind (Vite)</strong> — респонсиван
+<code>catalog-web</code> UI са ажурирањима у реалном времену.</li>
+<li><strong>WebSockets</strong> — синхронизација података уживо између
+бацкенд чворишта и UI.</li>
+<li><strong>SQLCipher (енкриптовани SQLite)</strong> — енкриптовано
+складиште метаподатака на месту складиштења; двострука подршка за
+SQLite/PostgreSQL преко <code>digital.vasic.database</code>.</li>
+<li><strong>Клијенти за SMB/FTP/NFS/WebDAV</strong> — унос преко више
+протокола путем <code>digital.vasic.filesystem</code>.</li>
+<li><strong>Спољашњи API-ји за метаподатке (TMDB, IMDB, TVDB,
+MusicBrainz, Spotify, Steam)</strong> — додаци за обогаћивање.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> — метрике и праћење
+путем <code>digital.vasic.observability</code>.</li>
+<li><strong>Docker / буилдер контејнер</strong> — репродуктивне израде
+(Tauri/Rust усмерене кроз <code>catalogizer-builder</code>).</li>
+<li><strong>Redis</strong> — кеширање и ограничавање броја захтева путем
+<code>digital.vasic.cache</code> / <code>ratelimiter</code>.</li>
+<li><strong>S3 / Google Цлоуд Стораге</strong> — синхронизација у облаку
+и складиштење контролних тачака.</li>
+</ul>
+</body>
+</html>

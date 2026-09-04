@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p><strong>Претворите документацију у проверљиву мапу функција за
+аутоматизацију QA.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>DocProcessor је самостални, потпуно одвојени Go модул који учитава
+пројектну документацију, гради структуриране мапе функција и прати
+покривеност верификације. Дизајниран је да ради са LLM агентима за
+интелигентну екстракцију функција, али укључује и хеуристичку
+екстракцију за оффлине употребу.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Пројектно-агностички Go модул за обраду документације и екстракцију
+мапа функција. Он парсира документацију у структуриране мапе функција и
+прати које су функције верификоване — користећи LLM агенте за
+интелигентну екстракцију или хеуристику оффлине — и снабдева
+аутоматизацију QA гаранцијом „без обмане, увек одговара стварности”.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Сваки софтверски тим живи са истом спором лажи: документација обећава
+функције, тестови покривају нешто слично, а нико не може са сигурношћу
+рећи да ли та два описа говоре о истом производу. DocProcessor постоји
+да би тај јаз учинио видљивим и мерљивим. На основу пројектне
+документације, он гради структурирану мапу функција — набројани,
+машински читљиви модел свега што производ тврди да ради — и прати
+покривеност верификације у односу на њу, тако да питање „да ли је ова
+документована функција заиста доказана?” престаје да буде тема ходничке
+расправе и постаје упит са одговором. Намерно је дворежимски: користи
+LLM агенте за интелигентну, семантичку екстракцију функција када су
+доступни, а у случају потпуне оффлине употребе прелази на хеуристички
+парсер, тако да никада не зависи од присуства модела и ради идентично у
+изолованом ЦИ окружењу или на лаптопу програмера у режиму авиона.</p>
+<p>Архитектонски је самостални, пројектно-несвесни, потпуно одвојени Go
+модул (ЦОНСТ-051(Б)): не садржи никакве пројектно-специфичне вредности и
+укључује се као подмодул једнаког кода, тако да га сваки пројекат може
+усвојити без наслеђивања туђих претпоставки. Такође, држи се истог
+стандарда који намеће другима — његове сопствене тврдње су везане за
+принцип „без обмане” (ЦОНСТ-035) и правила потпуне аутоматизоване
+покривености (ЦОНСТ-048), што значи да је свака могућност наведена у
+РЕАДМЕ-у проверена аутоматским тестом или Цхалленге скриптом која
+потврђује стварно, крајње корисничко понашање, а не само успешан
+завршетак; кориснички видљиви стрингови пролазе кроз ЦОНСТ-046 и18н
+преводилачки слој. Смисао свега овога је затворена петља: DocProcessor
+је улазна страна QA циклуса коју HelixQA затвара — он екстрахује мапу
+функција из документације, HelixQA доказује сваку мапирану функцију
+ухваћеним доказима у рунтиме-у, а документација, тестови и испоручено
+понашање су приморани да конвергирају уместо да се тихо удаљавају из
+верзије у верзију.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Документација и тестови се удаљавају: документација обећава функције
+које ниједан тест не доказује, а QA не може лако да утврди шта значи
+„потпуно”. DocProcessor претвара документацију у машински читљиву мапу
+функција како би се покривеност верификације могла мерити у односу на
+оно што је стварно обећано.</p>
+<h2 id="зашто-је-ово-револуционарно">Зашто је ово револуционарно</h2>
+<p>Претвара најнејасније питање у испоруци софтвера — <em>„Да ли оно што
+смо испоручили одговара ономе што смо рекли да ћемо испоручити?“</em> —
+у нешто што се може аутоматизовати и континуирано проверавати, и то без
+чврсте AI зависности: LLM екстракција када је модел доступан, хеуристика
+када није, тако да иста гаранција важи у сваком окружењу — од офлајн
+покретача до потпуно агенстке пипелине-а.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Екстракција мапе функционалности из документације уз праћење
+покривености верификацијом.</li>
+<li>Двострука екстракција: вођена LLM агентима или хеуристиком/у офлајн
+режиму.</li>
+<li>Независност од пројекта, потпуно одвојено без подешавања
+(ЦОНСТ-051(Б)).</li>
+<li>Анти-блуф самоверификација: тврдње из РЕАДМЕ фајла поткрепљене су
+тестовима/Изазовима (ЦОНСТ-035/048).</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Рад без обавезног модела:</strong> решено хеуристичким
+екстрактором као резервним решењем, тако да модул ради и офлајн.</li>
+<li><strong>Усклађивање документације и стварности:</strong> решено
+структурираним мапама функционалности и праћењем покривености
+верификацијом, интегрисаним у QA процес.</li>
+<li><strong>Поновна употребљивост:</strong> решено стриктним одвајањем и
+потрошњом подмодула из истог кодног репозиторијума.</li>
+<li><strong>Кредибилитет сопствених тврдњи:</strong> решено анти-блуф
+тестовима/Изазовима за сваку рекламирану могућност.</li>
+</ul>
+<h2 id="технолошки-стацк-зашто-како">Технолошки стацк (зашто +
+како)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — језгро модула; лиценца
+Апацхе-2.0.</li>
+<li><strong>LLM агенти</strong> — интелигентна семантичка екстракција
+функционалности (опционо).</li>
+<li><strong>Хеуристички парсер</strong> — резервно решење за екстракцију
+функционалности у офлајн режиму.</li>
+<li><strong>и18н Преводилац (<code>pkg/i18n</code>)</strong> — ЦОНСТ-046
+локализовани стрингови.</li>
+<li><strong>Оквир за Изазове</strong> — анти-блуф верификација
+сопствених тврдњи модула.</li>
+</ul>
+</body>
+</html>

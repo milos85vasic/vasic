@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMOrchestrator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMOrchestrator</h1>
+</header>
+<h1 id="llmorchestrator">LLMOrchestrator</h1>
+<p><strong>Eine Steuerungsebene für jeden
+Headless-CLI-Coding-Agent.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>LLMOrchestrator ist ein eigenständiges, wiederverwendbares Go-Modul
+zum Starten, Verwalten und Kommunizieren mit Headless-CLI-Agents
+(OpenCode, Claude Code, Gemini, Junie, Qwen Code) über ein hybrides
+Pipe-Datei-Protokoll, ausgestattet mit agentenspezifischen Circuit
+Breakern, einer pluggbaren Multi-Provider-Auswahl, einer entkoppelten
+i18n-Abstraktion und Anti-Bluff-Testgarantien.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Ein wiederverwendbares Go-Modul, das eine einheitliche Schnittstelle
+zum Starten und Steuern mehrerer LLM-basierter CLI-Agents über ein
+hybrides Pipe-Datei-Protokoll bietet. Thread-sicheres Agent-Pooling mit
+Circuit Breakern und wählbaren Routing-Strategien, bewusst
+konsumentenunabhängig, mit pluggablem i18n-Übersetzer.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>LLMOrchestrator ist eine gemeinsame Infrastruktur zur Orchestrierung
+von Headless-CLI-Coding-Agents – die Basiskomponente, die jedes
+Multi-Agenten-System stillschweigend benötigt und meist schlecht neu
+implementiert. Statt dass jedes Projekt das Starten von Prozessen, die
+Nachrichtenformatierung und die Ergebnisauswertung für Tools wie
+OpenCode, Claude Code, Gemini CLI, Junie und Qwen Code neu erfindet,
+bietet es eine einheitliche <code>Agent</code>-Schnittstelle, einen
+thread-sicheren <code>AgentPool</code> und einen
+<code>MultiProviderPool</code>, der Agents verschiedener Anbieter hinter
+einer einzigen Fassade bündelt. Das Routing ist über einen
+<code>AgentSelector</code> pluggbar – Round-Robin mit Überspringen von
+Anbietern, die Anforderungen nicht erfüllen, oder priorisierte Auswahl
+mit Fallback – sodass die Verteilung der Aufgaben eine Frage der
+gewählten Strategie ist, nicht einer hartcodierten Annahme. Jeder
+konkrete Agent ist ein schlanker Adapter über einem gemeinsamen
+<code>BaseAdapter</code>, der den gesamten Prozesslebenszyklus
+verwaltet: Start mit Pipe-Einrichtung, sanftes Beenden via
+SIGTERM-gefolgt-von-SIGKILL, Neustart und Liveness – der fehleranfällige
+Teil, einmal gelöst.</p>
+<p>Die Kommunikation ist bewusst hybrid und passt den Transport an die
+Aufgabe an. Ein Pipe-Transport überträgt zeilengetrennte
+JSON-Nachrichten mit einer Lese-Timeout pro Anfrage und einer
+Antwortlängenbegrenzung für schnelle interaktive Nachrichten, während
+ein Datei-Transport pro Sitzung Inbox/Outbox/Shared-Verzeichnisse für
+große oder dauerhafte Artefakte nutzt, die nicht in einer Pipe
+gespeichert werden sollten. Resilienz ist kein nachträglicher Gedanke –
+sie ist strukturell verankert: Ein Circuit Breaker pro Agent öffnet nach
+drei aufeinanderfolgenden Fehlern für eine 60-sekündige Abkühlphase,
+bevor ein Half-Open-Probe durchgeführt wird, und ein
+Hintergrund-Health-Monitor pingt Agents, sodass ein ausgefallener Agent
+sich erholen kann, ohne auf eingehenden Traffic warten zu müssen. Die
+Pool-Anforderung blockiert auf einer Bedingungsvariable, statt die CPU
+mit Busy-Waiting zu belasten, und der Antwortparser ist zustandslos und
+sicher für gleichzeitige Aufrufe. Das Modul ist strikt entkoppelt –
+keine konsumentenspezifischen Details dürfen eindringen – und jede
+nutzergerichtete Zeichenkette durchläuft einen pluggbaren
+i18n-<code>Translator</code>, wobei ein <code>NoopTranslator</code>
+Nachrichten-IDs unverändert zurückgibt, sodass fehlende Übersetzungen
+deutlich sichtbar werden, statt sich zu verstecken.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Jedes Multi-Agenten-System muss CLI-Agents zuverlässig starten und
+mit ihnen kommunizieren. Die Neuentwicklung von Startprozessen,
+Nachrichtenformatierung, Parsing und Fehlerbehandlung für jedes Projekt
+ist ineffizient und fehleranfällig. LLMOrchestrator bündelt diese
+Funktionen in einem entkoppelten, wiederverwendbaren Modul, dessen
+spezifische Verantwortung es wiederverwendbar macht – und diese
+Wiederverwendbarkeit wäre zerstört, sobald konsumentenspezifische
+Details eindringen.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es verwandelt das „Betreiben einer Armee heterogener CLI-Agenten” von
+einem maßgeschneiderten, projektspezifischen Entwicklungsmarathon in
+einen einfachen Bibliotheksimport – mit bereits gelösten und erprobten
+Lösungen für Pooling, Circuit Breaking, Lebenszyklusmanagement und
+austauschbare Routing-Mechanismen. Und weil die Anti-Bluff-Tests das
+reale System Ende-zu-Ende prüfen, statt sich mit „es kompiliert” zu
+begnügen, erhält man eine Abstraktion, der man tatsächlich vertrauen
+kann – selbst unter Nebenläufigkeit und bei Fehlern –, und nicht nur
+eine, die im Diagramm gut aussieht.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li><strong>Hybrides Pipe- und Dateiprotokoll</strong> – interaktive
+Geschwindigkeit (JSON-Zeilen über stdin/stdout, Lese-Deadlines,
+Antwortbegrenzungen) <em>und</em> dauerhafter, dateibasierter Austausch
+(Posteingang/Postausgang/Shared) für große Artefakte, sodass man nie
+zwischen Latenz und Beständigkeit abwägen muss.</li>
+<li><strong>Multi-Provider-Pool mit austauschbaren Selektoren</strong> –
+eine einheitliche Fassade für mehrere CLI-Anbieter, bei der Round-Robin-
+oder präferenzbasiertes Routing als Richtlinie gewählt wird, statt es
+fest zu verdrahten.</li>
+<li><strong>Circuit Breaker pro Agent +
+Hintergrund-Gesundheitsmonitor</strong> – automatische Degradation
+<em>und</em> Wiederherstellung (3 Fehler → 60 Sekunden offen →
+halb-offener Test), sodass ein instabiler Agent isoliert und
+anschließend ohne manuelles Eingreifen wieder eingebunden wird.</li>
+<li><strong>Pooling ohne aktives Warten</strong> – <code>Acquire</code>
+blockiert auf <code>sync.Cond</code>, bis ein passender, gesunder Agent
+verfügbar ist oder der Kontext abgebrochen wird, sodass das Warten keine
+CPU-Ressourcen verbraucht.</li>
+<li><strong>Strikte Entkopplung + Anti-Bluff-i18n</strong> – der
+<code>NoopTranslator</code> gibt Nachrichten-IDs unverändert zurück,
+sodass fehlende Übersetzungen unmöglich übersehen werden können, statt
+stillschweigend leer zu bleiben.</li>
+<li><strong>Sicherheit als Standard</strong> – eine Positivliste für
+Binärpfade verhindert Shell-Interpolation und damit jede Angriffsfläche
+für Command-Injection, abgesichert durch Pfad-Traversal-Schutz, eine
+1-MiB-Antwortbegrenzung gegen unkontrollierte Ausgaben und
+API-Schlüsselmaskierung in Logs.</li>
+<li><strong>Anti-Bluff-Challenge-Harness</strong> – echte
+Festplatten-/JSON-/Parser-Roundtrips in fünf Sprachen, kombiniert mit
+einem Mutations-Gate, das bei defekten Features zwingend einen
+Fehlercode zurückgeben muss – ein Test, der beweist, dass das System
+tatsächlich scheitern <em>kann</em>.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Zuverlässige Agentenprozess-E/A.</strong> Die Kommunikation
+mit einem gestarteten CLI-Prozess ist trügerisch schwierig; gelöst durch
+ein hybrides Pipe- und Dateitransportprotokoll, einen definierten
+Nachrichten-/Parser-Vertrag, damit beide Seiten das Übertragungsformat
+einheitlich interpretieren, und einen <code>BaseAdapter</code>, der den
+gesamten Prozesslebenszyklus zentralisiert – inklusive eines eleganten
+SIGTERM-Timeouts mit SIGKILL-Fallback.</li>
+<li><strong>Nebenläufigkeit ohne aktives Warten.</strong> Gelöst durch
+einen <code>AgentPool</code> mit Mutex und Bedingungsvariablen, bei dem
+<code>Acquire</code> schläft, bis ein passender Agent mit der benötigten
+Funktionalität tatsächlich frei wird, kombiniert mit einem
+zustandslosen, nebenwirkungsfreien Parser, der sicher aus mehreren
+Goroutinen gleichzeitig aufgerufen werden kann.</li>
+<li><strong>Isolation von Provider-Ausfällen.</strong> Gelöst, sodass
+ein fehlerhafter Anbieter die anderen nicht in Mitleidenschaft zieht:
+Circuit Breaker pro Agent begrenzen den Schadensradius, und ein
+Gesundheitsmonitor-Goroutine treibt die Wiederherstellung voran – selbst
+wenn keine Anfragen eingehen, die sie auslösen würden.</li>
+<li><strong>Korrektheit beweisen, nicht nur Kompilierbarkeit.</strong>
+Gelöst durch einen Challenge-Runner: Dutzende Invarianten in
+en/sr/ja/es/de, die das reale System testen, plus ein gekoppeltes
+Mutations-Gate (<code>LLMORCH_MUTATE_RUNNER=1</code> muss fehlschlagen →
+Wrapper-Exitcode 99), das die Funktion gezielt beschädigt, um zu
+beweisen, dass das Gate selbst kein Bluff ist.</li>
+<li><strong>Lokalisierung ohne stille Fehler.</strong> Gelöst durch die
+<code>NoopTranslator</code>-Nahtstelle mit unveränderten Nachrichten-IDs
+und injizierbaren Übersetzern pro Verbraucher, sodass Lücken in den
+Übersetzungen immer sichtbar sind – statt kaschiert zu werden.</li>
+</ul>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<ul>
+<li><strong>Go (1.25)</strong> — ausgewählt wegen seiner erstklassigen
+Nebenläufigkeit und sauberen Prozesssteuerung, genau das, was die
+Orchestrierung von Live-Agent-Prozessen erfordert; es implementiert das
+Modul, seine Agenten-Adapter, Transportschichten und den Parser.</li>
+<li><strong>Go Standardbibliothek (ergänzt durch testify,
+yaml.v3)</strong> — eine bewusste Entscheidung, um die
+Abhängigkeitsoberfläche minimal zu halten und <em>keine</em> LLM-SDKs
+einzubinden, damit das Modul leichtgewichtig bleibt und sich problemlos
+in jeden Verbraucher einbetten lässt, ohne Anbieter-spezifischen Ballast
+mitzuschleppen.</li>
+<li><strong>Pipe-Transport (JSON-lines über stdio)</strong> — gewählt
+für schnelle interaktive Nachrichtenübermittlung, abgesichert durch
+Lese-Timeouts und Antwortlängenbegrenzungen, sodass ein blockierter oder
+außer Kontrolle geratener Agent den Aufrufer nicht lahmlegen kann.</li>
+<li><strong>Datei-Transport (Inbox/Outbox/geteilt)</strong> — gewählt
+für den dauerhaften Austausch großer Artefakte pro Sitzung, wo eine Pipe
+das falsche Werkzeug wäre.</li>
+<li><strong><code>sync.Mutex</code>/<code>sync.Cond</code></strong> —
+eingesetzt, um eine blockierende, faire Agentenpool-Belegung ohne
+aktives Warten zu realisieren.</li>
+<li><strong>Circuit Breaker + HealthMonitor</strong> — kombiniert
+gewählt, um pro Agenten Resilienz <em>und</em> aktive Wiederherstellung
+zu gewährleisten, nicht nur Fehlererkennung.</li>
+<li><strong><code>pkg/i18n</code> Translator</strong> — als entkoppelte
+Lokalisierungsschnittstelle ausgewählt, die verbraucherspezifische
+Zeichenketten aus dem Kern heraushält.</li>
+<li><strong>Challenge-Harness (<code>challenges/runner</code>) +
+Makefile (<code>test -race</code>, <code>fuzz</code>,
+<code>cover</code>)</strong> — gewählt für eine faktengestützte,
+betrugssichere Überprüfung, einschließlich Race-Condition-Erkennung und
+Parser-Fuzzing, sodass Korrektheit unter adversativen Bedingungen
+nachgewiesen und nicht einfach vorausgesetzt wird.</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> Ein entkoppeltes, wiederverwendbares
+Modul, das als Submodul von mehreren Helix/vasic-Projekten genutzt wird.
+<strong>Lizenz: Apache-2.0</strong>; das GitHub-Repository ist
+öffentlich.</li>
+<li>Modellmetadaten stammen aus LLMsVerifier, über HelixQA angebunden;
+dieses Modul importiert LLMsVerifier/VisionEngine/DocProcessor nicht
+direkt. Die in der <code>CLAUDE.md</code> der übergeordneten Anwendung
+referenzierten Stacks (Gin/PostgreSQL usw.) beschreiben
+<code>helix_code</code>, nicht dieses Modul.</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär
+(LLM-Infrastruktur-Cluster — entkoppeltes, wiederverwendbares Modul).
+Rangiert nach HelixTrack.</p>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>discoveries</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">discoveries</h1>
+</header>
+<h1 id="discoveries">Discoveries</h1>
+<p>Things agents have learned about the codebase and domain. Each entry
+names the file it was verified against.</p>
+<h2
+id="every-build-path-is-derived-the-two-hardcoded-root-bugs-are-fixed">Every
+build path is DERIVED — the two hardcoded-root bugs are fixed</h2>
+<p><strong>Status: CLOSED. Re-verified against the live files
+2026-08-27.</strong> Kept as history because the failure mode is
+instructive. Nothing in this entry is outstanding work — do not open a
+task from it.</p>
+<p><strong>What it was.</strong> <code>_tools/deploy-langs.sh</code> set
+<code>ROOT</code> to a literal macOS path and <code>cd</code>-ed into
+it. The script sets <code>set -uo pipefail</code> — <strong>no
+<code>-e</code></strong> — so the failed <code>cd</code> merely printed
+an error and the script carried on in the caller’s working directory,
+with <code>GEN</code> and <code>PDF</code> pointing at directories that
+do not exist, and then committed and pushed both site submodules.
+Silent, and destructive. <code>_tests/playwright.config.js</code>
+carried the same literal prefix for its two static roots, and CI papered
+over the whole class by symlinking that path to
+<code>$GITHUB_WORKSPACE</code> instead of fixing the configs.</p>
+<p><strong>What it is now.</strong></p>
+<ul>
+<li><code>_tools/deploy-langs.sh:14</code> —
+<code>ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)"</code>;
+line 15 makes the <code>cd</code> <strong>fatal</strong>
+(<code>|| { echo "FATAL: cannot cd to repository root ..."; exit 1; }</code>).
+Line 8 is a <em>comment</em> describing the historical bug — it is
+documentation, not a defect, and must not be “re-fixed”.</li>
+<li><code>_tests/playwright.config.js:7</code> —
+<code>const REPO = path.resolve(__dirname, '..');</code> with
+<code>VD_ROOT</code>/<code>MV_ROOT</code> joined off it. No
+machine-specific literal remains anywhere in that file.</li>
+<li><code>.github/workflows/ci.yml:44-52</code> and
+<code>:182-184</code> — the symlink bridge is <strong>removed</strong>;
+both notes are written as history (“that bridge has been removed”, “no
+longer needed”).</li>
+<li>A repo-wide sweep removed <strong>33 occurrences across 18
+files</strong>.</li>
+<li><code>scripts/audit-hardcoded-paths.sh</code> now enforces the
+invariant as CI <strong>Gate 0</strong>
+(<code>.github/workflows/ci.yml:131-140</code>) and fails the build if
+any machine-specific absolute root is reintroduced. It strips
+comment-only lines before matching, on the stated principle that
+documenting the bug is not the bug, and it allow-lists itself in
+<code>.hardcoded-paths-allow</code> because its own <code>PATTERN</code>
+must contain the literal it detects.</li>
+</ul>
+<p>This checkout lives at
+<code>/run/media/milosvasic/DATA4TB/Projects/vasic</code>, and the
+documented deploy entry point (<code>README.md:94-98</code>,
+<code>CLAUDE.md:148-154</code>) resolves here with no symlink and no
+local edit.</p>
+<h2 id="recursive-submodule-checkout-is-a-known-failure">Recursive
+submodule checkout is a known failure</h2>
+<p><code>milosvasic.ru</code> embeds <code>red-elf/Upstreamable</code>,
+whose <code>.gitmodules</code> is a broken 0-byte gitlink. Init only
+what the gates need, non-recursively:
+<code>git submodule update --init vasic.digital milosvasic.ru</code>
+(<code>README.md:34-40</code>; <code>.github/workflows/ci.yml</code>
+deviation (a)).</p>
+<h2
+id="testsevidence-is-tracked-output-at-scale"><code>_tests/evidence/</code>
+is tracked output at scale</h2>
+<p>4,526 tracked files — 1,353 json, 1,167 txt, 1,142 png, 515 log —
+against only 95 real source files in all of <code>_tests/</code>
+(<code>.lumenignore</code> header). <code>.gitignore</code> carries an
+explicit <code>!_tests/evidence/</code> negation so it stays tracked. It
+is excluded from the Lumen index only; CodeGraph and git still see
+it.</p>
+<h2 id="language-completeness-is-data-driven-not-a-list">Language
+completeness is data-driven, not a list</h2>
+<p><code>_tools/deploy-langs.sh:21-25</code> counts files containing
+<code>"verdict": "PASS"</code> under
+<code>_tests/evidence/translate-new/&lt;lang&gt;/</code> and compares
+that to the number of <code>*.md</code> files under
+<code>_content/{products,sites,docs}</code>. A language ships only when
+the counts match. Candidate list:
+<code>ru sr de es fr be zh kk hi ja ko ar tr fa</code> (14).</p>
+<h2
+id="private-repo-suppression-lives-at-the-data-gate-not-the-renderer">Private-repo
+suppression lives at the data gate, not the renderer</h2>
+<p><code>_tools/gen</code> declares <code>PortfolioEntry.Private</code>
+but <strong>never branches on it</strong> — the renderer trusts
+pre-validated data. Suppression is enforced by
+<code>_tools/portfolio/validate.mjs</code> and re-asserted at runtime by
+the Playwright private-repo deep-link guard, with
+<code>TestPortfolioDataHasNoPrivateLeak</code> as a belt-and-suspenders
+check (<code>_tests/TEST-TYPES.md</code>, “honest edges”).</p>
+<h2 id="the-commit-wrapper-resolves-outside-this-repository">The commit
+wrapper resolves outside this repository</h2>
+<p><code>command -v commit</code> →
+<code>&lt;workspace&gt;/project_toolkit/Upstreamable/commit</code> (on
+this host:
+<code>/run/media/milosvasic/DATA4TB/Projects/project_toolkit/Upstreamable/commit</code>).
+It chains <code>Software-Toolkit/Utils/Git/commit.sh</code>
+(<code>git add .</code> + <code>git commit</code>) then
+<code>push_all.sh</code>, which reads <code>upstreams/*.sh</code>. This
+root has a tracked <code>upstreams/GitHub.sh</code> exporting
+<code>UPSTREAMABLE_REPOSITORY="git@github.com:milos85vasic/vasic.git"</code>,
+so <code>commit "&lt;msg&gt;"</code> works here. <strong>Verified
+2026-08-27.</strong></p>
+<h2
+id="githooks-now-has-exactly-one-non-sample-hook-and-it-is-not-governance"><code>.git/hooks/</code>
+now has exactly one non-sample hook — and it is not governance</h2>
+<p><code>post-commit</code>, installed by <code>ashlr-plugin</code>
+(<code>scripts/install-genome-hooks.ts</code>), backgrounds
+<code>bun run scripts/genome-commit-watcher.ts</code>. The §11.4.75
+five-layer enforcement ritual is still absent, so
+<code>Constitution.md</code> gap <strong>G5 stays OPEN</strong> even
+though the directory is no longer hook-free. <strong>Verified
+2026-08-27.</strong></p>
+<h2 id="release-tags-do-not-fan-out-to-every-owned-submodule">Release
+tags do not fan out to every owned submodule</h2>
+<p><code>v1.8.0</code> exists on <code>milosvasic.ru</code> and
+<code>vasic.digital</code> only (gap G10 OPEN).
+<code>design-toolkit</code> is checked out twice in this tree (gap G11);
+the shas matched as of the Constitution’s capture.</p>
+<h2 id="the-21-failing-gates-are-classified-not-mysterious">The 21
+failing gates are classified, not mysterious</h2>
+<p><code>scripts/verify-all-constitution-rules.sh</code> → 58 gates, 37
+PASS / 21 FAIL / 0 ERROR, exit 1. The 21 are exactly the 17
+<code>cm_covenant_114_*_propagation.sh</code> gates (each reporting the
+same five carriers: 17 × 5 = 85 MISSING lines) plus 4 gates failing
+inside the constitution submodule’s own tree. Four of the five carriers
+are third-party (known-excluded, §103); only
+<code>vasic.digital/QWEN.md</code> is an owned gap, and its fix is
+staged awaiting operator application.</p>
+</body>
+</html>

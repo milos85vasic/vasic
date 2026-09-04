@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>Барлық AI модельдеріңізді бір платформада — қуатты AI
+модельдерін жылдамдатып, ақылды түрде, кез келген масштабта, болжамды
+құнымен іске қосыңыз.</strong></p>
+<blockquote>
+<p><strong>Дәлдік ескертуі (Helix Constitution §11.4.6):</strong>
+Helix-Flow-дың нақты, жарияланған бастапқы код репозиторийі бар, бірақ
+оның README файлында тек бір сөйлемдік слоган ғана жазылған, ал
+жергілікті көшірмесі мен жобаның құрылымы/архитектурасы туралы құжаттама
+жоқ. Шын мәнінде тек екі нәрсе құжатталған: слоган мен репозиторийдің
+бағдарламалау тілдерінің құрамы. Қалған барлық мәліметтер жетіспейді
+немесе UNVERIFIED белгісімен көрсетілген. Бұл бет толыққанды өнім
+сипаттамасы емес, тек уақытша орынбасар, нақты бастапқы материалдар
+берілгенше кеңейтілмеуі керек.</p>
+</blockquote>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Helix-Flow Платформасы AI модельдерін іске қосу үшін бірыңғай,
+біріктірілген орта ретінде орналастырылған — қуатты модельдерді
+жылдамырақ, кез келген масштабта, болжамды құнымен іске қосуға мүмкіндік
+береді. <em>(Орналастыру тек слоганнан алынған; нақты мүмкіндіктер қол
+жетімді бастапқы кодта құжатталмаған.)</em></p>
+<h2 id="қысқаша-сипаттамасы">Қысқаша сипаттамасы</h2>
+<p>Helix-Flow Платформасы (<code>Helix-Flow/Platform</code>) — AI
+модельдерін кез келген масштабта, болжамды құнымен іске қосуға арналған
+бірыңғай платформа ретінде ұсынылған Go негізіндегі жария жоба. Оның код
+базасы Go, Python және Terraform/HCL тілдерін араластырады, бұл
+инфраструктураны код арқылы басқарылатын іске қосу платформасын
+білдіреді. Слоганнан тыс мүмкіндіктер UNVERIFIED деп белгіленген.</p>
+<h2 id="толық-сипаттамасы">Толық сипаттамасы</h2>
+<p>Helix-Flow Платформасы <code>Helix-Flow</code> GitHub ұйымындағы
+жалғыз репозиторий болып, оның бір жолдық README файлы арқылы “барлық AI
+модельдеріңізді іске қосуға арналған бір платформа” ретінде ұсынылған.
+Онда қуатты AI модельдерін жылдамырақ және кез келген масштабта,
+болжамды құнымен іске қосуға баса назар аударылған. Бұл слоганнан басқа,
+жобада ешқандай түсіндірме құжаттама жоқ, сондықтан оның архитектурасы,
+мүмкіндіктері мен жобалануы туралы бастапқы кодтан шындыққа сай
+сипаттама беру мүмкін емес.</p>
+<p>Шын мәнінде анықтала алатын нәрсе — репозиторийдің бағдарламалау
+тілдерінің құрамы: ол шамамен бірдей мөлшерде Go және Python тілдерінен
+тұрады, сонымен қатар Shell, HTML/CSS/JavaScript (веб-интерфейс),
+PL/pgSQL (PostgreSQL негізіндегі компонент), HCL (Terraform /
+инфраструктураны код арқылы басқару) және Mermaid (диаграммалар) тілдері
+бар. Бұл жиынтық Go басқару/серверлеу қабаты мен Python модельдерін
+басқару құралдары, Postgres дерекқоры, веб-интерфейсі және IaC арқылы
+басқарылатын бұлттық инфрақұрылымды біріктіретін іске қосу платформасына
+сәйкес келеді. Бірақ бұл тұжырым файлдардың түрлеріне негізделген,
+<strong>құжатталған мәлімет емес</strong>. Нақты өнім сипаттамасын
+(мақсат, инновациялар, техникалық қиындықтар, технологиялық стек
+негіздері) дайындау үшін нақты README, архитектуралық құжаттама немесе
+жергілікті көшірме қажет. Бұл бет қол жетімді бастапқы кодтардың
+негізіндегі мәліметтермен шектеледі.</p>
+<h2 id="неліктен-жасадық">Неліктен жасадық</h2>
+<p><em>UNVERIFIED — қол жетімді бастапқы кодта құжатталмаған.</em>
+Слоган бірыңғай, масштабталатын AI модельдерін іске қосуды
+болжамды/бақыланатын құнымен қамтамасыз етуді мақсат ететінін білдіреді,
+бірақ оның негіздемесі көрсетілмеген. Мұнда ешқандай себеп
+келтірілмеген.</p>
+<h2 id="неліктен-бұл-өзгерістер-әкеледі">Неліктен бұл өзгерістер
+әкеледі</h2>
+<p>Мазмұны</p>
+<p><em>ТӘЛЕЛДЕНБЕГЕН — құжатталмаған.</em> Дереккөздері табылғанша
+алынып тасталды.</p>
+<h2 id="қандай-жаңалықтары-бар">Қандай жаңалықтары бар</h2>
+<p><em>ТӘЛЕЛДЕНБЕГЕН — құжатталмаған.</em> Дереккөздері табылғанша
+алынып тасталды.</p>
+<h2 id="ең-үлкен-техникалық-қиындықтар-және-оларды-қалай-шештік">Ең
+үлкен техникалық қиындықтар және оларды қалай шештік</h2>
+<p><em>ТӘЛЕЛДЕНБЕГЕН — құжатталмаған.</em> Дереккөздері табылғанша
+алынып тасталды.</p>
+<h2 id="технологиялық-стек">Технологиялық стек</h2>
+<p>Репозиторий тілінің құрамынан ғана байқалды — рөлі мен негіздемесі
+ТӘЛЕЛДЕНБЕГЕН:</p>
+<ul>
+<li><strong>Go</strong> — негізгі тіл; мүмкін, серверлік/басқару қабаты.
+<em>(Рөлі ТӘЛЕЛДЕНБЕГЕН.)</em></li>
+<li><strong>Python</strong> — шамалас үлес; мүмкін, модель/шешім шығару
+құралдары. <em>(Рөлі ТӘЛЕЛДЕНБЕГЕН.)</em></li>
+<li><strong>Shell</strong> — құрылымдау/орналастыру/автоматтандыру
+скрипттері. <em>(Рөлі ТӘЛЕЛДЕНБЕГЕН.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — реляциялық дерекқор
+компоненті бар.</li>
+<li><strong>Terraform / HCL</strong> — инфрақұрылым-бағдарламасы, бұл
+бұлттық орналастыруды білдіреді.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — веб-интерфейс немесе
+құжаттама беті.</li>
+</ul>
+<h2 id="жағдайы-және-ақиқаттылық-туралы-ескертпелер">Жағдайы және
+ақиқаттылық туралы ескертпелер</h2>
+<ul>
+<li><strong>Жағдайы: жол картасы / орынбасар.</strong> Бұл
+<code>Helix-Flow</code> ұйымындағы жалғыз репозиторий; ашық, соңғы рет
+2026-04-27 күні жаңартылған, үй сілтемесі жоқ, лицензиясы көрсетілмеген.
+Нақты құжаттама болғанша, оны өнім деңгейінде жауапкершілікпен ұсыну
+мүмкін емес.</li>
+<li><strong>Лицензиясы: белгісіз</strong> (репозиторийде
+көрсетілмеген).</li>
+</ul>
+<p><strong>Басымдық деңгейі:</strong> Helix-басты (Helix-платформалық
+отбасының шешім шығару өнімі), бірақ қазір дереккөздердің жоқтығына
+байланысты тоқтатылған. HelixTrack-нан кейінгі орында.</p>
+</body>
+</html>

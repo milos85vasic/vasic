@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTranslate</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTranslate</h1>
+</header>
+<h1 id="helixtranslate">HelixTranslate</h1>
+<p><strong>Tagline:</strong> Verified-model book translation — honest by
+design, never a silent fallback.</p>
+<p><strong>Summary:</strong> HelixTranslate is a high-performance,
+Go-based ebook translation platform that translates books between 100+
+languages using verified LLM providers, with real-time WebSocket
+monitoring and a strict no-silent-fallback routing policy that fails
+loudly rather than degrade quietly.</p>
+<p><strong>Short description:</strong> Go-based universal ebook
+translation toolkit. Translates FB2, EPUB, TXT, HTML, PDF, and DOCX
+across 100+ languages using the strongest verified LLM (via the
+LLMsVerifier bridge), with REST/HTTP-3 and gRPC APIs, distributed
+processing, and a real-time WebSocket monitoring dashboard. (~40
+words)</p>
+<p><strong>Long description:</strong> HelixTranslate is an
+enterprise-grade, Go-based system for translating whole books between
+languages using LLM providers. It parses and regenerates multiple ebook
+formats (FB2, EPUB, TXT, HTML, PDF, DOCX), supports 100+ languages with
+auto-detection, and offers both CLI tools and API servers (REST with
+HTTP/3, gRPC, and a WebSocket event stream). Its defining characteristic
+is <em>how it chooses a model</em>: rather than hardcoding providers,
+HelixTranslate delegates all model authority to the LLMsVerifier bridge
+(<code>pkg/bridge</code>), which selects the strongest <em>verified</em>
+API model and a deterministic, score-ordered fallback chain. Model
+eligibility follows a weighted score (responsiveness, code, feature
+richness, reliability). Crucially, the system enforces a “no silent
+fallback” mandate in code: if no provider API key is present, or an
+operator explicitly requests an unavailable provider, the pipeline
+returns an honest hard error instead of quietly switching providers or
+dropping to a local runtime — a rule verified by a dedicated pre-build
+gate and mutation test. Local runtimes (Ollama, llama.cpp) were
+deliberately removed from the default path. Around the translation core
+sits a real-time WebSocket monitoring subsystem: a translation CLI emits
+typed events to a monitoring server, which drives a live web dashboard,
+and remote SSH workers enable distributed translation. Additional
+capabilities include multi-pass polishing, a preparation-phase quality
+analysis, translation caching, and vision-driven QA. The platform is
+governed by an anti-bluff engineering constitution: tests must prove
+real user-visible outcomes, backed by mandatory mutation testing.</p>
+<p><strong>Why we built it:</strong> To translate long-form books
+reliably and <em>honestly</em> — never shipping a “degraded-but-present”
+translation. The design premise is that a missing or unverifiable
+translation must be a loud, hard error, and that model selection must
+always resolve to a genuinely verified provider rather than a hardcoded
+guess or a silent local fallback. (Note: the repo has no single
+canonical “mission” prose paragraph; this rationale is synthesized from
+the constitution and routing code — verify wording before quoting.)</p>
+<p><strong>Why it’s a game-changer:</strong> Most LLM translation
+pipelines fail silently — they fall back to a weaker model, a local
+runtime, or emit partial output while tests still pass green.
+HelixTranslate makes silent degradation structurally impossible: model
+choice is verification-gated, the fallback chain is deterministic and
+transparent, and “no key / no verified model” is an honest error, not a
+shrug. That turns “did the translation actually happen on a capable
+model?” from a hope into a guarantee.</p>
+<p><strong>What’s innovative:</strong> - <strong>Verification-gated
+model routing</strong> via the LLMsVerifier bridge — the strongest
+<em>verified</em> model is auto-selected; operators don’t have to pick a
+provider. - <strong>No-silent-fallback guarantee enforced in
+code</strong> — four explicit routing arms (mock / explicit-verifier /
+explicit-provider / bridge-default), each of which hard-errors rather
+than silently switching; deliberate removal of local runtimes from the
+default path. - <strong>Mechanical enforcement</strong> — a
+<code>CM-NO-LOCAL-RUNTIME</code> pre-build gate plus a paired mutation
+test asserts no local-runtime client is constructed on the default path.
+- <strong>Deterministic, score-ordered fallback chain</strong> —
+provider-to-provider failover among verified models is allowed and
+transparent (distinct from a forbidden silent fallback). -
+<strong>Real-time WebSocket monitoring</strong> — typed translation
+events streamed to a live dashboard; distributed SSH workers. -
+<strong>Anti-bluff testing regime</strong> — mutation testing, negative
+assertions, real-system runs, and vision-driven QA so “tests pass”
+cannot mask “feature doesn’t work.”</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<strong>Guaranteeing an honest translation pipeline (no silent
+degradation).</strong> Solved by centralizing all model authority in the
+LLMsVerifier bridge, encoding four explicit routing branches that each
+fail loud, removing local-runtime fallbacks, and enforcing the rule with
+a build gate + mutation test. - <strong>“Green tests, broken
+features.”</strong> The constitution explicitly names the problem —
+tests and challenges pass while features don’t actually work — and
+solves it with the Anti-Bluff Testing regime: concrete user-visible
+assertions, real systems (mocks only in unit tests), mandatory mutation
+testing (deliberately break the feature → the test must fail), and
+vision-verified QA. (No dedicated “hardest challenges” doc exists; this
+is the strongest sourced example.) - <strong>Long-form, multi-format
+quality.</strong> Multi-pass polishing, a preparation-phase analysis,
+and translation caching address consistency and cost over book-length
+inputs.</p>
+<p><strong>Tech stack</strong> (why + how): - <strong>Go</strong> —
+high-concurrency backend for parsing, translating, and streaming; module
+<code>digital.vasic.translator</code>. (Version stated inconsistently
+across <code>VERSION</code>/Makefile/<code>AGENTS.md</code> — treat as
+unsettled.) - <strong>Gin</strong> — HTTP/REST API server. -
+<strong>QUIC / HTTP/3 (quic-go)</strong> — low-latency, modern transport
+for the REST API. - <strong>gRPC + Protocol Buffers</strong> —
+high-performance service interface alongside REST. - <strong>Gorilla
+WebSocket</strong> — real-time translation-event stream to the
+monitoring dashboard. - <strong>PostgreSQL, SQLite, Redis</strong> —
+relational + embedded storage + cache; SQLite also backs the bridge’s
+verified-models store (<code>data/verified_models.db</code>). -
+<strong>unidoc/unioffice + unipdf</strong> — DOCX and PDF document
+processing for multi-format ebooks. - <strong>Cobra</strong> — CLI
+framework for the <code>unified-translator</code> and companion tools. -
+<strong>golang-jwt (JWT HS256)</strong> — API authentication; plus
+per-IP token-bucket rate limiting and TLS/QUIC security. -
+<strong>LLMsVerifier bridge (<code>pkg/bridge</code>)</strong> — sources
+the strongest verified model + deterministic fallback chain; the
+enforcement point for no-silent-fallback. - <strong>Testify</strong> —
+Go test suite, including the dedicated
+<code>provider_routing_test.go</code> and mutation gates. -
+<strong>Docker / Podman (rootless) + Compose</strong> — containerized,
+distributed deployment
+(<code>docker-compose.distributed.yml</code>).</p>
+<p><strong>Public links:</strong> - Product repo, PUBLIC:
+<code>github.com/HelixDevelopment/HelixTranslate</code> - Governance
+reference, PUBLIC:
+<code>github.com/HelixDevelopment/HelixConstitution</code> -
+<strong>PRIVATE — do NOT publish as links:</strong> SSH origin remotes
+(<code>git@github.com:HelixDevelopment/HelixTranslate.git</code>,
+<code>git@github.com:milos85vasic/Translator.git</code>).
+Dashboard/monitor endpoints are localhost-only
+(e.g. <code>http://localhost:8090/monitor</code>) — not public. License
+(README claims MIT) not confirmed against a LICENSE file — verify before
+stating.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+<strong>Provider-routing / no-silent-fallback flow</strong> (signature
+diagram) — decision tree: request → is provider explicit? → is a
+verified model available? → strongest-verified selection with
+deterministic fallback chain; every “no” branch terminating in a red
+“honest hard error,” with local runtimes shown crossed out. This is the
+product’s headline concept. 2. <strong>Verification-gated model
+selection</strong> — LLMsVerifier scores models (responsiveness / code /
+feature-richness / reliability weights) → only verified,
+positively-scored models enter the eligible pool → HelixTranslate picks
+the top one. 3. <strong>Real-time monitoring pipeline</strong> —
+Translation CLI → typed WebSocket events → Monitoring Server → live Web
+Dashboard, with remote SSH workers feeding distributed translation. 4.
+<strong>Multi-format ebook flow</strong> — FB2/EPUB/PDF/DOCX/HTML/TXT in
+→ parse → translate (verified model) → multi-pass polish → regenerate
+target format.</p>
+<p><strong>Site relevance:</strong> Both. Product page on
+<strong>vasic.digital</strong> (lead with the no-silent-fallback /
+verified-routing story); portfolio entry on
+<strong>milosvasic.ru</strong>.</p>
+<p><strong>Priority tier:</strong> Helix-primary (LLM-infrastructure
+cluster). Ranks within the Helix platform family, after HelixTrack.</p>
+<p><strong>Source provenance:</strong> Local repo
+<code>/Volumes/T7/Projects/helix_translate</code> —
+<code>README.md</code>, <code>CONSTITUTION.md</code>,
+<code>AGENTS.md</code>, <code>Documentation/ARCHITECTURE.md</code>,
+<code>cmd/unified-translator/main.go</code> (routing switch + error
+strings), <code>pkg/bridge/bridge.go</code>, <code>go.mod</code>,
+<code>VERSION</code>, <code>pkg/bridge/provider_routing_test.go</code>.
+No-silent-fallback also grounded in
+<code>constitution/Constitution.md</code> (§11.4.69 and the “Silent
+fallback” clause). Cross-checked against harvested
+<code>_analysis/github-helix-others.md</code>. Caution flags: root
+README describes the <em>monitoring</em> subsystem, not the book
+translator (product framing lives in AGENTS.md / ARCHITECTURE.md);
+version and Go-builder versions are inconsistent across files;
+ARCHITECTURE.md still lists removed Ollama/local engines (stale);
+WebSocket performance numbers are stated targets, not verified; no
+canonical “why we built it”/“hardest challenges” prose exists.
+“Helix-Flow” appears only as an org name in governance boilerplate — not
+a HelixTranslate component.</p>
+</body>
+</html>

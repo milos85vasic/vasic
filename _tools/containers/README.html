@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1
+id="toolscontainers-this-umbrellas-containerised-workloads"><code>_tools/containers</code>
+— this umbrella’s containerised workloads</h1>
+<p>This directory is the umbrella root’s <strong>consumer</strong> of
+the canonical Containers Submodule,
+<code>vasic-digital/containers</code> (Go module
+<code>digital.vasic.containers</code>), which is pinned in this tree at
+<code>submodules/containers</code>.</p>
+<p>It is the first and, at this writing, the <strong>only</strong>
+consumer of that submodule in this repository. Measured 2026-09-03:
+before this directory existed,
+<code>grep -rn 'digital.vasic.containers'</code> outside
+<code>submodules/</code> and <code>workshop/</code> returned
+<strong>zero</strong> hits — the gitlink was declared, manifest-pinned
+and unused.</p>
+<h2 id="what-is-here">What is here</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>go.mod</code></td>
+<td>consumer module,
+<code>replace digital.vasic.containers =&gt; ../../submodules/containers</code>
+(§11.4.76(2))</td>
+</tr>
+<tr>
+<td><code>cmd/site-build/</code></td>
+<td>the orchestrator. Drives podman/docker <strong>only</strong> through
+the submodule’s <code>pkg/runtime</code>, <code>pkg/compose</code> and
+<code>pkg/logging</code></td>
+</tr>
+<tr>
+<td><code>cmd/distribute-helixtranslate/</code></td>
+<td>builds the HelixTranslate image on a remote host and distributes it,
+through the submodule’s <code>pkg/remote</code> and
+<code>pkg/remoteexec</code>. <strong>Never run against a live remote —
+see its package comment before trusting it</strong></td>
+</tr>
+<tr>
+<td><code>cmd/runtime-probe/</code></td>
+<td>answers “which container runtime is on THIS machine?” via the
+submodule’s <code>runtime.AutoDetect</code>, for shell callers that must
+not grow their own detection. Three-valued; <strong>fully verified on
+this host</strong></td>
+</tr>
+<tr>
+<td><code>compose/compose.sites.yml</code></td>
+<td>the service definitions the orchestrator consumes</td>
+</tr>
+<tr>
+<td><code>compose/jekyll-build.sh</code></td>
+<td>the Jekyll service’s entrypoint, executed <strong>inside</strong>
+the container only</td>
+</tr>
+</tbody>
+</table>
+<p><code>podman</code> and <code>docker</code> appear nowhere in
+<code>cmd/site-build</code>. That is the point of §11.4.76(4): the
+submodule owns every process that talks to a runtime, and this tree owns
+none of them.</p>
+<h2 id="running-it">Running it</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/containers</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> build <span class="at">-o</span> bin/site-build ./cmd/site-build</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/site-build</span> <span class="at">-probe</span>                 <span class="co"># which runtime + compose are here</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/site-build</span> <span class="at">-workload</span> jekyll       <span class="co"># rebuild milosvasic.ru/_site</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/site-build</span> <span class="at">-workload</span> gen-test     <span class="co"># the generator&#39;s unit tests, pinned toolchain</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> build <span class="at">-o</span> bin/runtime-probe ./cmd/runtime-probe</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/runtime-probe</span>                     <span class="co"># runtime=podman version=5.7.1</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">./bin/runtime-probe</span> <span class="at">-name-only</span>          <span class="co"># podman          (for `$(...)` in shell)</span></span></code></pre></div>
+<p><code>runtime-probe</code> exists because
+<code>site-build -probe</code> cannot answer for a caller that has no
+compose file: it returns <strong>2</strong> when compose is unavailable,
+which is correct for a compose orchestrator and wrong for the question
+“is there a runtime here at all”. <code>runtime-probe</code> asks only
+<code>runtime.AutoDetect</code>.</p>
+<p><strong>Verified on this host, all three exit codes against real
+conditions</strong> (2026-09-04, podman 5.7.1):</p>
+<pre><code>./bin/runtime-probe                       runtime=podman version=5.7.1        rc 0
+./bin/runtime-probe extra                 unexpected argument &quot;extra&quot;         rc 1
+env PATH=&lt;empty dir&gt; ./bin/runtime-probe  COULD NOT DETERMINE — no container
+                                          runtime is available here: tried
+                                          podman, docker, nerdctl, cri-o,
+                                          lxd, kubernetes                     rc 2</code></pre>
+<p>The rc-2 leg is the paired §1.1 mutation and it is
+<strong>DATA</strong> — an empty <code>PATH</code> — so it cannot be
+made inoperative by editing the code it guards. It is asserted again in
+<code>cmd/runtime-probe/main_test.go</code>; <code>go test ./...</code>
+is green across the module.</p>
+<p><code>_tools/gen/build.sh</code> builds and calls the
+<code>jekyll</code> workload itself; <code>VASIC_JEKYLL_MODE</code>
+(<code>container</code> | <code>host</code> | <code>auto</code>, default
+<code>auto</code>) picks the strategy there.</p>
+<p><strong>Build the binary; do not <code>go run</code> it.</strong>
+<code>go run</code> collapses every non-zero program exit into 1 and
+prints <code>exit status N</code> instead. Measured 2026-09-03, same
+code, same arguments:</p>
+<pre><code>go run ./cmd/site-build -root /tmp -probe   -&gt;  rc 1   (wrong)
+./bin/site-build        -root /tmp -probe   -&gt;  rc 2   (COULD NOT DETERMINE)</code></pre>
+<p>Exit codes are three-valued, as every check in this tree is:
+<strong>0</strong> the workload ran and its output was verified,
+<strong>1</strong> a real failure, <strong>2</strong> COULD NOT
+DETERMINE — no runtime, no compose command, a compose file that cannot
+be read, or an outcome that could not be read back. <strong>A 2 is never
+a pass</strong>, and a 2 arriving as a 1 is an unproven claim reported
+as a defect.</p>
+<h3 id="the-freshness-assertion-is-proved-not-asserted-1.1">The
+freshness assertion is proved, not asserted (§1.1)</h3>
+<p>The check that makes a green run mean something is <em>“the artifact
+was rewritten by THIS run”</em>. It was exercised against a paired
+mutation — same service name, same container name, a container that
+exits 0 and writes nothing:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">services</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">jekyll-build</span><span class="kw">:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> docker.io/library/alpine:3.20</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">container_name</span><span class="kw">:</span><span class="at"> vasic-jekyll-build</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;true&quot;</span><span class="kw">]</span></span></code></pre></div>
+<pre><code>site-build: FAIL — milosvasic.ru/_site/index.html was NOT rewritten:
+mtime is still 2026-09-03T20:24:29+02:00. The container exited 0 while
+leaving the previous artifact in place.                            rc 1</code></pre>
+<p>The mutation is DATA — a throwaway compose file — so the assertion
+cannot be made inoperative by editing the code it guards.</p>
+<h2 id="why-the-jekyll-service-exists-the-measured-defect">Why the
+Jekyll service exists — the measured defect</h2>
+<p>On the development host, <code>bundle exec jekyll</code> exits
+<strong>127</strong> and <code>bundle install</code>
+<strong>cannot</strong> fix it:</p>
+<pre><code>mkmf.rb can&#39;t find header files for ruby at /usr/lib/include/ruby.h
+An error occurred while installing json (2.9.1), and Bundler cannot continue.</code></pre>
+<p><code>ruby-3.3.8-alt3</code> and <code>libruby-3.3.8-alt3</code> are
+installed; <strong><code>libruby-devel</code> is not</strong>, so no gem
+with a C extension can build. Installing it is a root-level operator
+action (<code>sudo</code> here requires a password).</p>
+<p>The consequence was quiet rather than loud.
+<code>_tools/gen/build.sh</code> called a bare <code>jekyll</code>,
+<code>set -e</code> aborted the script at that line, <code>_site</code>
+was never rewritten — and <code>_tests/playwright.config.js</code>
+serves exactly that directory. Gate 6 went on reporting a green suite
+while validating a <strong>six-day-old</strong> artifact for
+milosvasic.ru (<code>_site/index.html</code> was dated 2026-08-28 when
+this was measured on 2026-09-03).</p>
+<p>The container carries its own headers and toolchain, so the build
+needs no host privilege at all — on this machine, and on every future
+clone.</p>
+<h2 id="why-there-is-no-containerfile-here">Why there is no
+Containerfile here</h2>
+<p>Both services run a <strong>stock upstream image</strong> with a
+bind-mounted entrypoint. Nothing about either workload needs a derived
+image, so none is built. If one ever is needed, §11.4.76(4) says extend
+<code>vasic-digital/containers</code> — its <code>pkg/crossbuild</code>
+already ships Containerfiles behind a <code>Backend</code> seam — rather
+than growing a parallel image-build path in this tree.</p>
+<h2 id="known-upstream-defect-in-the-consumed-submodule">Known upstream
+defect in the consumed submodule</h2>
+<p><strong>REPORTED UPSTREAM 2026-09-03 as <a
+href="https://github.com/vasic-digital/containers/issues/2">vasic-digital/containers#2</a></strong>
+(open). The issue carries the CLI reproduction below plus a Go program
+that drives the defect through the module’s own public API, and the
+one-line fix. Re-measured before filing, against gitlink
+<code>d940b51fc247c285c805799452992da8d09c75b9</code> on podman 5.7.1 /
+Go 1.26.2. Filing it is not fixing it — this section stays until the
+submodule ships the change and the gitlink is bumped.</p>
+<p>Measured while filing, and worth recording here:
+<code>podman.go</code> is the <strong>only</strong> runtime in the
+package that forwards the <code>"all"</code> sentinel to a backend that
+cannot parse it. <code>crio.go:304-308</code> and
+<code>lxd.go:328-332</code> guard it with <code>strconv.Atoi</code>;
+<code>kubernetes.go:418-420</code> guards it with an explicit
+<code>o.Tail != "all"</code>. The guard <code>podman.go</code> is
+missing already exists three times in its own package.</p>
+<p><code>runtime.Logs()</code> returns <strong>zero bytes and a nil
+error</strong> against the podman runtime when called with default
+options.</p>
+<ul>
+<li><p><code>pkg/runtime/options.go:141</code> —
+<code>defaultLogOptions()</code> sets <code>Tail: "all"</code>.</p></li>
+<li><p><code>pkg/runtime/podman.go:331-333</code> — that value is
+appended verbatim as <code>--tail all</code>.</p></li>
+<li><p>Podman parses <code>--tail</code> with
+<code>strconv.ParseInt</code>. Measured on this host:</p>
+<pre><code>podman logs --tail all &lt;c&gt;   Error: invalid argument &quot;all&quot; for &quot;--tail&quot; flag … rc 125
+podman logs --tail -1  &lt;c&gt;   &lt;the container&#39;s output&gt;                          rc 0</code></pre></li>
+</ul>
+<p>The failure is <strong>silent</strong>: <code>ExecuteStream</code>
+starts the process successfully, so <code>Logs()</code> returns a nil
+error; the pipe hits EOF immediately; the rc-125 reaches the caller only
+through <code>Close() -&gt; cmd.Wait()</code>. A caller that
+<code>defer</code>s <code>Close()</code> and ignores its error sees
+<em>“logs read fine, container printed nothing”</em> — the exact shape
+of a bluff. It was observed here first as two green runs with empty log
+sections.</p>
+<p><strong>The fix belongs upstream</strong> (§11.4.76(4)): make the
+podman path translate <code>"all"</code> to <code>"-1"</code>, or
+default to <code>"-1"</code>. Nothing in this tree works around it by
+shelling out to a runtime. What <code>cmd/site-build</code> does instead
+is (a) use the module’s own public <code>runtime.WithTail("-1")</code>,
+and (b) report <code>Close()</code>’s error instead of discarding it, so
+a broken log call can never again be mistaken for a quiet container.</p>
+<h2 id="not-containerised-and-why">Not containerised, and why</h2>
+<ul>
+<li><strong>Playwright (gate 6)</strong> — it works on the host today,
+so it fixes nothing broken; its <code>webServer</code> binds host TCP
+ports and serves two directories; and the image it would need is not on
+this host (<code>podman images</code> lists no playwright image), so it
+is a multi-GB pull for no measured gain.</li>
+<li><strong>The page generator itself</strong> (<code>gen</code>, as
+opposed to its tests) — writes into two site submodules and syncs
+<code>design-system/</code> by host path. A candidate, not done, and
+named here rather than left implicit.</li>
+<li><strong><code>workshop-curriculum_platform_1</code></strong> —
+already containerised and deliberately untouched.</li>
+<li><strong><code>_tools/helixtranslate-container*</code></strong> — a
+pre-existing §11.4.76(4) finding, not a gap this directory created.
+<code>_tools/distribute-helixtranslate.sh</code> builds and replicates
+an image with raw <code>ssh</code> + <code>podman build</code> +
+<code>podman save | docker load</code>, and
+<code>_tools/helixtranslate-container.sh</code> runs it over
+<code>ssh</code>; <code>submodules/containers/cmd/deploy-stack</code>
+plus <code>pkg/remote</code> / <code>pkg/distribution</code> exist to do
+exactly that. It was <strong>not</strong> converted here because it
+targets remote hosts this session could neither reach nor test, and
+converting it unverified would be bluff work.</li>
+</ul>
+<h2 id="the-helixtranslate-surface-re-measured-2026-09-04">The
+HelixTranslate surface, re-measured 2026-09-04</h2>
+<p>The line above stays true for the REMOTE half. The surface was then
+measured file by file, and it splits three ways rather than two — the
+middle column is the one an “it’s all a violation” reading loses:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>§11.4.76 verdict</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_tools/helixtranslate-container/Containerfile</code></td>
+<td><strong>not a violation.</strong> The anchor forbids reimplementing
+runtime/compose/lifecycle primitives; an image recipe is none of those,
+and the module itself ships <code>*.Containerfile</code> under
+<code>pkg/crossbuild</code></td>
+<td>left as is</td>
+</tr>
+<tr>
+<td><code>_tools/helixtranslate-container/Containerfile.translator</code></td>
+<td>same</td>
+<td>left as is</td>
+</tr>
+<tr>
+<td><code>_tools/helixtranslate-local.sh</code></td>
+<td><strong>real violation.</strong> Froze the literal
+<code>podman</code> for the LOCAL host — the module owns local runtime
+detection (<code>runtime.AutoDetect</code>)</td>
+<td><strong>CONVERTED</strong> to <code>cmd/runtime-probe</code>,
+verified on this host</td>
+</tr>
+<tr>
+<td><code>_tools/distribute-helixtranslate.sh</code></td>
+<td><strong>real violation.</strong> Raw
+<code>ssh</code>/<code>scp</code>/<code>rsync</code> +
+<code>podman build</code> + <code>save｜load</code> —
+<code>pkg/remote</code>, <code>pkg/remoteexec</code>,
+<code>pkg/distribution</code> own all of it</td>
+<td>replacement written, <strong>UNVERIFIED</strong> (hosts
+unreachable); original kept</td>
+</tr>
+<tr>
+<td><code>_tools/helixtranslate-container.sh</code></td>
+<td><strong>real violation</strong> (raw <code>ssh</code>), <strong>not
+closeable today</strong> — it streams the document on remote STDIN and
+no executed module API accepts stdin</td>
+<td>declared exception in its own header</td>
+</tr>
+<tr>
+<td><code>_tools/helixtranslate-container/run.sh</code></td>
+<td><strong>not closeable today</strong> — one-shot
+<code>run --rm -i</code> with stdin; takes its runtime from
+<code>$1</code>, so it detects nothing</td>
+<td>declared exception added</td>
+</tr>
+<tr>
+<td><code>_tools/translate-fleet.sh</code></td>
+<td><strong>not a violation.</strong> Its
+<code>host == amber.local ? docker : podman</code> is per-host
+CONFIGURATION: <code>pkg/remote.RemoteHost</code> carries a declared
+<code>Runtime string</code> field and the module ships no remote runtime
+detector</td>
+<td>note added, code unchanged</td>
+</tr>
+</tbody>
+</table>
+<p>The single upstream change that would close the two “not closeable”
+rows is an <strong>ephemeral-run primitive that accepts stdin</strong>
+in <code>pkg/runtime</code> — §11.4.76(4) says add it to
+<code>vasic-digital/containers</code>, never as a parallel
+implementation here. Measured at gitlink
+<code>d940b51fc247c285c805799452992da8d09c75b9</code>:
+<code>ContainerRuntime</code> declares Name, Version, IsAvailable,
+Start, Stop, Remove, Status, List, Stats, Exec and Logs — <strong>no
+Run, no Create</strong> — <code>Exec</code> takes no stdin, and the only
+<code>WithStdin</code> in the module
+(<code>pkg/remote/connection/interface.go:146</code>) sits in an
+interfaces-and-options-only package that nothing implements and no
+constructor returns.</p>
+<p><strong>Unverified end to end, and labelled so here as well as in the
+file:</strong> no <code>helixtranslate:cli</code> image exists on this
+host (<code>podman images</code> matches it zero times), so the
+converted <code>helixtranslate-local.sh</code> was exercised for runtime
+resolution and exit codes only — never for an actual translation. Its
+rc-1 “translation failed” on this host is the image being absent, and is
+the same result the pre-conversion script produced, so nothing was
+downgraded.</p>
+</body>
+</html>

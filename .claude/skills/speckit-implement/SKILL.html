@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Execute the implementation plan by processing and executing all tasks defined in tasks.md" />
+  <title>SKILL</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SKILL</h1>
+</header>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before implementation)</strong>: -
+Check if <code>.specify/extensions.yml</code> exists in the project
+root. - If it exists, read it and look for entries under the
+<code>hooks.before_implement</code> key - If the YAML cannot be parsed
+or is invalid, skip hook checking silently and continue normally -
+Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - When constructing slash
+commands from hook command names, replace dots (<code>.</code>) with
+hyphens (<code>-</code>). For example, <code>speckit.git.commit</code> →
+<code>/speckit-git-commit</code>. - For each executable hook, output the
+following based on its <code>optional</code> flag: - <strong>Optional
+hook</strong> (<code>optional: true</code>): ``` ## Extension Hooks</p>
+<pre><code>**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Outline.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+<h2 id="outline">Outline</h2>
+<ol type="1">
+<li><p>Run
+<code>.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks</code>
+from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths
+must be absolute. For single quotes in args like “I’m Groot”, use escape
+syntax: e.g ‘I’'‘m Groot’ (or double-quote if possible: “I’m
+Groot”).</p></li>
+<li><p><strong>Check checklists status</strong> (if
+FEATURE_DIR/checklists/ exists):</p>
+<ul>
+<li><p>Scan all checklist files in the checklists/ directory</p></li>
+<li><p>For each checklist, count:</p>
+<ul>
+<li>Total items: All lines matching <code>- [ ]</code> or
+<code>- [X]</code> or <code>- [x]</code></li>
+<li>Completed items: Lines matching <code>- [X]</code> or
+<code>- [x]</code></li>
+<li>Incomplete items: Lines matching <code>- [ ]</code></li>
+</ul></li>
+<li><p>Create a status table:</p>
+<pre class="text"><code>| Checklist | Total | Completed | Incomplete | Status |
+|-----------|-------|-----------|------------|--------|
+| ux.md     | 12    | 12        | 0          | ✓ PASS |
+| test.md   | 8     | 5         | 3          | ✗ FAIL |
+| security.md | 6   | 6         | 0          | ✓ PASS |</code></pre></li>
+<li><p>Calculate overall status:</p>
+<ul>
+<li><strong>PASS</strong>: All checklists have 0 incomplete items</li>
+<li><strong>FAIL</strong>: One or more checklists have incomplete
+items</li>
+</ul></li>
+<li><p><strong>If any checklist is incomplete</strong>:</p>
+<ul>
+<li>Display the table with incomplete item counts</li>
+<li><strong>STOP</strong> and ask: “Some checklists are incomplete. Do
+you want to proceed with implementation anyway? (yes/no)”</li>
+<li>Wait for user response before continuing</li>
+<li>If user says “no” or “wait” or “stop”, halt execution</li>
+<li>If user says “yes” or “proceed” or “continue”, proceed to step
+3</li>
+</ul></li>
+<li><p><strong>If all checklists are complete</strong>:</p>
+<ul>
+<li>Display the table showing all checklists passed</li>
+<li>Automatically proceed to step 3</li>
+</ul></li>
+</ul></li>
+<li><p>Load and analyze the implementation context:</p>
+<ul>
+<li><strong>REQUIRED</strong>: Read tasks.md for the complete task list
+and execution plan</li>
+<li><strong>REQUIRED</strong>: Read plan.md for tech stack,
+architecture, and file structure</li>
+<li><strong>IF EXISTS</strong>: Read data-model.md for entities and
+relationships</li>
+<li><strong>IF EXISTS</strong>: Read contracts/ for API specifications
+and test requirements</li>
+<li><strong>IF EXISTS</strong>: Read research.md for technical decisions
+and constraints</li>
+<li><strong>IF EXISTS</strong>: Read .specify/memory/constitution.md for
+governance constraints</li>
+<li><strong>IF EXISTS</strong>: Read quickstart.md for integration
+scenarios</li>
+</ul></li>
+<li><p><strong>Project Setup Verification</strong>:</p>
+<ul>
+<li><strong>REQUIRED</strong>: Create/verify ignore files based on
+actual project setup:</li>
+</ul>
+<p><strong>Detection &amp; Creation Logic</strong>:</p>
+<ul>
+<li><p>Check if the following command succeeds to determine if the
+repository is a git repo (create/verify .gitignore if so):</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> rev-parse <span class="at">--git-dir</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span></code></pre></div></li>
+<li><p>Check if Dockerfile* exists or Docker in plan.md → create/verify
+.dockerignore</p></li>
+<li><p>Check if .eslintrc* exists → create/verify .eslintignore</p></li>
+<li><p>Check if eslint.config.* exists → ensure the config’s
+<code>ignores</code> entries cover required patterns</p></li>
+<li><p>Check if .prettierrc* exists → create/verify
+.prettierignore</p></li>
+<li><p>Check if .npmrc or package.json exists → create/verify .npmignore
+(if publishing)</p></li>
+<li><p>Check if terraform files (*.tf) exist → create/verify
+.terraformignore</p></li>
+<li><p>Check if .helmignore needed (helm charts present) → create/verify
+.helmignore</p></li>
+</ul>
+<p><strong>If ignore file already exists</strong>: Verify it contains
+essential patterns, append missing critical patterns only <strong>If
+ignore file missing</strong>: Create with full pattern set for detected
+technology</p>
+<p><strong>Common Patterns by Technology</strong> (from plan.md tech
+stack):</p>
+<ul>
+<li><strong>Node.js/JavaScript/TypeScript</strong>:
+<code>node_modules/</code>, <code>dist/</code>, <code>build/</code>,
+<code>*.log</code>, <code>.env*</code></li>
+<li><strong>Python</strong>: <code>__pycache__/</code>,
+<code>*.pyc</code>, <code>.venv/</code>, <code>venv/</code>,
+<code>dist/</code>, <code>*.egg-info/</code></li>
+<li><strong>Java</strong>: <code>target/</code>, <code>*.class</code>,
+<code>*.jar</code>, <code>.gradle/</code>, <code>build/</code></li>
+<li><strong>C#/.NET</strong>: <code>bin/</code>, <code>obj/</code>,
+<code>*.user</code>, <code>*.suo</code>, <code>packages/</code></li>
+<li><strong>Go</strong>: <code>*.exe</code>, <code>*.test</code>,
+<code>vendor/</code>, <code>*.out</code></li>
+<li><strong>Ruby</strong>: <code>.bundle/</code>, <code>log/</code>,
+<code>tmp/</code>, <code>*.gem</code>, <code>vendor/bundle/</code></li>
+<li><strong>PHP</strong>: <code>vendor/</code>, <code>*.log</code>,
+<code>*.cache</code>, <code>*.env</code></li>
+<li><strong>Rust</strong>: <code>target/</code>, <code>debug/</code>,
+<code>release/</code>, <code>*.rs.bk</code>, <code>*.rlib</code>,
+<code>*.prof*</code>, <code>.idea/</code>, <code>*.log</code>,
+<code>.env*</code></li>
+<li><strong>Kotlin</strong>: <code>build/</code>, <code>out/</code>,
+<code>.gradle/</code>, <code>.idea/</code>, <code>*.class</code>,
+<code>*.jar</code>, <code>*.iml</code>, <code>*.log</code>,
+<code>.env*</code></li>
+<li><strong>C++</strong>: <code>build/</code>, <code>bin/</code>,
+<code>obj/</code>, <code>out/</code>, <code>*.o</code>,
+<code>*.so</code>, <code>*.a</code>, <code>*.exe</code>,
+<code>*.dll</code>, <code>.idea/</code>, <code>*.log</code>,
+<code>.env*</code></li>
+<li><strong>C</strong>: <code>build/</code>, <code>bin/</code>,
+<code>obj/</code>, <code>out/</code>, <code>*.o</code>,
+<code>*.a</code>, <code>*.so</code>, <code>*.exe</code>,
+<code>*.dll</code>, <code>autom4te.cache/</code>,
+<code>config.status</code>, <code>config.log</code>,
+<code>.idea/</code>, <code>*.log</code>, <code>.env*</code></li>
+<li><strong>Swift</strong>: <code>.build/</code>,
+<code>DerivedData/</code>, <code>*.swiftpm/</code>,
+<code>Packages/</code></li>
+<li><strong>R</strong>: <code>.Rproj.user/</code>,
+<code>.Rhistory</code>, <code>.RData</code>, <code>.Ruserdata</code>,
+<code>*.Rproj</code>, <code>packrat/</code>, <code>renv/</code></li>
+<li><strong>Universal</strong>: <code>.DS_Store</code>,
+<code>Thumbs.db</code>, <code>*.tmp</code>, <code>*.swp</code>,
+<code>.vscode/</code>, <code>.idea/</code></li>
+</ul>
+<p><strong>Tool-Specific Patterns</strong>:</p>
+<ul>
+<li><strong>Docker</strong>: <code>node_modules/</code>,
+<code>.git/</code>, <code>Dockerfile*</code>,
+<code>.dockerignore</code>, <code>*.log*</code>, <code>.env*</code>,
+<code>coverage/</code></li>
+<li><strong>ESLint</strong>: <code>node_modules/</code>,
+<code>dist/</code>, <code>build/</code>, <code>coverage/</code>,
+<code>*.min.js</code></li>
+<li><strong>Prettier</strong>: <code>node_modules/</code>,
+<code>dist/</code>, <code>build/</code>, <code>coverage/</code>,
+<code>package-lock.json</code>, <code>yarn.lock</code>,
+<code>pnpm-lock.yaml</code></li>
+<li><strong>Terraform</strong>: <code>.terraform/</code>,
+<code>*.tfstate*</code>, <code>*.tfvars</code>,
+<code>.terraform.lock.hcl</code></li>
+<li><strong>Kubernetes/k8s</strong>: <code>*.secret.yaml</code>,
+<code>secrets/</code>, <code>.kube/</code>, <code>kubeconfig*</code>,
+<code>*.key</code>, <code>*.crt</code></li>
+</ul></li>
+<li><p>Parse tasks.md structure and extract:</p>
+<ul>
+<li><strong>Task phases</strong>: Setup, Tests, Core, Integration,
+Polish</li>
+<li><strong>Task dependencies</strong>: Sequential vs parallel execution
+rules</li>
+<li><strong>Task details</strong>: ID, description, file paths, parallel
+markers [P]</li>
+<li><strong>Execution flow</strong>: Order and dependency
+requirements</li>
+</ul></li>
+<li><p>Execute implementation following the task plan:</p>
+<ul>
+<li><strong>Phase-by-phase execution</strong>: Complete each phase
+before moving to the next</li>
+<li><strong>Respect dependencies</strong>: Run sequential tasks in
+order, parallel tasks [P] can run together</li>
+<li><strong>Follow TDD approach</strong>: Execute test tasks before
+their corresponding implementation tasks</li>
+<li><strong>File-based coordination</strong>: Tasks affecting the same
+files must run sequentially</li>
+<li><strong>Validation checkpoints</strong>: Verify each phase
+completion before proceeding</li>
+</ul></li>
+<li><p>Implementation execution rules:</p>
+<ul>
+<li><strong>Setup first</strong>: Initialize project structure,
+dependencies, configuration</li>
+<li><strong>Tests before code</strong>: If you need to write tests for
+contracts, entities, and integration scenarios</li>
+<li><strong>Core development</strong>: Implement models, services, CLI
+commands, endpoints</li>
+<li><strong>Integration work</strong>: Database connections, middleware,
+logging, external services</li>
+<li><strong>Polish and validation</strong>: Unit tests, performance
+optimization, documentation</li>
+</ul></li>
+<li><p>Progress tracking and error handling:</p>
+<ul>
+<li>Report progress after each completed task</li>
+<li>Halt execution if any non-parallel task fails</li>
+<li>For parallel tasks [P], continue with successful tasks, report
+failed ones</li>
+<li>Provide clear error messages with context for debugging</li>
+<li>Suggest next steps if implementation cannot proceed</li>
+<li><strong>IMPORTANT</strong> For completed tasks, make sure to mark
+the task off as [X] in the tasks file.</li>
+</ul></li>
+<li><p>Completion validation:</p>
+<ul>
+<li>Verify all required tasks are completed</li>
+<li>Check that implemented features match the original
+specification</li>
+<li>Validate that tests pass and coverage meets requirements</li>
+<li>Confirm the implementation follows the technical plan</li>
+</ul></li>
+</ol>
+<p>Note: This command assumes a complete task breakdown exists in
+tasks.md. If tasks are incomplete or missing, suggest running
+<code>/speckit-tasks</code> first to regenerate the task list.</p>
+<h2 id="mandatory-post-execution-hooks">Mandatory Post-Execution
+Hooks</h2>
+<p><strong>You MUST complete this section before reporting completion to
+the user.</strong></p>
+<p>Check if <code>.specify/extensions.yml</code> exists in the project
+root. - If it does not exist, or no hooks are registered under
+<code>hooks.after_implement</code>, skip to the Completion Report. - If
+it exists, read it and look for entries under the
+<code>hooks.after_implement</code> key. - If the YAML cannot be parsed
+or is invalid, skip hook checking silently and continue to the
+Completion Report. - Filter out hooks where <code>enabled</code> is
+explicitly <code>false</code>. Treat hooks without an
+<code>enabled</code> field as enabled by default. - For each remaining
+hook, do <strong>not</strong> attempt to interpret or evaluate hook
+<code>condition</code> expressions: - If the hook has no
+<code>condition</code> field, or it is null/empty, treat the hook as
+executable - If the hook defines a non-empty <code>condition</code>,
+skip the hook and leave condition evaluation to the HookExecutor
+implementation - When constructing slash commands from hook command
+names, replace dots (<code>.</code>) with hyphens (<code>-</code>). For
+example, <code>speckit.git.commit</code> →
+<code>/speckit-git-commit</code>. - For each executable hook, output the
+following based on its <code>optional</code> flag: - <strong>Mandatory
+hook</strong> (<code>optional: false</code>) — <strong>You MUST emit
+<code>EXECUTE_COMMAND:</code> for each mandatory hook</strong>: ``` ##
+Extension Hooks</p>
+<pre><code>**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+```
+After emitting the block above you MUST actually invoke the hook and wait for it to finish before continuing. Run it the same way you would run the command yourself in this agent/session (the invocation may differ from the literal `{command}` id shown above, e.g. a skills-mode agent runs it as `/skill:speckit-...` or `$speckit-...`). Emitting the block alone does not run the hook.</code></pre>
+<ul>
+<li><p><strong>Optional hook</strong> (<code>optional: true</code>):</p>
+<pre><code>## Extension Hooks
+
+**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`</code></pre></li>
+</ul>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report final status with summary of completed work.</p>
+<h2 id="done-when">Done When</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />All tasks in tasks.md completed and
+marked <code>[X]</code></label></li>
+<li><label><input type="checkbox" />Implementation validated against
+specification, plan, and test coverage</label></li>
+<li><label><input type="checkbox" />Extension hooks dispatched or
+skipped according to the rules in Mandatory Post-Execution Hooks
+above</label></li>
+<li><label><input type="checkbox" />Completion reported to user with
+summary of completed work</label></li>
+</ul>
+</body>
+</html>

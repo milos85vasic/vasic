@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<p><strong>Kullanıcı gibi gör — analiz ve navigasyon için bilgisayarlı
+görü ile LLM görüşü.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>VisionEngine, klasik bilgisayarlı görü ile LLM tabanlı görüşü
+birleştiren, bağımsız bir Go araç setidir. Kullanıcı arayüzlerini analiz
+eder, UI öğelerini ve görsel sorunları tespit eder, uygulama ekran
+geçişlerinin navigasyon grafiklerini oluşturur. Çoklu sağlayıcı destekli
+görüş arka uçları ve OpenCV, bir derleme etiketiyle kontrol altına
+alınmıştır.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>UI analizi ve navigasyon grafiği oluşturma için yeniden
+kullanılabilir bir Go modülü. Analiz katmanı (UI öğeleri, ekran
+farkları, görsel sorunlar), BFS yol bulma özelliğine sahip navigasyon
+grafiği ve DOT/JSON/Mermaid dışa aktarım seçenekleri sunar. Ayrıca
+GPT-4o, Claude, Gemini, Qwen-VL ve daha fazlası için LLM görüş
+adaptörleri içerir.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Çoğu UI test otomasyonu aslında kördür. Erişilebilirlik ağaçlarına ve
+DOM seçicilerine yönelir — bir makinenin arayüz algısıdır bu — ve bir
+insanın gerçekten deneyimlediği her şeyi kaçırır: bir düğmenin görünür
+olup olmadığı, düzenin bozulup bozulmadığı, ulaşılan ekranın beklenen
+ekran olup olmadığı. VisionEngine, otomasyona gerçek bir algı
+kazandırarak bu boşluğu kapatır; bir arayüzü insan gibi görmesini ve
+onun hakkında akıl yürütmesini sağlar. Ham piksellerden bütün bir
+uygulamayı anlama seviyesine kadar dört iş birliği içinde çalışan
+katmandan oluşur.</p>
+<p><strong>Analizör</strong>, istikrarlı bir sözleşme tanımlar —
+arayüzler (<code>Analyzer</code>, <code>VideoProcessor</code>) ve değer
+türleri (<code>UIElement</code>, <code>ScreenAnalysis</code>,
+<code>ScreenDiff</code>, <code>Rect</code>, <code>Size</code>,
+<code>TextRegion</code>, <code>VisualIssue</code>,
+<code>ScreenIdentity</code>, <code>Action</code>, <code>KeyFrame</code>)
+ile bir <code>StubAnalyzer</code> referans uygulaması sunar. Böylece
+tüketiciler, altlarında kaymayacak bir sözleşme üzerinden öğeleri tespit
+edebilir, ekranları karşılaştırabilir ve görsel sorunları ortaya
+çıkarabilir.</p>
+<p><strong>Navigasyon Grafiği</strong>, bakış açısını tek bir ekrandan
+tüm uygulamaya taşır. Uygulamayı, ekran geçişlerinin yönlü bir grafiği
+olarak modeller; BFS yol bulma özelliği ve üç dışa aktarım arka ucu
+(DOT, JSON, Mermaid) ile otomasyon yalnızca bir ekranı görmekle kalmaz,
+herhangi bir ekrana giden rotayı da planlayabilir. Ayrıca stres,
+otomasyon, entegrasyon ve güvenlik testleriyle bu yetenek
+kanıtlanır.</p>
+<p><strong>LLM Görüş</strong> katmanı, modern çok modlu akıl yürütme
+ekler: <code>VisionProvider</code> arayüzü ve OpenAI (GPT-4o), Anthropic
+(Claude), Gemini, Qwen-VL, Kimi, StepGUI, Astica ve Ollama için
+adaptörler içerir. Bu adaptörler, bir <code>FallbackChain</code>
+aracılığıyla birleştirilir; böylece başarısız olan, hız sınırına takılan
+veya zayıf bir sağlayıcı, çalışmayı durdurmak yerine bir sonrakine
+sorunsuz geçiş yapar.</p>
+<p><strong>Yapılandırma</strong> katmanı, ortam değişkenlerinin
+yüklenmesi ve doğrulanmasını yönetir. Kullanıcıya yönelik tüm hata
+mesajları <code>i18n.Translator</code> üzerinden yönlendirilir.</p>
+<p>Tüm bunların benimsenmesini sağlayan asıl karar, ağır yerel
+bağımlılığın isteğe bağlı olmasıdır. OpenCV bağlayıcıları,
+<code>-tags vision</code> etiketiyle derleme aşamasında kontrol altına
+alınır ve varsayılan derleme, taklit uygulamalarla birlikte gelir.
+Böylece modül, OpenCV araç zincirine ihtiyaç duymadan herhangi bir Go
+1.25+ ortamında derlenir, test edilir ve çalıştırılır. Yerel yapı
+yalnızca tüketici tarafından açıkça tercih edildiğinde devreye girer. Bu
+sayede VisionEngine, özel bir imaj gerektirmeden doğrudan bir CI
+çalıştırıcısına entegre edilebilir.</p>
+<p>Tamamen bağımsız olarak tasarlanan (CONST-051(B) uyarınca) modül,
+tüketiciler — özellikle HelixQA — tarafından eşit kod tabanlı bir alt
+modül olarak dahil edilir. Böylece kanıta dayalı UI testlerine gerçek
+bir çift göz kazandırılır.</p>
+<h2 id="neden-geliştirdik">Neden Geliştirdik</h2>
+<p>Yalnızca erişilebilirlik ağaçlarına veya seçicilere dayanan kullanıcı
+arayüzü test otomasyonu, kullanıcının gerçekte gördüğünü ıskalar.
+VisionEngine, gerçek görsel anlayışı —öğe tespiti, ekran karşılaştırması
+ve LLM görsel muhakemesi— devreye sokarak, otomasyonun bir kullanıcı
+arayüzünü hem algılamasını hem de onun içinde yön bulmasını sağlayan,
+gezilebilir bir uygulama ekranları haritası sunar.</p>
+<h2 id="neden-oyun-değiştirici">Neden Oyun Değiştirici</h2>
+<p>Normalde birbiriyle bağdaşmayan iki yaklaşımı —hızlı, deterministik
+klasik bilgisayarlı görü ve esnek, semantik LLM görüsü— tek bir arayüz
+altında, yedekleme zinciriyle birleştirerek, kullanıcıya birinin
+kesinliğini diğerinin muhakeme gücünü sunar; seçim yapmak zorunda
+bırakmaz. OpenCV’yi kesinlikle isteğe bağlı tutarak, bu gücün alışıldık
+bedelini ortadan kaldırır: Herhangi bir Go projesi, yerel görü araç
+zincirini derlemeye dahil etmeden gerçek kullanıcı arayüzü algısına
+kavuşabilir.</p>
+<h2 id="yenilikçi-yönler">Yenilikçi Yönler</h2>
+<ul>
+<li><strong>Çift algı:</strong> Klasik bilgisayarlı görü (OpenCV/GoCV)
+ile çoklu sağlayıcılı LLM görüsü, yedekleme zinciriyle desteklenir.</li>
+<li><strong>Yön bulma grafiği:</strong> BFS tabanlı yol bulma ve
+DOT/JSON/Mermaid dışa aktarımı.</li>
+<li><strong>Derleme etiketiyle kontrol edilen OpenCV:</strong> Modül,
+yerel bağımlılıklar olmadan derlenebilir ve test edilebilir kalır.</li>
+<li><strong>Tamamen bağımsız, uluslararasılaştırmaya uygun, eşit kod
+tabanlı alt modül (HelixQA tarafından kullanılır).</strong></li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve Çözümler</h2>
+<ul>
+<li><strong>Ağır yerel bağımlılık sorunu:</strong>
+<code>-tags vision</code> etiketi ve varsayılan sahte bileşenlerle
+çözüldü; OpenCV’siz CI/ana makinelerde bile derleme ve testler
+çalışır.</li>
+<li><strong>Görü sağlayıcılarının güvenilmezliği:</strong>
+<code>VisionProvider</code> arayüzü ve <code>FallbackChain</code>
+bestecisiyle çözüldü.</li>
+<li><strong>Karmaşık uygulama akışlarının haritalanması:</strong> Yönlü
+yön bulma grafiği, BFS tabanlı yol bulma ve çoklu format dışa
+aktarımıyla çözüldü.</li>
+<li><strong>Bağımlılık sorunu:</strong> CONST-051(B) bağımsızlaştırma ve
+uluslararasılaştırma çevirmeni katmanıyla çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji Yığını (Neden ve
+Nasıl)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — Modül çekirdeği ve dört katmanı.</li>
+<li><strong>GoCV / OpenCV</strong> — Klasik bilgisayarlı görü, derleme
+etiketiyle kontrol edilir.</li>
+<li><strong>LLM görü sağlayıcıları (GPT-4o, Claude, Gemini, Qwen-VL,
+Kimi, StepGUI, Astica, Ollama)</strong> — Çok modlu kullanıcı arayüzü
+muhakemesi, adaptörler aracılığıyla.</li>
+<li><strong>Graf algoritmaları (BFS)</strong> — Yön bulma için yol
+planlaması.</li>
+<li><strong>DOT / JSON / Mermaid dışa aktarıcıları</strong> — Yön bulma
+grafiği görselleştirmesi.</li>
+<li><strong>Uluslararasılaştırma Çevirmeni</strong> — Kullanıcıya
+yönelik metinlerin bağımsızlaştırılması.</li>
+</ul>
+</body>
+</html>

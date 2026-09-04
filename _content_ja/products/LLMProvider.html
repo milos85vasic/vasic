@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMProvider</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMProvider</h1>
+</header>
+<h1 id="llmprovider">LLMProvider</h1>
+<p><strong>1つのインターフェース、43のプロバイダー —
+サーキットブレーカー、リトライ、ヘルスチェックを標準装備。</strong></p>
+<h2 id="概要">概要</h2>
+<p>LLMProviderは、汎用的で再利用可能なGoモジュールであり、統一された<code>LLMProvider</code>インターフェースと、その周辺に実装されたプロダクションレベルの耐障害性パターン（サーキットブレーカー、ヘルスモニタリング、バックオフ付きリトライ、遅延ロード）を定義します。さらに、この単一の契約のもとに43の具体的なプロバイダー実装を提供し、OpenAI互換の汎用アダプターと、ハードコードされたフォールバックを排除した正直なモデルディスカバリー機能を備えています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>再利用可能なGoモジュール。<code>LLMProvider</code>インターフェース（<code>Complete</code>、<code>CompleteStream</code>、<code>HealthCheck</code>、<code>GetCapabilities</code>、<code>ValidateConfig</code>）と、耐障害性の基本機能（サーキットブレーカー、ヘルスモニター、ジッターバックオフ付きリトライ、遅延初期化）を43のプロバイダーアダプターとOpenAI互換の汎用アダプターを通じて提供。スレッドセーフ。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>LLMProviderは、LLMを利用するあらゆるサービスが必要としながらも、ほとんどの場合適切に構築されていない抽象化レイヤーです。これは、デモと実際のトラフィックに耐えうるシステムを分ける、地味ながら重要な基盤部分です。このモジュールは、単一の機能を意識したインターフェース（<code>Complete</code>、<code>CompleteStream</code>、<code>HealthCheck</code>、<code>GetCapabilities</code>、<code>ValidateConfig</code>）を定義し、アプリケーションコードが43のバックエンドのどれを呼び出す場合でも、常に同じ契約に基づいて動作するようにします。さらに、脆弱なプロバイダー呼び出しをプロダクション環境で安心して運用できるようにするための運用強化機能を提供します。</p>
+<p>三状態のサーキットブレーカー（クローズ → オープン →
+ハーフオープン）は、あらゆるプロバイダー（ストリーミングチャネルを含む）を透過的にラップし、空のストリームも正しく障害としてカウントします。これにより、単一の不調なバックエンドがサーキットブレーカーをトリップさせ、サービス全体をダウンさせることを防ぎます。中央の<code>CircuitBreakerManager</code>がすべてのブレーカーを一元管理します。</p>
+<p>設定可能なヘルスモニターは、プロバイダーの状態を「正常」「劣化」「異常」「不明」に連続的に分類し、閾値と間隔に基づくチェックを行うことで、障害が発生してから初めて気づくのではなく、劣化を事前に検知します。</p>
+<p>リトライロジックは、指数バックオフにジッターを組み合わせ、状況に応じた判断を行います。リトライすべきエラー（429、5xx、一時的なネットワーク障害）にはリトライを試み、4xxエラーやキャンセルされたコンテキストには無駄なリトライを行いません。また、遅延時間を制限することで、バックオフの暴走を防ぎます。</p>
+<p>遅延初期化パターンは、各プロバイダーの構築を最初の実際の使用まで遅らせる設計となっており、43のプロバイダーすべてを登録しても、実質的なコストは発生しません。</p>
+<p>このモジュールには、43の具体的なプロバイダーパッケージと、<code>generic</code>というOpenAI互換の汎用アダプターが含まれています。このアダプターは、<code>/v1/chat/completions</code>エンドポイントに対して完全なインターフェースを実装し、ベアラー認証やSSEストリーミング（正しい<code>[DONE]</code>ハンドリングを含む）に対応しています。そのため、専用パッケージがないベンダーでも、アダプターをURLに向けるだけで、第一級の市民として扱われます。</p>
+<p>認証情報は、<code>apikeys</code>（厳格な<code>ApiKey_&lt;Provider&gt;</code>の命名規則に従う）の1か所でのみ解決され、テストスイートではハードコードされたキーが通過しても、実際のキーが正しく接続されておらず、本番環境で障害が発生するという類のバグを根本から排除します。</p>
+<p>モデルディスカバリーは、意図的に、そしてほとんど頑固なほど正直に設計されています。TTLキャッシュの背後で実際のプロバイダーAPIに問い合わせを行い、ガバナンスに基づき、古いハードコードされたフォールバック階層は完全に削除されました。ライブディスカバリーが失敗した場合、LLMProviderは古いカタログではなく「何も返さない」ため、呼び出し側が一見有効に見えるモデルIDを受け取っても、実際には呼び出せないという事態を防ぎます。</p>
+<p>これらすべての機能は、並行使用に対応したスレッドセーフな設計となっています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜこれを作ったのか">なぜこれを作ったのか</h2>
+<p>LLMの素朴な呼び出しは本番環境で失敗する――プロバイダーはレート制限をかけたり、性能を低下させたり、ダウンしたりする。そして、一つの不調なバックエンドがサービス全体を道連れにする。モデルカタログは変動し、ハードコードされたリストはもはや機能しないIDを呼び出し側に渡してしまう。LLMProviderはインターフェース、耐障害性パターン、そして信頼性の高いディスカバリーを一元化し、すべてのコンシューマーが耐障害性と真正性を無償で継承できるようにする。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>「LLMプロバイダーを統合する」という作業は、たった一つの動作に集約される――一つのインターフェースを実装するか、あるいは汎用アダプターをエンドポイントに向けるだけで、そのプロバイダーは自動的かつ透過的にサーキットブレーカー、ヘルスモニタリング、ジッターバックオフリトライでラップされる。耐障害性は、各チームが（不十分に、締め切りに追われて、最初の障害発生後に）再発明するものではなく、43のバックエンドすべてにわたってライブラリのデフォルト動作となる。信頼性エンジニアリングは一度書かれ、厳しくテストされ、それをインポートするすべての人が無償で継承する。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>一つの機能認識型インターフェース</strong>――コンプリーション、ストリーミング、ヘルス、機能、設定バリデーションが、すべてのバックエンドが同一に遵守する単一の契約に集約される。</li>
+<li><strong>透過的なサーキットブレーカーのラッピング――ストリームも含む。</strong>
+ブレーカーは<code>CompleteStream</code>のチャネルを保護し、単なるリクエスト/レスポンスだけでなく、空のストリームもそれが実際に失敗であると扱う。デッドロックを回避し、ロック外でリスナーに通知する。</li>
+<li><strong>43のプロバイダーパッケージ +
+汎用OpenAI互換アダプター</strong>――専用パッケージはシンプルに保たれ、未登録のベンダーでも<code>/v1/chat/completions</code>に対応していれば、アダプターを向けるだけで即座に利用可能。</li>
+<li><strong>単一の認証情報管理（<code>apikeys</code>）</strong>――<code>ApiKey_&lt;Provider&gt;</code>環境変数を読み取る場所は厳密に一つだけ。これにより、「テストは通るが本番は壊れる」というミスマッチを構造的に排除し、単なる警告にとどまらない。</li>
+<li><strong>信頼性の高いモデルディスカバリー（ハードコードされたフォールバックなし）</strong>――TTLキャッシュの背後にあるライブプロバイダーAPI。障害時には<code>nil</code>を返し、決して古くなったり捏造されたカタログを渡して呼び出せないIDを提供しない。</li>
+<li><strong><code>sync.Once</code>による遅延初期化</strong>――構築は最初の使用まで遅延され、43のプロバイダーすべてを登録しても、実際に呼び出すまではほとんどコストがかからない。</li>
+<li><strong>ブラフ防止・多地域対応のChallengeスタック</strong>――サーキット、ヘルス、リトライの動作を5つの地域で実際に実行するランナー。ペアリングされたミューテーションテストで制御され（非ミューテーション時は終了コード0、ミューテーション注入時は終了コード99を強制）、テストが通れば動作が保証される。</li>
+</ul>
+<h2
+id="最大の技術的課題とその解決方法">最大の技術的課題とその解決方法</h2>
+<ul>
+<li><strong>プロバイダーの連鎖的障害。</strong>
+一つの不安定なバックエンドがサービス全体をダウンさせてはならない。解決策は、三状態のサーキットブレーカー（クローズ→オープン→ハーフオープン）で、あらゆるプロバイダーとそのストリームを透過的にラップ。持続的な障害でオープン状態に移行し、ハーフオープン状態で回復を試みる。中央の<code>CircuitBreakerManager</code>が調整。</li>
+<li><strong>一時的なエラーとレート制限。</strong>
+ステータス認識型の指数バックオフ +
+ジッターで解決――<code>min(InitialDelay·Multiplier^(n-1), MaxDelay) ± jitter</code>により、リトライが同期してサンダーハード現象を引き起こさない。リトライすべきもの（429、500、502、503、504、ネットワークエラー）のみをリトライし、キャンセルされたコンテキストやその他の4xxには無駄な試行を行わない。</li>
+<li><strong>多数の登録済みだが未使用のプロバイダーのスケーリング。</strong>
+43のプロバイダーが登録されていても、実際に使用されるのはごく一部。積極的な構築は無駄でしかない。解決策は<code>sync.Once</code>による遅延初期化で、実際に呼び出されたプロバイダーだけがセットアップコストを負担する。</li>
+<li><strong>無効なモデルIDの提供。</strong>
+解決策は、ハードコードされたディスカバリーフォールバック層を完全に削除（CONST-036に基づく）し、ライブディスカバリーの障害時には何も返さない。さらに、防御的なコピーオンリターンにより、呼び出し側がキャッシュを変更したり、他の読み取りと競合したりしないようにする。真正性は構造的に強制される。</li>
+<li><strong>ストリーミング + 並行処理の正確性。</strong>
+微妙な障害モードは、ブレーカーのロックとリスナーコールバック間のデッドロック。解決策は、リスナーをスナップショットし、ロック外で5秒のタイムアウト付きで通知。リセット時にはロックを解除してから通知。すべてのコンポーネントは並行使用を前提に設計され、<code>-race</code>スイートで検証済み。</li>
+</ul>
+<p>コンテンツ</p>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go (1.25.3)</strong> —
+一流の並行処理、スタティックバイナリ、強力な標準ライブラリを備え、モジュール本体、インターフェース、すべての耐障害性プリミティブ、そして43のアダプターを包括的に提供。</li>
+<li><strong><code>net/http</code>（標準ライブラリ）</strong> —
+依存関係を排除したHTTP実装：プロバイダーごとのクライアント、汎用OpenAI互換アダプター、ライブディスカバリーコールを支え、サードパーティのトランスポートを監査・修正する必要はない。</li>
+<li><strong>logrus</strong> —
+構造化され、レベルに応じたロギングを、オペレーターが可視性を必要とする箇所（サーキットブレーカーの状態遷移やディスカバリーパス内）に正確に配置。</li>
+<li><strong>testify</strong> —
+テストスイートを駆動し、特に突然変異ブランチのピン留め機能により、グリーンランが真に意味を持つように設計。</li>
+<li><strong>yaml.v3</strong> —
+i18nバンドルや設定ファイルを、人間が編集可能な形式で解析。</li>
+<li><strong><code>digital.vasic.models</code></strong> —
+共有の<code>LLMRequest</code>/<code>LLMResponse</code>/<code>ProviderCapabilities</code>型を一元管理し、すべてのアダプターが同じ語彙で通信できるように（ドキュメント化されたランタイム依存関係）。</li>
+<li><strong>ファーストパーティパッケージ群</strong> —
+<code>circuit</code>、<code>health</code>、<code>retry</code>、<code>apikeys</code>、<code>discovery</code>、<code>providers/</code>（43のベンダー
++
+<code>generic</code>）、および<code>i18n</code>：耐障害性と統合面を、小さな独立してテスト可能な単位に分割し、モノリシックな構造を回避。</li>
+<li><strong><code>.env</code> +
+<code>~/api_keys.sh</code>（<code>ApiKey_&lt;Provider&gt;</code>規約）</strong>
+—
+資格情報の唯一の真正な情報源として機能し、テスト環境と本番環境で同じ方法でキーを設定可能に。</li>
+<li><strong>Makefileレーススイート（<code>-race -p 1</code>） +
+チャレンジランナー</strong> —
+ブラフ防止の要：レース検出器が並行処理の正確性を証明し、チャレンジランナーが実際の挙動を混乱、DDoS、スケーリング、ストレス、ライブディスカバリー、無停止シナリオを通じて徹底検証。</li>
+</ul>
+<h2 id="ステータスと正直な注意点">ステータスと正直な注意点</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+分離可能な再利用モジュール。GitHubリポジトリは公開済み。</li>
+<li><strong>ライセンス：未定。</strong> 不整合あり —
+<code>doc.go</code>はMITと記載されているが、Apache-2.0形式のLICENSEファイルが存在。公開前に確認が必要。</li>
+<li>LLMsVerifierは、標準モデルカタログの上流単一情報源。<code>helix-deps.yaml</code>マニフェストは古い状態（<code>deps: []</code>と宣言されているが、ドキュメントでは<code>digital.vasic.models</code>への依存が明記）。ディスカバリーの「Tier
+2 (models.dev)」は計画段階のスタブであり、現時点では有効ではない。</li>
+</ul>
+<p><strong>優先度レベル：</strong>
+Helix-プライマリ（LLM-インフラストラクチャクラスター —
+分離可能な再利用モジュール）。HelixTrackに次ぐ優先順位。</p>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan-template</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">plan-template</h1>
+</header>
+<h1 id="implementation-plan-feature">Implementation Plan: [FEATURE]</h1>
+<p><strong>Branch</strong>: <code>[###-feature-name]</code> |
+<strong>Date</strong>: [DATE] | <strong>Spec</strong>: [link]</p>
+<p><strong>Input</strong>: Feature specification from
+<code>/specs/[###-feature-name]/spec.md</code></p>
+<p><strong>Note</strong>: This template is filled in by the
+<code>/speckit-plan</code> command; its definition describes the
+execution workflow.</p>
+<h2 id="summary">Summary</h2>
+<p>[Extract from feature spec: primary requirement + technical approach
+from research]</p>
+<h2 id="technical-context">Technical Context</h2>
+<!--
+  ACTION REQUIRED: Replace the content in this section with the technical details
+  for the project. The structure here is presented in advisory capacity to guide
+  the iteration process.
+-->
+<p><strong>Language/Version</strong>: [e.g., Python 3.11, Swift 5.9,
+Rust 1.75 or NEEDS CLARIFICATION]</p>
+<p><strong>Primary Dependencies</strong>: [e.g., FastAPI, UIKit, LLVM or
+NEEDS CLARIFICATION]</p>
+<p><strong>Storage</strong>: [if applicable, e.g., PostgreSQL, CoreData,
+files or N/A]</p>
+<p><strong>Testing</strong>: [e.g., pytest, XCTest, cargo test or NEEDS
+CLARIFICATION]</p>
+<p><strong>Target Platform</strong>: [e.g., Linux server, iOS 15+, WASM
+or NEEDS CLARIFICATION]</p>
+<p><strong>Project Type</strong>: [e.g.,
+library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS
+CLARIFICATION]</p>
+<p><strong>Performance Goals</strong>: [domain-specific, e.g., 1000
+req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]</p>
+<p><strong>Constraints</strong>: [domain-specific, e.g., &lt;200ms p95,
+&lt;100MB memory, offline-capable or NEEDS CLARIFICATION]</p>
+<p><strong>Scale/Scope</strong>: [domain-specific, e.g., 10k users, 1M
+LOC, 50 screens or NEEDS CLARIFICATION]</p>
+<h2 id="constitution-check">Constitution Check</h2>
+<p><em>GATE: Must pass before Phase 0 research. Re-check after Phase 1
+design.</em></p>
+<p>[Gates determined based on constitution file]</p>
+<h2 id="project-structure">Project Structure</h2>
+<h3 id="documentation-this-feature">Documentation (this feature)</h3>
+<pre class="text"><code>specs/[###-feature]/
+├── plan.md              # This file (/speckit-plan command output)
+├── research.md          # Phase 0 output (/speckit-plan command)
+├── data-model.md        # Phase 1 output (/speckit-plan command)
+├── quickstart.md        # Phase 1 output (/speckit-plan command)
+├── contracts/           # Phase 1 output (/speckit-plan command)
+└── tasks.md             # Phase 2 output (/speckit-tasks command - NOT created by /speckit-plan)</code></pre>
+<h3 id="source-code-repository-root">Source Code (repository root)</h3>
+<!--
+  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
+  for this feature. Delete unused options and expand the chosen structure with
+  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  not include Option labels.
+-->
+<pre class="text"><code># [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+src/
+├── models/
+├── services/
+├── cli/
+└── lib/
+
+tests/
+├── contract/
+├── integration/
+└── unit/
+
+# [REMOVE IF UNUSED] Option 2: Web application (when &quot;frontend&quot; + &quot;backend&quot; detected)
+backend/
+├── src/
+│   ├── models/
+│   ├── services/
+│   └── api/
+└── tests/
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
+└── tests/
+
+# [REMOVE IF UNUSED] Option 3: Mobile + API (when &quot;iOS/Android&quot; detected)
+api/
+└── [same as backend above]
+
+ios/ or android/
+└── [platform-specific structure: feature modules, UI flows, platform tests]</code></pre>
+<p><strong>Structure Decision</strong>: [Document the selected structure
+and reference the real directories captured above]</p>
+<h2 id="complexity-tracking">Complexity Tracking</h2>
+<blockquote>
+<p><strong>Fill ONLY if Constitution Check has violations that must be
+justified</strong></p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 20%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr>
+<th>Violation</th>
+<th>Why Needed</th>
+<th>Simpler Alternative Rejected Because</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[e.g., 4th project]</td>
+<td>[current need]</td>
+<td>[why 3 projects insufficient]</td>
+</tr>
+<tr>
+<td>[e.g., Repository pattern]</td>
+<td>[specific problem]</td>
+<td>[why direct DB access insufficient]</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

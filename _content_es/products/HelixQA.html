@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixQA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixQA</h1>
+</header>
+<h1 id="helixqa">HelixQA</h1>
+<p><strong>Orquestación anti-engaño de QA — sesiones autónomas
+multiplataforma donde cada APROBADO incluye evidencia capturada de que
+un usuario real puede utilizar la función.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>HelixQA es un marco de orquestación anti-engaño para pruebas
+multiplataforma (Android, Android TV, Web, Escritorio) que combina
+bancos de pruebas YAML, detección de fallos en tiempo real, captura de
+evidencia paso a paso y sesiones autónomas de QA con LLM y visión por
+computadora para demostrar que las funciones funcionan de extremo a
+extremo. Es el tipo de prueba de QA obligatorio según Constitution
+(§11.4.169).</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un orquestador anti-engaño de QA (Go) que ejecuta bancos de pruebas
+escritos y sesiones de QA completamente autónomas, impulsadas por LLM y
+visión por computadora, en múltiples plataformas. Detecta fallos, valida
+cada paso con evidencia capturada (capturas de pantalla, logcat, video,
+trazas de pila) y genera automáticamente tickets ricos en evidencia para
+las canalizaciones de corrección AI.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>HelixQA es un marco Go cuyo único y inquebrantable principio de
+diseño se rige por la Regla Operativa §11.4 de Constitution: el estándar
+para lanzar un producto no es “las pruebas pasan”, sino “los usuarios
+pueden usar la función”. Por ello, cada APROBADO que emite debe incluir
+evidencia positiva capturada durante la ejecución —sin evidencia, no hay
+luz verde, sin excepciones—. Opera en dos modos complementarios que
+cubren tanto lo scriptado como lo desconocido.</p>
+<p>En primer lugar, <strong>bancos de pruebas escritos</strong>: suites
+YAML de casos <code>TC-XXX</code> con segmentación por plataforma,
+prioridad, pasos ordenados (nombre/acción/resultado esperado), etiquetas
+y referencias documentales. Estos se ejecutan con validación por paso,
+detección de fallos/ANR en tiempo real (ADB para Android, monitoreo de
+procesos para web/escritorio), recolección centralizada de evidencia y
+generación automática de tickets en Markdown, ya adaptados para las
+canalizaciones de corrección AI.</p>
+<p>En segundo lugar, una <strong>sesión de QA completamente
+autónoma</strong> que entrega la aplicación a agentes impulsados por LLM
+y visión por computadora, permitiéndoles operarla sin supervisión a
+través de cuatro fases disciplinadas: configuración (selección de LLMs,
+creación de un mapa de funciones a partir de la documentación del
+proyecto, despliegue de agentes CLI, inicialización del motor de
+visión), verificación guiada por documentación que recorre cada función
+documentada, exploración basada en curiosidad que prueba deliberadamente
+casos límite y comportamientos no documentados, y finalmente, generación
+de informes y limpieza en Markdown/HTML/JSON, vinculando cada hallazgo a
+evidencia con marca de tiempo en video.</p>
+<p>Lo crucial es que no califica su propio trabajo: integra cuatro
+submódulos externos Go (LLMsVerifier, LLMOrchestrator, VisionEngine,
+DocProcessor) y reutiliza la infraestructura compartida de
+<code>challenges</code> y <code>containers</code>, de modo que el
+componente que navega por la aplicación no es el mismo que juzga si
+funcionó. Su propia suite se somete al mismo estándar que impone a otros
+mediante <code>make anti-bluff</code> (escaneo estático + manifiesto de
+anclaje de comportamiento + mecanismo de mutación) y un Challenge de
+orquestador de 8 fases con una mutación integrada en §1.1. Una matriz de
+cobertura de tipos de prueba de 15 filas vincula cada capacidad
+anunciada a un activo ejecutable concreto y a un formato específico de
+evidencia capturada, garantizando que las afirmaciones del marco sobre
+sí mismo están tan respaldadas por evidencia como los veredictos que
+emite sobre los productos que prueba.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>La QA convencional da luz verde al “aserto superado”, que es
+exactamente cómo se cuela la clase de fallo que el Constitution denomina
+<em>farol</em>: una función reportada como funcional cuando en realidad
+está rota para el usuario real. El HelixQA se diseñó para imposibilitar
+esto en la QA: se niega a calificar como APROBADO sin pruebas físicas
+(captura de pantalla, logcat, vídeo, traza de pila, informe) obtenidas
+durante la ejecución real, y trata un resumen en verde sin dichas
+pruebas como un defecto crítico equivalente a una funcionalidad ausente.
+Además, resuelve el problema de la mano de obra —la QA manual exhaustiva
+en múltiples plataformas no escala— al hacer que las sesiones sean
+completamente autónomas.</p>
+<h2 id="por-qué-es-un-cambio-de-juego">Por qué es un cambio de
+juego</h2>
+<p>Fusiona dos elementos que casi nunca conviven en una misma
+herramienta: un control de calidad riguroso respaldado por pruebas y una
+exploración autónoma y autoguiada. Un agente LLM con visión abre la
+<em>aplicación real</em>, verifica cada funcionalidad documentada,
+rastrea los errores no documentados para los que nadie escribió una
+prueba <em>y</em> genera un rastro de pruebas de calidad judicial
+mientras lo hace —de modo que “lo probamos” se sustituye por “aquí está
+el vídeo, aquí el logcat, aquí el ticket”. Y, al ser el submódulo de QA
+denominado por el Constitution, adoptarlo no mejora la honestidad de la
+QA para un solo equipo, sino que eleva el estándar para todos los
+productos de la familia en un solo movimiento.</p>
+<h2 id="qué-tiene-de-innovador">Qué tiene de innovador</h2>
+<ul>
+<li><strong>Contrato de pruebas antifarol</strong>: cada verificación
+APROBADA está vinculada a pruebas de ejecución capturadas; una línea
+verde en CI se considera necesaria, pero nunca suficiente, y un resumen
+en verde sin pruebas se califica como un defecto crítico.</li>
+<li><strong>Exploración autónoma guiada por documentación +
+curiosidad</strong>: verifica cada funcionalidad documentada <em>y</em>
+luego se sale del guion, probando los casos límite que encuentran los
+usuarios reales (entradas vacías, interacciones rápidas, rutas no
+documentadas) que ninguna suite escrita a mano anticipó.</li>
+<li><strong>Oráculo visual</strong>: la visión mecánica de GoCV junto
+con el LLM Vision API literalmente <em>ve</em> la interfaz en pantalla,
+detectando estados visualmente rotos que pasan desapercibidos para
+asertos basados en tokens o propiedades.</li>
+<li><strong>Bancos de pruebas estructurados, no en prosa</strong>: las
+cadenas del banco describen estructura y generan preguntas dinámicas en
+tiempo de ejecución (CONST-046), de modo que un solo banco funciona en
+todos los idiomas en lugar de romperse al traducir el texto de la
+interfaz.</li>
+<li><strong>Tickets diseñados para flujos de corrección AI</strong>: los
+issues en Markdown se generan automáticamente con el paquete completo de
+pruebas adjunto, listos para entregarse directamente a un agente de
+reparación en lugar de a un triador humano.</li>
+</ul>
+<h2
+id="cómo-se-utiliza-en-todos-los-productos-las-capacidades-que-ofrece">Cómo
+se utiliza en todos los productos (las capacidades que ofrece)</h2>
+<p>Como <strong>pilar de calidad obligatorio</strong> (el Constitution
+§11.4.169 designa el submódulo <code>helix_qa</code> como uno de los
+tipos de prueba requeridos), el HelixQA otorga a cada producto de la
+familia el mismo conjunto de capacidades:</p>
+<ul>
+<li><strong>Sesiones de QA autónomas</strong>: un simple
+<code>helixqa autonomous --project … --platforms android,desktop,web</code>
+libera a un agente LLM con visión que ejecuta aplicaciones reales sin
+supervisión hasta alcanzar un objetivo de cobertura, generando informes,
+tickets y vídeos sin intervención humana.</li>
+<li><strong>Bancos/suites de pruebas</strong>: bancos YAML (piso 219 con
+≥30), orientados a plataformas, priorizados y trazables línea por línea
+hasta la documentación que verifican.</li>
+<li><strong>Pruebas capturadas</strong>: capturas de pantalla, logcat,
+vídeo, trazas de pila y línea temporal completa —centralizadas y
+vinculadas desde cada informe, para que cualquier veredicto pueda
+reproducirse y auditarse a posteriori.</li>
+<li><strong>Veredictos independientes (§11.4.141 principio de
+independencia)</strong>: su <code>issuedetector</code> impulsado por LLM
+y el oráculo visual juzgan el comportamiento de la aplicación en
+ejecución de forma independiente al agente que la navegó, eliminando
+estructuralmente el fallo clásico en el que un sistema valida su propio
+trabajo como correcto.</li>
+<li><strong>Compuerta + trinquete de mutación</strong>:
+<code>make qa-all</code> / <code>make anti-bluff</code> y
+<code>challenges/scripts/helixqa_orchestrator_challenge.sh</code> (8
+fases, mutación integrada en §1.1) mantienen demostrada de forma
+continua la honestidad del HelixQA —y no existe deliberadamente una
+escotilla de escape <code>--skip-helixqa</code> para desactivar la
+disciplina bajo presión de plazos.</li>
+</ul>
+<h2 id="mayores-desafíos-técnicos-y-cómo-los-resolvimos">Mayores
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>Evitar falsos positivos en la propia QA</strong> — la
+herramienta que detecta engaños no debe convertirse en uno → cada paso
+se valida contra evidencia capturada; un APROBADO sin evidencia se
+califica como defecto en lugar de como aprobación, y un manifiesto de
+anclaje de comportamiento vincula cada capacidad anunciada a una prueba
+ejecutable (CONST-035), de modo que no se puede afirmar ninguna
+capacidad sin algo que la ponga a prueba.</li>
+<li><strong>Controlar plataformas heterogéneas desde un único
+cerebro</strong> — Android, Android TV, Web y Escritorio no comparten
+modelo de entrada → un único paquete <code>navigator</code> abstrae los
+ejecutores de acciones específicos de cada plataforma (ADB, Playwright,
+X11) y los detectores de fallos por plataforma (android/web/escritorio),
+de manera que la lógica de orquestación se escribe una sola vez y las
+diferencias entre plataformas quedan en los extremos.</li>
+<li><strong>Hacer que los agentes autónomos sean útiles, no
+caóticos</strong> — un LLM no supervisado suelto en una aplicación puede
+divagar eternamente → LLMsVerifier puntúa y selecciona los modelos
+adecuados, LLMOrchestrator gestiona los agentes CLI en modo headless
+(opencode, claude-code, gemini, junie, qwen-code), DocProcessor
+construye el mapa de características que da un objetivo a la
+exploración, y VisionEngine mantiene cada decisión anclada en los
+píxeles reales de la pantalla, no en la imaginación del modelo.</li>
+<li><strong>Bancos de pruebas seguros para localización</strong> — una
+suite que codifica texto de interfaz en inglés falla en quince idiomas →
+los bancos describen solo la estructura, y el texto del prompt visible
+para el usuario se carga en tiempo de ejecución desde LLM/recursos
+(CONST-046), de modo que el mismo banco verifica el mismo comportamiento
+independientemente de la configuración regional.</li>
+<li><strong>Demostrar que las compuertas no son un engaño</strong> — una
+compuerta anti-engaño que no puede fallar es el engaño definitivo →
+mutaciones emparejadas en §1.1 eliminan la captura de evidencia o la
+aserción anti-engaño de un tipo y exigen que la compuerta FALLE, y un
+trinquete de mutaciones evita que esa garantía se degrade
+silenciosamente con el tiempo.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Orquestador Go 1.24+</strong> — <em>por qué:</em> la QA debe
+ejecutarse en cualquier lugar donde lo hagan los productos, por lo que
+un único binario estáticamente enlazado, rápido y portátil supera a una
+alternativa pesada en tiempo de ejecución; <em>cómo:</em> un único
+binario <code>cmd/helixqa</code> CLI que expone subcomandos componibles:
+<code>run</code>, <code>list</code>, <code>report</code>,
+<code>autonomous</code> y <code>version</code>.</li>
+<li><strong>Bancos de pruebas YAML (<code>pkg/testbank</code>)</strong>
+— <em>por qué:</em> las suites deben ser declarativas y legibles,
+editables por humanos sin tocar Go; <em>cómo:</em>
+<code>version</code>/<code>name</code>/<code>test_cases[]</code> con
+<code>id</code>, <code>category</code>, <code>priority</code>,
+<code>platforms</code>, <code>steps[]</code> ordenados y
+<code>documentation_refs[]</code> para trazabilidad con la documentación
+de las características.</li>
+<li><strong>Detectores de fallos/cuelgues
+(<code>pkg/detector</code>)</strong> — <em>por qué:</em> los fallos más
+críticos son aquellos que ocurren en vivo, durante la interacción, no en
+una aserción posterior; <em>cómo:</em> ADB
+(<code>pidof</code>/<code>logcat</code>/<code>screencap</code>) para
+Android y <code>pgrep</code> para web/escritorio, monitorizando el
+proceso mientras la prueba lo controla.</li>
+<li><strong>Recolección de evidencia (<code>pkg/evidence</code>,
+<code>pkg/session</code>)</strong> — <em>por qué:</em> el contrato
+anti-engaño solo es real si cada APROBADO está respaldado por pruebas
+físicas; <em>cómo:</em> capturas de pantalla, logcat, vídeo y trazas de
+pila capturadas en una línea de tiempo <code>SessionRecorder</code> a la
+que enlaza cada informe.</li>
+<li><strong>Sesión autónoma (<code>pkg/autonomous</code>,
+<code>pkg/navigator</code>, <code>pkg/issuedetector</code>)</strong> —
+<em>por qué:</em> la QA manual exhaustiva en cuatro plataformas no
+escala, por lo que la exploración debe autogestionarse; <em>cómo:</em>
+un <code>SessionCoordinator</code> de 4 fases junto con ejecutores de
+acciones (ADB/Playwright/X11) y detección de errores LLM que abarca
+defectos visuales, de UX, accesibilidad y funcionales.</li>
+<li><strong>Submódulos externos</strong> — <em>por qué:</em>
+reutilización y desacoplamiento (CONST-051), y —de manera crítica—
+separación entre el navegador y el evaluador; <em>cómo:</em>
+LLMsVerifier (puntuación de modelos), LLMOrchestrator (agentes CLI en
+modo headless), VisionEngine (GoCV + LLM Vision), DocProcessor (mapa de
+características/cobertura), cada uno como componente independiente y con
+propietario asignado.</li>
+<li><strong>Compuertas anti-engaño + trinquete de mutaciones</strong> —
+<em>por qué:</em> para exigir a HelixQA el mismo pacto §1.1 que impone a
+todo lo demás; <em>cómo:</em> un escaneo <code>make anti-bluff</code>
+junto con un manifiesto de anclaje de comportamiento y un trinquete de
+mutaciones, con <code>helixqa_orchestrator_challenge.sh</code> como
+validador integral de 8 fases.</li>
+<li><strong>Matriz de cobertura de 15 filas
+(<code>docs/test-coverage.md</code>)</strong> — <em>por qué:</em>
+CONST-050(B) exige un conjunto cerrado y completamente contabilizado de
+tipos de prueba sin lagunas; <em>cómo:</em> cada fila está vinculada a
+un activo ejecutable concreto y a una forma específica de evidencia
+capturada, de modo que la cobertura es un hecho verificado, no una mera
+afirmación.</li>
+</ul>
+<h2 id="notas-sobre-estado-y-honestidad">Notas sobre estado y
+honestidad</h2>
+<ul>
+<li><strong>Estado: beta.</strong> En desarrollo activo (banner de
+estado del README en la ronda 219). Sometido a su propio estándar
+anti-engaño.</li>
+<li><strong>Licencia: Apache-2.0.</strong> Instalación:
+<code>go install digital.vasic.helixqa/cmd/helixqa@latest</code>.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix-principal — un pilar
+obligatorio de calidad/anti-engaño en la forma en que la familia Helix
+verifica que las funciones realmente funcionen.</p>
+</body>
+</html>

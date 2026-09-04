@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixOTA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixOTA</h1>
+</header>
+<h1 id="helixota">HelixOTA</h1>
+<p><strong>Mises à jour universelles et découplées par voie hertzienne —
+zéro brique par conception.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>Helix OTA est un système universel de mises à jour par voie
+hertzienne (OTA) profondément découplé : un plan de contrôle Go associé
+à des agents clients par système d’exploitation, conçu pour déployer en
+toute sécurité des mises à jour progressives de micrologiciels et
+d’applications sur des flottes allant d’une seule carte à des millions
+d’appareils. Sa première cible est Android 15 sur l’Orange Pi 5 Max.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>Helix OTA est un système universel de mises à jour par voie
+hertzienne — un plan de contrôle Go associé à des agents clients par
+système d’exploitation — conçu pour garantir l’absence de corruption du
+système, la validation des téléchargements et des déploiements
+progressifs granulaires. Sa première cible est Android 15 sur l’Orange
+Pi 5 Max, avec des adaptateurs pour Linux et Windows prévus.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>Helix OTA est un système universel, générique et profondément
+découplé de mises à jour par voie hertzienne (OTA), construit autour
+d’une promesse intransigeante : une mise à jour ne doit jamais
+transformer un appareil fonctionnel en brique. Il se compose d’un
+<strong>plan de contrôle</strong> serveur Go, de <strong>SDK/agents
+clients</strong> par système d’exploitation et d’un <strong>tableau de
+bord</strong> de gestion, conçu dès l’origine pour être intégrable à
+<em>n’importe quel</em> système d’exploitation via des adaptateurs
+modulaires, plutôt que d’être réécrit de zéro pour chaque plateforme. La
+première cible de déploiement est Android 15 (toutes variantes) sur
+l’Orange Pi 5 Max, où le pipeline de compilation génère des images de
+flashage accompagnées d’un fichier <code>.zip</code> OTA validé et de
+fichiers de hachage obligatoires, garantissant qu’aucun artefact ne
+parvient à un appareil sans empreinte vérifiable. Linux, Windows et
+d’autres systèmes d’exploitation figurent sur la feuille de route,
+partageant le même mécanisme d’adaptation, ne nécessitant qu’un
+adaptateur — et non une réécriture complète.</p>
+<p>L’architecture repose sur des garanties strictes définies par les
+opérateurs, traitées comme des invariants architecturaux non négociables
+: absence totale de corruption du système, validation obligatoire de
+chaque artefact avant tout déploiement, déploiement progressif
+granulaire (total ou par paliers de 5/10/30…100 % avec contrôle d’arrêt
+et de reprise), observabilité complète de la flotte, et passage à
+l’échelle linéaire, d’une seule carte sur un banc d’essai à des millions
+d’appareils sur le terrain. L’architecture verrouillée associe les mises
+à jour natives A/B d’Android côté appareil — <code>update_engine</code>
+d’AOSP avec AVB/dm-verity et retour automatique en cas d’échec de
+démarrage — à un plan de contrôle Go personnalisé et découplé, de sorte
+que la sécurité réside à la fois dans le chemin de démarrage proche du
+silicium <em>et</em> dans le serveur, et non dans une seule couche
+fragile. Deux interfaces sont délibérément conçues pour être
+extractibles : une interface d’adaptation au système d’exploitation,
+porteuse de la promesse d’une véritable universalité, et une interface
+de moteur de déploiement, rendant les campagnes progressives agnostiques
+au système d’exploitation. L’ensemble du système est décomposé en six
+sous-modules publics <code>ota-*</code> versionnés indépendamment — des
+blocs de construction réutilisables plutôt qu’un monolithe.</p>
+<p>Helix OTA est actuellement en phase de spécification, de recherche et
+de développement de la couverture de tests. Le dépôt contient le corpus
+de conception officiel, le pipeline d’exportation de la documentation et
+l’échafaudage des sous-modules. Conformément à sa gouvernance
+anti-bluffer, il est explicitement indiqué qu’un serveur et un agent de
+production finis n’existent pas encore. Ce qui est livré aujourd’hui est
+le plan directeur et son échafaudage, présenté honnêtement comme
+tel.</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>OTA est généralement réinventé pour chaque appareil et chaque système
+d’exploitation, et une mauvaise mise à jour peut rendre une flotte
+entière inutilisable. Helix OTA a été conçu comme un système de mise à
+jour universel, axé sur la sécurité, que tout système d’exploitation
+peut adopter via des adaptateurs, avec des garanties de restauration et
+de validation intégrées à l’architecture plutôt que greffées après
+coup.</p>
+<h2 id="pourquoi-cest-un-changement-radical">Pourquoi c’est un
+changement radical</h2>
+<p>Il refuse de considérer « ne jamais rendre un appareil inutilisable »
+et « déployer progressivement et de manière observable » comme des
+fonctionnalités au mieux de leurs capacités, que l’on espère tenir sous
+charge – ce sont des invariants architecturaux intégrés aussi bien dans
+le chemin de démarrage que dans le plan de contrôle. Et en faisant du
+moteur de déploiement et de la couche système des interfaces
+interchangeables plutôt que des hypothèses figées, le même plan de
+contrôle peut piloter Android aujourd’hui et être prêt à gérer d’autres
+systèmes d’exploitation demain, simplement en ajoutant un adaptateur –
+sans fork, sans réécriture, sans réinvention des garanties de sécurité
+auxquelles vous faites déjà confiance.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li><strong>Deux interfaces extractibles</strong> – une interface
+adaptateur-OS et un moteur de déploiement agnostique – transformant «
+universel » d’un mot marketing en une propriété structurelle du
+code.</li>
+<li><strong>Sécurité en profondeur</strong> : A/B natif côté appareil
+(<code>update_engine</code>) + AVB/dm-verity + restauration automatique
+en cas d’échec du démarrage, le tout <em>superposé</em> à une validation
+des artefacts côté serveur – une mise à jour doit franchir plusieurs
+barrières indépendantes avant de pouvoir être persistée.</li>
+<li><strong>Décomposition catalogue-first, découplée</strong> en six
+sous-modules <code>ota-*</code> réutilisables et versionnés
+indépendamment, que vous pouvez consommer à la carte plutôt que d’avaler
+un monolithe.</li>
+<li><strong>Transport principal HTTP/3 (QUIC)</strong> avec repli
+automatique sur HTTP/2 et compression négociée Brotli/gzip – une
+diffusion moderne et à faible latence qui dégrade élégamment au lieu
+d’échouer.</li>
+<li><strong>Ingénierie anti-bullshit</strong> : la conception et le
+statut sont explicitement marqués comme étant en phase de spécification,
+et rien de non construit n’est jamais présenté comme livré – l’honnêteté
+est érigée en valeur d’ingénierie de premier plan, et non reléguée à une
+clause de non-responsabilité en petits caractères.</li>
+</ul>
+<h2
+id="principaux-défis-techniques-et-comment-nous-les-avons-résolus">Principaux
+défis techniques et comment nous les avons résolus</h2>
+<ul>
+<li><strong>Garantir qu’une mauvaise mise à jour ne rende jamais un
+appareil inutilisable</strong> – la promesse la plus difficile en
+matière de OTA. Résolu en imposant le A/B natif côté appareil sous
+Android : <code>update_engine</code> écrit sur le slot inactif tandis
+que le slot actif continue de fonctionner, AVB/dm-verity vérifie
+cryptographiquement la chaîne de démarrage, et si le nouveau slot échoue
+à démarrer, l’appareil revient automatiquement en arrière – le tout
+sécurisé par une validation obligatoire des artefacts avant déploiement,
+de sorte qu’une charge corrompue est interceptée avant même de quitter
+le serveur.</li>
+<li><strong>Un seul système, plusieurs systèmes d’exploitation</strong>
+– résolu en refusant d’intégrer des hypothèses Android au cœur du
+système. Une interface adaptateur-OS interchangeable isole les
+spécificités de la plateforme, et un moteur de déploiement agnostique
+maintient la logique des campagnes portable, chacun étant conservé dans
+un sous-module distinct afin qu’un nouveau système d’exploitation soit
+une addition, jamais une refonte complète.</li>
+<li><strong>Déploiements progressifs et interruptibles</strong> – résolu
+avec un moteur de déploiement dédié qui raisonne en cohortes de
+pourcentage avec des seuils de succès/erreur et un contrôle explicite
+d’arrêt/avancement, délibérément découplé de HTTP pour que le même
+moteur puisse piloter des campagnes indépendamment du transport.</li>
+</ul>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Go + Gin</strong> — choisi pour son modèle de concurrence et
+son empreinte de déploiement légère ; alimente le plan de contrôle, le
+moteur de déploiement et les validateurs d’artefacts, exposant la
+surface principale REST <code>/api/v1</code>.</li>
+<li><strong>Kotlin/KMP</strong> — choisi afin que l’agent OTA Android
+embarqué puisse partager la logique entre les cibles ; gère
+l’intégralité de la boucle sur l’appareil : interrogation /
+téléchargement / vérification / application / rapport.</li>
+<li><strong>HTTP/3 (QUIC) → HTTP/2</strong> — QUIC retenu comme
+transport principal pour une diffusion à faible latence et résiliente
+sur des liaisons mobiles instables, avec un repli automatique sur HTTP/2
+afin qu’aucun appareil ne soit laissé de côté ;
+<strong>Brotli/gzip</strong> négocié à chaque requête pour réduire la
+taille des charges utiles.</li>
+<li><strong>PostgreSQL</strong> — choisi pour l’intégrité relationnelle
+entre le registre des appareils, les campagnes et la télémétrie, où la
+précision de l’état de la flotte prime sur la vitesse brute
+d’écriture.</li>
+<li><strong>MinIO / S3</strong> — retenu comme stockage d’artefacts afin
+que les images volumineuses de micrologiciels résident dans un stockage
+d’objets standard, découplé de la couche relationnelle.</li>
+<li><strong>AOSP <code>update_engine</code> + AVB/dm-verity +
+<code>boot_control</code></strong> — choisi car réutiliser les
+mécanismes éprouvés d’Android pour le Virtual A/B et le démarrage
+vérifié est plus sûr que de concevoir un système de mise à jour sur
+mesure ; utilisé pour gérer les permutations de slots et la vérification
+cryptographique du démarrage sur l’appareil.</li>
+<li><strong>React</strong> — choisi pour le tableau de bord de gestion
+où les opérateurs se connectent, téléversent des artefacts, pilotent les
+déploiements et surveillent l’état de la flotte en un seul endroit.</li>
+<li><strong>OpenTelemetry + Prometheus/Grafana</strong> — retenu pour
+une instrumentation neutre vis-à-vis des fournisseurs ; utilisé pour
+rendre chaque étape d’un déploiement observable via des métriques et des
+tableaux de bord, plutôt que de reposer sur des suppositions.</li>
+</ul>
+<h2 id="état-et-notes-de-transparence">État et notes de
+transparence</h2>
+<ul>
+<li><strong>État : en développement.</strong> Conformément à la
+gouvernance anti-bullshit du projet, il n’existe <strong>aucun serveur
+ni agent de production fonctionnel à ce stade</strong> — il s’agit d’une
+phase de spécification, de recherche et de développement de la
+couverture de tests. Le dépôt contient le corpus de conception officiel,
+le pipeline d’exportation de la documentation et l’échafaudage des
+sous-modules.</li>
+<li>Les six sous-modules publics réutilisables
+(<code>ota-protocol</code>, <code>ota-artifact-validator</code>,
+<code>ota-rollout-engine</code>, <code>ota-update-engine-bridge</code>,
+<code>ota-android-agent</code>, <code>ota-telemetry-schema</code>) sont
+hébergés sous <code>github.com/HelixDevelopment/</code>.</li>
+<li>Les chiffres de couverture de tests et de latence présents dans le
+dépôt constituent le registre en cours du projet, et n’ont pas été
+confirmés de manière indépendante. Les numéros de clauses
+HelixConstitution cités dans le README sont NON VÉRIFIÉS.</li>
+<li><strong>Licence : Apache-2.0.</strong></li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire.</p>
+</body>
+</html>

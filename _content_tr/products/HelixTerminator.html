@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTerminator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTerminator</h1>
+</header>
+<h1 id="helixterminator">HelixTerminator</h1>
+<p><strong>Ekipler için sıfır güven terminal platformu — her SSH oturumu
+güvenli, paylaşılabilir ve AI destekli.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixTerminator, kurumsal terminal ve SSH oturum yönetim platformu
+olarak Go mikro hizmetler sistemi üzerine inşa edilmiş, çoklu platformda
+çalışan Flutter istemcilerine sahiptir. Uzaktan oturumları sıfır güven
+modeliyle aracılık eder, kaydeder ve güvence altına alır; gerçek zamanlı
+iş birliği imkânı sunar ve terminal üzerinde AI desteği sağlar.</p>
+<h2 id="kısa-açıklama">Kısa Açıklama</h2>
+<p>HelixTerminator, sıfır güven prensiplerine dayalı bir kurumsal
+terminal/SSH yönetim platformudur: Go mikro hizmetlerden oluşan bir arka
+uç ve altı farklı platformda çalışan Flutter istemcileri. Sunucuları
+yönetir, bağlantılar aracılık eder, oturumları kaydeder, gerçek zamanlı
+iş birliği sağlar ve AI destekli komut yardımı, çıktı açıklaması ve olay
+müdahalesi sunar.</p>
+<h2 id="detaylı-açıklama">Detaylı Açıklama</h2>
+<p>HelixTerminator, kurumsal düzeyde bir terminal ve uzaktan erişim
+platformudur. İki ana modülden oluşur — Terminal Platformu ve Bağlantı
+Aracısı — ve tek bir Flutter istemcisiyle altı platformu hedefleyen bir
+Go mikro hizmetler kataloğu üzerinden çalışır. Amacı, geçici SSH
+araçlarını tamamen ortadan kaldırmaktır: Artık her dizüstü bilgisayar
+için ayrı istemciler, özel anahtar dağılımı ve denetim boşlukları
+olmayacak; bunların yerine, uzaktan erişimi kişisel bir alışkanlık
+olmaktan çıkarıp altyapı olarak gören, yönetilebilir, denetlenebilir ve
+iş birliğine dayalı tek bir sistem gelecek.</p>
+<p>Arka uç, uzaktan erişimin tüm yaşam döngüsünü baştan sona yönetir.
+Sunucular ve gruplar bastion/sıçrama sunucusu zincirleriyle yönetilir;
+bir SSH proxy’si parola, açık anahtar ve sertifika kimlik doğrulamasını
+aracılık eder; terminal I/O proxy’si oturumu WebSocket üzerinden
+aktarır; SFTP kesintisiz aktarımları destekler; bağlantı yönlendirme,
+kod parçacıkları ve çalışma alanı yönetimi ile oturum kayıtları,
+güvenilir bir şekilde yeniden oynatılabilen imzalı asciinema
+oynatıcıları halinde bir araya getirilir. Güvenlik, sonradan düşünülmüş
+bir ek değil, tasarım gereği sıfır güvendir: Bir kasası sıfır bilgi
+gizli depolama sağlar; bir PKI hizmeti kısa ömürlü SSH sertifikaları
+üreterek çalınabilecek kalıcı kimlik bilgilerinin önüne geçer; donanım
+destekli anahtar zincirleri (Secure Enclave/Android Keystore/DPAPI/HSM)
+anahtarları disk dışında tutar; FIDO2/WebAuthn ve OIDC/SAML kimlik
+doğrulama ön planda yer alır; ekleme yapılamayan, Merkle zincirli bir
+denetim günlüğü ise kurcalamaya karşı dayanıklı SOC 2/ISO 27001
+kanıtları üretir. Bunun üzerine, gerçek zamanlı iş birliği özelliği
+sayesinde birden fazla operatör, gözlemci/yardımcı/sahip rolleriyle tek
+bir canlı oturumu paylaşabilir; CRDT arabellek senkronizasyonu ile
+tutarlılık sağlanır.</p>
+<p>Terminalin kendisi üzerinde çalışan bir AI hizmeti, komut otomatik
+tamamlama, çıktının sade bir dille açıklanması, anomali tespiti,
+çalıştırma kitabı oluşturma ve olay anında pratik yardım gibi özellikler
+ekleyerek terminali sadece bir veri kanalı olmaktan çıkarıp kritik
+anlarda bir yardımcıya dönüştürür. Tüm platform, konteyner tabanlıdır —
+Kubernetes, Helm, Terraform ve OpenTelemetry, Grafana, Jaeger, Loki gibi
+eksiksiz bir gözlemlenebilirlik yığınına sahiptir — ve HelixTrack
+köprüsü ile yerel bir HelixLLM aracılığıyla daha geniş Helix ailesine
+entegre olur. Tüm bunlar, sahtecilik önleme doğrulama kapılarıyla
+desteklenen Helix Constitution altında çalışır.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Ekipler, dağınık SSH istemcileri üzerinden uzaktan altyapıyı
+yönetirken ortak bir denetim izi, tutarlı bir gizli bilgi yönetimi ve
+bir olaya canlı müdahalede iş birliği yapma imkânı bulamıyor.
+HelixTerminator, uzaktan erişimi kişisel bir dizüstü bilgisayar
+aracından ziyade yönetişimli, sıfır güvenli ve ekip odaklı bir platforma
+dönüştürmek için geliştirildi.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Tüm tedarik listesini tek bir platformda topluyor. SSH istemcisi,
+gizli bilgiler kasası, bastiyon/PKI katmanı, oturum kaydı, uyumluluk
+denetimi ve canlı iş birliği; ekiplerin normalde ayrı ayrı satın alıp
+birbirine bağladığı, her birinin kendi boşlukları olan bileşenlerdi.
+HelixTerminator bunları tek bir yönetişimli sistem olarak sunuyor,
+ardından bu araçların hiçbirinin tek başına yapamadığı bir şeyi
+gerçekleştiriyor: terminalin üzerine doğrudan bir AI katmanı
+yerleştirerek, olay anında yabancı çıktıları açıklıyor ve işlem
+kılavuzları hazırlıyor. Daha önce pratik olmayan bu yetenek, sıfır
+güvenli, değiştirilmesi kanıtlanabilir şekilde kaydedilmiş, operatörler
+arasında canlı paylaşılan ve AI destekli bir uzaktan erişim oturumunu
+tek bir ekrandan sunuyor.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li><strong>Çift modüllü tasarım</strong> (Terminal Platformu + Bağlantı
+Aracısı), bir hizmet kayıt defteri üzerinden koordine edilerek
+platformun ve aracılık katmanının bağımsız olarak ölçeklenmesini ve
+gelişmesini sağlıyor.</li>
+<li><strong>Uçtan uca sıfır güvenli güvenlik</strong>: PKI tarafından
+üretilen kısa ömürlü SSH sertifikaları, sıfır bilgi kasası, donanım
+destekli anahtar zincirleri ve Merkle zincirli denetim günlüğü — kalıcı
+kimlik bilgisi yok, doğrulanamaz iz yok.</li>
+<li><strong>CRDT tabanlı tampon senkronizasyonu ve açık gözlemci /
+yardımcı pilot / sahibi rolleriyle gerçek zamanlı oturum iş
+birliği</strong>, birden fazla operatörün aynı terminalde birbirinin
+ayağına basmadan çalışabilmesini sağlıyor.</li>
+<li><strong>Canlı terminal üzerine entegre AI destekli
+operasyonlar</strong>: operatörün tam ihtiyaç duyduğu noktada otomatik
+tamamlama, çıktı açıklaması, anomali tespiti ve olay/yönerge
+yardımı.</li>
+<li><strong>Tek kod tabanından altı platformu destekleyen çapraz
+platform Flutter istemcisi</strong>, masaüstü, mobil ve web
+deneyimlerinin uyum içinde kalmasını sağlıyor.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En büyük teknik
+zorluklar ve çözümlerimiz</h2>
+<ul>
+<li><strong>Çalınabilecek kalıcı kimlik bilgisi olmadan uzaktan erişimi
+güvence altına almak</strong> — uzun ömürlü anahtarlar, klasik ihlal
+vector noktasıdır. Talep üzerine kısa ömürlü SSH sertifikaları veren bir
+PKI hizmeti, sunucunun bile okuyamadığı gizli bilgileri saklayan sıfır
+bilgi kasası ve özel verilerin diskte açıkta kalmamasını sağlayan
+donanım destekli anahtar depolama (Secure Enclave / Android Keystore /
+DPAPI / HSM) ile çözüldü.</li>
+<li><strong>Birden fazla operatörün aynı oturumu sürerken tamponu
+bozmamasını sağlamak</strong> — paylaşılan bir terminalde eşzamanlı
+düzenlemeler, tutarlılık açısından zor bir problemdir. CRDT tabanlı
+tampon senkronizasyonu ile çözüldü; merkezi bir hakem olmadan yakınsama
+sağladığı için ADR-006 uyarınca operasyonel dönüşüme tercih edildi.</li>
+<li><strong>Uyumluluk kanıtlarının sessizce değiştirilmesini imkânsız
+kılmak</strong> — düzenlenebilir bir denetim günlüğü hiçbir şeyi
+kanıtlamaz. Ekleme yapılamayan, Merkle zincirli bir günlükle çözüldü;
+herhangi bir müdahale hash zincirini bozarak SOC 2 / ISO 27001 / FedRAMP
+kanıtlarının dışa aktarılabilir olmasını sağlıyor.</li>
+<li><strong>Üç ayrı kod tabanı olmadan masaüstü, mobil ve web’de tutarlı
+bir kullanıcı deneyimi sunmak</strong> — BLoC modeli üzerine inşa edilen
+tek bir Flutter/Dart istemcisiyle çözüldü; tek bir kaynak koddan altı
+platforma hitap etmek için ADR-001 uyarınca Electron yerine Flutter
+tercih edildi.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go mikroservisleri</strong> — arka uç filosu (SSH proxy,
+terminal, vault, PKI, denetim ve daha fazlası); eşzamanlılık modeli ve
+küçük çalışma zamanı ayak izi sayesinde aynı anda çok sayıda uzun ömürlü
+akış oturumunu barındıran hizmetler için ideal (ADR-002: Go, Rust/Node’a
+tercih edildi).</li>
+<li><strong>Flutter / Dart (BLoC)</strong> — altı platformda tek bir
+istemci kod tabanı; BLoC ile durum yönetimi öngörülebilir hale
+getirildi; Flutter, ayrı yerel ve web ön uçları sürdürme ihtiyacını
+ortadan kaldırmak için Electron’a tercih edildi (ADR-001).</li>
+<li><strong>PostgreSQL</strong> — birincil veri deposu; olgun ve iyi
+anlaşılmış işlemsel çekirdeği nedeniyle CockroachDB’ye tercih edildi
+(ADR-004).</li>
+<li><strong>Kafka + RabbitMQ</strong> — oturum parçalarını ve olayları
+taşıyan mesajlaşma ve akış katmanı (ADR-003); dayanıklı bir günlük ile
+esnek kuyruklamanın birleşimi.</li>
+<li><strong>Redis</strong> — terminal kaydırma tamponlarını ve düşük
+gecikme süresinin dayanıklılıktan daha önemli olduğu sıcak oturum
+durumlarını barındırır.</li>
+<li><strong>SPIFFE/SPIRE + mTLS</strong> — kriptografik iş yükü kimliği
+sağlar (ADR-005); böylece hizmetler arası trafik karşılıklı olarak
+doğrulanır, sıfır güven ilkesi ağ örgüsü içinde de uygulanır, yalnızca
+kenarda değil.</li>
+<li><strong>Ed25519 (EdDSA)</strong> — JWT’leri ve oturum kayıtlarını
+imzalar (ADR-009); kaydedilen oturumların doğrulanabilirliğini sağlayan
+hızlı ve modern imzalar sunar.</li>
+<li><strong>Kubernetes + Helm + Terraform</strong> — konteyner tabanlı
+dağıtım, tekrarlanabilir ve sürüm kontrollü altyapı (ADR-007/008).</li>
+<li><strong>OpenTelemetry, Grafana, Jaeger, Loki</strong> — izleme,
+metrikler, kontrol panelleri ve günlükler için gözlemlenebilirlik
+yığını; <strong>Falco, Trivy, Cosign, Sealed Secrets</strong> — çalışma
+zamanı tehdit tespiti, görüntü tarama, yapıt imzalama ve tedarik zinciri
+boyunca şifreli gizli bilgi dağıtımı.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Önemli ve aktif olarak geliştirilen
+bir kod tabanı (oluşturulma tarihi: 04.07.2026). Projenin MVP araştırma
+paketindeki sayısal spesifikasyon rakamları (uç nokta, tablo ve hizmet
+sayıları), <code>docs/research/mvp/</code> dizinindeki tasarım/şartname
+hedefleridir; tam olarak uygulandıkları doğrulanmamıştır ve bu nedenle
+yukarıda sunulanlar, gönderilmiş metrikler değil, mimari kapsam olarak
+değerlendirilmelidir. Gecikme/SLO ve “üretime hazır” iddiaları bağımsız
+olarak doğrulanmamıştır.</li>
+<li><strong>Lisans: Apache-2.0</strong> (GitHub API’a göre).</li>
+</ul>
+<p><strong>Öncelik katmanı:</strong> Helix-birincil.</p>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p><strong>Свака узбуна стиже на право одредиште — без потребе за
+синтаксом команди.</strong></p>
+<h2 id="резиме">Резиме</h2>
+<p>Herald прихвата системске догађаје и поуздано их дистрибуира на више
+канала за обавештавање, тако да свака узбуна стиже на право место.
+Претплатници комуницирају на природном језику; Herald разрешава намере
+кроз тростепену дисциплину (брзи пут команди → закључивање намере преко
+LLM → резервни механизам за разјашњавање).</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Систем за прихватање догађаја и дистрибуцију обавештења на више
+канала. Herald поуздано усмерава системске догађаје на права одредишта
+преко канала за размену порука и омогућава претплатницима да користе
+обичан природни језик — разрешавајући намере кроз брзи пут команди,
+закључивање путем LLM и резервни механизам за разјашњавање и питања.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Herald је окосница обавештавања која гарантује да системски догађај
+заиста стигне тамо где га човек може предузети — неугледан, али кључан
+слој у којем већина импровизованих система за узбуњивање тихо отказује.
+Прихвата догађаје и поуздано их дистрибуира на више канала за
+обавештавање, спречавајући уобичајене грешке где се узбуна изгуби,
+погрешно усмери на мртав канал или загуши у буци док више није битно.
+Али поуздана испорука је само пола приче; друга половина односи се на то
+шта се дешава када човек жели да реагује. Овде Herald одбија уобичајени
+компромис где корисници морају да памте круту синтаксу команди како би
+комуницирали са ботом за узбуњивање. Претплатници једноставно пишу на
+обичном природном језику, а Herald разрешава шта су мислили кроз намерну
+тростепену дисциплину: брзи пут који одмах препознаје експлицитне
+команде, затим закључивање намере засновано на LLM (путем Claude кода)
+за поруке у слободном облику, и на крају резервни механизам
+<code>razjašnjenja</code> који одговара, означава и поставља питање када
+је намера заиста нејасна. Та лествица „препознај → закључи → разјасни”
+укратко је читава филозофија дизајна — уобичајени случај остаје тренутни
+и детерминистички, флексибилни случај обрађује модел, а неизвестан
+случај никада се не разрешава слепим нагађањем које покреће погрешну
+радњу. Herald такође моделира учешће и приписивање: променљива окружења
+за корисничко име оператера
+(<code>HERALD_&lt;CHANNEL&gt;_OPERATOR_USERNAME</code>) и уговор о
+учесницима/приписивању покрећу поља
+<code>created_by</code>/<code>assigned_to</code> и означавање обавештења
+са @, тако да је јасно ко је шта урадио и кога се обавештава. Што се
+управљања тиче, Herald наслеђује Helix Constitution као ко-лоцирани
+подмодул и поштује његова правила, а рани је производни корисник Docs
+Chain — његов комплетан корпус од 66 докумената у Markdown формату →
+HTML/PDF/DOCX повезан је кроз <code>exec:</code> трансформације Docs
+Chain и проверава се без грешака. Herald је првенствено алат за Shell/Go
+са слојевитим спецификацијама (замена верзија В1→В2→В3→В4) и водичима за
+подешавање оператера по каналима за размену порука и диспечере
+LLM/агента.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Узбуне тихо отказују — шаљу се на погрешан канал, губе се или
+захтевају круту синтаксу команди коју корисници неће памтити. Herald је
+направљен да гарантује поуздану дистрибуцију и омогући људима да
+одговарају на природном језику, тако да су обавештења и поуздана и без
+напора за предузимање акције.</p>
+<h2 id="зашто-је-ово-револуционарно">Зашто је ово револуционарно</h2>
+<p>Спаја две ствари које се обично купују као одвојени производи –
+поуздано рутирање догађаја кроз више канала и интерфејс који разуме
+природни језик – у један систем у којем оператори једноставно говоре, а
+софтвер схвата шта желе. Кључна карактеристика која га чини поузданим за
+продукцију јесте механизам за разјашњење: систем за обавештавање који
+радије пита него да погреши бољи је од оног који може да утиче на
+стварно стање.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Тростепена дисциплина намере: брза путања команде → закључивање
+помоћу LLM → разјашњење и питање.</li>
+<li>Интеракција са претплатницима путем природног језика (нема потребе
+за учењем синтаксе команди).</li>
+<li>Уговор о додели учесника који покреће
+<code>created_by</code>/<code>assigned_to</code> + означавање са @.</li>
+<li>Прави Docs Chain потрошач (корпус од 66 докумената, више формата,
+верификован).</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Нејасна намера изражена природним језиком:</strong> решено
+тростепеним лествицама препознавања, закључивања и разјашњавања уместо
+слепог нагађања.</li>
+<li><strong>Поуздано ширење обавештења:</strong> решено дизајном који
+обухвата унос → дистрибуцију кроз више канала како би обавештења стигла
+на право одредиште.</li>
+<li><strong>Исправна додела кроз канале:</strong> решено помоћу
+променљиве окружења са корисничким именом оператора и уговора о додели
+учесника.</li>
+<li><strong>Одступање документације:</strong> решено повезивањем корпуса
+документације кроз Docs Chain са верификованим трансформацијама.</li>
+</ul>
+<h2 id="технолошки-стек-зашто-како">Технолошки стек (зашто + како)</h2>
+<ul>
+<li><strong>Go</strong> – основна логика догађаја и дистрибуције (по
+обрасцима језика организације).</li>
+<li><strong>Shell</strong> – алати за операторе и скрипте за
+подешавање.</li>
+<li><strong>Claude Код (LLM)</strong> – ниво закључивања намере за
+поруке у слободном формату.</li>
+<li><strong>Адаптери за канале за размену порука</strong> – дистрибуција
+обавештења кроз више канала.</li>
+<li><strong>Docs Chain</strong> – пипелине за израду и верификацију
+документације (Markdown→HTML/PDF/DOCX).</li>
+<li><strong>Helix Constitution подмодул</strong> – наслеђена управљачка
+правила.</li>
+</ul>
+</body>
+</html>

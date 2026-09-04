@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixPlay</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixPlay</h1>
+</header>
+<h1 id="helixplay">HelixPlay</h1>
+<p><strong>Herhangi bir GPU cihazını kendi bulut oyun sisteminize
+dönüştürün.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixPlay, herhangi bir GPU donanımlı cihazı uzaktan yayın sunucusuna
+dönüştüren, masaüstü, mobil, TV ve tarayıcı istemcilerine konsol
+kalitesinde oyun deneyimi sunan, kendi kendine barındırılabilir bir
+bulut oyun platformudur. 46 alt modülden oluşan Go merkezli bir monorepo
+olarak tasarlanmış olup üç katmanlı bir istemci yapısına sahiptir ve iş
+ortakları için beyaz etiketli olarak sunulabilir.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>HelixPlay, kendi kendine barındırılabilen, açık kaynaklı ve beyaz
+etiketli bir bulut oyun platformudur. Herhangi bir GPU donanımlı cihazı
+uzaktan yayın sunucusuna dönüştürür ve WebRTC/QUIC üzerinden masaüstü,
+mobil, TV ve tarayıcı istemcilerine konsol kalitesinde oyun deneyimi
+sunar. Platform, Go çekirdeği ve Wails/Flutter/Angular istemci yığını
+üzerine kuruludur.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>HelixPlay, 46 Git alt modülünden oluşan Go merkezli bir monorepo
+olarak geliştirilmiş bir bulut oyun platformudur. Sahip olduğunuz
+herhangi bir oyun bilgisayarını, masaüstü, mobil, TV ve tarayıcı
+istemcilerine konsol kalitesinde deneyim sunan bir yayın sunucusuna
+dönüştürür. Platform, kendi kendine barındırılabilir, açık kaynaklı ve
+iş ortakları için beyaz etiketli olarak sunulabilir. Temel felsefesi
+nettir: donanım sizin, hizmet sizin, marka sizin; araya üçüncü taraf
+bulutlar girmez.</p>
+<p>Platformun ayırt edici tasarım tercihi, üç katmanlı istemci
+bütünleşmesidir. Bu zorlu mimari seçim, her alanda karşılığını verir.
+Wails masaüstü uygulaması, Flutter mobil/TV uygulaması ve Angular web
+istemcisi, <em>tek</em> bir Go çekirdeği üzerine inşa edilmiştir.
+Çekirdek, tarayıcı için WASM’a derlenir; böylece davranışlar tek bir
+yerde yazılır ve üç farklı koldan çatallanmak yerine tüm platformlarda
+paylaşılır. Bunun altında gerçek zamanlı medya akışı yer alır: Yakalama
+→ Kodlama → Paketleme → İletim → Kod Çözme → Görüntüleme. Bu süreç,
+platforma özgü yakalama (DXGI / ScreenCaptureKit / PipeWire) ve donanım
+kodlayıcıları (NVENC / QSV / AMF / VideoToolbox) ile entegre edilmiştir.
+Böylece GPU cihazı ağır iş yükünü üstlenir. İletim ise gecikmeyi en aza
+indirmek için WebRTC (Pion v4), QUIC (quic-go) ve özel UDP veri
+paketleri üzerinden gerçekleştirilir. Arka uç çekirdeği, oturumları,
+kiracıları, katalogları ve kimlik doğrulamasını yönetir; bir ana
+bilgisayar aracısı ise yakalama, kodlama ve iletim işlemlerini uç
+noktada gerçekleştirir. mDNS/rendezvous mekanizması, istemcilerin
+sunucularını manuel ayarlamaya gerek kalmadan bulmasını sağlar.</p>
+<p>HelixPlay, baştan sona beyaz etiketli SaaS için tasarlanmıştır.
+Kiracı bazlı tema, katalog filtreleme, OAuth2 ve faturalandırma
+özellikleri sayesinde iş ortakları, ince bir yeniden tasarım yerine
+tamamen markalı bir hizmet sunabilir. Platform, son detayına kadar
+konteyner tabanlıdır: her hizmet, veritabanı, derleme, test ve tarama
+işlemi konteynerler içinde çalışır. Bu da tüm platformun yeniden
+üretilebilir ve doğrulanabilir şekilde dağıtılmasını sağlar. Helix
+ailesinin geri kalanı gibi, bu platform da “blöf karşıtı” bir anayasaya
+sahiptir. Yeşil test, gerçek ve son kullanıcı tarafından kullanılabilir
+bir davranışı garanti eder; geçen bir simülasyon değil.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik?</h2>
+<p>Ticari bulut oyun hizmetleri kapalı, merkezi ve kiralık. HelixPlay,
+GPU donanımlı bir cihaza sahip herkesin kendi yayın sunucusunu
+çalıştırabilmesi için geliştirildi. Açık kaynaklı, kendi kendine
+barındırılabilir ve beyaz etiketli bir alternatif sunarak üçüncü taraf
+hizmetlere bağımlılığı ortadan kaldırıyor.</p>
+<p>İçerik</p>
+<h2 id="neden-bir-oyun-değiştirici">Neden bir oyun değiştirici?</h2>
+<p>Ticari hizmetlerin birbirinden ayırdığı üç unsuru bir araya
+getiriyor: kendi kontrolünüzdeki donanımda kendi sunucunuzu barındırma,
+üç istemci yığınını tek bir Go çekirdeğiyle çalıştırarak özelliklerin
+her yerde aynı anda devreye girmesi ve beyaz etiketli çok kiracılı yapı.
+Sonuç olarak, bir iş ortağı <em>kendi</em> GPU’ları üzerinde tamamen
+markalı bir bulut oyun hizmeti başlatabiliyor — deneyimi, kullanıcıları
+ve ekonomiyi sahipleniyor — başkasının bulutunda kapasite kiralayıp onun
+sınırları içinde yaşamak yerine.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne?</h2>
+<ul>
+<li><strong>Üçlü istemci yığını yakınsaması</strong> — Wails, Flutter ve
+Angular, tek bir Go çekirdeği (tarayıcıda WASM) üzerinde çalışıyor;
+böylece masaüstü, mobil, TV ve web, üç ayrı ve birbirinden uzaklaşan
+uygulama yerine tek bir uygulama paylaşıyor.</li>
+<li><strong>Kendi sunucunuzda barındırılabilir, beyaz etiketli
+SaaS</strong> — kiracı başına tema, katalog filtreleme, OAuth2 ve
+faturalandırma sistemleri entegre olarak geliyor; platform, bir demo
+değil, markalaştırılabilir bir ürün olarak teslim ediliyor.</li>
+<li><strong>Modern düşük gecikmeli iletim</strong> — WebRTC (Pion), QUIC
+ve özel UDP, platforma özel donanım kodlayıcı seçimiyle (NVENC / QSV /
+AMF / VideoToolbox) eşleştirilerek, kolaylık yerine tepki hızı
+önceliklendiriliyor.</li>
+<li><strong>46 modüllü ayrıştırılmış mimari</strong> — temiz bir şekilde
+ayrılmış bileşenler ve tamamen konteyner tabanlı yapı: her hizmet,
+veritabanı, derleme, test ve tarama bir konteyner içinde çalışıyor.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En büyük teknik
+zorluklar ve çözümlerimiz</h2>
+<ul>
+<li><strong>Farklı donanımlar arasında düşük gecikmeli yayın.</strong>
+Her işletim sistemi ve GPU, yakalama ve kodlamayı farklı şekilde
+sunuyor; gecikme ise affetmiyor. Platforma duyarlı bir yakalama/kodlama
+yolu — DXGI / ScreenCaptureKit / PipeWire üzerinden NVENC / QSV / AMF /
+VideoToolbox’a besleme — WebRTC / QUIC / UDP üzerinden taşınarak her
+makinenin piksel verilerine en hızlı yerel yolunu kullanması
+sağlandı.</li>
+<li><strong>Masaüstü, mobil, TV ve web’de tek bir ürün.</strong> Üçlü
+istemci yığını (Wails, Flutter, Angular) ile çözüldü; bu istemciler,
+tarayıcı için WASM’e derlenen tek bir Go çekirdeğini paylaşıyor. Böylece
+bir düzeltme veya özellik bir kez yazılıp dört yüzeyde birden görünüyor,
+dört kez taşınmak yerine.</li>
+<li><strong>Çok kiracılı beyaz etiketli işletim.</strong> Çekirdek arka
+uçta kiracı başına tema, katalog filtreleme, OAuth2 ve faturalandırma
+sistemlerinin doğrudan entegre edilmesiyle çözüldü; böylece kiracı
+izolasyonu ve markalaşma, müşteri başına çatallama yerine platformun
+temel özellikleri haline geldi.</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji yığını</h2>
+<ul>
+<li><strong>Go (1.26.2 ana sürüm / 1.25+ alt modüller)</strong> —
+paylaşılan çekirdek arka uç ve ana bilgisayar aracısı; hem yerel ikili
+dosyalara hem de WASM’e derlenebilen tek bir dil. Bu da tek çekirdekli,
+çok istemcili tasarımı mümkün kılan unsur.</li>
+<li><strong>Wails v2</strong> — masaüstü istemcisi; Go çekirdeğini
+gömülü bir web görünümüne bağlayarak masaüstü uygulamasının çekirdek
+mantığını yeniden uygulamak yerine doğrudan kullanmasını sağlıyor.</li>
+<li><strong>Flutter 3.29+</strong> — mobil/TV istemcisi; Go çekirdeğine
+FFI üzerinden çağrı yaparak telefon ve televizyonlarda yerel bir arayüz
+sunuyor, ikinci bir arka uca ihtiyaç duymadan.</li>
+<li><strong>Angular 17+</strong> — web istemcisi; aynı Go çekirdeğini
+WASM’e derleyerek tarayıcıyı ikinci sınıf değil, birinci sınıf bir yüzey
+haline getiriyor.</li>
+<li><strong>WebRTC / Pion v4, QUIC / quic-go, özel UDP</strong> — üç
+gerçek zamanlı iletim protokolü; platformun her ağ ve istemci için
+mevcut en düşük gecikmeli yolu seçmesini sağlıyor.</li>
+<li><strong>Donanım kodlayıcılar (NVENC / QSV / AMF /
+VideoToolbox)</strong> ve <strong>platform yakalama (DXGI /
+ScreenCaptureKit / PipeWire)</strong> — GPU hızlandırmalı yakalama ve
+kodlama yolu; platforma özel seçilerek kodlamanın asla CPU darboğazına
+takılmaması sağlanıyor.</li>
+<li><strong>Konteynerler (Docker/Podman)</strong> — her hizmet,
+veritabanı, derleme, test ve tarama konteyner içinde çalışıyor; böylece
+tüm sistem dağıtım ve doğrulama açısından yeniden üretilebilir hale
+geliyor.</li>
+<li><strong>mDNS / buluşma</strong> — sıfır yapılandırma ana bilgisayar
+keşfi; istemcilerin ağdaki yayın ana bilgisayarını otomatik olarak
+bulmasını sağlıyor.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve dürüstlük notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> README dosyasındaki gecikme hedefleri
+(LAN için ≤30 ms / WAN için ≤50 ms p999), “konsol sınıfı / PS4 Pro
+sınıfı” çerçevesi ve test matrisindeki hücre sayısı, projenin kendi
+beyan ettiği tasarım hedefleridir; bağımsız olarak ölçülmemiş olup bu
+şekilde sunulmaktadır.</li>
+<li><strong>Lisans: Belirlenmedi.</strong> GitHub API aracılığıyla
+herhangi bir LICENSE dosyası tespit edilemedi — DOĞRULANMAMIŞ / beyan
+edilmemiş.</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil.</p>
+</body>
+</html>

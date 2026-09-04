@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Create or update the feature specification from a natural language feature description." />
+  <title>speckit.specify</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">speckit.specify</h1>
+</header>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before specification)</strong>: -
+Check if <code>.specify/extensions.yml</code> exists in the project
+root. - If it exists, read it and look for entries under the
+<code>hooks.before_specify</code> key - If the YAML cannot be parsed or
+is invalid, skip hook checking silently and continue normally - Filter
+out hooks where <code>enabled</code> is explicitly <code>false</code>.
+Treat hooks without an <code>enabled</code> field as enabled by default.
+- For each remaining hook, do <strong>not</strong> attempt to interpret
+or evaluate hook <code>condition</code> expressions: - If the hook has
+no <code>condition</code> field, or it is null/empty, treat the hook as
+executable - If the hook defines a non-empty <code>condition</code>,
+skip the hook and leave condition evaluation to the HookExecutor
+implementation - For each executable hook, output the following based on
+its <code>optional</code> flag: - <strong>Optional hook</strong>
+(<code>optional: true</code>): ``` ## Extension Hooks</p>
+<pre><code>**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Outline.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+<h2 id="outline">Outline</h2>
+<p>The text the user typed after <code>/speckit.specify</code> in the
+triggering message <strong>is</strong> the feature description. Assume
+you always have it available in this conversation even if
+<code>$ARGUMENTS</code> appears literally below. Do not ask the user to
+repeat it unless they provided an empty command.</p>
+<p>Given that feature description, do this:</p>
+<ol type="1">
+<li><p><strong>Generate a concise short name</strong> (2-4 words) for
+the feature:</p>
+<ul>
+<li>Analyze the feature description and extract the most meaningful
+keywords</li>
+<li>Create a 2-4 word short name that captures the essence of the
+feature</li>
+<li>Use action-noun format when possible (e.g., “add-user-auth”,
+“fix-payment-bug”)</li>
+<li>Preserve technical terms and acronyms (OAuth2, API, JWT, etc.)</li>
+<li>Keep it concise but descriptive enough to understand the feature at
+a glance</li>
+<li>Examples:
+<ul>
+<li>“I want to add user authentication” → “user-auth”</li>
+<li>“Implement OAuth2 integration for the API” →
+“oauth2-api-integration”</li>
+<li>“Create a dashboard for analytics” → “analytics-dashboard”</li>
+<li>“Fix payment processing timeout bug” → “fix-payment-timeout”</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Branch creation</strong> (optional, via hook):</p>
+<p>If a <code>before_specify</code> hook ran successfully in the
+Pre-Execution Checks above, it will have created/switched to a git
+branch and output JSON containing <code>BRANCH_NAME</code> and
+<code>FEATURE_NUM</code>. Note these values for reference, but the
+branch name does <strong>not</strong> dictate the spec directory
+name.</p>
+<p>If the user explicitly provided <code>GIT_BRANCH_NAME</code>, pass it
+through to the hook so the branch script uses the exact value as the
+branch name (bypassing all prefix/suffix generation).</p></li>
+<li><p><strong>Create the spec feature directory</strong>:</p>
+<p>Specs live under the default <code>specs/</code> directory unless the
+user explicitly provides <code>SPECIFY_FEATURE_DIRECTORY</code>.</p>
+<p><strong>Resolution order for
+<code>SPECIFY_FEATURE_DIRECTORY</code></strong>:</p>
+<ol type="1">
+<li>If the user explicitly provided
+<code>SPECIFY_FEATURE_DIRECTORY</code> (e.g., via environment variable,
+argument, or configuration), use it as-is</li>
+<li>Otherwise, auto-generate it under <code>specs/</code>:
+<ul>
+<li>Check <code>.specify/init-options.json</code> for
+<code>feature_numbering</code> (preferred) or
+<code>branch_numbering</code> (deprecated, migration only — will be
+removed in a future release)</li>
+<li>If <code>"timestamp"</code>: prefix is <code>YYYYMMDD-HHMMSS</code>
+(current timestamp)</li>
+<li>If <code>"sequential"</code> or absent: prefix is <code>NNN</code>
+(next available 3-digit number after scanning existing directories in
+<code>specs/</code>)</li>
+<li>Construct the directory name:
+<code>&lt;prefix&gt;-&lt;short-name&gt;</code> (e.g.,
+<code>003-user-auth</code> or
+<code>20260319-143022-user-auth</code>)</li>
+<li>Set <code>SPECIFY_FEATURE_DIRECTORY</code> to
+<code>specs/&lt;directory-name&gt;</code></li>
+<li>If <code>branch_numbering</code> was used (and
+<code>feature_numbering</code> was absent), emit a one-line warning: “⚠️
+<code>branch_numbering</code> in init-options.json is deprecated. Rename
+to <code>feature_numbering</code>.”</li>
+</ul></li>
+</ol>
+<p><strong>Create the directory and spec file</strong>:</p>
+<ul>
+<li><p><code>mkdir -p SPECIFY_FEATURE_DIRECTORY</code></p></li>
+<li><p>Resolve the active <code>spec-template</code> through the Spec
+Kit preset/template resolution stack (equivalent to
+<code>specify preset resolve spec-template</code>)</p></li>
+<li><p>Copy the resolved <code>spec-template</code> file to
+<code>SPECIFY_FEATURE_DIRECTORY/spec.md</code> as the starting
+point</p></li>
+<li><p>Set <code>SPEC_FILE</code> to
+<code>SPECIFY_FEATURE_DIRECTORY/spec.md</code></p></li>
+<li><p>Persist the resolved path to
+<code>.specify/feature.json</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;feature_directory&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;resolved feature dir&gt;&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Write the actual resolved directory path value (for example,
+<code>specs/003-user-auth</code>), not the literal string
+<code>SPECIFY_FEATURE_DIRECTORY</code>. This allows downstream commands
+(<code>/speckit.plan</code>, <code>/speckit.tasks</code>, etc.) to
+locate the feature directory without relying on git branch name
+conventions.</p></li>
+</ul>
+<p><strong>IMPORTANT</strong>:</p>
+<ul>
+<li>You must only create one feature per <code>/speckit.specify</code>
+invocation</li>
+<li>The spec directory name and the git branch name are independent —
+they may be the same but that is the user’s choice</li>
+<li>The spec directory and file are always created by this command,
+never by the hook</li>
+</ul></li>
+<li><p>Load the resolved active <code>spec-template</code> file to
+understand required sections.</p></li>
+<li><p><strong>IF EXISTS</strong>: Load
+<code>.specify/memory/constitution.md</code> for project principles and
+governance constraints.</p></li>
+<li><p>Follow this execution flow:</p>
+<ol type="1">
+<li>Parse user description from arguments If empty: ERROR “No feature
+description provided”</li>
+<li>Extract key concepts from description Identify: actors, actions,
+data, constraints</li>
+<li>For unclear aspects:
+<ul>
+<li>Make informed guesses based on context and industry standards</li>
+<li>Only mark with [NEEDS CLARIFICATION: specific question] if:
+<ul>
+<li>The choice significantly impacts feature scope or user
+experience</li>
+<li>Multiple reasonable interpretations exist with different
+implications</li>
+<li>No reasonable default exists</li>
+</ul></li>
+<li><strong>LIMIT: Maximum 3 [NEEDS CLARIFICATION] markers
+total</strong></li>
+<li>Prioritize clarifications by impact: scope &gt; security/privacy
+&gt; user experience &gt; technical details</li>
+</ul></li>
+<li>Fill User Scenarios &amp; Testing section If no clear user flow:
+ERROR “Cannot determine user scenarios”</li>
+<li>Generate Functional Requirements Each requirement must be testable
+Use reasonable defaults for unspecified details (document assumptions in
+Assumptions section)</li>
+<li>Define Success Criteria Create measurable, technology-agnostic
+outcomes Include both quantitative metrics (time, performance, volume)
+and qualitative measures (user satisfaction, task completion) Each
+criterion must be verifiable without implementation details</li>
+<li>Identify Key Entities (if data involved)</li>
+<li>Return: SUCCESS (spec ready for planning)</li>
+</ol></li>
+<li><p>Write the specification to SPEC_FILE using the template
+structure, replacing placeholders with concrete details derived from the
+feature description (arguments) while preserving section order and
+headings.</p></li>
+<li><p><strong>Specification Quality Validation</strong>: After writing
+the initial spec, validate it against quality criteria:</p>
+<ol type="a">
+<li><p><strong>Create Spec Quality Checklist</strong>: Generate a
+checklist file at
+<code>SPECIFY_FEATURE_DIRECTORY/checklists/requirements.md</code> using
+the checklist template structure with these validation items:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Specification Quality Checklist: [FEATURE NAME]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>**Purpose**: Validate specification completeness and quality before proceeding to planning</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>**Created**: <span class="co">[</span><span class="ot">DATE</span><span class="co">]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>**Feature**: <span class="co">[</span><span class="ot">Link to spec.md</span><span class="co">]</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Content Quality</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> No implementation details (languages, frameworks, APIs)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Focused on user value and business needs</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Written for non-technical stakeholders</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> All mandatory sections completed</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Requirement Completeness</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> No <span class="co">[</span><span class="ot">NEEDS CLARIFICATION</span><span class="co">]</span> markers remain</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Requirements are testable and unambiguous</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Success criteria are measurable</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Success criteria are technology-agnostic (no implementation details)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> All acceptance scenarios are defined</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Edge cases are identified</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Scope is clearly bounded</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Dependencies and assumptions identified</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feature Readiness</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> All functional requirements have clear acceptance criteria</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> User scenarios cover primary flows</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Feature meets measurable outcomes defined in Success Criteria</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> No implementation details leak into specification</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Notes</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Items marked incomplete require spec updates before <span class="in">`/speckit.clarify`</span> or <span class="in">`/speckit.plan`</span></span></code></pre></div></li>
+<li><p><strong>Run Validation Check</strong>: Review the spec against
+each checklist item:</p>
+<ul>
+<li>For each item, determine if it passes or fails</li>
+<li>Document specific issues found (quote relevant spec sections)</li>
+</ul></li>
+<li><p><strong>Handle Validation Results</strong>:</p>
+<ul>
+<li><p><strong>If all items pass</strong>: Mark checklist complete and
+proceed to the Mandatory Post-Execution Hooks section</p></li>
+<li><p><strong>If items fail (excluding [NEEDS
+CLARIFICATION])</strong>:</p>
+<ol type="1">
+<li>List the failing items and specific issues</li>
+<li>Update the spec to address each issue</li>
+<li>Re-run validation until all items pass (max 3 iterations)</li>
+<li>If still failing after 3 iterations, document remaining issues in
+checklist notes and warn user</li>
+</ol></li>
+<li><p><strong>If [NEEDS CLARIFICATION] markers remain</strong>:</p>
+<ol type="1">
+<li><p>Extract all [NEEDS CLARIFICATION: …] markers from the
+spec</p></li>
+<li><p><strong>LIMIT CHECK</strong>: If more than 3 markers exist, keep
+only the 3 most critical (by scope/security/UX impact) and make informed
+guesses for the rest</p></li>
+<li><p>For each clarification needed (max 3), present options to user in
+this format:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question [N]: [Topic]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>**Context**: <span class="co">[</span><span class="ot">Quote relevant spec section</span><span class="co">]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>**What we need to know**: <span class="co">[</span><span class="ot">Specific question from NEEDS CLARIFICATION marker</span><span class="co">]</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>**Suggested Answers**:</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Option <span class="pp">|</span> Answer <span class="pp">|</span> Implications <span class="pp">|</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|--------|--------------|</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> A      <span class="pp">|</span> <span class="co">[</span><span class="ot">First suggested answer</span><span class="co">]</span> <span class="pp">|</span> <span class="co">[</span><span class="ot">What this means for the feature</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> B      <span class="pp">|</span> <span class="co">[</span><span class="ot">Second suggested answer</span><span class="co">]</span> <span class="pp">|</span> <span class="co">[</span><span class="ot">What this means for the feature</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> C      <span class="pp">|</span> <span class="co">[</span><span class="ot">Third suggested answer</span><span class="co">]</span> <span class="pp">|</span> <span class="co">[</span><span class="ot">What this means for the feature</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Custom <span class="pp">|</span> Provide your own answer <span class="pp">|</span> <span class="co">[</span><span class="ot">Explain how to provide custom input</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>**Your choice**: _[Wait for user response]_</span></code></pre></div></li>
+<li><p><strong>CRITICAL - Table Formatting</strong>: Ensure markdown
+tables are properly formatted:</p>
+<ul>
+<li>Use consistent spacing with pipes aligned</li>
+<li>Each cell should have spaces around content:
+<code>| Content |</code> not <code>|Content|</code></li>
+<li>Header separator must have at least 3 dashes:
+<code>|--------|</code></li>
+<li>Test that the table renders correctly in markdown preview</li>
+</ul></li>
+<li><p>Number questions sequentially (Q1, Q2, Q3 - max 3 total)</p></li>
+<li><p>Present all questions together before waiting for
+responses</p></li>
+<li><p>Wait for user to respond with their choices for all questions
+(e.g., “Q1: A, Q2: Custom - [details], Q3: B”)</p></li>
+<li><p>Update the spec by replacing each [NEEDS CLARIFICATION] marker
+with the user’s selected or provided answer</p></li>
+<li><p>Re-run validation after all clarifications are resolved</p></li>
+</ol></li>
+</ul></li>
+<li><p><strong>Update Checklist</strong>: After each validation
+iteration, update the checklist file with current pass/fail
+status</p></li>
+</ol></li>
+</ol>
+<h2 id="mandatory-post-execution-hooks">Mandatory Post-Execution
+Hooks</h2>
+<p><strong>You MUST complete this section before reporting completion to
+the user.</strong></p>
+<p>Check if <code>.specify/extensions.yml</code> exists in the project
+root. - If it does not exist, or no hooks are registered under
+<code>hooks.after_specify</code>, skip to the Completion Report. - If it
+exists, read it and look for entries under the
+<code>hooks.after_specify</code> key. - If the YAML cannot be parsed or
+is invalid, skip hook checking silently and continue to the Completion
+Report. - Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - For each executable
+hook, output the following based on its <code>optional</code> flag: -
+<strong>Mandatory hook</strong> (<code>optional: false</code>) —
+<strong>You MUST emit <code>EXECUTE_COMMAND:</code> for each mandatory
+hook</strong>: ``` ## Extension Hooks</p>
+<pre><code>**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+```
+After emitting the block above you MUST actually invoke the hook and wait for it to finish before continuing. Run it the same way you would run the command yourself in this agent/session (the invocation may differ from the literal `{command}` id shown above, e.g. a skills-mode agent runs it as `/skill:speckit-...` or `$speckit-...`). Emitting the block alone does not run the hook.</code></pre>
+<ul>
+<li><p><strong>Optional hook</strong> (<code>optional: true</code>):</p>
+<pre><code>## Extension Hooks
+
+**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`</code></pre></li>
+</ul>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report completion to the user with: -
+<code>SPECIFY_FEATURE_DIRECTORY</code> — the feature directory path -
+<code>SPEC_FILE</code> — the spec file path - Checklist results summary
+- Readiness for the next phase (<code>/speckit.clarify</code> or
+<code>/speckit.plan</code>)</p>
+<p><strong>NOTE:</strong> Branch creation is handled by the
+<code>before_specify</code> hook (git extension). Spec directory and
+file creation are always handled by this core command.</p>
+<h2 id="quick-guidelines">Quick Guidelines</h2>
+<ul>
+<li>Focus on <strong>WHAT</strong> users need and
+<strong>WHY</strong>.</li>
+<li>Avoid HOW to implement (no tech stack, APIs, code structure).</li>
+<li>Written for business stakeholders, not developers.</li>
+<li>DO NOT create any checklists that are embedded in the spec. That
+will be a separate command.</li>
+</ul>
+<h3 id="section-requirements">Section Requirements</h3>
+<ul>
+<li><strong>Mandatory sections</strong>: Must be completed for every
+feature</li>
+<li><strong>Optional sections</strong>: Include only when relevant to
+the feature</li>
+<li>When a section doesn’t apply, remove it entirely (don’t leave as
+“N/A”)</li>
+</ul>
+<h3 id="for-ai-generation">For AI Generation</h3>
+<p>When creating this spec from a user prompt:</p>
+<ol type="1">
+<li><strong>Make informed guesses</strong>: Use context, industry
+standards, and common patterns to fill gaps</li>
+<li><strong>Document assumptions</strong>: Record reasonable defaults in
+the Assumptions section</li>
+<li><strong>Limit clarifications</strong>: Maximum 3 [NEEDS
+CLARIFICATION] markers - use only for critical decisions that:
+<ul>
+<li>Significantly impact feature scope or user experience</li>
+<li>Have multiple reasonable interpretations with different
+implications</li>
+<li>Lack any reasonable default</li>
+</ul></li>
+<li><strong>Prioritize clarifications</strong>: scope &gt;
+security/privacy &gt; user experience &gt; technical details</li>
+<li><strong>Think like a tester</strong>: Every vague requirement should
+fail the “testable and unambiguous” checklist item</li>
+<li><strong>Common areas needing clarification</strong> (only if no
+reasonable default exists):
+<ul>
+<li>Feature scope and boundaries (include/exclude specific use
+cases)</li>
+<li>User types and permissions (if multiple conflicting interpretations
+possible)</li>
+<li>Security/compliance requirements (when legally/financially
+significant)</li>
+</ul></li>
+</ol>
+<p><strong>Examples of reasonable defaults</strong> (don’t ask about
+these):</p>
+<ul>
+<li>Data retention: Industry-standard practices for the domain</li>
+<li>Performance targets: Standard web/mobile app expectations unless
+specified</li>
+<li>Error handling: User-friendly messages with appropriate
+fallbacks</li>
+<li>Authentication method: Standard session-based or OAuth2 for web
+apps</li>
+<li>Integration patterns: Use project-appropriate patterns (REST/GraphQL
+for web services, function calls for libraries, CLI args for tools,
+etc.)</li>
+</ul>
+<h3 id="success-criteria-guidelines">Success Criteria Guidelines</h3>
+<p>Success criteria must be:</p>
+<ol type="1">
+<li><strong>Measurable</strong>: Include specific metrics (time,
+percentage, count, rate)</li>
+<li><strong>Technology-agnostic</strong>: No mention of frameworks,
+languages, databases, or tools</li>
+<li><strong>User-focused</strong>: Describe outcomes from user/business
+perspective, not system internals</li>
+<li><strong>Verifiable</strong>: Can be tested/validated without knowing
+implementation details</li>
+</ol>
+<p><strong>Good examples</strong>:</p>
+<ul>
+<li>“Users can complete checkout in under 3 minutes”</li>
+<li>“System supports 10,000 concurrent users”</li>
+<li>“95% of searches return results in under 1 second”</li>
+<li>“Task completion rate improves by 40%”</li>
+</ul>
+<p><strong>Bad examples</strong> (implementation-focused):</p>
+<ul>
+<li>“API response time is under 200ms” (too technical, use “Users see
+results instantly”)</li>
+<li>“Database can handle 1000 TPS” (implementation detail, use
+user-facing metric)</li>
+<li>“React components render efficiently” (framework-specific)</li>
+<li>“Redis cache hit rate above 80%” (technology-specific)</li>
+</ul>
+<h2 id="done-when">Done When</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Specification written to
+<code>SPEC_FILE</code> and validated against quality
+checklist</label></li>
+<li><label><input type="checkbox" />Extension hooks dispatched or
+skipped according to the rules in Mandatory Post-Execution Hooks
+above</label></li>
+<li><label><input type="checkbox" />Completion reported to user with
+feature directory, spec file path, and checklist results</label></li>
+</ul>
+</body>
+</html>

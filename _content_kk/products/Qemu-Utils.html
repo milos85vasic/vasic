@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU ВМ бейнелерін артефакт ретінде басқару — жүктеп алу,
+іске қосу, желіге қосу, жариялау</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Qemu-Utils — QEMU виртуалдандыруды кешенді басқаруға арналған Server
+Factory құралы: ВМ бейнелерін автоматты түрде тарату және сығу,
+жергілікті кеш, көпір/TAP желілік конфигурациясы, ISO негізіндегі ОЖ
+орнату және аппараттық жеделдетумен Linux/macOS платформаларында жұмыс
+істеу. Жеке қолданыла алады немесе Server Factory жүйесінің құрамында
+пайдаланылады.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>QEMU ВМ өмірлік циклін басқаруға арналған Shell құралы. Ол алдын ала
+конфигурацияланған QEMU дискі бейнелерін жүктеп алып, кеште сақтайды,
+іске қосады, сығып алыс серверлерге жариялайды, көпір/TAP желісін
+автоматтандырады, ISO арқылы ОЖ орнатуды қолдайды және Linux пен macOS
+платформаларында аппараттық жеделдетумен жұмыс істейді.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Qemu-Utils виртуалды машиналарды — әдетте <em>ad-hoc</em>
+<code>qemu-system-*</code> шақыруларының ретсіз үйіндісі ретінде
+қарастырылатын нәрсені — құрастыру нәтижелері мен контейнер бейнелерін
+командалар әдетте басқаратын артефакт басқару тәртібіне көшіреді.
+Parallels жүйесінің туыс құралы сияқты, ол ВМ бейнелерін бірінші
+дәрежелі таратылатын активтер ретінде қарастырады, даму мен сынақ
+кезінде қолданылатын жүйелер матрицасын басқарады, бірақ нағыз
+кросс-платформалық QEMU бекендісін нысанаға алады. Оның өмірлік циклі
+толық айналымды қамтиды: алдын ала конфигурацияланған QEMU дискі
+бейнелерін жүктеп алып, кеште сақтайды, оларды алыс серверлерден
+автоматты түрде алады, үлкен бейнені бір рет жүктеп алып, содан кейін
+арзан бағаға іске қосу үшін жеке сығылған және сығылмаған кештерді
+сақтайды, сонымен қатар бейнелерді сығып, командадағы басқа мүшелерге
+арналған алыс серверлерге қайта жариялайды. Ал ешкім қол жеткізе
+алмайтын ВМ пайдасыз болғандықтан, ол әркімнің қорқатын бөлігін — желіні
+— автоматтандырады, көпір мен TAP интерфейстерін ВМ байланысын
+қамтамасыз ету үшін автоматты түрде басқарады, оператордың қолмен
+жасауына қалдырмайды. Ол ISO бейнелері арқылы жаңа ОЖ орнатуды қолдайды
+және нағыз кросс-платформалық — Linux пен macOS платформаларында
+әрқайсысына сәйкес аппараттық жеделдетумен жұмыс істейді.
+Конфигурациялау мен жұмыс істеу Server Factory жүйесінің қарапайым,
+скрипттік үлгісін сақтайды, ал құрал Server Factory жобасының құрамында
+немесе ұйымның жеке бөліну философиясына сәйкес толығымен дербес
+пайдаланылуы мүмкін. Оның құжаттамасы Server Factory жүйесінің көптеген
+кішірек репозиторийлеріне қарағанда толығырақ (шолу, мүмкіндіктер,
+талаптар, жылдам бастау, конфигурациялау, пайдалану, желі, ақауларды жою
+және архитектура бөлімдері бар), бұл Linux/QEMU орталарындағы негізгі
+ВМ-басқару жолының рөлін көрсетеді. Parallels-Utils құралымен бірге ол
+Server Factory экосистемасына macOS/Parallels және Linux пен macOS/QEMU
+виртуалдандыруындағы ВМ бейнелерін басқару мүмкіндігін береді.</p>
+<h2 id="неге-оны-жасадық">Неге оны жасадық</h2>
+<p>Көптеген ОЖ-лерде тестілеу мен жабдықтау үшін қайталанғыш ВМ қажет,
+ал шикі QEMU төмен деңгейлі және қиын — әсіресе желі мен бейне тарату
+жағынан. Qemu-Utils QEMU-ды басқарылатын құралға айналдырады, бейнелер
+мен олардың желілері машиналар арасында қайталанғыш болады.</p>
+<h2 id="неге-бұл-өзгерістер-әкеледі">Неге бұл өзгерістер әкеледі</h2>
+<p>Ол шикі QEMU-ды қиындататын төрт нәрсені — бейне таратуды, кешті,
+желіні және ISO орнатуды — бір кросс-платформалық құралға біріктіріп,
+командалық жолдағы қиын флагтардың қабырғасын қайталанғыш, жарияланғыш
+ВМ жұмыс процесіне айналдырады, бұл бүкіл команда Linux пен macOS
+платформаларында бірдей бірдей қайталай алатын болады.</p>
+<p>Мазмұны</p>
+<h2 id="инновациялық-жаңалықтар">Инновациялық жаңалықтар</h2>
+<ul>
+<li>QEMU бейнесінің толық өмірлік циклі: жүктеу/кеш/жүктеу +
+сығу/жариялау, сонымен қатар сығылған/сығылмаған кештер.</li>
+<li>ВМ байланыстылығы үшін көпір/TAP желі конфигурациясының
+автоматтандырылуы.</li>
+<li>ISO негізіндегі жаңа орнатуды қолдау.</li>
+<li>Аппараттық жеделдетумен Linux және macOS платформаларында жұмыс
+істеу.</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>ВМ желісінің күрделілігі:</strong> көпір мен TAP
+интерфейстерін автоматты басқару арқылы шешілді.</li>
+<li><strong>Үлкен бейнелерді тарату:</strong> сығу, қашықтан
+жариялау/алу және жергілікті кеш арқылы шешілді.</li>
+<li><strong>Кросс-платформалық виртуализация:</strong> Linux және macOS
+қолдауымен тиісті жеделдету арқылы шешілді.</li>
+<li><strong>Жаңадан жабдықтау:</strong> ISO арқылы орнатуды қолдау
+арқылы шешілді.</li>
+</ul>
+<h2 id="технологиялық-стек-неліктен-және-қалай">Технологиялық стек
+(неліктен және қалай)</h2>
+<ul>
+<li><strong>Shell</strong> — бүкіл құралдар жиынтығы (~79,5 мың байт);
+бейнелерді, желіні және ВМ басқаруға арналған скрипттер.</li>
+<li><strong>QEMU</strong> — басқарылатын виртуализациялық
+қозғалтқыш.</li>
+<li><strong>Көпір / TAP желісі</strong> — Linux/macOS ВМ желілік
+инфрақұрылымы.</li>
+<li><strong>ISO бейнелері</strong> — операциялық жүйені орнату
+көзі.</li>
+</ul>
+<blockquote>
+<p>Ескерту: GitHub репозиторийді Server-Factory ұйымындағы форк ретінде
+белгілейді. Parallels-Utils-тың кросс-платформалық серіктесі. AI-мен
+байланысы жоқ.</p>
+</blockquote>
+</body>
+</html>

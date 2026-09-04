@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>प्रत्येक Server Factory के पीछे साझा इंजन।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>कोर फ्रेमवर्क वह Kotlin फ्रेमवर्क है जो प्रोविज़निंग टूल्स के Server Factory
+परिवार की नींव है। यह वह साझा इंजन और अमूर्त संरचनाएँ प्रदान करता है जिन पर Mail
+Server Factory जैसे प्रोजेक्ट्स आधारित होते हैं, ताकि हर “फैक्ट्री” को प्रोविज़निंग के
+बुनियादी तत्वों को बार-बार लागू करने के बजाय एक परखे हुए आधार का पुनः उपयोग करना
+पड़े।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>Server Factory पारिस्थितिकी तंत्र के मूल में स्थित यह साझा Kotlin फ्रेमवर्क है।
+यह प्रोविज़निंग इंजन, कनेक्शन अमूर्तताएँ और इंस्टॉलेशन-चरणों की संरचना प्रदान करता है,
+जिनका उपयोग डाउनस्ट्रीम फैक्ट्रियों (Mail Server Factory, वेब सर्विस फैक्ट्री,
+SonarQube फैक्ट्री और अन्य) द्वारा किया जाता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>कोर फ्रेमवर्क वह अदृश्य इंजीनियरिंग है जो संपूर्ण सर्वर-फैक्ट्री परिवार को संभव बनाती
+है: वह पुनः उपयोगी इंजन जिस पर हर व्यक्तिगत “फैक्ट्री” उत्पाद (Mail Server
+Factory, वेब सर्विस फैक्ट्री, SonarQube फैक्ट्री, कैशिंग प्रॉक्सी फैक्ट्री) आधारित होता
+है। Server Factory का दृष्टिकोण घोषणात्मक है—उपयोगकर्ता अपनी इंफ्रास्ट्रक्चर को
+कॉन्फ़िगरेशन के रूप में वर्णित करता है, और फैक्ट्री उस विवरण की व्याख्या करके लक्ष्य
+प्रणाली पर सॉफ़्टवेयर को इंस्टॉल और आरंभ करती है—और कोर फ्रेमवर्क ही वह स्थान है जहाँ
+इस पैटर्न के लिए साझा तंत्र वास्तव में मौजूद होता है: हर प्रकार के लक्ष्य तक पहुँचने वाली
+कनेक्शन और ट्रांसपोर्ट अमूर्तताएँ, इंस्टॉलेशन-चरण मॉडल जो यह निर्धारित करता है कि
+<em>कैसे</em> सॉफ़्टवेयर प्रोविज़न किया जाता है, और वह साझा संरचना जिसे हर फैक्ट्री
+को अन्यथा स्वयं लिखना पड़ता। यह उस संरचनात्मक प्रश्न का उत्तर है जिसका सामना हर
+बहु-उत्पाद टूलचेन को करना पड़ता है—साझा इंजन कहाँ रखा जाए?—और इस उत्तर को एक बार
+सही ढंग से प्राप्त कर लेने से परिवार एकजुट रहता है, बजाय इसके कि चार अलग-अलग
+प्रोविज़नरों में बँट जाए। इसे एक Kotlin फ्रेमवर्क में केंद्रीकृत करके, परिवार उत्पादों में
+प्रोविज़निंग तर्क की नकल से बचता है और व्यवहार को एकरूप बनाए रखता है: कोर फ्रेमवर्क
+में सुधारा गया कोई कनेक्शन प्रकार या इंस्टॉलेशन प्रिमिटिव हर डाउनस्ट्रीम फैक्ट्री को
+लाभान्वित करता है। यह लगभग पूरी तरह Kotlin में लिखा गया है (लगभग 990K बाइट्स
+Kotlin के साथ एक पतली Shell परत), जो इसे स्क्रिप्ट संग्रह के बजाय कोड लाइब्रेरी के
+रूप में इसकी भूमिका को दर्शाता है। डाउनस्ट्रीम रिपॉजिटरीज़ इसे अपनी मानक निर्भरता के
+रूप में संदर्भित करती हैं (Parallels-Utils, Qemu-Utils, Utils, और डेफ़िनिशन्स पैक
+सभी कोर फ्रेमवर्क रिपॉजिटरी को पारिस्थितिकी तंत्र के केंद्र के रूप में देखते हैं)। इसका
+README जानबूझकर संक्षिप्त रखा गया है—यह अन्य प्रोजेक्ट्स के लिए इंफ्रास्ट्रक्चर है, जिसे
+<code>version.txt</code>/<code>version_code.txt</code> के माध्यम से
+संस्करणबद्ध किया जाता है—और यह बाद के AI कार्य से पहले का है, जिससे यह संगठन की
+परिपक्व DevOps टूलचेन विरासत का हिस्सा बनता है।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>हर प्रोविज़निंग टूल को एक ही मूलभूत चीज़ की आवश्यकता होती है: लक्ष्यों से जुड़ने के
+तरीके और सॉफ़्टवेयर को इंस्टॉल/कॉन्फ़िगर करने के चरण। हर उत्पाद के लिए इसे दोबारा
+बनाने से व्यवहार बिखर जाएगा और बग बढ़ेंगे। कोर फ्रेमवर्क इसे केंद्रीकृत करता है ताकि हर
+फैक्ट्री एक विश्वसनीय इंजन साझा कर सके।</p>
+<h2 id="यह-कय-गम-चजर-ह">यह क्यों गेम-चेंजर है</h2>
+<p>यह पूरे परिवार में सबसे अधिक प्रभावशाली बिंदु है: यहाँ किसी कनेक्शन प्रकार को मजबूत
+किया जाए या इंस्टॉलेशन प्रिमिटिव में सुधार किया जाए, तो वह शुद्धता और क्षमता हर
+फैक्ट्री तक तुरंत पहुँच जाती है, जिससे पूरी टूलचेन एक ही निवेश से विकसित होती है। यह
+“एक बार बनाओ, हर जगह उपयोग करो” का दर्शन है, जिसे वहाँ लागू किया गया है जहाँ
+इसका सबसे अधिक लाभ होता है—इंफ्रास्ट्रक्चर ऑटोमेशन की आधारभूत परत, जहाँ सही जगह पर
+किया गया सुधार डाउनस्ट्रीम की हर चीज़ को ठीक कर देता है।</p>
+<p>सामग्री</p>
+<h2 id="कय-नवन-ह">क्या नवीन है</h2>
+<ul>
+<li>कनेक्शन और इंस्टॉलेशन चरणों की तर्क को एकीकृत करने वाला एक पुनःप्रयोगी
+प्रोविज़निंग ढाँचा।</li>
+<li>इंजन (कोर फ्रेमवर्क) और उत्पाद-विशिष्ट फैक्ट्रियों के बीच स्पष्ट विभाजन।</li>
+<li>पुनरुत्पादन योग्य उपभोग के लिए संस्करण-पिन किया गया वितरण
+(<code>version.txt</code>/<code>version_code.txt</code>)।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>प्रोविज़निंग तर्क की पुनरावृत्ति से बचना:</strong> सभी फैक्ट्रियों द्वारा
+उपयोग किए जाने वाले एक साझा ढाँचे में साझा मशीनरी को निकालकर हल किया गया।</li>
+<li><strong>उत्पादों में एकसमान व्यवहार:</strong> कनेक्शन प्रकारों और चरणों को हर
+जगह एक जैसा व्यवहार कराने के लिए सामान्य अमूर्तताओं के उपयोग से हल किया गया।</li>
+<li><strong>(असत्यापित):</strong> विशिष्ट आंतरिक एपीआई सार्वजनिक README में
+दस्तावेजीकृत नहीं हैं; इंटरफ़ेस विवरणों को “फैक्ट्रियों द्वारा उपयोग किए जाने वाले साझा
+ढाँचे” से आगे असत्यापित मानें।</li>
+</ul>
+<h2 id="तकनक-सटक-कय-और-कस">तकनीकी स्टैक (क्यों और कैसे)</h2>
+<ul>
+<li><strong>Kotlin</strong> — संपूर्ण फ्रेमवर्क (~990K बाइट्स); Server Factory
+परिवार की भाषा।</li>
+<li><strong>Shell</strong> — न्यूनतम सहायक स्क्रिप्ट।</li>
+<li><strong>Gradle</strong> — बिल्ड टूलचेन (परिवार के <code>./gradlew</code>
+उपयोग के अनुरूप)।</li>
+</ul>
+<blockquote>
+<p>टिप्पणी: GitHub रिपॉजिटरी को Server-Factory संगठन के अंतर्गत एक फ़ोर्क के रूप
+में चिह्नित करता है। यह AI-केंद्रित नहीं है; प्रोविज़निंग टूलचेन की रीढ़ के रूप में प्रस्तुत
+किया गया है।</p>
+</blockquote>
+</body>
+</html>

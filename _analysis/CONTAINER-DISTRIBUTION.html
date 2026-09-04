@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CONTAINER-DISTRIBUTION</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CONTAINER-DISTRIBUTION</h1>
+</header>
+<h1
+id="helixtranslate-container-distribution-thinker.local-amber.local">HelixTranslate
+container distribution (thinker.local + amber.local)</h1>
+<p>Per the mandate that <strong>HelixTranslate and other
+infrastructure/services run ONLY via the Containers submodule,
+distributed to thinker.local and amber.local</strong> (ssh
+<code>milosvasic</code>, key-based), all translation compute runs inside
+containers on those two hosts. No local engine binary is used.</p>
+<h2 id="hosts">Hosts</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>host</th>
+<th>OS</th>
+<th>runtime</th>
+<th>role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>thinker.local</td>
+<td>Ubuntu 24.04 (6.17)</td>
+<td>podman</td>
+<td>cgo image BUILD host + translate worker</td>
+</tr>
+<tr>
+<td>amber.local</td>
+<td>Ubuntu (6.8)</td>
+<td>docker</td>
+<td>translate worker (image replicated to it)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="image-helixtranslatecli">Image:
+<code>helixtranslate:cli</code></h2>
+<p>Multi-stage build
+(<code>_tools/helixtranslate-container/Containerfile.translator</code>):
+<code>golang:1.26-alpine</code> + <code>gcc musl-dev sqlite-dev</code> →
+<code>go build ./cmd/unified-translator</code>, runtime
+<code>alpine:3.20</code> + <code>ca-certificates sqlite-libs</code>. ~20
+MB.</p>
+<p><strong>cgo is required.</strong> The bridge opens a
+<code>go-sqlite3</code> verified-models store at startup
+(<code>./data/verified_models.db</code>); a <code>CGO_ENABLED=0</code>
+build ships a stub that fatals on ping
+(<code>go-sqlite3 requires cgo to work</code>). Verified empirically —
+the CGO-free image fails, the cgo image
+(<code>Unified Translator v2.3.1</code>) translates.</p>
+<h2 id="verified-models-store-the-second-gate">Verified-models store
+(the second gate)</h2>
+<p>Even with an explicit <code>-provider</code>, the bridge runs an
+LLMsVerifier challenge at startup and refuses to translate if no model
+meets the threshold (<code>verified+can_see_code+affirmative</code>). On
+an empty db this verification runs for ~5 min against live APIs and then
+fails. Fix: seed <code>verified_models.db</code> (7 verified models,
+from the local working repo) into a persistent
+<code>helixtranslate-data</code> volume mounted at <code>/data</code>.
+With a non-empty store <code>needVerify</code> is false →
+<code>bridge.Open</code> returns early → the explicit
+<code>ClientForProvider(mistral)</code> path translates directly in ~37
+s.</p>
+<h2 id="secrets">Secrets</h2>
+<p>LLM keys live only in <code>~/.helixtranslate.env</code> (mode 600)
+on each host, loaded via <code>&lt;runtime&gt; run --env-file</code>.
+Trimmed to the providers with balance (MISTRAL/GROQ/COHERE). No key is
+passed on a command line or logged.</p>
+<h2 id="execution-path">Execution path</h2>
+<pre><code>translate-fleet.sh                         # parallel driver, round-robins hosts
+  └─ translate-pipeline.sh (--article)     # frontmatter split, retry+fallback, artifact strip
+       └─ HELIX_TRANSLATE_BIN=helixtranslate-container.sh   # engine-compatible shim
+            └─ ssh milosvasic@&lt;host&gt; run.sh &lt;rt&gt; &lt;provider&gt; &lt;model&gt; &lt;sl&gt; &lt;tl&gt; &lt;script&gt;
+                 └─ &lt;podman|docker&gt; run --rm -i --env-file ~/.helixtranslate.env \
+                        -v helixtranslate-data:/data helixtranslate:cli</code></pre>
+<p>Source streams in on stdin; only the translated markdown returns on
+stdout (engine logs to stderr). Output is written atomically and only on
+success.</p>
+<h2 id="reproduce">Reproduce</h2>
+<p><code>_tools/distribute-helixtranslate.sh</code> performs the whole
+flow (rsync source → build on thinker → replicate to amber → seed db →
+install env/run.sh) and is re-runnable.</p>
+<h2 id="result">Result</h2>
+<p>316 article translations (milosvasic.ru ×12 slugs, vasic.digital ×18
+slugs, into be/de/es/fr/zh/kk/hi/ja/ko/ar/tr/fa) produced entirely on
+the two hosts, then independently reviewed (Cohere, §11.4.141) and
+deployed.</p>
+</body>
+</html>

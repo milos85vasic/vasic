@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>pdf-chrome-i18n-gap</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">pdf-chrome-i18n-gap</h1>
+</header>
+<h1 id="pdf-translation-audit-65-15-langs-cv-cover-letter-portfolio">PDF
+translation audit (#65) — 15 langs × {CV, Cover-Letter, Portfolio}</h1>
+<p>Method: <code>pdftotext -enc UTF-8</code> on every committed PDF,
+measuring (a) target-script ratio for non-Latin languages and (b)
+presence of hardcoded-English chrome strings. Full per-file table:
+<code>pdf-audit-matrix.txt</code>.</p>
+<h2
+id="pass-gap-matrix-45-personal-pdfs-company-portfolio-mirrors-personal-portfolio">PASS
+/ GAP matrix (45 personal PDFs; company Portfolio mirrors personal
+Portfolio)</h2>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Lang</th>
+<th>script</th>
+<th>CV</th>
+<th>Cover-Letter</th>
+<th>Portfolio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EN</td>
+<td>latin</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>DE ES FR TR</td>
+<td>latin</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+</tr>
+<tr>
+<td>RU BE KK</td>
+<td>cyrillic (body 0.71–0.78)</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+</tr>
+<tr>
+<td>AR FA</td>
+<td>arabic (body 0.69–0.75)</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+</tr>
+<tr>
+<td>HI</td>
+<td>devanagari (0.70–0.78)</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+</tr>
+<tr>
+<td>JA KO ZH</td>
+<td>cjk (0.44–0.66)</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+<td>GAP-chrome</td>
+</tr>
+<tr>
+<td>SR (committed, stale)</td>
+<td>cyrillic 0.000</td>
+<td>FAIL→FIXED</td>
+<td>FAIL→FIXED</td>
+<td>FAIL→FIXED</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Document BODY</strong> is correctly translated +
+correct-script for ALL 14 non-EN languages (every
+<code>_content_&lt;lang&gt;/docs/{cv,cover-letter,portfolio}.md</code>
+exists — no EN fallback is triggered). Body script ratios clear their
+thresholds.</li>
+<li><strong>SR</strong> was the only script FAILURE: the committed SR
+PDFs were built from the old Latin content (cyrillic ratio 0.000). After
+this task’s content fix, a rebuild yields 0.72 / 0.77 / 0.74 (see
+<code>sr-pdf-rebuild-verification.txt</code>). The maintainer’s regen
+will ship correct Cyrillic SR PDFs. <strong>No further SR PDF action
+needed.</strong></li>
+<li><strong>GAP-chrome</strong> = the ONLY remaining leak for the 13
+other non-EN languages. It is NOT in the translated body — it is the PDF
+“chrome” hardcoded in <code>_tools/pdf/build-pdfs.sh</code> (cover page
++ metrics strip + Portfolio figures), which is emitted in English for
+every language.</li>
+</ul>
+<h2
+id="genuine-content-gap-hardcoded-english-chrome-in-build-pdfs.sh-65">Genuine
+content gap: hardcoded English chrome in build-pdfs.sh (#65)</h2>
+<p>These strings are literal English in the script and appear on every
+language’s PDF. They are NOT sourced from
+<code>_content_&lt;lang&gt;</code> nor from <code>ui-i18n.*.json</code>
+(verified: the UI i18n set has no equivalent keys), so localizing them
+requires NEW translations.</p>
+<p>CV cover/header/metrics: - eyebrow / running header:
+<code>Curriculum Vitae</code> - role:
+<code>AI Engineer · Software Engineer</code> - tagline:
+<code>LLM infrastructure, autonomous agents, and the governance that makes them trustworthy. Fleets over monoliths; anti-bluff, evidence-gated quality.</code>
+- metric labels: <code>Engineering since</code>,
+<code>Repositories governed</code>, <code>LLM providers unified</code>,
+<code>Core languages</code></p>
+<p>Cover-Letter cover/header: - eyebrow / running header:
+<code>Cover Letter</code> - role:
+<code>Cover Letter · AI Engineer</code> - tagline:
+<code>Deep AI-systems engineering paired with a genuine, verifiable quality discipline.</code></p>
+<p>Portfolio cover/header/metrics/figures: - eyebrow:
+<code>Vasic Digital · Evidence-Based Portfolio</code> - role (personal):
+<code>Portfolio · Helix family · vasic-digital · Server Factory</code> -
+role (company):
+<code>AI-native software engineering · Evidence-based portfolio</code> -
+running header: <code>Portfolio</code> - taglines (personal + company
+variants) — 2 long marketing sentences - metric labels:
+<code>Repository fleet</code>, <code>LLM providers</code>,
+<code>Linux distros provisioned</code>,
+<code>Passing tests · Mail Server Factory</code> - figures heading:
+<code>Selected architecture</code> - 3 figure captions (HelixAgent /
+HelixCluster / LLMsVerifier) — dense technical prose</p>
+<p>Also emitted in a Latin-safe font regardless of language.</p>
+<h2
+id="recommended-fix-flagged-for-the-translation-pipeline-not-fabricated-here">Recommended
+fix (flagged for the translation pipeline — NOT fabricated here)</h2>
+<p>Per the Constitution translation mandate (container-only
+HelixTranslate + independent review; anti-bluff §11.4.6), these ~20
+bespoke marketing/technical strings must be translated through the
+pipeline, not hand-invented. Suggested structural change for the
+maintainer:</p>
+<ol type="1">
+<li>Externalize the chrome strings from <code>build-pdfs.sh</code> into
+a per-language table (e.g. <code>_tools/pdf/pdf-i18n.json</code>, keyed
+<code>&lt;lang&gt;.&lt;field&gt;</code>), EN populated from the current
+literals.</li>
+<li>Run the strings through HelixTranslate (protected terms already
+covered by <code>glossary.json</code>) +
+<code>review_translation.py</code> per language.</li>
+<li>Have <code>build_html</code>/<code>build()</code> look up
+<code>&lt;lang&gt;</code> with EN fallback.</li>
+</ol>
+<p>Scope note: fixing this correctly is a translation-pipeline
+deliverable spanning 13 languages; it is out of scope for a
+no-fabrication content pass and is flagged here with the exact string
+inventory so it can be executed cleanly.</p>
+</body>
+</html>

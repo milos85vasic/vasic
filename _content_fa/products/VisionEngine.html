@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<p><strong>رابط کاربری را مانند یک کاربر ببینید — بینایی کامپیوتری
+به‌علاوه بینایی LLM برای تحلیل و پیمایش.</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>VisionEngine یک جعبه‌ابزار Go جداشده است که بینایی کامپیوتری کلاسیک را
+با بینایی مبتنی بر LLM ترکیب می‌کند تا رابط‌های کاربری را تحلیل کند، عناصر
+UI و مشکلات بصری را شناسایی کند و گراف پیمایشی از انتقال‌های صفحه
+اپلیکیشن بسازد — با پشتیبانی از چندین ارائه‌دهنده بینایی به‌صورت پلاگین و
+OpenCV که پشت یک تگ ساخت پنهان شده است.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>یک ماژول Go قابل استفاده مجدد برای تحلیل رابط کاربری و ساخت گراف
+پیمایش. این ماژول یک لایه تحلیل‌گر (عناصر UI، تفاوت‌های صفحه، مشکلات
+بصری)، یک گراف پیمایش با جستجوی مسیر به روش BFS و قابلیت صادرات به
+DOT/JSON/Mermaid، و آداپتورهای بینایی LLM برای GPT-4o، Claude، Gemini،
+Qwen-VL و موارد دیگر ارائه می‌دهد.</p>
+<h2 id="توضیح-بلند">توضیح بلند</h2>
+<p>بیشتر اتوماسیون‌های تست رابط کاربری عملاً نابینا هستند. آن‌ها به درخت‌های
+دسترسی و سلکتورهای DOM تکیه می‌کنند — ایده‌ای ماشینی از یک رابط — و همه
+آنچه را که یک انسان واقعاً تجربه می‌کند از دست می‌دهند: اینکه آیا یک دکمه
+به‌صورت قابل‌مشاهده رندر شده است، آیا چیدمان شکسته شده، آیا صفحه‌ای که به
+آن رسیده همانی است که انتظارش را داشت. VisionEngine این شکاف را با دادن
+ادراک واقعی به اتوماسیون پر می‌کند؛ توانایی نگاه کردن به یک رابط کاربری و
+استدلال درباره آن به همان شیوه‌ای که یک انسان انجام می‌دهد. این ابزار در
+چهار لایه همکاری‌کننده سازماندهی شده که از پیکسل‌های خام تا درک کل
+اپلیکیشن را پوشش می‌دهند.</p>
+<p>لایه <strong>تحلیل‌گر</strong> قرارداد پایداری را تعریف می‌کند — رابط‌ها
+(<code>Analyzer</code>، <code>VideoProcessor</code>) و انواع داده
+(<code>UIElement</code>، <code>ScreenAnalysis</code>،
+<code>ScreenDiff</code>، <code>Rect</code>، <code>Size</code>،
+<code>TextRegion</code>، <code>VisualIssue</code>،
+<code>ScreenIdentity</code>، <code>Action</code>، <code>KeyFrame</code>)
+با یک پیاده‌سازی مرجع <code>StubAnalyzer</code> — تا مصرف‌کنندگان بتوانند
+عناصر را شناسایی کنند، تفاوت صفحات را مقایسه کنند و مشکلات بصری را بر
+اساس قراردادی که زیر پای آن‌ها تغییر نمی‌کند، آشکار سازند.</p>
+<p>لایه <strong>گراف پیمایش</strong> دید را از یک صفحه منفرد به کل
+اپلیکیشن گسترش می‌دهد و آن را به‌صورت یک گراف جهت‌دار از انتقال‌های صفحه
+مدل‌سازی می‌کند که قابلیت جستجوی مسیر به روش BFS و سه بک‌اند صادراتی (DOT،
+JSON، Mermaid) را دارد. به این ترتیب، اتوماسیون نه‌تنها می‌تواند یک صفحه
+را ببیند، بلکه می‌تواند مسیری به هر صفحه دیگری برنامه‌ریزی کند — و مجموعه
+تست‌های فشار، اتوماسیون، یکپارچه‌سازی و امنیتی را برای اثبات آن ارائه
+می‌دهد.</p>
+<p>لایه <strong>بینایی LLM</strong> استدلال چندوجهی مدرن را اضافه می‌کند:
+یک رابط <code>VisionProvider</code> با آداپتورهایی برای OpenAI (GPT-4o)،
+Anthropic (Claude)، Gemini، Qwen-VL، کیمی، StepGUI، آستیکا و Ollama که
+از طریق یک <code>FallbackChain</code> ترکیب شده‌اند تا در صورت شکست،
+محدودیت نرخ یا ضعف یک ارائه‌دهنده، به‌جای اینکه کل اجرا را با مشکل مواجه
+کند، به‌صورت منظم به ارائه‌دهنده بعدی تنزل یابد.</p>
+<p>لایه <strong>پیکربندی</strong> بارگذاری و اعتبارسنجی متغیرهای محیطی
+را مدیریت می‌کند و هر پیام خطای قابل‌مشاهده کاربر از طریق
+<code>i18n.Translator</code> مسیریابی می‌شود.</p>
+<p>تصمیم کلیدی که باعث می‌شود همه این‌ها واقعاً قابل‌پذیرش باشند، این است که
+وابستگی بومی سنگین اختیاری است. بایندینگ‌های OpenCV پشت تگ ساخت
+<code>-tags vision</code> قرار دارند و نسخه پیش‌فرض با استاب‌ها عرضه می‌شود
+— بنابراین کل ماژول روی هر میزبان Go نسخه ۱.۲۵ به بالا بدون نیاز به
+زنجیره ابزار OpenCV کامپایل، تست و اجرا می‌شود و تنها زمانی که مصرف‌کننده
+به‌صورت صریح آن را انتخاب کند، پشته بومی وارد می‌شود. این همان چیزی است که
+به VisionEngine اجازه می‌دهد بدون نیاز به یک ایمیج سفارشی، در یک رانر CI
+ساده مستقر شود. این ابزار کاملاً جداشده مطابق با قانون اساسی
+(CONST-051(B)) توسط مصرف‌کنندگان — به‌ویژه HelixQA — به‌عنوان یک زیرماژول
+هم‌کدبیس گنجانده می‌شود و تست رابط کاربری مبتنی بر شواهد را به یک جفت چشم
+واقعی مجهز می‌کند.</p>
+<p>محتوا</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>اتوماسیون تست رابط کاربری که تنها به درخت‌های دسترسی‌پذیری یا سلکتورها
+متکی است، آنچه را کاربر واقعاً می‌بیند از دست می‌دهد. VisionEngine درک بصری
+واقعی را اضافه می‌کند — تشخیص عناصر، مقایسه صفحه‌ها و استدلال LLM-محور —
+به‌علاوه نقشه‌ای قابل پیمایش از صفحات اپلیکیشن، تا اتوماسیون بتواند هم
+رابط کاربری را درک کند و هم در آن مسیریابی نماید.</p>
+<h2 id="چرا-انقلابی-است">چرا انقلابی است</h2>
+<p>این ابزار دو رویکرد معمولاً ناسازگار — بینایی کامپیوتری کلاسیک سریع و
+قطعی و بینایی LLM انعطاف‌پذیر و معنایی — را پشت یک رابط واحد با زنجیره
+جایگزین قرار می‌دهد، به‌طوری که کاربر بدون نیاز به انتخاب، هم از دقت یکی و
+هم از استدلال دیگری بهره‌مند می‌شود. و با اختیاری نگه‌داشتن OpenCV، هزینه
+معمول این قدرت را حذف می‌کند: هر پروژه Go می‌تواند بدون کشیدن زنجیره ابزار
+بینایی بومی به بیلد خود، درک واقعی رابط کاربری را به‌دست آورد.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li><strong>ادراک دوگانه</strong>: بینایی کامپیوتری کلاسیک (OpenCV/GoCV)
+به‌علاوه بینایی LLM چندارائه‌دهنده با زنجیره جایگزین.</li>
+<li><strong>گراف مسیریابی</strong> با جستجوی مسیر به روش BFS و قابلیت
+صدور به فرمت‌های DOT/JSON/Mermaid.</li>
+<li><strong>جداسازی OpenCV با تگ‌های بیلد</strong> تا ماژول بدون
+وابستگی‌های بومی قابل ساخت و آزمایش باقی بماند.</li>
+<li><strong>زیرماژول کاملاً جداشده، با درز i18n و کدبیس برابر</strong>
+(مورد استفاده در HelixQA).</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>اصطکاک وابستگی‌های بومی سنگین</strong>: با گیتینگ
+<code>-tags vision</code> و استاب‌های پیش‌فرض حل شد تا CI/هاست‌های بدون
+OpenCV همچنان قابل ساخت و آزمایش باشند.</li>
+<li><strong>ناپایداری ارائه‌دهندگان بینایی</strong>: با رابط
+<code>VisionProvider</code> و کامپوزر <code>FallbackChain</code> حل
+شد.</li>
+<li><strong>نقشه‌برداری جریان‌های پیچیده اپلیکیشن</strong>: با گراف
+مسیریابی جهت‌دار به‌علاوه جستجوی مسیر BFS و صدور چندفرمت حل شد.</li>
+<li><strong>وابستگی</strong>: از طریق جداسازی CONST-051(B) و درز مترجم
+i18n حل شد.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشته فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Go (نسخه ۱٫۲۵ به بالا)</strong> — هسته ماژول و هر چهار
+لایه.</li>
+<li><strong>GoCV / OpenCV</strong> — بینایی کامپیوتری کلاسیک، با گیتینگ
+تگ‌های بیلد.</li>
+<li><strong>ارائه‌دهندگان بینایی LLM (GPT-4o, Claude, Gemini, Qwen-VL,
+Kimi, StepGUI, Astica, Ollama)</strong> — استدلال چندوجهی رابط کاربری از
+طریق آداپتورها.</li>
+<li><strong>الگوریتم‌های گراف (BFS)</strong> — جستجوی مسیر در
+مسیریابی.</li>
+<li><strong>صادرکننده‌های DOT / JSON / Mermaid</strong> — مصورسازی گراف
+مسیریابی.</li>
+<li><strong>مترجم i18n</strong> — رشته‌های قابل مشاهده برای کاربر به‌صورت
+جداشده.</li>
+</ul>
+</body>
+</html>

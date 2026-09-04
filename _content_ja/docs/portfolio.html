@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>portfolio</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">portfolio</h1>
+<p class="subtitle">A unified, evidence-based portfolio of the Helix
+family, vasic-digital utilities, and the Server Factory toolchain.</p>
+</header>
+<h1 id="ポートフォリオ">ポートフォリオ</h1>
+<h2 id="概要-全体像をまず把握する">1. 概要 — 全体像をまず把握する</h2>
+<p>これはvasic.digitalとmilosvasic.ruの両者が使用する単一の統合ポートフォリオである。散発的なサイドプロジェクトの寄せ集めではなく、意図的に設計された<strong>艦隊</strong>を描写するものだ。<strong>大規模なプロダクトアプリケーション</strong>が、<strong>数十の小規模で疎結合、独立テスト済みのモジュール</strong>の上に構築され、全体が共通のエンジニアリング<strong>Constitution</strong>によって統制され、<strong>ブラフ排除のためのQA</strong>規律によって検証されている。この構造こそが差別化要因である。ほとんどのポートフォリオは「作られたもののリスト」に過ぎないが、これは「実証済みの再利用可能な部品から組み立てられたシステム」であり、すべての部品が同じ非妥協的なルールに従い、すべての謳われた機能には裏付けとなるエビデンスが存在する。主な言語は<strong>Go</strong>で、Kotlin/KMP、TypeScript/React、Python、Swift、Shellはそれぞれ最適な用途に応じて使用される。Goは高スループットのサービスやライブラリに、Kotlinはプロビジョニングやクロスプラットフォームのモバイル開発に、TypeScriptは型付きフロントエンドに、PythonはAI/MLの接着剤として活用される。</p>
+<p>この作品群を一貫させているのは、規律が理想論ではなく機械的に運用されている点だ。共通のConstitutionはGitサブモジュールとして提供され、140以上のリポジトリにわたる艦隊全体に継承されるため、ルールの変更は一箇所で全体に波及する。また、ブラフ排除のためのQAレイヤーは、実行時の証拠がなければ合格を記録しない。Helixファミリー、ユーティリティ艦隊、Server
+Factoryツールチェーンは、いずれも「一度作ってどこでも再利用し、完了と称する前に動作を証明する」という一つの思想の表れである。</p>
+<p>以下の内容は優先順に提示する：</p>
+<ol type="1">
+<li><strong>ガバナンスとQAの柱</strong> —
+HelixConstitution、HelixQA（これらが他のすべての信頼性を支える）</li>
+<li><strong>Helixプロダクトファミリー</strong> —
+AI開発ライフサイクル（HelixTrack優先）</li>
+<li><strong>LLMインフラストラクチャ</strong> —
+プロバイダー抽象化、オーケストレーション、検証</li>
+<li><strong>vasic-digitalユーティリティ</strong> —
+プロダクトレベルのスタンドアロンツール</li>
+<li><strong>Server Factory</strong> —
+インフラ自動化の系譜（優先度最下位）</li>
+</ol>
+<p>統一的なテーゼ：<strong>「実際のユーザーが利用可能で、それを証明するエビデンスが記録されて初めて、機能は完了したと言える。」</strong></p>
+<hr />
+<h2 id="ガバナンスとqaの柱">2. ガバナンスとQAの柱</h2>
+<p>これら二つが最初に来るのは、ポートフォリオの他のすべてがその信頼性をこの二つから借りているからだ。合わせて「信じてくれ、動くから」を監査可能な事実へと変える。Constitutionがルールを規定し、HelixQAがその遵守を証明する。</p>
+<ul>
+<li><strong>HelixConstitution</strong> —
+プロジェクトに依存しない普遍的なエンジニアリング規約集。Gitサブモジュールとして提供され、140以上のリポジトリにわたる艦隊全体に継承される。ブラフ排除のためのエビデンスゲート、偽陽性耐性、データ/ホストの安全性、カバレッジ規律。拡張は許すが弱体化は許さない継承。艦隊全体で必要条項をgrepする伝播ゲート。すべてのゲートには、それが偽物でないことを証明するミューテーションテストが付随する。</li>
+<li><strong>HelixQA</strong> —
+ブラフ排除のためのQAオーケストレーション（Go）。記述式のYAMLテストバンクに加え、Android、Android
+TV、Web、デスクトップにまたがる完全自律型のLLMおよびコンピュータビジョンQAセッション。キャプチャされたエビデンス（スクリーンショット、logcat、動画、スタックトレース）がなければ合格は記録されない。Constitutionで義務付けられたQAテストタイプ（§11.4.169）。</li>
+</ul>
+<h2 id="helix-プロダクトファミリー">3. Helix プロダクトファミリー</h2>
+<p>Helix ラインは当社のフラッグシップ製品群であり、AI
+開発ライフサイクル全体を網羅する相互連携型のプロダクトファミリーです。計画立案から仕様策定、構築、メモリ管理、翻訳、そして納品に至るまで、それぞれが独立した製品として機能しますが、設計思想としては統合を前提としています。共通のガバナンス、再利用可能なモジュール、そして全ての製品を支える統一されたエビデンス管理体制がその基盤です。</p>
+<ul>
+<li><strong>HelixTrack</strong> — フリーな世界向けの JIRA
+代替製品。Helix-Track ラインのフラッグシップ。</li>
+<li><strong>HelixAgent</strong> — アンサンブル型 LLM
+サービス。複数のモデルが議論し、合意した回答を出力。検証ベースのプロバイダー選定機能付き。</li>
+<li><strong>HelixCode</strong> — エンタープライズグレードの分散型 AI
+開発プラットフォーム。SSH
+管理下のワーカーに作業を分散し、自動チェックポイント／ロールバック機能を搭載。REST、CLI、TUI、MCP
+インターフェース対応。</li>
+<li><strong>HelixCluster</strong> — データセンターの GPU
+からエッジ端末まで、AI
+コンピューティングを統合管理する分散オペレーティングシステム。単一のコントロールプレーンで運用。</li>
+<li><strong>HelixBuilder</strong> — AI
+を活用したアプリケーション構築パイプライン。カテゴリーごとに段階的に開発。</li>
+<li><strong>HelixSkills</strong> — ガバナンスと憲章に基づく CLI AI
+エージェント向けスキルシステム（スキル、MCP ツールサーバー、Claude Code
+プラグイン）。</li>
+<li><strong>HelixSpecifier</strong> —
+仕様駆動型開発。作業規模に応じてセレモニーをスケーリング。</li>
+<li><strong>HelixMemory</strong> — AI
+エージェント向けの統合メモリブレイン。4 つの最先端エンジンを融合。</li>
+<li><strong>HelixTranslate</strong> —
+検証済みモデルによる書籍翻訳。設計上、不正確なフォールバックは一切発生しない。</li>
+<li><strong>HelixTerminator</strong> —
+ゼロトラスト端末プラットフォーム。全ての SSH
+セッションはセキュアに保護され、共有可能かつ AI
+の支援を受けられる。</li>
+<li><strong>HelixGitpx</strong> — 十数のホストにまたがるフェデレーテッド
+Git。単一の真実ソースを全ての環境にミラーリング。</li>
+<li><strong>HelixOTA</strong> — 汎用的で疎結合な OTA
+アップデート。設計上、ブリック（文鎮化）のリスクはゼロ。</li>
+<li><strong>HelixPlay</strong> — 任意の GPU
+マシンをクラウドゲーミング端末に変えるソリューション。</li>
+<li><strong>Helix-Flow</strong> — Helix
+プラットフォーム向け推論製品。<em>未検証／ソース依存：現時点の公開リポジトリには
+README
+が1行のみ。正式なドキュメントが整い次第、製品レベルでの詳細を公開予定。</em></li>
+</ul>
+<h2 id="llm-インフラストラクチャ">4. LLM インフラストラクチャ</h2>
+<p>プロダクト群の基盤となるのが、プロバイダーに依存せず信頼性を確保するためのレイヤーです。数十の
+LLM
+プロバイダーを統合する単一インターフェース、ヘッドレスコーディングエージェント向けの単一コントロールプレーン、そして検証に基づく唯一の真実ソースがここにあります。このレイヤーにより、上位レイヤーはモデルの切り替え、プロバイダー障害への耐性、そしてタスク理解を証明できない
+LLM の排除が可能になります。</p>
+<ul>
+<li><strong>HelixLLM</strong> — 単一バイナリ、6 つの動作モード。OpenAI
+および Anthropic 互換の推論を HTTP/3、ローカル
+llama.cpp、スコアベースのフォールバックチェーン、RAG パイプライン、ReAct
+エージェントで実行。</li>
+<li><strong>LLMProvider</strong> — 単一インターフェース、43
+のプロバイダー対応。サーキットブレーカー、リトライ、ヘルスチェック機能を内蔵。</li>
+<li><strong>LLMOrchestrator</strong> — 全てのヘッドレス CLI
+コーディングエージェント（OpenCode、Claude Code、Gemini、Junie、Qwen
+Code）向けの単一コントロールプレーン。</li>
+<li><strong>LLMsVerifier</strong> —
+検証、監視、最適化を一元管理。LLM／プロバイダー／検証メタデータの唯一の真実ソース。モデル理解度のゲートチェックは必須。</li>
+</ul>
+<h2 id="vasic-digitalユーティリティ">5. vasic-digitalユーティリティ</h2>
+<p>それぞれが単体で難題を解決するプロダクトレベルのツール群であり、偶然にも再利用可能モジュール群の実戦テストの場ともなっている。レジリエントなマルチプロトコルメディアシステムから、Markdownを動画コースに変換するパイプライン、コンテンツハッシュ化されたドキュメント／データベース同期エンジンまで多岐にわたる。成熟度については率直に示されており、その表示は隠されることなく維持されている。</p>
+<ul>
+<li><strong><a
+href="../products/Catalogizer.md">Catalogizer</a></strong> —
+マルチプロトコル（SMB／FTP／NFS／WebDAV／ローカル）対応、暗号化、セルフホスティング可能なメディアコレクション管理システム。Go／Gin
+API + React
+UI。オフライン耐性のあるレジリエントな監視機能。21の<code>digital.vasic.*</code>サブモジュールを基盤に構築。</li>
+<li><strong><a
+href="../products/Courses-Creator.md">Courses-Creator</a></strong> —
+Markdownから動画コースへのパイプライン。マルチLLMによるエンリッチメント、TTS（Bark／SpeechT5）、デスクトップ／モバイル／ウェブプレイヤー。APIキーなしモードでも優雅に動作。</li>
+<li><strong><a
+href="../products/VisionEngine.md">VisionEngine</a></strong> —
+従来のコンピュータビジョンとマルチプロバイダーLLMビジョンを融合した、分離型Goツールキット。BFS
++
+DOT／JSON／Mermaid形式でのナビゲーショングラフエクスポート。OpenCVはビルドタグで制御。</li>
+<li><strong><a
+href="../products/DocProcessor.md">DocProcessor</a></strong> —
+ドキュメントから機能マップを生成し、検証カバレッジを追跡。LLMまたはヒューリスティック／オフライン抽出に対応。Apache-2.0ライセンス。</li>
+<li><strong><a href="../products/docs_chain.md">Docs Chain</a></strong>
+—
+コンテンツハッシュ化された双方向アトミックドキュメント／データベース同期（DAG上でのSalsaスタイルのインクリメンタル再計算）。<em>フェーズ1～5：GREEN／フェーズ6～7：計画中。</em></li>
+<li><strong><a href="../products/Herald.md">Herald</a></strong> —
+自然言語による3層インテント解決（コマンド→LLM→明確化）を備えた、信頼性の高いマルチチャネル通知システム。Docs
+Chainの最初の利用者。</li>
+<li><strong><a
+href="../products/task_bridge.md">task_bridge</a></strong> —
+分離型双方向タスク／ボード同期（SQLite SSoT ↔︎ ドキュメント ↔︎
+ClickUp）。<em>P1スキャフォールド段階 — 同期ロジックは未実装。</em></li>
+<li><strong><a
+href="../products/Vasic-Digital-Reusable-Module-Suite.md">Vasic Digital
+再利用可能モジュールスイート</a></strong> —
+<code>digital.vasic.*</code>「標準ライブラリ」：インフラ基盤、AIビルディングブロック、防御的LLMガードレール、およびKotlin
+Multiplatformミラー。<em>複数の組織リポジトリはScaffold／WIP段階 —
+表示あり、未リリース。</em></li>
+</ul>
+<h2
+id="server-factoryインフラストラクチャ自動化の系譜-意図的に最後尾">6.
+Server Factory（インフラストラクチャ自動化の系譜 — 意図的に最後尾）</h2>
+<p>品質ではなく、意図的に最後に配置されている。Server
+FactoryツールチェーンはAIラインよりも前に誕生し、「一度作って、どこでも再利用」という哲学が初めて形になった場所を示している。その旗艦製品である、JSONで記述しどこでもプロビジョニング可能なメールサーバーは、成熟し十分にテストされたプロダクトである。サポートツール群も、装飾されることなく、それぞれの成熟度に応じて提示されている。</p>
+<ul>
+<li><strong><a href="../products/Mail-Server-Factory.md">Mail Server
+Factory</a></strong> —
+宣言型JSONから、12種類の接続方式と25のLinuxディストリビューションに対応した、完全プロビジョニング済みDocker化メールサーバーを構築。エンタープライズセキュリティ対応。439件のテスト合格とSonarQubeゲートクリアを報告。Server-Factory組織の旗艦製品。</li>
+<li><strong><a
+href="../products/Server-Factory-Core-Framework.md">Server Factory
+コアフレームワーク</a></strong> —
+すべてのファクトリーが基盤とする共有Kotlinエンジン。</li>
+<li><strong><a href="../products/Qemu-Utils.md">Qemu-Utils</a></strong>
+— アーティファクトとして管理されるQEMU
+VMイメージ：ダウンロード／キャッシュ／実行、圧縮／公開、ブリッジ／TAPネットワーキング、ISOインストール。Linux
++ macOS対応。</li>
+<li><strong><a
+href="../products/Parallels-Utils.md">Parallels-Utils</a></strong> —
+Parallels（macOS）VMイメージの圧縮、公開、および設定ファイルによる簡易取得。</li>
+<li><strong><a
+href="../products/Server-Factory-Additional-Components.md">Server
+Factory — 追加コンポーネント</a></strong> —
+サービスファクトリー（Web／SonarQube／キャッシングプロキシ）、定義パック、ユーティリティ。<em>サービスファクトリーはプレースホルダーとして文書化済み
+— 未検証／初期段階。</em></li>
+</ul>
+<hr />
+<h2 id="テクノロジーインデックスエビデンスベース">7.
+テクノロジーインデックス（エビデンスベース）</h2>
+<ul>
+<li><strong>言語：</strong> Go（主流）、Kotlin &amp; Kotlin
+Multiplatform、TypeScript、Python、Swift、Shell；PL/pgSQL；TLA+（helix_clusterにおける正式仕様）</li>
+<li><strong>AI / LLM：</strong>
+40以上のプロバイダーアクセス、MCP、RAG、vectorデータベース &amp;
+embeddings、プランニング（HiPlan/MCTS/Tree-of-Thoughts）、LLMOps、ベンチマーキング（SWE-bench/HumanEval/MMLU）、TTS（Bark/SpeechT5）、コンピュータビジョン
++ LLM-vision、ガードレール/レッドチーム</li>
+<li><strong>バックエンド：</strong> Gin、gRPC +
+Protobuf、HTTP/3（QUIC）、WebSocket、Angular、React、Kafka/RabbitMQ</li>
+<li><strong>データ：</strong>
+PostgreSQL、SQLite、SQLCipher、Redis、Neo4j、ClickHouse、MinIO/S3/GCS/Azure</li>
+<li><strong>インフラ / DevOps：</strong> Docker &amp;
+Compose、Kubernetes + Helm、Prometheus +
+Grafana、OpenTelemetry、QEMU/Libvirt/Parallels；GitHub
+Actions、Gradle、Make</li>
+<li><strong>テスト / QA：</strong>
+HelixQA、ミューテーションゲート付きチャレンジハーネス、<code>go test -race</code>、ビジュアルリグレッションツール、ADBデバイステスト、SonarQube、セキュリティスキャン（semgrep/gosec/trivy/snyk/gitleaks/nancy）、TLA+モデルチェック</li>
+</ul>
+</body>
+</html>

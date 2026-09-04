@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Generate a custom checklist for the current feature based on user requirements." />
+  <title>speckit.checklist</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">speckit.checklist</h1>
+</header>
+<h2 id="checklist-purpose-unit-tests-for-english">Checklist Purpose:
+“Unit Tests for English”</h2>
+<p><strong>CRITICAL CONCEPT</strong>: Checklists are <strong>UNIT TESTS
+FOR REQUIREMENTS WRITING</strong> - they validate the quality, clarity,
+and completeness of requirements in a given domain.</p>
+<p><strong>NOT for verification/testing</strong>:</p>
+<ul>
+<li>❌ NOT “Verify the button clicks correctly”</li>
+<li>❌ NOT “Test error handling works”</li>
+<li>❌ NOT “Confirm the API returns 200”</li>
+<li>❌ NOT checking if code/implementation matches the spec</li>
+</ul>
+<p><strong>FOR requirements quality validation</strong>:</p>
+<ul>
+<li>✅ “Are visual hierarchy requirements defined for all card types?”
+(completeness)</li>
+<li>✅ “Is ‘prominent display’ quantified with specific
+sizing/positioning?” (clarity)</li>
+<li>✅ “Are hover state requirements consistent across all interactive
+elements?” (consistency)</li>
+<li>✅ “Are accessibility requirements defined for keyboard navigation?”
+(coverage)</li>
+<li>✅ “Does the spec define what happens when logo image fails to
+load?” (edge cases)</li>
+</ul>
+<p><strong>Metaphor</strong>: If your spec is code written in English,
+the checklist is its unit test suite. You’re testing whether the
+requirements are well-written, complete, unambiguous, and ready for
+implementation - NOT whether the implementation works.</p>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before checklist
+generation)</strong>: - Check if <code>.specify/extensions.yml</code>
+exists in the project root. - If it exists, read it and look for entries
+under the <code>hooks.before_checklist</code> key - If the YAML cannot
+be parsed or is invalid, skip hook checking silently and continue
+normally - Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - For each executable
+hook, output the following based on its <code>optional</code> flag: -
+<strong>Optional hook</strong> (<code>optional: true</code>): ``` ##
+Extension Hooks</p>
+<pre><code>**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Execution Steps.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+<h2 id="execution-steps">Execution Steps</h2>
+<ol type="1">
+<li><p><strong>Setup</strong>: Run
+<code>.specify/scripts/bash/check-prerequisites.sh --json</code> from
+repo root and parse JSON for FEATURE_DIR and AVAILABLE_DOCS list.</p>
+<ul>
+<li>All file paths must be absolute.</li>
+<li>For single quotes in args like “I’m Groot”, use escape syntax: e.g
+‘I’'‘m Groot’ (or double-quote if possible: “I’m Groot”).</li>
+</ul></li>
+<li><p><strong>IF EXISTS</strong>: Load
+<code>.specify/memory/constitution.md</code> for project principles and
+governance constraints.</p></li>
+<li><p><strong>Clarify intent (dynamic)</strong>: Derive up to THREE
+initial contextual clarifying questions (no pre-baked catalog). They
+MUST:</p>
+<ul>
+<li>Be generated from the user’s phrasing + extracted signals from
+spec/plan/tasks</li>
+<li>Only ask about information that materially changes checklist
+content</li>
+<li>Be skipped individually if already unambiguous in
+<code>$ARGUMENTS</code></li>
+<li>Prefer precision over breadth</li>
+</ul>
+<p>Generation algorithm:</p>
+<ol type="1">
+<li>Extract signals: feature domain keywords (e.g., auth, latency, UX,
+API), risk indicators (“critical”, “must”, “compliance”), stakeholder
+hints (“QA”, “review”, “security team”), and explicit deliverables
+(“a11y”, “rollback”, “contracts”).</li>
+<li>Cluster signals into candidate focus areas (max 4) ranked by
+relevance.</li>
+<li>Identify probable audience &amp; timing (author, reviewer, QA,
+release) if not explicit.</li>
+<li>Detect missing dimensions: scope breadth, depth/rigor, risk
+emphasis, exclusion boundaries, measurable acceptance criteria.</li>
+<li>Formulate questions chosen from these archetypes:
+<ul>
+<li>Scope refinement (e.g., “Should this include integration touchpoints
+with X and Y or stay limited to local module correctness?”)</li>
+<li>Risk prioritization (e.g., “Which of these potential risk areas
+should receive mandatory gating checks?”)</li>
+<li>Depth calibration (e.g., “Is this a lightweight pre-commit sanity
+list or a formal release gate?”)</li>
+<li>Audience framing (e.g., “Will this be used by the author only or
+peers during PR review?”)</li>
+<li>Boundary exclusion (e.g., “Should we explicitly exclude performance
+tuning items this round?”)</li>
+<li>Scenario class gap (e.g., “No recovery flows detected—are rollback /
+partial failure paths in scope?”)</li>
+</ul></li>
+</ol>
+<p>Question formatting rules:</p>
+<ul>
+<li>If presenting options, generate a compact table with columns: Option
+| Candidate | Why It Matters</li>
+<li>Limit to A–E options maximum; omit table if a free-form answer is
+clearer</li>
+<li>Never ask the user to restate what they already said</li>
+<li>Avoid speculative categories (no hallucination). If uncertain, ask
+explicitly: “Confirm whether X belongs in scope.”</li>
+</ul>
+<p>Defaults when interaction impossible:</p>
+<ul>
+<li>Depth: Standard</li>
+<li>Audience: Reviewer (PR) if code-related; Author otherwise</li>
+<li>Focus: Top 2 relevance clusters</li>
+</ul>
+<p>Output the questions (label Q1/Q2/Q3). After answers: if ≥2 scenario
+classes (Alternate / Exception / Recovery / Non-Functional domain)
+remain unclear, you MAY ask up to TWO more targeted follow‑ups (Q4/Q5)
+with a one-line justification each (e.g., “Unresolved recovery path
+risk”). Do not exceed five total questions. Skip escalation if user
+explicitly declines more.</p></li>
+<li><p><strong>Understand user request</strong>: Combine
+<code>$ARGUMENTS</code> + clarifying answers:</p>
+<ul>
+<li>Derive checklist theme (e.g., security, review, deploy, ux)</li>
+<li>Consolidate explicit must-have items mentioned by user</li>
+<li>Map focus selections to category scaffolding</li>
+<li>Infer any missing context from spec/plan/tasks (do NOT
+hallucinate)</li>
+</ul></li>
+<li><p><strong>Load feature context</strong>: Read from FEATURE_DIR:</p>
+<ul>
+<li>spec.md: Feature requirements and scope</li>
+<li>plan.md (if exists): Technical details, dependencies</li>
+<li>tasks.md (if exists): Implementation tasks</li>
+</ul>
+<p><strong>Context Loading Strategy</strong>:</p>
+<ul>
+<li>Load only necessary portions relevant to active focus areas (avoid
+full-file dumping)</li>
+<li>Prefer summarizing long sections into concise scenario/requirement
+bullets</li>
+<li>Use progressive disclosure: add follow-on retrieval only if gaps
+detected</li>
+<li>If source docs are large, generate interim summary items instead of
+embedding raw text</li>
+</ul></li>
+<li><p><strong>Generate checklist</strong> - Create “Unit Tests for
+Requirements”:</p>
+<ul>
+<li>Create <code>FEATURE_DIR/checklists/</code> directory if it doesn’t
+exist</li>
+<li>Generate unique checklist filename:
+<ul>
+<li>Use short, descriptive name based on domain (e.g.,
+<code>ux.md</code>, <code>api.md</code>, <code>security.md</code>)</li>
+<li>Format: <code>[domain].md</code></li>
+</ul></li>
+<li>File handling behavior:
+<ul>
+<li>If file does NOT exist: Create new file and number items starting
+from CHK001</li>
+<li>If file exists: Append new items to existing file, continuing from
+the last CHK ID (e.g., if last item is CHK015, start new items at
+CHK016)</li>
+</ul></li>
+<li>Never delete or replace existing checklist content - always preserve
+and append</li>
+</ul>
+<p><strong>CORE PRINCIPLE - Test the Requirements, Not the
+Implementation</strong>: Every checklist item MUST evaluate the
+REQUIREMENTS THEMSELVES for:</p>
+<ul>
+<li><strong>Completeness</strong>: Are all necessary requirements
+present?</li>
+<li><strong>Clarity</strong>: Are requirements unambiguous and
+specific?</li>
+<li><strong>Consistency</strong>: Do requirements align with each
+other?</li>
+<li><strong>Measurability</strong>: Can requirements be objectively
+verified?</li>
+<li><strong>Coverage</strong>: Are all scenarios/edge cases
+addressed?</li>
+</ul>
+<p><strong>Category Structure</strong> - Group items by requirement
+quality dimensions:</p>
+<ul>
+<li><strong>Requirement Completeness</strong> (Are all necessary
+requirements documented?)</li>
+<li><strong>Requirement Clarity</strong> (Are requirements specific and
+unambiguous?)</li>
+<li><strong>Requirement Consistency</strong> (Do requirements align
+without conflicts?)</li>
+<li><strong>Acceptance Criteria Quality</strong> (Are success criteria
+measurable?)</li>
+<li><strong>Scenario Coverage</strong> (Are all flows/cases
+addressed?)</li>
+<li><strong>Edge Case Coverage</strong> (Are boundary conditions
+defined?)</li>
+<li><strong>Non-Functional Requirements</strong> (Performance, Security,
+Accessibility, etc. - are they specified?)</li>
+<li><strong>Dependencies &amp; Assumptions</strong> (Are they documented
+and validated?)</li>
+<li><strong>Ambiguities &amp; Conflicts</strong> (What needs
+clarification?)</li>
+</ul>
+<p><strong>HOW TO WRITE CHECKLIST ITEMS - “Unit Tests for
+English”</strong>:</p>
+<p>❌ <strong>WRONG</strong> (Testing implementation):</p>
+<ul>
+<li>“Verify landing page displays 3 episode cards”</li>
+<li>“Test hover states work on desktop”</li>
+<li>“Confirm logo click navigates home”</li>
+</ul>
+<p>✅ <strong>CORRECT</strong> (Testing requirements quality):</p>
+<ul>
+<li>“Are the exact number and layout of featured episodes specified?”
+[Completeness]</li>
+<li>“Is ‘prominent display’ quantified with specific
+sizing/positioning?” [Clarity]</li>
+<li>“Are hover state requirements consistent across all interactive
+elements?” [Consistency]</li>
+<li>“Are keyboard navigation requirements defined for all interactive
+UI?” [Coverage]</li>
+<li>“Is the fallback behavior specified when logo image fails to load?”
+[Edge Cases]</li>
+<li>“Are loading states defined for asynchronous episode data?”
+[Completeness]</li>
+<li>“Does the spec define visual hierarchy for competing UI elements?”
+[Clarity]</li>
+</ul>
+<p><strong>ITEM STRUCTURE</strong>: Each item should follow this
+pattern:</p>
+<ul>
+<li>Question format asking about requirement quality</li>
+<li>Focus on what’s WRITTEN (or not written) in the spec/plan</li>
+<li>Include quality dimension in brackets
+[Completeness/Clarity/Consistency/etc.]</li>
+<li>Reference spec section <code>[Spec §X.Y]</code> when checking
+existing requirements</li>
+<li>Use <code>[Gap]</code> marker when checking for missing
+requirements</li>
+</ul>
+<p><strong>EXAMPLES BY QUALITY DIMENSION</strong>:</p>
+<p>Completeness:</p>
+<ul>
+<li>“Are error handling requirements defined for all API failure modes?
+[Gap]”</li>
+<li>“Are accessibility requirements specified for all interactive
+elements? [Completeness]”</li>
+<li>“Are mobile breakpoint requirements defined for responsive layouts?
+[Gap]”</li>
+</ul>
+<p>Clarity:</p>
+<ul>
+<li>“Is ‘fast loading’ quantified with specific timing thresholds?
+[Clarity, Spec §NFR-2]”</li>
+<li>“Are ‘related episodes’ selection criteria explicitly defined?
+[Clarity, Spec §FR-5]”</li>
+<li>“Is ‘prominent’ defined with measurable visual properties?
+[Ambiguity, Spec §FR-4]”</li>
+</ul>
+<p>Consistency:</p>
+<ul>
+<li>“Do navigation requirements align across all pages? [Consistency,
+Spec §FR-10]”</li>
+<li>“Are card component requirements consistent between landing and
+detail pages? [Consistency]”</li>
+</ul>
+<p>Coverage:</p>
+<ul>
+<li>“Are requirements defined for zero-state scenarios (no episodes)?
+[Coverage, Edge Case]”</li>
+<li>“Are concurrent user interaction scenarios addressed? [Coverage,
+Gap]”</li>
+<li>“Are requirements specified for partial data loading failures?
+[Coverage, Exception Flow]”</li>
+</ul>
+<p>Measurability:</p>
+<ul>
+<li>“Are visual hierarchy requirements measurable/testable? [Acceptance
+Criteria, Spec §FR-1]”</li>
+<li>“Can ‘balanced visual weight’ be objectively verified?
+[Measurability, Spec §FR-2]”</li>
+</ul>
+<p><strong>Scenario Classification &amp; Coverage</strong> (Requirements
+Quality Focus):</p>
+<ul>
+<li>Check if requirements exist for: Primary, Alternate,
+Exception/Error, Recovery, Non-Functional scenarios</li>
+<li>For each scenario class, ask: “Are [scenario type] requirements
+complete, clear, and consistent?”</li>
+<li>If scenario class missing: “Are [scenario type] requirements
+intentionally excluded or missing? [Gap]”</li>
+<li>Include resilience/rollback when state mutation occurs: “Are
+rollback requirements defined for migration failures? [Gap]”</li>
+</ul>
+<p><strong>Traceability Requirements</strong>:</p>
+<ul>
+<li>MINIMUM: ≥80% of items MUST include at least one traceability
+reference</li>
+<li>Each item should reference: spec section <code>[Spec §X.Y]</code>,
+or use markers: <code>[Gap]</code>, <code>[Ambiguity]</code>,
+<code>[Conflict]</code>, <code>[Assumption]</code></li>
+<li>If no ID system exists: “Is a requirement &amp; acceptance criteria
+ID scheme established? [Traceability]”</li>
+</ul>
+<p><strong>Surface &amp; Resolve Issues</strong> (Requirements Quality
+Problems): Ask questions about the requirements themselves:</p>
+<ul>
+<li>Ambiguities: “Is the term ‘fast’ quantified with specific metrics?
+[Ambiguity, Spec §NFR-1]”</li>
+<li>Conflicts: “Do navigation requirements conflict between §FR-10 and
+§FR-10a? [Conflict]”</li>
+<li>Assumptions: “Is the assumption of ‘always available podcast API’
+validated? [Assumption]”</li>
+<li>Dependencies: “Are external podcast API requirements documented?
+[Dependency, Gap]”</li>
+<li>Missing definitions: “Is ‘visual hierarchy’ defined with measurable
+criteria? [Gap]”</li>
+</ul>
+<p><strong>Content Consolidation</strong>:</p>
+<ul>
+<li>Soft cap: If raw candidate items &gt; 40, prioritize by
+risk/impact</li>
+<li>Merge near-duplicates checking the same requirement aspect</li>
+<li>If &gt;5 low-impact edge cases, create one item: “Are edge cases X,
+Y, Z addressed in requirements? [Coverage]”</li>
+</ul>
+<p><strong>🚫 ABSOLUTELY PROHIBITED</strong> - These make it an
+implementation test, not a requirements test:</p>
+<ul>
+<li>❌ Any item starting with “Verify”, “Test”, “Confirm”, “Check” +
+implementation behavior</li>
+<li>❌ References to code execution, user actions, system behavior</li>
+<li>❌ “Displays correctly”, “works properly”, “functions as
+expected”</li>
+<li>❌ “Click”, “navigate”, “render”, “load”, “execute”</li>
+<li>❌ Test cases, test plans, QA procedures</li>
+<li>❌ Implementation details (frameworks, APIs, algorithms)</li>
+</ul>
+<p><strong>✅ REQUIRED PATTERNS</strong> - These test requirements
+quality:</p>
+<ul>
+<li>✅ “Are [requirement type] defined/specified/documented for
+[scenario]?”</li>
+<li>✅ “Is [vague term] quantified/clarified with specific
+criteria?”</li>
+<li>✅ “Are requirements consistent between [section A] and [section
+B]?”</li>
+<li>✅ “Can [requirement] be objectively measured/verified?”</li>
+<li>✅ “Are [edge cases/scenarios] addressed in requirements?”</li>
+<li>✅ “Does the spec define [missing aspect]?”</li>
+</ul></li>
+<li><p><strong>Structure Reference</strong>: Generate the checklist
+following the canonical template in
+<code>.specify/templates/checklist-template.md</code> for title, meta
+section, category headings, and ID formatting. If template is
+unavailable, use: H1 title, purpose/created meta lines, <code>##</code>
+category sections containing
+<code>- [ ] CHK### &lt;requirement item&gt;</code> lines with globally
+incrementing IDs starting at CHK001.</p></li>
+<li><p><strong>Report</strong>: Output full path to checklist file, item
+count, and summarize whether the run created a new file or appended to
+an existing one. Summarize:</p>
+<ul>
+<li>Focus areas selected</li>
+<li>Depth level</li>
+<li>Actor/timing</li>
+<li>Any explicit user-specified must-have items incorporated</li>
+</ul></li>
+</ol>
+<p><strong>Important</strong>: Each <code>/speckit.checklist</code>
+command invocation uses a short, descriptive checklist filename and
+either creates a new file or appends to an existing one. This
+allows:</p>
+<ul>
+<li>Multiple checklists of different types (e.g., <code>ux.md</code>,
+<code>test.md</code>, <code>security.md</code>)</li>
+<li>Simple, memorable filenames that indicate checklist purpose</li>
+<li>Easy identification and navigation in the <code>checklists/</code>
+folder</li>
+</ul>
+<p>To avoid clutter, use descriptive types and clean up obsolete
+checklists when done.</p>
+<h2 id="example-checklist-types-sample-items">Example Checklist Types
+&amp; Sample Items</h2>
+<p><strong>UX Requirements Quality:</strong> <code>ux.md</code></p>
+<p>Sample items (testing the requirements, NOT the implementation):</p>
+<ul>
+<li>“Are visual hierarchy requirements defined with measurable criteria?
+[Clarity, Spec §FR-1]”</li>
+<li>“Is the number and positioning of UI elements explicitly specified?
+[Completeness, Spec §FR-1]”</li>
+<li>“Are interaction state requirements (hover, focus, active)
+consistently defined? [Consistency]”</li>
+<li>“Are accessibility requirements specified for all interactive
+elements? [Coverage, Gap]”</li>
+<li>“Is fallback behavior defined when images fail to load? [Edge Case,
+Gap]”</li>
+<li>“Can ‘prominent display’ be objectively measured? [Measurability,
+Spec §FR-4]”</li>
+</ul>
+<p><strong>API Requirements Quality:</strong> <code>api.md</code></p>
+<p>Sample items:</p>
+<ul>
+<li>“Are error response formats specified for all failure scenarios?
+[Completeness]”</li>
+<li>“Are rate limiting requirements quantified with specific thresholds?
+[Clarity]”</li>
+<li>“Are authentication requirements consistent across all endpoints?
+[Consistency]”</li>
+<li>“Are retry/timeout requirements defined for external dependencies?
+[Coverage, Gap]”</li>
+<li>“Is versioning strategy documented in requirements? [Gap]”</li>
+</ul>
+<p><strong>Performance Requirements Quality:</strong>
+<code>performance.md</code></p>
+<p>Sample items:</p>
+<ul>
+<li>“Are performance requirements quantified with specific metrics?
+[Clarity]”</li>
+<li>“Are performance targets defined for all critical user journeys?
+[Coverage]”</li>
+<li>“Are performance requirements under different load conditions
+specified? [Completeness]”</li>
+<li>“Can performance requirements be objectively measured?
+[Measurability]”</li>
+<li>“Are degradation requirements defined for high-load scenarios? [Edge
+Case, Gap]”</li>
+</ul>
+<p><strong>Security Requirements Quality:</strong>
+<code>security.md</code></p>
+<p>Sample items:</p>
+<ul>
+<li>“Are authentication requirements specified for all protected
+resources? [Coverage]”</li>
+<li>“Are data protection requirements defined for sensitive information?
+[Completeness]”</li>
+<li>“Is the threat model documented and requirements aligned to it?
+[Traceability]”</li>
+<li>“Are security requirements consistent with compliance obligations?
+[Consistency]”</li>
+<li>“Are security failure/breach response requirements defined? [Gap,
+Exception Flow]”</li>
+</ul>
+<h2 id="anti-examples-what-not-to-do">Anti-Examples: What NOT To Do</h2>
+<p><strong>❌ WRONG - These test implementation, not
+requirements:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK001 - Verify landing page displays 3 episode cards <span class="co">[</span><span class="ot">Spec §FR-001</span><span class="co">]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK002 - Test hover states work correctly on desktop <span class="co">[</span><span class="ot">Spec §FR-003</span><span class="co">]</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK003 - Confirm logo click navigates to home page <span class="co">[</span><span class="ot">Spec §FR-010</span><span class="co">]</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK004 - Check that related episodes section shows 3-5 items <span class="co">[</span><span class="ot">Spec §FR-005</span><span class="co">]</span></span></code></pre></div>
+<p><strong>✅ CORRECT - These test requirements quality:</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK001 - Are the number and layout of featured episodes explicitly specified? <span class="co">[</span><span class="ot">Completeness, Spec §FR-001</span><span class="co">]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK002 - Are hover state requirements consistently defined for all interactive elements? <span class="co">[</span><span class="ot">Consistency, Spec §FR-003</span><span class="co">]</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK003 - Are navigation requirements clear for all clickable brand elements? <span class="co">[</span><span class="ot">Clarity, Spec §FR-010</span><span class="co">]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK004 - Is the selection criteria for related episodes documented? <span class="co">[</span><span class="ot">Gap, Spec §FR-005</span><span class="co">]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK005 - Are loading state requirements defined for asynchronous episode data? <span class="co">[</span><span class="ot">Gap</span><span class="co">]</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> CHK006 - Can &quot;visual hierarchy&quot; requirements be objectively measured? <span class="co">[</span><span class="ot">Measurability, Spec §FR-001</span><span class="co">]</span></span></code></pre></div>
+<p><strong>Key Differences:</strong></p>
+<ul>
+<li>Wrong: Tests if the system works correctly</li>
+<li>Correct: Tests if the requirements are written correctly</li>
+<li>Wrong: Verification of behavior</li>
+<li>Correct: Validation of requirement quality</li>
+<li>Wrong: “Does it do X?”</li>
+<li>Correct: “Is X clearly specified?”</li>
+</ul>
+<h2 id="post-execution-checks">Post-Execution Checks</h2>
+<p><strong>Check for extension hooks (after checklist
+generation)</strong>: Check if <code>.specify/extensions.yml</code>
+exists in the project root. - If it exists, read it and look for entries
+under the <code>hooks.after_checklist</code> key - If the YAML cannot be
+parsed or is invalid, skip hook checking silently and continue normally
+- Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - For each executable
+hook, output the following based on its <code>optional</code> flag: -
+<strong>Optional hook</strong> (<code>optional: true</code>): ``` ##
+Extension Hooks</p>
+<pre><code>**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixAgent</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixAgent</h1>
+</header>
+<h1 id="helixagent">HelixAgent</h1>
+<p><strong>Ne choisissez pas un seul modèle — laissez-les débattre, et
+livrez la réponse sur laquelle ils s’accordent.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>HelixAgent est un service d’ensemble LLM prêt pour la production,
+alimenté par AI, qui combine intelligemment les réponses de plusieurs
+modèles de langage — incluant un système de débat AI multi-tours et une
+sélection dynamique des fournisseurs basée sur la vérification — pour
+produire un résultat à la fois précis et fiable.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>HelixAgent est un service d’ensemble LLM basé sur Go qui fusionne
+plusieurs fournisseurs en une réponse unique et exacte. Il exécute des
+débats AI multi-tours, évalue dynamiquement les fournisseurs via
+LLMsVerifier, applique des stratégies de routage pondérées par la
+confiance, et intègre des fonctionnalités de production : mise en cache,
+supervision, garde-fous de sécurité et API de type OpenAI.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>HelixAgent est un service d’ensemble LLM prêt pour la production,
+alimenté par AI (sous licence MIT), qui considère la réponse d’un seul
+modèle comme une hypothèse, et non comme un verdict. Plutôt que de miser
+sur un unique fournisseur susceptible de se tromper, d’être biaisé ou
+temporairement indisponible, il combine les réponses de plusieurs
+modèles de langage pour converger vers le résultat le plus exact et
+fiable — et lorsque la question le justifie, il soumet les modèles à un
+débat structuré en plusieurs tours. Le panel est large : son fichier
+README répertorie de nombreux fournisseurs LLM sous
+<code>internal/llm/providers/</code>, dont Claude, DeepSeek, Gemini,
+Mistral, Qwen et xAI/Grok.</p>
+<p>Surtout, la sélection des fournisseurs n’est pas une liste de
+préférences statique : elle se mérite en temps réel. Les scores de
+vérification en direct, issus d’un LLMsVerifier intégré, pilotent le
+routage et assurent un repli élégant vers le fournisseur le plus
+performant, avec un rapport d’erreurs catégorisées en cas de
+dégradation. L’orchestrateur de débats AI transforme les désaccords en
+signal : il prend en charge plusieurs topologies (maillage, étoile,
+chaîne) et un protocole de phase rigoureux — Proposition → Critique →
+Revue → Synthèse — avec un apprentissage inter-débats pour que le
+système s’améliore dans la réconciliation des modèles au fil du temps.
+Les stratégies de routage incluent la sélection pondérée par la
+confiance, le consensus par vote majoritaire et la détection d’intention
+sémantique, le tout avec des réponses en streaming en temps réel,
+livrées jeton par jeton plutôt qu’après stabilisation complète de
+l’ensemble.</p>
+<p>Le service est conçu pour résister en production, et pas seulement
+pour briller en démonstration : PostgreSQL et Redis forment une couche
+de données hautement disponible, Prometheus/Grafana/OpenTelemetry
+fournissent des métriques, tableaux de bord et traçage, tandis que
+l’authentification JWT, la limitation de débit, un moteur de garde-fous
+et la détection PII encadrent l’ensemble des contrôles nécessaires à un
+déploiement réel. Il est organisé en une vingtaine de modules distincts
+(EventBus, Observabilité, Authentification, Stockage, VectorDB,
+Embeddings, RAG, Mémoire, MCP, etc.), chacun traitant une préoccupation
+séparée, et propose un framework d’optimisation LLM (mise en cache
+sémantique, sortie structurée, streaming amélioré) avec des intégrations
+pour SGLang, LlamaIndex, LangChain, Guidance et LMQL. Comme les points
+de terminaison de complétion et d’ensemble sont compatibles avec OpenAI,
+un client existant peut pointer vers HelixAgent et bénéficier d’un
+raisonnement d’ensemble sans réécriture.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Un seul modèle LLM peut se tromper, être biaisé ou indisponible.
+HelixAgent a été créé pour permettre aux applications de consulter
+plusieurs modèles simultanément, d’évaluer leurs réponses en fonction de
+leur fiabilité mesurée, et de basculer en douceur – transformant une
+dépendance fragile à un seul fournisseur en un ensemble résilient et
+auto-évalué.</p>
+<h2 id="pourquoi-cest-un-changement-de-paradigme">Pourquoi c’est un
+changement de paradigme</h2>
+<p>Il industrialise le consensus multi-modèles – passant de « interroger
+plusieurs modèles et réconcilier leurs réponses » via des scripts ad hoc
+à un service de production. Au lieu de coder en dur un seul fournisseur
+en espérant le meilleur, les équipes bénéficient d’un routage guidé par
+des scores de vérification en temps réel, d’un protocole de débat
+structuré pour les questions nécessitant plus qu’une seule tentative, et
+d’une résilience de niveau production (une couche de données haute
+disponibilité, une observabilité complète et des garde-fous), le tout
+derrière une interface compatible OpenAI et API. L’avantage décisif ?
+Une adoption sans perturbation : une dépendance fragile à un seul
+fournisseur devient un ensemble résilient et auto-évalué, et les clients
+existants y passent en modifiant simplement un point de terminaison
+plutôt que leur code.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li>Un débat structuré en plusieurs tours AI qui traite les désaccords
+entre modèles comme une ressource : topologies sélectionnables
+(maillage, étoile, chaîne), un protocole discipliné Proposition →
+Critique → Revue → Synthèse, et un apprentissage inter-débats qui se
+renforce avec le temps.</li>
+<li>Une sélection dynamique des fournisseurs basée sur des scores
+LLMsVerifier en temps réel, plutôt qu’une liste de préférences statique
+– l’ensemble oriente les requêtes vers celui qui performe réellement à
+l’instant T, et bascule élégamment en cas de défaillance.</li>
+<li>Un cadre natif d’optimisation Go pour les modèles LLM (cache
+sémantique, sortie structurée, streaming amélioré), autonome mais
+compatible avec des optimiseurs externes optionnels (SGLang, LlamaIndex,
+LangChain, Guidance, LMQL) si besoin, sans obligation.</li>
+<li>Une architecture modulaire composée d’une vingtaine de modules
+distincts, garantissant une séparation claire des préoccupations et
+ouvrant la voie à des fonctionnalités Big Data comme la mémoire
+distribuée et le streaming de graphes de connaissances.</li>
+</ul>
+<h2 id="principaux-défis-techniques-et-nos-solutions">Principaux défis
+techniques et nos solutions</h2>
+<ul>
+<li><strong>Choisir parmi de nombreux fournisseurs inégaux.</strong> Les
+fournisseurs varient en qualité et évoluent dans le temps, rendant toute
+classification fixe obsolète dès le lendemain. Nous avons résolu ce
+problème en rendant la sélection continuellement mesurée : les scores
+LLMsVerifier alimentent un routage pondéré par la confiance et par vote
+majoritaire, avec un basculement fluide pour contourner un fournisseur
+en dégradation plutôt que de lui faire confiance aveuglément.</li>
+<li><strong>Obtenir une réponse fiable à des questions réellement
+complexes.</strong> Un modèle unique, interrogé une seule fois, n’a
+aucun mécanisme pour détecter ses propres erreurs. L’Orchestrateur de
+Débat en fournit un – un débat multi-topologies et en phases
+(Proposition → Critique → Revue → Synthèse) qui force les modèles à se
+challenger et à affiner leurs réponses avant qu’une réponse finale ne
+soit synthétisée.</li>
+<li><strong>Faire fonctionner un ensemble en production, pas seulement
+dans un notebook.</strong> Interroger plusieurs fournisseurs multiplie
+les points de défaillance potentiels. Nous les avons maîtrisés grâce à
+une couche de données haute disponibilité PostgreSQL+Redis, une
+observabilité Prometheus/Grafana/OpenTelemetry pour identifier les
+comportements anormaux d’un fournisseur ou d’un routage, et un périmètre
+de sécurité incluant une authentification JWT, une limitation de débit,
+un moteur de garde-fous et une détection PII.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Go</strong> — choisi car le fait de répartir une seule
+requête entre plusieurs fournisseurs simultanément correspond exactement
+à l’usage des goroutines, et le déploiement en binaire unique permet de
+conserver le service (composé d’environ 20 modules) simple à livrer ; il
+constitue la base de l’ensemble du service et de chaque module
+interne.</li>
+<li><strong>Gin (Web API)</strong> — choisi pour offrir une interface
+HTTP rapide et peu gourmande en ressources ; il sert les points de
+terminaison <code>/v1</code> compatibles avec OpenAI pour les
+complétions, les discussions, le streaming et les ensembles, permettant
+aux clients existants d’adopter l’ensemble sans modification.</li>
+<li><strong>PostgreSQL</strong> — choisi comme stockage durable pour les
+sessions, les analyses et les enregistrements de débats, afin que les
+décisions consensuelles et l’historique des débats soient vérifiables ;
+il ancre la couche de données haute disponibilité.</li>
+<li><strong>Redis</strong> — choisi pour le cache à faible latence et la
+mise en file d’attente des tâches ; il alimente à la fois le cache des
+réponses et la couche de cache sémantique, permettant aux requêtes
+répétées ou quasi identiques d’éviter des inférences redondantes.</li>
+<li><strong>LLMsVerifier (intégré)</strong> — choisi pour faire de la
+fiabilité des fournisseurs une mesure quantifiable plutôt qu’une simple
+hypothèse ; ses scores classent les fournisseurs pour le routage et
+déclenchent des solutions de repli en cas de dégradation.</li>
+<li><strong>Prometheus + Grafana + OpenTelemetry</strong> — choisis pour
+garantir l’observabilité d’un ensemble couvrant de nombreux fournisseurs
+; ils exposent les métriques <code>helixagent_*</code>, les tableaux de
+bord et le traçage des requêtes de bout en bout à travers la répartition
+des tâches.</li>
+<li><strong>Adaptateurs Model Context Protocol (MCP)</strong> — choisis
+pour leur extensibilité via un protocole ouvert ; le README répertorie
+de nombreux adaptateurs MCP permettant de connecter des outils externes
+et des contextes.</li>
+<li><strong>Neo4j / ClickHouse / Kafka (BigData)</strong> — choisis pour
+dépasser les limites d’un seul nœud : Neo4j et ClickHouse supportent la
+mémoire distribuée et les fonctionnalités de graphe de connaissances,
+tandis que Kafka diffuse ce graphe et ces données d’événements à grande
+échelle.</li>
+<li><strong>Intégrations d’optimisation (SGLang, LlamaIndex, LangChain,
+Guidance, LMQL)</strong> — choisies pour ajouter en option des services
+tels que le cache de préfixes, la récupération, la décomposition des
+tâches et la génération contrainte, permettant ainsi de bénéficier
+d’optimisations plus poussées sans les rendre obligatoires.</li>
+</ul>
+<h2 id="statut-et-notes-de-transparence">Statut et notes de
+transparence</h2>
+<ul>
+<li><strong>Statut : bêta.</strong> Le service est présenté comme prêt
+pour la production, mais les chiffres de performance et de couverture
+mentionnés dans le README (par exemple, « 1000+ requêtes/seconde », «
+&lt;500 ms en cache », nombre de fournisseurs et de scripts de
+validation) sont des affirmations auto-déclarées par le projet, non
+vérifiées de manière indépendante, et sont volontairement maintenues ici
+sous une forme qualitative.</li>
+<li>Le nombre de fournisseurs varie dans le README lui-même ; la page
+utilise une formulation qualitative du type « de nombreux fournisseurs
+».</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire.</p>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<p><strong>Voir l’interface comme un utilisateur — vision par ordinateur
+couplée à la vision LLM pour l’analyse et la navigation.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>VisionEngine est une boîte à outils Go découplée qui associe la
+vision par ordinateur classique à la vision basée sur LLM pour analyser
+les interfaces utilisateur, détecter les éléments d’UI et les problèmes
+visuels, et construire des graphes de navigation des transitions
+d’écrans d’applications — avec des backends de vision multi-fournisseurs
+enfichables et OpenCV protégé par un tag de compilation.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>Un module Go réutilisable pour l’analyse d’UI et la construction de
+graphes de navigation. Il propose une couche d’analyse (éléments d’UI,
+différences entre écrans, problèmes visuels), un graphe de navigation
+avec recherche de chemins en BFS et export en DOT/JSON/Mermaid, ainsi
+que des adaptateurs de vision LLM pour GPT-4o, Claude, Gemini, Qwen-VL
+et bien d’autres.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>La plupart des outils d’automatisation de tests d’UI sont en réalité
+aveugles. Ils s’appuient sur les arbres d’accessibilité et les
+sélecteurs DOM — une vision purement mécanique de l’interface — et
+passent à côté de tout ce qu’un humain perçoit réellement : si un bouton
+est effectivement affiché, si la mise en page est cassée, ou si l’écran
+obtenu est bien celui attendu. VisionEngine comble cette lacune en
+dotant l’automatisation d’une véritable perception, lui permettant
+d’observer une UI et d’en tirer des conclusions comme le ferait une
+personne. Le module s’articule autour de quatre couches coopératives,
+qui partent des pixels bruts pour aboutir à une compréhension globale de
+l’application.</p>
+<p>La couche <strong>Analyseur</strong> définit un contrat stable — des
+interfaces (<code>Analyzer</code>, <code>VideoProcessor</code>) et des
+types de données (<code>UIElement</code>, <code>ScreenAnalysis</code>,
+<code>ScreenDiff</code>, <code>Rect</code>, <code>Size</code>,
+<code>TextRegion</code>, <code>VisualIssue</code>,
+<code>ScreenIdentity</code>, <code>Action</code>, <code>KeyFrame</code>)
+avec une implémentation de référence <code>StubAnalyzer</code> —
+permettant aux utilisateurs de détecter des éléments, de comparer des
+écrans et de mettre en évidence des problèmes visuels, le tout dans le
+cadre d’un contrat qui ne changera pas de manière imprévisible.</p>
+<p>Le <strong>Graphe de navigation</strong> élargit la perspective d’un
+simple écran à l’ensemble de l’application, en la modélisant sous forme
+de graphe orienté des transitions d’écrans, avec une recherche de
+chemins en BFS et trois formats d’export (DOT, JSON, Mermaid). Ainsi,
+l’automatisation ne se contente pas de voir un écran : elle peut aussi
+planifier un itinéraire vers n’importe quel autre. Le module inclut par
+ailleurs des suites de tests de charge, d’automatisation, d’intégration
+et de sécurité pour en démontrer la fiabilité.</p>
+<p>La couche <strong>Vision LLM</strong> ajoute une capacité de
+raisonnement multimodal moderne : une interface
+<code>VisionProvider</code> avec des adaptateurs pour OpenAI (GPT-4o),
+Anthropic (Claude), Gemini, Qwen-VL, Kimi, StepGUI, Astica et Ollama,
+organisés via une <code>FallbackChain</code> pour que l’échec, la
+limitation de débit ou la faiblesse d’un fournisseur entraîne une
+dégradation progressive vers le suivant, plutôt qu’un blocage complet de
+l’exécution.</p>
+<p>Enfin, la couche <strong>Configuration</strong> gère le chargement et
+la validation des variables d’environnement, chaque message d’erreur
+destiné à l’utilisateur passant par le <code>i18n.Translator</code>.</p>
+<p>La décision qui rend ce module réellement adoptable est que sa
+dépendance native lourde est optionnelle. Les bindings OpenCV sont
+protégés par un tag de compilation (<code>-tags vision</code>), et la
+version par défaut inclut des stubs — ce qui permet au module de
+compiler, de tester et de s’exécuter sur n’importe quel hôte Go 1.25+
+sans nécessiter la chaîne d’outils OpenCV. La dépendance native n’est
+intégrée que si l’utilisateur l’active explicitement. C’est cette
+approche qui permet à VisionEngine de s’intégrer sans effort dans un
+runner CI standard, sans nécessiter d’image dédiée. Entièrement découplé
+conformément à la constitution (CONST-051(B)), il est incorporé par les
+consommateurs — notamment HelixQA — en tant que sous-module de codebase
+équivalent, offrant ainsi aux tests d’UI basés sur des preuves une
+véritable paire d’yeux.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>L’automatisation des tests d’interface reposant uniquement sur les
+arbres d’accessibilité ou les sélecteurs passe à côté de ce que
+l’utilisateur voit réellement. VisionEngine intègre une compréhension
+visuelle authentique — détection d’éléments, comparaison d’écrans et
+raisonnement par vision LLM — ainsi qu’une cartographie navigable des
+écrans d’application, permettant à l’automatisation de percevoir et de
+se déplacer dans une interface utilisateur.</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Cette solution réunit deux approches habituellement incompatibles —
+la vision par ordinateur classique, rapide et déterministe, et la vision
+LLM, flexible et sémantique — derrière une seule interface dotée d’une
+chaîne de secours. L’utilisateur bénéficie ainsi de la précision de
+l’une et du raisonnement de l’autre sans avoir à choisir. En rendant
+OpenCV strictement optionnel, elle élimine aussi le coût habituel de
+cette puissance : tout projet Go peut acquérir une perception réelle de
+l’interface sans alourdir sa chaîne de compilation avec des outils
+natifs de vision.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li><strong>Double perception</strong> : vision par ordinateur classique
+(OpenCV/GoCV) couplée à une vision LLM multi-fournisseurs avec chaîne de
+secours.</li>
+<li><strong>Graphe de navigation</strong> avec recherche de chemin par
+parcours en largeur (BFS) et export en DOT/JSON/Mermaid.</li>
+<li><strong>Intégration conditionnelle d’OpenCV</strong> via des balises
+de compilation, permettant au module de rester compilable et testable
+sans dépendances natives.</li>
+<li><strong>Sous-module entièrement découplé</strong>, compatible avec
+l’internationalisation et partageant la même base de code (utilisé par
+HelixQA).</li>
+</ul>
+<h2 id="défis-et-solutions">Défis et solutions</h2>
+<ul>
+<li><strong>Friction liée aux dépendances natives lourdes</strong> :
+résolue par un système de balises <code>-tags vision</code> et des stubs
+par défaut, garantissant que les environnements CI/hôtes sans OpenCV
+restent compilables et testables.</li>
+<li><strong>Fiabilité variable des fournisseurs de vision</strong> :
+résolue par une interface <code>VisionProvider</code> et un compositeur
+<code>FallbackChain</code>.</li>
+<li><strong>Cartographie des flux applicatifs complexes</strong> :
+résolue par un graphe de navigation orienté, complété par une recherche
+de chemin BFS et des exports multi-formats.</li>
+<li><strong>Couplage</strong> : résolu via le découplage CONST-051(B) et
+une couche de traduction i18n.</li>
+</ul>
+<h2 id="pile-technologique-pourquoi-et-comment">Pile technologique
+(pourquoi et comment)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — noyau du module et ses quatre
+couches.</li>
+<li><strong>GoCV / OpenCV</strong> — vision par ordinateur classique,
+activée par balises de compilation.</li>
+<li><strong>Fournisseurs de vision LLM (GPT-4o, Claude, Gemini, Qwen-VL,
+Kimi, StepGUI, Astica, Ollama)</strong> — raisonnement multimodal sur
+l’interface via des adaptateurs.</li>
+<li><strong>Algorithmes de graphes (BFS)</strong> — recherche de chemins
+de navigation.</li>
+<li><strong>Exportateurs DOT / JSON / Mermaid</strong> — visualisation
+du graphe de navigation.</li>
+<li><strong>Traducteur i18n</strong> — gestion des chaînes de caractères
+destinées à l’utilisateur, découplée.</li>
+</ul>
+</body>
+</html>

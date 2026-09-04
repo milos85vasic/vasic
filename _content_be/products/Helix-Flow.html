@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>Адна платформа для ўсіх вашых патрэб у AI-інферэнцыі —
+запускайце магутныя AI-мадэлі хутчэй, разумней, у любым маштабе з
+прадказальнымі выдаткамі.</strong></p>
+<blockquote>
+<p><strong>Папярэджанне аб дакладнасці (Helix Constitution
+§11.4.6):</strong> У Helix-Flow ёсць рэальны публічны рэпазіторый з
+зыходным кодам, але яго README змяшчае толькі адзін слоган, а лакальнага
+доступу да зыходнікаў і дакументацыі па архітэктуры няма.
+Задокументаваны толькі два моманты: слоган і моўны склад рэпазіторыя.
+Усе астатнія дэталі або апушчаны, або пазначаны як НЕПРАВЕРАНЫЯ. Гэтая
+старонка з’яўляецца мінімальным запоўняльнікам, а не поўным апісаннем
+прадукту, і пашыраць яе не варта, пакуль не з’явяцца рэальныя зыходныя
+матэрыялы.</p>
+</blockquote>
+<h2 id="зводка">Зводка</h2>
+<p>Платформа Helix-Flow пазіцыянуецца як адзінае ўніфікаванае асяроддзе
+для AI-інферэнцыі — запуску магутных мадэляў хутчэй, у любым маштабе з
+прадказальнымі выдаткамі. <em>(Пазіцыянаванне грунтуецца выключна на
+слогане; канкрэтныя магчымасці не задокументаваны ў даступных
+крыніцах.)</em></p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Платформа Helix-Flow (<code>Helix-Flow/Platform</code>) — гэта
+публічны праект на базе Go, які падаецца як адзіная платформа для
+AI-інферэнцыі ў любым маштабе з прадказальнымі выдаткамі. Яе кодовая
+база спалучае Go, Python і Terraform/HCL, што сведчыць аб платформе
+інферэнцыі з разгортваннем праз інфраструктуру як код. Магчымасці,
+акрамя слогана, НЕПРАВЕРАНЫЯ.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Платформа Helix-Flow — адзіны рэпазіторый у арганізацыі
+<code>Helix-Flow</code> на GitHub, якая, згодна з аднарадковым README,
+падаецца як «адна платформа для ўсіх вашых патрэб у AI-інферэнцыі», з
+акцэнтам на хуткім запуску магутных AI-мадэляў у любым маштабе з
+прадказальнымі выдаткамі. Акрамя гэтага слогана, праект не змяшчае
+тэкставай дакументацыі, таму яго архітэктуру, функцыі і дызайн немагчыма
+апісаць на аснове зыходнікаў без даданняў.</p>
+<p>Тое, што <em>сапраўды можна ўсталяваць</em>, — гэта моўны склад
+рэпазіторыя: ён у роўнай ступені заснаваны на Go і Python, з істотнай
+доляй Shell, а таксама HTML/CSS/JavaScript (вяб-інтэрфейс), PL/pgSQL
+(кампанент на базе PostgreSQL), HCL (Terraform / інфраструктура як код)
+і Mermaid (дыяграмы). У сукупнасці гэты набор <em>адпавядае</em>
+платформе інферэнцыі, якая спалучае кантрольны/сервісны слой на Go з
+інструментамі Python для мадэляў, сховішчам даных PostgreSQL,
+вэб-інтэрфейсам і разгортваннем у воблаку праз IaC — але такое разуменне
+вынікае з тыпаў файлаў, <strong>а не з дакументаваных звестак</strong>.
+Каб стварыць дакладнае апісанне прадукту (матывацыя, інавацыі, тэхнічныя
+выклікі, абгрунтаванне тэхнічнага стэку), патрэбны рэальны README,
+дакумент па архітэктуры або лакальны доступ да зыходнікаў. Гэтая
+старонка наўмысна абмяжоўваецца тым, што падтрымліваецца даступнымі
+крыніцамі.</p>
+<h2 id="чаму-мы-яе-стварылі">Чаму мы яе стварылі</h2>
+<p><em>НЕПРАВЕРАНА — не задокументавана ў даступных крыніцах.</em>
+Слоган намякае на мэту стварэння адзінага маштабаванага асяроддзя для
+AI-інферэнцыі з прадказальнымі/кантралюемымі выдаткамі, але ніякай
+аргументацыі не падаецца. Тут не выказваецца ніякай матывацыі.</p>
+<h2 id="чаму-гэта-зменіць-правілы-гульні">Чаму гэта зменіць правілы
+гульні</h2>
+<p>Змесціва</p>
+<p><em>НЕПАЦВЯРДЖАНА — не дакументавана.</em> Адсутнічае да моманту
+падачы крыніц.</p>
+<h2 id="што-новага">Што новага</h2>
+<p><em>НЕПАЦВЯРДЖАНА — не дакументавана.</em> Адсутнічае да моманту
+падачы крыніц.</p>
+<h2 id="найбольшыя-тэхнічныя-выклікі-і-як-мы-іх-пераадолелі">Найбольшыя
+тэхнічныя выклікі і як мы іх пераадолелі</h2>
+<p><em>НЕПАЦВЯРДЖАНА — не дакументавана.</em> Адсутнічае да моманту
+падачы крыніц.</p>
+<h2 id="тэхналагічны-стэк">Тэхналагічны стэк</h2>
+<p>Вызначана толькі паводле складу моў рэпазіторыя — роля і
+абгрунтаванне НЕПАЦВЯРДЖАНЫ:</p>
+<ul>
+<li><strong>Go</strong> — асноўная мова; верагодна, слой
+абслугоўвання/кіравання. <em>(Роля НЕПАЦВЯРДЖАНА.)</em></li>
+<li><strong>Python</strong> — амаль роўная доля; верагодна, інструменты
+мадэлявання/інферэнцыі. <em>(Роля НЕПАЦВЯРДЖАНА.)</em></li>
+<li><strong>Shell</strong> — скрыпты зборкі/разгортвання/аўтаматызацыі.
+<em>(Роля НЕПАЦВЯРДЖАНА.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — прысутнічае кампанент
+рэляцыйнага сховішча даных.</li>
+<li><strong>Terraform / HCL</strong> — інфраструктура як код, што
+сведчыць пра разгортванне ў воблаку.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — вэб-інтэрфейс ці
+дакументацыя.</li>
+</ul>
+<h2 id="стан-і-заўвагі-аб-сумленнасці">Стан і заўвагі аб
+сумленнасці</h2>
+<ul>
+<li><strong>Стан: дарожная карта / заглушка.</strong> Гэта адзіны
+рэпазіторый у арганізацыі <code>Helix-Flow</code>; ён публічны, апошні
+каміт адбыўся 27.04.2026, не мае старонкі і абвешчанай ліцэнзіі. Да
+моманту з’яўлення рэальнай дакументацыі яго немагчыма адказным чынам
+падаваць як гатовы прадукт.</li>
+<li><strong>Ліцэнзія: будзе вызначана</strong> (не ўстаноўлена ў
+рэпазіторыі).</li>
+</ul>
+<p><strong>Прыярытэтны ўзровень:</strong> Helix-прымарны (прадукт
+інферэнцыі сямейства Helix-платформа), але зараз блакаваны праз
+адсутнасць зыходных матэрыялаў. Ранжыруецца пасля HelixTrack.</p>
+</body>
+</html>

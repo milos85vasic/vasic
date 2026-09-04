@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixQA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixQA</h1>
+</header>
+<h1 id="helixqa">HelixQA</h1>
+<p><strong>アンチブラフQAオーケストレーション —
+すべてのPASSに、実際のユーザーが機能を利用できる証拠を伴う、自律型クロスプラットフォームセッション</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixQAは、クロスプラットフォームテスト（Android、Android
+TV、Web、デスクトップ）向けのアンチブラフQAオーケストレーションフレームワークであり、YAMLテストバンク、リアルタイムクラッシュ検出、ステップごとの証拠キャプチャ、LLMプラスコンピュータビジョンによる自律型QAセッションを組み合わせ、機能がエンドツーエンドで真に動作することを証明する。これはConstitutionの必須QAテストタイプ（§11.4.169）である。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>アンチブラフQAオーケストレーター（Go）は、記述されたテストバンクと完全自律型のLLMおよびビジョン駆動QAセッションをプラットフォーム間で実行し、クラッシュを検出し、各ステップをキャプチャされた証拠（スクリーンショット、logcat、動画、スタックトレース）と照合し、AI修正パイプライン向けに証拠豊富なチケットを自動生成する。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixQAは、Goフレームワークであり、その唯一無二の設計の中心はConstitutionの§11.4運用ルールにある。すなわち、リリースの基準は「テストがパスすること」ではなく「ユーザーが機能を利用できること」であり、出力されるすべてのPASSには実行中にキャプチャされた実証的な証拠が伴わなければならない。証拠がなければグリーンライトは出ず、例外は認められない。本フレームワークは、スクリプト化されたテストと未知のテストの両方をカバーする二つの相補的なモードで動作する。</p>
+<p>第一に、<strong>記述されたテストバンク</strong> —
+プラットフォームターゲティング、優先度、順序付きステップ（名称/アクション/期待値）、タグ、ドキュメント参照を備えた<code>TC-XXX</code>ケース群であるYAMLスイートを実行する。各ステップの検証、リアルタイムのクラッシュ/ANR検出（AndroidはADB、Web/デスクトップはプロセス監視）、集中型証拠収集、そして下流のAI修正パイプライン向けに整形済みのMarkdownチケットを自動生成する。</p>
+<p>第二に、<strong>完全自律型QAセッション</strong> —
+アプリをLLM搭載エージェントとコンピュータビジョンに委ね、無人で動作させる。このセッションは四つの規律あるフェーズで構成される。セットアップ（LLMの選択、プロジェクトドキュメントからの機能マップ作成、CLIエージェントの起動、ビジョンエンジンの初期化）、ドキュメントに基づく検証（すべてのドキュメント化された機能を検証）、好奇心駆動型の探索（エッジケースや非ドキュメント化された動作を意図的に試行）、そしてMarkdown/HTML/JSON形式でのレポートとクリーンアップ（すべての発見事項は動画タイムスタンプ付きの証拠にリンクされる）。</p>
+<p>重要なのは、HelixQAは自己評価を行わない点である。四つの外部Goサブモジュール（LLMsVerifier、LLMOrchestrator、VisionEngine、DocProcessor）を統合し、<code>challenges</code>および<code>containers</code>の共有インフラを再利用するため、アプリを操作するコンポーネントと、それが正常に動作したかを判断するコンポーネントは別々である。自身のスイートも、<code>make anti-bluff</code>（静的スキャン＋動作アンカーマニフェスト＋ミューテーションラチェット）や、組み込み§1.1ミューテーションを持つ8フェーズオーケストレーターChallengeを通じて、他のテスト対象と同じ基準で評価される。15行のテストタイプカバレッジマトリックスにより、すべての謳われた機能は具体的な実行可能アセットと特定の証拠形態に紐付けられ、フレームワーク自身の主張も、テスト対象製品に下す評価と同様に、証拠に基づくものとなる。</p>
+<p>コンテンツ</p>
+<h2 id="なぜこれを作ったのか">なぜこれを作ったのか</h2>
+<p>従来のQAは「アサーションが通った」という結果をもって合格としていた。しかし、この方法では、Constitutionが「ブラフ」と呼ぶ種類の失敗が見逃されてしまう――機能は「動作報告」されているが、実際のユーザーにとっては壊れているという状態だ。HelixQAは、この問題をQAの段階で根本的に排除するために作られた。実行時の物的証拠（スクリーンショット、logcat、動画、スタックトレース、レポート）がなければPASSと評価せず、証拠のない「グリーン」のサマリーラインは、機能が欠落しているのと同等の重大な欠陥として扱う。また、複数のプラットフォームにわたる包括的な手動QAがスケールしないという労力の問題も解決する。完全に自律的なセッションを実現することで、人的リソースを必要としない。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>HelixQAは、ほとんど同じツールに共存することのない二つの要素を融合させた。厳格なエビデンスに基づくQAゲーティングと、自律的な自己駆動型探索だ。LLMにビジョン機能を組み合わせたエージェントは、<em>実際の</em>アプリを開き、ドキュメント化された機能をすべて検証し、誰もテストを書いていない未知のバグを探し出す。そして、その過程で裁判に耐えうる証拠のトレイルを生成する――「テストした」という言葉の代わりに、「これが動画、これがlogcat、これがチケット」という具体的な証拠が提示される。さらに、Constitutionで定義されたQAサブモジュールであるため、これを導入することで、一つのチームだけでなく、関連するすべてのプロダクトのQAの信頼性が一気に底上げされる。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>ブラフ防止エビデンス契約</strong> ―
+すべてのチェックのPASSは、実行時に取得した証拠と紐付けられる。CIのグリーンラインは必要条件ではあるが十分条件ではなく、証拠のないグリーンのサマリーは、機能欠落と同等の重大な欠陥として評価される。</li>
+<li><strong>自律的なドキュメント駆動型＋好奇心駆動型探索</strong> ―
+ドキュメント化された機能をすべて検証した後、<em>オフスクリプト</em>で動作し、実際のユーザーが遭遇するエッジケース（空の入力、急速な操作、未ドキュメントのパス）を探索する。手動で書かれたテストスイートでは予測できない領域だ。</li>
+<li><strong>ビジョンオラクル</strong> ― GoCVの機械ビジョンとLLM Vision
+APIが、画面上のUIを<em>実際に視認</em>し、トークンやプロパティレベルのアサーションでは見逃されがちな、視覚的に壊れた状態を検出する。</li>
+<li><strong>構造ベースのテストバンク</strong> ―
+バンクの文字列は構造を記述し、実行時にLLMが生成する質問プロンプトを駆動する（CONST-046）。そのため、UIテキストが翻訳されても、一つのバンクが複数のロケールで機能する。</li>
+<li><strong>AI修正パイプライン向けチケット</strong> ―
+自動生成されるMarkdown形式のIssueには、証拠バンドルが添付されており、人間のトリアージャーを介さずに、そのまま下流の修正エージェントに渡すことができる。</li>
+</ul>
+<h2
+id="すべてのプロダクトでどのように使われるか与えられる力">すべてのプロダクトでどのように使われるか（与えられる力）</h2>
+<p><strong>必須の品質基盤</strong>として（Constitution
+§11.4.169では<code>helix_qa</code>サブモジュールが必須のテストタイプの一つに指定されている）、HelixQAは、関連するすべてのプロダクトに以下の力を与える：</p>
+<ul>
+<li><strong>自律QAセッション</strong> ―
+<code>helixqa autonomous --project … --platforms android,desktop,web</code>という単一のコマンドで、LLMとビジョン機能を組み合わせたエージェントが実際のアプリを無人で駆動し、カバレッジ目標に向けて動作する。その間、レポート、チケット、動画が自動生成され、人間の介在は不要。</li>
+<li><strong>テストバンク／スイート</strong> ―
+YAMLバンク（ラウンド219、フロア30以上）、プラットフォームごとにターゲットを絞り、優先順位を付け、検証するドキュメントと行単位でトレース可能。</li>
+<li><strong>取得済みエビデンス</strong> ―
+スクリーンショット、logcat、動画、スタックトレース、完全なタイムラインが一元管理され、すべてのレポートからリンクされている。そのため、後からどの判定も再生・監査が可能。</li>
+<li><strong>独立した判定（§11.4.141独立原則）</strong> ―
+LLMが駆動する<code>issuedetector</code>とビジョンオラクルは、アプリの動作を、それを操作したエージェントから独立して判定する。これにより、システムが自分の作業を正しいと自己評価するという古典的な失敗を構造的に排除。</li>
+<li><strong>ゲート＋ミューテーションラチェット</strong> ―
+<code>make qa-all</code> /
+<code>make anti-bluff</code>および<code>challenges/scripts/helixqa_orchestrator_challenge.sh</code>（8フェーズ、§1.1のミューテーション機能内蔵）により、HelixQA自体の信頼性が常に検証される。さらに、締め切りのプレッシャーがあっても<code>--skip-helixqa</code>のような逃げ道をあえて用意していないため、規律が緩むことはない。</li>
+</ul>
+<p>コンテンツ</p>
+<h2
+id="最大の技術的課題とその解決方法">最大の技術的課題とその解決方法</h2>
+<ul>
+<li><strong>QA自体の誤検出防止</strong> —
+ブラフを検出するツールがブラフになってはならない →
+すべてのステップは収集されたエビデンスに対して検証され、エビデンスのないPASSはPASSではなく欠陥としてスコアリングされ、動作アンカーマニフェスト（CONST-035）により、各宣伝された機能は実行可能なテストに紐づけられ、機能を主張するには必ずそれを実行するものが必要となる。</li>
+<li><strong>一つの頭脳で異種プラットフォームを制御</strong> —
+Android、Android TV、Web、デスクトップは入力モデルを共有しない →
+単一の<code>navigator</code>パッケージがプラットフォーム固有のActionExecutor（ADB、Playwright、X11）とプラットフォームごとのクラッシュ検出器（Android/Web/デスクトップ）を抽象化し、オーケストレーションロジックは一度書かれ、プラットフォームの違いは端に留まる。</li>
+<li><strong>自律エージェントを有用に、混沌とさせない</strong> —
+監視されないLLMがアプリ内を永遠に彷徨う可能性 →
+LLMsVerifierが適切なモデルをスコアリング・選択し、LLMOrchestratorがヘッドレスのCLIエージェント（opencode、claude-code、gemini、junie、qwen-code）を管理、DocProcessorが探索の目標を与えるフィーチャーマップを構築、VisionEngineがすべての判断をモデルの想像ではなく画面上の実際のピクセルに基づかせる。</li>
+<li><strong>ローカライズに対応したテストバンク</strong> —
+英語のUIテキストをハードコーディングしたスイートは15の言語で壊れる →
+バンクは構造のみを記述し、ユーザー向けのプロンプトテキストはLLM/リソースから実行時に読み込まれる（CONST-046）ため、同じバンクがロケールに関係なく同じ動作を検証する。</li>
+<li><strong>ゲートが偽物でないことの証明</strong> —
+それ自体が失敗しないアンチブラフゲートは究極のブラフ →
+対になった§1.1のミューテーションが型のエビデンスキャプチャやアンチブラフアサーションを削除し、ゲートにFAILを要求し、ミューテーションラチェットがその保証が時間とともに密かに損なわれないようにする。</li>
+</ul>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go 1.24+ オーケストレーター</strong> — <em>理由：</em>
+QAは製品が動作するあらゆる場所で実行されなければならないため、単一のスタティックリンクされた高速でポータブルなバイナリが、ランタイム負荷の大きい代替手段に勝る。<em>方法：</em>
+<code>cmd/helixqa</code>のCLIが、<code>run</code>/<code>list</code>/<code>report</code>/<code>autonomous</code>/<code>version</code>といったコンポーザブルなサブコマンドを提供。</li>
+<li><strong>YAML テストバンク（<code>pkg/testbank</code>）</strong> —
+<em>理由：</em>
+スイートは宣言的で読みやすく、Goに触れずに人間が編集可能であるべき。<em>方法：</em>
+<code>version</code>/<code>name</code>/<code>test_cases[]</code>（<code>id</code>、<code>category</code>、<code>priority</code>、<code>platforms</code>、順序付き<code>steps[]</code>、<code>documentation_refs[]</code>）で、機能ドキュメントへのトレーサビリティを確保。</li>
+<li><strong>クラッシュ/ANR検出器（<code>pkg/detector</code>）</strong> —
+<em>理由：</em>
+最も重要な失敗は、事後的なアサーションではなく、インタラクション中にリアルタイムで発生するもの。<em>方法：</em>
+AndroidではADB（<code>pidof</code>/<code>logcat</code>/<code>screencap</code>）、Web/デスクトップでは<code>pgrep</code>を使用し、テストがドライブしている間にプロセスを監視。</li>
+<li><strong>エビデンス収集（<code>pkg/evidence</code>、<code>pkg/session</code>）</strong>
+— <em>理由：</em>
+アンチブラフ契約は、すべてのPASSが物理的な証拠に裏付けられて初めて現実のものとなる。<em>方法：</em>
+スクリーンショット、logcat、動画、スタックトレースを<code>SessionRecorder</code>のタイムラインにキャプチャし、すべてのレポートがそれにリンクされる。</li>
+<li><strong>自律セッション（<code>pkg/autonomous</code>、<code>pkg/navigator</code>、<code>pkg/issuedetector</code>）</strong>
+— <em>理由：</em>
+4つのプラットフォームにわたる包括的な手動QAはスケールしないため、探索自体が自律的に動作する必要がある。<em>方法：</em>
+4フェーズの<code>SessionCoordinator</code>に加え、ActionExecutor（ADB/Playwright/X11）と、視覚、UX、アクセシビリティ、機能的な欠陥をカバーするLLMバグ検出。</li>
+<li><strong>外部サブモジュール</strong> — <em>理由：</em>
+再利用性と疎結合（CONST-051）、そして何よりもナビゲーターとジャッジの分離。<em>方法：</em>
+LLMsVerifier（モデルスコアリング）、LLMOrchestrator（ヘッドレスCLIエージェント）、VisionEngine（GoCV
++ LLM
+Vision）、DocProcessor（フィーチャーマップ/カバレッジ）、それぞれが独立したコンポーネントとして所有。</li>
+<li><strong>アンチブラフゲート + ミューテーションラチェット</strong> —
+<em>理由：</em>
+HelixQAに対して、それが他のすべてに強制するのと同じ§1.1の契約を遵守させるため。<em>方法：</em>
+<code>make anti-bluff</code>スキャンに加え、動作アンカーマニフェストとミューテーションラチェット、そして<code>helixqa_orchestrator_challenge.sh</code>を8フェーズのエンドツーエンドバリデータとして使用。</li>
+<li><strong>15行のカバレッジマトリックス（<code>docs/test-coverage.md</code>）</strong>
+— <em>理由：</em>
+CONST-050(B)により、ギャップのない完全に説明可能なテストタイプセットが義務付けられている。<em>方法：</em>
+各行は具体的な実行可能アセットと特定の収集エビデンスの形に紐づけられ、カバレッジは主張ではなく検証可能な事実となる。</li>
+</ul>
+<p>コンテンツ</p>
+<h2
+id="ステータスと誠実性に関する注意事項">ステータスと誠実性に関する注意事項</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+現在も開発中（READMEのステータスバナーは第219版）。独自の「ブラフ防止基準」に準拠。</li>
+<li><strong>ライセンス：Apache-2.0。</strong>
+インストール方法：<code>go install digital.vasic.helixqa/cmd/helixqa@latest</code>。</li>
+</ul>
+<p><strong>優先度レベル：</strong> Helix-プライマリ ―
+Helixファミリーにおける品質・ブラフ防止の必須基盤。機能が実際に機能することを検証するための柱。</p>
+</body>
+</html>

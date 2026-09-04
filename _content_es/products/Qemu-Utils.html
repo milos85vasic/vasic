@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU Imágenes de VM, gestionadas como artefactos — descarga,
+ejecución, red, publicación.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Qemu-Utils es un kit de herramientas Server Factory para la gestión
+integral de virtualización QEMU: distribución y compresión automatizada
+de imágenes de VM, almacenamiento en caché local, configuración de redes
+bridge/TAP, instalación de sistemas operativos desde ISO y ejecución
+multiplataforma (Linux/macOS) con aceleración por hardware. Puede usarse
+de forma independiente o dentro de Server Factory.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un kit de herramientas Shell para la gestión del ciclo de vida de VM
+QEMU. Descarga, almacena en caché y ejecuta imágenes de disco QEMU
+preconfiguradas, las comprime y publica en puntos remotos, automatiza la
+configuración de redes bridge/TAP, admite instalaciones desde ISO y
+funciona tanto en Linux como en macOS con la aceleración por hardware
+adecuada.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Qemu-Utils aplica el rigor de la gestión de artefactos —el mismo
+enfoque que los equipos ya usan para los resultados de compilación e
+imágenes de contenedores— a algo que suele manejarse como un conjunto de
+invocaciones <em>ad hoc</em> de <code>qemu-system-*</code>: las máquinas
+virtuales. Al igual que su herramienta hermana Parallels, trata las
+imágenes de VM como activos distribuibles de primera clase, matrices de
+sistemas empleados en desarrollo y pruebas, pero orientado al backend
+QEMU, genuinamente multiplataforma. Su ciclo de vida cierra el proceso
+completo: descarga y almacena en caché imágenes de disco QEMU
+preconfiguradas, las recupera automáticamente desde puntos remotos,
+mantiene cachés locales separadas para versiones comprimidas y
+descomprimidas (de modo que una imagen grande se descarga una sola vez y
+se inicia con bajo costo posteriormente), y comprime y publica las
+imágenes en servidores remotos para el resto del equipo. Además, como
+una VM a la que nadie puede acceder es inútil, automatiza el aspecto que
+todos temen —la red—, gestionando interfaces bridge y TAP para la
+conectividad de las VM de forma automática, en lugar de dejar que el
+operador las configure manualmente. Admite instalaciones limpias de
+sistemas operativos desde imágenes ISO y es genuinamente
+multiplataforma, funcionando tanto en Linux como en macOS con la
+aceleración por hardware adecuada para cada uno. La configuración y
+operación siguen el mismo patrón Server Factory, simple y basado en
+scripts, y el kit de herramientas puede usarse como parte de un proyecto
+Server Factory más amplio o de manera completamente independiente, según
+la filosofía de desacoplamiento de la organización. Su documentación es
+más completa que la de la mayoría de los repositorios pequeños de Server
+Factory (con secciones de resumen, características, requisitos, inicio
+rápido, configuración, uso, redes, solución de problemas y
+arquitectura), lo que refleja su papel como la vía principal de gestión
+de VM para entornos Linux/QEMU. Junto con Parallels-Utils, proporciona
+al ecosistema Server Factory gestión de imágenes de VM tanto para
+macOS/Parallels como para virtualización Linux-plus-macOS/QEMU.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>El aprovisionamiento y las pruebas en múltiples sistemas operativos
+requieren VM reproducibles, y QEMU en bruto es un sistema de bajo nivel
+y propenso a errores, especialmente en lo que respecta a redes y
+distribución de imágenes. Qemu-Utils encapsula QEMU en un kit de
+herramientas manejable, de modo que las imágenes y sus redes sean
+reproducibles en distintas máquinas.</p>
+<h2 id="por-qué-es-un-cambio-radical">Por qué es un cambio radical</h2>
+<p>Agrupa los cuatro aspectos que hacen doloroso el uso de QEMU en bruto
+—distribución de imágenes, almacenamiento en caché, redes e instalación
+desde ISO— en un solo kit de herramientas multiplataforma, transformando
+un muro de banderas de línea de comandos engorrosas en un flujo de
+trabajo de VM reproducible y publicable que todo un equipo puede
+compartir y replicar de manera idéntica tanto en Linux como en
+macOS.</p>
+<h2 id="qué-es-innovador">Qué es innovador</h2>
+<ul>
+<li>Ciclo de vida completo de imágenes QEMU: descarga/almacenamiento en
+caché/ejecución + compresión/publicación, con cachés comprimidas y sin
+comprimir.</li>
+<li>Configuración automatizada de redes puente/TAP para conectividad de
+máquinas virtuales.</li>
+<li>Soporte para instalación limpia basada en ISO.</li>
+<li>Multiplataforma (Linux + macOS) con aceleración por hardware.</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Complejidad en redes de máquinas virtuales:</strong>
+resuelto con gestión automatizada de interfaces puente y TAP.</li>
+<li><strong>Distribución de imágenes de gran tamaño:</strong> resuelto
+mediante compresión, publicación/recuperación remota y almacenamiento en
+caché local.</li>
+<li><strong>Virtualización multiplataforma:</strong> resuelto al dar
+soporte a Linux y macOS con la aceleración adecuada.</li>
+<li><strong>Aprovisionamiento desde cero:</strong> resuelto con soporte
+para instalación mediante ISO.</li>
+</ul>
+<h2 id="pila-tecnológica-por-qué-y-cómo">Pila tecnológica (por qué y
+cómo)</h2>
+<ul>
+<li><strong>Shell</strong> — kit de herramientas completo (~79,5 K
+bytes); scripts para gestión de imágenes, redes y máquinas
+virtuales.</li>
+<li><strong>QEMU</strong> — motor de virtualización gestionado.</li>
+<li><strong>Redes puente/TAP</strong> — infraestructura de red para
+máquinas virtuales en Linux/macOS.</li>
+<li><strong>Imágenes ISO</strong> — fuente de instalación del sistema
+operativo.</li>
+</ul>
+<blockquote>
+<p>Nota: GitHub marca el repositorio como una bifurcación dentro de la
+organización Server-Factory. Complemento multiplataforma de
+Parallels-Utils. Sin relación con AI.</p>
+</blockquote>
+</body>
+</html>

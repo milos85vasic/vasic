@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SUMMARY</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SUMMARY</h1>
+</header>
+<h1 id="live-audit-milosvasic.ru-v1.6.0-terminal-brutalist">Live Audit —
+milosvasic.ru @ v1.6.0 (“TERMINAL BRUTALIST”)</h1>
+<ul>
+<li>Scope: Read-only adversarial audit of LIVE https://milosvasic.ru. No
+edits/commits/deploys.</li>
+<li>Method: raw <code>curl -sSL</code>, Playwright 1.61.0 (chromium),
+<span class="citation"
+data-cites="axe-core/playwright">@axe-core/playwright</span> — all
+against live URLs.</li>
+<li>Date: 2026-08-07</li>
+<li>Verdict: PASS. 0 defects. 2 informational notes (Fraunces fonts
+absent-by-design; article-viewer has no reachable trigger).</li>
+<li>Every claim below is backed by a saved artifact in this
+directory.</li>
+</ul>
+<h2 id="pass-fail-unverified-matrix">PASS / FAIL / UNVERIFIED
+matrix</h2>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 25%" />
+<col style="width: 28%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Check</th>
+<th>Result</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Reachability — root 200</td>
+<td>PASS</td>
+<td>root.html (HTTP 200, 38193 B)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Sitemap URL count</td>
+<td>PASS (525 URLs)</td>
+<td>sitemap.xml (200, application/xml)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>~25 sample routes (EN+14 localized homes, portfolio, product,
+robots) all 200</td>
+<td>PASS (25/25 = 200)</td>
+<td>reachability.txt</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Served style.css contains Anton</td>
+<td>PASS (7 Anton refs)</td>
+<td>style.css</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Served od/milosvasic.css contains Anton</td>
+<td>PASS (10 Anton refs)</td>
+<td>od-milosvasic.css</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Anton woff2 fonts 200 + font/woff2 + non-trivial</td>
+<td>PASS</td>
+<td>anton.woff2 (18612 B); latin-ext 31356 B — both font/woff2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>assets/od/fraunces/* return 200 woff2</td>
+<td>N/A — Fraunces absent by design (Note A)</td>
+<td>404s; not referenced in served CSS</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bold Anton/engineering-dossier design renders (not fallback) —
+desktop light+dark, mobile</td>
+<td>PASS</td>
+<td>shot-home-desktop-light.png, shot-home-desktop-dark.png,
+shot-home-mobile-390.png; pw-audit-results.json (heroFont Anton,
+antonLoaded:true, uppercase)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Evolved red-line profile decorations present</td>
+<td>PASS (red bracket frame around portrait, both themes)</td>
+<td>screenshots (top-right + bottom-left red rules)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>14 non-EN /<lang>/ → 200</td>
+<td>PASS (14/14)</td>
+<td>reachability.txt</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>PASS (14/14; ar+fa rtl)</td>
+<td>localization.txt</td>
+</tr>
+<tr>
+<td>3</td>
+<td>In-language hero + nav (no English leaks)</td>
+<td>PASS (14/14 translated)</td>
+<td>l10n-content.txt</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Language switcher opens (15) + navigates</td>
+<td>PASS (15 items; DE click → /de/, htmlLang=de)</td>
+<td>switcher-axe-results.json</td>
+</tr>
+<tr>
+<td>4</td>
+<td>45 PDFs (CV+CoverLetter+Portfolio × 15) → 200 + application/pdf +
+non-trivial</td>
+<td>PASS (45/45; 202KB–754KB)</td>
+<td>pdfs.txt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>downloads.js offers 15 langs</td>
+<td>PASS (ALL15 array; modal renders 15 rows)</td>
+<td>downloads.js; pw-audit-results.json</td>
+</tr>
+<tr>
+<td>5</td>
+<td>axe-core EN home — serious/critical = 0</td>
+<td>PASS (0 total violations)</td>
+<td>axe-en-home.json</td>
+</tr>
+<tr>
+<td>5</td>
+<td>axe-core ru home — serious/critical = 0</td>
+<td>PASS (0 total)</td>
+<td>axe-ru-home.json</td>
+</tr>
+<tr>
+<td>5</td>
+<td>axe-core ar home (RTL) — serious/critical = 0</td>
+<td>PASS (0 total)</td>
+<td>axe-ar-home-rtl.json</td>
+</tr>
+<tr>
+<td>5</td>
+<td>axe-core product detail — serious/critical = 0</td>
+<td>PASS (0 total)</td>
+<td>axe-product-helixtrack.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Hamburger ≤760px opens nav (aria-expanded toggles)</td>
+<td>PASS (375px: false→true)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Theme toggle</td>
+<td>PASS (light→dark at 375/768/1280)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Back-to-top</td>
+<td>PASS (present + visible after scroll)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Download modal opens (15 langs)</td>
+<td>PASS (15 rows, all widths)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Article viewer opens/closes</td>
+<td>UNVERIFIED — no reachable trigger (Note B)</td>
+<td>pw-audit-results.json (triggerPresent:false)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>No broken images</td>
+<td>PASS (0 at 375/768/1280)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>No horizontal overflow</td>
+<td>PASS (0 at 375/768/1280)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>No console errors</td>
+<td>PASS (0 everywhere)</td>
+<td>pw-audit-results.json</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Sitemap valid + hreflang</td>
+<td>PASS (16 hreflang = 15 langs + x-default)</td>
+<td>root.html, sitemap.xml</td>
+</tr>
+<tr>
+<td>7</td>
+<td>JSON-LD valid; name = Miloš Vasić (diacritics)</td>
+<td>PASS (1 block, valid, <span class="citation"
+data-cites="type">@type</span> WebSite)</td>
+<td>root.html</td>
+</tr>
+<tr>
+<td>7</td>
+<td>No twitter:site content=“@” (#43 fix holds)</td>
+<td>PASS (no twitter:site tag at all)</td>
+<td>root.html</td>
+</tr>
+<tr>
+<td>7</td>
+<td>og/meta sane</td>
+<td>PASS (og:title/desc/url/image/type, canonical, twitter:card)</td>
+<td>root.html</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Network 404 scan — home</td>
+<td>PASS (0 responses ≥400)</td>
+<td>pw-audit-results.json (network.home)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Network 404 scan — product page</td>
+<td>PASS (0 responses ≥400)</td>
+<td>pw-audit-results.json (network.product)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="defects-found">Defects found</h2>
+<p>None. No FAIL results. Two informational notes below (neither is a
+live-site defect — no broken requests, no user-visible breakage).</p>
+<h3 id="note-a-fraunces-fonts-absent-by-design-not-a-defect">Note A —
+Fraunces fonts absent (by design, not a defect)</h3>
+<p>The brief expected assets/od/fraunces/* to serve 200. On live v1.6.0,
+Fraunces is NOT used: served od/milosvasic.css defines only <span
+class="citation" data-cites="font-face">@font-face</span> for Anton, and
+the stack is <code>Anton,"Space Grotesk",sans-serif</code> /
+<code>"Inter",sans-serif</code> /
+<code>"JetBrains Mono",monospace</code>. Probed Fraunces paths 404, but
+nothing references them, so zero broken font requests (network scan: 0
+responses ≥400). The restyle evolved away from Fraunces. N/A vs. stale
+brief expectation, not a defect.</p>
+<h3 id="note-b-article-viewer-modal-has-no-reachable-trigger">Note B —
+Article-viewer modal has no reachable trigger</h3>
+<p>articles.js (200, loads cleanly) implements a “Read more” article
+modal fetching articles/<lang>/<slug>.html from [data-article] triggers.
+Homepage article-card “Read more” buttons instead link to
+/products/*.html detail pages (real 200 pages); there are no
+[data-article] triggers anywhere reachable and no article/blog/news URLs
+in the sitemap. Modal open/close is UNVERIFIABLE from live pages (no
+content to open). Not a defect — no article content is wired up.</p>
+<h2 id="key-confirmations-adversarial-highlights">Key confirmations
+(adversarial highlights)</h2>
+<ul>
+<li>Design renders live, not fallback: hero computed font-family
+<code>Anton,"Space Grotesk",sans-serif</code>, text-transform uppercase,
+document.fonts reports Anton status “loaded”. Verified light/dark/390px
+mobile.</li>
+<li>Red-line profile decoration = crimson bracket frame around portrait
+(top-right + bottom-left rules), both themes; accent
+<code>--od-accent:#a31e39</code> (light) / <code>#f05a6f</code>
+(dark).</li>
+<li>a11y: 0 axe violations (serious/critical/moderate/minor all 0) on
+all four sampled pages incl. RTL Arabic.</li>
+<li>All 45 PDFs served (200, application/pdf, 202KB–754KB); download
+modal renders all 15 languages.</li>
+<li>Zero console errors and zero HTTP≥400 across every page/viewport
+exercised.</li>
+</ul>
+<h2 id="artifacts-this-directory">Artifacts (this directory)</h2>
+<ul>
+<li>HTML: root.html, sitemap.xml, langhtml/<lang>.html ×14</li>
+<li>CSS/JS/fonts: style.css, od-milosvasic.css, downloads.js,
+articles.js, anton.woff2</li>
+<li>Sweeps: reachability.txt, pdfs.txt, localization.txt,
+l10n-content.txt</li>
+<li>Playwright: pw-audit.js + pw-audit-results.json; pw-switcher-axe.js
++ switcher-axe-results.json</li>
+<li>Screenshots: shot-home-desktop-light.png (+-full),
+shot-home-desktop-dark.png (+-full), shot-home-mobile-390.png
+(+-full)</li>
+<li>axe JSON: axe-en-home.json, axe-ru-home.json, axe-ar-home-rtl.json,
+axe-product-helixtrack.json</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>anti-patterns</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">anti-patterns</h1>
+</header>
+<h1 id="anti-patterns">Anti-Patterns</h1>
+<p>Each entry is a concrete failure this repository has already hit or
+explicitly forbids, with the file that records it.</p>
+<h2 id="git-submodules">Git / submodules</h2>
+<ul>
+<li><strong><code>git submodule update --init --recursive</code> on this
+umbrella.</strong> It fails. <code>milosvasic.ru</code> embeds
+<code>red-elf/Upstreamable</code>, whose own <code>.gitmodules</code> is
+a broken 0-byte gitlink. Init only what you need, non-recursively:
+<code>git submodule update --init vasic.digital milosvasic.ru</code>
+(<code>README.md:34-40</code>; same reasoning in the
+<code>.github/workflows/ci.yml</code> header, deviation (a)).</li>
+<li><strong>Direct <code>git add</code> / <code>git commit</code> /
+<code>git push</code> on the main repo.</strong> Forbidden; use the
+project’s commit wrapper (<code>CLAUDE.md:95-96</code>). The wrapper
+runs <code>git add .</code>, so <code>.gitignore</code> must be accurate
+before invoking it (<code>CLAUDE.md:180-181</code>).</li>
+<li><strong>Force-push.</strong> Requires explicit per-session
+authorization <em>and</em> a green §9.1.5 post-op gate
+(<code>CLAUDE.md:97-98</code>).</li>
+<li><strong>Writing a governance carrier into an owned submodule from
+the umbrella.</strong> §3 requires the submodule commit to land first;
+<code>Constitution.md</code> §102 stages drafts instead. A draft must
+keep its <code>.staged</code> suffix — a file named
+<code>CLAUDE.md</code> inside <code>docs/.../propagation/</code> would
+be counted by the propagation gates as a real carrier and fail
+them.</li>
+<li><strong>“Fixing” a third-party repo to make a gate pass.</strong>
+<code>Constitution.md</code> §103. Four of the five carriers the
+propagation gates report MISSING are third-party and are known-excluded,
+not bugs.</li>
+</ul>
+<h2 id="build-scripts">Build / scripts</h2>
+<ul>
+<li><strong>Hardcoded absolute paths.</strong> <em>(Occurred; fixed; now
+machine-enforced.)</em> <code>_tools/deploy-langs.sh</code> once set
+<code>ROOT</code> to a literal macOS path under <code>/Volumes/</code>,
+and <code>_tests/playwright.config.js</code> carried the same prefix for
+its two static roots; CI worked around both with a symlink instead of
+fixing the configs. The shape of the bug is what makes it worth keeping:
+<code>deploy-langs.sh</code> runs <code>set -uo pipefail</code>
+<strong>without <code>-e</code></strong>, so the failed <code>cd</code>
+was silent and the script went on to commit and push both site
+submodules from the wrong directory. <strong>Fixed:</strong>
+<code>deploy-langs.sh:14</code> derives <code>ROOT</code> from
+<code>${BASH_SOURCE[0]}</code> and line 15 makes the <code>cd</code>
+fatal; <code>playwright.config.js:7</code> uses
+<code>path.resolve(__dirname, '..')</code>; the CI symlink is removed; a
+sweep cleared 33 occurrences across 18 files. <strong>What prevents a
+relapse:</strong> <code>scripts/audit-hardcoded-paths.sh</code> runs as
+CI Gate 0 and fails the build on any machine-specific absolute root.
+Derive instead —
+<code>$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)</code>
+in bash, <code>path.resolve(__dirname, '..')</code> in CJS,
+<code>Path(__file__).resolve().parents[N]</code> in python;
+<code>$HOME</code>, <code>~</code> and env overrides are fine. Full
+history in <code>knowledge/discoveries.md</code>.</li>
+<li><strong>“Re-fixing” a comment that documents a fixed bug.</strong>
+Several files carry comment-only mentions of the old literal root
+(<code>deploy-langs.sh:8</code>, the <code>ci.yml</code> header, the
+audit script’s own <code>PATTERN</code>). The audit strips comment-only
+lines for exactly this reason: documenting the bug is not the bug.</li>
+<li><strong>Editing generated site HTML by hand.</strong> The site
+submodules are outputs of <code>_tools/gen/</code>; hand edits are lost
+on the next regeneration.</li>
+<li><strong>Faking an artifact when a tool is missing.</strong>
+<code>deploy-langs.sh</code> warns and skips the PDF build when
+<code>pandoc</code>/<code>weasyprint</code> are absent — “never a faked
+artifact” (<code>_tools/deploy-langs.sh:46-49</code>). Gate 5 likewise
+degrades to a reasoned SKIP when poppler/tesseract are missing
+(<code>README.md:50-52</code>).</li>
+</ul>
+<h2 id="tooling-indexing">Tooling / indexing</h2>
+<ul>
+<li><strong>Indexing <code>_tests/evidence/</code>
+semantically.</strong> Embedding it cost roughly 14 of the ~15 hours a
+full index needed and returned screenshots and run logs as search hits.
+Excluded via <code>.lumenignore</code>; everything else is still
+indexed.</li>
+<li><strong><code>codegraph index</code> on an existing
+database.</strong> It discards the existing DB — the wizard uses
+<code>codegraph sync</code> when <code>.codegraph/codegraph.db</code>
+exists and <code>codegraph init</code> when it does not
+(<code>docs/setup-agents-wizard/README.md</code>, step 7).</li>
+</ul>
+<h2 id="reporting">Reporting</h2>
+<ul>
+<li><strong>Treating the absence of a gate as a pass.</strong> Stated
+twice, verbatim, in <code>CLAUDE.md:192-193</code> and at the end of
+<code>Constitution.md</code>.</li>
+<li><strong>Recording an undecided contradiction as an
+“override”.</strong> That would claim an authorization nobody gave
+(<code>Constitution.md</code>, “Open conflicts” preamble).</li>
+</ul>
+</body>
+</html>

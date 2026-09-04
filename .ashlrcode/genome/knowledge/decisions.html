@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>decisions</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">decisions</h1>
+</header>
+<h1 id="architectural-decision-records">Architectural Decision
+Records</h1>
+<blockquote>
+<p>Each non-obvious decision gets an ADR entry. Append — do not rewrite
+history.</p>
+</blockquote>
+<hr />
+<h2 id="adr-0000-initialize-genome">ADR-0000: Initialize genome</h2>
+<ul>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-08-27</li>
+<li><strong>Context:</strong> This project now uses an ashlr genome so
+the agent can route grep/recall through retrieval instead of re-reading
+files (~-84% token savings on repeated queries).</li>
+<li><strong>Decision:</strong> Store durable context in
+<code>.ashlrcode/genome/</code> keyed by the manifest so retrieval stays
+cheap and deterministic.</li>
+<li><strong>Consequences:</strong> Agents must keep the genome current
+as the project evolves. Stale knowledge sections degrade retrieval
+quality.</li>
+</ul>
+<hr />
+<h2
+id="adr-0001-inherit-governance-by-pointer-block-not-import">ADR-0001:
+Inherit governance by pointer block, not <code>@import</code></h2>
+<ul>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-08-26 (recorded in
+<code>CLAUDE.md:54-66</code>)</li>
+<li><strong>Context:</strong> §11.4.35 invariant 6 declares the native
+<code>@constitution/CLAUDE.md</code> import and the portable
+<code>## INHERITED FROM</code> pointer block
+<strong>equivalent</strong>.
+<code>submodules/constitution/CLAUDE.md</code> is 654 KB and
+<code>Constitution.md</code> is 1.53 MB — a native import would load
+~165k tokens into every session before any work begins.</li>
+<li><strong>Decision:</strong> All five root carriers use the pointer
+block. Nothing from the corpus is copied; the one bounded exception is
+the nine-item “Critical base rules restated” block, which the
+constitution itself authors at
+<code>templates/AGENTS.project.md.template</code> for exactly this
+purpose.</li>
+<li><strong>Consequences:</strong> Read anchors on demand
+(<code>grep -n '^### §11.4.35 '</code>), never eagerly.
+<code>scripts/gates/lib/pointer_carrier.sh</code> recognises the form,
+so the propagation gates still classify these carriers correctly.</li>
+</ul>
+<hr />
+<h2
+id="adr-0002-place-the-governance-submodule-at-submodulesconstitution">ADR-0002:
+Place the governance submodule at
+<code>submodules/constitution/</code></h2>
+<ul>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-08-26 (<code>Constitution.md</code> path
+note; <code>CLAUDE.md:41-47</code>)</li>
+<li><strong>Context:</strong> The constitution’s own prose and templates
+use a top-level <code>constitution/</code> path in every example.</li>
+<li><strong>Decision:</strong> This repository uses
+<code>submodules/constitution/</code> — the §11.4.28 dependency-layout
+form. <code>find_constitution.sh</code> resolves it natively (its
+candidate list is <code>constitution</code> then
+<code>submodules/constitution</code>).</li>
+<li><strong>Consequences:</strong> Every quoted
+<code>constitution/&lt;file&gt;</code> in a universal clause means
+<code>submodules/constitution/&lt;file&gt;</code> here. This
+substitution is the <strong>only</strong> systematic edit made while
+instantiating the project template. The five owned-submodule
+<code>CLAUDE.md</code> files still use the <code>constitution/</code>
+form.</li>
+</ul>
+<hr />
+<h2
+id="adr-0003-exclude-submodulessuperspec-from-the-owned-set">ADR-0003:
+Exclude <code>submodules/superspec</code> from the owned set</h2>
+<ul>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-08-26 (<code>Constitution.md</code> §103
++ superspec subsection)</li>
+<li><strong>Context:</strong> <code>submodules/superspec</code> →
+<code>git@github.com:WangX0111/superspec.git</code>.
+<code>WangX0111</code> is outside every operator-listed org
+(<code>milos85vasic</code>, <code>vasic-digital</code>,
+<code>HelixDevelopment</code>).</li>
+<li><strong>Decision:</strong> Third-party. No §4 tag mirroring, no
+§11.4.157 carrier propagation, no §11.4.156 CI action, no
+<code>helix-deps.yaml</code> <code>deps</code> entry (a comment
+instead). Same treatment for <code>milosvasic.ru/Upstreamable</code>
+(<code>red-elf/Upstreamable</code>, a fourth-level repository).</li>
+<li><strong>Consequences:</strong> The propagation gates discover
+vendored example carriers inside it and report them MISSING. Those
+findings are <strong>known-excluded</strong> and documented, never
+“fixed” by writing into a repository this project does not own. The
+sweep still exits non-zero on them — exclusion means “not ours to fix”,
+never “suppressed”.</li>
+</ul>
+<hr />
+<h2
+id="adr-0004-carve-the-governance-submodule-out-of-4-tag-mirroring">ADR-0004:
+Carve the governance submodule out of §4 tag mirroring</h2>
+<ul>
+<li><strong>Status:</strong> Accepted — and explicitly flagged as a
+<em>project</em> decision</li>
+<li><strong>Date:</strong> 2026-08-26 (<code>Constitution.md</code>,
+“the governance submodule itself”)</li>
+<li><strong>Context:</strong> <code>submodules/constitution</code> is
+own-org (<code>HelixDevelopment/HelixConstitution</code>) but is not a
+product submodule. Its release line (<code>v1.0.0…</code>) is unrelated
+to this repository’s (<code>v1.7.1</code>, <code>v1.7.2</code>,
+<code>v1.8.0</code>).</li>
+<li><strong>Decision:</strong> It is declared in
+<code>helix-deps.yaml</code> as a dependency but is not in the §4
+tag-mirroring block.</li>
+<li><strong>Consequences:</strong> The universal §4 wording is
+<em>“every owned submodule”</em> and carves out no governance submodule,
+so this is a deviation recorded openly so the operator can reverse it —
+not a universal rule.</li>
+</ul>
+<hr />
+<h2
+id="adr-0005-propagation-is-staged-in-the-umbrella-applied-by-the-operator">ADR-0005:
+Propagation is staged in the umbrella, applied by the operator</h2>
+<ul>
+<li><strong>Status:</strong> Accepted; the resulting gap (G7) is
+<strong>OPEN</strong></li>
+<li><strong>Date:</strong> 2026-08-26 (<code>Constitution.md</code>
+§102)</li>
+<li><strong>Context:</strong> §3 requires the submodule commit and push
+to land <strong>before</strong> the parent captures the pointer.</li>
+<li><strong>Decision:</strong> Never write a governance carrier into an
+owned submodule working tree from the umbrella. Drafts live at
+<code>docs/constitution-adoption/propagation/&lt;submodule&gt;/</code>
+with a <strong><code>.staged</code></strong> suffix; the operator
+applies them per <code>.../propagation/APPLY.md</code>.</li>
+<li><strong>Consequences:</strong> The suffix is load-bearing — the
+propagation gates discover carriers by exact filename, so a draft named
+<code>CLAUDE.md</code> inside this repository would be counted as a real
+carrier and fail the gate. Until the operator applies them, the
+propagation gaps stay open and are stated as such.</li>
+</ul>
+<hr />
+<h2 id="adr-0006-keep-the-root-ci-workflow-despite-11.4.156a">ADR-0006:
+Keep the root CI workflow despite §11.4.156(A)</h2>
+<ul>
+<li><strong>Status:</strong> <strong>UNRESOLVED — operator decision,
+deliberately not acted on</strong></li>
+<li><strong>Date:</strong> 2026-08-26 (<code>Constitution.md</code>
+OC-1; <code>CLAUDE.md:170-173</code> gap G4)</li>
+<li><strong>Context:</strong> §11.4.156(A) forbids any active workflow
+at the root of a governed repository, with no escape hatch.
+<code>.github/workflows/ci.yml</code> is active here and advertised by a
+badge at <code>README.md:3</code>. Before it existed the only Actions in
+play was a Jekyll <em>deploy</em>; nothing ran the test suite.</li>
+<li><strong>Decision:</strong> Neither disable nor override. Record it
+as an open conflict. Disabling today would remove the only mechanical
+check that exists and put nothing in its place, because the §11.4.75
+local layers are absent (gap G5).</li>
+<li><strong>Consequences:</strong> Release-blocker state, knowingly
+held. Three resolutions exist and none may be picked by an agent: (1)
+disable per §11.4.156(B) <em>after</em> standing up the local layers,
+(2) record an explicit <code>Override §11.4.156</code>,
+<ol start="3" type="1">
+<li>keep both and accept the state.
+<code>milosvasic.ru/.github/workflows/pages.yml</code> is the same
+conflict inside an owned submodule (OC-2).</li>
+</ol></li>
+</ul>
+<hr />
+<h2
+id="adr-0007-exclude-_testsevidence-from-semantic-indexing-only">ADR-0007:
+Exclude <code>_tests/evidence/</code> from semantic indexing only</h2>
+<ul>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> recorded in <code>.lumenignore</code></li>
+<li><strong>Context:</strong> 4,526 tracked evidence files against 95
+real source files in <code>_tests/</code>. Embedding them cost ~14 of
+the ~15 hours a full index needed and made search return screenshots and
+logs.</li>
+<li><strong>Decision:</strong> One line in <code>.lumenignore</code>:
+<code>_tests/evidence/</code>. Everything else — all source, all
+submodules, all docs — is still indexed. The tree stays
+<strong>tracked</strong> in git (<code>.gitignore</code> has an explicit
+<code>!_tests/evidence/</code>).</li>
+<li><strong>Consequences:</strong> Semantic search cannot find run
+artifacts; use <code>git</code>/<code>ls</code> for those. Reversible by
+deleting the line and re-running <code>lumen index .</code>.</li>
+</ul>
+<hr />
+<h2 id="adr-nnnn-template">ADR-NNNN: <em>Template</em></h2>
+<ul>
+<li><strong>Status:</strong> Proposed | Accepted | Superseded</li>
+<li><strong>Date:</strong> YYYY-MM-DD</li>
+<li><strong>Context:</strong> …</li>
+<li><strong>Decision:</strong> …</li>
+<li><strong>Consequences:</strong> …</li>
+</ul>
+</body>
+</html>

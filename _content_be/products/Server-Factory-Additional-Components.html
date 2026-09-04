@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>Дапаможныя кампаненты інструментарыя Server
+Factory.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>Акрамя Mail Server Factory і асноўнага фрэймворка, арганізацыя
+Server-Factory ўключае некалькі меншых кампанентаў: «фабрыкі» для
+асобных сэрвісаў (Web Service, SonarQube, Caching Proxy), дэкларатыўныя
+канфігурацыйныя пакеты (Docker/Stack/Software Definitions) і агульныя
+Utils. Гэтая старонка аб’ядноўвае іх без прыкрас — некаторыя знаходзяцца
+на ранняй стадыі распрацоўкі ці маюць толькі намёкі на дакументацыю —
+замест таго, каб падаваць іх як цалкам гатовыя прадукты.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Група рэпазіторыяў, што падтрымліваюць Server Factory:
+Web-Service-Factory, SonarQube-Factory і Caching-Proxy-Factory
+(інструменты правізанання для асобных сэрвісаў, пераважна на ранняй
+стадыі); Docker/Stack/Software-Definitions (дэкларатыўныя
+канфігурацыйныя пакеты, якія выкарыстоўваюцца фрэймворкам); і Utils
+(дапаможныя сродкі для доступу да SSH і агульныя інструменты). Усе яны
+грунтуюцца на Core Framework.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Гэтая старонка аб’ядноўвае астатнія рэпазіторыі Server-Factory, бо
+паасобку большасць з іх невялікія ці наўмысна недакументаваныя, і
+падаваць кожны як гатовы прадукт было б перабольшваннем іх сталасці. Яны
+падзяляюцца на тры групы. <strong>Фабрыкі сэрвісаў</strong> паўтараюць
+шаблон Mail Server Factory для іншых роляў сервераў:
+<strong>Caching-Proxy-Factory</strong> («Запусціце ўласны кэшавальны
+проксі-сервер») пералічвае кэшавальны проксі, самападпісаны сертыфікат і
+HTTP-эндпоінт для атрымання сертыфікатаў бяспекі як ключавыя магчымасці;
+<strong>SonarQube-Factory</strong> («Запусціце ўласны сервер SonarQube»)
+арыентавана на выкарыстанне ў распрацоўцы праграмнага забеспячэння; а
+<strong>Web-Service-Factory</strong> стварае і канфігуруе вэб-сервер для
+разгортвання такіх мэт, як вэб-сайты і мікрасэрвісы. Усе тры з’яўляюцца
+праектамі Kotlin, пабудаванымі на аснове Core Framework, але іх
+публічныя README-файлы ў асноўным з’яўляюцца заглушкамі («Tbd.» для
+сумяшчальнасці, спецыфікацый, наладкі і выкарыстання) — таму іх
+канкрэтныя магчымасці па-за заяўленымі намерымі НЕПАЦВЕРДЖАНЫЯ.
+<strong>Канфігурацыйныя пакеты</strong> —
+<strong>Docker-Definitions</strong>, <strong>Stack-Definitions</strong>
+і <strong>Software-Definitions</strong> — гэта дэкларатыўныя рэпазіторыі
+канфігурацый, якія фрэймворк выкарыстоўвае для стварэння/разгортвання
+вобразаў Docker, стэкаў і праграмнага забеспячэння; яны з’яўляюцца
+версійна зафіксаванымі наборамі даных, а не асобнымі праграмамі.
+<strong>Utils</strong> прапануе агульныя дапаможныя сродкі для
+сямейства, у тым ліку скрыпт <code>init_ssh_access.sh</code>, які
+генеруе ключ SSH і ўсталёўвае яго на аддалены хост для забеспячэння
+доступу root без пароля для наступнага правізанання. Разам гэтыя
+кампаненты дапаўняюць інструментар правізанання вакол флагманскага Mail
+Server Factory.</p>
+<h2 id="чаму-мы-гэта-стварылі">Чаму мы гэта стварылі</h2>
+<p>Мадэль Server Factory створана для абагульнення: калі вы можаце
+правізанаць паштовы сервер па дэкларатыўным апісанні, той жа рухавік
+павінен мець магчымасць правізанаць і вэб-серверы, кэшавальныя проксі, і
+серверы кантролю якасці кода — карыстаючыся паўторна выкарыстоўваемымі
+канфігурацыйнымі пакетамі і агульнымі ўтылітамі замест спецыяльнай
+логікі для кожнай ролі. Гэтыя рэпазіторыі — гэта працэс абагульнення ў
+дзеянні, які распаўсюджвае правераны шаблон на новыя тыпы сервераў. Іх
+каштоўнасць тут — як доказ маштабавасці мадэлі; іх сталасць
+адрозніваецца, і гэтая старонка наўмысна адрознівае, што з’яўляецца
+толькі накірункам, а што ўжо гатова.</p>
+<p>Змест</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні-зважана">Чаму гэта змяняе
+правілы гульні (зважана)</h2>
+<p>У сукупнасці яны дэманструюць магчымасць паўторнага выкарыстання
+Асноўнай платформы на розных тыпах сервераў і аддзяляюць дэкларатыўныя
+дадзеныя (Азначэнні) ад выканання (фабрыкі). Паасобку фабрыкі паслуг
+знаходзяцца на ранняй стадыі і павінны падавацца як кірунак развіцця, а
+не гатовы прадукт.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Адна сістэма разгортвання, якая абагульняе ролі
+пошты/вэб/кеш-проксі/SonarQube.</li>
+<li>Дэкларатыўныя пакеты Азначэнняў (Docker/Stack/Software) аддзеленыя
+ад рухавіка выканання.</li>
+<li>Агульныя ўтыліты (напрыклад, аўтаматызаваны запуск без пароляў праз
+SSH), якія паўторна выкарыстоўваюцца ў фабрыках.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Выкарыстанне аднаго рухавіка для розных роляў
+сервераў:</strong> вырашана шляхам пабудовы кожнай фабрыкі на базе
+Асноўнай платформы.</li>
+<li><strong>Аддзяленне канфігурацыі ад кода:</strong> вырашана праз
+рэпазіторыі Азначэнняў як версійна зафіксаваныя пакеты дадзеных.</li>
+<li><strong>(НЕПРАВЕРАНА):</strong> README фабрык паслуг з’яўляюцца
+часовымі; поўнасць іх рэалізацыі немагчыма праверыць па публічных
+дакументах — падаваць як раннюю стадыю.</li>
+</ul>
+<h2 id="тэхналагічны-стэк-чаму-як">Тэхналагічны стэк (чаму + як)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Фабрыка вэб-паслуг, Фабрыка SonarQube,
+Фабрыка кеш-проксі (пабудаваныя на Асноўнай платформе).</li>
+<li><strong>Shell</strong> — Утыліты і пакеты Азначэнняў
+(скрыпты/канфігурацыі).</li>
+<li><strong>Gradle</strong> — Працэс зборкі/тэставання
+<code>./gradlew test</code> для ўсіх фабрык.</li>
+<li><strong>Docker</strong> — Мэтавае асяроддзе выканання, апісане праз
+Docker-Азначэнні.</li>
+<li><strong>SSH / OpenSSH</strong> — Аўтаматызаваны запуск без пароляў
+праз утыліты.</li>
+<li><strong>SonarQube</strong> — Сервер, які разгортвае Фабрыка
+SonarQube (і для якога Mail Server Factory паведамляе чысты
+статус).</li>
+</ul>
+<blockquote>
+<p>Заўвага аб шчырасці: большасць гэтых рэпазіторыяў з’яўляюцца форкамі
+ўнутры арганізацыі; дакументацыя фабрык паслуг мае часовы характар і
+пазначана як НЕПРАВЕРАНА згодна з §11.4.6 статута. Яны займаюць ніжэйшы
+прыярытэт у параўнанні з Mail Server Factory і Асноўнай платформай.</p>
+</blockquote>
+</body>
+</html>

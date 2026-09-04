@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>Ниједан праћени документ не може изаћи из синхронизације —
+садржајно хеширан, двосмеран, атомичан.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>Docs Chain је универзални, Go-имплементиран двосмерни мотор за
+пропагацију зависности између докумената и база података. Када се било
+који члан регистрованог ланца промени — Markdown извор, HTML/PDF/DOCX
+извоз или SQLite база података — он то открива путем хеша садржаја и
+пропагира промену кроз све повезане чланове атомично.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Go мотор који одржава документе и базе података у синхронизацији.
+Користећи Салса-стил инкременталног прекомпутирања заснованог на хешу
+садржаја преко DAG-а (Канов тополошки редослед, рано одсецање, двосмерне
+синхронизационе гране, атомично преименовање + SQLite трансакциони
+комитови), он регенерише извозе кад год се било који повезан артефакт
+промени.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Docs Chain је оно што направите када сте већ једном превише пута
+написали исти крхки схелл скрипт „регенериши PDF када се Markdown
+промени”. Он замењује читав тај жанр ручно писане синхронизационе лепила
+правим мотором. Моделира документе и базе података пројекта као чланове
+ланца и, када се било који члан промени, пропагира ту промену кроз све
+повезане чланове у свим декларисаним смеровима — регенеришући и извозећи
+атомично тако да ниједан праћени артефакт никада не може изаћи из
+синхронизације. Дизајн позајмљује своју строгост директно из света
+инкременталних буилд система, а не из скриптовања: откривање промена
+заснива се на <strong>хешу садржаја, а не на времену
+модификације</strong>, па <code>touch</code> не покреће ништа, а
+једнобајтна измена покреће тачно оне поновне изградње које треба — без
+лажних аларма, без пропуштених промена. Формално изражено у једној
+реченици, то је Салса-стил инкременталног прекомпутирања заснованог на
+хешу садржаја преко DAG-а, са Кановим тополошким редоследом, раним
+одсецањем које елиминише непромењене подстабла, декларисаним двосмерним
+<code>sync</code> гранама са ауторитетом, и атомичним преименовањем плус
+SQLite трансакционим комитовима, тако да пад система усред пропагације
+никада не може оставити делимично написан извоз. Дистрибуира се као
+<code>vasic-digital</code> подмодул и користи као основни део
+HelixConstitution подмодула, па сваки пројекат који усвоји устав добија
+Docs Chain одмах и региструје сопствене ланце преко YAML по контексту.
+Имплементација је искрена у погледу статуса (према уставу §11.4.6): Фазе
+1–4 (основни DAG + хеширање, адаптери/трансформације чворова,
+координатор пропагације са атомичношћу, конфигурационо вођени
+мулти-контекстни CLI са
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)
+су имплементиране и тестиране; Фаза 4б додаје генеричке двосмерне
+уграђене функције <code>md-to-sqlite</code>/<code>sqlite-to-md</code>
+(чисти Go, промена на нивоу реда, бајт-стабилан кружни ток) и уграђену
+функцију <code>colorize-html</code>; Фаза 5 обухвата свеобухватне
+реал-binary енд-то-енд тестове и означена је као ГРЕЕН. Фазе 6–7
+(дистрибуција устава, АТМОСпхере повезивање) остају ПЛАНИРАНЕ и доступне
+само оператерима. Herald је први прави downstream потрошач,
+синхронизујући корпус од 66 докумената у више формата који верификује
+чистоћу.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Документација, извози и базе података се разилазе чим се одржавају
+ручно или помоћу крхких скрипти. Docs Chain синхронизацију чини
+механичком, прецизном на основу хеша садржаја и атомичном, тако да
+промена било где у ланцу исправно и безбедно ажурира све низводно (и
+узводно).</p>
+<h2 id="зашто-је-ово-револуционарно">Зашто је ово револуционарно</h2>
+<p>Оно што доноси су ригорозне гаранције исправности, које аутори
+компајлера и буилд-система сматрају саморазумљивим – графови зависности
+засновани на хеширању садржаја, минимално понављање израчунавања,
+атомичне промене – али их усмерава на документацију и базе података,
+домен који је до сада преживљавао захваљујући црон пословима и добрим
+намерама. Права двосмерна синхронизација значи да се однос између
+изворног материјала и његовог извоза одржава у оба смера, тако да
+„документација није ажурна” и „извоз се не поклапа са извором” престају
+да буду понављајући багови и постају стања која систем једноставно неће
+дозволити.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Инкрементално поновно израчунавање засновано на хешу садржаја (а не
+на времену измене) над усмереним ацикличним графом (DAG) са раним
+прекидом.</li>
+<li>Двосмерна синхронизација са експлицитно дефинисаним ауторитетом
+(документација ↔︎ извоз ↔︎ SQLite).</li>
+<li>Атомична промена имена + SQLite трансакциони комит за безбедно
+ширење промена чак и у случају пада система.</li>
+<li>Чист Go <code>md-to-sqlite</code>/<code>sqlite-to-md</code> кружни
+процес са детекцијом одступања на нивоу редова.</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Лажна поновна изградња:</strong> решено детекцијом хеша
+садржаја уместо временских ознака.</li>
+<li><strong>Делимичне/корумпиране измене:</strong> решено атомичном
+променом имена и SQLite трансакцијама.</li>
+<li><strong>Исправно редослед извршавања са више чланова:</strong>
+решено Кахновим тополошким сортирањем са раним прекидом.</li>
+<li><strong>Поштено извештавање о могућностима:</strong> решено
+означавањем сваке фазе као ИМПЛЕМЕНТИРАНО или ПЛАНИРАНО према
+§11.4.6.</li>
+</ul>
+<h2 id="технолошки-стек-зашто-како">Технолошки стек (зашто + како)</h2>
+<ul>
+<li><strong>Go</strong> — цео погон (<code>internal/hash</code>,
+<code>graph</code>, <code>adapter</code>, <code>orchestrator</code>,
+<code>config</code>, <code>state</code>, <code>runner</code>,
+<code>cmd/docs_chain</code>).</li>
+<li><strong>DAG + Кахново тополошко сортирање</strong> — редослед
+зависности са раним прекидом.</li>
+<li><strong>SQLite (чист Go модернц)</strong> — чланови базе података и
+трансакциони комити.</li>
+<li><strong>fsnotify</strong> — <code>watch</code> даемон за преношење
+промена у реалном времену.</li>
+<li><strong>YAML цонфиг</strong> — регистрација ланаца по
+контексту.</li>
+<li><strong>exec: трансформације</strong> — прикључиви генератори
+Markdown→HTML/PDF/DOCX.</li>
+</ul>
+<blockquote>
+<p>Поштење у плану развоја: Фазе 6–7 (дистрибуција устава, повезивање са
+АТМОСфером) су ПЛАНИРАНЕ / доступне само оператерима – нису још
+испоручене.</p>
+</blockquote>
+</body>
+</html>

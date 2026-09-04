@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p>المحتوى</p>
+<p><strong>كل تنبيه يصل إلى الوجهة الصحيحة — دون الحاجة إلى صيغة
+أوامر.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>يقوم Herald باستيعاب أحداث النظام وتوزيعها بشكل موثوق عبر قنوات
+إشعارات متعددة لضمان وصول كل تنبيه إلى المكان المناسب. يتفاعل المشتركون
+بلغة طبيعية بسيطة؛ حيث يستنتج Herald القصد من خلال نظام ثلاثي المستويات
+(مسار الأوامر السريع → استنتاج القصد عبر LLM → العودة إلى الاستيضاح عند
+الحاجة).</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>نظام استيعاب الأحداث وتوزيع الإشعارات عبر قنوات متعددة. يقوم Herald
+بتوجيه أحداث النظام بشكل موثوق إلى الوجهات الصحيحة عبر قنوات المراسلة،
+ويسمح للمشتركين بالتحدث بلغة طبيعية بسيطة — حيث يحل القصد من خلال مسار
+الأوامر السريع، واستنتاج LLM، وخيار العودة إلى الاستيضاح عند الغموض.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>Herald هو العمود الفقري للإشعارات الذي يضمن وصول حدث النظام بالفعل
+إلى مكان يمكن للإنسان التصرف بناءً عليه — تلك الطبقة غير البراقة ولكنها
+حيوية للمهمة، والتي تفشل فيها معظم أنظمة التنبيه المحلية بصمت. يقوم
+باستيعاب الأحداث وتوزيعها بشكل موثوق عبر قنوات إشعارات متعددة، مما يغلق
+الباب أمام حالات الفشل المعتادة حيث يُسقط التنبيه، أو يُوجَّه إلى قناة ميتة،
+أو يُدفن تحت الضوضاء حتى يفوت الأوان لاتخاذ إجراء. لكن التوصيل الموثوق
+ليس سوى نصف القصة؛ النصف الآخر يتعلق بما يحدث عندما يرغب الإنسان في
+الرد. هنا يرفض Herald الصفقة المعتادة التي تفرض على المستخدمين حفظ صيغة
+أوامر صارمة للتفاعل مع بوت التنبيهات. ببساطة، يكتب المشتركون بلغة طبيعية
+بسيطة، ويقوم Herald بتحديد ما يقصدونه من خلال نظام ثلاثي المستويات
+مدروس: مسار سريع يتعرف فورًا على الأوامر الصريحة، ثم استنتاج القصد بناءً
+على LLM (عبر Claude Code) للرسائل الحرة، وأخيرًا خيار العودة إلى
+الاستيضاح الذي يرد ويضع علامات ويسأل سؤالًا عندما يكون القصد غامضًا حقًا.
+هذا السلم “التعرف → الاستنتاج → الاستيضاح” هو الفلسفة التصميمية بأكملها
+في صورة مصغرة — حيث يبقى الحال الشائع فوريًا وحتميًا، ويُعالج الحال المرن
+بواسطة نموذج، والحال غير المؤكد لا يُحل أبدًا بتخمين أعمى قد يؤدي إلى
+اتخاذ إجراء خاطئ. كما يقوم Herald بنمذجة المشاركة والإسناد: متغير بيئة
+اسم المشغل (<code>HERALD_&lt;CHANNEL&gt;_OPERATOR_USERNAME</code>) وعقد
+المشاركة/الإسناد يدفعان حقلي
+<code>created_by</code>/<code>assigned_to</code> ووضع علامات الإشعارات
+(@)، بحيث يكون واضحًا من فعل ماذا ولمن يتم الإشعار. من الناحية الإدارية،
+يرث Herald Helix Constitution كوحدة فرعية متكاملة ويتبع قواعدها، وهو
+أيضًا مستهلك مبكر للإنتاج لـ Docs Chain — حيث يتم توصيل كامل مجموعة
+الوثائق المكونة من 66 مستندًا (من Markdown إلى HTML/PDF/DOCX) عبر تحويلات
+<code>exec:</code> لـ Docs Chain والتحقق من صحتها. يعتمد Herald بشكل
+أساسي على أدوات Shell/Go مع مواصفات متعددة الطبقات (التعاقب من V1 إلى V2
+إلى V3 إلى V4) وأدلة إعداد المشغل لكل قناة على حدة للمرسلات وموزعي
+LLM/العملاء.</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>تفشل التنبيهات بصمت — تُرسل إلى القناة الخطأ، أو تُسقط، أو تتطلب صيغة
+أوامر صارمة لن يتذكرها المستخدمون. تم بناء Herald لضمان التوزيع الموثوق
+ولتمكين الناس من الرد بلغة طبيعية، بحيث تكون الإشعارات موثوقة وسهلة
+التصرف بناءً عليها.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-هذا-النظام-نقطة-تحول">لماذا يُعدّ هذا النظام نقطة
+تحول</h2>
+<p>إنه يدمج شيئين يُشترى كل منهما عادةً بشكل منفصل — توجيه الأحداث عبر
+قنوات متعددة بطريقة موثوقة، وواجهة لغة طبيعية — في نظام واحد حيث يتحدّث
+المشغلون ببساطة، فيفهم البرنامج ما يقصدونه. لكن التفصيل الذي يجعله جديرًا
+بالثقة في بيئات الإنتاج الحقيقية هو نظام التنبيهات الذي يفضّل الاستفسار
+على إطلاق إنذارات خاطئة، وهو ما يسمح له بالتدخل في العمليات الفعلية دون
+مخاوف.</p>
+<h2 id="ما-الجديد-في-هذا-النظام">ما الجديد في هذا النظام</h2>
+<ul>
+<li>نظام ثلاثي المستويات لفهم المقاصد: مسار الأوامر السريع → استدلال LLM
+→ الاستيضاح والاستفسار.</li>
+<li>تفاعل المشتركين عبر اللغة الطبيعية (دون الحاجة لتعلم صيغ
+الأوامر).</li>
+<li>عقد تحديد المسؤوليات الذي يدير
+<code>created_by</code>/<code>assigned_to</code> مع إمكانية الإشارة عبر
+@.</li>
+<li>مستهلك حقيقي لـ Docs Chain (مجموعة وثائق مؤلفة من 66 مستندًا، متعددة
+الصيغ، وموثقة).</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>غموض المقاصد في اللغة الطبيعية:</strong> تم حلّه عبر السلم
+الثلاثي للتعرف والاستدلال والاستيضاح بدلاً من التخمين العشوائي.</li>
+<li><strong>التوزيع الموثوق:</strong> تم حلّه عبر تصميم يعتمد على استيعاب
+البيانات ثم توزيعها عبر قنوات متعددة لضمان وصول التنبيهات إلى الوجهة
+الصحيحة.</li>
+<li><strong>تحديد المسؤوليات عبر القنوات:</strong> تم حلّه عبر متغير اسم
+المستخدم للمشغل وعقد تحديد المسؤوليات.</li>
+<li><strong>انحراف الوثائق:</strong> تم حلّه عبر ربط مجموعة الوثائق بـ
+Docs Chain مع تحويلات موثقة.</li>
+</ul>
+<h2 id="التقنية-المستخدمة-السبب-وكيفية-العمل">التقنية المستخدمة (السبب
+وكيفية العمل)</h2>
+<ul>
+<li><strong>Go</strong> — منطق الأحداث والتوجيه الأساسي (يتكيف مع أنماط
+اللغة الخاصة بكل مؤسسة).</li>
+<li><strong>Shell</strong> — أدوات المشغلين ونصوص الإعداد.</li>
+<li><strong>شفرة Claude (LLM)</strong> — مستوى استدلال المقاصد للرسائل
+الحرة.</li>
+<li><strong>محولات قنوات المراسلة</strong> — توزيع الإشعارات عبر قنوات
+متعددة.</li>
+<li><strong>Docs Chain</strong> — خط أنابيب بناء وتوثيق الوثائق (من
+Markdown إلى HTML/PDF/DOCX).</li>
+<li><strong>الوحدة الفرعية Helix Constitution</strong> — الحوكمة
+والقواعد الموروثة.</li>
+</ul>
+</body>
+</html>

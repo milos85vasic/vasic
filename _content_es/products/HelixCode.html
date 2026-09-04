@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCode</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCode</h1>
+</header>
+<h1 id="helixcode">HelixCode</h1>
+<p><strong>La plataforma de desarrollo distribuido AI que divide el
+trabajo, lo preserva y nunca pierde tu progreso.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>HelixCode es una plataforma de desarrollo distribuido AI de nivel
+empresarial basada en Go, que divide el trabajo de desarrollo en tareas
+inteligentes distribuidas a través de una red de trabajadores
+gestionados por SSH, con puntos de control automáticos y retroceso para
+garantizar que ningún avance se pierda. Unifica la integración con
+múltiples proveedores de LLM, flujos de trabajo completos del ciclo de
+desarrollo y entrega multiplataforma bajo interfaces REST, CLI, TUI y
+MCP.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>HelixCode es una plataforma de desarrollo distribuido AI escrita en
+Go. Divide el trabajo en tareas inteligentes a través de redes de
+trabajadores basados en SSH, preserva el progreso con puntos de control
+automáticos y retroceso, integra múltiples proveedores de LLM y gestiona
+el ciclo completo de desarrollo mediante interfaces REST, CLI, TUI y
+MCP.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>HelixCode es una plataforma de desarrollo distribuido AI de nivel
+empresarial (<code>dev.helix.code</code>, MIT) construida en torno a una
+promesa que su eslogan hace literal: dividir el trabajo, preservarlo y
+no perder nunca el hilo. Está diseñada para la división inteligente de
+tareas, la preservación automática del trabajo y los flujos de
+desarrollo multiplataforma, y está escrita en Go para satisfacer las
+demandas de concurrencia y portabilidad de un único binario que exige la
+computación distribuida, con puntos de control automáticos, retroceso y
+monitoreo en tiempo real como primitivas de primera clase, no como
+complementos opcionales.</p>
+<p>Su arquitectura superpone una capa de interfaz REST + WebSocket + MCP
+API sobre un conjunto de servicios básicos especializados: autenticación
+y gestión de sesiones JWT, gestión de grupos de trabajadores basados en
+SSH con monitoreo de salud, gestión de tareas con puntos de control y
+manejo de dependencias, gestión de proyectos y flujos de trabajo, y una
+capa unificada de proveedores LLM, todo ello persistente en PostgreSQL,
+con Redis disponible como nivel opcional de coordinación y
+almacenamiento en caché. Los trabajadores distribuidos se instalan
+automáticamente en una red, por lo que escalar el sistema es tan
+sencillo como indicar al servidor una máquina en lugar de configurarla
+manualmente. Las interfaces multiusuario abarcan CLI, interfaz de
+terminal, REST y frameworks móviles, de modo que la misma plataforma es
+accesible desde un script, una terminal o una aplicación.</p>
+<p>HelixCode gestiona un ciclo de desarrollo completo de principio a
+fin: los flujos de planificación, construcción, pruebas y
+refactorización se ejecutan automáticamente con conciencia de
+dependencias y seguimiento de contexto multisecuencial, de manera que un
+esfuerzo de larga duración mantiene su continuidad incluso ante
+interrupciones o cambios de máquina. Integra múltiples proveedores de
+LLM —llama.cpp, Ollama y OpenAI— bajo una única interfaz, añade
+selección de modelos con conciencia de hardware que detecta
+CPU/GPU/memoria disponibles y adapta el modelo a la máquina, y soporta
+estrategias de razonamiento avanzadas como <em>chain-of-thought</em> y
+<em>tree-of-thoughts</em> para problemas que requieren más de un solo
+paso. El Model Context Protocol se implementa a través de múltiples
+transportes para el intercambio estandarizado de herramientas y
+contexto, y las notificaciones multicanal (Slack, Discord, correo
+electrónico, Telegram) mantienen informados a los equipos mientras
+avanza el trabajo distribuido. Es compatible con Linux, macOS, Windows,
+Aurora OS y SymphonyOS.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>El desarrollo distribuido y asistido por AI suele perder contexto y
+progreso cuando las tareas se dividen entre máquinas o se interrumpen.
+HelixCode se diseñó para hacer que la división de tareas sea inteligente
+y la preservación del trabajo, automática. Así, un esfuerzo de
+desarrollo a gran escala puede desglosarse, distribuirse en una red de
+trabajadores, establecer puntos de control y reanudarse o revertirse sin
+perder el estado.</p>
+<h2 id="por-qué-es-un-cambio-radical">Por qué es un cambio radical</h2>
+<p>Convierte el desarrollo distribuido con AI en algo <em>duradero</em>:
+una capacidad que nunca fue práctica cuando los equipos unían estas
+piezas manualmente. Tres elementos que normalmente existen en tres
+herramientas distintas se integran en una sola plataforma: cómputo
+distribuido (redes de trabajadores SSH con instalación automática y
+monitoreo de salud), asistencia para desarrollo con AI (LLM
+multiproveedor con razonamiento y llamadas a herramientas) y
+automatización de flujos de trabajo de ciclo completo. El tejido
+conectivo es el establecimiento de puntos de control respaldado por base
+de datos: como el estado de las tareas, los puntos de control y las
+dependencias se almacenan en PostgreSQL, un trabajo que abarca múltiples
+máquinas y sesiones puede revertirse o reanudarse exactamente donde se
+detuvo. Las interrupciones y el trabajo dividido dejan de ser una fuente
+de pérdida de progreso para convertirse en un evento rutinario y
+recuperable.</p>
+<h2 id="qué-hay-de-innovador">Qué hay de innovador</h2>
+<ul>
+<li>La preservación del trabajo como primitiva central: establecimiento
+automático de puntos de control y reversión aplicados a tareas de
+desarrollo <em>distribuidas</em>, de modo que el progreso sobrevive a
+interrupciones y fallos de máquina en lugar de desaparecer con
+ellos.</li>
+<li>Selección de modelos con conciencia de hardware que inspecciona la
+CPU/GPU/memoria detectada y asigna cada tarea a un modelo que la máquina
+pueda ejecutar de manera óptima, sin necesidad de ajustes manuales por
+trabajador.</li>
+<li>Una plataforma, cinco puertas de entrada: REST, WebSocket, CLI, TUI
+y MCP, con MCP expuesta a través de múltiples protocolos para que
+herramientas y agentes puedan integrarse según su forma de
+conexión.</li>
+<li>Alcance multiplataforma que va más allá del trío de escritorio
+habitual para incluir Aurora OS y SymphonyOS, ampliando la flota de
+trabajadores a plataformas que la mayoría de las herramientas
+ignoran.</li>
+</ul>
+<h2 id="mayores-desafíos-técnicos-y-cómo-los-resolvimos">Mayores
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>No perder trabajo en tareas distribuidas e
+interrumpibles.</strong> Cuando un trabajo se divide entre máquinas,
+cualquier fallo o interrupción suele dejar varado lo que estaba en
+ejecución. Modelamos la tarea misma como portadora de puntos de control
+y dependencias, almacenados en PostgreSQL, de modo que el sistema puede
+revertirse al último estado válido o reanudarse desde él: una
+durabilidad que reside en la capa de datos, no en un frágil estado en
+memoria.</li>
+<li><strong>Gestionar una flota de trabajadores heterogénea.</strong>
+Una red de máquinas con Linux, macOS, Windows, Aurora y SymphonyOS es un
+objetivo en constante cambio en cuanto a disponibilidad y configuración.
+Lo manejamos con un servicio dedicado de agrupación de trabajadores que
+realiza registro basado en SSH, instalación automática en nuevos nodos y
+monitoreo continuo de salud, manteniendo así la flota conocida y
+controlable a medida que las máquinas entran y salen.</li>
+<li><strong>Heterogeneidad de proveedores y hardware.</strong> Los
+backends de LLM y las máquinas que los ejecutan varían enormemente en
+capacidades. Lo ocultamos tras una interfaz unificada de proveedores de
+LLM y lo combinamos con detección de hardware (CPU/GPU/memoria) que
+impulsa una selección inteligente de modelos, de modo que el modelo
+adecuado se despliega en la máquina correcta sin que quien lo invoca
+deba razonar sobre ninguno de los dos aspectos.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go (1.26+ módulo interno)</strong> — seleccionado por su
+concurrencia basada en goroutines y su salida en un único binario,
+exactamente lo que necesita un sistema de trabajadores distribuidos:
+paralelismo económico para la orquestación y un binario autónomo que se
+autoinstala en cualquier nodo. Incluye todos los servicios principales y
+los binarios CLI/server.</li>
+<li><strong>Gin (marco HTTP)</strong> — elegido por ofrecer una capa
+REST rápida y minimalista, con baja sobrecarga; sirve la superficie
+<code>/api/v1</code> (autenticación, trabajadores, tareas, proyectos)
+con la que interactúa cada cliente.</li>
+<li><strong>PostgreSQL 15+ (vía pgx/v5)</strong> — seleccionado como
+sistema de registro duradero, ya que el checkpointing y el rollback
+exigen persistencia transaccional; alberga el esquema de computación
+distribuida de 11 tablas (usuarios, trabajadores, tareas, proyectos,
+sesiones, llm_providers, notificaciones) que hace posible la
+preservación del trabajo.</li>
+<li><strong>Redis 7+ (opcional, go-redis/v9)</strong> — elegido como
+capa opcional de caché y coordinación que acelera los caminos críticos
+sin convertirse en una dependencia obligatoria, de modo que una
+implementación mínima funcione únicamente con Postgres.</li>
+<li><strong>SSH</strong> — seleccionado como transporte de control de
+trabajadores precisamente por estar ya ampliamente disponible y ser
+seguro; gestiona el registro de trabajadores, la autoinstalación y la
+ejecución remota de comandos en todo el pool sin necesidad de desplegar
+primero un agente personalizado.</li>
+<li><strong>Model Context Protocol (MCP)</strong> — elegido para el
+intercambio estandarizado de herramientas y contextos, permitiendo que
+herramientas y agentes externos se integren mediante un protocolo
+abierto; implementado con soporte multitransporte para adaptarse a los
+clientes dondequiera que se conecten.</li>
+<li><strong>Proveedores LLM (llama.cpp, Ollama, OpenAI)</strong> —
+seleccionados para abarcar tanto la inferencia local como la alojada
+bajo una única interfaz unificada, de modo que la selección consciente
+del hardware pueda dirigir una tarea a un modelo local o alojado sin que
+el solicitante note la diferencia.</li>
+</ul>
+<h2 id="estado-y-notas-de-transparencia">Estado y notas de
+transparencia</h2>
+<ul>
+<li><strong>Estado: beta.</strong> El archivo README se autodefine como
+“COMPLETAMENTE FINALIZADO / todas las 5 fases”; sin embargo, esta
+completitud es declarada por el proyecto y no ha sido verificada de
+forma independiente, por lo que se considera en fase beta.</li>
+<li>Todos los detalles anteriores provienen del archivo README del
+repositorio; las frases de marketing (eslóganes) son de carácter
+editorial y no reflejan métricas técnicas de origen.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix principal.</p>
+</body>
+</html>

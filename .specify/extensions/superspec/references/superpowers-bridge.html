@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>superpowers-bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">superpowers-bridge</h1>
+</header>
+<h1 id="superpowers-bridge-reference">Superpowers Bridge Reference</h1>
+<p>This document describes how superspec detects, invokes, and adapts
+obra/superpowers skills. The SKILL.md references this document when a
+command needs superpowers integration details.</p>
+<h2 id="detection-logic">Detection Logic</h2>
+<p>Superspec checks for superpowers skills at these paths, in order of
+precedence:</p>
+<ol type="1">
+<li><strong>Project-local</strong>:
+<code>$PROJECT_DIR/.agents/skills/{skill-name}/SKILL.md</code></li>
+<li><strong>User-global</strong>:
+<code>~/.agents/skills/{skill-name}/SKILL.md</code></li>
+</ol>
+<p>A skill is considered <strong>available</strong> if its
+<code>SKILL.md</code> file exists at either path. Project-local skills
+take precedence over user-global.</p>
+<h3 id="detection-steps">Detection Steps</h3>
+<p>When a superspec command needs a superpowers skill:</p>
+<ol type="1">
+<li>Determine the skill name from the mapping table below</li>
+<li>Check project-local path first (use Glob or Read tool)</li>
+<li>If not found, check user-global path</li>
+<li>If found: log “Found {skill-name} at {path}” and proceed with
+enhanced mode</li>
+<li>If not found: log “Superpowers {skill-name} not detected, using
+built-in fallback” and proceed with fallback mode</li>
+</ol>
+<h2 id="skill-mapping">Skill Mapping</h2>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 40%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>Superspec Command</th>
+<th>Superpowers Skill Name</th>
+<th>Skill Directory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.superspec.brainstorm</code></td>
+<td><code>brainstorming</code></td>
+<td><code>brainstorming/</code></td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.tasks</code></td>
+<td><code>writing-plans</code></td>
+<td><code>writing-plans/</code></td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.execute</code></td>
+<td><code>executing-plans</code></td>
+<td><code>executing-plans/</code></td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.execute</code></td>
+<td><code>subagent-driven-development</code></td>
+<td><code>subagent-driven-development/</code></td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.execute</code></td>
+<td><code>test-driven-development</code></td>
+<td><code>test-driven-development/</code></td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.review</code></td>
+<td><code>requesting-code-review</code></td>
+<td><code>requesting-code-review/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="invocation-pattern">Invocation Pattern</h2>
+<p>When a superpowers skill is detected, the agent follows this
+pattern:</p>
+<h3 id="step-1-read-the-skill">Step 1: Read the Skill</h3>
+<pre><code>Read ~/.agents/skills/{skill-name}/SKILL.md</code></pre>
+<p>Parse the skill’s instructions, process steps, and output
+expectations.</p>
+<h3 id="step-2-adapt-context">Step 2: Adapt Context</h3>
+<p>Before following the skill’s process, establish context adaptation
+rules:</p>
+<ul>
+<li><strong>Input context</strong>: Pass relevant spec-kit artifacts as
+context
+<ul>
+<li>Constitution: <code>.specify/memory/constitution.md</code></li>
+<li>Spec: <code>specs/NNN/spec.md</code></li>
+<li>Plan: <code>specs/NNN/plan.md</code> (if exists)</li>
+<li>Tasks: <code>specs/NNN/tasks.md</code> (if exists)</li>
+</ul></li>
+<li><strong>Output location</strong>: All outputs go to the
+<code>.specify/</code> structure
+<ul>
+<li>Superpowers may default to <code>docs/superpowers/</code> — redirect
+to <code>.specify/</code></li>
+<li>Brainstorming insights → update spec.md (Edge Cases, Open Questions,
+Brainstorm Log)</li>
+<li>Writing-plans output → merge into
+<code>specs/NNN/tasks.md</code></li>
+<li>Code review findings → report to user, optionally write to checklist
+file</li>
+</ul></li>
+<li><strong>Naming conventions</strong>: Use spec-kit conventions
+<ul>
+<li>Feature numbering: NNN (001, 002, …)</li>
+<li>File naming: spec.md, plan.md, tasks.md (not design-doc.md,
+blueprint.md)</li>
+</ul></li>
+</ul>
+<h3 id="step-3-follow-the-skills-process">Step 3: Follow the Skill’s
+Process</h3>
+<p>Execute the superpowers skill’s steps as documented in its SKILL.md,
+but with the adapted context. The skill’s methodology is the authority;
+only the input/output locations are adapted.</p>
+<h3 id="step-4-integrate-results">Step 4: Integrate Results</h3>
+<p>After the superpowers skill’s process completes: - Verify outputs are
+in the correct <code>.specify/</code> locations - Update any
+cross-references (e.g., tasks.md referring to spec.md) - Log what was
+done in the relevant tracking section (e.g., Brainstorm Log)</p>
+<h2 id="skill-specific-adaptation-rules">Skill-Specific Adaptation
+Rules</h2>
+<h3 id="brainstorming-speckit.superspec.brainstorm">brainstorming →
+<code>/speckit.superspec.brainstorm</code></h3>
+<p><strong>Process adaptation</strong>: - Follow the brainstorming
+skill’s questioning protocol (one question at a time, Socratic method,
+challenge assumptions) - Apply questions to the target spec document -
+Record insights in the spec’s “Open Questions” section and “Brainstorm
+Log” - The skill may produce a “design document” — fold its insights
+back into the existing spec.md rather than creating a separate file</p>
+<p><strong>Output mapping</strong>: | Superpowers Output | Superspec
+Destination | |——————–|———————–| | Design document | Update spec.md Edge
+Cases + Open Questions | | Clarified requirements | Update spec.md
+Functional Requirements | | Resolved questions | Update spec.md Open
+Questions table (mark Resolved) |</p>
+<h3 id="writing-plans-speckit.superspec.tasks">writing-plans →
+<code>/speckit.superspec.tasks</code></h3>
+<p><strong>Process adaptation</strong>: - Follow the writing-plans
+skill’s task decomposition methodology - Structure the output using
+superspec’s <code>tasks-template.md</code> format - Apply execution
+markers (<code>[TDD]</code>, <code>[REVIEW]</code>,
+<code>[SUBAGENT]</code>, <code>[P]</code>) based on the plan’s execution
+strategy section</p>
+<p><strong>Output mapping</strong>: | Superpowers Output | Superspec
+Destination | |——————–|———————–| | Implementation blueprint |
+<code>specs/NNN/tasks.md</code> | | Task dependencies | Tasks
+Dependencies section | | Parallel opportunities | Tasks marked with
+<code>[P]</code> and <code>[SUBAGENT]</code> |</p>
+<h3 id="executing-plans-speckit.superspec.execute">executing-plans →
+<code>/speckit.superspec.execute</code></h3>
+<p><strong>Process adaptation</strong>: - Follow the executing-plans
+skill’s batch processing protocol - Respect checkpoint gates defined in
+tasks.md - Apply human checkpoint protocol at every phase boundary -
+Never auto-approve — always wait for user confirmation</p>
+<p><strong>Combined with</strong>: -
+<code>subagent-driven-development</code>: For tasks marked
+<code>[SUBAGENT]</code>, follow this skill’s dispatch protocol to
+delegate work to subagents - <code>test-driven-development</code>: For
+tasks marked <code>[TDD]</code>, follow this skill’s RED-GREEN-REFACTOR
+discipline</p>
+<h3
+id="requesting-code-review-speckit.superspec.review">requesting-code-review
+→ <code>/speckit.superspec.review</code></h3>
+<p><strong>Process adaptation</strong>: - Follow the
+requesting-code-review skill’s pre-evaluation checklist - Add
+superspec-specific review dimensions: - Spec compliance (acceptance
+scenarios from spec.md) - Constitution compliance (principles from
+constitution.md) - Brainstorm coverage (edge cases from brainstorming
+sessions) - Report findings with confidence scores (0-100, threshold
+&gt;= 80)</p>
+<p><strong>Output mapping</strong>: | Superpowers Output | Superspec
+Destination | |——————–|———————–| | Review findings | Reported to user |
+| Checklist | Optional: <code>specs/NNN/checklist-review.md</code> |</p>
+<h2 id="graceful-degradation">Graceful Degradation</h2>
+<p>Every superpowers integration has a built-in fallback. The skill
+NEVER hard-fails when superpowers are not installed.</p>
+<h3 id="fallback-behavior-summary">Fallback Behavior Summary</h3>
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 22%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>Superpowers Skill</th>
+<th>Fallback</th>
+<th>Where Defined</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brainstorming</code></td>
+<td>5-category questioning protocol (boundary, error, scale, security,
+UX)</td>
+<td><a href="workflow-guide.md">workflow-guide.md</a> Phase 2</td>
+</tr>
+<tr>
+<td><code>writing-plans</code></td>
+<td>Direct template-based decomposition from plan</td>
+<td><a href="workflow-guide.md">workflow-guide.md</a> Phase 4</td>
+</tr>
+<tr>
+<td><code>executing-plans</code></td>
+<td>Sequential task walk with manual confirmation at checkpoints</td>
+<td><a href="workflow-guide.md">workflow-guide.md</a> Phase 5</td>
+</tr>
+<tr>
+<td><code>subagent-driven-development</code></td>
+<td>Sequential in-session implementation (no parallel dispatch)</td>
+<td><a href="workflow-guide.md">workflow-guide.md</a> Phase 5</td>
+</tr>
+<tr>
+<td><code>test-driven-development</code></td>
+<td>Inline TDD: write test → verify fail → implement → verify pass</td>
+<td><a href="workflow-guide.md">workflow-guide.md</a> Phase 5</td>
+</tr>
+<tr>
+<td><code>requesting-code-review</code></td>
+<td>Built-in review checklist (spec compliance, constitution, code
+quality)</td>
+<td><a href="workflow-guide.md">workflow-guide.md</a> Phase 6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fallback-quality">Fallback Quality</h3>
+<p>The built-in fallbacks are designed to be <strong>functional but
+lighter-weight</strong> than the full superpowers experience:</p>
+<ul>
+<li><p><strong>Brainstorming fallback</strong>: Covers the same 5
+categories but with simpler questioning patterns. Superpowers
+brainstorming adds Socratic method, assumption challenging, and more
+nuanced exploration.</p></li>
+<li><p><strong>Writing-plans fallback</strong>: Produces a solid task
+breakdown from the plan template. Superpowers writing-plans adds more
+sophisticated dependency analysis and parallelization
+identification.</p></li>
+<li><p><strong>Execution fallback</strong>: Walks tasks sequentially
+with manual checkpoints. Superpowers adds intelligent batching, parallel
+subagent dispatch, and automated checkpoint evaluation.</p></li>
+<li><p><strong>Review fallback</strong>: Uses a static checklist
+approach. Superpowers adds multi-agent parallel review with confidence
+scoring and false-positive filtering.</p></li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="skills-not-detected">Skills Not Detected</h3>
+<p>If superpowers skills are installed but not detected:</p>
+<ol type="1">
+<li>Verify the skill directory name matches exactly
+(case-sensitive)</li>
+<li>Verify the SKILL.md file exists inside the skill directory</li>
+<li>Check both paths: <code>.agents/skills/</code> (project) and
+<code>~/.agents/skills/</code> (global)</li>
+<li>Verify file permissions allow reading</li>
+</ol>
+<h3 id="skill-process-conflicts">Skill Process Conflicts</h3>
+<p>If the superpowers skill’s process conflicts with superspec
+conventions:</p>
+<ol type="1">
+<li>Superspec output locations always take precedence (write to
+<code>.specify/</code>)</li>
+<li>Superspec naming conventions always take precedence (spec.md,
+plan.md, tasks.md)</li>
+<li>The skill’s methodology and questioning approach take precedence
+over fallback</li>
+<li>When in doubt: follow the superpowers process, adapt only the
+outputs</li>
+</ol>
+</body>
+</html>

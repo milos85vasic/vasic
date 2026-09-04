@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1 id="opendesign-design-system">OpenDesign Design System</h1>
+<p>The single source of visual truth for <strong>both</strong> sites,
+all documents, and all PDFs, per Helix Constitution
+<strong>§11.4.162</strong> (OpenDesign is the mandatory design/token
+system — no ad-hoc CSS, no other token system). Generated with
+OpenDesign (<code>github.com/nexu-io/open-design</code>) via a verified,
+LLMsVerifier-approved model.</p>
+<h2 id="structure">Structure</h2>
+<pre><code>design-system/
+  brand-milosvasic/    milosvasic.css   DESIGN.md   # personal brand — crimson #a31e39
+  brand-vasic-digital/ vasic-digital.css DESIGN.md  # company brand — red #dc3545
+  icons/               icons.svg                     # self-hosted SVG sprite (currentColor)
+  fonts/               fonts.css + &lt;family&gt;/*.woff2  # self-hosted brand typefaces (OFL 1.1, no CDN)
+  preview/             *.html + *.png                # component gallery + rendered proof (light+dark)
+  _prompts/            *.md                          # the OpenDesign generation prompts (reproducible)</code></pre>
+<h2 id="architecture-shared-foundation-two-brand-themes">Architecture —
+shared foundation + two brand themes</h2>
+<p>Both stylesheets share an identical <strong>foundation</strong>:
+typography scale (fluid <code>clamp()</code>), spacing (4px base,
+<code>--od-space-1..12</code>), radius, shadow, motion, z-index,
+container width, and the SAME component set (<code>.od-*</code>). They
+differ <strong>only</strong> in the accent color ramp (crimson vs red)
+and the dark-accent value. This satisfies “one system governs
+everything” while keeping the personal and company brands distinct.</p>
+<ul>
+<li><strong>Tokens</strong>: CSS custom properties on <code>:root</code>
+(light) with a complete dark override in BOTH
+<code>:root[data-theme="dark"]</code> AND
+<code>@media (prefers-color-scheme: dark)</code>. Every component is
+styled <em>only</em> from tokens.</li>
+<li><strong>Components</strong>:
+<code>od-skip-link, od-btn (--primary/--secondary/--ghost + states), od-card, od-chip, od-field/od-label/od-input/od-textarea, od-header/od-nav, od-footer, od-hero, od-stat, od-section (+__eyebrow mono), od-product-card, od-product-detail (article typography), od-table, od-dialog (accessible modal), od-badge--status (--roadmap/--in-development/--beta), od-tag--license</code>.</li>
+<li><strong>Accessibility</strong>: WCAG 2.2 AA contrast (status-badge
+contrast verified/fixed per §11.4.107), <code>:focus-visible</code>
+rings, <code>prefers-reduced-motion</code>, logical properties for
+RTL.</li>
+</ul>
+<h2 id="extended-component-library-components-extended.css">Extended
+component library — <code>components-extended.css</code></h2>
+<p>A single, 100% token-driven stylesheet layered <strong>on top
+of</strong> either brand CSS (it declares no <code>:root</code> — every
+value is <code>var(--od-*)</code>, so it inherits each brand’s tokens
+and is correct for <strong>both brands</strong> and <strong>both
+themes</strong> automatically). Generated THROUGH OpenDesign in 4 themed
+batches (prompts in <code>_prompts/components/</code>, concatenated;
+§11.4.162 — no ad-hoc CSS). Every interactive control ships a
+<code>:focus-visible</code> ring (<code>--od-focus</code>),
+hover/active/selected/disabled states, ARIA-friendly class hooks, WCAG
+2.2 AA text contrast, and a <code>prefers-reduced-motion</code> guard
+per batch plus a global one.</p>
+<p>Load order: <code>&lt;link&gt;</code> brand CSS →
+<code>components-extended.css</code> →
+<code>motion/animations.css</code>.</p>
+<p>Catalog (all <code>od-</code> prefixed):</p>
+<ul>
+<li><strong>Overlays</strong>: <code>od-toast</code> +
+<code>od-toast-region</code>
+(<code>--success/--warning/--danger/--info</code>,
+<code>__icon/__body/__title/__msg/__close</code>);
+<code>od-menu</code>/<code>od-dropdown</code>
+(<code>__item[aria-disabled]/__separator/__label</code>);
+<code>od-select</code>
+(<code>__control[aria-expanded]/__chevron</code>);
+<code>od-tooltip</code> (<code>__bubble[data-placement]</code>);
+<code>od-popover</code> (<code>__arrow/__title/__body</code>);
+<code>od-fab</code> (+<code>--sm</code>).</li>
+<li><strong>Forms</strong>: <code>od-switch</code>
+(<code>__input/__track/__thumb</code>); <code>od-checkbox</code>
+(<code>__box</code>, checked + <code>:indeterminate</code>);
+<code>od-radio</code> (<code>__dot</code>); <code>od-range</code>
+(cross-browser <code>input[type=range]</code> thumb/track);
+<code>od-segmented</code> (<code>__option[aria-selected]</code>);
+<code>od-search</code> (<code>__input/__icon/__clear</code>);
+<code>od-stepper</code> (<code>__btn/__input</code>, no native
+spinners).</li>
+<li><strong>Nav + feedback</strong>: <code>od-tabs</code>
+(<code>__list/__tab[aria-selected]/__panel</code>);
+<code>od-breadcrumb</code>
+(<code>__list/__item[aria-current]/__link</code>);
+<code>od-pagination</code>
+(<code>__link[aria-current]/[aria-disabled]</code>);
+<code>od-progress</code> (+<code>--indeterminate</code>,
+<code>__bar</code>); <code>od-spinner</code> (+<code>--sm/--lg</code>,
+<code>od-visually-hidden</code> label helper); <code>od-skeleton</code>
+(+<code>--text/--circle</code>);
+<code>od-alert</code>/<code>od-banner</code>
+(<code>--success/--warning/--danger/--info</code>,
+<code>__icon/__title/__body</code>); <code>od-avatar</code>
+(+<code>--sm/--lg/--ring</code>, <code>od-avatar-group</code>);
+<code>od-empty-state</code>
+(<code>__icon/__title/__msg/__action</code>).</li>
+<li><strong>Chrome</strong>: tasteful custom scrollbar — global
+<code>html</code> + opt-in <code>.od-scroll</code> (Firefox
+<code>scrollbar-color</code>/<code>scrollbar-width</code> + WebKit
+<code>::-webkit-scrollbar*</code>), all token-colored.</li>
+</ul>
+<p>Proof: <code>preview/components.html</code> instantiates every
+component; <code>_tests/visual/visual-oracle.js</code> at full-page
+height (<code>1280x8000</code>) returns <strong>PASS</strong> in light
+<strong>and</strong> dark (0 overlap/clip/giant). WCAG spot-checks
+(toast/alert title &amp; body, dropdown item) all clear ≥4.5:1 in both
+themes. Evidence:
+<code>_tests/evidence/components/{components.{light,dark}.png,components.verdict.json,wcag-contrast.txt}</code>.</p>
+<h2 id="how-each-surface-consumes-it">How each surface consumes it</h2>
+<ul>
+<li><strong>milosvasic.ru</strong> (Jekyll):
+<code>@import</code>/<code>@use</code>
+<code>brand-milosvasic/milosvasic.css</code> into
+<code>assets/css/style.scss</code>; components use <code>.od-*</code>
+and <code>var(--od-*)</code> only.</li>
+<li><strong>vasic.digital</strong> (static): <code>&lt;link&gt;</code>
+<code>brand-vasic-digital/vasic-digital.css</code>; markup uses
+<code>.od-*</code>.</li>
+<li><strong>Docs &amp; PDFs</strong>: the same tokens feed the
+pandoc→weasyprint pipeline (composed with the constitution
+<code>styles/default-pdf.css</code>), so CV / Cover Letter / Portfolio
+share the web design language.</li>
+</ul>
+<h2 id="fonts-self-hosted-fonts">Fonts — self-hosted
+(<code>fonts/</code>)</h2>
+<p>The three brand typefaces are <strong>self-hosted</strong> under
+<code>fonts/</code> — <strong>zero CDN, zero external
+<code>@import</code></strong> (privacy / GDPR + §11.4.162 “no external
+font <span class="citation" data-cites="import">@import</span>”). All
+three are <strong>SIL Open Font License 1.1</strong> (freely
+self-hostable); the full <code>OFL.txt</code> for each sits beside its
+woff2 files.</p>
+<ul>
+<li><strong>Inter</strong> (body, <code>--od-font-body</code>) — weights
+400 / 500 / 600 / 700 — <code>fonts/inter/</code></li>
+<li><strong>Space Grotesk</strong> (display,
+<code>--od-font-display</code>) — weights 500 / 600 / 700 —
+<code>fonts/space-grotesk/</code></li>
+<li><strong>JetBrains Mono</strong> (mono, <code>--od-font-mono</code>)
+— weights 400 / 500 — <code>fonts/jetbrains-mono/</code></li>
+</ul>
+<p>The woff2 are subset by script — <strong>latin, latin-ext, cyrillic,
+cyrillic-ext</strong> (the sites include Cyrillic languages) — and
+<code>fonts.css</code> sets <code>unicode-range</code> per subset so a
+page fetches only the scripts it uses. Each family is a
+<strong>variable</strong> woff2 (one file per subset covers the whole
+weight axis); <code>fonts.css</code> emits a per-weight
+<code>@font-face</code> that pins <code>font-weight</code> to each
+instance, all with <code>font-display: swap</code> and
+<code>src: url('&lt;family&gt;/&lt;file&gt;.woff2') format('woff2')</code>,
+and <code>font-family</code> names matching the tokens exactly
+(<code>Inter</code>, <code>Space Grotesk</code>,
+<code>JetBrains Mono</code>).</p>
+<p><strong>Script coverage (honest):</strong> <strong>Space Grotesk is
+Latin-only</strong> — it has no Cyrillic, so Cyrillic <em>display</em>
+headings fall back to the body font (Inter, which does cover Cyrillic).
+<strong>Arabic and CJK glyphs are NOT present</strong> in any of these
+Latin/Cyrillic families — Arabic (<code>ar</code>) and CJK
+(<code>zh</code>/<code>ja</code>/<code>ko</code>) text falls back to the
+system stack in each brand’s <code>--od-font-*</code> token. That is
+expected and acceptable for these brand faces.</p>
+<p><strong>How pages include it</strong> — add once,
+<strong>before</strong> the brand stylesheet, so the
+<code>@font-face</code> families are defined before the tokens reference
+them:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/design-system/fonts/fonts.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/design-system/brand-</span><span class="er">&lt;</span><span class="st">brand&gt;/</span><span class="er">&lt;</span><span class="st">brand&gt;.css&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>For Jekyll (milosvasic.ru) the SCSS <code>@import</code>s the brand
+CSS; add the <code>fonts.css</code> <code>&lt;link&gt;</code> in the
+site <code>&lt;head&gt;</code> (or
+<code>@import "../fonts/fonts.css";</code> from the brand SCSS entry).
+No <code>@import</code> reaches any external host — every
+<code>src</code> is a repo-relative <code>.woff2</code>.</p>
+<p><strong>Rendered proof + validation.</strong>
+<code>fonts/preview.html</code> links only <code>fonts.css</code> and
+renders pangrams and display/body/mono samples (Latin + Cyrillic) at
+every weight. Verified with headless Chromium
+(<code>_tests/node_modules</code>): the CSS Font Loading API reports all
+three families <code>loaded</code>, the browser fetched each self-hosted
+woff2 over <code>file://</code>, and <strong>zero external
+requests</strong> were made. Evidence:
+<code>_tests/evidence/fonts/{fonts-preview.png, font-load-report.json, network-requests.txt}</code>.
+Each woff2 is a valid Web Open Font Format (Version 2) file
+(<code>file(1)</code> / <code>wOF2</code> magic).</p>
+<h2 id="reproducibility-11.4.77">Reproducibility (§11.4.77)</h2>
+<p>Regenerate a brand stylesheet:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">_tools/od/start-daemon.sh</span>                      <span class="co"># headless OpenDesign daemon (Electron runtime)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/od/generate.sh design-system/_prompts/<span class="op">&lt;</span>brand<span class="op">&gt;</span>.md design-system/brand-<span class="op">&lt;</span>brand<span class="op">&gt;</span>/<span class="op">&lt;</span>brand<span class="op">&gt;</span>.css other 24000</span></code></pre></div>
+<p>Rebuild + re-render the proof gallery:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> _tools/od/build-preview.mjs</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">NODE_PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PWD</span><span class="st">/_tests/node_modules&quot;</span> <span class="ex">node</span> _tools/od/shoot.cjs <span class="st">&#39;&lt;jobs-json&gt;&#39;</span></span></code></pre></div>
+<p>BYOK: <code>source ~/api_keys.sh</code>; provider =
+openai-compatible, base <code>https://api.mistral.ai/v1</code>, model
+<code>codestral-latest</code> (LLMsVerifier-verified,
+<code>code:true</code>, score 0.919). Keys are sourced at runtime, never
+stored.</p>
+<h2 id="evidence">Evidence</h2>
+<p><code>preview/{milosvasic,vasic-digital}-{light,dark}.png</code> —
+full-page renders of the component gallery in both themes for both
+brands (§11.4.170 spirit). Regenerate anytime with the commands
+above.</p>
+</body>
+</html>

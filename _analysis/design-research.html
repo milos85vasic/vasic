@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>design-research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">design-research</h1>
+</header>
+<h1
+id="design-technique-research-cutting-edge-portfolio-ai-company-site-pair">Design
+&amp; Technique Research — Cutting-Edge Portfolio + AI-Company Site
+Pair</h1>
+<p><strong>Date:</strong> 2026-08-05 · <strong>Scope:</strong>
+<code>milosvasic.ru</code> (Jekyll, personal/crimson),
+<code>vasic.digital</code> (static, company/red), diagrams, downloadable
+PDFs (WeasyPrint). <strong>Basis:</strong> current (2025–2026) web
+research; every item has a concrete “how to apply here” + one
+source.</p>
+<p><strong>Hard constraints these must respect</strong> (see the
+“Constraint conflicts” section at the end for specifics): -
+<strong>§11.4.162</strong> — ALL design values live in
+<strong>OpenDesign tokens consumed as a dependency</strong>. No raw
+hex/px/rem literals and <strong>no hand-authored CSS custom properties
+or inline styles</strong> in site stylesheets. Any technique below that
+mentions <code>var(--*)</code>, <code>light-dark()</code>,
+<code>clamp()</code> type, etc. must be <strong>authored in OpenDesign
+and emitted</strong>, not hand-written. Missing capability → upstream PR
+(§11.4.74), never local CSS. - <strong>Reduced-motion</strong> — every
+motion technique gates on
+<code>@media (prefers-reduced-motion: no-preference)</code>. -
+<strong>No-jank / GPU-only</strong> — animate only
+<code>transform</code>, <code>opacity</code>, and compositor-safe
+<code>filter</code>; never
+<code>width/height/top/left/box-shadow</code>. -
+<strong>Cross-browser</strong> — scroll-driven animations and
+cross-document View Transitions are progressive-enhancement only
+(Chromium-led, Firefox/Safari lagging); the base experience must be
+complete without them. - <strong>§11.4.170</strong> — every surface
+proven by host-rendered pixels (golden image-diff + OCR/vision oracle)
+per <code>screen × state × {light,dark}</code>. Motion must be forced to
+a <strong>deterministic end-state</strong> for capture (see
+conflicts).</p>
+<p>Priorities: <strong>P0</strong> = incorporate now / high leverage +
+low risk; <strong>P1</strong> = strong value, some effort or partial
+browser support; <strong>P2</strong> = nice-to-have / experimental.</p>
+<hr />
+<h2 id="high-end-portfolio-ai-company-website-design-ux">1. High-end
+portfolio / AI-company website design + UX</h2>
+<ul>
+<li><strong>P0 — Scrollytelling product narrative (structural, not
+decorative).</strong> Tie hero → feature reveals to scroll position so
+each product capability enters as the reader arrives at it.
+<em>Apply:</em> on <code>vasic.digital</code> product pages, drive
+section reveals with CSS <code>view()</code> scroll timelines (Area 2)
+instead of a JS scroll library; keep content fully present without
+scroll for no-JS/reduced-motion. Source:
+https://www.figma.com/resource-library/web-design-trends/</li>
+<li><strong>P0 — Typography-as-hero.</strong> Oversized, confident
+headline + variable-font weight axis as the primary visual, reducing
+reliance on stock imagery. <em>Apply:</em> express the hero type scale
+and weight axis as OpenDesign typography tokens (self-hosted variable
+font per §11.4.97 plan); one bold H1 per page, tokenized. Source:
+https://designmodo.com/web-design-trends/</li>
+<li><strong>P0 — Trust/credibility devices above the fold and per case
+study.</strong> Logos, metrics (“X% faster”, repo/commit counts), named
+outcomes, and real screenshots build trust in an AI-saturated market.
+<em>Apply:</em> on both sites add a tokenized “proof strip” component
+(metrics + client/tech logos) and lead every portfolio detail page with
+a quantified result line; source metrics from the existing
+<code>_analysis/github-*.json</code> / <code>gitlab-all.json</code>
+inventories. Source:
+https://www.utsubo.com/blog/web-design-trends-2026-decision-makers-guide</li>
+<li><strong>P1 — Case-study / detail-page pattern: Problem → Approach →
+Architecture diagram → Outcome → Artifacts.</strong> A repeatable spine
+makes a portfolio read as senior/systematic. <em>Apply:</em> make this
+the fixed template for portfolio detail pages; the “Architecture
+diagram” slot reuses the site diagrams, the “Artifacts” slot links the
+downloadable PDF. Source:
+https://www.theedigital.com/blog/web-design-trends</li>
+<li><strong>P1 — Human-crafted warmth signals (asymmetry, organic shape,
+custom illustration/texture).</strong> Deliberate non-template craft
+differentiates from AI-generated sameness and reads as bespoke.
+<em>Apply:</em> introduce one signature asymmetric layout motif + custom
+diagram style shared across both brands (crimson vs red variants),
+tokenized so light/dark both hold. Source:
+https://medium.com/creative-black-pug-studio/7-web-design-trends-being-shaped-by-ai-in-2026-4afbec683b34</li>
+<li><strong>P2 — Structural 3D tied to scroll/cursor (only if it earns
+its weight).</strong> 3D as a storytelling layer, not a floating
+gimmick. <em>Apply:</em> reserve for a single company-page hero on
+<code>vasic.digital</code>; must degrade to a static tokenized image for
+reduced-motion/low-power and remain optional to the page. Source:
+https://www.index.dev/blog/web-design-trends</li>
+</ul>
+<hr />
+<h2
+id="performant-web-animation-micro-interactions-zero-jank-gpu-only">2.
+Performant web animation &amp; micro-interactions (zero-jank,
+GPU-only)</h2>
+<ul>
+<li><strong>P0 — CSS scroll-driven animations
+(<code>animation-timeline: view()</code> /
+<code>scroll()</code>).</strong> Bind animation progress to scroll on
+the compositor thread — no JS, no main-thread work, smooth at 120Hz even
+under load. <em>Apply:</em> replace any JS/IntersectionObserver
+reveal-on-scroll with <code>animation-timeline: view()</code> animating
+only <code>opacity</code>/<code>transform</code>; wrap in
+<code>@supports (animation-timeline: view())</code> and
+<code>@media (prefers-reduced-motion: no-preference)</code> so
+non-supporting browsers (Firefox/Safari) and reduced-motion users get
+the static final state. Source:
+https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Scroll-driven_animations</li>
+<li><strong>P0 — <code>@starting-style</code> for enter
+animations.</strong> Native “from” state for elements entering the DOM
+(modals, toasts, cards) — removes a JS/library dependency.
+<em>Apply:</em> animate the unified OpenDesign modal open and card mount
+with <code>@starting-style</code> on
+<code>opacity</code>/<code>transform</code>; pair with
+<code>transition-behavior: allow-discrete</code> for
+<code>display</code>. Source:
+https://developer.chrome.com/blog/view-transitions-in-2025</li>
+<li><strong>P0 — Reduced-motion as the default guard, not an
+afterthought.</strong> Wrap motion in
+<code>prefers-reduced-motion: no-preference</code> and neutralize View
+Transitions with
+<code>::view-transition-group(*){animation-duration:.01s !important}</code>
+under <code>reduce</code>. <em>Apply:</em> add a single global
+reduced-motion partial to both sites’ OpenDesign motion layer; verify
+with a golden capture that forces <code>reduce</code>. Source:
+https://developer.chrome.com/blog/view-transitions-in-2025</li>
+<li><strong>P1 — Same-document View Transitions for in-page state
+(filters, tab/detail swaps).</strong> Now reaching Baseline (Firefox
+144, Oct 2025) for same-document; crossfade/shared-element morphs with
+almost no code. <em>Apply:</em> use
+<code>document.startViewTransition()</code> for portfolio filter/sort
+and light↔︎dark toggle on both sites; keep the default crossfade (don’t
+over-customize). Source:
+https://developer.chrome.com/blog/view-transitions-in-2025</li>
+<li><strong>P1 — Cross-document View Transitions + speculation rules for
+MPA navigation.</strong>
+<code>@view-transition { navigation: auto; }</code> gives app-like
+page-to-page transitions on a static/Jekyll multi-page site; prerender
+via speculation rules. <em>Apply:</em> opt both the from- and to-page
+into <code>@view-transition</code> (both must opt in), gated on
+<code>prefers-reduced-motion: no-preference</code>; Chromium/Safari
+18.2+ get it, others fall back to normal nav — no regression. Source:
+https://css-tricks.com/cross-document-view-transitions-part-1/</li>
+<li><strong>P1 — Prefer SVG/CSS over Lottie; if Lottie is unavoidable
+use dotLottie.</strong> <code>lottie-web</code> is ~60–100 KB gzipped
+and runs on the main thread; SVG/CSS is 5–10× smaller for simple/medium
+motion. <em>Apply:</em> implement icon/micro-interactions as tokenized
+CSS/SVG (loading, hover, success); only reach for <code>.lottie</code>
+(WASM, ~70–80% smaller container) for a genuinely complex
+designer-authored piece, lazy-loaded and reduced-motion-gated. Sources:
+https://www.svgator.com/blog/svg-vs-lottie/ ·
+https://www.carmenansio.com/articles/animated-icon-libraries/</li>
+<li><strong>P2 — Measure motion smoothness, don’t eyeball it.</strong>
+Track dropped-frame/jank ratio and keep animated props compositor-only.
+<em>Apply:</em> add a Motion-score/Lighthouse pass in CI and assert only
+<code>transform/opacity/filter</code> are animated (grep the emitted CSS
+in the §11.4.170 harness). Sources: https://web.dev/articles/smoothness
+· https://score.motion.dev/</li>
+</ul>
+<hr />
+<h2 id="design-system-design-token-architecture">3. Design-system /
+design-token architecture</h2>
+<ul>
+<li><strong>P0 — Three-tier tokens: primitive → semantic →
+component.</strong> Primitives = raw palette; semantic = purpose
+(<code>text/primary</code>, <code>surface/raised</code>); component =
+per-component overrides. Theming changes only the semantic layer.
+<em>Apply:</em> structure the OpenDesign workspace in these three tiers
+so the crimson vs red brand swap and light/dark are single-layer remaps
+— matches the §11.4.162 “one foundation + two brand packages” decision.
+Source:
+https://designsystemproblems.com/token-management/semantic-vs-primitive-tokens/</li>
+<li><strong>P0 — DTCG token format + Style Dictionary v4 as the emit
+pipeline.</strong> DTCG (2025.10) is the standard JSON contract; Style
+Dictionary v4 transforms it to per-platform output (CSS, SCSS, print).
+<em>Apply:</em> have OpenDesign emit DTCG, then Style Dictionary produce
+the three consumption targets the adoption plan needs — Jekyll SCSS,
+static-site CSS, and the WeasyPrint print stylesheet — from one source,
+no hand-authored vars. Source:
+https://penpot.app/blog/the-developers-guide-to-design-tokens-and-css-variables/</li>
+<li><strong>P1 — <code>light-dark()</code> for theming via a single
+token value.</strong> One CSS value carries both modes:
+<code>color: light-dark(&lt;light&gt;, &lt;dark&gt;)</code>, switched by
+<code>color-scheme</code>. <em>Apply:</em> have OpenDesign
+<strong>emit</strong> <code>light-dark()</code> into the semantic color
+tokens (do NOT hand-write it — §11.4.162), so one emitted stylesheet
+serves both themes and both golden captures. Source:
+https://sujeet.pro/articles/design-tokens-and-theming</li>
+<li><strong>P1 — Container queries for component-level
+responsiveness.</strong> Components adapt to their container, not the
+viewport — essential for cards/diagrams reused in sidebars vs
+full-width. <em>Apply:</em> author the portfolio card, proof-strip, and
+diagram-caption components with <code>@container</code> so they reflow
+correctly wherever placed; express breakpoints as OpenDesign layout
+tokens. Source:
+https://www.contentful.com/blog/design-token-system/</li>
+<li><strong>P1 — Fluid type/space via clamp() emitted as
+tokens.</strong> One responsive scale instead of stepped breakpoints.
+<em>Apply:</em> define the type/space scale in OpenDesign so it
+<strong>emits</strong> <code>clamp()</code> values into type tokens;
+sites consume <code>var(--od-*)</code> only. Source:
+https://goodpractices.design/articles/design-tokens</li>
+<li><strong>P2 — Package tokens as a reusable, versioned
+library.</strong> Semantic-layer stability lets you ship the system as a
+dependency others (or the PDF pipeline) consume. <em>Apply:</em> publish
+OpenDesign output as a versioned npm package feeding both sites + PDFs;
+treat it as the single source of truth per the adoption plan. Source:
+https://designsystem.backbase.com/latest/design-tokens/introduction-5PSH8xS5</li>
+</ul>
+<hr />
+<h2 id="enterprise-grade-pdf-resume-portfolio-weasyprint">4.
+Enterprise-grade PDF / resume / portfolio (WeasyPrint)</h2>
+<ul>
+<li><strong>P0 — Real print CSS with <code>@page</code>: margins,
+running headers/footers, page numbers.</strong> WeasyPrint supports
+<code>@page</code>, margin boxes,
+<code>@bottom-center { content: counter(page) }</code>, and controlled
+breaks. <em>Apply:</em> build <code>styles/default-pdf.css</code> (A4,
+per §11.4.73) with a branded running footer (name · page X of Y) and a
+distinct first-page <code>@page :first</code> for the cover. Source:
+https://print-css.rocks/</li>
+<li><strong>P0 — Dedicated cover page with typographic
+hierarchy.</strong> Full-bleed title, role, one-line value proposition,
+subtle brand mark; then break. <em>Apply:</em> Jinja2 template renders a
+cover section with the OpenDesign display type tokens + brand color,
+followed by <code>break-after: page</code>. Source:
+https://www.incentius.com/blog-posts/build-modern-print-ready-pdfs-with-python-flask-weasyprint/</li>
+<li><strong>P0 — Pagination hygiene: avoid orphaned headings / split
+blocks.</strong> <code>break-inside: avoid</code> on cards/rows,
+<code>break-after: avoid</code> on headings,
+<code>widows/orphans</code>. <em>Apply:</em> apply to each résumé entry
+and portfolio card so no role/project splits across a page break — a top
+signal of a “top-notch” PDF. Source:
+https://www.customjs.space/blog/print-css-cheatsheet/</li>
+<li><strong>P1 — Compose PDF styling on OpenDesign tokens, not a
+separate palette.</strong> One brand across web and print.
+<em>Apply:</em> feed the same emitted tokens into the print stylesheet
+(Style Dictionary print target) so the PDF’s color/type/spacing match
+the site exactly (§11.4.73 composition). Source:
+https://weasyprint.org/</li>
+<li><strong>P1 — Data-viz in PDFs via inline SVG (vector,
+print-crisp).</strong> WeasyPrint renders embedded SVG/images cleanly;
+vector charts stay sharp at print DPI. <em>Apply:</em> embed the site’s
+architecture/skill diagrams as inline SVG styled by print tokens (not
+raster) so downloadable PDFs stay crisp and on-brand. Source:
+https://medium.com/aardvark-infinity/weasyprint-converting-html-and-css-to-high-quality-pdfs-50bdc3911514</li>
+<li><strong>P2 — Self-host fonts + subset for the PDF.</strong>
+Embedded, subsetted variable/weight family gives correct hierarchy and
+small file size. <em>Apply:</em> embed the same self-hosted family used
+on the sites (light/regular/bold/black) via <code>@font-face</code> in
+the print CSS. Source: https://github.com/aiifabbf/resume</li>
+</ul>
+<hr />
+<h2 id="responsive-adaptive-delivery-per-device">5. Responsive /
+adaptive delivery per device</h2>
+<ul>
+<li><strong>P0 — <code>&lt;picture&gt;</code> +
+<code>srcset</code>/<code>sizes</code> with AVIF→WebP→fallback.</strong>
+AVIF ~50%+ smaller than JPEG (&gt;90% support in 2026), WebP ~25–35%
+(~97%); saves 70–90% of bytes on phones. <em>Apply:</em> wire the
+already-existing (currently unused) WebP variants on
+<code>milosvasic.ru</code> into <code>&lt;picture&gt;</code>, add AVIF,
+and set correct <code>sizes</code> per layout slot. Source:
+https://smolpix.co/blog/responsive-images-with-srcset-and-sizes-2026-guide</li>
+<li><strong>P0 — Container queries drive “the right version per
+component,” not just per viewport.</strong> Same component, correct
+layout wherever placed. <em>Apply:</em> (as in Area 3) use
+<code>@container</code> so a diagram/card serves a compact vs full
+rendition by its own width. Source:
+https://uploadcare.com/blog/responsive-images-vs-adaptive-delivery/</li>
+<li><strong>P0 — <code>loading="lazy"</code> + explicit
+<code>width</code>/<code>height</code> (CLS-safe).</strong> Defer
+offscreen images; reserve space to avoid layout shift. <em>Apply:</em>
+lazy-load below-the-fold portfolio thumbnails and diagrams; always set
+intrinsic dimensions (also helps §11.4.170 stable goldens). Source:
+https://www.xictron.com/en/blog/adaptive-image-loading-avif-lazy-shops-2026/</li>
+<li><strong>P1 — Honor data-saver / low-power intent.</strong>
+<code>prefers-reduced-data</code> (and the <code>Save-Data</code> client
+hint) let you skip heavy hero media/animation for constrained users.
+<em>Apply:</em> gate the optional 3D/Lottie/large-hero behind
+<code>@media (prefers-reduced-data: no-preference)</code> and serve a
+tokenized static image otherwise; combine with the reduced-motion guard.
+Source:
+https://uploadcare.com/blog/responsive-images-vs-adaptive-delivery/</li>
+<li><strong>P1 — Preload the LCP image, lazy everything else.</strong>
+Explicitly prioritize the hero to protect LCP. <em>Apply:</em>
+<code>fetchpriority="high"</code> + preload the hero source per
+breakpoint; never lazy-load the LCP element. Source:
+https://aibudwp.com/image-optimization-in-2025-webp-avif-srcset-and-preload/</li>
+</ul>
+<hr />
+<h2 id="multilingual-seo-technical-seo-staticjekyll-15-languages">6.
+Multilingual SEO + technical SEO (static/Jekyll, 15 languages)</h2>
+<ul>
+<li><strong>P0 — Correct, fully-reciprocal <code>hreflang</code>
+clusters + <code>x-default</code>.</strong> ~75% of implementations are
+broken; one bad/one-way tag makes Google ignore the whole cluster.
+<em>Apply:</em> generate <code>hreflang</code> in a Jekyll include from
+the language matrix so every one of the 15 locales links to all others
+<strong>and back</strong>, plus <code>x-default</code>; validate in CI
+(this is the single highest-risk SEO item for a 15-language site).
+Sources: https://ulement.com/hreflang-tags-for-multilingual-sites/ ·
+https://434group.com/blog/hreflang-cok-dilli-seo.php?lang=en</li>
+<li><strong>P0 — JSON-LD entity graph: Organization + Person + WebSite,
+then per-page types.</strong> Establish <code>vasic.digital</code> =
+Organization, Milos Vasic = Person (founder), each with stable
+<code>@id</code>s that cross-reference. <em>Apply:</em> one shared
+JSON-LD include; <code>vasic.digital</code> emits Organization,
+<code>milosvasic.ru</code> emits Person linked via
+<code>sameAs</code>/<code>worksFor</code>; product pages add
+<code>SoftwareApplication</code>, articles add <code>TechArticle</code>.
+Source: https://squin.org/structured-data/organization-schema/</li>
+<li><strong>P0 — <code>inLanguage</code> on every schema + locale-aware
+structured data.</strong> Declare each page’s language explicitly in
+JSON-LD. <em>Apply:</em> inject the page’s locale into
+<code>inLanguage</code> in the shared include so all 15 variants are
+unambiguous to search + AI crawlers. Source:
+https://searchxpro.com/structured-data-for-multilingual-seo-top-7-tips/</li>
+<li><strong>P1 — <code>SoftwareApplication</code> schema on product
+pages.</strong> Rich-result eligibility for the company’s products.
+<em>Apply:</em> add <code>SoftwareApplication</code> (name,
+<code>applicationCategory</code>, <code>operatingSystem</code>,
+<code>offers</code>/<code>aggregateRating</code> only if real) to each
+<code>vasic.digital</code> product page. Source:
+https://dev.to/dheeraj_jain/a-developers-guide-to-implementing-json-ld-structured-data-for-better-technical-seo-nmg</li>
+<li><strong>P1 — Localized sitemap with hreflang alternates.</strong> A
+sitemap that enumerates every locale + its alternates is more robust
+than head tags alone at 15-language scale. <em>Apply:</em> generate
+<code>sitemap.xml</code> with
+<code>xhtml:link rel="alternate" hreflang="…"</code> per URL from the
+same language matrix. Source:
+https://strapi.io/blog/multilingual-seo-best-practices</li>
+<li><strong>P1 — Core Web Vitals as a ranking gate
+(LCP/INP/CLS).</strong> Only ~47% of sites pass; static/SSG + the
+image/motion discipline above gives near-instant LCP and low INP.
+<em>Apply:</em> the GPU-only motion (Area 2), preloaded LCP +
+lazy/<code>srcset</code> images (Area 5), and self-hosted fonts (no
+render-blocking Google Fonts) together target green CWV; assert in
+CI/Lighthouse. Source:
+https://www.geniecrawl.com/the-ultimate-guide-to-core-web-vitals-optimization-in-2025/</li>
+</ul>
+<hr />
+<h2 id="top-10-things-to-definitely-incorporate">Top 10 things to
+definitely incorporate</h2>
+<ol type="1">
+<li><strong>Three-tier OpenDesign tokens (primitive→semantic→component),
+DTCG-emitted</strong> feeding Jekyll SCSS + static CSS + WeasyPrint from
+one source — the backbone that keeps §11.4.162 satisfiable.</li>
+<li><strong>CSS scroll-driven animations
+(<code>view()</code>/<code>scroll()</code>)</strong> for all
+reveal-on-scroll — compositor-only, replaces JS scroll libs; behind
+<code>@supports</code> + reduced-motion.</li>
+<li><strong>Reciprocal <code>hreflang</code> clusters +
+<code>x-default</code>, CI-validated</strong> across all 15 locales —
+the biggest technical-SEO risk, fixed once via a Jekyll include.</li>
+<li><strong>JSON-LD entity graph</strong> (Organization ↔︎ Person ↔︎
+WebSite, per-page
+<code>SoftwareApplication</code>/<code>TechArticle</code>,
+<code>inLanguage</code> everywhere).</li>
+<li><strong><code>&lt;picture&gt;</code> + AVIF/WebP
+<code>srcset</code>/<code>sizes</code> + preload-LCP/lazy-rest</strong>
+— wire up the existing unused WebP variants; 70–90% mobile byte savings
+and green LCP/CLS.</li>
+<li><strong>Trust/proof devices</strong> (metrics strip, real
+screenshots, quantified outcomes) on hero + every portfolio detail page,
+sourced from the existing repo/GitLab inventories.</li>
+<li><strong>Repeatable case-study spine</strong>
+(Problem→Approach→Architecture diagram→Outcome→PDF artifact) as the
+fixed portfolio detail template.</li>
+<li><strong>View Transitions</strong> — same-document (now Baseline) for
+filters/theme toggle; cross-document + speculation rules for page nav;
+default crossfade, reduced-motion-gated.</li>
+<li><strong>Enterprise PDF craft</strong> — <code>@page</code> cover +
+running footer/page numbers, <code>break-inside: avoid</code> pagination
+hygiene, inline-SVG data-viz, tokens shared with the sites.</li>
+<li><strong><code>@starting-style</code> + GPU-only micro-interactions
+in CSS/SVG</strong> (drop Lottie for simple motion; dotLottie only for
+genuinely complex pieces), honoring <code>prefers-reduced-motion</code>
+and <code>prefers-reduced-data</code>.</li>
+</ol>
+<hr />
+<h2 id="constraint-conflicts-to-flag">Constraint conflicts to flag</h2>
+<ul>
+<li><strong><code>light-dark()</code>, <code>clamp()</code> fluid type,
+container-query breakpoints, <code>@starting-style</code> values — all
+must be EMITTED BY OpenDesign, never hand-authored (§11.4.162).</strong>
+The techniques are endorsed, but the moment they appear as literal
+values or hand-written CSS custom properties in a site stylesheet they
+violate the no-escape-hatch mandate. If OpenDesign can’t yet emit a
+construct (e.g. <code>light-dark()</code>), that’s an <strong>upstream
+PR</strong> (§11.4.74), not a local <code>var()</code> definition.</li>
+<li><strong>Scroll-driven animations &amp; cross-document View
+Transitions are Chromium-led; Firefox/Safari lag.</strong> Must be
+strict progressive enhancement (<code>@supports</code>, both-page
+opt-in, complete no-JS base). They cannot be the only way content
+becomes visible — otherwise the base render fails cross-browser and
+breaks the §11.4.170 golden on non-Chromium capture.</li>
+<li><strong>Motion vs §11.4.170 rendered-pixel proof
+(nondeterminism).</strong> Scroll-driven/View-Transition intermediate
+frames are nondeterministic and will flap golden image-diffs. Capture
+must <strong>force the deterministic end-state</strong> — set
+<code>prefers-reduced-motion: reduce</code> (or seek animations to
+completion / disable <code>animation-timeline</code>) in the host-render
+harness so each <code>screen × state × {light,dark}</code> golden is
+stable. Add an explicit reduced-motion capture variant as its own
+state.</li>
+<li><strong>GPU-only rule bans common “trendy” props.</strong> Any
+3D/parallax/hover effect must animate only
+<code>transform</code>/<code>opacity</code>/compositor-safe
+<code>filter</code>; the CI check should grep emitted CSS and fail on
+animated <code>width/height/top/left/box-shadow/margin</code>.</li>
+<li><strong>AVIF/heavy hero media vs low-power/data-saver.</strong> Gate
+optional 3D/Lottie/large hero behind
+<code>prefers-reduced-data: no-preference</code> <strong>and</strong>
+<code>prefers-reduced-motion: no-preference</code>, always with a
+tokenized static fallback — otherwise you regress CWV/INP on the exact
+low-end devices the “right version per device” goal targets.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>REPORT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">REPORT</h1>
+</header>
+<h1 id="motion-interactive-widget-functional-audit">Motion &amp;
+Interactive-Widget Functional Audit</h1>
+<p>Generated: 2026-08-05T18:40:42.137Z</p>
+<p>Read-only. Both already-generated static sites were served locally
+and driven with real browser automation (Playwright: chromium + firefox
++ webkit). No site source was edited and the Go generator was not run.
+Every verdict below is backed by a live DOM measurement and, for
+state-changing interactions, a before/after screenshot pair under
+<code>screenshots/</code>.</p>
+<ul>
+<li>milosvasic.ru served from <code>milosvasic.ru/_site/</code> (port
+8482)</li>
+<li>vasic.digital served from <code>vasic.digital/</code> (port
+8481)</li>
+<li>Pages per site: landing (<code>/</code>), a product page, the
+portfolio page.</li>
+</ul>
+<h2
+id="functional-matrix-widget-x-site-x-page-chromium-deep-run">Functional
+matrix (widget x site x page — chromium deep run)</h2>
+<table>
+<thead>
+<tr>
+<th>Interaction</th>
+<th>Site</th>
+<th>landing</th>
+<th>product</th>
+<th>portfolio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scroll-reveal</td>
+<td>milosvasic.ru</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Scroll-reveal</td>
+<td>vasic.digital</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Sticky header</td>
+<td>milosvasic.ru</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Sticky header</td>
+<td>vasic.digital</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Accordion/disclosure</td>
+<td>milosvasic.ru</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Accordion/disclosure</td>
+<td>vasic.digital</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Theme toggle</td>
+<td>milosvasic.ru</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Theme toggle</td>
+<td>vasic.digital</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Language switcher</td>
+<td>milosvasic.ru</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>Language switcher</td>
+<td>vasic.digital</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Dialog/modal</td>
+<td>milosvasic.ru</td>
+<td>WORKS</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Dialog/modal</td>
+<td>vasic.digital</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Lottie</td>
+<td>milosvasic.ru</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Lottie</td>
+<td>vasic.digital</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Bounce/blink/highlight</td>
+<td>milosvasic.ru</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+<tr>
+<td>Bounce/blink/highlight</td>
+<td>vasic.digital</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+</tbody>
+</table>
+<h2 id="theme-toggle-switch-persistence-chromium">Theme toggle — switch
++ persistence (chromium)</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th>Site</th>
+<th>page</th>
+<th>button id</th>
+<th>before</th>
+<th>after</th>
+<th>bg changed</th>
+<th>persists on reload</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>milosvasic.ru</td>
+<td>landing</td>
+<td><code>#theme-btn</code></td>
+<td>light</td>
+<td>dark</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>product</td>
+<td><code>#theme-btn</code></td>
+<td>light</td>
+<td>dark</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>portfolio</td>
+<td><code>#theme-btn</code></td>
+<td>light</td>
+<td>dark</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>landing</td>
+<td><code>#od-theme-toggle</code></td>
+<td>null</td>
+<td>dark</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>product</td>
+<td><code>#od-theme-toggle</code></td>
+<td>null</td>
+<td>dark</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>portfolio</td>
+<td><code>#pf-theme-toggle</code></td>
+<td>null</td>
+<td>dark</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note: vasic.digital uses button id <code>#od-theme-toggle</code> on
+landing/product but <code>#pf-theme-toggle</code> on portfolio (each
+with its own inline handler). Both function; the id is merely
+inconsistent.</p>
+</blockquote>
+<h2 id="scroll-reveal-beforeafter-state-change-chromium">Scroll-reveal —
+before/after state change (chromium)</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Site</th>
+<th>page</th>
+<th>below-fold reveal targets</th>
+<th>before transform/opacity</th>
+<th>after transform/opacity</th>
+<th>verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>milosvasic.ru</td>
+<td>landing</td>
+<td>9</td>
+<td>matrix(1, 0, 0, 1, 0, 16) / 1</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>product</td>
+<td>0</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>portfolio</td>
+<td>6</td>
+<td>matrix(1, 0, 0, 1, 0, 16) / 1</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>landing</td>
+<td>14</td>
+<td>matrix(1, 0, 0, 1, 0, 16) / 1</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>product</td>
+<td>0</td>
+<td>matrix(1, 0, 0, 1, 0, 1.16044e-07) / 1</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>portfolio</td>
+<td>6</td>
+<td>matrix(1, 0, 0, 1, 0, 16) / 1</td>
+<td>matrix(1, 0, 0, 1, 0, 0) / 1</td>
+<td>WORKS</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Note (milosvasic.ru / product): only reveal target sits above the
+fold; revealed at load (is-visible set) — no scroll delta to
+capture.</li>
+</ul>
+<h2 id="language-switcher-chromium-landing">Language switcher (chromium,
+landing)</h2>
+<ul>
+<li><strong>milosvasic.ru</strong>: WORKS — 15 languages listed;
+aria-expanded false -&gt; true; Escape closes: true; opens via keyboard
+(Enter): true.</li>
+<li><strong>vasic.digital</strong>: absent — site has no language
+switcher control (lang-like elements found: 0).</li>
+</ul>
+<h2 id="dialog-modal-backdrop-chromium-landing">Dialog / modal +
+backdrop (chromium, landing)</h2>
+<ul>
+<li><strong>milosvasic.ru</strong>: WORKS — opens on trigger click
+(opacity 1), backdrop backdrop-filter: <code>blur(4px)</code>; Escape
+closes: true.</li>
+<li><strong>vasic.digital</strong>: absent — no reachable modal trigger
+on landing.</li>
+</ul>
+<h2
+id="long-task-jank-summary-chromium-scripted-full-page-scroll">Long-task
+/ jank summary (chromium, scripted full-page scroll)</h2>
+<p>PerformanceObserver <code>longtask</code> entries recorded while
+scripting a full scroll through each page. A task &gt; 50ms blocks the
+main thread noticeably; &gt; 200ms is a jank concern.</p>
+<table>
+<thead>
+<tr>
+<th>Site</th>
+<th>page</th>
+<th>longtask API</th>
+<th>count</th>
+<th>max ms</th>
+<th>total ms</th>
+<th>tasks&gt;50ms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>milosvasic.ru</td>
+<td>landing</td>
+<td>yes</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>product</td>
+<td>yes</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>portfolio</td>
+<td>yes</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>landing</td>
+<td>yes</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>product</td>
+<td>yes</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>portfolio</td>
+<td>yes</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="reduced-motion-re-render-prefers-reduced-motion-reduce">Reduced-motion
+re-render (prefers-reduced-motion: reduce)</h2>
+<p>Each page re-loaded under emulated reduced-motion. PASS = reveal
+content is in its final state immediately (no scroll needed) and CSS
+transitions are neutralised.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Site</th>
+<th>page</th>
+<th>browser</th>
+<th>reveal shown immediately</th>
+<th>transitions neutralised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>milosvasic.ru</td>
+<td>landing</td>
+<td>chromium</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>product</td>
+<td>chromium</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>portfolio</td>
+<td>chromium</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>landing</td>
+<td>firefox</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>landing</td>
+<td>webkit</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>landing</td>
+<td>chromium</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>product</td>
+<td>chromium</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>portfolio</td>
+<td>chromium</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>landing</td>
+<td>firefox</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>landing</td>
+<td>webkit</td>
+<td>PASS</td>
+<td>PASS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cross-browser-sanity-landing-key-interactions">Cross-browser
+sanity (landing — key interactions)</h2>
+<table>
+<thead>
+<tr>
+<th>Site</th>
+<th>interaction</th>
+<th>chromium</th>
+<th>firefox</th>
+<th>webkit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>milosvasic.ru</td>
+<td>Theme toggle</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>Scroll-reveal</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td>Language switcher</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>Theme toggle</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>Scroll-reveal</td>
+<td>WORKS</td>
+<td>WORKS</td>
+<td>WORKS</td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td>Language switcher</td>
+<td>absent</td>
+<td>absent</td>
+<td>absent</td>
+</tr>
+</tbody>
+</table>
+<h2 id="broken-or-absent-interactions-page-selector">Broken or absent
+interactions (page + selector)</h2>
+<ul>
+<li>[ABSENT] milosvasic.ru — landing — Accordion/disclosure — selector
+<code>.od-accordion__trigger</code> — no .od-accordion elements on
+page</li>
+<li>[ABSENT] milosvasic.ru — landing — Lottie — selector
+<code>.od-lottie[data-src]</code> — no .od-lottie hosts — motion.js
+Lottie path never engages on this page</li>
+<li>[ABSENT] milosvasic.ru — landing — Bounce/blink/highlight — selector
+<code>.od-bounce / .od-blink / .od-highlight</code></li>
+<li>[ABSENT] milosvasic.ru — product — Accordion/disclosure — selector
+<code>.od-accordion__trigger</code> — no .od-accordion elements on
+page</li>
+<li>[ABSENT] milosvasic.ru — product — Dialog/modal — selector
+<code>[data-dl] -&gt; #dl-modal</code></li>
+<li>[ABSENT] milosvasic.ru — product — Lottie — selector
+<code>.od-lottie[data-src]</code> — no .od-lottie hosts — motion.js
+Lottie path never engages on this page</li>
+<li>[ABSENT] milosvasic.ru — product — Bounce/blink/highlight — selector
+<code>.od-bounce / .od-blink / .od-highlight</code></li>
+<li>[ABSENT] milosvasic.ru — portfolio — Accordion/disclosure — selector
+<code>.od-accordion__trigger</code> — no .od-accordion elements on
+page</li>
+<li>[ABSENT] milosvasic.ru — portfolio — Dialog/modal — selector
+<code>[data-dl] -&gt; #dl-modal</code></li>
+<li>[ABSENT] milosvasic.ru — portfolio — Lottie — selector
+<code>.od-lottie[data-src]</code> — no .od-lottie hosts — motion.js
+Lottie path never engages on this page</li>
+<li>[ABSENT] milosvasic.ru — portfolio — Bounce/blink/highlight —
+selector <code>.od-bounce / .od-blink / .od-highlight</code></li>
+<li>[ABSENT] vasic.digital — landing — Accordion/disclosure — selector
+<code>.od-accordion__trigger</code> — no .od-accordion elements on
+page</li>
+<li>[ABSENT] vasic.digital — landing — Language switcher — selector
+<code>#lang-btn / #lang-menu</code> — site has no language switcher
+control</li>
+<li>[ABSENT] vasic.digital — landing — Dialog/modal — selector
+<code>[data-dl] -&gt; #dl-modal</code></li>
+<li>[ABSENT] vasic.digital — landing — Lottie — selector
+<code>.od-lottie[data-src]</code> — no .od-lottie hosts — motion.js
+Lottie path never engages on this page</li>
+<li>[ABSENT] vasic.digital — landing — Bounce/blink/highlight — selector
+<code>.od-bounce / .od-blink / .od-highlight</code></li>
+<li>[ABSENT] vasic.digital — product — Accordion/disclosure — selector
+<code>.od-accordion__trigger</code> — no .od-accordion elements on
+page</li>
+<li>[ABSENT] vasic.digital — product — Language switcher — selector
+<code>#lang-btn / #lang-menu</code> — site has no language switcher
+control</li>
+<li>[ABSENT] vasic.digital — product — Dialog/modal — selector
+<code>[data-dl] -&gt; #dl-modal</code></li>
+<li>[ABSENT] vasic.digital — product — Lottie — selector
+<code>.od-lottie[data-src]</code> — no .od-lottie hosts — motion.js
+Lottie path never engages on this page</li>
+<li>[ABSENT] vasic.digital — product — Bounce/blink/highlight — selector
+<code>.od-bounce / .od-blink / .od-highlight</code></li>
+<li>[ABSENT] vasic.digital — portfolio — Accordion/disclosure — selector
+<code>.od-accordion__trigger</code> — no .od-accordion elements on
+page</li>
+<li>[ABSENT] vasic.digital — portfolio — Language switcher — selector
+<code>#lang-btn / #lang-menu</code> — site has no language switcher
+control</li>
+<li>[ABSENT] vasic.digital — portfolio — Dialog/modal — selector
+<code>[data-dl] -&gt; #dl-modal</code></li>
+<li>[ABSENT] vasic.digital — portfolio — Lottie — selector
+<code>.od-lottie[data-src]</code> — no .od-lottie hosts — motion.js
+Lottie path never engages on this page</li>
+<li>[ABSENT] vasic.digital — portfolio — Bounce/blink/highlight —
+selector <code>.od-bounce / .od-blink / .od-highlight</code></li>
+</ul>
+<blockquote>
+<p>“Absent” means the effect the brief asked about does not exist on
+that page (nothing to break), not that it failed. See the matrix for the
+works/broken/absent split.</p>
+</blockquote>
+</body>
+</html>

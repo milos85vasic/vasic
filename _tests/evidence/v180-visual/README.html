@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1 id="v1.8.0-design-token-visual-regression">v1.8.0 Design-Token
+Visual Regression</h1>
+<p>Before/after visual-regression harness for the <strong>v1.8.0
+design-token change</strong>. Read-only against production; writes only
+under <code>_tests/evidence/v180-visual/</code>.</p>
+<p>The v1.8.0 change SHOULD be a <strong>palette / type / space
+refinement</strong> — a crimson tonal ramp plus fluid type &amp; spacing
+— <strong>not</strong> a layout or structural change. So geometry should
+stay near-identical between <code>before/</code> and
+<code>after/</code>; only colors (and possibly type sizing) should shift
+subtly. Any large geometric diff is a regression, not the intended
+change.</p>
+<h2 id="page-set-per-site-4-pages">Page set (per site, 4 pages)</h2>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 41%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr>
+<th>slug</th>
+<th>vasic.digital</th>
+<th>milosvasic.ru</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>home</code></td>
+<td><code>/</code></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>/products/helixtrack.html</code></td>
+<td><code>/products/catalogizer.html</code></td>
+</tr>
+<tr>
+<td><code>portfolio</code></td>
+<td><code>/portfolio/</code></td>
+<td><code>/portfolio/</code></td>
+</tr>
+<tr>
+<td><code>sr-home</code></td>
+<td><code>/sr/</code></td>
+<td><code>/sr/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="variants-3-per-page">Variants (3 per page)</h2>
+<ul>
+<li><code>desktop-light</code> — 1280px,
+<code>data-theme=light</code></li>
+<li><code>desktop-dark</code> — 1280px,
+<code>data-theme=dark</code></li>
+<li><code>mobile-light</code> — 390px,
+<code>data-theme=light</code></li>
+</ul>
+<p><strong>2 sites x 4 pages x 3 variants = 24 shots per label.</strong>
+All captures are <code>fullPage</code>.</p>
+<p>Determinism: navigation waits for <code>networkidle</code>;
+<code>prefers-reduced-motion</code> is emulated and a
+<code>*{animation:none;transition:none}</code> style is injected so
+diffs are palette-only, not motion-noise. Theme is seeded via
+<code>localStorage</code> (both sites’ keys: <code>od-theme</code>,
+<code>mv-theme</code>) plus a forced
+<code>documentElement[data-theme]</code> after load.</p>
+<h2 id="output-layout">Output layout</h2>
+<pre><code>_tests/evidence/v180-visual/
+  shoot.mjs
+  README.md
+  before/   &lt;site&gt;-&lt;page&gt;-&lt;variant&gt;.png   (current live baseline — DONE)
+  after/    &lt;site&gt;-&lt;page&gt;-&lt;variant&gt;.png    (capture after v1.8.0 deploys)</code></pre>
+<h2 id="workflow">Workflow</h2>
+<ol type="1">
+<li><p><strong>BEFORE (done)</strong> — current live, pre-token-change
+(crimson MACHINA / terminal-brutalist):</p>
+<pre><code>node _tests/evidence/v180-visual/shoot.mjs --label before</code></pre>
+<p>→ 24/24 shots, all HTTP 200.</p></li>
+<li><p><strong>AFTER</strong> — once v1.8.0 is deployed to production,
+re-run with the same page set and variants:</p>
+<pre><code>node _tests/evidence/v180-visual/shoot.mjs --label after</code></pre>
+<p>To capture a staging/preview deploy instead of live, override the
+bases:</p>
+<pre><code>VASIC_BASE=https://staging.vasic.digital \
+MILOS_BASE=https://staging.milosvasic.ru \
+node _tests/evidence/v180-visual/shoot.mjs --label after</code></pre></li>
+<li><p><strong>DIFF</strong> <code>before/</code> vs <code>after/</code>
+— filenames are identical between labels, so pairs line up 1:1.</p>
+<ul>
+<li><p><strong>pixelmatch is NOT installed</strong> in
+<code>_tests/node_modules</code> (only <code>pngjs</code> is). Either
+add it (<code>cd _tests &amp;&amp; npm i -D pixelmatch</code>) for an
+automated per-pair diff, or do a <strong>manual side-by-side</strong>
+review of each of the 24 pairs.</p></li>
+<li><p>Minimal automated diff once pixelmatch is present (writes
+<code>diff-*.png</code> and prints changed-pixel %):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// _tests/evidence/v180-visual/diff.mjs  (create if desired)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { readFileSync<span class="op">,</span> writeFileSync<span class="op">,</span> readdirSync } <span class="im">from</span> <span class="st">&#39;node:fs&#39;</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { PNG } <span class="im">from</span> <span class="st">&#39;pngjs&#39;</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pixelmatch <span class="im">from</span> <span class="st">&#39;pixelmatch&#39;</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dir <span class="op">=</span> <span class="kw">new</span> <span class="fu">URL</span>(<span class="st">&#39;.&#39;</span><span class="op">,</span> <span class="im">import</span><span class="op">.</span><span class="at">meta</span><span class="op">.</span><span class="at">url</span>)<span class="op">.</span><span class="at">pathname</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> f <span class="kw">of</span> <span class="fu">readdirSync</span>(dir <span class="op">+</span> <span class="st">&#39;before&#39;</span>)) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> a <span class="op">=</span> PNG<span class="op">.</span><span class="at">sync</span><span class="op">.</span><span class="fu">read</span>(<span class="fu">readFileSync</span>(dir <span class="op">+</span> <span class="st">&#39;before/&#39;</span> <span class="op">+</span> f))<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> b <span class="op">=</span> PNG<span class="op">.</span><span class="at">sync</span><span class="op">.</span><span class="fu">read</span>(<span class="fu">readFileSync</span>(dir <span class="op">+</span> <span class="st">&#39;after/&#39;</span> <span class="op">+</span> f))<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { width<span class="op">,</span> height } <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> out <span class="op">=</span> <span class="kw">new</span> <span class="fu">PNG</span>({ width<span class="op">,</span> height })<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> n <span class="op">=</span> <span class="fu">pixelmatch</span>(a<span class="op">.</span><span class="at">data</span><span class="op">,</span> b<span class="op">.</span><span class="at">data</span><span class="op">,</span> out<span class="op">.</span><span class="at">data</span><span class="op">,</span> width<span class="op">,</span> height<span class="op">,</span> { <span class="dt">threshold</span><span class="op">:</span> <span class="fl">0.1</span> })<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeFileSync</span>(dir <span class="op">+</span> <span class="st">&#39;diff-&#39;</span> <span class="op">+</span> f<span class="op">,</span> PNG<span class="op">.</span><span class="at">sync</span><span class="op">.</span><span class="fu">write</span>(out))<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">${</span>(<span class="dv">100</span> <span class="op">*</span> n <span class="op">/</span> (width <span class="op">*</span> height))<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">%  </span><span class="sc">${</span>f<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>(Requires equal dimensions; if <code>before</code>/<code>after</code>
+heights differ, that alone signals a layout change worth
+investigating.)</p></li>
+</ul></li>
+</ol>
+<h2 id="expectation-for-a-clean-v1.8.0">Expectation for a clean
+v1.8.0</h2>
+<ul>
+<li>Every pair has (near) identical dimensions.</li>
+<li>Diffs concentrate in colored surfaces / accents / text color — the
+crimson ramp — not in the position of elements.</li>
+<li>No new/missing sections, no reflow.</li>
+</ul>
+</body>
+</html>

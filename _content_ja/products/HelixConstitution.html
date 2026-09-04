@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixConstitution</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixConstitution</h1>
+</header>
+<h1 id="helixconstitution">HelixConstitution</h1>
+<p><strong>すべてのプロジェクトが継承する普遍的エンジニアリング憲法——機械的に強制されるアンチブラフ法、Gitサブモジュールとして共有</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixConstitutionは、単一のプロジェクト非依存型ルールブックであり、Helix/vasic-digitalプロジェクトのすべてがGitサブモジュールとして追加するものである。これは譲れないエンジニアリング規律（アンチブラフ、エビデンスのみの検証、データ／ホストの安全性、ドキュメントとテストカバレッジ）を成文化し、140以上のリポジトリ群に伝播させる。全体を一貫させるガバナンスの基盤である。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>Gitサブモジュールとして提供される普遍的かつ継承可能なConstitution。すべての利用プロジェクトが自動的に継承し、拡張は可能だが弱体化は許されない、強制的かつ譲れないルール群——アンチブラフのエビデンスゲート、偽陽性耐性、データおよびホストの安全性、カバレッジとドキュメント規律——を定義する。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixConstitutionは、Gitサブモジュールとして追加することで参加を選択したすべてのプロジェクトに共有されるエンジニアリングプラクティスの正統かつ唯一の情報源であり、コードと同様に分散されバージョン固定された「エンジニアリング法」である。その核となる<code>Constitution.md</code>は、約1MBの継続的にバージョン管理された文書で、番号付き条項群（§11.4.xの契約ファミリー、現在は§11.4.170まで）と、エージェントごとの運用マニュアル（<code>CLAUDE.md</code>、<code>AGENTS.md</code>、<code>QWEN.md</code>、<code>GEMINI.md</code>）から構成される。これらのマニュアルは本文書を参照することで、人間とすべてのCLIエージェントが同一のルールブックを共有する。継承構造は意図的に3層に分かれている：普遍的なベース（このサブモジュール）、プロジェクト層（プロジェクト独自のConstitution/CLAUDE/AGENTSで拡張可能）、そしてオプションのサブディレクトリ層である。これらは上から下へ評価され、プロジェクトはルールを<em>強化</em>することはできるが、<em>弱体化</em>することは構造的に禁じられている。その結果、140以上のリポジトリ群は、共有する規律が固定されているため、静かに分裂することはあり得ない。</p>
+<p>この文書は徹底的にドメイン非依存である。特定のベンダー名、ハードウェアSKU、ポート番号、ライブラリバージョンを記載するものはすべて、利用プロジェクト独自のConstitutionに移行しなければならず、普遍性は決して前提とされない——ルールがベースに組み込まれる前に、明確な4つのテストに合格することで<em>獲得</em>されなければならない。その哲学的な背骨はアンチブラフであり、相互に連携する契約群——§1.1偽陽性耐性、§11.4エンドユーザー品質契約、§11.4.6ノーギャンブル、§11.4.69ポジティブエビデンス分類——によって表現される。これらの組み合わせ効果は単一の明確な基準を生み出す：「テストが通る」ではなく、「実際のユーザーが機能を使える」ことがリリースの条件であり、すべての合格結果は物理的なエビデンスを引用しなければならない。付属の<code>submodules-catalogue.md</code>（142リポジトリ）は、「すでに同じ機能を持つものを保有しているか？」という問いを、新たなコードを書く前にカタログ優先の「拡張せよ、再実装するな」という反射的行動に変える。ヘルパースクリプトはサブモジュールを任意のネスト深度から検出し、すべてのコミットを4つの独立したGitプロバイダーに同期させるため、唯一の権威あるルールブックを失うことは不可能である。</p>
+<p>コンテンツ</p>
+<h2 id="なぜこれを構築したのか">なぜこれを構築したのか</h2>
+<p>同じ所有者が手がける複数の大規模プロダクトアプリと、数十に及ぶ分離された再利用可能なサブモジュールが、同じ苦労して得たルールを何度も再発見し続け――そして同じ種類の失敗を繰り返し続けていた。それは、テストやステータスレポートが成功を主張しているにもかかわらず、エンドユーザーにとっては機能が壊れているというもの（「PASS偽装」や「FAIL偽装」）。Constitutionの各フォレンジックアンカーは、実際のインシデントを記録している（例えば、2026年5月20日のD3オーディオルーティングにおけるPASS偽装。検証は「コーデック使用中」フィールドが空のままグリーンになり、あるいは2026年6月25日の巨大ボタンUIがトークン等価性テストに合格したにもかかわらず、実際の画面が壊れていたケースなど）。Constitutionは、こうした不誠実な成功を機械的に不可能にするために存在する――一度、普遍的に。これにより、規律がプロジェクト間で揺らいだり、静かに忘れ去られることがない。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>これはエンジニアリング文化を、「従うことを期待されるドキュメント」から「継承され、バージョン管理され、機械的に強制される法」へと変える。スタイルガイドとコンパイラの違いに等しい。一つのサブモジュールのバージョンアップで、全フリートのルールが一度に、アトミックかつ追跡可能な形で更新される。単一のアンチ偽装契約は、信頼ではなく構造によって、すべての利用リポジトリに<em>保証</em>される。伝播ゲートはフリート全体で条項番号を文字通りgrepし、ペアとなるミューテーションテストがゲート自体が偽装でないことを証明する――つまり、強制さえもが強制される。ガバナンスは、誰も読まないウィキ上の理想ではなく、CIジョブに指し示せる監査可能でテスト可能な事実となる。</p>
+<h2 id="何が革新的なのか">何が革新的なのか</h2>
+<ul>
+<li><strong>Constitution-as-submodule</strong> ―
+エンジニアリング法を、コードとまったく同じように配布・バージョン固定する。意図的な<code>v1.0.0</code>形式のタグとプロジェクトごとのピン留めにより、すべてのリポジトリは<em>正確に</em>どのバージョンの法に拘束されているかを知る。</li>
+<li><strong>アンチ偽装を第一級のフォレンジック原則として</strong> ―
+すべての条項は、逐語的なオペレータの指示、そしてしばしばそれを動機づけた実際のインシデントにまで遡る。そのため、ルールブックは意見ではなく判例のように読める。</li>
+<li><strong>ルール自体のメタテスト（§1.1）</strong> ―
+すべてのゲートには、PASS→FAILに反転させるミューテーションがペアになっている。これにより、「ゲートが偽物でない」ことは主張ではなく、毎回の実行で証明される。失敗し得ないゲートは、ゲートがないよりも悪い扱いを受ける。</li>
+<li><strong>獲得された普遍性</strong> ―
+あるルールが真に普遍的か、それともプロジェクト固有のものかを判断する明確な4部構成のテストにより、ベースをシンプルに保ち、ポータブルでベンダー依存のない状態を維持する。</li>
+</ul>
+<h2
+id="すべてのプロダクトでどのように使われているか与えられる力">すべてのプロダクトでどのように使われているか（与えられる力）</h2>
+<p><strong>必須のガバナンス基盤</strong>として、HelixConstitutionはファミリーが参照するドキュメントではない――それはファミリーが構築される基盤そのものだ。</p>
+<ul>
+<li><strong>ガバナンスの背骨</strong>：すべてのHelix/vasic-digitalプロジェクトはこれをサブモジュールとして追加し、<code>CLAUDE.md</code>
+/ <code>AGENTS.md</code> /
+<code>QWEN.md</code>、あるいは独自の<code>Constitution.md</code>からインポートする。ルールは無条件に適用され、最初のコミットからプロジェクトごとのオプトアウトはない。</li>
+<li><strong>ゲートとマンデート</strong>：4層のカバレッジモデル（ソース存在、ビルド耐性、ランタイム挙動、ゲート非偽装）を定義し、機能は4つすべてのレベルをクリアして初めて「完了」とみなされる。さらに、増え続ける名前付きマンデートも存在する：認証情報の取り扱い（§11.4.10）、常時同期ドキュメント（§11.4.60）、コンテナサブモジュール義務（§11.4.76）、CodeGraph（§11.4.78）、必須テストタイプカバレッジ（§11.4.169）など。</li>
+<li><strong>伝播</strong>：<code>CM-COVENANT-114-NNN-PROPAGATION</code>ゲートは、利用フリート全体に<em>文字通りの</em>条項テキストが存在することを保証する。これにより、契約がエステートの片隅で静かに削除されることはない。非準拠は、回避フラグのないハードなリリースブロッカーとなる。</li>
+<li><strong>発見</strong>：<code>submodules-catalogue.md</code>により、「Xを実現する既存モジュールはあるか？」という問いは、新しいモジュールをスキャフォールドする前に一目で答えが出る。重複努力は根源で断たれる。</li>
+<li><strong>AIエージェントの一貫性</strong>：同じ法が、すべてのCLIエージェント（Claude
+Code、Codex/Cursor/Aider/OpenCode/Crush/Kimi via AGENTS.md、Qwen Code
+via
+QWEN.md）に同一の形で表現される。そのため、どのツールがコードに触れても、同じ一つの契約に従う。</li>
+</ul>
+<p>内容</p>
+<h2
+id="最大の技術的課題とその解決方法">最大の技術的課題とその解決方法</h2>
+<ul>
+<li><strong>任意のネスト深度からサブモジュールを特定する</strong> —
+3階層深く埋め込まれたルールでも、その所在を知らずに法を見つけ出さなければならない
+→ <code>find_constitution.sh</code>
+は親ディレクトリを遡り、Gitのスーパープロジェクトポインタを再帰的にたどり、<code>CONSTITUTION_DIR</code>
+の上書きと2つのサポート対象レイアウト（<code>constitution/</code>、<code>submodules/constitution/</code>）に対応。ネストがどれほど深くても解決は確定的。</li>
+<li><strong>4つのGitプロバイダー間で単一リポジトリを権威あるものに保つ</strong>
+— ミラーが同期しなければ意味がない → <code>install_upstreams.sh</code>
+は宣言的な <code>Upstreams/*.sh</code>
+リモートを読み込み、<code>origin</code>
+に複数のプッシュURLを設定。単一の <code>git push</code>
+でGitHub（プライマリ）、GitLab、GitFlic、GitVerseへの原子的なファンアウトを実現し、どのミラーも遅延しない。</li>
+<li><strong>ルールの肥大化／プロジェクト固有の漏出をユニバーサルベースに防ぐ</strong>
+— 「とりあえずここに追加」の誘惑は、移植性を損なう →
+獲得された普遍性の4段階テストと§11.4.17のユニバーサル対プロジェクト分類を<em>すべての</em>新規ルールに適用。プロジェクト固有の懸念事項は、本来のプロジェクト層に押し戻す。</li>
+<li><strong>継承ゲートが実際に機能することを証明する</strong> —
+失敗が見えないゲートは信頼できない →
+<code>meta_test_inheritance.sh</code>
+という番兵メタテストが、§11.4のアンカーを意図的に削除し、ゲートがそれを検知することをアサート。これにより、強制メカニズム自体が静かな破綻に対して継続的に再検証される。</li>
+</ul>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Gitサブモジュール継承</strong>
+<ul>
+<li><em>理由</em>：Gitサブモジュールは、ルールブックを権威あるものに<em>かつ</em>消費者ごとにバージョン固定できる唯一のメカニズム。アップグレードは、コピー＆ペーストの静かな繰り返しではなく、明示的でレビュー可能なバージョンアップで行われる。</li>
+<li><em>方法</em>：消費側プロジェクトはサブモジュールを追加し、そのエージェントファイルを
+<code>@import</code>。3つのレイヤーは上から下へ評価され、すべての境界で「拡張はするが弱体化させない」という厳格な契約が適用される。</li>
+</ul></li>
+<li><strong><code>find_constitution.sh</code></strong>
+<ul>
+<li><em>理由</em>：ルールが深くネストされたコードから確実に見つけられなければ無意味であり、パスのハードコーディングはプロジェクトの再編成で即座に破綻する。</li>
+<li><em>方法</em>：親ディレクトリの遡上と
+<code>git rev-parse --show-superproject-working-tree</code>
+の再帰処理を組み合わせ、<code>CONSTITUTION_DIR</code>
+の上書きでバックアップ。2つのサポート対象レイアウトを解決。</li>
+</ul></li>
+<li><strong><code>install_upstreams.sh</code> +
+<code>Upstreams/</code></strong>
+<ul>
+<li><em>理由</em>：4プロバイダーの冗長性は、維持に余分な労力がかかるなら意味がない。さもなければミラーは陳腐化する。</li>
+<li><em>方法</em>：宣言的なリモートごとの <code>.sh</code>
+ファイルを、単一のマルチURL <code>origin</code>
+に具現化。4つのプッシュを1つに集約。</li>
+</ul></li>
+<li><strong>§1.1 ミューテーションメタテスト</strong>
+<ul>
+<li><em>理由</em>：失敗しないゲートは、存在しないよりも悪い。偽りの安心感を生むからだ。</li>
+<li><em>方法</em>：各ゲートには <code>sed</code>
+による削除／リネームのミューテーションがペアで設定され、PASS→FAILに変化することを確認した後、元に戻される。これにより、すべてのゲートが毎回機能することを証明。</li>
+</ul></li>
+<li><strong>伝播ゲート（<code>CM-COVENANT-114-NNN-PROPAGATION</code>）</strong>
+<ul>
+<li><em>理由</em>：誓約がフラグシップリポジトリだけでなく、<em>すべての</em>消費者に検証可能に存在してこそ、真に普遍的である。</li>
+<li><em>方法</em>：消費者全体にわたる条項番号のリテラルgrepを実行。§1.1のミューテーションとペアになっており、伝播チェック自体が失敗することを証明。</li>
+</ul></li>
+<li><strong><code>submodules-catalogue.md</code>（§11.4.74）</strong>
+<ul>
+<li><em>理由</em>：重複防止の規律を破る最速の方法は、自分がすでに何を持っているかを知らないことだ。</li>
+<li><em>方法</em>：142リポジトリを機能別にグループ化した目録。新規スキャフォールディングの前に、目録チェックをトラッカーに記録。</li>
+</ul></li>
+<li><strong>マルチフォーマットエクスポート</strong>
+<ul>
+<li><em>理由</em>：同じ法は、人間が読む場合も、ツールが解析する場合も、アーカイブが保存する場合も、等しく利用可能でなければならない。</li>
+<li><em>方法</em>：すべての正規ドキュメントは、1つのソースから
+<code>.md</code>／<code>.html</code>／<code>.pdf</code>／<code>.docx</code>
+として出力。</li>
+</ul></li>
+</ul>
+<p>コンテンツ</p>
+<h2
+id="ステータスおよび正確性に関する注意事項">ステータスおよび正確性に関する注意事項</h2>
+<ul>
+<li><strong>ステータス：出荷済み。</strong>
+フリート全体（公開正規リポジトリおよびミラーリポジトリ）でサブモジュールとしてアクティブにバージョン管理され、使用中。</li>
+<li><strong>ライセンス：未定</strong> ―
+ソース資料には明記されておらず、公開前にリポジトリのLICENSEファイルで確認のこと。</li>
+<li>上流ミラー追加先：GitLab
+<code>helixdevelopment1/helixconstitution</code>、GitFlic
+<code>helixdevelopment/helixconstitution</code>、GitVerse
+<code>helixdevelopment/HelixConstitution</code>。</li>
+</ul>
+<p><strong>優先度レベル：</strong> Helix-プライマリ ―
+Helixファミリーにおけるすべての構築プロセスの必須ガバナンス基盤。</p>
+</body>
+</html>

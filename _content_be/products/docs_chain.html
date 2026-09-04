@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p>Змесціва</p>
+<p><strong>Ніводзін адсочаны дакумент не можа выйсці з сінхранізацыі —
+кантэнт-хэшаваны, двухбаковы, атамарны.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>Docs Chain — універсальны рухавік распаўсюджвання залежнасцей паміж
+дакументамі і базамі даных, рэалізаваны на Go, з двухбаковай працай.
+Калі змяняецца любы элемент зарэгістраванага ланцужка — зыходны
+Markdown-файл, экспарт у фармаце HTML/PDF/DOCX ці база даных SQLite —
+сістэма выяўляе змену па хэшы змесціва і атамарна распаўсюджвае яе па
+ўсіх звязаных элементах.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Рухавік на Go, які падтрымлівае сінхранізацыю дакументаў і баз даных.
+Выкарыстоўваючы інкрэментнае перавылічэнне з кантэнт-хэшаваннем у стылі
+Salsa на аснове DAG (тапалагічнае сартаванне па Канах, ранняе спыненне,
+двухбаковыя рэбры сінхранізацыі, атамарнае перайменаванне + каміты
+транзакцый SQLite), ён перагенеруе экспарты пры змене любога звязанага
+артэфакта.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Docs Chain — гэта тое, што ствараецца, калі вы ўжо разоў з дзесятак
+напісалі той самы няўстойлівы скрыпт «перагенераваць PDF, калі зменіцца
+Markdown». Ён замяняе ўвесь гэты рукапісны «клей» для сінхранізацыі
+сапраўдным рухавіком. Сістэма мадэлюе дакументы і базы даных праекта як
+элементы ланцужка і, калі змяняецца любы з іх, распаўсюджвае гэтую змену
+па ўсіх звязаных элементах ва ўсіх абвешчаных кірунках — перагенеруючы і
+пераэкспартуючы атамарна, каб ніводзін адсочаны артэфакт ніколі не
+выйшаў з сінхранізацыі. Дызайн запазычвае сваю строгасць непасрэдна з
+інкрэментных сістэм зборкі, а не са скрыптоў: выяўленне змен адбываецца
+па <strong>хэшы змесціва, а не па mtime</strong>, таму каманда
+<code>touch</code> нічога не спрабуе, а аднабайтавая рэдактура запускае
+менавіта тыя перазборкі, якія патрэбны — без ілжывых трывог і
+прапушчаных змен. Фармальна гэта можна выразіць адным радком:
+інкрэментнае перавылічэнне з кантэнт-хэшаваннем у стылі Salsa на аснове
+DAG, з тапалагічным сартаваннем па Канах, раннім спыненнем, якое адсякае
+нязмененыя паддрэвы, абвешчанымі двухбаковымі рэбрамі сінхранізацыі з
+аўтарытэтам, атамарным перайменаваннем і камітамі транзакцый SQLite, каб
+пры краху падчас распаўсюджвання ніколі не засталося напалову запісанага
+экспарту. Пастаўляецца як падмадуль <code>vasic-digital</code> і
+выкарыстоўваецца як асноўны кампанент падмадуля HelixConstitution, таму
+любы праект, які прымае канстытуцыю, атрымлівае Docs Chain з самага
+пачатку і рэгіструе ўласныя ланцужкі праз кантэкстныя YAML. Рэалізацыя
+адкрыта паказвае свой статус (згодна з §11.4.6 канстытуцыі): Этапы 1–4
+(асноўны DAG + хэшаванне, адаптары/трансфармацыі вузлоў, аркестратар
+распаўсюджвання з атамарнасцю, канфігурацыйнае кіраванне некалькімі
+кантэкстамі CLI з камандамі
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)
+рэалізаваны і пратэставаны; Этап 4b дадае ўбудаваныя двухбаковыя
+пераўтваральнікі <code>md-to-sqlite</code>/<code>sqlite-to-md</code>
+(чысты Go, дрэйф на ўзроўні радкоў, байтастабільны кругавы абмен) і
+ўбудаваны <code>colorize-html</code>; Этап 5 — поўнамаштабнае рэальнае
+бінарнае канцавое тэставанне — рэалізаваны і ПРАЙШОЎ. Этапы 6–7
+(распаўсюджванне канстытуцыі, інтэграцыя з ATMOSphere) застаюцца
+ЗАПЛАНАВАНЫМІ і даступнымі толькі праз аператарныя засаўкі. Herald —
+першы рэальны спажывец ніжэй па патоку, які сінхранізуе корпус з 66
+дакументаў у некалькіх фарматах і пацвярджае чысціню.</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Дакументацыя, экспарты і базы даных разыходзяцца адразу ж, як толькі
+іх пачынаюць падтрымліваць уручную ці з дапамогай няўстойлівых скрыптоў.
+Docs Chain робіць сінхранізацыю механічнай, дакладнай па хэшы змесціва і
+атамарнай, каб змена ў любым месцы ланцужка правільна і бяспечна
+абнаўляла ўсё, што знаходзіцца ніжэй (і вышэй) па патоку.</p>
+<p>Змест</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Гэта бярэ дакладнасць і гарантыі, якія аўтары кампілятараў і сістэм
+зборкі лічаць належнай здабычай — графы залежнасцей з кантролем зместу,
+мінімальнае перавылічэнне, атамныя каміты — і накіроўвае іх на
+дакументацыю і базы даных, вобласць, якая гістарычна трымалася на
+cron-заданнях і добрых намерах. Сапраўдная двухбаковая сінхранізацыя
+азначае, што сувязь паміж крыніцай і яе экспартам кантралюецца ў абодвух
+кірунках, таму такія праблемы, як “дакументацыя састарэла” ці “экспарт
+не адпавядае крыніцы”, перастаюць быць паўтаральнымі памылкамі і
+становяцца станамі, якія рухавік проста не дазволіць існаваць.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Інкрэментнае перавылічэнне па графе залежнасцей з кантролем зместу
+(не па часу змянення) і раннім спыненнем.</li>
+<li>Двухбаковыя сінхранізацыйныя сувязі з дэклараваннем аўтарытэту
+(дакументацыя ↔︎ экспарт ↔︎ SQLite).</li>
+<li>Атамнае перайменаванне + транзакцыйны каміт праз SQLite для
+бяспечнага распаўсюджвання пры збоях.</li>
+<li>Чысты Go кругавы працэс
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> з выяўленнем
+разыходжанняў на ўзроўні радкоў.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Лішнія перазборы:</strong> вырашана дзякуючы кантролю зместу
+замест штампаў часу.</li>
+<li><strong>Частковыя/пашкоджаныя абнаўленні:</strong> вырашана з
+дапамогай атамнага перайменавання і транзакцый SQLite.</li>
+<li><strong>Правільнае парадкаванне некалькіх удзельнікаў:</strong>
+вырашана праз тапалагічнае сартаванне Кана з раннім спыненнем.</li>
+<li><strong>Часнае паведамленне аб магчымасцях:</strong> вырашана праз
+пазначэнне кожнага этапу як РЭАЛІЗАВАНЫ ці ЗАПЛАНАВАНЫ згодна з
+§11.4.6.</li>
+</ul>
+<h2 id="тэхнічны-стэк-навошта-як">Тэхнічны стэк (навошта + як)</h2>
+<ul>
+<li><strong>Go</strong> — увесь рухавік (<code>internal/hash</code>,
+<code>graph</code>, <code>adapter</code>, <code>orchestrator</code>,
+<code>config</code>, <code>state</code>, <code>runner</code>,
+<code>cmd/docs_chain</code>).</li>
+<li><strong>DAG + тапалагічнае сартаванне Кана</strong> — парадкаванне
+залежнасцей з раннім спыненнем.</li>
+<li><strong>SQLite (чысты Go modernc)</strong> — удзельнікі базы даных і
+транзакцыйныя каміты.</li>
+<li><strong>fsnotify</strong> — дэман <code>watch</code> для жывога
+распаўсюджвання.</li>
+<li><strong>YAML config</strong> — рэгістрацыя ланцужкоў па
+кантэксце.</li>
+<li><strong>exec: трансфармацыі</strong> — падключальная генерацыя
+Markdown→HTML/PDF/DOCX.</li>
+</ul>
+<blockquote>
+<p>Адкрытасць дарожнай карты: Этапы 6–7 (распаўсюджванне канстытуцыі,
+інтэграцыя з ATMOSphere) ЗАПЛАНАВАНЫ / абмежаваны для аператара — не
+ўключаны ў рэліз.</p>
+</blockquote>
+</body>
+</html>

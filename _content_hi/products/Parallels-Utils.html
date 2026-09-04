@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Parallels-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Parallels-Utils</h1>
+</header>
+<p>सामग्री</p>
+<p><strong>अपने Parallels वर्चुअल मशीन इमेज को संपीड़ित करें, प्रकाशित करें और हर
+मशीन पर पुनः उपयोग करें।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>Parallels-Utils एक Server Factory टूलकिट है जो Parallels (macOS)
+वर्चुअल-मशीन इमेज के प्रबंधन के लिए है: विकास और परीक्षण के लिए उपयोग की जाने वाली
+इमेज “मैट्रिक्स” को संपीड़ित और सिंक्रोनाइज़ करना, उन्हें दूरस्थ एंडपॉइंट पर प्रकाशित
+करना, और उन्हें कई वर्कस्टेशनों या सर्वरों पर प्राप्त/चलाना। इसे स्वतंत्र रूप से या
+Server Factory के हिस्से के रूप में उपयोग किया जा सकता है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>macOS पर Parallels वीएम इमेज के जीवनचक्र के लिए एक Shell/Python टूलकिट। यह
+Parallels इमेज को संपीड़ित और सिंक्रोनाइज़ करता है, उन्हें दूरस्थ एंडपॉइंट पर प्रकाशित
+करता है, और उन्हें कई कंप्यूटरों पर प्राप्त करके चलाता है — साधारण सेटिंग फ़ाइलों द्वारा
+संचालित, जिसे स्वतंत्र रूप से या Server Factory के भीतर उपयोग किया जा सकता
+है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>Parallels-Utils macOS-आधारित विकास के लिए एक व्यावहारिक DevOps समस्या का
+समाधान करता है: टीमें Parallels वर्चुअल मशीनों के “मैट्रिक्स” (विकास और परीक्षण के
+लिए विभिन्न ऑपरेटिंग सिस्टम/कॉन्फ़िगरेशन) बनाती हैं, और इन इमेज को कई मशीनों पर
+लगातार संपीड़ित, प्रकाशित, प्राप्त और चलाने की आवश्यकता होती है। यह टूलकिट इसी
+जीवनचक्र को प्रदान करता है। एक सिंक्रोनाइज़ेशन तंत्र Parallels इमेज को संपीड़ित करता
+है और उन्हें सिंक में रखता है; एक प्रकाशन तंत्र इमेज को दूरस्थ एंडपॉइंट पर अपलोड करता है;
+और एक प्राप्ति तंत्र किसी भी वर्कस्टेशन या सर्वर को प्रकाशित इमेज खींचने और उन्हें वीएम
+के रूप में चलाने की सुविधा देता है। कॉन्फ़िगरेशन जानबूझकर सरल और फ़ाइल-आधारित है:
+<code>image_location.settings</code> फ़ाइल सिस्टम पर इमेज के स्थान को
+परिभाषित करती है, <code>image_provider.settings</code> प्रकाशित इमेज के लिए
+आधार URL को परिभाषित करती है, और <code>image_sync.sh</code> अपलोड स्क्रिप्ट
+को परिभाषित करता है — उदाहरण <code>Examples</code> डायरेक्टरी में दिए गए हैं।
+ऑपरेटर <code>publish_images.sh</code> का उपयोग प्रकाशित करने और
+<code>run.sh</code> का उपयोग वीएम लॉन्च करने के लिए करते हैं। इसके लिए उपयुक्त
+macOS संस्करण के लिए Parallels और Python 3 की आवश्यकता होती है। यह टूलकिट दोहरे
+उपयोग के लिए डिज़ाइन किया गया है: यह एक बड़े Server Factory प्रोजेक्ट के हिस्से के
+रूप में या पूरी तरह स्वतंत्र रूप से काम कर सकता है, जो संगठन के डिकपलिंग दर्शन को
+दर्शाता है। इसमें एक संक्षिप्त वीडियो ट्यूटोरियल का लिंक भी दिया गया है।
+Server-Factory परिवार का हिस्सा होने के नाते, यह Qemu-Utils (Linux/QEMU
+समकक्ष) का पूरक है, जिससे पारिस्थितिकी तंत्र को macOS/Parallels और
+क्रॉस-प्लेटफ़ॉर्म/QEMU बैकएंड पर वीएम-इमेज प्रबंधन मिलता है।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>एक टीम में लगातार वीएम विकास/परीक्षण वातावरण साझा करना थकाऊ होता है — इमेज
+बड़ी होती हैं, और हर मशीन को एक ही मैट्रिक्स की आवश्यकता होती है।
+Parallels-Utils संपीड़न, प्रकाशन और प्राप्ति को स्वचालित करता है ताकि Parallels
+वीएम का एक मानक सेट हर जगह पुनः निर्मित किया जा सके।</p>
+<h2 id="यह-कय-गम-चजर-ह">यह क्यों गेम-चेंजर है</h2>
+<p>यह भारी और बोझिल Parallels इमेज को प्रकाशन योग्य, सिंक करने योग्य आर्टिफैक्ट
+सेट में बदल देता है जिसे कोई भी मशीन खींचकर चला सकती है — इस तरह एक मानक
+विकास/परीक्षण वातावरण हर इंजीनियर द्वारा हाथ से बनाने की बजाय बस प्राप्त किया
+जा सकता है। यह बेहद सरल सेटिंग-फ़ाइल कॉन्फ़िगरेशन और Server Factory के बाकी हिस्सों
+पर शून्य निर्भरता के साथ ऐसा करता है, जो संगठन के डिकपलिंग दर्शन के अनुरूप है: अपने आप
+में उपयोगी, बड़े टूलचेन में एक अच्छा नागरिक।</p>
+<p>सामग्री</p>
+<h2 id="कय-नवन-ह">क्या नवीन है</h2>
+<ul>
+<li>Parallels छवि “मैट्रिक्स” का देव/टेस्ट के लिए संपीड़न + तुल्यकालन।</li>
+<li>प्रकाशित/प्राप्त कार्यप्रवाह जिससे छवियों का कई कंप्यूटरों पर पुनः उपयोग
+संभव।</li>
+<li>सेटिंग्स-फ़ाइल-आधारित विन्यास (स्थान/प्रदाता/तुल्यकालन) जिसमें उदाहरण
+शामिल।</li>
+<li>दोहरा उपयोग: स्वतंत्र रूप से या Server Factory घटक के रूप में।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>बड़ी छवियों का वितरण:</strong> संपीड़न और दूरस्थ एंडपॉइंट पर प्रकाशित
++ प्राप्त करने के कार्यप्रवाह से हल।</li>
+<li><strong>मशीनों के बीच पुनरुत्पादन:</strong> प्रदाता/स्थान सेटिंग्स से हल, जिससे
+हर होस्ट समान छवि समूह प्राप्त करता है।</li>
+<li><strong>उपयोग में आसानी:</strong> सरल <code>publish_images.sh</code> /
+<code>run.sh</code> स्क्रिप्ट और उदाहरण सेटिंग्स फ़ाइलों से हल।</li>
+</ul>
+<h2 id="तकनक-ढच-कय-कस">तकनीकी ढाँचा (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Shell</strong> — प्रकाशित/चलाने/तुल्यकालन स्क्रिप्ट (मुख्य भाषा,
+~5.3K बाइट्स)।</li>
+<li><strong>Python 3</strong> — सहायक उपकरण (आवश्यक निर्भरता, ~3K
+बाइट्स)।</li>
+<li><strong>Parallels (macOS)</strong> — प्रबंधित किया जाने वाला वर्चुअलाइज़ेशन
+बैकएंड।</li>
+<li><strong>सेटिंग्स फ़ाइलें (<code>.settings</code>)</strong> —
+स्थान/प्रदाता/तुल्यकालन के लिए घोषणात्मक विन्यास।</li>
+</ul>
+<blockquote>
+<p>टिप्पणी: GitHub रिपॉज़िटरी को Server-Factory संगठन के अंतर्गत फ़ोर्क के रूप में
+चिह्नित करता है। विशिष्ट, macOS-केन्द्रित। AI से संबंधित नहीं।</p>
+</blockquote>
+</body>
+</html>

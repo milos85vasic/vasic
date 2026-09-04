@@ -1,0 +1,2312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>gitlab-all</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">gitlab-all</h1>
+</header>
+<h1 id="gitlab-project-inventory">GitLab Project Inventory</h1>
+<p><strong>Generated:</strong> 2026-06-17 · <strong>Account:</strong>
+milos85vasic · <strong>Tool:</strong> <code>glab</code> /
+<code>glab api</code> (real GitLab REST API v4)</p>
+<h2 id="scope-group-resolution">1. Scope &amp; group resolution</h2>
+<p>Five groups were requested. Only two exist as accessible GitLab
+groups; the other three could not be found as groups, user namespaces,
+or projects under any accessible namespace.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requested name</th>
+<th>Resolution</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vasic-digital</code></td>
+<td><strong>EXISTS</strong> as group <code>vasic-digital</code> (id
+117203414)</td>
+<td><code>groups/vasic-digital/projects</code> returned data</td>
+</tr>
+<tr>
+<td><code>HelixDevelopment</code></td>
+<td><strong>EXISTS</strong> as group <code>helixdevelopment1</code> (id
+115733553, display name “HelixDevelopment”)</td>
+<td>top-level path 404’d; found via
+<code>namespaces?search=Helix</code>; group has no subgroups</td>
+</tr>
+<tr>
+<td><code>Helix-Track</code></td>
+<td><strong>NOT FOUND</strong></td>
+<td>404 as group; empty <code>users?username=</code>; no namespace
+match; no membership project match for track/Track</td>
+</tr>
+<tr>
+<td><code>Helix-Flow</code></td>
+<td><strong>NOT FOUND</strong></td>
+<td>404 as group; empty <code>users?username=</code>; no namespace
+match; no membership project match for flow/Flow</td>
+</tr>
+<tr>
+<td><code>Server-Factory</code></td>
+<td><strong>NOT FOUND</strong></td>
+<td>404 as group; empty <code>users?username=</code>; no namespace match
+for Server-Factory/ServerFactory/server/factory</td>
+</tr>
+</tbody>
+</table>
+<p>The authenticated user is a member of exactly three groups
+(<code>groups?min_access_level=10</code>):
+<code>atmosphere1234321</code>, <code>helixdevelopment1</code>,
+<code>vasic-digital</code>. “Helix-Track”, “Helix-Flow”, and
+“Server-Factory” appear only as <em>concepts/keywords</em> inside
+existing projects (e.g. <code>vasic-digital/tracker_sdk</code>,
+<code>helixdevelopment1/PipelineRuntime</code>,
+<code>helixdevelopment1/ota-telemetry-schema</code>), not as their own
+groups. <code>atmosphere1234321</code> was not in the requested scope
+and is not inventoried here (its content is mirrored into
+<code>vasic-digital</code> as the <code>ATMOSphere-*</code>
+projects).</p>
+<blockquote>
+<p>Note: the group <code>projects</code> endpoint silently ignored
+<code>statistics=true</code> (requires elevated access), so
+<code>repository_size</code> was fetched per-project via
+<code>projects/:id?statistics=true</code> (all 189 populated). Primary
+language fetched via <code>projects/:id/languages</code>.</p>
+</blockquote>
+<h2 id="counts">2. Counts</h2>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th style="text-align: right;">Projects</th>
+<th style="text-align: right;">Archived</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vasic-digital</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td style="text-align: right;"><strong>189</strong></td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Total repository size across all 189 projects: <strong>7.87
+GB</strong> (8,453,350,399 bytes). No archived projects in either
+group.</p>
+<h2 id="all-projects-by-repository-size-desc">3. All projects by
+repository size (DESC)</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 18%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>group</th>
+<th>name</th>
+<th style="text-align: right;">size (MB)</th>
+<th>language</th>
+<th>last activity</th>
+<th>description</th>
+<th>web_url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Android-15</td>
+<td style="text-align: right;">1678.00</td>
+<td>Shell</td>
+<td>2026-05-31</td>
+<td>ATMOSphere main repo backup mirror</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Android-15</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixCode</td>
+<td style="text-align: right;">1431.58</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/HelixCode</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>HelixAgent</td>
+<td style="text-align: right;">806.06</td>
+<td>Go</td>
+<td>2026-04-30</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/HelixAgent</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>LLMsVerifier</td>
+<td style="text-align: right;">517.51</td>
+<td>Go</td>
+<td>2026-06-16</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/LLMsVerifier</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-agent-deck</td>
+<td style="text-align: right;">462.27</td>
+<td>Go</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-agent-deck</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-warp</td>
+<td style="text-align: right;">167.13</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-warp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-bridle</td>
+<td style="text-align: right;">166.51</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-bridle</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-superset</td>
+<td style="text-align: right;">152.74</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-superset</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Rhythm-Player</td>
+<td style="text-align: right;">140.66</td>
+<td>Kotlin</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Rhythm-Player.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Rhythm-Player</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>HelixConstitution</td>
+<td style="text-align: right;">139.14</td>
+<td>HTML</td>
+<td>2026-06-16</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:HelixDevelopment/HelixConstitution.git</td>
+<td>https://gitlab.com/vasic-digital/HelixConstitution</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-aider</td>
+<td style="text-align: right;">137.00</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-aider</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-codex</td>
+<td style="text-align: right;">132.40</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-codex</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-codename-goose</td>
+<td style="text-align: right;">109.48</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-codename-goose</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-SmartTube</td>
+<td style="text-align: right;">105.94</td>
+<td>Java</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-SmartTube.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-SmartTube</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-open-interpreter</td>
+<td style="text-align: right;">97.60</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-open-interpreter</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixCluster</td>
+<td style="text-align: right;">95.64</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/helix_cluster</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-cline</td>
+<td style="text-align: right;">93.12</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-cline</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-vtcode</td>
+<td style="text-align: right;">92.27</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-vtcode</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ShareConnect</td>
+<td style="text-align: right;">91.81</td>
+<td>Kotlin</td>
+<td>2025-12-13</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/shareconnect</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Herald</td>
+<td style="text-align: right;">87.59</td>
+<td>Go</td>
+<td>2026-06-02</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/herald</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-gemini-cli</td>
+<td style="text-align: right;">78.25</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-gemini-cli</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>Helix Ota</td>
+<td style="text-align: right;">72.25</td>
+<td>Go</td>
+<td>2026-06-11</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/helix_ota</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-VLC-Player</td>
+<td style="text-align: right;">67.83</td>
+<td>Kotlin</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-VLC-Player.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-VLC-Player</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-codai</td>
+<td style="text-align: right;">67.01</td>
+<td>Go Template</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-codai</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-qwen-code</td>
+<td style="text-align: right;">63.95</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-qwen-code</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixPlay</td>
+<td style="text-align: right;">55.53</td>
+<td>Go</td>
+<td>2026-05-03</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/HelixPlay</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-plandex</td>
+<td style="text-align: right;">55.52</td>
+<td>Go</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-plandex</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixConstitution</td>
+<td style="text-align: right;">52.28</td>
+<td>HTML</td>
+<td>2026-06-16</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/helixconstitution</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Lampa</td>
+<td style="text-align: right;">52.11</td>
+<td>Kotlin</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Lampa.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Lampa</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Gramophone-Player</td>
+<td style="text-align: right;">44.47</td>
+<td>Kotlin</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Gramophone-Player.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Gramophone-Player</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-noi</td>
+<td style="text-align: right;">38.05</td>
+<td>TSX</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-noi</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-swe-agent</td>
+<td style="text-align: right;">36.16</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-swe-agent</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-nanocoder</td>
+<td style="text-align: right;">32.81</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-nanocoder</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Strep-Player</td>
+<td style="text-align: right;">32.29</td>
+<td>HTML</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Strep-Player.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Strep-Player</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-MPV-Player</td>
+<td style="text-align: right;">32.01</td>
+<td>HTML</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:milos85vasic/ATMOSphere-MPV-Player.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-MPV-Player</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-x-cmd</td>
+<td style="text-align: right;">30.78</td>
+<td>Awk</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-x-cmd</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-git-mcp</td>
+<td style="text-align: right;">30.07</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-git-mcp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Catalogizer</td>
+<td style="text-align: right;">29.07</td>
+<td>Go</td>
+<td>2026-05-08</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/catalogizer</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-claude-code</td>
+<td style="text-align: right;">27.52</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-claude-code</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>tmux</td>
+<td style="text-align: right;">24.84</td>
+<td>HTML</td>
+<td>2026-06-17</td>
+<td>vasic-digital optimized + verified containerized tmux build —
+reproducible across hosts, jemalloc-aware, OOM-protected,</td>
+<td>https://gitlab.com/vasic-digital/tmux</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>HelixQA</td>
+<td style="text-align: right;">24.50</td>
+<td>Go</td>
+<td>2026-06-15</td>
+<td>AI-driven QA orchestration for multi-platform testing</td>
+<td>https://gitlab.com/vasic-digital/HelixQA</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-crush</td>
+<td style="text-align: right;">24.47</td>
+<td>Go</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-crush</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixQA</td>
+<td style="text-align: right;">23.79</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>AI-driven QA orchestration for multi-platform testing</td>
+<td>https://gitlab.com/helixdevelopment1/HelixQA</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-get-shit-done</td>
+<td style="text-align: right;">22.35</td>
+<td>JavaScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-get-shit-done</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-gptme</td>
+<td style="text-align: right;">20.89</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-gptme</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-amazon-q</td>
+<td style="text-align: right;">20.88</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-amazon-q</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>containers</td>
+<td style="text-align: right;">20.55</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/containers</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-gpt-engineer</td>
+<td style="text-align: right;">17.48</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-gpt-engineer</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-snow-cli</td>
+<td style="text-align: right;">15.38</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-snow-cli</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-TorrServe</td>
+<td style="text-align: right;">13.85</td>
+<td>Kotlin</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-TorrServe.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-TorrServe</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>panoptic</td>
+<td style="text-align: right;">11.24</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/panoptic</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Presenter</td>
+<td style="text-align: right;">11.06</td>
+<td>Kotlin</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Presenter.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Presenter</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-forge</td>
+<td style="text-align: right;">10.70</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-forge</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-xela-cli</td>
+<td style="text-align: right;">9.22</td>
+<td>TSX</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-xela-cli</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-spec-kit</td>
+<td style="text-align: right;">8.82</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-spec-kit</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-taskweaver</td>
+<td style="text-align: right;">8.34</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-taskweaver</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-zeroshot</td>
+<td style="text-align: right;">7.70</td>
+<td>JavaScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-zeroshot</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>LLMOrchestrator</td>
+<td style="text-align: right;">7.27</td>
+<td>HTML</td>
+<td>2026-04-27</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/LLMOrchestrator</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>VisionEngine</td>
+<td style="text-align: right;">6.63</td>
+<td>HTML</td>
+<td>2026-05-29</td>
+<td>Computer vision and LLM Vision for UI analysis and navigation</td>
+<td>https://gitlab.com/helixdevelopment1/VisionEngine</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DocProcessor</td>
+<td style="text-align: right;">6.56</td>
+<td>HTML</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/DocProcessor</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>VisionEngine</td>
+<td style="text-align: right;">5.87</td>
+<td>HTML</td>
+<td>2026-06-15</td>
+<td>Computer vision and LLM Vision for UI analysis and navigation</td>
+<td>https://gitlab.com/vasic-digital/VisionEngine</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-junie</td>
+<td style="text-align: right;">5.70</td>
+<td>Shell</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-junie</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>DocProcessor</td>
+<td style="text-align: right;">5.44</td>
+<td>HTML</td>
+<td>2026-06-09</td>
+<td>Documentation processing and feature map extraction for QA
+automation</td>
+<td>https://gitlab.com/vasic-digital/DocProcessor</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>Builder</td>
+<td style="text-align: right;">5.38</td>
+<td>Shell</td>
+<td>2025-10-28</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/builder</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixGitpx</td>
+<td style="text-align: right;">5.17</td>
+<td>Go</td>
+<td>2026-05-08</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/helixgitpx</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>LLMOrchestrator</td>
+<td style="text-align: right;">4.99</td>
+<td>HTML</td>
+<td>2026-06-09</td>
+<td>Headless CLI agent management for LLM orchestration</td>
+<td>https://gitlab.com/vasic-digital/LLMOrchestrator</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>LLMProvider</td>
+<td style="text-align: right;">4.99</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/LLMProvider</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>challenges</td>
+<td style="text-align: right;">4.69</td>
+<td>Go</td>
+<td>2026-06-16</td>
+<td>digital.vasic.challenges - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/challenges</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-ui-ux-pro-max</td>
+<td style="text-align: right;">4.61</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-ui-ux-pro-max</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-mistral-code</td>
+<td style="text-align: right;">4.44</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-mistral-code</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-aichat</td>
+<td style="text-align: right;">4.20</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-aichat</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>assets</td>
+<td style="text-align: right;">4.20</td>
+<td>HTML</td>
+<td>2026-04-29</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/assets</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixLLM</td>
+<td style="text-align: right;">3.99</td>
+<td>Go</td>
+<td>2026-06-15</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/helixllm</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-fauxpilot</td>
+<td style="text-align: right;">3.53</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-fauxpilot</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-shai</td>
+<td style="text-align: right;">3.44</td>
+<td>Rust</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-shai</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-claude-squad</td>
+<td style="text-align: right;">3.24</td>
+<td>Go</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-claude-squad</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Nova-Player</td>
+<td style="text-align: right;">3.18</td>
+<td>HTML</td>
+<td>2026-06-15</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:milos85vasic/ATMOSphere-Nova-Player.git</td>
+<td>https://gitlab.com/vasic-digital/ATMOSphere-Nova-Player</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>claude-toolkit</td>
+<td style="text-align: right;">2.33</td>
+<td>HTML</td>
+<td>2026-06-16</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/claude-toolkit</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-codex-skills</td>
+<td style="text-align: right;">2.30</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-codex-skills</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>recovery</td>
+<td style="text-align: right;">2.28</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/recovery</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>config</td>
+<td style="text-align: right;">2.26</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>digital.vasic.config - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/config</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>DebateOrchestrator</td>
+<td style="text-align: right;">2.08</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/DebateOrchestrator</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>RedTeam</td>
+<td style="text-align: right;">2.04</td>
+<td>Shell</td>
+<td>2026-06-17</td>
+<td>YAML-driven adversarial prompt fixture harness for defensive LLM
+guardrail regression testing</td>
+<td>https://gitlab.com/vasic-digital/RedTeam</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Normalize</td>
+<td style="text-align: right;">1.92</td>
+<td>Shell</td>
+<td>2026-06-17</td>
+<td>Adversarial-input canonicalisation library for defensive LLM
+guardrail pipelines</td>
+<td>https://gitlab.com/vasic-digital/Normalize</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ratelimiter</td>
+<td style="text-align: right;">1.89</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>digital.vasic.ratelimiter - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/ratelimiter</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>document</td>
+<td style="text-align: right;">1.71</td>
+<td>Shell</td>
+<td>2026-06-09</td>
+<td>Go document model with format detection and change tracking</td>
+<td>https://gitlab.com/vasic-digital/document</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-multiagent-coding</td>
+<td style="text-align: right;">1.70</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-multiagent-coding</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-octogen</td>
+<td style="text-align: right;">1.65</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-octogen</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>docs_chain</td>
+<td style="text-align: right;">1.64</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>docs_chain — universal bidirectional document/database
+dependency-propagation engine (Salsa-style content-hashed increme</td>
+<td>https://gitlab.com/vasic-digital/docs_chain</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>i18n</td>
+<td style="text-align: right;">1.61</td>
+<td>Shell</td>
+<td>2026-06-09</td>
+<td>digital.vasic.i18n - Generic internationalization Go module</td>
+<td>https://gitlab.com/vasic-digital/i18n</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>security</td>
+<td style="text-align: right;">1.33</td>
+<td>Go</td>
+<td>2026-06-16</td>
+<td>digital.vasic.security - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/security</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixSpecifier</td>
+<td style="text-align: right;">1.32</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/HelixSpecifier</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixMemory</td>
+<td style="text-align: right;">1.31</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/HelixMemory</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>eventbus</td>
+<td style="text-align: right;">1.28</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.eventbus - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/eventbus</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>SkillRegistry</td>
+<td style="text-align: right;">1.25</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>CLI agent skill registration and management for AI agent
+systems</td>
+<td>https://gitlab.com/vasic-digital/SkillRegistry</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>database</td>
+<td style="text-align: right;">1.23</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.database - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/database</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>observability</td>
+<td style="text-align: right;">1.22</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.observability - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/observability</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>cache</td>
+<td style="text-align: right;">1.21</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.cache - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/cache</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>concurrency</td>
+<td style="text-align: right;">1.20</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.concurrency - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/concurrency</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>auth</td>
+<td style="text-align: right;">1.18</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.auth - Reusable Go authentication module</td>
+<td>https://gitlab.com/vasic-digital/auth</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>storage</td>
+<td style="text-align: right;">1.14</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.storage - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/storage</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>middleware</td>
+<td style="text-align: right;">1.11</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>digital.vasic.middleware - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/middleware</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>streaming</td>
+<td style="text-align: right;">1.10</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.streaming - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/streaming</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>MCP_Module</td>
+<td style="text-align: right;">1.08</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/MCP_Module</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>RAG</td>
+<td style="text-align: right;">1.06</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/RAG</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Optimization</td>
+<td style="text-align: right;">1.06</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/Optimization</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>plugins</td>
+<td style="text-align: right;">1.04</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.plugins - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/plugins</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Embeddings</td>
+<td style="text-align: right;">1.02</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/Embeddings</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>LLMOps</td>
+<td style="text-align: right;">1.02</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>LLM operations: evaluation, experiments, datasets, prompt
+versioning</td>
+<td>https://gitlab.com/vasic-digital/LLMOps</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>conversation</td>
+<td style="text-align: right;">1.01</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>Conversation context management, infinite context compression, and
+event sourcing for AI agents</td>
+<td>https://gitlab.com/vasic-digital/conversation</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Benchmark</td>
+<td style="text-align: right;">1.01</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>LLM benchmarking: SWE-bench, HumanEval, MMLU, leaderboard</td>
+<td>https://gitlab.com/vasic-digital/Benchmark</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ToolSchema</td>
+<td style="text-align: right;">1.00</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>Generic tool schema definition, validation, and execution for AI
+agent tool systems</td>
+<td>https://gitlab.com/vasic-digital/ToolSchema</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Planning</td>
+<td style="text-align: right;">1.00</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>AI planning algorithms: HiPlan, MCTS, Tree of Thoughts</td>
+<td>https://gitlab.com/vasic-digital/Planning</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>SelfImprove</td>
+<td style="text-align: right;">0.99</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>AI self-improvement: reward modelling, RLHF, optimizer</td>
+<td>https://gitlab.com/vasic-digital/SelfImprove</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Agentic</td>
+<td style="text-align: right;">0.99</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>Graph-based agentic workflow orchestration</td>
+<td>https://gitlab.com/vasic-digital/Agentic</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>VectorDB</td>
+<td style="text-align: right;">0.97</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/VectorDB</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>messaging</td>
+<td style="text-align: right;">0.97</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/messaging</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>filesystem</td>
+<td style="text-align: right;">0.85</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>digital.vasic.filesystem - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/filesystem</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-postgres-mcp</td>
+<td style="text-align: right;">0.73</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-postgres-mcp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>lazy</td>
+<td style="text-align: right;">0.73</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/lazy</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>watcher</td>
+<td style="text-align: right;">0.72</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>digital.vasic.watcher - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/watcher</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Models</td>
+<td style="text-align: right;">0.63</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/Models</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>LLMProvider</td>
+<td style="text-align: right;">0.54</td>
+<td>Go</td>
+<td>2026-04-27</td>
+<td></td>
+<td>https://gitlab.com/helixdevelopment1/LLMProvider</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>BackgroundTasks</td>
+<td style="text-align: right;">0.52</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/BackgroundTasks</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>memory</td>
+<td style="text-align: right;">0.52</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/memory</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>formatters</td>
+<td style="text-align: right;">0.46</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>digital.vasic.formatters - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/formatters</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-copilot-cli</td>
+<td style="text-align: right;">0.37</td>
+<td>Shell</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-copilot-cli</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DebateOrchestrator</td>
+<td style="text-align: right;">0.33</td>
+<td>Go</td>
+<td>2026-06-17</td>
+<td>Debate Orchestrator (GitLab mirror of
+HelixDevelopment/DebateOrchestrator)</td>
+<td>https://gitlab.com/helixdevelopment1/DebateOrchestrator</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>tracker_sdk</td>
+<td style="text-align: right;">0.31</td>
+<td>Kotlin</td>
+<td>2026-05-20</td>
+<td>Generic, tracker-agnostic SDK primitives: mirror manager, plugin
+registry, testing harness.</td>
+<td>https://gitlab.com/vasic-digital/tracker_sdk</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-aichat-llm-functions</td>
+<td style="text-align: right;">0.31</td>
+<td>Shell</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-aichat-llm-functions</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>mdns</td>
+<td style="text-align: right;">0.18</td>
+<td>Go</td>
+<td>2026-05-20</td>
+<td>Generic Go module for RFC 6762/6763 mDNS service announcement and
+discovery — drop-in LAN service registration</td>
+<td>https://gitlab.com/vasic-digital/mdns</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-android-agent</td>
+<td style="text-align: right;">0.17</td>
+<td>Kotlin</td>
+<td>2026-06-10</td>
+<td>Helix OTA — Kotlin/KMP device agent (poll, download, verify, apply,
+report). Reusable submodule.</td>
+<td>https://gitlab.com/helixdevelopment1/ota-android-agent</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ui-components-react</td>
+<td style="text-align: right;">0.16</td>
+<td>TSX</td>
+<td>2026-04-29</td>
+<td>Reusable TypeScript/React module</td>
+<td>https://gitlab.com/vasic-digital/ui-components-react</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-deepseek-cli-youkpan</td>
+<td style="text-align: right;">0.13</td>
+<td></td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-deepseek-cli-youkpan</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-cli-agent</td>
+<td style="text-align: right;">0.12</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-cli-agent</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-deepseek-cli</td>
+<td style="text-align: right;">0.12</td>
+<td>TypeScript</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-deepseek-cli</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>PliniusCommon</td>
+<td style="text-align: right;">0.12</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Common types/errors library (shared foundation for
+the 8 sibling modules)</td>
+<td>https://gitlab.com/vasic-digital/PliniusCommon</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-rollout-engine</td>
+<td style="text-align: right;">0.11</td>
+<td>Go</td>
+<td>2026-06-11</td>
+<td>Helix OTA — OS-agnostic staged-rollout + halt/advance engine
+(percentage cohorts, success/error thresholds). Reusable su</td>
+<td>https://gitlab.com/helixdevelopment1/ota-rollout-engine</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-artifact-validator</td>
+<td style="text-align: right;">0.11</td>
+<td>Go</td>
+<td>2026-06-11</td>
+<td>Helix OTA — OTA artifact structure/hash/signature/metadata
+validation pipeline. Reusable submodule.</td>
+<td>https://gitlab.com/helixdevelopment1/ota-artifact-validator</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-update-engine-bridge</td>
+<td style="text-align: right;">0.10</td>
+<td>Kotlin</td>
+<td>2026-06-08</td>
+<td>Helix OTA — thin bridge over AOSP update_engine / boot_control for
+A/B apply. Android submodule.</td>
+<td>https://gitlab.com/helixdevelopment1/ota-update-engine-bridge</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Ouroborous</td>
+<td style="text-align: right;">0.10</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Recursive/self-referential safety patterns</td>
+<td>https://gitlab.com/vasic-digital/Ouroborous</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Veritas</td>
+<td style="text-align: right;">0.10</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Truth/verification auxiliary</td>
+<td>https://gitlab.com/vasic-digital/Veritas</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-protocol</td>
+<td style="text-align: right;">0.09</td>
+<td>Go</td>
+<td>2026-06-11</td>
+<td>Helix OTA — shared wire protocol, manifest schema, status/event
+types (Go + KMP). Reusable submodule.</td>
+<td>https://gitlab.com/helixdevelopment1/ota-protocol</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>entities</td>
+<td style="text-align: right;">0.09</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/entities</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-telemetry-schema</td>
+<td style="text-align: right;">0.09</td>
+<td>Go</td>
+<td>2026-06-08</td>
+<td>Helix OTA — telemetry event/metric schema + codecs shared by server
+and agents. Reusable submodule.</td>
+<td>https://gitlab.com/helixdevelopment1/ota-telemetry-schema</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-conduit</td>
+<td style="text-align: right;">0.08</td>
+<td></td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-conduit</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>media</td>
+<td style="text-align: right;">0.08</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>digital.vasic.media - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/media</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>calling-engine-ts</td>
+<td style="text-align: right;">0.08</td>
+<td>TypeScript</td>
+<td>2026-03-07</td>
+<td>Generic SIP.js + WebRTC calling engine</td>
+<td>https://gitlab.com/vasic-digital/calling-engine-ts</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>state-management-ts</td>
+<td style="text-align: right;">0.07</td>
+<td>TypeScript</td>
+<td>2026-03-07</td>
+<td>Generic Redux Toolkit state management utilities</td>
+<td>https://gitlab.com/vasic-digital/state-management-ts</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>http3</td>
+<td style="text-align: right;">0.06</td>
+<td>Go</td>
+<td>2026-06-03</td>
+<td>Generic Go module wrapping quic-go/http3 for net/http.Handler
+servers — drop-in HTTP/3 support</td>
+<td>https://gitlab.com/vasic-digital/http3</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>discovery</td>
+<td style="text-align: right;">0.06</td>
+<td>Go</td>
+<td>2026-06-03</td>
+<td>digital.vasic.discovery - Reusable Go module</td>
+<td>https://gitlab.com/vasic-digital/discovery</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>websocket-client-ts</td>
+<td style="text-align: right;">0.06</td>
+<td>TypeScript</td>
+<td>2026-03-06</td>
+<td>Reusable TypeScript/React module</td>
+<td>https://gitlab.com/vasic-digital/websocket-client-ts</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>testing-utils-ts</td>
+<td style="text-align: right;">0.05</td>
+<td>TypeScript</td>
+<td>2026-03-07</td>
+<td>Generic React + Redux testing utilities</td>
+<td>https://gitlab.com/vasic-digital/testing-utils-ts</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>formatters-kmp</td>
+<td style="text-align: right;">0.05</td>
+<td>Kotlin</td>
+<td>2026-05-01</td>
+<td>Cross-platform KMP text format detection, parsing interfaces, and
+format registry</td>
+<td>https://gitlab.com/vasic-digital/formatters-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>api-client-ts</td>
+<td style="text-align: right;">0.05</td>
+<td>TypeScript</td>
+<td>2026-03-07</td>
+<td>Generic REST API client for TypeScript</td>
+<td>https://gitlab.com/vasic-digital/api-client-ts</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>database-kmp</td>
+<td style="text-align: right;">0.05</td>
+<td>Kotlin</td>
+<td>2026-05-01</td>
+<td>digital.vasic.database - KMP network storage database interfaces and
+entity types</td>
+<td>https://gitlab.com/vasic-digital/database-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>auth-kmp</td>
+<td style="text-align: right;">0.05</td>
+<td>Kotlin</td>
+<td>2026-05-01</td>
+<td>Kotlin Multiplatform OAuth2 authentication: flows, token management,
+secure storage interface</td>
+<td>https://gitlab.com/vasic-digital/auth-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>document-kmp</td>
+<td style="text-align: right;">0.05</td>
+<td>Kotlin</td>
+<td>2026-05-01</td>
+<td>Kotlin Multiplatform document model with format detection and change
+tracking</td>
+<td>https://gitlab.com/vasic-digital/document-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>config-kmp</td>
+<td style="text-align: right;">0.05</td>
+<td>Kotlin</td>
+<td>2026-05-01</td>
+<td>Kotlin Multiplatform storage configuration types for network
+protocols</td>
+<td>https://gitlab.com/vasic-digital/config-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Claritas</td>
+<td style="text-align: right;">0.05</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – System-prompt extraction detection</td>
+<td>https://gitlab.com/vasic-digital/Claritas</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>concurrency-kmp</td>
+<td style="text-align: right;">0.05</td>
+<td>Shell</td>
+<td>2026-05-01</td>
+<td>Kotlin Multiplatform concurrency utilities: lazy loading, platform
+synchronization, flow-based loaders</td>
+<td>https://gitlab.com/vasic-digital/concurrency-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>AutoTemp</td>
+<td style="text-align: right;">0.05</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Benchmark-driven temperature auto-tuning
+orchestration</td>
+<td>https://gitlab.com/vasic-digital/AutoTemp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>I-LLM</td>
+<td style="text-align: right;">0.04</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Introspection layer for LLM providers</td>
+<td>https://gitlab.com/vasic-digital/I-LLM</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>GandalfSolutions</td>
+<td style="text-align: right;">0.04</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Read-only solutions archive for prompt-leak-defense
+testing</td>
+<td>https://gitlab.com/vasic-digital/GandalfSolutions</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>HyperTune</td>
+<td style="text-align: right;">0.04</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Hyperparameter tuning orchestration</td>
+<td>https://gitlab.com/vasic-digital/HyperTune</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>LeakHub</td>
+<td style="text-align: right;">0.04</td>
+<td>Go</td>
+<td>2026-04-29</td>
+<td>SCAFFOLD / WIP – Prompt-leak corpus / defensive-use fixtures
+(red-team training)</td>
+<td>https://gitlab.com/vasic-digital/LeakHub</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DagOrchestrator</td>
+<td style="text-align: right;">0.04</td>
+<td>Go</td>
+<td>2026-06-10</td>
+<td>Pure-data DAG scheduler (dev.helix.dag)</td>
+<td>https://gitlab.com/helixdevelopment1/DagOrchestrator</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>i18n-client-ts</td>
+<td style="text-align: right;">0.04</td>
+<td>TypeScript</td>
+<td>2026-03-07</td>
+<td>Generic client-side i18n wrapper around i18next</td>
+<td>https://gitlab.com/vasic-digital/i18n-client-ts</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>task_bridge</td>
+<td style="text-align: right;">0.03</td>
+<td>Go</td>
+<td>2026-06-09</td>
+<td>Generic, decoupled bidirectional task/board sync engine (SQLite
+workable-items SSoT &lt;-&gt; tracker docs &lt;-&gt;
+ClickUp/Jira/Li</td>
+<td>https://gitlab.com/vasic-digital/task_bridge</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ui-components-kmp</td>
+<td style="text-align: right;">0.03</td>
+<td>Kotlin</td>
+<td>2026-05-05</td>
+<td>Kotlin Multiplatform UI components: theme system, animations,
+accessibility utilities for Compose</td>
+<td>https://gitlab.com/vasic-digital/ui-components-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>storage-kmp</td>
+<td style="text-align: right;">0.02</td>
+<td>Shell</td>
+<td>2026-05-01</td>
+<td>digital.vasic.storage - KMP network storage service interfaces and
+abstractions</td>
+<td>https://gitlab.com/vasic-digital/storage-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ratelimiter-kmp</td>
+<td style="text-align: right;">0.02</td>
+<td>Shell</td>
+<td>2026-05-01</td>
+<td>Kotlin Multiplatform rate limiting: semaphore, token bucket,
+adaptive, throttler</td>
+<td>https://gitlab.com/vasic-digital/ratelimiter-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>security-kmp</td>
+<td style="text-align: right;">0.02</td>
+<td>Kotlin</td>
+<td>2026-05-01</td>
+<td>Kotlin Multiplatform secure storage: AES encryption, platform
+Keychain/KeyStore integration</td>
+<td>https://gitlab.com/vasic-digital/security-kmp</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>LLMGateway</td>
+<td style="text-align: right;">0.02</td>
+<td>Go</td>
+<td>2026-04-14</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/llmgateway</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>PipelineRuntime</td>
+<td style="text-align: right;">0.02</td>
+<td>Go</td>
+<td>2026-06-10</td>
+<td>Staged streaming dataflow runtime (dev.helix.pipeline)</td>
+<td>https://gitlab.com/helixdevelopment1/PipelineRuntime</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>VisualRegression</td>
+<td style="text-align: right;">0.02</td>
+<td>Go</td>
+<td>2026-03-30</td>
+<td>Reusable VisualRegression module</td>
+<td>https://gitlab.com/vasic-digital/VisualRegression</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ReplayBuffer</td>
+<td style="text-align: right;">0.01</td>
+<td>Go</td>
+<td>2026-03-30</td>
+<td>Reusable ReplayBuffer module</td>
+<td>https://gitlab.com/vasic-digital/ReplayBuffer</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ScreenDiff</td>
+<td style="text-align: right;">0.01</td>
+<td>Go</td>
+<td>2026-03-30</td>
+<td>Reusable ScreenDiff module</td>
+<td>https://gitlab.com/vasic-digital/ScreenDiff</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>TrainingCollector</td>
+<td style="text-align: right;">0.01</td>
+<td>Go</td>
+<td>2026-03-30</td>
+<td>Reusable TrainingCollector module</td>
+<td>https://gitlab.com/vasic-digital/TrainingCollector</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>caf-aiagent</td>
+<td style="text-align: right;">0.01</td>
+<td>Python</td>
+<td>2026-06-10</td>
+<td></td>
+<td>https://gitlab.com/vasic-digital/caf-aiagent</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>TOON</td>
+<td style="text-align: right;">0.00</td>
+<td>Go</td>
+<td>2026-04-04</td>
+<td>Generic reusable Go module: digital.vasic.toon - Token-Oriented
+Object Notation wrapper</td>
+<td>https://gitlab.com/vasic-digital/TOON</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Media-Types-TS</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Media-Types-TS</td>
+<td>https://gitlab.com/vasic-digital/Media-Types-TS</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Media-Player-React</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Media-Player-React</td>
+<td>https://gitlab.com/vasic-digital/Media-Player-React</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Media-Browser-React</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Media-Browser-React</td>
+<td>https://gitlab.com/vasic-digital/Media-Browser-React</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Dashboard-Analytics-React</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Dashboard-Analytics-React</td>
+<td>https://gitlab.com/vasic-digital/Dashboard-Analytics-React</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Collection-Manager-React</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Collection-Manager-React</td>
+<td>https://gitlab.com/vasic-digital/Collection-Manager-React</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Catalogizer-API-Client-TS</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Catalogizer-API-Client-TS</td>
+<td>https://gitlab.com/vasic-digital/Catalogizer-API-Client-TS</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>Auth-Context-React</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-30</td>
+<td>Vasic Digital Auth-Context-React</td>
+<td>https://gitlab.com/vasic-digital/Auth-Context-React</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>bear-messenger</td>
+<td style="text-align: right;">0.00</td>
+<td></td>
+<td>2026-03-06</td>
+<td>Bear Messenger - Multi-platform encrypted messenger</td>
+<td>https://gitlab.com/vasic-digital/bear-messenger</td>
+</tr>
+</tbody>
+</table>
+<h2 id="top-15-deep-dive">4. Top 15 deep dive</h2>
+<p>Summaries written from each project’s README (fetched via
+<code>projects/:id/repository/files/README.md/raw</code>). All 15 had a
+<code>README.md</code>.</p>
+<ol type="1">
+<li><p><strong>ATMOSphere-Android-15</strong> (vasic-digital, 1678.0 MB,
+Shell) — Backup mirror of the Android 15 (API 35) AOSP source tree,
+repackaged for git hosting using a hybrid storage scheme (~15GB source
+in git, ~20GB of compressed toolchain archives in
+<code>.compressed/</code> extracted by <code>setup.sh</code>). Ships
+helper scripts for compression, phased pushing, and build-env setup.
+Largest repo in the inventory at ~1.68 GB.</p></li>
+<li><p><strong>HelixCode</strong> (HelixDevelopment, 1431.6 MB, Go) —
+Enterprise-grade distributed AI development platform written in Go
+(<code>dev.helix.code</code>, MIT). Provides distributed worker pools
+over SSH, intelligent task division with checkpointing/rollback,
+multi-provider LLM integration (Llama.cpp/Ollama/OpenAI), MCP protocol
+support, and REST/WebSocket/CLI/TUI clients. README marks all 5
+implementation phases complete.</p></li>
+<li><p><strong>HelixAgent</strong> (vasic-digital, 806.1 MB, Go) —
+Production AI-powered ensemble LLM service in Go that combines responses
+from 47+ LLM providers (Claude, DeepSeek, Gemini, Mistral, etc.) with
+dynamic provider selection scored via LLMsVerifier. Features an AI
+debate/consensus system, intelligent routing, streaming, and 20
+extracted modules (auth, storage, RAG, memory, observability) with
+Prometheus/Grafana/OpenTelemetry monitoring.</p></li>
+<li><p><strong>LLMsVerifier</strong> (vasic-digital, 517.5 MB, Go) —
+Enterprise LLM verification/monitoring/optimization platform in Go.
+Enforces mandatory model verification (the “Do you see my code?” check)
+across 12 provider adapters, with real-time health monitoring, failover,
+analytics, LDAP/SSO, SQLCipher encryption, and an (llmsvd)
+branding-suffix system. Ships Python and JS SDKs and Docker/Kubernetes
+deployment.</p></li>
+<li><p><strong>caf-agent-deck</strong> (vasic-digital, 462.3 MB, Go) —
+Vendored copy of <code>asheshgoplani/agent-deck</code> (Go, MIT) — an
+“AI agent command center” that orchestrates fleets of CLI coding agents
+(e.g. Claude Code) via a conductor session, with Telegram/Slack/Discord
+bridges, watchers/doorbells for external events, and TUI/CLI
+management.</p></li>
+<li><p><strong>caf-warp</strong> (vasic-digital, 167.1 MB, Rust) —
+Vendored copy of <code>warpdotdev/warp</code> — Warp, an agentic
+development environment born from the terminal (Rust). UI crates are
+MIT-licensed, the rest AGPLv3. Supports built-in and bring-your-own CLI
+coding agents.</p></li>
+<li><p><strong>caf-bridle</strong> (vasic-digital, 166.5 MB, Python) —
+Vendored copy of
+<code>jeremylongshore/claude-code-plugins-plus-skills</code> (“Tons of
+Skills”) — a validated Claude Code plugins/skills marketplace catalog
+(430+ plugins, 2,700+ skills) with a CLI (<code>ccpi</code>), spec
+validator, and grading rubric.</p></li>
+<li><p><strong>caf-superset</strong> (vasic-digital, 152.7 MB,
+TypeScript) — Vendored copy of <code>superset-sh/superset</code>
+(TypeScript) — “the code editor for AI agents” that orchestrates swarms
+of CLI coding agents (Claude Code, Codex, etc.) in parallel across
+isolated git worktrees, with a built-in terminal, diff viewer, and
+editor handoff.</p></li>
+<li><p><strong>ATMOSphere-Rhythm-Player</strong> (vasic-digital, 140.7
+MB, Kotlin) — Backup mirror of <code>cromaguy/Rhythm</code> (Kotlin,
+GPLv3) — a Material 3 Expressive Android music player built on Media3
+ExoPlayer with bit-perfect/Dolby Atmos playback, synced lyrics, a
+10-band EQ, and FOSS/privacy focus. Mirrored as an ATMOSphere
+submodule.</p></li>
+<li><p><strong>HelixConstitution</strong> (vasic-digital, 139.1 MB,
+HTML) — The universal, project-agnostic engineering “constitution”
+(rules/conventions) shared as a git submodule by every Helix project.
+Defines a three-layer override model (base/project/subdir), anti-bluff
+covenant, data/host safety, commit discipline, and a 142-repo submodule
+catalogue. Pushed to multiple upstreams
+(GitHub/GitLab/GitFlic/GitVerse).</p></li>
+<li><p><strong>caf-aider</strong> (vasic-digital, 137.0 MB, Python) —
+Vendored copy of <code>Aider-AI/aider</code> (Python) — AI
+pair-programming in the terminal that works with most LLMs (Claude,
+DeepSeek, GPT, local models), maps the codebase, supports 100+
+languages, and auto-commits changes with git integration.</p></li>
+<li><p><strong>caf-codex</strong> (vasic-digital, 132.4 MB, Rust) —
+Vendored copy of <code>openai/codex</code> (Rust, Apache-2.0) — OpenAI’s
+Codex CLI coding agent that runs locally, installable via
+curl/npm/Homebrew, with IDE integrations and ChatGPT-plan or API-key
+auth.</p></li>
+<li><p><strong>caf-codename-goose</strong> (vasic-digital, 109.5 MB,
+Rust) — Vendored copy of <code>block/goose</code> (Rust, Apache-2.0) —
+“codename goose”, a local, extensible, open-source on-machine AI agent
+that automates engineering tasks end-to-end (builds projects,
+writes/executes code, debugs, orchestrates workflows) and works with any
+LLM via MCP.</p></li>
+<li><p><strong>ATMOSphere-SmartTube</strong> (vasic-digital, 105.9 MB,
+Java) — Backup mirror of <code>yuliskov/SmartTube</code> (Java) — a
+free, open-source media client for Android TVs/TV boxes with
+SponsorBlock, 8K/60fps/HDR support, and no Google-Services requirement.
+README carries an upstream security advisory about a compromised build
+environment.</p></li>
+<li><p><strong>caf-open-interpreter</strong> (vasic-digital, 97.6 MB,
+Python) — Vendored copy of <code>OpenInterpreter/open-interpreter</code>
+(Python, AGPL) — lets LLMs run code (Python/JS/Shell) locally through a
+ChatGPT-like terminal interface, providing a natural-language interface
+to the computer with user approval before execution.</p></li>
+</ol>
+<h2 id="github-overlap-likely-mirrors-vendored-duplicates">5. GitHub
+overlap (likely mirrors / vendored duplicates)</h2>
+<p>Two distinct duplication patterns were found, totalling <strong>63 of
+189 projects (~33%)</strong> that are very likely dedup candidates:</p>
+<h3 id="a.-caf--vendored-upstream-copies-49-projects">5a.
+<code>caf-*</code> vendored upstream copies (49 projects)</h3>
+<p>Every project whose name starts with <code>caf-</code> is a vendored
+copy of a well-known upstream GitHub project (confirmed by READMEs
+pointing at the upstream repos). Examples verified from READMEs:
+<code>caf-warp</code> → <code>github.com/warpdotdev/warp</code>;
+<code>caf-codex</code> → <code>github.com/openai/codex</code>;
+<code>caf-aider</code> → <code>github.com/Aider-AI/aider</code>;
+<code>caf-superset</code> →
+<code>github.com/superset-sh/superset</code>;
+<code>caf-codename-goose</code> → <code>github.com/block/goose</code>;
+<code>caf-open-interpreter</code> →
+<code>github.com/OpenInterpreter/open-interpreter</code>;
+<code>caf-bridle</code> →
+<code>github.com/jeremylongshore/claude-code-plugins-plus-skills</code>;
+<code>caf-agent-deck</code> →
+<code>github.com/asheshgoplani/agent-deck</code>. Full
+<code>caf-*</code> list:</p>
+<p><code>caf-agent-deck</code>, <code>caf-aiagent</code>,
+<code>caf-aichat</code>, <code>caf-aichat-llm-functions</code>,
+<code>caf-aider</code>, <code>caf-amazon-q</code>,
+<code>caf-bridle</code>, <code>caf-claude-code</code>,
+<code>caf-claude-squad</code>, <code>caf-cli-agent</code>,
+<code>caf-cline</code>, <code>caf-codai</code>,
+<code>caf-codename-goose</code>, <code>caf-codex</code>,
+<code>caf-codex-skills</code>, <code>caf-conduit</code>,
+<code>caf-copilot-cli</code>, <code>caf-crush</code>,
+<code>caf-deepseek-cli</code>, <code>caf-deepseek-cli-youkpan</code>,
+<code>caf-fauxpilot</code>, <code>caf-forge</code>,
+<code>caf-gemini-cli</code>, <code>caf-get-shit-done</code>,
+<code>caf-git-mcp</code>, <code>caf-gpt-engineer</code>,
+<code>caf-gptme</code>, <code>caf-junie</code>,
+<code>caf-mistral-code</code>, <code>caf-multiagent-coding</code>,
+<code>caf-nanocoder</code>, <code>caf-noi</code>,
+<code>caf-octogen</code>, <code>caf-open-interpreter</code>,
+<code>caf-plandex</code>, <code>caf-postgres-mcp</code>,
+<code>caf-qwen-code</code>, <code>caf-shai</code>,
+<code>caf-snow-cli</code>, <code>caf-spec-kit</code>,
+<code>caf-superset</code>, <code>caf-swe-agent</code>,
+<code>caf-taskweaver</code>, <code>caf-ui-ux-pro-max</code>,
+<code>caf-vtcode</code>, <code>caf-warp</code>, <code>caf-x-cmd</code>,
+<code>caf-xela-cli</code>, <code>caf-zeroshot</code></p>
+<h3 id="b.-explicit-github-backup-mirrors-14-projects">5b. Explicit
+GitHub backup mirrors (14 projects)</h3>
+<p>These projects’ GitLab descriptions explicitly state they are backup
+mirrors of a GitHub repo (<code>git@github.com:...</code>):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>group</th>
+<th>name</th>
+<th>mirrors (from description)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Android-15</td>
+<td>ATMOSphere main repo backup mirror</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>HelixConstitution</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:HelixDevelopment/HelixConstitution.git</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-VLC-Player</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-VLC-Playe</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-TorrServe</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-TorrServe</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Strep-Player</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Strep-Pla</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-SmartTube</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-SmartTube</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Rhythm-Player</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Rhythm-Pl</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Presenter</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Presenter</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Nova-Player</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:milos85vasic/ATMOSphere-Nova-Player.gi</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-MPV-Player</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:milos85vasic/ATMOSphere-MPV-Player.git</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Lampa</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Lampa.git</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>ATMOSphere-Gramophone-Player</td>
+<td>ATMOSphere submodule backup mirror —
+git@github.com:ATMOSphere1234321/ATMOSphere-Gramophon</td>
+</tr>
+<tr>
+<td>vasic-digital</td>
+<td>tracker_sdk</td>
+<td>Generic, tracker-agnostic SDK primitives: mirror manager, plugin
+registry, testing harness</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DebateOrchestrator</td>
+<td>Debate Orchestrator (GitLab mirror of
+HelixDevelopment/DebateOrchestrator)</td>
+</tr>
+</tbody>
+</table>
+<p><code>DebateOrchestrator</code> (HelixDevelopment) is described as a
+GitLab mirror of <code>HelixDevelopment/DebateOrchestrator</code>. The
+<code>ATMOSphere-*</code> set (11 projects) are backup mirrors of GitHub
+repos under the <code>ATMOSphere1234321</code> /
+<code>milos85vasic</code> orgs.</p>
+</body>
+</html>

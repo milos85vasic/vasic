@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research-best-practices</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research-best-practices</h1>
+</header>
+<h1
+id="research-brief-best-practices-for-a-a-developer-cvportfolio-site-b-a-software-services-company-site">Research
+Brief: Best Practices for (A) a Developer CV/Portfolio Site &amp; (B) a
+Software Services Company Site</h1>
+<blockquote>
+<p>Evidence-based, cited brief to drive the design of two sites for a
+senior software engineer (Serbian; targets RU + EU + global; owns
+<code>milosvasic.ru</code> and <code>vasic.digital</code>). Prepared
+2026-06-17. Every recommendation carries a trailing source link.
+<strong>27 distinct sources cited</strong> (see list at end).</p>
+</blockquote>
+<hr />
+<h2 id="a-developer-cv-portfolio-website">A) DEVELOPER CV / PORTFOLIO
+WEBSITE</h2>
+<p><em>Audience: technical recruiters &amp; engineering hiring managers,
+2026.</em></p>
+<h3 id="a1.-what-modern-hrrecruiters-look-for">A1. What modern
+HR/recruiters look for</h3>
+<ul>
+<li><strong>Lead with quantifiable impact, not
+responsibilities.</strong> Recruiters read the experience section first
+and want real metrics (scale, users, performance, revenue), not task
+lists. <a
+href="https://www.jobscan.co/blog/software-engineer-recruiter-insights/">jobscan.co</a></li>
+<li><strong>Show a clear career arc</strong> (e.g. Junior to Senior)
+that links past roles logically to the target role. <a
+href="https://www.jobscan.co/blog/software-engineer-recruiter-insights/">jobscan.co</a></li>
+<li><strong>Name concrete tools and stack</strong> — languages,
+frameworks, databases, version control (Git/GitHub is expected), and
+methodologies (Agile, TDD). Recruiters scan for specific keywords. <a
+href="https://careers.uw.edu/blog/2025/08/01/entry-level-software-engineer-resume-what-recruiters-want-to-see/">careers.uw.edu</a></li>
+<li><strong>Demonstrate problem-solving explicitly</strong> — how you
+debugged, optimized, or improved systems. Analytical thinking is
+weighted as heavily as raw tech knowledge. <a
+href="https://careers.uw.edu/blog/2025/08/01/entry-level-software-engineer-resume-what-recruiters-want-to-see/">careers.uw.edu</a></li>
+<li><strong>Include GitHub/portfolio links</strong> so recruiters can
+see real code; highlight open-source contributions and continuous
+learning. <a
+href="https://www.jobscan.co/blog/software-engineer-recruiter-insights/">jobscan.co</a></li>
+<li><strong>Don’t omit soft skills</strong> — communication and
+cross-functional collaboration matter even for deep technical roles; tie
+technical wins to business outcomes. <a
+href="https://www.jobscan.co/blog/software-engineer-recruiter-insights/">jobscan.co</a></li>
+<li><strong>Design for scanners (F-pattern):</strong> recruiters read
+top-left, then down the left edge. Front-load key info, put crucial
+words first in each heading/bullet, use bold for key phrases, prefer
+bullets over paragraphs. Right-side content gets skipped. <a
+href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">nngroup.com</a></li>
+</ul>
+<h3 id="a2.-ats-friendly-downloadable-pdf-cv-formatting-rules">A2.
+ATS-friendly downloadable PDF CV — formatting rules</h3>
+<ul>
+<li><strong>File format:</strong> A clean, <em>text-based</em> PDF now
+parses as cleanly as DOCX in the major 2026 ATS platforms (Workday,
+Greenhouse, Lever). Use a single-column text-based PDF as default; fall
+back to DOCX only if the posting requests it. Never use .jpg/.png/.pages
+or image-only/scanned PDFs. <a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a>
+· <a
+href="https://www.resumemate.io/blog/pdf-vs-word-for-resume-2026-which-format-ats-actually-prefers/">resumemate.io</a></li>
+<li><strong>PDF safety test:</strong> open the PDF and select/copy all
+text. If it copies as clean ordered text, it is text-based and ATS-safe;
+if garbled, it was exported as an image and will fail parsing. <a
+href="https://www.jobshinobi.com/blog/resume-scanner-pdf-vs-docx-which-is-better">jobshinobi.com</a></li>
+<li><strong>Single column only.</strong> Multi-column/side-by-side
+layouts cause “data collision” — the parser reads content out of order
+and scrambles it. <a
+href="https://www.jobscan.co/blog/resume-tables-columns-ats/">jobscan.co</a></li>
+<li><strong>No tables, text boxes, charts, images, or skill
+bars.</strong> Write “Java (Expert)” as text, not a visual proficiency
+bar. <a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a></li>
+<li><strong>Keep contact info out of headers/footers</strong> — many
+parsers ignore that layer entirely, making your name/email/phone
+invisible. Put all vital info in the main body. <a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a></li>
+<li><strong>Use standard web-safe fonts</strong> (Arial, Calibri,
+Helvetica, Georgia, Garamond, Verdana, Cambria, Times New Roman). Body
+10–12pt, headers 14–16pt, max two font families. No decorative fonts or
+emoji icons (📞) — they render as [NULL]/gibberish. <a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a>
+· <a
+href="https://scale.jobs/blog/10-tips-for-ats-friendly-resumes-in-2025">scale.jobs</a></li>
+<li><strong>Use conventional section headings</strong> (“Work
+Experience”, “Education”, “Skills”). Avoid creative labels (“My
+Journey”, “The Toolkit”) — the ATS misclassifies or drops them. <a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a></li>
+<li><strong>Consistent date format</strong> (“Jan 2021 – Mar 2023” or
+“01/2021 – 03/2023”); avoid apostrophes (“Jan ’21”) and missing months.
+<a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a></li>
+<li><strong>Pull keywords from the job description and integrate
+naturally — do NOT keyword-stuff.</strong> Modern ATS spam filters
+detect repetitive out-of-context lists and lower your ranking. <a
+href="https://scale.jobs/blog/10-tips-for-ats-friendly-resumes-in-2025">scale.jobs</a></li>
+</ul>
+<blockquote>
+<p><strong>Design implication:</strong> the on-screen portfolio can be
+visually rich, but the downloadable CV must be a separate, deliberately
+<em>plain</em>, single-column, text-based PDF. Generate the PDF from a
+clean ATS template, not by “print to PDF” of the styled web page.</p>
+</blockquote>
+<h3 id="a3.-portfolio-structure-that-converts">A3. Portfolio structure
+that converts</h3>
+<ul>
+<li><strong>Recommended section order:</strong> Hero/About → Featured
+Projects → Skills → Experience → Contact, ideally a clean content-rich
+single page with sticky nav for jumping between sections. <a
+href="https://www.freecodecamp.org/news/level-up-developer-portfolio/">freecodecamp.org</a>
+· <a
+href="https://colorlib.com/wp/developer-portfolios/">colorlib.com</a></li>
+<li><strong>Hero:</strong> one clear value proposition + one CTA.
+Effective 2025 heroes balance clarity, speed, accessibility and measured
+interactivity. Make the work itself the hero if it is visual. <a
+href="https://doortoonline.com/blog/website-hero-section-designs-2025">doortoonline.com</a>
+· <a
+href="https://elementor.com/blog/best-web-developer-portfolio-examples/">elementor.com</a></li>
+<li><strong>Projects are the core.</strong> Per project, document: why
+you built it, challenges, lessons, your process, and what you’d do
+differently — don’t just link to code. Include a concise description,
+tech-stack list, and links to live site + repo. Prefer a filterable
+layout. <a
+href="https://www.freecodecamp.org/news/level-up-developer-portfolio/">freecodecamp.org</a>
+· <a
+href="https://colorlib.com/wp/developer-portfolios/">colorlib.com</a></li>
+<li><strong>About Me with personality</strong> — a genuine narrative
+beats generic copy. <a
+href="https://www.freecodecamp.org/news/level-up-developer-portfolio/">freecodecamp.org</a></li>
+<li><strong>Cut these:</strong> tutorial-clone projects, skill progress
+bars, the portfolio site listed as its own project, unrelated non-dev
+projects, and copied/generic templates. <a
+href="https://www.freecodecamp.org/news/level-up-developer-portfolio/">freecodecamp.org</a></li>
+<li><strong>Polish last:</strong> add animations, transitions, dark mode
+only after fundamentals are solid; unpolished effects damage
+credibility. Use a custom domain. <a
+href="https://www.freecodecamp.org/news/level-up-developer-portfolio/">freecodecamp.org</a></li>
+<li><strong>Apply the F-pattern to the page</strong> — front-load info,
+prominent headings with crucial words first, descriptive link text (not
+“click here”). <a
+href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">nngroup.com</a></li>
+</ul>
+<h3 id="a4.-showcasing-open-source-many-repos-without-overwhelming">A4.
+Showcasing open-source / many repos without overwhelming</h3>
+<ul>
+<li><strong>Curate to a small set of deep case studies.</strong>
+“Quality over quantity” is the explicit rule; variety of skills shown
+matters more than count. 3–5 detailed projects is the recommended depth.
+<a
+href="https://www.nngroup.com/articles/ux-design-portfolios/">nngroup.com</a></li>
+<li><strong>Use a two-tier “Featured” vs “More” structure:</strong>
+feature your best 4–6 projects prominently; relegate the long tail to a
+secondary list or an “all repos” page with one-line descriptions. <a
+href="https://github.com/katiehuangx/How-to-Create-a-GitHub-Portfolio">github.com</a></li>
+<li><strong>GitHub pins max out at 6 items</strong> (repos + gists
+combined) — treat the pinned set as your canonical “featured” tier and
+mirror it on the site. <a
+href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/pinning-items-to-your-profile">docs.github.com</a></li>
+<li><strong>Favor substantial, working, well-documented, role-relevant
+repos;</strong> prune/hide trivial or abandoned ones so visitors see
+only signal. <a
+href="https://dev.to/noahelijah25/how-to-build-and-showcase-a-strong-github-portfolio-575o">dev.to</a></li>
+<li><strong>Per-project metadata to surface:</strong> problem/goal, your
+specific role, tech stack, how you solved it, challenges/rejected
+approaches, and the outcome/impact. Stars and a tech-stack line signal
+traction, but the role + outcome narrative differentiates. <a
+href="https://www.nngroup.com/articles/ux-design-portfolios/">nngroup.com</a>
+· <a
+href="https://www.nucamp.co/blog/coding-bootcamp-job-hunting-integrating-github-repositories-into-your-portfolio">nucamp.co</a></li>
+<li><strong>Add filtering/tagging by stack or domain</strong> so
+recruiters can scan for relevance instead of all work indiscriminately.
+A standalone site (vs raw GitHub profile) gives you that control. <a
+href="https://datacolumn.iaa.ncsu.edu/blog/2025/02/12/how-to-make-a-github-portfolio-website">datacolumn.iaa.ncsu.edu</a></li>
+</ul>
+<h3
+id="a5.-cover-letter-best-practices-concise-role-agnostic-customizable">A5.
+Cover letter best practices (concise, role-agnostic + customizable)</h3>
+<ul>
+<li><strong>One page max, concise and factual.</strong> Avoid flowery
+language; back every claim with an example. <a
+href="https://careerservices.fas.harvard.edu/resources/harvard-college-guide-to-resumes-cover-letters/">careerservices.fas.harvard.edu</a></li>
+<li><strong>Tailor to the specific organization</strong> — research
+first, highlight the most applicable skills. This is what produces
+responses. <a
+href="https://careerservices.fas.harvard.edu/resources/harvard-college-guide-to-resumes-cover-letters/">careerservices.fas.harvard.edu</a></li>
+<li><strong>Address a specific person</strong> when identifiable. <a
+href="https://careerservices.fas.harvard.edu/resources/harvard-college-guide-to-resumes-cover-letters/">careerservices.fas.harvard.edu</a></li>
+<li><strong>True letter structure:</strong> intro → body → conclusion,
+professional closing. <strong>Open with a concrete hook</strong> (a
+specific project that maps to the job). <strong>Body balances technical
++ soft skills</strong> with quantifiable accomplishments tied to
+business outcomes. <a
+href="https://www.jobscan.co/cover-letter-examples/software-engineer">jobscan.co</a></li>
+<li><strong>Template strategy (role-agnostic + customizable):</strong>
+keep a fixed intro/closing skeleton; swap a tailored opening hook
+(specific project ↔︎ specific company need) and 2–3 accomplishment
+bullets per application. <a
+href="https://careerservices.fas.harvard.edu/resources/harvard-college-guide-to-resumes-cover-letters/">careerservices.fas.harvard.edu</a>
+· <a
+href="https://www.tealhq.com/cover-letter-example/software-engineer">tealhq.com</a></li>
+</ul>
+<h3 id="a6.-accessibility-wcag-2.2-aa-must-haves">A6. Accessibility
+(WCAG 2.2 AA) — must-haves</h3>
+<p>Target <strong>WCAG 2.2 AA</strong> (current W3C Recommendation since
+Oct 2023, backward-compatible with 2.1). <a
+href="https://www.w3.org/TR/WCAG22/">w3.org</a></p>
+<ul>
+<li><strong>Text contrast ≥ 4.5:1</strong> for normal text, <strong>≥
+3:1</strong> for large text (≥18pt, or ≥14pt bold). <a
+href="https://www.w3.org/WAI/WCAG22/quickref/?levels=aa">w3.org</a></li>
+<li><strong>Non-text contrast ≥ 3:1</strong> for UI components (buttons,
+form borders, icons) and meaningful graphics. <a
+href="https://www.w3.org/WAI/WCAG22/quickref/?levels=aa">w3.org</a></li>
+<li><strong>Full keyboard operability</strong> — every function works
+via keyboard alone, no keyboard traps. <a
+href="https://www.w3.org/WAI/WCAG22/quickref/?levels=aa">w3.org</a></li>
+<li><strong>Visible focus indicators</strong> (SC 2.4.7) plus WCAG 2.2’s
+Focus Appearance (2.4.13) and Focus Not Obscured (2.4.11): focus must be
+clearly visible, ≥3:1 contrast vs unfocused state, and not hidden behind
+sticky headers. <a href="https://www.w3.org/TR/WCAG22/">w3.org</a> · <a
+href="https://testparty.ai/blog/wcag-focus-appearance-minimum">testparty.ai</a></li>
+<li><strong>Reflow</strong> — content works at 320 CSS px wide with no
+loss of info or 2-D scrolling (responsive to mobile/zoom). <a
+href="https://www.w3.org/WAI/WCAG22/quickref/?levels=aa">w3.org</a></li>
+<li><strong>Respect <code>prefers-reduced-motion</code></strong> —
+reduce/replace non-essential animation (parallax, autoplay) for users
+with vestibular disorders (SC 2.3.3). Low effort, high impact. <a
+href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion">developer.mozilla.org</a>
+· <a
+href="https://web.dev/articles/prefers-reduced-motion">web.dev</a></li>
+<li><strong>Semantic HTML + meaningful alt text</strong> on project
+images/screenshots; proper landmark/heading structure. <a
+href="https://www.w3.org/TR/WCAG22/">w3.org</a></li>
+</ul>
+<h3 id="a7.-performance-expectations-20252026">A7. Performance
+expectations (2025–2026)</h3>
+<p>Core Web Vitals, measured at the <strong>75th percentile</strong> of
+real-user loads, split mobile/desktop. INP replaced FID in 2024. <a
+href="https://web.dev/articles/vitals">web.dev</a></p>
+<ul>
+<li><strong>LCP (Largest Contentful Paint) ≤ 2.5 s</strong> (loading).
+<a href="https://web.dev/articles/vitals">web.dev</a></li>
+<li><strong>INP (Interaction to Next Paint) ≤ 200 ms</strong>
+(responsiveness). <a
+href="https://web.dev/articles/vitals">web.dev</a></li>
+<li><strong>CLS (Cumulative Layout Shift) ≤ 0.1</strong> (visual
+stability). <a href="https://web.dev/articles/vitals">web.dev</a></li>
+<li><strong>To “pass,” ≥75% of real-user visits must hit the “good” band
+on all three</strong> metrics at URL level. <a
+href="https://web.dev/articles/defining-core-web-vitals-thresholds">web.dev</a></li>
+<li><strong>Lighthouse is lab data, not the ranking signal.</strong>
+Target ≥90 Lighthouse Performance as a diagnostic, but Google ranks on
+field/CrUX data, which can differ. Use Lighthouse to find fixes, not as
+pass/fail. <a
+href="https://www.debugbear.com/docs/core-web-vitals-ranking-factor">debugbear.com</a></li>
+<li><strong>SEO:</strong> CWV are a confirmed page-experience ranking
+factor used largely as a tie-breaker between comparable-quality pages —
+they help you edge out competitors but don’t override content quality.
+<a
+href="https://developers.google.com/search/docs/appearance/page-experience">developers.google.com</a></li>
+</ul>
+<hr />
+<h2 id="b-software-services-company-website">B) SOFTWARE SERVICES
+COMPANY WEBSITE</h2>
+<p><em>Audience: prospective B2B clients.</em></p>
+<h3 id="b1.-what-makes-a-dev-shopagency-site-convert-leads">B1. What
+makes a dev-shop/agency site convert leads</h3>
+<ul>
+<li><strong>Benchmark:</strong> the average B2B site converts ~2–4% of
+visitors to leads (B2B SaaS closer to 1%). Below 2% means the friction
+is in messaging/hero/trust signals <em>before</em> the CTA — fix those
+first. <a
+href="https://www.grafit.agency/blog/best-practices-for-building-a-high-performing-b2b-website-in-2026">grafit.agency</a></li>
+<li><strong>Credibility must land in the first viewport</strong> — B2B
+buyers juggle multiple vendor tabs and decide on credibility fast. <a
+href="https://www.nngroup.com/reports/b2b-websites-usability/">nngroup.com</a></li>
+<li><strong>Put a trust signal within view of every major CTA.</strong>
+The moment of highest doubt is right before clicking “Book a Demo” — a
+short quote or logo beside the button is where it pays off. <a
+href="https://www.trustsignals.com/blog/77-trust-signals-to-increase-your-online-conversion-rate">trustsignals.com</a></li>
+<li><strong>Match the signal to funnel position:</strong> social-proof
+metrics in hero, testimonials near CTAs, security/assurance cues near
+forms (29% of form abandonment is driven by security concerns). <a
+href="https://blog.thewdgagency.com/trust-signals-that-convert-types-of-proof-b2b-websites-need-to-turn-visitors-into-leads">blog.thewdgagency.com</a></li>
+<li><strong>NN/g “pyramid of trust”:</strong> satisfy low-commitment
+trust needs before asking for high-commitment actions; don’t demand a
+long form before demonstrating competence. <a
+href="https://www.nngroup.com/reports/b2b-websites-usability/">nngroup.com</a></li>
+</ul>
+<p><strong>Case studies — the #1 trust asset:</strong> - Case studies
+are the single most powerful trust signal because they present
+<em>independently evaluable</em> measurable outcomes. Structure each as
+customer need → how you solved it → actual results with hard numbers. <a
+href="https://www.nngroup.com/reports/b2b-websites-usability/">nngroup.com</a>
+- Use a “before / during / after” arc with real metrics (% time saved, $
+earned). For one firm, ~half of leads viewed a case study before making
+contact. <a href="https://cxl.com/blog/b2b-case-studies/">cxl.com</a> -
+Case studies ranked #1 (2024) and #2 (2025) in Content Marketing
+Institute surveys — a durable top format, not a fad. <a
+href="https://www.stryvemarketing.com/blog/design-b2b-case-studies/">stryvemarketing.com</a>
+- Standardize on: problem → solution → result with metrics, named client
++ role, a scannable card preview leading to a full study. <a
+href="https://proofmap.com/insights/b2b-case-studies-examples-from-the-top-58-growing-saas-companies-in-2025">proofmap.com</a></p>
+<p><strong>Social proof:</strong> - Adding a single client logo lifted
+landing-page conversions by <strong>69%</strong> in a comScore A/B test.
+<a
+href="https://cxl.com/blog/is-social-proof-really-that-important/">cxl.com</a>
+- Make testimonials credible: photo + full name + company + role.
+Anonymous quotes carry little weight; video is more convincing. <a
+href="https://cxl.com/blog/is-social-proof-really-that-important/">cxl.com</a>
+- Surface verified third-party ratings (G2, Capterra, Clutch for
+agencies). Clutch is where buyers shortlist dev shops (500k+
+leaders/month) and ranks firms on verified reviews, portfolio
+comprehensiveness, profile completeness, and reputation — mirror those
+four on your own site and link out. <a
+href="https://clutch.co/resources/b2b-buyer-data">clutch.co</a></p>
+<p><strong>CTAs:</strong> - Keep a primary CTA above the fold (60%+ of
+attention is above the fold) AND repeat it mid-page. <a
+href="https://www.saashero.net/design/b2b-saas-landing-cta-practices/">saashero.net</a>
+- Match wording to journey stage: “Download the report” (awareness) →
+“Watch a demo” (consideration) → “Book a demo”/“Get a custom quote”
+(decision). <a
+href="https://martal.ca/cta-best-practices-lb/">martal.ca</a> - Embed a
+testimonial/metric/logo beside the CTA to answer “does this actually
+work?” at the decision point. <a
+href="https://orangeowl.marketing/b2b-marketing/the-power-cta-in-b2b-marketing/">orangeowl.marketing</a></p>
+<h3
+id="b2.-enterprise-cutting-edge-visual-language-20252026-durable-not-faddish">B2.
+Enterprise “cutting-edge” visual language (2025–2026, durable not
+faddish)</h3>
+<ul>
+<li><strong>Bento grids</strong> (cards of varying sizes in one grid)
+are ideal for “about us”, service overviews, case-study previews, and
+feature highlights — they organize heterogeneous content cleanly without
+looking gimmicky. <a
+href="https://gezar.dk/en/blog/web-design-trends-2026">gezar.dk</a></li>
+<li><strong>Typography as primary identity:</strong> oversized
+headlines, custom/variable typefaces, layered and kinetic type reacting
+on scroll. A foundational shift (type as brand), not a passing motif. <a
+href="https://www.figma.com/resource-library/web-design-trends/">figma.com</a></li>
+<li><strong>Motion: restrained and functional.</strong> Micro-animations
+and scroll-triggered reveals to guide attention, kept subtle and
+performance-safe. Enterprise-credible motion serves comprehension, not
+decoration. <a
+href="https://www.figma.com/resource-library/web-design-trends/">figma.com</a></li>
+<li><strong>Dark vs light:</strong> dark mode is effectively expected
+for data-heavy/technical products and signals “premium”; offering a
+light/dark toggle is the accessibility-conscious default. A dark
+technical aesthetic reads as credible for a dev shop. <a
+href="https://www.theedigital.com/blog/web-design-trends">theedigital.com</a>
+· <a
+href="https://www.figma.com/resource-library/web-design-trends/">figma.com</a></li>
+<li><strong>Durable through-line:</strong> pair modern/AI functionality
+with deliberate, hand-crafted human design — polished, intentional craft
+signals competence to a trust-driven B2B audience. <a
+href="https://www.sayenkodesign.com/web-design-trends-2026-whats-worth-using-on-your-business-website/">sayenkodesign.com</a></li>
+<li><strong>Bias toward restraint</strong> (clear layouts, strong type,
+purposeful motion) over maximalist/dopamine excess; lean to whitespace +
+clarity, and use bento density only where it organizes content. <a
+href="https://studiomeyer.io/en/blog/webdesign-trends-2026-reality-check">studiomeyer.io</a></li>
+</ul>
+<h3 id="b3.-same-projects-two-audiences-client-vs-recruiter-framing">B3.
+Same projects, two audiences — client vs recruiter framing</h3>
+<ul>
+<li><strong>For clients:</strong> lead with business impact and ROI —
+revenue up, cost/time down, reliability/performance gains in their
+bottom-line terms. <a
+href="https://www.geeksforgeeks.org/product-management/resume-portfolio-case-studies/">geeksforgeeks.org</a></li>
+<li><strong>For recruiters:</strong> lead with process, problem-solving,
+decision-making, and technical/collaboration depth — “show how you
+think, not just what you shipped.” <a
+href="https://blog.uxfol.io/ux-case-study-structure/">blog.uxfol.io</a></li>
+<li><strong>Both want outcomes</strong> — keep the metric, change which
+leads: business KPI for clients, engineering KPI (latency, uptime,
+scale, deploy frequency) for recruiters. <a
+href="https://recruiterswebsites.com/how-to-write-effective-case-studies-for-recruiting/">recruiterswebsites.com</a></li>
+<li><strong>Tactic — maintain two cuts of each project:</strong> a
+client cut (problem → solution → ROI, light on stack) and a technical
+cut (architecture, trade-offs, technologies, performance gains). One
+body of work, two framings. <a
+href="https://influenceflow.io/resources/guide-to-portfolio-case-studies-showcase-your-work-land-more-opportunities-in-2026/">influenceflow.io</a></li>
+<li><strong>Implementation:</strong> on the public client site, default
+every case to problem → solution → business-metric result with a named
+client; offer an optional “technical deep dive” expand/toggle for the
+engineer audience, so one CMS entry serves both. <a
+href="https://uxplanet.org/ux-portfolio-case-study-template-plus-examples-from-successful-hires-86d5b0faa2d6">uxplanet.org</a></li>
+</ul>
+<hr />
+<h2 id="cross-cutting">CROSS-CUTTING</h2>
+<h3 id="c1.-i18n-for-marketingportfolio-sites">C1. i18n for
+marketing/portfolio sites</h3>
+<p><strong>Language switcher UX</strong> - Display each language in its
+<strong>own name (autonym)</strong>: <strong>Русский</strong>, not
+“Russian”; <strong>Español</strong>, not “Spanish”. <a
+href="https://www.nngroup.com/articles/language-switching-ecommerce/">nngroup.com</a>
+- Place a persistent switcher <strong>top-right</strong> on desktop
+(top-left fallback); on mobile, above the fold or in the nav menu. <a
+href="https://www.nngroup.com/articles/language-switching-ecommerce/">nngroup.com</a>
+- <strong>Autodetect from <code>Accept-Language</code> as default, but
+always keep a visible manual override</strong> and persist the explicit
+choice (cookie/localStorage) so it isn’t re-asked. <a
+href="https://www.nngroup.com/articles/language-switching-ecommerce/">nngroup.com</a>
+- <strong>Avoid flags as the sole language indicator</strong> — flags
+are countries, not languages. Let language, country, and currency be
+chosen independently. <a
+href="https://www.nngroup.com/articles/language-switching-ecommerce/">nngroup.com</a></p>
+<p><strong>hreflang (SEO)</strong> - Declare variants via HTML
+<code>&lt;link rel="alternate" hreflang&gt;</code>, HTTP
+<code>Link</code> header, or sitemap — pick one. <a
+href="https://developers.google.com/search/docs/specialty/international/localized-versions">developers.google.com</a>
+- Value = ISO 639-1 language code, optionally + ISO 3166-1 Alpha-2
+region (<code>en</code>, <code>ru</code>, <code>de</code>,
+<code>sr</code>, <code>es-ES</code>). You <strong>cannot</strong>
+specify country alone. Add an <strong><code>x-default</code></strong>
+fallback. <a
+href="https://developers.google.com/search/docs/specialty/international/localized-versions">developers.google.com</a>
+- <strong>hreflang must be bidirectional</strong> — every variant links
+back to all others or the tags are ignored. Treat hreflang as a
+<em>hint</em>, not a directive; pair with correct canonicals. <a
+href="https://developers.google.com/search/docs/specialty/international/localized-versions">developers.google.com</a>
+· <a
+href="https://searchengineland.com/guide/what-is-hreflang">searchengineland.com</a></p>
+<p><strong>URL structure</strong> - For a single brand,
+<strong>subdirectories (<code>/ru/</code>, <code>/de/</code>) are the
+pragmatic default</strong> — they consolidate domain authority and are
+simplest to maintain. <a
+href="https://www.weglot.com/guides/hreflang-tag">weglot.com</a> -
+<strong>ccTLDs send the strongest geo signal but are separate SEO
+sites.</strong> Use the existing <strong><code>.ru</code>
+(<code>milosvasic.ru</code>) as a dedicated Russian-market
+property</strong>, and run the main domain (<code>vasic.digital</code>)
+with <code>/lang/</code> subdirectories for the rest. <a
+href="https://searchengineland.com/guide/what-is-hreflang">searchengineland.com</a>
+· <a
+href="https://www.linkgraph.com/blog/hreflang-implementation-guide/">linkgraph.com</a></p>
+<p><strong>RTL</strong> - Set base direction via HTML
+<code>dir="rtl"</code> on <code>&lt;html&gt;</code>,
+<strong>never</strong> via CSS <code>direction</code>. Author with CSS
+<strong>logical properties</strong> (<code>margin-inline-start</code>,
+<code>text-align: start</code>) so layouts auto-mirror. <a
+href="https://www.w3.org/International/questions/qa-html-dir">w3.org</a>
+· <a
+href="https://developer.mozilla.org/en-US/docs/Web/CSS/direction">developer.mozilla.org</a>
+- <strong>None of this engineer’s priority languages are RTL</strong>
+(Serbian, Russian, German, English, Spanish, Chinese are all LTR). Build
+the architecture to <em>allow</em> RTL, but don’t prioritize it unless
+expanding to MENA.</p>
+<h3 id="c2.-which-languages-to-prioritize">C2. Which languages to
+prioritize</h3>
+<p>Web-content share (W3Techs, Jun 2026): English 49.7% · Spanish 6.0% ·
+German 5.9% · French 4.5% · <strong>Russian 3.5%</strong> · Chinese
+1.2%. <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>
+Internet-user share differs (English ~25%, Spanish #3); Chinese ranks
+far higher by users than by content. <a
+href="https://www.statista.com/chart/26884/languages-on-the-internet/">statista.com</a></p>
+<p><strong>Recommended priority + phasing:</strong> 1.
+<strong>English</strong> — non-negotiable #1 (~49.7% of web content;
+lingua franca of engineering); serves as <code>x-default</code>. <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>
+2. <strong>Russian</strong> — direct strategic fit (owns
+<code>.ru</code>, targets RU market; dominant across CIS). <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>
+3. <strong>German</strong> — strongest EU business language by web
+content (5.9%); largest EU economy. <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>
+4. <strong>Serbian</strong> — native; cheap to produce authentically;
+covers home + ex-Yugoslav region. 5. <strong>Spanish</strong> — #2 web
+content (6.0%), ~8% of users; highest-leverage single language for
+global reach after English. <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>
+· <a
+href="https://www.statista.com/chart/26884/languages-on-the-internet/">statista.com</a>
+6. <strong>French</strong> — 4.5% web content; EU + Francophone reach.
+<a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>
+7. <strong>Chinese (Simplified)</strong> — optional later tier (huge
+user base but only ~1.2% web content; high localization effort). <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a></p>
+<blockquote>
+<p><strong>Phase 1:</strong> English + Russian + Serbian. <strong>Phase
+2:</strong> German + Spanish. <strong>Phase 3:</strong> French (then
+optionally Chinese).</p>
+</blockquote>
+<h3 id="c3.-darklight-theme-switcher">C3. Dark/light theme switcher</h3>
+<ul>
+<li><strong>Detect OS preference with
+<code>prefers-color-scheme</code></strong>
+(<code>light</code>/<code>dark</code>); you can conditionally load theme
+CSS via <code>media="(prefers-color-scheme: dark)"</code>. <a
+href="https://web.dev/articles/prefers-color-scheme">web.dev</a></li>
+<li><strong>Declare <code>color-scheme: light dark;</code> on
+<code>:root</code></strong> so native form controls/scrollbars render
+correctly per theme. <a
+href="https://web.dev/articles/prefers-color-scheme">web.dev</a></li>
+<li><strong>Provide a manual toggle that defaults to system but can
+override it, and persist the choice</strong> in localStorage. <a
+href="https://web.dev/articles/prefers-color-scheme">web.dev</a></li>
+<li><strong>Resolution order at load:</strong> stored explicit choice
+first; else fall back to <code>prefers-color-scheme</code>. <a
+href="https://dev.to/abbeyperini/dark-mode-toggle-and-prefers-color-scheme-4f3m">dev.to</a></li>
+<li><strong>Prevent the flash of inaccurate theme (FART/FOUC)</strong>
+with a tiny <strong>blocking inline <code>&lt;script&gt;</code> in
+<code>&lt;head&gt;</code> placed before any stylesheet</strong>; it
+reads the stored preference and sets the theme class/attribute on
+<code>&lt;html&gt;</code> before first paint. <a
+href="https://css-tricks.com/flash-of-inaccurate-color-theme-fart/">css-tricks.com</a></li>
+<li><strong>Server-side option:</strong> the
+<code>Sec-CH-Prefers-Color-Scheme</code> client hint lets the server
+inline the right CSS on repeat visits, eliminating any client-side
+flash. <a
+href="https://web.dev/articles/prefers-color-scheme">web.dev</a></li>
+</ul>
+<hr />
+<h2 id="top-10-actionable-decisions">TOP 10 ACTIONABLE DECISIONS</h2>
+<ol type="1">
+<li><strong>Ship two artifacts from the CV, not one.</strong> A
+visually-rich on-screen portfolio AND a separate, deliberately plain,
+single-column, <strong>text-based PDF</strong> generated from an ATS
+template (standard fonts, conventional headings, contact info in the
+body, no tables/columns/icons). Verify with the copy-paste test. <a
+href="https://www.jobscan.co/blog/ats-formatting-mistakes/">jobscan.co</a></li>
+<li><strong>Make projects the centerpiece of the portfolio, capped at
+4–6 “Featured” + a “More/All repos” tier.</strong> Mirror the 6 GitHub
+pins. Each featured project: role, stack, problem, approach,
+outcome/metric, live + repo links. Add stack/domain filtering. <a
+href="https://www.nngroup.com/articles/ux-design-portfolios/">nngroup.com</a>
+· <a
+href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/pinning-items-to-your-profile">docs.github.com</a></li>
+<li><strong>Quantify everything; design for the F-pattern.</strong>
+Front-load impact metrics, crucial words first in headings/bullets,
+left-aligned, bold key phrases, no “click here” links. <a
+href="https://www.jobscan.co/blog/software-engineer-recruiter-insights/">jobscan.co</a>
+· <a
+href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/">nngroup.com</a></li>
+<li><strong>Author every case study once, render it for two
+audiences.</strong> One CMS entry with a default client view (problem →
+solution → business ROI, named client) and an optional “technical deep
+dive” expansion (architecture, trade-offs, engineering KPIs). Reuse
+across both sites. <a
+href="https://influenceflow.io/resources/guide-to-portfolio-case-studies-showcase-your-work-land-more-opportunities-in-2026/">influenceflow.io</a>
+· <a
+href="https://uxplanet.org/ux-portfolio-case-study-template-plus-examples-from-successful-hires-86d5b0faa2d6">uxplanet.org</a></li>
+<li><strong>On the company site, lead with credibility in the first
+viewport and put a trust signal beside every CTA.</strong> Client logos
+(a single logo lifted conversions 69%), named+photo testimonials, and
+verified Clutch/G2 ratings. <a
+href="https://cxl.com/blog/is-social-proof-really-that-important/">cxl.com</a>
+· <a
+href="https://clutch.co/resources/b2b-buyer-data">clutch.co</a></li>
+<li><strong>Standardize company case studies as problem → solution →
+result-with-hard-metrics, presented as scannable cards.</strong> Case
+studies are the #1 B2B trust asset and directly drive contact. <a
+href="https://www.nngroup.com/reports/b2b-websites-usability/">nngroup.com</a>
+· <a href="https://cxl.com/blog/b2b-case-studies/">cxl.com</a></li>
+<li><strong>Use a restrained “cutting-edge” visual system:</strong>
+strong variable typography as the brand, bento grids for services/case
+previews, subtle functional motion, generous whitespace, and a
+dark/light toggle (dark reads credible for a technical shop). Bias to
+restraint over maximalism. <a
+href="https://www.figma.com/resource-library/web-design-trends/">figma.com</a>
+· <a
+href="https://gezar.dk/en/blog/web-design-trends-2026">gezar.dk</a></li>
+<li><strong>Hit Core Web Vitals at the 75th percentile: LCP ≤2.5s, INP
+≤200ms, CLS ≤0.1.</strong> Use Lighthouse (target ≥90) only as a
+diagnostic; the real bar is field/CrUX data. <a
+href="https://web.dev/articles/vitals">web.dev</a> · <a
+href="https://www.debugbear.com/docs/core-web-vitals-ranking-factor">debugbear.com</a></li>
+<li><strong>Build to WCAG 2.2 AA:</strong> contrast 4.5:1 text / 3:1
+non-text, full keyboard operability, visible non-obscured focus, 320px
+reflow, semantic HTML + alt text, and
+<code>prefers-reduced-motion</code> honored. <a
+href="https://www.w3.org/WAI/WCAG22/quickref/?levels=aa">w3.org</a> · <a
+href="https://web.dev/articles/prefers-reduced-motion">web.dev</a></li>
+<li><strong>i18n architecture:</strong> main domain
+(<code>vasic.digital</code>) with <code>/lang/</code> subdirectories +
+bidirectional hreflang + <code>x-default</code>; keep
+<code>milosvasic.ru</code> as the dedicated Russian-market ccTLD
+property. Switcher top-right showing autonyms, autodetect-with-override,
+persisted choice. Theme: <code>prefers-color-scheme</code> +
+<code>color-scheme: light dark</code> + persisted toggle + blocking
+inline anti-flash script. Phase languages: EN+RU+SR → DE+ES → FR. <a
+href="https://developers.google.com/search/docs/specialty/international/localized-versions">developers.google.com</a>
+· <a
+href="https://www.nngroup.com/articles/language-switching-ecommerce/">nngroup.com</a>
+· <a
+href="https://css-tricks.com/flash-of-inaccurate-color-theme-fart/">css-tricks.com</a>
+· <a
+href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a></li>
+</ol>
+<hr />
+<h2 id="sources-cited-27">SOURCES CITED (27)</h2>
+<ol type="1">
+<li>Jobscan — ATS formatting mistakes —
+https://www.jobscan.co/blog/ats-formatting-mistakes/</li>
+<li>Jobscan — tables/columns break ATS parsing —
+https://www.jobscan.co/blog/resume-tables-columns-ats/</li>
+<li>Jobscan — software engineer recruiter insights —
+https://www.jobscan.co/blog/software-engineer-recruiter-insights/</li>
+<li>Jobscan — software engineer cover letter examples —
+https://www.jobscan.co/cover-letter-examples/software-engineer</li>
+<li>University of Washington Careers — entry-level SWE resume —
+https://careers.uw.edu/blog/2025/08/01/entry-level-software-engineer-resume-what-recruiters-want-to-see/</li>
+<li>Nielsen Norman Group — F-shaped reading pattern —
+https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/</li>
+<li>Nielsen Norman Group — UX design portfolios —
+https://www.nngroup.com/articles/ux-design-portfolios/</li>
+<li>Nielsen Norman Group — B2B websites usability —
+https://www.nngroup.com/reports/b2b-websites-usability/</li>
+<li>Nielsen Norman Group — language switching —
+https://www.nngroup.com/articles/language-switching-ecommerce/</li>
+<li>Harvard FAS Career Services — resumes &amp; cover letters guide —
+https://careerservices.fas.harvard.edu/resources/harvard-college-guide-to-resumes-cover-letters/</li>
+<li>freeCodeCamp — level up your developer portfolio —
+https://www.freecodecamp.org/news/level-up-developer-portfolio/</li>
+<li>scale.jobs — 10 tips for ATS-friendly resumes 2025 —
+https://scale.jobs/blog/10-tips-for-ats-friendly-resumes-in-2025</li>
+<li>Resumemate — PDF vs Word ATS 2026 —
+https://www.resumemate.io/blog/pdf-vs-word-for-resume-2026-which-format-ats-actually-prefers/</li>
+<li>GitHub Docs — pinning items to your profile —
+https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/pinning-items-to-your-profile</li>
+<li>W3C — WCAG 2.2 — https://www.w3.org/TR/WCAG22/</li>
+<li>W3C — WCAG 2.2 AA quickref —
+https://www.w3.org/WAI/WCAG22/quickref/?levels=aa</li>
+<li>MDN — prefers-reduced-motion —
+https://developer.mozilla.org/en-US/docs/Web/CSS/<span class="citation"
+data-cites="media/prefers-reduced-motion">@media/prefers-reduced-motion</span></li>
+<li>web.dev — Web Vitals — https://web.dev/articles/vitals</li>
+<li>web.dev — defining CWV thresholds —
+https://web.dev/articles/defining-core-web-vitals-thresholds</li>
+<li>web.dev — prefers-color-scheme —
+https://web.dev/articles/prefers-color-scheme</li>
+<li>Google Search Central — page experience —
+https://developers.google.com/search/docs/appearance/page-experience</li>
+<li>Google Search Central — localized versions (hreflang) —
+https://developers.google.com/search/docs/specialty/international/localized-versions</li>
+<li>DebugBear — CWV as ranking factor —
+https://www.debugbear.com/docs/core-web-vitals-ranking-factor</li>
+<li>CXL — is social proof really that important (client logo +69%) —
+https://cxl.com/blog/is-social-proof-really-that-important/</li>
+<li>CXL — B2B case studies — https://cxl.com/blog/b2b-case-studies/</li>
+<li>Clutch — B2B buyer data —
+https://clutch.co/resources/b2b-buyer-data</li>
+<li>Figma — web design trends —
+https://www.figma.com/resource-library/web-design-trends/</li>
+<li>W3Techs — content languages overview —
+https://w3techs.com/technologies/overview/content_language</li>
+<li>CSS-Tricks — flash of inaccurate color theme (FART) —
+https://css-tricks.com/flash-of-inaccurate-color-theme-fart/</li>
+<li>Search Engine Land — hreflang guide —
+https://searchengineland.com/guide/what-is-hreflang</li>
+</ol>
+<p><em>(Additional corroborating sources referenced inline: TealHQ,
+Colorlib, Door To Online, Elementor, dev.to, NC State DataColumn,
+Nucamp, testparty.ai, grafit.agency, trustsignals.com, thewdgagency,
+stryvemarketing, proofmap, saashero, martal.ca, orangeowl, gezar.dk,
+theedigital, sayenkodesign, studiomeyer, geeksforgeeks, blog.uxfol.io,
+recruiterswebsites, influenceflow, uxplanet, weglot, linkgraph,
+Statista, jobshinobi.)</em></p>
+</body>
+</html>

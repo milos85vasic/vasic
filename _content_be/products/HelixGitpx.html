@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>Адзін крынічны факт, адлюстраваны паўсюль — федэраваны Git на
+дзясятках хостаў.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>HelixGitpx (Helix Git Proxy eXtended) — гэта федэраваны проксі Git,
+які захоўвае адзіную крыніцу праўды, адлюстроўваючы яе на мностве
+Git-хостаў вышэйшага ўзроўню, і вырашае непазбежныя канфлікты з
+дапамогай палітык і патокаў, асістававаных AI. Праект дасягнуў версіі
+v1.0.0 GA.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>HelixGitpx — гэта федэраваны проксі Git, які адлюстроўвае адзіную
+крыніцу праўды на дзясятках Git-хостаў — GitHub, GitLab, Gitea,
+Bitbucket, Azure DevOps, AWS CodeCommit і іншых — і вырашае праблемы
+сінхранізацыі з дапамогай палітык і патокаў, асістававаных AI. Выпушчаны
+ў версіі v1.0.0 GA.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>HelixGitpx — “Helix Git Proxy eXtended” — гэта федэраваны проксі Git,
+які захоўвае адзіную крыніцу праўды, адлюстроўваючы яе на мностве
+Git-хостаў вышэйшага ўзроўню, і вырашае канфлікты, якія непазбежна
+ўзнікаюць, калі адзін і той жа рэпазіторый існуе ў некалькіх месцах.
+Спіс падтрымоўваных хостаў нагадвае карту ўсяго экасістэмы Git: GitHub,
+GitLab, GitFlic, GitVerse, Gitea, Gitee, Bitbucket, Azure DevOps, AWS
+CodeCommit, Forgejo, SourceHut і звычайны Git праз HTTPS. У той час як
+наіўнае <code>git push</code> на дзясятак аддаленых рэпазіторыяў можа
+альбо праваліцца, альбо, што горш, дазволіць люстэркам ціха разысціся,
+HelixGitpx уступае ў гульню з патокамі вырашэння канфліктаў на аснове
+палітык і асістававаных AI механізмаў, якія вяртаюць разыходжанні да
+адзінай аўтарытэтнай крыніцы.</p>
+<p>Праект знаходзіцца на версіі v1.0.0 GA, з этапнымі мэтамі ад
+<code>m1-foundation</code> да <code>m8-ga</code>, пазначанымі тэгамі —
+поўны шлях ад заснавання да агульнай даступнасці. Ён распрацаваны як тры
+ўзроўні аднаго прадукту: Go-монарэпа (платформа плюс васямнаццаць
+сэрвісаў, генератары кода і інструменты для стварэння каркаса),
+Angular-вяб-дадатак на 19 + Nx і Kotlin-Multiplatform +
+Compose-кліенцкія абалонкі, якія дастаўляюць натыўны досвед на Android,
+iOS і дэсктоп з агульнага кода. Дастаўка платформы цалкам натыўная для
+Kubernetes — Helm-чарты, дадаткі Argo CD, накладкі Kustomize, SQL і
+палітыкі OPA — з канвеерамі CI, якія запускаюцца толькі праз выразнае
+дыспетчаванне, каб нічога не выйшла выпадкова. Публічная дакументацыя
+прадстаўлена сайтам на Docusaurus (docs.helixgitpx.io) разам з
+маркетынгавым сайтам на Astro (helixgitpx.io).</p>
+<p>Кіраванне строгае і заснаванае на канстытуцыйных прынцыпах, і гэта не
+проста фармальнасць, а важная асаблівасць: апорным дакументам з’яўляецца
+праектны Constitution, артыкул II якога патрабуе сямітыпавую матрыцу
+тэставання з 100%-ным пакрыццём <em>па кожным тыпе для кожнага
+закранутага модуля</em>, прычым макеты дазволеныя толькі ў юніт-тэстах,
+і ні адзін тэст не можа быць прапушчаны. Аднаразовы верыфікатар правярае
+ўсе артэфакты разам з <code>go vet</code> і <code>go test</code> па ўсім
+працоўным прасторы, і кожны push распаўсюджваецца на ўсе настроеныя
+хосты вышэйшага ўзроўню — такім чынам, “люстэркі сінхранізаваны”
+з’яўляецца нешта, што сістэма забяспечвае пры кожным каміце, а не нешта,
+пра што павінен памятаць чалавек.</p>
+<h2 id="навошта-мы-яго-стварылі">Навошта мы яго стварылі</h2>
+<p>Захаванне аўтэнтычнасці рэпазіторыя на мностве Git-хостаў — для
+рэзервавання, суверэнітэту ці доступу да рэгіянальных платформаў —
+з’яўляецца няўстойлівым і ручным працэсам, а разыходжанне люстэркаў
+цяжка выправіць. HelixGitpx быў створаны, каб зрабіць сінхранізацыю з
+некалькімі хостамі вышэйшага ўзроўню першакласнай магчымасцю, якая
+ўсведамляе канфлікты.</p>
+<p>Змест</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Гэта ператварае “адпраўку на шмат аддаленых сховішчаў і спадзяванне
+на лепшае” — крохкі ручны статус-кво — у кіраваную федэрацыю з адзінай
+аўтарытэтнай крыніцай праўды і аўтаматызаваным вырашэннем канфліктаў на
+аснове палітык і AI. І робіць гэта на незвычайна шырокім спектры хостаў,
+наўмысна ўключаючы рэгіянальныя платформы (GitFlic, GitVerse, Gitee),
+якія большасць інструментаў ціха ігнаруе. Такім чынам, рэзерваванне,
+суверэнітэт даных і дасягальнасць у гэтых экасістэмах перастаюць быць
+цяжарам абслугоўвання і становяцца адзінай магчымасцю, якую трэба
+наладзіць адзін раз.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li><strong>Шырыня апстрымаў</strong> — дзясятак з лішнім Git-хостаў, ад
+GitHub і GitLab да рэгіянальных платформаў накшталт GitFlic, GitVerse і
+Gitee, усе аб’яднаныя за адным проксі.</li>
+<li><strong>Вырашэнне канфліктаў на аснове палітык і AI</strong> —
+разыходжанні ўзгадняюцца рухавіком палітык і рэзольверам AI, а не
+чалавекам, які ўручную параўноўвае люстэркі.</li>
+<li><strong>Федэрацыя з адзінай крыніцай праўды</strong> — мадэль
+адпраўкі на ўсе апстрымы, дзе адно аўтарытэтнае сховішча з’яўляецца
+праўдай, а кожны хост — люстэркам, якое падтрымліваецца ў сінхронным
+стане.</li>
+<li><strong>Дакладнае тэсціраванне з прымусовым выкананнем
+правілаў</strong> — сем тыпаў тэстаў з 100%-ным пакрыццём кожнага тыпу
+без выключэнняў, правераных адным скрыптам зялёнай сюіты, а не на
+веры.</li>
+</ul>
+<h2 id="галоўныя-тэхнічныя-выклікі-і-як-мы-іх-пераадолелі">Галоўныя
+тэхнічныя выклікі і як мы іх пераадолелі</h2>
+<ul>
+<li><strong>Разыходжанні і канфлікты паміж шматлікімі
+апстрымамі.</strong> Адно і тое ж сховішча, якое існуе ў дзясятку
+месцаў, пачынае разыходзіцца, калі два хосты прымаюць розныя змены.
+Вырашана з дапамогай працэсаў вырашэння канфліктаў на аснове палітык і
+AI, замацаваных за адзінай крыніцай праўды, а таксама сінхранізаванай
+адпраўкі на ўсе апстрымы, якая падтрымлівае канвергенцыю кожнага
+люстэрка да гэтай адзінай праўды.</li>
+<li><strong>Аднастайная падтрымка рознастайных Git-хостаў.</strong>
+Кожны хост мае сваю аўтэнтыфікацыю, асаблівасці і API. Вырашана з
+дапамогай канфігурацыйных скрыптаў для кожнага апстрыма ў каталогу
+<code>Upstreams/</code> і ўзроўню платформы, які абстрагуе гэтыя
+адрозненні, так што дадаванне новага хоста — гэта пытанне канфігурацыі,
+а не перапісу кода.</li>
+<li><strong>Доказ карэктнасці перад кожным зліццём.</strong> Вырашана з
+дапамогай абавязковай матрыцы з сямі тыпаў тэстаў і аднаразовага бар’ера
+<code>verify-everything.sh</code>, які запускае поўны набор праверак — і
+чыста спыняецца, калі кластар недаступны, так што карэктнасць можна
+даказаць як лакальна, так і ў CI.</li>
+</ul>
+<h2 id="тэхнічны-стэк">Тэхнічны стэк</h2>
+<ul>
+<li><strong>Монарэпа Go</strong> — асноўны проксі і рухавік федэрацыі:
+платформа плюс 18 сэрвісаў, генерацыя кода і шаблоны, якія захоўваюцца ў
+адным сховішчы, каб увесь рухавік збіраўся і тэставаўся як адзінае
+цэлае.</li>
+<li><strong>Angular 19 + Nx</strong> — вэб-дадатак з Nx, які забяспечвае
+структуру зборкі/кэшавання монарэпы, неабходную для вялікага
+фронтэнда.</li>
+<li><strong>Kotlin Multiplatform + Compose</strong> — натыўныя абалонкі
+для Android, iOS і настольных прылад, створаныя з адной агульнай кодовай
+базы, так што тры платформы не азначаюць трох рэалізацый.</li>
+<li><strong>Kubernetes + Helm + Argo CD + Kustomize</strong> — хмарная
+дастаўка: Helm пакуе рэліз, Kustomize адаптуе яго для кожнага асяроддзя,
+а Argo CD узгадняе стан кластара з Git праз GitOps, каб стан кластара
+адпавядаў Git.</li>
+<li><strong>OPA (Rego)</strong> — палітыкі як код для вырашэння
+канфліктаў і кантролю доступу, што робіць рашэнні аб аўтарызацыі
+дэкларатыўнымі і падсправаздачнымі.</li>
+<li><strong>Docusaurus</strong> — сайт публічнай дакументацыі
+(docs.helixgitpx.io); <strong>Astro</strong> — маркетынгавы сайт
+(helixgitpx.io), кожны інструмент падыбраны пад тып зместу.</li>
+<li><strong>mise</strong> — зафіксаваны, узнаўляльны інструментальны
+ланцужок, каб кожны ўдзельнік і CI-ранер збіралі праект на аднолькавых
+версіях.</li>
+</ul>
+<p>Змест</p>
+<h2 id="заўвагі-аб-статусе-і-сумленнасці">Заўвагі аб статусе і
+сумленнасці</h2>
+<ul>
+<li><strong>Статус: адпраўлена.</strong> У файле README праекта
+абвешчана версія v1.0.0 GA з пазнакамі ад <code>m1-foundation</code> да
+<code>m8-ga</code>. («v1.0.0 GA» — гэта заява самага праекта з
+README.)</li>
+<li><strong>Ліцэнзія: павінна быць вызначана.</strong> У справаздачах
+GitHub і API пазначана <code>MIT</code>, у той час як раздзел License у
+файле README паказвае Apache-2.0 (код) / CC-BY-SA-4.0 (дакументацыя) —
+перад публікацыяй трэба звярыць з фактычным файлам LICENSE.</li>
+<li>Спасылкі на дакументацыю (docs.helixgitpx.io) і маркетынг
+(helixgitpx.io) пададзены згодна з README і не былі незалежна правераны
+— статус даступнасці НЕПАЦВЕРДЖАНЫ.</li>
+</ul>
+<p><strong>Прыярытэтны ўзровень:</strong> Helix-асноўны.</p>
+</body>
+</html>

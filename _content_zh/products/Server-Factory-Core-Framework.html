@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p>内容</p>
+<p><strong>每个 Server Factory 背后共享的核心引擎。</strong></p>
+<h2 id="概要">概要</h2>
+<p>核心框架（Core Framework）是支撑 Server Factory 系列部署工具的 Kotlin
+框架。它提供了通用的引擎和抽象层，供 Mail Server Factory
+等项目构建，确保每个”工厂”复用同一套久经验证的基础，而非重复实现部署基础功能。</p>
+<h2 id="简要说明">简要说明</h2>
+<p>Server Factory 生态系统底层的共享 Kotlin 框架。它为下游工厂（如 Mail
+Server Factory、Web Service Factory、SonarQube Factory
+等）提供通用的部署引擎、连接抽象层及安装步骤机制。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>核心框架是让整个 Server-Factory
+家族成为可能的隐形工程基石：每个独立”工厂”产品（Mail Server Factory、Web
+Service Factory、SonarQube Factory、Caching Proxy
+Factory）均构建于其上。Server Factory
+采用声明式设计——用户通过配置描述所需基础设施，工厂则解析该描述，在目标系统上安装并初始化软件——而核心框架正是实现这一模式的共享机制所在：它包含连接和传输抽象层（可覆盖各类目标系统）、编码”软件如何部署”的安装步骤模型，以及所有工厂原本需自行实现的共享底层逻辑。它回答了多产品工具链最终都会面临的结构性问题——“共享引擎该置于何处？”——而一次性解决这一问题，正是维系家族统一性、避免分化为四种略有差异的部署工具的关键。通过将这些功能集中于一个
+Kotlin
+框架，家族避免了在不同产品中重复实现部署逻辑，并确保行为一致：核心框架中改进的连接类型或安装原语，将惠及所有下游工厂。其代码几乎完全由
+Kotlin 构成（约 990KB 的 Kotlin 代码，外加一层薄薄的 Shell
+层），体现了其作为代码库而非脚本集合的定位。下游仓库均将其作为标准依赖项引用（Parallels-Utils、Qemu-Utils、Utils
+及 Definitions 包均指向核心框架仓库作为生态系统的核心）。其 README
+文档有意保持精简——它是其他项目的基础设施，通过
+<code>version.txt</code>/<code>version_code.txt</code>
+进行版本管理——且早于后续的 AI 工作，成为组织成熟 DevOps
+工具链传承的一部分。</p>
+<h2 id="为何构建它">为何构建它</h2>
+<p>每个部署工具都需要相同的核心功能：连接目标系统的方式，以及安装/配置软件的步骤。若每个产品单独实现，将导致行为分化、缺陷倍增。核心框架将其集中化，让所有工厂共享同一个可靠的引擎。</p>
+<h2 id="为何它是变革性的">为何它是变革性的</h2>
+<p>它是整个家族中杠杆效应最高的环节：在此处强化的连接类型或改进的安装原语，能将其正确性和功能即时传递给所有工厂，使整个工具链从单一投资中持续受益。这是”一次构建，全面复用”理念在最具回报的领域——基础设施自动化的基础层——的应用，在此处修正一个问题，即可修复下游的一切。</p>
+<p>内容</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li>统一的可复用部署框架，抽象化连接与安装步骤逻辑。</li>
+<li>清晰分离引擎（核心框架）与产品专用工厂。</li>
+<li>版本固定分发（<code>version.txt</code>/<code>version_code.txt</code>），确保可复现的消费流程。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>避免部署逻辑重复</strong>：通过将共享机制提取至统一框架，供所有工厂调用解决。</li>
+<li><strong>跨产品行为一致性</strong>：通过通用抽象层确保连接类型与步骤在各处表现一致。</li>
+<li><strong>（未验证）</strong>：特定内部 API 未在公开 README
+中记录；除”共享框架由工厂调用”外，接口细节视为未验证。</li>
+</ul>
+<h2 id="技术栈选择原因与实现方式">技术栈（选择原因与实现方式）</h2>
+<ul>
+<li><strong>Kotlin</strong> —— 整体框架（约 990 KB）；属于 Server
+Factory 语系。</li>
+<li><strong>Shell</strong> —— 辅助脚本，精简实用。</li>
+<li><strong>Gradle</strong> —— 构建工具链（与该语系
+<code>./gradlew</code> 使用方式一致）。</li>
+</ul>
+<blockquote>
+<p>注：GitHub 标记该仓库为 Server-Factory 组织下的分支。非 AI
+为中心，而是作为部署工具链的核心支撑。</p>
+</blockquote>
+</body>
+</html>

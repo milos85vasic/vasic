@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>REVIEW-REPORT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">REVIEW-REPORT</h1>
+</header>
+<h1
+id="translation-review-milosvasic.ru-independent-reviewer-cohere">Translation
+review — milosvasic.ru (independent reviewer: cohere)</h1>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>lang</th>
+<th>slug</th>
+<th>verdict</th>
+<th>acc</th>
+<th>flu</th>
+<th>comp</th>
+<th>script</th>
+<th>issues</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>en</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>en</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>grab-tube</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>helix-agent</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td><em>debate</em> should be <em>дискуссия</em> or <em>обсуждение</em>;
+<em>synthesize</em> should be <em>синтез</em>;</td>
+</tr>
+<tr>
+<td>ru</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>helix-track-core</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>Some English words are left untranslated: “fascinates”,
+“middleware”, “PLpgSQL”,</td>
+</tr>
+<tr>
+<td>ru</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>panoptic</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ru</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>android-toolkit</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td><em>restraint</em> -&gt; <em>uzdržanosti</em>; the apps on top -&gt;
+aplikacije iznad; the apps buil</td>
+</tr>
+<tr>
+<td>sr</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>helix-agent</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>English terms left untranslated: ‘LLM’, ‘LLMsVerifier’, ‘MCP’,
+‘RAG’, ‘CLI’, ’Bi</td>
+</tr>
+<tr>
+<td>sr</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>helix-translate</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>sr</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>be</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>be</td>
+<td>catalogizer</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>parse</td>
+</tr>
+<tr>
+<td>be</td>
+<td>grab-tube</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>be</td>
+<td>helix-agent</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>be</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>be</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>be</td>
+<td>helix-track-core</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>True</td>
+<td>Some sentences are translated too literally, making them sound
+awkward in Belaru</td>
+</tr>
+<tr>
+<td>be</td>
+<td>helix-translate</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some English terms left untranslated: “LLM”, “LLMsVerifier”,
+“Ollama”, “LlamaCpp</td>
+</tr>
+<tr>
+<td>be</td>
+<td>llms-verifier</td>
+<td>FAIL</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some sentences are missing in the translation, and some are not
+translated accur</td>
+</tr>
+<tr>
+<td>be</td>
+<td>mail-server-factory</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some technical terms are translated inconsistently, e.g.,
+‘compilation’ is trans</td>
+</tr>
+<tr>
+<td>be</td>
+<td>panoptic</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>The translation is missing the last sentence of the source
+text.</td>
+</tr>
+<tr>
+<td>be</td>
+<td>share-connect</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>3</td>
+<td>True</td>
+<td>Some parts of the translation are missing, e.g., the last sentence
+of the text.</td>
+</tr>
+<tr>
+<td>de</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>helix-agent</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>‘Konkurrenz’ instead of ‘Parallelität’ or ‘Concurrency’</td>
+</tr>
+<tr>
+<td>de</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>de</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>grab-tube</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>‘QR code’ should be translated as ‘código QR’ in the first instance,
+and ‘CI/CD’</td>
+</tr>
+<tr>
+<td>es</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>es</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>‘live progress’ should be ‘suivi en temps réel’ or similar; The
+translation of ’</td>
+</tr>
+<tr>
+<td>fr</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fr</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>zh</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>android-toolkit</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>catalogizer</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some sentences are missing or incomplete, and some terms are
+mistranslated, e.g.</td>
+</tr>
+<tr>
+<td>kk</td>
+<td>grab-tube</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>helix-agent</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>helix-code</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some terms are translated inconsistently, e.g., ‘Model Context
+Protocol’ is tran</td>
+</tr>
+<tr>
+<td>kk</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>helix-track-core</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>parse</td>
+</tr>
+<tr>
+<td>kk</td>
+<td>helix-translate</td>
+<td>FAIL</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>True</td>
+<td>English words left untranslated: ‘bridge-selected’, ‘real-time’,
+‘distributed’,</td>
+</tr>
+<tr>
+<td>kk</td>
+<td>llms-verifier</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>mail-server-factory</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kk</td>
+<td>panoptic</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some sentences are missing in the translation, and some are not
+translated accur</td>
+</tr>
+<tr>
+<td>kk</td>
+<td>share-connect</td>
+<td>FAIL</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>True</td>
+<td>Some parts of the text are missing in the translation, and the
+translation is no</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>hi</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td>SMB, FTP, NFS, WebDAV, and local filesystem should be translated as
+SMB, FTP, NF</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>hi</td>
+<td>helix-agent</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hi</td>
+<td>helix-code</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some technical terms are not translated accurately, e.g., ’Model
+Context Protoco</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>hi</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>4.8</td>
+<td>4.5</td>
+<td>4.8</td>
+<td>True</td>
+<td>Some minor inconsistencies in the translation of technical terms,
+but overall ac</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>helix-translate</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>English words left untranslated: ‘LLM’, ‘LLMsVerifier’, ‘Ollama’,
+‘LlamaCpp’, ’p</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>llms-verifier</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hi</td>
+<td>mail-server-factory</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Some sentences are missing or incomplete, and some words are
+mistranslated or om</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>4.8</td>
+<td>4.7</td>
+<td>4.8</td>
+<td>True</td>
+<td>Some minor inconsistencies in the translation, but overall a good
+effort.</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>share-connect</td>
+<td>FAIL</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>True</td>
+<td>Untranslated brand names and technical terms: qBittorrent,
+Transmission, uTorren</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ja</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ko</td>
+<td>panoptic</td>
+<td>FAIL</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>True</td>
+<td>English text left untranslated: ‘What makes it game-changing’, ’How
+I solved the</td>
+</tr>
+<tr>
+<td>ko</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>ar</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>catalogizer</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>Some terms are translated too literally, e.g., ‘SMB’ and ‘NFS’
+should be transla</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>helix-agent</td>
+<td>ERROR</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>parse</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>4.8</td>
+<td>4.9</td>
+<td>4.8</td>
+<td>True</td>
+<td>‘gRPC’ and ‘REST’ are left in English in the translation, but this
+is acceptable</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td>‘sshworker’ is not translated in the last paragraph, but it is a
+proper noun and</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>‘LLM’ kısaltması ‘ÖDÜ’ olarak çevrilmeliydi</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>panoptic</td>
+<td>FAIL</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>True</td>
+<td>The translation omits the last sentence of the source text: ’The
+fact that the s</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>android-toolkit</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>catalogizer</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>grab-tube</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>helix-agent</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>helix-code</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>helix-flow-platform</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>helix-track-core</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>helix-translate</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>llms-verifier</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>mail-server-factory</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>panoptic</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>fa</td>
+<td>share-connect</td>
+<td>PASS</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>True</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Totals: PASS=141 FAIL=24 ERROR=15</strong></p>
+</body>
+</html>

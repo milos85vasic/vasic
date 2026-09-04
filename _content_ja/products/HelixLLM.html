@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixLLM</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixLLM</h1>
+</header>
+<h1 id="helixllm">HelixLLM</h1>
+<p><strong>1つのバイナリ、6つのモード——OpenAIとAnthropicに対応した、ラップトップからマルチホストクラスターまでの推論システム</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixLLMは、エンタープライズグレードの分散型LLMシステムであり、Goで構築された単一バイナリによるモードシステムを採用。単一ホストでの開発からマルチホストでの本番運用までスケール可能です。HTTP/3上で完全なOpenAIおよびAnthropic互換APIを提供し、ローカルのllama.cpp推論、スコアリングされたマルチプロバイダーフォールバックチェーン、RAGパイプライン、そしてReActエージェントシステムを搭載しています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>HelixLLMは、単一バイナリかつGoベースの分散型LLMシステムです。HTTP/3上でOpenAIおよびAnthropic互換APIを公開し、ローカルのllama.cpp推論を実行。無料クラウドプロバイダーを自動検出・スコアリングしてフェイルオーバーチェーンを構築し、RAGナレッジパイプラインとツールコール機能を持つReActエージェントを追加——6つのモードで展開可能です。</p>
+<h2 id="詳細説明">詳細説明</h2>
+<p>HelixLLMは、GoとGinで構築されたエンタープライズグレードの分散型LLMシステムであり、その最大の特徴は、1つの成果物があらゆる規模に対応する点にあります。単一バイナリにコンパイルされ、デプロイ時にモードシステムがそのバイナリの役割を決定します。ラップトップ上で<code>full</code>モードとして実行すればオールインワンのインスタンスとして機能し、<code>gateway</code>、<code>brain</code>、<code>knowledge</code>、<code>agents</code>、<code>control</code>の各モードを複数ホストに分散させることも可能です。同じコードが、開発者のマシンから本番環境のクラスターまで、書き換えではなく再配置によって対応します。</p>
+<p>HelixLLMは2つの方言を流暢に話します。完全なOpenAIおよびAnthropic互換APIを提供するため、どちらのエコシステムからのSDKクライアントも変更なしで動作します。これらはすべてHTTP/3（QUIC）上で提供され、自動的なHTTP/2フォールバックとTLS
+1.3に対応。ローカル推論はllama.cppを使用し、CUDA、Metal、ROCmをサポートするため、Nvidia、Apple、AMDのハードウェア上で同じビルドが高速化されます。特に注目すべきはマルチプロバイダーフォールバックチェーンで、無料クラウド推論の信頼性の低さを管理された自己修復型リソースに変換します。HelixLLMは7つ以上のクラウドプロバイダー（Chutes、OpenRouter、HuggingFace、Nvidia、Cerebras、SambaNova、Together）から無料モデルを自動検出し、5分ごとにLLMsVerifierでスコアリング。ランク付けされたチェーンを通じてルーティングし、429/5xxエラー時には自動的にフェイルオーバーを実行します。常にローカルのllama.cppが最終的な保証として機能するため、利用可能なプロバイダーがないという理由でリクエストが失敗することはありません。</p>
+<p>HelixLLMは単なる推論システムにとどまらず、完全なアプリケーションプラットフォームです。RAGナレッジパイプライン（取り込み、チャンク化、埋め込み、vector検索）と、ツールコール機能、会話セッション、RAG統合を備えたReActエージェントシステムが同じバイナリに搭載されています。モードシステムはネットワークレベルでも効果を発揮します。<code>full</code>モードではすべてのレイヤーがプロセス内の直接的なGoコールで通信し、ネットワークオーバーヘッドはゼロです。一方、同じバイナリをホスト間に分散させた場合でも、gRPC、SSE、Kafkaを介して連携します。さらに、Brotli/gzipによるコンテンツネゴシエーション、OpenAIおよびAnthropicのフォーマットにバイト単位で一致するSSEストリーミング、APIキーとJWT認証によるレートリミット、Prometheusメトリクス、OpenTelemetryトレーシング、そして本番インフラ用の豊富なGoサブモジュール群が揃っています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>チームには、ポータブルで標準準拠、かつレジリエントな推論が必要です。クライアントを書き換えたり、特定のプロバイダーやマシンに依存したりすることなく。HelixLLMは、同じバイナリがローカルでの開発にも対応し、複数ホストの本番クラスターへとスケールできるように設計されました。その際、クライアントが既に使用しているOpenAIやAnthropicのダイアレクトをそのまま利用できます。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>HelixLLMは、ゲートウェイ、ローカル推論、クラウドフォールバック、RAG、エージェントといった推論スタック全体を、モード切り替えで制御できる単一のバイナリに集約します。これにより、デプロイするアーキテクチャは、再プラットフォーミングプロジェクトではなく、実行時の判断で決定できるようになります。さらに、これまでの弱点を強みに変えました。クラウドプロバイダーの信頼性は、第一級の継続的に測定される課題となり、数分ごとにプロバイダーを再評価し、自己修復型のフォールバックチェーンによって処理されます。そして、いずれかのアップストリームプロバイダーがレート制限や障害を起こしても、ローカル推論への確実なフォールバックが保証されるため、標準準拠でラップトップからクラスターまでポータブルな、真に依存できる単一のエンドポイントが実現します。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>6つのモードを持つ単一バイナリ</strong>：すべてを統合して動作するか、分散ロールとして機能します。<code>full</code>モードではプロセス内の直接Go呼び出し、分散モードではgRPC/SSE/Kafkaを使用。デプロイメントトポロジーの変更が、コードの変更や意図しないネットワークコストなしで可能です。</li>
+<li><strong>スコアリングと自動検出によるマルチプロバイダーフォールバックチェーン</strong>：7つ以上の無料プロバイダーを横断し、LLMsVerifierによる継続的なランキングを実施。429/5xxエラー時の自動フェイルオーバーと、最終手段としてのllama.cppを保証。無料ティアの容量が信頼性の高いリソースに変わります。</li>
+<li><strong>OpenAIとAnthropicの両方に対応したインターフェース</strong>：HTTP/3上で提供され、HTTP/2への自動フォールバックも実装。どちらのエコシステムのクライアントも、変更なしで接続可能です。</li>
+<li><strong>単一コードベースでCUDA、Metal、ROCmに対応</strong>：同じビルドがNVIDIA、Apple、AMDのハードウェア上で加速実行されます。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><p><strong>ホスト単位から多数へのスケーリングを書き換えなしで実現</strong>
+多くのシステムでは「ローカル開発」と「分散本番」の間に明確な境界があり、それを越えるにはアーキテクチャの再設計が必要です。私たちは単一バイナリ上のモードシステムでこの境界を取り払いました。<code>full</code>モードでは同じレイヤーがプロセス内の直接呼び出しで通信し、分散モードではgRPC/SSE/Kafkaに透過的に切り替わります。これにより、スケールアウトは設定変更だけで可能になりました。</p></li>
+<li><p><strong>信頼性が低くレート制限のある無料クラウドプロバイダー</strong>
+無料ティアの推論は高速ですが、429エラーやリクエスト中の消失が発生します。私たちは、利用可能なモデルを自動検出し、LLMsVerifierでスコアリング、レート制限ヘッダーを事前に追跡してスロットリング寸前のプロバイダーを回避、さらにランキングされたチェーンに沿って自動的にフォールバックし、最終的にはローカルのllama.cppに切り替える仕組みを構築しました。これにより、プールの不安定さが呼び出し元に影響を与えることはありません。</p></li>
+<li><p><strong>2つのエコシステムにまたがるクライアント互換性</strong>
+新しい推論バックエンドにクライアントを書き換えるのは現実的ではありません。私たちはOpenAIとAnthropicの両方のAPI形状を実装しました。異なるSSEストリーミング形式に至るまで対応しているため、どちらの陣営のSDKもHelixLLMを指定するだけでそのまま動作します。</p></li>
+</ul>
+<p>コンテンツ</p>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go + Gin</strong> —
+システム全体を可能にするのは、単一バイナリかつ並行処理を第一に考えたランタイムであるため選択。ノートPCサーバーとしてもクラスターロールとしても動作する単一のビルドを実現し、システム全体とゲートウェイのHTTPレイヤーを内包する。</li>
+<li><strong>HTTP/3（QUIC）+ TLS 1.3（HTTP/2フォールバック付き）</strong>
+—
+最新かつ低遅延で接続耐性に優れたトランスポートとして選択。サーバーインターフェースとして公開され、QUICに対応できないクライアントは自動的にHTTP/2にフォールバックする。</li>
+<li><strong>llama.cpp（CUDA/Metal/ROCm）</strong> —
+NVIDIA、Apple、AMDの各バックエンドで加速可能なポータブルなローカル推論エンジンとして選択。単一のコードベースで動作し、フォールバックチェーンの最終保証プロバイダーとしても機能し、システムが完全に停止することを防ぐ。</li>
+<li><strong>LLMsVerifier</strong> —
+「現在どのプロバイダーが優れているか」を数値化するために選択。5分ごとにクラウドフォールバックチェーンをスコアリング・ランキングし、ルーティングがリアルタイムの品質に基づいて行われるようにする。</li>
+<li><strong>クラウドプロバイダー（Chutes、OpenRouter、HuggingFace、Nvidia、Cerebras、SambaNova、Together）</strong>
+—
+複数のアップストリームから無料枠のリソースを活用するために選択。自動的に検出され、単一のフェイルオーバーチェーンにランキングされるため、特定のプロバイダーが単一障害点になることはない。</li>
+<li><strong>gRPC + SSE + Kafka</strong> —
+分散デプロイメントにおけるモード間通信のトランスポートとして選択。gRPCはサービス間通信、SSEはストリーミング、Kafkaはロール間の非同期イベントフローに使用される。</li>
+<li><strong>ベクトルストア / embeddings</strong> —
+RAGのナレッジパイプラインをエンドツーエンドで支えるために選択。ドキュメントの取り込み、チャンク化、埋め込み、検索を通じてモデルの回答を根拠づける。</li>
+<li><strong>Prometheus + OpenTelemetry</strong> —
+デプロイされたモードを問わず、リクエストを追跡するメトリクスと分散トレーシングのために選択。</li>
+<li><strong>vasic-digital Goサブモジュール</strong> —
+既存の堅牢なプロダクションインフラのプリミティブを再利用するために選択。これにより、システムの基盤がより広範なスタックと一貫性を保つ。</li>
+</ul>
+<h2 id="ステータスと正直な注意点">ステータスと正直な注意点</h2>
+<ul>
+<li><strong>ステータス：ベータ版</strong>。機能は動作するが、分散推論システムとして開発中。</li>
+<li><strong>ライセンス：未定</strong>。リポジトリのメタデータにはライセンス情報が記載されていない（<code>licenseInfo</code>がnull）。これは未検証であり、ライセンスを明示する前に解決が必要。</li>
+<li>公式リポジトリは現在<code>github.com/HelixDevelopment/llm</code>に解決される。<code>HelixLLM</code>のパスはリダイレクトされる。READMEに記載されているカバレッジ閾値やサブモジュール数は自己申告によるもの。</li>
+</ul>
+<p><strong>優先度</strong>：Helix-プライマリ。</p>
+</body>
+</html>

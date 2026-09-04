@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTranslate</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTranslate</h1>
+</header>
+<h1 id="helixtranslate">HelixTranslate</h1>
+<p><strong>検証済みモデルによる書籍翻訳——設計段階から誠実さを貫き、決して静かなフォールバックを許さない</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixTranslateは、Goベースの高性能電子書籍翻訳プラットフォームです。100以上の言語間で書籍を翻訳する際、検証済みのLLMプロバイダーを使用し、リアルタイムのWebSocket監視と「静かなフォールバックを許さない」厳格なルーティングポリシーを採用。品質低下を密かに許容するのではなく、明確なエラーとして失敗します。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>Goベースの汎用電子書籍翻訳ツールキット。FB2、EPUB、TXT、HTML、PDF、DOCXに対応し、100以上の言語間で翻訳を実行。最強の検証済みLLM（LLMsVerifierブリッジ経由）を使用し、REST/HTTP-3およびgRPC
+API、分散処理、リアルタイムWebSocket監視ダッシュボードを備えています。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixTranslateは、企業向けのGoベースシステムで、LLMプロバイダーを用いて書籍全体を言語間で翻訳します。対象は段落や断片ではなく、書籍全体を端から端まで翻訳することに特化しています。複数の電子書籍フォーマット（FB2、EPUB、TXT、HTML、PDF、DOCX）の解析・再生成が可能で、100以上の言語に対応し、自動言語検出機能を備えています。また、CLIツールとAPIサーバー（HTTP/3上のREST、gRPC、およびWebSocketイベントストリーム）を提供し、ターミナルワークフローにもサービスメッシュにも柔軟に組み込めます。</p>
+<p>このシステムの最大の特徴は、<em>モデルの選択方法</em>にあります。特定のプロバイダーをハードコーディングしてその健全性を期待するのではなく、HelixTranslateはすべてのモデル権限をLLMsVerifierブリッジ（<code>pkg/bridge</code>）に委ねます。ブリッジは最も強力な<em>検証済み</em>のAPIモデルを選択し、スコア順に決定的なフォールバックチェーンを返します。モデルの適格性は、応答性、コード品質、機能の豊富さ、信頼性を総合的に評価した加重スコアによって決定されるため、翻訳を担当するモデルは設定ファイルに記載されているからではなく、実際に機能することを証明したからこそ選ばれるのです。</p>
+<p>さらに重要なのは、システムがコードレベルで「静かなフォールバック禁止」を徹底している点です。プロバイダーのAPIキーが存在しない場合や、利用不可能なプロバイダーを明示的に要求した場合、パイプラインは密かにプロバイダーを切り替えたり、ローカルランタイムにフォールバックして「問題なし」と偽るのではなく、明確なハードエラーを返します。このルールは専用のビルド前ゲートとペアのミューテーションテストによって厳格に管理されています。ローカルランタイム（Ollama、llama.cpp）は意図的にデフォルトパスから除外されており、検証済みモデルの代わりに弱いエンジンが密かに代用されることは決してありません。</p>
+<p>翻訳コアの周囲には、リアルタイムのWebSocket監視サブシステムが配置されています。翻訳CLIは型付きイベントを監視サーバーに送信し、ライブウェブダッシュボードを駆動します。また、リモートのSSHワーカーがワークロードを分散処理します。さらに、一貫性を高める多段階ポリッシング、事前品質分析、長文入力時のコスト抑制を目的とした翻訳キャッシュ、視覚駆動の品質保証が重層的に実装されています。このプラットフォーム全体は、「ハッタリ禁止」のエンジニアリング憲章に基づいて設計されており、テストは単なるグリーンチェックマークではなく、実際のユーザー体験を証明するものでなければなりません。そのため、ミューテーションテストが必須とされています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>長編書籍を信頼性高く、そして<em>誠実に</em>翻訳するため――「劣化はしているが一応存在する」翻訳を決して届けない。設計の前提は、欠落した翻訳や検証不可能な翻訳は、大きく明確なエラーとして扱われなければならないというものであり、モデルの選択は常に、ハードコードされた推測や静かなローカルフォールバックではなく、真に検証されたプロバイダーに収束する必要がある。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>ほとんどのLLM翻訳パイプラインは静かに失敗する――弱いモデルにこっそりフォールバックしたり、ローカルランタイムに切り替わったり、テストスイートが緑色のまま部分的な出力を吐き出しながら、誰も品質の崖を察知しない。HelixTranslateは、この失敗モードそのものを構造的に不可能にする。モデルの選択は検証によって制御され、フォールバックの連鎖は決定論的かつ完全に透明であり、「キーがない／検証済みモデルがない」という状況は、静かな肩をすくめるような対応ではなく、正直なハードエラーとして処理される。このたった一つの設計判断により、「この翻訳は本当に、能力があり検証されたモデルで実行されたのか？」という問いは、確認のしようがない希望から、システムが代わりに保証するものへと変わる。</p>
+<h2 id="革新的な点">革新的な点</h2>
+<ul>
+<li><strong>検証ゲート型モデルルーティング</strong>
+LLMsVerifierブリッジを介して、最も強力な<em>検証済み</em>モデルが自動選択される。これにより、オペレーターはベンダー名ではなく意図を宣言し、ダウンしている可能性のあるプロバイダーを手動で選ぶことはない。</li>
+<li><strong>ノー・サイレント・フォールバック保証のコードによる強制</strong>
+4つの明示的なルーティング経路（モック／明示的検証器／明示的プロバイダー／ブリッジデフォルト）があり、それぞれが静かに切り替わるのではなくハードエラーを発生させる。加えて、デフォルトパスからローカルランタイムを意図的に排除し、フォールバック先となる弱い選択肢を根絶。</li>
+<li><strong>機械的な強制</strong>
+<code>CM-NO-LOCAL-RUNTIME</code>プリビルドゲートとペアのミューテーションテストにより、ビルド時にデフォルトパス上でローカルランタイムクライアントが構築されないことを保証。この保証は、もし破られればビルドが失敗するため、劣化することはない。</li>
+<li><strong>決定論的かつスコア順のフォールバック連鎖</strong>
+<em>検証済み</em>モデル間でのプロバイダー間フェイルオーバーは許可され、完全に透明。これは、禁止されているサイレントフォールバックとは原則的に区別される。どの能力あるモデルが作業を受け持ったかが常に明らか。</li>
+<li><strong>リアルタイムWebSocketモニタリング</strong>
+型付き翻訳イベントがダッシュボードにライブストリーミングされ、分散SSHワーカーにより、書籍長のジョブも可視化され並列処理される。ブラックボックスにはならない。</li>
+<li><strong>アンチブラフテスト体制</strong>
+ミューテーションテスト、否定的アサーション、実システムでの実行、ビジョン駆動のQAを組み合わせ、「テストが通る」ことが「機能が実際に動作する」ことを静かに隠蔽することがないように保証。</li>
+</ul>
+<h2
+id="最大の技術的課題とその解決方法">最大の技術的課題とその解決方法</h2>
+<ul>
+<li><strong>誠実な翻訳パイプラインの保証（サイレントな劣化なし）。</strong>
+LLMsVerifierブリッジにモデルの権限を集中させ、単一の決定ポイントで管理することで解決。4つの明示的なルーティングブランチをコード化し、それぞれが推測ではなく大きなエラーを発生させる。デフォルトパスからローカルランタイムのフォールバックを完全に排除し、ビルドゲートとミューテーションテストでルールを固定。保証が破られればビルドが失敗する。</li>
+<li><strong>「テストは通るが機能は壊れている」。</strong>
+この失敗モードを憲章で明示し、アンチブラフテスト体制で克服。実装の細部ではなく、ユーザーに見える具体的なアサーションを採用。モックはユニットテストに限定し、実システムをループに組み込む。ミューテーションテストを必須とし（機能を意図的に壊してもテストが<em>必ず</em>失敗する）、ビジョン検証QAで実際の出力を確認。</li>
+<li><strong>長編・マルチフォーマットの品質。</strong>
+書籍長の入力は一貫性とコストの両面で負荷が大きい。マルチパスのポリッシングでテキストを再検討し、事前分析フェーズでジョブの規模を把握。翻訳キャッシュにより、同じ文章に二度コストをかけない。</li>
+</ul>
+<p>コンテンツ</p>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go</strong> —
+並行処理プリミティブが、複数の章を同時にパース・翻訳・ストリーミングする処理に自然にマッピングされるため採用。高並行性バックエンドとして、<code>digital.vasic.translator</code>モジュールを使用。</li>
+<li><strong>Gin</strong> — 高速かつ最小限のHTTPルーターとして、REST
+APIのサーフェスを提供するために採用。</li>
+<li><strong>QUIC / HTTP/3（quic-go）</strong> — REST
+APIに、低遅延で現代的なトランスポートを提供し、不安定なネットワーク環境でも安定動作を実現するために採用。</li>
+<li><strong>gRPC + Protocol Buffers</strong> —
+型安全性と高パフォーマンスを両立したサービスインターフェースとして、プログラムからの呼び出しに対応するRESTと併せて採用。</li>
+<li><strong>Gorilla WebSocket</strong> —
+リアルタイムの型付き翻訳イベントストリームを監視ダッシュボードにライブフィードするために採用。</li>
+<li><strong>PostgreSQL、SQLite、Redis</strong> —
+意図的な3層構造：PostgreSQLは耐久性のあるリレーショナルデータ用、SQLiteは組み込み／ローカル状態用（ブリッジの検証済みモデルストア<code>data/verified_models.db</code>も担当）、Redisはホットキャッシュとして機能。</li>
+<li><strong>unidoc/unioffice + unipdf</strong> —
+難易度の高いフォーマット（DOCXおよびPDF）のパースと再生成を担当し、マルチフォーマットの電子書籍を忠実に往復変換するために採用。</li>
+<li><strong>Cobra</strong> —
+<code>unified-translator</code>およびその関連ツールを駆動するCLIフレームワークとして採用。</li>
+<li><strong>golang-jwt（JWT HS256）</strong> —
+ステートレスなAPI認証のために採用。IPごとのトークンバケットによるレート制限と、TLS／QUICトランスポートセキュリティを組み合わせ、サーフェスの堅牢性を確保。</li>
+<li><strong>LLMsVerifierブリッジ（<code>pkg/bridge</code>）</strong> —
+中核要素：最も信頼性の高い検証済みモデルと、その決定論的フォールバックチェーンを提供し、サイレントフォールバック禁止の保証を一元的に強制する役割を担う。</li>
+<li><strong>Testify</strong> —
+Goのテストスイートに採用。専用の<code>provider_routing_test.go</code>や、正直性ルールを厳守するためのミューテーションゲートも含む。</li>
+<li><strong>Docker / Podman（ルートレス） + Compose</strong> —
+コンテナ化された分散デプロイメント（<code>docker-compose.distributed.yml</code>）のために採用。セキュリティ強化のため、ルートレスPodmanを使用。</li>
+</ul>
+<h2
+id="ステータスおよび正直性に関する注意事項">ステータスおよび正直性に関する注意事項</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+機能は実装済みだが、<code>VERSION</code>／Makefile／<code>AGENTS.md</code>間でバージョン表記に不整合があるため、現状は未確定とみなす。</li>
+<li><strong>ライセンス：未定。</strong>
+READMEではMITと記載されているが、LICENSEファイルとの整合性は未確認。明記する前に検証が必要。</li>
+<li>ダッシュボード／モニターエンドポイントはローカルホスト専用で公開されていない。ドキュメントに記載されたWebSocketのパフォーマンス数値は目標値であり、検証済みではない。<code>ARCHITECTURE.md</code>には削除済みのOllama／ローカルエンジンが記載されたまま（情報が古い）。</li>
+</ul>
+<p><strong>優先度レベル：</strong>
+Helixプライマリ（LLMインフラストラクチャクラスター）。Helixプラットフォームファミリー内では、HelixTrackに次ぐ位置づけ。</p>
+</body>
+</html>

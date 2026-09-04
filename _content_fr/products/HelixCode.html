@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCode</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCode</h1>
+</header>
+<h1 id="helixcode">HelixCode</h1>
+<p><strong>La plateforme de développement distribué AI qui divise le
+travail, le préserve et ne perd jamais votre progression.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>HelixCode est une plateforme de développement distribué AI de niveau
+entreprise, basée sur Go, qui répartit les tâches de développement en
+segments intelligents à travers un réseau de travailleurs gérés par SSH.
+Elle intègre un système de points de contrôle et de restauration
+automatique pour garantir qu’aucune avancée n’est jamais perdue. Elle
+unifie l’intégration multi-fournisseurs LLM, les workflows couvrant
+l’ensemble du cycle de développement, et la livraison multiplateforme,
+le tout accessible via les interfaces REST, CLI, TUI et MCP.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>HelixCode est une plateforme de développement distribué AI écrite en
+Go. Elle divise le travail en tâches intelligentes réparties sur un
+réseau de travailleurs SSH, préserve la progression grâce à des points
+de contrôle et des restaurations automatiques, intègre plusieurs
+fournisseurs LLM et pilote l’ensemble du cycle de développement via les
+interfaces REST, CLI, TUI et MCP.</p>
+<h2 id="description-détaillée">Description détaillée</h2>
+<p>HelixCode est une plateforme de développement distribué AI de niveau
+entreprise (<code>dev.helix.code</code>, licence MIT) construite autour
+d’une promesse simple, littéralement exprimée par son slogan : diviser
+le travail, le préserver et ne jamais perdre sa progression. Conçue pour
+une répartition intelligente des tâches, la sauvegarde automatique des
+avancées et des workflows de développement multiplateformes, elle est
+écrite en Go pour répondre aux exigences de concurrence et de
+portabilité en un seul binaire que requiert l’informatique distribuée.
+Elle intègre nativement la création de points de contrôle, la
+restauration et la surveillance en temps réel, plutôt que comme des
+fonctionnalités optionnelles.</p>
+<p>Son architecture superpose une interface API combinant REST,
+WebSocket et MCP à un ensemble de services centraux spécialisés :
+authentification JWT et gestion des sessions, gestion de pools de
+travailleurs basée sur SSH avec surveillance de l’état de santé, gestion
+des tâches avec points de contrôle et traitement des dépendances,
+gestion des projets et des workflows, ainsi qu’une couche unifiée de
+fournisseurs LLM. Toutes ces données sont persistées sur PostgreSQL,
+avec Redis disponible en option comme niveau de coordination et de mise
+en cache. Les travailleurs distribués s’installent automatiquement sur
+un réseau, ce qui permet de dimensionner le parc en pointant simplement
+le serveur vers une machine, sans configuration manuelle. Les interfaces
+multi-clients couvrent CLI, l’interface en terminal, REST et les
+frameworks mobiles, rendant la plateforme accessible aussi bien depuis
+un script, un terminal ou une application.</p>
+<p>HelixCode prend en charge l’intégralité du cycle de développement de
+bout en bout : planification, construction, tests et refactoring
+s’exécutent automatiquement avec une gestion des dépendances et un suivi
+du contexte multi-session, permettant à un projet de longue haleine de
+conserver sa cohérence malgré les interruptions et les changements de
+machine. Elle intègre plusieurs fournisseurs LLM — llama.cpp, Ollama et
+OpenAI — derrière une seule interface, tout en ajoutant une sélection de
+modèles adaptée au matériel, capable de détecter les ressources
+disponibles (CPU, GPU, mémoire) et d’ajuster le modèle en conséquence.
+Elle supporte également des stratégies de raisonnement avancées comme le
+<em>chain-of-thought</em> et le <em>tree-of-thoughts</em> pour les
+problèmes nécessitant plus qu’une seule passe. Le protocole Model
+Context Protocol est implémenté sur plusieurs transports pour un échange
+standardisé d’outils et de contextes, et des notifications multi-canaux
+(Slack, Discord, Email, Telegram) informent les équipes de l’avancement
+des travaux distribués. La plateforme cible Linux, macOS, Windows,
+Aurora OS et SymphonyOS.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Le développement distribué et assisté par AI perd généralement en
+contexte et en progression lorsque les tâches sont réparties entre
+plusieurs machines ou interrompues. HelixCode a été conçu pour rendre la
+division des tâches intelligente et la sauvegarde du travail automatique
+– afin qu’un effort de développement d’envergure puisse être décomposé,
+distribué sur un réseau de travailleurs, sauvegardé à des points de
+contrôle, puis repris ou annulé sans perte d’état.</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Il rend le développement distribué assisté par AI <em>résilient</em>
+– une capacité qui n’était jamais réaliste lorsque les équipes
+assemblaient ces éléments manuellement. Trois fonctionnalités
+habituellement dispersées dans trois outils distincts ne font plus qu’un
+: le calcul distribué (réseaux de travailleurs SSH avec installation
+automatique et surveillance de l’état), l’assistance au développement AI
+(LLM multi-fournisseurs dotés de raisonnement et d’appel d’outils), et
+l’automatisation des workflows sur l’ensemble du cycle de vie. Le liant,
+c’est la sauvegarde des points de contrôle basée sur une base de données
+: comme l’état des tâches, les sauvegardes et les dépendances sont
+persistés dans PostgreSQL, un travail s’étalant sur plusieurs machines
+et sessions peut être annulé ou repris exactement là où il s’est arrêté.
+Les interruptions et la répartition du travail cessent d’être une source
+de perte de progression pour devenir un événement routinier et
+récupérable.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li>La préservation du travail comme primitive fondamentale : sauvegarde
+et annulation automatiques appliquées aux tâches de développement
+<em>distribuées</em>, afin que la progression survive aux interruptions
+et aux pannes matérielles au lieu de s’évanouir avec elles.</li>
+<li>Sélection de modèles adaptée au matériel, qui analyse le
+CPU/GPU/mémoire détectés et associe chaque tâche à un modèle que la
+machine peut exécuter efficacement – sans réglage manuel par
+travailleur.</li>
+<li>Une plateforme, cinq interfaces : REST, WebSocket, CLI, TUI et MCP,
+MCP étant lui-même accessible via plusieurs protocoles pour permettre
+aux outils et agents de s’intégrer quelle que soit leur méthode de
+connexion.</li>
+<li>Une portée multiplateforme qui dépasse le trio habituel des postes
+de travail pour inclure Aurora OS et SymphonyOS, élargissant ainsi le
+parc de travailleurs à des plateformes souvent ignorées par la plupart
+des outils.</li>
+</ul>
+<h2 id="principaux-défis-techniques-et-nos-solutions">Principaux défis
+techniques et nos solutions</h2>
+<ul>
+<li><strong>Ne pas perdre de travail dans des tâches distribuées et
+interruptibles.</strong> Lorsqu’un travail est réparti entre plusieurs
+machines, tout plantage ou interruption laisse généralement en plan ce
+qui était en cours. Nous avons modélisé la tâche elle-même comme
+porteuse de points de contrôle et de dépendances, persistés dans
+PostgreSQL, afin que le système puisse revenir au dernier état valide ou
+reprendre à partir de celui-ci – une résilience ancrée dans la couche de
+données plutôt que dans un état en mémoire fragile.</li>
+<li><strong>Gérer un parc de travailleurs hétérogène.</strong> Un réseau
+de machines Linux, macOS, Windows, Aurora et SymphonyOS est une cible
+mouvante en termes de disponibilité et de configuration. Nous le gérons
+grâce à un service dédié de pool de travailleurs qui assure
+l’enregistrement basé sur SSH, l’installation automatique sur les
+nouveaux nœuds et une surveillance continue de l’état, maintenant ainsi
+le parc connu et maîtrisé à mesure que les machines apparaissent et
+disparaissent.</li>
+<li><strong>Hétérogénéité des fournisseurs et du matériel.</strong> Les
+backends LLM et les machines qui les exécutent varient considérablement
+en termes de capacités. Nous avons masqué cette complexité derrière une
+interface unifiée de fournisseur LLM, couplée à une détection matérielle
+(CPU/GPU/mémoire) qui pilote une sélection intelligente des modèles,
+garantissant que le bon modèle s’exécute sur la bonne machine sans que
+l’appelant ait à se soucier de l’un ou de l’autre.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Go (1.26+ module interne)</strong> — choisi pour sa
+concurrence basée sur les goroutines et sa sortie en binaire unique,
+exactement ce dont a besoin un système de workers distribués : un
+parallélisme économique pour l’orchestration et un binaire autonome qui
+s’installe automatiquement sur n’importe quel nœud. Il embarque tous les
+services principaux ainsi que les binaires CLI/server.</li>
+<li><strong>Gin (framework HTTP)</strong> — retenu pour sa couche REST
+rapide et minimaliste, à faible surcharge ; il sert la surface
+<code>/api/v1</code> (authentification, workers, tâches, projets) à
+laquelle tous les clients s’adressent.</li>
+<li><strong>PostgreSQL 15+ (via pgx/v5)</strong> — sélectionné comme
+système de référence durable, car la sauvegarde des points de contrôle
+et le retour arrière exigent une persistance transactionnelle ; il
+héberge le schéma de calcul distribué à 11 tables (utilisateurs,
+workers, tâches, projets, sessions, fournisseurs_llm, notifications) qui
+rend possible la préservation du travail.</li>
+<li><strong>Redis 7+ (optionnel, go-redis/v9)</strong> — adopté comme
+couche de mise en cache et de coordination facultative, accélérant les
+chemins critiques sans devenir une dépendance incontournable, de sorte
+qu’un déploiement minimal fonctionne avec PostgreSQL seul.</li>
+<li><strong>SSH</strong> — choisi comme protocole de transport pour le
+contrôle des workers précisément parce qu’il est déjà omniprésent et
+sécurisé ; il gère l’enregistrement des workers, leur installation
+automatique et l’exécution de commandes à distance sur l’ensemble du
+pool, sans nécessiter le déploiement préalable d’un agent
+spécifique.</li>
+<li><strong>Model Context Protocol (MCP)</strong> — retenu pour
+l’échange standardisé d’outils et de contextes, permettant aux outils et
+agents externes de s’intégrer via un protocole ouvert ; implémenté avec
+une prise en charge multi-transport pour s’adapter aux clients, quel que
+soit leur point de connexion.</li>
+<li><strong>Fournisseurs LLM (llama.cpp, Ollama, OpenAI)</strong> —
+sélectionnés pour couvrir à la fois l’inférence locale et hébergée
+derrière une interface unifiée, permettant une sélection adaptée au
+matériel qui achemine une tâche vers un modèle local ou hébergé sans que
+l’appelant en ait conscience.</li>
+</ul>
+<h2 id="statut-et-notes-de-transparence">Statut et notes de
+transparence</h2>
+<ul>
+<li><strong>Statut : bêta.</strong> Le README annonce un état «
+COMPLÈTEMENT TERMINÉ / les 5 phases achevées » ; cette complétude est
+déclarée par le projet et non vérifiée de manière indépendante, aussi la
+page la considère-t-elle comme bêta.</li>
+<li>Toutes les précisions ci-dessus proviennent du README du dépôt ; les
+formulations marketing (slogans) relèvent de l’éditorial et non de
+métriques issues de la source.</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire.</p>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTerminator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTerminator</h1>
+</header>
+<h1 id="helixterminator">HelixTerminator</h1>
+<p><strong>Tagline:</strong> The zero-trust terminal platform for teams
+— every SSH session, secured, shared, and AI-assisted.</p>
+<p><strong>Summary:</strong> HelixTerminator is an enterprise terminal
+and SSH session-management platform built as a Go microservices system
+with cross-platform Flutter clients. It brokers, records, and secures
+remote sessions under a zero-trust model, adds real-time collaboration,
+and layers AI assistance over the terminal.</p>
+<p><strong>Short description (~40 words):</strong> HelixTerminator is a
+zero-trust, enterprise terminal/SSH management platform: a Go
+microservices backend plus Flutter clients across six platforms. It
+manages hosts, brokers connections, records sessions, enables real-time
+collaboration, and adds AI-assisted command help, output explanation,
+and incident response.</p>
+<p><strong>Long description (150-250 words):</strong> HelixTerminator is
+an enterprise-grade terminal and remote-access platform, structured as
+two modules — a Terminal Platform and a Connection Broker — implemented
+across a catalogue of Go microservices with a Flutter client for six
+platforms. It is designed to replace ad-hoc SSH tooling with a governed,
+auditable, collaborative system.</p>
+<p>The backend covers the full lifecycle of remote access: host and
+group management with bastion/jump-host chains, an SSH proxy brokering
+password/pubkey/certificate auth, a terminal I/O proxy over WebSocket,
+SFTP with resumable transfers, port-forwarding, snippet and workspace
+management, and session recording assembled into signed asciinema
+playback. Security is zero-trust by design: a vault for zero-knowledge
+secret storage, a PKI service issuing short-lived SSH certificates,
+hardware-backed keychains (Secure Enclave / Android Keystore / DPAPI /
+HSM), FIDO2/WebAuthn and OIDC/SAML auth, and an append-only
+Merkle-chained audit log for SOC 2 / ISO 27001 evidence. Real-time
+collaboration lets multiple operators share a session (observer /
+co-pilot / owner) with CRDT buffer sync.</p>
+<p>An AI service augments the terminal with command autocomplete, output
+explanation, anomaly detection, runbook generation, and incident
+assistance. The platform is container-native — Kubernetes, Helm,
+Terraform, and a full observability stack (OpenTelemetry, Grafana,
+Jaeger, Loki) — and integrates with the wider Helix family via a
+HelixTrack bridge and local HelixLLM. It is governed by the Helix
+Constitution with anti-bluff inheritance-verification gates.</p>
+<p><strong>Why we built it:</strong> Teams run remote infrastructure
+through scattered SSH clients with no shared audit trail, no consistent
+secret handling, and no way to collaborate live on an incident.
+HelixTerminator was built to make remote access a governed, zero-trust,
+team-native platform rather than a per-laptop tool.</p>
+<p><strong>Why it’s a game-changer:</strong> It combines things usually
+bought separately — an SSH client, a secrets vault, a bastion/PKI layer,
+session recording, compliance auditing, and live collaboration — into
+one platform, then adds an AI layer that explains output and drafts
+runbooks during incidents.</p>
+<p><strong>What’s innovative:</strong> - <strong>Dual-module
+design</strong> (Terminal Platform + Connection Broker) over a
+25-service registry. - <strong>Zero-trust security</strong>: short-lived
+SSH certificates via PKI, zero-knowledge vault, hardware-backed
+keychains, Merkle-chained audit log. - <strong>Real-time session
+collaboration</strong> with CRDT buffer sync and observer/co-pilot/owner
+roles. - <strong>AI-assisted operations</strong>: autocomplete, output
+explanation, anomaly detection, runbook/incident assist. -
+<strong>Cross-platform Flutter client</strong> targeting six platforms
+from one codebase.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Securing remote access without standing credentials</em> — solved
+with a PKI service issuing short-lived SSH certificates plus a
+zero-knowledge vault and hardware-backed key storage. - <em>Live
+multi-operator sessions without conflicts</em> — solved with CRDT-based
+buffer synchronization (chosen over operational transformation, per
+ADR-006). - <em>Tamper-evident compliance</em> — solved with an
+append-only, Merkle-chained audit log producing exportable SOC 2 / ISO
+27001 / FedRAMP evidence. - <em>Consistent UX across desktop, mobile,
+and web</em> — solved with a single Flutter/Dart + BLoC client (Flutter
+chosen over Electron, per ADR-001).</p>
+<p><strong>Tech stack:</strong> - <strong>Go microservices</strong> —
+backend services (SSH proxy, terminal, vault, PKI, audit, etc.); chosen
+for concurrency and small footprint (ADR-002: Go over Rust/Node). -
+<strong>Flutter / Dart (BLoC)</strong> — one client across six platforms
+(ADR-001: Flutter over Electron). - <strong>PostgreSQL</strong> —
+primary datastore (ADR-004: Postgres over CockroachDB). - <strong>Kafka
++ RabbitMQ</strong> — messaging/streaming for session segments and
+events (ADR-003). - <strong>Redis</strong> — terminal scrollback buffers
+and hot state. - <strong>SPIFFE/SPIRE + mTLS</strong> — workload
+identity (ADR-005) for service-to-service zero trust. - <strong>Ed25519
+(EdDSA)</strong> — JWT signing and recording signatures (ADR-009). -
+<strong>Kubernetes + Helm + Terraform</strong> — container-native
+deployment and IaC (ADR-007/008). - <strong>OpenTelemetry, Grafana,
+Jaeger, Loki</strong> — observability; <strong>Falco, Trivy, Cosign,
+Sealed Secrets</strong> — runtime security and supply chain.</p>
+<p><strong>Public links:</strong> - GitHub:
+https://github.com/HelixDevelopment/terminator (public, Apache-2.0) -
+License: Apache-2.0 (per GitHub API). - Note: this project was NOT in
+the June 2026 harvested inventory; it was created 2026-07-04 and
+verified to exist via live <code>gh</code> calls.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Three-channel architecture: Flutter clients ↔︎ gateway ↔︎ Go service mesh
+↔︎ host agent / SSH proxy (from the README’s runtime-domain sketch). 2.
+Zero-trust security flow: PKI issuing a short-lived SSH cert,
+vault-stored secret, mTLS between services. 3. Live collaboration panel:
+observer / co-pilot / owner sharing one terminal with CRDT sync. 4.
+AI-assist callout: terminal output with an inline “explain this output /
+draft runbook” overlay.</p>
+<p><strong>Site relevance:</strong> both (vasic.digital as a flagship
+enterprise product; milosvasic.ru as the most substantial recent build
+to highlight).</p>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+<p><strong>Source provenance:</strong> -
+<code>gh api repos/HelixDevelopment/terminator</code> (metadata: public,
+Go, Apache-2.0, created 2026-07-04, pushed 2026-07-26, size ~44.7 MB). -
+<code>gh api repos/HelixDevelopment/terminator/readme</code> (service
+catalogue, security services, AI service, ADRs, module/scope structure).
+- <code>gh search repos terminator --owner HelixDevelopment</code> and
+<code>gh repo list HelixDevelopment</code> (confirmed existence; absent
+from June harvest). - UNVERIFIED: numeric spec figures in the MVP
+research package (e.g., “221 REST endpoints”, “120 tables”, “25-service
+registry”, “1,840”-style counts) are design/spec targets from
+<code>docs/research/mvp/</code>, not confirmed as fully implemented —
+presented above as architecture scope, not shipped metrics. Latency/SLO
+and “production-ready” claims not independently verified.</p>
+</body>
+</html>

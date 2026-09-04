@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>سرور ایمیل خود را مثل یک حرفه‌ای راه‌اندازی کنید — آن را در
+JSON توصیف کنید و هر جا که خواستید مستقرش کنید.</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>Mail Server Factory ابزاری خودکار و آماده‌ی تولید برای تأمین سرور
+ایمیل است. کاربر یک پیکربندی ساده‌ی JSON می‌نویسد؛ سپس «فکتوری» آن را
+تفسیر کرده و تمامی نصب‌ها و راه‌اندازی‌های اولیه را روی سیستم‌عامل مقصد
+انجام می‌دهد و یک پشته‌ی ایمیل مبتنی بر Docker با اجزای کاملاً مستقل را روی
+۱۲ نوع اتصال مستقر می‌کند.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>ابزاری Kotlin/Shell که یک توصیف JSON را به یک سرور ایمیل کاملاً نصب‌شده
+و داکرایز‌شده تبدیل می‌کند. این ابزار از ۱۲ نوع اتصال (SSH، Docker،
+Kubernetes، AWS SSM، Azure، GCP، Libvirt و غیره)، چارچوب امنیتی کامل، ۲۵
+توزیع Linux و ۴۳۹ تست موفق پشتیبانی می‌کند.</p>
+<h2 id="توضیح-مفصل">توضیح مفصل</h2>
+<p>راه‌اندازی یک سرور ایمیل واقعی و امن، یکی از آیین‌های کلاسیک و در عین
+حال طاقت‌فرسای مدیریت سیستم‌ها به شمار می‌رود. پست‌فیکس، داوکات، گواهی‌های
+TLS، رکوردهای DNS، قوانین فایروال و تفاوت‌های توزیع‌های مختلف Linux همگی
+باید به‌طور دقیق هماهنگ شوند؛ یک دستور اشتباه به معنای رد شدن بی‌صدای
+ایمیل‌ها یا ایجاد یک رله‌ی باز است. Mail Server Factory تمام این دانش
+سخت‌آموخته و مستعد خطا را در قالب نرم‌افزار ثبت کرده است. به جای پیکربندی
+دستی هر جزء روی یک سیستم‌عامل ناآشنا، کاربر نتیجه‌ی دلخواه خود را در قالب
+یک سند ساده‌ی JSON توصیف می‌کند؛ سپس «فکتوری» این سند را خوانده و مراحل
+دقیق نصب و راه‌اندازی را روی سیستم‌عامل مقصد اجرا می‌کند و یک پشته‌ی ایمیل
+مبتنی بر Docker با اجزای کاملاً مستقل را راه‌اندازی می‌نماید — طراحی‌ای که
+امکان مقیاس‌پذیری افقی را فراهم کرده و اجازه می‌دهد هر جزء به‌طور جداگانه
+ارتقا یا جایگزین شود. این ابزار به‌طور عامدانه از نظر دسترسی بی‌طرف است:
+۱۲ نوع اتصال به کاربر امکان می‌دهد همان ابزار و همان توصیف JSON را برای
+یک ماشین محلی، یک هاست راه‌دور از طریق SSH، محیط‌های اجرایی Docker یا
+Kubernetes، نمونه‌های ابری از طریق AWS SSM / Azure Serial Console / GCP
+OS Login، یا ماشین‌های مجازی از طریق Libvirt به کار گیرد — توصیف اعلانی
+یکسان، هر جا که کاربر آن را نشانه بگیرد. این ابزار از ۲۵ توزیع Linux
+شامل خانواده‌های غربی (اوبونتو، دبیان، سنت‌اواس، فدورا، آلما Linux، راکی،
+اوپن‌سوزه)، روسی (آلت، آسترا، رُزا) و چینی (اوپن‌اولر، اوپن‌کایلین، دیپین)
+پشتیبانی می‌کند و نصب بدون نظارت را از طریق
+preseed/kickstart/cloud-init/autoyast و خودکارسازی ماشین‌های مجازی مبتنی
+بر QEMU برای تست فراهم می‌آورد. ویژگی‌های سازمانی گسترده‌اند: رمزنگاری
+AES-256-GCM، سیاست‌های اجباری رمز عبور و کلید SSH، پیکربندی خودکار
+فایروال برای پورت‌های ایمیل (۲۵/۵۸۷/۴۶۵/۹۹۳/۹۹۵)، TLS/SSL با اعتبارسنجی
+گواهی و HSTS، ثبت رویدادهای حسابرسی و کنترل دسترسی مبتنی بر نقش (RBAC).
+ویژگی‌های عملیاتی شامل تنظیم JVM (G1GC)، کش کافئین، پولینگ اتصال،
+معیارهای سازگار با Prometheus، ثبت لاگ ساختاریافته، بارگذاری مجدد داغ
+پیکربندی و مدیریت اسرار است. این پروژه ۴۳۹ تست با نرخ موفقیت ۱۰۰٪ و
+دروازه‌ی کیفیت SonarQube بدون مشکل را گزارش می‌دهد. این ابزار، محصول شاخص
+سازمان Server-Factory است.</p>
+<p>محتوا</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>راه‌اندازی یک سرور ایمیل امن و آماده‌ی تولید، کاری است که به‌طور مشهور
+مستعد خطا و وابسته به سیستم‌عامل است. Mail Server Factory این تخصص را در
+قالب یک مدل اعلانی JSON به‌علاوه‌ی یک موتور اجرایی گردآوری می‌کند تا بتوان
+یک پشته‌ی ایمیلی داکرایز‌شده، صحیح و امن را بدون نیاز به کار گام‌به‌گام دستی
+روی هر هدف پشتیبانی‌شده بازتولید کرد.</p>
+<h2 id="چرا-انقلابی-است">چرا انقلابی است</h2>
+<p>این ابزار، فراهم‌سازی سرور ایمیل را از یک فرایند تخصصی، چندروزه و
+نیازمند دقت مطلق به عملی ساده همچون نوشتن پیکربندی تنزل می‌دهد — سپس این
+عمل را قابل‌حمل میان ۱۲ نوع اتصال و ۲۵ توزیع Linux می‌سازد و از ابتدا با
+تنظیمات امنیتی سازمانی تقویت می‌کند. نتیجه قابل بازتولید و <em>قابل
+راستی‌آزمایی</em> است: هر JSON یکسان، هر بار همان پشته‌ی امن را تولید
+می‌کند و مجموعه‌ی ۴۳۹ آزمون موفق و دروازه‌ی پاک SonarQube پروژه نشان می‌دهد
+که موتور اجرایی نه بر اساس اعتبار، بلکه بر اساس پاسخگویی عمل می‌کند.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>تبدیل JSON اعلانی به نصب/راه‌اندازی تفسیری روی سیستم‌عامل هدف.</li>
+<li>پشتیبانی از ۱۲ نوع اتصال (محلی، SSH، Docker، Kubernetes، AWS SSM،
+Azure، GCP، Libvirt و غیره) در یک ابزار واحد.</li>
+<li>پشتیبانی از ۲۵ توزیع با نصب بدون نظارت
+(preseed/kickstart/cloud-init/autoyast) و اتوماسیون QEMU.</li>
+<li>پشته‌ی داکرایز‌شده‌ی با اتصال سست برای مقیاس‌بندی و ارتقای مستقل.</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>ناهمگونی سیستم‌عامل/توزیع</strong>: با دستورالعمل‌های اختصاصی
+هر توزیع، تنظیمات نصب بدون نظارت و آزمون‌های بین‌توزیعی مبتنی بر QEMU حل
+شد.</li>
+<li><strong>دسترسی به اهداف متعدد استقرار</strong>: با ۱۲ نوع اتصال قابل
+اتصال تحت یک موتور نصب مشترک حل شد.</li>
+<li><strong>امنیت پیش‌فرض</strong>: با AES-256-GCM، سیاست‌های اجباری
+کلید/رمز عبور، قوانین خودکار فایروال و TLS/HSTS حل شد.</li>
+<li><strong>اطمینان از صحت</strong>: با مجموعه‌ی ۴۳۹ آزمون (۱۰۰٪ موفق) و
+دروازه‌ی پاک SonarQube حل شد.</li>
+</ul>
+<h2 id="پشتهی-فناوری-چرایی-و-چگونگی">پشته‌ی فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Kotlin</strong> — موتور کارخانه و منطق گام‌های نصب (۱۷۹
+کیلوبایت؛ Kotlin نسخه‌ی ۲.۰.۲۱).</li>
+<li><strong>Shell</strong> — اسکریپت‌های فراهم‌سازی، مدیران ISO/QEMU و
+اتوماسیون سیستم‌عامل (بخش عمده‌ی حجم).</li>
+<li><strong>Docker</strong> — زمان اجرای پشته‌ی ایمیلی داکرایز‌شده و با
+اتصال سست.</li>
+<li><strong>QEMU</strong> — اتوماسیون ماشین مجازی برای نصب و آزمون
+بین‌توزیعی.</li>
+<li><strong>JSON</strong> — قالب پیکربندی اعلانی کاربر.</li>
+<li><strong>Gradle ۸.۱۴.۳ / جاوا ۱۷</strong> — زنجیره‌ی ابزار ساخت.</li>
+<li><strong>کافئین</strong> — حافظه‌ی پنهان چندمنطقه‌ای؛ <strong>JVM
+تنظیم‌شده با G1GC</strong> برای کارایی.</li>
+<li><strong>معیارهای سازگار با Prometheus</strong> — نظارت؛ آماده‌ی
+Grafana/ELK.</li>
+<li><strong>Sieve</strong> — قوانین فیلترینگ ایمیل (ردپای کوچک در آمار
+زبان).</li>
+</ul>
+<blockquote>
+<p>نکته: GitHub نشان‌دهنده‌ی انشعاب مخزن در سازمان Server-Factory است. پیش
+از خط تولید AI ایجاد شده و به‌عنوان یک محصول پیشرو در زمینه‌ی
+DevOps/فراهم‌سازی ارائه می‌شود، نه یک ابزار AI.</p>
+</blockquote>
+</body>
+</html>

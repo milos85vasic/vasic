@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>すべてのServer Factoryを支える共通エンジン</strong></p>
+<h2 id="概要">概要</h2>
+<p>Core Frameworkは、Server
+Factoryファミリーのプロビジョニングツールを支えるKotlinフレームワークです。Mail
+Server
+Factoryなどのプロジェクトが基盤とする共通エンジンと抽象化レイヤーを提供し、各「ファクトリー」が個別にプロビジョニングの基本機能を再実装するのではなく、実績のある一つの基盤を再利用できるようにします。</p>
+<h2 id="簡単な説明">簡単な説明</h2>
+<p>Server
+Factoryエコシステムの基盤となる共通のKotlinフレームワーク。下流のファクトリー（Mail
+Server Factory、Web Service Factory、SonarQube
+Factoryなど）が利用する共通のプロビジョニングエンジン、接続抽象化レイヤー、インストールステップの機構を提供します。</p>
+<h2 id="詳細な説明">詳細な説明</h2>
+<p>Core
+Frameworkは、Server-Factoryファミリー全体を可能にする縁の下の力持ちです。個々の「ファクトリー」製品（Mail
+Server Factory、Web Service Factory、SonarQube Factory、Caching Proxy
+Factory）はすべて、この再利用可能なエンジンの上に構築されています。Server
+Factoryのアプローチは宣言型です。ユーザーは望むインフラを設定ファイルとして記述し、ファクトリーはその記述を解釈してターゲットシステムにソフトウェアをインストール・初期化します。そして、このパターンに共通する機構が実際に実装されているのがCore
+Frameworkです。具体的には、あらゆる種類のターゲットに到達するための接続・転送抽象化レイヤー、ソフトウェアがどのようにプロビジョニングされるかを定義するインストールステップモデル、そして各ファクトリーが個別に実装する必要のあった共通の基盤部分がここに集約されています。</p>
+<p>これは、複数の製品を持つツールチェーンがいずれ直面する構造的な問い――「共通エンジンはどこに置くべきか」――に対する答えです。この答えを一度正しく出すことで、ファミリーは4つの微妙に異なるプロビジョナーに分裂することなく、一貫性を保っています。このKotlinフレームワークに集約することで、ファミリーはプロビジョニングロジックの重複を避け、動作の一貫性を維持します。Core
+Frameworkで改善された接続タイプやインストールの基本機能は、すべての下流ファクトリーに恩恵をもたらします。</p>
+<p>その実態はほぼKotlin（約990KBのKotlinコードに薄いShellレイヤーを加えたもの）で、スクリプト集ではなくコードライブラリとしての役割を反映しています。下流のリポジトリはすべて、このCore
+Frameworkを標準的な依存関係として参照しています（Parallels-Utils、Qemu-Utils、Utils、Definitionsパックはすべて、Core
+Frameworkリポジトリをエコシステムの中心としてリンクしています）。READMEは意図的に最小限に抑えられており――他のプロジェクトのためのインフラであり、<code>version.txt</code>/<code>version_code.txt</code>でバージョン管理されています――また、後のAIの取り組みよりも前に開発されたため、組織の成熟したDevOpsツールチェーンの遺産の一部となっています。</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>各プロビジョニングツールには、ターゲットへの接続手段とソフトウェアのインストール・設定ステップという共通の核が必要です。これを製品ごとに再構築すれば、動作のばらつきやバグの増加を招きます。Core
+Frameworkはそれを一箇所に集約し、すべてのファクトリーが信頼できる一つのエンジンを共有できるようにします。</p>
+<h2 id="なぜ革新的なのか">なぜ革新的なのか</h2>
+<p>これはファミリー全体で最も影響力の大きい部分です。ここで強化された接続タイプや改善されたインストールの基本機能は、すべてのファクトリーに即座に反映され、ツールチェーン全体が一つの投資から複利効果を得ることができます。「一度作って、どこでも再利用する」という哲学が最も効果を発揮する場所――インフラ自動化の基盤レイヤーで、正しい場所での修正が下流のすべてを修正するのです。</p>
+<p>コンテンツ</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li>接続とインストール手順のロジックを抽象化した、再利用可能な単一のプロビジョニング・フレームワーク。</li>
+<li>エンジン（コア・フレームワーク）と製品固有のファクトリー間の明確な分離。</li>
+<li>再現性のある利用を実現するバージョン固定配布（<code>version.txt</code>/<code>version_code.txt</code>）。</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>プロビジョニング・ロジックの重複回避</strong>：全ファクトリーで共有されるフレームワークに共通機構を抽出することで解決。</li>
+<li><strong>製品間での動作の一貫性</strong>：接続タイプと手順がどこでも同一に動作するよう、共通の抽象化を実施。</li>
+<li><strong>（未検証）</strong>：特定の内部APIは公開READMEに記載されていない。インターフェースの詳細は「ファクトリーで共有されるフレームワーク」を超えて未検証とみなすこと。</li>
+</ul>
+<h2
+id="技術スタック採用理由と使用方法">技術スタック（採用理由と使用方法）</h2>
+<ul>
+<li><strong>Kotlin</strong> — フレームワーク全体（約990KB）。Server
+Factoryファミリーの言語。</li>
+<li><strong>Shell</strong> — 最小限の補助スクリプト。</li>
+<li><strong>Gradle</strong> —
+ビルドツールチェーン（ファミリーの<code>./gradlew</code>使用と一貫性あり）。</li>
+</ul>
+<blockquote>
+<p>注：GitHubは、Server-Factory組織内のフォークとしてリポジトリを示す。AI中心ではなく、プロビジョニング・ツールチェーンの基盤として提示。</p>
+</blockquote>
+</body>
+</html>

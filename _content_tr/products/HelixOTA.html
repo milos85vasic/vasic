@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixOTA</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixOTA</h1>
+</header>
+<h1 id="helixota">HelixOTA</h1>
+<p><strong>Evrensel, bağımsız kablosuz güncellemeler — tasarım gereği
+sıfır tuğla riski.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Helix OTA, evrensel ve derinlemesine bağımsız bir kablosuz (OTA)
+güncelleme sistemi: bir Go kontrol düzlemi ve işletim sistemi başına
+istemci ajanlarından oluşur. Tek bir karttan milyonlarca cihaza kadar
+değişen filolara güvenli, aşamalı yazılım/güncelleme dağıtımı için
+tasarlanmıştır. İlk hedefi, Orange Pi 5 Max üzerinde çalışan Android
+15’tir.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Helix OTA, evrensel bir kablosuz güncelleme sistemi — bir Go kontrol
+düzlemi ve işletim sistemi başına istemci ajanları — olup sıfır sistem
+bozulması, doğrulanmış yüklemeler ve ayrıntılı aşamalı dağıtımlar için
+tasarlanmıştır. İlk hedefi Orange Pi 5 Max üzerinde çalışan Android 15
+olup, Linux ve Windows uyarlamaları da planlanmaktadır.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Helix OTA, evrensel, genel ve derinlemesine bağımsız bir kablosuz
+(OTA) güncelleme sistemi olup tek bir tavizsiz vaat üzerine inşa
+edilmiştir: güncelleme, çalışan bir cihazı asla tuğlaya
+dönüştürmemelidir. Bir Go sunucu <strong>kontrol düzlemi</strong>,
+işletim sistemi başına istemci <strong>SDK’ları/ajanları</strong> ve bir
+yönetim <strong>gösterge paneli</strong>nden oluşur. Platforma özgü
+yeniden inşa yerine, takılabilir işletim sistemi adaptörleri
+aracılığıyla <em>herhangi</em> bir işletim sistemine gömülebilecek
+şekilde baştan tasarlanmıştır. İlk dağıtım hedefi, Orange Pi 5 Max
+üzerinde çalışan Android 15 (tüm varyantları) olup, derleme hattı yanıp
+sönen görüntülerin yanı sıra doğrulanmış bir OTA <code>.zip</code>
+dosyası ve zorunlu hash dosyalarını üretir; böylece hiçbir dosya,
+doğrulanabilir bir parmak izi olmadan cihaza ulaşmaz. Linux, Windows ve
+diğer işletim sistemleri, aynı adaptör arayüzünün arkasında, yalnızca
+adaptörleri bekliyor — yeniden yazım değil.</p>
+<p>Tasarım, operatör tarafından belirlenen ve mimari değişmezler olarak
+kabul edilen katı garantiler etrafında şekillenir: sıfır sistem
+bozulması, dağıtımdan önce her dosyanın zorunlu doğrulaması, ayrıntılı
+dağıtım (tümü birden veya %5/%10/%30…%100 aşamalı, durdurma ve ilerletme
+kontrolüyle), filonun tam görünürlüğü ve tek bir masaüstü karttan
+sahadaki milyonlarca cihaza kadar doğrusal ölçeklenebilirlik. Kilitli
+mimari, cihaz tarafında yerel Android A/B güncellemeleri — AOSP
+<code>update_engine</code> ile AVB/dm-verity ve otomatik önyükleme
+hatası geri alma — ile özelleştirilmiş, bağımsız bir Go kontrol
+düzlemini birleştirir; böylece güvenlik hem donanıma yakın önyükleme
+yolunda hem de sunucuda bulunur, tek bir kırılgan katmanda değil. İki
+arayüz kasıtlı olarak çıkarılabilir tutulmuştur: gerçek evrenselliğin
+vaadini taşıyan bir işletim sistemi adaptörü arayüzü ve aşamalı
+kampanyaları işletim sisteminden bağımsız hale getiren bir dağıtım
+motoru arayüzü. Tüm sistem, altı adet bağımsız sürümlendirilmiş
+<code>ota-*</code> alt modüle ayrılmıştır — tek parça bir yapı yerine
+yeniden kullanılabilir yapı taşları.</p>
+<p>Helix OTA şu anda şartname/araştırma ve test kapsamı geliştirme
+aşamasındadır; depoda yetkili tasarım külliyatı, dokümantasyon dışa
+aktarım hattı ve alt modül iskeleti bulunur. Şeffaflık ilkesi gereği,
+henüz tamamlanmış bir üretim sunucusu ve ajanı bulunmadığı açıkça
+belirtilmiştir. Bugün sunulan, dürüstçe etiketlenmiş bir plan ve onun
+iskeletidir.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>OTA genellikle cihaz ve işletim sistemi bazında yeniden icat edilir
+ve kötü bir güncelleme tüm bir filoyu kullanılamaz hale getirebilir.
+Helix OTA, herhangi bir işletim sisteminin adaptörler aracılığıyla
+benimseyebileceği, evrensel ve güvenlik odaklı tek bir güncelleme
+sistemi olarak tasarlandı; geri alma ve doğrulama garantileri mimariye
+entegre edildi, sonradan eklenen özellikler olarak değil.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>“Cihazı asla kullanılamaz hale getirmeme” ve “güncellemeleri kademeli
+ve gözlemlenebilir şekilde yayma” ilkelerini, yük altında umut edilen en
+iyi çaba özellikleri olarak değil, hem önyükleme yoluna hem de kontrol
+düzlemine mimari olarak işlenmiş değişmezler olarak ele alıyor. Ayrıca,
+dağıtım motorunu ve işletim sistemi katmanını değiştirilebilir dikişler
+olarak tasarlayarak, aynı kontrol düzlemi bugün Android’i
+çalıştırabilirken, ileride yalnızca bir adaptör ekleyerek diğer işletim
+sistemlerini de desteklemeye hazır hale geliyor — çatallama, yeniden
+yazma veya güvendiğiniz güvenlik garantilerini baştan icat etme
+zorunluluğu yok.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li><strong>İki çıkarılabilir dikiş</strong> — bir işletim sistemi
+adaptörü dikişi ve işletim sisteminden bağımsız bir dağıtım motoru —
+“evrensel” kavramını pazarlama jargonundan çıkarıp kod tabanının yapısal
+bir özelliğine dönüştürüyor.</li>
+<li><strong>Derinlemesine savunma güvenliği</strong>: Cihaz tarafında
+yerel A/B (<code>update_engine</code>) + AVB/dm-verity + otomatik
+önyükleme hatası geri alma, <em>üstüne</em> sunucu tarafında
+gerçekleştirilen yapı doğrulama katmanları — bir güncellemenin kalıcı
+olabilmesi için birden fazla bağımsız kontrol noktasından geçmesi
+gerekiyor.</li>
+<li><strong>Katalog öncelikli, ayrıştırılmış</strong> yapı: Altı yeniden
+kullanılabilir, bağımsız olarak sürümlendirilmiş <code>ota-*</code> alt
+modüle ayrıştırma; tek parça bir monolit yutmak yerine ihtiyacınıza göre
+seçip kullanabileceğiniz bir yapı.</li>
+<li><strong>HTTP/3 (QUIC) birincil taşıma protokolü</strong>, otomatik
+HTTP/2 geri dönüşü ve anlaşmalı Brotli/gzip sıkıştırması ile — modern,
+düşük gecikmeli teslimat; başarısızlık yerine sorunsuz bir şekilde uyum
+sağlıyor.</li>
+<li><strong>Blöf karşıtı mühendislik</strong>: Tasarım ve durum açıkça
+spesifikasyon aşamasında olarak işaretleniyor; henüz inşa edilmemiş
+hiçbir şey teslim edilmiş gibi iddia edilmiyor — dürüstlük,
+dipnotlardaki bir sorumluluk reddinden değil, mühendislik değerlerinin
+temel bir unsuru olarak dayatılıyor.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En büyük teknik
+zorluklar ve çözümlerimiz</h2>
+<ul>
+<li><strong>Kötü bir güncellemenin cihazı asla kullanılamaz hale
+getirmemesini garanti etmek</strong> — OTA’nin en zor vaadi. Cihaz
+tarafında yerel Android A/B zorunluluğu ile çözüldü:
+<code>update_engine</code> etkin olmayan slota yazarken, çalışan slot
+aktif kalıyor; AVB/dm-verity önyükleme zincirini kriptografik olarak
+doğruluyor ve yeni slot önyüklemeyi başaramazsa cihaz otomatik olarak
+geri alıyor — tüm bunlar, bozuk bir yükün sunucuyu terk etmeden önce
+yakalanmasını sağlayan zorunlu ön dağıtım yapı doğrulama mekanizmasıyla
+destekleniyor.</li>
+<li><strong>Tek sistem, birçok işletim sistemi</strong> — çekirdeğe
+Android varsayımlarını yerleştirmemekle çözüldü. Takılabilir bir işletim
+sistemi adaptörü dikişi, platforma özgü detayları izole ederken, işletim
+sisteminden bağımsız bir dağıtım motoru dikişi de kampanya mantığını
+taşınabilir tutuyor; her biri ayrı bir alt modül olarak tutulduğundan,
+yeni bir işletim sistemi eklemek tüm sistemi ameliyat etmek yerine basit
+bir ilave haline geliyor.</li>
+<li><strong>Kademeli, durdurulabilir dağıtımlar</strong> — yüzde bazlı
+kohortlar, başarı/hata eşikleri ve açık durdur/ilerlet kontrolü ile
+çalışan özel bir dağıtım motoru ile çözüldü; bu motor, taşıma
+protokolünden bağımsız olarak kampanyaları yürütebilmesi için kasıtlı
+olarak HTTP bağlantısından arındırıldı.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Go + Gin</strong> — eşzamanlılık modeli ve hafif dağıtım
+ayak izi nedeniyle seçildi; kontrol düzlemini, dağıtım motorunu ve yapı
+doğrulayıcılarını çalıştırır, REST <code>/api/v1</code> birincil
+arayüzünü sunar.</li>
+<li><strong>Kotlin/KMP</strong> — cihaz üzerindeki Android OTA
+aracısının mantığı farklı hedefler arasında paylaşabilmesi için seçildi;
+cihaz döngüsünün tamamını (sorgula / indir / doğrula / uygula / raporla)
+yönetir.</li>
+<li><strong>HTTP/3 (QUIC) → HTTP/2</strong> — QUIC, düşük gecikmeli ve
+mobil bağlantılarda kesintiye dayanıklı teslimat için birincil taşıma
+katmanı olarak seçildi; otomatik HTTP/2 geri dönüşüyle hiçbir cihazın
+bağlantısız kalmaması sağlanır; <strong>Brotli/gzip</strong> yük
+boyutlarını küçültmek için isteğe bağlı olarak müzakere edilir.</li>
+<li><strong>PostgreSQL</strong> — cihaz kayıtları, kampanyalar ve
+telemetri arasında ilişkisel bütünlüğün sağlanması için seçildi; burada
+filonun doğru durumu, ham yazma hızından daha önemlidir.</li>
+<li><strong>MinIO / S3</strong> — büyük yazılım görüntülerinin ilişkisel
+katmandan bağımsız olarak standart nesne depolama alanında saklanması
+için yapı blob deposu olarak seçildi.</li>
+<li><strong>AOSP <code>update_engine</code> + AVB/dm-verity +
+<code>boot_control</code></strong> — Android’in kendi sınanmış Sanal A/B
+ve doğrulanmış önyükleme mekanizmalarının yeniden kullanılması, özel bir
+güncelleyici geliştirmekten daha güvenli olduğu için seçildi; cihaz
+üzerinde yuva değişimlerini ve kriptografik önyükleme doğrulamasını
+yönetir.</li>
+<li><strong>React</strong> — operatörlerin oturum açtığı, yapıları
+yüklediği, dağıtımları yönettiği ve filonun sağlığını tek bir yerden
+izlediği yönetim paneli için seçildi.</li>
+<li><strong>OpenTelemetry + Prometheus/Grafana</strong> — üretici
+bağımsız ölçümleme için seçildi; bir dağıtımın her aşamasının metrikler
+ve paneller aracılığıyla gözlemlenebilir olmasını sağlar, tahmin
+yürütmeye gerek bırakmaz.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: geliştirme aşamasında.</strong> Projenin kendi “blöf
+karşıtı” yönetişim ilkelerine göre, <strong>henüz çalışan bir üretim
+sunucusu veya aracısı yoktur</strong> — bu, bir şartname/araştırma ve
+test kapsamı oluşturma aşamasıdır. Depo, yetkili tasarım külliyatını,
+belgeler dışa aktarma hattını ve alt modül iskeletini barındırır.</li>
+<li>Altı adet herkese açık yeniden kullanılabilir alt modül
+(<code>ota-protocol</code>, <code>ota-artifact-validator</code>,
+<code>ota-rollout-engine</code>, <code>ota-update-engine-bridge</code>,
+<code>ota-android-agent</code>, <code>ota-telemetry-schema</code>)
+<code>github.com/HelixDevelopment/</code> altında yer almaktadır.</li>
+<li>Depodaki test kapsamı ve gecikme süreleri, projenin kendi devam eden
+kayıt defteridir, bağımsız olarak doğrulanmamıştır. README’de atıfta
+bulunulan HelixConstitution maddeleri
+<strong>DOĞRULANMAMIŞTIR</strong>.</li>
+<li><strong>Lisans: Apache-2.0.</strong></li>
+</ul>
+<p><strong>Öncelik katmanı:</strong> Helix-birincil.</p>
+</body>
+</html>

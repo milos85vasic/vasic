@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU VMイメージのアーティファクト管理 —
+ダウンロード、実行、ネットワーク、公開</strong></p>
+<h2 id="概要">概要</h2>
+<p>Qemu-Utilsは、包括的なQEMU仮想化管理のためのServer
+Factoryツールキットです。VMイメージの自動配布と圧縮、ローカルキャッシュ、ブリッジ/TAPネットワーク設定、ISOベースのOSインストール、そしてハードウェアアクセラレーションを活用したクロスプラットフォーム（Linux/macOS）での実行をサポートします。単体でもServer
+Factory環境内でも利用可能です。</p>
+<h2 id="簡単な説明">簡単な説明</h2>
+<p>QEMU
+VMのライフサイクル管理のためのShellツールキット。事前設定済みのQEMUディスクイメージをダウンロード・キャッシュし、圧縮してリモートエンドポイントに公開。ブリッジ/TAPネットワークの自動化、ISOインストールのサポート、LinuxとmacOSでの動作（適切なハードウェアアクセラレーション付き）を実現します。</p>
+<h2 id="詳細な説明">詳細な説明</h2>
+<p>Qemu-Utilsは、ビルド成果物やコンテナイメージのようにチームが既に扱っている「アーティファクト管理」の手法を、従来は場当たり的な<code>qemu-system-*</code>コマンドの集まりでしかなかった仮想マシンに適用します。Parallelsと同様に、VMイメージを開発・テストで横断的に利用される第一級の配布可能アセットとして扱いますが、こちらは真のクロスプラットフォーム対応のQEMUバックエンドをターゲットとしています。そのライフサイクルは完全なループを形成します。事前設定済みのQEMUディスクイメージをダウンロード・キャッシュし、リモートエンドポイントから自動的に取得。圧縮済みと非圧縮のローカルキャッシュを分けて管理することで、大容量イメージも一度の取得でその後は低コストで起動可能に。さらに、イメージを圧縮してチーム全体で共有するためにリモートサーバーへ公開します。また、誰もアクセスできないVMは無意味であるため、誰もが敬遠するネットワーク設定も自動化。ブリッジやTAPインターフェースを自動的に管理し、手作業での設定を不要にします。ISOイメージからの新規OSインストールもサポートし、LinuxとmacOSの両方で適切なハードウェアアクセラレーションを活用して動作します。設定と操作は、Server
+Factoryのシンプルでスクリプト駆動のパターンに従い、ツールキットはServer
+Factoryプロジェクトの一部としても、完全に独立して利用することも可能です。そのドキュメントは、概要、機能、要件、クイックスタート、設定、使用方法、ネットワーク、トラブルシューティング、アーキテクチャなどのセクションを備え、他の小規模なServer
+Factoryリポジトリよりも充実しています。これは、Linux/QEMU環境における主要なVM管理ツールとしての役割を反映しています。Parallels-Utilsと組み合わせることで、Server
+FactoryエコシステムはmacOS/ParallelsとLinux/macOS/QEMUの両方の仮想化環境でVMイメージ管理を実現します。</p>
+<h2 id="開発の背景">開発の背景</h2>
+<p>複数のOSにまたがるプロビジョニングやテストには再現性のあるVMが必要ですが、生のQEMUは低レベルで扱いづらく、特にネットワークやイメージ配布が煩雑です。Qemu-UtilsはQEMUを管理可能なツールキットとしてラップし、イメージとそのネットワークをマシン間で再現可能にします。</p>
+<h2 id="革新的な理由">革新的な理由</h2>
+<p>QEMUの煩わしい4つの要素—イメージ配布、キャッシュ、ネットワーク、ISOインストール—を一つのクロスプラットフォームツールキットに統合。煩雑なコマンドラインフラグの羅列を、チーム全体で共有・再現可能なVMワークフローに変え、LinuxとmacOSの両方で同一の環境を実現します。</p>
+<p>コンテンツ</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>QEMU</strong>
+イメージの完全なライフサイクル：ダウンロード／キャッシュ／実行 ＋
+圧縮／公開、圧縮／非圧縮キャッシュの両対応</li>
+<li>VM接続のためのブリッジ／TAPネットワーク自動設定</li>
+<li>ISOベースの新規インストール対応</li>
+<li>クロスプラットフォーム（Linux +
+macOS）かつハードウェアアクセラレーション対応</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>VMネットワークの複雑さ</strong>：ブリッジとTAPインターフェースの自動管理で解決</li>
+<li><strong>大容量イメージの配布</strong>：圧縮、リモートでの公開／取得、ローカルキャッシュにより解決</li>
+<li><strong>クロスプラットフォーム仮想化</strong>：LinuxとmacOSに適したアクセラレーションをサポートすることで解決</li>
+<li><strong>新規プロビジョニング</strong>：ISOインストール対応により解決</li>
+</ul>
+<h2
+id="技術スタック採用理由と仕組み">技術スタック（採用理由と仕組み）</h2>
+<ul>
+<li><strong>Shell</strong> —
+ツールキット全体（約79.5KB）。イメージ、ネットワーク、VM管理用のスクリプト群</li>
+<li><strong>QEMU</strong> — 管理対象となる仮想化エンジン</li>
+<li><strong>ブリッジ／TAPネットワーキング</strong> —
+Linux／macOSにおけるVMネットワーク構築</li>
+<li><strong>ISOイメージ</strong> — OSインストールのソース</li>
+</ul>
+<blockquote>
+<p>注：GitHubは、Server-Factory組織内でのフォークリポジトリを示す。Parallels-Utilsのクロスプラットフォーム対応版であり、AIとは無関係。</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU
+虚拟机镜像管理——如同制品般下载、运行、联网、发布</strong></p>
+<h2 id="概述">概述</h2>
+<p>Qemu-Utils 是一款 Server Factory 工具套件，专为全面管理 QEMU
+虚拟化而设计：实现虚拟机镜像的自动分发与压缩、本地缓存、桥接/TAP
+网络配置、基于 ISO
+的操作系统安装，并支持跨平台（Linux/macOS）运行，且具备硬件加速功能。可独立使用，亦可集成于
+Server Factory 生态。</p>
+<h2 id="简要说明">简要说明</h2>
+<p>Shell 工具套件，用于 QEMU
+虚拟机的全生命周期管理。它能下载、缓存并运行预配置的 QEMU
+磁盘镜像，压缩并发布至远程终端，自动化桥接/TAP 网络配置，支持 ISO
+安装，且在 Linux 和 macOS 上均可运行，并充分利用硬件加速。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>Qemu-Utils
+将制品管理的理念——即团队已广泛应用于构建输出和容器镜像的管理方式——引入虚拟机领域，而后者通常仅依赖一堆临时拼凑的
+<code>qemu-system-*</code> 命令行调用。与其 Parallels
+姊妹工具类似，它将虚拟机镜像视为一等可分发资产，作为开发与测试中跨系统使用的矩阵，但专注于真正跨平台的
+QEMU 后端。其生命周期管理覆盖完整闭环：下载并缓存预配置的 QEMU
+磁盘镜像，自动从远程终端获取，维护独立的本地压缩与非压缩缓存，确保大型镜像仅需下载一次，后续启动成本低廉；同时支持将镜像压缩并发布回远程服务器，供团队其他成员使用。此外，无法联网的虚拟机毫无用处，因此它自动化了所有人最头疼的部分——网络配置，自动管理桥接和
+TAP 接口，无需操作人员手动调试。它还支持通过 ISO
+镜像全新安装操作系统，且真正实现跨平台——在 Linux 和 macOS
+上均可运行，并针对各平台提供相应的硬件加速支持。其配置与操作遵循 Server
+Factory 简洁、脚本驱动的模式，既可作为更大型 Server Factory
+项目的一部分，亦可完全独立使用，符合组织解耦的设计理念。其文档内容较
+Server Factory
+生态中大多数小型仓库更为完善（涵盖概述、功能、要求、快速入门、配置、使用、网络、故障排除及架构等章节），反映出其作为
+Linux/QEMU 环境下主要虚拟机管理工具的核心地位。与 Parallels-Utils
+配合使用，Server Factory 生态系统得以实现 macOS/Parallels 及
+Linux+macOS/QEMU 虚拟化环境下的虚拟机镜像管理。</p>
+<h2 id="为何开发此工具">为何开发此工具</h2>
+<p>在多操作系统环境下进行配置与测试时，需要可复现的虚拟机，而原生 QEMU
+过于底层且繁琐——尤其是网络配置与镜像分发。Qemu-Utils 将 QEMU
+封装为易用的工具套件，使镜像及其网络配置在不同机器上均可复现。</p>
+<h2 id="为何称其为变革者">为何称其为变革者</h2>
+<p>它将原生 QEMU 的四大痛点——镜像分发、缓存、网络配置及 ISO
+安装——整合为一个跨平台工具套件，将繁琐的命令行参数转化为可重复、可发布的虚拟机工作流，使整个团队能够在
+Linux 和 macOS 上实现完全一致的共享与复现。</p>
+<p>内容</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li>完整的 QEMU 镜像全生命周期管理：下载/缓存/运行 +
+压缩/发布，支持压缩与非压缩缓存。</li>
+<li>虚拟机连接的自动化桥接/TAP 网络配置。</li>
+<li>基于 ISO 的全新安装支持。</li>
+<li>跨平台（Linux + macOS）兼容，并支持硬件加速。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>虚拟机网络复杂性</strong>：通过自动化桥接与 TAP
+接口管理解决。</li>
+<li><strong>大型镜像分发</strong>：通过压缩、远程发布/获取及本地缓存机制解决。</li>
+<li><strong>跨平台虚拟化</strong>：通过支持 Linux 与 macOS
+并适配硬件加速解决。</li>
+<li><strong>全新部署</strong>：通过 ISO 安装支持解决。</li>
+</ul>
+<h2 id="技术栈选择原因与实现方式">技术栈（选择原因与实现方式）</h2>
+<ul>
+<li><strong>Shell</strong> —— 整套工具集（约 79.5
+KB），包含镜像、网络及虚拟机管理脚本。</li>
+<li><strong>QEMU</strong> —— 受管理的虚拟化引擎。</li>
+<li><strong>桥接 / TAP 网络</strong> —— Linux/macOS
+虚拟机网络底层架构。</li>
+<li><strong>ISO 镜像</strong> —— 操作系统安装源。</li>
+</ul>
+<blockquote>
+<p>注：GitHub 标记该仓库为 Server-Factory 组织下的一个分支。与
+Parallels-Utils 跨平台配套使用，与 AI 无关。</p>
+</blockquote>
+</body>
+</html>

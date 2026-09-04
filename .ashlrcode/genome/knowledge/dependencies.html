@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>dependencies</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">dependencies</h1>
+</header>
+<h1 id="dependencies">Dependencies</h1>
+<p>External dependencies, API contracts, and gotchas.</p>
+<h2 id="declared-manifest">Declared manifest</h2>
+<p><code>helix-deps.yaml</code> at the repository root (§11.4.31; gap G6
+<strong>CLOSED</strong>, verified 2026-08-27, parses under
+<code>yaml.safe_load</code>). It declares own-org dependencies only — a
+third-party gitlink is recorded there as a <strong>comment</strong>,
+never a <code>deps</code> entry (<code>Constitution.md</code>, superspec
+exclusion, point 4).</p>
+<h2 id="toolchains-the-gates-require-ci-matched">Toolchains the gates
+require (CI-matched)</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Version</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td><strong>1.26</strong></td>
+<td><code>_tools/gen</code> unit tests + generator build
+(<code>_tools/gen/go.mod</code>)</td>
+</tr>
+<tr>
+<td>Node</td>
+<td><strong>20</strong></td>
+<td><code>_tests</code> Playwright harness</td>
+</tr>
+<tr>
+<td>Ruby + Bundler</td>
+<td><strong>3.3</strong></td>
+<td><code>milosvasic.ru</code> Jekyll build</td>
+</tr>
+<tr>
+<td>poppler-utils</td>
+<td>—</td>
+<td>export gate: <code>pdftotext</code>, <code>pdfimages</code>,
+<code>pdftoppm</code></td>
+</tr>
+<tr>
+<td>tesseract-ocr</td>
+<td>—</td>
+<td>export gate: OCR layer</td>
+</tr>
+</tbody>
+</table>
+<p>If poppler/tesseract are missing, gate 5 <strong>degrades to a
+reasoned SKIP</strong> rather than failing
+(<code>README.md:50-52</code>). Missing
+<code>pandoc</code>/<code>weasyprint</code> makes
+<code>deploy-langs.sh</code> warn and skip the PDF build — never fake an
+artifact.</p>
+<h2 id="node-packages-_testspackage.json-private-not-published">Node
+packages (<code>_tests/package.json</code>, private, not published)</h2>
+<ul>
+<li><code>@playwright/test</code> ^1.61.0 (dev)</li>
+<li><code>pixelmatch</code> ^7.2.0, <code>pngjs</code> ^7.0.0 (dev) —
+visual diffing</li>
+<li><code>@axe-core/playwright</code> ^4.11.3 (runtime dep) — a11y
+audits</li>
+</ul>
+<p>Install path: <code>npm ci</code> then
+<code>npx playwright install chromium</code> inside
+<code>_tests/</code>.</p>
+<h2 id="go-module">Go module</h2>
+<p><code>module vasic.digital/tools/gen</code>, <code>go 1.26</code>.
+Sources: <code>main.go</code>, <code>data.go</code>,
+<code>home.go</code>, <code>i18n.go</code>, <code>markdown.go</code>,
+<code>portfolio.go</code>, <code>product.go</code>, <code>seo.go</code>,
+<code>shells.go</code> with table tests alongside. Python helpers in the
+same directory handle UI-string translation/review
+(<code>translate_ui_*.py</code>, <code>review_ui_*.py</code>,
+<code>merge_ui.py</code>, <code>audit_ui_glossary.py</code>).</p>
+<h2 id="design-system-assets">Design system assets</h2>
+<p>Self-hosted only, no CDN: OFL 1.1 <code>.woff2</code> families under
+<code>design-system/fonts/</code> (Inter, JetBrains Mono, Bricolage
+Grotesque, Anton, Fraunces) and a local SVG sprite at
+<code>design-system/icons/icons.svg</code>. Generated with OpenDesign
+(<code>github.com/nexu-io/open-design</code>) — but OpenDesign is
+<strong>not yet consumed as an external dependency</strong>, which
+<code>_tests/GATES.md</code> records as an open §11.4.162 gap.</p>
+<h2 id="agent-semantic-tooling-host-level-not-repo-level">Agent /
+semantic tooling (host-level, not repo-level)</h2>
+<ul>
+<li><strong>Lumen</strong> — MCP semantic search. Not an npm package: it
+ships as a Claude Code plugin binary resolved at call time by a
+version-agnostic wrapper at <code>~/.local/bin/lumen</code>
+(<code>sort -V</code>, so <code>0.0.100</code> outranks
+<code>0.0.9</code>). Override with <code>LUMEN_BIN</code>.</li>
+<li><strong>ollama</strong> — local embedding backend. Model
+<code>ordis/jina-embeddings-v2-base-code</code> (~320 MB), set in
+<code>scripts/lumen-reindex.sh:45</code> and
+<code>scripts/setup-agents-wizard.sh:204</code>, overridable via
+<code>LUMEN_EMBED_MODEL</code>.</li>
+<li><strong>CodeGraph</strong> — <code>@colbymchenry/codegraph</code>
+(npm), SQLite graph at <code>.codegraph/codegraph.db</code>. Refresh
+with <code>codegraph sync</code>; <code>codegraph init</code> only when
+no DB exists. <strong>Never <code>codegraph index</code></strong> — it
+discards the DB.</li>
+<li>Also wired by the wizard: Bun, Glyphdown, SpecKit
+(<code>uv tool install specify-cli</code> — a Python tool, not npm),
+<code>ashlr-plugin</code>, optional WOZCODE.</li>
+<li>A Vulkan/Intel-iGPU remediation runbook exists at
+<code>docs/setup-agents-wizard/OLLAMA-REMEDIATION.md</code> (+
+<code>scripts/ollama-vulkan-remediation.sh</code>).</li>
+</ul>
+<h2 id="hosting-contract">Hosting contract</h2>
+<p>GitHub Pages, static file hosting. Consequences recorded in
+<code>_tests/TEST-TYPES.md</code>: <strong>no response-header
+control</strong> (so CSP exists only as a <code>&lt;meta&gt;</code> tag
+and is checked that way; HSTS/WAF are N/A), no origin server, no
+database, no runtime state.</p>
+<h2 id="credentials">Credentials</h2>
+<p>Never tracked. <code>.gitignore</code> blocks <code>.mcp.json</code>,
+<code>.env</code>/<code>*.env</code>/<code>.env.*</code>,
+<code>api_keys.sh</code>, <code>secrets.sh</code>, <code>*.pem</code>,
+<code>*.p12</code>, and ssh key patterns at any depth (§11.4.10).</p>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU вобразы ВМ, кіраваныя як артэфакты — спампоўванне,
+запуск, сетка, публікацыя.</strong></p>
+<h2 id="агульныя-звесткі">Агульныя звесткі</h2>
+<p>Qemu-Utils — гэта Server Factory-набор інструментаў для камплекснага
+кіравання віртуалізацыяй QEMU: аўтаматызаванае распаўсюджванне і
+сцісканне вобразаў ВМ, лакальнае кэшаванне, канфігураванне сеткавых
+мастоў/TAP, усталяванне АС з ISO, а таксама кросплатформавая праца
+(Linux/macOS) з падтрымкай апаратнага паскарэння. Можа выкарыстоўвацца
+самастойна ці ў складзе Server Factory.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Shell-набор інструментаў для кіравання жыццёвым цыклам ВМ QEMU. Ён
+спампоўвае, кэшуе і запускае папярэдне сканфігураваныя дыскавыя вобразы
+QEMU, сціскае іх і публікуе на аддаленых вузлах, аўтаматызуе сеткавыя
+масты/TAP, падтрымлівае ўсталяванне з ISO і працуе як на Linux, так і на
+macOS з адпаведным апаратным паскарэннем.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Qemu-Utils пераносіць дысцыпліну кіравання артэфактамі — так, як
+каманды ўжо ставяцца да вынікаў зборкі і вобразаў кантэйнераў — на
+нешта, што звычайна застаецца кучай адвольных выклікаў
+<code>qemu-system-*</code>: віртуальныя машыны. Як і яго
+Parallels-аналаг, ён разглядае вобразы ВМ як поўнавартасныя
+размеркаваныя актывы, матрыцы сістэм, якія выкарыстоўваюцца ў
+распрацоўцы і тэставанні, але арыентаваны на сапраўды кросплатформавы
+бэкэнд QEMU. Яго жыццёвы цыкл замыкае поўны круг: спампоўванне і
+кэшаванне папярэдне сканфігураваных дыскавых вобразаў QEMU, аўтаматычнае
+атрыманне іх з аддаленых вузлоў, падтрымка асобных лакальных кэшаў для
+сціснутых і нясціснутых вобразаў, каб вялікі вобраз спампоўваўся адзін
+раз і потым лёгка запускаўся, а таксама сцісканне і публікацыя вобразаў
+назад на аддаленыя серверы для астатняй каманды. А паколькі ВМ, да якой
+ніхто не можа далучыцца, бескарысная, інструмент аўтаматызуе тое, чаго
+ўсе баяцца — сеткавае падключэнне, — кіруючы мастамі і TAP-інтэрфейсамі
+для злучэння ВМ аўтаматычна, замест таго каб пакідаць гэта на ручную
+працу аператара. Ён падтрымлівае ўсталяванне новых АС з ISO-вобразоў і
+сапраўды кросплатформавы — працуе як на Linux, так і на macOS з
+адпаведным апаратным паскарэннем для кожнай платформы. Канфігураванне і
+праца адбываюцца па тым жа простым, скрыптавым шаблоне Server Factory, а
+набор інструментаў можа выкарыстоўвацца як частка буйнога праекта Server
+Factory ці цалкам незалежна, у адпаведнасці з філасофіяй дэкаплінгу
+арганізацыі. Яго дакументацыя больш поўная, чым у большасці невялікіх
+рэпазіторыяў Server Factory (з раздзеламі агляду, магчымасцей,
+патрабаванняў, хуткага старту, канфігуравання, выкарыстання, сеткавага
+падключэння, вырашэння праблем і архітэктуры), што адлюстроўвае яго ролю
+як асноўнага шляху кіравання ВМ для асяроддзяў Linux/QEMU. Разам з
+Parallels-Utils ён забяспечвае кіраванне вобразамі ВМ у экасістэме
+Server Factory як для macOS/Parallels, так і для
+Linux-plus-macOS/QEMU-віртуалізацыі.</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Для забеспячэння і тэставання на розных АС патрэбны паўторныя ВМ, а
+чысты QEMU — нізкаўзроўневы і нязручны, асабліва ў частцы сеткавага
+падключэння і распаўсюджвання вобразаў. Qemu-Utils абгортвае QEMU у
+кіравальны набор інструментаў, каб вобразы і іх сеткі былі паўторнымі на
+розных машынах.</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Ён аб’ядноўвае чатыры найбольш балючыя аспекты чыстага QEMU —
+распаўсюджванне вобразаў, кэшаванне, сеткавае падключэнне і ўсталяванне
+з ISO — у адзін кросплатформавы набор інструментаў, ператвараючы сцену
+нязручных камандных радкоў у паўторны, публікаваны працоўны працэс ВМ,
+які цэлая каманда можа дзяліць і паўтараць аднолькава як на Linux, так і
+на macOS.</p>
+<p>Змест</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Поўны жыццёвы цыкл выявы QEMU: спампоўка/кэшаванне/запуск +
+сціск/публікацыя, з сціснутымі і нясціснутымі кэшамі.</li>
+<li>Аўтаматызаваная канфігурацыя сеткавага моста/TAP для сувязі ВМ.</li>
+<li>Падтрымка чыстай ўстаноўкі на аснове ISO.</li>
+<li>Кросплатформавасць (Linux + macOS) з апаратным паскарэннем.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Складанасць сеткавання ВМ:</strong> вырашана праз
+аўтаматызаванае кіраванне мостамі і інтэрфейсамі TAP.</li>
+<li><strong>Распаўсюджванне вялікіх вобразаў:</strong> вырашана праз
+сціск, аддаленую публікацыю/атрыманне і лакальнае кэшаванне.</li>
+<li><strong>Кросплатформавая віртуалізацыя:</strong> вырашана праз
+падтрымку Linux і macOS з адпаведным паскарэннем.</li>
+<li><strong>Чыстая правізія:</strong> вырашана праз падтрымку ўстаноўкі
+з ISO.</li>
+</ul>
+<h2 id="тэхналагічны-стэк-навошта-як">Тэхналагічны стэк (навошта +
+як)</h2>
+<ul>
+<li><strong>Shell</strong> — увесь інструментарый (~79,5 Кб); скрыпты
+для кіравання вобразамі, сеткай і ВМ.</li>
+<li><strong>QEMU</strong> — рухавік віртуалізацыі, якім кіруюць.</li>
+<li><strong>Сеткавы мост / TAP</strong> — сеткавая інфраструктура ВМ для
+Linux/macOS.</li>
+<li><strong>Вобразы ISO</strong> — крыніца ўстаноўкі аперацыйнай
+сістэмы.</li>
+</ul>
+<blockquote>
+<p>Заўвага: GitHub пазначае рэпазіторый як форк у арганізацыі
+Server-Factory. Кросплатформавы кампаньён для Parallels-Utils. Не мае
+дачынення да AI.</p>
+</blockquote>
+</body>
+</html>

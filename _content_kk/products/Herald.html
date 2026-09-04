@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p><strong>Әрбір ескерту дұрыс орынға жетеді — команда синтаксисі қажет
+емес.</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Herald жүйелік оқиғаларды қабылдайды және оларды бірнеше хабарландыру
+арналарына сенімді түрде таратады, әрбір ескерту дұрыс орынға жетеді.
+Абоненттер табиғи тілде әрекет жасайды; Herald ниетті үш деңгейлі
+әдістеме арқылы анықтайды (команданы жылдам жолмен тану → LLM ниетті
+болжау → түсіндіруге қайта оралу).</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>Оқиғаларды қабылдау және көп арналы хабарландыру жүйесі. Herald
+жүйелік оқиғаларды хабарландырушы арналар бойынша дұрыс бағыттайды және
+абоненттерге табиғи тілде сөйлеуге мүмкіндік береді — ниетті
+командаларды жылдам тану, LLM болжау және түсіндіруге қайта сұрау арқылы
+шешеді.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Herald — жүйелік оқиғалардың адам әрекет жасауына мүмкіндік беретін
+орынға сенімді түрде жеткізілетіндігін кепілдейтін хабарландыру негізі.
+Бұл — көптеген өздігінен жасалған ескерту жүйелерінің тыныштықпен
+сәтсіздікке ұшырайтын қарапайым, бірақ өте маңызды қабат. Ол оқиғаларды
+қабылдайды және оларды бірнеше хабарландыру арналарына сенімді түрде
+таратады, ескертулер жоғалып кетпеуін, өлі арнаға жіберілмеуін немесе
+әрекет жасау үшін тым кеш болғанша шудың астында көміліп қалмауын
+қамтамасыз етеді. Бірақ сенімді жеткізу — бұл тек жартысы ғана; екінші
+жартысы — адамның жауап бергісі келеді. Мұнда Herald абоненттерге
+ескерту боттарымен әрекеттесу үшін қатаң команда синтаксисін жаттауды
+талап ететін әдеттегі келісімді қабылдамайды. Абоненттер жай ғана табиғи
+тілде жазады, ал Herald олардың ниетін үш деңгейлі әдістеме арқылы
+анықтайды: бірінші — анық командаларды дереу тану, содан кейін еркін
+пішіндегі хабарлар үшін LLM негізіндегі ниетті болжау (Claude Code
+арқылы), және ең соңында ниет нақты анықталмаған жағдайда
+<code>түсіндіруге</code> қайта оралу — бұл жағдайда жүйе жауап береді,
+белгілейді және сұрақ қояды. Бұл «тану → болжау → түсіндіру» баспалдағы
+— бүкіл жобаның кішкентай философиясы: қарапайым жағдай жылдам және анық
+болады, икемді жағдай модель арқылы шешіледі, ал күмәнді жағдай ешқашан
+дұрыс емес әрекетті іске қосуға әкелетін соқыр болжаумен шешілмейді.
+Herald қатысушылар мен тағайындауды да модельдейді: оператордың
+пайдаланушы аты айнымалысы
+(<code>HERALD_&lt;ARNA&gt;_OPERATOR_USERNAME</code>) және
+қатысушы/тағайындау шарты
+<code>created_by</code>/<code>assigned_to</code> өрістері мен
+хабарландырудағы @-белгілеуді басқарады, сондықтан кім не істегені және
+кімге хабарланғаны анық болады. Басқару тұрғысынан Herald Helix
+Constitution-ді бірге орналасқан кіші модуль ретінде қабылдайды және
+оның ережелерін сақтайды, сонымен қатар ол Docs Chain-дың алғашқы
+өндірістік тұтынушысы — оның толық 66 құжаттық Markdown→HTML/PDF/DOCX
+дерекқоры Docs Chain <code>exec:</code> түрлендірулері арқылы өткізіліп,
+тазалық тексеріледі. Herald негізінен Shell/Go құралдарымен және
+қабатталған сипаттамалармен (V1→V2→V3→V4 ауыстыруы) жұмыс істейді, әр
+арна үшін хабарландырушылар мен LLM/агенттерді орнату бойынша нұсқаулар
+бар.</p>
+<h2 id="неліктен-жасадық">Неліктен жасадық</h2>
+<p>Ескертулер тыныштықпен сәтсіздікке ұшырайды — дұрыс емес арнаға
+жіберіледі, жоғалады немесе пайдаланушылар есте сақтамайтын қатаң
+команда синтаксисін талап етеді. Herald сенімді таратуды кепілдеу және
+адамдардың табиғи тілде жауап беруіне мүмкіндік беру үшін жасалды,
+сондықтан хабарландырулар сенімді әрі әрекет жасауға оңай болды.</p>
+<p>Мазмұны</p>
+<h2 id="неге-бұл-ойынды-өзгертетін-шешім">Неге бұл ойынды өзгертетін
+шешім</h2>
+<p>Ол әдетте жеке өнімдер ретінде сатылатын екі нәрсені – сенімді көп
+арналы оқиға маршрутизациясын және табиғи тілдік интерфейсті – бір
+жүйеге біріктіреді. Мұнда операторлар жай ғана сөйлейді де, бағдарлама
+олардың не айтқысы келгенін түсінеді. Өндірісте сенімділікке кепілдік
+беретін нәрсе – түсінбеген жағдайда сұрақ қоюды қате шығарудан артық
+көретін ескерту жүйесі. Мұндай жүйені шынымен де нақты жағдайларда
+қолдануға болады.</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Үш деңгейлі ниетті анықтау тәртібі: командалық жылдам жол → LLM
+интерпретациясы → түсіндіру және сұрау.</li>
+<li>Табиғи тілде абонентпен әрекеттесу (командалық синтаксисті үйрену
+қажет емес).</li>
+<li>Қатысушыларды тағайындау шарты
+<code>created_by</code>/<code>assigned_to</code> + @-тілді белгілеу
+жүйесін іске асырады.</li>
+<li>Нақты Docs Chain тұтынушысы (66 құжаттық корпус, көп форматты,
+тексерілген).</li>
+</ul>
+<h2 id="қиындықтар-мен-шешімдер">Қиындықтар мен шешімдер</h2>
+<ul>
+<li><strong>Табиғи тілдегі ниеттің анықсыздығы:</strong> еслеп табудың
+үш деңгейлі тәртібімен шешілді (тану → болжау → түсіндіру), емес тегін
+болжаумен.</li>
+<li><strong>Сенімді тарату:</strong> қабылдау → көп арналы жіберу
+дизайнымен шешілді, ескертулер дұрыс бағытқа жетеді.</li>
+<li><strong>Арналар бойынша дұрыс тағайындау:</strong> оператордың
+пайдаланушы аты орталық айнымалысы мен қатысушыларды тағайындау шартымен
+шешілді.</li>
+<li><strong>Құжаттаманың ауытқуы:</strong> Docs Chain арқылы құжаттық
+корпусін тексерілген түрлендірулермен байланыстыру арқылы шешілді.</li>
+</ul>
+<h2 id="техникалық-стек-неліктен-және-қалай">Техникалық стек (неліктен
+және қалай)</h2>
+<ul>
+<li><strong>Go</strong> – негізгі оқиға/тарату логикасы (ұйымның тілдік
+үлгілері бойынша).</li>
+<li><strong>Shell</strong> – операторлық құралдар мен орнату
+скрипттері.</li>
+<li><strong>Claude коды (LLM)</strong> – еркін пішімдегі хабарлар үшін
+ниетті интерпретациялау деңгейі.</li>
+<li><strong>Хабар алмасу арналарының адаптерлері</strong> – көп арналы
+хабарландыру таратуы.</li>
+<li><strong>Docs Chain</strong> – құжаттама құру/тексеру конвейері
+(Markdown→HTML/PDF/DOCX).</li>
+<li><strong>Helix Constitution субмодулі</strong> – мұраланған
+басқару/ережелер.</li>
+</ul>
+</body>
+</html>

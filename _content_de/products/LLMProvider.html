@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMProvider</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMProvider</h1>
+</header>
+<h1 id="llmprovider">LLMProvider</h1>
+<p><strong>Eine Schnittstelle, 43 Anbieter – mit integrierten Circuit
+Breakern, Wiederholungsversuchen und Gesundheitsprüfungen.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>LLMProvider ist ein generisches, wiederverwendbares Go-Modul, das
+eine einheitliche <code>LLMProvider</code>-Schnittstelle definiert sowie
+die dazugehörigen Resilienz-Muster für den Produktiveinsatz – Circuit
+Breaker, Gesundheitsüberwachung, Wiederholungsversuche mit Backoff, Lazy
+Loading – und 43 konkrete Provider-Implementierungen hinter diesem einen
+Vertrag bereitstellt, inklusive eines OpenAI-kompatiblen generischen
+Adapters und einer ehrlichen, ohne hartcodierte Fallbacks arbeitenden
+Modellerkennung.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Ein wiederverwendbares Go-Modul, das eine einzige
+<code>LLMProvider</code>-Schnittstelle (<code>Complete</code>,
+<code>CompleteStream</code>, <code>HealthCheck</code>,
+<code>GetCapabilities</code>, <code>ValidateConfig</code>) sowie
+Fehlertoleranz-Mechanismen – Circuit Breaker, Gesundheitsmonitor,
+Wiederholungsversuche mit Jitter-Backoff, verzögerte Initialisierung –
+über 43 Provider-Adapter und einen generischen OpenAI-kompatiblen
+Adapter exponiert. Thread-sicher.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>LLMProvider ist die Abstraktionsschicht, die jedes LLM-nutzende
+System benötigt, die aber fast niemand richtig umsetzt – das
+unscheinbare Fundament, das eine Demo von einem System unterscheidet,
+das im echten Betrieb überlebt. Es definiert eine einzige,
+funktionsbewusste Schnittstelle – <code>Complete</code>,
+<code>CompleteStream</code>, <code>HealthCheck</code>,
+<code>GetCapabilities</code>, <code>ValidateConfig</code> –, sodass
+Anwendungslogik stets denselben Vertrag adressiert, unabhängig davon,
+welcher der 43 Backends die Anfrage bedient. Gleichzeitig liefert es die
+operationelle Robustheit, die fragile Provider-Aufrufe in etwas
+verwandelt, das man bedenkenlos in Produktion einsetzen kann.</p>
+<p>Ein dreistufiger Circuit Breaker (geschlossen → offen → halb-offen)
+umhüllt jeden Provider – <em>einschließlich seines
+Streaming-Kanals</em>, wobei ein leerer Stream korrekt als Fehler
+gewertet wird – und verhindert so, dass ein einzelnes fehlerhaftes
+Backend das gesamte System in Mitleidenschaft zieht. Ein zentraler
+<code>CircuitBreakerManager</code> überwacht alle Breaker gleichzeitig.
+Ein konfigurierbarer Gesundheitsmonitor durchläuft kontinuierlich die
+Zustände <em>gesund</em>, <em>degradiert</em>, <em>fehlerhaft</em> und
+<em>unbekannt</em> anhand von Schwellenwerten und Intervallen, sodass
+Verschlechterungen erkannt werden, bevor sie zu einem Ausfall
+führen.</p>
+<p>Die Wiederholungslogik kombiniert exponentiellen Backoff mit Jitter
+und trifft zustandsabhängige Entscheidungen: Wiederholt werden nur
+Fehler, die es wert sind (429, 5xx, vorübergehende Netzwerkstörungen),
+während 4xx-Fehler oder abgebrochene Kontexte ignoriert werden. Die
+Verzögerungen sind begrenzt, um ein unkontrolliertes Aufschaukeln der
+Backoff-Zeiten zu verhindern. Das Lazy-Init-Muster verschiebt die
+Initialisierung jedes Providers auf den ersten tatsächlichen Aufruf –
+eine bewusste Designentscheidung, die die Registrierung aller 43
+Provider praktisch kostenlos macht.</p>
+<p>Das Modul liefert 43 konkrete Provider-Pakete sowie einen
+<code>generischen</code> OpenAI-kompatiblen Adapter, der die
+vollständige Schnittstelle für <em>jeden</em>
+<code>/v1/chat/completions</code>-Endpunkt implementiert – mit
+Bearer-Authentifizierung und korrekter SSE-Streaming-Verarbeitung
+inklusive <code>[DONE]</code>-Handling. So wird ein Anbieter ohne
+dediziertes Paket sofort zum gleichberechtigten Teilnehmer, sobald der
+Adapter auf dessen URL-Endpunkt gerichtet wird.</p>
+<p>Anmeldedaten werden an genau einer Stelle aufgelöst
+(<code>apikeys</code>, unter strikter Einhaltung der
+<code>ApiKey_&lt;Provider&gt;</code>-Konvention), wodurch die gesamte
+Klasse von Fehlern ausgeschlossen wird, bei denen ein hartcodierter
+Schlüssel zwar die Testsuite besteht, der echte Schlüssel aber nie
+eingebunden wurde und das Produkt in Produktion versagt. Die
+Modellerkennung ist bewusst – fast schon stur – transparent: Sie fragt
+Live-APIs der Provider hinter einem TTL-Cache ab, und gemäß
+Governance-Richtlinien wurde die alte, hartcodierte Fallback-Ebene
+vollständig entfernt. Schlägt die Live-Erkennung fehl, gibt LLMProvider
+<em>nichts</em> zurück, statt einen veralteten Katalog auszuliefern. So
+erhält der Aufrufer niemals eine Modell-ID, die zwar gültig erscheint,
+sich aber nicht aufrufen lässt. Jeder Bestandteil ist thread-sicher für
+die parallele Nutzung ausgelegt.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Naive LLM-Aufrufe scheitern im Produktivbetrieb – Anbieter drosseln
+die Leistung, verschlechtern die Qualität oder fallen aus, und ein
+fehlerhafter Backend-Dienst kann das gesamte System mitreißen.
+Modellkataloge veralten, und hartcodierte Listen liefern Aufrufern IDs,
+die längst nicht mehr funktionieren. LLMProvider bündelt die
+Schnittstelle, die Resilienzmechanismen und eine zuverlässige Erkennung,
+sodass jeder Nutzer automatisch Fehlertoleranz und Korrektheit erhält –
+ohne zusätzlichen Aufwand.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es reduziert die Integration eines LLM-Anbieters auf einen einzigen
+Schritt: Implementiere eine Schnittstelle oder richte den generischen
+Adapter einfach auf einen Endpunkt aus – und schon wird dieser Anbieter
+automatisch und transparent mit Circuit Breaking, Gesundheitsüberwachung
+und verzögerten Wiederholungsversuchen mit Jitter umhüllt. Resilienz ist
+nicht länger etwas, das jedes Team aufs Neue (schlecht, unter Zeitdruck,
+nach dem ersten Ausfall) erfinden muss, sondern wird zum
+Standardverhalten der Bibliothek für alle 43 Backends. Die
+Zuverlässigkeitstechnik wird einmal entwickelt, gründlich getestet und
+von jedem übernommen, der sie importiert – kostenlos.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li><strong>Eine einzige fähigkeitsbewusste Schnittstelle</strong> –
+Vervollständigung, Streaming, Gesundheitsstatus, Fähigkeiten und
+Konfigurationsvalidierung sind in einem einzigen Vertrag
+zusammengefasst, den jedes Backend identisch einhält.</li>
+<li><strong>Transparentes Circuit-Breaker-Wrapping – inklusive
+Streams.</strong> Der Breaker schützt den Kanal von
+<code>CompleteStream</code>, nicht nur Anfrage/Antwort, und behandelt
+einen leeren Stream als das, was er wirklich ist: ein Fehler – mit
+deadlock-sicherer Benachrichtigung der Listener außerhalb des
+Sperrmechanismus.</li>
+<li><strong>43 Anbieterpakete + ein generischer OpenAI-kompatibler
+Adapter</strong> – dedizierte Pakete bleiben schlank, und jeder nicht
+aufgelistete Anbieter, der <code>/v1/chat/completions</code>
+unterstützt, funktioniert sofort, sobald der Adapter darauf ausgerichtet
+wird.</li>
+<li><strong>Einheitliche Berechtigungsinstanz
+(<code>apikeys</code>)</strong> – genau eine Stelle liest
+<code>ApiKey_&lt;Anbieter&gt;</code>-Umgebungsvariablen aus und
+beseitigt damit strukturell den Widerspruch „Tests laufen grün, Produkt
+ist kaputt”, statt nur davor zu warnen.</li>
+<li><strong>Ehrliche Modellerkennung (kein hartcodierter
+Fallback)</strong> – Live-Anbieter-APIs hinter einem TTL-Cache; bei
+einem Ausfall wird <code>nil</code> zurückgegeben, niemals ein
+veralteter oder erfundener Katalog, der nicht aufrufbare IDs
+ausgibt.</li>
+<li><strong>Lazy Init mit <code>sync.Once</code></strong> – Die
+Initialisierung wird auf den ersten Aufruf verschoben, sodass die
+Registrierung aller 43 Anbieter fast nichts kostet, bis tatsächlich
+einer genutzt wird.</li>
+<li><strong>Anti-Bluff, mehrsprachiger Challenge-Stack</strong> – ein
+echter Runner, der Circuit Breaker, Gesundheitsstatus und
+Wiederholungsverhalten in fünf Regionen testet, gesteuert durch gepaarte
+Mutationstests (unmutierter Code muss mit Exit-Code 0 enden; eine
+injizierte Mutation muss Exit-Code 99 erzwingen). Ein bestandener
+Testlauf beweist damit nachweislich funktionierendes Verhalten.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Kaskadierende Anbieterausfälle.</strong> Ein instabiles
+Backend darf nicht das gesamte System in den Abgrund reißen. Gelöst
+durch einen dreistufigen Circuit Breaker (geschlossen → offen → halb
+offen), der jeden Anbieter – <em>inklusive seines Streams</em> –
+transparent umhüllt, bei anhaltenden Fehlern öffnet, in halb offenem
+Zustand die Wiederherstellung prüft und zentral von einem
+<code>CircuitBreakerManager</code> koordiniert wird.</li>
+<li><strong>Vorübergehende Fehler und Ratenbegrenzungen.</strong> Gelöst
+durch statusabhängiges exponentielles Backoff mit Jitter –
+<code>min(InitialDelay·Multiplikator^(n-1), MaxDelay) ± Jitter</code> –,
+sodass Wiederholungsversuche sich verteilen, statt sich zu einer
+„Donnerherde” zu synchronisieren. Es werden genau die Fehler wiederholt,
+die wiederholt werden sollten (429, 500, 502, 503, 504 und
+Netzwerkfehler), und es werden keine Versuche an einen abgebrochenen
+Kontext oder andere 4xx-Fehler verschwendet.</li>
+<li><strong>Skalierung auf viele registrierte, aber ungenutzte
+Anbieter.</strong> Bei 43 registrierten Anbietern, von denen in einem
+bestimmten Dienst nur wenige aktiv sind, wäre eine sofortige
+Initialisierung reine Verschwendung. Gelöst durch verzögerte
+Initialisierung, geschützt durch <code>sync.Once</code>, sodass nur die
+tatsächlich aufgerufenen Anbieter ihren Setup-Aufwand verursachen.</li>
+<li><strong>Ausgabe ungültiger Modell-IDs.</strong> Gelöst durch die
+vollständige Entfernung der hartcodierten Erkennungs-Fallback-Ebene
+(gemäß CONST-036) und die Rückgabe von <code>nil</code> bei einem
+Live-Erkennungsfehler – zusätzlich mit einer defensiven Kopie bei der
+Rückgabe, sodass ein Aufrufer den Cache nicht mutieren oder mit einem
+anderen Leser in einen Wettlauf geraten kann. Korrektheit wird
+strukturell erzwungen, nicht durch Konvention.</li>
+<li><strong>Streaming + Nebenläufigkeitskorrektheit.</strong> Das
+subtile Problem ist ein Deadlock zwischen dem Sperrmechanismus des
+Breakers und seinen Listener-Callbacks. Gelöst durch das Erstellen von
+Snapshots der Listener und deren Benachrichtigung außerhalb des
+Sperrmechanismus mit einem 5-Sekunden-Timeout sowie durch das Entsperren
+vor der Benachrichtigung bei einem Reset – wobei jede Komponente für
+nebenläufige Nutzung ausgelegt und durch die <code>-race</code>-Suite
+abgesichert ist.</li>
+</ul>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<ul>
+<li><strong>Go (1.25.3)</strong> — ausgewählt für erstklassige
+Nebenläufigkeit, statische Binärdateien und eine robuste
+Standardbibliothek; umfasst das Modul, die Schnittstelle, alle
+Resilienz-Primitiven und sämtliche 43 Adapter.</li>
+<li><strong><code>net/http</code> (Standardbibliothek)</strong> —
+absichtlich abhängigkeitsfreie HTTP-Implementierung: treibt die
+Provider-spezifischen Clients, den generischen OpenAI-kompatiblen
+Adapter sowie die Live-Discovery-Aufrufe an, sodass kein
+Drittanbieter-Transport auditiert oder gepatcht werden muss.</li>
+<li><strong>logrus</strong> — strukturiertes, ebenenbasiertes Logging
+genau dort, wo Betreiber:innen Transparenz benötigen: innerhalb der
+Zustandsübergänge des Circuit Breakers und im Discovery-Pfad.</li>
+<li><strong>testify</strong> — steuert die Testsuite und vor allem das
+Mutations-Branch-Pinning, das einem erfolgreichen Durchlauf Bedeutung
+verleiht.</li>
+<li><strong>yaml.v3</strong> — parst die i18n-Bundles und
+Konfigurationen in einem Format, das für Menschen bearbeitbar
+bleibt.</li>
+<li><strong><code>digital.vasic.models</code></strong> — die gemeinsamen
+Typen <code>LLMRequest</code> / <code>LLMResponse</code> /
+<code>ProviderCapabilities</code>, an einem zentralen Ort gehalten,
+damit jeder Adapter dieselbe „Sprache” spricht (eine dokumentierte
+Laufzeitabhängigkeit).</li>
+<li><strong>Eigenentwickelte Pakete</strong> — <code>circuit</code>,
+<code>health</code>, <code>retry</code>, <code>apikeys</code>,
+<code>discovery</code>, <code>providers/</code> (43 Anbieter +
+<code>generic</code>) und <code>i18n</code>: Die Resilienz- und
+Integrationsschicht ist in kleine, unabhängig testbare Einheiten
+unterteilt, statt in einem Monolithen zusammengefasst.</li>
+<li><strong><code>.env</code> + <code>~/api_keys.sh</code>
+(<code>ApiKey_&lt;Provider&gt;</code>-Konvention)</strong> — eine
+einzige, eindeutige Quelle für Anmeldedaten, sodass Schlüssel in Tests
+und Produktion auf dieselbe Weise eingebunden werden.</li>
+<li><strong>Makefile-Race-Suite (<code>-race -p 1</code>) +
+Challenge-Runner</strong> — das Anti-Bluff-Rückgrat: Der Race-Detektor
+beweist die Korrektheit der Nebenläufigkeit, und der Challenge-Runner
+testet reales Verhalten unter Chaos, DDoS, Skalierung, Stress,
+Live-Discovery und Szenarien ohne Unterbrechung.</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> Ein entkoppeltes, wiederverwendbares
+Modul; das GitHub-Repository ist öffentlich.</li>
+<li><strong>Lizenz: Unklar.</strong> Inkonsistent — <code>doc.go</code>
+gibt MIT an, während eine LICENSE-Datei im Apache-2.0-Stil vorhanden ist
+— vor der Veröffentlichung prüfen.</li>
+<li>LLMsVerifier ist die übergeordnete Quelle der Wahrheit für den
+kanonischen Modellkatalog. Die
+<code>helix-deps.yaml</code>-Manifestdatei wirkt veraltet (deklariert
+<code>deps: []</code>, obwohl die Dokumentation eine Abhängigkeit von
+<code>digital.vasic.models</code> angibt); die „Tier 2
+(models.dev)“-Discovery ist ein geplanter Stub und derzeit nicht
+aktiv.</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär
+(LLM-Infrastruktur-Cluster — entkoppeltes, wiederverwendbares Modul).
+Rangiert nach HelixTrack.</p>
+</body>
+</html>

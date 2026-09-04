@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>Her yerde yansıtılan tek bir gerçek kaynağı — bir düzine
+sunucuda federasyonlu Git.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixGitpx (Helix Git Proxy eXtended), federasyonlu bir Git vekil
+sunucusu olup tek bir gerçek kaynağı birçok Git sunucusunda yansıtarak
+kaçınılmaz çakışmaları politika ve AI destekli akışlarla çözer. v1.0.0
+GA sürümüne ulaştı.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>HelixGitpx, federasyonlu bir Git vekil sunucusu olarak tek bir gerçek
+kaynağı onlarca Git sunucusunda — GitHub, GitLab, Gitea, Bitbucket,
+Azure DevOps, AWS CodeCommit ve diğerleri — yansıtır ve eşitleme
+çakışmalarını politika ve AI destekli akışlarla çözer. v1.0.0 GA sürümü
+olarak yayınlandı.</p>
+<h2 id="ayrıntılı-açıklama">Ayrıntılı açıklama</h2>
+<p>HelixGitpx — “Helix Git Proxy eXtended” — federasyonlu bir Git vekil
+sunucusu olup tek bir gerçek kaynağı birçok Git sunucusunda yansıtarak
+aynı depoyu birden fazla yerde barındırmanın kaçınılmaz kıldığı
+çakışmaları çözer. Desteklediği sunucular, Git ekosisteminin tamamını
+andıran bir harita gibidir: GitHub, GitLab, GitFlic, GitVerse, Gitea,
+Gitee, Bitbucket, Azure DevOps, AWS CodeCommit, Forgejo, SourceHut ve
+genel Git-over-HTTPS. Basit bir <code>git push</code> komutunun bir
+düzine uzak sunucuya gönderilmesi ya doğrudan başarısız olur ya da daha
+kötüsü, yansımaların sessizce birbirinden uzaklaşmasına yol açar.
+HelixGitpx ise politika ve AI destekli çözüm akışlarıyla bu sapmaları
+tek bir yetkili gerçekliğe geri döndürür.</p>
+<p>Proje, temel aşamadan genel kullanıma kadar tam bir yol haritası
+sunan <code>m1-foundation</code> ile <code>m8-ga</code> arasındaki
+kilometre taşlarıyla v1.0.0 GA sürümüne ulaştı. Üç katmanlı bir ürün
+olarak tasarlandı: federasyon motorunu barındıran Go monorepo (bir
+platform, on sekiz hizmet, kod üretimi ve iskele araçları); Angular 19 +
+Nx web uygulaması; ve Kotlin-Multiplatform + Compose istemci kabukları,
+ortak kod tabanından Android, iOS ve Masaüstü için yerel deneyimler
+sunar. Platform dağıtımı, Kubernetes çekirdeğine özgü olarak — Helm
+grafikleri, Argo CD uygulamaları, Kustomize katmanları, SQL ve OPA
+politikaları — gerçekleştirilir. CI boru hatları, kazara dağıtımı
+önlemek için açıkça tetiklenir. Kamu belgeleri, bir Docusaurus sitesi
+(docs.helixgitpx.io) ve bir Astro pazarlama sitesi (helixgitpx.io)
+olarak yayınlanır.</p>
+<p>Yönetim, katı ve anayasal ilkelerle yürütülür; bu bir formalite
+değil, bir özelliktir: projenin yük taşıyan belgesi Constitution’dur. Bu
+belgenin II. Maddesi, her modülde ve her etkileşimde yedi tür test
+matrisinin %100 kapsama oranını zorunlu kılar. Taklitler yalnızca birim
+testlerinde kullanılabilir ve tek bir atlanmış test bile kabul edilmez.
+Tek seferlik bir doğrulayıcı, tüm yapı kontrollerini,
+<code>go vet</code> ve <code>go test</code> komutlarını çalışma alanının
+tamamında yürütür. Her gönderim, yapılandırılmış tüm sunuculara
+dağıtılır — böylece “yansımalar eşleşiyor” durumu, sistem tarafından her
+commit’te zorunlu kılınır, bir insanın hatırlamasına bırakılmaz.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik?</h2>
+<p>Bir depoyu birçok Git sunucusunda — yedeklilik, egemenlik veya
+bölgesel platformlara erişim için — tutarlı halde korumak kırılgan ve
+manuel bir süreçtir; farklılaşan yansımaların uzlaştırılması zordur.
+HelixGitpx, çoklu sunucu yansıtmayı ilk sınıf, çakışma farkındalığına
+sahip bir yetenek haline getirmek için geliştirildi.</p>
+<p>İçerik</p>
+<h2 id="neden-bir-oyun-değiştirici">Neden bir oyun değiştirici?</h2>
+<p>“Birçok uzak depoya gönder ve umut et” şeklindeki kırılgan, manuel
+statükoyu, tek bir yetkili doğruluk kaynağına ve otomatik, politika artı
+AI tabanlı çakışma çözümüne sahip yönetilen bir federasyona
+dönüştürüyor. Üstelik bunu, çoğu araç tarafından sessizce göz ardı
+edilen bölgesel platformları (GitFlic, GitVerse, Gitee) da kasıtlı
+olarak dahil ederek, alışılmadık derecede geniş bir yelpazedeki
+sunucularda gerçekleştiriyor. Böylece yedeklilik, veri egemenliği ve bu
+ekosistemlere erişim, bakım yükü olmaktan çıkıp tek seferde
+yapılandırdığınız bir yeteneğe dönüşüyor.</p>
+<h2 id="yenilikçi-olan-ne">Yenilikçi olan ne?</h2>
+<ul>
+<li><strong>Yukarı akışların genişliği</strong> — GitHub ve GitLab’dan
+GitFlic, GitVerse ve Gitee gibi bölgesel platformlara kadar on iki ve
+üzeri Git barındırıcısı, tek bir proxy arkasında
+standartlaştırılmış.</li>
+<li><strong>Politika ve AI destekli çakışma çözümü</strong> —
+Ayrışmalar, elle aynaları karşılaştıran bir insan tarafından değil, bir
+politika motoru ve AI çözücüsü tarafından uzlaştırılıyor.</li>
+<li><strong>Tek doğruluk kaynağına dayalı federasyon</strong> — Tüm
+yukarı akışların dahil olduğu bir gönderim modeli; tek bir yetkili repo
+gerçek kaynaktır ve her barındırıcı, bu kaynağa senkronize edilmiş bir
+ayna olarak tutulur.</li>
+<li><strong>Anayasa düzeyinde sıkı testler</strong> — Yedi test türünde
+%100 kapsama, atlama yok, tek seferlik bir “yeşil-suite” betiğiyle
+kanıtlanmış; inançla değil, somut olarak doğrulanmış.</li>
+</ul>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümleri">En büyük teknik
+zorluklar ve çözümleri</h2>
+<ul>
+<li><strong>Birçok yukarı akışta ayrışma ve çakışmalar.</strong> Aynı
+repo, on iki farklı yerde barındırıldığında, iki farklı sunucu farklı
+yazımları kabul ettiği anda sapmaya başlar. Çözüm: Tek bir doğruluk
+kaynağına sabitlenmiş politika ve AI destekli çözüm akışları, artı tüm
+yukarı akışların senkronize edildiği bir gönderim sistemiyle her ayna, o
+tek kaynağa yakınsar.</li>
+<li><strong>Farklı Git barındırıcıları için tek tip destek.</strong> Her
+barındırıcı kendi kimlik doğrulama yöntemine, tuhaflıklarına ve API’a
+sahip. Çözüm: <code>Upstreams/</code> altında barındırıcıya özel
+yapılandırma betikleri ve bu farklılıkları soyutlayan bir platform
+katmanı; yeni bir barındırıcı eklemek, yeniden yazım değil, yapılandırma
+meselesi.</li>
+<li><strong>Her birleştirmeden önce doğruluğun kanıtlanması.</strong>
+Çözüm: Zorunlu yedi test türünden oluşan bir matris ve
+<code>verify-everything.sh</code> adlı tek seferlik bir kontrol kapısı;
+tüm test setini çalıştırır, kümeye ulaşılamadığında temiz bir şekilde
+kısa devre yapar, böylece doğruluk hem yerel hem de CI ortamında
+kanıtlanabilir.</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji yığını</h2>
+<ul>
+<li><strong>Go monorepo</strong> — Çekirdek proxy ve federasyon motoru:
+Bir platform artı 18 hizmet, kod üretimi ve iskele, tüm motor tek bir
+repoda bir bütün olarak derlenip test edilecek şekilde tutuluyor.</li>
+<li><strong>Angular 19 + Nx</strong> — Web uygulaması; Nx, büyük bir ön
+yüz için gereken monorepo derleme/önbellekleme yapısını sağlıyor.</li>
+<li><strong>Kotlin Multiplatform + Compose</strong> — Tek bir paylaşılan
+kod tabanından üretilen yerel Android, iOS ve Masaüstü istemci
+kabukları; üç platform, üç farklı uygulama değil.</li>
+<li><strong>Kubernetes + Helm + Argo CD + Kustomize</strong> — Bulut
+yerel teslimat: Helm sürümü paketler, Kustomize ortama özel katmanlar
+ekler, Argo CD ise GitOps aracılığıyla küme durumunu Git ile
+eşleştirir.</li>
+<li><strong>OPA (Rego)</strong> — Hem çakışma çözümü hem de erişim
+kontrolü için kod olarak politika; yetkilendirme kararları bildirimsel
+ve denetlenebilir kalır.</li>
+<li><strong>Docusaurus</strong> — Kamuya açık belgeler sitesi
+(docs.helixgitpx.io); <strong>Astro</strong> — Pazarlama sitesi
+(helixgitpx.io); her araç içeriğine uygun seçilmiş.</li>
+<li><strong>mise</strong> — Sabitlenmiş, yeniden üretilebilir bir araç
+zinciri; her katkıda bulunan ve CI çalıştırıcısı tam olarak aynı
+sürümlerle derleme yapar.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve dürüstlük notları</h2>
+<ul>
+<li><strong>Durum: teslim edildi.</strong> Projenin README dosyası,
+<code>m1-temel</code> ile <code>m8-ga</code> arasındaki kilometre
+taşlarının etiketlendiği v1.0.0 GA sürümünü ilan ediyor. (“v1.0.0 GA”,
+projenin kendi README dosyasındaki iddiadır.)</li>
+<li><strong>Lisans: belirlenecek.</strong> GitHub ve API raporları
+<code>MIT</code> lisansını gösterirken, README dosyasının Lisans
+bölümünde Apache-2.0 (kod) / CC-BY-SA-4.0 (dokümantasyon) belirtilmiş —
+yayınlamadan önce gerçek LICENSE dosyasıyla çelişkiler giderilmeli.</li>
+<li>Belgeler (docs.helixgitpx.io) ve pazarlama (helixgitpx.io) URL’leri
+README dosyasından alınmış olup bağımsız olarak doğrulanmadı — canlı
+durum <strong>TEYİT EDİLMEMİŞ</strong>.</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil.</p>
+</body>
+</html>

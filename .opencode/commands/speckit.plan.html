@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Execute the implementation planning workflow using the plan template to generate design artifacts." />
+  <title>speckit.plan</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">speckit.plan</h1>
+</header>
+<h2 id="user-input">User Input</h2>
+<pre class="text"><code>$ARGUMENTS</code></pre>
+<p>You <strong>MUST</strong> consider the user input before proceeding
+(if not empty).</p>
+<h2 id="pre-execution-checks">Pre-Execution Checks</h2>
+<p><strong>Check for extension hooks (before planning)</strong>: - Check
+if <code>.specify/extensions.yml</code> exists in the project root. - If
+it exists, read it and look for entries under the
+<code>hooks.before_plan</code> key - If the YAML cannot be parsed or is
+invalid, skip hook checking silently and continue normally - Filter out
+hooks where <code>enabled</code> is explicitly <code>false</code>. Treat
+hooks without an <code>enabled</code> field as enabled by default. - For
+each remaining hook, do <strong>not</strong> attempt to interpret or
+evaluate hook <code>condition</code> expressions: - If the hook has no
+<code>condition</code> field, or it is null/empty, treat the hook as
+executable - If the hook defines a non-empty <code>condition</code>,
+skip the hook and leave condition evaluation to the HookExecutor
+implementation - For each executable hook, output the following based on
+its <code>optional</code> flag: - <strong>Optional hook</strong>
+(<code>optional: true</code>): ``` ## Extension Hooks</p>
+<pre><code>**Optional Pre-Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`
+```</code></pre>
+<ul>
+<li><p><strong>Mandatory hook</strong>
+(<code>optional: false</code>):</p>
+<pre><code>## Extension Hooks
+
+**Automatic Pre-Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+
+Wait for the result of the hook command before proceeding to the Outline.</code></pre>
+<p>After emitting the block above you MUST actually invoke the hook and
+wait for it to finish before continuing. Run it the same way you would
+run the command yourself in this agent/session (the invocation may
+differ from the literal <code>{command}</code> id shown above, e.g. a
+skills-mode agent runs it as <code>/skill:speckit-...</code> or
+<code>$speckit-...</code>). Emitting the block alone does not run the
+hook.</p></li>
+<li><p>If no hooks are registered or
+<code>.specify/extensions.yml</code> does not exist, skip
+silently</p></li>
+</ul>
+<h2 id="outline">Outline</h2>
+<ol type="1">
+<li><p><strong>Setup</strong>: Run
+<code>.specify/scripts/bash/setup-plan.sh --json</code> from repo root
+and parse JSON for FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH. For
+single quotes in args like “I’m Groot”, use escape syntax: e.g ‘I’'‘m
+Groot’ (or double-quote if possible: “I’m Groot”).</p></li>
+<li><p><strong>Load context</strong>: Read FEATURE_SPEC and
+<code>.specify/memory/constitution.md</code>. Load IMPL_PLAN template
+(already copied).</p></li>
+<li><p><strong>Execute plan workflow</strong>: Follow the structure in
+IMPL_PLAN template to:</p>
+<ul>
+<li>Fill Technical Context (mark unknowns as “NEEDS CLARIFICATION”)</li>
+<li>Fill Constitution Check section from constitution</li>
+<li>Evaluate gates (ERROR if violations unjustified)</li>
+<li>Phase 0: Generate research.md (resolve all NEEDS CLARIFICATION)</li>
+<li>Phase 1: Generate data-model.md, contracts/, quickstart.md</li>
+<li>Re-evaluate Constitution Check post-design</li>
+</ul></li>
+</ol>
+<h2 id="mandatory-post-execution-hooks">Mandatory Post-Execution
+Hooks</h2>
+<p><strong>You MUST complete this section before reporting completion to
+the user.</strong></p>
+<p>Check if <code>.specify/extensions.yml</code> exists in the project
+root. - If it does not exist, or no hooks are registered under
+<code>hooks.after_plan</code>, skip to the Completion Report. - If it
+exists, read it and look for entries under the
+<code>hooks.after_plan</code> key. - If the YAML cannot be parsed or is
+invalid, skip hook checking silently and continue to the Completion
+Report. - Filter out hooks where <code>enabled</code> is explicitly
+<code>false</code>. Treat hooks without an <code>enabled</code> field as
+enabled by default. - For each remaining hook, do <strong>not</strong>
+attempt to interpret or evaluate hook <code>condition</code>
+expressions: - If the hook has no <code>condition</code> field, or it is
+null/empty, treat the hook as executable - If the hook defines a
+non-empty <code>condition</code>, skip the hook and leave condition
+evaluation to the HookExecutor implementation - For each executable
+hook, output the following based on its <code>optional</code> flag: -
+<strong>Mandatory hook</strong> (<code>optional: false</code>) —
+<strong>You MUST emit <code>EXECUTE_COMMAND:</code> for each mandatory
+hook</strong>: ``` ## Extension Hooks</p>
+<pre><code>**Automatic Hook**: {extension}
+Executing: `/{command}`
+EXECUTE_COMMAND: {command}
+```
+After emitting the block above you MUST actually invoke the hook and wait for it to finish before continuing. Run it the same way you would run the command yourself in this agent/session (the invocation may differ from the literal `{command}` id shown above, e.g. a skills-mode agent runs it as `/skill:speckit-...` or `$speckit-...`). Emitting the block alone does not run the hook.</code></pre>
+<ul>
+<li><p><strong>Optional hook</strong> (<code>optional: true</code>):</p>
+<pre><code>## Extension Hooks
+
+**Optional Hook**: {extension}
+Command: `/{command}`
+Description: {description}
+
+Prompt: {prompt}
+To execute: `/{command}`</code></pre></li>
+</ul>
+<h2 id="completion-report">Completion Report</h2>
+<p>Command ends after Phase 1 design. Report branch, IMPL_PLAN path, and
+generated artifacts.</p>
+<h2 id="phases">Phases</h2>
+<h3 id="phase-0-outline-research">Phase 0: Outline &amp; Research</h3>
+<ol type="1">
+<li><p><strong>Extract unknowns from Technical Context</strong>
+above:</p>
+<ul>
+<li>For each NEEDS CLARIFICATION → research task</li>
+<li>For each dependency → best practices task</li>
+<li>For each integration → patterns task</li>
+</ul></li>
+<li><p><strong>Generate and dispatch research agents</strong>:</p>
+<pre class="text"><code>For each unknown in Technical Context:
+  Task: &quot;Research {unknown} for {feature context}&quot;
+For each technology choice:
+  Task: &quot;Find best practices for {tech} in {domain}&quot;</code></pre></li>
+<li><p><strong>Consolidate findings</strong> in <code>research.md</code>
+using format:</p>
+<ul>
+<li>Decision: [what was chosen]</li>
+<li>Rationale: [why chosen]</li>
+<li>Alternatives considered: [what else evaluated]</li>
+</ul></li>
+</ol>
+<p><strong>Output</strong>: research.md with all NEEDS CLARIFICATION
+resolved</p>
+<h3 id="phase-1-design-contracts">Phase 1: Design &amp; Contracts</h3>
+<p><strong>Prerequisites:</strong> <code>research.md</code> complete</p>
+<ol type="1">
+<li><strong>Extract entities from feature spec</strong> →
+<code>data-model.md</code>:
+<ul>
+<li>Entity name, fields, relationships</li>
+<li>Validation rules from requirements</li>
+<li>State transitions if applicable</li>
+</ul></li>
+<li><strong>Define interface contracts</strong> (if project has external
+interfaces) → <code>/contracts/</code>:
+<ul>
+<li>Identify what interfaces the project exposes to users or other
+systems</li>
+<li>Document the contract format appropriate for the project type</li>
+<li>Examples: public APIs for libraries, command schemas for CLI tools,
+endpoints for web services, grammars for parsers, UI contracts for
+applications</li>
+<li>Skip if project is purely internal (build scripts, one-off tools,
+etc.)</li>
+</ul></li>
+<li><strong>Create quickstart validation guide</strong> →
+<code>quickstart.md</code>:
+<ul>
+<li>Document runnable validation scenarios that prove the feature works
+end-to-end</li>
+<li>Include prerequisites, setup commands, test/run commands, and
+expected outcomes</li>
+<li>Use links or references to contracts and data model details instead
+of duplicating them</li>
+<li>Do not include full implementation code, model/service/controller
+bodies, migrations, or complete test suites</li>
+<li>Keep this artifact as a validation/run guide; implementation details
+belong in <code>tasks.md</code> and the implementation phase</li>
+</ul></li>
+</ol>
+<p><strong>Output</strong>: data-model.md, /contracts/*,
+quickstart.md</p>
+<h2 id="key-rules">Key rules</h2>
+<ul>
+<li>Use absolute paths for filesystem operations; use project-relative
+paths for references in documentation</li>
+<li>ERROR on gate failures or unresolved clarifications</li>
+</ul>
+<h2 id="done-when">Done When</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Plan workflow executed and design
+artifacts generated</label></li>
+<li><label><input type="checkbox" />Extension hooks dispatched or
+skipped according to the rules in Mandatory Post-Execution Hooks
+above</label></li>
+<li><label><input type="checkbox" />Completion reported to user with
+branch, plan path, and generated artifacts</label></li>
+</ul>
+</body>
+</html>

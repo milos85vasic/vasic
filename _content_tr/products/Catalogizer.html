@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Catalogizer</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Catalogizer</h1>
+</header>
+<p><strong>Gelişmiş Çoklu Protokol Medya Koleksiyonu Yönetimi — Sahip
+Olduğunuz Her Şeyi Tespit Edin, Kataloglayın ve
+Zenginleştirin</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Catalogizer, kendi sunucunuzda barındırabileceğiniz bir medya
+koleksiyonu yönetim sistemi olup SMB, FTP, NFS, WebDAV ve yerel dosya
+sistemleri üzerinden medyayı otomatik olarak tespit eder, kategorilere
+ayırır ve düzenler. Gerçek zamanlı izleme, şifreli depolama, harici meta
+veri zenginleştirme ve yüksek performanslı Go API altyapısıyla
+desteklenen modern bir React arayüzüne sahiptir.</p>
+<h2 id="kısa-açıklama">Kısa Açıklama</h2>
+<p>Üretim seviyesinde, çoklu protokol destekli bir medya kütüphanesi
+yöneticisi. Go/Gin REST API, SMB/FTP/NFS/WebDAV/yerel kaynaklar
+üzerinden 50’den fazla medya türünü algılar, TMDB/IMDB/MusicBrainz/Steam
+ve benzeri platformlardan zenginleştirir ve şifreli bir SQLCipher
+veritabanı üzerinden gerçek zamanlı React web uygulaması sunar.</p>
+<h2 id="uzun-açıklama">Uzun Açıklama</h2>
+<p>Çoğu medya yöneticisi, önce teslim olmanızı ister: Her şeyi tek bir
+diskte, tek bir formatta, tek bir türde toplamalısınız; ancak ondan
+sonra yardım ederler. Catalogizer ise tam tersi bir yaklaşımla başlar —
+koleksiyonunuz zaten olduğu yerde, birbiriyle anlaşamayan NAS
+paylaşımları ve protokoller arasında dağılmış halde duruyor — ve sizi
+orada karşılar. Depolama sistemlerinin kullandığı protokolleri konuşur:
+SMB/CIFS, FTP/FTPS, NFS, WebDAV ve yerel dosya sistemi. Tüm bunlar, tek
+bir birleşik istemci soyutlaması arkasında toplanır; böylece bir Windows
+paylaşımı, bir FTP arşivi ve bir WebDAV bağlantısı, üst katmanlar için
+aynı görünür ve uygulama koduna dokunmadan karıştırılabilir,
+değiştirilebilir ya da devre dışı bırakılabilir. Go arka ucu (Gin REST
+API), bu kaynakları sürekli izler, dosyalar ortaya çıktıkça 50’den fazla
+medya türünü (film, dizi, müzik, oyun, yazılım, belgesel) algılar ve
+sınıflandırır. Her bir öğeyi TMDB, IMDB, TVDB, MusicBrainz, Spotify,
+Steam ve daha fazlası gibi harici sağlayıcılardan zenginleştirir;
+böylece basit bir dosya adı, sanat eserleri, oyuncu kadrosu ve meta
+verilerle donatılmış eksiksiz bir katalog kaydına dönüşür. Sonuçlar,
+WebSocket üzerinden TypeScript React ön yüzüne akar; böylece kütüphane,
+veri alımı sırasında canlı olarak güncellenir, manuel yenileme
+gerektirmez. Tüm meta veriler, JWT tabanlı rol bazlı kimlik doğrulama
+ile korunan şifreli bir SQLCipher veritabanında saklanır.</p>
+<p>Çoğu kataloglayıcı, bir paylaşım devre dışı kaldığı anda sessizce
+çökerken, Catalogizer, kesintilerde bile işlevselliğini sürdürmek üzere
+tasarlanmıştır. Geçici bir SMB hatası, üstel geri çekilmeyle yeniden
+bağlantı, ölü bir sunucuya sürekli istek göndermeyi durduran devre
+kesici, sürekli sağlık izleme ve çevrimdışı meta veri önbelleği ile
+emilir. Bu önbellek, son bilinen sağlam durumdan kullanıcı isteklerine
+yanıt vermeye devam eder — fark, “tek bir NAS yeniden başladığı için tüm
+uygulama çöktü” ile “bir kaynakta sorun var, geri kalan her şey
+çalışıyor” arasındadır. Kataloglamanın ötesinde, koleksiyonunuz için
+operasyonel bir araç olarak da işlev görür: büyüme eğilimleri ve
+kalite/sürüm takibi için analizler, profesyonel PDF rapor oluşturma,
+PDF’dan görsel/metin/HTML dönüştürme hizmeti, favorilerin dışa/içe
+aktarımı (JSON/CSV) ve S3, Google Bulut Depolama ya da yerel klasörlere
+bulut senkronizasyonu. Ayrıca, tesadüfen büyük bir monolit değil;
+kasıtlı olarak 21 yeniden kullanılabilir <code>digital.vasic.*</code> Go
+alt modülü ve TypeScript istemci paketlerinden oluşur. Her biri bağımsız
+olarak test edilmiş ve sürümlendirilmiştir; böylece Catalogizer’u
+çalıştıran aynı savaşta test edilmiş kimlik doğrulama, dosya sistemi,
+akış ve gözlemlenebilirlik bileşenleri, daha geniş ürün ailesine de güç
+sağlar. Kalite güvencesi, kendi beyanına dayalı değildir: Challenges
+çerçevesi ve HelixQA, her ilan edilen yeteneği, kanıta dayalı doğrulama
+ile sahtekârlık karşıtı bir yaklaşımla denetler.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Mevcut medya yöneticileri tek bir depolama altyapısı ve tek bir medya
+türü varsayar. Gerçek koleksiyonlar ise birçok NAS paylaşımına ve
+protokole dağılır, bir paylaşım devre dışı kaldığında bozulur ve film,
+müzik, oyun ve yazılım gibi farklı türleri bir arada barındırır.
+Catalogizer, tüm protokolleri eşit şekilde ele almak, güvenilmez ağ
+depolamalarına karşı dayanıklı kalmak ve her şeyin üzerinde tek bir
+yetkili, zenginleştirilmiş ve şifrelenmiş katalog sunmak için inşa
+edildi.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Normalde ayrı ayrı bir yığın araca ihtiyaç duyulan her şeyi, kendi
+barındırabileceğiniz, şifrelenmiş tek bir pakette topluyor: Her depolama
+altyapısını eşit gören protokolden bağımsız içerik alma, depolama
+kesintilerinde katalogun çökmek yerine canlı kalmasını sağlayan
+dayanıklılık ve ham dosyaları gezilebilir, nitelikli bir kütüphaneye
+dönüştüren zengin çoklu sağlayıcı entegrasyonu. Modüler mimarinin
+getirisi katlanarak artar: Dosya sistemi istemcisindeki bir güvenlik
+iyileştirmesi ya da yeni bir sağlayıcı eklentisi tek seferde uygulanır
+ve her kullanıcıya fayda sağlar. Böylece Catalogizer, etrafındaki
+ekosistem geliştikçe sürekli olarak daha da iyileşir. Kısacası, bir
+medya dizini ile bir medya <em>sistemi</em> arasındaki farktır — sahibi
+siz olan, güvenilmez altyapılara rağmen ayakta kalan ve vaat değil,
+kanıtlanmış bir iç yapıya sahip olan bir sistem.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li>Tek bir arayüz altında birleştirilmiş çoklu protokol dosya sistemi
+istemcisi (SMB/FTP/NFS/WebDAV/yerel).</li>
+<li>Depolama kesintilerinde katalogun kullanılabilir kalmasını sağlayan
+çevrimdışı önbellek + devre kesici.</li>
+<li>21 yeniden kullanılabilir <code>digital.vasic.*</code> Go alt modülü
+ve TS istemci modüllerine tam ayrıştırma.</li>
+<li>Dinlenme halinde şifrelenmiş katalog (SQLCipher) ve kullanıcı
+arayüzüne gerçek zamanlı WebSocket senkronizasyonu.</li>
+<li>Zorluklar çerçevesi ve HelixQA entegrasyonu ile kanıta dayalı kalite
+güvencesi.</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve çözümler</h2>
+<ul>
+<li><strong>Güvenilmez ağ depolama:</strong> Üstel geri çekilme, devre
+kesici, sağlık kontrolleri ve kaynaklara ulaşılamadığında önbelleğe
+alınmış meta verileri sunan bir silme politikalı çevrimdışı önbellek ile
+çözüldü.</li>
+<li><strong>Protokol çeşitliliği:</strong> Her protokol,
+<code>digital.vasic.filesystem</code> istemcisi altında ortak bir
+soyutlama ile ele alınarak üst katmanların protokolden bağımsız
+çalışması sağlandı.</li>
+<li><strong>Veri güvenliği:</strong> Dinlenme halinde SQLCipher
+şifrelemesi, JWT/RBAC kimlik doğrulama ve istek temizleme ara katmanı
+ile çözüldü.</li>
+<li><strong>Büyük ölçekte sürdürülebilirlik:</strong> Tüm genel mantık,
+tek bir bütün yerine bağımsız olarak test edilen alt modüllere
+ayrıştırılarak çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-nasıl">Teknoloji yığını (neden +
+nasıl)</h2>
+<ul>
+<li><strong>Go + Gin</strong> — Sürekli izleme iş yükleri için
+eşzamanlılık ve verimlilik sağlayan yüksek performanslı REST API
+çekirdeği (<code>catalog-api</code>).</li>
+<li><strong>TypeScript + React + Tailwind (Vite)</strong> — Gerçek
+zamanlı güncellemeli, duyarlı <code>catalog-web</code> kullanıcı
+arayüzü.</li>
+<li><strong>WebSockets</strong> — Arka uç merkezi ile kullanıcı arayüzü
+arasında canlı veri senkronizasyonu.</li>
+<li><strong>SQLCipher (şifrelenmiş SQLite)</strong> — Dinlenme halinde
+şifrelenmiş meta veri deposu; <code>digital.vasic.database</code>
+üzerinden çift SQLite/PostgreSQL desteği.</li>
+<li><strong>SMB/FTP/NFS/WebDAV istemcileri</strong> —
+<code>digital.vasic.filesystem</code> aracılığıyla çoklu protokol içerik
+alma.</li>
+<li><strong>Harici meta veri API’leri (TMDB, IMDB, TVDB, MusicBrainz,
+Spotify, Steam)</strong> — Zenginleştirme için sağlayıcı
+eklentileri.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> —
+<code>digital.vasic.observability</code> üzerinden
+metrikler/izleme.</li>
+<li><strong>Docker / derleyici kapsayıcısı</strong> — Yeniden
+üretilebilir derlemeler (<code>catalogizer-builder</code> üzerinden
+yönlendirilen Tauri/Rust).</li>
+<li><strong>Redis</strong> — <code>digital.vasic.cache</code> /
+<code>ratelimiter</code> üzerinden önbellekleme ve hız sınırlama.</li>
+<li><strong>S3 / Google Bulut Depolama</strong> — Bulut senkronizasyonu
+ve kontrol noktası depolama.</li>
+</ul>
+</body>
+</html>

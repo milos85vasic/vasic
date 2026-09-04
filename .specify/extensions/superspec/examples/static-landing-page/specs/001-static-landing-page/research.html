@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research</h1>
+</header>
+<h1 id="research-static-landing-page">Research: Static Landing Page</h1>
+<p><strong>Feature</strong>: 001-static-landing-page |
+<strong>Date</strong>: 2026-05-30</p>
+<h2 id="research-tasks">Research Tasks</h2>
+<h3 id="r-001-get-started-button-destination-url">R-001: “Get Started”
+Button Destination URL</h3>
+<p><strong>Decision</strong>: Use <code>#install</code> as the default
+link target, scrolling to the install snippet section.</p>
+<p><strong>Rationale</strong>: The spec identifies the destination as an
+Open Question (OQ-001). Until a documentation URL is confirmed, an
+in-page anchor provides the best user experience — it takes the visitor
+directly to the actionable install command, which is the most useful
+“getting started” step. A bare <code>#</code> placeholder would be
+confusing; a dead external link would be worse. The
+<code>#install</code> anchor is meaningful, functional, and can be
+trivially updated later.</p>
+<p><strong>Alternatives considered</strong>: - <code>#</code> (bare
+anchor): Navigates nowhere; poor UX. - External documentation URL: Not
+yet available; would result in a broken link. - <code>#features</code>:
+Less actionable than <code>#install</code>; the features section informs
+but doesn’t enable.</p>
+<hr />
+<h3 id="r-002-exact-install-command">R-002: Exact Install Command</h3>
+<p><strong>Decision</strong>: Display
+<code>npm install -g superspec</code> as the install snippet.</p>
+<p><strong>Rationale</strong>: The project name is “SuperSpec” and npm
+is the most common global-install mechanism for developer tools of this
+type. The spec assumes this command (OQ-002). The exact package name and
+registry must be confirmed before production deployment, but this is the
+correct default for a working implementation.</p>
+<p><strong>Alternatives considered</strong>: -
+<code>npx superspec</code>: Avoids global install but implies a run-once
+workflow; SuperSpec is a persistent CLI tool. -
+<code>brew install superspec</code>: Platform-specific; not available to
+all developers. - <code>curl | sh</code>: Security-conscious developers
+avoid pipe-to-shell installs.</p>
+<hr />
+<h3 id="r-003-workflow-diagram-css-approach">R-003: Workflow Diagram CSS
+Approach</h3>
+<p><strong>Decision</strong>: Use a CSS-only step indicator with
+numbered circles and connecting horizontal lines (flexbox-based).</p>
+<p><strong>Rationale</strong>: The spec raises OQ-003 about CSS-drawn
+arrows vs step indicators. CSS arrows (<code>::after</code>
+pseudo-elements with border tricks or rotated elements) have
+inconsistent rendering across browsers and risk pushing page weight
+toward the 64 KB constitutional limit due to complex CSS. A
+step-indicator pattern (numbered circles with horizontal connecting
+lines) is: - Visually clear and universally understood - Lightweight in
+CSS (minimal rules needed) - Consistent across browsers - Fully
+accessible (semantic <code>&lt;ol&gt;</code> with visible step
+numbers)</p>
+<p><strong>Alternatives considered</strong>: - CSS-drawn arrows
+(<code>border</code> trick): Browser rendering inconsistencies; more CSS
+code; risk of 64 KB budget exceedance. - SVG diagram inline: Would work
+but adds markup weight; harder to make responsive. - CSS Grid arrows
+with <code>clip-path</code>: Not supported in all target browsers;
+overly complex.</p>
+<hr />
+<h3 id="r-004-system-font-stack-for-developer-audience">R-004: System
+Font Stack for Developer Audience</h3>
+<p><strong>Decision</strong>: Use the modern system font stack:
+<code>-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif</code>
+for body text and
+<code>"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace</code>
+for code snippets.</p>
+<p><strong>Rationale</strong>: Constitution Principle I (Zero Runtime
+Dependencies) prohibits external font CDN links. System fonts render
+fast, look native on each platform, and are familiar to developers. The
+monospace stack ensures install command snippets are visually distinct
+and appropriately technical.</p>
+<p><strong>Alternatives considered</strong>: - Google Fonts (Inter,
+JetBrains Mono): Violates constitution — external network dependency. -
+Web-safe fonts only (Arial, Courier): Adequate but less polished; system
+font stack includes them as fallbacks.</p>
+<hr />
+<h3 id="r-005-css-feature-baseline-for-target-browsers">R-005: CSS
+Feature Baseline for Target Browsers</h3>
+<p><strong>Decision</strong>: Use Flexbox as the primary layout
+mechanism. CSS Grid for the features card layout. Both have full support
+in the last 2 major versions of all target browsers.</p>
+<p><strong>Rationale</strong>: The constitution limits CSS features to
+those with baseline support in Chrome, Firefox, Safari, and Edge (last 2
+major versions). Flexbox and Grid are universally supported.
+<code>clamp()</code> for responsive font sizing is also
+baseline-supported and will be used. <code>forced-colors</code> media
+query is supported in all target browsers.</p>
+<p><strong>Alternatives considered</strong>: - Float-based layout:
+Unnecessary; flexbox has universal support. - CSS Container Queries: Not
+yet baseline in Safari; too risky.</p>
+<hr />
+<h3 id="r-006-responsive-breakpoint-strategy">R-006: Responsive
+Breakpoint Strategy</h3>
+<p><strong>Decision</strong>: Mobile-first with two breakpoints: - Base
+(≥320px): Single-column, stacked layout -
+<code>@media (min-width: 768px)</code>: Two-column features grid,
+horizontal step indicator - <code>@media (min-width: 1024px)</code>:
+Three-column features grid, full-width step indicator</p>
+<p><strong>Rationale</strong>: Constitution Principle III mandates
+mobile-first. Three breakpoints cover the spec’s viewport range
+(320px–1920px+) without over-engineering. The 768px and 1024px
+breakpoints align with common device classes (tablet, desktop).</p>
+<p><strong>Alternatives considered</strong>: - Four+ breakpoints:
+Over-engineering for a single static page. - Single breakpoint at 600px:
+Insufficient — the features grid needs two transitions (stack → 2-col →
+3-col).</p>
+<hr />
+<h3 id="r-007-print-stylesheet-strategy">R-007: Print Stylesheet
+Strategy</h3>
+<p><strong>Decision</strong>: Use <code>@media print</code> to: hide
+decorative backgrounds/borders, set body to <code>serif</code> font,
+remove <code>max-width</code> constraint, force single-column layout,
+show all content in document order, and preserve the install snippet
+with a visible border.</p>
+<p><strong>Rationale</strong>: FR-014 requires an ink-friendly print
+stylesheet. Decorative elements (hero background, card shadows, step
+indicator circles) should be suppressed. Content should flow linearly.
+The install snippet must remain visible (tracked by acceptance
+criteria).</p>
+<p><strong>Alternatives considered</strong>: - Separate print CSS file:
+Violates single-file constraint. - No print styles: Violates FR-014.</p>
+</body>
+</html>

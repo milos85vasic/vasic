@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSpecifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSpecifier</h1>
+</header>
+<h1 id="helixspecifier">HelixSpecifier</h1>
+<p><strong>Desarrollo basado en especificaciones que ajusta su propia
+ceremonia al trabajo.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>HelixSpecifier es un motor Go que fusiona tres metodologías de
+desarrollo —el flujo basado en especificaciones de SpecKit, la
+disciplina TDD de Superpowers y el ciclo de vida por hitos de GSD— en un
+único flujo adaptativo. Clasifica cada tarea según el esfuerzo requerido
+y ajusta la cantidad de proceso en consecuencia.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>HelixSpecifier es un motor de fusión para desarrollo basado en
+especificaciones, diseñado para agentes AI. Combina SpecKit, Superpowers
+y GSD, clasifica el trabajo por nivel de esfuerzo, ejecuta fases de
+especificación respaldadas por debates, impone una proporción mínima de
+pruebas por código y aprende de cada flujo completado.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>HelixSpecifier es un motor de fusión para desarrollo basado en
+especificaciones (SDD, por sus siglas en inglés) escrito en Go (módulo
+<code>digital.vasic.helixspecifier</code>), desarrollado como componente
+del conjunto HelixAgent AI. Toma tres prácticas de desarrollo que
+normalmente existen en herramientas separadas —y en mentalidades
+distintas— y las fusiona en un único flujo de trabajo adaptativo: el
+proceso SDD de siete fases de SpecKit (Constitution, Especificar,
+Aclarar, Planificar, Tareas, Analizar, Implementar), la disciplina de
+desarrollo guiado por pruebas de Superpowers con ejecución paralela de
+subagentes, y la gestión del ciclo de vida por hitos de GSD. Cada pilar
+sigue desempeñando su función; el motor es lo que los integra en un
+flujo coherente en lugar de una cadena ensamblada manualmente.</p>
+<p>Su idea central es la <em>ceremonia adaptativa</em>: el motor
+clasifica el trabajo entrante según su nivel de esfuerzo y ajusta la
+cantidad de proceso para que una corrección de una línea no pase por el
+mismo ritual exhaustivo que una funcionalidad importante —ni una
+funcionalidad importante se apruebe con el rigor de un error
+tipográfico—. Diez características avanzadas se construyen sobre esta
+base: ejecución paralela de tareas con concurrencia limitada, un
+“Constitution como Código” legible por máquina que aplica reglas
+obligatorias de forma automática, “TDD Nyquist” que supervisa e impone
+una proporción mínima entre pruebas e implementación, debates multironda
+y multiagente para refinar especificaciones, aprendizaje adaptativo de
+habilidades y competencias, análisis de código heredado, generación
+predictiva de especificaciones a partir de patrones históricos,
+transferencia de conocimiento entre proyectos, ajuste de ceremonia en
+tiempo de ejecución que se reconfigura sobre la marcha, y una memoria
+persistente de especificaciones con búsqueda semántica.</p>
+<p>Se consume como un módulo Go —mediante <code>go get</code> o una
+directiva de reemplazo local— detrás de un motor API deliberadamente
+minimalista: se registran los tres pilares junto con un escalador de
+ceremonia y una memoria de especificaciones, se clasifica el esfuerzo
+del trabajo y, a continuación, se ejecuta el flujo completo para obtener
+un resultado con puntuación de calidad. La interfaz es sencilla; la
+orquestación que hay detrás, no. Al igual que el resto de la familia
+Helix, se desarrolla bajo un régimen de verificación anti-engaño, con un
+ejecutor de desafíos en proceso que prueba código real en lugar de
+simulaciones.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>El desarrollo basado en especificaciones, el TDD riguroso y la
+gestión por hitos suelen ser tres prácticas independientes con
+herramientas distintas. HelixSpecifier se creó para que un agente AI
+(HelixAgent) pueda ejecutar las tres como un flujo coherente y
+autoescalable, en lugar de tener que unirlas manualmente.</p>
+<h2 id="por-qué-es-un-cambio-de-juego">Por qué es un cambio de
+juego</h2>
+<p>Hace que el proceso sea proporcional al trabajo —de forma
+automática—. Los equipos suelen atascarse en uno de dos extremos
+negativos: ceremonias excesivas en todo (seguro pero lento, y con
+resentimiento silencioso) o ausencia de ceremonias (rápido hasta que
+deja de serlo). HelixSpecifier elimina esa disyuntiva ajustando la
+ceremonia al esfuerzo clasificado de cada tarea y reajustándola en
+tiempo de ejecución a medida que el trabajo se revela. La capacidad que
+antes no era práctica es un proceso que se dimensiona por tarea —y,
+además, decisiones de especificación respaldadas por un debate
+multironda y multiagente con puntuación de posturas, en lugar de la
+primera suposición de un solo agente—.</p>
+<h2 id="qué-es-innovador">Qué es innovador</h2>
+<ul>
+<li><strong>Ceremonia adaptativa</strong>: nivel de proceso impulsado
+por métricas de calidad en tiempo real y ajustado durante la ejecución,
+no fijado de antemano.</li>
+<li><strong>Nyquist TDD</strong>: un umbral de proporción entre pruebas
+e implementación (mínimo 2x), inspirado en el teorema de muestreo de
+Nyquist: para capturar fielmente un comportamiento, hay que muestrearlo
+muy por encima de su frecuencia, por lo que las pruebas deben superar en
+cantidad al código que cubren.</li>
+<li><strong>Arquitectura de debate</strong>: refinamiento de
+especificaciones en múltiples rondas y con múltiples agentes, donde se
+proponen, puntúan y convergen posturas, reemplazando una sola opinión
+por un enfoque adversarial.</li>
+<li><strong>Especificación predictiva</strong> y <strong>transferencia
+entre proyectos</strong>: el motor extrae patrones de flujos acumulados
+para anticipar especificaciones y trasladar conocimientos valiosos de un
+proyecto a otro.</li>
+<li><strong>Constitution como Código</strong>: reglas de proyecto
+obligatorias convertidas en legibles por máquina y aplicadas por el
+motor, no dejadas al criterio de los revisores.</li>
+</ul>
+<h2 id="principales-desafíos-técnicos-y-cómo-los-resolvimos">Principales
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>Fusionar tres metodologías sin que compitan entre
+sí</strong>: SpecKit, Superpowers y GSD asumen que dominan el flujo de
+trabajo. Se resolvió con un motor de fusión que registra cada pilar tras
+una interfaz común y los impulsa a través de un ciclo de vida
+compartido, de modo que se integran en un solo proceso en lugar de tres
+que chocan.</li>
+<li><strong>Determinar cuánto proceso necesita realmente una
+tarea</strong>: si se sobrestima, todo se ralentiza; si se subestima, el
+trabajo arriesgado se entrega sin revisión. Se resolvió con un
+clasificador de esfuerzo que dimensiona el trabajo y alimenta un
+escalador de ceremonias que ajusta el nivel de proceso dinámicamente a
+medida que avanza la ejecución.</li>
+<li><strong>Mantener alta la calidad de las especificaciones sin un
+guardián humano en cada decisión</strong>: se resolvió reemplazando las
+especificaciones de un solo intento por un refinamiento respaldado por
+debates, donde los agentes puntúan posturas en competencia a lo largo de
+varias rondas, y aplicando las proporciones de Nyquist TDD para que la
+implementación no supere a sus pruebas.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go</strong>: elegido para que el motor se distribuya como un
+binario importable sin dependencias en tiempo de ejecución; su modelo de
+concurrencia es lo que hace viable el despacho de tareas en paralelo con
+límites y las rondas de debate multiagente, en lugar de convertirse en
+un dolor de cabeza de hilos.</li>
+<li><strong>logrus</strong>: registro estructurado integrado en el motor
+y los tres pilares, de modo que las decisiones de un flujo
+(clasificación, cambios de ceremonia, resultados de debates) sean
+legibles a posteriori.</li>
+<li><strong>Pilar SpecKit</strong>: el proceso de desarrollo guiado por
+especificaciones en siete fases (Constitution → Especificar → Aclarar →
+Planificar → Tareas → Analizar → Implementar), que proporciona la
+columna vertebral disciplinada de cómo una especificación se convierte
+en código.</li>
+<li><strong>Pilar Superpowers</strong>: disciplina TDD con ejecución
+paralela de subagentes, que aporta el rigor de pruebas primero y la
+distribución que mantiene honesta y ágil la implementación.</li>
+<li><strong>Pilar GSD</strong>: gestión de hitos y ciclos de vida, que
+da al flujo su noción de “hecho” y su progresión a través de
+etapas.</li>
+<li><strong>Almacén de memoria de especificaciones</strong>: un índice
+persistente y semánticamente buscable de especificaciones pasadas, el
+sustrato que hace posible la especificación predictiva y la
+transferencia entre proyectos, en lugar de empezar desde cero cada
+vez.</li>
+</ul>
+<h2 id="notas-sobre-estado-y-honestidad">Notas sobre estado y
+honestidad</h2>
+<ul>
+<li><strong>Estado: beta.</strong> Consumido como componente del módulo
+Go de HelixAgent.</li>
+<li><strong>Licencia: por determinar.</strong> No se detectó ninguna
+LICENCIA mediante GitHub API — SIN VERIFICAR / no declarada.</li>
+<li>El nombre para visualización “HelixSpecifier” se asigna al
+repositorio <code>specifier</code>.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix-principal.</p>
+</body>
+</html>

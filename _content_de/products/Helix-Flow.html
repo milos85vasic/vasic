@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>Eine Plattform für alle Ihre AI-Inferenzanforderungen –
+führen Sie leistungsstarke AI-Modelle schneller, intelligenter und in
+jedem Maßstab aus, mit vorhersehbaren Kosten.</strong></p>
+<blockquote>
+<p><strong>Hinweis zur Genauigkeit (Helix Constitution
+§11.4.6):</strong> Helix-Flow verfügt über ein echtes, öffentliches
+Quellcode-Repository, doch die README-Datei besteht lediglich aus einem
+einzigen Slogan, und es gibt weder ein lokales Checkout noch verfügbare
+Design- oder Architektur-Dokumentation. Tatsächlich dokumentiert sind
+nur zwei Dinge: der Slogan und die Sprachzusammensetzung des
+Repositorys. Alle weiteren Angaben auf dieser Seite sind entweder
+ausgelassen oder explizit als UNBESTÄTIGT gekennzeichnet. Diese Seite
+dient als minimaler Platzhalter, nicht als vollständige
+Produktbeschreibung, und sollte erst erweitert werden, sobald echtes
+Quellenmaterial vorliegt.</p>
+</blockquote>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>Die Helix-Flow-Plattform wird als einheitliche Lösung für AI-Inferenz
+positioniert – mit dem Ziel, leistungsstarke Modelle schneller, in jedem
+Maßstab und mit vorhersehbaren Kosten auszuführen. <em>(Die
+Positionierung basiert ausschließlich auf dem Slogan; konkrete
+Fähigkeiten sind in keiner verfügbaren Quelle dokumentiert.)</em></p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Die Helix-Flow-Plattform (<code>Helix-Flow/Platform</code>) ist ein
+öffentliches, auf Go basierendes Projekt, das als einheitliche Plattform
+für AI-Inferenz in jedem Maßstab mit vorhersehbaren Kosten präsentiert
+wird. Der Code setzt sich aus Go, Python sowie Terraform/HCL zusammen,
+was auf eine Inferenzplattform mit Infrastruktur-as-Code-gesteuerter
+Bereitstellung hindeutet. Fähigkeiten, die über den Slogan hinausgehen,
+sind UNBESTÄTIGT.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>Die Helix-Flow-Plattform ist das einzige Repository in der
+GitHub-Organisation <code>Helix-Flow</code> und wird – laut ihrer
+einzeiligen README – als <em>„eine Plattform für alle Ihre
+AI-Inferenzanforderungen”</em> beworben, mit dem Fokus auf schnellerer
+Ausführung leistungsstarker AI-Modelle in jedem Maßstab und mit
+vorhersehbaren Kosten. Abgesehen von diesem Slogan enthält das Projekt
+keine weitere Dokumentation, sodass Architektur, Funktionen und Design
+nicht aus dem Quellcode abgeleitet werden können, ohne auf Spekulationen
+zurückzugreifen.</p>
+<p>Was <em>tatsächlich</em> festgestellt werden kann, ist die
+Sprachzusammensetzung des Repositorys: Es besteht zu nahezu gleichen
+Teilen aus Go und Python, ergänzt durch beträchtliche Anteile an Shell
+sowie HTML/CSS/JavaScript (eine Weboberfläche), PL/pgSQL (eine auf
+PostgreSQL basierende Komponente), HCL (Terraform/Infrastruktur-as-Code)
+und Mermaid (Diagramme). Zusammengenommen deutet diese Kombination
+<em>auf</em> eine Inferenz-Serving-Plattform hin, die eine
+Go-Steuerungs- und Bereitstellungsebene mit Python-Modell-Tools, einem
+PostgreSQL-Datenspeicher, einer Web-UI und cloudbasierter Bereitstellung
+via IaC verbindet – doch diese Interpretation ergibt sich aus den
+Dateitypen, <strong>nicht</strong> aus einer dokumentierten Aussage. Für
+eine präzise Produktbeschreibung (Motivation, Innovationen, technische
+Herausforderungen, konkrete Begründung der Technologieauswahl) wären
+eine echte README, eine Architekturdokumentation oder ein lokales
+Checkout erforderlich. Diese Seite beschränkt sich bewusst auf das, was
+die verfügbaren Quellen tatsächlich stützen.</p>
+<h2 id="warum-wir-sie-entwickelt-haben">Warum wir sie entwickelt
+haben</h2>
+<p><em>UNBESTÄTIGT – in keiner verfügbaren Quelle dokumentiert.</em> Der
+Slogan legt nahe, dass das Ziel in einer einheitlichen, skalierbaren
+AI-Inferenz mit vorhersehbaren und kontrollierbaren Kosten besteht, doch
+eine Begründung wird nicht genannt. Eine Motivation wird hier nicht
+behauptet.</p>
+<h2 id="warum-sie-ein-game-changer-ist">Warum sie ein Game-Changer
+ist</h2>
+<p><em>UNBESTÄTIGT — nicht dokumentiert.</em> Bis zur Quellenangabe
+ausgelassen.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<p><em>UNBESTÄTIGT — nicht dokumentiert.</em> Bis zur Quellenangabe
+ausgelassen.</p>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<p><em>UNBESTÄTIGT — nicht dokumentiert.</em> Bis zur Quellenangabe
+ausgelassen.</p>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<p>Ausschließlich basierend auf der Sprachzusammensetzung des
+Repositorys — Rolle und Begründung UNBESTÄTIGT:</p>
+<ul>
+<li><strong>Go</strong> — Hauptsprache; vermutlich die
+Serving-/Steuerungsebene. <em>(Rolle UNBESTÄTIGT.)</em></li>
+<li><strong>Python</strong> — nahezu gleicher Anteil; vermutlich
+Modell-/Inferenz-Tooling. <em>(Rolle UNBESTÄTIGT.)</em></li>
+<li><strong>Shell</strong> — Build-/Deployment-/Automatisierungsskripte.
+<em>(Rolle UNBESTÄTIGT.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — eine relationale
+Datenspeicherkomponente ist vorhanden.</li>
+<li><strong>Terraform / HCL</strong> — Infrastructure-as-Code, deutet
+auf Cloud-basiertes Deployment hin.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — eine Weboberfläche oder
+Dokumentationsschnittstelle.</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Roadmap / Platzhalter.</strong> Dies ist das einzige
+Repository der Organisation <code>Helix-Flow</code>; es ist öffentlich,
+der letzte Push erfolgte am 27.04.2026, es hat keine Homepage, und es
+wurde keine Lizenz deklariert. Solange keine echte Dokumentation
+vorliegt, kann es nicht verantwortungsvoll in produktiver Tiefe
+dargestellt werden.</li>
+<li><strong>Lizenz: Noch offen</strong> (im Repository nicht
+festgelegt).</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär (ein
+Helix-Plattform-Familien-Inferenzprodukt), derzeit jedoch durch
+fehlendes Quellenmaterial blockiert. Rangiert nach HelixTrack.</p>
+</body>
+</html>

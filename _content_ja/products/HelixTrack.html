@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTrack</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTrack</h1>
+</header>
+<h1 id="helixtrack">HelixTrack</h1>
+<p><strong>JIRAに代わる自由世界のための選択肢</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixTrackは、JIRA（およびDocuments拡張機能を通じたConfluence）に代わる、包括的でモダンなオープンソースの代替ソリューションです。マルチプラットフォーム対応のプロジェクト管理・課題追跡システムで、Goマイクロサービスを基盤としたバックエンドに、Web、デスクトップ、モバイル向けのネイティブクライアントを備えています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>オープンソースのJIRA/Confluence代替システム。Goマイクロサービスバックエンド（「HelixTrack
+Core」）は、プロジェクト管理と課題追跡のための統合REST
+APIインターフェースと、Confluence風のドキュメントワークスペースを提供し、HTTP/3
+QUICを介してWeb、デスクトップ、Android、iOS向けのネイティブクライアントに配信します。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixTrackは、プロジェクト管理と課題追跡のためのオープンソースプラットフォームであり、エンジニアリング組織の多くが依存しているJIRAとConfluenceに代わる、自由世界のための選択肢として位置づけられています。これら2つの製品を完全に置き換えるものであり、所有権を持ち、どこでも実行可能なソフトウェアとして再構築されています。その核となるのは<strong>HelixTrack
+Core</strong>で、REST
+APIマイクロサービスとしてGoで実装され、Ginフレームワークを使用しています。課題追跡、アジャイル/スクラムボード、チーム管理、階層型権限エンジンを提供し、その実装はローカルのインプロセスエンジンとHTTPバックエンドサービスの間で切り替え可能です。そのため、同じ認可モデルが、単一のラップトップから分散クラスターまで、アプリケーションコードを変更することなくスケールします。Coreは、RESTのエンドポイントを多数のルートに分散させるのではなく、すべてを単一のアクションルーティングされた<code>/do</code>エンドポイントに集約し、統一されたリクエスト/レスポンスのエンベロープ（<code>action</code>/<code>jwt</code>/<code>object</code>/<code>data</code>を入力、<code>errorCode</code>/<code>errorMessage</code>/<code>data</code>を出力）を採用しています。すべてのクライアントは同じ小さな契約に基づいて通信し、新しい機能の追加は新しいアクションの追加で済み、新たなURLを文書化、セキュリティ確保、バージョン管理する必要はありません。</p>
+<p>Coreは、認証、権限、ローカライズの各サービスと連携し、これらはHTTP/3
+QUICを介して通信します。これらのサービスは別々のマシンやクラスターで実行可能で、テスト環境では完全に無効化することもできます。データは、開発時にはSQLite、本番環境ではPostgreSQLに保存され、SQLCipher（AES-256）による保存時暗号化が標準で適用されるため、機密性の高いプロジェクトデータもディスク上で保護されます。これは後付けではなく、デフォルトの仕様です。<strong>Documents
+V2</strong>拡張機能により、課題追跡システムは完全なナレッジプラットフォームへと進化します。Confluence風のワークスペースとして、スペース、ページ、バージョン管理、テンプレート、リアルタイムWebSocketコラボレーション、分析機能を備え、ついにWikiと課題追跡システムが1つのバックエンドで統合され、これまでのように2つの製品を組み合わせる必要がなくなります。</p>
+<p>Coreの周囲には、複数のクライアントアプリケーションが存在します。Angular
+Webクライアント、Tauri +
+Angularデスクトップクライアント、ネイティブのAndroid（Kotlin）およびiOS（Swift）アプリに加え、HarmonyOSやAurora
+OS向けのクライアント、さらにはスクリーンセーバーも提供されています。これらすべてのクライアントは同じバックエンドと通信し、UDPブロードキャストを通じてローカルネットワーク上で自動的にサーバーを検出するため、新しいクライアントでも手動設定なしでサーバーに接続できます。クライアントアプリケーションは個別の非公開リポジトリで管理されており、ここでは製品レベルでの紹介に留めています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜ開発したのか">なぜ開発したのか</h2>
+<p>チームに、JIRA +
+Confluenceのスタックに代わる、真にオープンで自己ホスティング可能な代替ソリューションを提供するため――「自由な世界のために」――ベンダーロックインなしで、エンタープライズグレードのトラッキング、ドキュメント、コラボレーションを一つのオープンソースライセンスのもとに統合する。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>課題管理とWiki/ドキュメントスタックという二つの重量級商用製品を、一つのオープンで高性能、自己ホスティング可能なプラットフォームに統合し、さらに既存の競合製品が提供してこなかったものを組み合わせた：真のマルチプラットフォーム対応の<em>ネイティブ</em>クライアント（Web、デスクトップ、Android、iOS、さらにHarmonyOSとAurora
+OS）を、単一のバックエンド契約で駆動。解放されるのは、妥協なき所有権だ。HTTP/3のどこでも利用可能な完全に分離されたマイクロサービス設計と、保存時のSQLCipher
+AES-256暗号化により、プロプライエタリなSaaSにのみ許されていたパフォーマンスとセキュリティ体制を、自らホスティングするシステムで実現――ライセンス数の制限も、ベンダーロックインも、データがインフラ外に流出することもない。チームは、JIRA
++
+Confluenceの使い慣れた体験を、自社のハードウェア上で、一つのオープンソースライセンスのもとに享受できる。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li>統合アクションベースの<code>/do</code>
+API――一つのエンドポイント、一つのエンベロープ、アクションルーティング。新機能は新たなURLではなく新たなアクションとして追加され、攻撃対象領域、クライアントコード、ドキュメントの負担を単一の契約に集約。すべてのプラットフォームが共有する。</li>
+<li>HTTP/3
+QUICを<em>デフォルト</em>のサービス間通信手段として採用――後から追加するのではなく、初日から低遅延で接続耐性のある近代的なネットワーキングを実現。</li>
+<li>置き換え可能な権限エンジン――ローカルのインプロセス実装とHTTPバックエンドサービスの切り替えが可能で、オプションとして独立デプロイ可能なAuth、Permissions、Localizationサービスを併用。単一プロセスでもクラスターでも、同じ認可モデルを維持。</li>
+<li><code>--space-root</code>フラグによるマルチスペースデータ分離――各プロジェクトは独立したデータベースとアセットストアを持ち、クエリフィルターではなくストレージ境界でテナントやプロジェクトを分離。</li>
+<li>保存時のSQLCipher
+AES-256暗号化――機密性の高いプロジェクトデータは、デフォルトで透過的にディスク上で保護される。</li>
+<li>UDPブロードキャストによるローカルネットワーク上での自動クライアント・ツー・サーバー検出――クライアントはCoreを手動設定なしで発見。</li>
+<li>Documents
+V2――真の「Confluence代替」として、オプティミスティックロックによる並列編集、競合検出、完全な変更履歴を備えた本格的なコラボレーション文書。トラッカーと同じバックエンドで稼働。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><strong>6つのクライアントプラットフォーム、1つのバックエンド、契約のずれなし。</strong>
+Web/Angular、デスクトップ/Tauri、Android/Kotlin、iOS/Swift、HarmonyOS、Auroraの各クライアントを維持するには、通常6つの異なるAPI統合が必要となり、同期が崩れるリスクが生じる。このリスクを回避するため、単一のアクションルーティングされた<code>/do</code>
+APIとその固定エンベロープを<em>唯一の</em>契約とし、すべてのクライアントが同一のターゲットを持つように設計。さらにUDPブロードキャストによるサービス検出を重ね、クライアントがネットワーク上のCoreを手動設定なしで発見できるようにした。</li>
+<li><strong>サービスの分離による遅延コストの回避。</strong>
+Auth、Permissions、Localizationを独立デプロイ可能なサービスに分割すると、通常は呼び出しごとにネットワークホップが増える。そこで、すべてのサービス間通信にHTTP/3
+QUICを採用し、ホップを高速かつ接続耐性のあるものに維持。さらに、各サービスは独立して実行可能――テスト設定では完全に無効化も可能――にし、分離はデプロイの選択肢であって固定コストではないようにした。</li>
+<li><strong>Confluenceレベルのコラボレーションを、書き込みの競合なしで実現。</strong>
+リアルタイムの複数著者による編集では、書き込みの競合が発生しやすい。Documents
+V2は、スペース/ページ/バージョニングをオプティミスティックロックのもとに置き、明示的な競合検出と完全な変更履歴、リアルタイムのWebSocket同期を組み合わせることで、編集が密かに上書きされることなく、一貫性を保つコラボレーションを実現。</li>
+<li><strong>保存時の暗号化によるスループット低下の回避。</strong>
+SQLCipher
+AES-256はディスク上のデータを保護するが、クエリごとにオーバーヘッドが発生する。これを、Localizationサービス内のRedisを前段に配置したメモリ内LRUキャッシュで補い、多言語検索などのホットパスは高速を維持しつつ、データは暗号化されたまま保持。</li>
+</ul>
+<p>テックスタック</p>
+<ul>
+<li><strong>Go + Gin</strong> —
+高スループットかつ低レイテンシのHTTPサービスに最適化され、単一バイナリでのデプロイメントを実現。CoreのREST
+APIを搭載し、JWT/CORSミドルウェアと、システム全体を統括するアクションルーティングの<code>/do</code>ルーターを提供。</li>
+<li><strong>HTTP/3 QUIC</strong> —
+Coreと認証・権限・ローカライズサービス間の通信に採用。QUICのマルチプレックスおよびコネクションマイグレーション機能により、テールレイテンシを削減し、TCPでは停止してしまう不安定な接続でも耐えうる設計。</li>
+<li><strong>PostgreSQL（本番環境） / SQLite（開発環境）</strong> —
+大規模なトラッキングとドキュメントスキーマを支える単一のリレーショナルモデル。SQLiteはローカル開発をゼロセットアップかつファイルベースで実現し、Postgresは<code>production</code>コンポーズプロファイルを通じて本番環境のスケールに対応。</li>
+<li><strong>SQLCipher（AES-256）</strong> —
+データベースレベルでの透過的な保存時暗号化を採用。機密性の高いプロジェクトデータの保護にアプリケーション層の暗号化は不要で、クエリの記述方法も変更不要。</li>
+<li><strong>Redis</strong> —
+ローカライズサービスのインメモリLRUキャッシュのバックエンドとして採用。二層構造のキャッシュにより、暗号化のオーバーヘッドがあっても、頻繁に使用される多言語ルックアップを高速に維持。</li>
+<li><strong>Uber Zap + Lumberjack</strong> —
+構造化された軽量なロギングと自動ローテーション機能を備え、本番環境でも無制限なログ増大を防ぎながらCoreの可観測性を確保。</li>
+<li><strong>golang-jwt / JWT</strong> —
+ステートレスな認証メカニズムとして採用。署名済みトークンはすべての<code>/do</code>エンベロープの<code>jwt</code>フィールドに格納され、すべてのクライアントで統一された認証を実現。</li>
+<li><strong>Angular 19（+ Material、RxJS）</strong> —
+リアクティブでコンポーネント駆動のブラウザクライアントを実現。成熟したMaterialデザインシステムを標準搭載。</li>
+<li><strong>Tauri 2.0 + Rust + Angular</strong> —
+RustをバックエンドとしたWebView内でAngularのUIを再利用することで、フルブラウザランタイムをバンドルせずに、軽量なネイティブデスクトップシェルを提供。</li>
+<li><strong>Kotlin（Android） / Swift + SwiftUI（iOS）</strong> —
+モバイルユーザーにラップされたWebViewではなく、真にネイティブでプラットフォームに最適化されたクライアントを提供。</li>
+<li><strong>Docker / Docker Compose（Podman互換）</strong> —
+再現性の高いコンテナ化デプロイメントを実現。<code>/health</code>チェックを組み込み、Podman互換性によりデーモンや特定ベンダーへの依存を排除。</li>
+<li><strong>Testify（Go）；Cypress/Playwright/Karma+Jasmine（クライアント）</strong>
+—
+バックエンドの契約とクライアントUIを独立してカバーする階層化された自動テストを採用。単一バックエンド・複数クライアントのアーキテクチャに対応。</li>
+</ul>
+<p>ステータスと正直な注意点</p>
+<ul>
+<li><strong>ステータス：ベータ版。</strong> HelixTrack
+Coreは動作するREST APIマイクロサービスだが、<strong>Documents
+V2</strong>拡張機能は約95%完成とされており、データベースのフィールドマッピングに既知の問題が残っているため、完全リリースとはみなされていない。</li>
+<li><strong>ライセンス：未定。</strong>
+<code>CLAUDE.md</code>ではMITライセンスと記載されているが、<code>core/LICENSE</code>の正式ファイルはApache
+2.0となっている。この不一致はライセンスの最終決定前に解消される必要がある。</li>
+<li>プロジェクトのREADMEに記載されているパフォーマンス数値（例：50,000リクエスト/秒以上、サブミリ秒のクエリ時間）は、設計・マーケティング上の目標値であり、独立したベンチマーク結果ではない。そのため、上記の記述からは省略している。</li>
+<li>クライアントアプリケーション（Web、デスクトップ、Android、iOS、Aurora、HarmonyOS）は<strong>非公開</strong>リポジトリに存在し、製品レベルでの説明に留まっている。</li>
+</ul>
+<p><strong>優先順位階層：</strong>
+Helix-primary、およびHelix-Track製品ラインの主力プロジェクト――Server
+Factoryプロジェクトに優先して位置付けられる。</p>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CHANGELOG</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CHANGELOG</h1>
+</header>
+<h1 id="changelog">Changelog</h1>
+<p>All notable changes to the Superpowers Bridge extension will be
+documented in this file.</p>
+<p>The format is based on <a
+href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>, and
+this project adheres to <a
+href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="section">[1.0.2] - 2026-08-07</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>v1.0.1 could not be installed via
+<code>specify extension add superspec</code>. The catalog downloads
+GitHub’s generated tag ZIP, and spec-kit validates it before extracting
+(<code>_download_security.py</code>: 10 MiB per member, 50 MiB total,
+512 entries). <code>assets/workflow-overview-en.png</code> is ~12 MiB,
+so the install aborted with
+<code>ZIP member ... exceeds maximum size of 10485760 bytes</code>
+(issue #6). The archive now ships only the runtime payload: 0.04 MiB
+downloaded, 25 entries, largest member 0.02 MiB.</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li><code>.gitattributes</code> marks documentation media
+(<code>assets/</code>), samples (<code>examples/</code>), development
+tooling (<code>scripts/</code>) and CI (<code>.github/</code>) as
+<code>export-ignore</code>, so <code>git archive</code> — and therefore
+GitHub’s tag ZIP — omits them. The repository, the rendered README
+images and <code>--dev</code> installs are unchanged; nothing was
+deleted or recompressed.</li>
+<li>Documentation now uses spec-kit’s real <code>specs/NNN-*/</code>
+feature layout instead of <code>.specify/specs/</code>.</li>
+</ul>
+<h3 id="ci-tooling">CI / Tooling</h3>
+<ul>
+<li><code>scripts/validate-release-archive.py</code> rebuilds the
+published archive and fails CI when it approaches any spec-kit install
+limit, loses a file <code>extension.yml</code> declares, or regains an
+export-ignored path.</li>
+<li>Structural and AI-driven end-to-end tests
+(<code>scripts/e2e-smoke.sh</code>,
+<code>scripts/e2e-agent-claude.sh</code>) verify a real spec-kit
+install.</li>
+</ul>
+<h2 id="section-1">[1.0.1] - 2026-05-30</h2>
+<h3 id="changed-1">Changed</h3>
+<ul>
+<li><strong>Catalog namespace alignment</strong> (BREAKING for command
+names):
+<ul>
+<li><code>extension.id</code> renamed from <code>superpowers</code> to
+<code>superspec</code> (matches repository name and the catalog id
+required by spec-kit’s registry validator).</li>
+<li>All command names migrated:
+<code>/speckit.superpowers.{status,brainstorm,tasks,execute,review}</code>
+→
+<code>/speckit.superspec.{status,brainstorm,tasks,execute,review}</code>.</li>
+<li>All three lifecycle hooks (<code>after_tasks</code>,
+<code>before_implement</code>, <code>after_implement</code>) now point
+to the new <code>speckit.superspec.*</code> commands.</li>
+<li>README catalog install command updated to
+<code>specify extension add superspec</code>.</li>
+</ul></li>
+</ul>
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+<li>v1.0.0 could not be installed via
+<code>specify extension add superpowers-bridge</code> due to a mismatch
+between the catalog id and the command namespace
+(<code>Validation Error: Command 'speckit.superpowers.status' must use extension namespace 'superpowers-bridge'</code>).
+v1.0.1 fixes this by aligning the namespace with the (renamed) catalog
+id.</li>
+</ul>
+<h3 id="ci-tooling-1">CI / Tooling</h3>
+<ul>
+<li><code>scripts/validate-extension-metadata.py</code> rewritten to
+derive the expected namespace dynamically from
+<code>extension.yml</code>’s <code>id</code>, so future namespace/slug
+drift fails CI before reaching the catalog. New checks:
+<ul>
+<li>every <code>commands[].name</code> and every
+<code>hooks[].command</code> must start with
+<code>speckit.&lt;extension.id&gt;.</code>;</li>
+<li>the README catalog install command’s slug must equal
+<code>extension.id</code>;</li>
+<li>docs must not retain legacy <code>speckit.superpowers.*</code>
+references.</li>
+</ul></li>
+</ul>
+<h2 id="section-2">[1.0.0] - 2026-04-22</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Extension manifest (<code>extension.yml</code>) for spec-kit
+extension registry</li>
+<li>5 superpowers-bridge commands: status, brainstorm, tasks, execute,
+review</li>
+<li>3 lifecycle hooks: after-tasks, before-execute, after-execute</li>
+<li>5 enhanced templates: constitution, spec, plan, tasks,
+checklist</li>
+<li>Session resumability via <code>progress.yml</code> and
+<code>superpowers.yml</code></li>
+<li>Superpowers detection with graceful fallback when skills not
+installed</li>
+<li>Built-in brainstorming protocol (5 categories) as fallback for
+superpowers</li>
+<li>Built-in code review checklist as fallback for
+requesting-code-review</li>
+<li>TDD/REVIEW/SUBAGENT execution markers in task templates</li>
+<li>Bilingual documentation (English + Chinese)</li>
+<li>Architecture diagrams for both EN and CN</li>
+<li>Reference documentation: workflow guide and superpowers bridge</li>
+<li>End-to-end sample workflow example</li>
+</ul>
+</body>
+</html>

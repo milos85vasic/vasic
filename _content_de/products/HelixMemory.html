@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixMemory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixMemory</h1>
+</header>
+<h1 id="helixmemory">HelixMemory</h1>
+<p><strong>Ein Gedächtnisgehirn für AI-Agenten – vier erstklassige
+Motoren, verschmolzen.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>HelixMemory ist ein Go-SDK, das vier führende Gedächtnissysteme
+(Mem0, Cognee, Letta, Graphiti) zu einer einzigen kognitiven
+Gedächtnis-Engine vereint, die sie parallel durchsucht und die
+Ergebnisse fusioniert. Es bietet AI-Anwendungen eine einzige dauerhafte,
+deduplizierte und neu bewertete Gedächtnisebene statt vier voneinander
+getrennter.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>HelixMemory ist ein Go-SDK, das Mem0, Cognee, Letta und Graphiti zu
+einer einheitlichen kognitiven Gedächtnis-Engine für AI-Anwendungen
+verschmilzt. Es leitet Schreibvorgänge intelligent weiter, durchsucht
+alle Backends parallel und fusioniert die Ergebnisse in einem
+dreistufigen Sammel-Deduplizierungs-Neubewertungs-Prozess.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>HelixMemory ist eine einheitliche kognitive Gedächtnis-Engine für
+AI-Anwendungen, bereitgestellt als Go-SDK (Modul
+<code>digital.vasic.helixmemory</code>, Go 1.25+). Die grundlegende
+Annahme dabei ist, dass kein einzelnes Gedächtnisprojekt jemals in allen
+Bereichen führend sein wird – statt also Gedächtnisfunktionen von Grund
+auf neu zu implementieren und die blinden Flecken eines Projekts zu
+übernehmen, orchestriert es vier erstklassige Systeme und lässt jedes
+seine Stärken ausspielen: Mem0 für dynamische Faktenextraktion und
+Präferenzmanagement, Cognee für semantische Wissensgraphen, die über
+ECL-Pipelines aufgebaut werden, Letta für eine zustandsbehaftete
+Agentenlaufzeit mit editierbaren Gedächtnisblöcken und Rechenoperationen
+während der Ruhephase sowie Graphiti für einen bitemporalen
+Wissensgraphen, der Schlussfolgerungen über die zeitliche Veränderung
+von Fakten ermöglicht.</p>
+<p>Eine Fusions-Engine ist es, die diese vier unabhängigen Speicher zu
+einem einzigen Gehirn vereint. Beim Schreibvorgang wird jedes eingehende
+Gedächtniselement nach Inhalt klassifiziert und an das am besten
+geeignete Backend weitergeleitet. Beim Lesevorgang wird eine Abfrage
+parallel an alle Backends gesendet, und die Rohtreffer fließen in eine
+dreistufige Fusions-Pipeline – Sammlung, Deduplizierung und
+quellenübergreifende Neubewertung –, sodass der Aufrufer nicht vier
+unübersichtliche, sich überschneidende Ergebnismengen erhält, sondern
+eine saubere, bewertete Antwort. Circuit Breaker umschließen jedes
+Backend, um eine elegante Degradation zu ermöglichen: Fällt eine Engine
+aus, löst ihr Breaker aus, und die verbleibenden Backends bleiben
+funktionsfähig, statt die gesamte Gedächtnisebene mitzureißen. Da die
+Engine eine nahtlos integrierbare <code>MemoryStore</code>-Schnittstelle
+implementiert, lässt sie sich als direkter Ersatz für einen einfachen
+Gedächtnisanbieter einsetzen – ohne dass der Aufrufer umstrukturiert
+werden muss – und Prometheus-Metriken machen die internen Abläufe von
+Weiterleitung und Fusion vollständig beobachtbar.</p>
+<p>HelixMemory wurde als Gedächtnisebene für HelixAgent entwickelt, das
+umfassendere Helix-AI-Ensemble, und überträgt die familientypische
+Anti-Bluff-Testdisziplin auf den Gedächtnisbereich: Ein in den Prozess
+integrierter Challenge-Runner prüft reale Produktionscode-Pfade –
+Weiterleitung, Fusion, Übersetzer, Circuit Breaker –, während ein
+gekoppelter Mutations-Wrapper gezielt Invarianten verändert, um zu
+beweisen, dass die Tests tatsächlich fehlschlagen, wenn die Logik
+fehlerhaft ist. Ein grünes Testergebnis bedeutet also etwas.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>AI-Agenten benötigen langlebige, hochwertige Speicherlösungen, doch
+das Ökosystem ist fragmentiert – jedes Speicherprojekt (Mem0, Cognee,
+Letta, Graphiti) glänzt in einem Bereich und hat in anderen Schwächen.
+HelixMemory wurde entwickelt, um HelixAgent eine einheitliche
+Speicheroberfläche zu bieten, die ihre Stärken vereint, ohne eine
+Bindung an eines der Systeme zu erzwingen.</p>
+<h2 id="warum-es-die-spielregeln-ändert">Warum es die Spielregeln
+ändert</h2>
+<p>Es beendet die erzwungene Entscheidung. Vier Speichersysteme, die
+normalerweise um denselben Platz konkurrieren, werden zu komplementären
+Backends hinter einer einzigen Schnittstelle – sodass eine Anwendung
+dynamische Faktenextraktion, semantische Wissensgraphen,
+zustandsbehafteten Agentenspeicher und bitemporale Logik
+<em>gleichzeitig</em> nutzen kann, während Deduplizierung und
+quellenübergreifende Neurangfolgen automatisch abgewickelt werden. Was
+zuvor unpraktikabel war, wird nun möglich: Die Frage „Welches
+Speichersystem übernehmen wir?” ist kein echtes Dilemma mehr.
+HelixMemory ermöglicht es, alle Stärken der Systeme auf einmal zu nutzen
+– hinter einem einfach integrierbaren <code>MemoryStore</code> – ohne
+die Schwächen eines einzelnen Systems zu erben oder sich auf eine
+langfristige Bindung festzulegen.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li><strong>Mehrfach-Backend-Fusion</strong> (Sammeln → Deduplizieren →
+quellenübergreifende Neurangfolge), die einen einzigen, sortierten
+Ergebnissatz liefert, statt den Aufrufer an ein einzelnes Speichersystem
+zu ketten.</li>
+<li><strong>Intelligentes Schreib-Routing</strong>, das jeden
+Speichereintrag nach Inhalt klassifiziert und an das am besten geeignete
+Backend weiterleitet, sodass die richtigen Daten im richtigen Speicher
+landen.</li>
+<li><strong>Graceful Degradation</strong> durch Backend-spezifische
+Schutzschalter – ein ausgefallenes System wird isoliert, ist aber nicht
+fatal, und die übrigen Backends bleiben weiterhin verfügbar.</li>
+<li><strong>Schlafzeit-Compute-Konsolidierung</strong> (via Letta), die
+Speicherinhalte in Leerlaufphasen neu aufbereitet, statt nur zur
+Abfragezeit zu arbeiten.</li>
+<li><strong>Anti-Bluff-Verifizierung</strong>: ein Challenge-Runner für
+echten Produktionscode, kombiniert mit einem Mutations-Wrapper, der bei
+Verletzung einer Invarianten fehlschlagen <em>muss</em> – um zu
+beweisen, dass die Testhürde ein echter Check ist und keine
+Tautologie.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Vier heterogene Backends zu einem kohärenten Ergebnissatz
+vereinen</strong> – jedes System liefert Speicherinhalte in eigener
+Struktur, und ein naives Zusammenführen führt zu Duplikaten und nicht
+vergleichbaren Rangfolgen. Gelöst durch eine typisierte Fusions-Engine,
+die Daten aus allen Quellen sammelt, Überschneidungen dedupliziert und
+alles auf einer gemeinsamen Basis neu bewertet, wobei die
+Fusionszähl-Invariante in Tests überprüft wird, damit die
+Zusammenführung keine Ergebnisse stillschweigend verliert oder doppelt
+zählt.</li>
+<li><strong>Verfügbarkeit auch bei Ausfall eines Backends
+sicherstellen</strong> – ein nicht erreichbares Speichersystem darf die
+gesamte Schicht nicht blockieren. Gelöst durch Backend-spezifische
+Schutzschalter, die nach einem festgelegten Fehler-Schwellenwert von
+„geschlossen” auf „offen” (nach Ausfall) und nach einer Wartezeit auf
+„halb-offen” wechseln, das defekte Backend isolieren und die Anfragen an
+die funktionierenden Systeme weiterleiten, bis es sich erholt.</li>
+<li><strong>Beweisen, dass die Speicherlogik tatsächlich funktioniert –
+und nicht nur kompiliert</strong> – eine grüne Testsuite ist wertlos,
+wenn die Tests nicht fehlschlagen <em>können</em>. Gelöst durch einen
+In-Process-Challenge-Runner, der echten Produktionscode (Routing,
+Fusion, Übersetzer, Schutzschalter) ausführt, sowie einen
+Mutations-Wrapper, der Invarianten gezielt verändert und verlangt, dass
+die Tests rot werden – sodass die Testhürde nachweislich keine
+Tautologie ist.</li>
+</ul>
+<h2 id="tech-stack">Tech-Stack</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — der einzelne SDK und die
+Laufzeitumgebung; ausgewählt, weil das parallele Auslesen über vier
+Backends ein Nebenläufigkeitsproblem darstellt und Gos Goroutinen dies
+kostengünstig ermöglichen, während seine Schnittstellentypen dem
+gesamten System eine saubere Nahtstelle (<code>MemoryStore</code>)
+bieten, auf die sich Aufrufer verlassen können.</li>
+<li><strong>Mem0</strong> — das Backend für dynamische Faktenextraktion
+und Präferenzmanagement; genutzt für den „welche Präferenzen hat dieser
+Nutzer tatsächlich / welche Fakten sind zutage getreten”-Ausschnitt des
+Gedächtnisses.</li>
+<li><strong>Cognee</strong> — das semantische Wissensgraph-Backend,
+aufgebaut auf ECL-Pipelines; dient zur Speicherung strukturierten,
+verknüpften Wissens statt flacher Fakten.</li>
+<li><strong>Letta</strong> — das zustandsbehaftete
+Agenten-Laufzeit-Backend mit editierbaren Gedächtnisblöcken und
+Berechnungen während der Ruhephasen; eingesetzt, wo Gedächtnisinhalte
+als aktiver Agentenzustand bestehen bleiben und in Leerlaufzeiten
+konsolidiert werden müssen.</li>
+<li><strong>Graphiti</strong> — das bitemporale Wissensgraph-Backend;
+genutzt, um Schlussfolgerungen über die Veränderung von Fakten und
+Beziehungen im Zeitverlauf zu ziehen, nicht nur über ihren aktuellen
+Wert.</li>
+<li><strong>PostgreSQL + Neo4j + Redis</strong> — die realen
+Datenspeicher, auf denen die Backends laufen und die für echte
+Integrationstests über <code>make infra-start</code> hochgefahren
+werden, sodass die Testsuite echte Infrastruktur statt Mocks nutzt.</li>
+<li><strong>Prometheus</strong> — Metriken und Observability,
+eingebunden über die Fusionspipeline, sodass Routing- und
+Fusionsverhalten im Produktivbetrieb messbar sind und kein
+Blackbox-System darstellen.</li>
+<li><strong>i18n-Übersetzungsschnittstelle</strong> — eine mit
+Namensraum (<code>helixmemory_</code>) versehene
+Zeichenketten-Oberfläche, die erhalten bleibt, damit jede zukünftige
+nutzerorientierte Schicht ohne nachträgliche Anpassungen des Kernsystems
+lokalisiert werden kann.</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> Funktionsfähiger SDK; entwickelt als
+Gedächtnisebene für HelixAgent.</li>
+<li><strong>Lizenz: Unklar.</strong> Keine LICENSE-Datei wurde über den
+GitHub-API-Mechanismus erkannt — UNBESTÄTIGT / nicht deklariert.</li>
+<li>Der Anzeigename „HelixMemory” verweist auf das Repository
+<code>memory</code>. Die im README genannten Genauigkeitsangaben stammen
+von den Angaben der vorgelagerten Anbieter, nicht von
+HelixMemory-Messungen, und wurden hier weggelassen.</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär.</p>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixMemory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixMemory</h1>
+</header>
+<h1 id="helixmemory">HelixMemory</h1>
+<p><strong>Un cerebro de memoria para agentes AI: cuatro motores de
+vanguardia, fusionados.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>HelixMemory es un Go SDK que unifica cuatro sistemas de memoria
+líderes (Mem0, Cognee, Letta, Graphiti) en un único motor de memoria
+cognitiva que los busca en paralelo y fusiona los resultados.
+Proporciona a las aplicaciones AI una capa de memoria duradera,
+deduplicada y reordenada, en lugar de cuatro capas desconectadas.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>HelixMemory es un Go SDK que fusiona Mem0, Cognee, Letta y Graphiti
+en un único motor de memoria cognitiva unificada para aplicaciones AI.
+Dirige las escrituras de forma inteligente, busca en todos los backends
+en paralelo y fusiona los resultados mediante un pipeline de tres
+etapas: recopilación, deduplicación y reordenación.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>HelixMemory es un motor de memoria cognitiva unificada para
+aplicaciones AI, implementado como un Go SDK (módulo
+<code>digital.vasic.helixmemory</code>, Go 1.25+). Su apuesta
+fundacional es que ningún proyecto de memoria será jamás el mejor en
+todo, por lo que, en lugar de reimplementar la memoria desde cero y
+heredar los puntos ciegos de un único proyecto, orquesta cuatro sistemas
+de vanguardia y permite que cada uno desarrolle sus fortalezas: Mem0
+para la extracción dinámica de hechos y la gestión de preferencias,
+Cognee para grafos de conocimiento semántico construidos mediante
+pipelines ECL, Letta para un entorno de ejecución de agentes con estado,
+bloques de memoria editables y cómputo durante el “sueño”, y Graphiti
+para un grafo de conocimiento bitemporal que razona sobre cómo cambian
+los hechos a lo largo del tiempo.</p>
+<p>El motor de fusión es lo que convierte esos cuatro almacenes
+independientes en un único cerebro. En la ruta de escritura, cada
+memoria entrante se clasifica por contenido y se dirige al backend más
+adecuado para almacenarla. En la ruta de lectura, una consulta se
+distribuye en paralelo a todos los backends y los resultados brutos
+fluyen hacia un pipeline de fusión de tres etapas —recopilación,
+deduplicación y reordenación entre fuentes— de modo que quien realiza la
+llamada nunca ve cuatro conjuntos de resultados ruidosos y superpuestos,
+sino una única respuesta limpia y ordenada. Interruptores automáticos
+envuelven cada backend para una degradación elegante: cuando un motor
+falla, su interruptor se activa y los backends restantes siguen
+funcionando, en lugar de arrastrar consigo toda la capa de memoria. Dado
+que el motor implementa una interfaz <code>MemoryStore</code> de
+integración directa, puede reemplazar directamente a un proveedor de
+memoria básico —sin necesidad de reestructurar el código que lo invoca—
+y las métricas Prometheus exponen los detalles internos de enrutamiento
+y fusión para una observabilidad completa.</p>
+<p>HelixMemory se desarrolló como capa de memoria para HelixAgent, el
+conjunto más amplio de AI Helix, e incorpora la disciplina de pruebas
+anti-engaño de la familia al dominio de la memoria: un ejecutor de
+desafíos en proceso ejercita rutas de código reales en producción
+—enrutamiento, fusión, traductor, interruptor automático—, mientras que
+un envoltorio de mutación emparejado altera deliberadamente invariantes
+para demostrar que las pruebas fallan cuando la lógica está rota, de
+modo que un conjunto de pruebas en verde signifique algo.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Los agentes AI requieren memoria duradera y de alta calidad, pero el
+ecosistema está fragmentado: cada proyecto de memoria (Mem0, Cognee,
+Letta, Graphiti) destaca en un aspecto y flaquea en otros. HelixMemory
+se creó para ofrecer a HelixAgent una única capa de memoria que combine
+sus fortalezas sin imponer un bloqueo a ninguno de ellos.</p>
+<h2 id="por-qué-es-un-cambio-radical">Por qué es un cambio radical</h2>
+<p>Pone fin a la elección forzada. Cuatro sistemas de memoria que
+normalmente compiten por el mismo espacio se convierten en backends
+complementarios tras una única interfaz, de modo que una aplicación
+obtiene extracción dinámica de hechos, grafos de conocimiento semántico,
+memoria de estado para agentes y razonamiento bitemporal
+<em>simultáneamente</em>, con deduplicación y reordenación entre fuentes
+gestionadas de forma automática. Lo que antes no era práctico —tratar
+“¿qué motor de memoria adoptamos?” como un falso dilema— ahora es
+posible: HelixMemory permite aprovechar todas sus ventajas a la vez,
+tras un único <code>MemoryStore</code> de integración directa, sin
+heredar los puntos ciegos de ningún motor ni comprometerse con un
+bloqueo.</p>
+<h2 id="qué-tiene-de-innovador">Qué tiene de innovador</h2>
+<ul>
+<li><strong>Fusión multibackend</strong> (recopilar → deduplicar →
+reordenar entre fuentes) que devuelve un único conjunto de resultados
+ordenados, en lugar de encadenar al llamante a un único almacén.</li>
+<li><strong>Enrutamiento inteligente de escrituras</strong> que
+clasifica cada memoria según su contenido y la envía al motor más
+adecuado para almacenarla, de modo que los datos correctos lleguen al
+almacén correcto.</li>
+<li><strong>Degradación controlada</strong> mediante disyuntores por
+backend: un motor fallido se aísla, pero no es catastrófico, y los demás
+siguen funcionando.</li>
+<li><strong>Consolidación computacional en tiempo de
+inactividad</strong> (mediante Letta) que reestructura la memoria
+durante los periodos de baja actividad, en lugar de hacerlo solo al
+consultar.</li>
+<li><strong>Verificación anti-engaño</strong>: un ejecutor de desafíos
+sobre código de producción real, combinado con un envoltorio de mutación
+que debe fallar cuando se altera un invariante, demostrando que la
+compuerta de pruebas es una verificación real, no una tautología.</li>
+</ul>
+<h2 id="principales-desafíos-técnicos-y-cómo-los-resolvimos">Principales
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>Unificar cuatro backends heterogéneos en un único conjunto
+de resultados coherente</strong>: cada motor devuelve la memoria en su
+propio formato, y fusionarlos de forma ingenua genera duplicados y
+rankings incomparables. Solución: un motor de fusión tipado que recopila
+datos de todas las fuentes, elimina duplicados y reordena todo bajo un
+criterio común, con el invariante de conteo fusionado verificado en
+pruebas para evitar que la fusión pierda o duplique resultados de forma
+silenciosa.</li>
+<li><strong>Mantener el sistema en funcionamiento cuando un backend
+falla</strong>: un motor de memoria inaccesible no debe paralizar toda
+la capa. Solución: disyuntores por backend que siguen un autómata de
+estados cerrado → abierto (tras superar un umbral de fallos) →
+semiabierto (tras un tiempo de espera), aislando el backend afectado y
+permitiendo que los sanos sigan sirviendo hasta su recuperación.</li>
+<li><strong>Demostrar que la lógica de memoria funciona, no solo que
+compila</strong>: un conjunto de pruebas en verde carece de sentido si
+estas no pueden fallar. Solución: un ejecutor de desafíos en proceso que
+opera sobre código de producción real (enrutamiento, fusión, traductor,
+disyuntor) y un envoltorio de mutación emparejado que altera invariantes
+y exige que las pruebas fallen, garantizando así que la compuerta no sea
+una tautología.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — el único SDK y entorno de ejecución;
+seleccionado porque la lectura paralela en abanico a través de cuatro
+backends es un problema de concurrencia, y las goroutines de Go lo hacen
+económico, mientras que sus tipos de interfaz ofrecen al sistema una
+única costura limpia (<code>MemoryStore</code>) en la que los llamadores
+pueden confiar.</li>
+<li><strong>Mem0</strong> — el backend de extracción dinámica de hechos
+y gestión de preferencias; utilizado para la porción de memoria que
+responde a “qué prefiere realmente este usuario / qué hechos han
+surgido”.</li>
+<li><strong>Cognee</strong> — el backend de grafo de conocimiento
+semántico construido sobre pipelines ECL; empleado para almacenar
+conocimiento estructurado y relacionado, en lugar de hechos planos.</li>
+<li><strong>Letta</strong> — el backend de entorno de ejecución de
+agentes con estado, con bloques de memoria editables y cómputo en
+períodos de inactividad; utilizado cuando la memoria debe persistir como
+estado activo del agente y consolidarse durante los intervalos de
+reposo.</li>
+<li><strong>Graphiti</strong> — el backend de grafo de conocimiento
+bitemporal; empleado para razonar sobre cómo cambian los hechos y las
+relaciones a lo largo del tiempo, no solo su valor actual.</li>
+<li><strong>PostgreSQL + Neo4j + Redis</strong> — los almacenes de datos
+reales contra los que operan los backends, desplegados para pruebas de
+integración auténticas mediante <code>make infra-start</code>, de modo
+que el conjunto de pruebas ejercite infraestructura real en lugar de
+simulaciones.</li>
+<li><strong>Prometheus</strong> — métricas y observabilidad integradas a
+través del pipeline de fusión, para que el enrutamiento y el
+comportamiento de fusión sean medibles en producción, sin cajas
+negras.</li>
+<li><strong>Costura de traducción i18n</strong> — una superficie de
+cadenas con espacio de nombres (<code>helixmemory_</code>) mantenida
+para que cualquier capa orientada al usuario en el futuro pueda
+localizarse sin necesidad de adaptar el núcleo.</li>
+</ul>
+<h2 id="estado-y-notas-de-transparencia">Estado y notas de
+transparencia</h2>
+<ul>
+<li><strong>Estado: beta.</strong> SDK funcional; desarrollado como capa
+de memoria para HelixAgent.</li>
+<li><strong>Licencia: por definir.</strong> No se detectó ninguna
+LICENCIA mediante el GitHub API — SIN VERIFICAR / no declarada.</li>
+<li>El nombre para mostrar “HelixMemory” corresponde al repositorio
+<code>memory</code>. Las cifras de precisión citadas en el README son
+afirmaciones de proveedores externos, no mediciones de HelixMemory, y se
+omiten aquí.</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix principal.</p>
+</body>
+</html>

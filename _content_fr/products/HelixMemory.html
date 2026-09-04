@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixMemory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixMemory</h1>
+</header>
+<h1 id="helixmemory">HelixMemory</h1>
+<p><strong>Un cerveau mémoriel unique pour les agents AI — quatre
+moteurs de pointe, fusionnés.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>HelixMemory est un Go SDK qui unifie quatre systèmes mémoriels de
+premier plan (Mem0, Cognee, Letta, Graphiti) en un seul moteur cognitif
+de mémoire, capable de les interroger en parallèle et de fusionner les
+résultats. Il offre aux applications AI une couche mémorielle unique,
+durable, dédupliquée et reclassée, au lieu de quatre couches
+disjointes.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>HelixMemory est un Go SDK qui fusionne Mem0, Cognee, Letta et
+Graphiti en un moteur cognitif de mémoire unifié pour les applications
+AI. Il achemine intelligemment les écritures, interroge tous les
+backends en parallèle et fusionne les résultats via un pipeline en trois
+étapes : collecte, déduplication et reclassement.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>HelixMemory est un moteur cognitif de mémoire unifié pour les
+applications AI, fourni sous la forme d’un Go SDK (module
+<code>digital.vasic.helixmemory</code>, Go 1.25+). Son postulat
+fondateur est qu’aucun projet de mémoire ne sera jamais le meilleur en
+tout — plutôt que de réimplémenter la mémoire à partir de zéro et
+d’hériter des angles morts d’un seul projet, il orchestre quatre
+systèmes de pointe et permet à chacun d’exploiter ses forces : Mem0 pour
+l’extraction dynamique de faits et la gestion des préférences, Cognee
+pour les graphes de connaissances sémantiques construits via des
+pipelines ECL, Letta pour un runtime d’agent à mémoire modifiable avec
+des blocs de mémoire éditables et un calcul en arrière-plan, et Graphiti
+pour un graphe de connaissances bi-temporel capable de raisonner sur
+l’évolution des faits dans le temps.</p>
+<p>Un moteur de fusion est ce qui transforme ces quatre systèmes
+indépendants en un seul cerveau. Lors de l’écriture, chaque nouvelle
+mémoire est classée selon son contenu et acheminée vers le backend le
+plus adapté pour la stocker. Lors de la lecture, une requête est
+diffusée en parallèle à tous les backends, et les résultats bruts sont
+traités par un pipeline de fusion en trois étapes — collecte,
+déduplication, puis reclassement inter-sources — de sorte que l’appelant
+ne voit jamais quatre ensembles de résultats bruyants et redondants,
+mais une seule réponse propre et classée. Des disjoncteurs enveloppent
+chaque backend pour une dégradation gracieuse : lorsqu’un moteur tombe
+en panne, son disjoncteur se déclenche et les backends restants
+continuent de fonctionner, évitant ainsi d’entraîner toute la couche
+mémorielle dans sa chute. Comme le moteur implémente une interface
+<code>MemoryStore</code> prête à l’emploi, il s’intègre directement en
+remplacement d’un fournisseur de mémoire standard — sans nécessiter de
+réarchitecture côté appelant — et les métriques Prometheus exposent les
+rouages internes du routage et de la fusion pour une observabilité
+totale.</p>
+<p>HelixMemory a été conçu comme couche mémorielle pour HelixAgent,
+l’ensemble AI Helix élargi, et il applique à la mémoire la discipline de
+test anti-bullshit de la famille : un exécuteur de défis intégré active
+les véritables chemins de code en production — routage, fusion,
+traducteur, disjoncteur — tandis qu’un wrapper de mutation apparié
+inverse délibérément les invariants pour prouver que les tests échouent
+effectivement lorsque la logique est défaillante, garantissant ainsi
+qu’une suite de tests au vert signifie quelque chose.</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Contenu</p>
+<p>Les agents AI nécessitent une mémoire durable et de haute qualité,
+mais l’écosystème est fragmenté — chaque projet de mémoire (Mem0,
+Cognee, Letta, Graphiti) excelle dans un domaine tout en présentant des
+lacunes dans d’autres. HelixMemory a été conçu pour offrir à HelixAgent
+une surface mémoire unifiée qui combine leurs forces sans imposer un
+verrouillage sur l’un d’eux.</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Il met fin au choix forcé. Quatre systèmes de mémoire qui se
+disputent habituellement le même créneau deviennent des backends
+complémentaires derrière une seule interface — ainsi, une application
+bénéficie simultanément d’une extraction dynamique de faits, de graphes
+de connaissances sémantiques, d’une mémoire d’agent à état persistant et
+d’un raisonnement bi-temporel, avec une déduplication et un
+réordonnancement inter-sources gérés automatiquement. Ce qui était
+auparavant irréalisable — considérer « quel moteur de mémoire adopter ?
+» comme un faux dilemme — devient possible : HelixMemory vous permet de
+cumuler leurs atouts en une seule <code>MemoryStore</code> prête à
+l’emploi, sans hériter des angles morts d’un moteur ni s’engager dans un
+verrouillage.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li>Une <strong>fusion multi-backend</strong> (collecte → déduplication
+→ réordonnancement inter-sources) qui renvoie un ensemble de résultats
+classés, plutôt que d’imposer au client un seul magasin.</li>
+<li>Un <strong>routage intelligent des écritures</strong> qui classe
+chaque mémoire en fonction de son contenu et l’envoie vers le moteur le
+mieux adapté pour la stocker, garantissant que les bonnes données
+atterrissent au bon endroit.</li>
+<li>Une <strong>dégradation gracieuse</strong> via des disjoncteurs par
+backend — un moteur défaillant est isolé, sans être fatal, et les autres
+continuent de répondre.</li>
+<li>Une <strong>consolidation des calculs en période
+d’inactivité</strong> (via Letta) qui retravaille la mémoire pendant les
+phases creuses plutôt qu’uniquement au moment des requêtes.</li>
+<li>Une <strong>vérification anti-bluffer</strong> : un exécuteur de
+défis sur du code de production réel, couplé à un wrapper de mutation
+qui doit échouer lorsqu’un invariant est inversé — prouvant que la porte
+de test est un véritable contrôle, et non une tautologie.</li>
+</ul>
+<h2 id="principaux-défis-techniques-et-solutions-apportées">Principaux
+défis techniques et solutions apportées</h2>
+<ul>
+<li><strong>Réconcilier quatre backends hétérogènes en un ensemble de
+résultats cohérent</strong> — chaque moteur renvoie la mémoire dans son
+propre format, et une fusion naïve génère des doublons et des
+classements incomparables. Résolu grâce à un moteur de fusion typé qui
+collecte les sources, déduplique les chevauchements et réordonne
+l’ensemble sur une base commune, avec un invariant de comptage fusionné
+vérifié dans les tests pour éviter toute perte ou double comptage
+silencieux.</li>
+<li><strong>Rester opérationnel lorsque qu’un backend tombe en
+panne</strong> — un moteur de mémoire inaccessible ne doit pas bloquer
+toute la couche. Résolu avec des disjoncteurs par backend qui suivent un
+automate d’états fermé → ouvert (après un seuil d’échec) → semi-ouvert
+(après un délai), isolant le backend défaillant et continuant à servir
+depuis les autres jusqu’à son rétablissement.</li>
+<li><strong>Prouver que la logique mémoire fonctionne réellement, et pas
+seulement qu’elle compile</strong> — une suite de tests au vert est
+inutile si les tests ne peuvent pas échouer. Résolu avec un exécuteur de
+défis intégré qui pilote le code de production réel (routage, fusion,
+traducteur, disjoncteur) et un wrapper de mutation couplé qui inverse
+les invariants et exige que les tests passent au rouge, garantissant
+ainsi que la porte de contrôle n’est pas une simple tautologie.</li>
+</ul>
+<p>Contenu</p>
+<h2 id="pile-technologique">Pile technologique</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — le SDK et son environnement
+d’exécution unifiés ; choisi car la lecture parallèle en éventail sur
+quatre backends pose un problème de concurrence, et les goroutines de Go
+en rendent le coût négligeable, tandis que ses types d’interface offrent
+à l’ensemble du système une seule couture propre
+(<code>MemoryStore</code>) sur laquelle les appelants peuvent
+s’appuyer.</li>
+<li><strong>Mem0</strong> — le backend d’extraction dynamique de faits
+et de gestion des préférences ; utilisé pour la partie « quelles sont
+les préférences réelles de cet utilisateur / quels faits ont émergé » de
+la mémoire.</li>
+<li><strong>Cognee</strong> — le backend de graphe de connaissances
+sémantique construit sur des pipelines ECL ; utilisé pour stocker des
+connaissances structurées et liées, plutôt que des faits isolés.</li>
+<li><strong>Letta</strong> — le backend d’exécution d’agents à état
+persistant, doté de blocs de mémoire modifiables et de calcul en
+arrière-plan pendant les périodes d’inactivité ; utilisé lorsque la
+mémoire doit persister en tant qu’état actif de l’agent et être
+consolidée durant les phases d’inactivité.</li>
+<li><strong>Graphiti</strong> — le backend de graphe de connaissances
+bi-temporel ; utilisé pour raisonner sur l’évolution des faits et des
+relations dans le temps, et non seulement sur leur valeur actuelle.</li>
+<li><strong>PostgreSQL + Neo4j + Redis</strong> — les véritables
+datastores sur lesquels s’exécutent les backends, déployés pour des
+tests d’intégration réels via <code>make infra-start</code>, afin que la
+suite teste une infrastructure en conditions réelles plutôt que des
+simulacres.</li>
+<li><strong>Prometheus</strong> — métriques et observabilité intégrées
+via le pipeline de fusion, permettant de mesurer en production le
+comportement de routage et de fusion, plutôt que de fonctionner en boîte
+noire.</li>
+<li><strong>Interface de traduction i18n</strong> — une surface de
+chaînes de caractères organisée par espaces de noms
+(<code>helixmemory_</code>), maintenue en place pour qu’une future
+couche utilisateur puisse être localisée sans avoir à modifier le cœur
+du système.</li>
+</ul>
+<h2 id="statut-et-notes-de-transparence">Statut et notes de
+transparence</h2>
+<ul>
+<li><strong>Statut : bêta.</strong> SDK fonctionnel ; conçu comme couche
+mémoire pour HelixAgent.</li>
+<li><strong>Licence : à déterminer.</strong> Aucune LICENCE n’a été
+détectée via le GitHub API — NON VÉRIFIÉE / non déclarée.</li>
+<li>Le nom d’affichage « HelixMemory » correspond au dépôt
+<code>memory</code>. Les chiffres de précision mentionnés dans le README
+proviennent des affirmations des fournisseurs en amont, et non de
+mesures effectuées par HelixMemory, et sont donc omis ici.</li>
+</ul>
+<p><strong>Niveau de priorité :</strong> Helix-primaire.</p>
+</body>
+</html>

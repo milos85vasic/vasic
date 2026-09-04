@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixPlay</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixPlay</h1>
+</header>
+<h1 id="helixplay">HelixPlay</h1>
+<p><strong>将任何配备 GPU 的设备转化为云游戏终端</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixPlay 是一款可自行托管的云游戏平台，能将任何配备 GPU
+的设备转变为远程串流主机，为桌面端、移动端、电视及浏览器客户端提供主机级游戏体验。该平台以
+Go 为核心，采用单一代码库架构，包含 46
+个子模块，并支持合作伙伴进行白标定制。</p>
+<h2 id="简介">简介</h2>
+<p>HelixPlay
+是一款可自行托管、开放且支持白标定制的云游戏平台。它能将任何配备 GPU
+的设备转化为远程串流主机，通过 WebRTC/QUIC
+技术，为桌面端、移动端、电视及浏览器客户端提供主机级游戏体验，核心基于
+Go，客户端技术栈则采用 Wails/Flutter/Angular。</p>
+<h2 id="详细介绍">详细介绍</h2>
+<p>HelixPlay 是一款云游戏平台，采用以 Go 为核心的单一代码库架构，包含 46
+个 Git 子模块。它能将用户已有的游戏 PC
+转化为串流主机，为桌面端、移动端、电视及浏览器客户端提供主机级游戏体验——完全自行托管、开放源代码，并支持合作伙伴进行白标定制。其核心理念直白明了：硬件归你，服务归你，品牌归你，无需第三方云服务介入。</p>
+<p>该平台的设计核心在于三端客户端的融合架构——这一大胆的技术抉择在其他方面均带来回报。Wails
+桌面应用、Flutter 移动/电视应用以及 Angular 网页客户端均基于同一个 Go
+核心构建，该核心编译为 WASM
+以支持浏览器运行，因此行为逻辑仅需编写一次，即可在所有平台共享，而非分叉三套代码。其底层则是实时媒体传输链路：采集
+→ 编码 → 打包 → 传输 → 解码 → 渲染，与平台原生采集技术（DXGI /
+ScreenCaptureKit / PipeWire）及硬件编码器（NVENC / QSV / AMF /
+VideoToolbox）深度集成，由 GPU 承担主要计算负载。传输层则采用
+WebRTC（Pion v4）、QUIC（quic-go）及自定义 UDP
+数据报协议，优先选择低延迟而非便捷性。后端核心负责会话、租户、目录及身份验证管理；主机代理则在边缘端处理采集、编码及传输；mDNS/会合机制将设备发现过程无缝连接，客户端无需手动配置即可找到主机。</p>
+<p>HelixPlay 从架构设计之初即面向白标 SaaS
+服务，支持按租户定制主题、目录过滤、OAuth2
+认证及计费功能，合作伙伴可基于此构建完全自有品牌的服务，而非简单的换肤。此外，平台完全基于容器化设计：所有服务、数据库、构建、测试及扫描均在容器内运行，确保整个平台的部署与验证过程可复现。与
+Helix
+家族的其他成员一样，该平台遵循”反虚假承诺”原则，即测试通过即代表真实、可供终端用户使用的功能，而非仅仅是模拟测试通过。</p>
+<h2 id="为何开发此平台">为何开发此平台</h2>
+<p>商业云游戏服务封闭、集中且依赖租赁模式。HelixPlay
+的诞生，正是为了让任何拥有 GPU
+设备的用户都能自行搭建串流主机——开放、自托管且支持白标定制，无需依赖第三方服务。</p>
+<h2 id="为何这是变革性的创新">为何这是变革性的创新</h2>
+<p>它将商业服务中长期割裂的三大要素融为一体：由你掌控硬件的自托管、驱动三套客户端栈的单一Go核心（确保功能同步落地），以及白牌多租户架构。这意味着合作伙伴能在自有GPU上部署完全定制化的云游戏服务——掌控用户体验、用户关系与商业模式——而非依赖他人云端资源，受制于其限制。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li><strong>三栈客户端融合</strong>：Wails、Flutter与Angular均基于同一Go核心（浏览器端为WASM），桌面端、移动端、电视端及Web端共享单一实现，避免三套独立代码库的分化。</li>
+<li><strong>可自托管的白牌SaaS</strong>：内置每租户主题定制、内容过滤、OAuth2认证及计费系统，平台以可品牌化产品形式交付，而非仅供演示。</li>
+<li><strong>现代低延迟传输</strong>：WebRTC（Pion）、QUIC及定制UDP协议，结合按平台优选的硬件编码器（NVENC/QSV/AMF/VideoToolbox），以响应速度为优先，而非便捷性。</li>
+<li><strong>46模块解耦架构</strong>：所有组件均采用容器化设计，每个服务、数据库、构建、测试及扫描流程均独立运行于容器中。</li>
+</ul>
+<h2 id="最大技术挑战及解决方案">最大技术挑战及解决方案</h2>
+<ul>
+<li><strong>异构硬件下的低延迟流式传输</strong>。各操作系统与GPU对屏幕捕获与编码的实现方式不一，且延迟容忍度极低。解决方案：平台感知的捕获/编码路径——DXGI/ScreenCaptureKit/PipeWire等接口分别对接NVENC/QSV/AMF/VideoToolbox，通过WebRTC/QUIC/UDP传输，确保每台设备均采用其最快的本地像素处理路径。</li>
+<li><strong>桌面端、移动端、电视端及Web端的单一产品形态</strong>。解决方案：三栈客户端（Wails、Flutter、Angular）共享同一Go核心（浏览器端编译为WASM），一次修复或功能更新即可同步至所有四个平台，无需四次移植。</li>
+<li><strong>多租户白牌运营</strong>。解决方案：将每租户主题定制、内容过滤、OAuth2认证及计费功能直接集成至核心后端，使租户隔离与品牌化成为平台基础能力，而非针对每个客户的定制分支。</li>
+</ul>
+<h2 id="技术栈">技术栈</h2>
+<ul>
+<li><strong>Go（1.26.2主版本/1.25+子模块）</strong>：共享核心后端与主机代理，单一语言可编译为原生二进制文件及WASM，实现单核多客户端架构。</li>
+<li><strong>Wails
+v2</strong>：桌面端客户端，将Go核心与嵌入式WebView绑定，桌面应用直接复用核心逻辑，无需重新实现。</li>
+<li><strong>Flutter
+3.29+</strong>：移动端/电视端客户端，通过FFI调用Go核心，在手机与电视上实现原生UI，无需额外后端支持。</li>
+<li><strong>Angular
+17+</strong>：Web端客户端，运行同一Go核心（编译为WASM），使浏览器成为一等公民，而非简化版本。</li>
+<li><strong>WebRTC/Pion
+v4、QUIC/quic-go、定制UDP</strong>：三种实时传输协议，平台可根据网络与客户端条件选择最低延迟路径。</li>
+<li><strong>硬件编码器（NVENC/QSV/AMF/VideoToolbox）</strong>与<strong>平台捕获接口（DXGI/ScreenCaptureKit/PipeWire）</strong>：GPU加速的捕获与编码路径，按平台优选，确保编码不成为CPU瓶颈。</li>
+<li><strong>容器化（Docker/Podman）</strong>：所有服务、数据库、构建、测试及扫描流程均运行于容器中，确保整个系统可复现部署与验证。</li>
+<li><strong>mDNS/会合机制</strong>：零配置主机发现，客户端可自动定位局域网内的流媒体主机。</li>
+</ul>
+<p>内容</p>
+<h2 id="状态与诚信说明">状态与诚信说明</h2>
+<ul>
+<li><strong>状态：测试版。</strong> 自述文件中提及的延迟目标（局域网 ≤30
+毫秒 / 广域网 ≤50 毫秒，p999）、“主机级 / PS4 Pro
+级”定位，以及测试矩阵单元数量，均为项目自行设定的设计目标，未经独立基准测试，仅供参考。</li>
+<li><strong>许可证：待定。</strong> 经 GitHub 与 API 检测，未发现
+LICENSE 文件——未验证 / 未声明。</li>
+</ul>
+<p><strong>优先级别：</strong> Helix-主级。</p>
+</body>
+</html>

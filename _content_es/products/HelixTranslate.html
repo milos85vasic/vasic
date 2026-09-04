@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTranslate</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTranslate</h1>
+</header>
+<h1 id="helixtranslate">HelixTranslate</h1>
+<p><strong>Traducción de libros con modelo verificado — honesta por
+diseño, nunca un respaldo silencioso.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>HelixTranslate es una plataforma de traducción de libros electrónicos
+de alto rendimiento basada en Go, que traduce obras entre más de 100
+idiomas utilizando proveedores de LLM verificados, con monitoreo en
+tiempo real de WebSocket y una política estricta de <em>no respaldo
+silencioso</em> que falla de manera explícita en lugar de degradarse sin
+aviso.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Kit de herramientas de traducción universal de libros electrónicos
+basado en Go. Traduce formatos FB2, EPUB, TXT, HTML, PDF y DOCX entre
+más de 100 idiomas utilizando los modelos LLM verificados más robustos
+(a través del puente LLMsVerifier), con APIs REST/HTTP-3 y gRPC,
+procesamiento distribuido y un panel de monitoreo en tiempo real de
+WebSocket.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>HelixTranslate es un sistema de grado empresarial basado en Go para
+traducir libros completos entre idiomas, utilizando proveedores de LLM
+—no párrafos ni fragmentos, sino obras de principio a fin—. Analiza y
+regenera múltiples formatos de libros electrónicos (FB2, EPUB, TXT,
+HTML, PDF, DOCX), admite más de 100 idiomas con detección automática y
+ofrece tanto herramientas CLI como servidores API (REST sobre HTTP/3,
+gRPC y un flujo de eventos WebSocket), lo que le permite integrarse
+tanto en flujos de trabajo de terminal como en mallas de servicios. Su
+característica definitoria es <em>cómo elige un modelo</em>: en lugar de
+codificar un proveedor y esperar que siga funcionando, HelixTranslate
+delega toda la autoridad del modelo al puente LLMsVerifier
+(<code>pkg/bridge</code>), que selecciona el modelo API verificado más
+potente y devuelve una cadena de respaldo determinista ordenada por
+puntuación. La elegibilidad del modelo se decide mediante una puntuación
+ponderada que evalúa capacidad de respuesta, código, riqueza de
+funciones y fiabilidad —así, el modelo que realiza la traducción gana su
+lugar demostrando que funciona, no por aparecer en un archivo de
+configuración—.</p>
+<p>De manera crucial, el sistema aplica un mandato de <em>“no respaldo
+silencioso”</em> directamente en el código: si no hay presente una clave
+de proveedor API, o un operador solicita explícitamente un proveedor no
+disponible, el proceso devuelve un error forzado honesto en lugar de
+cambiar de proveedor discretamente o recurrir a un entorno local
+fingiendo que todo está bien —una regla reforzada por una compuerta
+previa a la compilación y una prueba de mutación asociada—. Los entornos
+locales (Ollama, llama.cpp) fueron eliminados deliberadamente de la ruta
+predeterminada para que un motor más débil nunca pueda sustituir
+silenciosamente a uno verificado. Alrededor del núcleo de traducción
+opera un subsistema de monitoreo en tiempo real de WebSocket: la
+herramienta de traducción CLI emite eventos tipados a un servidor de
+monitoreo que alimenta un panel web en vivo, mientras que los
+trabajadores remotos SSH distribuyen la carga de trabajo para la
+traducción paralela. Sobre esta base se superponen pasadas de pulido
+para garantizar coherencia, un análisis de calidad en fase de
+preparación, almacenamiento en caché de traducciones para controlar
+costos en textos extensos y un sistema de control de calidad basado en
+visión. Toda la plataforma responde a una constitución de ingeniería
+anti-engaño: las pruebas deben demostrar resultados reales y visibles
+para el usuario, respaldadas por pruebas de mutación obligatorias en
+lugar de marcas verdes que no prueban nada.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Para traducir libros de formato largo de manera fiable y
+<em>honesta</em>, sin entregar nunca una traducción “degradada pero
+presente”. El principio de diseño es que una traducción ausente o no
+verificable debe ser un error claro y contundente, y que la selección
+del modelo debe resolverse siempre en un proveedor genuinamente
+verificado, en lugar de basarse en una suposición predefinida o un
+respaldo local silencioso.</p>
+<h2 id="por-qué-es-un-cambio-radical">Por qué es un cambio radical</h2>
+<p>La mayoría de los flujos de traducción LLM fallan en silencio:
+recurren discretamente a un modelo más débil, retroceden a un entorno
+local o emiten una salida parcial mientras el conjunto de pruebas sigue
+mostrando resultados positivos y nadie detecta el abismo de calidad.
+HelixTranslate elimina por completo esa modalidad de fallo: la elección
+del modelo está sujeta a verificación, la cadena de respaldo es
+determinista y totalmente transparente, y la ausencia de clave o modelo
+verificado se resuelve en un error contundente, no en un encogimiento de
+hombros silencioso. Esa única decisión de diseño convierte la pregunta
+<em>“¿Esta traducción se ejecutó realmente en un modelo capaz y
+verificado?”</em> de una esperanza imposible de comprobar en una
+garantía que el sistema impone en tu nombre.</p>
+<h2 id="qué-hay-de-innovador">Qué hay de innovador</h2>
+<ul>
+<li><strong>Enrutamiento de modelos con verificación</strong> mediante
+el puente LLMsVerifier: se selecciona automáticamente el modelo
+<em>verificado</em> más potente, de modo que los operadores declaran su
+intención, no nombres de proveedores, y nunca eligen manualmente un
+proveedor que podría estar inactivo.</li>
+<li><strong>Garantía de no respaldo silencioso aplicada en
+código</strong>: cuatro rutas de enrutamiento explícitas (simulación /
+verificador explícito / proveedor explícito / puente por defecto), cada
+una de las cuales genera un error contundente en lugar de cambiar de
+forma silenciosa, además de la eliminación deliberada de entornos
+locales en la ruta predeterminada para que no haya nada más débil <em>a
+lo que recurrir</em>.</li>
+<li><strong>Aplicación mecánica</strong>: una compuerta previa a la
+compilación <code>CM-NO-LOCAL-RUNTIME</code> junto con una prueba de
+mutación emparejada que, en tiempo de compilación, verifica que nunca se
+construya un cliente de entorno local en la ruta predeterminada. La
+garantía no puede degradarse porque la compilación falla si ocurre.</li>
+<li><strong>Cadena de respaldo determinista y ordenada por
+puntuación</strong>: se permite el failover entre proveedores de modelos
+<em>verificados</em> y es totalmente transparente, una distinción
+fundamentada respecto al respaldo silencioso prohibido. Siempre sabes
+qué modelo capaz asumió el trabajo.</li>
+<li><strong>Monitoreo WebSocket en tiempo real</strong>: eventos de
+traducción tipados transmitidos en vivo a un panel de control, con
+trabajadores SSH distribuidos para que un trabajo de longitud de libro
+sea visible y paralelo, no una caja negra.</li>
+<li><strong>Régimen de pruebas anti-engaño</strong>: pruebas de
+mutación, aserciones negativas, ejecuciones en sistemas reales y control
+de calidad basado en visión que, en conjunto, garantizan que <em>“las
+pruebas pasan”</em> nunca pueda enmascarar silenciosamente <em>“la
+función no funciona en realidad”</em>.</li>
+</ul>
+<h2 id="principales-desafíos-técnicos-y-cómo-los-resolvimos">Principales
+desafíos técnicos y cómo los resolvimos</h2>
+<ul>
+<li><strong>Garantizar un flujo de traducción honesto (sin degradación
+silenciosa)</strong>. Se resolvió centralizando toda la autoridad de los
+modelos en el puente LLMsVerifier para contar con un único punto de
+decisión que supervisar, codificando cuatro ramas de enrutamiento
+explícitas que fallan de manera contundente en lugar de adivinar,
+eliminando por completo los respaldos de entorno local de la ruta
+predeterminada y soldando la regla con una compuerta de compilación más
+una prueba de mutación que hace fallar la compilación si se elimina la
+garantía.</li>
+<li><strong>“Pruebas verdes, funciones rotas”</strong>. La constitución
+nombra explícitamente este modo de fallo y lo neutraliza con el régimen
+de Pruebas Anti-Engaño: aserciones concretas y visibles para el usuario
+en lugar de detalles de implementación, sistemas reales en el ciclo (los
+simulacros se limitan a pruebas unitarias), pruebas de mutación
+obligatorias (romper deliberadamente la función <em>debe</em> hacer que
+la prueba falle) y control de calidad verificado por visión que
+realmente examina la salida.</li>
+<li><strong>Calidad en formatos largos y múltiples formatos</strong>.
+Las entradas del tamaño de un libro ponen a prueba tanto la coherencia
+como el presupuesto. Se resolvió con un pulido en múltiples pasadas que
+revisita el texto, un análisis en fase de preparación que dimensiona el
+trabajo de antemano y una caché de traducciones que evita pagar dos
+veces por el mismo pasaje.</li>
+</ul>
+<h2 id="pila-tecnológica">Pila tecnológica</h2>
+<ul>
+<li><strong>Go</strong> — elegido por sus primitivas de concurrencia,
+que se adaptan de forma natural al análisis, traducción y transmisión
+simultánea de múltiples capítulos; el backend de alta concurrencia,
+módulo <code>digital.vasic.translator</code>.</li>
+<li><strong>Gin</strong> — seleccionado como enrutador HTTP rápido y
+minimalista para servir la superficie REST API.</li>
+<li><strong>QUIC / HTTP/3 (quic-go)</strong> — elegidos para
+proporcionar a la superficie REST API un transporte moderno de baja
+latencia que resiste en redes imperfectas.</li>
+<li><strong>gRPC + Protocol Buffers</strong> — escogidos para una
+interfaz de servicio fuertemente tipada y de alto rendimiento que opera
+junto a REST para usuarios programáticos.</li>
+<li><strong>Gorilla WebSocket</strong> — utilizado para transportar el
+flujo de eventos de traducción en tiempo real y tipado que alimenta el
+panel de monitoreo en vivo.</li>
+<li><strong>PostgreSQL, SQLite, Redis</strong> — división deliberada en
+tres capas: PostgreSQL para datos relacionales persistentes, SQLite para
+el estado local/incrustado (también respalda el almacén de modelos
+verificados del puente, <code>data/verified_models.db</code>) y Redis
+como caché activa.</li>
+<li><strong>unidoc/unioffice + unipdf</strong> — seleccionados para
+manejar los formatos complejos: análisis y regeneración de DOCX y PDF,
+garantizando que los libros electrónicos multiformato se mantengan
+fieles en el proceso de ida y vuelta.</li>
+<li><strong>Cobra</strong> — elegido como marco de trabajo para la CLI
+que impulsa <code>unified-translator</code> y sus herramientas
+complementarias.</li>
+<li><strong>golang-jwt (JWT HS256)</strong> — adoptado para la
+autenticación API sin estado, combinado con un sistema de limitación de
+tasa por token por IP y seguridad en el transporte TLS/QUIC para
+reforzar la superficie.</li>
+<li><strong>Puente LLMsVerifier (<code>pkg/bridge</code>)</strong> — el
+eje central: obtiene el modelo verificado más robusto junto con su
+cadena de respaldo determinista, y actúa como único punto de aplicación
+de la garantía de <em>no-respaldo-silencioso</em>.</li>
+<li><strong>Testify</strong> — elegido para la suite de pruebas de Go,
+que incluye el archivo dedicado <code>provider_routing_test.go</code> y
+las compuertas de mutación que mantienen íntegras las reglas de
+honestidad.</li>
+<li><strong>Docker / Podman (sin root) + Compose</strong> —
+seleccionados para el despliegue contenerizado y distribuido
+(<code>docker-compose.distributed.yml</code>), con Podman sin root para
+un perfil de seguridad más estricto.</li>
+</ul>
+<h2 id="estado-y-notas-sobre-transparencia">Estado y notas sobre
+transparencia</h2>
+<ul>
+<li><strong>Estado: beta.</strong> Plataforma funcional; la versión se
+indica de manera inconsistente en
+<code>VERSION</code>/Makefile/<code>AGENTS.md</code>, por lo que se
+considera no consolidada.</li>
+<li><strong>Licencia: por definir.</strong> El archivo README menciona
+MIT, pero esto no se ha confirmado con un archivo LICENSE — verificar
+antes de afirmarlo.</li>
+<li>Los puntos finales del panel de control/monitoreo son solo para
+localhost y no son públicos. Las cifras de rendimiento de WebSocket en
+la documentación son objetivos declarados, no verificados.
+<code>ARCHITECTURE.md</code> aún incluye motores Ollama/locales
+eliminados (información desactualizada).</li>
+</ul>
+<p><strong>Nivel de prioridad:</strong> Helix-principal (clúster
+LLM-infraestructura). Se ubica dentro de la familia de plataformas
+Helix, después de HelixTrack.</p>
+</body>
+</html>

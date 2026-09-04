@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SCAFFOLD-MANIFEST</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SCAFFOLD-MANIFEST</h1>
+</header>
+<h1 id="design-toolkit-scaffold-evidence-manifest">Design-Toolkit
+Scaffold — Evidence Manifest</h1>
+<p><strong>Generated:</strong> 2026-08-06 ·
+<strong>Deliverable:</strong> FIRST INCREMENT of the design-capability
+toolkit, built from <code>_analysis/design-research/CATALOG.md</code> +
+<code>INCORPORATION-PLAN.md</code>, as <strong>local files</strong> (no
+remote repos, no git submodules added, no git commit/push).
+Non-generator work only — <code>_tools/gen/</code>,
+<code>_content*</code>, and the sites are untouched.</p>
+<p>See <a href="file-inventory.txt"><code>file-inventory.txt</code></a>
+for per-file sha256 + sizes.</p>
+<hr />
+<h2 id="file-tree-produced">1. File tree produced</h2>
+<pre><code>design-toolkit/                         (21 files, 7 dirs, ~109 KB)
+├── README.md                           what it is · OpenDesign combination · uniqueness philosophy · load out-of-the-box
+├── agents/                             6 design-specialist agent recipes (frontmatter: name/description/tools + system prompt)
+│   ├── theming-designer.md             the parametric uniqueness engine (seed → design-DNA vector → DTCG tokens)
+│   ├── layout-architect.md
+│   ├── animation-designer.md
+│   ├── iconographer.md
+│   ├── ux-flow-designer.md
+│   └── design-qa-auditor.md
+├── mcp/INSTALL.md                      exact `claude mcp add` commands + license notes + EXCLUDED paid/no-license list
+├── submodules/PLAN.md                  `git submodule add` commands + HelixConstitution nesting + NEXT-checkpoint commands
+├── knowledge/                          distilled, cited, open-licensed design cheat-sheets
+│   ├── README.md                       index + sourcing/license discipline
+│   ├── a11y-wcag22.md                  WCAG 2.2 gate (thresholds, new-in-2.2 criteria, auditor checklist)
+│   ├── aria-apg.md                     keyboard + ARIA models per widget
+│   ├── color.md                        OKLCH/HCT model, seed→scheme, semantic roles, WCAG contrast gate, scales
+│   ├── typography.md                   Utopia fluid clamp(), type ratios, variable-font axes, MD3 roles
+│   ├── layout.md                       primitives, container queries, 4/8pt grid, cross-platform checklists
+│   ├── motion.md                       MD3 duration/easing tokens, reduced-motion gate, GPU-only rule
+│   ├── material3.md                    color roles, tonal palette, variants, type/shape scales, adaptive layout
+│   └── dtcg-tokens.md                  DTCG document shape the generator emits
+├── qa/design-qa-testbank.md           HelixQA-style Challenge SKELETON (D1–D7, matrix, golden-good/bad, evidence schema, gates)
+└── docs/
+    ├── USER-GUIDE.md                   task-oriented: design any material/app with the agents
+    └── MANUAL.md                       reference: every part, design-DNA model, all platforms/formats, roadmap</code></pre>
+<p>All 7 required deliverables present: (1) README, (2) 6 agents, (3)
+mcp/INSTALL.md, (4) submodules/PLAN.md, (5) knowledge/, (6) qa/, (7)
+docs/USER-GUIDE.md + docs/MANUAL.md.</p>
+<hr />
+<h2 id="fidelity-to-the-research-traceability">2. Fidelity to the
+research (traceability)</h2>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 39%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Research item</th>
+<th>Where it landed</th>
+<th>Faithful?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6 agent recipes (§4 of plan)</td>
+<td><code>agents/*.md</code> — exact 6 names, each with
+knows/uses/does/guardrail</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Parametric uniqueness pipeline (§5)</td>
+<td><code>theming-designer.md</code> + <code>docs/MANUAL.md</code> §3 +
+<code>knowledge/dtcg-tokens.md</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>MCP install set (§2 table)</td>
+<td><code>mcp/INSTALL.md</code> — all 9 core/ingestion + 3 pilots +
+exclusions</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Vendored submodules (§3)</td>
+<td><code>submodules/PLAN.md</code> — libs §A, color scales §B, skills
+§C</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Knowledge to encode (Category 3)</td>
+<td><code>knowledge/</code> — 8 sheets, open-licensed only, sources
+cited</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>§11.4.162 OpenDesign source-of-truth</td>
+<td>enforced in README, every agent, MANUAL §3, dtcg-tokens</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Anti-bluff / §11.4.170 proof</td>
+<td><code>design-qa-auditor</code> +
+<code>qa/design-qa-testbank.md</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="license-verification-performed-this-build">3. License
+verification performed this build</h2>
+<ul>
+<li><strong>utopia-core → ISC</strong> — CONFIRMED (npm registry
+<code>registry.npmjs.org/utopia-core/latest</code> +
+<code>package.json</code>, 2026-08-06). Resolves the research’s “verify
+LICENSE before vendoring” flag. Recorded in
+<code>submodules/PLAN.md</code> §A and <code>README.md</code> §6.</li>
+<li>All other vendored items retain the CATALOG.md-verified licenses
+(MIT/Apache-2.0/BSD).</li>
+<li><strong>Excluded, faithfully carried forward:</strong> Official
+Figma Dev Mode MCP (paid), 21st.dev Magic MCP (paid/keyed), LottieFiles
+Creator MCP (hosted), GPL/no-license icon+color MCPs, no-license skill
+repos, Every Layout/Refactoring UI (paid — concepts only), APCA as a
+gate (advisory only).</li>
+</ul>
+<hr />
+<h2 id="scope-compliance-what-was-not-touched">4. Scope compliance (what
+was NOT touched)</h2>
+<ul>
+<li>❌ No remote GitHub/GitLab repos created (explicitly the next
+checkpoint).</li>
+<li>❌ No git submodules added (commands documented in
+<code>submodules/PLAN.md</code>, not run).</li>
+<li>❌ No <code>git commit</code> / <code>git push</code>.</li>
+<li>❌ No changes to <code>_tools/gen/</code>, <code>_content*</code>,
+<code>milosvasic.ru</code>, or <code>vasic.digital</code>.</li>
+<li>✅ New files only under <code>design-toolkit/</code> and
+<code>_tests/evidence/design-toolkit/</code>.</li>
+</ul>
+<hr />
+<h2 id="explicitly-deferred-to-the-next-checkpoint">5. Explicitly
+deferred to the NEXT checkpoint</h2>
+<ol type="1">
+<li>Remote repo creation under <code>vasic-digital</code> on
+<strong>GitHub + GitLab</strong> (<code>gh repo create</code> /
+<code>glab repo create</code>) — exact commands in
+<code>submodules/PLAN.md</code> §“Next checkpoint”.</li>
+<li>Adding the vendored submodules (§A–§C) pinned to reviewed SHAs.</li>
+<li>Nesting <code>design-toolkit/</code> under the
+<code>HelixConstitution</code> submodule and bumping the pointer in
+<code>vasic</code>.</li>
+<li>Standing up <code>generators/</code> as runnable code
+(design-dna.mjs / gen-tokens.mjs / gen-marks.mjs) and proving OpenDesign
+ingests the generated DTCG (or filing the upstream PR).</li>
+<li>Turning <code>qa/design-qa-testbank.md</code> into an executable
+suite + wiring the CM gates.</li>
+</ol>
+<p>All held pending user GO (entangled with the un-pushed §11.4.236
+amendment + umbrella push).</p>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Catalogizer</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Catalogizer</h1>
+</header>
+<p><strong>مدیریت مجموعه رسانه‌ای چندپروتکله پیشرفته — شناسایی، فهرست‌بندی
+و غنی‌سازی تمام دارایی‌های شما</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>Catalogizer یک سیستم مدیریت مجموعه رسانه‌ای قابل میزبانی شخصی است که
+به‌طور خودکار رسانه‌ها را در پروتکل‌های SMB، FTP، NFS، WebDAV و
+فایل‌سیستم‌های محلی شناسایی، دسته‌بندی و سازماندهی می‌کند. این سیستم با
+نظارت بلادرنگ، ذخیره‌سازی رمزنگاری‌شده، غنی‌سازی فراداده از منابع خارجی و
+رابط کاربری مدرن React که توسط یک موتور پرسرعت Go API پشتیبانی می‌شود،
+عمل می‌کند.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>یک مدیر کتابخانه رسانه‌ای چندپروتکله در سطح تولید. Go/Gin REST API بیش
+از ۵۰ نوع رسانه را در منابع SMB/FTP/NFS/WebDAV/محلی شناسایی می‌کند، از
+TMDB/IMDB/MusicBrainz/Steam و سایر منابع غنی‌سازی می‌کند و یک اپلیکیشن وب
+بلادرنگ React را از طریق پایگاه داده رمزنگاری‌شده SQLCipher ارائه
+می‌دهد.</p>
+<h2 id="توضیح-کامل">توضیح کامل</h2>
+<p>بیشتر مدیران رسانه از شما می‌خواهند ابتدا تسلیم شوید: همه چیز را روی
+یک دیسک، در یک فرمت و از یک نوع جمع‌آوری کنید و تنها پس از آن به شما کمک
+خواهند کرد. Catalogizer از فرضیه‌ای متضاد آغاز می‌کند — مجموعه شما از پیش
+در جایی که هست زندگی می‌کند، در اشتراک‌های NAS و پروتکل‌هایی که هرگز با هم
+هماهنگ نخواهند شد — و دقیقاً در همان نقطه به آن می‌پیوندد. این سیستم با
+پروتکل‌هایی که ذخیره‌سازها از پیش استفاده می‌کنند — SMB/CIFS، FTP/FTPS،
+NFS، WebDAV و فایل‌سیستم محلی — از طریق یک لایه انتزاعی یکپارچه ارتباط
+برقرار می‌کند، به طوری که یک اشتراک ویندوز، یک آرشیو FTP و یک اتصال
+WebDAV برای لایه‌های بالاتر یکسان به نظر می‌رسند و می‌توان آن‌ها را ترکیب،
+تعویض یا بازنشسته کرد بدون آنکه نیازی به تغییر کد برنامه باشد. یک بک‌اند
+Go (Gin REST API) به‌طور مداوم این منابع را زیر نظر می‌گیرد، بیش از ۵۰ نوع
+رسانه (فیلم، سریال، موسیقی، بازی، نرم‌افزار، مستند) را به محض ظاهر شدن
+فایل‌ها شناسایی و طبقه‌بندی می‌کند و هر آیتم را از مجموعه‌ای از ارائه‌دهندگان
+خارجی — TMDB، IMDB، TVDB، MusicBrainz، Spotify، Steam و غیره — غنی‌سازی
+می‌کند، به طوری که یک نام فایل خام به یک مدخل فهرست کامل با آثار هنری،
+بازیگران و فراداده تبدیل می‌شود. نتایج از طریق WebSocket به فرانت‌اند
+TypeScript React ارسال می‌شوند، بنابراین کتابخانه به‌صورت زنده و همزمان با
+فرآیند دریافت به‌روزرسانی می‌شود، نه با رفرش دستی. هر بایت از فراداده در
+یک پایگاه داده رمزنگاری‌شده SQLCipher ذخیره می‌شود که با احراز هویت مبتنی
+بر JWT و کنترل دسترسی مبتنی بر نقش محافظت می‌شود.</p>
+<p>در حالی که بیشتر فهرست‌سازان به محض قطع یک اشتراک از کار می‌افتند،
+Catalogizer طوری طراحی شده که حتی در زمان قطعی نیز کاربردی باقی بماند.
+قطع موقت SMB با اتصال مجدد نمایی، مدارشکن برای جلوگیری از فشار به میزبان
+غیرفعال، نظارت مداوم بر سلامت سیستم و حافظه پنهان فراداده آفلاین که
+درخواست‌های کاربران را از آخرین وضعیت معتبر پاسخ می‌دهد، مدیریت می‌شود —
+تفاوت میان «کل برنامه به‌خاطر ری‌استارت یک NAS از کار افتاد» و «یک منبع
+دچار اختلال شده و بقیه چیزها کار می‌کنند». علاوه بر فهرست‌بندی، این سیستم
+به‌عنوان ابزاری عملیاتی برای مجموعه عمل می‌کند: تحلیل روند رشد و ردیابی
+کیفیت/نسخه، تولید گزارش‌های حرفه‌ای PDF، سرویس تبدیل PDF به
+تصویر/متن/HTML، صادرات/واردات موارد موردعلاقه (JSON/CSV) و همگام‌سازی
+ابری با S3، Google Cloud Storage یا پوشه‌های محلی. و این یک مونولیت بزرگ
+نیست — بلکه از ۲۱ زیرماژول قابل‌استفاده مجدد <code>digital.vasic.*</code>
+Go به‌علاوه بسته‌های کلاینت TypeScript تشکیل شده که هر یک به‌طور مستقل تست
+و نسخه‌بندی شده‌اند، به طوری که همان قطعات احراز هویت، فایل‌سیستم، استریم و
+نظارت که Catalogizer را به کار می‌اندازند، خانواده محصولات گسترده‌تر را
+نیز قدرت می‌بخشند. تضمین کیفیت خوداظهاری نیست: چارچوب چالش‌ها و HelixQA هر
+قابلیت اعلام‌شده را تحت تأیید مبتنی بر شواهد و ضدبلوف قرار می‌دهند.</p>
+<p>محتوا</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>مدیران رسانه‌ای موجود فرض را بر یک بستر ذخیره‌سازی واحد و یک نوع رسانه
+می‌گذارند. اما مجموعه‌های واقعی در میان چندین اشتراک‌گذاری NAS و پروتکل‌های
+مختلف پراکنده‌اند، با قطع هر اشتراک دچار اختلال می‌شوند و ترکیبی از فیلم،
+موسیقی، بازی و نرم‌افزار را در خود جای می‌دهند.
+<strong>Catalogizer</strong> برای این ساخته شد که با همه پروتکل‌ها یکسان
+رفتار کند، در برابر ذخیره‌سازهای شبکه‌ای ناپایدار مقاوم باشد و یک کاتالوگ
+معتبر، غنی‌شده و رمزنگاری‌شده از کل محتوا ارائه دهد.</p>
+<h2 id="چرا-انقلابی-است">چرا انقلابی است</h2>
+<p>این ابزار آنچه را که معمولاً به مجموعه‌ای از ابزارهای جداگانه نیاز
+دارد، در یک بسته خودمیزبان و رمزنگاری‌شده گرد هم می‌آورد: دریافت محتوا
+بدون وابستگی به پروتکل که با هر بستر ذخیره‌سازی یکسان رفتار می‌کند،
+مقاومتی که کاتالوگ را حتی هنگام قطعی ذخیره‌سازها فعال نگه می‌دارد به جای
+آنکه با آنها از کار بیفتد، و غنی‌سازی چندمنبعی که فایل‌های خام را به
+کتابخانه‌ای قابل مرور و دارای ویژگی تبدیل می‌کند. دستاورد معماری مبتنی بر
+ماژول‌های جداشونده، تجمعی است: یک اصلاح امنیتی در کلاینت فایل‌سیستم یا
+افزودن یک پلاگین ارائه‌دهنده جدید، تنها یک بار اعمال می‌شود و به همه
+مصرف‌کنندگان ارتقا می‌بخشد، بنابراین <strong>Catalogizer</strong> همگام با
+توسعه زیرساخت‌های پیرامونش، به‌طور پیوسته بهبود می‌یابد. به زبان ساده،
+تفاوت میان یک فهرست رسانه‌ای و یک <em>سیستم</em> رسانه‌ای است – سیستمی که
+مالک آن شمایید، در برابر زیرساخت‌های ناپایدار دوام می‌آورد و کارکرد
+درونی‌اش نه وعده‌ای بیش، بلکه اثبات‌شده است.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>کلاینت فایل‌سیستم یکپارچه چندپروتکله (SMB/FTP/NFS/WebDAV/محلی) پشت یک
+رابط واحد.</li>
+<li>حافظه پنهان آفلاین + قطع‌کننده مدار برای حفظ قابلیت استفاده کاتالوگ
+در زمان قطعی ذخیره‌سازها.</li>
+<li>استخراج کامل به ۲۱ زیرماژول قابل استفاده مجدد
+<code>digital.vasic.*</code> و ماژول‌های کلاینت TS.</li>
+<li>کاتالوگ رمزنگاری‌شده در حالت سکون (<strong>SQLCipher</strong>) با
+همگام‌سازی بلادرنگ (<strong>WebSocket</strong>) به رابط کاربری.</li>
+<li>تضمین کیفیت مبتنی بر شواهد از طریق چارچوب چالش‌ها و یکپارچه‌سازی
+<strong>HelixQA</strong>.</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>ذخیره‌سازهای شبکه‌ای ناپایدار:</strong> با استفاده از بازگشت
+نمایی، قطع‌کننده مدار، بررسی‌های سلامت و حافظه پنهان آفلاین با سیاست حذف
+که هنگام غیرقابل‌دسترس بودن منابع، فراداده‌های ذخیره‌شده را ارائه می‌دهد، حل
+شده است.</li>
+<li><strong>ناهمگونی پروتکل‌ها:</strong> با انتزاعی‌سازی همه پروتکل‌ها پشت
+یک کلاینت مشترک <code>digital.vasic.filesystem</code> حل شده است تا
+لایه‌های بالاتر از پروتکل بی‌خبر بمانند.</li>
+<li><strong>امنیت داده‌ها:</strong> با رمزنگاری در حالت سکون
+(<strong>SQLCipher</strong>) به علاوه احراز هویت
+<strong>JWT/RBAC</strong> و میان‌افزار پاک‌سازی درخواست‌ها حل شده است.</li>
+<li><strong>نگهداری در مقیاس بزرگ:</strong> با استخراج تمام منطق‌های
+عمومی به زیرماژول‌های مستقل آزمایش‌شده به جای یک ساختار یکپارچه حل شده
+است.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشته فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Go + Gin</strong> — هسته <strong>REST API</strong> با کارایی
+بالا (<code>catalog-api</code>)، انتخاب‌شده برای همزمانی و توان عملیاتی
+در بارهای کاری نظارت پیوسته.</li>
+<li><strong>TypeScript + React + Tailwind (Vite)</strong> — رابط کاربری
+واکنش‌گرای <code>catalog-web</code> با به‌روزرسانی‌های بلادرنگ.</li>
+<li><strong>WebSockets</strong> — همگام‌سازی داده‌های زنده میان هاب بک‌اند
+و رابط کاربری.</li>
+<li><strong>SQLCipher (SQLite رمزنگاری‌شده)</strong> — ذخیره‌ساز فراداده
+رمزنگاری‌شده در حالت سکون؛ پشتیبانی دوگانه از
+<strong>SQLite/PostgreSQL</strong> از طریق
+<code>digital.vasic.database</code>.</li>
+<li><strong>کلاینت‌های SMB/FTP/NFS/WebDAV</strong> — دریافت چندپروتکله از
+طریق <code>digital.vasic.filesystem</code>.</li>
+<li><strong>APIهای فراداده خارجی (TMDB, IMDB, TVDB, MusicBrainz,
+Spotify, Steam)</strong> — پلاگین‌های ارائه‌دهنده برای غنی‌سازی.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> — معیارها/ردیابی از طریق
+<code>digital.vasic.observability</code>.</li>
+<li><strong>Docker / کانتینر سازنده</strong> — ساخت‌های قابل تکرار
+(<strong>Tauri/Rust</strong> مسیریابی‌شده از طریق
+<code>catalogizer-builder</code>).</li>
+<li><strong>Redis</strong> — حافظه پنهان/محدودسازی نرخ از طریق
+<code>digital.vasic.cache</code> / <code>ratelimiter</code>.</li>
+<li><strong>S3 / Google Cloud Storage</strong> — همگام‌سازی ابری و
+ذخیره‌سازی نقاط بازرسی.</li>
+</ul>
+</body>
+</html>

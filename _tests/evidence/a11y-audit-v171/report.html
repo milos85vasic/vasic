@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>report</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">report</h1>
+</header>
+<h1 id="accessibility-audit-vasic.digital-milosvasic.ru">Accessibility
+Audit — vasic.digital &amp; milosvasic.ru</h1>
+<p><strong>Standard:</strong> WCAG 2.2 Level AA (AAA noted where
+relevant) <strong>Tooling:</strong> axe-core 4.11.3 via
+<code>@axe-core/playwright</code>, Chromium (Playwright), headless.
+<strong>Rule sets applied:</strong>
+<code>wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa, best-practice</code>.
+<strong>Date:</strong> 2026-08-08 <strong>Method:</strong> Each URL
+loaded to <code>networkidle</code> in a context with
+<code>reducedMotion: 'reduce'</code>, axe injected and run in-page; DOM
+landmarks/headings/alt/lang/dir and keyboard focus captured; dark theme
+forced via <code>data-theme="dark"</code>. Color-contrast items that axe
+could not compute (gradient/overlap backgrounds) were re-measured at the
+pixel level from element screenshots (see
+<code>contrast-probe.mjs</code>). <strong>No site or source files were
+modified — audit only.</strong></p>
+<p>Raw per-page axe JSON: <code>raw/&lt;page-id&gt;.json</code>. Machine
+summary: <code>summary.json</code>.</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<h3 id="confirmed-violations-by-impact-per-site">Confirmed violations by
+impact (per site)</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Site</th>
+<th style="text-align: center;">Critical</th>
+<th style="text-align: center;">Serious</th>
+<th style="text-align: center;">Moderate</th>
+<th style="text-align: center;">Minor</th>
+<th style="text-align: center;">Total confirmed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>vasic.digital</strong></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><strong>0</strong></td>
+</tr>
+<tr>
+<td><strong>milosvasic.ru</strong></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1 rule (6 node-instances)</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><strong>1 rule</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>vasic.digital is CLEAN</strong> — 0 axe violations across
+all 6 page states tested (home light, home dark, <code>/sr/</code>,
+<code>/ar/</code> RTL, a product page, portfolio).</li>
+<li><strong>milosvasic.ru has ONE confirmed rule failure</strong>:
+<code>target-size</code> (WCAG 2.2 AA, SC 2.5.8), <em>serious</em>,
+affecting 3 distinct interactive components, observed on 5 of the 6
+tested page states.</li>
+</ul>
+<h3 id="pages-tested-12-states">Pages tested (12 states)</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Page ID</th>
+<th>Site</th>
+<th>URL</th>
+<th style="text-align: center;">HTTP</th>
+<th style="text-align: center;">Confirmed violations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vd-home-light</td>
+<td>vasic.digital</td>
+<td><code>/</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>vd-home-dark</td>
+<td>vasic.digital</td>
+<td><code>/</code> (data-theme=dark)</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>vd-sr</td>
+<td>vasic.digital</td>
+<td><code>/sr/</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>vd-ar-rtl</td>
+<td>vasic.digital</td>
+<td><code>/ar/</code> (RTL)</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>vd-product</td>
+<td>vasic.digital</td>
+<td><code>/products/helixtrack.html</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>vd-portfolio</td>
+<td>vasic.digital</td>
+<td><code>/portfolio/</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>mv-home-light</td>
+<td>milosvasic.ru</td>
+<td><code>/</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">1 (target-size)</td>
+</tr>
+<tr>
+<td>mv-home-dark</td>
+<td>milosvasic.ru</td>
+<td><code>/</code> (data-theme=dark)</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">1 (target-size)</td>
+</tr>
+<tr>
+<td>mv-sr</td>
+<td>milosvasic.ru</td>
+<td><code>/sr/</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>mv-ar-rtl</td>
+<td>milosvasic.ru</td>
+<td><code>/ar/</code> (RTL)</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">2 nodes (target-size)</td>
+</tr>
+<tr>
+<td>mv-product</td>
+<td>milosvasic.ru</td>
+<td><code>/products/helixtrack.html</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">1 (target-size)</td>
+</tr>
+<tr>
+<td>mv-portfolio</td>
+<td>milosvasic.ru</td>
+<td><code>/portfolio/</code></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">1 (target-size)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note on the milos “article/downloads” test slot: milosvasic.ru’s
+sitemap (525 URLs) contains <strong>only</strong> home + localized homes
++ <code>/portfolio/</code> + <code>/products/*.html</code>. There is no
+articles/downloads/blog section (<code>/downloads/</code>,
+<code>/articles/</code>, <code>/blog/</code> all return HTTP 404). An
+extra product page was therefore substituted for that slot.</p>
+</blockquote>
+<hr />
+<h2 id="findings-ranked-criticalserious-first">Findings (ranked;
+critical/serious first)</h2>
+<table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 7%" />
+<col style="width: 10%" />
+<col style="width: 7%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 19%" />
+<col style="width: 11%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Site</th>
+<th>URL(s)</th>
+<th>Rule</th>
+<th style="text-align: center;">Impact</th>
+<th>Selector</th>
+<th>Measured value</th>
+<th>WCAG SC</th>
+<th>Suggested fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>milosvasic.ru</td>
+<td><code>/</code>, <code>/products/helixtrack.html</code>,
+<code>/portfolio/</code> (+ dark)</td>
+<td><code>target-size</code></td>
+<td style="text-align: center;">serious</td>
+<td><code>a.brand</code>
+(<code>&lt;a class="brand" href="/#top"&gt;milos.vasic&lt;/a&gt;</code>)</td>
+<td>Rendered <strong>113.9 x 23.5 px</strong> — height <strong>0.5 px
+below</strong> the 24 px minimum</td>
+<td>2.5.8 Target Size (Minimum), AA</td>
+<td>Give the brand link a min tap height,
+e.g. <code>.brand{display:inline-flex;align-items:center;min-height:24px;line-height:24px}</code>
+(increase padding, not font).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>milosvasic.ru</td>
+<td><code>/ar/</code> (RTL)</td>
+<td><code>target-size</code></td>
+<td style="text-align: center;">serious</td>
+<td><code>#lang-btn</code> (<code>button.icon-btn</code>)</td>
+<td>Effective <strong>38 x 5.9 px</strong> —
+<code>partiallyObscured</code>; unobscured height 5.9 px, far below 24
+px</td>
+<td>2.5.8 Target Size (Minimum), AA</td>
+<td>Ensure header icon buttons keep a full &gt;=24x24 px hit area and
+are not overlapped by an adjacent element on RTL; set
+<code>min-width:24px;min-height:24px</code> and audit the header
+flex/overlap in RTL.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>milosvasic.ru</td>
+<td><code>/ar/</code> (RTL)</td>
+<td><code>target-size</code></td>
+<td style="text-align: center;">serious</td>
+<td><code>#theme-btn</code> (<code>button.icon-btn</code>)</td>
+<td>Effective <strong>38 x 5.9 px</strong> —
+<code>partiallyObscured</code>; unobscured height 5.9 px, far below 24
+px</td>
+<td>2.5.8 Target Size (Minimum), AA</td>
+<td>Same as #2 — restore full clickable area / remove the RTL overlap so
+the button’s tap target is not clipped.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>That is the complete list of confirmed failures.</strong>
+vasic.digital produced none.</p>
+<hr />
+<h2
+id="items-axe-reported-as-incomplete-manual-review-verified-not-failures">Items
+axe reported as INCOMPLETE (manual review) — verified, NOT failures</h2>
+<p>axe marks checks it cannot decide automatically as
+<em>incomplete</em>. These are <strong>not</strong> violations. Each was
+manually verified; all pass. Documenting them so the report is complete
+and non-bluff.</p>
+<h3
+id="a.-aria-valid-attr-value-flagged-critical-on-every-vasic.digital-page-1-node---not-an-issue">A.
+<code>aria-valid-attr-value</code> — flagged <em>critical</em> on every
+vasic.digital page (1 node) -&gt; NOT AN ISSUE</h3>
+<ul>
+<li>Element: <code>#od-lang-btn</code> with
+<code>aria-controls="od-lang-menu"</code> +
+<code>aria-haspopup="menu"</code>.</li>
+<li>axe message: <em>“Unable to determine if aria-controls referenced ID
+exists … while using aria-haspopup”</em>.</li>
+<li><strong>Verification (scripted):</strong> <code>#od-lang-menu</code>
+<strong>does exist in the DOM at page load</strong>
+(<code>&lt;ul id="od-lang-menu" role="menu" aria-label="Language" hidden&gt;</code>).
+Clicking the button correctly flips <code>aria-expanded</code> to
+<code>true</code> and reveals the menu. aria-controls pointing at a
+<code>hidden</code>-until-open menu is correct ARIA authoring.
+<strong>Pass.</strong></li>
+</ul>
+<h3
+id="b.-color-contrast-flagged-serious-incomplete-large-node-counts---manually-measured-pass-aaa">B.
+<code>color-contrast</code> — flagged <em>serious</em> incomplete, large
+node counts -&gt; manually measured, PASS (AAA)</h3>
+<ul>
+<li>vasic.digital: up to 288 nodes/page flagged with reason
+<code>bgGradient</code> / <code>elmPartiallyObscured</code> — axe cannot
+compute a ratio over a CSS gradient/overlapping layer.</li>
+<li>milosvasic.ru: reasons <code>bgOverlap</code>, <code>imgNode</code>
+(text inside inline SVG diagrams), <code>nonBmp</code> (the theme-toggle
+glyph).</li>
+<li><strong>Verification (pixel-level,
+<code>contrast-probe.mjs</code>):</strong> screenshotted each key
+element and computed WCAG contrast between its darkest and lightest
+opaque pixels (worst realistic case):</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Site</th>
+<th>Element</th>
+<th>Text color</th>
+<th>Measured contrast</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vasic.digital</td>
+<td><code>a[href$="#work"]</code> nav link</td>
+<td>rgb(20,21,25)</td>
+<td><strong>18.24 : 1</strong></td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td><code>a[data-i18n="nav.products"]</code></td>
+<td>rgb(20,21,25)</td>
+<td><strong>18.24 : 1</strong></td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td><code>.od-brand</code></td>
+<td>rgb(20,21,25)</td>
+<td><strong>18.24 : 1</strong></td>
+</tr>
+<tr>
+<td>vasic.digital</td>
+<td><code>h1</code></td>
+<td>rgb(20,21,25)</td>
+<td><strong>16.58 : 1</strong></td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td><code>.brand</code></td>
+<td>rgb(22,19,15)</td>
+<td><strong>16.41 : 1</strong></td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td><code>nav a</code></td>
+<td>rgb(22,19,15)</td>
+<td><strong>16.41 : 1</strong></td>
+</tr>
+<tr>
+<td>milosvasic.ru</td>
+<td><code>h1</code></td>
+<td>rgb(22,19,15)</td>
+<td><strong>16.41 : 1</strong></td>
+</tr>
+</tbody>
+</table>
+<p>All exceed AA (4.5:1) <strong>and</strong> AAA (7:1). The remaining
+incomplete nodes are inline-SVG diagram <code>&lt;text&gt;</code> (not
+automatable) and the single theme icon glyph. <strong>No color-contrast
+failure found.</strong></p>
+<hr />
+<h2
+id="positive-baseline-both-sites-evidenced-from-dom-capture">Positive
+baseline (both sites, evidenced from DOM capture)</h2>
+<ul>
+<li><strong>Landmarks:</strong> <code>main</code>, <code>nav</code>,
+<code>footer</code> present on every page; vasic.digital also emits
+<code>&lt;header&gt;</code>/banner. <em>(Minor best-practice note:
+milosvasic.ru has no
+<code>&lt;header&gt;</code>/<code>[role=banner]</code> wrapper — header
+content sits in <code>nav</code>; axe’s <code>region</code> rule still
+passes.)</em></li>
+<li><strong>Headings:</strong> exactly <strong>one
+<code>&lt;h1&gt;</code> per page</strong> on all 12 states; no
+heading-order violations reported.</li>
+<li><strong>Images:</strong> <strong>0 images missing
+<code>alt</code></strong> on any tested page.</li>
+<li><strong>Language &amp; direction:</strong> <code>lang</code> set
+correctly per locale (<code>en</code>/<code>sr</code>/<code>ar</code>);
+Arabic pages correctly set <code>dir="rtl"</code> on
+<code>&lt;html&gt;</code>.</li>
+<li><strong>Skip link:</strong> present and focusable on both sites in
+every locale (localized text confirmed). First Tab lands on the skip
+link.</li>
+<li><strong>Visible focus:</strong> vasic.digital -&gt;
+<code>outline: auto 1px rgb(0,95,204)</code>; milosvasic.ru -&gt;
+<code>outline: solid 3px</code> — both provide a visible focus indicator
+(SC 2.4.7 pass).</li>
+<li><strong>Reduced motion:</strong> pages rendered cleanly under
+<code>prefers-reduced-motion: reduce</code> with no axe issues.</li>
+</ul>
+<hr />
+<h2 id="proof-of-clean-pages-vasic.digital">Proof of clean pages
+(vasic.digital)</h2>
+<p>Command:
+<code>cd _tests &amp;&amp; node evidence/a11y-audit-v171/audit.mjs</code></p>
+<p>Output (violation counts per page):</p>
+<pre><code>vd-home-light  http=200  violations=0
+vd-home-dark   http=200  violations=0
+vd-sr          http=200  violations=0
+vd-ar-rtl      http=200  violations=0
+vd-product     http=200  violations=0
+vd-portfolio   http=200  violations=0
+mv-home-light  http=200  violations=1
+mv-home-dark   http=200  violations=1
+mv-sr          http=200  violations=0
+mv-ar-rtl      http=200  violations=1   (2 target-size nodes)
+mv-product     http=200  violations=1
+mv-portfolio   http=200  violations=1</code></pre>
+<h2 id="artifacts">Artifacts</h2>
+<ul>
+<li><code>audit.mjs</code> — the audit script (axe injection + DOM/focus
+capture).</li>
+<li><code>contrast-probe.mjs</code> — pixel-level contrast
+re-measurement for gradient-flagged elements.</li>
+<li><code>summary.json</code> — structured results for all 12 page
+states.</li>
+<li><code>raw/&lt;page-id&gt;.json</code> — full axe output (violations,
+passes, incomplete) per page.</li>
+</ul>
+</body>
+</html>

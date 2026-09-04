@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Courses-Creator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Courses-Creator</h1>
+</header>
+<p>المحتوى</p>
+<p><strong>من ماركداون إلى دورة فيديو احترافية — مُعزَّزة بتقنية AI، متعددة
+المنصات.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>Courses-Creator هي مجموعة أدوات تحول نصوص ماركداون إلى دورات فيديو
+احترافية مُعزَّزة بتقنية AI: إثراء المحتوى عبر مصادر متعددة لـ LLM
+(OpenAI/Anthropic/Ollama)، وتوليد TTS عالي الجودة وموسيقى خلفية، ومشغلات
+سطح المكتب والهواتف المحمولة والويب — كل ذلك يتم نشره عبر Docker مع
+مراقبة Prometheus/Grafana.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>تحول ماركداون إلى دورات فيديو جذابة. يعمل محرك المعالجة Go على إثراء
+المحتوى عبر عدة مقدمي خدمات LLM، وينتج التعليق الصوتي (Bark/SpeechT5
+TTS) والموسيقى، ويوزعها على مشغلات Electron لسطح المكتب، وReact Native
+للهواتف المحمولة، وReact للويب، مع نشر كامل عبر Docker ومراقبة
+شاملة.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>إنتاج دورة فيديو يتطلب عادةً عمل استوديو صغير متكامل: كتابة النصوص،
+تسجيل التعليقات الصوتية، اختيار الموسيقى، المونتاج، الترميز، ثم بناء
+مشغلات لكل منصة قد يستخدمها المتعلمون. لكن Courses-Creator يضغط هذه
+السلسلة بأكملها إلى مدخل واحد — نص ماركداون — وأمر واحد. في قلب النظام
+يوجد معالج Go الذي يدير خط إنتاج كامل للفيديو والصوت: فهو يُثري المحتوى
+المكتوب عبر عدة مقدمي خدمات LLM (OpenAI، Anthropic، وOllama المحلي)،
+وينتج تعليقات صوتية طبيعية باستخدام محركات تحويل النص إلى كلام (Bark،
+SpeechT5)، ويضيف طبقات من الموسيقى الخلفية، ثم يجمع كل القطع في فيديوهات
+جاهزة للدورة. يبقى دور المؤلف مقتصراً على الأفكار والكلمات، بينما يتولى
+النظام الصوت والتأليف الموسيقي والإنتاج. ولأن الدورة لا فائدة منها إذا
+لم يتمكن الناس من مشاهدتها، فقد تم تصميم التوزيع ليكون متعدد المنصات:
+تطبيق Electron لإنشاء الدورات على سطح المكتب، ومشغل React Native للهواتف
+المحمولة، ومشغل React للويب، وكلها تغذيها نفس البنية الخلفية REST API
+ونظام المهام الخلفية — بنية خلفية واحدة، وثلاثة عملاء متميزين، دون
+الحاجة لإعادة التنفيذ لكل منصة.</p>
+<p>الأهم من ذلك، أن هذا النظام هو بنية إنتاجية حقيقية، وليس مجرد عرض
+تجريبي. تتضمن البنية الخلفية تخزين PostgreSQL، ومعالجة المهام الخلفية
+بحيث لا تعيق عمليات توليد TTS/الفيديو سير عمل API، وتنفيذ خوادم MCP
+لتعزيز المحتوى باستخدام الأدوات، ومقاييس Prometheus، ومصادقة JWT، وخادم
+وكيل عكسي nginx — وكل ذلك يتم نشره عبر حزمة Docker Compose مع ملفات
+مراقبة Grafana/Prometheus يمكن تشغيلها بخطوة واحدة. تقنية AI هي طبقة
+تعزيز اختيارية، وليست اعتماداً أساسياً: فكل مقدم خدمة LLM اختياري، مما
+يسمح للنظام بالعمل دون مفاتيح API في الوضع الأساسي، ويبدأ في إثراء
+المحتوى المتميز بمجرد توفير المفاتيح. هذا القرار الواحد يجعل الأداة
+نفسها صالحة للاستخدام من قبل الهواة الذين يعملون دون اتصال على حاسوب
+محمول، أو من قبل المؤسسات التي تدمج مقدم الخدمة المفضل لديها — وكل خط
+الإنتاج الإعلامي مدعوم باختبارات الوحدة والتكامل والنهاية إلى النهاية
+بدلاً من الاعتماد على الثقة العمياء.</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>إنتاج دورات الفيديو يدوياً عملية بطيئة: الكتابة، والتعليق الصوتي،
+والتأليف الموسيقي، والمونتاج، كلها تتطلب جهداً وأدوات متخصصة.
+Courses-Creator يضغط هذه العملية في خط إنتاج مدفوع بماركداون، بحيث يتحول
+النص المصدر الواحد إلى دورة جاهزة، مع تقنية AI التي تملأ الفجوات التي
+كان سيضطر البشر لسدها يدوياً.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-يعد-هذا-ثورة-في-المجال">لماذا يُعدّ هذا ثورةً في المجال</h2>
+<p>يحوّل إنتاج الدورات التعليمية من حرفة متخصصة تعتمد على أدوات متعددة
+إلى خط إنتاج برمجي قابل للتكرار: التأليف، AI الإثراء، توليد السرد
+والموسيقى، وتشغيل متعدد المنصات، كلها تتكامل في حزمة واحدة قابلة للنشر.
+أما التدهور الرشيق في حال غياب مفتاح API فهو القوة الصامتة للنظام — إذ
+يخدم نفس قاعدة الشفرة صانع المحتوى الفردي ذو الميزانية المحدودة والمؤسسة
+المتعاقدة مع مزود خدمات متميز، دون الحاجة لإعادة كتابة أي شيء
+بينهما.</p>
+<h2 id="ما-الجديد">ما الجديد؟</h2>
+<ul>
+<li>خط إنتاج من ماركداون إلى فيديو مع إثراء متعدد LLM قابل للتوصيل
+(OpenAI/Anthropic/Ollama).</li>
+<li>توليد TTS مدمج (Bark، SpeechT5) وموسيقى خلفية.</li>
+<li>تطبيقات خوادم MCP مدمجة داخل محرك المعالجة لتعزيز الأدوات.</li>
+<li>خلفية واحدة تخدم ثلاثة عملاء رئيسيين (Electron سطح المكتب، React
+Native الجوال، React الويب).</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>معالجة الوسائط الثقيلة:</strong> تم حلها عبر خط إنتاج Go
+ومعالجة الوظائف الخلفية بحيث لا تعيق الوظائف الطويلة TTS/الفيديو مفتاح
+API.</li>
+<li><strong>AI اختياري لكنه قوي:</strong> تم حله بجعل مزودي LLM
+اختياريين وقابلين للتوصيل، مع الرجوع الرشيق إلى الوظائف الأساسية.</li>
+<li><strong>التسليم متعدد المنصات:</strong> تم حله عبر API مشترك REST
+وثلاثة تطبيقات تشغيل مخصصة.</li>
+<li><strong>قابلية التشغيل:</strong> تم حلها عبر ملفات Docker Compose،
+Prometheus/Grafana، ومصادقة JWT مدمجة.</li>
+</ul>
+<h2 id="مجموعة-التقنيات-السبب-الكيفية">مجموعة التقنيات (السبب +
+الكيفية)</h2>
+<ul>
+<li><strong>Go</strong> — محرك المعالجة الأساسي، API المشترك REST، مشغل
+الوظائف، خط الإنتاج (972 ألف بايت، اللغة المسيطرة).</li>
+<li><strong>TypeScript / React</strong> — مشغل الويب وواجهة المستخدم
+المشتركة.</li>
+<li><strong>Electron</strong> — تطبيق سطح المكتب للمبدعين.</li>
+<li><strong>React Native</strong> — مشغل الجوال.</li>
+<li><strong>PostgreSQL</strong> — تخزين الدورات والوظائف.</li>
+<li><strong>مزودو LLM (OpenAI، Anthropic، Ollama)</strong> — تعزيز
+المحتوى.</li>
+<li><strong>TTS (Bark، SpeechT5)</strong> — توليف السرد.</li>
+<li><strong>خوادم MCP</strong> — دمج الأدوات داخل المحرك.</li>
+<li><strong>Docker Compose + nginx</strong> — نشر كامل الحزمة وخادم
+الوكيل العكسي.</li>
+<li><strong>Prometheus + Grafana</strong> — المراقبة.</li>
+</ul>
+<blockquote>
+<p>ملاحظة: يستخدم ملف README العام للبدء السريع عنصر استنساخ
+<code>your-org</code> URL وهميًا.</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>github-helix-others</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">github-helix-others</h1>
+</header>
+<h1 id="helix-server-factory-github-org-inventory">Helix /
+Server-Factory GitHub Org Inventory</h1>
+<p>Generated 2026-06-17 from live <code>gh</code> CLI calls (account
+<code>milos85vasic</code>). Every number below comes from a real command
+(<code>gh repo list ... --json</code>,
+<code>gh api repos/&lt;org&gt;/&lt;name&gt;/readme</code>,
+<code>gh api repos/&lt;org&gt;/&lt;name&gt;/languages</code>). Source
+data: <code>github-helix-others.json</code>.</p>
+<h2 id="counts">Counts</h2>
+<table>
+<thead>
+<tr>
+<th>Org</th>
+<th>Repos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HelixDevelopment</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>13</td>
+</tr>
+<tr>
+<td>Helix-Flow</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>12</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>56</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Flag totals (across all 56 repos):</p>
+<ul>
+<li><strong>Forks:</strong> 11 — 1 in Helix-Track
+(<code>Website-Theme-Jekyll</code>), 10 in Server-Factory
+(<code>Docker-Definitions</code>, <code>Mail-Server-Factory</code>,
+<code>Core-Framework</code>, <code>Stack-Definitions</code>,
+<code>Software-Definitions</code>, <code>Utils</code>,
+<code>Qemu-Utils</code>, <code>Parallels-Utils</code>,
+<code>SonarQube-Factory</code>, <code>Web-Service-Factory</code>).</li>
+<li><strong>Archived:</strong> 4 —
+<code>HelixDevelopment/Helix-Game-Demo</code>,
+<code>HelixDevelopment/Stake-Tetris</code>,
+<code>HelixDevelopment/Helix-Game-1</code>,
+<code>Helix-Track/Legacy-Project</code>.</li>
+<li><strong>Private:</strong> 12 — 3 in HelixDevelopment (the 3 game
+repos above) and 9 in Helix-Track (<code>Everything</code>,
+<code>iOS-Client</code>, <code>Android-Client</code>,
+<code>Desktop-Client</code>, <code>Web-Client</code>,
+<code>Aurora-Client</code>, <code>Harmony-OS-Client</code>,
+<code>Legacy-Project</code>, <code>Propriatery</code>).</li>
+</ul>
+<p>Per-org fork/archived/private breakdown:</p>
+<table>
+<thead>
+<tr>
+<th>Org</th>
+<th>Forks</th>
+<th>Archived</th>
+<th>Private</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HelixDevelopment</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>1</td>
+<td>1</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Helix-Flow</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="all-repositories-sorted-by-disk-usage-desc">All Repositories
+(sorted by disk usage, DESC)</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Org</th>
+<th>Name</th>
+<th>Size (KB)</th>
+<th>Language</th>
+<th>Stars</th>
+<th>Last push</th>
+<th>isFork</th>
+<th>Archived</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixCode</td>
+<td>1463623</td>
+<td>Go</td>
+<td>1</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>AI Coding Agent</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixTranslate</td>
+<td>1088760</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>A high-performance, enterprise-grade universal ebook translation
+toolkit supporting any ebook format and any language pair, featuring
+multiple translation engines, REST API with HTTP/3 support, and
+real-time WebSocket events.</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixAgent</td>
+<td>918896</td>
+<td>Go</td>
+<td>1</td>
+<td>2026-06-16</td>
+<td>false</td>
+<td>false</td>
+<td>LLMs Agent</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Core</td>
+<td>311522</td>
+<td>Go</td>
+<td>5</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>The Open-Source JIRA Alternative for the Free World</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>Helix-Game-Demo</td>
+<td>86322</td>
+<td>TypeScript</td>
+<td>0</td>
+<td>2025-09-11</td>
+<td>false</td>
+<td>true</td>
+<td>(no description available)</td>
+</tr>
+<tr>
+<td>Helix-Flow</td>
+<td>Platform</td>
+<td>76854</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-04-27</td>
+<td>false</td>
+<td>false</td>
+<td>One Platform All Your AI Inference Needs Run Powerful AI Models
+Faster, Smarter, at Any Scale, with Predictable Costs</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>helix_ota</td>
+<td>71406</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-11</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>helix_cluster</td>
+<td>61513</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixCluster Project</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixConstitution</td>
+<td>61241</td>
+<td>HTML</td>
+<td>0</td>
+<td>2026-06-16</td>
+<td>false</td>
+<td>false</td>
+<td>Constitution, AGENTS.MD and CLAUDE.MD universal agent rules and
+constraints</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixPlay</td>
+<td>59224</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-05-03</td>
+<td>false</td>
+<td>false</td>
+<td>Ultimate gaming experience!</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>helixqa</td>
+<td>24704</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-15</td>
+<td>false</td>
+<td>false</td>
+<td>AI-driven QA orchestration for multi-platform testing</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Everything</td>
+<td>21700</td>
+<td>Shell</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack all projects (repositories) wrapper repository</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Mail-Server-Factory</td>
+<td>11584</td>
+<td>Shell</td>
+<td>3</td>
+<td>2025-11-12</td>
+<td>true</td>
+<td>false</td>
+<td>Run Your Mail Server Like The Boss</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>LLMOrchestrator</td>
+<td>8658</td>
+<td>HTML</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Headless CLI agent management for LLM orchestration</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Mail-Server-Factory-Website</td>
+<td>6326</td>
+<td>Shell</td>
+<td>0</td>
+<td>2025-11-08</td>
+<td>false</td>
+<td>false</td>
+<td>Website for Mail Server Factory project.</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixBuilder</td>
+<td>6319</td>
+<td>Shell</td>
+<td>0</td>
+<td>2025-10-28</td>
+<td>false</td>
+<td>false</td>
+<td>AI powered application building pipeline</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>VisionEngine</td>
+<td>6006</td>
+<td>HTML</td>
+<td>0</td>
+<td>2026-06-16</td>
+<td>false</td>
+<td>false</td>
+<td>Computer vision and LLM Vision for UI analysis and navigation</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Website</td>
+<td>5872</td>
+<td>Shell</td>
+<td>2</td>
+<td>2026-04-30</td>
+<td>false</td>
+<td>false</td>
+<td>JIRA alternative for the free world!</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>LLMProvider</td>
+<td>5675</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Shared LLM provider interface, 40+ provider adapters</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DocProcessor</td>
+<td>5408</td>
+<td>HTML</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Documentation processing and feature map extraction for QA
+automation</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixGitpx</td>
+<td>5121</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-05-08</td>
+<td>false</td>
+<td>false</td>
+<td>Helix Git Proxy eXtended</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixLLM</td>
+<td>4027</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-15</td>
+<td>false</td>
+<td>false</td>
+<td>Helix LLM - Local running super model</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Desktop-Client</td>
+<td>2093</td>
+<td>TypeScript</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack Desktop Client</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixMemory</td>
+<td>1304</td>
+<td>Go</td>
+<td>1</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Super Memory Provider — Unified Cognitive Memory Engine fusing Mem0
++ Cognee + Letta for HelixAgent</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>HelixSpecifier</td>
+<td>1293</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Spec-Driven Development Fusion Engine - Unified specification
+intelligence fusing SpecKit + Superpowers + GSD for HelixAgent AI debate
+ensemble</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Web-Client</td>
+<td>1279</td>
+<td>TypeScript</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack Web Client</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Website-Theme-Jekyll</td>
+<td>1160</td>
+<td>HTML</td>
+<td>0</td>
+<td>2023-07-31</td>
+<td>true</td>
+<td>false</td>
+<td>GitHub pages theme for Jakyll</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Legacy-Project</td>
+<td>981</td>
+<td>none</td>
+<td>0</td>
+<td>2025-12-15</td>
+<td>false</td>
+<td>true</td>
+<td>HelixTrack Project</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Core-Framework</td>
+<td>926</td>
+<td>Kotlin</td>
+<td>1</td>
+<td>2025-11-12</td>
+<td>true</td>
+<td>false</td>
+<td>Server Factory framework</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DebateOrchestrator</td>
+<td>583</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Multi-agent debate orchestration library — Phase 1 reconstruction (7
+real + 5 stub sub-packages; see RECONSTRUCTION_ROADMAP.md)</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Web-Service-Factory</td>
+<td>508</td>
+<td>Kotlin</td>
+<td>2</td>
+<td>2022-09-30</td>
+<td>true</td>
+<td>false</td>
+<td>Instantiate, configure web server and deploy targets: websites,
+micro-services etc.</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>SonarQube-Factory</td>
+<td>457</td>
+<td>Kotlin</td>
+<td>0</td>
+<td>2023-07-19</td>
+<td>true</td>
+<td>false</td>
+<td>Instantiate, configure SonarQube server and distribute
+configuration.</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Caching-Proxy-Factory</td>
+<td>391</td>
+<td>Kotlin</td>
+<td>0</td>
+<td>2022-09-29</td>
+<td>false</td>
+<td>false</td>
+<td>Instantiate, configure caching proxy server and distribute
+configuration.</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>iOS-Client</td>
+<td>299</td>
+<td>Swift</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack iOS client</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Utils</td>
+<td>216</td>
+<td>Shell</td>
+<td>1</td>
+<td>2025-11-12</td>
+<td>true</td>
+<td>false</td>
+<td>Various utils for Server Factory</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Android-Client</td>
+<td>214</td>
+<td>Kotlin</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack Android Client</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-android-agent</td>
+<td>135</td>
+<td>Kotlin</td>
+<td>0</td>
+<td>2026-06-10</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA — Kotlin/KMP device agent (poll, download, verify, apply,
+report). Reusable submodule.</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Qemu-Utils</td>
+<td>122</td>
+<td>Shell</td>
+<td>1</td>
+<td>2025-10-18</td>
+<td>true</td>
+<td>false</td>
+<td>Server Factory Qemu Utils</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Screensaver</td>
+<td>121</td>
+<td>Shell</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack screensaver</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Docker-Definitions</td>
+<td>106</td>
+<td>Shell</td>
+<td>1</td>
+<td>2026-05-15</td>
+<td>true</td>
+<td>false</td>
+<td>Docker definitions for Server Factory</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-protocol</td>
+<td>100</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-11</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA — shared wire protocol, manifest schema, status/event
+types (Go + KMP). Reusable submodule.</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-rollout-engine</td>
+<td>96</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-11</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA — OS-agnostic staged-rollout + halt/advance engine
+(percentage cohorts, success/error thresholds). Reusable submodule.</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-artifact-validator</td>
+<td>93</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-11</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA — OTA artifact structure/hash/signature/metadata
+validation pipeline. Reusable submodule.</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-update-engine-bridge</td>
+<td>89</td>
+<td>Kotlin</td>
+<td>0</td>
+<td>2026-06-08</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA — thin bridge over AOSP update_engine / boot_control for
+A/B apply. Android submodule.</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>ota-telemetry-schema</td>
+<td>75</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-08</td>
+<td>false</td>
+<td>false</td>
+<td>Helix OTA — telemetry event/metric schema + codecs shared by server
+and agents. Reusable submodule.</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Software-Definitions</td>
+<td>68</td>
+<td>Shell</td>
+<td>1</td>
+<td>2025-11-12</td>
+<td>true</td>
+<td>false</td>
+<td>Software definitions for Server Factory</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Propriatery</td>
+<td>50</td>
+<td>Shell</td>
+<td>0</td>
+<td>2023-10-24</td>
+<td>false</td>
+<td>false</td>
+<td>The proprietary components for the Helix Track.</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Parallels-Utils</td>
+<td>34</td>
+<td>Shell</td>
+<td>1</td>
+<td>2025-10-10</td>
+<td>true</td>
+<td>false</td>
+<td>Server Factory Parallels Utils</td>
+</tr>
+<tr>
+<td>Server-Factory</td>
+<td>Stack-Definitions</td>
+<td>26</td>
+<td>Shell</td>
+<td>1</td>
+<td>2025-11-12</td>
+<td>true</td>
+<td>false</td>
+<td>Stack definitions for Server Factory</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>DagOrchestrator</td>
+<td>20</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>Pure-data DAG scheduler: ready-set dispatch + parallelism cap +
+failure policy + lineage (dev.helix.dag)</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>Projects</td>
+<td>16</td>
+<td>Shell</td>
+<td>0</td>
+<td>2026-04-27</td>
+<td>false</td>
+<td>false</td>
+<td>Helix projects</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>PipelineRuntime</td>
+<td>13</td>
+<td>Go</td>
+<td>0</td>
+<td>2026-06-10</td>
+<td>false</td>
+<td>false</td>
+<td>Staged streaming dataflow runtime: push-based operators + FBP
+component/port wiring + map-reduce (dev.helix.pipeline)</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>Stake-Tetris</td>
+<td>6</td>
+<td>none</td>
+<td>0</td>
+<td>2025-09-09</td>
+<td>false</td>
+<td>true</td>
+<td>Stake Tetris</td>
+</tr>
+<tr>
+<td>HelixDevelopment</td>
+<td>Helix-Game-1</td>
+<td>6</td>
+<td>none</td>
+<td>0</td>
+<td>2025-09-09</td>
+<td>false</td>
+<td>true</td>
+<td>First Stake game from HelixDevelopment</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Aurora-Client</td>
+<td>2</td>
+<td>none</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack Aurora Client</td>
+</tr>
+<tr>
+<td>Helix-Track</td>
+<td>Harmony-OS-Client</td>
+<td>2</td>
+<td>none</td>
+<td>0</td>
+<td>2026-06-17</td>
+<td>false</td>
+<td>false</td>
+<td>HelixTrack Harmony OS Client</td>
+</tr>
+</tbody>
+</table>
+<h2 id="top-15-deep-dive">TOP 15 DEEP DIVE</h2>
+<p>Sizes are GitHub <code>diskUsage</code> (KB). Language splits are
+byte counts from <code>gh api .../languages</code> (top languages
+shown). Summaries are derived from each repo’s actual README.</p>
+<h3 id="helixdevelopmenthelixcode-1463623-kb-go">1.
+HelixDevelopment/HelixCode — 1,463,623 KB (Go)</h3>
+<p>Languages: Go 18.5M, HTML 2.4M, Shell 1.1M, JavaScript 126K, CSS
+103K, + Swift/Kotlin/Python/Ruby/PowerShell. Enterprise-grade
+distributed AI <strong>coding agent / development platform</strong>
+(<code>dev.helix.code</code>, MIT). Provides intelligent task division
+with work preservation, JWT auth, distributed worker management/health
+monitoring, automatic checkpointing/rollback, a Gin REST API, and
+multi-provider LLM integration (Llama.cpp, Ollama, OpenAI). The largest
+repo in the fleet.</p>
+<h3 id="helixdevelopmenthelixtranslate-1088760-kb-go">2.
+HelixDevelopment/HelixTranslate — 1,088,760 KB (Go)</h3>
+<p>Languages: Go 5.1M, HTML 1.5M, Shell 546K, Python 48K, +
+JS/CSS/Make/Docker. A high-performance, enterprise-grade
+<strong>universal ebook/translation toolkit</strong> plus a real-time
+WebSocket translation-monitoring system. Supports any ebook format and
+any language pair, multiple translation engines, a REST API with HTTP/3,
+SSH worker integration, and an interactive web dashboard.</p>
+<h3 id="helixdevelopmenthelixagent-918896-kb-go">3.
+HelixDevelopment/HelixAgent — 918,896 KB (Go)</h3>
+<p>Languages: Go 28.7M, Shell 6.7M, HTML 2.4M, TypeScript 1.1M, Python
+636K, JS 319K, Rust 317K, PLpgSQL 276K, + more. Production-ready,
+AI-powered <strong>ensemble LLM service</strong> (MIT) that
+intelligently combines responses from multiple language models for the
+most accurate/reliable output. Docker-first with AI and monitoring
+profiles. This is the central “AI debate ensemble” consumer that several
+smaller libraries feed into (HelixMemory, HelixSpecifier,
+DebateOrchestrator).</p>
+<h3 id="helix-trackcore-311522-kb-go">4. Helix-Track/Core — 311,522 KB
+(Go)</h3>
+<p>Languages: Go 5.1M, HTML 1.7M, Shell 399K, PLpgSQL 62K, Python 14K,
+Docker 4.6K. <strong>HelixTrack Core</strong> — the production-ready,
+extreme-performance REST API microservice for project/issue tracking; a
+modern open-source <strong>JIRA alternative</strong> built with Go +
+Gin. Claims 50,000+ req/s with sub-millisecond response, full issue
+tracking, agile/scrum, team management, a hierarchical permissions
+engine, and SQLCipher encryption. This is the core of the Helix-Track
+product.</p>
+<h3
+id="helixdevelopmenthelix-game-demo-86322-kb-typescript-archivedprivate">5.
+HelixDevelopment/Helix-Game-Demo — 86,322 KB (TypeScript,
+archived/private)</h3>
+<p>Languages: TypeScript 31.5M, Svelte 529K, + JS/HTML/CSS/SCSS. A
+<strong>web game SDK</strong> for building games declaratively, intended
+for launching games on Stake Engine. Powered by Svelte 5, PixiJS 8, and
+TurboRepo. Archived demo/template.</p>
+<h3 id="helix-flowplatform-76854-kb-go">6. Helix-Flow/Platform — 76,854
+KB (Go)</h3>
+<p>Languages: Go 335K, Python 334K, Shell 320K, HTML 77K, JS 26K,
+PLpgSQL 20K, HCL 19K, Mermaid 15K. <strong>“One Platform for all your AI
+inference needs”</strong> — described as running AI models faster and at
+any scale with predictable costs. The polyglot mix (Go + Python +
+Terraform/HCL) suggests an inference platform with IaC-managed
+deployment. The only repo in the Helix-Flow org; README is minimal (a
+tagline).</p>
+<h3 id="helixdevelopmenthelix_ota-71406-kb-go">7.
+HelixDevelopment/helix_ota — 71,406 KB (Go)</h3>
+<p>Languages: Go 595K, Shell 430K, TypeScript 238K, HTML 15K, Batchfile
+6K, Docker 3K. <strong>Helix OTA</strong> — a universal, decoupled
+over-the-air update system: a Go control plane plus per-OS client
+SDKs/agents. First target is Android 15 on Orange Pi 5 Max. Currently in
+specification/research phase; it is the umbrella for the six
+<code>ota-*</code> submodule repos.</p>
+<h3 id="helixdevelopmenthelix_cluster-61513-kb-go">8.
+HelixDevelopment/helix_cluster — 61,513 KB (Go)</h3>
+<p>Languages: Go 15.4M, TLA+ 316K, Shell 87K, PLpgSQL 55K, Python 42K,
+TypeScript 26K. <strong>Helix Cluster OS</strong> — a next-generation
+distributed operating system orchestrating compute across heterogeneous
+nodes (datacenter GPUs down to edge SBCs/handhelds). Unifies HPC
+scheduling, container orchestration, AI/ML inference, federated
+multi-cluster operation, and secure multi-tenant sessions under one
+control plane, with an Omega-model pluggable scheduler. (Note the TLA+
+formal-spec presence.)</p>
+<h3 id="helixdevelopmenthelixconstitution-61241-kb-html">9.
+HelixDevelopment/HelixConstitution — 61,241 KB (HTML)</h3>
+<p>Languages: HTML 2.4M, Go 297K, Shell 177K, Python 94K. The
+<strong>universal engineering constitution</strong> shared by every
+Helix project as a Git submodule — project-agnostic rules, constraints,
+and conventions (AGENTS.md / CLAUDE.md / QWEN.md). Includes a
+<code>submodules-catalogue.md</code> enumerating ~142 owned
+repositories. This is the governance backbone of the entire family.</p>
+<h3 id="helixdevelopmenthelixplay-59224-kb-go">10.
+HelixDevelopment/HelixPlay — 59,224 KB (Go)</h3>
+<p>Languages: Go 500K, Shell 99K, PowerShell 24K, Make 6K, JS 3K, Dart
+2K, Docker 2K. <strong>HelixPlay</strong> — turns any GPU-equipped
+machine into a remote <strong>cloud-gaming appliance</strong>, streaming
+console-class experiences at ≤30ms LAN / ≤50ms WAN p999 latency.
+Self-hostable, open, and white-labellable for partners; composed of 46
+submodules.</p>
+<h3 id="helixdevelopmenthelixqa-24704-kb-go">11.
+HelixDevelopment/helixqa — 24,704 KB (Go)</h3>
+<p>Languages: Go 5.2M, Shell 136K, TypeScript 17K, JS 12K, Make 4K,
+Docker 4K. <strong>HelixQA</strong> — an “anti-bluff” QA orchestration
+framework for cross-platform testing: real-time crash detection, step
+validation, evidence collection, and automated ticket generation.
+Governed heavily by the constitution’s CONST-* clauses; consumes the
+<code>digital.vasic.challenges</code> infrastructure.</p>
+<h3 id="helix-trackeverything-21700-kb-shell-private">12.
+Helix-Track/Everything — 21,700 KB (Shell, private)</h3>
+<p>Languages: Shell 69K, Kotlin 22K, HTML 20K. <strong>Wrapper/umbrella
+repository</strong> that aggregates all HelixTrack projects
+(repositories) — a meta-repo (likely submodule aggregator) rather than a
+standalone product. README is one line.</p>
+<h3 id="server-factorymail-server-factory-11584-kb-shell-fork">13.
+Server-Factory/Mail-Server-Factory — 11,584 KB (Shell, fork)</h3>
+<p>Languages: Shell 454K, Kotlin 179K, Docker 7K, C++ 1K, Sieve 633.
+<strong>Mail Server Factory</strong> — “Run Your Mail Server Like The
+Boss.” A production-ready automated mail-server
+provisioning/installation tool supporting 12 connection types (SSH,
+Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt, etc.), a full security
+framework, and 439 passing tests. Flagship of the Server-Factory
+org.</p>
+<h3 id="helixdevelopmentllmorchestrator-8658-kb-html">14.
+HelixDevelopment/LLMOrchestrator — 8,658 KB (HTML)</h3>
+<p>Languages: HTML 1.3M, Go 555K, Shell 42K, Make 2K. Standalone Go
+module (<code>digital.vasic.llmorchestrator</code>) for <strong>managing
+headless CLI agents</strong> (OpenCode, Claude Code, Gemini, Junie, Qwen
+Code) via a hybrid pipe+file protocol, with a decoupled
+<code>i18n.Translator</code> abstraction. Shared infrastructure consumed
+by multiple Helix projects; emphasizes “anti-bluff” guarantees. (Large
+HTML byte count is generated docs.)</p>
+<h3 id="server-factorymail-server-factory-website-6326-kb-shell">15.
+Server-Factory/Mail-Server-Factory-Website — 6,326 KB (Shell)</h3>
+<p>Languages: Shell 214. The <strong>GitHub Pages website</strong> for
+the Mail Server Factory project; actual site source lives on the
+<code>gh-pages</code> branch. Pure documentation/site repo.</p>
+<h2 id="product-family-notes">PRODUCT FAMILY NOTES</h2>
+<p>These orgs form one tightly-coupled, submodule-driven engineering
+ecosystem authored by the same owner (<code>milos85vasic</code> /
+package roots <code>dev.helix.*</code> and
+<code>digital.vasic.*</code>). The architecture is “constitution + many
+decoupled reusable submodules consumed by a few large product apps.”</p>
+<p><strong>Governance core (the spine):</strong> -
+<strong>HelixConstitution</strong> is the universal rulebook included as
+a Git submodule by every project (AGENTS.md / CLAUDE.md / QWEN.md,
+CONST-* clauses, a ~142-repo <code>submodules-catalogue.md</code>). It
+is what makes the family coherent. The recurring “anti-bluff,”
+“no-fakes,” “100% test-type coverage,” and “submodules-as-equal-codebase
+/ decoupling” themes seen across HelixAgent, HelixQA, LLMOrchestrator,
+and helix_cluster all trace back to it.</p>
+<p><strong>Flagship product apps (the large repos):</strong> -
+<strong>HelixAgent</strong> — the AI ensemble LLM service; the central
+brain that the AI/agent tooling plugs into (“AI debate ensemble”). -
+<strong>HelixCode</strong> — distributed AI coding-agent platform. -
+<strong>HelixTranslate</strong> — universal translation/ebook toolkit +
+real-time monitoring. - <strong>Helix-Track/Core</strong> — the
+JIRA-alternative issue tracker (its own product line with many clients).
+- <strong>HelixPlay</strong> — self-hostable cloud-gaming platform (46
+submodules). - <strong>helix_cluster (Helix Cluster OS)</strong> —
+distributed OS / scheduler that can host the inference and compute
+workloads. - <strong>helix_ota (Helix OTA)</strong> — universal OTA
+update system (control plane + clients). -
+<strong>Helix-Flow/Platform</strong> — unified AI-inference platform
+(the org has only this one repo; positioned as the inference/serving
+layer).</p>
+<p><strong>Shared/reusable libraries (small repos, consumed as
+submodules by the apps above):</strong> - <strong>LLMProvider</strong>
+(40+ provider adapters), <strong>LLMOrchestrator</strong> (headless
+CLI-agent management), <strong>HelixLLM</strong> (local model),
+<strong>HelixMemory</strong> (Mem0+Cognee+Letta memory engine for
+HelixAgent), <strong>HelixSpecifier</strong> (spec-driven-dev fusion for
+HelixAgent), <strong>DebateOrchestrator</strong> (multi-agent debate
+library), <strong>DagOrchestrator</strong> +
+<strong>PipelineRuntime</strong> (dataflow/DAG runtimes),
+<strong>VisionEngine</strong> (CV/LLM vision for UI),
+<strong>HelixGitpx</strong> (git proxy), <strong>HelixBuilder</strong>
+(AI build pipeline). - <strong>QA stack:</strong>
+<strong>helixqa</strong> (anti-bluff QA orchestrator) +
+<strong>DocProcessor</strong> (feature-map extraction for QA). -
+<strong>OTA submodules:</strong> the six <code>ota-*</code> repos
+(<code>ota-protocol</code>, <code>ota-rollout-engine</code>,
+<code>ota-artifact-validator</code>,
+<code>ota-update-engine-bridge</code>,
+<code>ota-telemetry-schema</code>, <code>ota-android-agent</code>) are
+the decomposed pieces of <strong>helix_ota</strong>.</p>
+<p><strong>Helix-Track product line (the issue tracker + its
+clients):</strong> - <strong>Core</strong> is the backend microservice.
+Around it sit per-platform <strong>clients</strong> —
+<code>iOS-Client</code>, <code>Android-Client</code>,
+<code>Desktop-Client</code>, <code>Web-Client</code>,
+<code>Aurora-Client</code>, <code>Harmony-OS-Client</code> — plus
+<code>Website</code>, <code>Website-Theme-Jekyll</code>,
+<code>Screensaver</code>, <code>Propriatery</code> (proprietary
+components), <code>Legacy-Project</code> (archived predecessor), and
+<code>Everything</code> (umbrella/aggregator meta-repo). Most clients
+are private.</p>
+<p><strong>Server-Factory (infrastructure-provisioning sibling
+family):</strong> - A separate, mostly-fork-based Kotlin/Shell org for
+<strong>server provisioning automation</strong>.
+<strong>Mail-Server-Factory</strong> is the flagship product;
+<strong>Core-Framework</strong> is the shared engine;
+<strong>Web-Service-Factory</strong>,
+<strong>SonarQube-Factory</strong>,
+<strong>Caching-Proxy-Factory</strong> are per-service “factories”;
+<strong>Stack/Software/Docker-Definitions</strong> are declarative
+configuration packs; <strong>Utils / Qemu-Utils /
+Parallels-Utils</strong> are tooling. It predates the Helix work
+(2022–2023 timestamps on several repos) and is more of an adjacent
+toolchain than part of the AI product core.</p>
+<p><strong>Demos / games:</strong> <code>Helix-Game-Demo</code>,
+<code>Stake-Tetris</code>, <code>Helix-Game-1</code> (all
+archived/private) are Stake-Engine game experiments, related to the
+gaming theme (HelixPlay, Helix-Game-Demo SDK) but not part of the
+production product line.</p>
+<p><strong>Summary of relationships:</strong> HelixConstitution = shared
+law → consumed by everything; a small set of large Go product apps
+(HelixAgent, HelixCode, HelixTranslate, HelixPlay, Helix-Track/Core,
+helix_cluster, helix_ota, Helix-Flow/Platform) compose dozens of small,
+deliberately-decoupled reusable submodule libraries. Helix-Track is its
+own product (tracker + many clients), and Server-Factory is an older,
+adjacent provisioning-automation toolchain.</p>
+</body>
+</html>

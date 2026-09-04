@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSkills</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSkills</h1>
+</header>
+<h1 id="helixskills">HelixSkills</h1>
+<p><strong>CLI
+AIエージェント向けの統治された、憲法に基づくスキルシステム</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixSkillsは、CLI AIエージェント向けのスキルシステムであり、Helix
+Constitutionをサブモジュールとして継承しているため、すべての普遍的な統治ルールが無条件に適用されます。このシステムは、インストール可能なエージェントスキル、MCPツールサーバー、Claude
+Codeプラグイン、そして再利用可能なエンジンを、登録可能で文書化されたカタログとしてパッケージ化しています。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>HelixSkillsは、CLI AIエージェント向けのスキルシステムです。Helix
+Constitutionをサブモジュールとして組み込んでいるため、すべての普遍的なルールが適用され、その後に登録可能なスキル（アクションプレフィックス、メディアバリデーター、マルチトラック、セッション同期、ワーク可能アイテムのライフサイクルなど）、2つのMCPツールサーバー、2つのClaude
+Codeプラグイン、そして再利用可能なエンジンを提供します。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixSkills（リポジトリ名
+<code>skills</code>、Apache-2.0ライセンス）は、CLI
+AIエージェント向けのスキルシステムであり、従来の順序を意図的に逆転させた設計から始まります。すなわち、機能よりも統治が優先されます。このシステムはHelix
+Constitutionを<code>constitution/</code>サブモジュールとして継承しているため、<code>constitution/CLAUDE.md</code>および<code>constitution/Constitution.md</code>に記載されたすべての普遍的なルールが無条件に適用されます。これは単なる慣習としてエージェントが遵守するものではなく、プロジェクトツリーに物理的に組み込まれたルールセットです。HelixSkillsを採用したエージェントは、憲法のルールをオプトアウトすることはできません。ルールはコードとともに移動します。</p>
+<p>多くの「スキルフレームワーク」が抽象的な概念を扱うのに対し、HelixSkillsは具体的で登録可能なインベントリを提供し、それを指定してインストールすることができます。7つの憲法スキルは<code>register.sh</code>を通じてインストールされます：action-prefix-system、media-validator、multitrack、reporting-workable-items、scheduled-work-queue、session-sync、workable-item-lifecycle。これらは中級から上級レベルまでの幅広い機能をカバーし、規律あるアクション命名からメディア検証、さらには作業単位の完全なライフサイクル管理に至るまでを網羅しています。また、追加のドラフトスキル（Android概要、Java/Kotlin言語、Linux
+OS）もすでにインデックス化され、有効化を待機中です。2つのMCPツールサーバー（media-validator、scheduled-work）は、これらのスキルをModel
+Context Protocolを介してエージェントに提供し、2つのClaude
+Codeプラグイン（helix、scheduled-work）は同じ機能をエージェントのランタイムに直接組み込みます。つまり、1つのスキルセットが、エージェントが使用するインターフェースに応じて提供されるのです。</p>
+<p>カタログの背後には、4つの深さ1の再利用可能なエンジンが存在します。continuum（実装済み）に加え、session_orchestrator、token_optimizer、clickup_sync（設計中）が含まれます。これらはスキルが共通の基盤を再構築することを防ぐ共有機構です。特にtoken_optimizerは、vasic-digitalエコシステムパッケージ（TOON、Embeddings、VectorDB、Normalize、conversation）およびHelixDevelopmentのLLMProviderに至る明示的な依存関係グラフを宣言しているため、そのリポジトリ間の接続は暗黙的ではなく監査可能です。全体を通じて、規律あるドキュメントが整備されています：スキルカタログ、自動生成されたスキルグラフインデックス、各リポジトリの詳細ページ、そしてまだ実装されていない部分を明示する「Gaps
+&amp;
+Risks」レジスタです。システム全体は、GitHub、GitLab、GitFlic、GitVerseにミラーリングされており、耐障害性と地域アクセスを確保しています。</p>
+<p>コンテンツ</p>
+<h2 id="なぜこれを構築したのか">なぜこれを構築したのか</h2>
+<p>CLIやAIのエージェントには、一貫性があり、統制され、再利用可能な機能が求められます。その場しのぎのスクリプトでルールを毎回作り直すのではなく、HelixSkillsはエージェントにパッケージ化され、登録可能なスキルセットを提供します。これは共有の憲章に基づいており、採用するすべてのエージェントやプロジェクトにおいて、振る舞いの一貫性と監査可能性が保たれます。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>エージェントの機能を、規律ではなく「構造的に」ポータブルかつルール準拠にすることができます。すべてのスキルは、憲章のサブモジュールによって統制され、バージョン管理され、インストール可能な単位として提供されます。そのため、エージェントがスキルを登録した瞬間に、標準的なルールセットを継承し、逸脱の余地はありません。これにより、これまで実現不可能だったことが可能になります。あるエージェントやプロジェクトから別のエージェントやプロジェクトへ機能を移行しても、同じガバナンスに最初から縛られていることが保証されます。しかも、その機能は、各自がルールを再発明する場当たり的な接着スクリプトの山ではなく、標準的なインターフェース（MCPサーバーやClaude
+Codeプラグイン）を通じて提供されます。</p>
+<h2 id="革新的なポイント">革新的なポイント</h2>
+<ul>
+<li><strong>サブモジュールとしてのConstitution</strong>：普遍的なガバナンスルールはコピーされるのではなく継承され、ツリーにマウントされることで、すべての利用エージェントが同じ標準ルールセットに縛られます。更新は単一の情報源から流れるため、陳腐化したコピーが十数個も生まれることはありません。</li>
+<li><strong>自己登録型スキルユニット</strong>：各スキルは<code>register.sh</code>によって登録され、インストール時に自動的に組み込まれます。さらに、自動生成されるスキルグラフインデックスとリポジトリごとの詳細ドキュメントにより、カタログは常に実際にインストールされている内容と同期し、発見可能性が保たれます。</li>
+<li><strong>マルチサーフェス対応</strong>：同一のスキルセットがMCPツールサーバーとClaude
+Codeプラグインの両方を通じてエージェントに提供されます。一度書けば、エージェントが使用するどのランタイムにも対応可能です。</li>
+<li><strong>再利用可能な深さ1のエンジン</strong>：「continuum」「token_optimizer」「session_orchestrator」「clickup_sync」などのエンジンがエコシステム全体で共有され、リポジトリ間の依存関係が明示的かつ監査可能な形で宣言されます。これにより、隠れた結合が排除されます。</li>
+</ul>
+<h2 id="最大の技術的課題とその解決策">最大の技術的課題とその解決策</h2>
+<ul>
+<li><strong>多数のスキルとエージェントにわたって振る舞いの一貫性とルール準拠を維持すること</strong>
+―
+スキルごとにガバナンスを再実装すると、時間とともに逸脱が生じます。この問題は、Helix
+Constitutionをサブモジュールとしてマウントすることで解決しました。これにより、<code>constitution/CLAUDE.md</code>や<code>constitution/Constitution.md</code>のルールが無条件に適用され、単一のアップストリームから更新されるため、コピーされて陳腐化することはありません。</li>
+<li><strong>増え続けるスキルセットをインストール可能かつ発見可能にすること</strong>
+―
+カタログがあっても、その中身を誰も見つけられなければ意味がありません。この課題は、スキルごとの<code>register.sh</code>による登録と、インストール時の自動組み込み、さらに自動生成されるINDEXスキルグラフとリポジトリごとの詳細ドキュメントによって解決しました。これにより、発見可能性が現実に即して自動的に追従します。</li>
+<li><strong>異なるランタイムを持つエージェントに対応すること</strong> ―
+同じ機能をホストごとに再構築する必要はありません。この問題は、MCPツールサーバー定義（<code>constitution/mcp/</code>配下）とClaude
+Codeプラグイン（<code>constitution/plugins/</code>配下）の両方で同一のスキルセットをパッケージ化することで解決しました。これにより、単一の実装が複数のインターフェースを通じて提供されます。</li>
+</ul>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Shell（主言語）</strong> —
+エージェントが稼働するあらゆる環境で、事前のランタイムブートストラップなしにインストールや登録ツールを実行できるよう選定。<code>register.sh</code>や<code>install_upstreams</code>を駆動し、導入時の依存関係を排除したポータブルな設計を実現。</li>
+<li><strong>Gitサブモジュール</strong> —
+ガバナンスを重複なく継承するために採用。Helix
+Constitutionは<code>constitution/</code>にライブリファレンスとしてマウントされており、ルールの更新はコピー＆ペーストではなく、一つのポインタを通じて伝播。</li>
+<li><strong>Model Context Protocol（MCP）</strong> —
+エージェント向けの標準的なランタイム非依存ツールインターフェースとして選定。<code>constitution/mcp/</code>配下に二つのMCPサーバー（media-validator、scheduled-work）を定義し、スキルを呼び出し可能なツールとして公開。</li>
+<li><strong>Claudeコードプラグイン</strong> —
+エージェントランタイムにスキルをネイティブに組み込むために採用。一切の接着コードなしで実装可能。二つのプラグイン（helix、scheduled-work）は<code>constitution/plugins/</code>配下に配置され、異なるホスト向けにMCPのインターフェースをミラーリング。</li>
+<li><strong>再利用可能エンジン（continuum、token_optimizer、session_orchestrator、clickup_sync）</strong>
+—
+個々のスキルから共通機能を切り出し、プロジェクト横断での再利用を可能にするために採用。例えばtoken_optimizerは、vasic-digitalのパッケージ群（TOON、Embeddings、VectorDB、Normalize、conversation）やHelixDevelopmentのLLMProviderと、コードの重複ではなく宣言的な依存関係で連携。</li>
+<li><strong>マルチホストGitミラーリング（GitHub、GitLab、GitFlic、GitVerse）</strong>
+—
+単一ホストの障害や地域ブロックによるアクセス遮断を防ぐために採用。同一リポジトリを四つのフォージで常時同期し、耐障害性とアクセス性を確保。</li>
+</ul>
+<h2 id="ステータスと正直な注意点">ステータスと正直な注意点</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+七つの憲法スキル、二つのMCPサーバー、二つのプラグインはリリース済み。ドラフトスキルはインデックス化されており、有効化待ち。四つの深度1エンジン（session_orchestrator、token_optimizer、clickup_sync）のうち三つはまだ設計段階。</li>
+<li>READMEではプロジェクトを<code>helix_skills</code>と表記しているが、正式なGitHubのパスは<code>HelixDevelopment/skills</code>。READMEに記載された「追跡対象の発見数」は自己申告による数値。</li>
+</ul>
+<p><strong>優先度区分：</strong> Helix-プライマリ。</p>
+</body>
+</html>

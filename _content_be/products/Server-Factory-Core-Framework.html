@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>Агульны рухавік кожнага Server Factory.</strong></p>
+<h2 id="змест">Змест</h2>
+<p><strong>Core Framework</strong> — гэта фрэймворк Kotlin, які ляжыць у
+аснове сямейства інструментаў разгортвання Server Factory. Ён
+забяспечвае агульны рухавік і абстракцыі, на якіх будуюцца такія
+праекты, як Mail Server Factory, каб кожная «фабрыка» выкарыстоўвала
+адзін правераны ў баях фундамент замест таго, каб паўтараць прымітывы
+разгортвання.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Агульны фрэймворк Kotlin, які ляжыць у аснове экасістэмы Server
+Factory. Ён забяспечвае агульны рухавік разгортвання, абстракцыі
+падлучэнняў і механізм крокаў усталявання, якія выкарыстоўваюцца
+далейшымі фабрыкамі (Mail Server Factory, Web Service Factory, SonarQube
+Factory і іншыя).</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p><strong>Core Framework</strong> — гэта тая няўлоўная інжынерная
+частка, якая робіць магчымым усё сямейства Server-Factory: паўторна
+выкарыстоўваны рухавік, на якім будуецца кожны асобны прадукт «фабрыкі»
+(Mail Server Factory, Web Service Factory, SonarQube Factory, Caching
+Proxy Factory). Падыход Server Factory з’яўляецца дэкларатыўным —
+карыстальнік апісвае інфраструктуру, якую ён хоча, у выглядзе
+канфігурацыі, а фабрыка інтэрпрэтуе гэты апісанне, каб усталяваць і
+ініцыялізаваць праграмнае забеспячэнне на мэтавай сістэме. І менавіта ў
+<strong>Core Framework</strong> жыве механізм, агульны для гэтага
+шаблону: абстракцыі падлучэнняў і транспарту, якія дасягаюць кожнага
+тыпу мэтавай сістэмы, мадэль крокаў усталявання, якая кадзіруе
+<em>як</em> праграмнае забеспячэнне разгортваецца, і агульная
+інфраструктура, якую ў адваротным выпадку кожнай фабрыцы давялося б
+пісаць самастойна. Гэта адказ на структурнае пытанне, з якім рана ці
+позна сутыкаецца любы інструментальны ланцужок з некалькіх прадуктаў:
+дзе павінен знаходзіцца агульны рухавік? І калі адказ на гэтае пытанне
+дадзены правільна адзін раз, гэта захоўвае цэласнасць сямейства замест
+таго, каб яно распадалася на чатыры крыху розныя разгортвальнікі.
+Цэнтралізацыя гэтага ў адным фрэймворку Kotlin дазваляе сямейству
+пазбегнуць дублявання лагікі разгортвання ў прадуктах і захоўвае
+аднастайнасць паводзін: паляпшэнне тыпу падлучэння ці прымітыву
+усталявання ў <strong>Core Framework</strong> прыносіць карысць кожнай
+далейшай фабрыцы. Ён амаль цалкам напісаны на Kotlin (прыкладна 990 Кб
+кода Kotlin з тонкім пластом Shell), што адлюстроўвае яго ролю як
+бібліятэкі кода, а не калекцыі скрыптоў. Далейшыя рэпазіторыі
+спасылаюцца на яго як на кананічную залежнасць (Parallels-Utils,
+Qemu-Utils, Utils і пакеты Definitions усе звяртаюцца да рэпазіторыя
+<strong>Core Framework</strong> як да цэнтра экасістэмы). Яго README
+наўмысна мінімальны — гэта інфраструктура для іншых праектаў, версіі
+якой кіруюцца праз
+<code>version.txt</code>/<code>version_code.txt</code> — і ён з’явіўся
+раней за пазнейшую працу AI, што робіць яго часткай сталай спадчыны
+DevOps-інструментарыя арганізацыі.</p>
+<h2 id="навошта-мы-яго-стварылі">Навошта мы яго стварылі</h2>
+<p>Кожнаму інструменту разгортвання патрэбны адны і тыя ж асновы:
+спосабы падлучэння да мэтавых сістэм і крокі для ўсталявання/наладкі
+праграмнага забеспячэння. Калі б гэта паўтаралася для кожнага прадукту,
+паводзіны сталі б фрагментаванымі, а колькасць памылак павялічылася б.
+<strong>Core Framework</strong> цэнтралізуе гэта, каб усе фабрыкі
+выкарыстоўвалі адзін надзейны рухавік.</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Гэта найбольш уплывовы пункт ва ўсім сямействе: калі тып падлучэння
+ўдасканалены ці прымітыў усталявання палепшаны тут, гэтае паляпшэнне і
+магчымасці распаўсюджваюцца на ўсе фабрыкі адначасова, таму ўвесь
+інструментальны ланцужок павялічвае сваю эфектыўнасць дзякуючы адной
+інвестыцыі. Гэта філасофія «ствары адзін раз, выкарыстоўвай усюды»,
+прымененая там, дзе яна прыносіць найбольшую карысць — на ўзроўні
+фундаменту аўтаматызацыі інфраструктуры, дзе выпраўленне ў правільным
+месцы выпраўляе ўсё, што ідзе далей.</p>
+<p>Змест</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Адзін зноў выкарыстоўваемы фрэймворк для правізіянінгу, які
+абстрагуе логіку падлучэння і ўстаноўкі.</li>
+<li>Чыстае падзяленне паміж рухавіком (Асноўны фрэймворк) і фабрыкамі,
+спецыфічнымі для прадуктаў.</li>
+<li>Дыстрыбуцыя з фіксаванай версіяй
+(<code>version.txt</code>/<code>version_code.txt</code>) для паўторнага
+выкарыстання.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Пазбяганне дублявання логікі правізіянінгу:</strong>
+вырашана шляхам вынясення агульнай механікі ў адзіны фрэймворк, які
+выкарыстоўваецца ўсімі фабрыкамі.</li>
+<li><strong>Аднастайныя паводзіны ў розных прадуктах:</strong> вырашана
+з дапамогай агульных абстракцый, каб тыпы падлучэнняў і этапы дзейнічалі
+аднолькава паўсюль.</li>
+<li><strong>(НЕПРАВЕРАНА):</strong> пэўныя ўнутраныя API не
+дакументаваны ў публічным README; разглядайце дэталі інтэрфейсаў як
+неправераныя за межамі “агульнага фрэймворка, які выкарыстоўваецца
+фабрыкамі”.</li>
+</ul>
+<h2 id="тэхнічны-стэк-чаму-як">Тэхнічны стэк (чаму + як)</h2>
+<ul>
+<li><strong>Kotlin</strong> — увесь фрэймворк (~990K байтаў); мова
+сямейства Server Factory.</li>
+<li><strong>Shell</strong> — мінімальныя дапаможныя скрыпты.</li>
+<li><strong>Gradle</strong> — інструменты зборкі (адпавядае выкарыстанню
+<code>./gradlew</code> у сямействе).</li>
+</ul>
+<blockquote>
+<p>Заўвага: GitHub пазначае рэпазіторый як форк у арганізацыі
+Server-Factory. Не засяроджаны на AI; пададзены як аснова інструментарыя
+правізіянінгу.</p>
+</blockquote>
+</body>
+</html>

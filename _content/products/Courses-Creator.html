@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Courses-Creator</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Courses-Creator</h1>
+</header>
+<p><strong>Markdown in, professional video course out — AI-enhanced,
+multi-platform.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>Courses-Creator is a toolkit that converts markdown scripts into
+professional video courses with AI-powered enhancements: multi-LLM
+content enrichment (OpenAI/Anthropic/Ollama), high-quality TTS and
+background music, and desktop, mobile, and web players — all
+Docker-deployed with Prometheus/Grafana monitoring.</p>
+<h2 id="short-description">Short description</h2>
+<p>Transforms markdown into engaging video courses. A Go processing
+engine enriches content via multiple LLM providers, generates narration
+(Bark/SpeechT5 TTS) and music, and delivers to Electron desktop, React
+Native mobile, and React web players, with full Docker deployment and
+monitoring.</p>
+<h2 id="long-description">Long description</h2>
+<p>Producing a video course is normally a small production studio’s
+worth of work: scripting, recording narration, sourcing music, editing,
+encoding, and then building players for every platform learners might
+use. Courses-Creator compresses that entire chain into a single input —
+a markdown script — and a single command. At its center is a Go
+core-processor that runs a full video/audio pipeline: it enhances the
+written content through multiple LLM providers (OpenAI, Anthropic, and
+local Ollama), synthesizes natural narration with text-to-speech engines
+(Bark, SpeechT5), layers background music, and assembles the pieces into
+finished course videos. The author’s job stays at the level of ideas and
+words; the system does the voicing, scoring, and production. And because
+a course is only useful if people can watch it, delivery is
+multi-platform by design: an Electron desktop creator app, a React
+Native mobile player, and a React web player, all fed by the same REST
+API and background job system — one backend, three first-class clients,
+no reimplementation per surface.</p>
+<p>Crucially, this is production infrastructure, not a demo reel. The
+backend carries PostgreSQL persistence, background job processing so
+long TTS/video renders never block the API, MCP server implementations
+for tool-augmented enhancement, Prometheus metrics, JWT authentication,
+and an nginx reverse proxy — and the whole thing ships as a Docker
+Compose deployment with Grafana/Prometheus monitoring profiles you can
+stand up in one step. The AI is an enhancement layer, not a dependency:
+every LLM provider is optional, so the pipeline runs with zero API keys
+for basic operation and lights up premium enrichment the moment keys are
+supplied. That single decision makes the same tool viable for a hobbyist
+working offline on a laptop and for an enterprise wiring in its provider
+of choice — and the whole media pipeline underneath is covered by unit,
+integration, and e2e tests rather than taken on faith.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>Producing course videos manually is slow: writing, narrating,
+scoring, and editing each take effort and specialist tools.
+Courses-Creator collapses that into a markdown-driven pipeline so a
+single source script becomes a produced course, with AI filling the gaps
+humans would otherwise fill by hand.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It turns course production from a specialist, multi-tool craft into a
+repeatable software pipeline: authoring, AI enrichment, narration and
+music generation, and multi-platform playback all live in one deployable
+stack. The graceful degradation to no-API-key operation is the quiet
+superpower — the same codebase serves a budget-conscious solo creator
+and an enterprise with a premium provider contract, with nothing to
+rewrite in between.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li>Markdown-to-video pipeline with pluggable multi-LLM enrichment
+(OpenAI/Anthropic/Ollama).</li>
+<li>Built-in TTS (Bark, SpeechT5) and background-music generation.</li>
+<li>MCP server implementations inside the processing engine for
+tool-augmented enhancement.</li>
+<li>One backend serving three first-class clients (Electron desktop,
+React Native mobile, React web).</li>
+</ul>
+<h2 id="challenges-solutions">Challenges &amp; solutions</h2>
+<ul>
+<li><strong>Heavy media processing:</strong> solved with a Go pipeline
+plus background job processing so long TTS/video jobs don’t block the
+API.</li>
+<li><strong>Optional-but-powerful AI:</strong> solved by making LLM
+providers optional and pluggable, with graceful fallback to basic
+functionality.</li>
+<li><strong>Multi-platform delivery:</strong> solved with a shared REST
+API and three dedicated player apps.</li>
+<li><strong>Operability:</strong> solved with Docker Compose profiles,
+Prometheus/Grafana, and JWT auth built in.</li>
+</ul>
+<h2 id="tech-stack-why-how">Tech stack (why + how)</h2>
+<ul>
+<li><strong>Go</strong> — core-processor engine, REST API, job runner,
+pipeline (972K+ bytes, dominant language).</li>
+<li><strong>TypeScript / React</strong> — web player and shared UI.</li>
+<li><strong>Electron</strong> — desktop creator app.</li>
+<li><strong>React Native</strong> — mobile player.</li>
+<li><strong>PostgreSQL</strong> — course/job persistence.</li>
+<li><strong>LLM providers (OpenAI, Anthropic, Ollama)</strong> — content
+enhancement.</li>
+<li><strong>TTS (Bark, SpeechT5)</strong> — narration synthesis.</li>
+<li><strong>MCP servers</strong> — tool integration inside the
+engine.</li>
+<li><strong>Docker Compose + nginx</strong> — full-stack deployment and
+reverse proxy.</li>
+<li><strong>Prometheus + Grafana</strong> — monitoring.</li>
+</ul>
+<blockquote>
+<p>Note: the public README quick-start uses a placeholder
+<code>your-org</code> clone URL.</p>
+</blockquote>
+</body>
+</html>

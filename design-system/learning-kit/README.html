@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1 id="opendesign-learning-kit">OpenDesign Learning Kit</h1>
+<p>A <strong>decoupled, reusable</strong> CSS component library for
+learning / education platforms. Every class is namespaced
+<code>lk-</code>. The kit is <strong>brand-neutral and
+theme-driven</strong>: it consumes only the OpenDesign
+<code>--od-*</code> token layer (plus a small <code>--lk-*</code> layer
+derived from it), so it renders correctly in <strong>light and
+dark</strong> with zero code changes and never hardcodes a brand colour
+(except as documented token fallbacks).</p>
+<ul>
+<li><strong>No external dependencies. No build step. No
+framework.</strong> Plain CSS custom properties and standard
+selectors.</li>
+<li><strong>Depends only on the OpenDesign token layer</strong>
+(<code>brand-*/milosvasic.css</code>) — see Constitution §11.4.6 (no
+bluff): the <code>--od-*</code> names below resolve against the real
+OpenDesign contract.</li>
+<li><strong>Accessible focus</strong> on every interactive element via
+<code>--od-focus</code>.</li>
+<li><strong>Respects
+<code>prefers-reduced-motion: reduce</code></strong> — non-essential
+motion is disabled while final visual states are preserved.</li>
+</ul>
+<h2 id="files">Files</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kit-tokens.css</code></td>
+<td>The <code>--lk-*</code> token layer (radius, elevation, gap, ring
+geometry, flip, skeleton, tints) — all derived from
+<code>--od-*</code>.</td>
+</tr>
+<tr>
+<td><code>learning-kit.css</code></td>
+<td>The component library (all <code>lk-*</code> classes).</td>
+</tr>
+<tr>
+<td><code>demo.html</code></td>
+<td>Standalone page rendering every component in light
+<strong>and</strong> dark. Open directly in a browser.</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>This document.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-use">Install / use</h2>
+<p>Load the OpenDesign token layer first, then the kit tokens, then the
+components:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;brand-milosvasic/milosvasic.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;learning-kit/kit-tokens.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;learning-kit/learning-kit.css&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>Or with <code>@import</code> (order matters — tokens before
+components):</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">@import</span> <span class="fu">url(</span><span class="st">&quot;brand-milosvasic/milosvasic.css&quot;</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">@import</span> <span class="fu">url(</span><span class="st">&quot;learning-kit/kit-tokens.css&quot;</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">@import</span> <span class="fu">url(</span><span class="st">&quot;learning-kit/learning-kit.css&quot;</span><span class="fu">)</span><span class="op">;</span></span></code></pre></div>
+<p>Theme switching is inherited from OpenDesign: set
+<code>data-theme="dark"</code> / <code>data-theme="light"</code> on
+<code>:root</code> (or leave it to <code>prefers-color-scheme</code>).
+The kit needs no theme code of its own.</p>
+<blockquote>
+<p><strong>Standalone fallback.</strong> If the OpenDesign brand
+stylesheet is ever absent, <code>kit-tokens.css</code> supplies a
+neutral fallback palette via an <code>@supports</code> block so the kit
+still renders — but the OpenDesign layer is the intended dependency.</p>
+</blockquote>
+<hr />
+<h2 id="kit-tokens-kit-tokens.css">Kit tokens
+(<code>kit-tokens.css</code>)</h2>
+<p>All are declared on <code>:root</code> and derived from
+<code>--od-*</code>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Token</th>
+<th>Derived from</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--lk-radius-sm</code> / <code>--lk-radius</code> /
+<code>--lk-radius-lg</code> / <code>--lk-radius-pill</code></td>
+<td><code>--od-radius-*</code></td>
+<td>Component corner radii.</td>
+</tr>
+<tr>
+<td><code>--lk-elev-1</code> / <code>--lk-elev-2</code> /
+<code>--lk-elev-3</code></td>
+<td><code>--od-shadow-color</code></td>
+<td>Elevation ramp (re-tints in dark).</td>
+</tr>
+<tr>
+<td><code>--lk-gap-xs…xl</code></td>
+<td><code>--od-space-*</code></td>
+<td>Kit spacing scale.</td>
+</tr>
+<tr>
+<td><code>--lk-ring-size</code> / <code>--lk-ring-thickness</code></td>
+<td>— (structural)</td>
+<td>Progress-ring geometry.</td>
+</tr>
+<tr>
+<td><code>--lk-ring-track</code> / <code>--lk-ring-fill</code> /
+<code>--lk-ring-text</code></td>
+<td><code>--od-surface-2</code> / <code>--od-accent</code> /
+<code>--od-text</code></td>
+<td>Progress-ring colours.</td>
+</tr>
+<tr>
+<td><code>--lk-flip-dur</code> / <code>--lk-flip-ease</code> /
+<code>--lk-flip-perspective</code></td>
+<td><code>--od-dur-slow</code> / <code>--od-ease-emphasized</code></td>
+<td>Flashcard 3D flip.</td>
+</tr>
+<tr>
+<td><code>--lk-skeleton-base</code> / <code>--lk-skeleton-sheen</code> /
+<code>--lk-skeleton-dur</code></td>
+<td><code>--od-surface-2</code> / <code>--od-text</code></td>
+<td>Loading shimmer.</td>
+</tr>
+<tr>
+<td><code>--lk-tint-accent</code> / <code>--lk-tint-success</code> /
+<code>--lk-tint-danger</code></td>
+<td><code>--od-accent</code> / <code>--od-success</code> /
+<code>--od-danger</code> + <code>--od-surface</code></td>
+<td>Soft semantic washes.</td>
+</tr>
+<tr>
+<td><code>--lk-lift</code> / <code>--lk-z-fab</code></td>
+<td>— (structural)</td>
+<td>Hover lift, FAB stacking.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="components">Components</h2>
+<h3 id="lk-card"><code>lk-card</code></h3>
+<p>Base surface card. Elements: <code>lk-card__title</code>,
+<code>lk-card__body</code>. <strong>Variants:</strong>
+<code>lk-card--interactive</code> (lifts on hover/focus),
+<code>lk-card--accent</code> (leading accent rail).
+<strong>Tokens:</strong> <code>--od-surface</code>,
+<code>--od-border</code>, <code>--lk-radius</code>,
+<code>--lk-elev-1/3</code>, <code>--od-accent</code>,
+<code>--od-focus</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">article</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-card lk-card--interactive lk-card--accent&quot;</span><span class="ot"> tabindex</span><span class="op">=</span><span class="st">&quot;0&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">h3</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-card__title&quot;</span><span class="dt">&gt;</span>Card title<span class="dt">&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-card__body&quot;</span><span class="dt">&gt;</span>Supporting copy.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">article</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-track-card"><code>lk-track-card</code></h3>
+<p>Learning-track / course card with a media band and a linear progress
+footer. Elements: <code>lk-track-card__media</code> (drop an
+<code>&lt;img&gt;</code> inside), <code>lk-track-card__content</code>,
+<code>lk-track-card__eyebrow</code>, <code>lk-track-card__title</code>,
+<code>lk-track-card__desc</code>, <code>lk-track-card__footer</code>,
+<code>lk-track-card__progress</code>,
+<code>lk-track-card__progress-label</code>. Set progress with the inline
+custom property <code>--lk-progress</code> (a percentage).
+<strong>Tokens:</strong> <code>--od-surface</code>,
+<code>--od-border</code>, <code>--lk-elev-1/3</code>,
+<code>--od-accent</code>, <code>--od-surface-2</code>.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">article</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card&quot;</span><span class="ot"> tabindex</span><span class="op">=</span><span class="st">&quot;0&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__media&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__content&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__eyebrow&quot;</span><span class="dt">&gt;</span>12 modules · 6h<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">h3</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__title&quot;</span><span class="dt">&gt;</span>Design Systems 101<span class="dt">&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__desc&quot;</span><span class="dt">&gt;</span>Tokens, components, theming and accessibility.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__footer&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__progress&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;--lk-progress:64%&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-track-card__progress-label&quot;</span><span class="dt">&gt;</span>64%<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">article</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-module-card"><code>lk-module-card</code></h3>
+<p>Compact lesson/module row: leading index, title + meta, trailing
+state. Elements: <code>lk-module-card__index</code>,
+<code>lk-module-card__main</code>, <code>lk-module-card__title</code>,
+<code>lk-module-card__meta</code>. <strong>Variants/states:</strong>
+<code>lk-module-card--interactive</code>,
+<code>lk-module-card--done</code> (accent index),
+<code>lk-module-card--locked</code> (dimmed, not-allowed).
+<strong>Tokens:</strong> <code>--od-surface</code>,
+<code>--od-border</code>, <code>--od-accent</code>,
+<code>--od-on-accent</code>, <code>--od-surface-2</code>,
+<code>--lk-elev-1/2</code>.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-module-card lk-module-card--done lk-module-card--interactive&quot;</span><span class="ot"> tabindex</span><span class="op">=</span><span class="st">&quot;0&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-module-card__index&quot;</span><span class="dt">&gt;</span>✓<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-module-card__main&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-module-card__title&quot;</span><span class="dt">&gt;</span>Introduction to tokens<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-module-card__meta&quot;</span><span class="dt">&gt;</span>Completed · 18 min<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-pill lk-pill--success&quot;</span><span class="dt">&gt;</span>Done<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-flashcard"><code>lk-flashcard</code></h3>
+<p>3D flip card with a front and back face. Toggle with
+<code>.is-flipped</code> on the root (e.g. via JS on click) — CSS also
+flips on <code>:focus-within</code> as a no-JS fallback. Elements:
+<code>lk-flashcard__inner</code>, <code>lk-flashcard__face</code> +
+<code>lk-flashcard__face--front</code> /
+<code>lk-flashcard__face--back</code>, plus content helpers
+<code>lk-flashcard__kicker</code>, <code>lk-flashcard__term</code>,
+<code>lk-flashcard__definition</code>. <strong>Tokens:</strong>
+<code>--lk-flip-dur</code>, <code>--lk-flip-ease</code>,
+<code>--lk-flip-perspective</code>, <code>--od-surface</code>,
+<code>--od-accent</code>, <code>--od-on-accent</code>,
+<code>--lk-elev-2</code>, <code>--od-focus</code>.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard&quot;</span><span class="ot"> tabindex</span><span class="op">=</span><span class="st">&quot;0&quot;</span><span class="ot"> role</span><span class="op">=</span><span class="st">&quot;button&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;Flip to reveal&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__inner&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__face lk-flashcard__face--front&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__kicker&quot;</span><span class="dt">&gt;</span>Term<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__term&quot;</span><span class="dt">&gt;</span>Cascade<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__face lk-flashcard__face--back&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__kicker&quot;</span><span class="dt">&gt;</span>Definition<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-flashcard__definition&quot;</span><span class="dt">&gt;</span>The algorithm that resolves which CSS rule wins.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-quiz-option"><code>lk-quiz-option</code></h3>
+<p>Selectable answer (<code>&lt;button&gt;</code> recommended).
+Elements: <code>lk-quiz-option__marker</code>,
+<code>lk-quiz-option__text</code>. <strong>States:</strong> default;
+<code>lk-quiz-option--selected</code> (or
+<code>[aria-checked="true"]</code>);
+<code>lk-quiz-option--correct</code>;
+<code>lk-quiz-option--incorrect</code>; plus <code>:disabled</code> /
+<code>[aria-disabled="true"]</code>. <strong>Tokens:</strong>
+<code>--od-surface</code>, <code>--od-border</code>,
+<code>--od-accent</code>, <code>--lk-tint-accent</code>,
+<code>--od-success</code>, <code>--lk-tint-success</code>,
+<code>--od-danger</code>, <code>--lk-tint-danger</code>,
+<code>--od-focus</code>.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-quiz-option lk-quiz-option--selected&quot;</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;button&quot;</span><span class="ot"> aria-checked</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-quiz-option__marker&quot;</span><span class="dt">&gt;</span>B<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-quiz-option__text&quot;</span><span class="dt">&gt;</span>Selected option<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-progress-ring"><code>lk-progress-ring</code></h3>
+<p>Circular progress in two interchangeable forms.</p>
+<ul>
+<li><strong>SVG variant:</strong> classes
+<code>lk-progress-ring__svg</code>,
+<code>lk-progress-ring__track</code>,
+<code>lk-progress-ring__value</code>. Drive the arc with
+<code>stroke-dasharray</code> (circumference) and
+<code>stroke-dashoffset</code>. For <code>r="43"</code> the
+circumference is <code>270.18</code>.</li>
+<li><strong>Conic variant:</strong> <code>lk-progress-ring--conic</code>
+— no SVG. Set <code>--lk-progress</code> (0–100, unitless) inline.</li>
+</ul>
+<p>Both center a <code>lk-progress-ring__label</code>.
+<strong>Tokens:</strong> <code>--lk-ring-size</code>,
+<code>--lk-ring-thickness</code>, <code>--lk-ring-track</code>,
+<code>--lk-ring-fill</code>, <code>--lk-ring-text</code>.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- SVG --&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring&quot;</span><span class="ot"> role</span><span class="op">=</span><span class="st">&quot;img&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;72 percent complete&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">svg</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring__svg&quot;</span><span class="ot"> viewBox</span><span class="op">=</span><span class="st">&quot;0 0 96 96&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">circle</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring__track&quot;</span><span class="ot"> cx</span><span class="op">=</span><span class="st">&quot;48&quot;</span><span class="ot"> cy</span><span class="op">=</span><span class="st">&quot;48&quot;</span><span class="ot"> r</span><span class="op">=</span><span class="st">&quot;43&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">circle</span><span class="dt">&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">circle</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring__value&quot;</span><span class="ot"> cx</span><span class="op">=</span><span class="st">&quot;48&quot;</span><span class="ot"> cy</span><span class="op">=</span><span class="st">&quot;48&quot;</span><span class="ot"> r</span><span class="op">=</span><span class="st">&quot;43&quot;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ot">      stroke-dasharray</span><span class="op">=</span><span class="st">&quot;270.18&quot;</span><span class="ot"> stroke-dashoffset</span><span class="op">=</span><span class="st">&quot;75.65&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">circle</span><span class="dt">&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">svg</span><span class="dt">&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring__label&quot;</span><span class="dt">&gt;</span>72%<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Conic --&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring lk-progress-ring--conic&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;--lk-progress:45&quot;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="ot">     role</span><span class="op">=</span><span class="st">&quot;img&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;45 percent complete&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-progress-ring__label&quot;</span><span class="dt">&gt;</span>45%<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-pill-lk-badge"><code>lk-pill</code> /
+<code>lk-badge</code></h3>
+<p><code>lk-pill</code> — soft status/label token.
+<strong>Variants:</strong> <code>lk-pill--accent</code>,
+<code>lk-pill--success</code>, <code>lk-pill--warning</code>,
+<code>lk-pill--danger</code>; optional leading
+<code>lk-pill__dot</code>. <code>lk-badge</code> — tiny count badge;
+<strong>variant</strong> <code>lk-badge--dot</code> (indicator dot).
+<strong>Tokens:</strong> <code>--od-surface-2</code>,
+<code>--lk-tint-accent</code>, <code>--od-accent</code>,
+<code>--od-success</code>, <code>--od-warning</code>,
+<code>--od-danger</code>, <code>--od-on-accent</code>,
+<code>--lk-radius-pill</code>.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-pill lk-pill--success&quot;</span><span class="dt">&gt;</span>Completed<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-pill&quot;</span><span class="dt">&gt;&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-pill__dot&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span>Neutral<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-badge&quot;</span><span class="dt">&gt;</span>9+<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-badge lk-badge--dot&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;new&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-hero"><code>lk-hero</code></h3>
+<p>Course / page hero band with a token-tinted radial wash. Elements:
+<code>lk-hero__eyebrow</code>, <code>lk-hero__title</code>,
+<code>lk-hero__lede</code>, <code>lk-hero__actions</code>.
+<strong>Tokens:</strong> <code>--od-accent</code>,
+<code>--od-surface</code>, <code>--od-border</code>,
+<code>--od-text</code>, <code>--od-text-muted</code>,
+<code>--od-font-display</code>, <code>--lk-radius-lg</code>.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-hero&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-hero__eyebrow&quot;</span><span class="dt">&gt;</span>Path · Frontend<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">h2</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-hero__title&quot;</span><span class="dt">&gt;</span>Master Modern CSS<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-hero__lede&quot;</span><span class="dt">&gt;</span>Twelve hands-on modules from tokens to container queries.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-hero__actions&quot;</span><span class="dt">&gt;&lt;</span><span class="kw">button</span><span class="dt">&gt;</span>Start learning<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-stat"><code>lk-stat</code></h3>
+<p>Metric tile. Elements: <code>lk-stat__value</code>,
+<code>lk-stat__label</code>, <code>lk-stat__trend</code> (+
+<code>lk-stat__trend--up</code> / <code>lk-stat__trend--down</code>).
+<strong>Tokens:</strong> <code>--od-surface</code>,
+<code>--od-border</code>, <code>--od-accent</code>,
+<code>--od-success</code>, <code>--od-danger</code>,
+<code>--lk-elev-1</code>.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-stat&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-stat__value&quot;</span><span class="dt">&gt;</span>68%<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-stat__label&quot;</span><span class="dt">&gt;</span>Course progress<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-stat__trend lk-stat__trend--up&quot;</span><span class="dt">&gt;</span>▲ 12% this week<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-chip"><code>lk-chip</code></h3>
+<p>Filter / tag chip. <strong>States:</strong>
+<code>lk-chip--selected</code> (or <code>[aria-pressed="true"]</code>).
+Optional trailing <code>lk-chip__remove</code> button.
+<strong>Tokens:</strong> <code>--od-surface</code>,
+<code>--od-border</code>, <code>--od-accent</code>,
+<code>--od-on-accent</code>, <code>--od-focus</code>,
+<code>--lk-radius-pill</code>.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-chip lk-chip--selected&quot;</span><span class="ot"> aria-pressed</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="dt">&gt;</span>All<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-chip&quot;</span><span class="dt">&gt;</span>React</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-chip__remove&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;Remove React filter&quot;</span><span class="dt">&gt;</span>×<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-skeleton"><code>lk-skeleton</code></h3>
+<p>Loading placeholder with a shimmer sweep
+(<code>@keyframes lk-shimmer</code>). <strong>Shapes:</strong>
+<code>lk-skeleton--text</code>, <code>lk-skeleton--title</code>,
+<code>lk-skeleton--line-sm</code>, <code>lk-skeleton--line-lg</code>,
+<code>lk-skeleton--avatar</code>, <code>lk-skeleton--thumb</code>.
+<strong>Tokens:</strong> <code>--lk-skeleton-base</code>,
+<code>--lk-skeleton-sheen</code>, <code>--lk-skeleton-dur</code>,
+<code>--lk-radius</code>. Motion is removed under
+<code>prefers-reduced-motion</code>.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-card&quot;</span><span class="ot"> aria-busy</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-skeleton lk-skeleton--thumb&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-skeleton lk-skeleton--title&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-skeleton lk-skeleton--text lk-skeleton--line-lg&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-nav"><code>lk-nav</code></h3>
+<p>Horizontal learning nav / tab strip. Item: <code>lk-nav__item</code>;
+<strong>active</strong> via <code>lk-nav__item--active</code>,
+<code>[aria-current="page"]</code> or
+<code>[aria-selected="true"]</code> (accent underline scales in).
+<strong>Tokens:</strong> <code>--od-border</code>,
+<code>--od-text-muted</code>, <code>--od-text</code>,
+<code>--od-accent</code>, <code>--od-focus</code>.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">nav</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-nav&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;Course sections&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-nav__item lk-nav__item--active&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;#&quot;</span><span class="ot"> aria-current</span><span class="op">=</span><span class="st">&quot;page&quot;</span><span class="dt">&gt;</span>Overview<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-nav__item&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;#&quot;</span><span class="dt">&gt;</span>Modules<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-nav__item&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;#&quot;</span><span class="dt">&gt;</span>Practice <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-badge&quot;</span><span class="dt">&gt;</span>3<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">nav</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-breadcrumb"><code>lk-breadcrumb</code></h3>
+<p>Path trail (<code>&lt;ol&gt;</code>). Elements:
+<code>lk-breadcrumb__item</code>, <code>lk-breadcrumb__link</code>,
+<code>lk-breadcrumb__sep</code> (mark <code>aria-hidden</code>), and the
+current page via <code>[aria-current="page"]</code> on the item.
+<strong>Tokens:</strong> <code>--od-text-muted</code>,
+<code>--od-text</code>, <code>--od-accent</code>,
+<code>--od-border</code>, <code>--od-focus</code>.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ol</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-breadcrumb&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-breadcrumb__item&quot;</span><span class="dt">&gt;&lt;</span><span class="kw">a</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-breadcrumb__link&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;#&quot;</span><span class="dt">&gt;</span>Home<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-breadcrumb__sep&quot;</span><span class="ot"> aria-hidden</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="dt">&gt;</span>/<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-breadcrumb__item&quot;</span><span class="ot"> aria-current</span><span class="op">=</span><span class="st">&quot;page&quot;</span><span class="dt">&gt;</span>Modern CSS<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ol</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-fab"><code>lk-fab</code></h3>
+<p>Floating action button (<code>position: fixed</code>, bottom-right).
+<strong>Variant:</strong> <code>lk-fab--icon</code> (circular,
+icon-only). <strong>Tokens:</strong> <code>--od-accent</code>,
+<code>--od-accent-hover</code>, <code>--od-on-accent</code>,
+<code>--lk-elev-3</code>, <code>--od-focus</code>,
+<code>--lk-z-fab</code>, <code>--lk-radius-pill</code>.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-fab&quot;</span><span class="dt">&gt;</span>＋ New note<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-fab lk-fab--icon&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;Add&quot;</span><span class="dt">&gt;</span>＋<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="lk-toast"><code>lk-toast</code></h3>
+<p>Notification inside a stacking <code>lk-toast-region</code>.
+Elements: <code>lk-toast__icon</code>, <code>lk-toast__body</code>,
+<code>lk-toast__title</code>, <code>lk-toast__msg</code>,
+<code>lk-toast__close</code>. <strong>Variants:</strong>
+<code>lk-toast--success</code>, <code>lk-toast--warning</code>,
+<code>lk-toast--danger</code> (default is accent). Enter animation
+<code>@keyframes lk-toast-in</code>; disabled under reduced motion.
+<strong>Tokens:</strong> <code>--od-surface</code>,
+<code>--od-text</code>, <code>--od-accent</code>,
+<code>--od-success</code>, <code>--od-warning</code>,
+<code>--od-danger</code>, <code>--lk-elev-3</code>,
+<code>--od-z-toast</code>, <code>--od-focus</code>.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast-region&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast lk-toast--success&quot;</span><span class="ot"> role</span><span class="op">=</span><span class="st">&quot;status&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast__icon&quot;</span><span class="dt">&gt;</span>✓<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast__body&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast__title&quot;</span><span class="dt">&gt;</span>Module complete<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast__msg&quot;</span><span class="dt">&gt;</span>You earned the Color <span class="dv">&amp;amp;</span> Contrast badge.<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;lk-toast__close&quot;</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">&quot;Dismiss&quot;</span><span class="dt">&gt;</span>×<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<hr />
+<h2 id="accessibility-motion">Accessibility &amp; motion</h2>
+<ul>
+<li>Every interactive control exposes a visible focus ring
+(<code>outline: 2px solid var(--od-focus)</code>).</li>
+<li>Semantic marker colours on quiz options / pills use fixed
+white/near-black text where needed to hold WCAG AA contrast on
+green/amber/red in both themes (per §11.4.107), rather than a
+theme-flipping token.</li>
+<li><code>@media (prefers-reduced-motion: reduce)</code> disables hover
+lifts, the flashcard flip transition, progress transitions, the skeleton
+shimmer and the toast enter animation, while keeping all final states
+visible.</li>
+</ul>
+<h2 id="decoupling-statement">Decoupling statement</h2>
+<p>This kit is <strong>fully self-contained and reusable across
+projects</strong>. Its only dependency is the OpenDesign
+<code>--od-*</code> token layer. It introduces no JavaScript requirement
+(the <code>demo.html</code> script is illustrative only), no framework
+binding, and no build tooling. Drop the two CSS files into any
+OpenDesign-tokened site and the <code>lk-*</code> components inherit
+that site’s brand and theme automatically.</p>
+<p><strong>Version:</strong> 1.0.0</p>
+</body>
+</html>

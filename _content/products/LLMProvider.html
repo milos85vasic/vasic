@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMProvider</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMProvider</h1>
+</header>
+<h1 id="llmprovider">LLMProvider</h1>
+<p><strong>One interface, 43 providers — with circuit breakers, retries,
+and health baked in.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>LLMProvider is a generic, reusable Go module that defines a unified
+<code>LLMProvider</code> interface plus the production resilience
+patterns around it — circuit breaker, health monitoring, retry with
+backoff, lazy loading — and ships 43 concrete provider implementations
+behind that one contract, with an OpenAI-compatible generic adapter and
+honest, no-hardcoded-fallback model discovery.</p>
+<h2 id="short-description">Short description</h2>
+<p>A reusable Go module exposing one <code>LLMProvider</code> interface
+(<code>Complete</code>, <code>CompleteStream</code>,
+<code>HealthCheck</code>, <code>GetCapabilities</code>,
+<code>ValidateConfig</code>) plus fault-tolerance primitives — circuit
+breaker, health monitor, jittered-backoff retry, lazy init — over 43
+provider adapters and a generic OpenAI-compatible adapter.
+Thread-safe.</p>
+<h2 id="long-description">Long description</h2>
+<p>LLMProvider is the abstraction layer every LLM-consuming service
+needs but almost nobody builds well — the unglamorous plumbing that
+separates a demo from a system that survives contact with real traffic.
+It defines a single, capability-aware interface — <code>Complete</code>,
+<code>CompleteStream</code>, <code>HealthCheck</code>,
+<code>GetCapabilities</code>, <code>ValidateConfig</code> — so
+application code targets exactly one contract no matter which of 43
+backends answers the call, and then it ships the operational hardening
+that turns fragile provider calls into something you can run in
+production without holding your breath. A three-state circuit breaker
+(closed → open → half-open) transparently wraps any provider —
+<em>including its streaming channel</em>, where an empty stream is
+correctly counted as a failure — so a single misbehaving backend can
+trip open and stop taking the whole service down with it; a central
+<code>CircuitBreakerManager</code> tracks every breaker at once. A
+configurable health monitor continuously walks providers through healthy
+/ degraded / unhealthy / unknown states on threshold-and-interval
+checks, so degradation is observed rather than discovered by an outage.
+Retry logic layers exponential backoff with jitter on top, making
+status-aware decisions — retry the errors worth retrying (429, 5xx,
+transient network faults), never burn cycles on 4xx or a cancelled
+context — with delays clamped so a backoff storm can’t run away. And a
+lazy-init pattern defers each provider’s construction until its first
+real use — a deliberate design choice that keeps registration of all 43
+providers essentially free.</p>
+<p>The module ships 43 concrete provider packages plus a
+<code>generic</code> OpenAI-compatible adapter that implements the full
+interface against <em>any</em> <code>/v1/chat/completions</code>
+endpoint — Bearer auth, SSE streaming with correct <code>[DONE]</code>
+handling — so a vendor without a dedicated package is still a
+first-class citizen the moment you point the adapter at its URL.
+Credentials are resolved in exactly one place (<code>apikeys</code>,
+using a strict <code>ApiKey_&lt;Provider&gt;</code> convention), closing
+off the whole “hardcoded key passes the test suite, the real key was
+never wired, product breaks in prod” class of bug at the source. Model
+discovery is deliberately, almost stubbornly honest: it queries live
+provider APIs behind a TTL cache, and — per governance — the old
+hardcoded fallback tier was deleted outright. When live discovery fails,
+LLMProvider returns <em>nothing</em> rather than a stale catalogue, so a
+caller is never handed a model ID that looks valid and then can’t be
+invoked. Every piece of this is built thread-safe for concurrent
+use.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>Naive LLM calls fail in production — providers rate-limit, degrade,
+or go down, and one bad backend can take a service with it. Model
+catalogues drift, and hardcoded lists hand callers IDs that no longer
+work. LLMProvider centralizes the interface, the resilience patterns,
+and honest discovery so every consumer inherits fault tolerance and
+truthfulness for free.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It collapses “integrate an LLM provider” down to a single move —
+implement one interface, or just point the generic adapter at an
+endpoint — and then wraps that provider, automatically and
+transparently, in circuit breaking, health monitoring, and
+jittered-backoff retry. Resilience stops being something each team
+reinvents (badly, under deadline, after the first outage) and becomes
+the library’s default behaviour across all 43 backends. The reliability
+engineering is written once, tested hard, and inherited for free by
+everyone who imports it.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li><strong>One capability-aware interface</strong> — completion,
+streaming, health, capabilities, and config validation collapsed into a
+single contract every backend honours identically.</li>
+<li><strong>Transparent circuit-breaker wrapping — including
+streams.</strong> The breaker protects <code>CompleteStream</code>’s
+channel, not just request/response, and treats an empty stream as the
+failure it really is — with deadlock-safe, off-lock listener
+notification.</li>
+<li><strong>43 provider packages + a generic OpenAI-compatible
+adapter</strong> — dedicated packages stay thin, and any unlisted vendor
+speaking <code>/v1/chat/completions</code> works the instant you aim the
+adapter at it.</li>
+<li><strong>Single credential authority (<code>apikeys</code>)</strong>
+— exactly one place reads <code>ApiKey_&lt;Provider&gt;</code> env vars,
+structurally eliminating the “green tests, broken product” mismatch
+instead of merely warning about it.</li>
+<li><strong>Honest model discovery (no hardcoded fallback)</strong> —
+live provider APIs behind a TTL cache; on failure it returns
+<code>nil</code>, never a stale or fabricated catalogue that hands out
+un-invokable IDs.</li>
+<li><strong>Lazy init with <code>sync.Once</code></strong> —
+construction is deferred to first use, so registering all 43 providers
+costs almost nothing until you actually call one.</li>
+<li><strong>Anti-bluff, multi-locale Challenge stack</strong> — a real
+runner that exercises circuit, health, and retry behaviour across five
+locales, gated by paired mutation testing (unmutated code must exit 0;
+an injected mutation must force exit 99), so a passing suite provably
+means working behaviour.</li>
+</ul>
+<h2 id="biggest-technical-challenges-how-we-solved-them">Biggest
+technical challenges &amp; how we solved them</h2>
+<ul>
+<li><strong>Cascading provider failures.</strong> One flaky backend must
+not drag a whole service down with it. Solved with a three-state circuit
+breaker (closed → open → half-open) that transparently wraps any
+provider <em>and its stream</em>, trips open on sustained failure,
+probes for recovery in half-open, and is coordinated centrally by a
+<code>CircuitBreakerManager</code>.</li>
+<li><strong>Transient errors and rate limits.</strong> Solved with
+status-aware exponential backoff plus jitter —
+<code>min(InitialDelay·Multiplier^(n-1), MaxDelay) ± jitter</code> — so
+retries spread out instead of synchronising into a thundering herd. It
+retries exactly what should be retried (429, 500, 502, 503, 504, and
+network errors) and refuses to waste attempts on a cancelled context or
+any other 4xx.</li>
+<li><strong>Scaling to many registered-but-unused providers.</strong>
+With 43 providers registered but only a handful live in any given
+service, eager construction would be pure waste. Solved with lazy
+initialization guarded by <code>sync.Once</code>, so only the providers
+you actually call ever pay their setup cost.</li>
+<li><strong>Handing out invalid model IDs.</strong> Solved by deleting
+the hardcoded discovery fallback tier outright (per CONST-036) and
+returning nothing on live-discovery failure — plus a defensive
+copy-on-return so a caller can’t mutate the cache or race another
+reader. Truthfulness is enforced structurally, not by convention.</li>
+<li><strong>Streaming + concurrency correctness.</strong> The subtle
+failure mode is a deadlock between the breaker’s lock and its listener
+callbacks. Solved by snapshotting listeners and notifying them off-lock
+under a 5-second timeout, and by unlocking before notifying on reset —
+with every component built for concurrent use and pinned by the
+<code>-race</code> suite.</li>
+</ul>
+<h2 id="tech-stack">Tech stack</h2>
+<ul>
+<li><strong>Go (1.25.3)</strong> — chosen for first-class concurrency,
+static binaries, and a strong standard library; carries the module, the
+interface, every resilience primitive, and all 43 adapters.</li>
+<li><strong><code>net/http</code> (stdlib)</strong> — deliberately
+dependency-free HTTP: powers the per-provider clients, the generic
+OpenAI-compatible adapter, and the live discovery calls, so there’s no
+third-party transport to audit or patch.</li>
+<li><strong>logrus</strong> — structured, level-aware logging exactly
+where operators need visibility: inside the circuit breaker’s state
+transitions and the discovery path.</li>
+<li><strong>testify</strong> — drives the test suite and, crucially, the
+mutation-branch pinning that makes a green run mean something.</li>
+<li><strong>yaml.v3</strong> — parses the i18n bundles and configuration
+in a format that stays human-editable.</li>
+<li><strong><code>digital.vasic.models</code></strong> — the shared
+<code>LLMRequest</code> / <code>LLMResponse</code> /
+<code>ProviderCapabilities</code> types, kept in one place so every
+adapter speaks the same vocabulary (a documented runtime
+dependency).</li>
+<li><strong>First-party packages</strong> — <code>circuit</code>,
+<code>health</code>, <code>retry</code>, <code>apikeys</code>,
+<code>discovery</code>, <code>providers/</code> (43 vendors +
+<code>generic</code>), and <code>i18n</code>: the resilience and
+integration surface split into small, independently testable units
+rather than one monolith.</li>
+<li><strong><code>.env</code> + <code>~/api_keys.sh</code>
+(<code>ApiKey_&lt;Provider&gt;</code> convention)</strong> — a single,
+unambiguous source of credential truth, so keys are wired the same way
+in tests and in production.</li>
+<li><strong>Makefile race suite (<code>-race -p 1</code>) + Challenge
+runner</strong> — the anti-bluff backbone: the race detector proves
+concurrency correctness, and the Challenge runner hammers real behaviour
+through chaos, ddos, scaling, stress, live-discovery, and no-suspend
+scenarios.</li>
+</ul>
+<h2 id="status-honesty-notes">Status &amp; honesty notes</h2>
+<ul>
+<li><strong>Status: beta.</strong> A decoupled reusable module; the
+GitHub repo is public.</li>
+<li><strong>License: TBD.</strong> Inconsistent — <code>doc.go</code>
+says MIT while an Apache-2.0-style LICENSE file is present — verify
+before publishing.</li>
+<li>LLMsVerifier is the upstream single source of truth for the
+canonical model catalogue. The <code>helix-deps.yaml</code> manifest
+appears stale (declares <code>deps: []</code> while docs state a
+dependency on <code>digital.vasic.models</code>); discovery’s “Tier 2
+(models.dev)” is a planned stub, not active.</li>
+</ul>
+<p><strong>Priority tier:</strong> Helix-primary (LLM-infrastructure
+cluster — decoupled reusable module). Ranks after HelixTrack.</p>
+</body>
+</html>

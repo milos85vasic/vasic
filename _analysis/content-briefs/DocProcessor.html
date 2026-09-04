@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<h1 id="docprocessor">DocProcessor</h1>
+<p><strong>Tagline:</strong> Turn documentation into a verifiable
+feature map for QA automation.</p>
+<p><strong>Summary:</strong> DocProcessor is a standalone, fully
+decoupled Go module that loads project documentation, builds structured
+feature maps, and tracks verification coverage. It is designed to work
+with LLM agents for intelligent feature extraction but also includes
+heuristic extraction for offline use.</p>
+<p><strong>Short description (~40 words):</strong> A project-agnostic Go
+module for documentation processing and feature-map extraction. It
+parses docs into structured feature maps and tracks which features are
+verified — using LLM agents for intelligent extraction or heuristics
+offline — feeding QA automation with an anti-bluff,
+always-matches-reality guarantee.</p>
+<p><strong>Long description (150–250 words):</strong> DocProcessor
+bridges documentation and QA. Given a project’s documentation, it builds
+a structured feature map — an enumerated model of what the product
+claims to do — and tracks verification coverage against it, so teams can
+see which documented features are actually proven by tests and which are
+not. It is deliberately dual-mode: it works with LLM agents for
+intelligent, semantic feature extraction when available, and falls back
+to heuristic-based extraction for fully offline use, so it never
+hard-depends on a model being present. Architecturally it is a
+standalone, project-not-aware, fully decoupled Go module (CONST-051(B)):
+it ships zero project-specific values and is incorporated by consumers
+as an equal-codebase submodule. Its documentation and claims are held to
+the project’s anti-bluff covenant (CONST-035) and full-automation
+coverage rules (CONST-048): every capability the README advertises is
+exercised by an automated test or Challenge script in the repository,
+matching an explicit operator mandate that tests and Challenges must
+confirm real, end-user-usable behavior rather than merely executing
+successfully. User-facing strings are localized through the CONST-046
+i18n translator seam. In practice, DocProcessor is the input side of the
+QA loop that HelixQA closes: DocProcessor extracts the feature map from
+docs, and the QA orchestration proves each mapped feature with runtime
+evidence — making documentation, tests, and shipped behavior converge
+instead of drift.</p>
+<p><strong>Why we built it:</strong> Documentation and tests drift
+apart: docs promise features that no test proves, and QA can’t easily
+tell what “complete” means. DocProcessor turns docs into a
+machine-readable feature map so verification coverage can be measured
+against what was actually promised.</p>
+<p><strong>Why it’s a game-changer:</strong> It makes “is this
+documented feature actually verified?” a queryable, automatable
+question, and it does so without hard AI dependencies — LLM extraction
+when available, heuristics when not — so it runs anywhere.</p>
+<p><strong>What’s innovative:</strong> - Documentation-to-feature-map
+extraction with verification-coverage tracking. - Dual extraction:
+LLM-agent-driven or heuristic/offline. - Project-agnostic, zero-config
+decoupling (CONST-051(B)). - Anti-bluff self-verification: README claims
+are backed by tests/Challenges (CONST-035/048).</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Model-optional operation:</em> solved with a heuristic extractor
+fallback so the module works offline. - <em>Keeping docs and reality
+aligned:</em> solved by structured feature maps + verification coverage
+tracking, tied into the QA loop. - <em>Reusability:</em> solved via
+strict decoupling and equal-codebase submodule consumption. -
+<em>Credibility of its own claims:</em> solved with anti-bluff
+tests/Challenges for every advertised capability.</p>
+<p><strong>Tech stack (why + how):</strong> - <strong>Go
+(1.25+)</strong> — module core; Apache-2.0 licensed. - <strong>LLM
+agents</strong> — intelligent semantic feature extraction (optional). -
+<strong>Heuristic parser</strong> — offline feature extraction fallback.
+- <strong>i18n Translator (<code>pkg/i18n</code>)</strong> — CONST-046
+localized strings. - <strong>Challenge harness</strong> — anti-bluff
+verification of the module’s own claims.</p>
+<p><strong>Public links:</strong> - GitHub (HelixDevelopment):
+https://github.com/HelixDevelopment/DocProcessor (public). - GitHub
+(vasic-digital): https://github.com/vasic-digital/DocProcessor (public).
+- Consumed with HelixQA in the QA-automation pipeline.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Docs → feature map → verification-coverage matrix. 2. Dual-extractor
+switch: LLM path vs heuristic/offline path. 3. QA loop: DocProcessor
+(extract) → HelixQA (prove with evidence) → convergence. 4. Coverage
+dashboard concept (documented vs verified features).</p>
+<p><strong>Site relevance:</strong> vasic.digital (QA-automation /
+AI-tooling depth). Pairs with HelixQA in the “anti-bluff” narrative.</p>
+<p><strong>Priority tier:</strong> vasic-util-secondary</p>
+<p><strong>Source provenance:</strong>
+<code>gh repo view vasic-digital/DocProcessor</code> README (overview,
+dual extraction, decoupling, anti-bluff mandate, i18n, license, Go
+version); <code>_analysis/github-helix-others.md</code> and
+<code>_analysis/github-vasic-digital.md</code> (listings,
+size/description).</p>
+</body>
+</html>

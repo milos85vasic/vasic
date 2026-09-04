@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec-template</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec-template</h1>
+</header>
+<h1 id="feature-specification-feature-name">Feature Specification:
+[FEATURE NAME]</h1>
+<p><strong>Feature Branch</strong>: <code>[###-feature-name]</code>
+<strong>Created</strong>: [DATE] <strong>Status</strong>: Draft
+<strong>Input</strong>: User description: “$ARGUMENTS”</p>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<!--
+  IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
+  Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
+  you should still have a viable MVP (Minimum Viable Product) that delivers value.
+
+  Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
+  Think of each story as a standalone slice of functionality that can be:
+  - Developed independently
+  - Tested independently
+  - Deployed independently
+  - Demonstrated to users independently
+-->
+<h3 id="user-story-1---brief-title-priority-p1">User Story 1 - [Brief
+Title] (Priority: P1)</h3>
+<p>[Describe this user journey in plain language]</p>
+<p><strong>Why this priority</strong>: [Explain the value and why it has
+this priority level]</p>
+<p><strong>Independent Test</strong>: [Describe how this can be tested
+independently - e.g., “Can be fully tested by [specific action] and
+delivers [specific value]”]</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> [initial state], <strong>When</strong>
+[action], <strong>Then</strong> [expected outcome]</li>
+<li><strong>Given</strong> [initial state], <strong>When</strong>
+[action], <strong>Then</strong> [expected outcome]</li>
+</ol>
+<hr />
+<h3 id="user-story-2---brief-title-priority-p2">User Story 2 - [Brief
+Title] (Priority: P2)</h3>
+<p>[Describe this user journey in plain language]</p>
+<p><strong>Why this priority</strong>: [Explain the value and why it has
+this priority level]</p>
+<p><strong>Independent Test</strong>: [Describe how this can be tested
+independently]</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> [initial state], <strong>When</strong>
+[action], <strong>Then</strong> [expected outcome]</li>
+</ol>
+<hr />
+<h3 id="user-story-3---brief-title-priority-p3">User Story 3 - [Brief
+Title] (Priority: P3)</h3>
+<p>[Describe this user journey in plain language]</p>
+<p><strong>Why this priority</strong>: [Explain the value and why it has
+this priority level]</p>
+<p><strong>Independent Test</strong>: [Describe how this can be tested
+independently]</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> [initial state], <strong>When</strong>
+[action], <strong>Then</strong> [expected outcome]</li>
+</ol>
+<hr />
+<p>[Add more user stories as needed, each with an assigned priority]</p>
+<h3 id="edge-cases">Edge Cases</h3>
+<!--
+  ACTION REQUIRED: Fill in the right edge cases for this feature.
+  Use the brainstorm prompts below as conversation starters for /speckit.superspec.brainstorm.
+-->
+<ul>
+<li>What happens when [boundary condition]?</li>
+<li>How does system handle [error scenario]?</li>
+</ul>
+<h4 id="brainstorm-prompts">Brainstorm Prompts</h4>
+<!--
+  These prompts guide the /speckit.superspec.brainstorm command. They serve as starting points
+  for deep-dive questioning sessions. Add domain-specific prompts as needed.
+-->
+<ul>
+<li><strong>Boundary conditions</strong>: What are the minimum and
+maximum valid inputs? What happens at the edges?</li>
+<li><strong>Error scenarios</strong>: What if the network is down? What
+if the database is unavailable? What if input is malformed?</li>
+<li><strong>Scale</strong>: What happens with 10x or 100x expected load?
+Are there rate limits to consider?</li>
+<li><strong>Security</strong>: Can this feature be abused? Are there
+injection vectors? What about unauthorized access?</li>
+<li><strong>User confusion</strong>: Where might users misunderstand the
+feature? What if they use it in an unintended way?</li>
+<li><strong>Data integrity</strong>: What happens during concurrent
+modifications? What about partial failures?</li>
+<li><strong>Backwards compatibility</strong>: Does this break existing
+behavior? How do we handle migration?</li>
+</ul>
+<h2 id="open-questions">Open Questions</h2>
+<!--
+  This section tracks unresolved questions discovered during brainstorming.
+  Each question has a status (Open/Resolved) and a resolution summary.
+  /speckit.superspec.brainstorm updates this section as questions are explored.
+-->
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Status</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>[Question discovered during brainstorming]</td>
+<td>Open</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>[Another question]</td>
+<td>Resolved</td>
+<td>[How it was resolved]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<ul>
+<li><strong>FR-001</strong>: System MUST [specific capability]</li>
+<li><strong>FR-002</strong>: System MUST [specific capability]</li>
+<li><strong>FR-003</strong>: Users MUST be able to [key
+interaction]</li>
+<li><strong>FR-004</strong>: System MUST [data requirement]</li>
+<li><strong>FR-005</strong>: System MUST [behavior]</li>
+</ul>
+<p><em>Mark unclear requirements explicitly:</em></p>
+<ul>
+<li><strong>FR-006</strong>: System MUST [capability] [NEEDS
+CLARIFICATION: reason]</li>
+</ul>
+<h3 id="key-entities-include-if-feature-involves-data">Key Entities
+<em>(include if feature involves data)</em></h3>
+<ul>
+<li><strong>[Entity 1]</strong>: [What it represents, key attributes
+without implementation]</li>
+<li><strong>[Entity 2]</strong>: [What it represents, relationships to
+other entities]</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<ul>
+<li><strong>SC-001</strong>: [Measurable metric, e.g., “Users can
+complete task in under 2 minutes”]</li>
+<li><strong>SC-002</strong>: [Measurable metric, e.g., “System handles
+1000 concurrent users”]</li>
+<li><strong>SC-003</strong>: [User satisfaction metric]</li>
+<li><strong>SC-004</strong>: [Business metric]</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li>[Assumption about target users]</li>
+<li>[Assumption about scope boundaries]</li>
+<li>[Assumption about data/environment]</li>
+<li>[Dependency on existing system/service]</li>
+</ul>
+<h2 id="brainstorm-log">Brainstorm Log</h2>
+<!--
+  This section records insights from /speckit.superspec.brainstorm sessions.
+  Each entry is dated and summarizes what was discovered and decided.
+  Do not edit manually — this is maintained by the brainstorm command.
+-->
+<!-- Example entry:
+### Session 2026-04-22
+**Focus**: Edge cases in authentication flow
+**Key insights**:
+- Discovered need for rate limiting on login attempts
+- Clarified token expiration strategy: 24h access + 30d refresh
+- Identified missing requirement: account lockout after 5 failed attempts
+**Spec updates**: Added FR-006 (rate limiting), updated US1 acceptance scenarios
+-->
+</body>
+</html>

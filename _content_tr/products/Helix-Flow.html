@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>Tüm AI çıkarım ihtiyaçlarınız için tek bir platform — güçlü
+AI modellerini daha hızlı, daha akıllı ve her ölçekte, öngörülebilir
+maliyetlerle çalıştırın.</strong></p>
+<blockquote>
+<p><strong>Doğruluk uyarısı (Helix Constitution §11.4.6):</strong>
+Helix-Flow gerçek ve halka açık bir kaynak kod deposuna sahip olmakla
+birlikte, README dosyası tek satırlık bir slogan içermekte ve yerel bir
+kopyası ya da tasarım/mimari belgeleri bulunmamaktadır. Aslında yalnızca
+iki şey belgelenmiştir: slogan ve deponun dili. Aşağıdaki diğer tüm
+ayrıntılar ya atlanmış ya da açıkça DOĞRULANMAMIŞ olarak
+işaretlenmiştir. Bu sayfa, asgari bir yer tutucu olup gerçek kaynak
+materyali sağlanana kadar genişletilmemelidir.</p>
+</blockquote>
+<h2 id="özet">Özet</h2>
+<p>Helix-Flow Platformu, AI çıkarımı için tek ve birleşik bir merkez
+olarak konumlandırılmıştır — güçlü modelleri daha hızlı, her ölçekte ve
+öngörülebilir maliyetlerle çalıştırır. <em>(Konumlandırma yalnızca
+slogandan alınmıştır; somut yetenekler mevcut kaynaklarda
+belgelenmemiştir.)</em></p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Helix-Flow Platformu (<code>Helix-Flow/Platform</code>), AI
+çıkarımını her ölçekte öngörülebilir maliyetlerle gerçekleştiren, halka
+açık ve Go tabanlı bir proje olarak sunulmaktadır. Kod tabanı Go, Python
+ve Terraform/HCL dillerini içermekte olup, altyapı-kod yönetimiyle
+dağıtılan bir çıkarım platformuna işaret etmektedir. Sloganın ötesindeki
+yetenekler DOĞRULANMAMIŞTIR.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Helix-Flow Platformu, <code>Helix-Flow</code> GitHub
+organizasyonundaki tek depodur ve tek satırlık README dosyası
+aracılığıyla “Tüm AI çıkarım ihtiyaçlarınız için tek bir platform”
+olarak tanıtılmakta, güçlü AI modellerini daha hızlı ve her ölçekte
+öngörülebilir maliyetlerle çalıştırmayı vurgulamaktadır. Bu sloganın
+ötesinde proje, herhangi bir açıklayıcı belge içermediğinden, mimarisi,
+özellikleri ve tasarımı kaynaklardan hareketle anlatılamaz.</p>
+<p><em>Gerçekten gözlemlenebilen</em> tek şey, deponun dil bileşimidir:
+Ağırlıklı olarak eşit oranlarda Go ve Python, önemli miktarda Shell,
+ayrıca HTML/CSS/JavaScript (web arayüzü), PL/pgSQL (PostgreSQL destekli
+bir bileşen), HCL (Terraform / altyapı-kod) ve Mermaid (diyagramlar)
+içermektedir. Bu bileşim bir araya getirildiğinde, Go kontrol/servis
+katmanı ile Python model araçlarını, bir PostgreSQL veri deposunu, web
+arayüzünü ve bulut dağıtımını altyapı-kod yönetimiyle birleştiren bir
+çıkarım sunma platformuna <em>uygun düşmektedir</em> — ancak bu yorum,
+dosya türlerinden çıkarılmıştır ve <strong>belgelenmiş bir iddia
+değildir</strong>. Motivasyon, yenilikler, teknik zorluklar ve somut
+teknoloji yığını gerekçesi gibi doğru ürün açıklamaları için gerçek bir
+README, mimari belge ya da yerel kopya gereklidir. Bu sayfa, mevcut
+kaynakların desteklediği noktaya kadar kasıtlı olarak
+sınırlandırılmıştır.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p><em>DOĞRULANMAMIŞ — mevcut kaynaklarda belgelenmemiştir.</em> Slogan,
+birleşik, ölçeklenebilir AI çıkarımı ile öngörülebilir/kontrol
+edilebilir maliyet hedefini ima etse de, herhangi bir gerekçe
+belirtilmemiştir. Burada herhangi bir motivasyon ileri
+sürülmemektedir.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>İçerik</p>
+<p><em>DOĞRULANMAMIŞ — belgelenmemiş.</em> Kaynak bulunana kadar
+çıkarıldı.</p>
+<h2 id="yenilikçi-yönler">Yenilikçi Yönler</h2>
+<p><em>DOĞRULANMAMIŞ — belgelenmemiş.</em> Kaynak bulunana kadar
+çıkarıldı.</p>
+<h2 id="en-büyük-teknik-zorluklar-ve-çözümlerimiz">En Büyük Teknik
+Zorluklar ve Çözümlerimiz</h2>
+<p><em>DOĞRULANMAMIŞ — belgelenmemiş.</em> Kaynak bulunana kadar
+çıkarıldı.</p>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<p>Yalnızca depodaki dil bileşiminden gözlemlenmiştir — rol ve gerekçesi
+DOĞRULANMAMIŞTIR:</p>
+<ul>
+<li><strong>Go</strong> — ana dil; muhtemelen sunum/denetim katmanı.
+<em>(Rol DOĞRULANMAMIŞ.)</em></li>
+<li><strong>Python</strong> — neredeyse eşit pay; muhtemelen
+model/çıkarım araçları. <em>(Rol DOĞRULANMAMIŞ.)</em></li>
+<li><strong>Shell</strong> — yapı/dağıtım/otomasyon betikleri. <em>(Rol
+DOĞRULANMAMIŞ.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — ilişkisel veri deposu
+bileşeni mevcut.</li>
+<li><strong>Terraform / HCL</strong> — altyapı-kod olarak, bulut tabanlı
+dağıtımı ima ediyor.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — bir web arayüzü veya
+dokümantasyon yüzeyi.</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: yol haritası / yer tutucu.</strong> Bu,
+<code>Helix-Flow</code> organizasyonundaki tek depodur; herkese açık,
+son gönderim tarihi 27-04-2026, ana sayfası ayarlanmamış ve lisansı
+belirtilmemiş. Gerçek dokümantasyon oluşana kadar, ürün derinliğinde
+sorumlu bir şekilde sunulamaz.</li>
+<li><strong>Lisans: BELİRLENECEK</strong> (depoda belirtilmemiş).</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil (bir Helix-platform
+ailesi çıkarım ürünü), ancak şu anda kaynak materyale bağlı olarak bloke
+durumda. HelixTrack’dan sonra sıralanıyor.</p>
+</body>
+</html>

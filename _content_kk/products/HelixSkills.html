@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSkills</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSkills</h1>
+</header>
+<h1 id="helixskills">HelixSkills</h1>
+<p><strong>CLI AI агенттері үшін конституцияға негізделген, басқарылатын
+дағдылар жүйесі.</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>HelixSkills — бұл CLI AI агенттері үшін дағдылар жүйесі. Ол Helix
+Constitution модулін ішкі модуль ретінде қамтиды, сондықтан әмбебап
+басқару ережелері шартсыз қолданылады. Жүйе агент дағдыларын, MCP
+құралдық серверлерін, Claude Code плагиндерін және қайта пайдаланылатын
+қозғалтқыштарды тіркеуге болатын, құжатталған каталог түрінде
+ұсынады.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>HelixSkills — бұл CLI AI агенттері үшін дағдылар жүйесі. Ол Helix
+Constitution модулін ішкі модуль ретінде енгізеді, сондықтан барлық
+әмбебап ережелер қолданылады, содан кейін тіркеуге болатын дағдыларды
+(әрекет-префикс, медиа-тексеруші, көпжолды, сессияны синхрондау, жұмыс
+элементінің өмірлік циклі және т.б.), екі MCP құралдық серверін, екі
+Claude Code плагиндерін және қайта пайдаланылатын қозғалтқыштарды
+ұсынады.</p>
+<h2 id="толық-сипаттама">Толық сипаттама</h2>
+<p>HelixSkills (<code>skills</code> репозиторийі, Apache-2.0 лицензиясы)
+— бұл CLI AI агенттері үшін дағдылар жүйесі. Ол әдеттегі тәртіпті әдейі
+кері айналдырады: басқару бірінші орында, мүмкіндіктер екінші орында. Ол
+Helix Constitution модулін <code>constitution/</code> ішкі модулі
+ретінде қамтиды, сондықтан <code>constitution/CLAUDE.md</code> және
+<code>constitution/Constitution.md</code> файлдарындағы әмбебап ережелер
+шартсыз қолданылады — бұл агенттің құрметтейтін дәстүрі емес, жобаның
+кодтық ағашына физикалық түрде енгізілген ережелер жинағы. HelixSkills
+қабылдаған агент конституциядан бас тарта алмайды; ережелер кодпен бірге
+жүреді.</p>
+<p>Көптеген “дағдылар фреймворктары” абстракциялармен жұмыс істесе,
+HelixSkills нақты, тіркеуге болатын инвентарды ұсынады, оны көрсетіп,
+орнатуға болады. Жеті конституциялық дағды <code>register.sh</code>
+арқылы орнатылады: action-prefix-system, media-validator, multitrack,
+reporting-workable-items, scheduled-work-queue, session-sync және
+workable-item-lifecycle — орташадан жоғары деңгейге дейінгі ауқымды
+қамтитын жиынтық, ол тәртіптелген әрекеттерді атаудан бастап
+медиа-тексеруге және жұмыс бірлігінің толық өмірлік цикліне дейінгі
+барлық нәрсені қамтиды. Қосымша жобалау сатысындағы дағдылар (Android
+шолуы, Java/Kotlin тілі, Linux ОЖ) индекстеліп, белсендірілуге дайын
+тұр. Екі MCP құралдық сервері (media-validator, scheduled-work) осы
+дағдыларды Model Context Protocol арқылы агенттерге ұсынады, ал екі
+Claude Code плагині (helix, scheduled-work) бірдей мүмкіндіктерді
+тікелей агенттің орындау ортасына енгізеді — бір дағдылар жиынтығы
+агенттермен әртүрлі беттер арқылы байланысады.</p>
+<p>Тіркеу каталогының астында төрт тереңдігі бірдей қайта пайдаланылатын
+қозғалтқыш орналасқан — continuum (іске асырылған), сондай-ақ
+session_orchestrator, token_optimizer және clickup_sync (жобалануда) —
+дағдылардың бірдей құбырларды қайта ойлап табуын болдырмайтын ортақ
+механизмдер. Token_optimizer жалғыз өзі vasic-digital экосистемасының
+пакеттеріне (TOON, Embeddings, VectorDB, Normalize, conversation) және
+HelixDevelopment-дың LLMProvider-ына дейінгі тәуелділіктердің анық
+графикасын жариялайды, сондықтан оның репозиторийлер арасындағы
+байланыстары тексерілетін, анық түрде көрсетілген. Барлығының
+айналасында тәртіптелген құжаттама айналып жүреді: дағдылар каталогы,
+автоматты түрде жасалған дағдылар графикасының индексі, әр репозиторий
+үшін жеке беттер және әлі жасалмаған нәрселерді атап көрсететін ашық
+“Ақаулар мен қатерлер” тізімі. Бүкіл жүйе GitHub, GitLab, GitFlic және
+GitVerse платформаларында айналымда тұрады, бұл оның төзімділігін және
+аймақтық қол жетімділігін қамтамасыз етеді.</p>
+<p>Мазмұны</p>
+<h2 id="неліктен-құрастырдық">Неліктен құрастырдық</h2>
+<p>CLI және AI агенттеріне тұрақты, басқарылатын және қайта
+пайдаланылатын мүмкіндіктер қажет – әрқайсысы ережелерді қайта ойлап
+табатын жеке скрипттер емес. HelixSkills агенттерге ортақ конституцияға
+негізделген, тіркелетін дайын дағдылар жиынтығын беру үшін құрастырылды.
+Бұл әрбір агент пен жобадағы мінез-құлық біркелкі және тексерілетін
+болып қалады.</p>
+<h2 id="неліктен-бұл-өзгерістің-бастауы">Неліктен бұл өзгерістің
+бастауы</h2>
+<p>Агенттің мүмкіндіктері құрылым бойынша тасымалданатын және ережелерге
+сәйкес келетін болып, тәртіпке негізделмейді. Әрбір дағды –
+конституциялық кіші модульмен қолдау алған, басқарылатын, нұсқаланатын
+және орнатылатын бірлік. Сондықтан агент дағдыны тіркеген сәтте ол
+канондық ережелер жиынтығын да міндетті түрде қабылдайды, ауытқуға
+мүмкіндік қалмайды. Бұл бұрын іске асыру мүмкін болмаған нәрсені ашады:
+мүмкіндікті бір агенттен немесе жобадан екіншісіне ауыстырып, ол сол
+басқару жүйесіне байланыстырылған күйінде келетінін білу. Сонымен қатар,
+әрқайсысы ережелерді қайта ойлап табатын жеке жапсырма скрипттердің
+орнына, стандартты интерфейстер (MCP серверлері және Claude Code
+плагиндері) арқылы ұсынылады.</p>
+<h2 id="жаңашылдығы">Жаңашылдығы</h2>
+<ul>
+<li><strong>Constitution кіші модуль ретінде</strong>: әмбебап басқару
+ережелері көшірілмей, мұраға алынады – ағашқа қосылып, әрбір тұтынушы
+агент бірдей канондық ережелер жиынтығына байланыстырылады. Жаңартулар
+бір ғана шынайы көзден келіп, ондаған ескірген көшірмелердің орнына
+қолданылады.</li>
+<li><strong>Өзін-өзі тіркеуші бірліктер ретінде ұсынылатын
+дағдылар</strong> (<code>register.sh</code>) және автоматты түрде
+жасалатын дағдылар графінің индексіне тігіледі. Бұл каталог іздеуге
+қолжетімді болып, орнатылған нәрсемен үнемі үйлесімді болып қалады.</li>
+<li><strong>Көп интерфейсті ұсыну</strong>: бірдей дағдылар жиынтығы MCP
+құрал серверлері және Claude Code плагиндері арқылы агенттерге
+жеткізіледі – бір рет жазып, агент пайдаланатын кез келген ортаға
+сөйлейді.</li>
+<li><strong>Экосистема бойынша ортақ пайдаланылатын тереңдік-1
+қозғалтқыштар</strong> (continuum, token_optimizer,
+session_orchestrator, clickup_sync). Әрқайсысы ашық және тексерілетін
+кросс-репозиторийлік тәуелділіктерді көрсетеді, жасырын байланыстардың
+орнына.</li>
+</ul>
+<h2 id="ең-үлкен-техникалық-қиындықтар-және-оларды-қалай-шештік">Ең
+үлкен техникалық қиындықтар және оларды қалай шештік</h2>
+<ul>
+<li><strong>Көптеген дағдылар мен агенттер арасындағы агент
+мінез-құлқының тұрақтылығын және ережелерге сәйкестігін сақтау</strong>
+– әрбір дағды үшін басқаруды қайта іске асыру уақыт өте келе ауытқуға
+әкеледі. Бұл мәселе Helix Constitution-ті кіші модуль ретінде қосу
+арқылы шешілді. Осылайша, <code>constitution/CLAUDE.md</code> және
+<code>constitution/Constitution.md</code> құжаттарындағы ережелер
+шартсыз қолданылып, бір ғана жоғарыдағы көзден жаңартылады, көшіріліп,
+ескіртілмейді.</li>
+<li><strong>Өсетін дағдылар жиынтығын орнатуға және табуға болатындай
+ету</strong> – егер каталогтағы нәрселерді ешкім таба алмаса немесе
+орната алмаса, ол пайдасыз. Бұл мәселе әрбір дағды үшін
+<code>register.sh</code> тіркеу арқылы шешілді. Ол орнату кезінде әрбір
+дағдыны қосады, сонымен қатар автоматты түрде жасалатын INDEX дағдылар
+графі және әрбір репозиторий үшін жеке құжаттамалар бар. Бұл іздеудің
+нақты жағдайға үнемі сәйкес келуін қамтамасыз етеді.</li>
+<li><strong>Әртүрлі орталарда жұмыс істейтін агенттерге жету</strong> –
+бір мүмкіндікті әрбір хост үшін қайта құру керек емес. Бұл мәселе бір
+дағдылар жиынтығын MCP құрал серверлерінің анықтамалары
+(<code>constitution/mcp/</code> астында) және Claude Code плагиндері
+(<code>constitution/plugins/</code> астында) арқылы ұсыну арқылы
+шешілді. Бір ғана іске асыру әртүрлі интерфейстер арқылы қол жетімді
+болады.</li>
+</ul>
+<p>Мазмұны</p>
+<h2 id="технологиялық-стек">Технологиялық стек</h2>
+<ul>
+<li><strong>Shell (негізгі тіл)</strong> — агент орналасқан кез келген
+жерде іске қосылу мен тіркелу құралдарын жұмыс істету үшін таңдалды,
+алдымен іске қосуға арналған орындау ортасы қажет емес; ол
+<code>register.sh</code> және <code>install_upstreams</code> скрипттерін
+қуаттайды, алғашқы қадамдағы тәуелділіктерді жоққа шығарып, тасымалдауға
+ыңғайлы етеді.</li>
+<li><strong>Git субмодульдері</strong> — басқаруды көшірусіз мұраға алу
+үшін таңдалды: Helix Constitution <code>constitution/</code>
+деректемесінде тікелей сілтеме ретінде орналастырылған, сондықтан
+ережелерді жаңарту бір көрсеткіш арқылы таралады, көшіріліп қойылып
+ұмытылып кетпейді.</li>
+<li><strong>Model Context Protocol (MCP)</strong> — агенттер үшін
+стандартты, орындау ортасына тәуелсіз құралдық интерфейс ретінде
+таңдалды; <code>constitution/mcp/</code> деректемесінде екі MCP сервері
+(media-validator, scheduled-work) құрал ретінде шақырылатын дағдыларды
+ұсынады.</li>
+<li><strong>Claude кодтық плагиндері</strong> — агенттің орындау
+ортасына қосымша байланыстырусыз дағдыларды тікелей енгізу үшін
+таңдалды; екі плагин (helix, scheduled-work)
+<code>constitution/plugins/</code> деректемесінде орналасқан, бұл MCP
+бетінің басқа хост үшін көшірмесі болып табылады.</li>
+<li><strong>Қайта пайдаланылатын қозғалтқыштар (continuum,
+token_optimizer, session_orchestrator, clickup_sync)</strong> — жеке
+дағдылардан бөлінген ортақ механизмдерді жобалары арасында қайта
+пайдалану үшін таңдалды; мысалы, token_optimizer vasic-digital
+пакеттерімен (TOON, Embeddings, VectorDB, Normalize, conversation) және
+HelixDevelopment-тің LLMProvider-імен кодты көшірусіз, жарияланған
+тәуелділіктер арқылы байланыстырылған.</li>
+<li><strong>Көпхосттық Git айналуы (GitHub, GitLab, GitFlic,
+GitVerse)</strong> — бір хосттың істен шығуы немесе аймақтық блоктау
+кезінде қол жетімділікті үзуге жол бермеу үшін таңдалды; бір дерекқор
+төрт платформада бірдей тірі ұсталады, төзімділік пен қолжетімділік
+үшін.</li>
+</ul>
+<h2 id="жағдай-және-ашықтық-ескертпелері">Жағдай және ашықтық
+ескертпелері</h2>
+<ul>
+<li><strong>Жағдайы: бета-нұсқа.</strong> Жеті конституциялық дағды, екі
+MCP сервері және екі плагин жеткізілген; жобаланған дағдылар
+индекстеліп, іске қосылуға дайын, ал төрт тереңдік-1 қозғалтқыштың үшеуі
+(session_orchestrator, token_optimizer, clickup_sync) әлі жобалану
+сатысында.</li>
+<li>README файлы жобаны <code>helix_skills</code> деп атайды; ресми
+GitHub жолы — <code>HelixDevelopment/skills</code>. README файлындағы
+табылған мәселелер саны өзін-өзі есептеу нәтижесі болып табылады.</li>
+</ul>
+<p><strong>Басымдық деңгейі:</strong> Helix-негізгі.</p>
+</body>
+</html>

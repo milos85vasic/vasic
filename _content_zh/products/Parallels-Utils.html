@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Parallels-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Parallels-Utils</h1>
+</header>
+<p><strong>在所有设备上压缩、发布并复用 Parallels
+虚拟机镜像</strong></p>
+<h2 id="概述">概述</h2>
+<p>Parallels-Utils 是一套用于管理 Parallels（macOS）虚拟机镜像的 Server
+Factory
+工具包：压缩并同步用于开发与测试的镜像”矩阵”，将其发布至远程终端，并在多台工作站或服务器上检索并运行。可独立使用，亦可作为
+Server Factory 的组成部分。</p>
+<h2 id="简介">简介</h2>
+<p>一套面向 macOS 上 Parallels 虚拟机镜像生命周期的 Shell/Python
+工具包。它能压缩并同步 Parallels
+镜像，将其发布至远程终端，并在多台计算机上检索并运行——通过简单的配置文件驱动，既可独立使用，亦可集成于
+Server Factory 中。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>Parallels-Utils 为基于 macOS 的开发团队解决了一个实际的 DevOps
+难题：团队会构建一系列 Parallels
+虚拟机”矩阵”（用于开发与测试的不同操作系统/配置），而这些镜像需要在多台设备上保持一致的压缩、发布、检索与运行流程。该工具包正是为此提供完整的生命周期管理。同步机制负责压缩
+Parallels
+镜像并保持更新；发布机制将镜像上传至远程终端；检索机制则允许任意工作站或服务器拉取已发布的镜像并作为虚拟机运行。配置设计简洁且基于文件驱动：<code>image_location.settings</code>
+定义镜像在文件系统中的存储位置，<code>image_provider.settings</code>
+定义已发布镜像的基础 URL，<code>image_sync.sh</code>
+则定义上传脚本——示例均存放于 <code>Examples</code>
+目录中。运维人员可通过 <code>publish_images.sh</code> 发布镜像，并使用
+<code>run.sh</code> 启动虚拟机。工具包要求安装对应 macOS 版本的
+Parallels 及 Python 3。其设计兼顾双重用途：既可作为更大型 Server Factory
+项目的一部分运行，亦可完全独立使用，体现了团队解耦的设计理念。工具包甚至附带一段视频教程链接。作为
+Server-Factory 家族的一员，它与 Qemu-Utils（Linux/QEMU
+的对应版本）形成互补，为生态系统提供 macOS/Parallels 与跨平台/QEMU
+后端的虚拟机镜像管理能力。</p>
+<h2 id="为何开发此工具">为何开发此工具</h2>
+<p>在团队中共享一致的虚拟机开发/测试环境是一项繁琐的工作——镜像体积庞大，且每台设备都需保持相同的”矩阵”配置。Parallels-Utils
+通过自动化压缩、发布与检索流程，确保一套标准的 Parallels
+虚拟机镜像能在任何环境中复现。</p>
+<h2 id="为何称其为变革者">为何称其为变革者</h2>
+<p>它将笨重、难以管理的 Parallels
+镜像转化为可发布、可同步的工件集，任何设备均可拉取并运行——标准的开发/测试环境不再需要工程师手动重建，而是成为可直接获取的资源。其配置仅需简单的设置文件，且无需依赖
+Server Factory
+的其他组件，完美契合团队解耦的设计理念：既能独立使用，亦能在更大的工具链中发挥作用。</p>
+<p>内容</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li>压缩与同步 Parallels 图像”矩阵”，用于开发与测试环境。</li>
+<li>发布/检索工作流，使图像可在多台计算机间复用。</li>
+<li>基于设置文件的配置（位置/提供商/同步），并附带示例。</li>
+<li>双重用途：既可独立运行，亦可作为 Server Factory 的组件。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>大规模图像分发</strong>：通过压缩及发布至远程端点 +
+检索工作流解决。</li>
+<li><strong>跨机器复现性</strong>：通过提供商/位置设置确保每台主机解析相同的图像集。</li>
+<li><strong>易用性</strong>：通过简洁的 <code>publish_images.sh</code> /
+<code>run.sh</code> 脚本及示例设置文件实现。</li>
+</ul>
+<h2 id="技术栈选择原因及实现方式">技术栈（选择原因及实现方式）</h2>
+<ul>
+<li><strong>Shell</strong> —— 发布/运行/同步脚本（主语言，约 5.3K
+字节）。</li>
+<li><strong>Python 3</strong> —— 辅助工具（必备依赖，约 3K 字节）。</li>
+<li><strong>Parallels（macOS）</strong> —— 所管理的虚拟化后端。</li>
+<li><strong>设置文件（<code>.settings</code>）</strong> ——
+用于位置/提供商/同步的声明式配置。</li>
+</ul>
+<blockquote>
+<p>注：GitHub 标记该仓库为 Server-Factory 组织下的分支。属于小众、macOS
+专用方案，与 AI 无关。</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixPlay</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixPlay</h1>
+</header>
+<h1 id="helixplay">HelixPlay</h1>
+<p><strong>Tagline:</strong> Turn any GPU machine into your own
+cloud-gaming appliance.</p>
+<p><strong>Summary:</strong> HelixPlay is a self-hostable cloud-gaming
+platform that turns any GPU-equipped machine into a remote streaming
+host, delivering console-class gameplay to desktop, mobile, TV, and
+browser clients. It is built as a Go-centric monorepo of 46 submodules
+with a triple-stack client and is white-labellable for partners.</p>
+<p><strong>Short description (~40 words):</strong> HelixPlay is a
+self-hostable, open, white-labellable cloud-gaming platform. It turns
+any GPU-equipped machine into a remote streaming host and delivers
+console-class gameplay to desktop, mobile, TV, and browser clients over
+WebRTC/QUIC, with a Go core and a Wails/Flutter/Angular client
+stack.</p>
+<p><strong>Long description (150-250 words):</strong> HelixPlay is a
+cloud-gaming platform built as a Go-centric monorepo composed of 46 Git
+submodules. It transforms any gaming PC into a streaming host and
+delivers PS4-Pro-class user experience to desktop, mobile, TV, and
+browser clients — self-hostable, open, and white-labellable for
+partners.</p>
+<p>Its defining design choice is triple-stack client convergence: a
+Wails desktop app, a Flutter mobile/TV app, and an Angular web client
+all share a single Go core (compiled to WASM for the browser). The media
+path runs Capture → Encode → Packetize → Transmit → Decode → Render,
+using platform-native capture (DXGI / ScreenCaptureKit / PipeWire) and
+hardware encoders (NVENC / QSV / AMF / VideoToolbox), transported over
+WebRTC (Pion v4), QUIC (quic-go), and custom UDP datagrams. The backend
+core handles sessions, tenants, catalog, and auth, with a host agent
+doing capture/encode/transport and mDNS/rendezvous for discovery.</p>
+<p>HelixPlay is architected for white-label SaaS — per-tenant theming,
+catalog filtering, OAuth2, and billing — and is container-native,
+running every service, database, build, test, and scan inside
+containers. Like the rest of the Helix family, it is governed by an
+anti-bluff constitution: green tests are meant to guarantee real,
+end-user-usable behavior. Its README states aggressive latency targets
+(≤30 ms LAN / ≤50 ms WAN p999) and a large multi-dimensional test
+matrix; these are stated design targets rather than independently
+confirmed benchmarks.</p>
+<p><strong>Why we built it:</strong> Commercial cloud gaming is closed,
+centralized, and rented. HelixPlay was built so anyone with a GPU
+machine can run their own streaming host — open, self-hosted, and
+white-labellable — instead of depending on a third-party service.</p>
+<p><strong>Why it’s a game-changer:</strong> It combines self-hosting,
+one shared Go core across three client stacks, and white-label
+multi-tenancy — letting a partner stand up a branded cloud-gaming
+service on their own hardware rather than reselling someone else’s
+cloud.</p>
+<p><strong>What’s innovative:</strong> - <strong>Triple-stack client
+convergence</strong> — Wails + Flutter + Angular over one Go core (WASM
+in the browser). - <strong>Self-hostable, white-label SaaS</strong> —
+per-tenant theming, catalog, OAuth2, billing. - <strong>Modern
+low-latency transport</strong> — WebRTC (Pion) + QUIC + custom UDP with
+hardware-encoder selection per platform. - <strong>46-submodule
+decoupled architecture</strong> with container-native everything.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<em>Low-latency streaming across heterogeneous hardware</em> — solved
+with a platform-aware capture/encode path (DXGI/SCK/PipeWire +
+NVENC/QSV/AMF/VideoToolbox) over WebRTC/QUIC/UDP. - <em>One product
+across desktop, mobile, TV, and web</em> — solved with triple-stack
+clients sharing a single Go core (compiled to WASM for the browser). -
+<em>Multi-tenant white-label operation</em> — solved with per-tenant
+theming, catalog filtering, OAuth2, and billing in the core backend.</p>
+<p><strong>Tech stack:</strong> - <strong>Go (1.26.2 root / 1.25+
+submodules)</strong> — shared core backend and host agent. -
+<strong>Wails v2</strong> — desktop client (Go + embedded webview). -
+<strong>Flutter 3.29+</strong> — mobile/TV client (FFI to the Go core).
+- <strong>Angular 17+</strong> — web client (Go compiled to WASM). -
+<strong>WebRTC / Pion v4, QUIC / quic-go, custom UDP</strong> —
+real-time media transport. - <strong>Hardware encoders</strong> (NVENC /
+QSV / AMF / VideoToolbox) and platform capture (DXGI / ScreenCaptureKit
+/ PipeWire) — the encode/capture path. - <strong>Containers
+(Docker/Podman)</strong> — every service, DB, build, test, and scan runs
+containerized. - <strong>mDNS / rendezvous</strong> — host
+discovery.</p>
+<p><strong>Public links:</strong> - GitHub:
+https://github.com/HelixDevelopment/HelixPlay (public) - License: no
+LICENSE detected via the GitHub API — UNVERIFIED / not declared.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+Media pipeline: Capture → Encode → Packetize → Transmit → Decode →
+Render, annotated with the per-stage technologies. 2. Triple-stack
+convergence: Wails / Flutter / Angular clients all pointing at one Go
+core. 3. Self-hosted topology: a GPU host + host agent streaming over
+WebRTC/QUIC to phone, TV, laptop, and browser. 4. White-label layer: one
+platform, multiple branded tenant skins.</p>
+<p><strong>Site relevance:</strong> both (vasic.digital as a flagship
+platform product; milosvasic.ru as a high-impact
+systems/media-engineering highlight).</p>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+<p><strong>Source provenance:</strong> -
+<code>gh api repos/HelixDevelopment/HelixPlay</code> (metadata: public,
+Go, no license, created 2026-04-27, pushed 2026-05-03, size ~59 MB). -
+<code>gh api repos/HelixDevelopment/HelixPlay/readme</code> (overview,
+architecture, media pipeline, tech-stack table, 46 submodules). -
+<code>/Volumes/T7/Projects/vasic/_analysis/github-helix-others.{md,json}</code>
+(description, “46 submodules”, cloud-gaming positioning). - UNVERIFIED:
+license not declared. Latency targets (≤30 ms LAN / ≤50 ms WAN p999),
+“PS4-Pro-class”, and the test-matrix cell count are the project’s own
+README claims/targets, not independently benchmarked — presented above
+as stated targets.</p>
+</body>
+</html>

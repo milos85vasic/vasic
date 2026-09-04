@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README_zh</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README_zh</h1>
+</header>
+<h1 id="superspec中文说明">Superspec（中文说明）</h1>
+<p><strong>规格驱动开发 + 超级能力</strong></p>
+<p>Superspec 是一个面向 AI 编程 CLI 的代理技能，将 <a
+href="https://github.com/github/spec-kit">spec-kit</a> 项目治理与 <a
+href="https://github.com/obra/superpowers">obra/superpowers</a> 代理能力
+统一到一个开发工作流中。它兼容所有支持 spec-kit 的编程代理， 包括 <a
+href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code">Claude
+Code</a>、 <a href="https://github.com/openai/codex">Codex CLI</a>
+等。</p>
+<p>Spec-kit 提供文档结构和治理（宪章、规格、计划、任务）。 Superpowers
+提供深度澄清（头脑风暴）、智能任务拆解（计划编写）和工程执行纪律（TDD、子代理驱动开发、代码审查）。</p>
+<h2 id="架构概览">架构概览</h2>
+<figure>
+<img src="assets/workflow-overview-zh.png"
+alt="AI助力: 端到端开发工作流（SDD）" />
+<figcaption aria-hidden="true">AI助力:
+端到端开发工作流（SDD）</figcaption>
+</figure>
+<p>工作流编排 6 个阶段——从项目定义到工程实现——spec-kit
+负责治理文档，superpowers 提供智能澄清、任务拆解和执行能力。</p>
+<h2 id="安装">安装</h2>
+<h3 id="快速安装">快速安装</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 克隆仓库</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/WangX0111/superspec.git</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 安装到代理的技能目录（选择其一）：</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Claude Code</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.claude/skills/superspec</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Codex CLI</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.codex/skills/superspec</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 其他代理（通用约定）</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-sf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/superspec&quot;</span> ~/.agents/skills/superspec</span></code></pre></div>
+<h3 id="手动安装">手动安装</h3>
+<p>将整个 <code>superspec/</code>
+目录复制到代理的技能目录。各平台常见路径：</p>
+<table>
+<thead>
+<tr>
+<th>代理</th>
+<th>技能目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td><code>~/.claude/skills/superspec</code></td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td><code>~/.codex/skills/superspec</code></td>
+</tr>
+<tr>
+<td>其他</td>
+<td><code>~/.agents/skills/superspec</code> 或查阅代理文档</td>
+</tr>
+</tbody>
+</table>
+<h3 id="可选安装-superpowers">可选：安装 Superpowers</h3>
+<p>Superspec 可以独立工作，但安装 superpowers 技能可获得增强能力：</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 安装 obra/superpowers（具体方式请参见其仓库）</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 技能应放置在 ~/.agents/skills/ 或 .agents/skills/</span></span></code></pre></div>
+<h2 id="命令列表">命令列表</h2>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.superspec.status</code></td>
+<td>显示当前进度并建议下一步操作</td>
+</tr>
+<tr>
+<td><code>/speckit.constitution</code></td>
+<td>创建或更新项目治理原则</td>
+</tr>
+<tr>
+<td><code>/speckit.specify</code></td>
+<td>创建功能规格（含用户故事）</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.brainstorm</code></td>
+<td>深入探索边界情况，完善规格文档</td>
+</tr>
+<tr>
+<td><code>/speckit.plan</code></td>
+<td>创建技术实现方案</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.tasks</code></td>
+<td>生成分阶段任务清单</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.execute</code></td>
+<td>以 TDD + 子代理编排方式执行实现</td>
+</tr>
+<tr>
+<td><code>/speckit.superspec.review</code></td>
+<td>对照规格进行代码审查</td>
+</tr>
+<tr>
+<td><code>/speckit.checklist</code></td>
+<td>生成上下文相关的检查清单</td>
+</tr>
+</tbody>
+</table>
+<h2 id="可中断恢复">可中断恢复</h2>
+<p>所有项目状态以纯文本（Markdown + YAML）持久化——治理资产（宪章）在
+<code>.specify/memory/</code> 下，
+每个功能的状态（规格、计划、任务、进度）在 <code>specs/NNN-*/</code>
+下。 会话中断时——代理超时、用户离开、CLI 崩溃——不会丢失任何进度。
+在新会话中运行 <code>/speckit.superspec.status</code>
+即可查看中断点：</p>
+<pre><code>Superspec 项目状态
+==================
+宪章: 已完成
+功能:
+  001-user-auth    [####------] 执行中 (阶段 5/6) — 11/19 任务完成
+  002-photo-upload [##--------] 头脑风暴 (阶段 2/6) — 2 个待解决问题
+
+建议下一步: /speckit.superspec.execute 001</code></pre>
+<p>每个命令会自动检测之前的进度并从中断点恢复——跳过已完成的工作，从未解决的问题或未完成的任务继续。</p>
+<h2 id="快速开始">快速开始</h2>
+<h3 id="初始化项目治理">1. 初始化项目治理</h3>
+<pre><code>/speckit.constitution 我的项目</code></pre>
+<p>创建 <code>.specify/</code>
+目录结构，并引导你定义核心原则、技术栈和质量门禁。</p>
+<h3 id="编写第一个功能规格">2. 编写第一个功能规格</h3>
+<pre><code>/speckit.specify &quot;用户邮箱密码登录认证&quot;</code></pre>
+<p>在 <code>specs/001-user-authentication/spec.md</code>
+创建功能规格，包含用户故事、需求和成功标准。</p>
+<h3 id="头脑风暴边界情况">3. 头脑风暴边界情况</h3>
+<pre><code>/speckit.superspec.brainstorm specs/001-user-authentication/spec.md</code></pre>
+<p>代理逐个提出探索性问题，发现你可能没有想到的边界条件、错误场景、安全隐患和用户体验陷阱。</p>
+<h3 id="规划与执行">4. 规划与执行</h3>
+<pre><code>/speckit.plan                  # 创建技术实现方案
+/speckit.superspec.tasks                 # 生成任务拆解
+/speckit.superspec.execute               # 以 TDD 纪律和检查点方式实现
+/speckit.superspec.review                # 对照规格验证实现</code></pre>
+<h2 id="真实样例">真实样例</h2>
+<p>想看 spec-kit + superspec 实际跑完一遍的成果？查看 <a
+href="examples/static-landing-page/"><code>examples/static-landing-page/</code></a>
+—— 这是一次真实 Claude Code 会话完整走完 7 阶段（宪章 → 规格 → 头脑风暴
+→ 计划 → 任务 → 执行 → 审查）后落到磁盘上的所有产物原样副本。</p>
+<p>直接用浏览器打开 <a
+href="examples/static-landing-page/web/index.html"><code>examples/static-landing-page/web/index.html</code></a>
+即可看到 AI 生成的落地页。配套 <a
+href="examples/static-landing-page/README.md">样例 README</a>
+详细说明了产生过程， 以及如何用 <a
+href="scripts/e2e-agent-claude.sh"><code>scripts/e2e-agent-claude.sh</code></a>
+复现这次快照。</p>
+<h2 id="工作流">工作流</h2>
+<pre><code>宪章 → 规格 → 头脑风暴 → 计划 → 任务 → 执行 → 审查
+                ↑     ↓
+                └─────┘（反复迭代直到规格完善）</code></pre>
+<p>每个阶段都有明确的门禁——在推进前验证前置条件。人工检查点确保你控制推进节奏。</p>
+<h2 id="superpowers-集成">Superpowers 集成</h2>
+<p>当安装了 obra/superpowers 技能时，superspec 会自动检测并使用：</p>
+<table>
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 27%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>Superspec 命令</th>
+<th>增强来源</th>
+<th>降级方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brainstorm</code></td>
+<td><code>brainstorming</code> 技能</td>
+<td>内置提问协议</td>
+</tr>
+<tr>
+<td><code>tasks</code></td>
+<td><code>writing-plans</code> 技能</td>
+<td>基于模板的拆解</td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td><code>executing-plans</code> +
+<code>subagent-driven-development</code> +
+<code>test-driven-development</code></td>
+<td>顺序执行+手动确认</td>
+</tr>
+<tr>
+<td><code>review</code></td>
+<td><code>requesting-code-review</code> 技能</td>
+<td>内置审查清单</td>
+</tr>
+</tbody>
+</table>
+<p>详见 <a
+href="references/superpowers-bridge.md">superpowers-bridge.md</a>。</p>
+<h2 id="许可证">许可证</h2>
+<p>MIT</p>
+</body>
+</html>

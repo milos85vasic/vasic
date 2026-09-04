@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Catalogizer</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Catalogizer</h1>
+</header>
+<p><strong>Перадавы шматпратаколны менеджар калекцыі медыя — выяўляй,
+каталогізуй і ўзбагачай усё, што маеш.</strong></p>
+<h2 id="агульныя-звесткі">Агульныя звесткі</h2>
+<p>Catalogizer — гэта сістэма кіравання калекцыяй медыя, якую можна
+размясціць на ўласным серверы і якая аўтаматычна выяўляе, класіфікуе і
+арганізуе медыяфайлы праз SMB, FTP, NFS, WebDAV і лакальныя файлавыя
+сістэмы з момантальным маніторынгам, шыфраваным захоўваннем, знешнім
+узбагачэннем метазвестак і сучасным карыстальніцкім інтэрфейсам React на
+базе высокапрадукцыйнай платформы Go API.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Прафесійны шматпратаколны менеджар медыябібліятэк. Go/Gin REST API
+выяўляе больш за 50 тыпаў медыя (фільмы, серыялы, музыка, гульні,
+праграмы, дакументальныя праекты) з крыніц SMB/FTP/NFS/WebDAV/лакальных,
+узбагачае звесткі з TMDB/IMDB/MusicBrainz/Steam і іншых рэсурсаў і падае
+ў рэжыме рэальнага часу вэб-дадатак React праз шыфраваную базу даных
+SQLCipher.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Большасць менеджараў медыя патрабуюць ад вас спачатку здацца: сабраць
+усё на адным дыску, у адным фармаце, аднаго тыпу — і толькі тады яны
+гатовыя дапамагчы. Catalogizer пачынае з процілеглай перадумовы: ваша
+калекцыя ўжо існуе там, дзе існуе, распаўсюджаная па NAS-сховішчах і
+пратаколах, якія ніколі не дамовяцца паміж сабой, — і сустракае яе
+менавіта там. Ён падтрымлівае пратаколы, якія ўжо выкарыстоўваюцца для
+захоўвання — SMB/CIFS, FTP/FTPS, NFS, WebDAV і лакальную файлавую
+сістэму — праз адзіную абстракцыю кліента, таму Windows-шара, FTP-архіў
+і WebDAV-мантаванне выглядаюць аднолькава для вышэйшых узроўняў і могуць
+свабодна змешвацца, падмяняцца ці выдаляцца без змен у кодзе праграмы.
+Бэкэнд Go (Gin REST API) бесперапынна сочыць за гэтымі крыніцамі,
+выяўляе і класіфікуе больш за 50 тыпаў медыя (фільмы, серыялы, музыка,
+гульні, праграмнае забеспячэнне, дакументальныя праекты) па меры
+з’яўлення файлаў і ўзбагачае кожны элемент з дапамогай стэку знешніх
+правайдараў — TMDB, IMDB, TVDB, MusicBrainz, Spotify, Steam і іншых —
+ператвараючы простае імя файла ў поўны каталогавы запіс з вокладкамі,
+акцёрскім складам і метазвесткамі. Вынікі перадаюцца ў фронтэнд
+TypeScript React праз WebSockets, таму бібліятэка абнаўляецца ў рэжыме
+рэальнага часу па меры апрацоўкі даных, а ўсе байты метазвестак
+захоўваюцца ў шыфраванай базе даных SQLCipher з аўтэнтыфікацыяй на
+аснове JWT і ролевым доступам.</p>
+<p>У той час як большасць каталогізатараў губляюць працаздольнасць пры
+страце доступу да шараванага рэсурсу, Catalogizer распрацаваны так, каб
+заставацца карыснымі нават падчас збояў. Часовая няспраўнасць SMB
+кампенсуецца экспаненцыяльным аднаўленнем злучэння, засцерагальным
+механізмам, які спыняе спробы даступу да нефункцыянальнага хоста,
+бесперапынным маніторынгам стану і афлайн-кэшам метазвестак, які
+працягвае адказваць на запыты карыстальнікаў па апошнім вядомым стане —
+гэта розніца паміж «усё прыкладанне не працуе, бо перазагрузіўся адзін
+NAS» і «адзін рэсурс недаступны, але ўсё астатняе працуе». Акрамя
+каталогізацыі, сістэма служыць аператыўным інструментам для кіравання
+калекцыяй: аналітыка тэндэнцый росту і адсочвання якасці/версій,
+генерацыя прафесійных справаздач PDF, канвертар PDF у
+відарысы/тэкст/HTML, экспарт/імпарт абраных элементаў (JSON/CSV),
+сінхранізацыя з воблачнымі сховішчамі S3, Google Cloud Storage ці
+лакальнымі тэчкамі. І гэта не маналіт, які проста аказаўся вялікім, —
+сістэма наўмысна сабрана з 21 паўторна выкарыстоўваемага модуля
+<code>digital.vasic.*</code> Go і кліенцкіх пакетаў TypeScript, кожны з
+якіх незалежна пратэставаны і версіянаваны, таму тыя ж адборныя модулі
+аўтэнтыфікацыі, файлавай сістэмы, стрымінгу і назірання, што працуюць у
+Catalogizer, забяспечваюць усю лінейку прадуктаў. Якасць не дэкларуецца
+самастойна: фрэймворк Challenges і HelixQA правяраюць кожную абвешчаную
+магчымасць праз антыблеф і пацвярджэнне фактамі.</p>
+<p>Змест</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Існуючыя менеджары медыя зыходзяць з адзінага сховішча і адзінага
+тыпу медыя. Рэальныя калекцыі жывуць на мностве NAS-шараў і пратаколаў,
+дэградуюць, калі адзін з шароў знікае, і ўключаюць фільмы, музыку,
+гульні і праграмнае забеспячэнне. Catalogizer быў створаны, каб ставіцца
+да ўсіх пратаколаў аднолькава, перажываць нястабільныя сеткавыя сховішчы
+і забяспечваць адзін аўтарытэтны, узбагачаны і зашыфраваны каталог для
+ўсяго.</p>
+<h2 id="чаму-гэта-пераварот">Чаму гэта пераварот</h2>
+<p>Ён аб’ядноўвае ў адзін самахостны, зашыфраваны пакет тое, што
+звычайна патрабуе стэка асобных інструментаў: пратакол-незалежнае
+паглынанне, якое ставіцца да кожнага сховішча аднолькава, устойлівасць,
+якая захоўвае каталог працаздольным нават пры адключэнні сховішчаў
+замест таго, каб крахнуць разам з імі, і шматправайдарнае ўзбагачэнне,
+якое ператварае зыходныя файлы ў праглядальную бібліятэку з апісаннямі.
+Эфект мадульнай архітэктуры назапашваецца: паляпшэнне ў файлавай
+падсістэме ці новы плагін для правайдара ўсталёўваецца адзін раз і
+падымае ўсе кампаненты, таму Catalogizer пастаянна ўдасканальваецца
+разам з асяроддзем. Каротка кажучы, гэта розніца паміж медыя-індэксам і
+медыя-<em>сістэмай</em> — такой, якой вы валодаеце, якая перажывае
+нястабільную інфраструктуру і чыю надзейнасць даказана, а не проста
+абяцана.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Адзіны шматпратаколны кліент файлавай сістэмы
+(SMB/FTP/NFS/WebDAV/лакальны) з адзіным інтэрфейсам.</li>
+<li>Афлайн-кэш і засцерагальнік, каб каталог заставаўся працаздольным
+падчас адключэння сховішчаў.</li>
+<li>Поўная дэкампзіцыя на 21 паўторна выкарыстоўны падмадуль
+<code>digital.vasic.*</code> і кліенцкія модулі на TypeScript.</li>
+<li>Каталог з шыфраваннем на ўзроўні захоўвання (SQLCipher) і
+сінхранізацыяй у рэжыме рэальнага часу (WebSocket) з інтэрфейсам.</li>
+<li>Даказаны кантроль якасці праз фрэймворк Challenges і інтэграцыю
+HelixQA.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Нястабільныя сеткавыя сховішчы:</strong> вырашана з
+дапамогай экспаненцыяльнага адкладання паўторных спроб, засцерагальніка,
+праверкі стану і афлайн-кэша з палітыкай выдалення, які падае
+закешаваныя метаданыя, калі крыніцы недаступныя.</li>
+<li><strong>Рознастайнасць пратаколаў:</strong> вырашана шляхам
+абстрагавання кожнага пратакола за агульным кліентам
+<code>digital.vasic.filesystem</code>, каб вышэйшыя ўзроўні не ведалі
+пра пратаколы.</li>
+<li><strong>Бяспека даных:</strong> вырашана шыфраваннем на ўзроўні
+захоўвання SQLCipher разам з аўтэнтыфікацыяй JWT/RBAC і прамежкавым
+праграмным забеспячэннем для санітызацыі запытаў.</li>
+<li><strong>Падтрымка ў маштабе:</strong> вырашана вынясеннем усяе
+агульнай логікі ў асобна правераныя падмадулі замест маналіту.</li>
+</ul>
+<h2 id="тэхнічны-стэк-навошта-і-як">Тэхнічны стэк (навошта і як)</h2>
+<ul>
+<li><strong>Go + Gin</strong> — высокапрадукцыйнае ядро REST API
+(<code>catalog-api</code>); абрана для канкурэнтнасці і прапускной
+здольнасці пры бесперапынным маніторынгу.</li>
+<li><strong>TypeScript + React + Tailwind (Vite)</strong> — адаптыўны
+інтэрфейс <code>catalog-web</code> з абнаўленнямі ў рэжыме рэальнага
+часу.</li>
+<li><strong>WebSockets</strong> — сінхранізацыя даных у рэжыме рэальнага
+часу паміж бэкэндам і інтэрфейсам.</li>
+<li><strong>SQLCipher (зашыфраваны SQLite)</strong> — зашыфраванае
+сховішча метаданых; падтрымка SQLite/PostgreSQL праз
+<code>digital.vasic.database</code>.</li>
+<li><strong>Кліенты SMB/FTP/NFS/WebDAV</strong> — шматпратаколнае
+паглынанне праз <code>digital.vasic.filesystem</code>.</li>
+<li><strong>Знешнія метаданыя (TMDB, IMDB, TVDB, MusicBrainz, Spotify,
+Steam)</strong> — плагіны-правайдары для ўзбагачэння.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> — метрыкі і трасіроўка
+праз <code>digital.vasic.observability</code>.</li>
+<li><strong>Docker / кантэйнер зборкі</strong> — паўторныя зборкі
+(Tauri/Rust праз <code>catalogizer-builder</code>).</li>
+<li><strong>Redis</strong> — кэшаванне і абмежаванне частаты запытаў
+праз <code>digital.vasic.cache</code> / <code>ratelimiter</code>.</li>
+<li><strong>S3 / Google Cloud Storage</strong> — сінхранізацыя з
+воблакам і захоўванне кропак аднаўлення.</li>
+</ul>
+</body>
+</html>

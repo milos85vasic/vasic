@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Qemu-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Qemu-Utils</h1>
+</header>
+<p><strong>QEMU VM छवियाँ, कलाकृतियों की तरह प्रबंधित — डाउनलोड, चलाएँ,
+नेटवर्किंग, प्रकाशित करें।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>Qemu-Utils एक Server Factory टूलकिट है जो व्यापक QEMU वर्चुअलाइजेशन प्रबंधन के
+लिए है: स्वचालित VM छवि वितरण और संपीड़न, स्थानीय कैशिंग, ब्रिज/TAP नेटवर्क
+कॉन्फ़िगरेशन, ISO-आधारित ऑपरेटिंग सिस्टम इंस्टॉलेशन, और हार्डवेयर त्वरण के साथ
+क्रॉस-प्लेटफ़ॉर्म (Linux/macOS) निष्पादन। इसे स्वतंत्र रूप से या Server Factory के
+भीतर इस्तेमाल किया जा सकता है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>QEMU VM के जीवनचक्र प्रबंधन के लिए एक Shell टूलकिट। यह पूर्व-कॉन्फ़िगर की गई
+QEMU डिस्क छवियों को डाउनलोड, कैश और चलाता है, उन्हें संपीड़ित करके दूरस्थ एंडपॉइंट्स
+पर प्रकाशित करता है, ब्रिज/TAP नेटवर्किंग को स्वचालित करता है, ISO इंस्टॉलेशन का
+समर्थन करता है, और उपयुक्त हार्डवेयर त्वरण के साथ Linux और macOS दोनों पर काम
+करता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>Qemu-Utils वर्चुअल मशीनों को उसी अनुशासन के साथ प्रबंधित करता है जिस तरह टीमें
+बिल्ड आउटपुट और कंटेनर छवियों को संभालती हैं — जो आमतौर पर तदर्थ
+<code>qemu-system-*</code> कमांड्स के ढेर के रूप में छोड़ दिया जाता है। अपने
+Parallels समकक्ष की तरह, यह VM छवियों को प्रथम श्रेणी के वितरण योग्य संसाधनों के
+रूप में मानता है, जो विकास और परीक्षण में उपयोग होने वाले सिस्टम मैट्रिक्स होते हैं,
+लेकिन इसका लक्ष्य वास्तव में क्रॉस-प्लेटफ़ॉर्म QEMU बैकएंड है। इसका जीवनचक्र पूर्ण चक्र को
+पूरा करता है: पूर्व-कॉन्फ़िगर की गई QEMU डिस्क छवियों को डाउनलोड और कैश करना, उन्हें
+स्वचालित रूप से दूरस्थ एंडपॉइंट्स से प्राप्त करना, अलग-अलग स्थानीय संपीड़ित और असंपीड़ित
+कैश बनाए रखना ताकि एक बड़ी छवि को एक बार डाउनलोड करने के बाद सस्ते में बार-बार
+चलाया जा सके, और छवियों को संपीड़ित करके टीम के बाकी सदस्यों के लिए दूरस्थ सर्वरों पर
+प्रकाशित करना। और चूँकि एक VM जिस तक कोई नहीं पहुँच सकता, बेकार है, इसलिए यह उस
+हिस्से को स्वचालित करता है जिसे हर कोई नापसंद करता है — नेटवर्किंग — VM कनेक्टिविटी
+के लिए ब्रिज और TAP इंटरफेस को स्वचालित रूप से प्रबंधित करता है, बजाय इसके कि ऑपरेटर
+को इसे मैन्युअल रूप से सेट करना पड़े। यह ISO छवियों से ताज़ा ऑपरेटिंग सिस्टम इंस्टॉलेशन का
+समर्थन करता है, और यह वास्तव में क्रॉस-प्लेटफ़ॉर्म है — Linux और macOS दोनों पर
+उपयुक्त हार्डवेयर त्वरण के साथ चलता है। कॉन्फ़िगरेशन और संचालन उसी सरल,
+स्क्रिप्ट-चालित Server Factory पैटर्न का पालन करते हैं, और इस टूलकिट का उपयोग बड़े
+Server Factory प्रोजेक्ट के हिस्से के रूप में या पूरी तरह से स्वतंत्र रूप से किया जा सकता
+है, संगठन की डिकपलिंग दर्शन के अनुसार। इसकी दस्तावेज़ीकरण अधिकांश छोटे Server
+Factory रिपॉजिटरीज़ से अधिक पूर्ण है (जिसमें अवलोकन, विशेषताएँ, आवश्यकताएँ, त्वरित
+शुरुआत, कॉन्फ़िगरेशन, उपयोग, नेटवर्किंग, समस्या निवारण और आर्किटेक्चर के लिए खंड शामिल
+हैं), जो Linux/QEMU वातावरण के लिए प्राथमिक VM-प्रबंधन मार्ग के रूप में इसकी भूमिका
+को दर्शाता है। Parallels-Utils के साथ मिलकर यह Server Factory पारिस्थितिकी
+तंत्र को macOS/Parallels और Linux-plus-macOS/QEMU वर्चुअलाइजेशन दोनों के लिए VM
+छवि प्रबंधन प्रदान करता है।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>कई ऑपरेटिंग सिस्टमों पर प्रोविज़निंग और परीक्षण के लिए पुनरुत्पादित VM की आवश्यकता
+होती है, और शुद्ध QEMU निम्न-स्तरीय और जटिल है — विशेष रूप से नेटवर्किंग और छवि
+वितरण। Qemu-Utils QEMU को एक प्रबंधनीय टूलकिट में लपेटता है ताकि छवियाँ और उनके
+नेटवर्क मशीनों पर पुनरुत्पादित हो सकें।</p>
+<h2 id="यह-गम-चजर-कय-ह">यह गेम-चेंजर क्यों है</h2>
+<p>यह उन चार चीज़ों को एक क्रॉस-प्लेटफ़ॉर्म टूलकिट में लपेटता है जो शुद्ध QEMU को कठिन
+बनाती हैं — छवि वितरण, कैशिंग, नेटवर्किंग और ISO इंस्टॉलेशन — जटिल कमांड-लाइन फ़्लैग्स
+की दीवार को एक दोहराने योग्य, प्रकाशन योग्य VM वर्कफ़्लो में बदल देता है जिसे पूरी
+टीम Linux और macOS पर समान रूप से साझा और पुनरुत्पादित कर सकती है।</p>
+<p>सामग्री</p>
+<h2 id="कय-नवन-ह">क्या नवीन है</h2>
+<ul>
+<li>पूर्ण QEMU छवि जीवनचक्र: डाउनलोड/कैश/रन + संपीड़न/प्रकाशन, संपीड़ित/असंपीड़ित
+कैश के साथ।</li>
+<li>वीएम कनेक्टिविटी के लिए स्वचालित ब्रिज/टैप नेटवर्क कॉन्फ़िगरेशन।</li>
+<li>आईएसओ-आधारित ताज़ा इंस्टॉलेशन समर्थन।</li>
+<li>क्रॉस-प्लेटफ़ॉर्म (Linux + मैकओएस) हार्डवेयर त्वरण के साथ।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>वीएम नेटवर्किंग की जटिलता:</strong> स्वचालित ब्रिज और टैप इंटरफ़ेस
+प्रबंधन से हल।</li>
+<li><strong>बड़ी छवि वितरण:</strong> संपीड़न, दूरस्थ प्रकाशन/प्राप्ति और स्थानीय
+कैशिंग से हल।</li>
+<li><strong>क्रॉस-प्लेटफ़ॉर्म वर्चुअलाइज़ेशन:</strong> Linux और मैकओएस के लिए उपयुक्त
+त्वरण समर्थन से हल।</li>
+<li><strong>ताज़ा प्रोविज़निंग:</strong> आईएसओ-इंस्टॉलेशन समर्थन से हल।</li>
+</ul>
+<h2 id="तकनक-ढच-कय-कस">तकनीकी ढाँचा (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Shell</strong> — संपूर्ण टूलकिट (~79.5K बाइट्स); छवि, नेटवर्क और
+वीएम प्रबंधन के लिए स्क्रिप्ट।</li>
+<li><strong>QEMU</strong> — प्रबंधित वर्चुअलाइज़ेशन इंजन।</li>
+<li><strong>ब्रिज / टैप नेटवर्किंग</strong> — Linux/मैकओएस वीएम नेटवर्क
+संरचना।</li>
+<li><strong>आईएसओ छवियाँ</strong> — ऑपरेटिंग सिस्टम इंस्टॉलेशन स्रोत।</li>
+</ul>
+<blockquote>
+<p>टिप्पणी: GitHub रिपॉज़िटरी को सर्वर-फैक्ट्री संगठन के अंतर्गत फ़ोर्क के रूप में
+चिह्नित करता है। Parallels-Utils का क्रॉस-प्लेटफ़ॉर्म सहयोगी। AI से संबंधित
+नहीं।</p>
+</blockquote>
+</body>
+</html>

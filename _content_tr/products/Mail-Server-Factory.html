@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>Posta sunucunuzu patron gibi yönetin — JSON ile tanımlayın,
+her yere dağıtın.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Mail Server Factory, üretime hazır, otomatik posta sunucusu sağlama
+aracıdır. Kullanıcı basit bir JSON yapılandırması yazar; Fabrika bu
+yapılandırmayı yorumlar ve hedef işletim sisteminde tüm kurulum ve
+başlatma işlemlerini gerçekleştirerek, 12 bağlantı türü üzerinden Docker
+tabanlı, gevşek bağlı bir posta yığını dağıtır.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Kotlin/Shell tabanlı bir araç olan Mail Server Factory, JSON
+tanımlamasını tamamen kurulu, Dockerize bir posta sunucusuna dönüştürür.
+12 bağlantı türünü (SSH, Docker, Kubernetes, AWS SSM, Azure, GCP,
+Libvirt ve diğerleri), eksiksiz bir güvenlik çerçevesini, 25 Linux
+dağıtımını destekler ve 439 başarılı testle birlikte gelir.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Gerçek ve güvenli bir posta sunucusu kurmak, sistem yönetiminde
+klasik bir geçiş ritüeli — ve aynı zamanda en güvenilir şekilde can
+sıkıcı olanlardan biridir. Postfix, Dovecot, TLS sertifikaları, DNS
+kayıtları, güvenlik duvarı kuralları ve dağıtıma özgü tuhaflıkların
+hepsi kusursuz bir şekilde hizalanmalıdır; tek bir yanlış yönerge
+sessizce geri dönen e-postalar ya da açık bir röle anlamına gelebilir.
+Mail Server Factory, bu zor kazanılmış, hataya açık uzmanlık bilgisinin
+tamamını yazılıma dönüştürür. Her bir bileşeni yabancı bir işletim
+sistemi üzerinde elle yapılandırmak yerine, son kullanıcı istenen sonucu
+basit bir JSON belgesi olarak yazar; Fabrika bu belgeyi okur ve hedef
+işletim sisteminde gerekli kurulum ve başlatma adımlarını tam olarak
+uygulayarak, her bileşeni gevşek bağlı şekilde çalışan Docker tabanlı
+bir posta yığını oluşturur — bu tasarım seçimi, yığının yatay
+ölçeklenebilir kalmasını sağlar ve herhangi bir bileşenin izole şekilde
+yükseltilmesine ya da değiştirilmesine olanak tanır. Ayrıca, araç
+kasıtlı olarak erişimden bağımsızdır: 12 bağlantı türü, aynı aracın ve
+aynı JSON belgesinin yerel bir makineyi, SSH üzerinden uzak bir
+sunucuyu, Docker ya da Kubernetes çalışma ortamını, AWS SSM / Azure Seri
+Konsol / GCP OS Login üzerinden bulut örneklerini ya da Libvirt
+üzerinden sanal makineleri hedeflemesine imkân verir — aynı bildirimsel
+tanımlama, nereye yönlendirirseniz oraya sağlanır. Batı (Ubuntu, Debian,
+CentOS, Fedora, AlmaLinux, Rocky, openSUSE), Rus (ALT, Astra, ROSA) ve
+Çin (openEuler, openKylin, Deepin) ailelerinden 25 Linux dağıtımını
+destekler; preseed/kickstart/cloud-init/autoyast ile otomatik kurulum ve
+testler için QEMU tabanlı sanal makine otomasyonu sunar. Kurumsal
+özellikler kapsamlıdır: AES-256-GCM şifreleme, zorunlu parola ve SSH
+anahtarı politikaları, posta portları (25/587/465/993/995) için otomatik
+güvenlik duvarı yapılandırması, TLS/SSL ile sertifika doğrulama ve HSTS,
+denetim günlüğü ve RBAC. Operasyonel özellikler arasında JVM
+ayarlamaları (G1GC), Caffeine önbellekleme, bağlantı havuzu, Prometheus
+uyumlu metrikler, yapılandırılmış günlükleme, sıcak yeniden yükleme
+yapılandırması ve gizli bilgi yönetimi yer alır. Proje, %100 başarı
+oranıyla 439 testi ve temiz bir SonarQube kalite kapısını raporlar.
+Server-Factory organizasyonunun amiral gemisidir.</p>
+<h2 id="neden-geliştirdik">Neden Geliştirdik</h2>
+<p>Güvenli ve üretim ortamına uygun bir posta sunucusu kurmak, hataya
+açık ve işletim sistemi özelinde gerçekleştirilen bir süreç olarak
+bilinir. Mail Server Factory, bu uzmanlığı bildirimsel bir JSON modeli
+ve bir yürütme motoru aracılığıyla yakalar; böylece doğru
+yapılandırılmış, güvenli ve Docker tabanlı bir posta altyapısı, herhangi
+bir desteklenen hedef sistemde elle adım adım çalışmaya gerek kalmadan
+yeniden oluşturulabilir.</p>
+<h2 id="neden-oyun-değiştirici">Neden Oyun Değiştirici</h2>
+<p>Posta sunucusu sağlama işlemini, uzmanlık gerektiren, günler süren ve
+tam olarak doğru yapılması zorunlu bir uğraştan, bir yapılandırma
+dosyası yazma eylemine indirger — ardından bu eylemi 12 bağlantı türü ve
+25 Linux dağıtımı üzerinde taşınabilir hale getirir ve kurulumdan
+itibaren kurumsal güvenlik varsayılanlarıyla güçlendirir. Sonuç,
+tekrarlanabilir ve <em>doğrulanabilir</em> niteliktedir: Aynı JSON her
+seferinde aynı güvenli altyapıyı üretir ve projenin 439 başarılı test
+sonucu ile temiz SonarQube geçidi, işi yapan motorun kendisinin
+itibarına güvenmek yerine hesap verebilir olmasını sağlar.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi Yönleri</h2>
+<ul>
+<li>Bildirimsel JSON → hedef işletim sisteminde yorumlanarak
+kurulum/başlatma.</li>
+<li>Tek bir araç altında 12 bağlantı türü (yerel, SSH, Docker,
+Kubernetes, AWS SSM, Azure, GCP, Libvirt ve diğerleri).</li>
+<li>25 dağıtım desteği ile kesintisiz kurulum
+(preseed/kickstart/cloud-init/autoyast) ve QEMU tabanlı otomasyon.</li>
+<li>Bağımsız ölçeklendirme/güncelleme için gevşek bağlı Docker tabanlı
+altyapı.</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve Çözümler</h2>
+<ul>
+<li><strong>İşletim sistemi/dağıtım çeşitliliği:</strong> Dağıtım bazlı
+reçeteler, kesintisiz kurulum yapılandırmaları ve QEMU tabanlı çapraz
+dağıtım testleriyle çözüldü.</li>
+<li><strong>Birçok dağıtım hedefine ulaşma:</strong> Ortak bir kurulum
+motoru altında 12 takılabilir bağlantı türüyle çözüldü.</li>
+<li><strong>Varsayılan olarak güvenlik:</strong> AES-256-GCM, zorunlu
+anahtar/parola politikaları, otomatik güvenlik duvarı kuralları ve
+TLS/HSTS ile çözüldü.</li>
+<li><strong>Doğruluğa güven:</strong> 439 testten oluşan bir test paketi
+(tam başarı oranı) ve temiz SonarQube geçidiyle çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji Yığını (Neden ve
+Nasıl)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Fabrika motoru ve kurulum adımı mantığı
+(179K bayt; Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — Sağlama betikleri, ISO/QEMU yöneticileri ve
+işletim sistemi otomasyonu (bayt cinsinden baskın).</li>
+<li><strong>Docker</strong> — Dağıtılmış, gevşek bağlı posta altyapısı
+için çalışma zamanı.</li>
+<li><strong>QEMU</strong> — Çapraz dağıtım kurulum ve testleri için
+sanal makine otomasyonu.</li>
+<li><strong>JSON</strong> — Kullanıcıya yönelik bildirimsel yapılandırma
+biçimi.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — Derleme araç
+zinciri.</li>
+<li><strong>Caffeine</strong> — Çok bölgeli önbellekleme; <strong>G1GC
+ayarlı JVM</strong> performans için.</li>
+<li><strong>Prometheus uyumlu metrikler</strong> — İzleme; Grafana/ELK
+uyumlu.</li>
+<li><strong>Sieve</strong> — Posta filtreleme kuralları (dil
+istatistiklerinde küçük yer kaplar).</li>
+</ul>
+<blockquote>
+<p>Not: GitHub, depoyu Server-Factory organizasyonu içinde bir çatallama
+olarak işaretler. AI ürün serisinden önce geliştirilmiştir; bir AI aracı
+olarak değil, olgun bir DevOps/sağlama amiral gemisi olarak sunulur.</p>
+</blockquote>
+</body>
+</html>

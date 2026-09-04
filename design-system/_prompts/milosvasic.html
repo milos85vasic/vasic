@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>milosvasic</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">milosvasic</h1>
+</header>
+<p>You are OpenDesign generating a production, enterprise-grade DESIGN
+SYSTEM stylesheet. Output a SINGLE complete CSS file and NOTHING else —
+no HTML, no Markdown, no commentary, no code fences.</p>
+<p>Brand: “Milos Vasic” — a senior AI / software engineer’s personal
+portfolio &amp; CV site. Tone: precise, technical, editorial,
+cutting-edge, trustworthy, refined. Primary accent: crimson #a31e39 in
+light theme; a slightly brighter crimson (~#ec3b58) in dark. Typography
+(assume self-hosted; reference via CSS vars only, do NOT <span
+class="citation" data-cites="import">@import</span>): display “Space
+Grotesk”, body “Inter”, mono “JetBrains Mono”.</p>
+<p>REQUIREMENTS: 1) Design tokens as CSS custom properties on :root for
+the LIGHT theme, with a COMPLETE dark override in BOTH
+<code>:root[data-theme="dark"]</code> AND
+<code>@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ ... } }</code>.
+Tokens MUST include: - Color: crimson ramp
+–od-accent-50..–od-accent-900; semantic –od-bg, –od-surface,
+–od-surface-2, –od-text, –od-text-muted, –od-border, –od-accent,
+–od-accent-hover, –od-accent-active, –od-on-accent, –od-focus,
+–od-success, –od-warning, –od-danger, –od-shadow-color. - Typography:
+–od-font-display/-body/-mono; fluid scale –od-fs-xs..–od-fs-3xl via
+clamp(); –od-lh-tight/-normal/-loose; –od-tracking-tight/-normal/-wide.
+- Spacing –od-space-1..–od-space-12 (4px base); radius
+–od-radius-sm/-md/-lg/-xl/-pill; shadow –od-shadow-sm/-md/-lg; motion
+–od-dur-fast/-base/-slow + –od-ease-standard/-emphasized; z-index
+–od-z-nav/-modal/-toast; –od-container-max. 2) Component classes, ALL
+prefixed <code>od-</code>, styled ONLY via the tokens above (no
+hard-coded colors or px sizes except where a token cannot apply),
+correct in BOTH themes, WCAG 2.2 AA contrast, a visible :focus-visible
+ring using –od-focus, and a global
+<code>@media (prefers-reduced-motion: reduce)</code> block that disables
+transitions/animations. Include: od-skip-link; od-btn with
+–primary/–secondary/–ghost and :hover/:active/:focus-visible/[disabled];
+od-card; od-chip (tech badge); od-field/od-label/od-input/od-textarea;
+od-header/od-nav/od-nav__link; od-footer;
+od-hero/od-hero__title/od-hero__lede;
+od-stat/od-stat__value/od-stat__label; od-section/od-section__eyebrow
+(mono uppercase)/od-section__title;
+od-product-card/od-product-card__title/od-product-card__tech;
+od-product-detail (article typography for
+h1/h2/h3/p/ul/ol/a/code/pre/blockquote using tokens); od-table;
+od-dialog with od-dialog__backdrop and od-dialog__panel (accessible
+modal); od-badge–status for roadmap / in-development / beta labels;
+od-tag–license. 3) Base reset (box-sizing:border-box; body uses token
+font/bg/color; sensible line-height). Prefer logical properties
+(margin-inline, padding-block, inset-inline) for RTL safety. 4) NO
+external font <span class="citation" data-cites="import">@import</span>,
+NO JavaScript, NO images. Valid, complete CSS only. End the file
+cleanly. Make it genuinely elegant and modern — this represents a
+cutting-edge AI engineer, not a template.</p>
+</body>
+</html>

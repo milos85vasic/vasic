@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>Aucun document suivi ne peut se désynchroniser — hachage de
+contenu, bidirectionnel, atomique.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>Docs Chain est un moteur universel de propagation des dépendances
+entre documents et bases de données, implémenté en Go et bidirectionnel.
+Lorsqu’un élément d’une chaîne enregistrée est modifié — source
+Markdown, export HTML/PDF/DOCX ou base de données SQLite —, il détecte
+ce changement par hachage de contenu et le propage de manière atomique à
+tous les éléments connectés.</p>
+<h2 id="description-courte">Description courte</h2>
+<p>Un moteur Go assurant la synchronisation entre documents et bases de
+données. Grâce à une recomputation incrémentale à la Salsa, basée sur le
+hachage de contenu et appliquée à un DAG (ordonnancement topologique de
+Kahn, coupure précoce, arêtes de synchronisation bidirectionnelles,
+renommage atomique + commits transactionnels SQLite), il régénère les
+exports dès qu’un artefact lié est modifié.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>Docs Chain est ce que l’on construit après avoir écrit une fois de
+trop le même script shell fragile du type <em>« régénérer le PDF quand
+le Markdown change »</em>. Il remplace toute cette catégorie de
+solutions artisanales de synchronisation par un véritable moteur. Il
+modélise les documents et bases de données d’un projet comme les
+maillons d’une chaîne et, dès qu’un maillon est modifié, propage ce
+changement à tous les éléments connectés, dans toutes les directions
+déclarées — régénérant et réexportant de manière atomique pour garantir
+qu’aucun artefact suivi ne puisse jamais se désynchroniser. Sa
+conception emprunte sa rigueur au monde des systèmes de compilation
+incrémentale plutôt qu’à celui des scripts : la détection des
+changements repose sur le <strong>hachage de contenu, et non sur la date
+de modification</strong>, si bien qu’un <code>touch</code> ne déclenche
+rien, tandis qu’une modification d’un seul octet entraîne exactement les
+recompilations nécessaires — sans fausses alertes ni changements
+manqués. Formulé en une seule phrase, il s’agit d’une recomputation
+incrémentale à la Salsa, basée sur le hachage de contenu et appliquée à
+un DAG, avec un ordonnancement topologique de Kahn, une coupure précoce
+éliminant les sous-arbres inchangés, des arêtes de synchronisation
+bidirectionnelles à autorité déclarée, ainsi que des renommages
+atomiques et des commits transactionnels SQLite, de sorte qu’un plantage
+en cours de propagation ne laisse jamais un export à moitié écrit. Il
+est distribué sous forme de sous-module <code>vasic-digital</code> et
+intégré comme composant central du sous-module HelixConstitution, ce qui
+permet à tout projet adoptant la constitution de bénéficier de Docs
+Chain dès le départ et d’enregistrer ses propres chaînes via des YAML
+spécifiques au contexte. L’implémentation affiche clairement son état
+(conformément à la constitution §11.4.6) : les phases 1 à 4 (DAG central
++ hachage, adaptateurs/transformations de nœuds, orchestrateur de
+propagation avec atomicité, CLI multi-contextes piloté par configuration
+avec
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)
+sont implémentées et testées ; une phase 4b ajoute des modules intégrés
+génériques de synchronisation bidirectionnelle
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> (pure-Go, dérive au
+niveau des lignes, aller-retour stable au niveau des octets) et un
+module intégré <code>colorize-html</code> ; la phase 5, couvrant des
+tests e2e réels complets, est implémentée et VALIDÉE. Les phases 6 et 7
+(distribution via la constitution, intégration ATMOSphere) restent
+PLANIFIÉES et soumises à un contrôle opérateur. Herald est le premier
+consommateur aval réel, synchronisant un corpus multi-formats de 66
+documents avec une vérification propre.</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>La documentation, les exports et les bases de données divergent dès
+qu’ils sont maintenus manuellement ou via des scripts fragiles. Docs
+Chain rend la synchronisation mécanique, précise grâce au hachage de
+contenu et atomique, de sorte qu’une modification en un point quelconque
+d’une chaîne met correctement et en toute sécurité à jour tout ce qui en
+dépend (en aval comme en amont).</p>
+<p>Contenu</p>
+<h2 id="pourquoi-cest-révolutionnaire">Pourquoi c’est
+révolutionnaire</h2>
+<p>Il prend les garanties de fiabilité, durement acquises et tenues pour
+acquises par les auteurs de compilateurs et de systèmes de build —
+graphes de dépendances à hachage de contenu, recomputation minimale,
+commits atomiques — et les applique à la documentation et aux bases de
+données, un domaine qui, historiquement, se traînait péniblement avec
+des tâches cron et de bonnes intentions. Une synchronisation
+bidirectionnelle véritable signifie que la relation entre une source et
+son export est imposée dans les deux sens : <em>« la documentation est
+obsolète »</em> et <em>« l’export ne correspond pas à la source »</em>
+cessent d’être des bugs récurrents pour devenir des états que le moteur
+refuse tout simplement d’autoriser.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li>Recomputation incrémentale par hachage de contenu (et non par
+horodatage) sur un DAG avec coupure précoce.</li>
+<li>Synchronisation bidirectionnelle avec déclaration d’autorité (docs ↔︎
+exports ↔︎ SQLite).</li>
+<li>Commit atomique par renommage + transaction SQLite pour une
+propagation résistante aux plantages.</li>
+<li>Tour de passe-passe
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> en pur Go avec
+détection de dérive au niveau des lignes.</li>
+</ul>
+<h2 id="défis-et-solutions">Défis et solutions</h2>
+<ul>
+<li><strong>Reconstructions intempestives</strong> : résolues par la
+détection par hachage de contenu plutôt que par horodatage.</li>
+<li><strong>Mises à jour partielles/corrompues</strong> : résolues par
+le renommage atomique et les transactions SQLite.</li>
+<li><strong>Ordonnancement correct des membres multiples</strong> :
+résolu par l’ordonnancement topologique de Kahn avec coupure
+précoce.</li>
+<li><strong>Rapport de capacités honnête</strong> : résolu en marquant
+chaque phase comme IMPLEMENTÉE ou PLANIFIÉE selon le §11.4.6.</li>
+</ul>
+<h2 id="pile-technologique-pourquoi-et-comment">Pile technologique
+(pourquoi et comment)</h2>
+<ul>
+<li><strong>Go</strong> — moteur complet (<code>internal/hash</code>,
+<code>graph</code>, <code>adapter</code>, <code>orchestrator</code>,
+<code>config</code>, <code>state</code>, <code>runner</code>,
+<code>cmd/docs_chain</code>).</li>
+<li><strong>DAG + tri topologique de Kahn</strong> — ordonnancement des
+dépendances avec coupure précoce.</li>
+<li><strong>SQLite (modernc en pur Go)</strong> — membres de la base de
+données et commits transactionnels.</li>
+<li><strong>fsnotify</strong> — démon <code>watch</code> pour une
+propagation en temps réel.</li>
+<li><strong>Configuration YAML</strong> — enregistrement des chaînes par
+contexte.</li>
+<li><strong>exec : transformations</strong> — génération pluggable
+Markdown→HTML/PDF/DOCX.</li>
+</ul>
+<blockquote>
+<p>Transparence de la feuille de route : les phases 6–7 (distribution de
+la constitution, intégration ATMOSphere) sont PLANIFIÉES / soumises à
+validation par l’opérateur — non livrées.</p>
+</blockquote>
+</body>
+</html>

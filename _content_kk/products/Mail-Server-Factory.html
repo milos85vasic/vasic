@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>Пошта серверін боссыдай басқарыңыз — оны JSON тілінде
+сипаттап, кез келген жерге орналастырыңыз.</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Mail Server Factory — өндіріске дайын, автоматтандырылған пошта
+серверін орнату құралы. Пайдаланушы қарапайым JSON конфигурациясын
+жазады; Фабрика оны оқып, нысаналы ОЖ-ге барлық орнатулар мен
+инициализациялауларды орындайды, 12 байланыс түрі бойынша Docker
+негізіндегі еркін байланысқан пошта стегін орналастырады.</p>
+<h2 id="қысқаша-сипаттамасы">Қысқаша сипаттамасы</h2>
+<p>Kotlin/Shell құралы JSON сипаттамасын Docker-ленген толық орнатылған
+пошта серверіне айналдырады. Ол 12 байланыс түріне (SSH, Docker,
+Kubernetes, AWS SSM, Azure, GCP, Libvirt және басқалары), толық
+қауіпсіздік инфрақұрылымына, 25 Linux дистрибутивіне қолдау көрсетеді
+және 439 өткен сынақпен жеткізіледі.</p>
+<h2 id="кеңейтілген-сипаттамасы">Кеңейтілген сипаттамасы</h2>
+<p>Нағыз қауіпсіз пошта серверін іске қосу — жүйелік әкімшілердің
+классикалық бастамаларының бірі және ең азаптысы болып саналады.
+Postfix, Dovecot, TLS сертификаттары, DNS жазбалары, брандмауэр
+ережелері және әрбір дистрибутивтің ерекшеліктері — бәрі де дәл келсе
+ғана жұмыс істейді, ал бір қате нұсқау пошталардың тынымсыз қайтарылуына
+немесе ашық релеге әкелуі мүмкін. Mail Server Factory осы барлық
+қиындықты, қатеге бейім тәжірибені бағдарламалық қамтамасыз етуге
+айналдырады. Әрбір бөлікті бейтаныс ОЖ-ге қолмен конфигурациялаудың
+орнына, соңғы пайдаланушы қалаған нәтижені қарапайым JSON құжаты түрінде
+жазады; Фабрика осы JSON-ді оқып, нысаналы операциялық жүйеде қажетті
+орнату және инициализациялау қадамдарын орындайды, Docker негізінде
+жұмыс істейтін пошта стегін орнатады, мұнда әрбір компонент еркін
+байланысқан — бұл жобалау шешімі стекті көлденеңінен масштабтауға және
+кез келген компонентті жекелей жаңартуға немесе ауыстыруға мүмкіндік
+береді. Сонымен қатар, ол әдейі байланыс тәуелсіз: 12 байланыс түрі
+бірдей құрал мен бірдей JSON-ді жергілікті машинаға, SSH арқылы
+қашықтағы хостқа, Docker немесе Kubernetes ортасына, AWS SSM / Azure
+Сериялық консолі / GCP OS Login арқылы бұлттық инстанстарға немесе
+Libvirt арқылы виртуалды машиналарға бағыттауға мүмкіндік береді —
+бірдей декларативті сипаттама, сіз көрсеткен жерге орналастырылады. Ол
+Батыс (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE),
+Ресей (ALT, Astra, ROSA) және Қытай (openEuler, openKylin, Deepin)
+отбасыларындағы 25 Linux дистрибутивін қолдайды, сондай-ақ
+preseed/kickstart/cloud-init/autoyast арқылы автоматты орнату және сынақ
+үшін QEMU негізіндегі ВМ автоматтандыруды қамтиды. Кәсіпорындық
+мүмкіндіктер кең: AES-256-GCM шифрлеуі, пароль мен SSH кілттерінің
+саясатының міндетті түрде сақталуы, пошта порттарына
+(25/587/465/993/995) арналған брандмауэрдің автоматты конфигурациясы,
+TLS/SSL сертификаттық тексеруі мен HSTS, аудиттік журналдау және
+рөлдерге негізделген рұқсаттарды басқару (RBAC). Операциялық
+мүмкіндіктерге JVM баптауы (G1GC), Caffeine кэші, байланыс пулдары,
+Prometheus-ке сәйкес метрикалар, құрылымдық журналдау, конфигурацияның
+ыстық қайта жүктелуі және құпияларды басқару жатады. Жоба 439 сынақты
+100% өткізіп, таза SonarQube сапалық қақпасын көрсетті. Ол
+Server-Factory ұйымының флагмандық жобасы болып табылады.</p>
+<h2 id="неліктен-құрастырдық">Неліктен құрастырдық</h2>
+<p>Өндірістік пошта серверін қауіпсіз орнату – әдетте қатеге бейім және
+операциялық жүйеге тәуелді процесс. Mail Server Factory осы біліктілікті
+декларативті JSON моделі мен орындау механизміне айналдырды. Нәтижесінде
+дұрыс, қауіпсіз, Docker-да орнатылған пошта стегі қолдау көрсетілетін
+кез келген нысанда қолмен жасалатын қадамдарсыз қайта жаңғыртылады.</p>
+<h2 id="оның-ойын-өзгертетін-себебі">Оның ойын өзгертетін себебі</h2>
+<p>Пошта серверін орнатуды мамандықты қажет ететін, бірнеше күнді
+алатын, дәлме-дәл жасалуы тиіс қиындықтан конфигурация жазу әрекетіне
+айналдырады. Содан кейін осы әрекетті 12 байланыс түрі мен 25 Linux
+дистрибутиві арасында тасымалдауға болады және кәсіпорындық қауіпсіздік
+параметрлері әдепкі бойынша қатаң қойылған. Нәтижесі қайталанғыш және
+<em>тексерілетін</em>: бірдей JSON әрдайым бірдей қауіпсіз стекті
+береді, ал жобаның 439 өткен сынағы мен таза SonarQube қақпасы орындау
+механизмінің өзі де сенімге алынбай, тексерілетінін білдіреді.</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Декларативті JSON → нысандағы ОЖ-ге интерпретацияланған
+орнату/бастапқылау.</li>
+<li>Бір құрал арқылы қол жетімді 12 байланыс түрі (жергілікті, SSH,
+Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt және тағы
+басқалары).</li>
+<li>25 дистрибутивке қолдау көрсету, қадағаланбаған орнату
+(preseed/kickstart/cloud-init/autoyast) және QEMU
+автоматтандыруымен.</li>
+<li>Тәуелсіз масштабтау/жаңартуға арналған жеңіл байланысқан
+Docker-стегі.</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>ОЖ/дистрибутивтер әртүрлілігі:</strong> әр дистрибутивке
+арналған рецепттер, қадағаланбаған орнату конфигурациялары және QEMU
+негізіндегі дистрибутивтер арасындағы тестілеу арқылы шешілді.</li>
+<li><strong>Көптеген орнату нысандарына қол жеткізу:</strong> ортақ
+орнату механизміне біріктірілген 12 ауыстырылатын байланыс түрі арқылы
+шешілді.</li>
+<li><strong>Әдепкі қауіпсіздік:</strong> AES-256-GCM, мәжбүрлі
+кілт/құпиясөз саясаты, автоматты файрволл ережелері және TLS/HSTS арқылы
+шешілді.</li>
+<li><strong>Дұрыстығына сенім:</strong> 439 сынақ жиынтығы (100% өткен)
+және таза SonarQube қақпасы арқылы шешілді.</li>
+</ul>
+<h2 id="технологиялық-стек-неліктен-және-қалай">Технологиялық стек
+(неліктен және қалай)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Factory қозғалтқышы және орнату
+қадамдарының логикасы (179K байт; Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — орнату скрипттері, ISO/QEMU менеджерлері
+және ОЖ автоматтандыруы (байт саны бойынша басым).</li>
+<li><strong>Docker</strong> — орнатылған, жеңіл байланысқан пошта
+стегінің жұмыс режимі.</li>
+<li><strong>QEMU</strong> — дистрибутивтер арасындағы орнату мен
+тестілеуді автоматтандыруға арналған ВМ.</li>
+<li><strong>JSON</strong> — пайдаланушыға арналған декларативті
+конфигурация форматы.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — құрастыру құралы.</li>
+<li><strong>Caffeine</strong> — көп аймақты кеш; <strong>G1GC-реттелген
+JVM</strong> өнімділік үшін.</li>
+<li><strong>Prometheus-бейімделген метрикалар</strong> — мониторинг;
+Grafana/ELK-ге дайын.</li>
+<li><strong>Sieve</strong> — пошта сүзгілеу ережелері (тіл
+статистикасында аз көлемді).</li>
+</ul>
+<blockquote>
+<p>Ескерту: GitHub репозиториясы Server-Factory ұйымындағы форк ретінде
+белгіленген. AI өнімдер желісінен бұрын пайда болған; DevOps/орнату
+флагманы ретінде ұсынылған, AI утилитасы емес.</p>
+</blockquote>
+</body>
+</html>

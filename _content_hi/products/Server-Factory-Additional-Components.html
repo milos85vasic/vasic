@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>Server Factory प्रोविज़निंग टूलचेन के सहायक घटक</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>Mail Server Factory और कोर फ्रेमवर्क के अलावा, सर्वर-फैक्ट्री संगठन में कई छोटे
+घटक शामिल हैं: प्रति-सेवा “फैक्ट्रियाँ” (वेब सर्विस, SonarQube, कैशिंग प्रॉक्सी),
+घोषणात्मक कॉन्फ़िगरेशन पैक (Docker/स्टैक/सॉफ़्टवेयर परिभाषाएँ), और साझा यूटिल्स। यह
+संकलित पृष्ठ उन्हें ईमानदारी से प्रस्तुत करता है—कई प्रारंभिक चरण में हैं या अधूरे
+दस्तावेज़ीकरण वाले—न कि पूर्णतः निर्दिष्ट उत्पादों के रूप में।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>Server Factory के सहायक रिपॉज़िटरी का समूह: वेब-सर्विस-फैक्ट्री,
+SonarQube-फैक्ट्री, और कैशिंग-प्रॉक्सी-फैक्ट्री (प्रति-सेवा प्रोविज़निंग टूल, अधिकतर
+प्रारंभिक चरण में); Docker/स्टैक/सॉफ़्टवेयर-परिभाषाएँ (फ्रेमवर्क द्वारा उपयोग किए जाने
+वाले घोषणात्मक कॉन्फ़िगरेशन पैक); और यूटिल्स (SSH-एक्सेस सहायक और सामान्य टूलिंग)।
+सभी कोर फ्रेमवर्क पर आधारित हैं।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>यह पृष्ठ शेष सर्वर-फैक्ट्री रिपॉज़िटरी को एक साथ प्रस्तुत करता है क्योंकि व्यक्तिगत
+रूप से अधिकांश छोटे हैं या जानबूझकर कम दस्तावेज़ीकृत हैं, और प्रत्येक को एक पूर्ण उत्पाद के
+रूप में प्रस्तुत करना उनकी परिपक्वता को बढ़ा-चढ़ाकर दिखाएगा। ये तीन समूहों में विभाजित
+हैं। <strong>सेवा फैक्ट्रियाँ</strong> अन्य सर्वर भूमिकाओं के लिए Mail Server
+Factory पैटर्न का अनुसरण करती हैं: <strong>कैशिंग-प्रॉक्सी-फैक्ट्री</strong> (“अपना
+खुद का कैशिंग प्रॉक्सी सर्वर चलाएँ”) कैशिंग प्रॉक्सी, सेल्फ-साइन्ड सर्टिफ़िकेट, और
+सुरक्षा-सर्टिफ़िकेट प्राप्ति के HTTP एंडपॉइंट को प्रमुख विशेषताओं के रूप में सूचीबद्ध करती
+है; <strong>SonarQube-फैक्ट्री</strong> (“अपना खुद का SonarQube सर्वर चलाएँ”)
+सॉफ़्टवेयर-विकास उपयोग के लिए लक्षित है; और <strong>वेब-सर्विस-फैक्ट्री</strong>
+वेबसाइटों और माइक्रो-सर्विसेज़ जैसे लक्ष्यों को तैनात करने के लिए वेब सर्वर को स्थापित और
+कॉन्फ़िगर करती है। ये तीनों Kotlin प्रोजेक्ट हैं जो कोर फ्रेमवर्क पर निर्मित हैं, लेकिन
+उनके सार्वजनिक README अधिकतर प्लेसहोल्डर हैं (“Tbd.” संगतता, विनिर्देश, सेटअप और
+उपयोग के लिए)—इसलिए बताए गए उद्देश्य से परे उनकी ठोस क्षमताएँ
+<strong>अपुष्ट</strong> हैं। <strong>परिभाषा
+पैक</strong>—<strong>Docker-परिभाषाएँ</strong>,
+<strong>स्टैक-परिभाषाएँ</strong>, और
+<strong>सॉफ़्टवेयर-परिभाषाएँ</strong>—घोषणात्मक कॉन्फ़िगरेशन रिपॉज़िटरी हैं जिन्हें
+फ्रेमवर्क Docker छवियों, स्टैक और सॉफ़्टवेयर के निर्माण/तैनाती के लिए उपयोग करता है; ये
+संस्करण-नियत डेटा पैक हैं, न कि एप्लिकेशन। <strong>यूटिल्स</strong> परिवार के लिए
+सामान्य सहायक प्रदान करता है, जिसमें <code>init_ssh_access.sh</code> स्क्रिप्ट
+शामिल है जो SSH कुंजी उत्पन्न करती है और इसे दूरस्थ होस्ट पर स्थापित करती है ताकि
+बाद के प्रोविज़निंग के लिए पासवर्ड-रहित रूट एक्सेस सक्षम हो सके। ये घटक मिलकर Mail
+Server Factory के आसपास प्रोविज़निंग टूलचेन को पूर्ण करते हैं।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>Server Factory मॉडल को सामान्यीकृत करने के लिए बनाया गया है: एक बार जब आप
+घोषणात्मक विवरण से मेल सर्वर प्रोविज़न कर सकते हैं, तो उसी इंजन से वेब सर्वर, कैशिंग
+प्रॉक्सी और कोड-क्वालिटी सर्वर भी प्रोविज़न किए जा सकने चाहिए—जिन्हें पुनः उपयोग
+योग्य परिभाषा पैक और साझा यूटिलिटीज़ द्वारा संचालित किया जाए, न कि प्रति भूमिका
+के लिए विशेष तर्क द्वारा। ये रिपॉज़िटरी उसी सामान्यीकरण की प्रक्रिया में हैं, जो सिद्ध
+पैटर्न को नए सर्वर प्रकारों तक विस्तारित करती हैं। यहाँ इनका मूल्य मॉडल की पहुँच के
+प्रमाण के रूप में है; उनकी परिपक्वता भिन्न है, और यह पृष्ठ जानबूझकर स्पष्ट करता है कि
+कौन से दिशा-निर्देश हैं और कौन से पूर्ण हैं।</p>
+<p>सामग्री</p>
+<h2 id="यह-कय-एक-गम-चजर-ह-सतलत-दषटकण">यह क्यों एक गेम-चेंजर है (संतुलित
+दृष्टिकोण)</h2>
+<p>समग्र रूप में, ये इस बात का प्रमाण हैं कि कोर फ्रेमवर्क विभिन्न सर्वर प्रकारों में पुनः
+उपयोगी है और घोषणात्मक डेटा (परिभाषाएँ) को निष्पादन (फैक्ट्रियाँ) से अलग करता है।
+व्यक्तिगत रूप से, सेवा फैक्ट्रियाँ प्रारंभिक चरण में हैं और इन्हें पूर्ण उत्पाद के रूप में नहीं,
+बल्कि दिशा-निर्देश के रूप में प्रस्तुत किया जाना चाहिए।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li>एक ही प्रोविज़निंग फ्रेमवर्क जो मेल/वेब/कैशिंग-प्रॉक्सी/SonarQube भूमिकाओं में
+सामान्यीकृत है।</li>
+<li>घोषणात्मक परिभाषा पैक (Docker/स्टैक/सॉफ़्टवेयर) जो निष्पादन इंजन से अलग
+हैं।</li>
+<li>साझा यूटिल्स (जैसे, एक-कमांड पासवर्ड-रहित SSH बूटस्ट्रैप) जो फैक्ट्रियों में पुनः
+उपयोगी हैं।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>एक ही इंजन का विभिन्न सर्वर भूमिकाओं में पुनः उपयोग:</strong> कोर
+फ्रेमवर्क पर प्रत्येक फैक्ट्री बनाकर हल किया गया।</li>
+<li><strong>कॉन्फ़िगरेशन को कोड से अलग करना:</strong> परिभाषा रिपॉज़िटरीज़ को
+संस्करण-संलग्न डेटा पैक के रूप में उपयोग करके हल किया गया।</li>
+<li><strong>(असत्यापित):</strong> सेवा फैक्ट्रियों के README प्लेसहोल्डर हैं;
+सार्वजनिक दस्तावेज़ों से उनकी पूर्णता का सत्यापन संभव नहीं — इन्हें प्रारंभिक चरण के रूप में
+प्रस्तुत करें।</li>
+</ul>
+<h2 id="तकनक-सटक-कय-कस">तकनीकी स्टैक (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Kotlin</strong> — वेब-सर्विस-फैक्ट्री, SonarQube-फैक्ट्री,
+कैशिंग-प्रॉक्सी-फैक्ट्री (कोर फ्रेमवर्क पर निर्मित)।</li>
+<li><strong>Shell</strong> — यूटिल्स और परिभाषा पैक (स्क्रिप्ट्स/कॉन्फ़िग)।</li>
+<li><strong>Gradle</strong> — <code>./gradlew test</code> फैक्ट्रियों में
+बिल्ड/टेस्ट प्रवाह।</li>
+<li><strong>Docker</strong> — Docker-परिभाषाओं द्वारा वर्णित लक्ष्य
+रनटाइम।</li>
+<li><strong>SSH / OpenSSH</strong> — यूटिल्स का पासवर्ड-रहित एक्सेस
+बूटस्ट्रैप।</li>
+<li><strong>SonarQube</strong> — वह सर्वर जिसे SonarQube-फैक्ट्री प्रोविज़न
+करती है (और जिसके विरुद्ध Mail Server Factory एक स्वच्छ गेट की रिपोर्ट करता
+है)।</li>
+</ul>
+<blockquote>
+<p>ईमानदारी का नोट: इनमें से अधिकांश रिपॉज़िटरी संगठन के भीतर फ़ोर्क हैं; सेवा
+फैक्ट्रियाँ प्लेसहोल्डर-दस्तावेज़ीकृत हैं और संविधान §11.4.6 के अनुसार असत्यापित चिह्नित
+हैं। इन्हें स्पष्ट रूप से Mail Server Factory और कोर फ्रेमवर्क से निम्न श्रेणी में रखा गया
+है।</p>
+</blockquote>
+</body>
+</html>

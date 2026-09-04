@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TEST-TYPES</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">TEST-TYPES</h1>
+</header>
+<h1 id="test-type-coverage-vasic.digital-milosvasic.ru">§11.4.169
+Test-Type Coverage — vasic.digital + milosvasic.ru</h1>
+<p>This repository ships <strong>two static sites</strong>
+(<code>vasic.digital</code>, a standalone OpenDesign build;
+<code>milosvasic.ru</code>, a Jekyll build) plus <strong>Go/Node/Python
+tooling</strong> that generates and validates them. There is <strong>no
+application server, no database, and no runtime state</strong> — the
+deployment target is GitHub Pages (static file hosting). That fact
+determines which of the §11.4.169 mandatory test types are
+<em>applicable</em>, which are <em>added by this change</em>, and which
+are <em>genuinely N/A</em> (documented here per §11.4.3 SKIP-with-reason
+rather than left as a silent gap).</p>
+<p>Status legend: <strong>PRESENT</strong> (existed before this change)
+· <strong>ADDED</strong> (this change) · <strong>N/A</strong> (not
+applicable to a static-site + build-tooling repo, with cited
+reason).</p>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 42%" />
+<col style="width: 16%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>§11.4.169 test type</th>
+<th>Status</th>
+<th>Where / Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>unit</strong></td>
+<td><strong>ADDED</strong></td>
+<td>Go table tests for the generator: <code>_tools/gen/*_test.go</code>
+(markdown renderer, <code>esc</code>/<code>escText</code>, frontmatter
+parser, <code>availableLangs</code>, <code>langPath</code>,
+<code>Site.URL</code>, hreflang matrix, JSON-LD nodes,
+<code>seoHead</code> singletons, sitemap/robots writer, license-hide,
+chip-cap, <code>repoLabel</code>). Python unit tests for the glossary
+sentinel roundtrip: <code>_tests/tools/glossary_protect_test.py</code>.
+Evidence: <code>evidence/test-types/go-test.txt</code>,
+<code>evidence/test-types/glossary-protect.txt</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>integration</strong></td>
+<td><strong>ADDED</strong></td>
+<td>Link-integrity crawl across each generated site — nav, product
+cards, portfolio, downloads, and <strong>every sitemap.xml URL</strong>
+must resolve <code>&lt;400</code>; the anti-bluff private-repo deep-link
+guard is re-asserted. <code>_tests/tests/link-integrity.spec.js</code>.
+Also the data-gate <strong>mutation test</strong> proving
+<code>validate.mjs</code> actually fails on bad portfolio data (excluded
+/ private-leak / order-break):
+<code>_tests/tools/validate.mutation.test.mjs</code> →
+<code>evidence/test-types/validate-mutation.txt</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>security</strong></td>
+<td><strong>ADDED</strong></td>
+<td>Per key page: no inline secrets in shipped HTML, no
+<code>http://</code> mixed-content subresources, no inline
+<code>on*=</code> handlers, <code>rel=noopener</code> on every
+<code>target=_blank</code>, and CSP-<code>&lt;meta&gt;</code> presence
+recorded. <code>_tests/tests/security-hardening.spec.js</code>.
+Server-header security (CSP/HSTS response headers, WAF) is
+<strong>N/A</strong> — GitHub Pages does not let you set response
+headers; the only static-site lever is a <code>&lt;meta&gt;</code> CSP,
+which is checked.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>performance</strong></td>
+<td><strong>ADDED</strong></td>
+<td>Real transferred-bytes + request-count budget measured from
+Playwright’s network layer (not a faked Lighthouse score), plus
+LCP-candidate presence and a
+render-blocking-<code>&lt;head&gt;</code>-script check. Lighthouse/LHCI
+is <strong>not</strong> a declared/installable dependency here, so a
+<strong>documented lighter proxy</strong> is used per the task
+allowance. <code>_tests/tests/perf-budget.spec.js</code> → real numbers
+in <code>evidence/test-types/perf-budget.json</code> (e.g. vasic home
+221 KB / 10 req / LCP 28 ms; budget 1.5 MB / 45 req).</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>e2e</strong></td>
+<td>PRESENT</td>
+<td>Feature/behaviour specs:
+<code>_tests/tests/vasic-digital.spec.js</code>,
+<code>milosvasic-ru.spec.js</code>, <code>*-features.spec.js</code>
+(nav, hero, theme toggle + persistence, product-card links, responsive
+overflow).</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>accessibility (a11y)</strong></td>
+<td>PRESENT</td>
+<td><code>@axe-core/playwright</code> audit +
+keyboard/skip-link/contrast checks:
+<code>_tests/tests/milosvasic-ru-a11y.spec.js</code>.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>i18n</strong></td>
+<td>PRESENT</td>
+<td><code>_tests/tests/i18n-completeness.spec.js</code>,
+<code>vasic-digital-i18n-articles.spec.js</code>,
+<code>milosvasic-ru-i18n-articles.spec.js</code>; hreflang reciprocity
+is additionally asserted by the new <code>seo-meta.spec.js</code>.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>visual</strong></td>
+<td>PRESENT</td>
+<td>Visual oracle + evidence screenshots:
+<code>_tests/visual/visual-oracle.js</code>,
+<code>_tests/visual/self-validate.sh</code>, per-site full-page
+screenshots under <code>evidence/homepages/</code>.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>export</strong></td>
+<td>PRESENT</td>
+<td>PDF/asset export validation:
+<code>_tests/export/validate-pdf.js</code>, <code>make-image.js</code>,
+<code>self-validate.sh</code>, fixtures.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>SEO / structured-data</strong></td>
+<td><strong>ADDED</strong></td>
+<td>Per key page: exactly one non-empty <code>&lt;title&gt;</code>,
+non-empty meta description, canonical, valid Open Graph + Twitter card,
+≥1 parseable JSON-LD block with a schema.org <code>@type</code>, and
+reciprocal hreflang. <code>_tests/tests/seo-meta.spec.js</code>. (Folded
+under §11.4.169 SEO coverage.)</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>ddos / rate-limiting</strong></td>
+<td><strong>N/A</strong></td>
+<td>No origin server to flood. GitHub Pages is a CDN-fronted static
+host; there is no application request handler, session, or compute path
+this repo owns that could be rate-limited or DoS-tested. Any DDoS
+protection is a property of GitHub’s edge, not of this codebase. Nothing
+to assert without bluffing.</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>concurrency / atomicity</strong></td>
+<td><strong>N/A</strong></td>
+<td>The shipped artifact is immutable static HTML/CSS/JS with <strong>no
+shared mutable state, no transactions, no writes</strong> at request
+time. The only concurrency in the repo is the offline build
+(<code>gen</code>, translate pipeline), which is single-shot and
+deterministic; its correctness is covered by the unit tests above (pure
+functions, no goroutine-shared state). There is no concurrent-write
+invariant to test.</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>memory / leak</strong></td>
+<td><strong>N/A</strong></td>
+<td>No long-running process owned by this repo. Pages are served as
+files; the client-side JS is a tiny deferred motion/theme controller
+with no allocation loop or retained listeners across navigations (each
+page is a fresh document). The Go generator is a short-lived CLI that
+exits; there is no resident heap to profile for growth. (Client memory
+pressure would surface via the perf-budget asset ceiling.)</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>chaos / resilience</strong></td>
+<td><strong>N/A</strong></td>
+<td>Chaos engineering targets distributed runtime failure modes (node
+loss, network partition, dependency brownout). A static site has no
+backend topology, no inter-service calls, and no failover to perturb.
+The analogous “resilience” property for a static site — that no page
+links to something that 404s or leaks a private repo — is covered as
+<strong>integration</strong> (link-integrity + private-repo guard)
+rather than chaos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="notes-on-honest-edges-no-bluff">Notes on honest edges (no
+bluff)</h2>
+<ul>
+<li><p><strong>Private-repo suppression lives at the data gate, not in
+the Go renderer.</strong> <code>_tools/gen</code> declares
+<code>PortfolioEntry.Private</code> but never branches on it — the
+renderer trusts pre-validated data. Suppression is enforced upstream by
+<code>_tools/portfolio/validate.mjs</code> (fails if a
+<code>private:true</code> entry lists repos) and re-asserted at runtime
+by the Playwright private-repo deep-link guard. The Go side adds
+<code>TestPortfolioDataHasNoPrivateLeak</code> as a belt-and-suspenders
+guard on the data the renderer consumes. This is documented rather than
+papered over.</p></li>
+<li><p><strong>milosvasic.ru homepage has no hreflang.</strong> Its
+<code>&lt;head&gt;</code> is owned by <code>jekyll-seo-tag</code>, which
+does not emit <code>hreflang</code>. Its product and portfolio pages ARE
+Go-rendered and carry the full reciprocal hreflang matrix, as does all
+of vasic.digital. <code>seo-meta.spec.js</code> therefore asserts
+hreflang on every page EXCEPT that one homepage; the exception is
+intentional and recorded here, not silently skipped.</p></li>
+<li><p><strong>Performance uses a measured proxy, not
+Lighthouse.</strong> No Lighthouse score is reported because LHCI is not
+an installed dependency. The budget is real measured transfer size /
+request count / LCP presence — see
+<code>evidence/test-types/perf-budget.json</code> for the actual
+per-page numbers.</p></li>
+</ul>
+<h2 id="how-to-run">How to run</h2>
+<pre><code># unit — Go generator
+( cd _tools/gen &amp;&amp; go test ./... )
+
+# unit — glossary sentinel roundtrip
+python3 _tests/tools/glossary_protect_test.py
+
+# integration — data-gate mutation proof
+node _tests/tools/validate.mutation.test.mjs
+
+# integration / security / performance / SEO / e2e / a11y / i18n
+# LOCAL specs only, 3 browsers — the default config `testIgnore`s the three
+# live-production specs below, so this is 19 of the 22 spec files.
+( cd _tests &amp;&amp; npx playwright test )
+
+# LIVE production specs (restyle-seo-regression, v170-fixes, v171-hardcoding,
+# all-languages-link-integrity) — chromium only, asserts against the deployed
+# sites over the public internet, so it needs working DNS/egress. The
+# all-language crawl additionally needs VD_BASE/MV_BASE, which default to
+# localhost:8401/8082 and are set by _tools/deploy-langs.sh at deploy time;
+# without them that one spec fails with &quot;Expected: 200 / Received: 0&quot;.
+( cd _tests &amp;&amp; npx playwright test --config=playwright.live.config.js )</code></pre>
+</body>
+</html>

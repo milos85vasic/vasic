@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Core-Framework</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Core-Framework</h1>
+</header>
+<p><strong>Her Server Factory’un Arkasındaki Ortak Motor</strong></p>
+<h2 id="özet">Özet</h2>
+<p>Core Framework, Server Factory ailesi tedarik araçlarının temelini
+oluşturan Kotlin çatısıdır. Mail Server Factory gibi projelerin üzerine
+inşa edildiği ortak motoru ve soyutlamaları sağlayarak, her “fabrika”nın
+sıfırdan tedarik ilkeleri geliştirmek yerine tek bir sınanmış temeli
+yeniden kullanmasını mümkün kılar.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Server Factory ekosisteminin temelindeki ortak Kotlin çatısı. Alt
+projeler (Mail Server Factory, Web Service Factory, SonarQube Factory ve
+diğerleri) tarafından kullanılan ortak tedarik motorunu, bağlantı
+soyutlamalarını ve kurulum adımı mekanizmalarını sunar.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Core Framework, tüm Server-Factory ailesini mümkün kılan sessiz
+mühendislik parçasıdır: Her bir “fabrika” ürününün (Mail Server Factory,
+Web Service Factory, SonarQube Factory, Caching Proxy Factory) üzerinde
+inşa edildiği yeniden kullanılabilir motor. Server Factory yaklaşımı
+bildirimsel niteliktedir — kullanıcı, istediği altyapıyı bir
+konfigürasyon olarak tanımlar ve fabrika bu tanımı yorumlayarak hedef
+sistemde yazılımı kurar ve başlatır. Core Framework ise bu modelin ortak
+mekanizmalarının gerçekten yaşadığı yerdir: Her türlü hedefe ulaşan
+bağlantı ve taşıma soyutlamaları, yazılımın <em>nasıl</em> tedarik
+edildiğini kodlayan kurulum adımı modeli ve her fabrikanın aksi takdirde
+kendisi için yazması gerekecek ortak altyapı. Çok ürünlü araç
+zincirlerinin sonunda karşılaştığı yapısal bir sorunun yanıtıdır: Ortak
+motor nereye konmalı? Bu soruya bir kez doğru yanıt vermek, ailenin dört
+farklı tedarikçiye bölünmek yerine tutarlı kalmasını sağlar. Bu
+işlevselliği tek bir Kotlin çatısı altında merkezileştirerek, aile
+tedarik mantığının ürünler arasında tekrarlanmasını önler ve davranış
+tutarlılığını korur: Core Framework’te iyileştirilen bir bağlantı türü
+veya kurulum ilkesi, tüm alt projelerde fayda sağlar. Neredeyse tamamen
+Kotlin’dan oluşur (yaklaşık 990K baytlık Kotlin ve ince bir Shell
+katmanı), bu da onun bir kod kütüphanesi olarak rolünü yansıtır; bir
+betik koleksiyonu değil. Alt projeler, onu temel bağımlılık olarak
+referans gösterir (Parallels-Utils, Qemu-Utils, Utils ve Tanımlar
+paketleri, Core Framework deposunu ekosistemin merkezi olarak gösterir).
+README dosyası kasıtlı olarak minimal tutulmuştur — diğer projeler için
+bir altyapı görevi görür ve
+<code>version.txt</code>/<code>version_code.txt</code> üzerinden
+sürümlendirilir. Daha sonraki AI çalışmalarından önce geliştirilmiş
+olması, kuruluşun olgun DevOps araç zinciri mirasının bir parçası
+olduğunu gösterir.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Her tedarik aracının aynı çekirdeğe ihtiyacı vardır: Hedeflere
+bağlanma yolları ve yazılımı kurma/konfigüre etme adımları. Bunu her
+ürün için yeniden inşa etmek, davranışların parçalanmasına ve hataların
+artmasına yol açardı. Core Framework, tüm fabrikaların tek bir güvenilir
+motoru paylaşmasını sağlayarak bu sorunu ortadan kaldırır.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Tüm ailedeki en yüksek kaldıraç noktasıdır: Burada güçlendirilen bir
+bağlantı türü veya iyileştirilen bir kurulum ilkesi, bu doğruluğu ve
+yeteneği tüm fabrikalara anında aktarır. Böylece tüm araç zinciri, tek
+bir yatırımdan faydalanır. “Bir kez inşa et, her yerde kullan”
+felsefesinin en çok getiri sağladığı yer — altyapı otomasyonunun temel
+katmanı — burasıdır. Doğru yerdeki bir düzeltme, aşağı akıştaki her şeyi
+düzeltir.</p>
+<p>İçerik</p>
+<h2 id="yenilikçi-yönler">Yenilikçi Yönler</h2>
+<ul>
+<li>Bağlantı ve kurulum adımı mantığını soyutlayan, yeniden
+kullanılabilir tek bir sağlama çerçevesi.</li>
+<li>Motor (Çekirdek Çerçeve) ile ürüne özgü fabrikalar arasındaki net
+ayrım.</li>
+<li>Yeniden üretilebilir tüketim için sürüm sabitlenmiş dağıtım
+(<code>version.txt</code>/<code>version_code.txt</code>).</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve Çözümler</h2>
+<ul>
+<li><strong>Sağlama mantığının tekrarlanmasının önlenmesi:</strong> Tüm
+fabrikalar tarafından tüketilen tek bir çerçeveye ortak mekanizmaların
+aktarılmasıyla çözüldü.</li>
+<li><strong>Ürünler arasında tutarlı davranış:</strong> Bağlantı türleri
+ve adımların her yerde aynı şekilde çalışmasını sağlayan ortak
+soyutlamalarla çözüldü.</li>
+<li><strong>(DOĞRULANMAMIŞ):</strong> Belirli dahili API’ler genel
+README’de belgelenmemiştir; arayüz detayları, “fabrikalar tarafından
+tüketilen ortak çerçeve” ifadesinin ötesinde doğrulanmamış olarak kabul
+edilmelidir.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji Yığını (Neden ve
+Nasıl)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Tüm çerçeve (~990K bayt); Server Factory
+ailesinin dili.</li>
+<li><strong>Shell</strong> — Asgari destekleyici betikler.</li>
+<li><strong>Gradle</strong> — Derleme araç zinciri (ailenin
+<code>./gradlew</code> kullanımıyla tutarlı).</li>
+</ul>
+<blockquote>
+<p>Not: GitHub, depoyu Server-Factory organizasyonu içinde bir çatallama
+olarak işaretler. AI merkezli değildir; sağlama araç zincirinin omurgası
+olarak sunulmuştur.</p>
+</blockquote>
+</body>
+</html>

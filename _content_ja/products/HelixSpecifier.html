@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixSpecifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixSpecifier</h1>
+</header>
+<h1 id="helixspecifier">HelixSpecifier</h1>
+<p><strong>作業に応じて儀礼性を自動調整するスペック駆動開発</strong></p>
+<h2 id="概要">概要</h2>
+<p>HelixSpecifierは、Goエンジンの一つであり、3つの開発手法――SpecKitのスペック駆動型ワークフロー、SuperpowersのTDD規律、GSDのマイルストーンライフサイクル――を一つの適応型フローに統合したものです。各タスクを工数に応じて分類し、プロセスの規模を柔軟に調整します。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>HelixSpecifierは、AIエージェント向けのスペック駆動型開発融合エンジンです。SpecKit、Superpowers、GSDを組み合わせ、作業を工数レベルで分類し、議論に基づく仕様策定フェーズを実行、最低限のテスト・コード比率を強制し、完了したフローから学習します。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>HelixSpecifierは、Go（モジュール<code>digital.vasic.helixspecifier</code>）で記述されたスペック駆動型開発（SDD）融合エンジンであり、HelixAgent
+AIアンサンブルのコンポーネントとして構築されています。通常は3つの異なるツール――そして3つの異なるマインドセット――で運用される3つの開発手法を、一つの適応型ワークフローに統合します。具体的には、SpecKitの7フェーズSDDプロセス（Constitution、仕様策定、明確化、計画、タスク、分析、実装）、Superpowersのテスト駆動型規律と並列サブエージェント実行、そしてGSDのマイルストーンライフサイクル管理です。各要素はそれぞれの強みを発揮しつつ、エンジンがそれらを単一の一貫したフローとして機能させることで、手作業でパイプラインを繋ぎ合わせる必要がなくなります。</p>
+<p>その核となるコンセプトは<em>適応型儀礼性</em>です。エンジンは着手する作業を工数レベルで分類し、プロセスの規模をそれに合わせて調整します。これにより、1行の修正が大規模な機能と同じ重厚な手順を踏むことも、大規模な機能が些細な修正と同じ軽さで通過することもありません。この基本構造を基盤に、10の強力な機能が実装されています。具体的には、並列タスク実行の同時実行制限、機械可読な「Constitution
+as
+Code」による自動ルール強制、テストと実装の最低比率を追跡・強制する「Nyquist
+TDD」、仕様精緻化のための複数ラウンド・複数エージェントによる議論、適応型スキル習熟学習、レガシーコードのブラウンフィールド分析、過去のパターンから予測される仕様策定、プロジェクト間の知識移転、実行中の儀礼性調整によるフライト中の再チューニング、そして意味検索可能な永続的仕様メモリです。</p>
+<p>HelixSpecifierはGoモジュールとして提供され、<code>go get</code>またはローカルのreplaceディレクティブを通じて利用可能です。その背後には、意図的に小規模に設計されたエンジンAPIが存在し、3つの要素と儀礼性スケーラー、仕様メモリを登録し、作業の工数を分類した後、フルフローを実行して品質スコア付きの結果を受け取ります。表面はシンプルですが、その裏側のオーケストレーションは複雑です。Helixファミリーの他のメンバーと同様、ブレのない検証体制の下で開発されており、モックではなく実際のコードを用いたインプロセスのチャレンジランナーによって検証されています。</p>
+<h2 id="開発の背景">開発の背景</h2>
+<p>スペック駆動型開発、厳格なTDD、マイルストーン管理は、通常は3つの異なるツールで運用される3つの独立したプラクティスです。HelixSpecifierは、AIエージェント（HelixAgent）がこれら3つを手作業で繋ぎ合わせることなく、一つの一貫した自己調整型ワークフローとして実行できるようにするために開発されました。</p>
+<p>コンテンツ</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>プロセスを作業量に応じて自動的に調整します。チームは通常、二つの悪い極端のどちらかに陥りがちです。すべてに重厚な儀式を課すか（安全だが遅く、密かに不満が募る）、あるいは何も儀式を課さないか（速いが、そのうち破綻する）。HelixSpecifierはこのトレードオフを解消し、各タスクの分類された労力に応じて儀式の規模を調整し、作業の進展に合わせて実行時に再調整します。これまで実現不可能だったのは、タスクごとに最適なプロセスを自動調整する機能――そしてその上に、単一のエージェントの第一印象ではなく、複数ラウンド・複数エージェントによる議論と立場のスコアリングに基づく仕様決定です。</p>
+<h2 id="革新的な点">革新的な点</h2>
+<ul>
+<li><strong>適応型儀式</strong>――プロセスレベルは事前に固定されるのではなく、リアルタイムの品質指標に基づいて実行時に調整されます。</li>
+<li><strong>ナイキストTDD</strong>――テストと実装の比率ゲート（最低2倍）で、ナイキストの標本化定理の論理を応用：振る舞いを忠実に捉えるには、その速度を大きく上回る頻度でサンプリングする必要があるため、テストはカバーするコードを上回る量で測定しなければなりません。</li>
+<li><strong>ディベートアーキテクチャ</strong>――複数ラウンド・複数エージェントによる仕様の洗練プロセスで、立場が提案され、スコアリングされ、収束していきます。これにより、単一の意見に代わって対立的な議論が行われます。</li>
+<li><strong>予測的仕様</strong>と<strong>プロジェクト間知識移転</strong>――エンジンは蓄積されたフローを分析し、仕様を予測するとともに、あるプロジェクトで得た貴重な知見を次のプロジェクトに持ち込みます。</li>
+<li><strong>Constitution as
+Code</strong>――プロジェクトのルールを機械可読な形で定義し、エンジンによって強制されるため、レビュアーの注意力に依存することはありません。</li>
+</ul>
+<h2
+id="最大の技術的課題とその解決方法">最大の技術的課題とその解決方法</h2>
+<ul>
+<li><strong>三つの手法を統合しても互いに衝突しないようにする</strong>――SpecKit、Superpowers、GSDはそれぞれがワークフローを独占する前提で設計されています。共通インターフェースの背後に各ピラーを登録し、一つの共有フローライフサイクルを通じて駆動する融合エンジンによって解決。これにより、三つのプロセスが衝突するのではなく、一つのプロセスに統合されます。</li>
+<li><strong>特定のタスクに必要なプロセス量を決定する</strong>――見積もりが過大だとすべてが遅滞し、過小だとリスクのある作業が無検証でリリースされます。作業量を分類するエフォート分類器を用い、実行の進行に応じてプロセスレベルを動的に調整するセレモニースケーラーにフィードバックすることで解決。</li>
+<li><strong>人間のゲートキーパーなしで仕様の品質を高く保つ</strong>――単発の仕様策定に代えて、複数ラウンド・複数エージェントによる議論に基づく洗練プロセスを採用し、エージェントが各ラウンドで競合する立場をスコアリング。さらにナイキストTDD比率を強制することで、実装がテストを上回ることを防ぎます。</li>
+</ul>
+<h2 id="テックスタック">テックスタック</h2>
+<ul>
+<li><strong>Go</strong>――エンジンを単一のインポート可能なバイナリとして提供し、ランタイムの負担をゼロに。その並行処理モデルにより、並列タスクの制御されたディスパッチや複数エージェントによるディベートルウンドが、スレッド管理の煩雑さではなく実現可能なものとなります。</li>
+<li><strong>logrus</strong>――エンジンと三つのピラー全体にわたる構造化ロギング。これにより、フローの決定（分類、儀式の変更、ディベートの結果）が事後的に追跡可能です。</li>
+<li><strong>SpecKitピラー</strong>――七段階の仕様駆動開発プロセス（Constitution
+→ 仕様策定 → 明確化 → 計画 → タスク → 分析 →
+実装）により、仕様がコードへと変換される際の規律ある基盤を提供します。</li>
+<li><strong>Superpowersピラー</strong>――TDDの規律と並列サブエージェント実行により、テストファーストの厳格さと、実装の正確性と速度を保つためのファンアウトを実現。</li>
+<li><strong>GSDピラー</strong>――マイルストーンとライフサイクル管理により、フローに「完了」の感覚と段階的な進行をもたらします。</li>
+<li><strong>仕様メモリーストア</strong>――過去の仕様を永続的かつ意味的に検索可能なインデックスとして保持。これにより、予測的仕様策定やプロジェクト間知識移転が可能となり、毎回ゼロから始める必要がなくなります。</li>
+</ul>
+<p>コンテンツ</p>
+<h2
+id="ステータスおよび正確性に関する注意事項">ステータスおよび正確性に関する注意事項</h2>
+<ul>
+<li><strong>ステータス：ベータ版。</strong>
+HelixAgentのGoモジュールコンポーネントとして利用済み。</li>
+<li><strong>ライセンス：未定。</strong> GitHub
+API経由でLICENSEが検出されず——未検証／未宣言。</li>
+<li>表示名「HelixSpecifier」はリポジトリ<code>specifier</code>に対応。</li>
+</ul>
+<p><strong>優先度区分：</strong> Helix-プライマリ。</p>
+</body>
+</html>

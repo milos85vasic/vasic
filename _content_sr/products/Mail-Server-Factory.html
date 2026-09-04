@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>Управљајте својим маил сервером као шеф — опишите га у JSON,
+имплементирајте га било где.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>Mail Server Factory је алат за аутоматизовано постављање маил
+сервера, спреман за продукцију. Корисник пише једноставну JSON
+конфигурацију; Фабрика је интерпретира и извршава све инсталације и
+иницијализације на циљном OS-у, постављајући лабаво повезани маил стек
+заснован на Docker преко 12 типова веза.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>Алат Kotlin/Shell који претвара JSON опис у потпуно инсталиран,
+Доцкеризован маил сервер. Подржава 12 типова веза (SSH, Docker,
+Kubernetes, AWS SSM, Azure, GCP, Libvirt и друге), потпуни сигурносни
+оквир, 25 Linux дистрибуција и испоручује се са 439 успешно положених
+тестова.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>Постављање правог, сигурног маил сервера једно је од класичних
+иницијацијских искустава у системској администрацији — и једно од
+најпоузданије мучних. Postfix, Dovecot, TLS сертификати, DNS записи,
+правила ватрозида и специфичности појединих дистрибуција морају да се
+савршено усагласе, а једна једина погрешна директива значи тихо одбијање
+поште или отворени релеј. Mail Server Factory преузима цео тај скуп
+тешко стеченог, подложног грешкама знања и уграђује га у софтвер. Уместо
+ручног подешавања сваког дела на непознатом OS-у, крајњи корисник
+описује жељени резултат као једноставан JSON документ; Фабрика чита тај
+JSON и извршава тачно одређене кораке инсталације и иницијализације на
+циљном оперативном систему, постављајући маил стек који ради на Docker,
+при чему је свака компонента лабаво повезана — дизајнерски избор који
+омогућава хоризонтално скалирање и омогућава надоградњу или замену било
+које појединачне компоненте у изолацији. Намерно је агностичан у погледу
+окружења: 12 типова веза омогућава да исти алат и исти JSON циљају
+локалну машину, удаљени хост преко SSH, Docker или Kubernetes рунтиме,
+цлоуд инстанце путем AWS SSM / Azure Сериал Цонсоле / GCP OS Логин, или
+виртуелне машине преко Libvirt — исти декларативни опис, имплементиран
+тамо где га упутите. Подржава 25 Linux дистрибуција из западних (Ubuntu,
+Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE), руских (АЛТ, Astra,
+ROSA) и кинеских (openEuler, openKylin, Deepin) породица, са аутоматском
+инсталацијом путем пресеед/кицкстарт/цлоуд-инит/autoyast и
+QEMU-базираном аутоматизацијом виртуелних машина за тестирање.
+Ентерприсе функције су опсежне: AES-256-GCM енкрипција, обавезне
+политике лозинки и SSH кључева, аутоматска конфигурација ватрозида за
+маил портове (25/587/465/993/995), TLS/ССЛ са валидацијом сертификата и
+HSTS, аудит логовање и RBAC. Оперативне функције укључују подешавање
+JVM-а (G1GC), Caffeine кеширање, поолинг веза, Prometheus-компатибилне
+метрике, структуирано логовање, хот-релоадинг конфигурације и управљање
+тајнама. Пројекат има 439 тестова са 100% успешности и чист SonarQube
+квалитетни пролаз. Представља водећи пројекат организације
+Server-Factory.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Постављање сигурног, продукцијског маил сервера познато је по томе
+што је склоно грешкама и специфично за оперативни систем. Mail Server
+Factory ту стручност обухвата у декларативном JSON моделу уз помоћ
+извршног мотора, тако да се исправан, осигуран, Доцкеризован маил стек
+може репродуковати на било ком подржаном циљу без ручног корак-по-корак
+рада.</p>
+<h2 id="зашто-је-револуционарно">Зашто је револуционарно</h2>
+<p>Овај алат претвара постављање маил сервера из специјалистичког,
+вишедневног и прецизно захтевног процеса у чин писања конфигурације — а
+затим тај чин чини преносивим на 12 типова веза и 25 Linux дистрибуција,
+уз унапред подешену сигурност на нивоу предузећа. Резултат је
+репродуктиван и <em>верификован</em>: исти JSON увек даје исти осигуран
+стек, а 439 успешно положених тестова и чист SonarQube контролни пункт
+значе да је мотор који обавља посао под строгом контролом, а не да се
+ослања само на репутацију.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li>Декларативни JSON → интерпретирана инсталација/иницијализација на
+циљном OS-у.</li>
+<li>12 типова веза (локална, SSH, Docker, Kubernetes, AWS SSM, Azure,
+GCP, Libvirt и још) иза једног алата.</li>
+<li>Подршка за 25 дистрибуција са инсталацијом без надзора
+(пресеед/кицкстарт/цлоуд-инит/autoyast) и QEMU аутоматизацијом.</li>
+<li>Лабаво повезани Доцкеризован стек за независно
+скалирање/надоградње.</li>
+</ul>
+<h2 id="изазови-и-решења">Изазови и решења</h2>
+<ul>
+<li><strong>Хетерогеност OS-а/дистрибуција:</strong> решено рецептима
+специфичним за сваку дистрибуцију, конфигурацијама за инсталацију без
+надзора и QEMU тестирањем на више дистрибуција.</li>
+<li><strong>Достизање многих циљева за имплементацију:</strong> решено
+са 12 прикључивих типова веза под заједничким инсталационим
+мотором.</li>
+<li><strong>Сигурност подразумевано:</strong> решено AES-256-GCM
+енкрипцијом, обавезном политиком кључева/лозинки, аутоматизованим
+правилима заштитног зида и TLS/HSTS-ом.</li>
+<li><strong>Поверење у исправност:</strong> решено пакетом од 439
+тестова (100% успешно положених) и чистим SonarQube контролним
+пунктом.</li>
+</ul>
+<h2 id="технички-стек-зашто-како">Технички стек (зашто + како)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Фабрички мотор и логика инсталационих
+корака (179К бајтова; Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — скрипте за провизионисање, менаџери
+ISO/QEMU датотека и аутоматизација OS-а (доминантно по величини).</li>
+<li><strong>Docker</strong> — рунтиме за имплементиран, лабаво повезани
+маил стек.</li>
+<li><strong>QEMU</strong> — аутоматизација виртуелних машина за
+инсталацију и тестирање на више дистрибуција.</li>
+<li><strong>JSON</strong> — декларативни формат конфигурације који
+корисник користи.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — алат за изградњу.</li>
+<li><strong>Caffeine</strong> — кеширање у више региона; <strong>JVM
+подешен за G1GC</strong> ради перформанси.</li>
+<li><strong>Prometheus-компатибилне метрике</strong> — мониторинг;
+спреман за Grafana/ELK.</li>
+<li><strong>Sieve</strong> — правила за филтрирање поште (мали утисак у
+статистици језика).</li>
+</ul>
+<blockquote>
+<p>Напомена: GitHub означава репозиторијум као форк унутар
+Server-Factory организације. Претходи AI линији производа; представљен
+као зрела DevOps/провизионерска застава, а не као AI услужни алат.</p>
+</blockquote>
+</body>
+</html>

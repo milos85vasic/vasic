@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>scripts-jekyll</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">scripts-jekyll</h1>
+</header>
+<h1
+id="hardcoded-content-audit-buildscriptstooling-jekyll-layer">Hardcoded-content
+audit — build/scripts/tooling + Jekyll layer</h1>
+<p>Read-only, multi-pass audit. Mandate: visitor-facing content must be
+DATA-DRIVEN (sourced from <code>_data/ui.json</code>,
+<code>MV_I18N</code>, <code>ui-i18n.json</code>,
+<code>pdf-i18n.json</code>, <code>_content/**</code>), never baked into
+scripts or layouts.</p>
+<p>VIOLATION = visitor-facing prose/copy/labels/metrics/alt-text
+hardcoded in a script/layout instead of a data/i18n source. NOT a
+violation = HTML/CSS structure, Liquid/JS control flow, config keys,
+build logic, brand names, URLs, email/handle identifiers, schema.org
+enum values, endonym language names, or text already sourced via
+<code>{{ site.data.ui[...] }}</code> / <code>data-i18n</code> /
+<code>T()</code> / <code>t()</code>.</p>
+<p>Scope covered: <code>_tools/pdf/build-pdfs.sh</code> (+
+<code>pdf-i18n.json</code>), <code>_tools/gen/build.sh</code>,
+<code>_tools/deploy-langs.sh</code>, <code>_tools/translate/*</code>,
+<code>_tools/od/*</code>, milosvasic.ru Jekyll
+(<code>_config.yml</code>, <code>_layouts/*.html</code>,
+<code>_includes/*</code> [none exist], <code>_data/*</code>,
+<code>assets/js/*.js</code>), vasic.digital shells. Cross-referenced
+against the i18n/data sources. The Go generator under
+<code>_tools/gen/*.go</code> is the tooling that renders the sites, so
+it is included where it bakes content (flagged as “generator” — beyond
+the literal shell list but central to the mandate).</p>
+<hr />
+<h2 id="summary-counts">Summary counts</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>2</td>
+</tr>
+<tr>
+<td>MED</td>
+<td>5</td>
+</tr>
+<tr>
+<td>LOW</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>Clean (no violations): <code>_tools/gen/build.sh</code>,
+<code>_tools/deploy-langs.sh</code>, <code>_tools/gen/shells.go</code>,
+<code>_tools/gen/seo.go</code>, <code>_tools/gen/i18n.go</code>,
+<code>_layouts/default.html</code>, <code>_data/ui.json</code> (fully
+localized ×15), <code>assets/js/i18n.js</code>,
+<code>assets/js/main.js</code>, <code>_tools/translate/*</code>, most of
+<code>_tools/od/*</code>, vasic.digital generated shells.</p>
+<hr />
+<h2 id="prioritized-fix-list">Prioritized fix list</h2>
+<ol type="1">
+<li><strong>[HIGH]</strong> Populate
+<code>_tools/pdf/pdf-i18n.json</code> for all 14 non-EN languages
+(F-1).</li>
+<li><strong>[HIGH]</strong> Localize the article “Read more” modal
+strings in <code>articles.js</code> (F-6).</li>
+<li><strong>[MED]</strong> Localize PDF figure <code>alt</code> text
+(F-2).</li>
+<li><strong>[MED]</strong> Move PDF metric values out of the script into
+data (F-3).</li>
+<li><strong>[MED]</strong> Move <code>creativeHeadings</code> editorial
+section-heading copy out of the generator (F-7).</li>
+<li><strong>[MED]</strong> Localize the two hero <code>alt</code> texts
+in <code>home.go</code> (F-8).</li>
+<li><strong>[LOW]</strong> F-4, F-5, F-9, F-10, F-11, F-12.</li>
+</ol>
+<hr />
+<h2 id="pass-1-shell-scripts-emitting-content">PASS 1 — shell scripts
+emitting content</h2>
+<h3
+id="f-1-high-pdf-i18n.json-holds-only-en-every-non-en-pdf-renders-english-chrome">F-1
+[HIGH] <code>pdf-i18n.json</code> holds ONLY <code>en</code>; every
+non-EN PDF renders English chrome</h3>
+<ul>
+<li>File: <code>_tools/pdf/pdf-i18n.json:1-28</code> (top-level keys =
+<code>["en"]</code> only)</li>
+<li>Consumer: <code>_tools/pdf/build-pdfs.sh:164-175</code>
+<code>t()</code> — on a missing lang/key it returns the EN value +
+prints <code>WARN … EN fallback</code>.</li>
+<li>The script header (lines 154-161) claims the strings live in
+<code>pdf-i18n.json</code> “EN populated … 14 langs via the
+HelixTranslate pipeline + reviewer.” <strong>The 14 translations were
+never added</strong> — only <code>en</code> exists. So
+<code>build-pdfs.sh &lt;lang&gt;</code> for
+ru/sr/de/es/fr/be/zh/kk/hi/ja/ko/ar/tr/fa emits English for EVERY chrome
+string: cover eyebrow/role/tagline
+(<code>t cv.* / cover.* / pf.*</code>, lines 474-498), the “At a glance”
+metric labels (478, 500), the “Selected architecture” heading
+(<code>t pf.figures.heading</code>, 506) and all three figure captions
+(512-514) — in the personal CV/Cover-Letter/Portfolio AND the
+vasic.digital company Portfolio (569).</li>
+<li>Why a violation: visitor-facing PDF copy is untranslated in 14
+languages. The externalization is HALF-DONE — mechanism is data-driven
+(good), data is missing (the leak).</li>
+<li>Remediation: add the 14 language blocks to
+<code>pdf-i18n.json</code> (same keys as <code>en</code>) via the
+translation + review pipeline. Until then non-EN PDFs are
+English-chrome.</li>
+</ul>
+<h3 id="f-2-med-pdf-figure-alt-text-hardcoded-in-english">F-2 [MED] PDF
+figure <code>alt</code> text hardcoded in English</h3>
+<ul>
+<li>File: <code>_tools/pdf/build-pdfs.sh:512-514</code></li>
+<li>Literals: <code>alt="HelixAgent ensemble debate flow"</code>,
+<code>alt="HelixCluster distributed compute control plane"</code>,
+<code>alt="LLMsVerifier verification source of truth"</code></li>
+<li>Only the figure <em>captions</em> are localized
+(<code>t pf.figure.*</code>); the <code>alt</code> descriptions are
+literal English and are embedded in every non-EN PDF (PDF/UA alt).
+Product names are legit glossary brands; the descriptive tail is
+prose.</li>
+<li>Remediation: add <code>pf.figure.helixagent.alt</code> /
+<code>.helixcluster.alt</code> / <code>.llmsverifier.alt</code> to
+<code>pdf-i18n.json</code> and render via <code>t</code>.</li>
+</ul>
+<h3 id="f-3-med-pdf-at-a-glance-metric-values-baked-into-the-script">F-3
+[MED] PDF “At a glance” metric VALUES baked into the script</h3>
+<ul>
+<li>File: <code>_tools/pdf/build-pdfs.sh:478</code> (<code>2009</code>,
+<code>140+</code>, <code>43</code>, <code>6+</code>) and
+<code>:500</code> (<code>140+</code>, <code>43</code>, <code>25</code>,
+<code>439</code>)</li>
+<li>Factual metrics (repos governed, providers unified, distros
+provisioned, passing tests) hardcoded as literals in the tooling.
+Language-neutral, but the audit mandate explicitly names “metrics” as
+content that must be data-driven.</li>
+<li>Remediation: source from a data file (e.g. a non-translatable
+<code>metrics</code> block in <code>pdf-i18n.json</code>, or
+<code>_content</code> data) so the figures have one source of
+truth.</li>
+</ul>
+<h3
+id="f-4-low-pdf-unknown-document-fallback-branch-hardcodes-english">F-4
+[LOW] PDF unknown-document fallback branch hardcodes English</h3>
+<ul>
+<li>File: <code>_tools/pdf/build-pdfs.sh:520</code></li>
+<li>Literal:
+<code>role="AI Engineer"; hright="Document"; eyebrow="Document"; tagline=""; contact="milosvasic.ru"</code></li>
+<li>Dead in normal runs (only reached for a doc basename other than
+cv/cover-letter/portfolio) but is an un-localized English literal.</li>
+<li>Remediation: route through <code>t()</code> or drop the branch.</li>
+</ul>
+<h3 id="f-5-low-pdf-contact-lines-hardcoded-in-the-script">F-5 [LOW] PDF
+contact lines hardcoded in the script</h3>
+<ul>
+<li>File: <code>_tools/pdf/build-pdfs.sh:477, 484, 492, 498</code></li>
+<li>Literals:
+<code>&lt;b&gt;milos85vasic@gmail.com&lt;/b&gt; … milosvasic.ru … vasic.digital … GitHub: …</code></li>
+<li>Borderline: these are language-neutral identifiers
+(email/URLs/GitHub org handles), not translatable prose — not a strict
+violation, but they are content baked into the script rather than a data
+file.</li>
+<li>Remediation (optional): move to a data file for single-source
+maintenance.</li>
+<li>NOTE (not a violation): <code>build-pdfs.sh:244</code>
+<code>@bottom-left content:"milosvasic.ru · vasic.digital"</code> is a
+brand/URL footer (identifier), legitimately in the print
+stylesheet.</li>
+</ul>
+<h3 id="deploy-langs.sh-gen-build.sh-clean">deploy-langs.sh / gen
+build.sh — CLEAN</h3>
+<ul>
+<li><code>_tools/deploy-langs.sh</code> and
+<code>_tools/gen/build.sh</code>: only build/deploy logic and
+operational <code>echo</code>/commit-message strings (not
+visitor-facing). No content.</li>
+</ul>
+<hr />
+<h2 id="pass-2-jekyll-layoutinclude-hardcoded-text">PASS 2 — Jekyll
+layout/include hardcoded text</h2>
+<h3
+id="layoutsdefault.html-clean-exemplary"><code>_layouts/default.html</code>
+— CLEAN (exemplary)</h3>
+<ul>
+<li>Every chrome string (skip link, primary nav, lang/theme/menu
+aria+title, footer text, download-modal heading/choose/close) is
+rendered from <code>site.data.ui[page.lang]</code> with an explicit
+per-key <code>… | default: site.data.ui['en'][…]</code> and carries
+<code>data-i18n*</code> so <code>i18n.js</code> re-localizes at runtime
+(lines 39-99).</li>
+<li><code>_data/ui.json</code> is fully populated for all 15 languages
+(verified) — the server-side fallback chain is genuinely localized, not
+English-masquerading.</li>
+<li><code>_includes/</code> does not exist (nothing to audit).</li>
+</ul>
+<h3 id="f-9-low-download-modal-static-placeholders-no-js-only">F-9 [LOW]
+Download-modal static placeholders (no-JS only)</h3>
+<ul>
+<li>File: <code>_layouts/default.html:88</code>
+<code>&lt;h3 id="dl-title" class="dl-doc-name"&gt;CV&lt;/h3&gt;</code>
+and <code>:91-93</code> the static <code>EN / SR / RU</code>
+<code>dl-lang</code> rows.</li>
+<li>These are overwritten at runtime by <code>downloads.js</code>
+(<code>nameEl.textContent</code>, <code>render()</code>), so JS users
+never see them; the language names shown are endonyms. With JS disabled
+a no-op English-ish placeholder shows. Low impact.</li>
+<li>Remediation (optional): make the placeholder
+<code>dl-doc-name</code> use <code>data-i18n="dl.cv"</code>.</li>
+</ul>
+<h3
+id="f-10-low-_config.yml-site-taglinedescription-are-english-only">F-10
+[LOW] <code>_config.yml</code> site tagline/description are
+English-only</h3>
+<ul>
+<li>File: <code>milosvasic.ru/_config.yml:2</code>
+(<code>tagline</code>) and <code>:3-7</code>
+(<code>description</code>)</li>
+<li>Feed <code>{% seo %}</code>. These are the site-level
+source-of-truth defaults; the Go-generated localized pages carry their
+own localized SEO (<code>seo.go</code> + <code>T()</code>), so impact is
+limited to any Jekyll-rendered localized page, which would emit English
+<code>&lt;meta description&gt;</code>. Legitimate as EN source, flagged
+for awareness.</li>
+<li>Remediation: if Jekyll ever renders non-EN standalone pages,
+override <code>description</code> per-page/lang; otherwise
+acceptable.</li>
+</ul>
+<hr />
+<h2 id="pass-3-_config.yml-visitor-facing-values">PASS 3 —
+<code>_config.yml</code> visitor-facing values</h2>
+<p>Covered under F-10. All other keys (title, url, author, social links,
+logo, plugins, exclude, sass) are legitimate config / identifiers, not
+violations.</p>
+<hr />
+<h2
+id="pass-4-js-hardcoded-user-facing-strings-not-from-mv_i18n-_data">PASS
+4 — JS hardcoded user-facing strings (not from MV_I18N / _data)</h2>
+<h3
+id="f-6-high-articles.js-article-modal-strings-hardcoded-in-english">F-6
+[HIGH] <code>articles.js</code> article-modal strings hardcoded in
+English</h3>
+<ul>
+<li>File: <code>milosvasic.ru/assets/js/articles.js:27-33</code></li>
+<li>Literals (<code>I18N_DEFAULTS</code>):
+<code>loading: "Loading…"</code>, <code>close: "Close"</code>,
+<code>error: "Sorry, this article could not be loaded."</code>,
+<code>retry: "Retry"</code>, <code>dialog: "Article"</code>.</li>
+<li><code>articles.js</code> does <strong>not</strong> read
+<code>window.MV_I18N</code>. Its <code>i18n()</code> (lines 46-52) only
+checks a <code>data-i18n-&lt;key&gt;</code> attr on the trigger or
+<code>&lt;html&gt;</code>, then falls back to these English literals.
+Cross-ref: those <code>data-i18n-*</code> attributes are set NOWHERE in
+the repo (the only grep hit is the comment on
+<code>articles.js:10</code>). So the “Read more” modal shows English
+<code>Loading…</code> (every open), the error message,
+<code>Retry</code>, the close aria-label, and the <code>Article</code>
+dialog aria-label in ALL 14 non-EN languages.</li>
+<li>Severity: <code>Loading…</code> is shown on every article open →
+HIGH; error/retry/close/ dialog are MED (error/transient/a11y) but share
+the same root cause.</li>
+<li>Remediation: add <code>article.loading</code> /
+<code>article.close</code> / <code>article.error</code> /
+<code>article.retry</code> / <code>article.dialog</code> to
+<code>MV_I18N</code> (and <code>_data/ui.json</code>) and have
+<code>articles.js</code> read <code>window.MV_I18N[lang]</code>; OR emit
+those <code>data-i18n-*</code> attributes on <code>&lt;html&gt;</code>
+from <code>default.html</code> using <code>site.data.ui</code>.</li>
+</ul>
+<h3 id="assetsjsi18n.js-clean"><code>assets/js/i18n.js</code> —
+CLEAN</h3>
+<ul>
+<li>Lines 22-777 are <code>MV_I18N</code>, the accepted i18n DATA source
+(15 langs, source copy). The apply logic (783-817) only copies
+dictionary values into <code>data-i18n*</code> nodes — no literals.
+<code>MV_LANGS</code> names (4-20) are endonyms.</li>
+</ul>
+<h3 id="assetsjsmain.js-clean"><code>assets/js/main.js</code> —
+CLEAN</h3>
+<ul>
+<li>Reads <code>MV_I18N</code>/<code>MV_LANGS</code>; theme glyphs
+<code>☀</code>/<code>◐</code> (13) and <code>code.toUpperCase()</code>
+<ol start="46" type="1">
+<li>are non-prose UI symbols. No hardcoded copy.</li>
+</ol></li>
+</ul>
+<h3
+id="f-11-low-downloads.js-missing-dl.portfolio-key-english-fallback">F-11
+[LOW] <code>downloads.js</code> missing <code>dl.portfolio</code> key →
+English fallback</h3>
+<ul>
+<li>File: <code>milosvasic.ru/assets/js/downloads.js:79</code>
+<code>t('dl.portfolio', 'Portfolio')</code></li>
+<li><code>dl.portfolio</code> is absent from <code>MV_I18N</code>, so
+the English literal <code>Portfolio</code> is always used for the
+portfolio modal title. <code>dl.cv</code>/<code>dl.cl</code> DO resolve.
+“Portfolio” is near-universal, hence LOW.</li>
+<li><code>LANG_NAMES</code> (32-36) are endonyms — not a violation.</li>
+<li>Remediation: add <code>dl.portfolio</code> to each
+<code>MV_I18N</code> language.</li>
+</ul>
+<hr />
+<h2 id="pass-5-generator-baked-content-tooling">PASS 5 — generator baked
+content (tooling)</h2>
+<h3
+id="f-7-med-markdown.go-bakes-40-english-editorial-section-headings">F-7
+[MED] <code>markdown.go</code> bakes ~40 English editorial section
+headings</h3>
+<ul>
+<li>File: <code>_tools/gen/markdown.go:210-271</code>
+(<code>creativeHeadings</code>) + <code>275-284</code>
+(<code>editorialHeading</code>)</li>
+<li>Literals emitted as visible product-page <code>&lt;h2&gt;</code> on
+the EN site, e.g. “The problem we set out to solve”, “Why this exists”,
+“The itch we had to scratch”, “Why it changes the game”, “Hard problems,
+honest solutions”, “Under the hood”, “Status, told straight”. A per-slug
+hash swaps the canonical brief heading
+(e.g. <code>## Why we built it</code>) for one of these variants.</li>
+<li>Why a violation: visitor-facing heading copy invented by the
+tooling, not sourced from <code>_content</code>. Cross-ref: non-EN
+product <code>.md</code> translate their headings (verified — DE uses
+<code>## Warum wir es entwickelt haben</code>), so they do NOT match the
+English keys and pass through verbatim (no leak <em>today</em>); but the
+editorial layer is EN-only, so non-EN pages show plain brief headings
+while EN shows polished variants, and any future localized doc that
+retained an English heading would emit an English editorial
+variant.</li>
+<li>Remediation: move the heading copy into per-language
+<code>_content</code>/data (or drop the editorializer so headings come
+straight from the localized markdown).</li>
+<li>Related observation (MED, i18n bug, not strictly baked
+<em>content</em>): <code>markdown.go:286-290</code>
+<code>specialProductSections</code> and <code>renderProductBody</code>’s
+<code>find("short description"/"summary"/"long description")</code>
+(293-317) use English-only keys, so on non-EN product pages the
+hero-lede / opening-narrative framing is not applied (those sections
+render as ordinary labeled sections).</li>
+</ul>
+<h3 id="f-8-med-home.go-hardcodes-hero-alt-text-in-english">F-8 [MED]
+<code>home.go</code> hardcodes hero <code>alt</code> text in
+English</h3>
+<ul>
+<li>File: <code>_tools/gen/home.go:196</code>
+<code>alt="Portrait of Miloš Vasić"</code> and <code>:206</code>
+<code>alt="Vasic Digital logo"</code></li>
+<li>Emitted on every localized home; the a11y <code>alt</code> stays
+English for all 15 languages. (“Vasic Digital logo” is mostly brand;
+“Portrait of Miloš Vasić” is descriptive prose.)</li>
+<li>Remediation: source via <code>T(lang, "alt.portrait")</code> /
+<code>T(lang, "alt.logo")</code>.</li>
+</ul>
+<h3 id="generator-otherwise-clean">Generator otherwise CLEAN</h3>
+<ul>
+<li><code>home.go</code>, <code>product.go</code>,
+<code>portfolio.go</code> render all visible text from data structures
+via <code>.render()</code> / <code>esc()</code> + <code>i18nAttr</code>
+(data-i18n) — content comes from <code>_content</code>.
+<code>seo.go</code> builds title/description/keywords from data /
+<code>T()</code>; its only string literals are schema.org enum values
+(<code>"DeveloperApplication"</code>, <code>"Cross-platform"</code>,
+<code>markdown.go</code> line ~246) which are language-neutral by spec.
+<code>shells.go</code> is CSS/SVG symbols + a single
+<code>T()</code>-sourced aria-label. <code>i18n.go</code> is the
+localization machinery (endonyms + og:locale maps are data).</li>
+</ul>
+<hr />
+<h2 id="pass-6-od-translate-tooling">PASS 6 — od / translate
+tooling</h2>
+<h3 id="f-12-low-odbuild-preview.mjs-form-labels-hardcoded">F-12 [LOW]
+<code>od/build-preview.mjs</code> form labels hardcoded</h3>
+<ul>
+<li>File: <code>_tools/od/build-preview.mjs:93-94</code> —
+<code>Name</code>, <code>Your name</code>, <code>Message</code>,
+<code>Say hello</code>.</li>
+<li>This is an OpenDesign COMPONENT-PREVIEW harness (design-system
+showcase), not shipped visitor content. Noted for completeness; not a
+production violation.</li>
+</ul>
+<h3
+id="toolstranslate-other-_toolsod-clean"><code>_tools/translate/*</code>,
+other <code>_tools/od/*</code> — CLEAN</h3>
+<ul>
+<li>Pipeline processors (<code>translate-content.sh</code>,
+<code>finalize-review.sh</code>, <code>glossary_protect.py</code>,
+<code>cyrillize_sr.py</code>, <code>check_terms.py</code>,
+<code>matrix.py</code>, <code>run-batch.sh</code>;
+<code>od/generate.sh</code>, <code>inject-diagrams.mjs</code>,
+<code>od-mcp-call.mjs</code>, <code>render-diagram.cjs</code>,
+<code>shoot.cjs</code>, <code>start-daemon.sh</code>). Literals present
+are LLM prompt instructions / log lines / config, not visitor-facing
+output content.</li>
+</ul>
+<hr />
+<h2 id="vasic.digital-shells">vasic.digital shells</h2>
+<ul>
+<li><code>vasic.digital/index.html</code> is Go-generator BUILD OUTPUT
+(content from <code>_content</code>), not a hand-authored shell; the
+shell scaffolding (<code>shells.go</code>) is clean. No hardcoded
+content in the shells themselves.</li>
+</ul>
+</body>
+</html>

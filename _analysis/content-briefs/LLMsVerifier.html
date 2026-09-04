@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMsVerifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMsVerifier</h1>
+</header>
+<h1 id="llmsverifier">LLMsVerifier</h1>
+<p><strong>Tagline:</strong> Verify. Monitor. Optimize.</p>
+<p><strong>Summary:</strong> LLMsVerifier is an enterprise-grade
+platform for verifying, monitoring, and optimizing Large Language Models
+across many providers, built on a mandatory “Do you see my code?”
+verification test so that only models proven to actually work are ever
+marked usable or exported.</p>
+<p><strong>Short description:</strong> A Go platform that verifies,
+benchmarks, monitors, and optimizes LLMs across multiple providers.
+Every model must pass a mandatory code-visibility test before use; it
+then runs latency, streaming, function-calling, vision, and embedding
+checks, and exports verified-only configurations for AI CLI tools. (~40
+words)</p>
+<p><strong>Long description:</strong> LLMsVerifier is a comprehensive
+platform for verifying, monitoring, and optimizing LLM performance
+across multiple providers. Its core principle is <em>mandatory
+verification</em>: before any model is marked usable — or included in an
+exported configuration — it must affirmatively pass a “Do you see my
+code?” test, making real HTTP calls to the provider and analyzing the
+response for genuine comprehension. Beyond that gate, the Verifier
+Engine runs a battery of capability tests (existence, responsiveness,
+latency, streaming, function calling, vision, embeddings), and a
+Reporter Engine produces markdown and JSON reports. The system is
+modular and event-driven, exposing CLI, TUI, Web, and REST API
+interfaces over a core of Verifier Engine, Reporter Engine, and
+Configuration Manager, plus advanced layers: a Supervisor/Worker pattern
+for LLM-powered task decomposition, sliding-window + LLM-summarization
+context management for very long sessions, cloud-backed checkpointing,
+and a failover system with circuit breakers and latency-based routing.
+Infrastructure includes a pub/sub event bus, cron scheduling,
+pricing/limits detection, a vector database for RAG, and an export
+system. A signature branding convention appends an <code>(llmsvd)</code>
+suffix to every generated provider/model so verified outputs are
+traceable, and only verified models are written into exported configs
+for AI CLI tools such as OpenCode, Crush, and Claude Code. It ships
+production tooling: Docker/Kubernetes/Helm deployment,
+Prometheus/Grafana monitoring, LDAP/SSO, and SQLCipher-encrypted
+storage.</p>
+<p><strong>Why we built it:</strong> Because configuration-only checking
+is unreliable — an API key can expire, a model can be deprecated, and a
+config file tells you nothing about real latency, real errors, or
+whether the model can actually see and understand your input.
+LLMsVerifier replaces “it’s in the config, so it must work” with proof:
+only models that demonstrably respond correctly are marked usable and
+exported.</p>
+<p><strong>Why it’s a game-changer:</strong> It makes LLM fleets
+<em>trustworthy</em>. Instead of hoping a configured model works, teams
+get an enforced, testable guarantee that every model in play has passed
+real verification — with monitoring, failover, and verified-only export
+closing the loop. Within the Helix ecosystem it serves as the single
+source of truth for LLM model, provider, and verification metadata that
+other services (e.g. HelixTranslate) route against.</p>
+<p><strong>What’s innovative:</strong> - <strong>Mandatory “Do you see
+my code?” verification</strong> — a real, HTTP-backed comprehension gate
+that a model must pass before it is usable (the product’s signature
+differentiator). - <strong>Verified-only configuration export</strong> —
+generated configs for AI CLI tools contain only models that passed
+verification. - <strong><code>(llmsvd)</code> branding-suffix
+system</strong> — every generated provider/model carries a traceable
+suffix. - <strong>Capability detection</strong> across many CLI agents
+and providers — streaming types (SSE, WebSocket, JSONL, EventStream),
+compression, and caching behaviors. - <strong>Resilient
+failover</strong> — circuit breakers, latency-based routing (fail over
+when time-to-first-token exceeds a threshold), health probes, and
+weighted traffic. - <strong>Long-running autonomy</strong> — a
+Supervisor/Worker pattern plus checkpointing and memory integration for
+extended sessions. - <strong>RAG / vector-DB integration</strong> for
+context enhancement.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<strong>Proving a model actually works, not just that it’s
+configured.</strong> Solved by the mandatory code-visibility test making
+real API calls and analyzing responses for affirmative comprehension,
+plus a broad suite of capability tests — and by exporting only verified
+models. - <strong>Reliability across many flaky third-party
+providers.</strong> Solved with a failover orchestrator: circuit
+breakers (mark degraded after N failures in M seconds), latency-based
+routing, periodic health checks, and weighted routing between
+cost-effective and premium models. - <strong>Sustaining very long,
+autonomous sessions.</strong> Solved with the Supervisor/Worker
+decomposition pattern, periodic checkpointing to cloud storage, and
+context management (sliding window + LLM summarization + RAG). -
+<strong>Provider sprawl.</strong> Many per-provider Go adapters behind a
+common interface, with real endpoints enumerated centrally.</p>
+<p><strong>Tech stack</strong> (why + how): - <strong>Go</strong> — the
+core platform language; multi-threaded Verifier Engine and services. -
+<strong>Gin</strong> — REST API server (JWT auth, rate limiting,
+WebSocket/SSE). - <strong>SQLite + SQLCipher</strong> — embedded storage
+with database-level encryption for sensitive verification data. -
+<strong>Redis</strong> — caching layer. - <strong>RabbitMQ +
+Kafka</strong> — messaging/streaming for the event-driven architecture.
+- <strong>gRPC + Protocol Buffers</strong> — inter-service communication
+and event transport. - <strong>QUIC / HTTP-3 (quic-go)</strong> — modern
+transport support (repo docs flag HTTP/3 provider availability as
+limited — treat as capability, not universal claim). - <strong>JWT +
+LDAP/NTLM</strong> — enterprise authentication (SSO/SAML/OIDC claimed in
+docs). - <strong>Viper (config), Logrus (logging), Brotli/compress
+(compression)</strong> — operational plumbing. -
+<strong>Angular</strong> — the Web single-page application. -
+<strong>Python + JavaScript SDKs</strong> — client access with
+OpenAPI/Swagger docs. - <strong>Docker, Kubernetes, Helm</strong> —
+production deployment with health monitoring and autoscaling. -
+<strong>Prometheus + Grafana</strong> — metrics and dashboards. -
+<strong>Testify (Go) + node –test/jsdom (web)</strong> — layered
+testing.</p>
+<p><strong>Public links:</strong> - Product repo, PUBLIC:
+<code>github.com/vasic-digital/LLMsVerifier</code> - Issues /
+discussions, PUBLIC:
+<code>github.com/vasic-digital/LLMsVerifier/issues</code> and
+<code>/discussions</code> - <strong>Not public / internal:</strong>
+local Web UI + Swagger (<code>http://localhost:8080</code>,
+<code>/swagger/index.html</code>); private mirror upstreams configured
+via <code>install_upstreams.sh</code> (GitHub/GitLab/GitFlic/GitVerse).
+Ignore the <code>package.json</code> <code>your-org</code> placeholder
+URL and the lowercase <code>llm-verifier</code> Docker-label URL — treat
+only the <code>vasic-digital/LLMsVerifier</code> repo as canonical.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+<strong>Mandatory verification gate</strong> — a model entering a gate
+labeled “Do you see my code?”; PASS → marked usable +
+<code>(llmsvd)</code> suffix + eligible for export; FAIL → rejected
+(never exported). The signature visual. 2. <strong>Verification test
+matrix</strong> — a grid of capability checks (existence,
+responsiveness, latency, streaming, function calling, vision,
+embeddings) across provider columns, with pass/fail cells. 3.
+<strong>Failover orchestration</strong> — provider chain with
+circuit-breaker states (closed/open/half-open), latency-based rerouting,
+and weighted traffic split. 4. <strong>Verified-only export
+flow</strong> — verified model pool → config generator → AI CLI tool
+configs (OpenCode / Crush / Claude Code), with unverified models visibly
+filtered out.</p>
+<p><strong>Site relevance:</strong> Both. Strong product page on
+<strong>vasic.digital</strong> (position as the LLM-trust/verification
+layer of the Helix LLM cluster); portfolio entry on
+<strong>milosvasic.ru</strong>. (Repo lives in the
+<code>vasic-digital</code> org, but functionally it is part of the Helix
+LLM-infrastructure cluster.)</p>
+<p><strong>Priority tier:</strong> Helix-primary (LLM-infrastructure
+cluster; single source of truth for LLM/provider/verification metadata).
+Ranks after HelixTrack.</p>
+<p><strong>Source provenance:</strong> Local repo
+<code>/Volumes/T7/Projects/llms_verifier</code> — <code>go.mod</code>,
+<code>Dockerfile</code>, <code>docs/ARCHITECTURE_OVERVIEW.md</code>,
+<code>docs/CAPABILITY_DETECTION.md</code>,
+<code>OPTIMIZATIONS.md</code>, <code>llm-verifier/README.md</code>,
+<code>llm-verifier/verification/code_verification.go</code>,
+<code>llm-verifier/providers/model_verification_service.go</code> +
+<code>MODEL_VERIFICATION_README.md</code>, <code>helix-deps.yaml</code>,
+<code>CLAUDE.md</code>/<code>CONSTITUTION.md</code>; plus harvested
+<code>_analysis/top20/LLMsVerifier.readme.txt</code> and
+<code>_analysis/MASTER-inventory.md</code>. Caution flags (verify or
+soften): provider count — README says “12 adapters” but the providers
+directory + <code>provider_mapping.txt</code> list ~26 (use “12+ / more
+in progress”); one legacy doc
+(<code>VERIFICATION_HOW_IT_WORKS.md</code>) describes verification as
+config-only/aspirational, but the Go source implements real HTTP
+verification — trust the code; license MIT (README) vs Apache-2.0
+(Dockerfile label) discrepancy; many aspirational
+“FINAL/COMPLETE/ULTIMATE” status .md files exist — prefer
+code/docs/go.mod as authoritative.
+<code>llm_orchestrator</code>/<code>llm_provider</code>: LLMsVerifier is
+their upstream source-of-truth (they read its model metadata), but the
+LLMProvider dependency was dropped from this repo’s own module graph;
+its own external own-org dep is <code>Challenges</code>. “Helix-Flow”
+appears only as an org name in governance lists — not a component.</p>
+</body>
+</html>

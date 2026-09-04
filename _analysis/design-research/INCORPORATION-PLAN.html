@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>INCORPORATION-PLAN</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">INCORPORATION-PLAN</h1>
+</header>
+<h1
+id="incorporation-plan-design-toolkit-around-opendesign">Incorporation
+Plan — Design Toolkit around OpenDesign</h1>
+<p><strong>Date:</strong> 2026-08-06 · <strong>Companion to:</strong>
+<code>CATALOG.md</code> (the verified inventory) · <strong>Builds
+on:</strong> <code>OPENDESIGN-ADOPTION-PLAN.md</code>,
+<code>design-research.md</code>, <code>design-system/</code> (already
+built), <code>submodules/constitution</code> (staged).</p>
+<p><strong>Goal:</strong> turn the catalog into a concrete plan for a
+reusable <strong>design toolkit</strong> — nested under the
+HelixConstitution submodule where it belongs, wired into
+<code>vasic</code> and reusable across all future projects — that
+combines with OpenDesign to produce <strong>unique, enterprise-grade,
+non-repeatable UI/UX across every platform, OS, and app
+type</strong>.</p>
+<p><strong>Decision rule used throughout:</strong> does the thing
+produce <em>artifacts we vendor</em> (code/tokens/knowledge that must be
+version-pinned and license-clean) → <strong>git submodule</strong>; is
+it a <em>tool an agent calls at runtime</em> (no vendored code, works
+over stdio) → <strong>MCP install</strong>; is it <em>knowledge an agent
+should reason with</em> → <strong>encoded skill</strong> (distilled
+rules, not copied prose).</p>
+<hr />
+<h2
+id="guardrails-this-plan-must-honor-from-governance-existing-state">0.
+Guardrails this plan must honor (from governance + existing state)</h2>
+<ol type="1">
+<li><strong>§11.4.162 — OpenDesign is the token source of
+truth.</strong> No raw hex/px/rem literals, no hand-authored CSS custom
+properties or inline styles in site stylesheets. <strong>Consequence for
+this plan:</strong> the parametric-uniqueness layer (Category 4) does
+NOT hand-write <code>var(--*)</code>. It generates a <strong>DTCG token
+document</strong> that OpenDesign consumes/emits, OR — where OpenDesign
+cannot yet emit a construct — it is an <strong>upstream PR to OpenDesign
+(§11.4.74)</strong>, never a local escape hatch. Style Dictionary is
+used only as the emitter <em>inside/behind</em> OpenDesign’s contract,
+not as a parallel token system.</li>
+<li><strong>§11.4.170 / §11.4.168 — every surface proven by
+host-rendered pixels + PDF validation.</strong> New tools (Chrome
+DevTools MCP, Playwright MCP, Image-Compare MCP) feed this harness
+(<code>anti-bluff-web-harness</code>), they don’t bypass it.</li>
+<li><strong>Container-only pipelines</strong> (per
+<code>project-translation-pipeline</code> / HelixTranslate). The
+token-generator and any image-gen run in a container, keys from
+<code>~/api_keys.sh</code>, never in repo/config.</li>
+<li><strong>Reduced-motion / GPU-only / cross-browser
+progressive-enhancement</strong> (from <code>design-research.md</code>)
+remain hard constraints on anything the design agents emit.</li>
+<li><strong>License hygiene (§ anti-bluff):</strong> only vendor
+MIT/Apache/BSD. GPL tools stay as <em>external MCP processes</em> (not
+vendored source). No-license items are <strong>not</strong> incorporated
+until relicensed/cleared.</li>
+</ol>
+<hr />
+<h2 id="proposed-repository-structure">1. Proposed repository
+structure</h2>
+<p>A single toolkit repo, nested as a submodule of HelixConstitution
+(mirrors the existing “decouple then nest under constitution” plan in
+<code>project-vasic-monorepo</code>), so every Helix project inherits
+it:</p>
+<pre><code>HelixConstitution/
+└── design-toolkit/                      # NEW submodule (this plan&#39;s deliverable)
+    ├── README.md
+    ├── skills/                          # Claude skills (vendored, Apache/MIT only)
+    │   ├── _vendor/                     # nested submodules of upstream skill repos (pinned)
+    │   │   ├── anthropics-skills/       # submodule → anthropics/skills (Apache-2.0)
+    │   │   ├── designer-skills/         # submodule → Owl-Listener/designer-skills (MIT)
+    │   │   ├── ui-ux-pro-max/           # submodule → nextlevelbuilder/ui-ux-pro-max-skill (MIT)
+    │   │   ├── jezweb-skills/           # submodule → jezweb/claude-skills (MIT)
+    │   │   └── anydesign/               # submodule → uxKero/anydesign (MIT)
+    │   └── recipes/                     # OUR design-specialist agent recipes (§4) — the value-add
+    │       ├── theming-designer/
+    │       ├── layout-architect/
+    │       ├── animation-designer/
+    │       ├── iconographer/
+    │       ├── ux-flow-designer/
+    │       └── design-qa-auditor/
+    ├── knowledge/                       # distilled, vendorable references (§3 encode) — rules not prose
+    │   ├── a11y/         (WCAG 2.2 gate + WAI-ARIA APG patterns)
+    │   ├── platforms/   (HIG rules-only checklist, Material 3, Fluent 2, GNOME)
+    │   ├── color/        (OKLCH model, WCAG contrast gate, Radix/Open Color scales)
+    │   ├── type/         (Utopia fluid formulas, variable-font axes, MD3 scale roles)
+    │   ├── layout/       (Every Layout primitives, container-query method, 8pt grid)
+    │   └── motion/       (MD3 motion tokens, easings.net table, reduced-motion gate)
+    ├── generators/                      # the parametric uniqueness layer (§5)
+    │   ├── package.json                 # deps: material-color-utilities, colorjs.io, chroma-js,
+    │   │                                #        utopia-core, style-dictionary, @svgdotjs/svg.js
+    │   ├── design-dna.mjs               # seed → parameter vector
+    │   ├── gen-tokens.mjs               # vector → DTCG token doc (→ OpenDesign consumes/emits)
+    │   ├── gen-marks.mjs                # seed → build-time static SVG marks/backgrounds (svg.js)
+    │   └── lib/_vendor/                 # OPTIONAL submodules if we want source-pinned instead of npm
+    ├── mcp/
+    │   └── mcp.design.json              # ready-to-merge MCP server definitions (§2)
+    └── docs/
+        └── DESIGN-TOOLKIT.md            # how OpenDesign + generators + skills + MCP combine</code></pre>
+<p>Then, exactly as the existing decoupled-libs plan does:
+<code>HelixConstitution</code> is a submodule of <code>vasic</code>, so
+<code>vasic</code> gets <code>design-toolkit/</code> transitively. Sites
+consume only the <strong>emitted OpenDesign tokens</strong> — never
+reach into <code>generators/</code> at runtime.</p>
+<hr />
+<h2 id="what-becomes-an-mcp-install-runtime-tools-not-vendored">2. What
+becomes an MCP install (runtime tools — NOT vendored)</h2>
+<p>Add via <code>claude mcp add</code> (project scope for
+<code>vasic</code>, or a shipped <code>mcp.design.json</code> teams
+merge). None require a paid subscription. GPL/no-license items are kept
+out entirely; the ones below are all local + permissive.</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>MCP server</th>
+<th>Command</th>
+<th>License</th>
+<th>Role in the toolkit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chrome DevTools MCP</strong></td>
+<td><code>claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest</code></td>
+<td>Apache-2.0</td>
+<td>Design QA: Lighthouse a11y/perf, screenshots → feeds §11.4.170 proof
+(already a plugin here)</td>
+</tr>
+<tr>
+<td><strong>Playwright MCP</strong></td>
+<td><code>claude mcp add playwright npx @playwright/mcp@latest</code></td>
+<td>Apache-2.0</td>
+<td>Screenshot / visual-regression backbone for the proof harness</td>
+</tr>
+<tr>
+<td><strong>shadcn MCP</strong> (official)</td>
+<td><code>npx shadcn@latest mcp init --client claude</code></td>
+<td>MIT</td>
+<td>Component discovery/reuse before building custom</td>
+</tr>
+<tr>
+<td><strong>shadcn-ui-mcp-server</strong> (Jpisnice)</td>
+<td><code>claude mcp add shadcn -- npx -y @jpisnice/shadcn-ui-mcp-server</code></td>
+<td>MIT</td>
+<td>Multi-framework (React/Vue/Svelte/RN) component source</td>
+</tr>
+<tr>
+<td><strong>Framelink Figma MCP</strong></td>
+<td><code>claude mcp add framelink-figma -- npx -y figma-developer-mcp --figma-api-key=$FIGMA_PAT --stdio</code></td>
+<td>MIT</td>
+<td>Design <em>ingestion</em> from Figma (free PAT) when a project
+starts from Figma</td>
+</tr>
+<tr>
+<td><strong>draw.io MCP</strong> (lgazo)</td>
+<td><code>npx -y drawio-mcp-server --editor</code></td>
+<td>MIT</td>
+<td>Architecture/diagram authoring (case-study spine in
+design-research.md)</td>
+</tr>
+<tr>
+<td><strong>Mermaid MCP</strong> (peng-shawn)</td>
+<td><code>claude mcp add mermaid -- npx -y @peng-shawn/mermaid-mcp-server</code></td>
+<td>MIT</td>
+<td>Agent Mermaid → rendered PNG/SVG diagram assets</td>
+</tr>
+<tr>
+<td><strong>google-fonts-mcp</strong></td>
+<td><code>claude mcp add google-fonts -- uvx google-fonts-mcp</code></td>
+<td>MIT</td>
+<td>Font pairing → CSS/Tailwind type systems (feeds
+theming-designer)</td>
+</tr>
+<tr>
+<td><strong>sharp-mcp</strong></td>
+<td><code>npx -y sharp-mcp</code></td>
+<td>MIT</td>
+<td>Local AVIF/WebP/resize (the responsive-image work in
+design-research.md §5)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pilot-then-standardize (low stars — evaluate before
+committing):</strong> <code>x51xxx/coolors-mcp</code> (MD3/OKLCH color
+ops), <code>kenneives/design-token-bridge-mcp</code>
+(DTCG→Material3/SwiftUI/CSS),
+<code>leky90/mcp-image-compare-server</code> (visual diff — but
+Playwright’s <code>toHaveScreenshot</code> is the safer default).</p>
+<p><strong>Explicitly NOT installed:</strong> Official Figma Dev Mode
+MCP (paid seat), 21st.dev Magic MCP (paid/keyed), LottieFiles Creator
+MCP (hosted account). Iconify MCPs are GPL/no-license → prefer the
+<strong>iconographer skill + local Iconify data</strong> over an MCP
+(see §4).</p>
+<hr />
+<h2 id="what-becomes-a-vendored-submodule-pinned-source-we-ship">3. What
+becomes a vendored submodule (pinned source we ship)</h2>
+<p><strong>3a. Skill repos</strong> (nested submodules under
+<code>design-toolkit/skills/_vendor/</code>, pinned to a reviewed SHA):
+- <code>anthropics/skills</code> (Apache-2.0) — take
+<code>frontend-design</code>, <code>theme-factory</code>,
+<code>web-artifacts-builder</code>, <code>brand-guidelines</code>,
+<code>canvas-design</code>, <code>algorithmic-art</code>.
+<strong>Foundation.</strong> - <code>Owl-Listener/designer-skills</code>
+(MIT) — vendor the <em>subset</em> that complements OpenDesign
+(design-research, ux-strategy, visual-critique); skip anything
+duplicating our recipes. -
+<code>nextlevelbuilder/ui-ux-pro-max-skill</code> (MIT) — for
+cross-platform stack coverage (Compose/Flutter/SwiftUI/WinUI/Avalonia).
+Use as a <em>reference the recipes cite</em>, gated by OpenDesign tokens
+so it doesn’t drift generic. - <code>jezweb/claude-skills</code> (MIT) —
+<code>frontend</code> + <code>design-assets</code>
+(palette/favicon/icon/image). - <code>uxKero/anydesign</code> (MIT) —
+design→token extraction (ingestion counterpart to OpenDesign).</p>
+<p><strong>3b. Generator libraries</strong> (npm deps by default;
+optionally source-pinned submodules under
+<code>generators/lib/_vendor/</code>):
+<code>material-color-utilities</code> (Apache-2.0),
+<code>colorjs.io</code> (MIT), <code>chroma-js</code> (BSD-3),
+<code>style-dictionary</code> (Apache-2.0),
+<code>@svgdotjs/svg.js</code> (MIT), <code>utopia-core</code>
+(<strong>confirm LICENSE first</strong> — sibling is MIT). Optional:
+<code>@adobe/leonardo-contrast-colors</code> (Apache-2.0) for
+contrast-driven theme modes.</p>
+<p><strong>3c. Knowledge</strong>
+(<code>design-toolkit/knowledge/</code> — <em>distilled rules we
+author</em>, citing sources; we do NOT copy copyrighted prose): encode
+WCAG 2.2 + WAI-ARIA APG (open), Material 3 (open, richest), DTCG spec
+(open), easings.net table (MIT), Radix/Open Color scales (MIT);
+paraphrase Apple HIG / Fluent 2 / Atomic Design / Every Layout
+primitives into checklists. Each file: source URL, license note, and the
+machine-usable rules.</p>
+<hr />
+<h2 id="design-specialist-agent-recipes-the-toolkits-core-value-add">4.
+Design-specialist agent recipes (the toolkit’s core value-add)</h2>
+<p>Each recipe = a skill (<code>SKILL.md</code> + supporting refs)
+defining what the specialist <strong>knows</strong> (which vendored
+knowledge/skills it draws on), <strong>the tools it uses</strong> (which
+MCP servers), <strong>what it does</strong> (procedure), and <strong>how
+it respects the guardrails</strong>. All emit through OpenDesign; none
+hand-author tokens.</p>
+<h3 id="theming-designer-the-uniqueness-engine">4.1
+<code>theming-designer</code> — the uniqueness engine</h3>
+<ul>
+<li><strong>Knows:</strong> color science (<code>knowledge/color/</code>
+— OKLCH model, WCAG contrast gate, Radix/Open Color), Material 3 color
+roles, the parametric method (Category 4), font-pairing→personality
+matrix, DTCG.</li>
+<li><strong>Uses:</strong> <code>generators/</code>
+(material-color-utilities + colorjs.io/chroma-js + utopia-core → Style
+Dictionary → OpenDesign), <code>google-fonts-mcp</code>,
+<code>coolors-mcp</code> (pilot).</li>
+<li><strong>Does:</strong> takes a project <strong>design-DNA seed +
+brand adjectives</strong> → picks
+<code>{seedHue, mcuVariant, typeRatio, spaceMultiplier, radiusBase, fontPairId, contrastMode}</code>
+from bounded ranges (constrained selection, justified — per the CPT
+research finding) → generates a full accessible token set → hands DTCG
+to OpenDesign to emit → verifies WCAG contrast on every semantic pair.
+<strong>This is what makes each project distinct-but-on-brand and
+reproducible.</strong></li>
+<li><strong>Guardrail:</strong> never writes <code>var(--*)</code> into
+site CSS; if OpenDesign can’t emit a needed construct → upstream
+PR.</li>
+</ul>
+<h3 id="layout-architect">4.2 <code>layout-architect</code></h3>
+<ul>
+<li><strong>Knows:</strong> Every Layout primitives
+(Stack/Cluster/Sidebar/Switcher/Cover/Grid — concepts),
+container-query-first responsiveness, 8pt grid, Apple HIG
+platform-adaptation rules (safe areas, ≥44pt targets, native nav),
+Material 3 layout regions.</li>
+<li><strong>Uses:</strong> <code>shadcn</code> MCPs (component reuse),
+Chrome DevTools MCP (responsive checks at real viewports).</li>
+<li><strong>Does:</strong> designs page/screen structure from composable
+primitives + container queries (not viewport-only breakpoints); applies
+per-platform adaptation checklist for cross-platform nativeness;
+expresses breakpoints/regions as OpenDesign layout tokens.</li>
+<li><strong>Guardrail:</strong> progressive-enhancement base must render
+without JS; verify by rendering+clicking at phone/tablet/desktop (the
+lesson already learned in <code>project-design-state</code>).</li>
+</ul>
+<h3 id="animation-designer">4.3 <code>animation-designer</code></h3>
+<ul>
+<li><strong>Knows:</strong> MD3 motion tokens, easings.net table, Disney
+principles (CC-BY-SA summary), the GPU-only / reduced-motion /
+deterministic-end-state rules from <code>design-research.md</code>.</li>
+<li><strong>Uses:</strong> Chrome DevTools MCP (perf trace /
+smoothness), Playwright MCP (force deterministic end-state for golden
+capture).</li>
+<li><strong>Does:</strong> specifies micro-interactions and
+scroll/view-transition motion as tokenized CSS/SVG (drop Lottie for
+simple motion); animates only
+<code>transform/opacity/compositor-safe filter</code>; every motion
+gated on <code>prefers-reduced-motion: no-preference</code>; provides
+the reduced-motion capture variant for §11.4.170.</li>
+<li><strong>Guardrail:</strong> CI greps emitted CSS to fail on animated
+<code>width/height/top/left/box-shadow</code>.</li>
+</ul>
+<h3 id="iconographer">4.4 <code>iconographer</code></h3>
+<ul>
+<li><strong>Knows:</strong> icon-system theory (stroke/weight/grid
+consistency, optical sizing), the self-hosted sprite approach already in
+<code>design-system/icons/icons.svg</code>.</li>
+<li><strong>Uses:</strong> local <strong>Iconify data</strong> +
+<code>jezweb design-assets</code> skill for SVG icon sets (prefer this
+over the GPL/no-license icon MCPs); <code>sharp-mcp</code>/SVGO for
+optimization.</li>
+<li><strong>Does:</strong> selects/uses a consistent icon set per
+project personality, generates a self-hosted subset sprite (no remote
+requests, no CLS), colors from tokens, ensures a11y labels.</li>
+<li><strong>Guardrail:</strong> no remote icon CDNs (matches the
+self-hosted-fonts/no-Google-Fonts discipline already enforced).</li>
+</ul>
+<h3 id="ux-flow-designer">4.5 <code>ux-flow-designer</code></h3>
+<ul>
+<li><strong>Knows:</strong> UX-strategy frameworks (from
+<code>designer-skills</code> + the <em>concepts</em> of
+<code>awesome-ux-skills</code>, once its license is cleared), the
+case-study spine (Problem→Approach→Architecture→Outcome→Artifact) and
+trust/proof devices from <code>design-research.md</code>, WAI-ARIA APG
+interaction models.</li>
+<li><strong>Uses:</strong> <code>draw.io</code>/<code>Mermaid</code> MCP
+(flow + architecture diagrams), Framelink Figma MCP (ingest existing
+flows), <code>anydesign</code> skill (extract structure from
+references).</li>
+<li><strong>Does:</strong> designs information architecture, navigation,
+and page/flow templates; produces the repeatable portfolio/product
+spine; specifies keyboard-interaction patterns per APG.</li>
+<li><strong>Guardrail:</strong> every interactive element gets a real
+behavior + a11y semantics (the “behavior not href” lesson from
+<code>interactive-behavior.spec.js</code>).</li>
+</ul>
+<h3 id="design-qa-auditor">4.6 <code>design-qa-auditor</code></h3>
+<ul>
+<li><strong>Knows:</strong> WCAG 2.2 success criteria as a hard gate,
+§11.4.170/.168 proof requirements, CWV thresholds.</li>
+<li><strong>Uses:</strong> Chrome DevTools MCP (Lighthouse a11y/perf),
+Playwright MCP + Image-Compare (visual regression), the existing
+<code>anti-bluff-web-harness</code>.</li>
+<li><strong>Does:</strong> audits each
+<code>screen × state × {light,dark}</code> by rendered pixels + a11y +
+contrast + CWV; fails the build on regressions; produces the evidence
+bundle.</li>
+<li><strong>Guardrail:</strong> verify by rendering+clicking at real
+viewports, not structural/heuristic checks (institutionalized
+lesson).</li>
+</ul>
+<p><strong>Shared substrate:</strong> all recipes read
+<code>design-toolkit/knowledge/</code> and defer token authority to
+OpenDesign. <code>anthropics/skills:frontend-design</code> +
+<code>theme-factory</code> are the aesthetic/theming base the recipes
+build on; <code>ui-ux-pro-max</code> supplies cross-platform stack
+specifics on demand.</p>
+<hr />
+<h2 id="the-parametric-uniqueness-layer-opendesign-how-they-combine">5.
+The parametric uniqueness layer + OpenDesign — how they combine</h2>
+<p><strong>Pipeline (all container-only, keys from
+<code>~/api_keys.sh</code>):</strong></p>
+<pre><code>project seed (= hash(project-name+domain) or chosen brand hue)
+        │  design-dna.mjs
+        ▼
+parameter vector {seedHue, mcuVariant, typeRatio, spaceMultiplier, radiusBase, fontPairId, contrastMode}
+        │  gen-tokens.mjs
+        ├─ material-color-utilities → HCT tonal palettes + role-mapped light/dark scheme (variant = personality)
+        ├─ colorjs.io / chroma-js  → custom OKLCH harmony ramps, gamut-safe P3 (+ sRGB fallback)
+        ├─ utopia-core             → fluid type/space clamp() scales from ratio + multiplier
+        └─ radius + density tokens
+        ▼
+   DTCG token document  ──►  OpenDesign (consumes/emits)  ──►  tokens.css / per-platform output
+        │                         (§11.4.162 source of truth; Style Dictionary sits behind it)
+        ▼
+   sites/PDFs consume ONLY the emitted OpenDesign tokens
+        +
+gen-marks.mjs (svg.js, seeded RNG, BUILD TIME) → static per-project SVG marks/backgrounds/dividers (colors from tokens)</code></pre>
+<p><strong>Why this yields uniqueness without chaos:</strong> OpenDesign
+owns <em>structure and semantics</em> (component set, token names,
+light/dark, a11y); the generator supplies <em>values</em> from a
+different point in the parameter space per project; the seeded SVG layer
+adds a <em>visual signature</em>. Two Vasic projects can share the exact
+component library and still read as unmistakably different brands — and
+re-running the same seed reproduces the same design exactly
+(deterministic). This is the Material-3-dynamic-color pattern (proven,
+Apache-2.0) generalized to type/space/shape/marks.</p>
+<p><strong>§11.4.162 reconciliation (critical):</strong> the generator’s
+output is a <strong>DTCG document fed into OpenDesign</strong>, not
+hand-written CSS. If OpenDesign cannot yet ingest generator-produced
+tokens or emit a construct (e.g. <code>light-dark()</code>, a specific
+<code>clamp()</code> shape), that gap is an <strong>upstream OpenDesign
+PR (§11.4.74)</strong> — the generator never writes
+<code>var(--*)</code> or literals into a site stylesheet. Confirm during
+Phase A that OpenDesign’s token-ingestion contract accepts an external
+DTCG doc; if not, that’s the first upstream PR.</p>
+<hr />
+<h2 id="sequenced-rollout-small-verifiable-increments">6. Sequenced
+rollout (small, verifiable increments)</h2>
+<ul>
+<li><strong>Phase A — Scaffold + prove the pipeline (vertical
+slice).</strong> Create <code>design-toolkit/</code> skeleton; add the 2
+highest-value MCP installs (Chrome DevTools already present; add
+Playwright, shadcn). Build <code>generators/</code> with
+material-color-utilities + colorjs.io + utopia-core + Style Dictionary;
+produce ONE token set from a seed and prove OpenDesign can emit it (or
+file the upstream PR). Confirm <code>utopia-core</code> LICENSE before
+pinning. Verify with §11.4.170 render of the existing button slice under
+a generated theme.</li>
+<li><strong>Phase B — Vendor the skill foundation.</strong> Nest
+<code>anthropics/skills</code> +
+<code>Owl-Listener/designer-skills</code> as pinned submodules; author
+the <code>theming-designer</code> and <code>design-qa-auditor</code>
+recipes (the two with immediate leverage). Wire
+<code>google-fonts-mcp</code>, <code>sharp-mcp</code>.</li>
+<li><strong>Phase C — Cross-platform + remaining recipes.</strong> Add
+<code>ui-ux-pro-max</code> + <code>jezweb</code> +
+<code>anydesign</code> submodules; author <code>layout-architect</code>,
+<code>animation-designer</code>, <code>iconographer</code>,
+<code>ux-flow-designer</code>. Add draw.io/Mermaid/Framelink MCPs.
+Encode the <code>knowledge/</code> reference set.</li>
+<li><strong>Phase D — Generative marks + distinctness proof.</strong>
+Add <code>gen-marks.mjs</code> (svg.js) build-time signature layer;
+generate a <em>distinct</em> theme+mark set for
+<code>milosvasic.ru</code> vs <code>vasic.digital</code> from different
+seeds and prove via §11.4.170 that they render as different brands on
+the shared component library.</li>
+<li><strong>Phase E — Nest under HelixConstitution + wire into
+vasic.</strong> Move <code>design-toolkit/</code> under the
+<code>constitution</code> submodule, wire back into <code>vasic</code>
+(mirrors the held “nest decoupled libs under constitution” step); gate
+CI on <code>design-qa-auditor</code>.</li>
+</ul>
+<p><strong>Blocked/held dependencies (from existing state):</strong>
+nesting under HelixConstitution is entangled with the un-pushed
+§11.4.236 amendment + umbrella push (held for user GO in
+<code>project-design-state</code>/<code>project-vasic-monorepo</code>).
+Phases A–D can proceed in-tree under
+<code>_analysis</code>/<code>design-system</code> without that GO; Phase
+E waits on it.</p>
+<hr />
+<h2 id="honesty-summary-what-not-to-rely-on">7. Honesty summary (what
+NOT to rely on)</h2>
+<ul>
+<li><strong>No single OSS “brand-in-a-box”</strong> does
+color+type+space+shape+marks end-to-end — §5 assembly is our work
+(well-scoped, all deps MIT/Apache/BSD).</li>
+<li><strong>Low-star MCPs</strong> (coolors, design-token-bridge,
+image-compare) must be <strong>piloted</strong> before standardizing;
+don’t gate CI on them until proven.</li>
+<li><strong>License blockers to clear before vendoring:</strong>
+<code>utopia-core</code> (confirm),
+<code>awesome-ux-skills</code>/awesome-list
+indexes/<code>mcp-universal-icons</code>/several color+icon MCPs (no
+license — do not vendor). Iconify MCPs are GPL → keep external or use
+local Iconify data via the iconographer skill instead.</li>
+<li><strong>Paid/excluded, do not add:</strong> Official Figma Dev Mode
+MCP, 21st.dev Magic MCP, LottieFiles Creator MCP, Refactoring UI, Every
+Layout (buy for reference; encode concepts only), APCA as an
+authoritative gate (advisory only — enforce WCAG 2.2 ratios).</li>
+<li><strong>Copyrighted knowledge</strong> (Apple HIG, Fluent 2, Atomic
+Design): encode paraphrased rules, never vendor the prose.</li>
+</ul>
+</body>
+</html>

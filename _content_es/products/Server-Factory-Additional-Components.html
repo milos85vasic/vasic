@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>El elenco de apoyo de la cadena de herramientas de
+aprovisionamiento Server Factory.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Más allá de Mail Server Factory y el Marco Central, la organización
+Server-Factory incluye varios componentes más pequeños: “fábricas” por
+servicio (Servicio Web, SonarQube, Proxy de Caché), paquetes de
+configuración declarativa (Docker/Stack/Definiciones de Software) y
+utilidades compartidas. Esta página consolidada los aborda con
+honestidad —varios se encuentran en etapas tempranas o con documentación
+incompleta—, en lugar de presentarlos como productos plenamente
+especificados.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un conjunto de repositorios de soporte para Server Factory:
+Web-Service-Factory, SonarQube-Factory y Caching-Proxy-Factory
+(herramientas de aprovisionamiento por servicio, en su mayoría en fase
+inicial); Docker/Stack/Software-Definitions (paquetes de configuración
+declarativa consumidos por el marco de trabajo); y Utils (ayudantes de
+acceso a SSH y herramientas generales). Todos se basan en el Marco
+Central.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Esta página agrupa los repositorios restantes de Server-Factory
+porque, de manera individual, la mayoría son pequeños o están
+intencionalmente poco documentados, y presentarlos como productos
+terminados exageraría su grado de madurez. Se dividen en tres
+categorías. <strong>Las fábricas de servicios</strong> siguen el patrón
+de Mail Server Factory para otros roles de servidor:
+<strong>Caching-Proxy-Factory</strong> (“Ejecuta tu propio servidor
+proxy de caché”) enumera como características clave un proxy de caché,
+un certificado autofirmado y un punto final HTTP para obtener
+certificados de seguridad; <strong>SonarQube-Factory</strong> (“Ejecuta
+tu propio servidor SonarQube”) está orientado al uso en desarrollo de
+software; y <strong>Web-Service-Factory</strong> instancia y configura
+un servidor web para desplegar objetivos como sitios web y
+microservicios. Los tres son proyectos Kotlin construidos sobre el Marco
+Central, pero sus archivos README públicos son en gran medida marcadores
+de posición (“Por definir” en compatibilidad, especificaciones,
+configuración y uso), por lo que sus capacidades concretas más allá de
+lo declarado están SIN VERIFICAR. <strong>Los paquetes de
+definiciones</strong> —<strong>Docker-Definitions</strong>,
+<strong>Stack-Definitions</strong> y
+<strong>Software-Definitions</strong>— son repositorios de configuración
+declarativa que el marco de trabajo consume para saber cómo
+construir/desplegar imágenes, pilas y software de Docker; son paquetes
+de datos con versiones fijas, no aplicaciones. <strong>Utils</strong>
+ofrece herramientas generales para la familia, incluyendo un script
+<code>init_ssh_access.sh</code> que genera una clave SSH e la instala en
+un host remoto para habilitar el acceso root sin contraseña en
+aprovisionamientos posteriores. En conjunto, estos componentes completan
+la cadena de herramientas de aprovisionamiento en torno al buque
+insignia Mail Server Factory.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>El modelo Server Factory está diseñado para generalizarse: una vez
+que puedes aprovisionar un servidor de correo a partir de una
+descripción declarativa, el mismo motor debería ser capaz de
+aprovisionar servidores web, proxies de caché y servidores de calidad de
+código, alimentados por paquetes de definiciones reutilizables y
+utilidades compartidas, en lugar de lógica ad hoc para cada rol. Estos
+repositorios son esa generalización en proceso, extendiendo el patrón
+probado a nuevos tipos de servidores. Su valor aquí radica en demostrar
+el alcance del modelo; su madurez varía, y esta página deja claro cuáles
+son directrices y cuáles están terminados.</p>
+<h2 id="por-qué-es-un-cambio-de-juego-medido">Por qué es un cambio de
+juego (medido)</h2>
+<p>En conjunto, demuestran la reutilización del Marco Central en
+distintos tipos de servidores y separan los datos declarativos
+(Definiciones) de la ejecución (fábricas). Individualmente, las fábricas
+de servicios se encuentran en una fase temprana y deben presentarse como
+una dirección, no como productos terminados.</p>
+<h2 id="qué-hay-de-innovador">Qué hay de innovador</h2>
+<ul>
+<li>Un marco de aprovisionamiento generalizado para roles de
+correo/web/proxy de caché/SonarQube.</li>
+<li>Paquetes de Definiciones declarativas (Docker/Stack/Software)
+desacoplados del motor de ejecución.</li>
+<li>Utilidades compartidas (por ejemplo, el arranque sin contraseña con
+un solo comando SSH) reutilizadas en todas las fábricas.</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Reutilizar un mismo motor en distintos roles de
+servidor:</strong> resuelto al construir cada fábrica sobre el Marco
+Central.</li>
+<li><strong>Separar la configuración del código:</strong> resuelto
+mediante los repositorios de Definiciones como paquetes de datos con
+versiones fijadas.</li>
+<li><strong>(SIN VERIFICAR):</strong> los archivos README de las
+fábricas de servicios son provisionales; su grado de implementación no
+es verificable a partir de la documentación pública —presentarlos como
+fase temprana.</li>
+</ul>
+<h2 id="pila-tecnológica-por-qué-cómo">Pila tecnológica (por qué +
+cómo)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Fábrica de Servicios Web, Fábrica
+SonarQube, Fábrica de Proxy de Caché (construidas sobre el Marco
+Central).</li>
+<li><strong>Shell</strong> — Utilidades y los paquetes de Definiciones
+(scripts/configuración).</li>
+<li><strong>Gradle</strong> — Flujo de construcción/pruebas
+<code>./gradlew test</code> en todas las fábricas.</li>
+<li><strong>Docker</strong> — Entorno de ejecución objetivo descrito por
+las Definiciones Docker.</li>
+<li><strong>SSH / OpenSSH</strong> — Arranque de acceso sin contraseña
+de las Utilidades.</li>
+<li><strong>SonarQube</strong> — El servidor que aprovisiona la Fábrica
+SonarQube (y contra el que Mail Server Factory informa una compuerta
+limpia).</li>
+</ul>
+<blockquote>
+<p>Nota de honestidad: la mayoría de estos repositorios son
+bifurcaciones dentro de la organización; las fábricas de servicios están
+documentadas como provisionales y marcadas como SIN VERIFICAR según el
+artículo 11.4.6 de los estatutos. Su relevancia está claramente por
+debajo de Mail Server Factory y el Marco Central.</p>
+</blockquote>
+</body>
+</html>

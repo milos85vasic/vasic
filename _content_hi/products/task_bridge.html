@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p>सामग्री</p>
+<hr />
+<p><strong>आपका टास्क बोर्ड और आपका सत्य-स्रोत, दोनों दिशाओं में बेदाग तालमेल
+में।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>task_bridge, Go में एक सामान्य, डिकपल्ड, द्विदिशात्मक टास्क/बोर्ड सिंक इंजन है।
+यह किसी प्रोजेक्ट के कार्य-आइटम्स SQLite सत्य-स्रोत को उसके ट्रैकर दस्तावेज़ों और रिमोट
+बोर्ड (प्रथम लक्ष्य: ClickUp; Jira/Linear नियोजित) के साथ डिटर्मिनिस्टिक
+लास्ट-एडिट-विन्स, ड्राई-रन-फर्स्ट, और कभी-भ्रष्ट-नहीं होने वाली प्रक्रिया के माध्यम से
+तालमेल में रखता है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>एक प्रोजेक्ट-अज्ञेयवादी Go सबमॉड्यूल जो द्विदिशात्मक रूप से SQLite कार्य-आइटम्स
+सत्य-स्रोत ↔︎ ट्रैकर दस्तावेज़ ↔︎ रिमोट बोर्ड (प्रथम: ClickUp) को सिंक करता है।
+डिटर्मिनिस्टिक लास्ट-एडिट-विन्स, ड्राई-रन-फर्स्ट, HMAC-सत्यापित वेबहुक्स; हर
+क्रेडेंशियल और आईडी उपभोक्ता द्वारा रनटाइम पर इंजेक्ट की जाती है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>आखिरकार हर टीम एक ही काम के दो अलग-अलग रिकॉर्ड रखती है: असली — कोड,
+दस्तावेज़, आंतरिक डेटाबेस — और दूसरा, जिसे मैनेजर देखते हैं, जैसे ClickUp का बोर्ड। दोनों
+में तालमेल टूट जाता है जैसे ही किसी एक पक्ष में बदलाव होता है, और उन्हें मैन्युअल रूप से
+मिलाना वही उबाऊ, त्रुटि-प्रवण काम है जिसे कोई भरोसेमंद तरीके से नहीं करता।
+task_bridge इसी अंतर को मिटाने के लिए बनाया गया है, जिसमें तीनों प्रतिनिधित्वों को
+एक ही प्रणाली के रूप में देखा जाता है जिसे तालमेल में रखा जाना चाहिए: प्रोजेक्ट का
+<strong>कार्य-आइटम्स SQLite एकल-सत्य-स्रोत</strong>, उसके <strong>ट्रैकर
+दस्तावेज़</strong>, और एक <strong>रिमोट बोर्ड</strong> — पहला समर्थित बोर्ड
+ClickUp है, जबकि Jira और Linear भविष्य में जोड़े जाने की योजना है। सिंक्रोनाइज़ेशन
+डिटर्मिनिस्टिक (लास्ट-एडिट-विन्स), ड्राई-रन-फर्स्ट है, और इसे एक अटल वादे के
+इर्द-गिर्द डिज़ाइन किया गया है: यह कभी डेटा को भ्रष्ट या खोएगा नहीं, और कभी
+चुपचाप किसी एक पक्ष को पुराना नहीं छोड़ेगा। इस क्षेत्र में एक लापरवाह सिंक एक हफ्ते के
+काम को मिटा सकता है, इसलिए इस सुरक्षा-प्रक्रिया का यही उद्देश्य है।</p>
+<p>वास्तुशिल्पीय रूप से यह एक सख्त सबमॉड्यूल है जिसे अन्य प्रोजेक्ट्स द्वारा उपयोग किया
+जाता है और यह पूरी तरह प्रोजेक्ट-अज्ञेयवादी है, जैसा कि संविधान के डिकपलिंग अनुबंध
+(§11.4.28) में निर्धारित है: यह कोई प्रोजेक्ट-विशिष्ट मान नहीं भेजता, और हर
+क्रेडेंशियल, बोर्ड/फ़ोल्डर आईडी, आइटम-की फ़ील्ड, और डेटाबेस पथ उपभोक्ता द्वारा रनटाइम
+पर <code>pkg/config.Config</code> के माध्यम से इंजेक्ट किया जाता है। मॉड्यूल की
+परतें स्पष्ट हैं: एक CLI
+(<code>reconcile</code>/<code>push</code>/<code>pull</code>/<code>resolve</code>/<code>status</code>/<code>conflicts</code>/<code>init</code>)
+और एक दीर्घकालिक डेमन (वेबहुक रिसीवर + क्रॉन रीकंसील); MIT-लाइसेंस प्राप्त
+<code>raksul/go-clickup</code> पर आधारित एक पतला क्लाइंट रैपर; एक रिज़ॉल्वर
+जो बोर्ड/फ़ोल्डर URL को लाइव API प्रोब्स के माध्यम से आईडी में बदलता है (कोई
+URL-ग्रामर अनुमान नहीं); स्थानीय कार्य-आइटम्स और रिमोट टास्क फ़ील्ड्स के बीच एक
+मैपर; एक लास्ट-एडिट-विन्स सिंक इंजन जिसमें स्पष्ट विरोध समाधान होते हैं; और एक वेबहुक
+रिसीवर जो <code>X-Signature</code> HMAC-SHA256 सत्यापित करता है। यह अपनी
+परिपक्वता के बारे में ईमानदार है: यह P1 ढाँचा है — लेआउट, इंटरफ़ेस, एंट्रीपॉइंट्स, और
+डिकपलिंग सीमा तैयार हैं, लेकिन सिंक लॉजिक और लाइव ClickUp कॉल अभी लागू नहीं किए
+गए हैं (हर स्टब एक स्पष्ट नॉट-इम्प्लीमेंटेड एरर लौटाता है, नो-फेक्स नियम के
+अनुसार)।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>टीमें काम की “असली” स्थिति कोड/दस्तावेज़ों में रखती हैं जबकि मैनेजर ClickUp जैसे
+बोर्ड पर निर्भर रहते हैं — और दोनों लगातार अलग होते जाते हैं। task_bridge इन्हें एक
+प्रणाली में बदल देता है, जो डिटर्मिनिस्टिक और सुरक्षित तरीके से सिंक करता है ताकि कोई
+भी पक्ष पुराना या गलत न हो जाए।</p>
+<p>सामग्री</p>
+<h2 id="यह-कय-एक-गम-चजर-ह">यह क्यों एक गेम-चेंजर है</h2>
+<p>दो-तरफ़ा बोर्ड सिंक आमतौर पर एक बार की, हार्ड-वायर्ड इंटीग्रेशन होती है जिसे हर
+टीम ख़राब तरीके से दोबारा बनाती है। task_bridge इसे एक पुनःप्रयोगी,
+क्रेडेंशियल-इंजेक्टेड लाइब्रेरी के रूप में पुनः परिभाषित करता है जिसमें सख़्त डेटा-सुरक्षा
+गारंटी शामिल है — पहले ड्राई-रन, फिर नियतात्मक अंतिम-संपादन-विजेता, HMAC-सत्यापित
+इवेंट्स — ताकि कोई भी प्रोजेक्ट भरोसेमंद बोर्ड इंटीग्रेशन को कॉन्फ़िगरेशन इंजेक्ट करके अपना
+सके, बजाय इसके कि हर बार एक नया नाज़ुक कनेक्टर लिखा जाए जो उसके आंतरिक तंत्र से जुड़ा
+हो।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li>तीन-तरफ़ा द्विदिश सिंक: SQLite SSoT ↔︎ ट्रैकर दस्तावेज़ ↔︎ रिमोट बोर्ड।</li>
+<li>पूर्ण डिकपलिंग (§11.4.28): प्रोजेक्ट के कोई मूल्य नहीं; सब कुछ रनटाइम पर इंजेक्ट
+किया जाता है।</li>
+<li>लाइव-API URL→ID रिज़ॉल्यूशन, नाज़ुक URL-ग्रामर पार्सिंग के बजाय।</li>
+<li>लाइव इवेंट्स के लिए HMAC-SHA256-सत्यापित वेबहुक इनजेशन।</li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>तीन स्रोतों में डेटा सुरक्षा:</strong> नियतात्मक अंतिम-संपादन-विजेता,
+पहले ड्राई-रन, और स्पष्ट विरोधाभासी परिणामों से हल।</li>
+<li><strong>कपलिंग के बिना पुनःप्रयोगिता:</strong> <code>pkg/config</code>
+इंजेक्शन बाउंड्री के ज़रिए हल (प्रोजेक्ट-विशिष्ट कुछ भी शिप नहीं किया जाता)।</li>
+<li><strong>विश्वसनीय बोर्ड पहचान:</strong> लाइव API प्रोब्स के ज़रिए URL को
+ID में बदलकर हल।</li>
+<li><strong>ईमानदार ढाँचा:</strong> अनइम्प्लीमेंटेड स्टब्स को स्पष्ट
+“नॉट-इम्प्लीमेंटेड” एरर लौटाकर हल (कोई नकली समाधान नहीं)।</li>
+</ul>
+<h2 id="तकनक-सटक-कय-कस">तकनीकी स्टैक (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Go</strong> — इंजन, CLI (<code>cmd/task_bridge</code>), और
+डेमन (<code>cmd/task_bridged</code>)।</li>
+<li><strong>SQLite</strong> — कार्य योग्य आइटम्स का एकल-स्रोत-सत्य।</li>
+<li><strong><code>raksul/go-clickup</code> (MIT)</strong> — ClickUp
+ट्रांसपोर्ट रैपर।</li>
+<li><strong>HMAC-SHA256</strong> — वेबहुक हस्ताक्षर सत्यापन।</li>
+<li><strong>cron + वेबहुक्स</strong> — डेमन रीकन्साइल + लाइव-इवेंट इनजेशन।</li>
+<li><strong><code>pkg/config</code></strong> — रनटाइम क्रेडेंशियल/ID इंजेक्शन
+बाउंड्री।</li>
+</ul>
+<blockquote>
+<p>स्थिति की ईमानदारी: यह एक <strong>P1 ढाँचा</strong> है — सिंक लॉजिक अभी
+लागू नहीं किया गया है। इसे शिप्ड के रूप में प्रस्तुत न करें।</p>
+</blockquote>
+</body>
+</html>

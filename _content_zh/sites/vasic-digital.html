@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>vasic-digital</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">vasic-digital</h1>
+</header>
+<h1 id="vasic-digital">Vasic Digital</h1>
+<h2 id="英雄">英雄</h2>
+<p><strong>AI原生软件工程，值得信赖。</strong></p>
+<p>任何人都能在一个下午将应用接入LLM模型。难点——决定一个AI系统是演示品还是可靠产品的关键——在于模型之外的一切：能在故障中幸存的供应商抽象层、确保智能体保持任务导向的编排机制、捕捉模型虚张声势的验证机制，以及证明整个系统行为可控的治理框架。这些难点正是Vasic
+Digital所构建的。我们设计并交付AI开发系统——包括模型、智能体、编排和基础设施，将大型语言模型转化为可靠的软件——同时配备确保其诚实可信的治理层。这一切都遵循一条不容妥协的原则：功能在测试通过时并不算”完成”；只有当真实用户能够实际使用，且有捕获的证据证明其有效时，才算真正完成。</p>
+<h2 id="关于">关于</h2>
+<p>Vasic
+Digital是一个专注的工程实践团队，构建一系列相互关联的AI开发产品与可复用模块。与单一庞然大物不同，我们的工作以”舰队”形式组织：顶层是大型产品应用，底层则是数十个独立测试、解耦的小型模块——已验证的组件被跨产品复用，而非重复构建。核心语言为<strong>Go</strong>，辅以<strong>Kotlin
+/ Kotlin
+Multiplatform</strong>、<strong>TypeScript/React</strong>、<strong>Python</strong>、<strong>Swift</strong>及<strong>Shell</strong>，按需选择：Go用于高吞吐量服务与库，Kotlin用于配置工具与跨平台移动端，TypeScript用于类型化前端，Python则用于AI/ML的粘合层。</p>
+<p>将”舰队”凝聚在一起的，是机械化而非口号式的纪律。每个项目都通过Git子模块继承共享的工程<strong>Constitution</strong>——一条规则的收紧，即可传播至140多个代码库——且每项产品宣称的功能，都必须在通过自动化、产生证据的测试后，才算正式交付。这不是包装工作的营销话术，而是工作运行的底层模式。其复利效应才是真正的优势：由于通用功能被解耦为独立测试的模块，一处修复或改进即可同时提升所有产品，而每个新系统都由已赢得信任的组件组装而成。</p>
+<h2 id="我们的工作">我们的工作</h2>
+<p><strong>基于AI的开发。</strong>我们构建AI系统的端到端基础设施：</p>
+<ul>
+<li><strong>多供应商LLM接入</strong>——在统一接口下整合40多家供应商（Anthropic/Claude、OpenAI、DeepSeek、Gemini、Mistral、Cohere、Groq、xAI/Grok、Qwen、Perplexity、OpenRouter、Together
+AI、Replicate、Cerebras、Cloudflare Workers
+AI、SiliconFlow，并以本地Ollama作为后备），配备重试机制、熔断器及健康检查。</li>
+<li><strong>智能体编排</strong>——无界面CLI编码智能体控制平面、基于图的智能工作流、多轮”AI辩论”共识机制，以及DAG/管道运行时。</li>
+<li><strong>LLM验证</strong>——信任层通过强制理解门槛（“你能理解我的代码吗？”）及延迟、流式处理、函数调用、视觉与embeddings测试对模型进行评分，输出仅包含已验证的配置。</li>
+<li><strong>检索与记忆</strong>——RAG、vector数据库、embeddings，以及融合智能体记忆引擎（Mem0
++ Cognee + Letta），支持无限上下文压缩。</li>
+<li><strong>防御性LLM</strong>——防护栏、PII检测、对抗性红队测试用例，以及输入规范化处理。</li>
+</ul>
+<p><strong>Helix 产品系列</strong> 我们的旗舰产品线涵盖完整的 AI
+开发生命周期：</p>
+<ul>
+<li><strong>HelixTrack</strong> —— 替代 JIRA（Helix-Track
+系列旗舰产品）的开放世界方案。</li>
+<li><strong>HelixAgent</strong> —— 一种集成式 LLM
+服务，允许多个模型进行辩论，并输出共识结果。</li>
+<li><strong>HelixCode</strong> —— 分布式 AI 开发平台，通过 SSH
+管理的工作节点分配任务，支持检查点/回滚。</li>
+<li><strong>HelixLLM</strong> ——
+单一二进制文件，六种模式：从笔记本电脑到集群，兼容 OpenAI 和 Anthropic
+推理，基于 HTTP/3 架构。</li>
+<li><strong>HelixCluster</strong> —— 面向 AI
+计算的分布式操作系统，覆盖数据中心 GPU 到边缘手持设备。</li>
+<li><strong>LLMProvider / LLMOrchestrator / LLMsVerifier</strong> ——
+服务提供抽象层、智能体控制平面及验证真值源。</li>
+<li><strong>HelixMemory、HelixSkills、HelixSpecifier、HelixBuilder、HelixTranslate、HelixTerminator、HelixGitpx、HelixOTA、HelixPlay</strong>
+——
+记忆管理、受控技能、规约驱动开发、应用构建、可验证翻译、零信任终端、联邦
+Git、安全 OTA 更新及自托管云游戏。</li>
+</ul>
+<p><strong>工具与实用程序（vasic-digital 工具集）</strong>
+可独立使用的生产级工具：<strong>Catalogizer</strong>（多协议加密媒体资源管理）、<strong>Courses-Creator</strong>（Markdown
+转视频的 AI 课程制作）、<strong>VisionEngine</strong>（计算机视觉 + LLM
+视觉 UI 感知）、<strong>DocProcessor</strong>（文档到功能地图的 QA
+转换）、<strong>Docs
+Chain</strong>（内容哈希双向文档/数据库同步）、<strong>Herald</strong>（自然语言多渠道通知）、<strong>task_bridge</strong>（双向任务/看板同步），以及
+<strong>Vasic Digital 可复用模块套件</strong> ——
+<code>digital.vasic.*</code> 基础设施、AI 原语及防护模块的”标准库”。</p>
+<p><strong>基础设施自动化（Server Factory）</strong> 我们的 DevOps
+传承：<strong>Mail Server Factory</strong> 及 <strong>Server Factory
+核心框架</strong>，将声明式 JSON 转化为跨多种连接类型和 Linux
+发行版的全配置 Docker
+化服务器，并提供虚拟机镜像工具（Qemu-Utils、Parallels-Utils）及支持服务工厂。</p>
+<h2 id="技术栈">技术栈</h2>
+<p>基于我们的实际技术架构：</p>
+<ul>
+<li><strong>编程语言：</strong> Go（主导）、Kotlin &amp; Kotlin
+Multiplatform、TypeScript、Python、Swift、Shell，在分布式系统工作中还采用
+PL/pgSQL 甚至 TLA+ 形式化规约。</li>
+<li><strong>AI / LLM：</strong> 多供应商接入（43+ 适配器）、Model
+Context Protocol（MCP）、RAG、vector 数据库及
+embeddings、规划算法（HiPlan、MCTS、Tree of
+Thoughts）、LLMOps、基准测试（SWE-bench/HumanEval/MMLU）及
+TTS（Bark、SpeechT5）。</li>
+<li><strong>后端：</strong> Gin（Go）、gRPC + Protocol
+Buffers、HTTP/3（QUIC）、WebSocket、Angular 及 React
+前端、Kafka/RabbitMQ 消息系统。</li>
+<li><strong>数据：</strong>
+PostgreSQL、SQLite、SQLCipher（静态加密）、Redis、Neo4j、ClickHouse
+及对象存储（MinIO/S3/GCS/Azure）。</li>
+<li><strong>基础设施 / DevOps：</strong> Docker &amp;
+Compose、Kubernetes + Helm、Prometheus +
+Grafana、OpenTelemetry、QEMU/Libvirt/Parallels，以及通过 GitHub
+Actions、Gradle 和 Make 实现的 CI/CD。</li>
+<li><strong>测试 / 质量保障：</strong> 反虚假框架
+HelixQA、带变异门的单模块挑战测试套件、<code>go test -race</code>、视觉回归测试工具、ADB
+设备测试、SonarQube
+门控，以及安全扫描（semgrep、gosec、trivy、snyk、gitleaks、nancy）。</li>
+</ul>
+<p>内容</p>
+<h2 id="品质与治理我们的核心竞争力">品质与治理——我们的核心竞争力</h2>
+<p>两大支柱确保整个代码库体系的统一性与可信度：</p>
+<ul>
+<li><strong>HelixConstitution</strong> ——
+一套通用的、不受项目限制的工程规范手册，以 Git 子模块形式发布，并被 140
+多个代码库中的每个项目所继承。它固化了不可妥协的工程纪律：防止虚假承诺的验证门禁、假阳性免疫机制、数据与主机安全保障、文档与覆盖率规则等，项目可在此基础上扩展，但绝不可削弱。一次子模块更新即可同步规则至全局；传播门禁会通过字符串匹配确保所有代码库遵循必要条款，且每个门禁均配有变异测试，以证明其本身并非虚设。治理不再是愿景，而是可审计的事实。</li>
+<li><strong>HelixQA</strong> —— 防虚假承诺的质量保证编排系统。它在
+Android、Android TV、Web 及桌面端运行预定义的 <strong>YAML</strong>
+测试库，并执行完全自动化的 <strong>LLM</strong> + 计算机视觉 QA
+流程，且在未捕获运行时证据（截图、logcat
+日志、视频、堆栈跟踪）的情况下，绝不判定为「通过」。「我们测试过」不再是空口无凭，而是「这是视频、日志和工单记录」。</li>
+</ul>
+<h2 id="定位宣言">定位宣言</h2>
+<p>任何人都能将应用与 <strong>LLM</strong> 连接，<strong>Vasic
+Digital</strong> 打造的是更难的部分：<strong>AI</strong>
+系统——可验证、可复用且诚实可信。我们提供的是不依赖特定供应商的
+<strong>AI</strong> 底层架构，基于此构建的 <strong>Helix</strong>
+产品全生命周期，以及一套「宪法 +
+证据」的纪律体系，确保交付的产品真正可用。我们不要求你相信绿色勾选，而是向你展示其背后的证据。</p>
+<h2 id="联系我们">联系我们</h2>
+<p>让我们一起构建可验证的产品。</p>
+<ul>
+<li><strong>邮箱：</strong> <a
+href="mailto:i@mvasic.ru">i@mvasic.ru</a></li>
+<li><strong>GitHub：</strong> <a
+href="https://github.com/vasic-digital">github.com/vasic-digital</a></li>
+</ul>
+</body>
+</html>

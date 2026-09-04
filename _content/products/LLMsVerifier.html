@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LLMsVerifier</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LLMsVerifier</h1>
+</header>
+<h1 id="llmsverifier">LLMsVerifier</h1>
+<p><strong>Verify. Monitor. Optimize.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>LLMsVerifier is an enterprise-grade platform for verifying,
+monitoring, and optimizing Large Language Models across many providers,
+built on a mandatory “Do you see my code?” verification test so that
+only models proven to actually work are ever marked usable or
+exported.</p>
+<h2 id="short-description">Short description</h2>
+<p>A Go platform that verifies, benchmarks, monitors, and optimizes LLMs
+across multiple providers. Every model must pass a mandatory
+code-visibility test before use; it then runs latency, streaming,
+function-calling, vision, and embedding checks, and exports
+verified-only configurations for AI CLI tools.</p>
+<h2 id="long-description">Long description</h2>
+<p>LLMsVerifier is a comprehensive platform for verifying, monitoring,
+and optimizing LLM performance across multiple providers. Its core
+principle is <em>mandatory verification</em>, and it is uncompromising
+about it: before any model is marked usable — or allowed into an
+exported configuration — it must affirmatively pass a “Do you see my
+code?” test that makes real HTTP calls to the provider and analyzes the
+response for genuine comprehension, not a plausible-looking echo. A
+model that can’t demonstrably see and understand your input simply never
+earns the “usable” flag. Beyond that gate, the Verifier Engine runs a
+full battery of capability tests — existence, responsiveness, latency,
+streaming, function calling, vision, embeddings — and a Reporter Engine
+turns the results into markdown and JSON reports you can act on.</p>
+<p>The system is modular and event-driven, exposing CLI, TUI, Web, and
+REST API interfaces over a core of Verifier Engine, Reporter Engine, and
+Configuration Manager, and it doesn’t stop at verification. Advanced
+layers add a Supervisor/Worker pattern for LLM-powered task
+decomposition, sliding-window plus LLM-summarization context management
+so very long sessions don’t fall off a cliff, cloud-backed
+checkpointing, and a failover system with circuit breakers and
+latency-based routing. The surrounding infrastructure is
+production-shaped: a pub/sub event bus, cron scheduling, pricing/limits
+detection, a vector database for RAG, and an export system. A signature
+branding convention appends an <code>(llmsvd)</code> suffix to every
+generated provider/model, so a verified output is traceable at a glance
+and can never be confused with an unvetted one — and only verified
+models are ever written into exported configs for AI CLI tools such as
+OpenCode, Crush, and Claude Code. It ships with the operational tooling
+teams actually need in production: Docker/Kubernetes/Helm deployment,
+Prometheus/Grafana monitoring, LDAP/SSO, and SQLCipher-encrypted
+storage.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>Because configuration-only checking is unreliable — an API key can
+expire, a model can be deprecated, and a config file tells you nothing
+about real latency, real errors, or whether the model can actually see
+and understand your input. LLMsVerifier replaces “it’s in the config, so
+it must work” with proof: only models that demonstrably respond
+correctly are marked usable and exported.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It makes LLM fleets <em>trustworthy</em> — a word rarely earned in a
+space full of configs that lie by omission. Instead of hoping a
+configured model works, teams get an enforced, testable guarantee that
+every model in play has passed real verification, with monitoring,
+failover, and verified-only export closing the loop from proof to
+production. Within the Helix ecosystem it becomes the single source of
+truth for LLM model, provider, and verification metadata: other services
+(HelixTranslate among them) route against it, so an entire platform
+inherits one honest answer to “which models actually work right now?”
+instead of each team maintaining its own hopeful guess.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li><strong>Mandatory “Do you see my code?” verification</strong> — a
+real, HTTP-backed comprehension gate a model must pass before it is ever
+usable; the product’s signature differentiator and the reason nothing
+unproven slips through.</li>
+<li><strong>Verified-only configuration export</strong> — generated
+configs for AI CLI tools contain <em>only</em> models that passed
+verification, so the config you ship can’t quietly reintroduce a broken
+model.</li>
+<li><strong><code>(llmsvd)</code> branding-suffix system</strong> —
+every generated provider/model carries a traceable suffix, making
+verified provenance visible everywhere the output travels.</li>
+<li><strong>Capability detection</strong> across many CLI agents and
+providers — it fingerprints streaming types (SSE, WebSocket, JSONL,
+EventStream), compression, and caching behaviors rather than assuming
+them.</li>
+<li><strong>Resilient failover</strong> — circuit breakers,
+latency-based routing that reroutes when time-to-first-token crosses a
+threshold, health probes, and weighted traffic split keep a fleet
+responsive when individual providers wobble.</li>
+<li><strong>Long-running autonomy</strong> — a Supervisor/Worker
+decomposition pattern plus checkpointing and memory integration sustain
+extended sessions that would otherwise exhaust context.</li>
+<li><strong>RAG / vector-DB integration</strong> for grounded context
+enhancement.</li>
+</ul>
+<h2 id="biggest-technical-challenges-how-we-solved-them">Biggest
+technical challenges &amp; how we solved them</h2>
+<ul>
+<li><strong>Proving a model actually works, not just that it’s
+configured.</strong> The whole point, and the hardest part. Solved by
+the mandatory code-visibility test that makes real API calls and
+analyzes the responses for affirmative comprehension, backed by a broad
+suite of capability tests — and then by refusing to export anything that
+didn’t pass, so proof, not configuration, gates production.</li>
+<li><strong>Reliability across many flaky third-party
+providers.</strong> Solved with a failover orchestrator that treats
+provider instability as the normal case: circuit breakers mark a
+provider degraded after N failures in M seconds, latency-based routing
+steers away from slow endpoints, periodic health checks probe for
+recovery, and weighted routing balances cost-effective against premium
+models.</li>
+<li><strong>Sustaining very long, autonomous sessions.</strong> Solved
+with the Supervisor/Worker decomposition pattern that breaks big work
+into tractable pieces, periodic checkpointing to cloud storage so
+progress survives interruption, and layered context management (sliding
+window + LLM summarization + RAG) so the model keeps the thread without
+drowning in tokens.</li>
+<li><strong>Provider sprawl.</strong> Solved by hiding many per-provider
+Go adapters behind one common interface, with the real endpoints
+enumerated centrally — so adding a provider is a contained change, not a
+ripple through the codebase.</li>
+</ul>
+<h2 id="tech-stack">Tech stack</h2>
+<ul>
+<li><strong>Go</strong> — chosen as the core platform language for its
+concurrency; it drives a multi-threaded Verifier Engine that can probe
+many models in parallel, plus the surrounding services.</li>
+<li><strong>Gin</strong> — chosen as the REST API server, carrying JWT
+auth, rate limiting, and WebSocket/SSE endpoints.</li>
+<li><strong>SQLite + SQLCipher</strong> — chosen for embedded storage
+with database-level encryption, because verification data (keys,
+results) is sensitive and should be encrypted at rest by default.</li>
+<li><strong>Redis</strong> — chosen as the caching layer to keep hot
+verification and metadata lookups fast.</li>
+<li><strong>RabbitMQ + Kafka</strong> — chosen to power the event-driven
+architecture: messaging and streaming that decouple producers from
+consumers across the platform.</li>
+<li><strong>gRPC + Protocol Buffers</strong> — chosen for strongly-typed
+inter-service communication and event transport between components.</li>
+<li><strong>QUIC / HTTP-3 (quic-go)</strong> — chosen for modern
+transport support (repo docs flag HTTP/3 provider availability as
+limited — a capability offered, not a universal claim).</li>
+<li><strong>JWT + LDAP/NTLM</strong> — chosen for enterprise
+authentication so the platform slots into existing corporate identity
+(SSO/SAML/OIDC claimed in docs).</li>
+<li><strong>Viper (config), Logrus (logging), Brotli/compress
+(compression)</strong> — the operational plumbing: flexible
+configuration, structured logs, and payload compression.</li>
+<li><strong>Angular</strong> — chosen for the Web single-page
+application, the visual front door to verification and monitoring.</li>
+<li><strong>Python + JavaScript SDKs</strong> — chosen to give client
+teams first-class access, documented via OpenAPI/Swagger.</li>
+<li><strong>Docker, Kubernetes, Helm</strong> — chosen for production
+deployment with health monitoring and autoscaling, so a verification
+fleet scales like any modern service.</li>
+<li><strong>Prometheus + Grafana</strong> — chosen for metrics and
+dashboards, making the platform’s own health as observable as the models
+it watches.</li>
+<li><strong>Testify (Go) + node –test/jsdom (web)</strong> — chosen for
+layered testing across the Go core and the web front end.</li>
+</ul>
+<h2 id="status-honesty-notes">Status &amp; honesty notes</h2>
+<ul>
+<li><strong>Status: beta.</strong> The Go source implements real HTTP
+verification (one legacy doc that describes verification as config-only
+is aspirational and outdated — the code is authoritative).</li>
+<li><strong>License: TBD.</strong> The README states MIT while a
+Dockerfile label states Apache-2.0 — resolve before publishing.</li>
+<li>Provider count: the README says “12 adapters” but the providers
+directory lists roughly 26 — treat as “12+ / more in progress.” Numerous
+aspirational “FINAL/COMPLETE” status files exist; code, docs, and
+<code>go.mod</code> are authoritative.</li>
+<li>The repository lives in the <code>vasic-digital</code> org, but
+functionally it is the trust layer of the Helix LLM-infrastructure
+cluster.</li>
+</ul>
+<p><strong>Priority tier:</strong> Helix-primary (LLM-infrastructure
+cluster; single source of truth for LLM/provider/verification metadata).
+Ranks after HelixTrack.</p>
+</body>
+</html>

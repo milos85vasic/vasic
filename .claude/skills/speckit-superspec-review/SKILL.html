@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Spec-kit workflow command: speckit-superspec-review" />
+  <title>SKILL</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SKILL</h1>
+</header>
+<h1 id="speckit.superspec.review">speckit.superspec.review</h1>
+<p>Run code review against spec requirements using review skills.</p>
+<h2 id="usage">Usage</h2>
+<pre><code>/speckit.superspec.review [scope]</code></pre>
+<p><strong>Scope</strong>: Optional file paths, spec number, or “all
+changes”. Defaults to the latest feature.</p>
+<h2 id="process">Process</h2>
+<ol type="1">
+<li>Read the spec and plan for the feature being reviewed</li>
+<li><strong>Superpowers detection</strong>: Check for
+<code>requesting-code-review</code> skill
+<ul>
+<li><strong>If found</strong>: Read the skill and follow its
+pre-evaluation checklist and review dispatch protocol</li>
+<li><strong>If not found</strong>: Use the built-in review protocol
+below</li>
+</ul></li>
+<li>Built-in review protocol:
+<ul>
+<li><strong>Spec compliance</strong>: Verify each acceptance scenario
+from the spec is implemented</li>
+<li><strong>Edge case coverage</strong>: Verify brainstormed edge cases
+are handled</li>
+<li><strong>Constitution compliance</strong>: Check all governance
+principles are respected</li>
+<li><strong>Code quality</strong>: Check for bugs, security issues,
+error handling</li>
+<li><strong>Test coverage</strong>: Verify tests exist for critical
+paths</li>
+</ul></li>
+<li>Report findings with confidence scores (0-100, only report issues
+&gt;= 80)</li>
+<li>Group findings by severity: Critical &gt; Important &gt;
+Suggestion</li>
+</ol>
+<h2 id="output">Output</h2>
+<p>Review findings reported to user. Optionally written to
+<code>specs/NNN-feature-name/checklist-review.md</code>.</p>
+<h2 id="finding-format">Finding Format</h2>
+<p>Each finding includes: - Clear description with confidence score -
+File path and line reference - Specific recommendation or fix
+suggestion</p>
+<p>Findings below 80 confidence are suppressed to reduce noise.</p>
+<h2 id="superpowers-adaptation">Superpowers Adaptation</h2>
+<p>When using the <code>requesting-code-review</code> skill, adapt its
+outputs: - Add superspec-specific review dimensions: spec compliance,
+constitution compliance, brainstorm coverage - Output location → report
+to user, optionally write to checklist file</p>
+<p>See
+<code>.specify/extensions/superspec/references/superpowers-bridge.md</code>
+for full adaptation rules.</p>
+</body>
+</html>

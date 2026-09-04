@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p><strong>Convierte la documentación en un mapa de características
+verificable para la automatización de QA.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>DocProcessor es un módulo Go independiente y completamente
+desacoplado que carga la documentación del proyecto, construye mapas
+estructurados de características y rastrea la cobertura de verificación.
+Está diseñado para funcionar con agentes LLM para la extracción
+inteligente de características, pero también incluye extracción
+heurística para uso sin conexión.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un módulo Go agnóstico al proyecto para el procesamiento de
+documentación y la extracción de mapas de características. Analiza los
+documentos y los convierte en mapas estructurados de características,
+registrando qué funcionalidades han sido verificadas —ya sea mediante
+agentes LLM para extracción inteligente o heurísticas sin conexión—, y
+alimenta la automatización de QA con una garantía anti-engaño que
+siempre coincide con la realidad.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Todos los equipos de desarrollo conviven con la misma mentira lenta:
+la documentación promete funcionalidades, las pruebas cubren algo
+parecido y nadie puede afirmar con certeza si ambas describen el mismo
+producto. DocProcessor existe para hacer visible y medible esa brecha. A
+partir de la documentación de un proyecto, construye un mapa
+estructurado de características —un modelo enumerado y legible por
+máquina de todo lo que el producto afirma hacer— y rastrea la cobertura
+de verificación frente a él, de modo que la pregunta <em>“¿esta
+funcionalidad documentada está realmente probada?”</em> deja de ser un
+debate de pasillo y se convierte en una consulta con respuesta. Opera en
+modo dual: utiliza agentes LLM para una extracción semántica e
+inteligente de características cuando están disponibles, y recurre a un
+analizador heurístico para uso completamente sin conexión, evitando así
+depender de un modelo y funcionando igual en un entorno de CI aislado o
+en el portátil de un desarrollador con modo avión.</p>
+<p>Desde el punto de vista arquitectónico, es un módulo Go
+independiente, agnóstico al proyecto y completamente desacoplado
+(CONST-051(B)): no incluye valores específicos de ningún proyecto y se
+integra como un submódulo de código equivalente, permitiendo que
+cualquier proyecto lo adopte sin heredar suposiciones ajenas. Además, se
+somete a los mismos estándares que impone: sus propias afirmaciones
+están sujetas al pacto anti-engaño (CONST-035) y a las reglas de
+cobertura de automatización total (CONST-048), lo que significa que cada
+capacidad anunciada en su README es validada por una prueba automatizada
+o un script <em>Challenge</em> que confirma un comportamiento real y
+utilizable por el usuario final, en lugar de limitarse a finalizar sin
+errores. Las cadenas de texto orientadas al usuario pasan por el
+traductor de internacionalización CONST-046. El objetivo de todo esto es
+cerrar el ciclo: DocProcessor es el lado de entrada del ciclo de QA que
+HelixQA completa —extrae el mapa de características de la documentación,
+HelixQA demuestra cada funcionalidad mapeada con evidencia de ejecución
+en tiempo real, y la documentación, las pruebas y el comportamiento
+entregado se ven obligados a converger en lugar de divergir
+silenciosamente versión tras versión.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>La documentación y las pruebas se distancian: los documentos prometen
+funcionalidades que ninguna prueba valida, y el QA no puede determinar
+fácilmente qué significa “completo”. DocProcessor transforma la
+documentación en un mapa de características legible por máquina para que
+la cobertura de verificación pueda medirse frente a lo que realmente se
+prometió.</p>
+<h2 id="por-qué-es-un-cambio-de-juego">Por qué es un cambio de
+juego</h2>
+<p>Convierte la pregunta más difusa en la entrega de software —“¿lo que
+entregamos coincide con lo que dijimos que entregaríamos?”— en algo
+automatizable y verificable de forma continua, y lo hace sin una
+dependencia estricta de AI: extracción mediante LLM cuando hay un modelo
+disponible, o heurísticas cuando no lo hay, de modo que la misma
+garantía se mantiene en cualquier entorno, desde un ejecutor sin
+conexión hasta una canalización totalmente autónoma.</p>
+<h2 id="qué-tiene-de-innovador">Qué tiene de innovador</h2>
+<ul>
+<li>Extracción de mapas de características a partir de la documentación
+con seguimiento de cobertura de verificación.</li>
+<li>Extracción dual: impulsada por agentes LLM o heurística/fuera de
+línea.</li>
+<li>Desacoplamiento agnóstico al proyecto y sin configuración
+(CONST-051(B)).</li>
+<li>Autoverificación anti-engaño: las afirmaciones del README están
+respaldadas por pruebas/Desafíos (CONST-035/048).</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Operación opcional del modelo:</strong> resuelto con un
+mecanismo de extracción heurística como alternativa para que el módulo
+funcione sin conexión.</li>
+<li><strong>Mantener alineados la documentación y la realidad:</strong>
+resuelto mediante mapas estructurados de características y seguimiento
+de cobertura de verificación, integrados en el ciclo de control de
+calidad.</li>
+<li><strong>Reutilización:</strong> resuelto mediante un desacoplamiento
+estricto y el consumo de submódulos en una misma base de código.</li>
+<li><strong>Credibilidad de sus propias afirmaciones:</strong> resuelto
+con pruebas/Desafíos anti-engaño para cada capacidad anunciada.</li>
+</ul>
+<h2 id="tecnologías-empleadas-por-qué-y-cómo">Tecnologías empleadas (por
+qué y cómo)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — núcleo del módulo; licencia
+Apache-2.0.</li>
+<li><strong>Agentes LLM</strong> — extracción semántica inteligente de
+características (opcional).</li>
+<li><strong>Analizador heurístico</strong> — alternativa de extracción
+de características sin conexión.</li>
+<li><strong>Traductor i18n (<code>pkg/i18n</code>)</strong> — cadenas
+localizadas según CONST-046.</li>
+<li><strong>Marco de Desafíos</strong> — verificación anti-engaño de las
+afirmaciones del propio módulo.</li>
+</ul>
+</body>
+</html>

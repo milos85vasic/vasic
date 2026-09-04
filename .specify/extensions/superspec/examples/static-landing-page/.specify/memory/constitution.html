@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>constitution</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">constitution</h1>
+</header>
+<!--
+Sync Impact Report
+==================
+Version change: N/A → 1.0.0
+Modified principles: N/A (initial ratification)
+Added sections:
+  - Core Principles (5 principles)
+  - Quality Standards
+  - Constraints
+  - Governance
+Removed sections: None
+Templates requiring updates:
+  - .specify/templates/plan-template.md ✅ compatible (Constitution Check
+    section is dynamic; no hardcoded principle names)
+  - .specify/templates/spec-template.md ✅ compatible (no principle-specific
+    references)
+  - .specify/templates/tasks-template.md ✅ compatible (no principle-specific
+    references)
+  - .specify/templates/commands/*.md ✅ N/A (directory does not exist)
+Follow-up TODOs: None
+-->
+<h1 id="superspec-landing-page-constitution">Superspec Landing Page
+Constitution</h1>
+<h2 id="core-principles">Core Principles</h2>
+<h3 id="i.-zero-build-zero-runtime-dependencies">I. Zero Build, Zero
+Runtime Dependencies</h3>
+<p>The landing page MUST be authored as raw HTML and CSS with no build
+tooling, no transpilation, no bundling, and no runtime dependency on
+external resources. Every byte required to render the page MUST be
+contained within the single output file or inlined assets.</p>
+<p><strong>Rationale</strong>: A landing page for a spec-kit tool should
+embody the simplicity it advocates. Zero build eliminates CI complexity,
+deploy friction, and supply-chain risk. Zero runtime deps guarantees the
+page loads even on restricted networks.</p>
+<h3 id="ii.-semantic-html-first">II. Semantic HTML First</h3>
+<p>All markup MUST use semantically appropriate HTML5 elements
+(<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>,
+<code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>,
+<code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>, etc.).
+Presentational <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code>
+elements MUST NOT be used where a semantic element exists. Heading
+hierarchy MUST be strictly sequential without skipping levels.</p>
+<p><strong>Rationale</strong>: Semantic HTML is the foundation of
+accessibility, SEO, and maintainability. It communicates structure to
+assistive technology and search engines without relying on class-name
+conventions.</p>
+<h3 id="iii.-mobile-first-responsive-design">III. Mobile-First
+Responsive Design</h3>
+<p>Layouts MUST be designed for the smallest viewport first (≥320 px)
+and progressively enhanced for wider screens via CSS media queries.
+Touch targets MUST be at least 44 × 44 px. Text MUST remain readable
+without horizontal scrolling at any viewport width.</p>
+<p><strong>Rationale</strong>: Mobile-first is the correct default for a
+page whose audience includes developers browsing on phones during
+conferences or commutes. Progressive enhancement avoids desktop-centric
+assumptions.</p>
+<h3 id="iv.-self-contained-single-file-delivery">IV. Self-Contained
+Single-File Delivery</h3>
+<p>The sole deliverable MUST be <code>web/index.html</code>. All styles
+MUST be inlined in a <code>&lt;style&gt;</code> tag within the document.
+Images MUST be inlined as data URIs or replaced with pure-CSS
+alternatives. No <code>&lt;link&gt;</code>,
+<code>&lt;script src&gt;</code>, or <code>&lt;img src&gt;</code>
+pointing to external resources is permitted.</p>
+<p><strong>Rationale</strong>: A single file simplifies deployment (drop
+it on any static host), eliminates CDN outages, and guarantees offline
+rendering.</p>
+<h3 id="v.-developer-audience-clarity">V. Developer-Audience
+Clarity</h3>
+<p>Content and visual hierarchy MUST prioritize what a developer
+evaluating spec-kit extensions needs: what superspec does, how to get
+started, and where to find deeper documentation. Marketing language MUST
+be avoided in favor of concrete, technical descriptions. Code snippets
+and CLI examples SHOULD appear where they reduce ambiguity.</p>
+<p><strong>Rationale</strong>: The audience is technically discerning.
+Vague or promotional copy erodes credibility; precise, example-driven
+content builds trust.</p>
+<h2 id="quality-standards">Quality Standards</h2>
+<ul>
+<li><strong>HTML Validation</strong>: The output MUST pass the W3C
+Markup Validation Service with zero errors (warnings acceptable).</li>
+<li><strong>Responsive Verification</strong>: The page MUST be verified
+at 320 px, 768 px, and 1280 px viewport widths with no layout breakage
+or horizontal overflow.</li>
+<li><strong>Accessibility Baseline</strong>: The page MUST pass axe-core
+automated checks at zero violations. Color contrast MUST meet WCAG AA
+(4.5:1 for normal text, 3:1 for large text).</li>
+<li><strong>Page Weight</strong>: Total transferred size of
+<code>web/index.html</code> MUST NOT exceed 64 KB (uncompressed).</li>
+<li><strong>Zero Console Errors</strong>: Opening the page in a browser
+MUST produce zero console errors or warnings.</li>
+<li><strong>Offline Functional</strong>: The page MUST render correctly
+when opened from a local file with no network connection.</li>
+</ul>
+<h2 id="constraints">Constraints</h2>
+<ul>
+<li><strong>Technology</strong>: Pure HTML5 + CSS3 only. JavaScript MUST
+NOT be used. CSS features limited to those with baseline support in the
+latest two major versions of Chrome, Firefox, Safari, and Edge.</li>
+<li><strong>Build Tooling</strong>: None. No pre-processors (Sass,
+PostCSS), no templating engines, no static site generators. Files are
+authored and deployed as-is.</li>
+<li><strong>Output Path</strong>: <code>web/index.html</code> — a single
+file at the project root under <code>web/</code>. No subdirectories, no
+asset folders.</li>
+<li><strong>External Network Dependencies</strong>: None at runtime. No
+CDN links, no web fonts, no analytics scripts, no third-party resources
+of any kind. System font stacks MUST be used.</li>
+<li><strong>Browser Support</strong>: Last two major versions of Chrome,
+Firefox, Safari, and Edge. Graceful degradation is acceptable; feature
+parity is not required for Internet Explorer or legacy EdgeHTML.</li>
+</ul>
+<h2 id="governance">Governance</h2>
+<p>This constitution is the authoritative reference for all design and
+implementation decisions on the Superspec Landing Page. When a conflict
+arises between this document and any other artifact (spec, plan, tasks),
+the constitution prevails.</p>
+<p><strong>Amendment Procedure</strong>: 1. Propose amendment with
+written rationale. 2. Validate that the change does not violate an
+existing principle without explicit justification recorded in the
+Complexity Tracking section of the active plan. 3. Increment version per
+semantic versioning: - MAJOR: principle removal or redefinition - MINOR:
+new principle or materially expanded guidance - PATCH: clarification,
+wording, typo fixes 4. Update all dependent templates (plan, spec,
+tasks) to reflect the amendment before merging.</p>
+<p><strong>Compliance Review</strong>: Every implementation task MUST
+include a constitution compliance check before marking the task
+complete.</p>
+<p><strong>Version</strong>: 1.0.0 | <strong>Ratified</strong>:
+2026-05-30 | <strong>Last Amended</strong>: 2026-05-30</p>
+</body>
+</html>

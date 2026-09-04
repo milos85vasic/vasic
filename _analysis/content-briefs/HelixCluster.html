@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCluster</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCluster</h1>
+</header>
+<h1 id="helixcluster">HelixCluster</h1>
+<p><em>(repo: <code>helix_cluster</code> · product name “Helix Cluster
+OS” · Helm chart <code>helix-cluster</code>)</em></p>
+<p><strong>Tagline:</strong> A distributed operating system for AI
+compute — from datacenter GPUs to edge handhelds, under one control
+plane.</p>
+<p><strong>Summary:</strong> Helix Cluster OS is a next-generation
+distributed operating system that orchestrates compute across
+heterogeneous nodes — from datacenter GPUs down to edge SBCs and
+handhelds — unifying HPC scheduling, container orchestration, AI/ML
+inference, federated multi-cluster operation, and secure multi-tenant
+sessions under a single control plane.</p>
+<p><strong>Short description:</strong> A Go-based distributed OS /
+GPU-sharing compute cluster. It unifies HPC scheduling (an Omega-model
+two-level scheduler), container orchestration, AI inference routing,
+federation, and secure multi-tenant sessions across heterogeneous nodes,
+coordinated by SWIM gossip and Raft consensus, with post-quantum
+end-to-end encryption. (~40 words)</p>
+<p><strong>Long description:</strong> Helix Cluster OS orchestrates
+compute workloads across radically heterogeneous hardware — datacenter
+GPUs, edge single-board computers, even handhelds — under one control
+plane. It is a Go workspace (monorepo plus git submodules) implementing
+a seven-layer stack (L0 hardware substrate through L7 federation and
+observability) with fourteen control-plane microservices. Node
+membership is tracked with SWIM gossip and discovery;
+strongly-consistent state uses Raft consensus, organized as per-shard
+Raft groups with leaseholder-local reads and STONITH fencing. Workload
+placement runs through an Omega-model two-level scheduler using
+optimistic concurrency, ClassAd matching, gang scheduling,
+value-multiplier preemption, and constraint-based placement, extended
+with carbon-aware and cost/TCO-aware routing, burst-to-cloud
+autoscaling, and marketplace adapters (Akash, io.net, RunPod, AWS Spot,
+Chutes). End users interact through a session model (compute
+allocations), an interactive WebSocket/PTY terminal, an internal
+AI-inference route, and pool-utilization reads. Security is a
+first-class layer: SPIFFE identity, device attestation
+(challenge/response, proof-of-GPU-work, sealing), an export-control KYC
+gate, and a post-quantum end-to-end-encrypted transport built on X25519
++ ML-KEM-768 hybrid key exchange with AEAD record protection and replay
+rejection. Correctness is enforced by deterministic simulation testing
+(FoundationDB-style seeded runs, fault injection, network simulation,
+byte-for-byte replay, and a Porcupine linearizability checker) and by
+mandatory paired mutation testing. Architecture and docs are kept honest
+by mechanical lints that fail the build on drift.</p>
+<p><strong>Why we built it:</strong> To run AI and HPC workloads across
+wildly different hardware tiers without stitching together separate
+schedulers, orchestrators, and inference stacks — and to do it with an
+engineering guarantee that every shipped feature proves <em>real
+end-user behaviour</em> (never green tests over stubs) and every
+OS-specific capability uses a real native facility per platform (no
+Linux-only mocks). The motivating problem, quoted in the repo’s
+governance, is the “tests pass but the feature doesn’t actually work”
+failure mode, which the project is explicitly built to eliminate.</p>
+<p><strong>Why it’s a game-changer:</strong> It collapses HPC
+scheduling, container orchestration, AI inference, multi-cluster
+federation, and secure multi-tenant sessions into one control plane
+spanning datacenter-to-edge hardware — with formal-methods-grade
+correctness (TLA+ specs, deterministic simulation, linearizability
+checking) and post-quantum confidential transport usually seen only in
+specialized systems. Cost- and carbon-aware placement plus
+cloud-marketplace burst make it economically as well as technically
+differentiated.</p>
+<p><strong>What’s innovative:</strong> - <strong>Deterministic
+Simulation Testing (DST)</strong> — seeded, reproducible simulation with
+fault/clock/network injection, byte-for-byte replay, and a Porcupine
+linearizability checker. - <strong>Omega-model two-level
+scheduler</strong> — optimistic concurrency, ClassAd matching, gang
+scheduling, value-multiplier preemption. - <strong>Post-quantum E2EE /
+confidential inference wiring</strong> — X25519 + ML-KEM-768 hybrid key
+exchange, per-request response-keypair binding, AEAD with replay
+rejection (crypto primitives real/tested; full confidential multi-node
+round-trip explicitly PLANNED/gated). - <strong>Attestation-driven
+trust</strong> — SPIFFE identity, proof-of-GPU-work, device sealing,
+export-control KYC gate, EU AI Act compliance doc-gen. - <strong>Cost-
+and carbon-aware orchestration</strong> — TCO modeling, carbon-aware
+placement, burst-to-cloud, N+K failover reserve, cloud-marketplace
+adapters. - <strong>Multi-Raft consensus</strong> — per-shard Raft
+groups, leaseholder-local reads, STONITH fencing (IPMI/EC2/Azure/SBD). -
+<strong>Anti-drift mechanical lints</strong> — <code>archlint</code>
+fails the build if a documented component’s package path doesn’t exist;
+a docs-chain engine keeps Markdown/HTML/PDF/DOCX in sync.</p>
+<p><strong>Biggest technical challenges + how solved:</strong> -
+<strong>“PASS-bluff” (tests pass on non-functional features).</strong>
+Solved with mandatory paired mutation testing — every work item has a
+named guard test that must fail under an independent mutation before it
+can be marked complete. - <strong>Cross-platform parity (no Linux-only
+mocks).</strong> Solved with one shared interface split by build tags
+and real per-OS facilities (Linux cgroup/<code>/proc</code>/kernel
+WireGuard; macOS
+<code>sysctl</code>/<code>vm_stat</code>/IOKit/<code>wireguard-go</code>),
+tested against an independent OS oracle. - <strong>Distributed
+correctness under faults.</strong> Solved with deterministic simulation
+testing and a linearizability checker, plus TLA+ formal specs for
+consensus/scheduling. - <strong>Documentation and architecture
+drift.</strong> Solved by <code>archlint</code> (build fails on
+nonexistent mapped packages) and a <code>docs_chain</code> verify gate
+with no escape hatch. - <strong>Honest scoping of unfinished
+work.</strong> Confidential multi-node inference round-trip is
+explicitly gated behind a ticket and labeled “not yet validated
+end-to-end” rather than claimed as working.</p>
+<p><strong>Tech stack</strong> (why + how): - <strong>Go (go.mod: 1.25 /
+toolchain 1.26.4)</strong> — primary language for the control plane and
+~30-module workspace. - <strong>Zig (0.14+) + C/C++</strong> — low-level
+system primitives and GPU kernels. - <strong>gRPC + Protocol
+Buffers</strong> — all inter-subsystem APIs (<code>api/v1/</code>). -
+<strong>Raft (etcd-raft) + SWIM gossip</strong> — strongly-consistent
+replicated state + membership/discovery. - <strong>PostgreSQL 16, Redis
+7 cluster, etcd v3.5, SQLite</strong> — relational state, cache,
+coordination, and the local HXC work-item registry. - <strong>NATS 2.10
+(JetStream), Kafka 4.0 (KRaft), RabbitMQ 3.13</strong> —
+messaging/streaming backbones. - <strong>WireGuard mesh +
+ML-KEM-768/X25519 + AES-256-GCM/ChaCha20-Poly1305 + HKDF</strong> —
+secure, post-quantum transport. - <strong>SPIFFE + JWT (HS256) +
+scope-based RBAC + OPA</strong> — identity, auth, and policy. -
+<strong>Prometheus v2.50, Grafana 10.4, Jaeger 1.55, W3C
+tracing</strong> — observability. - <strong>HashiCorp Vault
+1.16</strong> — secrets. - <strong>Docker Compose, Kubernetes
+(kustomize, hardened securityContext), Helm</strong> — deployment across
+environments. - <strong>React + TypeScript + Vite (Node 20+)</strong> —
+web UI. - <strong>TLA+</strong> — formal specification of
+consensus/scheduling invariants.</p>
+<p><strong>Public links:</strong> - Product repo, PUBLIC:
+<code>github.com/HelixDevelopment/helix_cluster</code> - Governance
+reference: <code>github.com/HelixDevelopment/HelixConstitution</code> -
+<strong>Note / do not cite as canonical:</strong> the Helm chart lists
+<code>github.com/HelixCluster/HelixCluster</code> and
+<code>helixcluster.io</code>, which do NOT match the real remotes —
+treat these as unverified placeholders. Working remotes are
+SSH/access-controlled (github + gitflic.ru + gitlab.com + gitverse.ru
+under <code>HelixDevelopment</code>). No public marketing/docs site was
+found. The bundled LLM stack projects (LLMOrchestrator, LLMProvider,
+LLMsVerifier) are decoupled submodules, not model servers hosted inside
+the cluster.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+<strong>Helix Cluster architecture</strong> — the seven-layer stack (L0
+hardware → L7 federation) with the 14 control-plane microservices, SWIM
+gossip + Raft consensus, and the Omega scheduler at the core. 2.
+<strong>Heterogeneous node fabric</strong> — tiers T1-T8 (datacenter GPU
+→ edge SBC → handheld) unified under one control plane, with GPU pools
+and burst-to-cloud marketplace adapters. 3. <strong>Post-quantum
+confidential inference path</strong> — X25519 + ML-KEM-768 hybrid
+handshake → AEAD record protection with replay rejection → attested node
+(clearly labeling the full round-trip as PLANNED/gated). 4.
+<strong>Anti-bluff / DST loop</strong> — seeded deterministic simulation
+with fault injection → replay → Porcupine linearizability check, plus
+the paired mutation gate required to mark work complete.</p>
+<p><strong>Site relevance:</strong> Both. Flagship infrastructure
+product on <strong>vasic.digital</strong> (lead with the distributed-OS
++ post-quantum + formal-verification story); high-impact portfolio piece
+on <strong>milosvasic.ru</strong>.</p>
+<p><strong>Priority tier:</strong> Helix-primary (LLM-infrastructure
+cluster — the compute substrate that can host inference and compute
+workloads). Ranks after HelixTrack.</p>
+<p><strong>Source provenance:</strong> Local repo
+<code>/Volumes/T7/Projects/helix_cluster</code> —
+<code>README.md</code>, <code>docs/ARCHITECTURE.md</code>,
+<code>docs/USER_GUIDE.md</code>, <code>CLAUDE.md</code>,
+<code>VERSION</code>, <code>deploy/helm/Chart.yaml</code> +
+<code>values.yaml</code>, <code>deploy/compose/helix_core.yml</code> +
+<code>helix_infra.yml</code>, <code>deploy/k8s/*.yaml</code>,
+<code>internal/llm/manager.go</code>,
+<code>docs/architecture/PHASE_8C_INTEGRATION.md</code>,
+<code>go.mod</code>/<code>go.work</code>, <code>.gitmodules</code>;
+cross-checked with harvested
+<code>_analysis/github-helix-others.md</code> (deep-dive #8) and
+<code>_analysis/MASTER-inventory.md</code>. Caution flags: version is
+early (<code>0.1.0-dev</code>); Go version stated inconsistently across
+docs (README “1.26+”, CLAUDE.md “1.24+”) vs authoritative go.mod (1.25 /
+toolchain 1.26.4); Helm chart URLs are unverified placeholders; several
+advanced features (full confidential multi-node inference round-trip,
+marketplace settlement, attestation-driven scheduling population) are
+explicitly labeled PLANNED / infra-gated — do NOT present as fully
+working; coverage figures (main 82.4% / security 87.8%) are
+self-reported. “Helix-Flow” appears only as an org name in governance
+boilerplate — not a component.</p>
+</body>
+</html>

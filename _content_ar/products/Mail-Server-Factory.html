@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>شغّل خادم بريدك الإلكتروني كالمحترف — صِفه بلغة JSON وانشره في
+أي مكان.</strong></p>
+<h2 id="ملخص">ملخص</h2>
+<p>Mail Server Factory أداة جاهزة للإنتاج تُعنى بتوفير خوادم البريد
+الإلكتروني بشكل آلي. يكتب المستخدم إعدادات بسيطة بلغة JSON، ثم يقوم
+المصنع بتفسيرها وتنفيذ جميع عمليات التثبيت والإعداد على نظام التشغيل
+المستهدف، لنشر مجموعة بريدية قائمة على Docker ومفككة الارتباط عبر ١٢
+نوعًا من الاتصالات.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>أداة Kotlin/Shell تحول وصفًا بلغة JSON إلى خادم بريد إلكتروني مثبت
+بالكامل ومُحَوَّسَن باستخدام Docker. تدعم ١٢ نوعًا من الاتصالات (SSH، Docker،
+Kubernetes، AWS SSM، Azure، GCP، Libvirt، وغيرها)، إطار أمان كامل، ٢٥
+توزيعة Linux، وتأتي مع ٤٣٩ اختبارًا ناجحًا.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>إن إعداد خادم بريد إلكتروني حقيقي وآمن يعد من الطقوس الكلاسيكية في
+إدارة الأنظمة — ومن أكثرها إيلامًا على نحو موثوق. يجب أن تتوافق جميع
+المكونات مثل Postfix وDovecot وشهادات TLS وسجلات DNS وقواعد جدار الحماية
+وخواص كل توزيعة بشكل مثالي، حيث أن خطأً واحدًا في التوجيه قد يؤدي إلى رفض
+الرسائل بصمت أو تحويل الخادم إلى مرسل مفتوح. تلتقط أداة Mail Server
+Factory كل تلك الخبرة المكتسبة بشق الأنفس والمعرضة للأخطاء وتحوّلها إلى
+برنامج. فبدلًا من تهيئة كل جزء يدويًا على نظام تشغيل غير مألوف، يكتب
+المستخدم النتيجة المرجوة بوصف بسيط بلغة JSON؛ ثم يقرأ المصنع هذا الوصف
+وينفذ خطوات التثبيت والإعداد الدقيقة المطلوبة على نظام التشغيل المستهدف،
+ليُنشئ مجموعة بريدية تعمل على Docker حيث تكون جميع المكونات مفككة
+الارتباط — وهو تصميم يسمح بالتوسع الأفقي ويتيح ترقية أو استبدال أي مكون
+بشكل مستقل. كما أنها مصممة لتكون مستقلة عن بيئة النشر: إذ تتيح ١٢ نوعًا
+من الاتصالات استخدام الأداة ذاتها ووصف JSON نفسه لاستهداف جهاز محلي، أو
+مضيف بعيد عبر SSH، أو بيئة تشغيل Docker أو Kubernetes، أو مثيلات سحابية
+عبر AWS SSM / Azure Serial Console / GCP OS Login، أو آلات افتراضية عبر
+Libvirt — نفس الوصف التصريحي، يُنشر أينما وجهته. تدعم الأداة ٢٥ توزيعة
+Linux تشمل عائلات غربية (Ubuntu، Debian، CentOS، Fedora، AlmaLinux،
+Rocky، openSUSE)، روسية (ALT، Astra، ROSA)، وصينية (openEuler،
+openKylin، Deepin)، مع تثبيت غير مراقب عبر
+preseed/kickstart/cloud-init/autoyast وأتمتة الآلات الافتراضية القائمة
+على QEMU للاختبار. تشمل الميزات المؤسسية تشفير AES-256-GCM، سياسات كلمات
+المرور المفروضة ومفاتيح SSH، تهيئة جدار الحماية تلقائيًا لمنافذ البريد
+(٢٥/٥٨٧/٤٦٥/٩٩٣/٩٩٥)، TLS/SSL مع التحقق من الشهادات وHSTS، تسجيل
+التدقيق، والتحكم في الوصول المستند إلى الأدوار (RBAC). أما الميزات
+التشغيلية فتشمل ضبط JVM (G1GC)، ذاكرة التخزين المؤقت Caffeine، تجميع
+الاتصالات، المقاييس المتوافقة مع Prometheus، التسجيل المنظم، إعادة تحميل
+الإعدادات دون توقف، وإدارة الأسرار. يبلغ المشروع عن ٤٣٩ اختبارًا بنسبة
+نجاح ١٠٠٪ وبوابة جودة SonarQube نظيفة. وهي المشروع الرائد لمنظمة
+Server-Factory.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>إعداد خادم بريد آمن وجاهز للإنتاج يعد عمليةً عرضة للأخطاء ومحددة لنظام
+التشغيل. يلتقط Mail Server Factory هذه الخبرة في نموذج JSON التصريحي
+بالإضافة إلى محرك تنفيذ، بحيث يمكن إعادة إنتاج مجموعة بريدية صحيحة وآمنة
+ومعبأة في حاويات Docker على أي هدف مدعوم دون الحاجة إلى خطوات يدوية
+متتالية.</p>
+<h2 id="لماذا-يعد-تغييرا-جذريا">لماذا يعد تغييراً جذرياً</h2>
+<p>إنه ينقل عملية تجهيز خادم البريد من مهمة متخصصة تستغرق أياماً وتتطلب
+الدقة المطلقة إلى مجرد كتابة تكوين، ثم يجعل هذه العملية قابلة للنقل عبر
+12 نوعاً من الاتصالات و25 توزيعة Linux، مع تمكينها تلقائياً بإعدادات أمان
+مؤسسية افتراضية. النتيجة قابلة للتكرار والتحقق: ينتج نفس JSON دائماً نفس
+المجموعة الآمنة، ويضمن المشروع الذي حقق 439 اختباراً ناجحاً ونظافة بوابة
+SonarQube أن المحرك القائم بالعمل يخضع للمساءلة بدلاً من الاعتماد على
+السمعة فقط.</p>
+<h2 id="ما-الجديد-في-الابتكار">ما الجديد في الابتكار</h2>
+<ul>
+<li>نموذج JSON التصريحي → تثبيت/تهيئة مفسرة على نظام التشغيل الهدف.</li>
+<li>12 نوع اتصال (محلي، SSH، Docker، Kubernetes، AWS SSM، Azure، GCP،
+Libvirt، وغيرها) خلف أداة واحدة.</li>
+<li>دعم لـ 25 توزيعة مع تثبيت غير مراقب
+(preseed/kickstart/cloud-init/autoyast) وأتمتة QEMU.</li>
+<li>مجموعة حاويات Docker مترابطة بشكل مرن لتمكين التوسع/التحديث
+المستقل.</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>تعدد أنظمة التشغيل والتوزيعات:</strong> تم حلها بوصفات خاصة
+بكل توزيعة، وتكوينات تثبيت غير مراقب، واختبار عبر التوزيعات باستخدام
+QEMU.</li>
+<li><strong>الوصول إلى أهداف نشر متعددة:</strong> تم حلها بـ 12 نوع
+اتصال قابل للتوصيل تحت محرك تثبيت مشترك.</li>
+<li><strong>الأمان افتراضياً:</strong> تم حلها باستخدام AES-256-GCM،
+وسياسات مفاتيح/كلمات مرور إلزامية، وقواعد جدار حماية آلية،
+وTLS/HSTS.</li>
+<li><strong>الثقة في الصحة:</strong> تم حلها بمجموعة اختبارات مكونة من
+439 اختباراً (نسبة نجاح 100%) وبوابة SonarQube النظيفة.</li>
+</ul>
+<h2 id="مجموعة-التقنيات-السبب-وكيفية-الاستخدام">مجموعة التقنيات (السبب
+وكيفية الاستخدام)</h2>
+<ul>
+<li><strong>Kotlin</strong> — محرك Factory ومنطق خطوات التثبيت (179 ألف
+بايت؛ Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — نصوص التجهيز، ومديري ISO/QEMU، وأتمتة نظام
+التشغيل (مهيمن من حيث الحجم).</li>
+<li><strong>Docker</strong> — بيئة التشغيل لمجموعة البريد المترابطة بشكل
+مرن.</li>
+<li><strong>QEMU</strong> — أتمتة الأجهزة الافتراضية للتثبيت والاختبار
+عبر التوزيعات.</li>
+<li><strong>JSON</strong> — تنسيق التكوين التصريحي الذي يواجه
+المستخدم.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — سلسلة أدوات البناء.</li>
+<li><strong>Caffeine</strong> — التخزين المؤقت متعدد المناطق؛
+<strong>JVM مضبوطة على G1GC</strong> للأداء.</li>
+<li><strong>مقاييس متوافقة مع Prometheus</strong> — المراقبة؛ جاهزة لـ
+Grafana/ELK.</li>
+<li><strong>Sieve</strong> — قواعد تصفية البريد (بصمة صغيرة في إحصائيات
+اللغة).</li>
+</ul>
+<blockquote>
+<p>ملاحظة: يشير GitHub إلى المستودع باعتباره نسخة ضمن منظمة
+Server-Factory. يسبق خط إنتاج AI؛ ويعرض باعتباره مشروعاً رائداً في مجال
+DevOps/التجهيز، وليس أداة AI.</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Server-Factory-Additional-Components</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Server-Factory-Additional-Components</h1>
+</header>
+<p><strong>Server Factory құрастыру құралдар тізбегінің қолдаушы
+компоненттері</strong></p>
+<h2 id="қысқаша-мазмұны">Қысқаша мазмұны</h2>
+<p>Mail Server Factory және Core Framework-тен басқа, Server-Factory
+ұйымында бірнеше кішірек компоненттер бар: әрбір қызметке арналған
+“фабрикалар” (Web Service, SonarQube, Caching Proxy), декларативті
+конфигурациялық пакеттер (Docker/Stack/Software Definitions) және ортақ
+Utils. Бұл біріктірілген бет оларды толықтай аяқталған өнімдер ретінде
+емес, шындыққа сай көрсетеді — олардың бірқатары алғашқы кезеңде немесе
+құжаттамасы жеткіліксіз.</p>
+<h2 id="қысқаша-сипаттама">Қысқаша сипаттама</h2>
+<p>Server Factory-ді қолдаушы репозиторийлер тобы: Web-Service-Factory,
+SonarQube-Factory және Caching-Proxy-Factory (әрбір қызметті құрастыру
+құралдары, көбінесе алғашқы кезеңде); Docker/Stack/Software-Definitions
+(фреймворк пайдаланатын декларативті конфигурациялық пакеттер); және
+Utils (SSH-ға қол жеткізу көмекшілері мен жалпы құралдар). Барлығы Core
+Framework-ке негізделген.</p>
+<h2 id="кеңейтілген-сипаттама">Кеңейтілген сипаттама</h2>
+<p>Бұл бет Server-Factory репозиторийлерін біріктіреді, өйткені жеке
+алғанда олардың көбі кішігірім немесе әдейі толық құжатталмаған, ал
+әрқайсысын дайын өнім ретінде сипаттау олардың жетілгендігін асыра
+көрсетер еді. Олар үш топқа бөлінеді. <strong>Қызмет
+фабрикалары</strong> Mail Server Factory үлгісін басқа серверлік
+рөлдерге қолданады: <strong>Caching-Proxy-Factory</strong> (“Өзіңіздің
+кэш-серверіңізді іске қосыңыз”) кэш-серверді, өздігінен қол қойылған
+сертификатты және қауіпсіздік сертификатын алу үшін HTTP эндпоинтты
+негізгі мүмкіндіктер ретінде көрсетеді;
+<strong>SonarQube-Factory</strong> (“Өзіңіздің SonarQube серверіңізді
+іске қосыңыз”) бағдарламалық жасақтамаларды әзірлеу үшін арналған; ал
+<strong>Web-Service-Factory</strong> веб-серверді іске қосу және
+конфигурациялау арқылы веб-сайттар мен микросервистер сияқты нысандарды
+орналастырады. Барлығы Kotlin жобалары Core Framework-ке негізделген,
+бірақ олардың көпшілігінің қоғамдық README-файлдары негізінен
+орынбасарлар (“Келешекте анықталады” сәйкестік, техникалық сипаттамалар,
+орнату және пайдалану үшін) болып табылады — сондықтан айтылған
+мақсаттан басқа олардың нақты мүмкіндіктері ТЕКСЕРІЛМЕГЕН.
+<strong>Анықтамалық пакеттер</strong> —
+<strong>Docker-Definitions</strong>, <strong>Stack-Definitions</strong>
+және <strong>Software-Definitions</strong> — фреймворк Docker
+бейнелерін, стектерді және бағдарламалық жасақтаманы қалай
+құрастыру/орналастыру керектігін білу үшін пайдаланатын декларативті
+конфигурациялық репозиторийлер. Олар қолданбалар емес, нұсқаға байланған
+деректер пакеттері. <strong>Utils</strong> отбасына жалпы көмекшілерді
+қамтиды, соның ішінде <code>init_ssh_access.sh</code> скриптісі — ол SSH
+кілтін жасап, қашықтағы хостқа орнатады, бұл кейінгі құрастыру үшін
+парольсіз root-қолжетімділікті қамтамасыз етеді. Бұл компоненттер бірге
+Mail Server Factory негізгі жобасының айналасындағы құрастыру құралдар
+тізбегін толықтырады.</p>
+<h2 id="неге-құрастырдық">Неге құрастырдық</h2>
+<p>Server Factory моделі жалпылау үшін жасалған: бір рет декларативті
+сипаттамадан пошта серверін құрастыра алатын болсаңыз, сол қозғалтқыш
+веб-серверлерді, кэш-серверлерді және код сапасын бақылау серверлерін де
+құрастыра алуы керек — әрбір рөлге арнайы логика емес, қайта
+пайдаланылатын анықтамалық пакеттер мен ортақ құралдар арқылы. Бұл
+репозиторийлер осы жалпылаудың жүзеге асырылуында, сынақтан өткен үлгіні
+жаңа серверлік түрлерге кеңейтуде. Олардың осындағы құны — моделінің
+әсер ету ауқымының дәлелі ретінде; олардың жетілгендік деңгейі әртүрлі,
+ал бұл бет қайсысы бағыт, қайсысы дайын екенін анық көрсетеді.</p>
+<p>Мәтін</p>
+<h2 id="неге-бұл-ойынды-өзгертетін-шешім-өлшенген-түрде">Неге бұл ойынды
+өзгертетін шешім (өлшенген түрде)</h2>
+<p>Бүкіл жиынтығы бойынша олар Core Framework-тің әртүрлі сервер
+түрлерінде қайта қолданылатындығын және декларативті деректерді
+(Анықтамалар) орындаудан (фабрикалар) бөлетіндігін көрсетеді. Жеке
+алғанда, қызмет фабрикалары алғашқы сатыда және аяқталған өнім емес,
+бағыт ретінде ұсынылуы керек.</p>
+<h2 id="инновациялық-жақтары">Инновациялық жақтары</h2>
+<ul>
+<li>Бір провизиялау құрылымы пошталық/веб/кеш-прокси/SonarQube рөлдері
+бойынша жалпыланған.</li>
+<li>Декларативті Анықтамалар пакеттері (Docker/Stack/Software) орындау
+механизмінен бөлінген.</li>
+<li>Ортақ Қолданбалылар (мысалы, бір командалы парольсіз SSH жүктеу)
+фабрикалар арасында қайта қолданылады.</li>
+</ul>
+<h2 id="мәселелер-мен-шешімдер">Мәселелер мен шешімдер</h2>
+<ul>
+<li><strong>Бір механизмді әртүрлі серверлік рөлдерде қолдану:</strong>
+Core Framework негізінде әрбір фабриканы құру арқылы шешілді.</li>
+<li><strong>Конфигурацияны кодтан бөлу:</strong> Анықтамалар
+репозиторийлері нұсқаға бекітілген деректер пакеттері ретінде
+шешілді.</li>
+<li><strong>(ТЕКСЕРІЛМЕГЕН):</strong> қызмет фабрикаларының
+README-файлдары орынбасар; олардың іске асырудың толықтығы жариялық
+құжаттардан тексерілмейді — алғашқы саты ретінде ұсынылады.</li>
+</ul>
+<h2 id="технологиялық-стек-неге-және-қалай">Технологиялық стек (неге
+және қалай)</h2>
+<ul>
+<li><strong>Kotlin</strong> — Веб-Қызмет-Фабрикасы, SonarQube-Фабрикасы,
+Кеш-Прокси-Фабрикасы (Core Framework негізінде құрылған).</li>
+<li><strong>Shell</strong> — Қолданбалылар және Анықтамалар пакеттері
+(скрипттер/конфигурациялар).</li>
+<li><strong>Gradle</strong> — <code>./gradlew test</code> фабрикалар
+бойынша құрылымдық/тестік ағыны.</li>
+<li><strong>Docker</strong> — Docker-Анықтамалары арқылы сипатталған
+мақсатты орындау ортасы.</li>
+<li><strong>SSH / OpenSSH</strong> — Қолданбалылардың парольсіз кіру
+жүктеуі.</li>
+<li><strong>SonarQube</strong> — SonarQube-Фабрикасы провизиялайтын
+сервер (және Mail Server Factory оған таза қақпа ретінде
+баяндайды).</li>
+</ul>
+<blockquote>
+<p>Ашықтық ескертпесі: бұл репозиторийлердің көбі ұйым ішіндегі форктер;
+қызмет фабрикалары орынбасар құжатталған және конституцияның §11.4.6
+бөліміне сәйкес ТЕКСЕРІЛМЕГЕН белгісі қойылған. Mail Server Factory және
+Core Framework деңгейінен айқын төмен саналады.</p>
+</blockquote>
+</body>
+</html>

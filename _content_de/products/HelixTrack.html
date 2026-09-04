@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixTrack</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixTrack</h1>
+</header>
+<h1 id="helixtrack">HelixTrack</h1>
+<p><strong>JIRA-Alternative für die freie Welt.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>HelixTrack ist eine umfassende, moderne Open-Source-Alternative zu
+JIRA (und über die Documents-Erweiterung auch zu Confluence) – ein
+plattformübergreifendes Projektmanagement- und Issue-Tracking-System,
+das auf einem Go-Microservices-Backend basiert und native Clients für
+Web, Desktop und Mobile bietet.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Open-Source-Alternative zu JIRA/Confluence. Ein
+Go-Microservices-Backend („HelixTrack Core”) stellt eine einheitliche
+REST-API-Schnittstelle für Projekt- und Issue-Tracking sowie einen
+Confluence-ähnlichen Dokumentenarbeitsbereich bereit, die über
+HTTP/3-QUIC an native Web-, Desktop-, Android- und iOS-Clients
+ausgeliefert wird.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>HelixTrack ist eine Open-Source-Plattform für Projektmanagement und
+Issue-Tracking, die als Alternative aus der freien Welt zu JIRA und
+Confluence positioniert ist – ein vollständiger Ersatz für die beiden
+Produkte, in die die meisten technischen Organisationen fest eingebunden
+sind, neu entwickelt als Software, die Ihnen gehört und die Sie überall
+betreiben können. Ihr Herzstück ist <strong>HelixTrack Core</strong>,
+ein REST-API-Microservice in Go, entwickelt mit dem Gin-Framework. Er
+bietet vollständiges Issue-Tracking, Agile/Scrum-Boards, Teamverwaltung
+und eine hierarchische Berechtigungsengine, deren Implementierung
+zwischen einer lokalen In-Process-Engine und einem HTTP-basierten Dienst
+austauschbar ist – sodass dasselbe Autorisierungsmodell von einem
+einzelnen Laptop bis hin zu einem verteilten Cluster skaliert, ohne den
+Anwendungscode anzupassen. Statt eine REST-Oberfläche über Dutzende
+Routen zu verteilen, leitet Core alles über einen einzigen,
+aktionsbasierten <code>/do</code>-Endpunkt mit einem einheitlichen
+Anfrage-/Antwort-Schema
+(<code>action</code>/<code>jwt</code>/<code>object</code>/<code>data</code>
+rein, <code>errorCode</code>/<code>errorMessage</code>/<code>data</code>
+raus): Jeder Client spricht denselben minimalen Vertrag, und das
+Hinzufügen einer Funktion bedeutet das Hinzufügen einer Aktion, nicht
+eines neuen URL, der dokumentiert, abgesichert und versioniert werden
+muss. Core integriert sich mit entkoppelten Authentifizierungs-,
+Berechtigungs- und Lokalisierungsdiensten, die über HTTP/3-QUIC
+kommunizieren und auf separaten Maschinen oder Clustern laufen können –
+oder in Testkonfigurationen vollständig deaktiviert werden. Die Daten
+werden in SQLite für die Entwicklung ohne Setup-Aufwand und in
+PostgreSQL für die Produktion gespeichert und standardmäßig mit
+SQLCipher (AES-256) verschlüsselt, sodass sensible Projektdaten auf der
+Festplatte geschützt sind – nicht als nachträglicher Gedanke, sondern
+von vornherein. Die <strong>Documents V2</strong>-Erweiterung verwandelt
+den Tracker in eine vollständige Wissensplattform: ein
+Confluence-ähnlicher Arbeitsbereich mit Bereichen, Seiten,
+Versionskontrolle, Vorlagen, Echtzeit-WebSocket-Kollaboration und
+Analysen – endlich Wiki und Issue-Tracker in einem Backend vereint,
+statt zwei Produkte künstlich zusammenzufügen. Um Core herum gruppieren
+sich mehrere Client-Anwendungen: ein Angular-Webclient, ein Tauri- +
+Angular-Desktopclient, native Android- (Kotlin) und iOS-Apps (Swift)
+sowie Clients für HarmonyOS und Aurora OS und ein Bildschirmschoner –
+alle kommunizieren mit demselben Backend und finden es automatisch im
+lokalen Netzwerk über UDP-Broadcast, sodass ein neuer Client seinen
+Server ohne manuelle Konfiguration erkennt. Die Client-Anwendungen
+werden in separaten, privaten Repositories gepflegt und sind hier nur
+auf Produktebene dargestellt.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Um Teams eine wirklich offene, selbst hostbare Alternative zum JIRA-
+und Confluence-Stack zu bieten – „für die freie Welt” – ohne
+Vendor-Lock-in, die unternehmensreife Tracking-, Dokumenten- und
+Kollaborationsfunktionen unter einer einzigen Open-Source-Lizenz
+vereint.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es vereint zwei schwere kommerzielle Produkte – Issue-Tracking und
+das Wiki-/Dokumenten-Stack – in einer offenen, leistungsstarken, selbst
+hostbaren Plattform und kombiniert dies mit etwas, das die etablierten
+Anbieter nie boten: echte <em>native</em> Multiplattform-Clients (Web,
+Desktop, Android, iOS sowie HarmonyOS und Aurora OS), die alle von einem
+einzigen Backend-Vertrag gesteuert werden. Der entscheidende Vorteil ist
+Eigentümerschaft ohne Kompromisse. Ein HTTP/3-überall-Ansatz, ein
+vollständig entkoppeltes Microservices-Design und
+SQLCipher-AES-256-Verschlüsselung im Ruhezustand bringen die Leistung
+und Sicherheit, die sonst nur proprietären SaaS-Lösungen vorbehalten
+ist, in ein System, das Sie selbst hosten – ohne Benutzerlizenzen, ohne
+Vendor-Lock-in, ohne dass Daten Ihre Infrastruktur verlassen. Teams
+erhalten das gewohnte JIRA-plus-Confluence-Erlebnis auf ihrer eigenen
+Hardware und unter einer einzigen Open-Source-Lizenz.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li>Vereinheitlichte aktionsbasierte <code>/do</code>-API – ein
+Endpunkt, ein Umschlag, aktionsgesteuerte Weiterleitung. Neue Funktionen
+kommen als neue Aktionen, nicht als neue URLs, was die Angriffsfläche,
+den Client-Code und den Dokumentationsaufwand auf einen einzigen, von
+allen Plattformen geteilten Vertrag reduziert.</li>
+<li>HTTP/3-QUIC als <em>Standard</em>-Transport zwischen Diensten –
+moderne, latenzarme und verbindungsresiliente Vernetzung zwischen
+Services von Anfang an, nicht nachträglich aufgesetzt.</li>
+<li>Ein Berechtigungsmodul, das zwischen einer lokalen
+In-Process-Implementierung und einem HTTP-basierten Dienst austauschbar
+ist, kombiniert mit optionalen, unabhängig einsetzbaren
+Authentifizierungs-, Berechtigungs- und Lokalisierungsdiensten –
+dasselbe Autorisierungsmodell, egal ob Sie einen einzelnen Prozess oder
+ein Cluster betreiben.</li>
+<li>Datenisolation über mehrere Bereiche hinweg mittels
+<code>--space-root</code>-Flag: Jedes Projekt erhält eine eigene
+isolierte Datenbank und einen eigenen Asset-Speicher, sodass Mandanten
+und Projekte bereits auf Speicherebene getrennt werden, statt durch
+Abfragefilter.</li>
+<li>SQLCipher-AES-256-Verschlüsselung im Ruhezustand – sensible
+Projektdaten werden standardmäßig transparent auf der Festplatte
+geschützt.</li>
+<li>Automatische Client-zu-Server-Erkennung via UDP-Broadcast im lokalen
+Netzwerk – ein Client findet Core ohne manuelle Konfiguration.</li>
+<li>Dokumente V2, eine echte „Confluence-Alternative”, mit
+optimistischem Sperren für paralleles Bearbeiten, Konflikt-Erkennung und
+vollständiger Versionshistorie – echte kollaborative Dokumente, die
+dasselbe Backend nutzen wie der Tracker.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Sechs Client-Plattformen, ein Backend, null
+Vertragsabweichung.</strong> Die Wartung von Web/Angular-,
+Desktop/Tauri-, Android/Kotlin-, iOS/Swift-, HarmonyOS- und
+Aurora-Clients bedeutet normalerweise sechs divergierende
+API-Integrationen, die mit der Zeit auseinanderlaufen. Wir haben dieses
+Risiko minimiert, indem wir den einzigen aktionsgesteuerten
+<code>/do</code>-API-Endpunkt und dessen festes Umschlagformat zum
+<em>einzigen</em> Vertrag gemacht haben – jeder Client richtet sich
+identisch danach aus. Darüber hinaus haben wir UDP-Broadcast-basierte
+Diensterkennung integriert, sodass Clients Core im Netzwerk ohne manuell
+konfigurierte Endpunkte finden.</li>
+<li><strong>Entkopplung von Diensten ohne Latenz-Nachteil.</strong> Die
+Aufteilung von Authentifizierung, Berechtigungen und Lokalisierung in
+unabhängig einsetzbare Dienste führt normalerweise zu einem zusätzlichen
+Netzwerk-Hop pro Aufruf. Wir haben HTTP/3-QUIC für alle
+Dienst-zu-Dienst-Kommunikation eingeführt, um diese Hops schnell und
+verbindungsresilient zu halten, und jeden Dienst so gestaltet, dass er
+unabhängig ausgeführt werden kann – sogar vollständig deaktiviert in
+Testkonfigurationen. Die Entkopplung ist somit eine
+Bereitstellungsoption, kein fester Kostenfaktor.</li>
+<li><strong>Confluence-reife Kollaboration ohne verlorene
+Änderungen.</strong> Echtzeit-Bearbeitung durch mehrere Autoren birgt
+das Risiko von Schreibkonflikten. Dokumente V2 löst dies mit
+Bereichen/Seiten/Versionierung unter optimistischem Sperren, expliziter
+Konflikterkennung, einer vollständigen Änderungshistorie als
+Rückfalloption und Echtzeit-WebSocket-Synchronisation – Kollaboration,
+die konsistent bleibt, statt Änderungen stillschweigend zu
+überschreiben.</li>
+<li><strong>Verschlüsselung im Ruhezustand ohne
+Durchsatzeinbußen.</strong> SQLCipher-AES-256 schützt Daten auf der
+Festplatte, verursacht aber pro Abfrage Overhead. Wir haben dies durch
+mehrschichtiges Caching ausgeglichen (In-Memory-LRU vor Redis im
+Lokalisierungsdienst), sodass häufig genutzte Pfade wie mehrsprachige
+Abfragen schnell bleiben, während die Daten verschlüsselt bleiben.</li>
+</ul>
+<h2 id="tech-stack">Tech-Stack</h2>
+<ul>
+<li><strong>Go + Gin</strong> – ausgewählt für Hochdurchsatz- und
+Niedriglatenz-HTTP-Dienste mit einer Single-Binary-Bereitstellung;
+beinhaltet Core’s REST-API, die JWT-/CORS-Middleware sowie den
+aktionsbasierten <code>/do</code>-Router, der das gesamte System
+bedient.</li>
+<li><strong>HTTP/3 QUIC</strong> – als Transportschicht zwischen Core
+und den Authentifizierungs-, Berechtigungs- und Lokalisierungsdiensten
+gewählt, da QUICs multiplexes, verbindungsmigrerendes Design
+Tail-Latenzen reduziert und instabile Verbindungen übersteht, bei denen
+TCP ins Stocken gerät.</li>
+<li><strong>PostgreSQL (Prod) / SQLite (Dev)</strong> – ein relationales
+Modell, das das umfangreiche Tracking- und Dokumentenschema für beide
+Engines unterstützt: SQLite ermöglicht eine lokale Entwicklung ohne
+Setup und basiert auf Dateien, während PostgreSQL in der Produktion über
+ein dediziertes <code>production</code>-Compose-Profil skaliert.</li>
+<li><strong>SQLCipher (AES-256)</strong> – für transparente,
+datenbankseitige Verschlüsselung im Ruhezustand gewählt, sodass der
+Schutz sensibler Projektdaten keine kryptografischen Anpassungen auf
+Anwendungsebene erfordert und Abfragen unverändert bleiben.</li>
+<li><strong>Redis</strong> – als gemeinsame Caching-Ebene hinter einem
+In-Memory-LRU-Cache im Lokalisierungsdienst eingesetzt, um zweistufiges
+Caching zu ermöglichen, das häufige mehrsprachige Abfragen auch bei
+Verschlüsselungs-Overhead schnell hält.</li>
+<li><strong>Uber Zap + Lumberjack</strong> – für strukturiertes,
+speichereffizientes Logging mit integrierter Rotation gewählt, damit
+Core in der Produktion beobachtbar bleibt, ohne dass die Logs
+unkontrolliert wachsen.</li>
+<li><strong>golang-jwt / JWT</strong> – als zustandsloses
+Authentifizierungsverfahren gewählt; das signierte Token wird im
+<code>jwt</code>-Feld jeder <code>/do</code>-Nachricht mitgeführt,
+sodass die Authentifizierung für alle Clients einheitlich ist.</li>
+<li><strong>Angular 19 (+ Material, RxJS)</strong> – für eine reaktive,
+komponentenbasierte Browseranwendung mit einem ausgereiften
+Material-Design-System out of the box gewählt.</li>
+<li><strong>Tauri 2.0 + Rust + Angular</strong> – um eine native
+Desktop-Shell mit minimalem Footprint bereitzustellen, indem die
+Angular-UI in einem Rust-basierten Webview wiederverwendet wird, statt
+einen vollständigen Browser-Runtime zu bündeln.</li>
+<li><strong>Kotlin (Android) / Swift + SwiftUI (iOS)</strong> – gewählt,
+damit mobile Nutzer echte native, plattformtypische Clients erhalten,
+statt einer eingepackten Webansicht.</li>
+<li><strong>Docker / Docker Compose (Podman-kompatibel)</strong> – für
+reproduzierbare, containerisierte Bereitstellung mit integrierten
+<code>/health</code>-Checks gewählt, sowie Podman-Kompatibilität, sodass
+kein Daemon oder Anbieter zwingend erforderlich ist.</li>
+<li><strong>Testify (Go); Cypress/Playwright/Karma+Jasmine
+(Clients)</strong> – für mehrschichtiges automatisiertes Testen gewählt,
+das den Backend-Vertrag und die Client-UIs unabhängig abdeckt und zur
+Architektur mit einem Backend und vielen Clients passt.</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> HelixTrack Core ist ein
+funktionierender REST-API-Mikrodienst; die
+<strong>Dokumente-V2</strong>-Erweiterung ist zu etwa 95 %
+fertiggestellt, weist jedoch ein bekanntes Problem bei der
+Datenbankfeldzuordnung auf und gilt daher nicht als vollständig
+ausgeliefert.</li>
+<li><strong>Lizenz: Noch nicht festgelegt.</strong> Die
+<code>CLAUDE.md</code> gibt MIT an, während die maßgebliche
+<code>core/LICENSE</code>-Datei Apache 2.0 enthält – diese Diskrepanz
+muss vor einer endgültigen Lizenzangabe geklärt werden.</li>
+<li>Die im README des Projekts genannten Leistungsangaben (z. B. 50.000+
+Anfragen/Sekunde, Abfragezeiten unter einer Millisekunde) sind geplante
+Design- und Marketingziele, keine unabhängig veröffentlichten
+Benchmarks, und werden daher hier nicht als Fakten aufgeführt.</li>
+<li>Die Client-Anwendungen (Web, Desktop, Android, iOS, Aurora,
+HarmonyOS) befinden sich in <strong>privaten</strong> Repositories und
+werden nur auf Produktebene beschrieben.</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primary und das Flaggschiff
+der Helix-Track-Produktlinie – rangiert vor allen Server
+Factory-Projekten.</p>
+</body>
+</html>

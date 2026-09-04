@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>task_bridge</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">task_bridge</h1>
+</header>
+<p><strong>任务看板与单一事实源，双向完美同步</strong></p>
+<h2 id="概述">概述</h2>
+<p>task_bridge 是 Go
+中的一个通用、解耦的双向任务/看板同步引擎。它通过确定性的「最后编辑优先」机制、先执行「干运行」测试、确保数据绝不损坏的语义，将项目的可执行项（SQLite）单一事实源与追踪文档及远程看板（首个目标平台为
+ClickUp；Jira/Linear 计划中）保持同步。</p>
+<h2 id="简要说明">简要说明</h2>
+<p>一个与项目无关的 Go 子模块，双向同步 SQLite 可执行项单一事实源 ↔︎
+追踪文档 ↔︎ 远程看板（首选
+ClickUp）。采用确定性「最后编辑优先」机制、先执行「干运行」测试、HMAC
+验证的 Webhook；所有凭证与 ID 均由使用方在运行时注入。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>每个团队最终都会维护同一项工作的两本账：一本是真实状态——代码、文档、内部数据库；另一本则是管理者关注的看板，如
+ClickUp。两者在任意一方被修改的瞬间便开始偏离，而手动调和它们正是那种枯燥易错、无人可靠完成的苦差事。task_bridge
+旨在消除这一鸿沟，将三种表现形式视为一个需严格同步的系统：项目的<strong>可执行项（SQLite）单一事实源</strong>、其<strong>追踪文档</strong>以及<strong>远程看板</strong>（首个支持的看板为
+ClickUp，未来计划接入 Jira 和
+Linear）。同步过程采用确定性机制（最后编辑优先）、先执行「干运行」测试，并以一项不可动摇的承诺为核心：绝不损坏或丢失数据，绝不让任何一方悄然过时。在一个粗心的同步操作可能覆盖一周工作成果的领域，这种安全性设计才是关键所在。</p>
+<p>从架构上看，它是一个严格遵循解耦协议（§11.4.28）的子模块，供其他项目调用，且完全与项目无关：不内置任何项目特定值，所有凭证、看板/文件夹
+ID、项键字段及数据库路径均由使用方在运行时通过
+<code>pkg/config.Config</code> 注入。模块分层清晰：包含
+CLI（<code>reconcile</code>/<code>push</code>/<code>pull</code>/<code>resolve</code>/<code>status</code>/<code>conflicts</code>/<code>init</code>）及长期运行的守护进程（Webhook
+接收器 + 定时同步）；基于 MIT 许可的 <code>raksul/go-clickup</code>
+的轻量客户端封装；通过实时 API 探测（而非 URL 语法猜测）将看板/文件夹
+URL 解析为 ID
+的解析器；本地可执行项与远程任务字段的映射器；明确冲突处理结果的「最后编辑优先」同步引擎；以及验证
+<code>X-Signature</code> HMAC-SHA256 的 Webhook
+接收器。它对成熟度坦诚以待：当前为 P1
+阶段框架——布局、接口、入口及解耦边界均已就绪，但同步逻辑与实时 ClickUp
+调用尚未实现（所有占位符均返回明确的「未实现」错误，遵循「无伪造」规则）。</p>
+<h2 id="为何开发">为何开发</h2>
+<p>团队将工作的「真实」状态保存在代码/文档中，而管理者则依赖 ClickUp
+等看板——两者不断偏离。task_bridge
+将它们整合为一个系统，通过确定性且安全的同步，确保双方始终保持一致，不再出现过时或错误的情况。</p>
+<p>内容</p>
+<h2 id="为何是颠覆性变革">为何是颠覆性变革</h2>
+<p>双向看板同步通常是一次性的硬编码集成，每个团队都在重复造轮子且效果不佳。task_bridge
+将其重新定义为可复用、注入凭证的库，内置严格的数据安全保障——先模拟运行、确定性「最后编辑优先」、HMAC
+验证事件——任何项目只需注入配置即可实现可靠的看板集成，无需再编写与内部逻辑紧密耦合的脆弱连接器。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li>三向双向同步：SQLite 单一事实源 ↔︎ 跟踪文档 ↔︎ 远程看板。</li>
+<li>完全解耦（§11.4.28）：零项目硬编码，全部在运行时注入。</li>
+<li>实时 API URL→ID 解析，摒弃脆弱的 URL 语法解析。</li>
+<li>HMAC-SHA256 验证的 Webhook 实时事件接收。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>三方数据安全</strong>：通过确定性「最后编辑优先」、先模拟运行及明确冲突处理方案解决。</li>
+<li><strong>解耦下的可复用性</strong>：通过 <code>pkg/config</code>
+注入边界实现（无项目特定代码）。</li>
+<li><strong>可靠的看板识别</strong>：通过实时 API 探测将 URL 解析为 ID
+解决。</li>
+<li><strong>透明的脚手架</strong>：未实现的占位代码明确返回「未实现」错误（不使用假数据）。</li>
+</ul>
+<h2 id="技术栈选择与实现">技术栈（选择与实现）</h2>
+<ul>
+<li><strong>Go</strong> ——
+引擎、CLI（<code>cmd/task_bridge</code>）及守护进程（<code>cmd/task_bridged</code>）。</li>
+<li><strong>SQLite</strong> —— 可执行项的单一事实源。</li>
+<li><strong><code>raksul/go-clickup</code>（MIT 协议）</strong> ——
+ClickUp 传输封装。</li>
+<li><strong>HMAC-SHA256</strong> —— Webhook 签名验证。</li>
+<li><strong>cron + Webhook</strong> —— 守护进程协调 +
+实时事件接收。</li>
+<li><strong><code>pkg/config</code></strong> —— 运行时凭证/ID
+注入边界。</li>
+</ul>
+<blockquote>
+<p>状态说明：此为 <strong>P1 阶段脚手架</strong> ——
+同步逻辑尚未实现，切勿宣称为已交付功能。</p>
+</blockquote>
+</body>
+</html>

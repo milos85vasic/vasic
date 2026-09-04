@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>VisionEngine</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">VisionEngine</h1>
+</header>
+<p>المحتوى</p>
+<p><strong>انظر إلى واجهة المستخدم كما يراها المستخدم — الرؤية الحاسوبية
+بالإضافة إلى رؤية LLM للتحليل والتنقل.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>VisionEngine هي مجموعة أدوات Go مفككة الارتباط تجمع بين الرؤية
+الحاسوبية التقليدية ورؤية LLM لتحليل واجهات المستخدم، وكشف عناصر الواجهة
+والمشكلات البصرية، وبناء خرائط تنقل لتحولات شاشات التطبيقات — مع دعم
+متعدد لمزودي الرؤية القابلة للتوصيل، حيث يتم حجب OpenCV خلف علامة بناء
+محددة.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>وحدة Go قابلة لإعادة الاستخدام لتحليل الواجهات وبناء خرائط التنقل.
+توفر طبقة المحلل (عناصر الواجهة، فروق الشاشات، المشكلات البصرية)، وخريطة
+تنقل مع البحث بالعرض الأول (BFS) وتصدير بتنسيقات DOT/JSON/Mermaid،
+ومحولات رؤية LLM لـ GPT-4o، Claude، Gemini، Qwen-VL، وغيرها.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>معظم أدوات أتمتة اختبار الواجهات تعمل فعلياً وهي عمياء. فهي تعتمد على
+أشجار الوصول ومحددات DOM — وهي فكرة الآلة عن الواجهة — وتفوت كل ما
+يختبره الإنسان فعلياً: هل الزر مرئي بالفعل؟ هل انكسر التخطيط؟ هل الشاشة
+التي وصل إليها هي الشاشة المتوقعة؟ تغلق VisionEngine هذه الفجوة عبر منح
+الأتمتة إدراكاً حقيقياً، القدرة على النظر إلى الواجهة والتفكير فيها كما
+يفعل الإنسان. وهي منظمة في أربع طبقات متعاونة تبني من وحدات البكسل الخام
+وصولاً إلى فهم التطبيق بأكمله. <strong>طبقة المحلل</strong> تحدد العقد
+المستقر — الواجهات (<code>Analyzer</code>، <code>VideoProcessor</code>)
+وأنواع القيم (<code>UIElement</code>، <code>ScreenAnalysis</code>،
+<code>ScreenDiff</code>، <code>Rect</code>، <code>Size</code>،
+<code>TextRegion</code>، <code>VisualIssue</code>،
+<code>ScreenIdentity</code>، <code>Action</code>، <code>KeyFrame</code>)
+مع تنفيذ مرجعي لـ <code>StubAnalyzer</code> — لتمكين المستخدمين من كشف
+العناصر، ومقارنة الشاشات، وكشف المشكلات البصرية وفقاً لعقد لن يتغير تحت
+أيديهم. <strong>طبقة خريطة التنقل</strong> ترفع الرؤية من شاشة واحدة إلى
+التطبيق بأكمله، حيث تصممها كرسوم بيانية موجهة لتحولات الشاشات مع بحث
+بالعرض الأول (BFS) وثلاثة واجهات تصدير (DOT، JSON، Mermaid)، لتمكين
+الأتمتة ليس فقط من رؤية الشاشة بل والتخطيط لمسار إلى أي شاشة أخرى — وهي
+تأتي مع مجموعات اختبارات الإجهاد، والأتمتة، والتكامل، والأمان لإثبات
+ذلك. <strong>طبقة رؤية LLM</strong> تضيف التفكير متعدد الوسائط الحديث:
+واجهة <code>VisionProvider</code> مع محولات لـ OpenAI (GPT-4o)،
+Anthropic (Claude)، Gemini، Qwen-VL، كيمي، StepGUI، أستيكا، وOllama،
+مجمعة عبر <code>FallbackChain</code> بحيث يفشل المزود المحدود أو الضعيف
+بشكل رشيق وينتقل إلى المزود التالي بدلاً من إسقاط العملية بأكملها.
+<strong>طبقة التهيئة</strong> تتولى تحميل المتغيرات البيئية والتحقق
+منها، حيث يتم توجيه كل رسالة خطأ تواجه المستخدم عبر
+<code>i18n.Translator</code>.</p>
+<p>القرار الذي يجعل كل هذا قابلاً للتطبيق فعلياً هو أن التبعية الأصلية
+الثقيلة اختيارية. روابط OpenCV محجوبة خلف علامة البناء
+<code>-tags vision</code>، والبناء الافتراضي يأتي مع نماذج بديلة — بحيث
+يتم تجميع الوحدة واختبارها وتشغيلها على أي مضيف Go 1.25+ دون الحاجة إلى
+سلسلة أدوات OpenCV، ولا يتم سحب الحزمة الأصلية إلا عندما يختار المستخدم
+ذلك صراحةً. هذا ما يسمح لـ VisionEngine بالعمل في بيئة CI عادية دون
+الحاجة إلى صورة مخصصة. وهي مفككة الارتباط بالكامل وفقاً للدستور
+(CONST-051(B))، ويتم دمجها من قبل المستخدمين — وخاصة HelixQA — كوحدة
+فرعية متساوية في قاعدة الشفرة، مما يمنح اختبار الواجهات القائم على
+الأدلة زوجاً حقيقياً من العيون.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>أتمتة اختبار واجهة المستخدم التي تعتمد فقط على أشجار الوصول أو محددات
+العناصر تغفل ما يراه المستخدم فعلياً. يضيف VisionEngine فهماً بصرياً حقيقياً
+— كشف العناصر، ومقارنة الشاشات، والاستدلال القائم على الرؤية باستخدام
+LLM — بالإضافة إلى خريطة قابلة للتنقل لشاشات التطبيق، مما يمكّن الأتمتة
+من إدراك واجهة المستخدم والتنقل عبرها.</p>
+<h2 id="لماذا-يعد-ثورة-في-المجال">لماذا يُعدّ ثورةً في المجال</h2>
+<p>يجمع بين نهجين غير متوافقين عادةً — الرؤية الحاسوبية الكلاسيكية
+السريعة والحتمية والرؤية القائمة على LLM المرنة والدلالية — خلف واجهة
+واحدة مع سلسلة احتياطية، بحيث يحصل المستخدم على دقة الأول واستدلال
+الثاني دون الحاجة للاختيار بينهما. وبجعل OpenCV اختيارياً تماماً، يزيل
+العبء المعتاد على هذه القوة: إذ يمكن لأي مشروع Go اكتساب إدراك حقيقي
+لواجهة المستخدم دون سحب سلسلة أدوات الرؤية الأصلية إلى بنائه.</p>
+<h2 id="ما-الجديد-في-الابتكار">ما الجديد في الابتكار</h2>
+<ul>
+<li>إدراك مزدوج: الرؤية الحاسوبية الكلاسيكية (OpenCV/GoCV) بالإضافة إلى
+الرؤية القائمة على LLM متعددة المزودين مع سلسلة احتياطية.</li>
+<li>رسم بياني للتنقل مع البحث بالعرض الأول (BFS) وتصدير بصيغ
+DOT/JSON/Mermaid.</li>
+<li>تقييد OpenCV بوسوم البناء بحيث يظل الوحدة قابلة للبناء والاختبار دون
+تبعيات أصلية.</li>
+<li>وحدة فرعية مستقلة تماماً، مخيطة بالتوطين، ومتساوية الكود (تُستخدم من
+قبل HelixQA).</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>صعوبة التبعيات الأصلية الثقيلة:</strong> تم حلها بوسم
+<code>-tags vision</code> وإعدادات افتراضية بديلة بحيث تبني بيئات
+التكامل المستمر والخوادم دون OpenCV وتختبرها.</li>
+<li><strong>عدم موثوقية مزودي الرؤية:</strong> تم حلها بواجهة
+<code>VisionProvider</code> ومؤلف سلسلة الاحتياطية
+<code>FallbackChain</code>.</li>
+<li><strong>رسم خرائط لتدفقات التطبيقات المعقدة:</strong> تم حلها برسم
+بياني موجه للتنقل بالإضافة إلى البحث بالعرض الأول (BFS) وتصدير متعدد
+الصيغ.</li>
+<li><strong>الاقتران:</strong> تم حله عبر فك الاقتران وفق CONST-051(B)
+وخياطة المترجم للتوطين.</li>
+</ul>
+<h2 id="مجموعة-التقنيات-السبب-وكيفية-الاستخدام">مجموعة التقنيات (السبب
+وكيفية الاستخدام)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — النواة الأساسية للطبقات الأربع.</li>
+<li><strong>GoCV / OpenCV</strong> — الرؤية الحاسوبية الكلاسيكية، مقيدة
+بوسوم البناء.</li>
+<li><strong>مزودو الرؤية القائمة على LLM (GPT-4o، Claude، Gemini،
+Qwen-VL، Kimi، StepGUI، Astica، Ollama)</strong> — الاستدلال متعدد
+الوسائط لواجهة المستخدم عبر محولات.</li>
+<li><strong>خوارزميات الرسوم البيانية (BFS)</strong> — إيجاد مسارات
+التنقل.</li>
+<li><strong>مصدّرات DOT / JSON / Mermaid</strong> — تصور رسم بياني
+للتنقل.</li>
+<li><strong>مترجم التوطين</strong> — سلاسل نصية موجهة للمستخدم ومفككة
+الاقتران.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Parallels-Utils</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Parallels-Utils</h1>
+</header>
+<p>محتوا</p>
+<p><strong>تصاویر ماشین مجازی Parallels خود را فشرده کنید، منتشر کنید و
+در هر دستگاهی دوباره استفاده کنید.</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>Parallels-Utils یک جعبه‌ابزار Server Factory برای مدیریت تصاویر ماشین
+مجازی Parallels (macOS) است: فشرده‌سازی و همگام‌سازی «ماتریس‌های» تصویری که
+برای توسعه و تست استفاده می‌شوند، انتشار آن‌ها در یک نقطه پایانی راه‌دور، و
+بازیابی و اجرای آن‌ها روی چندین ایستگاه کاری یا سرور. این ابزار به‌صورت
+مستقل یا به‌عنوان بخشی از Server Factory قابل استفاده است.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>یک جعبه‌ابزار Shell/Python برای چرخه حیات تصاویر ماشین مجازی Parallels
+در macOS. این ابزار تصاویر Parallels را فشرده و همگام‌سازی می‌کند، آن‌ها را
+در یک نقطه پایانی راه‌دور منتشر می‌کند و روی چندین رایانه بازیابی و اجرا
+می‌نماید — با هدایت فایل‌های تنظیمات ساده، که هم به‌صورت مستقل و هم در
+چارچوب Server Factory قابل استفاده است.</p>
+<h2 id="توضیح-مفصل">توضیح مفصل</h2>
+<p>Parallels-Utils یک مشکل عملی DevOps را برای توسعه مبتنی بر macOS حل
+می‌کند: تیم‌ها «ماتریس‌هایی» از ماشین‌های مجازی Parallels
+(سیستم‌عامل‌ها/پیکربندی‌های مختلف برای توسعه و تست) می‌سازند و این تصاویر
+باید فشرده، منتشر، بازیابی و به‌طور یکسان روی چندین دستگاه اجرا شوند. این
+جعبه‌ابزار دقیقاً همین چرخه حیات را فراهم می‌کند. یک مکانیزم همگام‌سازی
+تصاویر Parallels را فشرده و همگام نگه می‌دارد؛ یک مکانیزم انتشار، تصاویر
+را به یک نقطه پایانی راه‌دور بارگذاری می‌کند؛ و یک مکانیزم بازیابی به هر
+ایستگاه کاری یا سروری امکان می‌دهد تصاویر منتشرشده را دریافت و به‌عنوان
+ماشین مجازی اجرا کند. پیکربندی به‌عمد ساده و مبتنی بر فایل است:
+<code>image_location.settings</code> محل تصاویر در فایل‌سیستم را مشخص
+می‌کند، <code>image_provider.settings</code> پایه URL برای تصاویر
+منتشرشده را تعریف می‌کند، و <code>image_sync.sh</code> اسکریپت بارگذاری
+را تعیین می‌نماید — با نمونه‌هایی که در دایرکتوری <code>Examples</code>
+ارائه شده‌اند. کاربران از <code>publish_images.sh</code> برای انتشار و از
+<code>run.sh</code> برای اجرای ماشین‌های مجازی استفاده می‌کنند. این ابزار
+به Parallels برای نسخه مناسب macOS و Python نسخه ۳ نیاز دارد. این
+جعبه‌ابزار به‌گونه‌ای طراحی شده که دو منظوره باشد: می‌تواند به‌عنوان بخشی از
+یک پروژه بزرگ‌تر Server Factory یا به‌طور کاملاً مستقل عمل کند، که این امر
+فلسفه جداسازی سازمان را منعکس می‌کند. حتی پیوند یک ویدیوی آموزشی کوتاه
+نیز در آن گنجانده شده است. این ابزار به‌عنوان بخشی از خانواده
+Server-Factory، مکمل Qemu-Utils (معادل Linux/QEMU) است و مدیریت تصاویر
+ماشین مجازی را هم در macOS/Parallels و هم در بسترهای چندسکویی/QEMU برای
+اکوسیستم فراهم می‌آورد.</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>به‌اشتراک‌گذاری محیط‌های توسعه/تست ماشین مجازی یکسان در یک تیم کاری
+خسته‌کننده است — تصاویر حجیم هستند و هر دستگاهی به ماتریس یکسانی نیاز
+دارد. Parallels-Utils فشرده‌سازی، انتشار و بازیابی را خودکارسازی می‌کند تا
+مجموعه‌ای استاندارد از ماشین‌های مجازی Parallels در همه جا قابل بازتولید
+باشد.</p>
+<h2 id="چرا-یک-تغییردهنده-بازی-است">چرا یک تغییردهنده بازی است</h2>
+<p>این ابزار تصاویر سنگین و دست‌وپاگیر Parallels را به مجموعه‌ای از
+مصنوعات قابل انتشار و همگام‌سازی تبدیل می‌کند که هر دستگاهی می‌تواند آن‌ها
+را دریافت و اجرا کند — به‌این‌ترتیب، یک محیط توسعه/تست استاندارد دیگر چیزی
+نیست که هر مهندس به‌صورت دستی بازسازی کند، بلکه چیزی است که شما آن را
+دریافت می‌کنید. این کار با پیکربندی ساده مبتنی بر فایل‌های تنظیمات و بدون
+وابستگی به سایر بخش‌های Server Factory انجام می‌شود و به فلسفه جداسازی
+سازمان پایبند می‌ماند: به‌تنهایی مفید است و در زنجیره ابزار بزرگ‌تر نیز
+شهروندی خوب محسوب می‌شود.</p>
+<p>محتوا</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>فشرده‌سازی و همگام‌سازی «ماتریس‌های» تصویری Parallels برای محیط‌های
+توسعه و تست.</li>
+<li>گردش کار انتشار/بازیابی تصاویر به‌منظور استفاده مجدد از آن‌ها در چندین
+رایانه.</li>
+<li>پیکربندی مبتنی بر فایل تنظیمات (مکان/ارائه‌دهنده/همگام‌سازی) به همراه
+نمونه‌های آماده.</li>
+<li>کاربرد دوگانه: به‌صورت مستقل یا به‌عنوان مؤلفه‌ای از Server
+Factory.</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>توزیع تصاویر بزرگ:</strong> با فشرده‌سازی و گردش کار انتشار
+به نقطه پایانی از راه دور + بازیابی حل شد.</li>
+<li><strong>تکرارپذیری در دستگاه‌های مختلف:</strong> با تنظیمات
+ارائه‌دهنده/مکان حل شد تا هر میزبان مجموعه تصاویر یکسانی را دریافت
+کند.</li>
+<li><strong>سهولت استفاده:</strong> با اسکریپت‌های ساده
+<code>publish_images.sh</code> / <code>run.sh</code> و فایل‌های نمونه
+تنظیمات حل شد.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشته فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Shell</strong> — اسکریپت‌های انتشار/اجرا/همگام‌سازی (زبان
+اصلی، حدود ۵٫۳ کیلوبایت).</li>
+<li><strong>Python ۳</strong> — ابزارهای پشتیبان (وابستگی ضروری، حدود ۳
+کیلوبایت).</li>
+<li><strong>Parallels (macOS)</strong> — بستر مجازی‌سازی مدیریت‌شده.</li>
+<li><strong>فایل‌های تنظیمات (<code>.settings</code>)</strong> — پیکربندی
+اعلانی برای مکان/ارائه‌دهنده/همگام‌سازی.</li>
+</ul>
+<blockquote>
+<p>نکته: GitHub نشان‌دهنده انشعابی از مخزن در سازمان Server-Factory است.
+تخصصی و مختص macOS. ارتباطی با AI ندارد.</p>
+</blockquote>
+</body>
+</html>

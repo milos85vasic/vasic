@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>tasks</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">tasks</h1>
+</header>
+<h1 id="tasks-static-landing-page">Tasks: Static Landing Page</h1>
+<p><strong>Input</strong>: Design documents from
+<code>/specs/001-static-landing-page/</code></p>
+<p><strong>Prerequisites</strong>: plan.md (required), spec.md
+(required), research.md, data-model.md, quickstart.md</p>
+<p><strong>Tests</strong>: No automated tests requested. Manual
+validation tasks are included per quickstart.md.</p>
+<p><strong>Organization</strong>: Tasks are grouped by user story to
+enable independent implementation and testing of each story.</p>
+<h2 id="format-id-p-story-description">Format:
+<code>[ID] [P?] [Story] Description</code></h2>
+<ul>
+<li><strong>[P]</strong>: Can run in parallel (different files, no
+dependencies)</li>
+<li><strong>[Story]</strong>: Which user story this task belongs to
+(e.g., US1, US2, US3)</li>
+<li>Include exact file paths in descriptions</li>
+</ul>
+<h2 id="path-conventions">Path Conventions</h2>
+<ul>
+<li><strong>Single-file output</strong>: All work targets
+<code>web/index.html</code> — the sole deliverable per Constitution
+Principle IV</li>
+</ul>
+<hr />
+<h2 id="phase-1-setup-shared-infrastructure">Phase 1: Setup (Shared
+Infrastructure)</h2>
+<p><strong>Purpose</strong>: Create output directory and HTML5
+boilerplate file</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T001 Create
+<code>web/</code> output directory per project structure in
+plan.md</label></li>
+<li><label><input type="checkbox" checked="" />T002 Create
+<code>web/index.html</code> with HTML5 boilerplate — DOCTYPE,
+<code>&lt;html lang="en"&gt;</code>, <code>&lt;head&gt;</code> with
+charset UTF-8, viewport meta, title “SuperSpec — Specification-Driven
+Development”, and empty <code>&lt;style&gt;</code> tag in
+<code>web/index.html</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Directory and empty HTML shell exist</p>
+<hr />
+<h2 id="phase-2-foundational-blocking-prerequisites">Phase 2:
+Foundational (Blocking Prerequisites)</h2>
+<p><strong>Purpose</strong>: Core CSS infrastructure and semantic HTML
+skeleton that ALL user stories depend on</p>
+<p><strong>⚠️ CRITICAL</strong>: No user story work can begin until this
+phase is complete</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T003 Add CSS reset/base
+styles — universal <code>box-sizing: border-box</code>, margin/padding
+normalization, body defaults — in <code>&lt;style&gt;</code> tag in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T004 Add CSS custom
+properties for color palette, spacing scale, and system font stacks
+(body:
+<code>-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif</code>;
+code:
+<code>"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace</code>)
+per research R-004 in <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T005 Add responsive
+typography using <code>clamp()</code> for headings and body text in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T006 Add max-width
+container utility class (<code>.container</code>) with centered layout
+and horizontal padding in <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T007 Add semantic HTML
+skeleton — <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> with
+two <code>&lt;section&gt;</code> elements (id=“features”,
+id=“workflow”), and <code>&lt;footer&gt;</code> — in
+<code>&lt;body&gt;</code> of <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T008 Add base responsive
+breakpoints — <code>@media (min-width: 768px)</code> and
+<code>@media (min-width: 1024px)</code> — as empty media query blocks in
+<code>web/index.html</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Foundation ready — semantic skeleton
+with reset, typography, and container exists; user story content can now
+be added</p>
+<hr />
+<h2 id="phase-3-user-story-1---hero-section-priority-p1-mvp">Phase 3:
+User Story 1 - Hero Section (Priority: P1) 🎯 MVP</h2>
+<p><strong>Goal</strong>: A first-time visitor sees the project name,
+tagline, and “Get Started” CTA button filling the viewport on load</p>
+<p><strong>Independent Test</strong>: Load <code>web/index.html</code>
+in a browser — verify (1) “SuperSpec” is the most prominent text, (2) a
+tagline appears beneath it, (3) a “Get Started” button is present and
+links to <code>#install</code>, (4) hero occupies full viewport height
+on desktop (≥1024px)</p>
+<h3 id="implementation-for-user-story-1">Implementation for User Story
+1</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T009 [US1] Add hero
+section HTML inside <code>&lt;header&gt;</code> —
+<code>&lt;h1&gt;</code> with “SuperSpec”, <code>&lt;p&gt;</code> tagline
+“Specification-driven development for modern teams”,
+<code>&lt;a&gt;</code> CTA button “Get Started” with
+<code>href="#install"</code> — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T010 [US1] Add hero
+section CSS — full viewport height (<code>min-height: 100vh</code>),
+flexbox centering (horizontal + vertical), CTA button styling (padding,
+background, color, border-radius, no underline, hover/focus states) — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T011 [US1] Add hero
+responsive adjustments — 768px: larger heading size; 1024px: max heading
+size with comfortable spacing — in <code>@media</code> blocks in
+<code>web/index.html</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Hero section renders with project name,
+tagline, and functional CTA button; viewport-centered on desktop</p>
+<hr />
+<h2 id="phase-4-user-story-2---features-grid-priority-p2">Phase 4: User
+Story 2 - Features Grid (Priority: P2)</h2>
+<p><strong>Goal</strong>: A visitor scrolls past the hero and sees five
+feature cards for status, brainstorm, tasks, execute, and review in a
+visually balanced grid</p>
+<p><strong>Independent Test</strong>: Scroll to the features section —
+verify (1) five distinct cards are visible, (2) each card shows command
+name and description, (3) multi-column layout on desktop, (4) vertical
+stack on mobile (≤600px)</p>
+<h3 id="implementation-for-user-story-2">Implementation for User Story
+2</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T012 [US2] Add features
+section HTML inside <code>&lt;section id="features"&gt;</code> —
+<code>&lt;h2&gt;</code> heading “Core Commands”, five
+<code>&lt;article class="card"&gt;</code> elements each with
+<code>&lt;h3&gt;</code> command name and <code>&lt;p&gt;</code>
+description per data-model.md static data instances — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T013 [US2] Add features
+grid CSS — <code>.card</code> styles (padding, background,
+border-radius, subtle shadow/border), section heading styles — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T014 [US2] Add features
+grid responsive layout — mobile: <code>grid-template-columns: 1fr</code>
+(stacked); 768px: <code>repeat(2, 1fr)</code>; 1024px:
+<code>repeat(3, 1fr)</code> with second-row 2 cards centered — in
+<code>@media</code> blocks in <code>web/index.html</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Features grid renders five command
+cards; responsive from 1-col to 3-col</p>
+<hr />
+<h2
+id="phase-5-user-story-3---workflow-diagram-install-snippet-priority-p3">Phase
+5: User Story 3 - Workflow Diagram &amp; Install Snippet (Priority:
+P3)</h2>
+<p><strong>Goal</strong>: A visitor finds a step-indicator workflow
+diagram and a copyable install command snippet, providing an actionable
+next step</p>
+<p><strong>Independent Test</strong>: Scroll to the workflow section —
+verify (1) a visual diagram shows the five commands in sequential flow
+with numbered circles and connecting lines, (2) directional progression
+is clear, (3) an install command <code>npm install -g superspec</code>
+appears in a monospaced code block, (4) the snippet is
+keyboard-focusable and text-selectable</p>
+<h3 id="implementation-for-user-story-3">Implementation for User Story
+3</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T015 [US3] Add workflow
+section HTML inside <code>&lt;section id="workflow"&gt;</code> —
+<code>&lt;h2&gt;</code> heading, semantic <code>&lt;ol&gt;</code> with
+five <code>&lt;li&gt;</code> items for the command sequence (status →
+brainstorm → tasks → execute → review) per research R-003 — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T016 [US3] Add workflow
+step indicator CSS — <code>&lt;ol&gt;</code> as flex container,
+<code>&lt;li&gt;</code> items with <code>::before</code> counter-based
+numbered circles, <code>::after</code> connecting lines between steps
+(last step no line) — in <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T017 [US3] Add install
+snippet HTML — <code>&lt;div id="install"&gt;</code> with
+<code>&lt;code&gt;</code> element containing
+<code>npm install -g superspec</code>, <code>tabindex="0"</code> for
+keyboard focusability per FR-017 — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T018 [US3] Add install
+snippet CSS — monospace font stack (<code>var(--font-mono)</code>),
+distinct background, padding, border, overflow-x for long text — in
+<code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T019 [US3] Add workflow
+and install responsive adjustments — mobile: vertical step indicator
+stack; 768px: horizontal step indicator, wider code block; 1024px:
+full-width layout — in <code>@media</code> blocks in
+<code>web/index.html</code></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Workflow diagram shows 5-step flow with
+visual connectors; install snippet is displayed, keyboard-accessible,
+and copyable</p>
+<hr />
+<h2 id="phase-6-polish-cross-cutting-concerns">Phase 6: Polish &amp;
+Cross-Cutting Concerns</h2>
+<p><strong>Purpose</strong>: Footer, print stylesheet, accessibility,
+and validation — improvements that span all user stories</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T020 Add footer HTML with
+minimal content (project name, “Specification-driven development”) and
+footer CSS in <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T021 Add
+<code>@media print</code> stylesheet — hide decorative
+backgrounds/borders/shadows, set <code>body</code> to serif font, remove
+max-width constraint, force single-column layout, preserve install
+snippet with visible border, show content in document order per FR-014
+and research R-007 — in <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" checked="" />T022 Add accessibility
+CSS — <code>:focus-visible</code> outlines on interactive elements (CTA
+button, install snippet), <code>forced-colors</code> media query
+adjustments (explicit borders, no background-only information) per
+FR-016, FR-017, FR-018 — in <code>web/index.html</code></label></li>
+<li><label><input type="checkbox" />T023 Verify keyboard navigation —
+Tab reaches “Get Started” button and install snippet; Enter/Space
+activates button; focus indicators visible and meet WCAG AA contrast —
+manual test in <code>web/index.html</code> <em>(requires browser —
+cannot automate)</em></label></li>
+<li><label><input type="checkbox" />T024 Validate HTML with W3C Markup
+Validation Service — zero errors required per quickstart.md — submit
+<code>web/index.html</code> <em>(requires browser — cannot
+automate)</em></label></li>
+<li><label><input type="checkbox" />T025 Validate accessibility with
+axe-core browser extension — zero violations required per quickstart.md
+— run against <code>web/index.html</code> <em>(requires browser — cannot
+automate)</em></label></li>
+<li><label><input type="checkbox" checked="" />T026 Check page weight —
+<code>wc -c web/index.html</code> must return ≤65536 bytes (64 KB) per
+Constitution quality standard</label></li>
+<li><label><input type="checkbox" />T027 Validate responsive rendering
+at 320px, 768px, and 1280px viewport widths per quickstart.md — verify
+legibility, layout, and no horizontal overflow in
+<code>web/index.html</code> <em>(requires browser)</em></label></li>
+<li><label><input type="checkbox" />T028 Validate print output — browser
+Print Preview shows linear, ink-friendly flow with decorative elements
+hidden per FR-014 — test <code>web/index.html</code> <em>(requires
+browser)</em></label></li>
+<li><label><input type="checkbox" />T029 Validate <code>file://</code>
+protocol rendering — open <code>web/index.html</code> directly from
+filesystem (no HTTP server) and verify identical rendering per FR-015
+<em>(verified: no external resources, no protocol-relative URLs, no JS —
+rendering will be identical)</em></label></li>
+</ul>
+<p><strong>Checkpoint</strong>: Page is production-ready — accessible,
+printable, under 64 KB, valid HTML, zero axe violations</p>
+<hr />
+<h2 id="dependencies-execution-order">Dependencies &amp; Execution
+Order</h2>
+<h3 id="phase-dependencies">Phase Dependencies</h3>
+<ul>
+<li><strong>Setup (Phase 1)</strong>: No dependencies — can start
+immediately</li>
+<li><strong>Foundational (Phase 2)</strong>: Depends on Setup (Phase 1)
+— BLOCKS all user stories</li>
+<li><strong>User Stories (Phase 3–5)</strong>: All depend on
+Foundational (Phase 2)
+<ul>
+<li>US1 (Phase 3): Can start after Phase 2 — no dependencies on other
+stories</li>
+<li>US2 (Phase 4): Can start after Phase 2 — no dependencies on other
+stories</li>
+<li>US3 (Phase 5): Can start after Phase 2 — no dependencies on other
+stories</li>
+</ul></li>
+<li><strong>Polish (Phase 6)</strong>: Depends on all user stories
+(Phase 3–5) being complete</li>
+</ul>
+<h3 id="user-story-dependencies">User Story Dependencies</h3>
+<ul>
+<li><strong>User Story 1 (P1)</strong>: No dependencies on other stories
+— MVP deliverable</li>
+<li><strong>User Story 2 (P2)</strong>: No dependencies on other stories
+— independently testable</li>
+<li><strong>User Story 3 (P3)</strong>: No dependencies on other stories
+— independently testable</li>
+</ul>
+<h3 id="within-each-user-story">Within Each User Story</h3>
+<ul>
+<li>HTML content before CSS styling</li>
+<li>Base CSS before responsive adjustments</li>
+<li>Story complete before moving to next priority</li>
+</ul>
+<h3 id="parallel-opportunities">Parallel Opportunities</h3>
+<ul>
+<li>Within Phase 2: T003 (reset) → T004 (custom properties) → T005
+(typography) are sequential (each builds on prior); T006 (container) and
+T007 (skeleton) can proceed after T003</li>
+<li>Within Phase 6: T020 (footer), T021 (print), T022 (accessibility)
+are independent CSS blocks — can be written in parallel</li>
+<li>Validation tasks T024–T029 are all independent — can run in
+parallel</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>: Since all work targets a single file
+(<code>web/index.html</code>), true parallel editing is limited. Tasks
+are structured for sequential implementation by a single developer. The
+[P] marker is omitted as no tasks modify different files.</p>
+</blockquote>
+<hr />
+<h2 id="parallel-example-phase-6-polish">Parallel Example: Phase 6
+(Polish)</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These CSS blocks are independent and can be authored in parallel</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (then merged into the single &lt;style&gt; tag):</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T020: <span class="st">&quot;Add footer HTML and CSS in web/index.html&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T021: <span class="st">&quot;Add @media print stylesheet in web/index.html&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T022: <span class="st">&quot;Add accessibility CSS (:focus-visible, forced-colors) in web/index.html&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># All validation tasks can run in parallel:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T024: <span class="st">&quot;Validate HTML with W3C Markup Validation Service&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T025: <span class="st">&quot;Validate accessibility with axe-core&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T026: <span class="st">&quot;Check page weight with wc -c&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T027: <span class="st">&quot;Validate responsive rendering at 320px/768px/1280px&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T028: <span class="st">&quot;Validate print output&quot;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Task</span> T029: <span class="st">&quot;Validate file:// protocol rendering&quot;</span></span></code></pre></div>
+<hr />
+<h2 id="implementation-strategy">Implementation Strategy</h2>
+<h3 id="mvp-first-user-story-1-only">MVP First (User Story 1 Only)</h3>
+<ol type="1">
+<li>Complete Phase 1: Setup</li>
+<li>Complete Phase 2: Foundational</li>
+<li>Complete Phase 3: User Story 1 (Hero)</li>
+<li><strong>STOP and VALIDATE</strong>: Load page, verify hero renders
+with name/tagline/CTA</li>
+<li>The page is already functional as a brand-establishing presence</li>
+</ol>
+<h3 id="incremental-delivery">Incremental Delivery</h3>
+<ol type="1">
+<li>Complete Setup + Foundational → HTML skeleton with reset,
+typography, container</li>
+<li>Add User Story 1 (Hero) → Test independently → <strong>MVP!</strong>
+Page communicates identity</li>
+<li>Add User Story 2 (Features Grid) → Test independently → Page
+communicates capabilities</li>
+<li>Add User Story 3 (Workflow + Install) → Test independently → Page
+drives adoption</li>
+<li>Add Polish → Validation pass → Production-ready</li>
+</ol>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>All work targets a single file (<code>web/index.html</code>) per
+Constitution Principle IV</li>
+<li>No [P] markers used — single-file output means all tasks are
+inherently sequential</li>
+<li>[Story] labels map each task to its user story for traceability</li>
+<li>Each user story is independently testable by loading the page and
+verifying its section</li>
+<li>Content values (tagline, install command, command descriptions) are
+defined in data-model.md</li>
+<li>Design decisions (step indicator, system fonts, breakpoints) are
+resolved in research.md</li>
+<li>Validation criteria come from quickstart.md and spec.md acceptance
+scenarios</li>
+</ul>
+</body>
+</html>

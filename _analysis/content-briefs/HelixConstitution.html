@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixConstitution</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixConstitution</h1>
+</header>
+<h1 id="helixconstitution">HelixConstitution</h1>
+<p><strong>Tagline:</strong> The universal engineering constitution
+every project inherits — anti-bluff law, enforced mechanically, shared
+as one Git submodule.</p>
+<p><strong>Summary:</strong> HelixConstitution is the single,
+project-agnostic rulebook — added as a Git submodule by every
+Helix/vasic-digital project — that encodes non-negotiable engineering
+discipline (anti-bluff, evidence-only validation, data/host safety,
+documentation and test coverage) and propagates it to a fleet of 140+
+repositories. It is the governance backbone that makes the whole family
+coherent.</p>
+<p><strong>Short description:</strong> A universal, inheritable
+Constitution shipped as a Git submodule. It defines mandatory,
+non-negotiable rules — anti-bluff evidence gates, false-positive
+immunity, data and host safety, coverage and documentation discipline —
+that every consuming project inherits automatically and may extend but
+never weaken.</p>
+<p><strong>Long description:</strong> HelixConstitution is the canonical
+source of truth for the engineering practices shared across every
+project that opts in by adding it as a Git submodule. Its centrepiece —
+<code>Constitution.md</code> — is an ~1 MB, continuously-versioned
+document of numbered clauses (the §11.4.x covenant family, currently
+through §11.4.170) plus per-agent operating manuals
+(<code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>QWEN.md</code>,
+<code>GEMINI.md</code>) that import it by reference. Inheritance is
+three-layer: the universal base (this submodule), the project layer (a
+project’s own Constitution/CLAUDE/AGENTS that extend it), and an
+optional per-subdirectory layer; project rules may tighten but never
+weaken the base. The document is deliberately domain-agnostic: anything
+mentioning a specific vendor, hardware SKU, port, or library version
+must move to the consuming project’s own Constitution, and universality
+has to be <em>earned</em> against a four-part test. Its philosophical
+spine is anti-bluff (§1.1 false-positive immunity, §11.4 end-user
+quality covenant, §11.4.6 no-guessing, §11.4.69 positive-evidence
+taxonomy): the bar for shipping is never “tests pass,” but “users can
+use the feature,” and every green result must cite captured physical
+evidence. A companion <code>submodules-catalogue.md</code> (142 repos)
+enforces catalogue-first, extend-don’t-reimplement discovery. Helper
+scripts locate the submodule from any depth and fan every commit out to
+four Git providers.</p>
+<p><strong>Why we built it:</strong> Multiple large product apps and
+dozens of decoupled reusable submodules, authored by the same owner,
+kept re-deriving the same hard-won rules — and kept hitting the same
+failure class: tests and status reports that claim success while the
+feature is broken for the end user (“PASS-bluffs” and “FAIL-bluffs”).
+Each forensic anchor in the Constitution records a real incident
+(e.g. the 2026-05-20 D3 audio-routing PASS-bluff where validation went
+green with an empty “Codec In Use” field, or the 2026-06-25 giant-button
+UI that passed token-equality tests while the real screen was broken).
+The Constitution exists to make that whole class of dishonest success
+mechanically impossible, once, universally — so the discipline cannot
+drift between projects or be quietly forgotten.</p>
+<p><strong>Why it’s a game-changer:</strong> It converts engineering
+culture from documentation-people-hope-to-follow into inherited,
+versioned, mechanically-enforced law. One submodule bump upgrades the
+rules for the entire fleet; a single anti-bluff covenant is guaranteed
+present in every consuming repo because a propagation gate literally
+greps for the clause number across the fleet and a paired mutation test
+proves the gate itself is not bluffing. Governance becomes an auditable
+fact, not an aspiration.</p>
+<p><strong>What’s innovative:</strong> -
+<strong>Constitution-as-submodule</strong> — engineering law distributed
+and version-pinned exactly like code, with deliberate
+<code>v1.0.0</code>-style tags and per-project pinning. -
+<strong>Anti-bluff as a first-class, forensic doctrine</strong> — every
+clause traces to a verbatim operator mandate and, often, the exact
+incident that motivated it. - <strong>Meta-testing of the rules
+themselves (§1.1)</strong> — every gate is paired with a mutation that
+must flip PASS→FAIL, so “the gate isn’t a sham” is itself proven. -
+<strong>Earned universality</strong> — an explicit four-part test
+decides whether a rule is universal or project-specific, keeping the
+base clean.</p>
+<p><strong>How it is used across all products (the powers it
+gives):</strong> - <strong>Governance backbone:</strong> every
+Helix/vasic-digital project adds it as a submodule and imports it from
+<code>CLAUDE.md</code> / <code>AGENTS.md</code> / <code>QWEN.md</code> /
+its own <code>Constitution.md</code>; the rules apply unconditionally. -
+<strong>Gates &amp; mandates:</strong> it defines the four-layer
+coverage model (source-present, survives-build, behaves-at-runtime,
+gate-not-bluffing) plus named mandates — credentials handling
+(§11.4.10), documentation always-sync (§11.4.60), containers-submodule
+mandate (§11.4.76), CodeGraph (§11.4.78), mandatory test-type coverage
+(§11.4.169), and more. - <strong>Propagation:</strong>
+<code>CM-COVENANT-114-NNN-PROPAGATION</code> gates assert the literal
+clause text is present across the consuming fleet; non-compliance is a
+release blocker with no escape-hatch flags. -
+<strong>Discovery:</strong> <code>submodules-catalogue.md</code> makes
+“do we already own something that does X?” a one-glance answer before
+any new module is scaffolded. - <strong>Consistency of AI
+agents:</strong> the same law is expressed to every CLI agent (Claude
+Code, Codex/Cursor/Aider/OpenCode/Crush/Kimi via AGENTS.md, Qwen Code
+via QWEN.md), so all tooling obeys one covenant.</p>
+<p><strong>Biggest challenges + how solved:</strong> - <em>Locating the
+submodule from arbitrary nested depth</em> →
+<code>find_constitution.sh</code> walks up parent directories and
+follows the git superproject pointer recursively, with a
+<code>CONSTITUTION_DIR</code> override and two supported layouts
+(<code>constitution/</code>, <code>submodules/constitution/</code>). -
+<em>Keeping one repo authoritative across four Git providers</em> →
+<code>install_upstreams.sh</code> reads <code>Upstreams/*.sh</code> and
+configures <code>origin</code> with multiple push URLs so a single
+<code>git push</code> fans out to GitHub (primary), GitLab, GitFlic, and
+GitVerse. - <em>Preventing rule-bloat / project leakage into the
+universal base</em> → the earned-universality four-part test plus
+§11.4.17 universal-vs-project classification on every new rule. -
+<em>Proving the inheritance gate actually works</em> →
+<code>meta_test_inheritance.sh</code>, a sentinel meta-test that deletes
+the §11.4 anchor and asserts the gate catches it.</p>
+<p><strong>Tech/mechanism stack (why + how):</strong> -
+<strong>Git-submodule inheritance</strong> — <em>why:</em> one
+authoritative rulebook, version-pinned per project; <em>how:</em>
+consuming projects add the submodule and <code>@import</code> its agent
+files; three-layer top-to-bottom evaluation, project
+extends-not-weakens. -
+<strong><code>find_constitution.sh</code></strong> — <em>why:</em>
+nested submodules must source the rules without knowing their own depth;
+<em>how:</em> parent-walk +
+<code>git rev-parse --show-superproject-working-tree</code> recursion +
+<code>CONSTITUTION_DIR</code> override. -
+<strong><code>install_upstreams.sh</code> +
+<code>Upstreams/</code></strong> — <em>why:</em> four-provider
+redundancy with one push; <em>how:</em> declarative <code>.sh</code>
+remotes materialised into multi-URL <code>origin</code>. - <strong>§1.1
+mutation meta-tests</strong> — <em>why:</em> a gate that can never fail
+is worse than none; <em>how:</em> each gate paired with a sed-out/rename
+mutation that must turn PASS→FAIL, then restore. - <strong>Propagation
+gates (<code>CM-COVENANT-114-NNN-PROPAGATION</code>)</strong> —
+<em>why:</em> guarantee a clause is actually present fleet-wide;
+<em>how:</em> literal clause-number grep across consumers + paired §1.1
+mutation. - <strong><code>submodules-catalogue.md</code>
+(§11.4.74)</strong> — <em>why:</em> stop re-implementing owned
+capabilities; <em>how:</em> 142-repo capability-grouped inventory,
+catalogue-check recorded in the tracker before scaffolding. -
+<strong>Multi-format export</strong> — <em>why:</em> human + tooling +
+archival consumption; <em>how:</em> every canonical doc emitted as
+<code>.md</code> / <code>.html</code> / <code>.pdf</code> /
+<code>.docx</code>.</p>
+<p><strong>Public links:</strong> - Canonical (public):
+https://github.com/HelixDevelopment/HelixConstitution - Mirror (public):
+https://github.com/vasic-digital/HelixConstitution - Additional upstream
+mirrors: GitLab <code>helixdevelopment1/helixconstitution</code>,
+GitFlic <code>helixdevelopment/helixconstitution</code>, GitVerse
+<code>helixdevelopment/HelixConstitution</code>.</p>
+<p><strong>Suggested diagrams/illustrations (OpenDesign):</strong> 1.
+<strong>Constitution inheritance layers</strong> — a three-tier stack
+(universal base submodule → project layer → subdirectory overrides) with
+arrows showing “extend, never weaken.” 2. <strong>Fleet
+propagation</strong> — one Constitution repo at the centre, submodule
+links radiating to 140+ consuming repos, each stamped with a green
+<code>CM-COVENANT-…-PROPAGATION</code> check. 3. <strong>Anti-bluff
+evidence pipeline</strong> — code change → four-layer gate (source /
+build / runtime / mutation) → captured-evidence artefact → PASS, with a
+“no evidence = bluff = blocker” reject branch. 4. <strong>Multi-upstream
+push topology</strong> — a single <code>git push</code> fanning out to
+GitHub / GitLab / GitFlic / GitVerse.</p>
+<p><strong>Site relevance:</strong> both</p>
+<p><strong>Priority tier:</strong> Helix-primary (governance pillar)</p>
+<p><strong>Source provenance:</strong> -
+<code>/Volumes/T7/Projects/constitution/README.md</code> (inheritance
+model, consumption steps, multi-upstream topology, contents table,
+earned-universality test). -
+<code>/Volumes/T7/Projects/constitution/Constitution.md</code> —
+structural read: §1.1 (lines 147-164, false-positive immunity / mutation
+pairing), §11.4.6 (630-649, no-guessing), §11.4.69 (6411+,
+positive-evidence taxonomy + D3 forensic incident), §11.4.169 (9787+),
+§11.4.141 (9851+), §11.4.170 (giant-button forensic anchor), ToC (lines
+20-110). -
+<code>/Volumes/T7/Projects/constitution/find_constitution.sh</code>
+(parent-walk + superproject recursion + CONSTITUTION_DIR override). -
+<code>/Volumes/T7/Projects/constitution/submodules-catalogue.md</code>
+(142 repos, catalogue-first §11.4.74). -
+<code>/Volumes/T7/Projects/vasic/_analysis/github-helix-others.md</code>
+and <code>github-vasic-digital.md</code> (repo visibility = public,
+descriptions, ecosystem role).</p>
+</body>
+</html>

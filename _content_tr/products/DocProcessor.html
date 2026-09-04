@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p><strong>Belgelendirmeyi QA otomasyonu için doğrulanabilir bir özellik
+haritasına dönüştürün.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>DocProcessor, proje belgelerini yükleyen, yapılandırılmış özellik
+haritaları oluşturan ve doğrulama kapsamını izleyen, bağımsız ve tamamen
+ayrıştırılmış bir Go modülüdür. LLM ajanlarıyla akıllı özellik çıkarma
+için tasarlanmış olsa da çevrimdışı kullanım için sezgisel çıkarma
+özelliğini de içerir.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Belge işleme ve özellik haritası çıkarma için projeye bağımlı olmayan
+bir Go modülü. Belgeleri yapılandırılmış özellik haritalarına dönüştürür
+ve hangi özelliklerin doğrulandığını izler — akıllı çıkarma için LLM
+ajanlarını kullanır veya çevrimdışı durumlarda sezgisel yöntemlerle
+çalışır — QA otomasyonuna, “gerçekle her zaman uyumlu” garantisi
+sunar.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>Her yazılım ekibi aynı yavaş yalanla yaşamak zorunda kalır: belgeler
+özellikler vaat eder, testler bunlara yakın bir şeyi kapsar ve kimse bu
+ikisinin aynı ürünü tarif edip etmediğini güvenle söyleyemez.
+DocProcessor, bu boşluğu görünür ve ölçülebilir kılmak için var. Bir
+projenin belgeleri verildiğinde, ürünün yapmayı vaat ettiği her şeyin
+numaralandırılmış, makine tarafından okunabilir bir modeli olan
+yapılandırılmış bir özellik haritası oluşturur ve doğrulama kapsamını bu
+haritaya karşı izler. Böylece “bu belgelenmiş özellik gerçekten
+kanıtlandı mı?” sorusu, koridor tartışmalarından çıkıp bir yanıtı olan
+bir sorguya dönüşür. Kasıtlı olarak çift modludur: LLM ajanları mevcut
+olduğunda akıllı, anlamsal özellik çıkarma için kullanılır; çevrimdışı
+kullanım için ise sezgisel bir ayrıştırıcıya geri döner. Bu sayede, bir
+modelin varlığına kesin bağımlılık olmaz ve hava boşluklu bir CI işinde
+ya da bir geliştiricinin uçak modundaki dizüstü bilgisayarında aynı
+şekilde çalışır.</p>
+<p>Mimari olarak, bağımsız, proje farkındalığı olmayan ve tamamen
+ayrıştırılmış bir Go modülüdür (CONST-051(B)): Hiçbir projeye özgü değer
+içermez ve tüketiciler tarafından eşit kod tabanlı bir alt modül olarak
+entegre edilir. Böylece herhangi bir proje, başkalarının varsayımlarını
+devralmadan benimseyebilir. Ayrıca, başkalarına uyguladığı standardı
+kendisine de uygular — kendi iddiaları, “anti-blöf” sözleşmesi
+(CONST-035) ve tam otomasyon kapsamı kuralları (CONST-048) ile
+sınırlıdır. Bu, README dosyasında duyurulan her yeteneğin, yalnızca
+sıfırla çıkmakla kalmayıp gerçek, son kullanıcı tarafından
+kullanılabilir davranışı doğrulayan otomatik bir test veya Challenge
+betiği tarafından sınandığı anlamına gelir. Kullanıcıya yönelik
+metinler, CONST-046 i18n çevirmen ara katmanından geçer. Tüm bunların
+amacı kapalı bir döngü oluşturmaktır: DocProcessor, HelixQA’un
+tamamladığı QA döngüsünün girdi tarafıdır — belgelerden özellik
+haritasını çıkarır, HelixQA ise her haritalanmış özelliği çalışma zamanı
+kanıtlarıyla doğrular. Böylece belgeler, testler ve yayınlanan davranış,
+sürümden sürüme sessizce ayrılmak yerine zorunlu olarak birleşir.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik</h2>
+<p>Belgeler ve testler birbirinden uzaklaşır: Belgeler hiçbir testin
+kanıtlamadığı özellikler vaat eder ve QA, “tamamlanmış”ın ne anlama
+geldiğini kolayca söyleyemez. DocProcessor, belgeleri makine tarafından
+okunabilir bir özellik haritasına dönüştürerek doğrulama kapsamının
+gerçekten vaat edilenlere karşı ölçülmesini sağlar.</p>
+<p>İçerik</p>
+<h2 id="neden-bir-oyun-değiştirici">Neden bir oyun değiştirici?</h2>
+<p>Yazılım tesliminde en muğlak soruyu — “Yayınladığımız şey,
+söylediğimiz şeyle örtüşüyor mu?” — otomatikleştirilebilir ve sürekli
+denetlenebilir bir hale getiriyor. Üstelik bunu <strong>AI</strong> gibi
+katı bir bağımlılığa ihtiyaç duymadan yapıyor: Model varsa
+<strong>LLM</strong> tabanlı çıkarım, yoksa sezgisel yöntemler
+kullanıyor. Böylece çevrimdışı çalışan bir ortamdan tamamen otonom bir
+pipeline’a kadar her ortamda aynı güvence sağlanıyor.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li><strong>Belgelendirme-özellik haritası çıkarımı</strong> ve
+doğrulama kapsamı takibi.</li>
+<li><strong>Çift yönlü çıkarım</strong>: <strong>LLM</strong> aracıyla
+ya da sezgisel/çevrimdışı yöntemlerle.</li>
+<li><strong>Projeye özel olmayan, sıfır konfigürasyonlu bağımsız
+çalışma</strong> (CONST-051(B)).</li>
+<li><strong>Sahtekârlık önleyici öz doğrulama</strong>: README
+iddiaları, testler/Meydan Okumalar ile destekleniyor
+(CONST-035/048).</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve çözümler</h2>
+<ul>
+<li><strong>Model olmadan çalışabilme</strong>: Çevrimdışı çalışmayı
+sağlayan sezgisel çıkarım yedek mekanizmasıyla çözüldü.</li>
+<li><strong>Belgelerin gerçeklikle uyumlu kalması</strong>:
+Yapılandırılmış özellik haritaları ve doğrulama kapsamı takibi ile
+çözüldü; QA döngüsüne entegre edildi.</li>
+<li><strong>Yeniden kullanılabilirlik</strong>: Katı bağımsızlık ve eşit
+kod tabanlı alt modül tüketimi ile sağlandı.</li>
+<li><strong>Kendi iddialarının güvenilirliği</strong>: Her reklam edilen
+yetenek için sahtekârlık önleyici testler/Meydan Okumalar ile
+çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji yığını (neden ve
+nasıl)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> — modül çekirdeği; Apache-2.0
+lisanslı.</li>
+<li><strong>LLM aracıları</strong> — akıllı anlamsal özellik çıkarımı
+(isteğe bağlı).</li>
+<li><strong>Sezgisel ayrıştırıcı</strong> — çevrimdışı özellik çıkarımı
+yedeği.</li>
+<li><strong>Çok dilli Çevirmen (<code>pkg/i18n</code>)</strong> —
+CONST-046 yerelleştirilmiş dizgiler.</li>
+<li><strong>Meydan Okuma altyapısı</strong> — modülün kendi iddialarının
+sahtekârlık önleyici doğrulaması.</li>
+</ul>
+</body>
+</html>

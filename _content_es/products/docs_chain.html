@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs_chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs_chain</h1>
+</header>
+<p><strong>Ningún documento rastreado puede desincronizarse — con hash
+de contenido, bidireccional y atómico.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Docs Chain es un motor universal de propagación de dependencias entre
+documentos y bases de datos, implementado en Go y bidireccional. Cuando
+cualquier miembro de una cadena registrada cambia —fuente en Markdown,
+una exportación en HTML/PDF/DOCX o una base de datos SQLite—, detecta el
+cambio mediante hash de contenido y lo propaga de forma atómica a todos
+los miembros conectados.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un motor Go que mantiene sincronizados documentos y bases de datos.
+Mediante recomputación incremental con hash de contenido al estilo Salsa
+sobre un DAG (orden topológico de Kahn, corte temprano, aristas de
+sincronización bidireccional, confirmaciones atómicas con renombrado +
+transacciones SQLite), regenera las exportaciones cada vez que cambia
+algún artefacto vinculado.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Docs Chain es lo que se construye después de escribir por enésima vez
+el mismo frágil script de shell para “regenerar el PDF cuando cambia el
+Markdown”. Reemplaza todo ese género de sincronización artesanal con un
+motor real. Modela los documentos y bases de datos de un proyecto como
+miembros de una cadena y, cuando alguno cambia, propaga ese cambio a
+todos los miembros conectados en todas las direcciones declaradas,
+regenerando y reexportando de forma atómica para que ningún artefacto
+rastreado pueda desincronizarse jamás. El diseño toma su rigor
+directamente del mundo de los sistemas de compilación incremental, no
+del scripting: la detección de cambios se basa en <strong>hash de
+contenido, no en <em>mtime</em></strong>, por lo que un
+<code>touch</code> no activa nada y una edición de un solo byte
+desencadena exactamente las recompilaciones que debe —sin falsas alarmas
+ni cambios omitidos. Formalizado en una sola línea, es recomputación
+incremental con hash de contenido al estilo Salsa sobre un DAG, con
+orden topológico de Kahn, corte temprano que poda subárboles sin
+cambios, aristas de sincronización bidireccional con autoridad
+declarada, y confirmaciones atómicas mediante renombrado + transacciones
+SQLite, de modo que un fallo durante la propagación nunca deje una
+exportación a medio escribir. Se distribuye como submódulo de
+<code>vasic-digital</code> y se consume como parte central del submódulo
+HelixConstitution, por lo que cualquier proyecto que adopte la
+constitución obtiene Docs Chain de serie y registra sus propias cadenas
+mediante YAML por contexto. La implementación es transparente en cuanto
+a su estado (según la constitución §11.4.6): las Fases 1–4 (DAG central
++ hashing, adaptadores/transformaciones de nodos, orquestador de
+propagación con atomicidad, CLI multicontesto con comandos
+<code>sync</code>/<code>verify</code>/<code>doctor</code>/<code>graph</code>/<code>watch</code>)
+están implementadas y probadas; la Fase 4b añade <em>builtins</em>
+genéricos bidireccionales
+<code>md-to-sqlite</code>/<code>sqlite-to-md</code> (en puro Go,
+detección de desincronización a nivel de fila, ida y vuelta estable en
+bytes) y un <em>builtin</em> <code>colorize-html</code>; la Fase 5
+(pruebas e2e reales con binarios completos) está implementada y en
+VERDE. Las Fases 6–7 (distribución de la constitución, integración con
+ATMOSphere) siguen en PLANIFICACIÓN y con acceso restringido a
+operadores. Herald es el primer consumidor real en producción,
+sincronizando un corpus de 66 documentos en múltiples formatos que
+verifica su correcto funcionamiento.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>La documentación, las exportaciones y las bases de datos se
+desincronizan en cuanto se mantienen a mano o con scripts frágiles. Docs
+Chain convierte la sincronización en un proceso mecánico, preciso por
+hash de contenido y atómico, de modo que un cambio en cualquier punto de
+una cadena actualiza correctamente y de forma segura todo lo que depende
+de él (tanto aguas abajo como aguas arriba).</p>
+<h2 id="por-qué-es-un-cambio-de-juego">Por qué es un cambio de
+juego</h2>
+<p>Toma las garantías de corrección, obtenidas con tanto esfuerzo, que
+los autores de compiladores y sistemas de construcción dan por sentadas
+—grafos de dependencias con hash de contenido, recomputación mínima,
+commits atómicos— y las aplica a la documentación y las bases de datos,
+un ámbito que históricamente ha avanzado a trompicones con tareas
+programadas y buenas intenciones. La sincronización bidireccional real
+implica que la relación entre un origen y su exportación se mantiene en
+ambos sentidos, de modo que “la documentación está desactualizada” y “la
+exportación no coincide con el origen” dejan de ser errores recurrentes
+para convertirse en estados que el motor simplemente no permitirá que
+existan.</p>
+<h2 id="qué-es-innovador">Qué es innovador</h2>
+<ul>
+<li>Recomputación incremental basada en hash de contenido (no en
+<em>mtime</em>) sobre un DAG con corte anticipado.</li>
+<li>Sincronización bidireccional con aristas de autoridad declarada
+(docs ↔︎ exportaciones ↔︎ SQLite).</li>
+<li>Commit con renombrado atómico + transacción SQLite para propagación
+segura ante fallos.</li>
+<li>Viaje de ida y vuelta en Go
+<code>md-a-sqlite</code>/<code>sqlite-a-md</code> con detección de
+desviaciones a nivel de fila.</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Reconstrucciones espurias:</strong> resueltas mediante
+detección por hash de contenido en lugar de marcas de tiempo.</li>
+<li><strong>Actualizaciones parciales o corruptas:</strong> resueltas
+con renombrado atómico y transacciones SQLite.</li>
+<li><strong>Ordenación correcta en miembros múltiples:</strong> resuelta
+con ordenación topológica de Kahn + corte anticipado.</li>
+<li><strong>Informe honesto de capacidades:</strong> resuelto marcando
+cada fase como IMPLEMENTADA o PLANIFICADA según §11.4.6.</li>
+</ul>
+<h2 id="pila-tecnológica-por-qué-y-cómo">Pila tecnológica (por qué y
+cómo)</h2>
+<ul>
+<li><strong>Go</strong> — motor completo (<code>internal/hash</code>,
+<code>graph</code>, <code>adapter</code>, <code>orchestrator</code>,
+<code>config</code>, <code>state</code>, <code>runner</code>,
+<code>cmd/docs_chain</code>).</li>
+<li><strong>DAG + ordenación topológica de Kahn</strong> — ordenación de
+dependencias con corte anticipado.</li>
+<li><strong>SQLite (modernc puro en Go)</strong> — miembros de la base
+de datos y commits transaccionales.</li>
+<li><strong>fsnotify</strong> — demonio <code>watch</code> para
+propagación en tiempo real.</li>
+<li><strong>Configuración YAML</strong> — registro de cadenas por
+contexto.</li>
+<li><strong>exec: transformaciones</strong> — generación conectable de
+Markdown→HTML/PDF/DOCX.</li>
+</ul>
+<blockquote>
+<p>Transparencia en la hoja de ruta: Las fases 6–7 (distribución de
+constitución, integración con ATMOSphere) están PLANIFICADAS /
+restringidas por operador —no implementadas.</p>
+</blockquote>
+</body>
+</html>

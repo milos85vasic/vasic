@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixGitpx</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixGitpx</h1>
+</header>
+<h1 id="helixgitpx">HelixGitpx</h1>
+<p><strong>एक सत्य का स्रोत, हर जगह प्रतिबिंबित — दर्जनों होस्ट्स पर संघटित
+गिट।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>HelixGitpx (Helix गिट प्रॉक्सी विस्तारित) एक संघटित गिट प्रॉक्सी है जो एकल
+सत्य के स्रोत को कई अपस्ट्रीम गिट होस्ट्स पर प्रतिबिंबित रखती है और अनिवार्य रूप से
+उत्पन्न होने वाले टकरावों का समाधान नीति- और AI-सहायित प्रक्रियाओं के माध्यम से
+करती है। यह v1.0.0 GA पर पहुँच चुका है।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>HelixGitpx एक संघटित गिट प्रॉक्सी है जो एक सत्य के स्रोत को दर्जनों से अधिक गिट
+होस्ट्स — GitHub, GitLab, गिटिया, बिटबकेट, Azure DevOps, AWS कोडकमिट और अन्य
+— पर प्रतिबिंबित करती है और सिंक टकरावों का समाधान नीति- और AI-सहायित
+प्रक्रियाओं के माध्यम से करती है। इसे v1.0.0 GA के रूप में जारी किया गया है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>HelixGitpx — “Helix गिट प्रॉक्सी विस्तारित” — एक संघटित गिट प्रॉक्सी है जो
+एकल सत्य के स्रोत को कई अपस्ट्रीम गिट होस्ट्स पर प्रतिबिंबित रखती है और उन टकरावों
+का समाधान करती है जो अनिवार्य रूप से तब उत्पन्न होते हैं जब एक ही रिपॉजिटरी एक से
+अधिक स्थानों पर मौजूद होती है। इसके समर्थित अपस्ट्रीम्स पूरे गिट पारिस्थितिकी तंत्र का
+मानचित्र प्रस्तुत करते हैं: GitHub, GitLab, GitFlic, गिटवर्स, गिटिया, गिटी,
+बिटबकेट, Azure DevOps, AWS कोडकमिट, फोर्जियो, सोर्सहट, और सामान्य
+गिट-ओवर-HTTPS। जहाँ एक साधारण <code>git push</code> दर्जनों रिमोट्स पर या तो
+पूरी तरह विफल हो जाता है या, इससे भी बदतर, मिरर्स को चुपचाप अलग-अलग होने देता
+है, वहीं HelixGitpx नीति- और AI-सहायित समाधान प्रक्रियाओं के साथ हस्तक्षेप करती है
+जो भिन्नताओं को एक आधिकारिक सत्य में समेट लेती हैं।</p>
+<p>यह परियोजना v1.0.0 GA पर है, जिसमें माइलस्टोन <code>m1-foundation</code>
+से <code>m8-ga</code> तक टैग किए गए हैं — नींव से लेकर सामान्य उपलब्धता तक का एक
+पूर्ण क्रमबद्ध मार्ग। इसे एक उत्पाद के तीन स्तरों के रूप में इंजीनियर किया गया है: एक Go
+मोनोरिपो (एक प्लेटफ़ॉर्म और अठारह सेवाएँ, कोड जनरेशन, और स्कैफोल्डिंग टूल्स) जो संघटन
+इंजन को वहन करता है; एक Angular 19 + Nx वेब एप्लिकेशन; और Kotlin-मल्टीप्लेटफ़ॉर्म
++ कंपोज़ क्लाइंट शेल्स जो साझा कोड से एंड्रॉइड, iOS और डेस्कटॉप के लिए मूल अनुभव प्रदान
+करते हैं। प्लेटफ़ॉर्म डिलीवरी Kubernetes-नेटिव है — Helm चार्ट्स, आर्गो CD एप्लिकेशन्स,
+कस्टमाइज़ ओवरले, SQL, और OPA नीतियाँ — जिसमें CI पाइपलाइन्स को स्पष्ट डिस्पैच के पीछे
+संरक्षित किया गया है ताकि कुछ भी अनजाने में रोल आउट न हो। सार्वजनिक दस्तावेज़ीकरण
+एक डॉक्यूसॉरस साइट (docs.helixgitpx.io) के रूप में जारी किया गया है, साथ ही एक
+एस्ट्रो मार्केटिंग साइट (helixgitpx.io) भी है।</p>
+<p>शासन कठोर और संविधान-संचालित है, और यह एक विशेषता है, औपचारिकता नहीं:
+परियोजना का भार वहन करने वाला दस्तावेज़ Constitution है, जिसका अनुच्छेद II सात
+प्रकार के परीक्षण मैट्रिक्स को 100% कवरेज <em>प्रत्येक प्रकार, प्रत्येक संशोधित मॉड्यूल के
+लिए</em> अनिवार्य करता है, जिसमें मॉक केवल यूनिट परीक्षणों में अनुमत हैं और एक भी
+स्किप्ड टेस्ट बर्दाश्त नहीं किया जाता। एक वन-शॉट सत्यापनकर्ता हर आर्टिफैक्ट चेक के
+साथ-साथ पूरे कार्यक्षेत्र में <code>go vet</code> और <code>go test</code> चलाता
+है, और हर पुश सभी कॉन्फ़िगर किए गए अपस्ट्रीम्स पर प्रसारित होता है — ताकि “मिरर्स
+सिंक में हैं” यह प्रणाली हर कमिट पर लागू करती है, न कि यह कोई इंसान याद रखकर
+जाँचता हो।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>कई गिट होस्ट्स पर एक रिपॉजिटरी को प्रामाणिक बनाए रखना — अतिरेक, संप्रभुता,
+या क्षेत्रीय प्लेटफ़ॉर्मों तक पहुँच के लिए — नाजुक और मैनुअल प्रक्रिया है, और अलग-अलग
+मिरर्स को समेटना कठिन होता है। HelixGitpx को मल्टी-अपस्ट्रीम मिररिंग को एक प्रथम
+श्रेणी की, टकराव-जागरूक क्षमता बनाने के लिए बनाया गया था।</p>
+<p>सामग्री</p>
+<h2 id="यह-कय-एक-गम-चजर-ह">यह क्यों एक गेम-चेंजर है</h2>
+<p>यह “कई रिमोट्स पर पुश करके उम्मीद करना” — वह नाजुक, मैनुअल यथास्थिति — को एक
+नियंत्रित महासंघ में बदल देता है, जहाँ एक ही आधिकारिक सत्य का स्रोत होता है और
+स्वचालित, नीतियों तथा AI पर आधारित टकराव समाधान होता है। और यह असाधारण रूप से
+व्यापक मेजबानों के समूह पर काम करता है, जिसमें जानबूझकर उन क्षेत्रीय प्लेटफार्मों
+(GitFlic, GitVerse, Gitee) को भी शामिल किया गया है जिन्हें अधिकांश टूल चुपचाप
+नज़रअंदाज़ कर देते हैं। इससे अतिरेक, डेटा संप्रभुता और उन पारिस्थितिक तंत्रों तक पहुँच अब
+रखरखाव का बोझ नहीं रह जाती, बल्कि एक ऐसी क्षमता बन जाती है जिसे आप केवल एक बार
+कॉन्फ़िगर करते हैं।</p>
+<h2 id="कय-नवन-ह">क्या नवीन है</h2>
+<ul>
+<li><strong>अपस्ट्रीम की व्यापकता</strong> — एक दर्जन से अधिक Git होस्ट,
+GitHub और GitLab से लेकर क्षेत्रीय प्लेटफार्मों जैसे GitFlic, GitVerse और Gitee तक,
+सभी एक ही प्रॉक्सी के पीछे सामान्यीकृत।</li>
+<li><strong>नीति- और AI-सहायित टकराव समाधान</strong> — भिन्नताओं का समाधान
+एक नीति इंजन और AI रिज़ॉल्वर द्वारा किया जाता है, न कि किसी इंसान द्वारा मैनुअली
+मिरर्स की तुलना करके।</li>
+<li><strong>एकल-स्रोत-सत्य महासंघ</strong> — एक ऐसा ऑल-अपस्ट्रीम पुश मॉडल जहाँ
+एक आधिकारिक रेपो ही सत्य होता है और हर होस्ट एक मिरर होता है जो उसके साथ तालमेल
+बनाए रखता है।</li>
+<li><strong>कठोर, संविधान-प्रवर्तित परीक्षण</strong> — सात प्रकार के परीक्षण,
+प्रत्येक प्रकार में 100% कवरेज, बिना किसी स्किप के, जिसे एक ही बार में चलने वाले
+ग्रीन-सूट स्क्रिप्ट द्वारा साबित किया जाता है, न कि केवल विश्वास पर।</li>
+</ul>
+<h2 id="सबस-बड-तकनक-चनतय-और-उनक-समधन">सबसे बड़ी तकनीकी चुनौतियाँ और उनके
+समाधान</h2>
+<ul>
+<li><strong>कई अपस्ट्रीम्स में भिन्नता और टकराव।</strong> एक ही रेपो जब दर्जनों
+जगहों पर होता है, तो जैसे ही दो होस्ट अलग-अलग लिखावट स्वीकार करते हैं, वह भटक
+जाता है। इसका समाधान नीति- और AI-सहायित समाधान प्रवाहों से किया गया, जो एक
+ही सत्य के स्रोत पर आधारित होते हैं, साथ ही एक ऑल-अपस्ट्रीम सिंक्रोनाइज़्ड पुश से जो
+हर मिरर को उस एक सत्य की ओर अभिसरित रखता है।</li>
+<li><strong>विभिन्न Git होस्ट्स के लिए एकसमान समर्थन।</strong> हर होस्ट की
+अपनी प्रमाणीकरण प्रणाली, ख़ासियतें और API होती हैं। इसका समाधान
+<code>Upstreams/</code> के तहत प्रति-अपस्ट्रीम कॉन्फ़िगरेशन स्क्रिप्ट्स और एक
+प्लेटफ़ॉर्म लेयर से किया गया, जो इन अंतरों को छिपा देता है, ताकि नया होस्ट जोड़ना
+कॉन्फ़िगरेशन का मामला हो, न कि फिर से लिखने का।</li>
+<li><strong>हर मर्ज से पहले शुद्धता साबित करना।</strong> इसका समाधान अनिवार्य
+सात-प्रकार के परीक्षण मैट्रिक्स और <code>verify-everything.sh</code> वन-शॉट गेट
+से किया गया, जो पूरा चेक सेट चलाता है — और जब कोई क्लस्टर उपलब्ध नहीं होता तो
+साफ़-सुथरा शॉर्ट-सर्किट करता है, ताकि शुद्धता स्थानीय रूप से भी साबित की जा सके, न
+कि केवल CI में।</li>
+</ul>
+<h2 id="तकनक-ढच">तकनीकी ढाँचा</h2>
+<ul>
+<li><strong>Go मोनोरेपो</strong> — मुख्य प्रॉक्सी और महासंघ इंजन: एक प्लेटफ़ॉर्म के
+साथ 18 सेवाएँ, कोड जनरेशन और स्कैफ़ोल्डिंग, सब एक ही रेपो में रखे गए ताकि पूरा इंजन एक
+इकाई के रूप में बन सके और परीक्षण किया जा सके।</li>
+<li><strong>Angular 19 + Nx</strong> — वेब एप्लिकेशन, जिसमें Nx बड़े फ्रंटएंड के
+लिए मोनोरेपो बिल्ड/कैशिंग संरचना प्रदान करता है।</li>
+<li><strong>Kotlin Multiplatform + Compose</strong> — नेटिव एंड्रॉयड, iOS
+और डेस्कटॉप क्लाइंट शेल्स, जो एक साझा कोडबेस से जनरेट किए जाते हैं, ताकि तीन प्लेटफ़ॉर्म
+का मतलब तीन अलग-अलग कार्यान्वयन न हो।</li>
+<li><strong>Kubernetes + Helm + Argo CD + Kustomize</strong> —
+क्लाउड-नेटिव डिलीवरी: Helm रिलीज़ को पैकेज करता है, Kustomize ओवरले हर वातावरण
+के अनुसार उसे अनुकूलित करते हैं, और Argo CD GitOps के माध्यम से उसे समेटता है ताकि
+क्लस्टर की स्थिति Git से मेल खाए।</li>
+<li><strong>OPA (Rego)</strong> — टकराव समाधान और पहुँच नियंत्रण दोनों के लिए
+कोड के रूप में नीति, जिससे प्राधिकरण निर्णय घोषणात्मक और ऑडिट योग्य रहते हैं।</li>
+<li><strong>Docusaurus</strong> — सार्वजनिक दस्तावेज़ीकरण साइट
+(docs.helixgitpx.io); <strong>Astro</strong> — मार्केटिंग साइट
+(helixgitpx.io), हर टूल को उसके कंटेंट प्रकार के अनुसार चुना गया।</li>
+<li><strong>mise</strong> — एक पिन किया हुआ, पुनरुत्पादन योग्य टूलचेन, ताकि हर
+योगदानकर्ता और CI रनर बिल्कुल एक ही संस्करणों के विरुद्ध बिल्ड करें।</li>
+</ul>
+<p>सामग्री</p>
+<h2 id="सथत-एव-ईमनदर-सबध-टपपणय">स्थिति एवं ईमानदारी संबंधी टिप्पणियाँ</h2>
+<ul>
+<li><strong>स्थिति: भेज दिया गया।</strong> परियोजना के README में v1.0.0 GA
+घोषित किया गया है, जिसमें मील के पत्थर <code>m1-foundation</code> से लेकर
+<code>m8-ga</code> तक टैग किए गए हैं। (“v1.0.0 GA” परियोजना के README का स्वयं
+का दावा है।)</li>
+<li><strong>लाइसेंस: तय किया जाना शेष।</strong> GitHub और API रिपोर्टों में
+<code>MIT</code> का उल्लेख है, जबकि README के लाइसेंस अनुभाग में Apache-2.0 (कोड)
+/ CC-BY-SA-4.0 (दस्तावेज़ीकरण) लिखा है — प्रकाशन से पहले वास्तविक LICENSE फ़ाइल के
+अनुसार निर्णय लें।</li>
+<li>दस्तावेज़ (docs.helixgitpx.io) और विपणन (helixgitpx.io) के URL README के
+अनुसार हैं और इन्हें स्वतंत्र रूप से सत्यापित नहीं किया गया है — लाइव स्थिति
+<strong>असत्यापित</strong>।</li>
+</ul>
+<p><strong>प्राथमिकता स्तर:</strong> Helix-प्राथमिक।</p>
+</body>
+</html>

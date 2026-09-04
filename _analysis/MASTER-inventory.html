@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>MASTER-inventory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">MASTER-inventory</h1>
+</header>
+<h1 id="master-inventory-single-source-of-truth-for-both-sites">MASTER
+Inventory — Single Source of Truth for Both Sites</h1>
+<p><strong>Date:</strong> 2026-06-17 · All data verified from
+<code>gh</code>/<code>glab</code> API (no estimates, no bluff). Sources:
+<code>github-vasic-digital.json</code> (185),
+<code>github-helix-others.json</code> (56), <code>gitlab-all.json</code>
+(189).</p>
+<h2 id="totals-verified">1. Totals (verified)</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Scope</th>
+<th>Count</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub</td>
+<td>vasic-digital</td>
+<td>185</td>
+<td>53 forks, 4 archived, 20 private; 2 AOSP firmware repos ≈182 GB
+dominate size</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>HelixDevelopment</td>
+<td>30</td>
+<td>constitution-driven Go product family</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>Helix-Track</td>
+<td>13</td>
+<td>JIRA-alternative product line (most clients private)</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>Helix-Flow</td>
+<td>1</td>
+<td>Platform (AI inference)</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>Server-Factory</td>
+<td>12</td>
+<td>older Kotlin/Shell infra automation; mostly forks</td>
+</tr>
+<tr>
+<td>GitLab</td>
+<td>vasic-digital</td>
+<td>164</td>
+<td>mostly mirrors of GitHub; 49 <code>caf-*</code> vendored
+upstreams</td>
+</tr>
+<tr>
+<td>GitLab</td>
+<td>HelixDevelopment (<code>helixdevelopment1</code>)</td>
+<td>25</td>
+<td>mirrors</td>
+</tr>
+<tr>
+<td><strong>GitHub total</strong></td>
+<td>5 orgs</td>
+<td><strong>241</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>GitLab total</strong></td>
+<td>2 groups</td>
+<td><strong>189</strong></td>
+<td>Helix-Track / Helix-Flow / Server-Factory <strong>do not exist on
+GitLab</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="exclusion-rules-for-showcase-why-size-alone-misleads">2.
+Exclusion rules for showcase (why size alone misleads)</h2>
+<ul>
+<li><strong>AOSP firmware mirrors</strong> <code>ATMOSphere-*</code>
+(~182 GB) — backups of external sources, one archived. EXCLUDE from
+showcase.</li>
+<li><strong><code>caf-*</code> (≈49)</strong> — vendored copies of
+upstream OSS (warp, codex, aider, superset, goose, open-interpreter…).
+EXCLUDE.</li>
+<li><strong>Backup mirrors (≈14)</strong> — descriptions name a
+<code>git@github.com:</code> source. EXCLUDE.</li>
+<li><strong>Archived (8 total)</strong> — EXCLUDE.</li>
+<li><strong>Private repos</strong> — may be MENTIONED but must NOT be
+linked publicly (broken links).</li>
+</ul>
+<h2
+id="featured-set-public-first-party-advanced-links-verified-non-404">3.
+FEATURED set — public, first-party, advanced (links verified
+non-404)</h2>
+<p>Ranked by showcase merit (advancement + activity + role as flagship),
+size noted but not the sole driver.</p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Project</th>
+<th>Org</th>
+<th>Lang</th>
+<th>Public</th>
+<th>Pushed</th>
+<th>What it is (verified description)</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>HelixTrack Core</strong></td>
+<td>Helix-Track</td>
+<td>Go</td>
+<td>✅ 5★</td>
+<td>2026-06-17</td>
+<td>“The Open-Source JIRA Alternative for the Free World” — enterprise
+project/issue tracking</td>
+<td>github.com/Helix-Track/Core</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>HelixCode</strong></td>
+<td>HelixDevelopment</td>
+<td>Go</td>
+<td>✅ 1★</td>
+<td>2026-06-17</td>
+<td>AI coding agent / distributed multi-LLM development platform</td>
+<td>github.com/HelixDevelopment/HelixCode</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>HelixAgent</strong></td>
+<td>HelixDevelopment</td>
+<td>Go</td>
+<td>✅ 1★</td>
+<td>2026-06-16</td>
+<td>LLMs agent — multi-LLM ensemble service</td>
+<td>github.com/HelixDevelopment/HelixAgent</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>HelixTranslate</strong></td>
+<td>HelixDevelopment</td>
+<td>Go</td>
+<td>✅</td>
+<td>2026-06-17</td>
+<td>High-performance enterprise universal ebook translation toolkit; any
+format/language; multiple engines; REST + HTTP/3; real-time
+WebSocket</td>
+<td>github.com/HelixDevelopment/HelixTranslate</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Helix-Flow Platform</strong></td>
+<td>Helix-Flow</td>
+<td>Go</td>
+<td>✅</td>
+<td>2026-04-27</td>
+<td>“One platform for all your AI inference needs” — run AI models
+faster at any scale with predictable costs</td>
+<td>github.com/Helix-Flow/Platform</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>LLMsVerifier</strong></td>
+<td>vasic-digital</td>
+<td>Go</td>
+<td>✅</td>
+<td>2026-06-16</td>
+<td>Benchmark and verify LLMs</td>
+<td>github.com/vasic-digital/LLMsVerifier</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Catalogizer</strong></td>
+<td>vasic-digital</td>
+<td>Go</td>
+<td>✅</td>
+<td>2026-05-03</td>
+<td>Advanced multi-protocol media collection management system</td>
+<td>github.com/vasic-digital/Catalogizer</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Mail Server Factory</strong></td>
+<td>Server-Factory</td>
+<td>Shell</td>
+<td>✅ 3★</td>
+<td>2025-11-12</td>
+<td>Automated mail-server deployment (“run your mail server like the
+boss”) <em>(fork/mirror flag set)</em></td>
+<td>github.com/Server-Factory/Mail-Server-Factory</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Panoptic</strong></td>
+<td>vasic-digital</td>
+<td>Go</td>
+<td>✅</td>
+<td>2026-06-17</td>
+<td>Automated testing, UI recording, screenshot capture across
+web/desktop/mobile</td>
+<td>github.com/vasic-digital/Panoptic</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>ShareConnect</strong></td>
+<td>vasic-digital</td>
+<td>Kotlin</td>
+<td>✅ 1★</td>
+<td>2025-12-13</td>
+<td>Share downloadable URLs to remote/local processing endpoints</td>
+<td>github.com/vasic-digital/ShareConnect</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>GrabTube</strong></td>
+<td>vasic-digital</td>
+<td>Dart</td>
+<td>✅</td>
+<td>2025-12-04</td>
+<td>Tube-services video downloader (Flutter)</td>
+<td>github.com/vasic-digital/GrabTube</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Android-Toolkit</strong></td>
+<td>vasic-digital</td>
+<td>Kotlin</td>
+<td>✅</td>
+<td>2026-03-24</td>
+<td>Common Android abstractions &amp; implementations</td>
+<td>github.com/vasic-digital/Android-Toolkit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bench (also public, secondary):</strong> Courses-Creator
+(Go), Asinka (Kotlin, IPC sync), Herald (Go, event
+fan-out/notifications), HelixPlay (Go, gaming), Core-Framework
+(Server-Factory, Kotlin).</p>
+<h2 id="product-families-for-navigation-grouping">4. Product families
+(for navigation grouping)</h2>
+<ul>
+<li><strong>HelixTrack</strong> (Helix-Track org) — Core (Go backend,
+JIRA alt) + clients: Web/Desktop (TypeScript), Android (Kotlin), iOS
+(Swift), Aurora, Harmony-OS. ⚠️ <strong>All clients are PRIVATE</strong>
+→ present as “multi-platform clients” WITHOUT public links (or link only
+the org).</li>
+<li><strong>HelixDevelopment</strong> — AI/LLM platform family:
+HelixCode, HelixAgent, HelixTranslate, HelixPlay, helix_cluster,
+helix_ota (+ ota-* libs), HelixConstitution (governance), plus decoupled
+libs (LLMProvider, LLMOrchestrator, HelixMemory, HelixSpecifier).</li>
+<li><strong>Helix-Flow</strong> — Platform (AI inference).</li>
+<li><strong>Server-Factory</strong> — Mail-Server-Factory,
+Core-Framework, per-service factories (Kotlin/Shell; older, 2022–2023;
+many forks).</li>
+<li><strong>vasic-digital (apps/libs)</strong> — Catalogizer, GrabTube,
+ShareConnect, Panoptic, Yole, Android-Toolkit, Asinka, LLMsVerifier,
+Courses-Creator, Herald, Network-Binder(private), + many small Go
+microservice libs (auth, cache, database, observability,
+containers…).</li>
+</ul>
+<h2 id="flags-corrections-for-the-rebuild">5. FLAGS / corrections for
+the rebuild</h2>
+<ul>
+<li>⚠️ Current <code>vasic.digital</code> links to
+<strong>private</strong> Helix-Track clients → fix (404 risk).</li>
+<li>⚠️ Current site references org
+<strong><code>Bear-Suite</code></strong> (Bear Mail/Messenger) — NOT in
+user’s listed orgs and not found in inventory → confirm or remove.</li>
+<li>⚠️ Unverified superlatives on current site (“50,000+ req/s”, “102%
+parity with Confluence”, “387 API actions”) → verify against Core README
+or soften.</li>
+<li>⚠️ Date inconsistency: “since 2023/2024” + “© 2025” →
+standardize.</li>
+<li>Brand color signals: personal <code>#a31e39</code> crimson; company
+<code>#dc3545</code> red. Keep distinct identities; preserve company
+<code>Logo.jpeg</code>.</li>
+<li>HelixAgent exists in BOTH vasic-digital (private copy) and
+HelixDevelopment (public) → link the <strong>public</strong>
+HelixDevelopment one.</li>
+</ul>
+</body>
+</html>

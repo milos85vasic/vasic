@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Catalogizer</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Catalogizer</h1>
+</header>
+<p><strong>Gestión avanzada de colecciones multimedia multiprotocolo —
+detecta, cataloga y enriquece todo lo que posees.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Catalogizer es un sistema autohospedable de gestión de colecciones
+multimedia que detecta, categoriza y organiza automáticamente medios en
+SMB, FTP, NFS, WebDAV y sistemas de archivos locales, con monitoreo en
+tiempo real, almacenamiento cifrado, enriquecimiento de metadatos
+externos y una moderna interfaz React respaldada por un Go de alto
+rendimiento y un API API.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Un gestor de bibliotecas multimedia de nivel profesional y
+multiprotocolo. Un Go/Gin REST API detecta más de 50 tipos de medios en
+fuentes SMB/FTP/NFS/WebDAV/locales, los enriquece con datos de
+TMDB/IMDB/MusicBrainz/Steam y otros, y ofrece una aplicación web React
+en tiempo real sobre una base de datos cifrada SQLCipher.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>La mayoría de los gestores de medios exigen que cedas primero:
+consolida todo en un solo disco, en un formato único, de un solo tipo, y
+solo entonces te ayudarán. Catalogizer parte de la premisa opuesta: tu
+colección ya está donde está, dispersa en recursos compartidos de NAS y
+protocolos que nunca se pondrán de acuerdo, y se adapta a ello. Habla
+los protocolos que ya usa el almacenamiento —SMB/CIFS, FTP/FTPS, NFS,
+WebDAV y sistemas de archivos locales— tras una abstracción unificada de
+cliente, de modo que un recurso compartido de Windows, un archivo FTP y
+un montaje WebDAV se ven idénticos para las capas superiores y pueden
+mezclarse, intercambiarse o retirarse sin tocar el código de la
+aplicación. Un backend Go (Gin REST API) supervisa continuamente esas
+fuentes, detecta y clasifica más de 50 tipos de medios (películas,
+series, música, juegos, software, documentales) a medida que aparecen
+los archivos, y enriquece cada elemento con datos de una pila de
+proveedores externos —TMDB, IMDB, TVDB, MusicBrainz, Spotify, Steam y
+otros—, transformando un simple nombre de archivo en una entrada de
+catálogo completamente atribuida, con carátulas, reparto y metadatos.
+Los resultados se transmiten al frontend TypeScript React mediante
+WebSockets, por lo que la biblioteca se actualiza en vivo durante la
+ingesta, sin necesidad de refrescar manualmente, y cada byte de
+metadatos se almacena en una base de datos cifrada SQLCipher protegida
+por autenticación basada en JWT y roles.</p>
+<p>Mientras que la mayoría de los catalogadores fallan silenciosamente
+cuando un recurso compartido se cae, Catalogizer está diseñado para
+seguir siendo útil durante la interrupción. Un fallo temporal en SMB se
+mitiga con reconexiones de retroceso exponencial, un disyuntor que evita
+saturar un host inactivo, monitoreo continuo de salud y una caché de
+metadatos sin conexión que sigue respondiendo a las solicitudes de los
+usuarios con el último estado conocido válido. La diferencia está entre
+<em>“la aplicación entera se cae porque un NAS se reinició”</em> y
+<em>“una fuente está degradada, pero todo lo demás funciona”</em>. Más
+allá del catálogo, también actúa como herramienta operativa para la
+colección: análisis de tendencias de crecimiento y seguimiento de
+calidad/versiones, generación de informes profesionales PDF, servicio de
+conversión PDF a imagen/texto/HTML, exportación/importación de favoritos
+(JSON/CSV) y sincronización en la nube con S3, Google Cloud Storage o
+carpetas locales. Y no es un monolito que resulta ser grande, sino que
+está deliberadamente ensamblado a partir de 21 submódulos Go
+reutilizables <code>digital.vasic.*</code> más paquetes cliente
+TypeScript, cada uno probado y versionado de forma independiente. Así,
+los mismos componentes de autenticación, sistema de archivos,
+transmisión y observabilidad —ya probados en batalla— que impulsan
+Catalogizer también alimentan al resto de la familia de productos. La
+garantía de calidad no se basa en autodeclaraciones: el marco de
+<em>Challenges</em> y HelixQA someten cada capacidad anunciada a una
+verificación antifraude respaldada por evidencia.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Los gestores de medios existentes parten de un único backend de
+almacenamiento y un único tipo de medio. Las colecciones reales abarcan
+múltiples recursos compartidos en NAS y protocolos, se degradan cuando
+un recurso falla y combinan películas, música, juegos y software.
+Catalogizer se diseñó para tratar todos los protocolos por igual,
+sobrevivir a almacenamientos en red inestables y ofrecer un catálogo
+único, enriquecido y cifrado que lo abarca todo.</p>
+<h2 id="por-qué-cambia-las-reglas-del-juego">Por qué cambia las reglas
+del juego</h2>
+<p>Consolida en un solo paquete autoalojable y cifrado lo que
+normalmente requiere una pila de herramientas independientes: ingesta
+agnóstica de protocolos que trata cada backend de almacenamiento con
+equidad, resiliencia que mantiene el catálogo operativo durante caídas
+de almacenamiento en lugar de colapsar con ellas, y enriquecimiento
+multi-proveedor que transforma archivos crudos en una biblioteca
+navegable y con metadatos. El beneficio de la arquitectura modular es
+acumulativo: una corrección de seguridad en el cliente del sistema de
+archivos o un nuevo complemento de proveedor se implementa una sola vez
+y mejora a todos los consumidores, de modo que Catalogizer mejora de
+forma constante a medida que lo hace el ecosistema que lo rodea. En
+resumen, marca la diferencia entre un índice de medios y un
+<em>sistema</em> de medios: uno que es tuyo, que sobrevive a
+infraestructuras inestables y cuyos componentes internos están probados,
+no solo prometidos.</p>
+<h2 id="qué-lo-hace-innovador">Qué lo hace innovador</h2>
+<ul>
+<li>Cliente unificado de sistema de archivos multi-protocolo
+(SMB/FTP/NFS/WebDAV/local) tras una única interfaz.</li>
+<li>Caché sin conexión + disyuntor para que el catálogo siga siendo
+utilizable durante caídas de almacenamiento.</li>
+<li>Extracción completa en 21 submódulos reutilizables
+<code>digital.vasic.*</code> de Go y módulos cliente en TS.</li>
+<li>Catálogo cifrado en reposo (SQLCipher) con sincronización en tiempo
+real WebSocket con la interfaz de usuario.</li>
+<li>Control de calidad basado en evidencia mediante el marco Challenges
+y la integración con HelixQA.</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Almacenamiento en red inestable:</strong> resuelto con
+retroceso exponencial, disyuntor, comprobaciones de estado y una caché
+sin conexión con política de evicción que sirve metadatos almacenados
+cuando las fuentes no están disponibles.</li>
+<li><strong>Heterogeneidad de protocolos:</strong> resuelto mediante la
+abstracción de cada protocolo tras un cliente común
+<code>digital.vasic.filesystem</code>, de modo que las capas superiores
+no dependen del protocolo.</li>
+<li><strong>Seguridad de los datos:</strong> resuelto con cifrado en
+reposo SQLCipher, además de autenticación JWT/RBAC y middleware de
+saneamiento de solicitudes.</li>
+<li><strong>Mantenibilidad a escala:</strong> resuelto extrayendo toda
+la lógica genérica a submódulos probados de forma independiente, en
+lugar de un monolito.</li>
+</ul>
+<h2 id="pila-tecnológica-por-qué-y-cómo">Pila tecnológica (por qué y
+cómo)</h2>
+<ul>
+<li><strong>Go + Gin</strong> — núcleo de alto rendimiento REST API
+(<code>catalog-api</code>); elegido por su concurrencia y rendimiento en
+cargas de trabajo de monitorización continua.</li>
+<li><strong>TypeScript + React + Tailwind (Vite)</strong> — interfaz de
+usuario <code>catalog-web</code> responsiva con actualizaciones en
+tiempo real.</li>
+<li><strong>WebSockets</strong> — sincronización en vivo de datos entre
+el backend y la interfaz de usuario.</li>
+<li><strong>SQLCipher (SQLite cifrado)</strong> — almacenamiento de
+metadatos cifrado en reposo; soporte dual SQLite/PostgreSQL mediante
+<code>digital.vasic.database</code>.</li>
+<li><strong>Clientes SMB/FTP/NFS/WebDAV</strong> — ingesta
+multi-protocolo a través de <code>digital.vasic.filesystem</code>.</li>
+<li><strong>APIs externas de metadatos (TMDB, IMDB, TVDB, MusicBrainz,
+Spotify, Steam)</strong> — complementos de proveedores para
+enriquecimiento.</li>
+<li><strong>Prometheus + OpenTelemetry</strong> — métricas y
+trazabilidad mediante <code>digital.vasic.observability</code>.</li>
+<li><strong>Docker / contenedor builder</strong> — compilaciones
+reproducibles (Tauri/Rust canalizadas a través de
+<code>catalogizer-builder</code>).</li>
+<li><strong>Redis</strong> — almacenamiento en caché y limitación de
+tasa mediante <code>digital.vasic.cache</code> /
+<code>ratelimiter</code>.</li>
+<li><strong>S3 / Google Cloud Storage</strong> — sincronización en la
+nube y almacenamiento de puntos de control.</li>
+</ul>
+</body>
+</html>

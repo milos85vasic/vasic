@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>cover-letter</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">cover-letter</h1>
+</header>
+<p>尊敬的招聘团队：</p>
+<p>我写这封信是为了表达对贵公司专注于构建AI生产系统工程岗位的浓厚兴趣。我是一名AI工程师，专注于打造AI软件中那些不显眼却承重的部分：LLM基础设施、自主代理与编排系统，以及确保它们在生产环境中可靠运行的质量保证与治理层。</p>
+<p>过去几年里，我设计并交付了一系列相互关联的AI开发产品。Helix产品线覆盖了完整的生命周期——包括HelixAgent（一个多模型协同服务，多个模型通过辩论达成共识后交付结果）、HelixCode（一个分布式AI开发平台，通过SSH管理的工作节点分配任务，支持检查点/回滚）、HelixLLM（一个单一二进制文件，可在HTTP/3上提供兼容OpenAI和Anthropic的推理服务），以及LLM基础设施三件套：LLMProvider、LLMOrchestrator和LLMsVerifier（分别为43家供应商提供统一接口、无界面CLI代理的控制平面，以及验证真值来源）。围绕这些核心，我还构建了多款产品级工具，如Catalogizer（支持多协议、加密的媒体管理系统）和Courses-Creator（一个将AI
+Markdown转换为视频课程的流水线），所有这些均基于一系列小型、解耦且独立测试的Go与Kotlin
+Multiplatform模块。</p>
+<p>我认为我的工作之所以与众不同，源于我严格践行的一项原则：<strong>反虚假工程</strong>。我维护着一个通用的工程Constitution，以Git子模块形式分发，并被140多个代码库继承。它通过机械化的规则确保一条铁律——功能不是在测试通过时完成，而是在真实用户能够使用且有证据证明其可用时才算完成。为此，我还开发了HelixQA，一个反虚假的质量保证编排器，它能在Android、Web和桌面端自动运行LLM与计算机视觉会话，且在未获取截图、日志或视频等证据前，绝不判定为”通过”。我构建的系统不仅看起来完整，更能切实证明其完整性。</p>
+<p>技术上，我主要使用Go，结合Kotlin/KMP、TypeScript/React、Python、Swift和Shell，横跨REST/gRPC/HTTP/3服务、PostgreSQL/SQLite/Redis/ClickHouse数据层，以及Docker/Kubernetes/Prometheus运维。我能够全面负责一个系统，从供应商抽象与数据检索，到证明其有效运行的证据链。</p>
+<p>期待有机会将这种深度AI系统工程能力与真正可验证的质量标准带到贵团队。感谢您的考虑，我的作品集与公开代码库可在milosvasic.ru和vasic.digital查阅。</p>
+<p>此致 敬礼</p>
+<p>Miloš Vasić milos85vasic@gmail.com</p>
+</body>
+</html>

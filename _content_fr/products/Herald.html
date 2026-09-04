@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Herald</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Herald</h1>
+</header>
+<p><strong>Chaque alerte parvient à la bonne destination — sans syntaxe
+de commande requise.</strong></p>
+<h2 id="résumé">Résumé</h2>
+<p>Herald ingère les événements système et les redistribue de manière
+fiable vers plusieurs canaux de notification, garantissant que chaque
+alerte atteint sa cible. Les abonnés interagissent en langage naturel ;
+Herald déduit l’intention grâce à une approche à trois niveaux
+(raccourci de commande → inférence d’intention via LLM → repli de
+clarification).</p>
+<h2 id="description-courte">Description courte</h2>
+<p>Un système d’ingestion d’événements et de redistribution multi-canaux
+des notifications. Herald achemine de manière fiable les événements
+système vers les bonnes destinations, quel que soit le canal de
+messagerie, et permet aux abonnés de s’exprimer en langage naturel — en
+résolvant l’intention via un raccourci de commande, une inférence par
+LLM et un mécanisme de repli par clarification.</p>
+<h2 id="description-longue">Description longue</h2>
+<p>Herald est l’épine dorsale des notifications, assurant qu’un
+événement système parvient effectivement là où un humain peut agir —
+cette couche ingrate mais critique où la plupart des systèmes d’alerte
+maison échouent en silence. Il ingère les événements et les redistribue
+de manière fiable vers plusieurs canaux de notification, éliminant les
+modes de défaillance classiques où une alerte est perdue, mal acheminée
+vers un canal inactif ou noyée sous le bruit jusqu’à ce qu’il soit trop
+tard pour réagir. Mais une diffusion fiable n’est que la moitié de
+l’équation ; l’autre moitié concerne ce qui se passe lorsqu’un humain
+souhaite répondre. Ici, Herald rejette le compromis habituel où les
+utilisateurs doivent mémoriser une syntaxe de commande rigide pour
+interagir avec un bot d’alerte. Les abonnés s’expriment simplement en
+langage naturel, et Herald interprète leur intention grâce à une
+approche méthodique en trois étapes : un raccourci qui reconnaît
+instantanément les commandes explicites, puis une inférence d’intention
+basée sur LLM (via le code Claude) pour les messages libres, et enfin un
+repli de <em>clarification</em> qui répond, étiquette et pose une
+question lorsque l’intention reste ambiguë. Cette échelle <em>«
+reconnaître → inférer → clarifier »</em> résume à elle seule la
+philosophie de conception — le cas courant reste instantané et
+déterministe, le cas flexible est géré par un modèle, et le cas
+incertain n’est jamais résolu par une supposition aveugle qui
+déclencherait une mauvaise action.</p>
+<p>Herald intègre également la gestion des participants et de
+l’attribution : une variable d’environnement pour le nom d’utilisateur
+de l’opérateur (<code>HERALD_&lt;CANAL&gt;_OPERATOR_USERNAME</code>) et
+un contrat de participation/attribution alimentent les champs
+<code>created_by</code>/<code>assigned_to</code> ainsi que le marquage @
+des notifications, afin qu’il soit toujours clair qui a fait quoi et qui
+est notifié. Sur le plan de la gouvernance, Herald hérite de Helix
+Constitution en tant que sous-module colocalisé et en suit les règles.
+Il est également un utilisateur précoce en production de Docs Chain —
+l’intégralité de son corpus de 66 documents Markdown→HTML/PDF/DOCX est
+acheminée via les transformations <code>exec:</code> de Docs Chain et
+vérifiée sans erreur. Herald repose principalement sur des outils
+Shell/Go, avec des spécifications en couches (remplacement V1→V2→V3→V4)
+et des guides de configuration par canal pour les messageries et les
+répartiteurs LLM/agents.</p>
+<h2 id="pourquoi-nous-lavons-conçu">Pourquoi nous l’avons conçu</h2>
+<p>Les alertes échouent discrètement — envoyées vers le mauvais canal,
+perdues ou exigeant une syntaxe de commande rigide que les utilisateurs
+ne retiendront pas. Herald a été conçu pour garantir une redistribution
+fiable et permettre aux utilisateurs de répondre en langage naturel,
+rendant les notifications à la fois fiables et faciles à traiter.</p>
+<p>Contenu</p>
+<h2 id="pourquoi-cest-un-tournant">Pourquoi c’est un tournant</h2>
+<p>Il fusionne deux éléments habituellement achetés séparément – un
+routage d’événements multi-canaux fiable et une interface en langage
+naturel – en un seul système où les opérateurs n’ont qu’à parler, et le
+logiciel interprète leurs intentions. Ce qui le rend digne de confiance
+en production, c’est précisément son mécanisme de repli par
+clarification : un système d’alerte qui préfère demander plutôt que de
+se tromper est un système que l’on peut effectivement laisser interagir
+avec des données réelles.</p>
+<h2 id="ce-qui-est-innovant">Ce qui est innovant</h2>
+<ul>
+<li>Une discipline d’intention à trois niveaux : exécution rapide des
+commandes → inférence LLM → clarification et demande de
+confirmation.</li>
+<li>Interaction avec les abonnés en langage naturel (aucune syntaxe de
+commande à apprendre).</li>
+<li>Contrat d’attribution des participants gérant
+<code>created_by</code>/<code>assigned_to</code> + le marquage par
+@.</li>
+<li>Véritable consommateur Docs Chain (corpus de 66 documents,
+multi-format, vérifié).</li>
+</ul>
+<h2 id="défis-et-solutions">Défis et solutions</h2>
+<ul>
+<li><strong>Intention ambiguë en langage naturel</strong> : résolu par
+une échelle de reconnaissance/inférence/clarification à trois niveaux,
+évitant les suppositions aveugles.</li>
+<li><strong>Diffusion fiable</strong> : résolu par une conception
+ingestion→diffusion multi-canaux garantissant que les alertes atteignent
+la bonne destination.</li>
+<li><strong>Attribution correcte entre les canaux</strong> : résolu
+grâce à la variable d’environnement du nom d’utilisateur de l’opérateur
+et au contrat d’attribution des participants.</li>
+<li><strong>Dérive de la documentation</strong> : résolu en intégrant
+son corpus documentaire dans Docs Chain avec des transformations
+vérifiées.</li>
+</ul>
+<h2 id="pile-technologique-pourquoi-comment">Pile technologique
+(pourquoi + comment)</h2>
+<ul>
+<li><strong>Go</strong> – logique centrale d’événements et de diffusion
+(adaptée aux schémas linguistiques de chaque organisation).</li>
+<li><strong>Shell</strong> – outils et scripts de configuration pour les
+opérateurs.</li>
+<li><strong>Code Claude (LLM)</strong> – niveau d’inférence d’intention
+pour les messages en texte libre.</li>
+<li><strong>Adaptateurs de canaux Messenger</strong> – diffusion
+multi-canaux des notifications.</li>
+<li><strong>Docs Chain</strong> – pipeline de construction et de
+vérification de la documentation (Markdown→HTML/PDF/DOCX).</li>
+<li><strong>Sous-module Helix Constitution</strong> – gouvernance et
+règles héritées.</li>
+</ul>
+</body>
+</html>

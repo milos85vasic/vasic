@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Helix-Flow</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Helix-Flow</h1>
+</header>
+<h1 id="helix-flow">Helix-Flow</h1>
+<p><strong>منصة واحدة تلبي جميع احتياجات الاستدلال الخاصة بـ AI — شغّل
+نماذج AI القوية بشكل أسرع وأكثر ذكاءً، بأي حجم، بتكاليف يمكن التنبؤ
+بها.</strong></p>
+<blockquote>
+<p><strong>إشعار الدقة (Helix Constitution §11.4.6):</strong> تمتلك
+Helix-Flow مستودعًا عامًا حقيقيًا للمصدر، إلا أن ملف README الخاص بها يقتصر
+على سطر واحد فقط ولا يتوفر أي نسخة محلية أو وثائق تصميم أو هندسة
+معمارية. هناك شيئان فقط موثّقان فعليًا: السطر التعريفي وتكوين لغات
+المستودع. كل التفاصيل الأخرى إما محذوفة أو مُعلّمة بوضوح بأنها <strong>غير
+مُتحقَّق منها</strong>. هذه الصفحة مجرد عنصر نائب بسيط وليست نسخة كاملة
+للمنتج، ولا ينبغي توسيعها حتى يتم توفير مواد مصدرية حقيقية.</p>
+</blockquote>
+<h2 id="الملخص">الملخص</h2>
+<p>تُقدّم منصة Helix-Flow باعتبارها موطنًا موحدًا واحدًا لاستدلال AI — لتشغيل
+النماذج القوية بشكل أسرع، بأي حجم، بتكاليف يمكن التنبؤ بها. <em>(الموقع
+مستمد فقط من السطر التعريفي؛ ولم تُوثّق القدرات الفعلية في أي مصدر
+متاح.)</em></p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>منصة Helix-Flow (<code>Helix-Flow/Platform</code>) هي مشروع عام قائم
+على Go، يُقدّم كمنصة واحدة لاستدلال AI بأي حجم وبتكاليف يمكن التنبؤ بها.
+يمزج قاعدة الشيفرة الخاصة بها بين Go وPython وTerraform/HCL، مما يشير
+إلى منصة استدلال تتم إدارتها عبر بنية تحتية ككود. أما القدرات الأخرى
+خارج السطر التعريفي فهي <strong>غير مُتحقَّق منها</strong>.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>منصة Helix-Flow هي المستودع الوحيد في منظمة GitHub
+<code>Helix-Flow</code>، وتُقدّم — عبر ملف README المكون من سطر واحد —
+باعتبارها “منصة واحدة تلبي جميع احتياجات استدلال AI”، مع التركيز على
+تشغيل نماذج AI القوية بشكل أسرع وبأي حجم بتكاليف يمكن التنبؤ بها. بخلاف
+هذا السطر التعريفي، لا يحتوي المشروع على أي وثائق نصية، لذا لا يمكن وصف
+بنيته أو ميزاته أو تصميمه من المصدر دون افتراضات غير مؤكدة.</p>
+<p>ما <em>يمكن</em> ملاحظته بشكل واقعي هو تكوين لغات المستودع: فهو يعتمد
+بشكل رئيسي على Go وPython بنسبة متقاربة، بالإضافة إلى Shell بشكل كبير،
+إلى جانب HTML/CSS/JavaScript (واجهة ويب)، وPL/pgSQL (مكون مدعوم بـ
+PostgreSQL)، وHCL (Terraform/بنية تحتية ككود)، وMermaid (مخططات). هذا
+المزيج يتوافق مع منصة خدمة استدلال تجمع بين طبقة تحكم/خدمة Go وأدوات
+نماذج Python، مع مخزن بيانات Postgres وواجهة مستخدم ويب ونشر سحابي مُدار
+عبر بنية تحتية ككود — إلا أن هذا الاستنتاج مستمد من أنواع الملفات،
+<strong>وليس</strong> من وثائق مدوّنة. لإنتاج نسخة منتج دقيقة (دوافع،
+ابتكارات، تحديات تقنية، منطق تقني ملموس)، يتطلب الأمر ملف README حقيقي
+أو وثيقة هندسة معمارية أو نسخة محلية. هذه الصفحة تتوقف عمدًا عند ما تدعمه
+المصادر المتاحة.</p>
+<h2 id="لماذا-أنشأناها">لماذا أنشأناها</h2>
+<p><strong>غير مُتحقَّق منها — غير موثّقة في أي مصدر متاح.</strong> يشير
+السطر التعريفي إلى هدف توحيد استدلال AI القابل للتوسّع بتكاليف يمكن
+التحكم فيها/التنبؤ بها، لكن لم تُذكر أي دوافع. لا يُذكر أي تبرير هنا.</p>
+<h2 id="لماذا-تعد-نقطة-تحول">لماذا تُعدّ نقطة تحول</h2>
+<p>المحتوى</p>
+<p><em>غير مؤكَّد — غير موثَّق.</em> محذوف لحين الحصول على المصدر.</p>
+<h2 id="ما-الجديد-في-الابتكار">ما الجديد في الابتكار</h2>
+<p><em>غير مؤكَّد — غير موثَّق.</em> محذوف لحين الحصول على المصدر.</p>
+<h2 id="أكبر-التحديات-التقنية-وكيف-تم-التغلب-عليها">أكبر التحديات
+التقنية وكيف تم التغلب عليها</h2>
+<p><em>غير مؤكَّد — غير موثَّق.</em> محذوف لحين الحصول على المصدر.</p>
+<h2 id="مجموعة-الأدوات-التقنية">مجموعة الأدوات التقنية</h2>
+<p>مستنتجة من تكوين لغات المستودع فقط — الدور والأساس غير مؤكَّدين:</p>
+<ul>
+<li><strong>Go</strong> — اللغة الأساسية؛ من المحتمل أن تكون طبقة
+الخدمة/التحكم. <em>(الدور غير مؤكَّد.)</em></li>
+<li><strong>Python</strong> — حصة متقاربة؛ من المحتمل أن تكون أدوات
+النماذج/الاستدلال. <em>(الدور غير مؤكَّد.)</em></li>
+<li><strong>Shell</strong> — نصوص بناء/نشر/أتمتة. <em>(الدور غير
+مؤكَّد.)</em></li>
+<li><strong>PostgreSQL / PL/pgSQL</strong> — يتواجد مكون مخزن بيانات
+علائقي.</li>
+<li><strong>Terraform / HCL</strong> — بنية تحتية كتعليمات برمجية، مما
+يشير إلى نشر قائم على السحابة.</li>
+<li><strong>HTML / CSS / JavaScript</strong> — واجهة مستخدم ويب أو سطح
+وثائق.</li>
+</ul>
+<h2 id="حالة-المشروع-وملاحظات-الشفافية">حالة المشروع وملاحظات
+الشفافية</h2>
+<ul>
+<li><strong>الحالة: خارطة طريق/عنصر نائب.</strong> هذا هو المستودع
+الوحيد في منظمة <code>Helix-Flow</code>؛ علني، وآخر تحديث له كان في
+27-04-2026، وليس له صفحة رئيسية محددة، ولا رخصة معلنة. إلى أن تتوفر
+وثائق حقيقية، لا يمكن تقديمه بمسؤولية على مستوى عمق المنتج.</li>
+<li><strong>الرخصة: لم تُحدَّد بعد</strong> (غير معيّنة في المستودع).</li>
+</ul>
+<p><strong>درجة الأولوية:</strong> Helix-أساسية (منتج استدلال ضمن عائلة
+منصة Helix)، لكنها حالياً معطلة بانتظار المادة المصدرية. تأتي في الترتيب
+بعد HelixTrack.</p>
+</body>
+</html>

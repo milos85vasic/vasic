@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixCluster</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixCluster</h1>
+</header>
+<h1 id="helixcluster">HelixCluster</h1>
+<p><strong>面向AI计算的分布式操作系统——从数据中心GPU到边缘手持设备，统一控制平面。</strong></p>
+<h2 id="概要">概要</h2>
+<p>Helix集群操作系统是新一代分布式操作系统，能够在异构节点上协调计算资源——从数据中心GPU到边缘单板计算机（SBC）及手持设备——将高性能计算调度、容器编排、AI/ML推理、联邦多集群操作及安全多租户会话整合于单一控制平面之下。</p>
+<h2 id="简要描述">简要描述</h2>
+<p>基于Go的分布式操作系统 /
+GPU共享计算集群。它统一了高性能计算调度（采用Omega模型的双层调度器）、容器编排、AI推理路由、联邦管理及安全多租户会话，适用于异构节点，通过SWIM
+gossip协议和Raft共识协调运行，并采用后量子端到端加密技术。</p>
+<h2 id="详细描述">详细描述</h2>
+<p>Helix集群操作系统能够在极度异构的硬件上协调计算负载——从数据中心GPU、边缘单板计算机，乃至手持设备——统一于单一控制平面之下，将一组A100
+GPU机架与一批单板计算机视为可寻址的统一计算网络，而非十余个互不兼容的孤岛。该系统是一个基于Go的工作空间（包含单一代码库及Git子模块），实现了从L0硬件层到L7联邦与可观测性的七层架构，由十四个控制平面微服务协调运行。节点成员关系通过SWIM
+gossip协议和发现机制进行跟踪，使得计算网络能够在节点加入或离开时自愈；强一致性状态则依赖Raft共识维护，采用分片式Raft组结构，通过租约持有者本地读取提升速度，并借助STONITH隔离机制确保被分区的节点无法破坏共享状态。</p>
+<p>工作负载调度采用Omega模型的双层调度器——支持乐观并发、ClassAd匹配、成组调度、基于价值乘数的抢占及约束性放置。不仅如此，它还超越了传统高性能计算调度器的范畴：支持碳排放感知与成本/TCO感知路由、云爆发自动扩展，并集成市场适配器（如Akash、io.net、RunPod、AWS
+Spot、Chutes），在本地资源不足时将作业溢出至租用容量。</p>
+<p>最终用户无需直接接触这些底层机制，他们通过简洁的会话模型（计算资源分配）、交互式WebSocket/PTY终端、内部AI推理路由及资源池利用率读取进行交互。安全性被视为核心层而非附加功能：采用SPIFFE身份认证、设备验证（挑战/响应、GPU工作量证明、密封机制）、出口管制KYC门禁，以及基于X25519
++
+ML-KEM-768混合密钥交换的后量子端到端加密传输，配合AEAD记录保护与重放攻击防御——确保即使在未来量子计算威胁下，当前捕获的流量依然保持机密性。正确性并非仅靠声明，而是通过<em>验证</em>实现：确定性模拟测试（类似FoundationDB的种子运行、故障注入、网络模拟、逐字节重放及Porcupine线性一致性检查器）能够按需重现分布式故障，而强制配对变异测试则证明防护测试真正有效。架构与文档的准确性由机械化检查工具确保，一旦现实与文档出现偏差，构建过程即刻失败。</p>
+<p>内容</p>
+<h2 id="为何构建">为何构建</h2>
+<p>为了在截然不同的硬件层级上运行AI与HPC工作负载，无需拼凑独立的调度器、编排器和推理栈——并确保每一项交付的功能均经过<em>真实终端用户行为</em>验证（绝不依赖绿色测试或桩代码），且每项平台特定能力均基于真实原生设施实现（不采用仅限Linux的模拟方案）。项目治理文档中引用的核心问题在于”测试通过，功能却无法实际运行”的失败模式，而该项目正是为彻底消除这一问题而生。</p>
+<h2 id="为何颠覆行业">为何颠覆行业</h2>
+<p>它将通常分属五套独立系统的功能——HPC调度、容器编排、AI推理、多集群联邦及安全多租户会话——整合为单一控制平面，覆盖从数据中心GPU到边缘手持设备的全场景。且其严谨程度堪比专业基础设施：采用形式化方法级别的正确性保障（TLA+规约、确定性模拟、线性一致性检查）与后量子机密传输，这类保障是多数编排器不敢尝试的。技术优势之外，成本与碳排感知的调度策略，加上云市场弹性扩展，更使其成为<em>经济</em>杠杆——调度器能自动追踪更廉价、更绿色或闲置的资源，在无需重写作业的情况下，降低同一工作负载的成本与排放。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li><strong>确定性模拟测试（DST）</strong>——基于种子的全可复现模拟器，可注入故障、时钟偏移及网络分区，逐字节重放并通过Porcupine线性一致性检查器验证，确保捕获的海森堡bug可随时复现，永不遗失。</li>
+<li><strong>Omega模型双层调度器</strong>——基于乐观并发的调度机制，结合ClassAd匹配、群调度及价值乘数抢占，共享状态设计让多个调度器能并行提交任务至同一集群，无需中央瓶颈。</li>
+<li><strong>后量子端到端加密/机密推理链路</strong>——采用X25519 +
+ML-KEM-768混合密钥交换，每次请求绑定独立响应密钥对，并配备AEAD抗重放机制（加密原语已通过验证，完整的多节点机密往返流程仍处于<em>计划中/受控</em>阶段）。</li>
+<li><strong>基于证明的信任机制</strong>——节点需<em>证明</em>其身份：SPIFFE标识、GPU工作量证明、设备密封、出口管制KYC审核及欧盟AI法案合规文档生成，信任通过证据建立，而非依赖网络位置假设。</li>
+<li><strong>成本与碳排感知编排</strong>——TCO建模、碳排感知调度、云爆发、N+K故障预留及云市场适配器，将价格与排放纳入调度首要考量，而非事后补救。</li>
+<li><strong>多Raft共识</strong>——每个分片独立Raft组，结合租约持有者本地读取实现低延迟一致性，并通过STONITH隔离（IPMI/EC2/Azure/SBD）确保故障节点被果断移除，避免状态污染。</li>
+<li><strong>反漂移机械化检查</strong>——<code>archlint</code>在文档组件与实际包路径不匹配时立即中断构建，文档链引擎确保Markdown/HTML/PDF/DOCX内容字节级一致，杜绝文档与代码悄然脱节。</li>
+</ul>
+<h2 id="最大技术挑战及解决方案">最大技术挑战及解决方案</h2>
+<ul>
+<li><strong>「假通过」（PASS-bluff，测试在非功能特性上通过）</strong>：整个项目旨在消除的致命模式——测试套件在桩代码上显示绿灯。解决方案是强制配对变异测试：每个工作项均附带一个命名守卫测试，必须在独立代码变异下<em>失败</em>后，该项才能标记为完成。如此，通过的测试能够证明其验证的是真实行为而非模拟。</li>
+<li><strong>跨平台一致性（无 Linux
+专用模拟）</strong>：通过构建标签将共享接口拆分至各操作系统原生设施——Linux
+的 cgroup、<code>/proc</code>、内核 WireGuard；macOS 的
+<code>sysctl</code>、<code>vm_stat</code>、IOKit、<code>wireguard-go</code>——并通过独立操作系统预言机进行交叉验证，确保每个平台报告真实的原生状态，而非
+Linux 的虚构实现。</li>
+<li><strong>分布式故障下的正确性</strong>：采用确定性模拟测试与线性化检查器，人为制造并重放网络分区、崩溃及时钟偏移，并由
+TLA+ 形式化规约在代码运行前锁定共识与调度不变量。</li>
+<li><strong>文档与架构偏移</strong>：通过 <code>archlint</code>
+实现，若文档中映射的包不存在，构建将直接失败；同时设置
+<code>docs_chain</code>
+验证关卡，无例外机制——架构偏移即构建中断，而非过时的维基页面。</li>
+<li><strong>未完成工作的诚实范围界定</strong>：多节点推理端到端流程刻意设置在工单后，并标注「尚未端到端验证」，而非包装成已交付成果。这种严谨同样适用于<em>尚未完成</em>的工作，一如已完成的部分。</li>
+</ul>
+<h2 id="技术栈">技术栈</h2>
+<ul>
+<li><strong>Go（go.mod: 1.25 / 工具链 1.26.4）</strong>：覆盖约 30
+个模块的控制平面语言，因其轻量级 goroutine
+并发及静态二进制部署优势，从数据中心到边缘设备均可一致部署。</li>
+<li><strong>Zig（0.14+） + C/C++</strong>：在 Go
+运行时成为障碍的场景下使用，如底层系统原语及 GPU
+内核，需确定性、无分配的硬件控制。</li>
+<li><strong>gRPC + Protocol Buffers</strong>：各子系统间的
+API（<code>api/v1/</code>）均为类型化、版本化契约，使十四个微服务能独立演进，无需手动处理线上格式。</li>
+<li><strong>Raft（etcd-raft） + SWIM Gossip</strong>：刻意分层设计——Raft
+负责<em>必须</em>强一致的状态，SWIM Gossip
+则在规模化场景下处理成员发现，避免共识开销过重。</li>
+<li><strong>PostgreSQL 16、Redis 7 集群、etcd
+v3.5、SQLite</strong>：为不同任务选择合适的存储——Postgres
+用于持久关系型数据，Redis 用于热缓存，etcd 用于协调，嵌入式 SQLite
+则作为节点本地 HXC 工作项注册表。</li>
+<li><strong>NATS 2.10（JetStream）、Kafka 4.0（KRaft）、RabbitMQ
+3.13</strong>：三种消息骨干，应对三类流量形态——NATS/JetStream
+用于快速内部事件，Kafka 用于高吞吐持久流，RabbitMQ
+则提供经典消息代理语义。</li>
+<li><strong>WireGuard 网状网 + ML-KEM-768/X25519 +
+AES-256-GCM/ChaCha20-Poly1305 + HKDF</strong>：WireGuard
+构建精简的节点间网状网，结合混合后量子握手及 AEAD
+记录，确保传输层对经典及量子攻击均具备保密性。</li>
+<li><strong>SPIFFE + JWT（HS256） + 基于范围的 RBAC +
+OPA</strong>：分层身份与授权——SPIFFE 提供工作负载身份，JWT
+生成令牌，基于范围的 RBAC 进行粗粒度访问控制，OPA
+则将细粒度策略以代码形式表达。</li>
+<li><strong>Prometheus v2.50、Grafana 10.4、Jaeger 1.55、W3C
+追踪</strong>：指标、仪表盘及分布式追踪，采用 W3C
+上下文传播，使请求可跨服务及硬件层追踪。</li>
+<li><strong>HashiCorp Vault
+1.16</strong>：密钥与凭证与代码及配置隔离，并受审计发放。</li>
+<li><strong>Docker Compose、Kubernetes（kustomize，强化
+securityContext）、Helm</strong>：Compose 用于本地启动，Kubernetes/Helm
+结合强化安全上下文用于实际部署，环境间共用一套定义。</li>
+<li><strong>React + TypeScript + Vite（Node
+20+）</strong>：快速、类型安全的 Web
+UI，用于会话、终端及资源池利用率展示。</li>
+<li><strong>TLA+</strong>：共识与调度不变量的形式化规约，在实现前于设计层面证明最难测试的属性。</li>
+</ul>
+<p>内容</p>
+<h2 id="状态与诚信说明">状态与诚信说明</h2>
+<ul>
+<li><strong>状态：开发中。</strong>
+当前版本为早期版本（<code>0.1.0-dev</code>）。多项高级功能——包括全保密多节点推理全流程、市场结算机制及基于证明的调度填充——在代码库中明确标注为「计划中
+/
+基础设施受限」，<strong>尚未</strong>作为完整可用功能呈现。覆盖率数据为自行报告。</li>
+<li><strong>许可证：待定。</strong> 未明确声明；Helm 图表中的
+<code>HelixCluster/HelixCluster</code> 及 <code>helixcluster.io</code>
+链接均为未经验证的占位符，与实际远程仓库不符。</li>
+<li>捆绑的 LLM
+栈项目（LLMOrchestrator、LLMProvider、LLMsVerifier）为解耦子模块，并非集群内托管的模型服务器。</li>
+</ul>
+<p><strong>优先级分级：</strong>
+Helix-主（LLM-基础设施集群，即可承载推理与计算工作负载的底层资源）。优先级低于
+HelixTrack。</p>
+</body>
+</html>

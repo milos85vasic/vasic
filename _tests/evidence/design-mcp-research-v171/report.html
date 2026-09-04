@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>report</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">report</h1>
+</header>
+<h1
+id="free-design-capability-tooling-decision-ready-research-v1.7.1">Free
+Design-Capability Tooling — Decision-Ready Research (v1.7.1)</h1>
+<p><strong>Date:</strong> 2026-08-08 · RESEARCH &amp; REPORT ONLY
+(nothing integrated). All license/version facts re-verified live via npm
+registry + GitHub REST API on 2026-08-08. Only genuinely FREE / OSS
+tooling is recommended; paywalled/hosted-gated/no-license items are
+excluded.</p>
+<p>Builds on what already exists: <code>design-toolkit/</code> (11 agent
+recipes, generators with material-color-utilities + style-dictionary
+deps, QA test-bank), <code>_tools/od/od-mcp-call.mjs</code> (OpenDesign
+daemon client), <code>_tools/audit-hardcoding.sh</code>. So the question
+is <em>which free tools to wire in first</em> — a “prioritized subset”
+call.</p>
+<h2 id="top-3-recommendation-prioritized-subset-45-days-total">Top-3
+recommendation (prioritized subset, ~4–5 days total)</h2>
+<p><strong>#1 — Verification backbone: Chrome DevTools MCP + Playwright
+MCP</strong> (Apache-2.0, v1.6.0 / v0.0.79, fully local; Chrome DevTools
+MCP already a plugin here). The only bundle that <em>proves</em> a
+design output is correct (Lighthouse a11y/perf, screenshots,
+visual-regression) — feeds HelixQA + §11.4.170 anti-bluff. Effort:
+<strong>Low</strong>. Pass
+<code>--no-performance-crux --no-usage-statistics</code> for
+no-egress.</p>
+<p><strong>#2 — Deterministic token engine: material-color-utilities +
+Style Dictionary (+ colorjs.io / culori / utopia-core)</strong>
+(Apache-2.0 / MIT / ISC; already deps in design-toolkit/generators). The
+unique-per-project machine: seed → HCT palette + variant → OKLCH ramps →
+fluid type/space → DTCG → <strong>OpenDesign</strong> → per-platform via
+Style Dictionary (which sits <em>behind</em> OpenDesign’s contract,
+never beside it — §11.4.162). Effort: <strong>Med</strong> — bump Style
+Dictionary v4→<strong>5.5.1</strong> (major), material-color-utilities
+0.3→<strong>0.4.0</strong>, colorjs.io→<strong>0.7.1</strong>,
+utopia-core→<strong>1.6.0</strong>; finalize DTCG hand-off.</p>
+<p><strong>#3 — Aesthetic + component layer: anthropics/skills
+<code>frontend-design</code> &amp; <code>theme-factory</code> + shadcn
+MCP</strong> (Apache-2.0 skills, per-skill LICENSE confirmed; shadcn MCP
+MIT v4.16.2). Distinctive non-templated aesthetic + font/color theming
+reasoning + license-clean component reuse. Effort:
+<strong>Low–Med</strong>. Must consume OpenDesign tokens, never emit raw
+hex/px (audit-hardcoding guards this).</p>
+<h2 id="excluded-not-free-unsafe-to-vendor">Excluded (NOT free / unsafe
+to vendor)</h2>
+<ul>
+<li><strong>Official Figma Dev Mode MCP</strong> — paid Dev/Full seat
+(free tier ~6 calls/mo) → use <strong>figma-developer-mcp /
+Framelink</strong> (MIT, free PAT).</li>
+<li><strong>21st.dev Magic MCP</strong> (paid key), <strong>LottieFiles
+Creator MCP</strong> (hosted account), <strong>GSAP</strong> (non-OSS →
+use <code>motion</code> MIT).</li>
+<li><strong>storybook-mcp</strong> (AGPL), <strong>Vivliostyle</strong>
+(AGPL → Paged.js MIT), GPL iconify servers (→
+<strong>better-icons</strong> MIT), no-LICENSE repos
+(all-rights-reserved).</li>
+<li><strong>Every Layout ($69) / Refactoring UI</strong> — paid books;
+encode concepts only.</li>
+</ul>
+<h2
+id="no-bluff-license-findings-surfaced-this-pass-not-in-existing-catalog">No-bluff
+license findings (surfaced this pass, not in existing CATALOG)</h2>
+<ul>
+<li>⚠️ <strong><code>apca-w3</code> (0.1.9) ships a “Limited W3 License”
+(NOT OSI-approved)</strong> — restricted redistribution. Treat APCA as
+<em>advisory</em>; compute production contrast via colorjs.io/culori +
+WCAG 2.x. Review <code>design-toolkit/qa/lib/apca.mjs</code> against
+this.</li>
+<li><code>chroma-js</code> is dual
+<code>(BSD-3-Clause AND Apache-2.0)</code> (both permissive).</li>
+<li>Chrome DevTools MCP + <span class="citation"
+data-cites="antv/mcp-server-chart">@antv/mcp-server-chart</span> egress
+by default (opt-out flags exist).</li>
+</ul>
+<h2 id="agent-recipe-helixqa-outline">Agent-recipe + HelixQA
+outline</h2>
+<p>Reuse the 11 <code>design-toolkit/agents/</code> recipes:
+orchestrator derives a seed→param vector (design-dna), fans out theming
+→ (layout ∥ components ∥ icons ∥ motion ∥ ux ∥ brand) in parallel, then
+a single serial <strong>design-qa-auditor</strong> gate (Chrome DevTools
++ Playwright MCP) must pass. HelixQA bank Challenges: (1) token
+integrity / OpenDesign contract, (2) uniqueness+determinism
+(Delta-E/CAM16 via qa/lib), (3) WCAG 2.2 a11y, (4) platform conformance
+(M3/Fluent/HIG envelopes), (5) visual regression (Playwright
+toHaveScreenshot), (6) perf budget, (7) <strong>license gate</strong>
+(fail on GPL/AGPL/no-license/ “Limited W3”). Golden-bad fixtures must
+FAIL the bank (anti-bluff).</p>
+<p><em>(Full comparison tables + verification method are in the agent
+transcript / this session record.)</em></p>
+</body>
+</html>

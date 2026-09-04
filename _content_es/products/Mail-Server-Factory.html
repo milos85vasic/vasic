@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mail-Server-Factory</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mail-Server-Factory</h1>
+</header>
+<p><strong>Gestiona tu servidor de correo como un jefe — descríbelo en
+JSON y despliégalo donde quieras.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Mail Server Factory es una herramienta de aprovisionamiento de
+servidores de correo automatizada y lista para producción. El usuario
+escribe una configuración sencilla en JSON; la Fábrica la interpreta y
+realiza todas las instalaciones e inicializaciones en el sistema
+operativo de destino, desplegando una pila de correo basada en Docker y
+con componentes débilmente acoplados, compatible con 12 tipos de
+conexión.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Una herramienta Kotlin/Shell que convierte una descripción en JSON en
+un servidor de correo completamente instalado y dockerizado. Admite 12
+tipos de conexión (SSH, Docker, Kubernetes, AWS SSM, Azure, GCP, Libvirt
+y más), un marco de seguridad completo, 25 distribuciones de Linux y se
+entrega con 439 pruebas superadas.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>Poner en marcha un servidor de correo real y seguro es uno de los
+ritos de paso clásicos en la administración de sistemas, y también uno
+de los más fiablemente miserables. Postfix, Dovecot, certificados TLS,
+registros DNS, reglas de firewall y peculiaridades específicas de cada
+distribución deben alinearse a la perfección, y un solo error en una
+directiva puede significar correos rechazados en silencio o un relay
+abierto. Mail Server Factory toma todo ese conocimiento experto, difícil
+de dominar y propenso a errores, y lo plasma en software. En lugar de
+configurar manualmente cada componente en un sistema operativo
+desconocido, el usuario final describe el resultado deseado en un
+documento JSON sencillo; la Fábrica lee ese JSON y ejecuta los pasos
+exactos de instalación e inicialización requeridos en el sistema
+operativo de destino, levantando una pila de correo que funciona sobre
+Docker, con todos sus componentes débilmente acoplados —un diseño que
+mantiene la pila escalable horizontalmente y permite actualizar o
+reemplazar cualquier componente de forma aislada—. Además, está
+deliberadamente diseñado para ser agnóstico en cuanto a la
+infraestructura: sus 12 tipos de conexión permiten que la misma
+herramienta y el mismo JSON apunten a una máquina local, un host remoto
+mediante SSH, un entorno Docker o Kubernetes, instancias en la nube a
+través de AWS SSM / Consola Serie de Azure / Inicio de sesión en GCP, o
+máquinas virtuales mediante Libvirt —la misma descripción declarativa,
+aprovisionada dondequiera que la dirijas—. Es compatible con 25
+distribuciones de Linux de familias occidentales (Ubuntu, Debian,
+CentOS, Fedora, AlmaLinux, Rocky, openSUSE), rusas (ALT, Astra, ROSA) y
+chinas (openEuler, openKylin, Deepin), con instalación desatendida
+mediante preseed/kickstart/cloud-init/autoyast y automatización de
+máquinas virtuales basada en QEMU para pruebas. Las funciones
+empresariales son amplias: cifrado AES-256-GCM, políticas de contraseñas
+y claves SSH obligatorias, configuración automática de firewall para
+puertos de correo (25/587/465/993/995), TLS/SSL con validación de
+certificados e HSTS, registro de auditoría y RBAC. Entre las
+características operativas destacan el ajuste de la JVM (G1GC), caché
+Caffeine, agrupación de conexiones, métricas compatibles con Prometheus,
+registro estructurado, recarga en caliente de configuraciones y gestión
+de secretos. El proyecto cuenta con 439 pruebas superadas al 100% y
+supera la puerta de calidad SonarQube. Es el proyecto estrella de la
+organización Server-Factory.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Configurar un servidor de correo seguro y listo para producción es
+notoriamente propenso a errores y específico de cada sistema operativo.
+Mail Server Factory encapsula ese conocimiento en un modelo declarativo
+JSON junto con un motor de ejecución, de modo que una pila de correo
+correcta, segura y dockerizada pueda reproducirse en cualquier objetivo
+compatible sin necesidad de seguir pasos manuales uno a uno.</p>
+<h2 id="por-qué-es-un-cambio-radical">Por qué es un cambio radical</h2>
+<p>Transforma el aprovisionamiento de servidores de correo de un proceso
+especializado, que puede llevar días y requiere precisión absoluta, en
+un simple acto de escribir configuraciones. Además, hace que esa
+configuración sea portable entre 12 tipos de conexión y 25
+distribuciones Linux, y viene endurecida con estándares de seguridad
+empresariales desde el primer momento. El resultado es reproducible y
+<em>verificable</em>: el mismo JSON genera siempre la misma pila segura,
+y los 439 tests superados y la puerta limpia de SonarQube del proyecto
+garantizan que el motor que realiza el trabajo rinde cuentas en lugar de
+basarse en la reputación.</p>
+<h2 id="qué-tiene-de-innovador">Qué tiene de innovador</h2>
+<ul>
+<li>JSON declarativo → instalación/inicialización interpretada en el
+sistema operativo de destino.</li>
+<li>12 tipos de conexión (local, SSH, Docker, Kubernetes, AWS SSM,
+Azure, GCP, Libvirt y más) gestionados con una sola herramienta.</li>
+<li>Soporte para 25 distribuciones con instalación desatendida
+(preseed/kickstart/cloud-init/autoyast) y automatización QEMU.</li>
+<li>Pila dockerizada de componentes débilmente acoplados para escalado y
+actualizaciones independientes.</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Heterogeneidad de sistemas
+operativos/distribuciones:</strong> resuelto con recetas específicas
+para cada distribución, configuraciones de instalación desatendida y
+pruebas QEMU entre distintas distribuciones.</li>
+<li><strong>Alcanzar múltiples objetivos de despliegue:</strong>
+resuelto con 12 tipos de conexión conectables bajo un motor de
+instalación común.</li>
+<li><strong>Seguridad por defecto:</strong> resuelto con AES-256-GCM,
+políticas de claves/contraseñas obligatorias, reglas de firewall
+automatizadas y TLS/HSTS.</li>
+<li><strong>Confianza en la corrección:</strong> resuelto con una suite
+de 439 tests (100 % superados) y una puerta limpia de SonarQube.</li>
+</ul>
+<h2 id="tecnologías-empleadas-por-qué-y-cómo">Tecnologías empleadas (por
+qué y cómo)</h2>
+<ul>
+<li><strong>Kotlin</strong> — el motor Factory y la lógica de pasos de
+instalación (179K bytes; Kotlin 2.0.21).</li>
+<li><strong>Shell</strong> — scripts de aprovisionamiento, gestores de
+ISO/QEMU y automatización de sistemas operativos (predominante en
+bytes).</li>
+<li><strong>Docker</strong> — el entorno de ejecución de la pila de
+correo desplegada, con componentes débilmente acoplados.</li>
+<li><strong>QEMU</strong> — automatización de máquinas virtuales para
+instalación y pruebas entre distribuciones.</li>
+<li><strong>JSON</strong> — el formato de configuración declarativa
+orientado al usuario.</li>
+<li><strong>Gradle 8.14.3 / Java 17</strong> — cadena de herramientas de
+compilación.</li>
+<li><strong>Caffeine</strong> — caché multirregión; <strong>JVM con
+ajuste G1GC</strong> para rendimiento.</li>
+<li><strong>Métricas compatibles con Prometheus</strong> —
+monitorización; preparado para Grafana/ELK.</li>
+<li><strong>Sieve</strong> — reglas de filtrado de correo (huella
+reducida en las estadísticas del lenguaje).</li>
+</ul>
+<blockquote>
+<p>Nota: GitHub marca el repositorio como una bifurcación dentro de la
+organización Server-Factory. Es anterior a la línea de productos AI; se
+presenta como un buque insignia maduro de DevOps/aprovisionamiento, no
+como una utilidad de AI.</p>
+</blockquote>
+</body>
+</html>

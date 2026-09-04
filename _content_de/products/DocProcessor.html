@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DocProcessor</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DocProcessor</h1>
+</header>
+<p><strong>Dokumentation in eine überprüfbare Feature-Map für die
+QA-Automatisierung umwandeln</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>DocProcessor ist ein eigenständiges, vollständig entkoppeltes
+Go-Modul, das Projektdokumentationen lädt, strukturierte Feature-Maps
+erstellt und die Verifizierungsabdeckung nachverfolgt. Es ist darauf
+ausgelegt, mit LLM-Agenten für intelligente Feature-Extraktion
+zusammenzuarbeiten, enthält jedoch auch heuristische Extraktionsmethoden
+für den Offline-Betrieb.</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>Ein projektunabhängiges Go-Modul zur Dokumentationsverarbeitung und
+Feature-Map-Extraktion. Es parst Dokumentationen in strukturierte
+Feature-Maps und verfolgt, welche Features verifiziert sind – entweder
+mithilfe von LLM-Agenten für intelligente Extraktion oder heuristischen
+Methoden im Offline-Modus – und versorgt die QA-Automatisierung mit
+einer Anti-Bluff-Garantie, die stets der Realität entspricht.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>Jedes Softwareteam lebt mit derselben stillen Lüge: Die Dokumentation
+verspricht Features, die Tests decken etwas Ähnliches ab, und niemand
+kann mit Sicherheit sagen, ob beide dasselbe Produkt beschreiben.
+DocProcessor wurde entwickelt, um diese Lücke sichtbar und messbar zu
+machen. Ausgehend von der Projektdokumentation erstellt es eine
+strukturierte Feature-Map – ein enumeriertes, maschinenlesbares Modell
+aller Funktionen, die das Produkt laut Dokumentation bieten soll – und
+verfolgt die Verifizierungsabdeckung im Vergleich dazu. So wird aus der
+Frage <em>„Wird dieses dokumentierte Feature tatsächlich
+nachgewiesen?“</em> keine Flur-Diskussion mehr, sondern eine Abfrage mit
+klarer Antwort. Das Modul arbeitet bewusst in zwei Modi: Es nutzt
+LLM-Agenten für intelligente, semantische Feature-Extraktion, falls
+verfügbar, und greift ansonsten auf einen heuristischen Parser für den
+vollständig offlinefähigen Betrieb zurück. Dadurch ist es nie von einem
+Modell abhängig und läuft identisch in einer isolierten CI-Umgebung oder
+auf dem Laptop eines Entwicklers im Flugmodus.</p>
+<p>Architektonisch handelt es sich um ein eigenständiges,
+projektunabhängiges, vollständig entkoppeltes Go-Modul (CONST-051(B)):
+Es enthält keinerlei projektspezifische Werte und wird von Anwendern als
+gleichberechtigtes Code-Submodul eingebunden, sodass jedes Projekt es
+übernehmen kann, ohne fremde Annahmen zu erben. Zudem hält es sich
+selbst an die Standards, die es von anderen einfordert – seine eigenen
+Aussagen unterliegen dem Anti-Bluff-Prinzip (CONST-035) und den Regeln
+zur vollständigen Automatisierungsabdeckung (CONST-048). Das bedeutet,
+dass jede im README beworbene Funktion durch einen automatisierten Test
+oder ein Challenge-Skript überprüft wird, das reales, nutzerrelevantes
+Verhalten bestätigt – und nicht nur mit Exit-Code 0 endet.
+Nutzerrelevante Strings durchlaufen die i18n-Übersetzungsschnittstelle
+CONST-046. Ziel all dessen ist ein geschlossener Kreislauf: DocProcessor
+bildet die Eingangsseite des QA-Zyklus, den HelixQA schließt – es
+extrahiert die Feature-Map aus der Dokumentation, HelixQA belegt jedes
+gemappte Feature mit erfassten Laufzeitnachweisen, und Dokumentation,
+Tests und ausgeliefertes Verhalten werden gezwungen, sich anzugleichen,
+statt sich Release für Release unbemerkt auseinanderzuentwickeln.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>Dokumentation und Tests driften auseinander: Die Dokumentation
+verspricht Features, die kein Test nachweist, und die QA kann nicht ohne
+Weiteres bestimmen, was „vollständig” bedeutet. DocProcessor verwandelt
+Dokumentationen in maschinenlesbare Feature-Maps, sodass die
+Verifizierungsabdeckung an dem gemessen werden kann, was tatsächlich
+versprochen wurde.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es verwandelt die unschärfste Frage in der Softwareauslieferung –
+<em>„Entspricht das, was wir ausgeliefert haben, dem, was wir
+auszuliefern behaupten?“</em> – in etwas Automatisierbares und
+kontinuierlich Überprüfbares. Und das ohne harte AI-Abhängigkeit:
+LLM-Extraktion, wenn ein Modell verfügbar ist, Heuristiken, wenn nicht –
+sodass dieselbe Garantie in jeder Umgebung gilt, vom Offline-Runner bis
+zur vollautomatisierten Pipeline.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li>Extraktion einer Dokumentation-Feature-Map mit
+Verifizierungsabdeckungs-Tracking.</li>
+<li>Doppelte Extraktion: LLM-Agent-gesteuert oder
+heuristisch/offline.</li>
+<li>Projektunabhängige, konfigurationsfreie Entkopplung
+(CONST-051(B)).</li>
+<li>Anti-Bluff-Selbstverifizierung: README-Aussagen werden durch
+Tests/Challenges abgesichert (CONST-035/048).</li>
+</ul>
+<h2 id="herausforderungen-lösungen">Herausforderungen &amp;
+Lösungen</h2>
+<ul>
+<li><strong>Modellunabhängiger Betrieb:</strong> gelöst durch einen
+heuristischen Extraktions-Fallback, sodass das Modul offline
+funktioniert.</li>
+<li><strong>Dokumentation und Realität im Einklang halten:</strong>
+gelöst durch strukturierte Feature-Maps und
+Verifizierungsabdeckungs-Tracking, integriert in den QA-Prozess.</li>
+<li><strong>Wiederverwendbarkeit:</strong> gelöst durch strikte
+Entkopplung und gleichberechtigten Submodul-Einsatz im Codebase.</li>
+<li><strong>Glaubwürdigkeit der eigenen Aussagen:</strong> gelöst durch
+Anti-Bluff-Tests/Challenges für jede beworbene Funktion.</li>
+</ul>
+<h2 id="technologie-stack-warum-wie">Technologie-Stack (Warum +
+Wie)</h2>
+<ul>
+<li><strong>Go (1.25+)</strong> – Modulkern; Lizenz: Apache-2.0.</li>
+<li><strong>LLM-Agenten</strong> – intelligente semantische
+Feature-Extraktion (optional).</li>
+<li><strong>Heuristischer Parser</strong> – Offline-Fallback für
+Feature-Extraktion.</li>
+<li><strong>i18n-Übersetzer (<code>pkg/i18n</code>)</strong> – CONST-046
+lokalisierte Strings.</li>
+<li><strong>Challenge-Harness</strong> – Anti-Bluff-Verifizierung der
+Modulaussagen.</li>
+</ul>
+</body>
+</html>

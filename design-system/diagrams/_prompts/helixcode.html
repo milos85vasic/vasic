@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>helixcode</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">helixcode</h1>
+</header>
+<p>You are an expert SVG author. Output ONLY one valid self-contained
+<code>&lt;svg&gt;</code> (SVG 1.1, <code>xmlns</code> set). No HTML, no
+<code>&lt;script&gt;</code>, no external refs, no markdown, no prose.
+SVG source only. Reproduce every element EXACTLY at the coordinates
+given. Do not re-layout, move, or resize anything. Draw CONNECTORS
+FIRST, then boxes, then text (so boxes sit above lines).</p>
+<p>Root:
+<code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="'Inter',system-ui,sans-serif"&gt;</code>.</p>
+<p>First child MUST be this <code>&lt;style&gt;</code> (verbatim):</p>
+<pre><code>&lt;style&gt;
+svg{--ink:#1e293b;--muted:#475569;--line:#94a3b8;--accent:#a31e39;--panel:#f8fafc;--panel2:#eef2f7;--tint:#f4dde1;--good:#dcfce7;--goodln:#16a34a;--goodink:#14532d;}
+@media(prefers-color-scheme:dark){svg{--ink:#e2e8f0;--muted:#cbd5e1;--line:#64748b;--accent:#ff6b81;--panel:#1e293b;--panel2:#273449;--tint:#3a2530;--good:#14321f;--goodln:#4ade80;--goodink:#bbf7d0;}}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.5;}
+.accent{fill:var(--panel);stroke:var(--accent);stroke-width:2;}
+.tint{fill:var(--tint);stroke:var(--accent);stroke-width:1.5;}
+.good{fill:var(--good);stroke:var(--goodln);stroke-width:1.5;}
+.dash{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;stroke-dasharray:5 4;}
+.t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+.s{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.gt{fill:var(--goodink);font-size:15px;font-weight:700;text-anchor:middle;}
+.h{fill:var(--ink);font-size:20px;font-weight:700;}
+.lbl{fill:var(--muted);font-size:12px;font-weight:600;}
+.note{fill:var(--muted);font-size:11px;text-anchor:middle;}
+.conn{stroke:var(--line);stroke-width:1.75;fill:none;}
+.strike{stroke:var(--accent);stroke-width:2.5;}
+&lt;/style&gt;</code></pre>
+<p>Then
+<code>&lt;defs&gt;&lt;marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"&gt;&lt;path d="M0,0 L7,3 L0,6 Z" fill="var(--line)"/&gt;&lt;/marker&gt;&lt;/defs&gt;</code>.</p>
+<p>How to draw each BOX row “(x, y, w, h, class, title, sub)”:
+<code>&lt;rect class="{class}" x y width height rx="10"/&gt;</code>,
+then
+<code>&lt;text class="{t or gt}" x="{x+w/2}" y="{y+34}"&gt;{title}&lt;/text&gt;</code>;
+if sub is non-empty add
+<code>&lt;text class="s" x="{x+w/2}" y="{y+54}"&gt;{sub}&lt;/text&gt;</code>;
+if sub is empty put title at y+{h/2+5}. Use class <code>gt</code> for
+the title only when the box class is <code>good</code>, otherwise class
+<code>t</code>. Each CONNECTOR line:
+<code>&lt;path class="conn" marker-end="url(#a)" d="{d}"/&gt;</code>
+using the given d verbatim. Each ANNOTATION row “(x, y, class, text)”:
+<code>&lt;text class="{class}" x="{x}" y="{y}"&gt;{text}&lt;/text&gt;</code>.
+Class <code>lbl</code> renders left-aligned; class <code>note</code>
+renders centered — use the class exactly as given. Each STRIKE row “(x1,
+y1, x2, y2)”: <code>&lt;line class="strike" x1 y1 x2 y2/&gt;</code>
+(used to cross out a box). Omit the STRIKE section if the spec says
+none. If a section says “none”, omit it entirely.</p>
+<p>DIAGRAM SPEC: TITLE:
+<code>&lt;text class="h" x="32" y="44"&gt;HelixCode — layered architecture&lt;/text&gt;</code></p>
+<p>ANNOTATIONS (x, y, class, text): - 40, 90, lbl, “API layer” - 40,
+240, lbl, “Core services” - 40, 462, lbl, “Data layer”</p>
+<p>BOXES (x, y, w, h, class, title, sub): - 120, 100, 200, 64, box,
+“REST API”, “” - 380, 100, 200, 64, box, “WebSocket”, “” - 640, 100,
+200, 64, box, “MCP”, “multi-transport” - 40, 250, 170, 82, box, “Auth
+&amp; Sessions”, “JWT” - 226, 250, 170, 82, box, “Worker Pool”, “SSH ·
+health monitor” - 412, 250, 170, 82, box, “Task + Checkpointing”,
+“rollback / resume” - 598, 250, 170, 82, box, “Project &amp; Workflow”,
+“” - 784, 250, 170, 82, box, “LLM Providers”, “llama.cpp · Ollama ·
+OpenAI” - 260, 470, 200, 72, box, “PostgreSQL 15+”, “11-table schema” -
+500, 470, 200, 72, box, “Redis 7”, “optional cache”</p>
+<p>CONNECTORS (d verbatim): - “M220,164 L220,248” - “M480,164 L480,248”
+- “M740,164 L740,248” - “M360,332 L360,468” - “M600,332 L600,468”</p>
+</body>
+</html>
