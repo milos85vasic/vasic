@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T11:50:18Z
+    Last-Updated: 2026-09-04T14:33:48Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,88 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A74 — **SEVEN AGENTS KILLED MID-WORK BY AN AUTH EXPIRY, AND ALL SEVEN RESUMED RATHER THAN RE-DISPATCHED.** Nothing was lost; here is the proof, per agent.
+
+**What happened.** At roughly 13:57 the session's credential expired
+(`API error: Login expired · error type authentication_failed`). Seven of the
+nine agents dispatched in A73 terminated **mid-tool-call**. Two more
+(`retrieval`, `boundary guard`) left no completion record at all — the harness
+reported them as stopped when the previous process exited.
+
+**The response, and it is a rule rather than a preference: RESUME, DO NOT
+RE-DISPATCH.** A re-dispatch starts a fresh agent with none of the dead one's
+context — every measurement it had taken, every hypothesis it had ruled out, and
+every partial edit's *intent* would be gone, and the tree would still hold the
+half-finished files. Resuming through `SendMessage` reattaches to the saved
+transcript. **Several of this session's most valuable findings came from agents
+that had already been resumed once.** See [[operator-works-by-heavy-fanout-and-decisions]].
+
+**Partial work was measured before anything was touched.** No file was reverted,
+cleaned up, or "tidied" — an agent restoring a shared file cannot know what else
+moved in it, which is how this project lost handoff entries twice.
+
+| Agent | Last words before it died | Partial work found in the tree |
+|---|---|---|
+| **Exports (G8)** | *"zero of the 1,702 output paths are covered by any existing `.gitignore` rule, so no prior decision applies and I add none. Waiting for generation."* | **567 `.html` + 559 `.pdf`** at the umbrella root |
+| **Redaction gate** | *"Gate is green over the real served corpus. Now the paired proof."* | `platform/gates/verify-redaction-propagation.sh` **and** its `prove-` sibling, both modified |
+| **UI label sweep** | *"The rewording is done. Now the gate."* | 4 frontend components modified: `core/cite.component.ts`, `core/status.component.ts`, `features/chapters/meeting-notes.component.ts`, `features/chapters/todo.component.ts` |
+| **Multi-provider** | *"The `openai_compatible` row must keep its `AllowRemote` gate. Let me fix that and build."* | `pkg/answer/hosted.go` (NEW, untracked), `pkg/answer/provider.go`, `cmd/workshop-server/main.go` |
+| **Containers module** | *"Now I need to export `ResolveRunSpec` so out-of-package implementers (like `RemoteRuntime`) can build the same argv."* | **10 modified files** in `submodules/containers` |
+| **Retrieval (SC-008)** | *(no completion record)* | `pkg/index/generation.go` modified; an untracked `pkg/index/zz_probe_test.go` |
+| **Boundary guard** | *(no completion record)* | `scripts/verify-content-boundary.sh` modified |
+
+**Two agents had ALREADY completed before the expiry and their results stand**
+(recorded in A73): the stale-export agent, which STOPPED rather than deleting and
+refuted my premise; and the constitution agent, which found the pin already equal
+to upstream and proved the six exemptions correct.
+
+**Each resume message carried the specific thing an interrupted agent drops.**
+Not a generic "carry on" — the failure mode of a resumed agent is finishing the
+mechanical half and silently skipping the discipline. So each was re-told the one
+rule most at risk in ITS task:
+
+- **Retrieval** — do the load-independent work FIRST, starting with the pure
+  count that cannot be contended: *how many of the 12,979 passages have a vector
+  at all.* And do not publish any timing figure until the host is genuinely
+  quiet; **`/api/search` was measured at 30 s against a 1.07 s idle baseline**
+  while load sat at 18 on 8 cores.
+- **UI sweep, multi-provider** — name the proof `prove-<gate-name>.sh` **exactly**,
+  because the pairing check derives the filename and a proof under any other name
+  counts as none; derive the coverage set; include a CONTROL and a NON-VACUITY
+  case, or a gate hardwired to `exit 1` passes the proof.
+- **Multi-provider** — an unreachable provider must yield could-not-determine,
+  **never a silent fallback to a different model**, because that makes every
+  answer's provenance a lie. And no credential in a tracked file, log line, error
+  message or fixture.
+- **Redaction** — the decisive mutation: put a should-be-withheld string in the
+  **SERVED** artifact while leaving `curriculum/passages.db` clean, and require
+  red where the old gate was green. Plus the corrected fact that **a re-ingest
+  does NOT drop the 383 rows**.
+- **Containers** — the invariant in one line: *zero bytes with a nil error must
+  be impossible when the read actually failed*. And if a defect does not
+  reproduce, say so — a recorded defect that no longer exists is itself a
+  finding.
+- **Boundary guard** — extend the EXISTING `--prove-failure` rather than adding a
+  script (R5 would fail the registry), and pair the determinism check with a
+  non-vacuity half that mutates a byte and requires the two runs to DIFFER.
+- **Exports** — the four zero-byte `.dc*.html.err` files are still in the tree
+  and must not reach a commit; and confirm every generated `.html` has its `.pdf`
+  sibling, because a document with one and not the other still counts as
+  unexported.
+
+**Tree state at resume, measured:** umbrella `1130` untracked / `4` modified;
+`workshop` at `7b07807` with **13** dirty paths; `submodules/containers` at
+`d940b51` with **10**. `submodules/constitution` clean at `2887b42e` and equal to
+its remote. The empty `submodules/helix_code/` that the constitution agent
+accidentally created and reverted is confirmed gone — `submodules/` holds the
+expected **7** entries.
+
+**No gitlink has been bumped.** `workshop` and `submodules/containers` both show
+as modified at the umbrella root and will stay that way until their agents
+finish, because the bump lands **once**, with `helix-deps.yaml` in the same
+staging — C9 requires them to move together, and it has caught this exact
+mistake before.
 
 #### A73 — **SESSION RESUME 2026-09-04 (afternoon): four operator decisions taken, nine agents dispatched, two items deliberately held back with a measured reason.**
 
