@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>مسار بناء تطبيقات مدعوم بـ AI، فئة تلو الأخرى.</strong></p>
+<h2 id="ملخص">ملخص</h2>
+<p>HelixBuilder هو مسار بناء تطبيقات مدعوم بـ AI يُثبَّت ويُدار من سطر
+الأوامر. يوفر سلاسل أدوات مخصصة لفئات محددة — بدءًا من البرمجة والاختبار
+وصولاً إلى الوسائط التوليدية (الرسوم المتحركة، الصوت، الصور) — عبر نص
+تثبيت واحد.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>HelixBuilder هو مسار بناء تطبيقات مدعوم بـ AI ويُدار عبر سطر الأوامر.
+ينصِّب نص واحد الفئة المختارة — العامة، المبرمج، المختبر، الترجمة، أو
+الوسائط التوليدية (الرسوم المتحركة، الصوت، JPEG، PNG، SVG) — مما يمنح كل
+مسار بناء سلسلة أدوات مصممة خصيصًا له.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>HelixBuilder هو مسار بناء تطبيقات مدعوم بـ AI ضمن عائلة Helix، ويُطبَّق
+بشكل رئيسي كأدوات سطر أوامر. هدفه هو إنشاء مسار بناء/توليد لمهمة محددة
+بضغطة أمر واحدة: من جذر المشروع، يُنَفِّذ <code>./install.sh</code> (مع
+إمكانية إضافة وسيط الفئة) المسار لتلك الفئة.</p>
+<p>يُرتَّب المسار في فئات، كل منها يتوافق مع فئة متميزة من الأعمال المدعومة
+بـ AI: <code>العامة</code> (الافتراضية)، <code>المبرمج</code>،
+<code>المختبر</code>، <code>الترجمة</code>، ومجموعة من الفئات التوليدية
+— <code>توليدي/رسوم متحركة</code>، <code>توليدي/صوت</code>،
+<code>توليدي/JPEG</code>، <code>توليدي/PNG</code>،
+و<code>توليدي/SVG</code>. عند تشغيل المثبِّت دون وسيط، تُختار الفئة
+<code>العامة</code>؛ أما عند تمرير اسم فئة، فيُثبَّت سلسلة الأدوات المخصصة
+لتلك الفئة بالضبط. الميزة هنا هي تقليل التعقيد: يحصل المطور على القدرات
+التي يحتاجها فقط للمهمة — بيئة توليد أكواد، مسار اختبار، أو حزمة توليد
+صور — بدلاً من تثبيت حزمة ضخمة موحدة وما يرافقها من عبء صيانة.</p>
+<p>HelixBuilder مرخص بموجب رخصة Apache-2.0 وهو جزء من منظومة المكونات
+القابلة لإعادة الاستخدام HelixDevelopment، حيث يُصنَّف باعتباره لبنة “مسار
+بناء AI”. ملف README العام مقصود أن يكون مختصرًا ويشير إلى الوثائق
+الكاملة داخل المستودع؛ التفاصيل التي تتجاوز سطح التثبيت وقائمة الفئات لا
+تُذكر هنا.</p>
+<h2 id="لماذا-قمنا-ببنائه">لماذا قمنا ببنائه</h2>
+<p>تتنوع الأعمال المدعومة بـ AI بين سلاسل أدوات مختلفة تمامًا — البرمجة،
+الاختبار، الترجمة، وعدة أنواع من الوسائط التوليدية. بُني HelixBuilder
+ليتيح توفير كل منها عند الطلب عبر مثبت واحد متسق بدلاً من تجميع بيئة
+مخصصة في كل مرة.</p>
+<h2 id="لماذا-يعد-ثورة-في-المجال">لماذا يُعد ثورة في المجال</h2>
+<p>يحول هذا المسار مهمة “إعداد بيئة بناء AI لـ X” — التي عادةً ما تستغرق
+فترة ما بعد الظهر وتتسم بالتعقيد والخطأ — إلى أمر واحد مصنف، مما يجعل
+مسارات بناء وتوليد AI قابلة للتكرار والمشاركة والاتساق عبر كل مشروع
+يتبناها.</p>
+<h2 id="ما-الجديد-والمبتكر">ما الجديد والمبتكر</h2>
+<ul>
+<li><strong>التوفير القائم على الفئات</strong> — مثبت واحد، مسارات
+متعددة متخصصة (كود، اختبار، ترجمة، وسائط توليدية)، تُحل جميعها من نقطة
+دخول واحدة.</li>
+<li><strong>تنوع الوسائط التوليدية</strong> — تُعامل الرسوم المتحركة،
+الصوت، وتنسيقات الصور المتعددة (JPEG/PNG/SVG) كفئات بناء أساسية بحد
+ذاتها، لا كمجرد إضافات لاحقة.</li>
+<li><strong>متوافق مع Shell</strong> — يُثبَّت في أي بيئة تقريبًا دون الحاجة
+إلى متطلبات تشغيل ثقيلة تقف بينك وبين مسار عمل جاهز.</li>
+</ul>
+<p>المحتوى</p>
+<h2 id="أكبر-التحديات-التقنية-وكيفية-حلها">أكبر التحديات التقنية وكيفية
+حلّها</h2>
+<ul>
+<li><strong>خدمة مسارات عمل AI شديدة الاختلاف من أداة واحدة</strong> —
+تم التعامل معها عبر تجريد الفئات في المثبّت، بحيث تحلّ كل فئة إلى سلسلة
+أدواتها الخاصة مع الاحتفاظ بنقطة دخول مشتركة. (تفاصيل التنفيذ تتجاوز ما
+هو موثّق في ملف README العام — غير مُتحقّق منه).</li>
+</ul>
+<h2 id="حزمة-التقنية">حزمة التقنية</h2>
+<ul>
+<li><strong>Shell</strong> — لغة التنفيذ الأساسية وسطح التثبيت/التنسيق
+(<code>install.sh</code>)، اختيرت لأنها نقطة دخول عبر واجهة الأوامر تعمل
+في أي بيئة بناء تقريباً، مما يحافظ على وعد “أمر واحد للتجهيز” قابل للنقل
+عبر بيئات البناء دون الحاجة لتثبيت بيئة تشغيل مسبقة.</li>
+<li><strong>سلاسل أدوات الفئات</strong> — مجموعات أدوات مخصصة لكل فئة:
+العامة / المبرمج / المختبِر / الترجمة / التوليدية (الرسوم المتحركة،
+الصوت، JPEG، PNG، SVG). الأدوات والنماذج المحددة لكل فئة غير مذكورة في
+ملف README العام (غير مُتحقّق منه).</li>
+</ul>
+<h2 id="حالة-المشروع-وملاحظات-الشفافية">حالة المشروع وملاحظات
+الشفافية</h2>
+<ul>
+<li><strong>الحالة: تجريبية.</strong> ملف README العام محدود (نص التثبيت
++ قائمة الفئات)؛ أدوات ونماذج الفئات، موفّرو AI، والهندسة الداخلية غير
+موصوفة علناً وبالتالي غير مُؤكّدة. الوثائق الكاملة المشار إليها في
+<code>./Documentation/README.md</code> لم تُراجع.</li>
+<li><strong>الرخصة: Apache-2.0</strong> (وفقاً لـ GitHub API).</li>
+</ul>
+<p><strong>درجة الأولوية:</strong> Helix-أساسية.</p>
+</body>
+</html>

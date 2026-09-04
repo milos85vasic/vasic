@@ -18,7 +18,7 @@ repos:
   - https://github.com/vasic-digital
 diagrams:
   - Three-cluster module map (Infrastructure / AI primitives / Guardrails) with product apps on top
-  - "Standard library" grid of modules, colored by maturity (stable vs scaffold)
+  - '"Standard library" grid of modules, colored by maturity (stable vs scaffold)'
   - Go ↔ KMP mirror pairs
   - A product (Catalogizer or HelixAgent) exploded into the modules it consumes
 ---

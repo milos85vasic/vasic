@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>An AI-powered pipeline for building applications, one
+category at a time.</strong></p>
+<h2 id="summary">Summary</h2>
+<p>HelixBuilder is an AI-powered application-building pipeline installed
+and driven from the shell. It provisions category-specific toolchains —
+from coding and testing to generative media (animation, audio, images) —
+via a single install script.</p>
+<h2 id="short-description">Short description</h2>
+<p>HelixBuilder is a shell-driven, AI-powered application building
+pipeline. A single install script provisions a chosen category —
+General, Coder, Tester, Translation, or generative media (animation,
+audio, JPEG, PNG, SVG) — giving each build workflow its own tailored
+toolchain.</p>
+<h2 id="long-description">Long description</h2>
+<p>HelixBuilder is an AI-powered application building pipeline in the
+Helix family, implemented primarily as shell tooling. Its purpose is to
+stand up a build/generation workflow for a specific kind of work with a
+single command: from the project root, <code>./install.sh</code>
+(optionally with a category argument) provisions the pipeline for that
+category.</p>
+<p>The pipeline is organized into categories, each corresponding to a
+distinct class of AI-assisted work: <code>General</code> (the default),
+<code>Coder</code>, <code>Tester</code>, <code>Translation</code>, and a
+set of generative categories — <code>Generative/Animation</code>,
+<code>Generative/Audio</code>, <code>Generative/JPEG</code>,
+<code>Generative/PNG</code>, and <code>Generative/SVG</code>. Running
+the installer without an argument selects <code>General</code>; passing
+a category name installs the toolchain tailored to exactly that kind of
+work. The payoff is opt-in surface area: a developer pulls down only the
+capabilities the task actually needs — a code-generation environment, a
+testing pipeline, or an image-generation stack — instead of swallowing
+one heavyweight monolithic install and the maintenance burden that comes
+with it.</p>
+<p>HelixBuilder is Apache-2.0 licensed and part of the broader
+HelixDevelopment reusable-component ecosystem, where it is positioned as
+the “AI build pipeline” building block. Its public README is
+intentionally brief and points to fuller documentation within the
+repository; details beyond the install surface and category list are not
+asserted here.</p>
+<h2 id="why-we-built-it">Why we built it</h2>
+<p>AI-assisted work spans very different toolchains — coding, testing,
+translation, and several kinds of generative media. HelixBuilder was
+built so each of those can be provisioned on demand through one
+consistent installer instead of assembling a bespoke environment every
+time.</p>
+<h2 id="why-its-a-game-changer">Why it’s a game-changer</h2>
+<p>It collapses “set up an AI build environment for X” — usually a
+bespoke, error-prone afternoon — into a single categorized command,
+turning AI-assisted build and generation pipelines into something
+repeatable, shareable, and consistent across every project that adopts
+it.</p>
+<h2 id="whats-innovative">What’s innovative</h2>
+<ul>
+<li><strong>Category-based provisioning</strong> — one installer, many
+specialized pipelines (code, test, translation, generative media), each
+resolved from the same single entry point.</li>
+<li><strong>Generative-media breadth</strong> — animation, audio, and
+multiple image formats (JPEG/PNG/SVG) are treated as first-class build
+categories in their own right, not bolted on as afterthoughts.</li>
+<li><strong>Shell-native</strong> — installs into practically any
+environment with no heavyweight runtime prerequisite standing between
+you and a working pipeline.</li>
+</ul>
+<h2 id="biggest-technical-challenges-how-we-solved-them">Biggest
+technical challenges &amp; how we solved them</h2>
+<ul>
+<li><strong>Serving very different AI workflows from one tool</strong> —
+addressed by a category abstraction in the installer, so each category
+resolves to its own toolchain while sharing a common entry point.
+(Implementation depth beyond this is not documented in the public README
+— UNVERIFIED.)</li>
+</ul>
+<h2 id="tech-stack">Tech stack</h2>
+<ul>
+<li><strong>Shell</strong> — primary implementation language and the
+install/orchestration surface (<code>install.sh</code>); chosen because
+a shell entry point runs almost everywhere a build happens, keeping the
+“one command to provision” promise portable across build environments
+with no runtime to install first.</li>
+<li><strong>Category toolchains</strong> — per-category tool sets for
+General / Coder / Tester / Translation / Generative (Animation, Audio,
+JPEG, PNG, SVG). Specific underlying tools/models per category are not
+enumerated in the public README (UNVERIFIED).</li>
+</ul>
+<h2 id="status-honesty-notes">Status &amp; honesty notes</h2>
+<ul>
+<li><strong>Status: beta.</strong> The public README is minimal (install
+script + category list); per-category tooling/models, AI providers, and
+internal architecture are not described publicly and are therefore not
+asserted. Fuller docs referenced at
+<code>./Documentation/README.md</code> were not read.</li>
+<li><strong>License: Apache-2.0</strong> (per GitHub API).</li>
+</ul>
+<p><strong>Priority tier:</strong> Helix-primary.</p>
+</body>
+</html>

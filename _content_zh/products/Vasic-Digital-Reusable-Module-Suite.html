@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>一次构建，随处复用——一组小型、解耦、独立测试的Go与KMP模块</strong></p>
+<h2 id="概述">概述</h2>
+<p>一系列通用、可复用的模块，发布于<code>digital.vasic.*</code>（Go）及Kotlin
+Multiplatform命名空间下。每个模块均独立存在，拥有独立的测试与版本控制，并作为同等代码库的子模块被更大型产品（Catalogizer、HelixAgent及更广泛的模块群）所调用。本页面将众多小型工具整合于此，避免其作为独立页面显得过于琐碎。</p>
+<h2 id="简要说明">简要说明</h2>
+<p>一套精心设计的解耦<code>digital.vasic.*</code>模块集合，涵盖基础设施基元（认证、缓存、数据库、配置、可观测性）、AI/代理构建模块（RAG、向量数据库、嵌入、MCP、智能体、规划）及防御性LLM防护机制（红队测试、标准化处理），同时包含Kotlin
+Multiplatform镜像模块集。每个模块均通用、经过测试且可复用。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>vasic-digital组织的运作基于一项结构性抉择：采用”宪章+众多解耦可复用子模块”的理念，确保通用功能绝不重复开发。与单体架构不同，每个可复用组件均被提取为独立模块——拥有独立的代码库、测试及文档——并严格保持解耦，确保任何使用方的特定需求不会渗入其中。本页面将这些模块汇总，因单独来看，每个模块规模仅相当于一个库，若作为独立产品页面则显得过于零散；而整体来看，它们构成了组织真正的效率倍增器：一项私有工程资产，将”构建新产品”转化为”组装成熟组件”，并为”本模块群不重复造轮子”的承诺提供了切实支撑——它维护的是一个极为优秀的”轮子”，并将其应用于各处。</p>
+<p>该模块套件涵盖三大类别。<strong>基础设施基元</strong>（Go）提供各类服务所需的基础组件：<code>auth</code>（JWT/bcrypt）、<code>cache</code>（Redis/TTL）、<code>database</code>（迁移、双SQLite/PostgreSQL）、<code>config</code>、<code>middleware</code>、<code>observability</code>（Prometheus/OpenTelemetry）、<code>ratelimiter</code>、<code>security</code>、<code>storage</code>（S3/MinIO）、<code>streaming</code>（WebSocket中心）、<code>eventbus</code>、<code>filesystem</code>（多协议）、<code>discovery</code>/<code>mdns</code>、<code>http3</code>、<code>recovery</code>、<code>concurrency</code>、<code>lazy</code>等。<strong>AI/代理构建模块</strong>（Go）为AI系统提供基础支撑：<code>rag</code>、<code>vectordb</code>、<code>embeddings</code>、<code>memory</code>、<code>conversation</code>（无限上下文压缩、事件溯源）、<code>mcp</code>（Model
+Context
+Protocol）、<code>toolschema</code>、<code>skillregistry</code>、<code>agentic</code>（基于图的工作流编排）、<code>planning</code>（HiPlan/MCTS/思维树）、<code>benchmark</code>（SWE-bench/HumanEval/MMLU）、<code>llmops</code>、<code>selfimprove</code>（奖励建模/RLHF）及<code>toon</code>（面向Token的对象表示法）。<strong>防御性LLM防护机制</strong>提供对抗鲁棒性工具：<code>RedTeam</code>（基于YAML的对抗性测试用例）、<code>Normalize</code>（对抗性输入规范化）。此外，<strong>Kotlin
+Multiplatform</strong>模块集还提供核心模块的跨平台镜像版本（Auth-KMP、Database-KMP、Security-KMP、UI-Components-KMP等）。</p>
+<p>内容</p>
+<h2 id="我们为何构建它">我们为何构建它</h2>
+<p>每次从零开始开发多个产品（Catalogizer、HelixAgent、Herald等）既浪费资源，又难以保持一致性。将所有通用功能抽取为解耦且经过验证的模块后，修复和改进能够自动传递至整个产品线，而每个新产品则由经过验证的组件拼装而成。</p>
+<h2 id="为何它是颠覆性的">为何它是颠覆性的</h2>
+<p>这实际上是为构建以AI为核心的后端系统打造的私有”标准库”——大多数团队无暇构建这一层，因为他们总在第四五次重新解决身份验证、缓存和RAG基础设施等问题。在这里，基础设施原语、AI构建模块以及防御性LLM防护机制均以即插即用、独立测试的模块形式存在。这使得小团队能以通常需要更大规模团队才能达到的速度交付产品级系统，且不会在过程中积累重复性技术债务。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li><strong>全产品线解耦规范（CONST-051）</strong>：子模块视为独立代码库，绝不包含消费者特定逻辑。</li>
+<li><strong>专用AI原语层（RAG、向量数据库、嵌入模型、MCP、工具模式、智能体、规划、LLMOps）</strong>：以可复用模块形式呈现。</li>
+<li><strong>防御性LLM防护集群（RedTeam、Normalize）</strong>：用于对抗性鲁棒性测试。</li>
+<li><strong>并行Go + Kotlin
+Multiplatform模块集</strong>：共享相同设计规范。</li>
+</ul>
+<h2 id="挑战与解决方案">挑战与解决方案</h2>
+<ul>
+<li><strong>避免数十个模块间的耦合腐化</strong>：通过宪章解耦协议及运行时注入消费者特定逻辑解决。</li>
+<li><strong>保持多模块的一致性与可测试性</strong>：通过共享约定（每模块包含测试/文档/挑战）及HelixConstitution治理框架解决。</li>
+<li><strong>跨平台覆盖</strong>：通过Kotlin
+Multiplatform核心模块镜像解决。</li>
+</ul>
+<h2 id="技术栈选择原因及实现方式">技术栈（选择原因及实现方式）</h2>
+<ul>
+<li><strong>Go</strong> ——
+大部分模块（<code>digital.vasic.*</code>）。</li>
+<li><strong>Kotlin Multiplatform</strong> ——
+跨平台镜像模块（身份验证/数据库/安全/UI/并发/限流器-KMP）。</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> ——
+缓存、数据库、存储原语。</li>
+<li><strong>Prometheus / OpenTelemetry</strong> —— 可观测性模块。</li>
+<li><strong>WebSocket / HTTP/3（quic-go）/ mDNS</strong> ——
+网络模块。</li>
+<li><strong>向量数据库 / embeddings / RAG / MCP</strong> ——
+AI原语模块。</li>
+<li><strong>YAML</strong> —— RedTeam对抗性测试用例及配置。</li>
+</ul>
+<blockquote>
+<p>未验证/开发中：多个组织仓库自标记为”脚手架/开发中”（如<code>PliniusCommon</code>、<code>I-LLM</code>、<code>HyperTune</code>、<code>AutoTemp</code>、<code>Veritas</code>、<code>Ouroborous</code>、<code>Claritas</code>、<code>LeakHub</code>、<code>GandalfSolutions</code>）。这些内容应视为早期阶段/脚手架，尚未正式发布。</p>
+</blockquote>
+</body>
+</html>

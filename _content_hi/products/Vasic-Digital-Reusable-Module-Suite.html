@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>एक बार बनाओ, हर जगह उपयोग करो — छोटे, अलग-थलग, स्वतंत्र रूप से
+परीक्षित Go और KMP मॉड्यूल्स का एक बेड़ा।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p><code>digital.vasic.*</code> (Go) और Kotlin Multiplatform नेमस्पेस के तहत
+प्रकाशित जेनेरिक, पुनः उपयोगी मॉड्यूल्स का एक बड़ा परिवार। हर मॉड्यूल स्वतंत्र है,
+स्वतंत्र रूप से परीक्षित और संस्करणबद्ध है, और बड़े उत्पादों (Catalogizer, HelixAgent
+और व्यापक बेड़े) द्वारा समान-कोडबेस सबमॉड्यूल के रूप में उपयोग किया जाता है। यह पृष्ठ
+उन कई छोटे उपयोगिताओं को एकीकृत करता है जो व्यक्तिगत पृष्ठों के रूप में शोर बन
+जातीं।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>अलग-थलग <code>digital.vasic.*</code> मॉड्यूल्स का एक चयनित संग्रह —
+इंफ्रास्ट्रक्चर प्रिमिटिव्स (प्रमाणीकरण, कैश, डेटाबेस, कॉन्फ़िगरेशन, ऑब्ज़र्वेबिलिटी),
+AI/एजेंट निर्माण खंड (RAG, वेक्टरडीबी, एम्बेडिंग्स, MCP, एजेंटिक, प्लानिंग), और
+रक्षात्मक-LLM गार्डरेल्स (रेडटीम, नॉर्मलाइज़) — साथ ही Kotlin Multiplatform मिरर
+सेट। प्रत्येक जेनेरिक, परीक्षित और पुनः उपयोगी है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>vasic-digital संगठन एक संरचनात्मक दांव पर चलता है: “संविधान + कई अलग-थलग
+पुनः उपयोगी सबमॉड्यूल्स” का दर्शन, जिसमें जेनेरिक कार्यक्षमता कभी दोबारा नहीं लिखी
+जाती। मोनोलिथ्स के बजाय, हर पुनः उपयोगी चिंता को अपने छोटे मॉड्यूल में निकाला जाता
+है — अपना रिपॉजिटरी, अपने परीक्षण, अपनी दस्तावेज़ीकरण — और सख्ती से अलग रखा जाता
+है ताकि किसी उपभोक्ता की विशिष्टताएँ कभी अंदर न आएँ। यह पृष्ठ उन्हें समूहबद्ध करता है
+क्योंकि एक-एक करके देखें तो हर मॉड्यूल लाइब्रेरी-स्तर का होता है और व्यक्तिगत उत्पाद
+पृष्ठ के रूप में शोर बन जाता। एक साथ लेने पर, ये संगठन का वास्तविक बल गुणक हैं: एक
+निजी इंजीनियरिंग संपत्ति जो “नया उत्पाद बनाओ” को “सिद्ध भागों को जोड़ो” में बदल
+देती है, और इस दावे का ठोस आधार कि यह बेड़ा पहिया को फिर से नहीं बनाता — यह एक
+बहुत अच्छा पहिया बनाए रखता है और उसे हर जगह घुमाता है।</p>
+<p>इस संग्रह में तीन समूह शामिल हैं। <strong>इंफ्रास्ट्रक्चर प्रिमिटिव्स</strong> (Go)
+हर सेवा के लिए आवश्यक प्लंबिंग प्रदान करते हैं: <code>auth</code> (JWT/bcrypt),
+<code>cache</code> (Redis/TTL), <code>database</code> (माइग्रेशन, दोहरा
+SQLite/PostgreSQL), <code>config</code>, <code>middleware</code>,
+<code>observability</code> (Prometheus/OpenTelemetry),
+<code>ratelimiter</code>, <code>security</code>, <code>storage</code>
+(S3/MinIO), <code>streaming</code> (WebSocket हब),
+<code>eventbus</code>, <code>filesystem</code> (बहु-प्रोटोकॉल),
+<code>discovery</code>/<code>mdns</code>, <code>http3</code>,
+<code>recovery</code>, <code>concurrency</code>, <code>lazy</code>, और
+अन्य। <strong>AI/एजेंट निर्माण खंड</strong> (Go) AI प्रणालियों के लिए आधार प्रदान
+करते हैं: <code>rag</code>, <code>vectordb</code>, <code>embeddings</code>,
+<code>memory</code>, <code>conversation</code> (असीमित-संदर्भ संपीड़न, इवेंट
+सोर्सिंग), <code>mcp</code> (Model Context Protocol),
+<code>toolschema</code>, <code>skillregistry</code>,
+<code>agentic</code> (ग्राफ़-आधारित वर्कफ़्लो ऑर्केस्ट्रेशन),
+<code>planning</code> (HiPlan/MCTS/ट्री-ऑफ़-थॉट्स), <code>benchmark</code>
+(SWE-bench/HumanEval/MMLU), <code>llmops</code>,
+<code>selfimprove</code> (इनाम मॉडलिंग/RLHF), और <code>toon</code>
+(टोकन-ओरिएंटेड ऑब्जेक्ट नोटेशन)। <strong>रक्षात्मक-LLM गार्डरेल्स</strong>
+प्रतिकूल-स्थिरता उपकरण प्रदान करते हैं: <code>RedTeam</code> (YAML-चालित प्रतिकूल
+फिक्स्चर), <code>Normalize</code> (प्रतिकूल-इनपुट कैनोनिकलाइज़ेशन)। एक समानांतर
+<strong>Kotlin Multiplatform</strong> सेट मुख्य मॉड्यूल्स (Auth-KMP,
+Database-KMP, Security-KMP, UI-Components-KMP आदि) को क्रॉस-प्लेटफ़ॉर्म ऐप्स के
+लिए मिरर करता है।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>हर बार शुरुआत से कई उत्पादों (Catalogizer, HelixAgent, Herald और अन्य) को
+विकसित करना संसाधनों की बर्बादी और असंगति का कारण बनता है। हर सामान्य चिंता को
+एक अलग, परीक्षित मॉड्यूल में बदल देने से सुधार और फिक्स पूरे सिस्टम में फैल जाते हैं, और हर
+नया उत्पाद सिद्ध भागों से मिलकर बनता है।</p>
+<h2 id="यह-कय-करतकर-ह">यह क्यों क्रांतिकारी है</h2>
+<p>वास्तव में, यह AI-केंद्रित बैकएंड बनाने के लिए एक निजी “मानक लाइब्रेरी” है—वह परत
+जिसे ज़्यादातर टीमें इसलिए नहीं बना पातीं क्योंकि वे ऑथ, कैशिंग और RAG जैसी बुनियादी
+संरचनाओं को पाँचवीं बार फिर से हल करने में व्यस्त रहती हैं। यहाँ इंफ्रास्ट्रक्चर के बुनियादी
+तत्व, AI के निर्माण खंड और रक्षात्मक-LLM सुरक्षा उपाय सभी स्वतंत्र रूप से परीक्षित,
+प्लग-एंड-प्ले मॉड्यूल के रूप में मौजूद हैं। यही वजह है कि एक छोटी टीम भी बड़े पैमाने की
+टीमों जैसी गति से उत्पाद-स्तरीय सिस्टम विकसित कर पाती है, और ऐसा करते हुए उस
+दोहराव के कर्ज से बच जाती है जो आमतौर पर इसके बाद जमा होता है।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li><strong>संपूर्ण सिस्टम में डिकपलिंग अनुशासन (CONST-051):</strong> सबमॉड्यूल्स
+को समान कोडबेस के रूप में माना जाता है, जिनमें उपभोक्ता-विशिष्ट विवरण कभी शामिल
+नहीं होते।</li>
+<li><strong>समर्पित AI-प्रिमिटिव परत (RAG, वेक्टरडीबी, एम्बेडिंग्स, MCP,
+टूलस्कीमा, एजेंटिक, प्लानिंग, LLMOps)</strong> पुन:प्रयोग योग्य मॉड्यूल के रूप
+में।</li>
+<li><strong>रक्षात्मक-LLM सुरक्षा समूह (रेडटीम, नॉर्मलाइज़)</strong> प्रतिकूल
+परिस्थितियों में मज़बूती के लिए।</li>
+<li><strong>समान नियमों पर आधारित समानांतर Go + Kotlin Multiplatform मॉड्यूल
+सेट्स।</strong></li>
+</ul>
+<h2 id="चनतय-और-समधन">चुनौतियाँ और समाधान</h2>
+<ul>
+<li><strong>दर्जनों मॉड्यूल्स में कपलिंग सड़न से बचाव:</strong> संविधान के डिकपलिंग
+अनुबंध और उपभोक्ता-विशिष्ट रनटाइम इंजेक्शन से हल।</li>
+<li><strong>कई मॉड्यूल्स को सुसंगत और परीक्षित रखना:</strong> साझा परंपरा
+(प्रति-मॉड्यूल टेस्ट/डॉक्स/चुनौतियाँ) और HelixConstitution गवर्नेंस बैकबोन से
+हल।</li>
+<li><strong>क्रॉस-प्लेटफ़ॉर्म पहुँच:</strong> मुख्य मॉड्यूल्स का Kotlin
+Multiplatform मिरर से हल।</li>
+</ul>
+<h2 id="तकनक-सटक-कय-कस">तकनीकी स्टैक (क्यों + कैसे)</h2>
+<ul>
+<li><strong>Go</strong> — अधिकांश मॉड्यूल्स
+(<code>digital.vasic.*</code>)।</li>
+<li><strong>Kotlin Multiplatform</strong> — क्रॉस-प्लेटफ़ॉर्म मिरर मॉड्यूल्स
+(ऑथ/डेटाबेस/सुरक्षा/यूआई/कंकरेंसी/रेटलिमिटर-KMP)।</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — कैश, डेटाबेस, स्टोरेज
+प्रिमिटिव्स।</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — ऑब्ज़र्वेबिलिटी
+मॉड्यूल।</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — नेटवर्किंग
+मॉड्यूल्स।</li>
+<li><strong>वेक्टर डीबी / embeddings / RAG / MCP</strong> — AI-प्रिमिटिव
+मॉड्यूल्स।</li>
+<li><strong>YAML</strong> — रेडटीम प्रतिकूल फिक्स्चर और कॉन्फ़िगरेशन।</li>
+</ul>
+<blockquote>
+<p><strong>असत्यापित / कार्य प्रगति पर:</strong> कई संगठनात्मक रिपॉज़िटरीज़ को
+“स्कैफोल्ड / डब्ल्यूआईपी” के रूप में चिह्नित किया गया है (जैसे
+<code>PliniusCommon</code>, <code>I-LLM</code>, <code>HyperTune</code>,
+<code>AutoTemp</code>, <code>Veritas</code>, <code>Ouroborous</code>,
+<code>Claritas</code>, <code>LeakHub</code>,
+<code>GandalfSolutions</code>)। इन्हें प्रारंभिक चरण/स्कैफोल्ड के रूप में प्रस्तुत करें,
+शिप नहीं किया गया।</p>
+</blockquote>
+</body>
+</html>

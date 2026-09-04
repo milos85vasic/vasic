@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>Uygulamalar oluşturmak için AI destekli bir ardışık düzen,
+her seferinde bir kategori.</strong></p>
+<h2 id="özet">Özet</h2>
+<p>HelixBuilder, kabuk üzerinden yüklenen ve yönetilen, AI destekli bir
+uygulama oluşturma ardışık düzenidir. Tek bir yükleme betiğiyle, kodlama
+ve testten üretken medyaya (animasyon, ses, görseller) kadar kategori
+özelinde araç zincirleri sağlar.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>HelixBuilder, kabuk tabanlı, AI destekli bir uygulama oluşturma
+ardışık düzenidir. Tek bir yükleme betiği, seçilen kategoriye — Genel,
+Kodlayıcı, Testçi, Çeviri veya üretken medya (animasyon, ses, JPEG, PNG,
+SVG) — özel olarak uyarlanmış bir araç zinciri sağlayarak her oluşturma
+iş akışına kendi özelleştirilmiş altyapısını sunar.</p>
+<h2 id="ayrıntılı-açıklama">Ayrıntılı açıklama</h2>
+<p>HelixBuilder, öncelikle kabuk araçlarıyla hayata geçirilen, Helix
+ailesine ait AI destekli bir uygulama oluşturma ardışık düzenidir.
+Amacı, belirli bir iş türü için oluşturma/üretme iş akışını tek bir
+komutla devreye sokmaktır: Proje kök dizininden çalıştırılan
+<code>./install.sh</code> (isteğe bağlı olarak bir kategori argümanıyla
+birlikte) o kategori için ardışık düzeni sağlar.</p>
+<p>Ardışık düzen, her biri AI destekli farklı bir çalışma sınıfına
+karşılık gelen kategorilere ayrılmıştır: <code>Genel</code>
+(varsayılan), <code>Kodlayıcı</code>, <code>Testçi</code>,
+<code>Çeviri</code> ve bir dizi üretken kategori —
+<code>Üretken/Animasyon</code>, <code>Üretken/Ses</code>,
+<code>Üretken/JPEG</code>, <code>Üretken/PNG</code> ve
+<code>Üretken/SVG</code>. Yükleyiciyi argümansız çalıştırmak
+<code>Genel</code> kategorisini seçer; bir kategori adı vermek ise tam
+olarak o iş türüne uyarlanmış araç zincirini yükler. Avantajı, isteğe
+bağlı yüzey alanıdır: Geliştirici, görevin gerçekten ihtiyaç duyduğu
+yetenekleri — kod üretim ortamı, test ardışık düzeni veya görsel üretim
+yığını — indirir; tek bir ağır monolitik yükleme ve beraberinde
+getirdiği bakım yükünü üstlenmek yerine.</p>
+<p>HelixBuilder, Apache-2.0 lisansı altında dağıtılmakta olup daha geniş
+HelixDevelopment yeniden kullanılabilir bileşen ekosisteminin bir
+parçasıdır ve burada “AI oluşturma ardışık düzeni” yapı taşı olarak
+konumlandırılmıştır. Genel README dosyası kasıtlı olarak kısa tutulmuş
+ve depodaki daha kapsamlı belgelere yönlendirme yapmaktadır; yükleme
+yüzeyi ve kategori listesi dışındaki ayrıntılar burada
+belirtilmemiştir.</p>
+<h2 id="neden-geliştirdik">Neden geliştirdik</h2>
+<p>AI destekli çalışmalar, kodlama, test, çeviri ve çeşitli üretken
+medya türleri gibi birbirinden çok farklı araç zincirlerini kapsar.
+HelixBuilder, bu araç zincirlerinin her birinin tek bir tutarlı
+yükleyici aracılığıyla talep üzerine sağlanabilmesi için geliştirildi;
+böylece her seferinde sıfırdan özel bir ortam oluşturma zorunluluğu
+ortadan kalktı.</p>
+<h2 id="neden-devrim-niteliğinde">Neden devrim niteliğinde</h2>
+<p>“X için bir AI oluşturma ortamı kurmak” — genellikle özel, hataya
+açık ve saatler süren bir süreç — HelixBuilder ile tek bir kategorili
+komuta indirgenerek, AI destekli oluşturma ve üretim ardışık düzenlerini
+her benimseyen proje için tekrarlanabilir, paylaşılabilir ve tutarlı
+hale getiriyor.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li><strong>Kategori tabanlı sağlama</strong> — Tek bir yükleyici,
+birçok uzmanlaşmış ardışık düzen (kod, test, çeviri, üretken medya);
+hepsi aynı giriş noktasından çözümlenir.</li>
+<li><strong>Üretken medya çeşitliliği</strong> — Animasyon, ses ve
+birden fazla görsel formatı (JPEG/PNG/SVG), sonradan eklenen düşünceler
+olarak değil, kendi başlarına birinci sınıf oluşturma kategorileri
+olarak ele alınır.</li>
+<li><strong>Shell yerel</strong> — Neredeyse her ortama, çalışan bir
+ardışık düzen ile aranıza girebilecek ağır bir çalışma zamanı önkoşulu
+olmadan yüklenir.</li>
+</ul>
+<p>İçerik</p>
+<h2 id="en-büyük-teknik-zorluklar-ve-bunları-nasıl-çözdük">En Büyük
+Teknik Zorluklar ve Bunları Nasıl Çözdük</h2>
+<ul>
+<li><strong>Tek bir araçtan çok farklı AI iş akışlarına hizmet
+etmek</strong> — yükleyicideki kategori soyutlamasıyla ele alındı;
+böylece her kategori kendi araç zincirine çözümlenirken ortak bir giriş
+noktası paylaşıldı. (Bu uygulamanın derinliği genel README’de
+belgelenmemiştir — DOĞRULANMAMIŞ.)</li>
+</ul>
+<h2 id="teknoloji-yığını">Teknoloji Yığını</h2>
+<ul>
+<li><strong>Shell</strong> — temel uygulama dili ve yükleme/koordinasyon
+arayüzü (<code>install.sh</code>); seçilmesinin nedeni, bir kabuk giriş
+noktasının neredeyse her derleme ortamında çalışması ve “tek komutla
+sağlama” vaadini, önceden yüklenmesi gereken bir çalışma zamanı olmadan
+taşınabilir kılmasıdır.</li>
+<li><strong>Kategori araç zincirleri</strong> — Genel / Geliştirici /
+Testçi / Çevirmen / Üretken (Animasyon, Ses, JPEG, PNG, SVG)
+kategorileri için özel araç setleri. Her kategori için kullanılan
+belirli araçlar/modeller genel README’de listelenmemiştir
+(DOĞRULANMAMIŞ).</li>
+</ul>
+<h2 id="durum-ve-dürüstlük-notları">Durum ve Dürüstlük Notları</h2>
+<ul>
+<li><strong>Durum: beta.</strong> Genel README minimal düzeydedir
+(yükleme betiği + kategori listesi); kategori bazlı araçlar/modeller, AI
+sağlayıcıları ve iç mimari kamuya açıklanmamış olup bu nedenle
+doğrulanmamıştır. <code>./Documentation/README.md</code> adresinde
+bahsedilen daha kapsamlı belgeler incelenmemiştir.</li>
+<li><strong>Lisans: Apache-2.0</strong> (GitHub API uyarınca).</li>
+</ul>
+<p><strong>Öncelik seviyesi:</strong> Helix-birincil.</p>
+</body>
+</html>

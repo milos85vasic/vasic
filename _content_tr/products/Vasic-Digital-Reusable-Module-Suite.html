@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>Bir kez inşa et, her yerde yeniden kullan — bağımsız test
+edilmiş, birbirinden ayrık küçük Go ve KMP modüllerinden oluşan bir
+filo.</strong></p>
+<h2 id="özet">Özet</h2>
+<p><code>digital.vasic.*</code> (Go) ve Kotlin Multiplatform ad alanları
+altında yayımlanan, genel amaçlı ve yeniden kullanılabilir modüllerden
+oluşan geniş bir aile. Her modül bağımsız, ayrı test edilmiş ve
+sürümlendirilmiş olup, daha büyük ürünler (Catalogizer, HelixAgent ve
+daha geniş filo) tarafından eşit kod tabanlı bir alt modül olarak
+tüketilir. Bu sayfa, tek tek ele alındığında gürültüden ibaret olacak
+küçük araçları bir araya getiriyor.</p>
+<h2 id="kısa-açıklama">Kısa açıklama</h2>
+<p>Birbirinden ayrık <code>digital.vasic.*</code> modüllerinden oluşan
+özenle seçilmiş bir koleksiyon — altyapı temel bileşenleri (kimlik
+doğrulama, önbellek, veritabanı, yapılandırma, gözlemlenebilirlik),
+AI/ajan yapı taşları (RAG, Vektör Veritabanı, Gömme Vektörleri, MCP,
+Ajanik, Planlama) ve savunma amaçlı LLM koruma mekanizmaları (Kırmızı
+Takım, Normalleştirme) — artı bir Kotlin Multiplatform ayna seti. Her
+biri genel amaçlı, test edilmiş ve yeniden kullanılabilir nitelikte.</p>
+<h2 id="uzun-açıklama">Uzun açıklama</h2>
+<p>vasic-digital organizasyonu, tek bir yapısal bahse dayanıyor:
+“Anayasa + birçok birbirinden ayrık, yeniden kullanılabilir alt modül”
+felsefesi. Bu yaklaşımda, genel işlevsellik asla iki kez yazılmaz.
+Monolitik yapılar yerine, her yeniden kullanılabilir bileşen kendi küçük
+modülüne —kendi deposuna, kendi testlerine, kendi belgelerine—
+ayrıştırılır ve tüketicilerin özel gereksinimlerinin asla sızmaması için
+sıkı bir şekilde birbirinden ayrık tutulur. Bu sayfa, tek tek ele
+alındığında kütüphane ölçeğinde kalan ve bireysel bir ürün sayfasında
+gürültüden ibaret olacak modülleri gruplandırıyor. Bir araya
+getirildiğinde ise organizasyonun gerçek güç çarpanını oluşturuyorlar:
+“Yeni bir ürün inşa et” yerine “kanıtlanmış parçaları bir araya getir”
+yaklaşımını mümkün kılan özel bir mühendislik varlığı ve bu filonun
+tekerleği yeniden icat etmediği —sadece çok iyi bir tekerleği her yere
+taşıdığı— iddiasının somut kanıtı.</p>
+<p>Koleksiyon üç ana kümeden oluşuyor. <strong>Altyapı temel
+bileşenleri</strong> (Go), her hizmetin ihtiyaç duyduğu temel yapı
+taşlarını sunuyor: <code>kimlik doğrulama</code> (JWT/bcrypt),
+<code>önbellek</code> (Redis/TTL), <code>veritabanı</code> (göçler,
+ikili SQLite/PostgreSQL), <code>yapılandırma</code>,
+<code>ara katman yazılımı</code>, <code>gözlemlenebilirlik</code>
+(Prometheus/OpenTelemetry), <code>akış sınırlayıcı</code>,
+<code>güvenlik</code>, <code>depolama</code> (S3/MinIO),
+<code>akış</code> (WebSocket merkezi), <code>olay veriyolu</code>,
+<code>dosya sistemi</code> (çoklu protokol),
+<code>keşif</code>/<code>mdns</code>, <code>http3</code>,
+<code>kurtarma</code>, <code>eşzamanlılık</code>,
+<code>tembel yükleme</code> ve daha fazlası. <strong>AI/ajan yapı
+taşları</strong> (Go), AI sistemleri için temel sağlıyor:
+<code>rag</code>, <code>vektör veritabanı</code>,
+<code>embeddings</code>, <code>hafıza</code>, <code>konuşma</code>
+(sınırsız bağlam sıkıştırma, olay kaynağı), <code>mcp</code> (Model
+Context Protocol), <code>araç şeması</code>, <code>beceri kaydı</code>,
+<code>ajanik</code> (graf tabanlı iş akışı orkestrasyonu),
+<code>planlama</code> (HiPlan/MCTS/Ağaç-Düşünce), <code>kıyaslama</code>
+(SWE-bench/HumanEval/MMLU), <code>büyük dil modeli operasyonları</code>,
+<code>kendi kendini geliştirme</code> (ödül modelleme/RLHF) ve
+<code>toon</code> (Token Odaklı Nesne Gösterimi). <strong>Savunma amaçlı
+LLM koruma mekanizmaları</strong>, saldırıya dayanıklı araçlar sunuyor:
+<code>Kırmızı Takım</code> (YAML tabanlı saldırı senaryoları),
+<code>Normalleştirme</code> (saldırı girişlerinin standartlaştırılması).
+Paralel bir <strong>Kotlin Multiplatform</strong> seti ise temel
+modülleri (Kimlik Doğrulama-KMP, Veritabanı-KMP, Güvenlik-KMP, Kullanıcı
+Arayüzü Bileşenleri-KMP vb.) çapraz platform uygulamalar için
+aynalıyor.</p>
+<h2 id="neden-inşa-ettik">Neden inşa ettik</h2>
+<p>Her seferinde sıfırdan birçok ürün (Catalogizer, HelixAgent, Herald
+ve diğerleri) geliştirmek hem israf hem de tutarsızlık yaratıyor. Her
+genel kaygıyı bağımsız, test edilmiş bir modüle dönüştürmek,
+düzeltmelerin ve iyileştirmelerin tüm filoya yayılmasını sağlarken, her
+yeni ürünün kanıtlanmış bileşenlerden oluşmasını mümkün kılıyor.</p>
+<h2 id="neden-oyunun-kurallarını-değiştiriyor">Neden oyunun kurallarını
+değiştiriyor</h2>
+<p>Aslında bu, AI odaklı arka uçlar geliştirmek için özel bir “standart
+kütüphane” — çoğu ekibin hiç inşa etmeye fırsat bulamadığı katman, çünkü
+beşinci kez kimlik doğrulama, önbellekleme ve RAG altyapısı çözmekle
+meşguller. Burada altyapı ilkeleri, AI yapı taşları ve savunma amaçlı
+LLM koruma mekanizmaları, bağımsız olarak test edilmiş, hazır kullanıma
+uygun modüller olarak yer alıyor. Bu sayede küçük bir ekip, normalde çok
+daha büyük bir ekibin gerektireceği hızda, ürün kalitesinde sistemler
+geliştirebiliyor ve genellikle peşinden gelen tekrarlama borcuna da
+düşmüyor.</p>
+<h2 id="yenilikçi-yönleri">Yenilikçi yönleri</h2>
+<ul>
+<li>Filo genelinde ayrıştırma disiplini (CONST-051): Alt modüller eşit
+kod tabanları olarak ele alınıyor, tüketiciye özel detaylar
+taşımıyor.</li>
+<li>AI ilkel katmanı (RAG, VectorDB, Gömme Vektörleri, MCP, Araç Şeması,
+Ajan Tabanlı, Planlama, LLMOps) yeniden kullanılabilir modüller
+olarak.</li>
+<li>Savunma amaçlı LLM koruma mekanizmaları kümesi (RedTeam,
+Normalleştirme) saldırılara karşı dayanıklılık için.</li>
+<li>Aynı kuralları paylaşan paralel Go + Kotlin Multiplatform modül
+setleri.</li>
+</ul>
+<h2 id="zorluklar-ve-çözümler">Zorluklar ve çözümler</h2>
+<ul>
+<li><strong>Dozlarca modül arasında bağlantı çürümesini
+önlemek:</strong> Anayasanın ayrıştırma sözleşmesi ve çalışma zamanında
+tüketiciye özel detayların enjekte edilmesiyle çözüldü.</li>
+<li><strong>Birçok modülün tutarlı ve test edilmiş kalmasını
+sağlamak:</strong> Ortak bir kural seti (modül başına
+testler/dokümanlar/Zorluklar) ve HelixConstitution yönetişim omurgasıyla
+çözüldü.</li>
+<li><strong>Platformlar arası erişim:</strong> Temel modüllerin Kotlin
+Multiplatform aynasıyla çözüldü.</li>
+</ul>
+<h2 id="teknoloji-yığını-neden-ve-nasıl">Teknoloji yığını (neden ve
+nasıl)</h2>
+<ul>
+<li><strong>Go</strong> — modüllerin çoğu
+(<code>digital.vasic.*</code>).</li>
+<li><strong>Kotlin Multiplatform</strong> — platformlar arası ayna
+modüller (Kimlik
+Doğrulama/Veritabanı/Güvenlik/Arayüz/Eşzamanlılık/Sınırlayıcı-KMP).</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — önbellek, veritabanı,
+depolama ilkeleri.</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — gözlemlenebilirlik
+modülü.</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — ağ
+modülleri.</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> — AI ilkel
+modülleri.</li>
+<li><strong>YAML</strong> — RedTeam saldırı senaryoları ve
+yapılandırması.</li>
+</ul>
+<blockquote>
+<p>DOĞRULANMAMIŞ / ÇALIŞMA AŞAMASINDA: Bazı kurumsal depolar “İSKELE /
+ÇALIŞMA AŞAMASINDA” olarak işaretlenmiş (örn.
+<code>PliniusCommon</code>, <code>I-LLM</code>, <code>HyperTune</code>,
+<code>AutoTemp</code>, <code>Veritas</code>, <code>Ouroborous</code>,
+<code>Claritas</code>, <code>LeakHub</code>,
+<code>GandalfSolutions</code>). Bunlar erken aşama/iskele olarak
+sunulmalı, henüz yayınlanmamış olarak belirtilmeli.</p>
+</blockquote>
+</body>
+</html>

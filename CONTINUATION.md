@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T15:17:19Z
+    Last-Updated: 2026-09-04T15:45:19Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,160 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A84 — **Ask and Search are ONE input. Intent is resolved by four LITERAL signals, not a classifier — because when a model is wrong there is nothing to print in the "because" line.**
+
+`features/inquiry/inquiry.component.ts`. `/ask` and `/search` both route to it and
+**neither redirects**: a path is an expressed intent, so `/ask` seeds *"answer
+this"* and `/search` seeds *"read what I type"*. Nav goes 6 items → 5.
+
+### Intent resolution, and why there is no model in it
+
+`core/intent.ts` is pure, no Angular, and uses **four literal signals a reader can
+check by eye**: a question mark; an interrogative/imperative opener
+(apostrophe-stemmed, so `Why's` ≠ `whys`); ≤4 words with no asking signal →
+`lookup`; otherwise `ambiguous`. **The reason for refusing a classifier is stated
+in the file: when a model is wrong there is nothing to print in the "because"
+line.** Recall cost is stated too — the opener list is English-only, so a
+non-English question lands in `ambiguous`, **which ASKS rather than answers.**
+That is the safe direction to fail.
+
+### How a reader tells which mode answered — and overrides it
+
+- A verdict banner prints the reading **and the signal that produced it,
+  verbatim**, with `data-code="question|lookup|ambiguous"`.
+- Two `<section>`s carry `data-mode="answer"` / `data-mode="search"`, each with
+  its own heading and state machine. **Nothing crosses.**
+- **Every `Intent` member carries a non-empty `override` label.** Lookup →
+  *"Answer this as a question"*, one click, no retyping. A question in flight →
+  *"I only wanted the passages"*, which **unsubscribes and actually cancels the
+  request** (asserted via `askReq.cancelled`) — **not hiding a pane while the
+  model burns a minute.**
+- A standing mode control; when fixed, the verdict says **"You chose…"** rather
+  than dressing the reader's own instruction as something read out of their
+  words. Changing the mode does **not** silently re-run the last query.
+- **Ambiguity is resolved by asymmetry, not by a guess:** search runs (it costs
+  milliseconds and claims nothing) and the answer is offered visibly. Guessing
+  wrong toward lookup costs a click; guessing wrong toward answering costs tens
+  of seconds of a loaded host **plus a written claim nobody asked for.**
+
+### Declined / unavailable / withheld never collapse into "no results"
+
+The answer pane has **six** branches: `not_requested` (a fourth state carrying
+the offer — **never a blank**), `working`, `answered`, `declined` (named §5.5
+reason + four retrieval figures + closest passages), `unavailable`, and a new
+**`withdrawn`** — a fifth state that is **neither a refusal nor a fault**.
+
+**When the two halves disagree, `pairNote()` reconciles them in words**: a
+decline over N found passages says matching words is a lower bar than supporting
+a claim; a decline over `no_match` says these are two separate findings; an
+answering fault over good passages says the answer is missing because the
+machinery did not run.
+
+**Leg failure is finally surfaced** — the old search component **never rendered
+`legs` at all**. Now a chip per leg in vocabulary words (`keyword match: ran`,
+`code search: not run`) plus a banner on `failed`: *"a shorter list than the
+corpus would have given, not a smaller corpus."*
+
+### The gate derives from THREE sources
+
+`verify-ui-intent-resolution.sh` reads the readings from `intent.ts`,
+`AnswerPhase` from the component and `EnvelopeStatus` from `contract.ts` — and
+types none of them. Proof mutations **M3/M12/M13 each add a member to a
+DIFFERENT one** of the three and require the gate to redden **byte-identical**.
+`prove-…` is **24 of 24**: 13 mutations each required to *name* its assertion,
+7 rc-2 levers, 2 controls, 2 non-vacuity.
+
+    ng build --configuration production   0   353.44 kB initial
+    ng test                               0   TOTAL: 193 SUCCESS  (was 162)
+    verify-ui-labels.sh                   0   579 graded, 590 found, 11 exempt
+    verify-ui-vocabulary.sh               0   76 declared members
+    verify-check-registry-001/002.sh      0   checks=76 debt=3 missing=0
+    verify-ui-intent-resolution.sh        0
+    prove-ui-intent-resolution.sh         0   24 of 24
+
+**Backend changes needed: NONE.** It touched no `pkg/answer`, `cmd/workshop-server`,
+`pkg/search` or `pkg/index`.
+
+### Six honest limits, and two are the kind that get hidden
+
+1. **The Playwright e2e suite was NOT executed** — loaded host. Every `/ask` and
+   `/search` expectation was inventoried and all 13 testids preserved, **but that
+   is reasoning, not measurement — a 2, not a pass.**
+2. One nav-label detail reasoned but unmeasured.
+3. **A PRE-EXISTING e2e inconsistency was found and deliberately NOT fixed:**
+   `search-degradation.spec.ts:58` expects `/suggestions unavailable/i` while the
+   component announces different wording that the unit suite pins. **Both cannot
+   be true.** It kept the existing wording rather than **changing copy to make an
+   e2e pass** — which is the right call and the tempting wrong one.
+4. **The running service still serves the PRE-MERGE bundle.** `platform/web/` was
+   not rebuilt and the container was not restarted.
+5. Retrieval quality untouched and unclaimed: **SC-008 at 0/11** means a reader
+   may get poor passages here **for reasons that are not this merge**, and the
+   component header says a leg reporting `ok` means the leg *ran*.
+6. **A new build warning, recorded rather than silenced:** the merged stylesheet
+   is 7.92 kB, over the 4 kB warning threshold and under the 8 kB error one.
+   **The budget in `angular.json` was NOT raised**; the honest fixes are named in
+   the component header.
+
+`workshop` HEAD **`1adf0f6`**, pushed.
+
+#### A85 — **§11.4.65 reaches 924/924 = 100%, and the docs-chain drift I caused is repaired.**
+
+**The 30 failures from A79 are fixed and the cause is confirmed as a source
+defect.** pandoc's exception line number is a **YAML-BLOCK offset**, so YAML line
+15 = file line 16 — a detail measured rather than assumed. The fix single-quotes
+the whole scalar, and the rendered meaning is proved unchanged **three ways**:
+`yaml.safe_load` returns the value **byte-identical** to the original literal
+30/30; the diff is **+30 −30**, exactly one line per file; and pandoc's template
+emits no `diagrams` key, so **no stray quote reached any rendered artifact**.
+Both in-repo frontmatter consumers were checked first — neither reads that key.
+
+**A finding I did not expect: the frontmatter is not translated at all.** All 14
+translated trees' frontmatter blocks are **byte-identical to the English** — the
+pipeline translates the body and leaves the YAML verbatim. So there was no
+translated text to preserve, and each file was still read and matched
+individually rather than patched blind.
+
+**Coverage: 924 / 924 = 100.0%.** 30/30 HTML, 30/30 PDF, `file(1)` 30/30 valid,
+0 empty.
+
+**A FALSE NULL WAS CAUGHT AND WITHDRAWN, which is the best part of that report.**
+A raw `grep` over the new PDFs returned 0 machine-path hits — but a **control
+needle proved the instrument could not see**: `grep -a -c 'HelixBuilder'` on a
+PDF that certainly contains it also returned **0**, because WeasyPrint compresses
+the streams. **That null was withdrawn as evidence.** Re-run through `pdftotext`
+with the needle found **30/30**, the real result is **0 matches across all 60
+artifacts** for every machine-path and endpoint pattern. **A zero from an
+instrument that cannot see is not a zero.**
+
+**Two corrections to the baseline I gave that agent, both measured:**
+`audit-hardcoded-paths.sh` was **already exit 1** before it started — not 0 —
+and the finding was **not its work**.
+
+**That red is now closed with a reasoned exemption.** It was
+`workshop/docs/the-platform/ledger/captures/cap_c56a6cfeb46e/body`: **302 KB of
+pi.dev's own "RPC Mode" documentation**, fetched verbatim by the crawler. Its
+three hits are HTML-escaped JSON inside **their** docs showing **their** example
+slash-commands. Editing it would do two kinds of damage, and the second is
+mechanical: it falsifies evidence a citation exists to replay, **and it breaks an
+existing gate** — `verify_crawl.py:40` declares *"X10 REPLAY: every stored body
+re-hashes to the capture that names it"*, so rewriting a byte makes that hash
+mismatch. **The honest fix is forbidden by another instrument.**
+
+**A first attempt at that rule used a glob and silently matched nothing**; the
+gate stayed correctly red. `allow_kind()` matches by **exact string** (`awk
+$2 == want`). Each capture therefore needs its own row — **a better property than
+a glob**, because a new capture cannot inherit the pardon silently.
+Re-measured: **exit 0, 16 file(s) explicitly allowed.**
+
+**The docs-chain C4 drift was MINE.** `verify-docs-chain.sh` reported
+`1 FAIL` — stale exports for the four carriers, `CONTINUATION`, and four
+`specs/**` documents. **I edited every one of those and did not regenerate their
+exports.** The gate's own words name the offence exactly: *"A divergent export is
+the exact PASS-bluff §11.4.65 forbids: an operator reads the HTML or PDF while
+the .md is right."* All nine regenerated with the pipeline's own command shape;
+**re-measured 0 FAIL, 0 UNDET over 5 checks.**
 
 #### A83 — **The derived-leak gate's failure WAS an instrument fault, it is fixed, and `kg_meeting_note` REPRODUCES. Underneath sits a systemic defect: `ensure_fresh_binary` maps a BUILD FAILURE to rc 1 for every caller in this tree.**
 

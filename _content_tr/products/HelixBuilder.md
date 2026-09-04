@@ -13,7 +13,7 @@ repos:
   - https://github.com/HelixDevelopment/HelixBuilder
 diagrams:
   - Category selector fan-out — one install.sh branching into the nine categories.
-  - "Pick your pipeline" grid of category tiles (Coder, Tester, Translation, Animation, Audio, JPEG, PNG, SVG, General).
+  - '"Pick your pipeline" grid of category tiles (Coder, Tester, Translation, Animation, Audio, JPEG, PNG, SVG, General).'
 ---
 
 # HelixBuilder

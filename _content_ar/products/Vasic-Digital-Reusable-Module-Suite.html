@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>بناء مرة واحدة، وإعادة الاستخدام في كل مكان — أسطول من
+الوحدات الصغيرة المستقلة والمنفصلة والمختبرة ذاتياً Go وKMP.</strong></p>
+<h2 id="الملخص">الملخص</h2>
+<p>عائلة كبيرة من الوحدات العامة القابلة لإعادة الاستخدام، منشورة تحت
+مساحات الأسماء <code>digital.vasic.*</code> (Go) وKotlin Multiplatform.
+كل وحدة قائمة بذاتها، مختبرة ومستقلة الإصدار، وتُستخدم كوحدة فرعية
+متساوية الكود في المنتجات الأكبر (Catalogizer، HelixAgent، والأسطول
+الأوسع). تجمع هذه الصفحة العديد من الأدوات الصغيرة التي قد تبدو غير ذات
+أهمية لو عُرضت كل منها على حدة.</p>
+<h2 id="وصف-مختصر">وصف مختصر</h2>
+<p>مجموعة منتقاة من وحدات <code>digital.vasic.*</code> المنفصلة — البنى
+التحتية الأساسية (المصادقة، التخزين المؤقت، قواعد البيانات، الإعدادات،
+قابلية الملاحظة)، لبنات بناء AI/العملاء (RAG، VectorDB، التضمينات، MCP،
+الوكالة، التخطيط)، وحاجز الحماية الدفاعي LLM (فريق RedTeam، التوحيد
+القياسي) — بالإضافة إلى مجموعة مرآة Kotlin Multiplatform. كل منها عام،
+مختبر وقابل لإعادة الاستخدام.</p>
+<h2 id="وصف-مفصل">وصف مفصل</h2>
+<p>تعتمد منظمة vasic-digital على رهان هيكلي واحد: فلسفة “دستور + العديد
+من الوحدات الفرعية القابلة لإعادة الاستخدام والمنفصلة”، حيث لا يُكتب أي
+وظيفة عامة مرتين. فبدلاً من الأنظمة المتجانسة، تُستخرج كل وظيفة قابلة
+لإعادة الاستخدام إلى وحدة صغيرة مستقلة — مستودعها الخاص، اختباراتها
+الخاصة، وثائقها الخاصة — وتُحافظ على انفصالها التام بحيث لا تتسرب أي
+تفاصيل خاصة بالمستهلك إليها. تجمع هذه الصفحة هذه الوحدات لأنها، إذا عُرضت
+كل منها على حدة، ستكون بحجم مكتبة وقد تبدو غير ذات أهمية كصفحة منتج
+مستقلة. لكن مجتمعةً، تشكل القوة الحقيقية المضاعفة للمنظمة: أصل هندسي خاص
+يحول مهمة “بناء منتج جديد” إلى “تجميع أجزاء مجربة”، كما تمثل الدعم
+الملموس للادعاء بأن هذا الأسطول لا يعيد اختراع العجلة — بل يحافظ على
+عجلة جيدة واحدة ويدحرجها في كل مكان.</p>
+<p>تتوزع المجموعة على ثلاث مجموعات رئيسية. <strong>البنى التحتية
+الأساسية</strong> (Go) توفر الأساسيات التي يحتاجها كل خدمة:
+<code>المصادقة</code> (JWT/bcrypt)، <code>التخزين المؤقت</code>
+(Redis/TTL)، <code>قواعد البيانات</code> (الهجرات، SQLite/PostgreSQL
+المزدوجة)، <code>الإعدادات</code>، <code>الوسائط الوسيطة</code>،
+<code>قابلية الملاحظة</code> (Prometheus/OpenTelemetry)،
+<code>محدد المعدل</code>، <code>الأمان</code>، <code>التخزين</code>
+(S3/MinIO)، <code>البث المباشر</code> (مركز WebSocket)،
+<code>ناقل الأحداث</code>، <code>نظام الملفات</code> (متعدد
+البروتوكولات)، <code>الاكتشاف</code>/<code>mdns</code>،
+<code>http3</code>، <code>الاسترداد</code>، <code>التزامن</code>،
+<code>التأخير</code>، وأكثر. <strong>لبنات بناء AI/العملاء</strong> (Go)
+توفر الأساس لأنظمة AI: <code>rag</code>،
+<code>قاعدة بيانات المتجهات</code>، <code>embeddings</code>،
+<code>الذاكرة</code>، <code>المحادثة</code> (ضغط السياق اللانهائي، مصدر
+الأحداث)، <code>mcp</code> (Model Context Protocol)،
+<code>مخطط الأدوات</code>، <code>سجل المهارات</code>،
+<code>الوكالة</code> (تنسيق سير العمل القائم على الرسوم البيانية)،
+<code>التخطيط</code> (HiPlan/MCTS/شجرة الأفكار)،
+<code>المقارنة المرجعية</code> (SWE-bench/HumanEval/MMLU)،
+<code>عمليات نماذج اللغة الكبيرة</code>، <code>التحسين الذاتي</code>
+(نمذجة المكافأة/التعلم المعزز من التغذية الراجعة البشرية)،
+و<code>toon</code> (تدوين الكائنات الموجه بالرموز). <strong>حاجز الحماية
+الدفاعي LLM</strong> يوفر أدوات متانة المواجهة:
+<code>فريق RedTeam</code> (مجموعات المواجهة المدفوعة بـYAML)،
+<code>التوحيد القياسي</code> (توحيد المدخلات المواجهة). كما تتضمن مجموعة
+<strong>Kotlin Multiplatform</strong> المتوازية نسخاً مرآة للوحدات
+الأساسية (المصادقة-KMP، قواعد البيانات-KMP، الأمان-KMP، مكونات واجهة
+المستخدم-KMP، إلخ) للتطبيقات متعددة المنصات.</p>
+<p>المحتوى</p>
+<h2 id="لماذا-أنشأناها">لماذا أنشأناها</h2>
+<p>إن إطلاق العديد من المنتجات (Catalogizer، HelixAgent، Herald وغيرها)
+من الصفر في كل مرة يعد مضيعةً للموارد وغير متسق. فاستخلاص كل ما هو عام
+إلى وحدات مستقلة ومختبرة يعني أن الإصلاحات والتحسينات تنتشر عبر الأسطول
+بأكمله، وأن كل منتج جديد يُبنى من مكونات مثبتة.</p>
+<h2 id="لماذا-تعد-نقلة-نوعية">لماذا تُعد نقلة نوعية</h2>
+<p>إنها في جوهرها “مكتبة معيارية خاصة” لبناء أنظمة خلفية مخصصة لـ AI —
+وهي الطبقة التي لا تتاح لمعظم الفرق فرصة بنائها لأنها منشغلة بإعادة حل
+مسائل المصادقة والتخزين المؤقت والبنية التحتية لـ RAG للمرة الخامسة. هنا
+توجد البنى التحتية الأولية، ومكونات بناء AI، وحواجز الحماية الدفاعية لـ
+LLM كأmodules جاهزة للاستخدام ومستقلة الاختبار، وهذا ما يمكّن فريقاً صغيراً
+من إطلاق أنظمة على مستوى المنتجات بوتيرة تتطلب عادةً فريقاً أكبر بكثير،
+دون تراكم الديون الناتجة عن التكرار التي عادة ما تتبع ذلك.</p>
+<h2 id="ما-الجديد-فيها">ما الجديد فيها</h2>
+<ul>
+<li>نظام الفصل الصارم عبر الأسطول (CONST-051): تُعامل الوحدات الفرعية
+كمشاريع برمجية متساوية، دون تحمل تفاصيل المستهلكين.</li>
+<li>طبقة مخصصة للبنى الأولية لـ AI (RAG، VectorDB، التضمينات، MCP،
+ToolSchema، الوكالة، التخطيط، LLMOps) ك وحدات قابلة لإعادة
+الاستخدام.</li>
+<li>مجموعة حواجز حماية دفاعية لـ LLM (RedTeam، Normalize) لتعزيز المتانة
+في مواجهة الهجمات.</li>
+<li>مجموعات وحدات متوازية لـ Go و Kotlin Multiplatform تشترك في نفس
+الأعراف.</li>
+</ul>
+<h2 id="التحديات-والحلول">التحديات والحلول</h2>
+<ul>
+<li><strong>تجنب تدهور الترابط بين عشرات الوحدات:</strong> تم حلها من
+خلال عقد الفصل في الدستور وحقن تفاصيل المستهلكين في وقت التشغيل.</li>
+<li><strong>الحفاظ على اتساق واختبار العديد من الوحدات:</strong> تم حلها
+من خلال اعتماد أعراف مشتركة (اختبارات/وثائق/تحديات لكل وحدة) وبنية حوكمة
+HelixConstitution.</li>
+<li><strong>الوصول عبر المنصات المختلفة:</strong> تم حلها من خلال مرآة
+Kotlin Multiplatform للوحدات الأساسية.</li>
+</ul>
+<h2 id="مجموعة-التقنيات-السبب-وكيفية-الاستخدام">مجموعة التقنيات (السبب
+وكيفية الاستخدام)</h2>
+<ul>
+<li><strong>Go</strong> — معظم الوحدات
+(<code>digital.vasic.*</code>).</li>
+<li><strong>Kotlin Multiplatform</strong> — وحدات المرآة عبر المنصات
+(المصادقة/قواعد البيانات/الأمان/واجهة المستخدم/التزامن/محدد معدل
+KMP).</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — وحدات التخزين المؤقت
+وقواعد البيانات والتخزين الأولية.</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — وحدة المراقبة.</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — وحدات
+الشبكات.</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> — وحدات البنى
+الأولية لـ AI.</li>
+<li><strong>YAML</strong> — نماذج وتكوينات RedTeam الهجومية.</li>
+</ul>
+<blockquote>
+<p>غير مُتحقق / قيد التطوير: عدة مستودعات تنظيمية مُعلّمة كـ “SCAFFOLD /
+WIP” (مثل <code>PliniusCommon</code>، <code>I-LLM</code>،
+<code>HyperTune</code>، <code>AutoTemp</code>، <code>Veritas</code>،
+<code>Ouroborous</code>، <code>Claritas</code>، <code>LeakHub</code>،
+<code>GandalfSolutions</code>). اعرضها كمراحل أولية أو هياكل عمل، وليست
+جاهزة للإطلاق.</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>基于 AI 的应用构建流水线，按类别逐步搭建。</strong></p>
+<h2 id="概述">概述</h2>
+<p>HelixBuilder 是一款通过命令行安装并运行的 AI
+应用构建流水线。它通过单一安装脚本，为不同类别的工作（从编码、测试到生成式媒体——动画、音频、图像等）提供定制化的工具链。</p>
+<h2 id="简介">简介</h2>
+<p>HelixBuilder 是一款基于命令行驱动、由 AI
+提供支持的应用构建流水线。通过单一安装脚本，用户可选择特定类别（通用、编码、测试、翻译或生成式媒体——动画、音频、JPEG、PNG、SVG），为每个构建流程配备专属工具链。</p>
+<h2 id="详细说明">详细说明</h2>
+<p>HelixBuilder 是 Helix 家族中一款基于 AI
+的应用构建流水线，主要以命令行工具形式实现。其核心功能在于：通过单一命令即可为特定工作类型快速搭建构建/生成流程。在项目根目录下，执行
+<code>./install.sh</code>（可选附加类别参数）即可为该类别配置对应的流水线。</p>
+<p>流水线按类别组织，每个类别对应一种 AI
+辅助工作的不同领域：<code>General</code>（默认）、<code>Coder</code>、<code>Tester</code>、<code>Translation</code>，以及一系列生成式类别——<code>Generative/Animation</code>、<code>Generative/Audio</code>、<code>Generative/JPEG</code>、<code>Generative/PNG</code>
+和 <code>Generative/SVG</code>。若未指定类别参数，安装程序将默认选择
+<code>General</code>；若传入类别名称，则会安装专为该工作类型定制的工具链。这种设计的优势在于按需配置：开发者仅需获取任务实际所需的功能——代码生成环境、测试流水线或图像生成栈，而无需安装庞大的单体工具包及其带来的维护负担。</p>
+<p>HelixBuilder 采用 Apache-2.0 许可协议，并作为更广泛的
+HelixDevelopment 可复用组件生态系统的一部分，定位为”AI
+构建流水线”基础模块。其公开的 README
+文档有意保持简洁，并指向仓库内的完整文档；除安装界面和类别列表外，其他细节不在此赘述。</p>
+<h2 id="为何开发">为何开发</h2>
+<p>AI
+辅助的工作涉及截然不同的工具链——编码、测试、翻译及多种生成式媒体。HelixBuilder
+的诞生，正是为了让这些工具链能够通过统一的安装程序按需配置，而无需每次都重新搭建定制化环境。</p>
+<h2 id="为何颠覆行业">为何颠覆行业</h2>
+<p>它将”为 X 搭建 AI
+构建环境”这一通常耗时且易出错的过程，简化为一个按类别分类的单一命令，使
+AI
+辅助的构建与生成流水线变得可复制、可共享，并在采用它的每个项目中保持一致。</p>
+<h2 id="创新之处">创新之处</h2>
+<ul>
+<li><strong>基于类别的配置</strong> ——
+一个安装程序，多种专业流水线（编码、测试、翻译、生成式媒体），均通过同一入口解析。</li>
+<li><strong>生成式媒体的广度</strong> ——
+动画、音频及多种图像格式（JPEG/PNG/SVG）被视为一等构建类别，而非事后补丁。</li>
+<li><strong>原生 Shell 支持</strong> ——
+可安装于几乎任何环境，无需庞大的运行时依赖，即可直接启动流水线。</li>
+</ul>
+<p>内容</p>
+<h2 id="最大的技术挑战及解决方案">最大的技术挑战及解决方案</h2>
+<ul>
+<li><strong>通过同一工具支持截然不同的 AI
+工作流</strong>——通过安装程序中的类别抽象解决，每个类别对应独立的工具链，同时共享统一入口。（具体实现细节未在公开
+README 中记录——未经验证。）</li>
+</ul>
+<h2 id="技术栈">技术栈</h2>
+<ul>
+<li><strong>Shell</strong>——主要实现语言及安装/编排界面（<code>install.sh</code>），选用该语言的原因在于：几乎所有构建环境均支持
+Shell
+入口，从而确保”单命令部署”的承诺在无需预装运行时的情况下跨环境通用。</li>
+<li><strong>类别工具链</strong>——针对不同类别（通用/开发者/测试/翻译/生成式（动画、音频、JPEG、PNG、SVG））的专用工具集。各类别具体使用的底层工具/模型未在公开
+README 中列举（未经验证）。</li>
+</ul>
+<h2 id="状态与诚信说明">状态与诚信说明</h2>
+<ul>
+<li><strong>状态：测试版</strong>。公开 README
+内容极简（仅包含安装脚本及类别列表）；各类别工具/模型、AI
+提供方及内部架构均未公开描述，因此无法确认其准确性。完整文档参考
+<code>./Documentation/README.md</code>，但未查阅。</li>
+<li><strong>许可协议：Apache-2.0</strong>（依据 GitHub API）。</li>
+</ul>
+<p><strong>优先级</strong>：Helix 核心。</p>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>한 번 구축하고, 어디서나 재사용 — 독립 테스트된 작은 Go 및
+KMP 모듈군</strong></p>
+<h2 id="요약">요약</h2>
+<p><code>digital.vasic.*</code>(Go) 및 Kotlin Multiplatform 네임스페이스
+하에 공개된 범용 재사용 모듈군. 각 모듈은 독립적으로 테스트되고 버전
+관리되며, 더 큰 제품(Catalogizer, HelixAgent 및 기타 모듈군)에 동등한
+코드베이스 하위 모듈로 통합됩니다. 이 페이지는 개별 페이지로 다루기에는
+너무 작은 수많은 유틸리티를 한데 모아 정리한 것입니다.</p>
+<h2 id="간략-설명">간략 설명</h2>
+<p>독립적으로 설계된 <code>digital.vasic.*</code> 모듈군 — 인프라 기본
+요소(인증, 캐시, 데이터베이스, 설정, 관측 가능성), AI/에이전트 구성
+요소(RAG, 벡터DB, 임베딩, MCP, 에이전틱, 플래닝), 방어적 LLM
+가드레일(RedTeam, Normalize) — 그리고 Kotlin Multiplatform 미러 세트로
+구성된 선별된 모듈 모음입니다. 각각은 범용적이며 테스트를 거쳤고
+재사용이 가능합니다.</p>
+<h2 id="상세-설명">상세 설명</h2>
+<p>vasic-digital 조직은 하나의 구조적 원칙에 기반을 둡니다. 바로 “헌법 +
+수많은 독립 재사용 모듈” 철학입니다. 범용 기능은 결코 두 번 작성되지
+않습니다. 모놀리식 구조 대신, 모든 재사용 가능한 기능은 자체 저장소,
+자체 테스트, 자체 문서로 분리된 작은 모듈로 추출되며, 소비자의 세부
+사항이 유입되지 않도록 철저히 독립성을 유지합니다. 이 페이지는 각 모듈이
+라이브러리 수준으로 작아 개별 제품 페이지로는 소음으로 느껴질 수 있기
+때문에 이를 한데 묶어 정리한 것입니다. 그러나 전체적으로 보면 이들은
+조직의 진정한 역량 증폭기입니다. 바로 “새로운 제품을 구축한다”를 “검증된
+부품을 조립한다”로 바꾸는 사적 엔지니어링 자산이자, 이 모듈군이 바퀴를
+재발명하지 않고 하나의 뛰어난 바퀴를 유지하며 이를 곳곳에 활용한다는
+주장의 구체적 증거입니다.</p>
+<p>이 모듈군은 세 가지 클러스터로 나뉩니다. <strong>인프라 기본
+요소</strong>(Go)는 모든 서비스가 필요로 하는 기반을 제공합니다:
+<code>auth</code>(JWT/bcrypt), <code>cache</code>(Redis/TTL),
+<code>database</code>(마이그레이션, 이중 SQLite/PostgreSQL),
+<code>config</code>, <code>middleware</code>,
+<code>observability</code>(Prometheus/OpenTelemetry),
+<code>ratelimiter</code>, <code>security</code>,
+<code>storage</code>(S3/MinIO), <code>streaming</code>(WebSocket 허브),
+<code>eventbus</code>, <code>filesystem</code>(다중 프로토콜),
+<code>discovery</code>/<code>mdns</code>, <code>http3</code>,
+<code>recovery</code>, <code>concurrency</code>, <code>lazy</code> 등.
+<strong>AI/에이전트 구성 요소</strong>(Go)는 AI 시스템을 위한 기반을
+제공합니다: <code>rag</code>, <code>vectordb</code>,
+<code>embeddings</code>, <code>memory</code>,
+<code>conversation</code>(무한 컨텍스트 압축, 이벤트 소싱),
+<code>mcp</code>(Model Context Protocol), <code>toolschema</code>,
+<code>skillregistry</code>, <code>agentic</code>(그래프 기반 워크플로
+오케스트레이션), <code>planning</code>(HiPlan/MCTS/Tree-of-Thoughts),
+<code>benchmark</code>(SWE-bench/HumanEval/MMLU), <code>llmops</code>,
+<code>selfimprove</code>(보상 모델링/RLHF),
+<code>toon</code>(Token-Oriented Object Notation). <strong>방어적 LLM
+가드레일</strong>은 적대적 환경에 대한 견고성을 제공합니다:
+<code>RedTeam</code>(YAML 기반 적대적 피처),
+<code>Normalize</code>(적대적 입력 표준화). 이와 병행하여 <strong>Kotlin
+Multiplatform</strong> 세트는 크로스 플랫폼 앱을 위한 핵심 모듈의 미러
+버전을 제공합니다(Auth-KMP, Database-KMP, Security-KMP,
+UI-Components-KMP 등).</p>
+<p>콘텐츠</p>
+<h2 id="왜-만들었는가">왜 만들었는가</h2>
+<p>매번 새로운 제품을 출시할 때마다(Catalogizer, HelixAgent, Herald 등)
+모든 것을 처음부터 개발하는 것은 비효율적이고 일관성도 떨어집니다.
+일반적인 문제를 독립적이고 테스트된 모듈로 분리하면 수정 사항과 개선
+사항이 전체 제품군에 자동으로 적용되며, 새로운 제품도 검증된 구성 요소로
+조립할 수 있습니다.</p>
+<h2 id="혁신적인-이유">혁신적인 이유</h2>
+<p>이는 사실상 AI 중심 백엔드를 구축하기 위한 ’사설 표준 라이브러리’와
+같습니다. 대부분의 팀이 인증, 캐싱, RAG 관련 기반 작업에 매번 매달리느라
+제대로 구축하지 못하는 레이어죠. 여기에는 인프라 기본 요소, AI 빌딩
+블록, 방어형 LLM 안전장치가 모두 독립적으로 테스트된 드롭인 모듈로
+존재합니다. 덕분에 소규모 팀도 훨씬 큰 조직이 필요한 속도로 프로덕션급
+시스템을 출시할 수 있으며, 그 과정에서 발생하는 중복 부채도 쌓이지
+않습니다.</p>
+<h2 id="혁신적인-점">혁신적인 점</h2>
+<ul>
+<li><strong>전체 제품군에 걸친 디커플링 원칙(CONST-051)</strong>: 하위
+모듈을 독립적인 코드베이스로 취급하며, 소비자별 특성을 포함하지
+않습니다.</li>
+<li><strong>전용 AI 프리미티브 레이어(RAG, VectorDB, 임베딩, MCP,
+ToolSchema, 에이전틱, 플래닝, LLMOps)</strong>: 재사용 가능한 모듈로
+구성됩니다.</li>
+<li><strong>방어형 LLM 안전장치 클러스터(RedTeam, Normalize)</strong>:
+적대적 환경에서의 견고성을 확보합니다.</li>
+<li><strong>동일한 규칙을 공유하는 병렬 Go + Kotlin Multiplatform 모듈
+세트</strong></li>
+</ul>
+<h2 id="도전-과제와-해결-방안">도전 과제와 해결 방안</h2>
+<ul>
+<li><strong>수십 개의 모듈 간 결합 부패 방지</strong>: ’헌장’의 디커플링
+계약과 런타임 주입을 통한 소비자별 특성 적용으로 해결했습니다.</li>
+<li><strong>다수의 모듈 일관성 유지 및 테스트</strong>: 공통 규칙(모듈별
+테스트/문서/도전 과제)과 HelixConstitution 거버넌스 백본으로
+해결했습니다.</li>
+<li><strong>크로스 플랫폼 지원</strong>: 핵심 모듈의 Kotlin
+Multiplatform 미러링으로 해결했습니다.</li>
+</ul>
+<h2 id="기술-스택이유와-방법">기술 스택(이유와 방법)</h2>
+<ul>
+<li><strong>Go</strong> — 대부분의
+모듈(<code>digital.vasic.*</code>)</li>
+<li><strong>Kotlin Multiplatform</strong> — 크로스 플랫폼 미러
+모듈(인증/데이터베이스/보안/UI/동시성/RateLimiter-KMP)</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — 캐시, 데이터베이스,
+스토리지 프리미티브</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — 관측 가능성 모듈</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — 네트워킹
+모듈</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> — AI 프리미티브
+모듈</li>
+<li><strong>YAML</strong> — RedTeam 적대적 테스트 케이스 및 설정</li>
+</ul>
+<blockquote>
+<p>미검증/작업 중: 일부 조직 저장소는 “SCAFFOLD / WIP”로 자체 표시되어
+있습니다(<code>PliniusCommon</code>, <code>I-LLM</code>,
+<code>HyperTune</code>, <code>AutoTemp</code>, <code>Veritas</code>,
+<code>Ouroborous</code>, <code>Claritas</code>, <code>LeakHub</code>,
+<code>GandalfSolutions</code>). 현재 단계에서는 초기 개발/스캐폴드
+상태로 제공되며, 공식 출시된 상태가 아님을 명시합니다.</p>
+</blockquote>
+</body>
+</html>

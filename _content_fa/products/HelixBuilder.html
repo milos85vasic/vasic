@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>خط لولهٔ ساخت برنامه‌ها با قدرت AI، یک دسته‌بندی در هر
+مرحله</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>HelixBuilder خط لولهٔ ساخت برنامه‌ای است که با قدرت AI کار می‌کند و از
+طریق شِل نصب و راه‌اندازی می‌شود. این ابزار زنجیره‌های ابزاری اختصاصی برای
+هر دسته‌بندی — از کدنویسی و تست تا تولید محتوای مولد (انیمیشن، صدا،
+تصاویر) — را تنها با اجرای یک اسکریپت نصب فراهم می‌کند.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>HelixBuilder خط لولهٔ ساخت برنامه‌ای است که از طریق شِل هدایت می‌شود و با
+قدرت AI کار می‌کند. اجرای یک اسکریپت نصب، دسته‌بندی مورد نظر — عمومی،
+برنامه‌نویس، تستر، ترجمه یا تولید محتوای مولد (انیمیشن، صدا، JPEG، PNG،
+SVG) — را فراهم می‌کند و برای هر گردش کار ساخت، زنجیرهٔ ابزاری متناسب با
+آن را ایجاد می‌کند.</p>
+<h2 id="توضیح-بلند">توضیح بلند</h2>
+<p>HelixBuilder خط لولهٔ ساخت برنامه‌ای است که با قدرت AI کار می‌کند و بخشی
+از خانوادهٔ Helix به‌شمار می‌رود و عمدتاً به‌صورت ابزارهای شِل پیاده‌سازی شده
+است. هدف آن راه‌اندازی یک گردش کار ساخت یا تولید برای نوع خاصی از کار با
+یک دستور واحد است: از ریشهٔ پروژه، اجرای <code>./install.sh</code> (که
+می‌توان به‌صورت اختیاری آرگومان دسته‌بندی را به آن اضافه کرد) خط لوله را
+برای آن دسته‌بندی فراهم می‌کند.</p>
+<p>این خط لوله بر اساس دسته‌بندی‌ها سازماندهی شده است که هر یک نمایانگر
+نوع متمایزی از کارهای انجام‌شده با کمک AI هستند: <code>عمومی</code>
+(پیش‌فرض)، <code>برنامه‌نویس</code>، <code>تستر</code>، <code>ترجمه</code>
+و مجموعه‌ای از دسته‌بندی‌های مولد — <code>مولد/انیمیشن</code>،
+<code>مولد/صدا</code>، <code>مولد/JPEG</code>، <code>مولد/PNG</code> و
+<code>مولد/SVG</code>. اجرای نصب‌کننده بدون آرگومان، دسته‌بندی
+<code>عمومی</code> را انتخاب می‌کند؛ در حالی که با افزودن نام دسته‌بندی،
+زنجیرهٔ ابزاری متناسب با همان نوع کار نصب می‌شود. نتیجهٔ این رویکرد، سطح
+دسترسی انتخابی است: توسعه‌دهنده تنها قابلیت‌هایی را دریافت می‌کند که واقعاً
+برای انجام وظیفه نیاز دارد — محیط تولید کد، خط لولهٔ تست یا پشتهٔ تولید
+تصویر — به‌جای آنکه مجبور باشد یک نصب یکپارچهٔ سنگین و بار نگهداری آن را
+تحمل کند.</p>
+<p>HelixBuilder تحت پروانهٔ آپاچی ۲٫۰ منتشر شده و بخشی از اکوسیستم
+گسترده‌تر مؤلفه‌های قابل استفادهٔ مجدد HelixDevelopment است، جایی که
+به‌عنوان بلوک سازندهٔ «خط لولهٔ ساخت AI» جای گرفته است. فایل README عمومی
+آن به‌عمد مختصر است و به مستندات کامل‌تر درون مخزن ارجاع می‌دهد؛ جزئیات
+فراتر از سطح نصب و فهرست دسته‌بندی‌ها در اینجا بیان نشده است.</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>کارهای انجام‌شده با کمک AI نیازمند زنجیره‌های ابزاری بسیار متفاوتی
+هستند — کدنویسی، تست، ترجمه و چندین نوع تولید محتوای مولد. HelixBuilder
+به این منظور ساخته شد که هر یک از این موارد را بتوان از طریق یک نصب‌کنندهٔ
+یکپارچه و به‌صورت درخواستی فراهم کرد، به‌جای آنکه هر بار مجبور به ساخت
+محیطی سفارشی باشیم.</p>
+<h2 id="چرا-این-ابزار-انقلابی-است">چرا این ابزار انقلابی است</h2>
+<p>این ابزار فرایند «راه‌اندازی محیط ساخت AI برای X» — که معمولاً یک
+بعدازظهر سفارشی و مستعد خطا را می‌طلبد — را به یک دستور دسته‌بندی‌شده تقلیل
+می‌دهد و خطوط لولهٔ ساخت و تولید با کمک AI را به چیزی تکرارپذیر، قابل
+اشتراک‌گذاری و یکپارچه در تمام پروژه‌هایی که از آن استفاده می‌کنند تبدیل
+می‌کند.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li><strong>فراهم‌سازی بر اساس دسته‌بندی</strong> — یک نصب‌کننده، خطوط لولهٔ
+تخصصی متعدد (کد، تست، ترجمه، تولید محتوای مولد) که همگی از یک نقطهٔ ورود
+واحد قابل دسترسی هستند.</li>
+<li><strong>گسترهٔ تولید محتوای مولد</strong> — انیمیشن، صدا و چندین فرمت
+تصویر (JPEG/PNG/SVG) به‌عنوان دسته‌بندی‌های ساخت درجه‌یک در نظر گرفته
+شده‌اند، نه افزونه‌هایی که بعداً اضافه شده باشند.</li>
+<li><strong>بومی Shell</strong> — تقریباً در هر محیطی نصب می‌شود و هیچ
+پیش‌نیاز زمان اجرای سنگینی میان شما و یک خط لولهٔ عملیاتی قرار
+نمی‌گیرد.</li>
+</ul>
+<p>محتوا</p>
+<h2 id="بزرگترین-چالشهای-فنی-و-راهحلهای-ما">بزرگ‌ترین چالش‌های فنی و
+راه‌حل‌های ما</h2>
+<ul>
+<li><strong>پشتیبانی از گردش‌های کاری بسیار متفاوت AI در یک
+ابزار</strong> — با استفاده از انتزاع دسته‌بندی در نصاب حل شد، به‌طوری که
+هر دسته به زنجیره ابزار خود متصل می‌شود اما نقطه ورود مشترکی دارند.
+(جزئیات پیاده‌سازی فراتر از این در فایل README عمومی ثبت نشده است — تأیید
+نشده.)</li>
+</ul>
+<h2 id="پشته-فناوری">پشته فناوری</h2>
+<ul>
+<li><strong>Shell</strong> — زبان اصلی پیاده‌سازی و سطح نصب/هماهنگ‌سازی
+(<code>install.sh</code>)؛ انتخاب شده زیرا نقطه ورود شل تقریباً در هر
+محیط ساخت اجرا می‌شود و وعده «یک دستور برای آماده‌سازی» را بدون نیاز به
+نصب پیش‌نیاز در محیط‌های ساخت مختلف قابل حمل نگه می‌دارد.</li>
+<li><strong>زنجیره ابزارهای دسته‌بندی</strong> — مجموعه ابزارهای اختصاصی
+برای هر دسته: عمومی / برنامه‌نویس / تستر / ترجمه / مولد (انیمیشن، صدا،
+JPEG، PNG، SVG). ابزارها و مدل‌های زیربنایی هر دسته در فایل README عمومی
+فهرست نشده‌اند (تأیید نشده).</li>
+</ul>
+<h2 id="وضعیت-و-یادداشتهای-شفافیت">وضعیت و یادداشت‌های شفافیت</h2>
+<ul>
+<li><strong>وضعیت: بتا.</strong> فایل README عمومی بسیار مختصر است
+(اسکریپت نصب + فهرست دسته‌ها)؛ ابزارها و مدل‌های هر دسته، ارائه‌دهندگان AI
+و معماری داخلی به‌صورت عمومی توصیف نشده و بنابراین تأیید نشده‌اند. مستندات
+کامل‌تر که در <code>./Documentation/README.md</code> اشاره شده، مطالعه
+نشده است.</li>
+<li><strong>مجوز: آپاچی ۲٫۰</strong> (بر اساس GitHub API).</li>
+</ul>
+<p><strong>اولویت سطح:</strong> Helix-اصلی.</p>
+</body>
+</html>

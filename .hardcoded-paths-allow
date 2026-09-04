@@ -383,3 +383,38 @@ workshop/docs/session-evidence/phase1-report.sections.json
 workshop/docs/session-evidence/phase2b-report.sections.json
 workshop/docs/session-evidence/phase5-report.sections.json
 workshop/docs/session-evidence/session-ledger.sections.json
+
+# ==============================================================================
+# 2026-09-04 — crawl capture bodies are THIRD-PARTY EVIDENCE, and byte-fidelity
+# is the whole point of them
+# ==============================================================================
+# workshop/docs/the-platform/ledger/captures/*/body holds the VERBATIM response
+# body of a page fetched from someone else's site. The first finding here was
+# cap_c56a6cfeb46e — 302 KB of pi.dev's "RPC Mode" documentation — and its three
+# "hardcoded paths" are HTML-escaped JSON inside PI.DEV'S OWN DOCS, showing their
+# example slash-command definitions (session-name, fix-tests, skill:brave-search).
+# They are not this project's paths and they are not configuration.
+#
+# EDITING A CAPTURE WOULD DO TWO KINDS OF DAMAGE, and the second is mechanical:
+#   1. It falsifies the evidence. A capture exists so a citation can be replayed;
+#      a capture we edited proves nothing about what the site actually served.
+#   2. It BREAKS AN EXISTING GATE. verify_crawl.py:40 declares
+#      "X10 REPLAY: every stored body re-hashes to the capture that names it".
+#      Rewriting a byte makes that hash mismatch, so the honest fix here is
+#      forbidden by another instrument.
+#
+# This is the same reasoning already accepted for the benchmark result files: a
+# record of what was MEASURED must not be rewritten to look tidy, because the
+# rewrite destroys the thing the record is for.
+#
+# SCOPE IS DELIBERATELY THE CAPTURE BODY AND NOTHING ELSE. The crawler's own
+# code, its manifests and its metadata are NOT covered by this rule and remain
+# fully audited — only the fetched payload is exempt.
+#
+# NOTE ON FORM, measured rather than assumed: this allow-list matches paths by
+# EXACT STRING (`allow_kind()` uses awk `$2 == want`), so a glob such as
+# `.../captures/*/body` matches NOTHING — a first attempt used one and the gate
+# correctly stayed red. Each capture therefore needs its own row. That is a
+# BETTER property than a glob would be: a new capture cannot inherit this
+# pardon silently, and whoever adds one has to look at it.
+workshop/docs/the-platform/ledger/captures/cap_c56a6cfeb46e/body

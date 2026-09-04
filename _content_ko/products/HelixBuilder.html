@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>카테고리별로 애플리케이션을 구축하는 AI 기반
+파이프라인</strong></p>
+<h2 id="요약">요약</h2>
+<p>HelixBuilder는 셸에서 설치 및 실행되는 AI 기반 애플리케이션 구축
+파이프라인입니다. 단일 설치 스크립트를 통해 코딩, 테스트, 생성형
+미디어(애니메이션, 오디오, 이미지) 등 카테고리별 툴체인을
+프로비저닝합니다.</p>
+<h2 id="간략-설명">간략 설명</h2>
+<p>HelixBuilder는 셸 기반의 AI 파워드 애플리케이션 구축
+파이프라인입니다. 단일 설치 스크립트로 선택한 카테고리(General, Coder,
+Tester, Translation 또는 생성형 미디어—애니메이션, 오디오, JPEG, PNG,
+SVG)를 프로비저닝하여 각 빌드 워크플로에 맞춤형 툴체인을 제공합니다.</p>
+<h2 id="상세-설명">상세 설명</h2>
+<p>HelixBuilder는 Helix 제품군에 속하는 AI 기반 애플리케이션 구축
+파이프라인으로, 주로 셸 도구로 구현되었습니다. 프로젝트 루트에서
+<code>./install.sh</code>(카테고리 인자를 선택적으로 추가)를 실행하면
+특정 작업 유형에 맞는 빌드/생성 워크플로를 단일 명령어로 구축할 수
+있습니다.</p>
+<p>파이프라인은 카테고리로 구성되며, 각 카테고리는 AI 지원 작업의 고유한
+유형에 대응합니다: <code>General</code>(기본값), <code>Coder</code>,
+<code>Tester</code>, <code>Translation</code>, 그리고 생성형 카테고리인
+<code>Generative/Animation</code>, <code>Generative/Audio</code>,
+<code>Generative/JPEG</code>, <code>Generative/PNG</code>,
+<code>Generative/SVG</code>가 있습니다. 인자 없이 설치 스크립트를
+실행하면 <code>General</code>이 선택되며, 카테고리 이름을 전달하면 해당
+작업 유형에 맞춤화된 툴체인이 설치됩니다. 그 결과, 개발자는 실제 필요한
+기능만 선택적으로 도입할 수 있습니다—코드 생성 환경, 테스트 파이프라인,
+이미지 생성 스택 등 무거운 통합 설치와 그에 따른 유지보수 부담을 피할 수
+있습니다.</p>
+<p>HelixBuilder는 Apache-2.0 라이선스로 배포되며, 더 넓은
+HelixDevelopment 재사용 가능한 컴포넌트 생태계의 일부로 “AI 빌드
+파이프라인” 구성 요소로 자리 잡고 있습니다. 공개된 README는 의도적으로
+간결하게 작성되었으며, 저장소 내 상세 문서로 연결됩니다. 설치
+인터페이스와 카테고리 목록을 제외한 세부 사항은 여기에서 다루지
+않습니다.</p>
+<h2 id="개발-배경">개발 배경</h2>
+<p>AI 지원 작업은 코딩, 테스트, 번역, 여러 유형의 생성형 미디어 등 매우
+다른 툴체인을 필요로 합니다. HelixBuilder는 이러한 각각의 환경을 필요에
+따라 일관된 설치 프로그램으로 프로비저닝할 수 있도록 개발되었습니다.
+매번 맞춤형 환경을 구축할 필요가 없어졌습니다.</p>
+<h2 id="혁신적인-이유">혁신적인 이유</h2>
+<p>HelixBuilder는 “X를 위한 AI 빌드 환경 설정하기”—보통 맞춤형으로
+구성하는 데 반나절이 걸리고 오류가 발생하기 쉬운 작업—을 단일
+카테고리화된 명령어로 간소화합니다. 이를 통해 AI 지원 빌드 및 생성
+파이프라인을 반복 가능하고 공유 가능하며, 이를 채택한 모든 프로젝트에서
+일관성 있게 사용할 수 있게 되었습니다.</p>
+<h2 id="혁신적-요소">혁신적 요소</h2>
+<ul>
+<li><strong>카테고리 기반 프로비저닝</strong> — 하나의 설치 프로그램으로
+다양한 전문화된 파이프라인(코드, 테스트, 번역, 생성형 미디어)을
+제공하며, 동일한 단일 진입점에서 각 파이프라인을 호출할 수
+있습니다.</li>
+<li><strong>생성형 미디어의 폭넓은 지원</strong> — 애니메이션, 오디오,
+여러 이미지 형식(JPEG/PNG/SVG)이 사후 고려 사항이 아닌, 독립된 빌드
+카테고리로 처음부터 지원됩니다.</li>
+<li><strong>Shell 네이티브</strong> — 사실상 모든 환경에 무거운 런타임
+전제 조건 없이 설치되어, 곧바로 작동하는 파이프라인을 제공합니다.</li>
+</ul>
+<p>콘텐츠</p>
+<h2 id="가장-큰-기술적-도전-과제와-해결-방법">가장 큰 기술적 도전 과제와
+해결 방법</h2>
+<ul>
+<li><strong>하나의 도구로 매우 다른 AI 워크플로를 지원</strong> — 설치
+프로그램 내 카테고리 추상화를 통해 해결. 각 카테고리는 자체 툴체인을
+사용하면서도 공통 진입점을 공유합니다. (구현 세부 사항은 공개 README에
+문서화되지 않았으며, 검증되지 않았습니다.)</li>
+</ul>
+<h2 id="기술-스택">기술 스택</h2>
+<ul>
+<li><strong>Shell</strong> — 주요 구현 언어이자 설치/오케스트레이션
+인터페이스(<code>install.sh</code>). 빌드 환경에서 사전 설치 없이 “한
+줄의 명령어로 프로비저닝”이라는 약속을 이식성 있게 유지하기 위해 셸
+진입점을 선택했습니다.</li>
+<li><strong>카테고리별 툴체인</strong> — 일반 / 개발자 / 테스터 / 번역 /
+생성형(애니메이션, 오디오, JPEG, PNG, SVG) 등 카테고리별 도구 세트. 각
+카테고리의 구체적인 하위 도구/모델은 공개 README에 명시되지 않았습니다.
+(검증되지 않았습니다.)</li>
+</ul>
+<h2 id="현황-및-정직성-고지">현황 및 정직성 고지</h2>
+<ul>
+<li><strong>현황: 베타.</strong> 공개 README는 최소한의 내용(설치
+스크립트 + 카테고리 목록)만 제공하며, 카테고리별 도구/모델, AI 제공자,
+내부 아키텍처 등은 공개되지 않았으므로 검증되지 않았습니다.
+<code>./Documentation/README.md</code>에 언급된 전체 문서는 확인하지
+않았습니다.</li>
+<li><strong>라이선스: Apache-2.0</strong> (GitHub API 기준).</li>
+</ul>
+<p><strong>우선 순위 단계:</strong> Helix-주요.</p>
+</body>
+</html>

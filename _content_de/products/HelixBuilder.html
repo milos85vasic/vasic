@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>Eine von AI angetriebene Pipeline zum Aufbau von Anwendungen
+– eine Kategorie nach der anderen.</strong></p>
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+<p>HelixBuilder ist eine in der Shell installierte und gesteuerte, von
+AI betriebene Pipeline zum Erstellen von Anwendungen. Mit einem einzigen
+Installationsskript werden kategoriespezifische Toolchains
+bereitgestellt – von der Code-Entwicklung und dem Testen bis hin zu
+generativen Medien (Animation, Audio, Bilder).</p>
+<h2 id="kurzbeschreibung">Kurzbeschreibung</h2>
+<p>HelixBuilder ist eine shellbasierte, von AI angetriebene Pipeline zum
+Aufbau von Anwendungen. Ein einziges Installationsskript richtet eine
+ausgewählte Kategorie ein – <em>General</em>, <em>Coder</em>,
+<em>Tester</em>, <em>Translation</em> oder generative Medien (Animation,
+Audio, JPEG, PNG, SVG) – und stellt jeder Build-Umgebung eine
+maßgeschneiderte Toolchain zur Verfügung.</p>
+<h2 id="ausführliche-beschreibung">Ausführliche Beschreibung</h2>
+<p>HelixBuilder ist eine von AI angetriebene Anwendungs-Pipeline aus der
+Helix-Familie, die primär als Shell-Tooling implementiert ist. Ihr Zweck
+besteht darin, mit einem einzigen Befehl eine Build- oder
+Generierungs-Workflows für eine bestimmte Art von Arbeit einzurichten:
+Ausgehend vom Projektstammverzeichnis stellt <code>./install.sh</code>
+(optional mit einem Kategorie-Argument) die Pipeline für diese Kategorie
+bereit.</p>
+<p>Die Pipeline ist in Kategorien unterteilt, die jeweils einer
+bestimmten Klasse von AI-gestützter Arbeit entsprechen: <em>General</em>
+(Standard), <em>Coder</em>, <em>Tester</em>, <em>Translation</em> sowie
+eine Reihe generativer Kategorien – <em>Generative/Animation</em>,
+<em>Generative/Audio</em>, <em>Generative/JPEG</em>,
+<em>Generative/PNG</em> und <em>Generative/SVG</em>. Wird der Installer
+ohne Argument ausgeführt, wird <em>General</em> ausgewählt; durch Angabe
+eines Kategorienamens wird die exakt auf diese Art von Arbeit
+zugeschnittene Toolchain installiert. Der Vorteil liegt in der
+bedarfsgerechten Bereitstellung: Entwickler:innen laden nur die
+Funktionen herunter, die für die jeweilige Aufgabe tatsächlich benötigt
+werden – eine Code-Generierungsumgebung, eine Test-Pipeline oder einen
+Bildgenerierungs-Stack – statt eine monolithische, schwergewichtige
+Installation mit dem damit verbundenen Wartungsaufwand zu
+übernehmen.</p>
+<p>HelixBuilder steht unter der Apache-2.0-Lizenz und ist Teil des
+umfassenderen Ökosystems wiederverwendbarer Komponenten
+HelixDevelopment, wo es als „AI-Build-Pipeline”-Baustein positioniert
+ist. Die öffentliche README-Datei ist bewusst knapp gehalten und
+verweist auf ausführlichere Dokumentation im Repository; Details
+jenseits der Installationsschnittstelle und der Kategorienliste werden
+hier nicht behandelt.</p>
+<h2 id="warum-wir-es-entwickelt-haben">Warum wir es entwickelt
+haben</h2>
+<p>AI-gestützte Arbeit erfordert sehr unterschiedliche Toolchains – für
+Programmierung, Tests, Übersetzung und verschiedene Arten generativer
+Medien. HelixBuilder wurde entwickelt, damit jede dieser Toolchains auf
+Abruf über einen einheitlichen Installer bereitgestellt werden kann,
+statt jedes Mal eine maßgeschneiderte Umgebung zusammenzustellen.</p>
+<h2 id="warum-es-ein-game-changer-ist">Warum es ein Game-Changer
+ist</h2>
+<p>Es reduziert den Aufwand „Richte eine AI-Build-Umgebung für X ein” –
+normalerweise ein fehleranfälliger, zeitraubender Prozess – auf einen
+einzigen, kategorisierten Befehl. Dadurch werden AI-gestützte Build- und
+Generierungspipelines zu etwas Wiederholbarem, Teilbarem und
+Konsistentem in jedem Projekt, das sie einsetzt.</p>
+<h2 id="was-innovativ-ist">Was innovativ ist</h2>
+<ul>
+<li><strong>Kategoriebasierte Bereitstellung</strong> – ein Installer,
+viele spezialisierte Pipelines (Code, Tests, Übersetzung, generative
+Medien), die alle über denselben Einstiegspunkt aufgelöst werden.</li>
+<li><strong>Generative Medien als vollwertige Kategorien</strong> –
+Animation, Audio und verschiedene Bildformate (JPEG/PNG/SVG) werden als
+eigenständige Build-Kategorien behandelt, nicht als nachträgliche
+Erweiterungen.</li>
+<li><strong>Shell-nativ</strong> – läuft in praktisch jeder Umgebung,
+ohne dass eine schwergewichtige Laufzeitumgebung zwischen Ihnen und
+einer funktionierenden Pipeline steht.</li>
+</ul>
+<h2
+id="größte-technische-herausforderungen-wie-wir-sie-gelöst-haben">Größte
+technische Herausforderungen &amp; wie wir sie gelöst haben</h2>
+<ul>
+<li><strong>Unterstützung völlig unterschiedlicher AI-Workflows mit
+einem einzigen Tool</strong> – gelöst durch eine Kategorienabstraktion
+im Installer, sodass jede Kategorie auf ihre eigene Toolchain zugreift,
+während ein gemeinsamer Einstiegspunkt genutzt wird. (Die
+Implementierungstiefe darüber hinaus ist im öffentlichen README nicht
+dokumentiert – UNBESTÄTIGT.)</li>
+</ul>
+<h2 id="technologie-stack">Technologie-Stack</h2>
+<ul>
+<li><strong>Shell</strong> – primäre Implementierungssprache und
+Installations-/Orchestrierungsoberfläche (<code>install.sh</code>);
+gewählt, weil ein Shell-Einstiegspunkt fast überall läuft, wo ein Build
+stattfindet, und so das Versprechen „Ein Befehl für die Bereitstellung”
+ohne vorherige Installation einer Laufzeitumgebung portabel über
+verschiedene Build-Umgebungen hinweg hält.</li>
+<li><strong>Kategoriespezifische Toolchains</strong> – Tool-Sets pro
+Kategorie für Allgemein / Entwickler / Tester / Übersetzung / Generativ
+(Animation, Audio, JPEG, PNG, SVG). Die konkreten zugrundeliegenden
+Tools/Modelle pro Kategorie sind im öffentlichen README nicht
+aufgelistet (UNBESTÄTIGT).</li>
+</ul>
+<h2 id="status-transparenzhinweise">Status &amp;
+Transparenzhinweise</h2>
+<ul>
+<li><strong>Status: Beta.</strong> Das öffentliche README ist minimal
+(Installationsskript + Kategorienliste); kategoriespezifische
+Tools/Modelle, AI-Anbieter und die interne Architektur sind nicht
+öffentlich beschrieben und werden daher nicht bestätigt. Ausführlichere
+Dokumentation unter <code>./Documentation/README.md</code> wurde nicht
+eingesehen.</li>
+<li><strong>Lizenz: Apache-2.0</strong> (laut GitHub API).</li>
+</ul>
+<p><strong>Prioritätsstufe:</strong> Helix-primär.</p>
+</body>
+</html>

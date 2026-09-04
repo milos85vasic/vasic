@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>一度構築すれば、どこでも再利用──独立テスト済みのGoおよびKMPモジュール群による分散型システム</strong></p>
+<h2 id="概要">概要</h2>
+<p><code>digital.vasic.*</code>（Go）およびKotlin
+Multiplatform名前空間の下で公開される、汎用的で再利用可能なモジュール群。各モジュールは独立しており、個別にテスト・バージョン管理され、より大規模なプロダクト（Catalogizer、HelixAgent、およびその他のシステム群）に対して同等のコードベースを持つサブモジュールとして利用される。このページでは、個別ページとしてはノイズとなる多数の小規模ユーティリティを一元化している。</p>
+<h2 id="短い説明">短い説明</h2>
+<p>厳選された<code>digital.vasic.*</code>モジュール群──インフラ基盤（認証、キャッシュ、データベース、設定、可観測性）、AI/エージェント構築ブロック（RAG、VectorDB、埋め込み、MCP、エージェント機能、プランニング）、防御的LLMガードレール（RedTeam、Normalize）──に加え、Kotlin
+Multiplatformミラーセットも提供。いずれも汎用性が高く、テスト済みで再利用可能な設計となっている。</p>
+<h2 id="長い説明">長い説明</h2>
+<p>vasic-digital組織は、一つの構造的な賭けに基づいて運営されている。「憲法＋多数の独立した再利用可能モジュール」という哲学だ。汎用的な機能は二度と書かない。モノリシックな設計ではなく、再利用可能な機能はすべて小さなモジュールに切り出される──それぞれが独立したリポジトリ、テスト、ドキュメントを持ち、厳密に疎結合を保つことで、利用者固有の要件が一切入り込まない。このページでは、それらをまとめている。個別に見ればライブラリスケールの存在であり、単独のプロダクトページとしてはノイズに過ぎないからだ。しかし、全体として見れば、組織の真の力を倍増させるものとなる。新しいプロダクトを「構築する」のではなく、「実績ある部品を組み立てる」という発想を可能にし、このモジュール群が「車輪の再発明をしない」という主張を具体的に裏付ける。</p>
+<p>このスイートは三つのクラスターに分かれている。<strong>インフラ基盤</strong>（Go）は、すべてのサービスに必要な土台を提供する：<code>auth</code>（JWT/bcrypt）、<code>cache</code>（Redis/TTL）、<code>database</code>（マイグレーション、デュアルSQLite/PostgreSQL）、<code>config</code>、<code>middleware</code>、<code>observability</code>（Prometheus/OpenTelemetry）、<code>ratelimiter</code>、<code>security</code>、<code>storage</code>（S3/MinIO）、<code>streaming</code>（WebSocketハブ）、<code>eventbus</code>、<code>filesystem</code>（マルチプロトコル）、<code>discovery</code>/<code>mdns</code>、<code>http3</code>、<code>recovery</code>、<code>concurrency</code>、<code>lazy</code>など。<strong>AI/エージェント構築ブロック</strong>（Go）は、AIシステムの基盤を提供：<code>rag</code>、<code>vectordb</code>、<code>embeddings</code>、<code>memory</code>、<code>conversation</code>（無限コンテキスト圧縮、イベントソーシング）、<code>mcp</code>（Model
+Context
+Protocol）、<code>toolschema</code>、<code>skillregistry</code>、<code>agentic</code>（グラフベースのワークフロー編成）、<code>planning</code>（HiPlan/MCTS/Tree-of-Thoughts）、<code>benchmark</code>（SWE-bench/HumanEval/MMLU）、<code>llmops</code>、<code>selfimprove</code>（報酬モデリング/RLHF）、<code>toon</code>（Token-Oriented
+Object
+Notation）。<strong>防御的LLMガードレール</strong>は、敵対的な環境に対する堅牢性を確保するツール群：<code>RedTeam</code>（YAML駆動の敵対的フィクスチャ）、<code>Normalize</code>（敵対的入力の正規化）。さらに、<strong>Kotlin
+Multiplatform</strong>セットは、コアモジュール（Auth-KMP、Database-KMP、Security-KMP、UI-Components-KMPなど）をクロスプラットフォームアプリ向けにミラーリングしている。</p>
+<p>コンテンツ</p>
+<h2 id="なぜこれを構築したのか">なぜこれを構築したのか</h2>
+<p>毎回ゼロから複数のプロダクト（Catalogizer、HelixAgent、Heraldなど）を作り上げるのは無駄が多く、一貫性にも欠ける。汎用的な機能をすべて切り離し、テスト済みの独立モジュールとして抽出することで、修正や改善が全体に波及し、新しいプロダクトも実績ある部品の組み合わせで構築できる。</p>
+<h2 id="なぜゲームチェンジャーなのか">なぜゲームチェンジャーなのか</h2>
+<p>これは事実上、AIを中心としたバックエンド構築のための「プライベート標準ライブラリ」であり、多くのチームが手をつけられない層だ。なぜなら、認証、キャッシュ、RAGの基盤作りを五度も繰り返すことに追われているから。ここではインフラの基本要素、AIの構成要素、防御的なLLMのガードレールがすべて、独立してテストされたドロップインモジュールとして存在する。これにより、小規模なチームでも通常なら大規模なチームが必要なペースでプロダクトレベルのシステムを構築でき、その過程で通常発生する重複の負債も蓄積しない。</p>
+<h2 id="革新的な点">革新的な点</h2>
+<ul>
+<li>フリート全体の分離原則（CONST-051）：サブモジュールは独立したコードベースとして扱い、利用者固有の要素を一切含まない。</li>
+<li>AIの基本レイヤー（RAG、VectorDB、エンベディング、MCP、ToolSchema、エージェント、プランニング、LLMOps）を再利用可能なモジュールとして提供。</li>
+<li>防御的LLMガードレールクラスター（RedTeam、Normalize）による敵対的ロバスト性の確保。</li>
+<li>同一の規約に基づく並列Go + Kotlin
+Multiplatformモジュールセット。</li>
+</ul>
+<h2 id="課題と解決策">課題と解決策</h2>
+<ul>
+<li><strong>数十のモジュールにわたる結合の劣化</strong>：「憲法」による分離契約と、実行時の利用者固有要素の注入で解決。</li>
+<li><strong>多数のモジュールの一貫性とテストの維持</strong>：モジュールごとのテスト・ドキュメント・課題に共通の規約を適用し、HelixConstitutionのガバナンス基盤で解決。</li>
+<li><strong>クロスプラットフォーム対応</strong>：コアモジュールのKotlin
+Multiplatformミラー版で解決。</li>
+</ul>
+<h2 id="テックスタック理由と方法">テックスタック（理由と方法）</h2>
+<ul>
+<li><strong>Go</strong> —
+ほとんどのモジュール（<code>digital.vasic.*</code>）。</li>
+<li><strong>Kotlin Multiplatform</strong> —
+クロスプラットフォーム対応のミラーモジュール（認証/データベース/セキュリティ/UI/並行処理/レートリミッターKMP）。</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> —
+キャッシュ、データベース、ストレージの基本要素。</li>
+<li><strong>Prometheus / OpenTelemetry</strong> —
+可観測性モジュール。</li>
+<li><strong>WebSocket / HTTP/3（quic-go）/ mDNS</strong> —
+ネットワーキングモジュール。</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> —
+AIの基本モジュール。</li>
+<li><strong>YAML</strong> — RedTeamの敵対的フィクスチャと設定。</li>
+</ul>
+<blockquote>
+<p>未検証 / 作業中：いくつかの組織リポジトリは「SCAFFOLD /
+WIP」と自己申告（例：<code>PliniusCommon</code>、<code>I-LLM</code>、<code>HyperTune</code>、<code>AutoTemp</code>、<code>Veritas</code>、<code>Ouroborous</code>、<code>Claritas</code>、<code>LeakHub</code>、<code>GandalfSolutions</code>）。これらは初期段階/スキャフォールドとして扱い、リリース済みではない。</p>
+</blockquote>
+</body>
+</html>

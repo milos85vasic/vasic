@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>Construye una vez, reutiliza en todas partes — una flota de
+módulos Go y KMP pequeños, desacoplados y probados de forma
+independiente.</strong></p>
+<h2 id="resumen">Resumen</h2>
+<p>Una amplia familia de módulos genéricos y reutilizables publicados
+bajo los espacios de nombres <code>digital.vasic.*</code> (Go) y Kotlin
+Multiplatform. Cada módulo es independiente, probado y versionado por
+separado, e integrado como submódulo de código equivalente en productos
+más grandes (Catalogizer, HelixAgent y el resto de la flota). Esta
+página consolida las numerosas utilidades pequeñas que, de presentarse
+por separado, generarían ruido como páginas individuales.</p>
+<h2 id="descripción-breve">Descripción breve</h2>
+<p>Una suite seleccionada de módulos desacoplados
+<code>digital.vasic.*</code>: primitivas de infraestructura
+(autenticación, caché, base de datos, configuración, observabilidad),
+bloques de construcción para AI/agentes (RAG, VectorDB,
+<em>Embeddings</em>, MCP, <em>Agentic</em>, <em>Planning</em>), y
+barreras defensivas-LLM (<em>RedTeam</em>, <em>Normalize</em>), además
+de un conjunto espejo en Kotlin Multiplatform. Cada uno es genérico,
+probado y reutilizable.</p>
+<h2 id="descripción-detallada">Descripción detallada</h2>
+<p>La organización <em>vasic-digital</em> opera bajo una apuesta
+estructural: una filosofía de “constitución + múltiples submódulos
+reutilizables y desacoplados” en la que la funcionalidad genérica nunca
+se escribe dos veces. En lugar de monolitos, cada componente
+reutilizable se extrae en su propio módulo pequeño —su propio
+repositorio, sus propias pruebas, su propia documentación— y se mantiene
+estrictamente desacoplado para que los detalles de ningún consumidor se
+filtren. Esta página los agrupa porque, tomados de uno en uno, cada uno
+tiene escala de biblioteca y resultaría ruido como página de producto
+individual. En conjunto, sin embargo, son el verdadero multiplicador de
+fuerza de la organización: un activo de ingeniería privado que convierte
+“construir un nuevo producto” en “ensamblar piezas probadas”, y la base
+concreta para afirmar que esta flota no reinventa la rueda, sino que
+mantiene una rueda muy buena y la despliega en todas partes.</p>
+<p>La suite abarca tres grupos. <strong>Primitivas de
+infraestructura</strong> (Go) proporcionan la base que todo servicio
+necesita: <code>auth</code> (JWT/bcrypt), <code>cache</code>
+(Redis/TTL), <code>database</code> (migraciones, dual
+SQLite/PostgreSQL), <code>config</code>, <code>middleware</code>,
+<code>observability</code> (Prometheus/OpenTelemetry),
+<code>ratelimiter</code>, <code>security</code>, <code>storage</code>
+(S3/MinIO), <code>streaming</code> (centro WebSocket),
+<code>eventbus</code>, <code>filesystem</code> (multiprotocolo),
+<code>discovery</code>/<code>mdns</code>, <code>http3</code>,
+<code>recovery</code>, <code>concurrency</code>, <code>lazy</code>,
+entre otros. <strong>Bloques de construcción para AI/agentes</strong>
+(Go) ofrecen el sustrato para sistemas AI: <code>rag</code>,
+<code>vectordb</code>, <code>embeddings</code>, <code>memory</code>,
+<code>conversation</code> (compresión de contexto infinito, <em>event
+sourcing</em>), <code>mcp</code> (Model Context Protocol),
+<code>toolschema</code>, <code>skillregistry</code>,
+<code>agentic</code> (orquestación de flujos basada en grafos),
+<code>planning</code> (HiPlan/MCTS/Árbol-de-Pensamiento),
+<code>benchmark</code> (SWE-bench/HumanEval/MMLU), <code>llmops</code>,
+<code>selfimprove</code> (modelado de recompensas/RLHF) y
+<code>toon</code> (<em>Token-Oriented Object Notation</em>).
+<strong>Barreras defensivas-LLM</strong> proporcionan herramientas de
+robustez adversarial: <code>RedTeam</code> (fixtures adversariales
+impulsados por YAML) y <code>Normalize</code> (canonicalización de
+entradas adversariales). Un conjunto paralelo en <strong>Kotlin
+Multiplatform</strong> replica módulos clave (Auth-KMP, Database-KMP,
+Security-KMP, Componentes-UI-KMP, etc.) para aplicaciones
+multiplataforma.</p>
+<h2 id="por-qué-lo-creamos">Por qué lo creamos</h2>
+<p>Desarrollar muchos productos (Catalogizer, HelixAgent, Herald y
+otros) desde cero cada vez resulta ineficiente e inconsistente. Extraer
+cada preocupación genérica en un módulo desacoplado y probado significa
+que las correcciones y mejoras se propagan a toda la flota, y cada nuevo
+producto se ensambla a partir de componentes ya validados.</p>
+<h2 id="por-qué-cambia-las-reglas-del-juego">Por qué cambia las reglas
+del juego</h2>
+<p>Es, en la práctica, una “biblioteca estándar” privada para construir
+backends centrados en AI, esa capa que la mayoría de los equipos nunca
+llega a desarrollar porque están demasiado ocupados resolviendo por
+quinta vez autenticación, almacenamiento en caché y la infraestructura
+básica de RAG. Aquí, los primitivos de infraestructura, los bloques de
+construcción de AI y los guardarraíles defensivos de LLM existen como
+módulos independientes y probados, listos para integrarse. Esto permite
+que un equipo pequeño despliegue sistemas de nivel productivo a un ritmo
+que normalmente requeriría uno mucho más grande, y sin acumular la deuda
+de duplicación que suele surgir en el proceso.</p>
+<h2 id="qué-tiene-de-innovador">Qué tiene de innovador</h2>
+<ul>
+<li><strong>Disciplina de desacoplamiento a nivel de flota
+(CONST-051):</strong> los submódulos se tratan como bases de código
+independientes, sin incluir especificidades del consumidor.</li>
+<li><strong>Capa dedicada de primitivos AI (RAG, VectorDB,
+Incrustaciones, MCP, ToolSchema, Agéntico, Planificación,
+LLMOps)</strong> como módulos reutilizables.</li>
+<li><strong>Conjunto de guardarraíles defensivos LLM (RedTeam,
+Normalize)</strong> para robustez ante ataques.</li>
+<li><strong>Conjuntos de módulos paralelos Go + Kotlin
+Multiplatform</strong> que comparten las mismas convenciones.</li>
+</ul>
+<h2 id="desafíos-y-soluciones">Desafíos y soluciones</h2>
+<ul>
+<li><strong>Evitar la degradación por acoplamiento en decenas de
+módulos:</strong> resuelto con el contrato de desacoplamiento de la
+constitución y la inyección en tiempo de ejecución de especificidades
+del consumidor.</li>
+<li><strong>Mantener la coherencia y las pruebas en muchos
+módulos:</strong> resuelto con una convención compartida
+(pruebas/docs/Desafíos por módulo) y la columna vertebral de gobernanza
+HelixConstitution.</li>
+<li><strong>Alcance multiplataforma:</strong> resuelto con un espejo
+Kotlin Multiplatform de los módulos principales.</li>
+</ul>
+<h2 id="tecnologías-empleadas-por-qué-y-cómo">Tecnologías empleadas (por
+qué y cómo)</h2>
+<ul>
+<li><strong>Go</strong> — la mayoría de los módulos
+(<code>digital.vasic.*</code>).</li>
+<li><strong>Kotlin Multiplatform</strong> — módulos espejo
+multiplataforma (Autenticación/Base de datos/Seguridad/Interfaz de
+usuario/Concurrencia/Control de tasa-KMP).</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — primitivos de caché,
+base de datos y almacenamiento.</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — módulo de
+observabilidad.</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — módulos de
+red.</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> — módulos de
+primitivos AI.</li>
+<li><strong>YAML</strong> — configuraciones y casos de prueba
+adversariales de RedTeam.</li>
+</ul>
+<blockquote>
+<p>NO VERIFICADO / EN DESARROLLO: varios repositorios de la organización
+están marcados como “ESQUELETO / EN DESARROLLO” (p. ej.,
+<code>PliniusCommon</code>, <code>I-LLM</code>, <code>HyperTune</code>,
+<code>AutoTemp</code>, <code>Veritas</code>, <code>Ouroborous</code>,
+<code>Claritas</code>, <code>LeakHub</code>,
+<code>GandalfSolutions</code>). Presentarlos como en fase
+inicial/esqueleto, no como productos finales.</p>
+</blockquote>
+</body>
+</html>

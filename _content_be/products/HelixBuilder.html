@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>Канвэйер стварэння праграм на аснове AI, паводле
+катэгорый.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>HelixBuilder — гэта канвэйер стварэння праграм на аснове AI, які
+ўсталёўваецца і кіруецца праз камандны радок. Ён забяспечвае
+інструментальныя ланцужкі для пэўных катэгорый — ад напісання кода і
+тэставання да генерацыі медыя-кантэнту (анімацыя, аўдыё, выявы) — праз
+адзіны скрыпт усталявання.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>HelixBuilder — гэта канвэйер стварэння праграм на аснове AI, які
+кіруецца праз камандны радок. Адзіны скрыпт усталявання забяспечвае
+абраную катэгорыю — Агульная, Праграміст, Тэстэр, Перакладчык ці
+генератыўныя медыя (анімацыя, аўдыё, JPEG, PNG, SVG) — даючы кожнаму
+працэсу зборкі ўласны адаптаваны інструментальны ланцужок.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>HelixBuilder — гэта канвэйер стварэння праграм на аснове AI з
+сямейства Helix, рэалізаваны пераважна праз інструменты каманднага
+радка. Яго мэта — разгарнуць працэс зборкі ці генерацыі для пэўнага віду
+працы адной камандай: з каранёвай дырэкторыі праекта
+<code>./install.sh</code> (з магчымым аргументам катэгорыі) усталёўвае
+канвэйер для гэтай катэгорыі.</p>
+<p>Канвэйер арганізаваны па катэгорыях, кожная з якіх адпавядае асобнаму
+класу працы з дапамогай AI: <code>Агульная</code> (па змаўчанні),
+<code>Праграміст</code>, <code>Тэстэр</code>, <code>Перакладчык</code> і
+набор генератыўных катэгорый — <code>Генератыўная/Анімацыя</code>,
+<code>Генератыўная/Аўдыё</code>, <code>Генератыўная/JPEG</code>,
+<code>Генератыўная/PNG</code> і <code>Генератыўная/SVG</code>. Запуск
+усталявальніка без аргументаў выбірае <code>Агульную</code>; перадача
+назвы катэгорыі ўсталёўвае інструментальны ланцужок, адаптаваны менавіта
+для гэтага віду працы. Перавага ў тым, што распрацоўнік атрымлівае
+толькі тыя магчымасці, якія сапраўды патрэбныя для задачы — асяроддзе
+генерацыі кода, канвэйер тэставання ці стэк генерацыі выяў — замест
+таго, каб усталёўваць адну грувасткую маналітную сістэму разам з цяжарам
+яе абслугоўвання.</p>
+<p>HelixBuilder распаўсюджваецца пад ліцэнзіяй Apache-2.0 і з’яўляецца
+часткай шырэйшай экасістэмы паўторна выкарыстоўваемых кампанентаў
+HelixDevelopment, дзе ён выконвае ролю будаўнічага блока “канвэйера
+зборкі на аснове AI”. Яго публічны README наўмысна лаканічны і адсылае
+да больш падрабязнай дакументацыі ў рэпазіторыі; падрабязнасці па-за
+межамі працэсу усталявання і спісу катэгорый тут не падаюцца.</p>
+<h2 id="чаму-мы-яго-стварылі">Чаму мы яго стварылі</h2>
+<p>Праца з дапамогай AI ахоплівае вельмі розныя інструментальныя
+ланцужкі — напісанне кода, тэставанне, пераклад і некалькі відаў
+генерацыі медыя-кантэнту. HelixBuilder быў створаны для таго, каб кожны
+з іх можна было разгарнуць па патрабаванні праз адзін уніфікаваны
+усталявальнік, замест таго каб кожны раз збіраць індывідуальнае
+асяроддзе.</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Ён ператварае “наладзіць асяроддзе зборкі на аснове AI для X” — што
+звычайна займае паўдня і патрабуе індывідуальнага падыходу з рызыкай
+памылак — у адзіную каманду па катэгорыях, робячы канвэйеры зборкі і
+генерацыі на аснове AI паўторнымі, абменнымі і аднолькавымі для кожнага
+праекта, які яго выкарыстоўвае.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li><strong>Усталяванне па катэгорыях</strong> — адзін усталявальнік,
+шмат спецыялізаваных канвэйераў (код, тэсты, пераклад, генератыўныя
+медыя), кожны з якіх выклікаецца праз адзін і той жа пункт уваходу.</li>
+<li><strong>Шырокае пакрыццё генератыўных медыя</strong> — анімацыя,
+аўдыё і некалькі фарматаў выяў (JPEG/PNG/SVG) разглядаюцца як
+самастойныя катэгорыі зборкі, а не дадаюцца пазней як другарадныя
+элементы.</li>
+<li><strong>Родны для Shell</strong> — усталёўваецца практычна ў любое
+асяроддзе без неабходнасці ў грувасткіх папярэдніх умовах для запуску
+працоўнага канвэйера.</li>
+</ul>
+<p>Змесціва</p>
+<h2 id="найбольшыя-тэхнічныя-праблемы-і-спосабы-іх-вырашэння">Найбольшыя
+тэхнічныя праблемы і спосабы іх вырашэння</h2>
+<ul>
+<li><strong>Абслугоўванне вельмі розных працоўных працэсаў AI у адным
+інструменце</strong> — вырашана праз абстракцыю катэгорый у інсталятары,
+дзе кожная катэгорыя прывязваецца да ўласнай калекцыі інструментаў,
+захоўваючы пры гэтым агульны пункт уваходу. (Падрабязнасці рэалізацыі за
+межамі гэтага апісання не пададзены ў агульнадаступным README —
+НЕПАЦВЕРДЖАНА.)</li>
+</ul>
+<h2 id="тэхналагічны-стэк">Тэхналагічны стэк</h2>
+<ul>
+<li><strong>Shell</strong> — асноўная мова рэалізацыі і паверхня
+ўстаноўкі/аркестрацыі (<code>install.sh</code>); абрана таму, што скрипт
+на shell запускаецца практычна ў любым асяроддзі зборкі, што забяспечвае
+пераноснасць абяцання «адна каманда для разгортвання» паміж рознымі
+асяроддзямі зборкі без папярэдняй устаноўкі дадатковага runtime.</li>
+<li><strong>Інструменты па катэгорыях</strong> — наборы інструментаў для
+кожнай катэгорыі: General / Coder / Tester / Translation / Generative
+(Animation, Audio, JPEG, PNG, SVG). Канкрэтныя інструменты/мадэлі для
+кожнай катэгорыі не пералічаны ў агульнадаступным README
+(НЕПАЦВЕРДЖАНА).</li>
+</ul>
+<h2 id="статус-і-заўвагі-аб-сумленнасці">Статус і заўвагі аб
+сумленнасці</h2>
+<ul>
+<li><strong>Статус: beta.</strong> Агульнадаступны README змяшчае
+мінімум звестак (скрыпт устаноўкі + пералік катэгорый);
+інструменты/мадэлі па катэгорыях, пастаўшчыкі AI і ўнутраная архітэктура
+не апісаны публічна і таму не пацверджаны. Поўная дакументацыя, на якую
+спасылаюцца ў <code>./Documentation/README.md</code>, не была
+прачытана.</li>
+<li><strong>Ліцэнзія: Apache-2.0</strong> (паводле GitHub API).</li>
+</ul>
+<p><strong>Прыярытэтны ўзровень:</strong> Helix-асноўны.</p>
+</body>
+</html>

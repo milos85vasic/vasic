@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>एक AI-संचालित पाइपलाइन, जो एप्लिकेशन बनाती है—एक श्रेणी के बाद एक
+श्रेणी।</strong></p>
+<h2 id="सरश">सारांश</h2>
+<p>HelixBuilder एक AI-संचालित एप्लिकेशन निर्माण पाइपलाइन है, जिसे शेल से इंस्टॉल
+और संचालित किया जाता है। यह एक ही इंस्टॉलेशन स्क्रिप्ट के माध्यम से श्रेणी-विशिष्ट
+टूलचेन उपलब्ध कराता है—कोडिंग और परीक्षण से लेकर जनरेटिव मीडिया (एनीमेशन, ऑडियो,
+चित्र) तक।</p>
+<h2 id="सकषपत-ववरण">संक्षिप्त विवरण</h2>
+<p>HelixBuilder एक शेल-आधारित, AI-संचालित एप्लिकेशन निर्माण पाइपलाइन है। एक ही
+इंस्टॉलेशन स्क्रिप्ट किसी चुनी हुई श्रेणी—सामान्य, कोडर, परीक्षक, अनुवाद, या जनरेटिव
+मीडिया (एनीमेशन, ऑडियो, JPEG, PNG, SVG)—को स्थापित करती है, जिससे हर निर्माण
+प्रक्रिया को उसकी आवश्यकतानुसार अनुकूलित टूलचेन मिलता है।</p>
+<h2 id="वसतत-ववरण">विस्तृत विवरण</h2>
+<p>HelixBuilder, Helix परिवार की एक AI-संचालित एप्लिकेशन निर्माण पाइपलाइन है,
+जिसे मुख्य रूप से शेल टूलिंग के रूप में लागू किया गया है। इसका उद्देश्य एक ही कमांड के
+माध्यम से किसी विशिष्ट प्रकार के कार्य के लिए निर्माण/जनरेशन वर्कफ़्लो स्थापित करना
+है: प्रोजेक्ट रूट से <code>./install.sh</code> (वैकल्पिक रूप से श्रेणी तर्क के साथ) उस
+श्रेणी के लिए पाइपलाइन स्थापित करता है।</p>
+<p>यह पाइपलाइन श्रेणियों में व्यवस्थित है, जिनमें से प्रत्येक AI-सहायता प्राप्त कार्य के
+एक अलग वर्ग से मेल खाती है: <code>General</code> (डिफ़ॉल्ट),
+<code>Coder</code>, <code>Tester</code>, <code>Translation</code>, और
+जनरेटिव श्रेणियों का एक समूह—<code>Generative/Animation</code>,
+<code>Generative/Audio</code>, <code>Generative/JPEG</code>,
+<code>Generative/PNG</code>, और <code>Generative/SVG</code>। इंस्टॉलर को
+बिना किसी तर्क के चलाने पर <code>General</code> श्रेणी चुनी जाती है; श्रेणी का
+नाम देने पर उस कार्य के लिए विशेष रूप से अनुकूलित टूलचेन स्थापित होता है। इसका लाभ यह
+है कि डेवलपर केवल उन्हीं क्षमताओं को इंस्टॉल करता है जिनकी उसे वास्तव में आवश्यकता होती
+है—कोड-जनरेशन वातावरण, परीक्षण पाइपलाइन, या छवि-जनरेशन स्टैक—बजाय एक भारी-भरकम
+मोनोलिथिक इंस्टॉलेशन और उसके साथ आने वाले रखरखाव के बोझ को उठाने के।</p>
+<p>HelixBuilder अपाचे-2.0 लाइसेंस के तहत उपलब्ध है और व्यापक HelixDevelopment
+पुनःप्रयोग योग्य घटक पारिस्थितिकी तंत्र का हिस्सा है, जहाँ इसे “AI निर्माण
+पाइपलाइन” बिल्डिंग ब्लॉक के रूप में रखा गया है। इसका सार्वजनिक README जानबूझकर
+संक्षिप्त रखा गया है और रिपॉजिटरी के भीतर उपलब्ध विस्तृत दस्तावेज़ की ओर इशारा करता
+है; इंस्टॉलेशन प्रक्रिया और श्रेणी सूची के अलावा अन्य विवरण यहाँ नहीं दिए गए हैं।</p>
+<h2 id="हमन-इस-कय-बनय">हमने इसे क्यों बनाया</h2>
+<p>AI-सहायता प्राप्त कार्य में बहुत अलग-अलग टूलचेन शामिल होते हैं—कोडिंग, परीक्षण,
+अनुवाद और कई प्रकार के जनरेटिव मीडिया। HelixBuilder को इसलिए बनाया गया ताकि
+इनमें से प्रत्येक को मांग पर एक ही सुसंगत इंस्टॉलर के माध्यम से स्थापित किया जा सके,
+बजाय हर बार एक नया वातावरण तैयार करने के।</p>
+<h2 id="यह-गम-चजर-कय-ह">यह गेम-चेंजर क्यों है</h2>
+<p>यह “X के लिए AI निर्माण वातावरण सेट अप करें”—जो आमतौर पर एक जटिल और
+त्रुटि-प्रवण प्रक्रिया होती है—को एक श्रेणीबद्ध कमांड में बदल देता है। इससे AI-सहायता
+प्राप्त निर्माण और जनरेशन पाइपलाइन दोहराने योग्य, साझा करने योग्य और हर उस
+प्रोजेक्ट के लिए सुसंगत बन जाती है जो इसे अपनाता है।</p>
+<h2 id="कय-ह-नवन">क्या है नवीन</h2>
+<ul>
+<li><strong>श्रेणी-आधारित प्रावधान</strong> — एक ही इंस्टॉलर, कई विशेषीकृत
+पाइपलाइन (कोड, परीक्षण, अनुवाद, जनरेटिव मीडिया), जो एक ही प्रवेश बिंदु से सक्रिय
+होती हैं।</li>
+<li><strong>जनरेटिव-मीडिया की व्यापकता</strong> — एनीमेशन, ऑडियो और कई छवि
+प्रारूप (JPEG/PNG/SVG) को स्वतंत्र निर्माण श्रेणियों के रूप में माना जाता है, न कि बाद
+में जोड़े गए अतिरिक्त के रूप में।</li>
+<li><strong>Shell-मूल</strong> — यह लगभग किसी भी वातावरण में इंस्टॉल हो जाता
+है, बिना किसी भारी-भरकम रनटाइम पूर्वापेक्षा के, जो आपको सीधे काम करने योग्य
+पाइपलाइन तक पहुँचा देती है।</li>
+</ul>
+<p>सामग्री</p>
+<h2 id="सबस-बड-तकनक-चनतय-और-उनक-समधन">सबसे बड़ी तकनीकी चुनौतियाँ और उनके
+समाधान</h2>
+<ul>
+<li><strong>एक ही टूल से बिल्कुल अलग AI वर्कफ़्लो को संचालित करना</strong> —
+इंस्टॉलर में श्रेणीगत अमूर्तन के ज़रिए हल किया गया, ताकि हर श्रेणी अपनी खुद की टूलचेन
+का इस्तेमाल करे, जबकि सभी का एक साझा प्रवेश बिंदु हो। (इसके कार्यान्वयन की गहराई
+सार्वजनिक README में दर्ज नहीं है — अपुष्ट।)</li>
+</ul>
+<h2 id="तकनक-सरचन">तकनीकी संरचना</h2>
+<ul>
+<li><strong>Shell</strong> — मुख्य कार्यान्वयन भाषा और इंस्टॉल/ऑर्केस्ट्रेशन इंटरफ़ेस
+(<code>install.sh</code>); चुना गया क्योंकि शेल एंट्री पॉइंट लगभग हर उस जगह
+चलता है जहाँ बिल्ड होता है, जिससे “एक कमांड से प्रोविज़निंग” का वादा विभिन्न बिल्ड
+वातावरणों में बिना किसी पूर्व रनटाइम इंस्टॉलेशन के पोर्टेबल रहता है।</li>
+<li><strong>श्रेणीगत टूलचेन</strong> — सामान्य / कोडर / परीक्षक / अनुवाद /
+जनरेटिव (एनीमेशन, ऑडियो, JPEG, PNG, SVG) के लिए प्रति-श्रेणी टूल सेट। हर श्रेणी के
+विशिष्ट अंतर्निहित टूल/मॉडल सार्वजनिक README में सूचीबद्ध नहीं हैं (अपुष्ट)।</li>
+</ul>
+<h2 id="सथत-और-ईमनदर-सबध-टपपणय">स्थिति और ईमानदारी संबंधी टिप्पणियाँ</h2>
+<ul>
+<li><strong>स्थिति: बीटा।</strong> सार्वजनिक README न्यूनतम है (इंस्टॉल स्क्रिप्ट
++ श्रेणी सूची); प्रति-श्रेणी टूलिंग/मॉडल, AI प्रदाता और आंतरिक संरचना सार्वजनिक रूप से
+वर्णित नहीं हैं और इसलिए इनकी पुष्टि नहीं की गई है।
+<code>./Documentation/README.md</code> पर संदर्भित विस्तृत दस्तावेज़ पढ़े नहीं
+गए।</li>
+<li><strong>लाइसेंस: Apache-2.0</strong> (GitHub API के अनुसार)।</li>
+</ul>
+<p><strong>प्राथमिकता स्तर:</strong> Helix-प्राथमिक।</p>
+</body>
+</html>

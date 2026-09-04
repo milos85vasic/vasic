@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>Аднойчы стварыць, паўсюль выкарыстоўваць — флот невялікіх,
+развязаных, незалежна пратэставаных модуляў Go і KMP.</strong></p>
+<h2 id="зводка">Зводка</h2>
+<p>Вялікае сямейства ўніверсальных, паўторна выкарыстоўваемых модуляў,
+апублікаваных пад прасторамі імёнаў <code>digital.vasic.*</code> (Go) і
+Kotlin Multiplatform. Кожны модуль з’яўляецца самастойным, незалежна
+пратэставаным і версіянаваным, і выкарыстоўваецца як падмодуль з
+аднолькавай кодовай базай у буйнейшых прадуктах (Catalogizer, HelixAgent
+і ўсёй астатняй флатыліі). Гэтая старонка аб’ядноўвае мноства невялікіх
+утыліт, якія былі б залішнімі як асобныя старонкі.</p>
+<h2 id="кароткае-апісанне">Кароткае апісанне</h2>
+<p>Куратарскі набор развязаных модуляў <code>digital.vasic.*</code> —
+інфраструктурныя прымітывы (аўтэнтыфікацыя, кэш, база даных,
+канфігурацыя, назіральнасць), будаўнічыя блокі AI/агентаў (RAG,
+VectorDB, эмбедзінгі, MCP, агентыка, планаванне), а таксама абарончыя
+LLM-бар’еры (RedTeam, Normalize) — плюс дублікатны набор Kotlin
+Multiplatform. Кожны з іх з’яўляецца ўніверсальным, пратэставаным і
+паўторна выкарыстоўваемым.</p>
+<h2 id="падрабязнае-апісанне">Падрабязнае апісанне</h2>
+<p>Арганізацыя vasic-digital будуецца на адной структурнай стаўцы:
+філасофіі «канстытуцыя + мноства развязаных паўторна выкарыстоўваемых
+падмодуляў», дзе ўніверсальны функцыянал ніколі не пішацца двойчы.
+Замест маналітаў кожная паўторна выкарыстоўваемая задача выносіцца ў
+асобны невялікі модуль — уласны рэпазіторый, уласныя тэсты, уласная
+дакументацыя — і падтрымліваецца строга развязанай, каб ніякія
+спецыфікацыі спажыўца ніколі не прасочваліся ўнутр. Гэтая старонка
+аб’ядноўвае іх таму, што паасобку кожны з іх мае маштаб бібліятэкі і быў
+бы залішнім як асобная старонка прадукта. Разам жа яны ўяўляюць сабой
+сапраўдны сілавы множнік арганізацыі: прыватны інжынерны актыў, які
+ператварае «стварыць новы прадукт» у «сабраць з правераных кампанентаў»,
+і канкрэтнае абгрунтаванне таго, што гэтая флатылія не вынаходзіць кола
+нанова — яна падтрымлівае адно вельмі добрае кола і каціць яго
+паўсюль.</p>
+<p>Набор ахоплівае тры кластары. <strong>Інфраструктурныя
+прымітывы</strong> (Go) забяспечваюць асноўную інфраструктуру,
+неабходную кожнаму сэрвісу: <code>auth</code> (JWT/bcrypt),
+<code>cache</code> (Redis/TTL), <code>database</code> (міграцыі,
+дуальныя SQLite/PostgreSQL), <code>config</code>,
+<code>middleware</code>, <code>observability</code>
+(Prometheus/OpenTelemetry), <code>ratelimiter</code>,
+<code>security</code>, <code>storage</code> (S3/MinIO),
+<code>streaming</code> (WebSocket-хаб), <code>eventbus</code>,
+<code>filesystem</code> (мультыпратакол),
+<code>discovery</code>/<code>mdns</code>, <code>http3</code>,
+<code>recovery</code>, <code>concurrency</code>, <code>lazy</code> і
+іншыя. <strong>Будаўнічыя блокі AI/агентаў</strong> (Go) забяспечваюць
+аснову для сістэм AI: <code>rag</code>, <code>vectordb</code>,
+<code>embeddings</code>, <code>memory</code>, <code>conversation</code>
+(сцісканне бясконцага кантэксту, event sourcing), <code>mcp</code>
+(Model Context Protocol), <code>toolschema</code>,
+<code>skillregistry</code>, <code>agentic</code> (аркестроўка працоўных
+працэсаў на аснове графаў), <code>planning</code>
+(HiPlan/MCTS/Tree-of-Thoughts), <code>benchmark</code>
+(SWE-bench/HumanEval/MMLU), <code>llmops</code>,
+<code>selfimprove</code> (мадэляванне ўзнагарод/RLHF) і
+<code>toon</code> (Token-Oriented Object Notation). <strong>Абарончыя
+LLM-бар’еры</strong> забяспечваюць інструменты супрацьстаяння
+адверсарыяльным пагрозам: <code>RedTeam</code> (адверсарыяльныя фікстуры
+на аснове YAML), <code>Normalize</code> (кананізацыя адверсарыяльных
+уваходаў). Паралельны набор <strong>Kotlin Multiplatform</strong> дублюе
+асноўныя модулі (Auth-KMP, Database-KMP, Security-KMP, UI-Components-KMP
+і г.д.) для кросплатформавых праграм.</p>
+<p>Змест</p>
+<h2 id="чаму-мы-гэта-стварылі">Чаму мы гэта стварылі</h2>
+<p>Запуск шматлікіх прадуктаў (Catalogizer, HelixAgent, Herald і іншых)
+з нуля кожны раз — марнатраўства рэсурсаў і непаслядоўнасць. Вынясенне
+ўсіх агульных задач у асобныя, дэкапліраваныя і пратэставаныя модулі
+азначае, што выпраўленні і паляпшэнні распаўсюджваюцца на ўсю сістэму, а
+кожны новы прадукт збіраецца з правераных кампанентаў.</p>
+<h2 id="чаму-гэта-змяняе-правілы-гульні">Чаму гэта змяняе правілы
+гульні</h2>
+<p>Гэта, па сутнасці, прыватная «стандартная бібліятэка» для стварэння
+бэкэндаў, засяроджаных на AI — той пласт, які большасць каманд ніколі не
+паспявае пабудаваць, бо яны занадта занятыя паўторным вырашэннем
+пытанняў аўтэнтыфікацыі, кэшавання і інфраструктурных дэталяў RAG у пяты
+раз. Тут інфраструктурныя прымітывы, будаўнічыя блокі AI і абарончыя
+агароджы LLM існуюць як гатовыя да ўжывання, незалежна пратэставаныя
+модулі. Гэта дазваляе невялікай камандзе ствараць сістэмы прадукцыйнага
+ўзроўню з такой хуткасцю, якая звычайна патрабуе значна большых
+рэсурсаў, і рабіць гэта без дублявання, якое звычайна назапашваецца ў
+працэсе.</p>
+<h2 id="што-новага">Што новага</h2>
+<ul>
+<li>Дысцыпліна дэкаплінгу на ўзроўні ўсёй сістэмы (CONST-051): субмодулі
+разглядаюцца як самастойныя кодовыя базы, якія ніколі не ўтрымліваюць
+спецыфіку спажыўцоў.</li>
+<li>Асобны пласт прымітываў AI (RAG, VectorDB, Embeddings, MCP,
+ToolSchema, Agentic, Planning, LLMOps) як паўторна выкарыстоўваемыя
+модулі.</li>
+<li>Кластар абарончых агароджаў LLM (RedTeam, Normalize) для
+супрацьстаяння адверскім атакам.</li>
+<li>Паралельныя наборы модуляў Go і Kotlin Multiplatform з аднолькавымі
+канвенцыямі.</li>
+</ul>
+<h2 id="праблемы-і-рашэнні">Праблемы і рашэнні</h2>
+<ul>
+<li><strong>Пазбяганне дэградацыі дэкаплінгу паміж дзясяткамі
+модуляў:</strong> вырашана праз кантракт дэкаплінгу ў канстытуцыі і
+ін’екцыю спецыфікі спажыўцоў падчас выканання.</li>
+<li><strong>Падтрыманне аднастайнасці і праверанай якасці шматлікіх
+модуляў:</strong> вырашана праз агульную канвенцыю
+(тэсты/дакументацыя/Challenge для кожнага модуля) і кіраўніцкую аснову
+HelixConstitution.</li>
+<li><strong>Ахоп розных платформаў:</strong> вырашана праз люстэркаванне
+асноўных модуляў на Kotlin Multiplatform.</li>
+</ul>
+<h2 id="тэхнічны-стэк-чаму-і-як">Тэхнічны стэк (чаму і як)</h2>
+<ul>
+<li><strong>Go</strong> — большасць модуляў
+(<code>digital.vasic.*</code>).</li>
+<li><strong>Kotlin Multiplatform</strong> — кросплатформавыя
+люстэркаваныя модулі
+(Auth/Database/Security/UI/Concurrency/RateLimiter-KMP).</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — прымітывы кэша, баз
+даных і сховішчаў.</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — модуль
+назіральнасці.</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — сеткавыя
+модулі.</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> — модулі
+прымітываў AI.</li>
+<li><strong>YAML</strong> — адверскія фікстуры і канфігурацыі
+RedTeam.</li>
+</ul>
+<blockquote>
+<p>НЕПРАВЕРАНА / У РАСПРАЦОЎЦЫ: некалькі арганізацыйных рэпазіторыяў
+пазначаны як «SCAFFOLD / WIP» (напрыклад, <code>PliniusCommon</code>,
+<code>I-LLM</code>, <code>HyperTune</code>, <code>AutoTemp</code>,
+<code>Veritas</code>, <code>Ouroborous</code>, <code>Claritas</code>,
+<code>LeakHub</code>, <code>GandalfSolutions</code>). Прадстаўляйце іх
+як раннія/каркасныя версіі, якія яшчэ не выпушчаны.</p>
+</blockquote>
+</body>
+</html>

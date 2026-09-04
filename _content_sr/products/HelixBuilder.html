@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HelixBuilder</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HelixBuilder</h1>
+</header>
+<h1 id="helixbuilder">HelixBuilder</h1>
+<p><strong>Пајплајн за изградњу апликација покретан AI технологијом,
+категорија по категорија.</strong></p>
+<h2 id="сажетак">Сажетак</h2>
+<p>HelixBuilder је пајплајн за изградњу апликација покретан AI
+технологијом, који се инсталира и управља из командне линије. Омогућава
+постављање алата специфичних за одређене категорије – од кодирања и
+тестирања до генеративних медија (анимација, аудио, слике) – путем
+једног скрипта за инсталацију.</p>
+<h2 id="кратак-опис">Кратак опис</h2>
+<p>HelixBuilder је пајплајн за изградњу апликација покретан из командне
+линије, заснован на AI технологији. Једним скриптом за инсталацију
+поставља се одабрана категорија – Општа, Кодирање, Тестирање, Превод,
+или генеративни медији (анимација, аудио, JPEG, PNG, SVG) – пружајући
+сваком току изградње прилагођен скуп алата.</p>
+<h2 id="детаљан-опис">Детаљан опис</h2>
+<p>HelixBuilder је пајплајн за изградњу апликација покретан AI
+технологијом, део породице Helix, имплементиран првенствено као алат за
+командну линију. Његова сврха је да постави ток изградње/генерисања за
+одређену врсту посла једном командом: из коренског директоријума
+пројекта, <code>./install.sh</code> (опционо са аргументом категорије)
+поставља пајплајн за ту категорију.</p>
+<p>Пајплајн је организован у категорије, од којих свака одговара
+посебној класи посла подржаног AI технологијом: <code>Opšta</code>
+(подразумевана), <code>Kodiranje</code>, <code>Testiranje</code>,
+<code>Prevod</code>, и скуп генеративних категорија –
+<code>Generativno/Animacija</code>, <code>Generativno/Audio</code>,
+<code>Generativno/JPEG</code>, <code>Generativno/PNG</code> и
+<code>Generativno/SVG</code>. Покретањем инсталера без аргумената бира
+се <code>Opšta</code>; прослеђивањем назива категорије инсталира се скуп
+алата прилагођен тачно тој врсти посла. Предност је површина која се
+укључује по потреби: програмер преузима само оне могућности које задатак
+заиста захтева – окружење за генерисање кода, пајплајн за тестирање или
+стек за генерисање слика – уместо да прихвати једну гломазну монолитну
+инсталацију и терет одржавања који долази с њом.</p>
+<p>HelixBuilder је лиценциран под Апацхе-2.0 и део је ширег екосистема
+поново употребљивих компоненти HelixDevelopment, где је позициониран као
+„блок за изградњу пајплајна заснованог на AI”. Његов јавни РЕАДМЕ
+намерно је кратак и упућује на детаљнију документацију унутар
+репозиторијума; детаљи изван инсталационе површине и листе категорија
+овде нису наведени.</p>
+<h2 id="зашто-смо-га-направили">Зашто смо га направили</h2>
+<p>Послови подржани AI технологијом захтевају веома различите скупове
+алата – за кодирање, тестирање, превођење и неколико врста генеративних
+медија. HelixBuilder је направљен како би се сваки од њих могао
+поставити на захтев путем једног конзистентног инсталера, уместо да се
+сваки пут саставља прилагођено окружење.</p>
+<h2 id="зашто-је-револуционаран">Зашто је револуционаран</h2>
+<p>Он претвара „постави окружење за изградњу засновано на AI за X” – што
+је обично прилагођен, подложан грешкама процес који траје поподне – у
+једну категоризовану команду, чинећи пајплајне за изградњу и генерисање
+засноване на AI поновљивим, дељивим и конзистентним у сваком пројекту
+који га усвоји.</p>
+<h2 id="шта-је-иновативно">Шта је иновативно</h2>
+<ul>
+<li><strong>Постављање засновано на категоријама</strong> – један
+инсталациони програм, више специјализованих пајплајна (код, тест,
+превод, генеративни медији), а сваки се решава из исте јединствене
+улазне тачке.</li>
+<li><strong>Широк спектар генеративних медија</strong> – анимација,
+аудио и више формата слика (JPEG/PNG/SVG) третирају се као пуноправне
+категорије за изградњу, а не као накнадно додате функције.</li>
+<li><strong>Изворно Shell</strong> – инсталира се у готово свако
+окружење без потребе за гломазним предувјетима између корисника и
+функционалног пајплајна.</li>
+</ul>
+<h2 id="највећи-технички-изазови-и-како-смо-их-решили">Највећи технички
+изазови и како смо их решили</h2>
+<ul>
+<li><strong>Подршка веома различитим AI токовима рада из једног
+алата</strong> — решено апстракцијом категорија у инсталатеру, тако да
+свака категорија користи сопствени скуп алата, а дели заједничку улазну
+тачку. (Детаљи имплементације нису документовани у јавном РЕАДМЕ фајлу —
+НИЈЕ ПРОВЕРЕНО.)</li>
+</ul>
+<h2 id="технолошки-стек">Технолошки стек</h2>
+<ul>
+<li><strong>Shell</strong> — примарни језик имплементације и површина за
+инсталацију/оркестрацију (<code>install.sh</code>); изабран јер скриптна
+улазна тачка ради готово свуда где се одвија изградња, чиме се одржава
+обећање о „једној наредби за постављање” преносивим на различита
+окружења за изградњу, без потребе за претходном инсталацијом
+рунтиме-а.</li>
+<li><strong>Скупови алата по категоријама</strong> — специфични скупови
+алата за категорије Опште / Програмер / Тестер / Преводилац /
+Генеративно (Анимација, Аудио, JPEG, PNG, SVG). Конкретни алати/модели
+по категоријама нису наведени у јавном РЕАДМЕ фајлу (НИЈЕ
+ПРОВЕРЕНО).</li>
+</ul>
+<h2 id="статус-и-напомене-о-искрености">Статус и напомене о
+искрености</h2>
+<ul>
+<li><strong>Статус: бета.</strong> Јавни РЕАДМЕ је минималан (скрипта за
+инсталацију + списак категорија); алати/модели по категоријама, пружаоци
+AI услуга и интерна архитектура нису јавно описани и стога нису
+потврђени. Детаљнија документација наведена у
+<code>./Documentation/README.md</code> није прочитана.</li>
+<li><strong>Лиценца: Апацхе-2.0</strong> (према GitHub API).</li>
+</ul>
+<p><strong>Приоритетни ниво:</strong> Helix-основни.</p>
+</body>
+</html>

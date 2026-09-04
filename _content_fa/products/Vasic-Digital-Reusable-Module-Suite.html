@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Vasic-Digital-Reusable-Module-Suite</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Vasic-Digital-Reusable-Module-Suite</h1>
+</header>
+<p><strong>یک بار بسازید، همه جا استفاده کنید — ناوگانی از ماژول‌های
+کوچک، مستقل و تست‌شده Go و KMP</strong></p>
+<h2 id="خلاصه">خلاصه</h2>
+<p>خانواده‌ای بزرگ از ماژول‌های عمومی و قابل استفاده مجدد که تحت فضاهای
+نامی <code>digital.vasic.*</code> (Go) و Kotlin Multiplatform منتشر
+شده‌اند. هر ماژول به‌صورت مستقل، تست‌شده و نسخه‌بندی‌شده است و به‌عنوان
+زیرماژول هم‌کد در محصولات بزرگ‌تر (Catalogizer، HelixAgent و ناوگان
+گسترده‌تر) مورد استفاده قرار می‌گیرد. این صفحه مجموعه‌ای از ابزارهای کوچک
+متعدد را که به‌صورت جداگانه تنها به‌عنوان نویز ظاهر می‌شدند، یکجا گردآوری
+کرده است.</p>
+<h2 id="توضیح-کوتاه">توضیح کوتاه</h2>
+<p>مجموعه‌ای منتخب از ماژول‌های مستقل <code>digital.vasic.*</code> — اجزای
+زیرساختی پایه (احراز هویت، حافظه موقت، پایگاه داده، پیکربندی، قابلیت
+مشاهده)، بلوک‌های ساخت AI/عامل (RAG، پایگاه داده برداری، تعبیه‌ها، MCP،
+عامل‌گرا، برنامه‌ریزی) و محافظ‌های تدافعی-LLM (تیم قرمز، نرمال‌سازی) —
+به‌علاوه مجموعه‌ای آینه‌ای از Kotlin Multiplatform. هر یک از این ماژول‌ها
+عمومی، تست‌شده و قابل استفاده مجدد هستند.</p>
+<h2 id="توضیح-مفصل">توضیح مفصل</h2>
+<p>سازمان واسیک-دیجیتال بر یک شرط ساختاری استوار است: فلسفه‌ای مبتنی بر
+«قانون اساسی به‌علاوه ماژول‌های مستقل و قابل استفاده مجدد متعدد» که در آن
+هر قابلیت عمومی هرگز دو بار نوشته نمی‌شود. به‌جای مونولیت‌ها، هر نگرانی
+قابل استفاده مجدد به ماژول کوچک خود — مخزن، تست‌ها و مستندات مستقل —
+تبدیل می‌شود و به‌شدت مستقل نگه داشته می‌شود تا هیچ جزئیاتی از مصرف‌کننده به
+آن نفوذ نکند. این صفحه این ماژول‌ها را گردآوری کرده است زیرا هر یک
+به‌تنهایی در مقیاس یک کتابخانه است و به‌صورت جداگانه تنها به‌عنوان نویز در
+صفحه محصول ظاهر می‌شد. اما در مجموع، نیروی واقعی ضرب‌کننده سازمان هستند:
+دارایی مهندسی خصوصی که «ساخت یک محصول جدید» را به «سرهم‌بندی قطعات
+اثبات‌شده» تبدیل می‌کند و پشتوانه ملموس ادعای این ناوگان است که چرخ را
+دوباره اختراع نمی‌کند — بلکه یک چرخ بسیار خوب را نگه می‌دارد و همه جا
+به‌کار می‌برد.</p>
+<p>این مجموعه سه خوشه را در بر می‌گیرد. <strong>اجزای زیرساختی
+پایه</strong> (Go) لوله‌کشی مورد نیاز هر سرویس را فراهم می‌کنند:
+<code>auth</code> (JWT/bcrypt)، <code>cache</code> (Redis/TTL)،
+<code>database</code> (مهاجرت‌ها، دوگانه SQLite/PostgreSQL)،
+<code>config</code>، <code>middleware</code>، <code>observability</code>
+(Prometheus/OpenTelemetry)، <code>ratelimiter</code>،
+<code>security</code>، <code>storage</code> (S3/MinIO)،
+<code>streaming</code> (هاب WebSocket)، <code>eventbus</code>،
+<code>filesystem</code> (چندپروتکله)،
+<code>discovery</code>/<code>mdns</code>، <code>http3</code>،
+<code>recovery</code>، <code>concurrency</code>، <code>lazy</code> و
+موارد دیگر. <strong>بلوک‌های ساخت AI/عامل</strong> (Go) زیرساخت لازم برای
+سیستم‌های AI را فراهم می‌کنند: <code>rag</code>، <code>vectordb</code>،
+<code>embeddings</code>، <code>memory</code>، <code>conversation</code>
+(فشرده‌سازی زمینه نامحدود، رویدادمحوری)، <code>mcp</code> (Model Context
+Protocol)، <code>toolschema</code>، <code>skillregistry</code>،
+<code>agentic</code> (هماهنگی گردش کار مبتنی بر گراف)،
+<code>planning</code> (HiPlan/MCTS/درخت فکر)، <code>benchmark</code>
+(SWE-bench/HumanEval/MMLU)، <code>llmops</code>،
+<code>selfimprove</code> (مدل‌سازی پاداش/RLHF) و <code>toon</code>
+(نشان‌گذاری شیءمحور توکن). <strong>محافظ‌های تدافعی-LLM</strong> ابزارهای
+مقاوم‌سازی در برابر حملات را ارائه می‌دهند: <code>RedTeam</code>
+(سناریوهای تهاجمی هدایت‌شده توسط YAML)، <code>Normalize</code>
+(یکنواخت‌سازی ورودی‌های تهاجمی). مجموعه‌ای موازی از <strong>Kotlin
+Multiplatform</strong> نیز نسخه‌های آینه‌ای ماژول‌های اصلی (Auth-KMP،
+Database-KMP، Security-KMP، اجزای UI-KMP و غیره) را برای برنامه‌های
+چندسکویی فراهم می‌کند.</p>
+<p>محتوا</p>
+<h2 id="چرا-آن-را-ساختیم">چرا آن را ساختیم</h2>
+<p>هر بار ساخت تعداد زیادی محصول (Catalogizer، HelixAgent، Herald و
+غیره) از صفر، اتلاف منابع و ناهماهنگی به همراه دارد. استخراج هر نگرانی
+عمومی به یک ماژول مستقل و تست‌شده به این معنی است که اصلاحات و بهبودها در
+کل مجموعه منتشر می‌شوند و هر محصول جدید از قطعات اثبات‌شده سرهم می‌شود.</p>
+<h2 id="چرا-انقلابی-است">چرا انقلابی است</h2>
+<p>در واقع، این یک «کتابخانه استاندارد» خصوصی برای ساخت بک‌اندهای متمرکز
+بر AI است — لایه‌ای که بیشتر تیم‌ها هرگز فرصت ساخت آن را پیدا نمی‌کنند،
+زیرا بیش از حد مشغول حل مجدد مسائل احراز هویت، کش، و لوله‌کشی RAG برای
+پنجمین بار هستند. در اینجا، زیرساخت‌های پایه، بلوک‌های سازنده AI، و ریل‌های
+محافظتی LLM همگی به صورت ماژول‌های آماده‌به‌کار و مستقلاً تست‌شده وجود دارند.
+همین ویژگی است که به یک تیم کوچک امکان می‌دهد سیستم‌های درجه تولید را با
+سرعتی عرضه کند که معمولاً به تیمی بسیار بزرگ‌تر نیاز دارد، و این کار را
+بدون انباشت بدهی تکراری که معمولاً در پی آن می‌آید، انجام دهد.</p>
+<h2 id="نوآوریها">نوآوری‌ها</h2>
+<ul>
+<li>نظم جداسازی در سطح مجموعه (CONST-051): زیرماژول‌ها به عنوان پایگاه‌های
+کد برابر تلقی می‌شوند و هرگز جزئیات مصرف‌کننده را حمل نمی‌کنند.</li>
+<li>لایه اختصاصی پرایمتیوهای AI (RAG، VectorDB، Embeddings، MCP،
+ToolSchema، Agentic، Planning، LLMOps) به صورت ماژول‌های قابل استفاده
+مجدد.</li>
+<li>خوشه ریل‌های محافظتی LLM (RedTeam، Normalize) برای استحکام در برابر
+حملات خصمانه.</li>
+<li>مجموعه ماژول‌های موازی Go و Kotlin Multiplatform با قراردادهای
+مشترک.</li>
+</ul>
+<h2 id="چالشها-و-راهحلها">چالش‌ها و راه‌حل‌ها</h2>
+<ul>
+<li><strong>جلوگیری از پوسیدگی وابستگی در میان ده‌ها ماژول:</strong> با
+قرارداد جداسازی قانون اساسی و تزریق زمان اجرا برای جزئیات مصرف‌کننده حل
+شد.</li>
+<li><strong>حفظ ثبات و تست‌پذیری بسیاری از ماژول‌ها:</strong> با یک
+قرارداد مشترک (تست‌ها/مستندات/چالش‌ها برای هر ماژول) و ستون فقرات حکمرانی
+HelixConstitution حل شد.</li>
+<li><strong>دسترسی چندپلتفرمی:</strong> با آینه‌ای از ماژول‌های اصلی در
+Kotlin Multiplatform حل شد.</li>
+</ul>
+<h2 id="پشته-فناوری-چرایی-و-چگونگی">پشته فناوری (چرایی و چگونگی)</h2>
+<ul>
+<li><strong>Go</strong> — اکثر ماژول‌ها
+(<code>digital.vasic.*</code>).</li>
+<li><strong>Kotlin Multiplatform</strong> — ماژول‌های آینه‌ای چندپلتفرمی
+(احراز هویت/پایگاه داده/امنیت/رابط کاربری/همزمانی/محدودکننده
+نرخ-KMP).</li>
+<li><strong>Redis / PostgreSQL / SQLite</strong> — پرایمتیوهای کش،
+پایگاه داده و ذخیره‌سازی.</li>
+<li><strong>Prometheus / OpenTelemetry</strong> — ماژول
+مشاهده‌پذیری.</li>
+<li><strong>WebSocket / HTTP/3 (quic-go) / mDNS</strong> — ماژول‌های
+شبکه.</li>
+<li><strong>Vector DB / embeddings / RAG / MCP</strong> — ماژول‌های
+پرایمتیو AI.</li>
+<li><strong>YAML</strong> — تنظیمات و فیکسچرهای خصمانه RedTeam.</li>
+</ul>
+<blockquote>
+<p>تأیید نشده / در حال توسعه: چندین مخزن سازمانی با برچسب «چارچوب اولیه
+/ در حال توسعه» مشخص شده‌اند (مانند <code>PliniusCommon</code>،
+<code>I-LLM</code>، <code>HyperTune</code>، <code>AutoTemp</code>،
+<code>Veritas</code>، <code>Ouroborous</code>، <code>Claritas</code>،
+<code>LeakHub</code>، <code>GandalfSolutions</code>). این موارد را به
+صورت مرحله اولیه/چارچوب اولیه معرفی کنید، نه به عنوان محصول نهایی
+عرضه‌شده.</p>
+</blockquote>
+</body>
+</html>
