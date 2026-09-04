@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T16:47:52Z
+    Last-Updated: 2026-09-04T16:58:04Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -954,6 +954,39 @@ declined to claim them.
 seen**; no colour-vision-deficiency simulation was run — the three kind families
 sit 1.03–1.19:1 apart in luminance, so they are *certainly not* greyscale-
 distinguishable, which is why every chip carries a text label.
+
+#### A93 — **`ai_interviewing` published (`cde474f → cb4c62a`), and the whole fleet is back to 12 CURRENT / 0 DRIFT.**
+
+The MCQ fix was committed by an agent that **deliberately did not push**, calling
+it an operator decision. It was verified before publishing rather than taken on
+trust:
+
+    go build ./...        0
+    go test ./... -count=1  0   4 packages ok (api, ingest, server, store)
+
+**The diff was read, not just the test result** — 32 changed lines for what
+should be a one-field fix is worth checking. It is exactly right: **one
+functional change**, `CorrectIdx int \`json:"correctIndex,omitempty"\`` →
+`json:"correctIndex"`; the rest is **gofmt realignment** of the struct tags, which
+moved because the added comment changed the field widths.
+
+**The comment is the durable part**, and it is why the defect cannot silently
+return: it records that the index is **zero-BASED**, so index 0 — the correct
+answer being choice A — **is a meaningful value, not an absent one**; that
+`encoding/json` dropped the key entirely for those items; that the client's
+`i === q.correctIndex` then compared against `undefined`, making **every choice
+wrong**; that **40 of 312** authored items sit at index 0; and it names the
+regression test. A future reader re-adding `omitempty` has to ignore an
+explanation to do it.
+
+Gitlink and `helix-deps.yaml` moved together (C9): **PASS, 12 recorded refs equal
+the gitlinks this repository will commit.**
+
+**`verify-submodule-remote-sync.sh` → 0: 12 CURRENT, 0 DRIFT, 0 UNDETERMINED of
+12 owned gitlinks probed.** Every owned submodule equals its remote tip, measured
+just now. The gate prints its own honest boundary and it is worth repeating:
+**a dated observation, not a standing fact — remotes move.** This carrier records
+that same pin going stale within a day on four consecutive occasions.
 
 #### A92 — **THE BIGGEST FINDING OF THE SESSION: the search index was 36.5% complete while the API reported `legs.semantic = ok`. One SQLITE_BUSY abandoned the corpus for the whole process lifetime.**
 

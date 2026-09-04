@@ -354,7 +354,7 @@ deps:
 
   - name: ai_interviewing
     ssh_url: git@github.com:milos85vasic/ai_interviewing.git
-    ref: "cde474fa3e167bfd5c8e63d4ba6d4c184d4c12b6"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "cb4c62ae70c12a351a81e8d49582882afb78a172"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
     layout: flat
 
