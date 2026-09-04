@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T15:06:44Z
+    Last-Updated: 2026-09-04T15:08:41Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,208 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A82 — **"OpenDesign" RESOLVED: it is already the system in use. And the UI is not undisciplined — its PALETTE is 6° from unusable.**
+
+### The operator's term, answered
+
+**"OpenDesign" is `github.com/nexu-io/open-design`, mandated by Helix
+Constitution §11.4.162 — and the `--od-*` prefix throughout this tree IS its
+token namespace.** It was never missing. Front door `design-system/README.md`;
+brand source `design-system/brand-milosvasic/milosvasic.css`; a DTCG
+source-of-truth pipeline at `workshop/docs/the-platform/design/` whose
+zero-dependency `tools/build.mjs` contrast-gates 36 rules and proves 84 `--od-*`
+declarations against the live CSS. **The work was built ON `--od-*`, not beside
+it.**
+
+**PenPot is present and has NEVER been started.** `docs/the-platform/design/penpot/`
+holds a validated compose stack (`podman-compose config` exits 0) and an operator
+runbook; its own README records that no instance has run. It was **not** used.
+The existing `wireframes/*.svg` are hand-authored greyscale.
+
+**Two honest absences rather than silent substitutions.** The `frontend-design`
+skill I named in the brief **does not exist in this environment** — the agent
+searched, said so, and used `artifact-design` instead. That was my error in the
+brief, not its omission. The `figma` MCP could not be reached. **No Artifact was
+published**, correctly: workshop is private.
+
+### The diagnosis, and it inverts the complaint
+
+**Colour DISCIPLINE is near-perfect. The PALETTE is the defect.** Exactly **one**
+raw colour literal exists in the entire product layer (`#000`, on the video
+element). So "monotone" is not sloppiness — it is a palette that cannot express
+what the product means.
+
+**The 25 colour-carrying tokens resolve to 4 nominal hues that collapse into 3
+perceptual zones:**
+
+- **`accent` 354° and `danger` 0° are 6° apart and 0.02% apart in relative
+  luminance** (0.11274 vs 0.11252). **In greyscale they are the same colour.**
+- `warning` 32° sits **1°** from `--od-text-muted` 33°, separated by saturation
+  alone.
+- `success` 123° is the only independent hue.
+
+Against roughly **30 meanings** the UI must express.
+
+**AND THE 6° COLLISION IS LOAD-BEARING.** `state.component.ts` declares that
+`declined` *"wears the product's own accent, never the danger red"* — **a
+doctrine the palette physically cannot deliver.** The code states an intent the
+tokens cannot express.
+
+**More numbers, all measured:** 7 corpus kinds with **zero** per-kind styling;
+of 7 type steps, **2 carry 100 of 129 reads (78%)** and `workshop.css` never
+reads `--od-fs-base`; **159 of 379 spacing values (42%) are off-scale**; 4
+box-shadows in total, a borders-to-shadows ratio of **26:1**.
+
+**THREE MEASURED CONTRAST FAILURES IN LIVE TOKENS** — not proposals, current
+state: `--od-danger` as a dark border **2.94:1** (needs 3.0); `--od-warning` as a
+rule on `surface-2` **2.68:1**; `--od-success` as dark text **3.70:1** (needs
+4.5). A 12% dark wash scores **1.07:1** — the dark theme's state grounds are
+near-invisible.
+
+### The answer: three PROVENANCE families, not seven kinds
+
+Grounded in the six vocabularies that all ask *"where did this come from"* —
+HEARD & SEEN **208°**, WRITTEN **252°**, BUILT **300°**, all inside 163–314°,
+**the only arc free of every brand hue**, at **≥54°** separation. Custody is
+non-chromatic cool graphite 218°.
+
+**All 21 published ratios were re-verified against the hex actually in the
+file** — every kind text ≥4.5:1 on background, own wash and surface-2 in **both**
+themes; every edge ≥3.0:1; and **all three live failures repaired by added
+siblings** (3.32, 3.02, 5.00). **No brand token was edited.**
+
+### `withheld` had no state to live in — and that is a real defect, not a styling gap
+
+**`withheld` is not one of the six `SurfaceState` members**, while
+`vocabulary.ts` carries a five-member `WITHHELD` table consumed by four
+components. **So it borrows a state, and all six lie about it.**
+
+It was added and separated from *error* on **five channels, three of them
+non-chromatic**: hue 142° apart; the only zero-chroma state; a striped edge
+nothing else has; a hatched-block glyph; and `role="status"` (polite) versus
+`role="alert"` (assertive). Separated from *empty* by one rule: **a filled ground
+means content exists behind it.** And `declined` **loses its wash but keeps its
+accent edge** — the only way to make the existing 6° doctrine true.
+
+### Files
+
+`workshop/docs/design-system/`: `wk-semantic-tokens.css` (540 lines — **the
+handoff artefact**), `TOKENS.md` (476), `COMPONENTS.md` (512), `RATIONALE.md`
+(346). **Nothing under `src/` was touched.**
+
+**Deliberately not done, each with a reason:** brand untouched (generated and
+drift-checked); accent not replaced; no new hue for `declined`; `--wk-hatch` not
+reused (already spent on *uncertainty*); **no spacing half-steps — that is a
+brand change, recorded as debt and an operator decision**; learning kit unedited;
+**no motion added**; no corpus content judged or quoted; no component written.
+
+**COULD NOT DETERMINE: nothing was rendered.** No build, no browser, per the
+brief. Every figure is static-source measurement plus computed sRGB contrast —
+**the palette is verified arithmetically and has not been SEEN.** The three
+family colours are 1.03–1.19:1 apart in luminance, so they are **certainly not**
+greyscale-distinguishable; stated as a limit, with every chip carrying a text
+label.
+
+**It caught a concurrent restructure mid-task:** at 17:05 another agent deleted
+`features/search/` and `features/ask/` and merged them into
+`features/inquiry/inquiry.component.ts`. COMPONENTS §6/§7 carry a dated note and
+**must be re-checked against the merged file before applying**. Its observation
+is worth keeping: the merge makes the state work **more** important — one column
+must now show hits, answers, declines, withheld rows and empties.
+
+**Three live defects found, NOT fixed** (all would be `src/` edits):
+`--od-lh-relaxed` is read 6× in `platform.css` and **declared nowhere**;
+`var(--lk-radius, 10px)` where the token is 8px; `var(--od-radius-pill, 999px)`
+where it is 9999px.
+
+#### A81 — **The deep-crawl capability ALREADY EXISTED and was registered. That is the SECOND false "NOT BUILT" row today — and stale rows are now demonstrably sending agents to rebuild working tools.**
+
+**The recorded gap was false, and it was already false when it was written.** The
+open register said *"only three named targets were crawled BY HAND and no general
+capability exists, so the next arriving link cannot be processed."*
+
+Measured: `pipeline/the_platform/crawl.py` and `codebase.py` **landed
+2026-09-03**, are **tracked**, are **registered** as `the-platform-crawl` with a
+**21-mutation battery**, and had **already been run against all three named
+targets** — 17 crawls, 176 requests. **Two specification documents went on
+asserting NOT BUILT for a day.** Per §11.4.74 the agent declined to reimplement
+it.
+
+**THE PATTERN, stated because it has now happened twice within hours.** A76
+recorded a gate that was green about `/tmp`; A80 found a port that was already
+half done and undocumented; this is the third instance and the second outright
+false "not built". **A stale status row is not a harmless inaccuracy — it
+dispatches real effort at work that is already finished, and it very nearly
+caused a working, mutation-proved tool to be rebuilt from scratch.** Re-derive a
+status row before acting on it. See [[no-bluffing-evidence-before-claims]].
+
+**Four stale `NOT BUILT` rows withdrawn by name** in `09-open-questions.md` Q9
+and `01-scope.md` §1.5. **Two were deliberately LEFT because they are correct:**
+per-material ZIP archives genuinely do not exist (`bundle.py` packs the
+*section*, not the material), and a scheduled re-*crawl* is not a scheduled
+re-*capture*. **Knowing which rows to leave alone is the harder half.**
+
+### What was genuinely missing, and it is a real gap
+
+`verify_crawl.py` validates **one** crawl against itself. Its strongest rule X10
+replays stored bodies against their captures — **that is INTEGRITY, not
+REPRODUCIBILITY. X10 would pass unchanged on a crawler whose frontier
+wandered.** So the contract's *"same target → same artefact, or record why it
+differs"* was **ungated**.
+
+Added `pipeline/the_platform/verify_reproducibility.py` (registered
+`the-platform-reproducibility`) with its proof. Every rule came from measurement
+taken **before the gate existed**: P1 URL sets identical across `complete` crawls
+sharing seed+settings (4 groups, 14 crawls, 100%); P2 45 superseding captures
+over 22 materials with **0 unlinked**; P3 `budget-exhausted` crawls excluded
+**and the exclusion printed**; P4 **nothing comparable → rc 2, not a green tick**.
+
+**The proof bites in BOTH directions** — the part that makes it worth having:
+CONTROL requires rc 0 on a clean sandbox; **M12 requires rc 0 after a SETTINGS
+change**, so the gate cannot buy P1/P2 by flagging every group; and A1/A2 execute
+cripples hardwired to `exit 1` and `exit 0` and confirm each is caught.
+
+### Running it on the three targets — including where it LOSES
+
+| target | tool | hand | |
+|---|---|---|---|
+| deepseek-harness | 116 URLs / 1 host | 3 / 1 | tool ahead |
+| pi.dev | 135 URLs / 2 hosts | 4 / 3 | tool ahead |
+| eview-software.com | 14 URLs / 3 hosts | **32 / 22** | **tool loses badly** |
+
+**Nineteen hosts the hand crawl used were never reached** — company registries,
+review directories, RDAP. **None is linked from the seed; they were found by
+SEARCHING, and a link-following crawler cannot reproduce a search.** So the tool
+wins on **admissibility, not reach**: every item carries URL, timestamp, digest
+and status including failures, whereas the hand citations cannot be replayed at
+all. **That is the honest comparison, and it names the tool's own weakness.**
+
+**Cross-day reproducibility, determined rather than guessed:** eview reproduced
+**exactly** (~18 h apart, zero captures changed). pi.dev did **not** — and the
+cause was established: of 60 captures, **45 were URLs never fetched before**
+(the budget truncated the frontier differently), and only **15** were genuine
+upstream changes. Three-valued contract exercised live: unreachable → **rc 2**;
+credentialed URL → rc 1; browser-impersonating UA → rc 1.
+
+### Verified
+
+    verify_reproducibility.py          0   3 PASS / 0 FAIL / 0 UNDET / 1 NOTE
+    prove-verify-reproducibility.sh    0   16 mutations, 16 caught, 0 missed
+    verify_crawl.py                    0   10 PASS / 0 FAIL / 0 UNDET / 3 NOTE
+    verify-check-registry-001.sh       0
+    verify-check-registry-002.sh       0   74 registered entry points exist
+    audit-hardcoded-paths.sh           0   15 file(s) allowed
+
+**Network WAS available and live crawls WERE performed** — `curl` to
+`example.com` and `github.com` both 200, DNS resolved all three targets. No
+fixture-only run, no fabricated results.
+
+`workshop` HEAD **`5a2fab5`** (== `origin/main`).
+
+**OWED, and stated rather than quietly skipped:** the §11.4.65 `.html`/`.pdf`
+exports of the four edited documents were **NOT regenerated** — the host was
+mid bulk pandoc/weasyprint run and the agent was told not to add load.
 
 #### A80 — **The ai_interviewing port is ALREADY HALF DONE and undocumented, "area" means three different things, and a test is graded ON THE CLIENT against a key shipped to the browser.** Three of my premises were wrong.
 
