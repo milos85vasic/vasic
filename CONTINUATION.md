@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T16:25:24Z
+    Last-Updated: 2026-09-04T16:38:12Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -866,6 +866,118 @@ DIFFERENT one** of the three and require the gate to redden **byte-identical**.
    the component header.
 
 `workshop` HEAD **`1adf0f6`**, pushed.
+
+#### A88 — **162 reproducible per-material ZIP archives. Two builds, `cmp`: 162 identical / 0 different — AND one changed input byte moves exactly one archive.**
+
+The "integral ZIP archives" request is delivered. **This was the one "NOT BUILT"
+row that survived scrutiny today** — three others were withdrawn as false, and
+another agent deliberately left this one because it was correct.
+
+### Complemented `bundle.py` rather than extending it, and the reason is structural
+
+`bundle.py` packs **the section**: one archive, 327 members, selected by
+`git ls-files docs/the-platform` plus the §11.4.65 export siblings.
+
+**A per-material archive cannot use that mechanism at all: 150 of the 162
+materials are EXTERNAL LOCATORS whose content lives only in
+`ledger/captures/<id>/body` and appears nowhere in the document tree.**
+`bundle.py` selects by path; this must select by ledger row. Different sources of
+truth, so a separate builder — but §11.4.74 still applies to what they share.
+
+**So the shared part was EXTRACTED, not copied.** `write_deterministic_zip` now
+has exactly one definition in the tree, and the extraction is **proved
+byte-neutral**: `bundle.py`'s own archive hashes `3197c89daab7a7af…` **before and
+after**, `cmp` identical, and `prove-verify-bundle.sh` still exits 0.
+`capture.normalise` is imported for the same reason — re-deriving it would give
+the verifier its own idea of "the same bytes".
+
+### What is pinned, because a ZIP is a hostile format for reproducibility
+
+Byte-wise entry order on the UTF-8 archive path; `SOURCE_DATE_EPOCH` defaulting
+to **946684800** — docs_chain's own `reproducibleEpoch`, read at
+`internal/adapter/derived.go` rather than guessed — **and recorded in the
+manifest**; mode 0644; `create_system` 3; **explicit** deflate level 9; no
+directory entries; every `ZipInfo` built fresh rather than `from_file`, so no
+uid/gid/hi-res-mtime extra field leaks; one JSON spelling per member.
+
+**Provenance is the newest commit touching that material's own inputs, never
+HEAD** — HEAD would make every archive stale on any unrelated commit.
+
+`bundle.py`'s 1980 constant was deliberately left alone: changing it would change
+the bytes of an archive that already has a published sidecar, for no gain.
+
+### The evidence, on all 162 archives
+
+```
+two builds -> diff -r: NO DIFFERENCES;  cmp: 162 identical, 0 different
+digest of the 162 digests, build A: a47065ad61afb874…
+                           build B: a47065ad61afb874…   (identical)
+```
+
+**And the half that makes it mean something** — mutate ONE input byte (a
+superseding `materials.jsonl` row whose title is one character longer):
+
+```
+cmp: 161 identical, 1 different (of 162)
+  DIFFER -> mat_cd31e14feaad.zip   differ: byte 15, line 1
+  6e0df398dc3840f9…  before
+  51fbe5360a9c6933…  after
+```
+
+**Exactly one archive moved, and it was the right one.** Without this, a
+"reproducible" check that always compares equal would assert nothing.
+
+### rc 2 demonstrated at full scale, and a REAL defect caught before landing
+
+Altered capture body → **rc 2**, `161 archived` of 162, the reason named
+(`normalises to sha256 b5029dd0… but the ledger pinned 03d509c1…`), and **no
+archive written for that material**. Unreadable body (`chmod 000`) → **rc 2**.
+Un-ignored `--out-dir` → **rc 2** before a byte is written.
+
+**M3 caught a genuine defect during development**: `chmod 000` originally produced
+a PermissionError traceback and **rc 1** — *a host problem reported as a defect in
+the section*, the same false-accusation class as A86. Fixed via
+`read_or_unpackable`, which **also closed a hash-then-archive window** by reading
+each body once and packing the exact bytes it hashed.
+
+### The set is derived, and the derivation is proved to bite
+
+162 archives derived at run time from `ledger/materials.jsonl` (last row per id
+wins, `status == active`) — **not** from the builder's own `INDEX.json`, **not**
+from any list inside the gate. Proof **M7 appends a synthetic material to the
+sandbox ledger and requires the gate to NAME `mat_synthetic001`, with no edit to
+the gate.**
+
+    verify-material-bundles.sh     0   8 PASS, 0 FAIL, 0 UNDET, 0 NOTE
+    prove-material-bundles.sh      0   23 mutations, 23 caught, 0 missed
+    verify-check-registry-001.sh   0   46 PASS (was 44) — the R5 row is closed
+    verify-check-registry-002.sh   0
+    prove-verify-bundle.sh         0   the extraction broke nothing
+    audit-hardcoded-paths.sh       0   16 allowed, none of them this work
+    audit-environment-assumptions  0   593 justified, none of them this work
+
+`workshop` HEAD **`1b2e922`**, five files, pathspec commit, pushed.
+
+### Two honest limits, and one of its own readings withdrawn
+
+- **Cross-zlib byte-identity is UNTESTED.** Every measurement is on one host with
+  one zlib build; two hosts with different zlib builds can differ. **That is
+  exactly why `content_digest` is published beside every archive hash** — a
+  sha256 over the sorted `path\0sha256` member lines, which is
+  implementation-independent. The limitation is designed around, not ignored.
+- **A reading of its own was WITHDRAWN AS FALSE:** it first measured "1 material
+  with zero captures (`mat_d09ba9dfa2cf`)". Re-measured on the same unmodified
+  file, that material has **3** capture rows — the script producing the first
+  figure was wrong. **No material in the ledger lacks captures.**
+
+**OPEN, attributed, not fixed:** `verify_bundle.py` exits **1** with B3 DRIFT,
+B8 PROVENANCE GAP (manifest 55 materials vs ledger 162) and B9 STALE — all three
+are staleness of the **SECTION** archive, built at 08:41 while `INGESTION.md`,
+`specification/*.md` and the ledger were edited at 16:44–16:58 by other work.
+The refactor is proved byte-neutral against that archive's own rebuild hash, so
+none is attributable to it. **Rebuilding it is owed once the tree settles.**
+Also owed: `DOWNLOADS.md` does not yet describe the per-material archives, and
+updating it drags in its §11.4.65 export chain.
 
 #### A87 — **LIVE END-TO-END VERIFICATION of the running system. Physical evidence, with controls — not a claim that it works.**
 
