@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T14:33:48Z
+    Last-Updated: 2026-09-04T14:41:56Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,97 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A75 — **NEW OPERATOR BRIEF, 2026-09-04 16:40: port ai_interviewing's areas/lessons/tests into workshop, port the fitting knowledge-base material, de-monotone the UI, and MERGE Ask with Search.** Recorded before any work started.
+
+**Recorded first and in full, because the standing rule is that no request,
+prompt or idea may be lost.** Four distinct workstreams; none is a restatement of
+another, and none was in the queue before this.
+
+**1. PORT THE FUNCTIONALITY.** *"All areas / chapters with lessons / tests
+functionality from `ai_interviewing` has to be used as the base for the workshop
+submodule and all features ported — design, UI, UX, structure, navigation, data
+structure — and all this further extended for use with workshop and the additions
+it brings in."*
+
+**2. PORT THE FITTING MATERIAL.** *"We MUST select all existing materials from
+`ai_interviewing` (knowledge base) — the chapters, lessons, tests — which fit /
+are covered within chapters we have in workshop, and port them for use as part of
+workshop."* Note the selection criterion is **fit against workshop's own
+chapters**, not bulk import.
+
+**3. THE UI IS MONOTONE.** *"Workshop UI looks really monotone, make sure we use
+OpenDesign, all available design skills, MCPs and plugins to give more life and
+colour into workshop UI / Design / Templates / Look and feel / UX."*
+
+**4. MERGE ASK AND SEARCH.** *"Ask and Search sections MUST BE properly merged so
+in workshop there is an input area which can be used for asking questions OR
+searching the whole indexed space — all content and materials, transcriptions and
+others."*
+
+---
+
+### What `ai_interviewing` actually contains — surveyed before dispatching, not assumed
+
+**923 tracked files.** The two repositories are **sibling designs**, which is what
+makes this port realistic rather than aspirational: both use the identical
+`platform/frontend/src/app/{core,features}/` Angular layout.
+
+| | |
+|---|---|
+| **34 areas** | `docs/interview-preparation/areas/01-agent-orchestration` … `34-cross-project-retrospective`, each in **md + html + pdf + docx** |
+| **The features the operator wants** | `features/{home,module,plans,practice,progress,search}.component.ts` — **each with a `.spec.ts`**. `practice` and `progress` are the lessons/tests functionality by name. |
+| **Visual material** | **159 `.mmd` mermaid, 101 `.svg`, 159 `.png`** — 74 of the mermaid files sit under `areas/diagrams`, 79 under `project-deep-dives/diagrams` |
+| **Other doc trees** | `company-research`, `improvement-plans`, `project-deep-dives`, `validation-plans` |
+| **e2e** | `platform/qa/e2e/tests` |
+
+**BOTH repositories are PRIVATE**, so material moving `ai_interviewing → workshop`
+crosses no boundary. **The umbrella above them is PUBLIC and nothing may land
+there** — and note the content-boundary gate already attributes **277 matches** to
+`ai_interviewing`, so this port is exactly the kind of work that can worsen a
+public-facing count if anything leaks upward.
+
+---
+
+### Sequencing — and it is dictated by a real conflict, not by caution
+
+**`platform/frontend/` is currently OWNED by the in-flight UI-label-sweep agent**,
+which has four components modified and uncommitted and is mid-way through writing
+its derived-coverage gate. Items 1, 3 and 4 all land in that same tree. Dispatching
+them now would put three agents into one directory and produce exactly the
+write-race that cost this project three handoff entries, twice.
+
+**Dispatched immediately (zero file conflict):**
+- **A read-only MAPPING agent** — inventory `ai_interviewing`'s data model,
+  navigation and component contracts; map its **34 areas against workshop's own
+  chapters** and produce the *fit* table item 2 demands; and write the port plan.
+  It writes a plan, not code.
+- **A design-direction agent** — produce the visual system (palette, typography,
+  spacing, component treatments) that answers "monotone", as a **specification
+  plus a reviewable artefact**, touching **no** frontend source file.
+
+**Blocked on the UI-sweep agent finishing, then dispatched:**
+- the port implementation (item 1), the visual application (item 3), and the
+  **Ask/Search merge** (item 4). The merge also has a backend half, and
+  `pkg/answer` is currently owned by the multi-provider agent — so it is blocked
+  on two fronts, not one.
+
+**One term needs the operator and is NOT a blocker: "OpenDesign".** It is recorded
+verbatim because it may name a specific tool. The earlier "The Platform" brief
+named **PenPot** for wireframes, and the `figma` MCP is present but **failed to
+connect** this session. The design agent is instructed to survey what is actually
+reachable and say so, rather than claim a tool it could not use. **If OpenDesign
+means something specific, say so and it will be used; the work does not wait on
+the answer.**
+
+**Item 4 is a product decision as much as an implementation.** One input serving
+two intents — *ask a question* versus *search the indexed space* — must not
+silently guess wrong. The measured state it inherits is relevant: **SC-008 is
+0/11**, i.e. meaning-based retrieval of a SPECIFIC passage does not currently work
+on this deployment, and that is under investigation by another agent. **A merged
+input built on top of a retrieval leg that cannot find a specific row would look
+broken to a reader for reasons that have nothing to do with the merge.** The two
+must be sequenced so the merge is judged on its own behaviour.
 
 #### A74 — **SEVEN AGENTS KILLED MID-WORK BY AN AUTH EXPIRY, AND ALL SEVEN RESUMED RATHER THAN RE-DISPATCHED.** Nothing was lost; here is the proof, per agent.
 
