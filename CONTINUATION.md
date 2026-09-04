@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T15:08:41Z
+    Last-Updated: 2026-09-04T15:17:19Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,117 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A83 — **The derived-leak gate's failure WAS an instrument fault, it is fixed, and `kg_meeting_note` REPRODUCES. Underneath sits a systemic defect: `ensure_fresh_binary` maps a BUILD FAILURE to rc 1 for every caller in this tree.**
+
+### The fault, reproduced verbatim
+
+`verify-registry-derived-leak.sh` exited **1** with `4 assertion(s) FAILED`.
+A1/A2/A4/A5 passed; A3/A6/A7 "failed" **without ever running**:
+
+```
+pkg/knowledge/graph.go:42:2: github.com/vasic-digital/passage@v0.0.0:
+    replacement directory ../../../submodules/passage does not exist
+PROBLEM: workshop-redact failed to build from …/corpus/platform/backend
+FAILED  A3 still carrying: text,machine_text,source_ref.path,content_hash …
+FAILED  A6 the scan still exits 1 with 1 finding(s)
+FAILED  A7 a second run exited 1 and/or rewrote the registry
+```
+
+**An instrument fault printed as an accusation that redaction is broken.**
+
+### The fix, and why the mirror works
+
+`platform/backend/go.mod` carries five relative `replace` directives at
+`../../../submodules/<name>`. The fixture root is `$WORK/corpus`, so
+`$ROOT/platform/backend/../../..` resolves to `$WORK` — **a symlink at
+`$WORK/submodules` makes them resolve.** Read-only; nothing copied, nothing
+written. Reuses the S-M1 approach already proven in
+`prove-redaction-propagation.sh` rather than inventing a second mechanism. A new
+`--submodules-dir DIR` lever names where the mirror comes from.
+
+### The three states are now genuinely separated
+
+- **U1 — pre-flight.** Builds `./cmd/workshop-redact` from the fixture root,
+  along **exactly the path `redact.sh` builds along**, *before the first
+  assertion*. Failure → **rc 2 with the compiler's own words**, and no assertion
+  is accused.
+- **U2 — a second net** at every `redact.sh` / `workshop-redact` call site: a
+  non-zero exit carrying a build/toolchain signature is could-not-determine.
+- **rc 1 is now reachable only after** the tool built, the scan ran and the
+  suppression was applied — and the summary line says so.
+
+Observed directly with an empty `--submodules-dir`:
+
+```
+UNDETERMINED: U1 workshop-redact does NOT build from the fixture root
+UNDETERMINED: the check COULD NOT RUN. This is NOT a finding about the corpus,
+              and it must never be recorded as one.
+EXIT=2
+```
+
+**The proof covers the trap that matters.** `UC` (control) requires the mirrored
+gate to exit 0 **and** requires the pre-flight plus A1..A7 each to be named —
+because **rc 0 alone cannot distinguish "ran and passed" from "skipped"**. `U1`
+requires 2 — not 1, not 0 — naming U1 and `replacement directory`, **with no
+`FAILED A` line**. `U2` neuters the pre-flight in a throwaway copy so the fault
+reaches `redact.sh`. And `UN` is the non-vacuity half: break the mechanism in a
+way that **still builds** (leave `content_hash` as the fingerprint of the
+suppressed string) and require **1**, named at A3 — **proving the rc-2 branch does
+not swallow findings.**
+
+### `kg_meeting_note` REPRODUCES — the question is answered
+
+The gate is fixture-based and never reads `curriculum/`, so it cannot answer
+this; it was measured separately, read-only:
+
+```
+roster: 33 withheld-only string(s) … finding: 0 minted row(s)      [token pass]
+phrase roster: 16246 withheld-only run(s) of 2..6 words … finding: 1 [phrase pass]
+01M1H9DKFTVEJMW5YFZ1GC7PYN [kg_meeting_note] carries a withheld-only run of
+                            3 word(s) / 14 character(s) in text
+```
+
+**That matches `docs/work-register.md` §6.3 exactly** ("1 × `kg_meeting_note`,
+3-word / 14-char run"), and the four rows decided there (3 × `kg_term`,
+1 × `kg_area`) are **gone — those decisions landed.** §6.3 records this row as
+**LEFT UNDECIDED and permanently visible**, pending an operator content
+judgement. **Nothing was suppressed, allow-listed or re-baselined, and no
+content was printed.**
+
+### THE SYSTEMIC DEFECT UNDERNEATH, found and deliberately NOT fixed
+
+**`ensure_fresh_binary` in `workshop/scripts/_common.sh` maps a FAILED BUILD to
+rc 1 — for every caller in this tree.** That is the root of this whole class:
+a broken toolchain becomes an accusation against the corpus, everywhere, not just
+here. It was corrected **at this gate's call sites only**, because `_common.sh`
+is shared by a dozen unrelated scripts and changing it blind would be a
+fleet-wide behavioural change made in passing. **Whether other gates carry the
+same false-accusation shape was NOT measured.**
+
+### Verified
+
+    verify-registry-derived-leak.sh   0   "every assertion holds"  (was 1)
+    prove-registry-derived-leak.sh    0   4 source mutations caught + 3 exit-state
+                                          cases + the UC control
+    verify-redaction-propagation.sh   0
+    verify-check-registry-001.sh      0   rc-2 state demonstrated
+    verify-check-registry-002.sh      0   all 74 entry points exist
+
+`workshop` HEAD **`0fb1242`**, pushed; two files, +396 / −11.
+
+**A concurrency near-miss worth recording as good practice.** Its first
+`git add` of exactly its own two paths still produced a **five-file commit**,
+because another agent had **pre-staged frontend deletions and renames in the
+index**. It caught this, ran `git reset --soft HEAD~1` (leaving the index
+untouched), and re-committed with an explicit pathspec —
+`git commit -F msg -- <its two paths>`. The other agent's staged work was
+restored, unpushed, and nothing was force-pushed. **`git add <path>` is not
+sufficient isolation in a shared checkout; the commit needs the pathspec too.**
+
+**Honest boundary:** the gate's 0 is **not** a statement about the real corpus —
+it exercises the mechanism over an invented `fixture-corpus`. The real-corpus
+reading above was a separate read-only scan.
 
 #### A82 — **"OpenDesign" RESOLVED: it is already the system in use. And the UI is not undisciplined — its PALETTE is 6° from unusable.**
 
