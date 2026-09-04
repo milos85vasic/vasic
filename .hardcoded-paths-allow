@@ -321,9 +321,21 @@ submodules/containers/docs/REMOTE_DEPLOYMENT.md
 # so the occurrences here are the same declared debt seen through a derived artifact
 # rather than a new violation. Measured 2026-09-04: 6 occurrences, all traceable to
 # those four sources plus two URL-shaped matches in a research citation.
-# THE REAL FIX IS UPSTREAM AND IS ALREADY HALF DONE: docs/session-evidence/ was
-# excluded from the ingest sweep on 2026-09-04 (WORKSHOP_DOCS_EXCLUDE_DIRS), so a
-# re-ingest drops these rows and this row should then be DELETED, not kept.
+# THE EXIT CONDITION THIS ROW ORIGINALLY CARRIED IS **WITHDRAWN AS FALSE**,
+# measured 2026-09-04. It read: "docs/session-evidence/ was excluded from the
+# ingest sweep, so a re-ingest drops these rows and this row should then be
+# DELETED". A re-ingest does NOT drop them. cmd/ingest-transcript/main.go:215
+# states the rule in its own words -- "An existing registry is LOADED, never
+# overwritten blind" -- because an anchor is only meaningful against the registry
+# that issued it (R1c). A re-ingest therefore PRESERVES these rows.
+# WHAT IS TRUE: the exclusion stops NEW rows being minted. It does not remove the
+# 383 rows already in the corpus, sourced from 33 docs/session-evidence/*.md
+# (session-ledger.md 116, t041-decision-packets.md 44, phase1-report.md 28, ...).
+# REMOVING THEM NEEDS ONE OF TWO OPERATOR ACTIONS, neither taken:
+#   (a) a from-scratch registry rebuild, which INVALIDATES every existing anchor;
+#   (b) a targeted `workshop-redact` suppression.
+# So this row STAYS until one of those happens. Do not delete it on the strength
+# of the exclusion alone.
 # Re-derive before trusting this: bash scripts/audit-hardcoded-paths.sh
 workshop/curriculum/passages.jsonl
 
@@ -343,10 +355,27 @@ workshop/curriculum/passages.jsonl
 # several occurrences into one long `"text"` value. So this is the same declared
 # debt seen through a derived artifact, not a new violation — the same reasoning,
 # and the same upstream fix, as the workshop/curriculum/passages.jsonl row above.
-# THE REAL FIX IS UPSTREAM AND IS ALREADY HALF DONE: scripts/ingest.sh now carries
-# DOCS_EXCLUDE_DIRS="${WORKSHOP_DOCS_EXCLUDE_DIRS:-session-evidence}" (line 393), so
-# a re-sweep no longer regenerates these four sidecars. Deleting the stale exports
-# is a workshop-side change; when it lands, these four rows should be DELETED, not
+# **STOP -- DO NOT DELETE THE FILES THIS ROW COVERS.** The remedy this block
+# originally prescribed is WITHDRAWN AS HARMFUL, measured 2026-09-04. It read:
+# "Deleting the stale exports is a workshop-side change; when it lands, these four
+# rows should be DELETED". The deletion was attempted and STOPPED, because
+# `.sections.json` under docs/session-evidence/ has THREE LIVE CONSUMERS:
+#   1. THE RUNNING SERVER SERVES THEM. GET /api/sections/session-evidence returns
+#      HTTP 200 with 33 of 42 documents carrying a non-null `sections_href`, and
+#      podman inspect shows docs/ is a BIND MOUNT of this checkout -- so a deletion
+#      changes live behaviour immediately, with no rebuild.
+#   2. A REAL CODE PATH. internal/api/sections.go:243 stats the sidecar and
+#      publishes the href; frontend core/section.ts:305 parses it; the section
+#      comes from a ROUTE PARAMETER, so this section is reachable by URL.
+#   3. THE REDACTION TOOL READS THEIR CONTENTS. internal/redaction/plan.go:640
+#      reads the sidecar, parses its `sections` spans and rewrites it to propagate
+#      a passage suppression. Deleting these files would SILENTLY NARROW THE REACH
+#      OF THE ONE TOOL that can remove the private session-evidence material.
+# Staleness of GENERATION is not absence of CONSUMPTION. It is true that
+# scripts/ingest.sh carries DOCS_EXCLUDE_DIRS="${WORKSHOP_DOCS_EXCLUDE_DIRS:-session-evidence}"
+# (line 393) so nothing regenerates them -- and that is exactly why they must not
+# be deleted casually: nothing would bring them back.
+# These rows STAY. They are not
 # kept. Naming a path inside a PRIVATE submodule is permitted by
 # docs/content-boundary.md; no content from any of these files is reproduced here.
 # Re-derive before trusting this: bash scripts/audit-hardcoded-paths.sh

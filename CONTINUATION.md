@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T08:03:35Z
+    Last-Updated: 2026-09-04T11:50:18Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,234 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A73 — **SESSION RESUME 2026-09-04 (afternoon): four operator decisions taken, nine agents dispatched, two items deliberately held back with a measured reason.**
+
+Written on resume after the subscription gap. **Resume contract honoured first:**
+`CONTINUATION.md` read, `scripts/continuation-check.sh` run BEFORE any work —
+**exit 0, 8 PASS · 0 DRIFT · 0 UNDET · 9 NOTE.** Fleet re-verified: **all 14
+repositories clean and local == remote.** Platform live and healthy, up 4 h,
+`/api/health` 200 on `127.0.0.1:8087`.
+
+**One commit arrived from outside this session and was classified, not assumed.**
+`bc47a41 "Auto-commit"` sits after `f97effa`. It changes exactly one file —
+`.ashlrcode/genome/manifest.json`, 16 insertions / 16 deletions — a tooling
+plugin's own manifest. **No governance file, no gate, no carrier, no gitlink.**
+It is pushed and the tree is clean at it.
+
+---
+
+### The four decisions the operator took
+
+Each was put with its cost stated. Recording the answers verbatim in substance,
+because a decision without its reasoning rots into a rule nobody can question.
+
+**1. G8, the §11.4.65 export mandate → EXPORT EVERYTHING (all 851).**
+Measured: the umbrella root tracks **924** markdown documents, **73** have both
+`.html` and `.pdf`, **851** do not. Three options were offered — a declared
+reader-facing subset (recommended), export everything, or leave it open and
+measured. **The operator chose everything.**
+
+**The cost was stated once before the choice and is restated here rather than
+buried:** ~1,702 new files in a **PUBLIC** repository; every exported byte
+becomes a second copy of text the content-boundary gate must scan, in a
+population already near 12,900 and already hard to read; and it is
+**irreversible in public history**. The concern was raised, the operator
+decided, and the work proceeds in full. **The agent carrying it is instructed
+that if the exports introduce hardcoded-path or environment findings, the fix is
+to stop the generator embedding them — NOT to add an exemption.**
+
+**2. The six constitution findings → "Make sure we are on last constitution
+Submodule codebase and then apply all fixes we may need!"**
+This is TWO steps and step 1 is the pin-move authorization this file has always
+required. The agent must (a) compare the pin to
+`git ls-remote HelixConstitution HEAD`, and if it differs, **classify the
+direction BEFORE moving** (`merge-base --is-ancestor`, `rev-list --left-right
+--count`) and move only by `git merge --ff-only`, stopping if anything is
+divergent; (b) check **by name** whether the move touches any governance
+document; (c) **re-measure the corpus on BOTH sides** — blob `34eff9d8…`, 11,700
+lines, 252 anchors, 1,779,401 bytes, sha256 `fe1de96abc84c2fc…` — and report any
+figure that moved as a finding; then (d) re-measure the six findings, because
+**the fast-forward may already have changed them**, and fix only those that are
+genuine frozen assumptions.
+
+**HARD BOUNDARY given to that agent:** it may modify
+the constitution submodule's own `helix_code_services.sh` under its `scripts/helix_code/` and what is needed to prove the
+change. It may **NOT** modify `Constitution.md`, the four carriers,
+`CLAUDE_ANCHORS_FULL.md`, `templates/`, or `scripts/gates/`. **And it may NOT
+push to HelixConstitution** — pushing changes the authority root this whole
+fleet inherits; it commits locally and reports, and that push is a separate
+operator confirmation.
+
+**3. Multi-provider model support → BUILD IT NOW.**
+Wire `submodules/LLMProvider` behind the platform's answer path under §11.4.74
+reuse-before-reimplement. **Local Ollama stays the DEFAULT and must behave
+identically** — the operator's standing words are *"Local model MUST BE
+available for workshop itself, and ability to use some of providers."* An
+unreachable or unconfigured provider must yield **could-not-determine**, never a
+fabricated answer and **never a silent fallback to a different model**, because
+substituting a model silently makes every answer's provenance a lie.
+
+**4. The broader UI label sweep → DO IT.**
+The backend half is already closed and gate-enforced: 30 vocabularies in
+`vocabulary.ts`, derived from 12 Go sources plus a JSON file, proved by 11
+mutations. **The gap is that the gate is deliberately ONE-DIRECTIONAL**, so
+every string the FRONTEND itself mints is policed by nothing. That is the half
+of the operator's instruction still unmet.
+
+---
+
+### Nine agents dispatched, with their boundaries
+
+Every one carries the same non-negotiables: three-valued exits, §11.4.6 (no
+guessing language), §1.1 paired proofs **named `prove-<gate-name>.sh`** because
+the pairing check derives the filename, the content boundary, and an explicit
+list of which other agents are touching which paths.
+
+| # | Scope | Owns |
+|---|---|---|
+| 1 | **SC-008 = 0/11, SC-007 = 51.9%** — meaning-based retrieval of a SPECIFIC passage does not work | `platform/backend/pkg/search`, `workshop/scripts/bench-retrieval.sh` |
+| 2 | **COMPLETE — and it STOPPED rather than deleting; see below** | `pipeline/detect_ocr.sh` |
+| 3 | Content-boundary **corpus-stability guard** | umbrella `scripts/verify-content-boundary.sh` |
+| 4 | **G8 — all 851 exports** | umbrella export files |
+| 5 | Constitution pin + the six findings | `submodules/constitution` |
+| 6 | **Multi-provider** wiring | `platform/backend/pkg/answer`, `cmd/workshop-server` |
+| 7 | **UI label sweep** | `platform/frontend/` |
+| 8 | **`verify-redaction-propagation.sh` asserts over the WRONG artifact** | that gate + its proof |
+| 9 | `submodules/containers`: the log reader returns 0 bytes with a nil error; and the missing stdin/ephemeral-run primitive | `submodules/containers` |
+
+**Agent 1's brief names the hypothesis to test first, and it is testable:** the
+server logs `doc-prefix "search_document: ", query-prefix "search_query: "`.
+Nomic models REQUIRE those task prefixes. **A corpus embedded WITHOUT the
+document prefix but queried WITH the query prefix produces exactly the reported
+symptom** — everything clustered near one similarity value, nothing
+discriminating. It is instructed NOT to lower the 0.6550 floor or widen a bar to
+pass; a harness that runs and reports criteria NOT met is the honest outcome
+(the T118 precedent).
+
+**Agent 8 is the disclosure-safety one and is the most serious.** A redaction
+gate validating an artifact nobody serves is **false assurance about
+disclosure — worse than no gate**. Its decisive mutation is prescribed: put a
+should-be-withheld string into the SERVED artifact while leaving
+`curriculum/passages.db` clean, and require the fixed gate to go red where the
+old one was green. It is forbidden from deleting corpus rows or triggering a
+re-ingest — both change live production data.
+
+---
+
+### TWO ITEMS DELIBERATELY NOT DISPATCHED, and the measurement that decided it
+
+The operator said **"fan out subagents"** and the standing preference is 6–12 in
+flight. Dispatch stopped at **nine** on a measurement, not a feeling:
+
+    free   -> 42% RAM used (under the §12.6 60% cap)
+    uptime -> load 14.50 / 10.76 / 7.67 on 8 cores  = ~1.8x oversubscribed
+
+**RAM was not the binding constraint; CPU was.** Adding more would slow every
+agent AND corrupt the measurements they exist to produce — and this project has
+already recorded **two wrong conclusions from exactly that cause** (a latency
+gate that FAILED at p95 13,219 ms and passed at 1,817 ms once idle; a boundary
+gate that looked non-deterministic because another agent was rewriting its
+input). See [[measure-on-a-quiet-tree]].
+
+**Held, named, and owed — to be dispatched as agents complete:**
+- **Deep crawling.** The operator called it **MANDATORY**. Three targets were
+  crawled by hand; **no general capability exists**, so the next link that
+  arrives cannot be processed. Placement is undecided (`workshop/pipeline/` vs
+  umbrella `_tools/`) and needs deciding as part of the work.
+- **Reproducible integral ZIP archives + the remaining mandated formats.**
+  Explicitly requested. The archive half **must be reproducible or it cannot be
+  verified**, which is the whole difficulty.
+
+Neither is dropped. Both are here because the standing rule is that no request,
+prompt or idea may be lost.
+
+---
+
+### Agent 2 has reported, and it refutes the premise I gave it. Recorded in full because the refutation is the value.
+
+**I briefed it to delete ~40 stale `docs/session-evidence/*.sections.json`, on the
+reasoning that the 2026-09-04 ingest exclusion had made them unregenerated and
+therefore disposable. I made ONE check load-bearing: prove nothing consumes them,
+and if anything does, STOP. It stopped. The premise was FALSE.**
+
+Real count: **33** tracked (not ~40); 114 exist workshop-wide; **4** carry the
+hardcoded-path findings named in the allow row.
+
+**Three live consumers, each measured:**
+1. **The running server serves them right now.**
+   `GET /api/sections/session-evidence` → **HTTP 200**,
+   `{documents: 42, groups: 1, undetermined: 0}`, with **33 of 42 documents
+   carrying a non-null `sections_href`**. `podman inspect` shows `docs/` is a
+   **BIND MOUNT of this checkout** — so a deletion changes live behaviour
+   immediately, with no rebuild.
+2. **A real code path, not vestigial.** `internal/api/sections.go:243` stats the
+   sidecar and publishes the href; the frontend's `core/section.ts:305` parses
+   it; and the section comes from a **route parameter**, so it is reachable by
+   URL rather than hardcoded out of the SPA.
+3. **The redaction tool reads their contents.** `internal/redaction/plan.go:640`
+   reads the sidecar, parses its `sections` spans and rewrites it to propagate a
+   passage suppression. **Deleting them would have silently narrowed the reach of
+   the one tool that can remove this private material.**
+
+**Staleness of GENERATION is not absence of CONSUMPTION.** That sentence is the
+lesson, and it generalises past this file.
+
+**A SECOND recorded claim is WITHDRAWN AS FALSE by the same report — and this one
+was mine, carried in two allow-list rows and in A72.** It read: *"a re-ingest
+drops these rows and this row should then be DELETED."* **A re-ingest does not
+drop them.** `cmd/ingest-transcript/main.go:215` states the rule in its own
+words — *"An existing registry is LOADED, never overwritten blind"* — because an
+anchor is only meaningful against the registry that issued it (R1c). The
+exclusion stops NEW rows being minted and removes nothing already present.
+
+**Both allow-list remedy blocks have been corrected in place**, one of them to a
+`STOP — DO NOT DELETE` with the three consumers named, because **a baseline row
+carrying a false remedy is worse than no note: it instructs the next reader to do
+harm.** `bash scripts/audit-hardcoded-paths.sh` re-run after the edit: **exit 0**,
+15 files explicitly allowed.
+
+**Removing the 383 rows needs one of two OPERATOR actions, neither taken:**
+(a) a from-scratch registry rebuild, which **invalidates every existing anchor**;
+(b) a targeted `workshop-redact` suppression. Handed to agent 8, whose brief
+already covers the served-artifact question.
+
+**SIDE FINDING, and it is the uncomfortable one:** the ingest exclusion stopped
+this material being *minted*, but **did not stop it being served** — 33 hrefs and
+383 corpus rows are live on port 8087 today.
+
+**Agent 2's other half succeeded, and found a real defect underneath the one I
+described.** The `detect_ocr.sh` `resolve_path` degradation was confirmed REAL by
+exercising three modes (realpath present / present-but-exiting-127 / absent from
+PATH). A symlinked *directory* component resolved fine; a symlinked *final*
+component came back unresolved. **And it mattered on this host, in the exact case
+the script's own header names:** `command -v ffmpeg` resolves to a symlink into
+the Playwright bundle, and `probe_ffmpeg` calls `resolve_path` on it —
+
+    before -> .../bin/ffmpeg                            (an innocuous PATH entry)
+    after  -> .../ms-playwright/ffmpeg-1011/ffmpeg-linux
+
+**The evidence record was hiding precisely the substitution the probe exists to
+expose.** Fixed with a bounded portable `readlink` loop (no `-f`) before the
+existing `pwd -P`, 40-hop bound to terminate cycles; six inputs — plain,
+symlinked dir, symlinked final, 2-hop chain, relative target, cycle — now return
+**byte-identical answers in all three modes**. `--prove-failure` exits **0** at
+6/6 in both mode A and mode C, with identical verdict lines.
+
+**Honest boundary the agent stated and I am not softening:** this is exercised on
+**Linux only**. What was removed is the dependency on `realpath` EXISTING, not
+the assumption that this host is representative. No BSD or macOS host was
+available. **That is a 2, not a pass.**
+
+Workshop HEAD after its commit: **`7b07807`** (`eba5c17..7b07807`), one file
+staged by explicit path. It did **not** sweep in the other agents' in-flight
+files, which is the discipline this tree needs while nine agents share a
+checkout.
+
+**Two figures moved again with no instrument edit**, and are recorded rather than
+glossed: `audit-environment-assumptions.sh` now reads **588** allow-listed
+(CLAUDE.md records 567) over **2348** files (records 2247). The audit is
+unmodified; **the fleet moved under it.**
 
 #### A72 — **The two audits the workshop bump reddened are GREEN, by 24 fixes and 15 rules; 39 documents gained their exports; and the umbrella G8 gap is now MEASURED at 851.**
 
