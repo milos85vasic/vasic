@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T14:41:56Z
+    Last-Updated: 2026-09-04T14:54:39Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,178 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A77 — **All four carriers updated in lockstep: the content-boundary "mechanism UNDETERMINED" verdict is WITHDRAWN, and the gate now instruments its own stability.**
+
+**Why the carriers and not just this document:** a carrier is the FIRST thing
+every agent reads. They were telling nine concurrently-running agents that the
+boundary gate's total *"is NOT reproducible run-to-run"* with a mechanism that
+*"is UNDETERMINED and was not established"*. **That was true when written and is
+now superseded — and a stale finding in a carrier misinforms every agent at
+once.**
+
+**Edited as ONE artifact, not four files by hand.** The shared region was split
+off, edited once, and the other three recomposed from it — the procedure the
+carrier itself prescribes, because C5 ROOT-LOCKSTEP measures where the four
+actually converge. Verified before and after: **4 distinct digests at line 18,
+1 at line 19.** `verify-governance-cascade.sh` → **0, 12 PASS / 0 FAIL / 0 ENV /
+8 NOTE.**
+
+**Three passages carried the superseded claim, not one** — the quoted gate
+output, the "four verdicts that moved" table row, and the instruments bullet.
+Missing any of the three would have left the contradiction live.
+
+**The old three-run table is KEPT and relabelled HISTORICAL rather than
+deleted**, so a stale reading stays recognisable. Its own conclusion — that
+nothing changed during the window, resting on `find -newermt '3 hours ago'`
+returning 0 files — is exactly the measurement that failed: wrong window, wrong
+set.
+
+**This entry exists because a gate demanded it, and the gate was right.**
+`continuation-check.sh` returned **1** with C3: *"commit(s) since Synced-Commit
+changed a watched governance file WITHOUT updating CONTINUATION.md in the same
+commit (§12.10 protection 2)"*, naming `eb9810d` and all four carriers. The
+commit was still local and unpushed, so it was **amended to carry this entry**
+rather than fixed forward — C3 requires the handoff update in the SAME commit,
+and a fix-forward would have left the violation permanently in history.
+
+#### A76 — **INCIDENT CANDIDATE: 125 served rows reproduce spans that also occur in SUPPRESSED passages. And the gate that was supposed to catch this was measuring `/tmp`.**
+
+**Status: MEASURED, NOT CONFIRMED AS DISCLOSURE. Nothing was redacted, deleted or
+allow-listed. Deciding it requires reading private text, which is operator work.**
+
+**Reported by location and count only — no content, and deliberately not even a
+digest of a name.**
+
+---
+
+### 1. The measurement
+
+**125 served, non-suppressed rows in the LIVE database reproduce at least one
+8-word verbatim span that also occurs in a suppressed passage.** 188 distinct
+such spans, of which **142 appear in ≤ 2 served rows** — i.e. they are not
+boilerplate — drawn from **22 distinct suppressed source rows**.
+
+By the suppression reason of the SOURCE row:
+
+| suppression reason of the source | spans |
+|---|---:|
+| `unreleased_commercial_plan_not_for_export` | 99 |
+| `derived_from_withheld_passage` | 34 |
+| `third_party_commercial_terms_secondhand` | 11 |
+| `reconstructs_withdrawn_index_term` | 7 |
+| `third_party_proprietary_leak_admission` | 4 |
+| `direct_personal_identifier` | 1 |
+
+**The sharpest single row carries 11 rare spans, and its own path embeds the pid
+of a row suppressed as `unreleased_commercial_plan_not_for_export`.** That is the
+**`kg_meeting_note` derived-leak class, live** — the class this project already
+had on record as an open, operator-only item. Also implicated: one
+`docs/session-evidence/phase1-report.md` row (1 rare span) and two
+`todo:` / `next_point:` derived rows (6 and 4).
+
+**WHAT IS NOT ESTABLISHED, and it is the whole question.** Whether each span is
+genuinely withheld-worthy, or ordinary phrasing that co-occurs in both a
+suppressed and a live passage. **An 8-word English shingle can be generic, and
+adjacent transcript passages overlap by construction.** 125 rows is a reading
+assignment, **not 125 leaks**, and must never be reported as such.
+
+**One thing IS established and it is the reassuring half: no personal name is
+served.** A name-level probe took 20 name-shaped tokens from the 11
+`direct_personal_identifier` rows. The 2 that appear rarely in served rows are
+already present in **263** and **9** files of the PUBLIC umbrella respectively,
+so neither is withheld-only.
+
+---
+
+### 2. The gate was green about `/tmp`
+
+**The recorded defect was real and WORSE than recorded.**
+`verify-redaction-propagation.sh` was said to check `curriculum/passages.db`
+instead of what the server serves. In fact **`curriculum/passages.db` does not
+exist in the checkout at all** — the gate's `A10` was reading a fixture inside
+its own `mktemp` tree. **A green verdict from it was a statement about `/tmp`
+and about nothing that is served.**
+
+That is the "a gate's coverage set is an assertion" failure in its most dangerous
+form: **false assurance about disclosure is worse than no gate.**
+See [[a-gates-coverage-set-is-an-assertion]].
+
+**The served artifact was DERIVED, not assumed:** container argv → `-index
+/var/lib/workshop` → confirmed against the live process via its handshake file
+and `GET /api/health` → mapped through the container's own mounts to the podman
+volume. Two artifacts live there: `passages.db` and `passages.jsonl`.
+
+**S1–S5 now assert over that served corpus**: no text on a suppressed row;
+suppressed rows flagged; **no suppressed pid in the served lexical index**;
+registry rows flagged; registry and database agree. Each of the five derivation
+steps can end in **rc 2**. Findings print pid, sha256-16 and location — never
+text.
+
+**The decisive mutation bites, and it was demonstrated as a before/after pair:**
+the committed gate, fetched from git and run unmodified over a served corpus
+carrying suppressed text, returns **0**. The fixed gate returns **1**, naming S1.
+`C1` requires each of S1–S5 to report a PASS **by name**, so a 0 cannot be bought
+by never reaching the block; `C2` requires an empty suppression set to be **2**,
+not five green assertions.
+
+A NOTE prints on every run: the served `redactions` table holds **0** rows
+against **162** suppressions. No text is exposed by that — the artifact simply
+cannot say *why* a row is withheld.
+
+---
+
+### 3. A SECOND instrument is broken, and its failure was being reported as a finding
+
+**`verify-registry-derived-leak.sh` still exits 1 — but NOT for the recorded
+reason, and the recorded `kg_meeting_note` finding was neither reproduced nor
+refuted.** A1/A2/A4/A5 pass. A3/A6/A7 fail because **`workshop-redact` cannot
+build in its scratch copy**: the relative `replace ../../../submodules/{passage,verdict}`
+directives do not survive the copy to `/tmp`.
+
+**That is an instrument fault. It should be rc 2 and is being reported as 1** —
+the exact collapse of the three-valued contract this project forbids, because it
+accuses the tree of a violation when the truth is that the check could not run.
+**It was not silenced and not allow-listed.** The fix is known and already
+proven: the redaction agent hit the identical trap in its own proof and fixed it
+by mirroring the sibling `submodules/` directory into the scratch tree.
+
+---
+
+### 4. A named gap, deliberately not closed here
+
+**Nothing scans the LIVE corpus for value-level (withheld-string) leaks.**
+`verify-registry-derived-leak.sh` covers minted rows in a fixture. **The 125-row
+measurement above IS that missing scan — run by hand, once.** It was deliberately
+not bolted onto the redaction gate: that is another registered gate's remit
+(§11.4.74), and 125 rows of undetermined severity would drown S1–S5's disclosure
+signal.
+
+---
+
+### 5. Session-evidence rows: 383 CONFIRMED, and the removal path is operator-only
+
+**383** (382 live + 1 already suppressed), from **33** documents. The correction
+already recorded in A73 is independently confirmed here: **a re-ingest will NOT
+drop them** (`cmd/ingest-transcript/main.go:215`, R1c). Removal needs either a
+from-scratch registry rebuild — which **invalidates every anchor** — or a
+targeted `workshop-redact` suppression. **Neither taken.** Risk if untaken: 33
+never-reviewed working-note documents stay searchable and reachable by URL.
+
+---
+
+### Verified
+
+    verify-redaction-propagation.sh   0   S1-S5 over the SERVED corpus
+    prove-redaction-propagation.sh    0   7 source + 4 served mutations, control,
+                                          non-vacuity, before/after pair SHOWN
+    verify-check-registry-001.sh      0
+    verify-check-registry-002.sh      0   checks=74 debt=3 missing=0
+    verify-registry-derived-leak.sh   1   INSTRUMENT FAULT — should be 2
+
+`workshop` HEAD **`b9e1e26`** (pushed `358ca43..b9e1e26`), two explicit paths
+only. The live volume is opened **read-only** by the gate and never touched by
+the prover. The container was not restarted.
 
 #### A75 — **NEW OPERATOR BRIEF, 2026-09-04 16:40: port ai_interviewing's areas/lessons/tests into workshop, port the fitting knowledge-base material, de-monotone the UI, and MERGE Ask with Search.** Recorded before any work started.
 

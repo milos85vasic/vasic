@@ -369,15 +369,35 @@ make it green.** Re-measured **2026-09-03**,
 `bash scripts/verify-content-boundary.sh` exits **1** and prints:
 
 ```
-LEAK — 12867 surviving match(es) (prose 12299, short 483, name 85); 0 row(s) also could not be determined
+LEAK — 15308 surviving match(es) (prose 14552, short 642, name 114); 19 row(s) also could not be determined
+corpus MOVED — 18 of 12535 enumerated file(s) changed between the pre- and
+       post-analysis fingerprints
 ```
 
-**STOP — THIS GATE'S TOTAL IS NOT REPRODUCIBLE RUN-TO-RUN, MEASURED 2026-09-03.
-Do not quote any single number from it as "the" count.** Three full runs were
-taken the same evening. **Runs 1 and 3 were on a BYTE-IDENTICAL tree** — run 3
-was produced by restoring the four carriers and `CONTINUATION.md` to `HEAD`
-precisely to control for the session's own edits — and they disagree by **122
-rows**:
+**THE "NOT REPRODUCIBLE RUN-TO-RUN" FINDING IS RESOLVED, AND THE EARLIER
+VERDICT — *"the exact mechanism is UNDETERMINED and was not established"* — IS
+WITHDRAWN AS SUPERSEDED, measured 2026-09-04. It was true when written.**
+
+**The algorithm is DETERMINISTIC.** Four runs against a provably frozen copy of
+the fleet produced **byte-identical output** — 12939 every time (prose 12368,
+short 486, name 85), with every `CB_TRACE` stage count identical at every stage.
+The snapshot was a `cp -al` outside the repository with tracked files
+de-hardlinked, verified frozen for 60 s before use and bracketed by fingerprints
+around every run.
+
+**The mechanism was CONCURRENCY, not the gate.** The live tree was never
+quiescent. A fingerprint of exactly what the gate reads, sampled every 20 s,
+showed the corpus changing on nearly every sample: two tracked files inside the
+private `workshop` submodule were being rewritten continuously by another agent,
+and **both are private-side key sources**, so each edit changes the private key
+space and therefore the total. Same command, no gate or allow-list edit, live
+tree: **12939 / 12939 / 13058 / 12968**. See [[measure-on-a-quiet-tree]].
+
+**The three-run table below is HISTORICAL and is kept only so a stale reading is
+recognisable rather than trusted.** Its own conclusion — that nothing changed
+during the window, based on `find -newermt '3 hours ago'` returning 0 files — was
+the measurement that failed: it was taken over the wrong window and the wrong
+set.
 
 | run | tree | leaks | prose | short | name | already_public |
 |---|---|---:|---:|---:|---:|---:|
@@ -385,18 +405,37 @@ rows**:
 | 2 | post-edit carriers | 12846 | 12280 | 481 | 85 | 2261 |
 | 3 | pre-edit carriers *(same tree as run 1)* | 12867 | 12299 | 483 | 85 | 2261 |
 
-**What this rules out, measured rather than assumed.** The instrument is
-unmodified (`git status --short` on the gate and `.content-boundary-allow` is
-EMPTY). Nothing in `workshop/` or the umbrella root changed during the window
-(`find -newermt '3 hours ago'` returns 0 files). The gate allocates a fresh
-`mktemp -d` per run, so concurrent instances cannot share intermediate state.
-**The instability is localised to a DERIVED filter, not to row emission:**
-`already_public` itself differs on identical input (2252 vs 2261), and that
-filter is recomputed from the corpus on every run. **The exact mechanism is
-UNDETERMINED and was not established — that is a 2, and a 2 is never a pass.**
-Run 1 executed while two other instances of this gate were running and were
-killed mid-flight; runs 2 and 3 ran alone. That is a difference between the runs,
-**not a demonstrated cause.**
+**THE GATE NOW CARRIES ITS OWN EVIDENCE OF STABILITY — the residual defect was
+its SILENCE, and that is fixed.** It fingerprints the exact scanned set before
+and after the analysis passes. The enumeration is shared with the analysis by
+construction (`cb_ls_tracked` / `cb_ls_untracked` are called by both), because a
+second enumeration that merely agrees today would be false reassurance. A green
+run now prints positive evidence; a moving run emits `undet` rows **naming the
+changed paths** — paths only, never content — and says the counts are not
+reproducible. `--expect-corpus <file>` lets two figures be **proved** to come
+from the same tree, which is what makes any future re-baselining defensible.
+Precedence is unchanged and is asserted by a mutation: **a moving tree cannot
+mask a finding** (`LEAKS>0 → rc 1` outranks `UNDET → rc 2`).
+
+**Its first real run caught the tree moving, which is the point:**
+
+```
+LEAK — 15308 surviving match(es) (prose 14552, short 642, name 114);
+       19 row(s) also could not be determined
+corpus MOVED — 18 of 12535 enumerated file(s) changed between the pre- and
+       post-analysis fingerprints
+```
+
+8 APPEARED, 10 CHANGED, **17 of the 18 inside the private `workshop` submodule**
+— consistent with nine agents working in one checkout. `--prove-failure` is
+**0 at 59 passed / 28 mutations** (was 43 / 24).
+
+**HONEST BOUNDARY.** The population has moved far past every figure recorded
+above, and **no row was judged**: no claim is made about what part of
+12867 → 15308 is new content versus a moving tree, and a large document-export
+run authorised by the operator is adding files to this repository concurrently.
+**Treat 15308 as a reading of a tree that was measurably moving**, not as the
+count. The gate now says so itself, which is the whole improvement.
 
 **What survives the instability, and it is the part that matters:** the class A
 direction split is stable to within 0.6 percentage points across all three runs,
@@ -1019,7 +1058,7 @@ bash scripts/ollama-tune.sh                     # local inference host tuning
 | `audit-hardcoded-paths.sh` | **0** — 6 file(s) allowed | **1** — 1 occurrence, 12 file(s) allowed |
 | `audit-environment-assumptions.sh` | 0 — **531** allow-listed, **2166** files, **683** baselined | 0 — **567** allow-listed, **2247** files, **666** baselined |
 | `verify-submodule-remote-sync.sh` | **0** — 12 CURRENT | **1** — 11 CURRENT / 1 DRIFT, then **0** — 12 CURRENT after the fourth authorized fast-forward, *both on 2026-09-03* |
-| `verify-content-boundary.sh` | 1 — **11878** (prose 11356, short 433, name 89) | 1 — **12745 / 12846 / 12867 across three runs, two of them on an identical tree**; RED BY DESIGN, and the total is NOT reproducible |
+| `verify-content-boundary.sh` | 1 — **11878** (prose 11356, short 433, name 89) | 1 — **15308** (prose 14552, short 642, name 114) with **`corpus MOVED — 18 of 12535 files`**; RED BY DESIGN, and the gate now REPORTS its own instability instead of hiding it |
 
 **`audit-hardcoded-paths.sh` went RED and the finding is REAL, not a re-baseline.**
 Exit **1**, `❌ 1 occurrence(s) across 1 file(s)`, scanning 6054 files across 14
@@ -1234,10 +1273,13 @@ Five of those need reading carefully rather than glancing at:
   This instrument's verdict has changed five times without the audit itself
   being edited once; the fleet moves under it. Re-run it, never quote it.**
 - **`verify-content-boundary.sh` exits 1 and is MEANT to.** Re-measured
-  2026-09-03: **12745 / 12846 / 12867 across three full runs, two of them on a
-  byte-identical tree** (prose 12182–12299, short 478–483, name 85 in all three),
-  0 undetermined; the 11878 reading earlier the same day is superseded, and **the
-  total is now known not to be reproducible run-to-run.** See the
+  2026-09-04: **15308** (prose 14552, short 642, name 114) with **19 undetermined
+  rows**, of which the load-bearing one is `corpus MOVED — 18 of 12535 enumerated
+  file(s) changed`. The earlier claim that **"the total is now known not to be
+  reproducible run-to-run"** is **SUPERSEDED**: the algorithm is deterministic —
+  four runs on a frozen snapshot were byte-identical — and the movement is
+  concurrent editing, which the gate now measures and names rather than absorbing
+  silently. See the
   "Content boundary" section above. A 1 from this gate is a reading assignment,
   not a regression — but the *reading* has not kept pace with the *population*,
   and that gap is still the finding. **What DID move on 2026-09-03 is the
