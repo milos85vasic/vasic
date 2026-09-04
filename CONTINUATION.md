@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T15:45:19Z
+    Last-Updated: 2026-09-04T16:21:31Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -866,6 +866,96 @@ DIFFERENT one** of the three and require the gate to redden **byte-identical**.
    the component header.
 
 `workshop` HEAD **`1adf0f6`**, pushed.
+
+#### A86 — **`ensure_fresh_binary` had exactly TWO callers, not "a dozen" — my own framing was wrong — and one of them handed its false accusation straight to a human.**
+
+### The blast radius, measured — and it corrects what I recorded in A83
+
+I recorded that `_common.sh` "is shared by a dozen unrelated scripts", and used
+that to justify a per-call-site fix. **The first half is true and the second half
+does not follow.** 14 files source `_common.sh`; **12 of them never call
+`ensure_fresh_binary` at all.** It has exactly **two** callers.
+
+| caller | build failure WAS | should be | verdict |
+|---|---|---|---|
+| `workshop/scripts/redact.sh:124` | **rc 1**, printed `PROBLEM:` | **2** | broken → fixed |
+| `workshop/scripts/ingest.sh:267` | **rc 1**, printed `PROBLEM:` | **2** | broken → fixed, **and it has no gate wrapper at all** |
+
+**THE SECOND ROW IS THE ONE THAT MATTERS.** Nothing invokes `ingest.sh` as a
+subprocess — **its only caller is a human**, and the running server hands out
+that exact command as its own remedy (`internal/api/chapters.go:123,280,304`).
+So that `1` reached an operator **with nothing between it and them**, telling
+them their corpus was defective when the truth was that a compiler could not
+find a directory.
+
+**Two callers were already correct, and saying so is part of the answer:**
+`verify-redaction-propagation.sh:380` builds the tool itself and maps failure to
+`UNDETERMINED … rc 2`. And `workshop/scripts/build.sh:75,83` is the sibling with the same
+*shape* and the **opposite correct answer** — its question **is** the build, so a
+build failure genuinely **is** the finding, `rc 1` is right, and it deliberately
+does not route through the helper, so the fix cannot reach it.
+
+### Fixed at the ROOT, and the justification is a measurement
+
+Two `problem` → `undetermined` in `workshop/scripts/_common.sh`. Why the root rather than
+the call sites:
+- **100% of the helper's consumers are in the "build is a precondition, corpus is
+  the subject" class** — there is no consumer that wants a 1.
+- The helper **already returned 2** for the neighbouring "cannot establish
+  freshness" case, so mapping a failed build to 1 was an **internal
+  contradiction**.
+- The one script whose question *is* the build does not route through it, so its
+  correct `1` is untouched.
+- A per-call-site fix would have been the same edit twice, leaving the shared
+  default wrong for caller three.
+
+The call-site net in `verify-registry-derived-leak.sh` was **kept armed**, because
+it drives `redact.sh` from a *copy* of `scripts/` that may predate the fix — and
+the phrase `failed to build from` is kept verbatim because `build_fault()` greps
+for it.
+
+### Proved in four directions, and H3 is the one that makes the rest attributable
+
+    H0   clean build, program exits 0        -> rc 0, executable produced
+    H1   module does not compile             -> rc 2, says UNDETERMINED not PROBLEM,
+                                                prints the compiler's own `syntax error`
+    H2   NON-VACUITY: healthy build, program exits 1
+                                             -> rc 1 SURVIVES — the rc-2 branch
+                                                does not swallow findings
+    H3   REGRESSION: the same unbuildable input against a `_common.sh` reverted
+         to `problem`                        -> rc 1
+    U2R  the call-site net proved with the ROOT FIX REVERTED inside the mirror —
+         `build_fault()` alone still yields 2, so the two nets are independent
+
+**H3 is what makes H1 mean anything**: without it, a 2 could have come from the
+harness rather than from the fix.
+
+**Two now-false comments were withdrawn BY NAME**, one of them mine: the U2
+block's *"corrected HERE rather than in `_common.sh`, which a dozen unrelated
+scripts share"*, and the proof header's *"`ensure_fresh_binary` maps a failed
+build to rc 1"*.
+
+### Verified
+
+    verify-registry-derived-leak.sh    0    pre-flight + A1..A7 all ok
+    prove-registry-derived-leak.sh     0    4 mutations, 7 exit-state cases, 2 controls
+    verify-redaction-propagation.sh    0
+    prove-redaction-propagation.sh     0    7 source + 4 served-corpus mutations
+    verify-check-registry-002.sh       0    76 checks
+    bash -n on all 14 _common.sh consumers  all OK
+    workshop/scripts/status.sh (live)       0, RUNNING, health OK
+
+**`verify-check-registry-001.sh` exits 1 on one row and it is NOT this work:**
+`R5 UNREGISTERED — pipeline/the_platform/material_bundle.py` — an untracked file
+belonging to the in-flight ZIP-archive agent, under a scanroot this agent never
+touched. **Attribution stated with its own limit:** the argument rests on the
+scanroot, not on a before/after pair, because the gate was not run before the
+change. Forwarded to that agent rather than fixed into someone else's lane.
+
+`workshop` HEAD **`ea588d1`**, three files, pathspec commit, pushed.
+
+**Could not determine:** whether either caller's false `1` ever misled a human in
+production — no log records a past rc from `ingest.sh`.
 
 #### A85 — **§11.4.65 reaches 924/924 = 100%, and the docs-chain drift I caused is repaired.**
 
