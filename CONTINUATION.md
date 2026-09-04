@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T19:12:10Z
+    Last-Updated: 2026-09-04T19:14:59Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -1054,6 +1054,165 @@ Context worth keeping: **eight numeric fields are already `*T` specifically to s
 **3.** `verify_bundle.py` **1 → 0** using only the project's own tools; **no verifier was edited.** **4.** `DOWNLOADS.md` gained a measured §5 — and **corrected my figure**: I said 16 mutations, the real number is **23**. It also found `docs/the-platform/README.md` recording *"Measured 2026-09-04: rc 0, 10/10"* **while the gate was exiting 1** — a live PASS-bluff.
 
 **5.** `workshop/CLAUDE.md`: every stale figure withdrawn by name — gates 18/20 → **23/27**, commands nine → **ten** (*"a WRONG LIST, not merely a stale count"* — `answer-providers` was omitted), tracked files 766 → **1,211**, `passages.jsonl` 11,622 → **13,141** rows, spec 001 66 → **69**, spec 002 107 → **110**. **Two claims were FALSE, not stale:** there are **three** `show-toplevel` call sites (not two — `_common.sh:703` was named nowhere and is correct for a different reason), and *"every script anchors on `BASH_SOURCE`"* is false for `_portable.sh`, correctly. **The gate counts moved 22/26 → 23/27 inside the session**, so the document now tells the reader to run the `ls`.
+
+#### A101 — **The extractor mined vocabulary out of ULIDs because THIS PROJECT'S OWN EVIDENCE DISCIPLINE cites pids in prose. It is 145 rows, not 33 — and removing all of them does NOT fix the gibberish query.**
+
+### The exact code path
+
+`pipeline/extract/derive.py:58` (pre-change):
+
+```python
+_TOKEN = re.compile(r"[a-z][a-z'-]*[a-z]|[a-z]")
+```
+
+It finds maximal **ASCII letter runs**. A ULID is Crockford base-32 — letters and
+digits interleaved — so lowercasing one **produces words**:
+
+    _TOKEN.findall("01M1ET0MFJ4NDK0ZECKNTQFVWS".lower())
+      -> ['m', 'et', 'mfj', 'ndk', 'zeckntqfvws']
+
+**Every one of those strings is a live `kg_term` row today.**
+
+### Why RULE 1 did not stop it — and the irony is the finding
+
+RULE 1 excludes `kg_*` rows from the extraction corpus. **These ULIDs are not in
+`kg_*` rows. They are in ORDINARY PROSE — because this project's own
+documentation cites pids as evidence, and that documentation is ingested as
+`doc_section` and `code` passages.**
+
+Measured: **352 `doc_section` + 29 `code` passages carry a ULID-shaped token**,
+**174 of them from `chapter-01/knowledge/TAXONOMY.md` alone**, the rest from
+`docs/training/**`.
+
+**The evidence-citing discipline that makes this project trustworthy is what
+manufactured the junk vocabulary.** From there the path is ordinary:
+`_term_occurrences` → `propose_terms` → `taxonomy.mint_terms` → `minting.sync_areas`
+→ `cmd/knowledge-mint` → a real registry row. **Nothing on that path ever asked
+where a token came from.**
+
+### The population is 145, not 33 — my figure was a sample
+
+**My 33 was a 45-item consonant-heavy sample and I reported it as a total.**
+Derived exactly, and reproduced by two independent routes (the gate's own
+derivation, and a real `derive.propose_terms` run over the real corpus): **193
+distinct `kg_term` texts are substrings of some pid; 145 have no provenance
+anywhere except inside an identifier.** The other **48 are real words that also
+occur in prose** — `key`, `pay`, `web`, `tree`, `spa`, `stt`, `ssh`, `gpt`, `www`
+— and must not be touched.
+
+### The rule is DERIVED, in two conjuncts, and the second one earns its keep
+
+**(a)** an English word contains no digit, so an alphanumeric run mixing letters
+and digits is a machine token; **(b)** this corpus's identifiers are ULIDs
+(Crockford base-32) and its digests are hex, so require the whole run to lie in
+that alphabet.
+
+**(b) is what saves `sha256sum` → `sha`,`sum`, `utf8` → `utf`, `amazons3` →
+`amazons`** — each carries a `u` or `o`, outside Crockford. Without it those are
+destroyed. **A blocklist was rejected explicitly**: the strings are a function of
+whichever pids the corpus happens to cite, so the next ingest mints a fresh crop
+under new names.
+
+**Recall cost measured, written into the source — AND A SELF-CORRECTION.**
+Vocabulary 17,883 → 17,526, 375 tokens removed (dominated by hex digest
+fragments, also identifiers). **But 18 tokens were INTRODUCED** by hyphen
+truncation (`bge-small-en-v1` → `bge-small-en-v`). Its own first-draft docstring
+claimed masking can only remove tokens; **that claim is withdrawn as false in the
+committed source.**
+
+Verified against the real production entry point: a fresh `propose_terms` run
+re-proposes **NONE** of the 145 and **all 48** survivors. `EXTRACTION_POLICY_ID`
+bumped so pre-RULE-4 checkpoints cannot resume.
+
+### The gate grades the PRODUCER, and refuses to call the function it guards
+
+V1 grades the artifact; V2 refuses a vacuous corpus; **V3 grades the extractor
+itself by feeding every pid to the real shipped `derive._tokenize`.** And it
+**re-derives the identifier shape rather than importing `mask_identifiers` — "a
+gate that calls the function it guards goes blind exactly when that function
+breaks."**
+
+**12 assertions, 12 passed.** M5 is the one that matters: the real
+`is_identifier_run` copied to scratch and inverted to `return False` → **rc 1
+with V3 named, and V1 STAYED GREEN**, so the red is provably V3's alone.
+
+**The gate is RED today (rc 1, 145 findings) and that is designed: V3 is green —
+the extractor is fixed — while V1 is red, because the 145 rows are still in the
+registry.**
+
+### REMOVING ALL 145 DOES NOT FIX THE GIBBERISH QUERY — measured, not assumed
+
+`limit=40/60/200` all return the same **40** rows, so 40 is the complete
+above-floor set. Classified against the derived finding set:
+
+- **37 of 40 are identifier-derived.** They would go.
+- **3 remain, all still above the 0.6550 floor:** `zzz-doc-sweep-probe`
+  (0.677192), `zzz-degraded-probe` (0.657942), `zzz-definitely-nonexistent`
+  (0.657165).
+
+Those three trace to **real prose** in `docs/limits.md`, `docs/quickstart.md` and
+`docs/faq.md` — worked *"search for something that doesn't exist"* examples.
+**They are legitimate corpus vocabulary and the gate correctly does NOT flag
+them.**
+
+**So the top score would fall 0.7189878 → 0.677192 and hits 40 → 3, and the
+query would still clear the floor. The 0.719 has a SECOND CAUSE and it is not
+closed here.**
+
+One more measurement worth carrying: `?q=zzqqxvbnmqqzz&kinds=transcript_segment,doc_section,code`
+returns **zero** hits. **Every result this query has ever produced comes from
+`kg_*` rows.**
+
+### Removal: five options costed, NONE executed
+
+Established: **no `Registry.Delete`/`Remove`/`Prune` exists anywhere** in
+`submodules/passage` or the backend; `workshop-redact` never deletes, it sets
+`redacted:true`; R1c does **not** fire for `kg_term` (their anchor is
+`registry_only`); and the served registry is
+`/var/lib/workshop/passages.jsonl` **inside the volume**, not
+`curriculum/passages.jsonl`.
+
+**Option A** (`workshop-redact`, no `-purge`) preserves anchors and is
+**precedented — 41 `kg_term` pids are already redacted here under
+`operator-decision-28`**. **A2** (`-purge`) gives up R6 irreversibly:
+**recommend against**. **B** (hand-delete) carries an irreversible ordering trap.
+**C** (rebuild) is **not viable** — `ingest-transcript` mints no `kg_*` at all, so
+it would drop all 9,144 graph rows. **D** needs a new public API.
+
+**Every option pays a full re-embed of ~12,979 rows — and the module's own record
+says that at 2,478 passages, generations 55–63 each attempted a re-embed and NOT
+ONE FINISHED, all nine stopping on `SQLITE_BUSY`.** That specific failure is now
+fixed (A92, WAL), but the corpus is **5.3× larger** than when it failed nine
+times.
+
+**Executed none, for three separately disqualifying reasons:** it needs an
+operator identity in an append-only log; it needs a container restart the brief
+forbade; and the re-embed risk is an operator call. **This is an operator
+decision and it is now costed rather than vague.**
+
+### Verified
+
+    go build / vet / test ./... -count=1      0 / 0 / 0   18 packages ok
+    verify-identifier-vocabulary.sh           1   145 findings (V1); V3 GREEN — red by design
+    prove-identifier-vocabulary.sh            0   12/12
+    verify-check-registry-001 / -002          0 / 0   84 checks
+    verify-search-determinism.sh              0   26 graded, 0 varying
+    verify-redaction-propagation.sh           0
+    GET /api/health                           200  container Up 35 min (healthy)
+
+`pipeline/extract` pytest exits 1 with **32 failures whose set is BYTE-IDENTICAL
+before and after** the change — diffed by swapping `HEAD`'s `derive.py` back in.
+Cause measured: `wordfreq` is absent under the system `python3` and present in
+`pipeline/venv`, which has no pytest. **Pre-existing and environmental.**
+
+**Could not determine:** whether the ~12,979-row re-embed would complete on this
+host; whether the three `zzz-*` probe terms are a defect at all — *"they are
+genuine documentation content, so they are legitimate vocabulary by every rule I
+could derive, but they are also why the gibberish query still clears the floor"*;
+and a **63-row wider population** (208 rather than 145) of hex-digest and
+version-string fragments that RULE 4 stops the extractor minting but the gate
+does not grade, **recorded in the gate's header so 145 is not mistaken for the
+whole population.**
 
 #### A100 — **I BRIEFED A "CONTRACT VIOLATION" THAT WAS THE CONTRACT WORKING. Fixing it would have told a reader "no open questions" about a session holding 75 minted rows.**
 
