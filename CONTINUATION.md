@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T18:36:45Z
+    Last-Updated: 2026-09-04T18:50:18Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -1054,6 +1054,108 @@ Context worth keeping: **eight numeric fields are already `*T` specifically to s
 **3.** `verify_bundle.py` **1 → 0** using only the project's own tools; **no verifier was edited.** **4.** `DOWNLOADS.md` gained a measured §5 — and **corrected my figure**: I said 16 mutations, the real number is **23**. It also found `docs/the-platform/README.md` recording *"Measured 2026-09-04: rc 0, 10/10"* **while the gate was exiting 1** — a live PASS-bluff.
 
 **5.** `workshop/CLAUDE.md`: every stale figure withdrawn by name — gates 18/20 → **23/27**, commands nine → **ten** (*"a WRONG LIST, not merely a stale count"* — `answer-providers` was omitted), tracked files 766 → **1,211**, `passages.jsonl` 11,622 → **13,141** rows, spec 001 66 → **69**, spec 002 107 → **110**. **Two claims were FALSE, not stale:** there are **three** `show-toplevel` call sites (not two — `_common.sh:703` was named nowhere and is correct for a different reason), and *"every script anchors on `BASH_SOURCE`"* is false for `_portable.sh`, correctly. **The gate counts moved 22/26 → 23/27 inside the session**, so the document now tells the reader to run the `ls`.
+
+#### A99 — **The B9 "floor" defect was one level up: the LABEL was honest, the CALIBRATION CLAIM was the bluff. And the knowledge graph contains 33 terms mined out of ULIDs.**
+
+**My framing was wrong and the agent corrected it: "your list was 4 distinct
+tests, not 5" — 8 failures across two browser projects. The genuine fifth was
+HIDDEN BEHIND the fourth and only surfaced once that was fixed.**
+
+### 1. `above_floor` was arithmetically TRUE. `floor_calibrated: true` was not.
+
+`above_floor` **is computed**, not assumed — `service.go split()` does
+`d.Score <= s.Floor`, the floor is 0.6550 and the hits scored 0.719. **The label
+told the truth.**
+
+**The bluff was one level up.** `calibratedFloor()` keyed on
+(model, doc-prefix, query-prefix) and was **blind to the corpus**, while its own
+recorded evidence reads *"MEASURED at FULL SCALE — the whole 2,478-passage live
+corpus … separation +0.039883, ZERO overlap."* **The corpus is now 12,979**, with
+8,553 `kg_term` rows minted 2026-09-02 that the calibration never saw.
+
+    GET /api/search?q=zzqqxvbnmqqzz&mode=semantic
+    BEFORE  20 hits, top 0.7189878282854324, floor_calibrated=TRUE
+    AFTER   20 hits, top 0.7189878282854324, floor_calibrated=FALSE
+
+**Independently re-measured from this session: `floor_calibrated: False`, top
+score unchanged at 0.7189878282854324.** That gibberish score sits **0.083692
+above the calibration's highest negative and 0.043809 above its LOWEST
+POSITIVE — the negative outranks the bottom of the positive range**, so the
+"zero overlap" claim is void on today's corpus.
+
+**The floor value was not touched**, correctly. And `no_match` **is** reachable
+in fused mode (`photosynthesis in mangrove swamps` → `no_match`); only single
+gibberish *tokens* clear it.
+
+### 2. THE ROOT CAUSE OF THE GIBBERISH SCORE: terms mined out of identifiers
+
+**33 `kg_term` rows are lowercased substrings of transcript-segment ULIDs:**
+
+    pid  01M1ET0MFJ4NDK0ZECKNTQFVWS   ->   kg_term  "zeckntqfvws"
+
+**Verified independently here:** of 45 consonant-heavy `kg_term` candidates
+sampled, **33 appear as a substring of a real pid** — matching the agent's count
+exactly. **The taxonomy extractor mined vocabulary out of identifiers**, which is
+*why* a nonsense query embeds at 0.719: the corpus genuinely contains nonsense
+that looks like it. **A pipeline defect, not a serving one**, correctly refused as
+out of scope by the agent that found it. Dispatched.
+
+### 3. `/api/passages/{pid}` 400 — the SERVER was right, the test was stale
+
+Decided by contract, not convenience: `http-api.md` §3.8 (malformed pid → 400),
+§1.5 (*"a 4xx is a fourth thing, not a fourth state"*) and
+`passage-contract.md` §2.1 (26 Crockford characters, *"never namespaced"*). The
+test built a URL from `results[0]`, which is now a `term` catalog hit with pid
+`kg_terms:index`. **It should not have built the URL at all — §3.7 gives every
+hit an `href`.** Stale because `term` was not a searchable kind until 002 C4.1.1.
+
+### 4. `deep_link` was not MISSING — 11 of 16 were DEAD
+
+`chapter_slug` is the ingest **scope**, so `docs/**` files got scope `docs`, and
+`/api/chapters/docs` is a **404**. Measured over `q=index&limit=50`: 16 hits with
+a chapter, **11 dead links, 8 pointing into a chapter that does not exist**. Now
+`transcript_segment 5/5, everything else 0, broken 11 → 0`. An `area` deep link
+was added and verified painting in a browser; **`term` and `question` keep `""`
+because no route renders them — "a fabricated destination is worse than none."**
+
+### 5. The 60-second route was `/chapters/undefined`, and the fifth defect hid behind it
+
+Same root cause as #3. It serves **200** and renders an honest `chapter_not_found`
+state carrying **no `<h1>` inside `<main>`**, so the wait burned the full 60 s.
+The failure now names the route **and what `<main>` actually contained**.
+
+**Unmasked by fixing it:** four endpoints a real chapter reaches —
+`next-meeting`, `open-questions`, `meeting-notes`, `todo` — **all 404 with NO
+BACKEND HANDLER AT ALL, though the data exists (24 / 27 / 10 / 14 rows).**
+Declared as capability probes so the gate now *requires* the four `state-absent`
+surfaces rather than tolerating the 404s. Dispatched.
+
+**Also open and dispatched:** those 404s return Go's default `text/plain`
+`404 page not found`, while §1.5 requires a **JSON `error` object on every 4xx**.
+
+### Stale versus real, stated plainly
+
+**Real defects:** the calibration claim, and the dead deep links.
+**Stale expectations written against the smaller index:** the passage-pid test,
+the slow route, and the `NO_MATCH_TERM` constant — all three downstream of `term`
+hits entering the ranking.
+
+    live-content.spec.ts   8 failed / 12 passed  ->  0 failed / 20 passed / 2 skipped
+    go build / vet / test ./... -count=1         0 / 0 / 0
+    verify-search-determinism                    0   26 graded, identical over 5 runs
+    verify-answer-question                       0
+    verify-redaction-propagation                 0
+    verify-check-registry-001 / -002             0 / 0   82 entry points
+
+Both fixes ship §1.1 paired proofs **verified in both directions** — failing
+against the pre-fix state, passing against the fix. Rebuilt and restarted twice
+via `workshop/scripts/build.sh` and `workshop/scripts/restart.sh`, health 200 both
+times.
+
+**Could not determine:** whether the calibration's corpus fingerprint can be made
+exact — the sufficient key is the generation `root_hash`, which `index.Generation`
+carries but the benchmark results file never recorded, so **the passage-count pin
+is necessary but not sufficient**, and the code says so.
 
 #### A98 — **Both CSS collisions fixed STRUCTURALLY and proved on rendered pixels. And an alarm about `ng test` is NARROWED by measurement rather than propagated.**
 
