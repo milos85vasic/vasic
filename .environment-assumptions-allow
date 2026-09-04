@@ -1974,3 +1974,134 @@ scripts/verify-all-constitution-rules.sh GITREF spec_git commit -qm "upstream re
 scripts/verify-all-constitution-rules.sh GITREF so it is reported as an upstream removal and does NOT gate
 # REASON: the commit message that moves M14's pin a second time, same sandbox.
 scripts/verify-all-constitution-rules.sh GITREF spec_git commit -qm "upstream moves on"
+
+# ==============================================================================
+# 2026-09-04 — the fleet moved again, and 23 findings arrived with it
+# ==============================================================================
+# Two gitlink bumps and one umbrella commit put 23 (file, class) findings in
+# scope with no edit to the audit. They were judged one at a time, and the split
+# was 24 REAL FIXES to 15 rules below — recorded here because a green exit
+# bought with rules is not the same artifact as one bought with fixes:
+#
+#   REAL FIX  workshop/platform/backend/pkg/search/carryforward_test.go   16
+#             the fixture's two model ids were real shipped model names in a
+#             test that embeds nothing and contacts nothing. `embeddings.model`
+#             is an opaque TEXT column compared with `e.model = ?`, so they are
+#             now cfModel / cfOtherModel — deliberately NOT any real model.
+#   REAL FIX  workshop/pipeline/detect_ocr.sh                              6
+#             five copies of GNU-only `readlink -f` became one `resolve_path`
+#             preferring realpath(1) with a POSIX `cd && pwd -P` fallback; the
+#             Linux-only /proc/self rc-2 fixture became a path beneath a regular
+#             file, which is ENOTDIR on every POSIX system.
+#   REAL FIX  workshop/platform/gates/verify-search-latency.sh             1
+#             the last-resort literal gained its own $WORKSHOP_DEFAULT_BASE_URL
+#             override, which — unlike $WORKSHOP_BASE_URL and --base — does not
+#             short-circuit the server.json discovery above it.
+#   REAL FIX  workshop/scripts/bench-retrieval.sh (usage text)             1
+#             the help text quoted a literal default while hiding the three
+#             environment variables resolve_base() actually reads; it now names
+#             them, which is a documentation defect fixed, not a literal moved.
+#   REAL FIX  _tools/containers/.../main_test.go                           2
+#             a fake API-key VALUE collided with the MODEL class's `mistral-`
+#             token. Renamed; it is arbitrary test data and names no model.
+#
+# Everything below is a rule. Each states the evidence, and each MATCH is pinned
+# so a bare literal elsewhere in the same file is still a finding.
+
+# ---- UPSTREAM-OWNED: submodules/constitution -------------------------------
+# These arrived with the FOURTH constitution fast-forward. Measured 2026-09-04:
+# `git -C submodules/constitution show 3be10826f3d2:scripts/helix_code/helix_code_services.sh`
+# contains ZERO of these literals; the same file at the recorded pin 2887b42e9349
+# contains seven matching lines. So the workshop bump did not cause them and no
+# edit in this tree can remove them — §11.4.29 forbids editing a repository this
+# project consumes rather than authors, and a fix returns as a gitlink bump.
+# They are REASON and not BASELINE because the file argues its own case in situ
+# and the argument holds; see the 20-line comment above hc__status_endpoints().
+
+# REASON: a `case` PATTERN that CLASSIFIES a URL as loopback in order to decide
+# whether curl gets -k. It configures no endpoint and contacts nothing; the URL
+# it tests is the function's own argument. An env override here would mean
+# "let the operator redefine what loopback is", which is not a knob.
+submodules/constitution/scripts/helix_code/helix_code_services.sh ENDPOINT insecure=(-k)
+# REASON: the `label|url` rows of hc__status_endpoints(). The file states why
+# they are literals: they ARE a declaration source a consuming project's
+# endpoint-agreement guard PARSES and cross-checks against the tracked systemd
+# units, and ${VAR:-default} indirection would delete the parseable literal and
+# silently remove that cross-check. The override layer exists and is documented
+# one line above them — a consumer defines hc__status_endpoints() before
+# sourcing and replaces the whole table. Verified against scripts/systemd/*.service
+# and live `ss -ltnp` upstream on 2026-09-03.
+submodules/constitution/scripts/helix_code/helix_code_services.sh ENDPOINT |http
+
+# ---- JUSTIFIED: loopback in a harness that STARTS the server it probes ------
+# Same precedent as the _tools/od/start-daemon.sh row in the embedded
+# ALLOW_RULES. In both files the PORT is not frozen at all — it is allocated by
+# the kernel at run time — and 127.0.0.1 is the address of a process the script
+# itself just started. Pointing either probe at a host read from the
+# environment would not adapt anything; it would aim the proof at a server that
+# is not the one under test, and the mutation battery would pass against
+# whatever answered. The MATCH is pinned to the variable-port form, so a fully
+# literal host:port written anywhere in the same file is still a finding.
+
+# REASON: PORT and DEAD_PORT both come from free_port(), which asks the kernel
+# for an unused port (`s.bind(("127.0.0.1", 0)); s.getsockname()[1]`), and the
+# server probed is the python stub this script launches at line 176.
+workshop/platform/gates/prove-search-latency.sh ENDPOINT http://127.0.0.1:$
+# REASON: PORT is read from the port file the server this script started wrote
+# ($TMP/port.txt); nothing here is a deployment address.
+workshop/platform/backend/gates/prove-bench-uncited-mutation.sh ENDPOINT BASE="http://127.0.0.1:$PORT"
+# REASON: port 1 is deliberately CLOSED, proving an unreachable service is
+# reported UNDETERMINED (rc 2) and never scored as 0%. A reachable value would
+# delete the assertion. Identical to the descriptor_test.go row above and to the
+# scripts/test-setup-agents-wizard.sh row in the embedded ALLOW_RULES.
+workshop/scripts/bench-retrieval.sh ENDPOINT --base "http://127.0.0.1:1" --timeout-s 5
+
+# ---- JUSTIFIED: /proc read that is GUARDED and has a stated 2 ---------------
+# ws_mem_total_mib() is the opposite of a frozen assumption: `[ -r /proc/meminfo ]`
+# guards the read, `sysctl -n hw.memsize` is the BSD/macOS path, and the
+# function `return 2`s when neither answers rather than substituting a number —
+# which is what §2.2 requires and what the audit's own guidance recommends
+# (`caps  command -v ... || fallback`). The audit's `isprobe` escape reads the
+# `-r` test, but that test is on the line ABOVE the one flagged.
+
+# REASON: the guarded read itself. The `[ -r /proc/meminfo ]` test is at
+# scripts/_common.sh:561, one line above, and the sysctl fallback at :566.
+workshop/scripts/_common.sh OSPATH /proc/meminfo 2>/dev/null | head -1
+# REASON: the COULD-NOT-DETERMINE message, which NAMES the two sources that
+# were absent. Reporting that a path was missing is the opposite of assuming
+# it is present; deriving this string from the environment is meaningless.
+workshop/scripts/_common.sh OSPATH MemTotal=COULD NOT DETERMINE
+
+# ---- JUSTIFIED: prose inside a block comment the blanker cannot see ---------
+# The audit blanks a .ts line only when its FIRST non-space character is `//`,
+# `*` or `/*`. This line is a CONTINUATION line of a `/* ... */` block spanning
+# vocabulary.ts:945-997, and continuation lines in that block carry no leading
+# marker, so the blanker misses it. The audit's own code says this is not a
+# finding: "the same token in prose (a module docstring explaining which model
+# was used) is documentation, not a frozen assumption".
+
+# REASON: the sentence is an ARGUMENT AGAINST renaming an operator's model —
+# it explains why the UI prints Provider.name / AskCapability.model verbatim
+# instead of mapping them to a vocabulary. Documenting the rule is not
+# committing the offence, and the file configures no model.
+workshop/platform/frontend/src/app/core/vocabulary.ts MODEL Renaming an operator's model would
+
+# ---- JUSTIFIED: the literal is the last term of an env-override chain -------
+# Same shape as the workshop/platform/backend/pkg/entail rows above and the
+# scripts/lumen-index-doctor.sh rows in the embedded ALLOW_RULES.
+# _tools/containers/cmd/distribute-helixtranslate/main.go:149 defines
+# `envOr(key, def) { if v := os.Getenv(key); v != "" { return v }; return def }`,
+# so every literal here is the documented final fallback of an env lookup. The
+# audit's envd escape hatch recognises a literal `os.Getenv` on the SAME line
+# and cannot see a project helper. The MATCH is pinned to the helper call, so a
+# BARE hostname written anywhere in the same file is still a finding.
+#
+# These two hosts are also the ones CLAUDE.md records as unreachable from this
+# host (getent fails, ssh -o BatchMode=yes returns rc 255), which is precisely
+# why the override exists rather than being hypothetical.
+
+# REASON: envOr("HT_BUILD_HOST", envOr("BUILD_HOST", "<literal>")) — a TWO-deep
+# env chain before the literal is reached.
+_tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_BUILD_HOST"
+# REASON: envOr("HT_WORKER_HOST", "<literal>") — as above, one level.
+_tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_WORKER_HOST"

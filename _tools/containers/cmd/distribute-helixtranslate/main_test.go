@@ -102,7 +102,7 @@ func TestEnvFileContent_NamesOnlyAndNoStrayKeys(t *testing.T) {
 	for _, k := range secretEnvKeys {
 		t.Setenv(k, "")
 	}
-	t.Setenv("MISTRAL_API_KEY", "mistral-secret-value")
+	t.Setenv("MISTRAL_API_KEY", "secret-value-for-mistral")
 	t.Setenv("COHERE_API_KEY", "cohere-secret-value")
 
 	body, present := envFileContent()
@@ -111,7 +111,7 @@ func TestEnvFileContent_NamesOnlyAndNoStrayKeys(t *testing.T) {
 		t.Fatalf("expected 2 present keys, got %v", present)
 	}
 	got := string(body)
-	if !strings.Contains(got, "MISTRAL_API_KEY=mistral-secret-value\n") {
+	if !strings.Contains(got, "MISTRAL_API_KEY=secret-value-for-mistral\n") {
 		t.Fatalf("MISTRAL key missing from env body: %q", got)
 	}
 	if !strings.Contains(got, "COHERE_API_KEY=cohere-secret-value\n") {

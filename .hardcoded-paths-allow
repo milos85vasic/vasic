@@ -314,3 +314,43 @@ workshop/docs/session-evidence/session-ledger.md
 design-toolkit/docs/hybrid-pipeline.md
 submodules/containers/docs/REMOTE_DEPLOYMENT.html
 submodules/containers/docs/REMOTE_DEPLOYMENT.md
+
+# BASELINE: workshop/curriculum/passages.jsonl is a GENERATED corpus, not source.
+# Its rows quote the text of documents that are themselves already baselined above
+# (workshop/docs/session-evidence/{phase1,phase2b,phase5}-report.md, session-ledger.md),
+# so the occurrences here are the same declared debt seen through a derived artifact
+# rather than a new violation. Measured 2026-09-04: 6 occurrences, all traceable to
+# those four sources plus two URL-shaped matches in a research citation.
+# THE REAL FIX IS UPSTREAM AND IS ALREADY HALF DONE: docs/session-evidence/ was
+# excluded from the ingest sweep on 2026-09-04 (WORKSHOP_DOCS_EXCLUDE_DIRS), so a
+# re-ingest drops these rows and this row should then be DELETED, not kept.
+# Re-derive before trusting this: bash scripts/audit-hardcoded-paths.sh
+workshop/curriculum/passages.jsonl
+
+# BASELINE: the four `.sections.json` files below are docs_chain EXPORTS, not source.
+# scripts/ingest.sh writes a `${f%.md}.sections.json` sidecar next to every markdown
+# file it sweeps (see its line 406/422), so each of these is the text of a `.md`
+# report re-serialised into JSON `"text"` fields. All four SOURCES are already
+# baselined above, in the "submodule docs/" block:
+#   workshop/docs/session-evidence/{phase1-report,phase2b-report,phase5-report}.md
+#   workshop/docs/session-evidence/session-ledger.md
+# Measured 2026-09-04, source and export agree occurrence for occurrence:
+#   phase1-report    1 = 1   (a developer-host tool path, quoted in a build record)
+#   phase2b-report   6 = 6
+#   phase5-report    1 = 1
+#   session-ledger   5 = 5
+# The audit reports 1/1/1/3 because it counts offending LINES and the JSON packs
+# several occurrences into one long `"text"` value. So this is the same declared
+# debt seen through a derived artifact, not a new violation — the same reasoning,
+# and the same upstream fix, as the workshop/curriculum/passages.jsonl row above.
+# THE REAL FIX IS UPSTREAM AND IS ALREADY HALF DONE: scripts/ingest.sh now carries
+# DOCS_EXCLUDE_DIRS="${WORKSHOP_DOCS_EXCLUDE_DIRS:-session-evidence}" (line 393), so
+# a re-sweep no longer regenerates these four sidecars. Deleting the stale exports
+# is a workshop-side change; when it lands, these four rows should be DELETED, not
+# kept. Naming a path inside a PRIVATE submodule is permitted by
+# docs/content-boundary.md; no content from any of these files is reproduced here.
+# Re-derive before trusting this: bash scripts/audit-hardcoded-paths.sh
+workshop/docs/session-evidence/phase1-report.sections.json
+workshop/docs/session-evidence/phase2b-report.sections.json
+workshop/docs/session-evidence/phase5-report.sections.json
+workshop/docs/session-evidence/session-ledger.sections.json

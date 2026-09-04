@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T07:43:30Z
-    Synced-Commit: 624bb3b
+    Last-Updated: 2026-09-04T08:03:35Z
+    Synced-Commit: 7312ca1
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -769,6 +769,154 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A72 — **The two audits the workshop bump reddened are GREEN, by 24 fixes and 15 rules; 39 documents gained their exports; and the umbrella G8 gap is now MEASURED at 851.**
+
+Written 2026-09-04, after A71. This entry closes the loop A71 left open at its
+item 11.
+
+**1. `audit-environment-assumptions.sh` → exit 0. The split matters more than the exit code.**
+
+**Two figures I stated earlier are WITHDRAWN, both corrected by measurement.**
+I reported the population as **43, all from the workshop bump**. It was **47**,
+and it had three sources: **37** from the workshop bump, **6** from the
+CONSTITUTION fast-forward, and **4** that arrived mid-session from umbrella
+commit `7312ca1`. The constitution six were proved by reading the pin on both
+sides. The file is
+`submodules/constitution/scripts/helix_code/helix_code_services.sh`; read it at
+each pin with `git -C submodules/constitution show` using that repo-relative
+path. At the OLD pin `3be10826f3d2` it contains **0** of those endpoint
+literals; at the recorded pin `2887b42e9349` it contains **7** — which is the
+commit this carrier already records as touching that file by 76 lines. **A finding that appears after a bump is not necessarily
+FROM the bump you happened to make.**
+
+The split is **26 REAL FIXES against 21 occurrences under 13 allow rules** (an
+interim header inside the allow file says 24/15; it was written mid-work and the
+report's 26/13 is the final count). A green exit bought with rules is not the
+same artifact as one bought with fixes, and the allow file records which is
+which, by name:
+
+  * `workshop/platform/backend/pkg/search/carryforward_test.go` (16) — the
+    fixture's two model ids were **real shipped model names** in a test that
+    embeds nothing and contacts nothing. `embeddings.model` is an opaque TEXT
+    column compared with `e.model = ?`, so they are now `cfModel` /
+    `cfOtherModel`, deliberately naming no real model.
+  * `workshop/pipeline/detect_ocr.sh` (6) — five copies of **GNU-only
+    `readlink -f`** became one `resolve_path` preferring `realpath(1)` with a
+    POSIX `cd && pwd -P` fallback. The Linux-only `/proc/self` rc-2 fixture
+    became a path beneath a regular file, which is `ENOTDIR` on every POSIX
+    system.
+  * `workshop/platform/gates/verify-search-latency.sh` (1) — the last-resort
+    literal gained its own `$WORKSHOP_DEFAULT_BASE_URL` override which, unlike
+    `$WORKSHOP_BASE_URL` and `--base`, does **not** short-circuit the
+    `server.json` discovery above it.
+  * `workshop/scripts/bench-retrieval.sh` (1) — the help text quoted a literal
+    default while hiding the three environment variables `resolve_base()`
+    actually reads. **A documentation defect fixed, not a literal moved.**
+  * `_tools/containers/cmd/distribute-helixtranslate/main_test.go` (2) — a fake
+    API-key VALUE collided with the MODEL class's `mistral-` token. Renamed; it
+    is arbitrary test data and names no model. `go test ./...` re-run: ok.
+
+**The 6 constitution findings are EXEMPTED, not fixed, and that is the honest
+label.** They are upstream-owned (§11.4.29); the fix belongs in that repository
+and returns as a gitlink bump. One is a `case` PATTERN classifying a URL as
+loopback — it configures nothing; the rest are `label|url` rows the file itself
+documents as a parseable declaration source, with `hc__status_endpoints()` as
+the override layer. `# REASON:` was used rather than `# BASELINE:`; the agent
+recorded openly that BASELINE was a defensible alternative reading.
+
+**One of my four classifications was right on the premise and still became a
+fix.** I judged `verify-search-latency.sh:119` an acceptable "env first, literal
+last" pattern. The premise was verified true (`BASE_URL="${WORKSHOP_BASE_URL:-}"`
+at line 75, then `--base`, then `server.json`, then the literal) — but a
+DISTINCT last-resort override was available and adds a capability the existing
+variables do not, so it was fixed rather than exempted, and proved both ways
+against a copy with no `server.json`.
+
+Re-measured: **588 allow-listed** (was 567) and **666 baselined** — the baseline
+was NOT touched, no `# BASELINE:` row was added, neither audit script was
+edited, and `--strict-allow-list` exits **0**, so no rule added is stale.
+
+**THREE THINGS ARE NOT RESOLVED, stated rather than smoothed over:**
+  a. The 6 constitution occurrences are exempted, not fixed — upstream work.
+  b. **The stale `.sections.json` exports still exist.** Now that
+     `session-evidence` is excluded from the ingest sweep
+     (`DOCS_EXCLUDE_DIRS="${WORKSHOP_DOCS_EXCLUDE_DIRS:-session-evidence}"` at
+     `workshop/scripts/ingest.sh:393`), DELETING them is the real fix — a
+     workshop-side deletion of ~40 tracked files, not taken.
+  c. `detect_ocr.sh`'s `resolve_path` was **verified on Linux only**. On a host
+     without `realpath`, a symlinked final path component stays unresolved. The
+     degradation is stated in the code; it was not exercised, because this host
+     has `/usr/bin/realpath`.
+
+**2. `audit-hardcoded-paths.sh` → exit 0.** Two BASELINE rows, both for
+**derived artifacts whose sources are already baselined**:
+`workshop/curriculum/passages.jsonl` and the four docs_chain-generated
+`docs/session-evidence/*.sections.json`. **Both rows are meant to be DELETED,
+not kept**: `docs/session-evidence/` was excluded from the ingest sweep on
+2026-09-04, so a re-ingest drops the corpus rows, and the `.sections.json`
+exports go with their sources.
+
+**3. 39 documents gained HTML and PDF. 42 were deliberately NOT exported.**
+Coverage outside `session-evidence` is now **68 of 68 for both formats**; all 39
+PDFs verified as real PDFs by `file`, 0 conversion failures. The generator was
+not invented: it is the pandoc/weasyprint sequence recorded in
+`workshop/docs/knowledge-model-contract.md` §4.2, confirmed against
+`assets/theme.css` markers to be the command that produced the two pre-existing
+exports in the same directory.
+
+**`docs/session-evidence/` (42 files) was excluded ON PURPOSE and must stay
+excluded.** Those documents carry absolute host paths. Exporting them would copy
+those paths into NEW tracked files and turn `audit-hardcoded-paths.sh` red
+again — the exact regression this session had just finished clearing. Three
+further pairs under `docs/training/areas/` were generated but are covered by a
+pre-existing `.gitignore` rule; that rule's stated reasoning (build derivatives,
+reproducible from source, PDFs are opaque binary containers of private prose)
+was followed rather than overridden.
+
+**4. G8 IS NOW MEASURED, AND IT IS LARGE. An operator decision, NOT taken.**
+The umbrella root tracks **924 markdown documents; 73 have exports; 851 do
+not.** Closing it means generating ~1,702 files into a **PUBLIC** repository,
+which also enlarges the content-boundary scan surface. That is a decision about
+repository size and disclosure surface, not a chore, and this session did not
+take it. Options, with the cost of each stated:
+
+  a. **Export everything** (~1,702 files). Closes G8. Cost: repository growth,
+     and every exported byte is a second copy of text the boundary gate must
+     scan — the population that is already 12,939 and hard to read.
+  b. **Export a declared subset** — the documents meant for a reader
+     (`docs/**`), not working artefacts (`specs/**`, `_analysis/**`). Cost: the
+     subset is itself an assertion and needs a rule, or it rots.
+  c. **Leave G8 open and keep it measured.** Cost: an inherited mandate stays
+     unmet, but visibly rather than silently.
+
+No option is recommended here without the operator, because (a) is irreversible
+in a public history.
+
+**5. Fleet state at this entry — every gate re-run after the final bump.**
+
+    verify-governance-cascade.sh      0   12 PASS / 0 FAIL / 0 ENV / 8 NOTE
+    verify-check-registry.sh          0   45 PASS / 0 FAIL / 0 DEBT / 0 UNDET
+    verify-manifest-pins.sh           0   12 MATCH / 0 DRIFT / 0 UNDETERMINED
+    verify-submodule-remote-sync.sh   0   12 CURRENT / 0 DRIFT / 0 UNDETERMINED
+    continuation-check.sh             0   8 PASS / 0 DRIFT / 0 UNDET / 9 NOTE
+    audit-environment-assumptions.sh  0   588 allow-listed, 666 baselined
+    audit-hardcoded-paths.sh          0   15 file(s) explicitly allowed
+    _tools/containers go test ./...   ok
+
+**The remote-sync gate went red once more in between, and it was RIGHT.** After
+the export commit it read `workshop a3b0a731c610 c0da4c876f93 BEHIND —
+fast-forwardable`: the gate compares the INDEXED gitlink against the
+submodule's remote, and the bump was deliberately being held so that three
+workshop commits could be recorded in ONE gitlink move with the manifest. It
+returned to 12 CURRENT the moment the bump landed.
+
+**Workshop moved three times this session:** `a3b0a73` (The Platform section,
+the V7 proof) → `c0da4c8` (78 export files) → `eba5c17` (the environment fixes),
+all pushed, with `helix-deps.yaml` following the final head in the same staging.
+
+**STILL RED BY DESIGN and unchanged:** `verify-content-boundary.sh`. See A71
+item 8 — the gate is deterministic; the population is the reading assignment.
 
 #### A71 — **SESSION CLOSE-OUT: workshop pushed, a §1.1 gap I shipped closed, and three of my own claims withdrawn.**
 
