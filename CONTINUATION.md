@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T06:19:00Z
+    Last-Updated: 2026-09-04T06:47:21Z
     Synced-Commit: 624bb3b
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,86 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A69 — **the republish LANDED but the RESTART IS HELD**, the ingest blocker was a stale binary, and `workshop/README.md` went from 32 bytes to 21,435.
+
+**THE RESTART IS DELIBERATELY HELD, and the reasoning is the entry.** The
+republish was authorised to fix a real disclosure — the served registry predated
+**200** redaction entries, so **152 redacted rows were still served with
+pre-redaction text**. It landed cleanly: **13,141 passages, 0 lost pids, redacted
+152 before and 152 after, 0 new rows byte-identical to any redacted row.**
+
+**But it swept 113 documentation sources never previously in the corpus, minting
+1,519 rows — of which 383 come from 33 files under a session-evidence directory
+that has NEVER been through a redaction review, and which was measured earlier
+today as carrying a third party's real name across 5 files.** Another 607 come
+from the platform research section, and 18 from redaction-review documents —
+where *a document about a disclosure can be the disclosure.*
+
+**So restarting would trade a BOUNDED exposure for a possibly larger one.** The
+existing one reaches only whoever can already read the private repository; the new
+one would make never-reviewed working notes **searchable**. That is not a fix, and
+it is the same sequencing the operator already applied in requiring gates before
+publish. Assessment is assigned, with an explicit preference: **if a directory of
+working notes was never meant to be searchable, exclude the directory rather than
+redact many rows** — fix the cause, not the symptom.
+
+**THE INGEST BLOCKER WAS A STALE BINARY, and both of my hypotheses were
+refuted.** The deployed tool was built **Sep 2**; `strings` on it contained **no
+knowledge-kind token at all**, so its compiled-in kind list was the four original
+kinds and it rejected all **9,144** knowledge rows. The decisive proof was a
+mutation: taking 200 of those rows and changing **only** the kind field made the
+same stale binary load them. **T125's validators are refuted, not merely
+unproven** — the corpus carries **zero** rows with any of their fields — so no
+validator was narrowed and **no data needed fixing.**
+
+**The misleading message is fixed at its root.** A validation failure was reported
+as *"unreadable"*, which sent me looking at file permissions. `Load` now
+classifies **by error type, never by text** — absent / unreadable / **refused** —
+and the message names the verdict, the failing invariant, and the sentence that
+would have saved the detour: *"this binary is older than the corpus … rebuild it
+and try again before editing any data."*
+
+**A hazard caught BEFORE the republish rather than after:** the registry sync has
+**no redaction guard** — a matched observation overwrites text unconditionally.
+The agent refused to proceed until it had measured that a re-sync could not revert
+a redaction: all 152 redacted rows carry text identical to machine text, so
+redaction here is a **suppression flag, not a rewrite**, and a re-sync is a no-op
+on them. Regenerating into a fresh prefix minted 1,055 duplicates — **the exact
+incident that code's own comment records** — while regenerating in place preserved
+every pid.
+
+**The mechanism that caused it will recur and is recorded:** the ingest script
+rebuilds that binary **only when the file is absent**, which is how a two-day-old
+binary survived two days of source change.
+
+**CONTENT: the module's front door existed as a 32-byte `Tbd.`** while shipping a
+transcription pipeline, a containerised platform, a corpus and a control plane.
+It is now **21,435 bytes**, with six further documents written or repaired and the
+four module carriers edited **identically** — lockstep re-verified.
+
+**Every figure it wrote was measured, and the carriers were badly out of date:**
+scripts **19** where the carrier said 16; gates **18 verify / 20 prove** where the
+carrier said "four"; commands **9** where it said five; the corpus **8,582,210
+bytes** where it said 825,231. **Each superseded figure is withdrawn by name.**
+
+**It refused to blur the important distinction:** the section's **own machinery**
+is built and gated — 9,044 lines, six checks each with a paired proof — while
+**the specified product is 0 of 9 build-plan phases started.** Both statements are
+in the same document. And the *What is NOT done* section carries the unmet
+criterion and the fact that a component named for entailment is **a lexical floor,
+not entailment**.
+
+**A self-inflicted regression worth keeping as a worked example:** quoting a gate
+failure **verbatim** into a page put a live claim token into it, which **minted a
+citation edge** and produced a *second* failure on the next run. It elided the ids
+rather than editing the ledger — and then documented the episode **on the page
+itself** as an example of the mechanism working.
+
+**Debris cleared:** a 0-byte file literally named `CSS:` and an orphaned 87-byte
+lockfile with no package manifest beside it, both untracked shell-redirect
+artifacts from another agent's session, both removed after confirming the real
+frontend lockfile is elsewhere and intact.
 
 #### A68 — **class A is 19.7% INWARD, the boundary gate is NOT REPRODUCIBLE, and a §11.4.76 violation has been shipping since June.** Plus: T143 ticked, 18/18 gates enumerated, and a machine cross-check whose marker is ENFORCED.
 
