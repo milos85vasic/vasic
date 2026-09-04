@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-03T21:32:48Z
+    Last-Updated: 2026-09-04T06:19:00Z
     Synced-Commit: 624bb3b
     Authority-Root: submodules/constitution
 
@@ -769,6 +769,107 @@ not.*
 **And it verified attribution rather than asserting it:** another agent's change
 transiently broke two unrelated tests, and it confirmed the attribution **in an
 isolated copy** before saying so.
+
+#### A68 — **class A is 19.7% INWARD, the boundary gate is NOT REPRODUCIBLE, and a §11.4.76 violation has been shipping since June.** Plus: T143 ticked, 18/18 gates enumerated, and a machine cross-check whose marker is ENFORCED.
+
+**CLASS A DIRECTION — the answer is not the reassuring one.** Measured **complete,
+not sampled**, and by a **stronger** method than the classes before it: every row
+dated on **both sides at text level** — the earliest commit whose normalised blob
+actually contains the string — then widened to corpus level.
+
+    OUTWARD  6241  79.7%   |   INWARD  1544  19.7%   |   UNDETERMINED  50  0.6%
+
+**The widening moved rows BOTH ways** — 113 inward→outward and **178
+outward→inward** — so it is not a one-sided rationalisation. Reproduced across
+three runs.
+
+**Where inward concentrates matters more than the total: 1,084 rows (70.2%) are
+private source code, and 68 are from the teaching-session material itself**,
+landing in the two spec task files. **"Private committed first" is an ORDER, not
+a disclosure** — 1,544 rows are not 1,544 leaks. What it kills is the assumption
+that the spec trees are simply outward propagation: *true for four rows in five,
+and false for the fifth.*
+
+**A DEFECT IN THE INSTRUMENT, found by controlling for the agent's own edits.**
+The gate's total is **not reproducible run to run**: **12745 / 12846 / 12867**,
+where runs 1 and 3 were on a **byte-identical tree** and disagree by **122 rows**.
+Ruled out by measurement: gate and allow-list unmodified, no file changed, fresh
+scratch each run. The instability sits in a **derived filter** whose own count
+moves on identical input. **Mechanism UNDETERMINED — a 2, never a pass.** *Every
+boundary figure in this document inherits that uncertainty.* The direction split
+survives it, which is why direction is the figure to act on.
+
+**The binding constraint re-measured: 85 name rows over 9 withheld identifiers**,
+not the 89/8 recorded earlier — and **a falling name count is not progress**, it
+is a different measurement of the same unassessed population.
+
+**A §11.4.76 VIOLATION THAT PREDATES THIS SESSION BY MONTHS.** Two carrier claims
+were false — a fleet container *is* running and the umbrella *does* now consume
+the containers module — but the third fact is the one nobody had stated: **the
+umbrella root has shipped hand-rolled Containerfiles since 2026-06-26**,
+referenced by ten tracked files, **with no reference to the containers module at
+all.** By this project's own reading of that anchor, that is a standing violation
+older than every other item in this register.
+
+**GATE ATTRIBUTION CLOSED: 18 of 18 gates enumerated, 0 by none** (was 6 by none).
+**`G-KG-1-changed` now DERIVES its coverage set** from the contract's own §4
+headings and **prints what it graded**, so a green run shows its population. The
+derivation was **proved to bite**: a synthetic §4.5 added to a temp contract
+**turned the gate red with no code edit**. An unreachable contract reports
+**undetermined via a hard failure — a skip was rejected because a skip exits 0 and
+the registry would read it as a pass.** **T143 is ticked**, its stated residue
+done by derivation rather than extension.
+
+**Two registry findings that are worth more than the counts.** One gate stayed
+**debt** despite solid attribution, because it has **no argv that reaches exit 2** —
+its only argv-reachable 2 is the unknown-option handler, which the rules reject by
+name. And registering a proof row was accompanied by a **new debt row admitting
+what it does not buy**: the shell arm **only checks existence and the exec bit and
+never runs the script, even under `--run-proofs`** — *"registering a `-proof` row
+buys enumeration, not enforcement."* The design-system gate is debt for a measured
+reason too: probing it with the shell dispatcher exits 2 **because bash cannot
+parse JavaScript**, so the probe would be **credited for entirely the wrong
+reason** — green while measuring nothing.
+
+**THE MACHINE CROSS-CHECK: built, labelled, and its label ENFORCED.** Engine B ran
+over exactly the 30 planned windows, 30/30, no failures. **Inter-engine word
+disagreement 0.0858, bootstrap 95% [0.0671, 0.1086], n = 30 window clusters — not
+accuracy, not WER, not ground truth.** Two readings matter: **the window-boundary
+artifact is not what produces it** — trimming a second off both ends takes the
+rate *up* to 0.0932, so the divergence lives in the interiors; and it is **2.7×
+the calibration document's 3.19%**, which came from one window that document
+records as uniformly clean — *a warning against extrapolating from that window,
+not licence to quote the new one*.
+
+**The marker is enforced rather than trusted**: the accuracy tool now refuses a
+machine-marked reference with exit 2 and writes nothing, and **the paired mutation
+is the load-bearing half — delete the guard and the same artifact scores WER
+0.0000, accuracy 1.0000.** That is precisely the bluff the guard exists to
+prevent. **The model bridge was measured and is impossible here** — no audio path
+in any available tool, and the local models declare no audio capability.
+
+**And the research record rejected this shortcut BY NAME long before we tried
+it:** a second ASR engine as the reference is *"the most tempting shortcut
+available and it is a bluff"*, because two models of one family share training
+data and **agree on the same hallucinations**. **Agreement bounds the union of two
+engines' error from below; it cannot bound one engine's error from above** — which
+is the only thing an accuracy figure means. **SC-002 remains UNMET and nothing was
+ticked.**
+
+**BUNDLES AND EXPORTS BUILT.** The mandated set was read **verbatim from the
+anchor** — HTML + PDF — and both DOCX-bearing classes were checked rather than
+assumed: the section's request document was **measured against the request-history
+class and is not it**, so emitting DOCX would have been a false-positive refusal.
+Archives are **reproducible — two builds byte-identical** — with the gate
+rebuilding and comparing on every run, 27 documents, 54 exports, **16 mutations,
+16 caught**. Its proof found **a real defect in its own gate** and a
+false-positive class producing **62 fabricated findings**, both fixed.
+
+**One self-caught boundary contribution worth copying:** mid-run it measured **+6
+rows attributable to itself** — it had **quoted anchor text verbatim into private
+files**, which a co-occurrence detector matches regardless of direction. Replaced
+with citations; the rows went to **zero**. *Citing beats quoting when the
+instrument cannot tell which way the text travelled.*
 
 #### A67 — three external items closed. **My brief was wrong about the containers module, and the Ruby install is NOT additive — read before running it.**
 
