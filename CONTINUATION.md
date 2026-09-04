@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T16:44:16Z
+    Last-Updated: 2026-09-04T16:47:52Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -954,6 +954,118 @@ declined to claim them.
 seen**; no colour-vision-deficiency simulation was run — the three kind families
 sit 1.03–1.19:1 apart in luminance, so they are *certainly not* greyscale-
 distinguishable, which is why every chip carries a text label.
+
+#### A92 — **THE BIGGEST FINDING OF THE SESSION: the search index was 36.5% complete while the API reported `legs.semantic = ok`. One SQLITE_BUSY abandoned the corpus for the whole process lifetime.**
+
+### The root cause, measured from the server's own log
+
+`index.Open` returned a handle carrying SQLite's **defaults** —
+`journal_mode=delete`, `busy_timeout=0` — and **that same `*sql.DB` is written by
+the background vector-indexing pass while `/api/search` reads on other pooled
+connections.** The first write that overlapped a live read died instantly:
+
+```
+vector indexing stopped after 3256 vectors in 19m54.581s:
+    database is locked (5) (SQLITE_BUSY)
+```
+
+**Nothing retried. One error abandoned the corpus for the entire process
+lifetime.** Generation 68 held **4,736 vectors for 12,979 passages — 36.5%** —
+**while the API cheerfully reported `legs.semantic = ok`.**
+
+**A leg reporting `ok` means the leg RAN. It has never meant the leg had data.**
+That is the most expensive lesson in this file: every SC-007 and SC-008 figure
+recorded before today was measured over a corpus **a third of which was
+unsearchable**, and no instrument said so.
+
+### The reproduction ruled out the OBVIOUS fix, which is why it is worth trusting
+
+| variant | result |
+|---|---|
+| bare (the old `Open`) | SQLITE_BUSY in **1 ms** |
+| **`busy_timeout` alone** | **SQLITE_BUSY after waiting 4.918 s** |
+| WAL only / WAL + `busy_timeout` | **OK, 0 s** |
+
+**A busy timeout alone does not work.** Under `journal_mode=delete` a live reader
+holds a shared lock the writer can never upgrade past, so waiting longer cannot
+help. **WAL is the fix.** Had the plausible remedy been applied without testing
+it, the defect would have survived the fix.
+
+**Independently verified from this session, reading the served volume directly:**
+
+    journal_mode = wal          (was delete)
+    passages.db-wal   53.5 MB   present, so WAL is genuinely in use
+    embeddings        15,457 rows
+    /api/search       HTTP 200 in 0.305 s
+
+### All four hypotheses answered, and SC-008 is NOT a plumbing fault
+
+1. **Embedding asymmetry — RULED OUT, decisively.** Re-embedding stored passages,
+   `search_document: ` reproduces the stored vector at **cosine 1.000000 (6/6)**;
+   `search_query: ` gives 0.9708, no prefix 0.9218. The query side was confirmed
+   too — a live score of 0.6959 equals the offline `search_query: ` cosine **to
+   four decimal places.**
+2. **The 0.6550 floor — contributory, NOT sufficient.** Zero-overlap targets score
+   0.5379–0.6959 (median 0.6229), so **9 of 11 fall below the floor** and it
+   rejects a third of known true positives. **But only 1 of 11 is in the semantic
+   top-5 at all — with the floor removed ENTIRELY, SC-008 caps at 9.1% against an
+   80% bar.** And no floor value separates the classes: one target scores 0.6229
+   while the row above it scores 0.6244. **Lowering the floor would have bought
+   nothing and hidden the real problem.**
+3. **Candidate window — ruled out by construction.** The reorder is bm25-OR/RRF
+   and the harness *refuses* any zero-overlap row sharing a token with its
+   target, so bm25 scores it 0.
+4. **Missing vectors — a real defect, but not this cause.** All 27 targets already
+   had vectors.
+
+### The numbers, and the honest reading of them
+
+| | before | after |
+|---|---|---|
+| gen-68 vectors | 4,736 / 12,979 (**36.5%**) | **12,979 / 12,979 (100%)** |
+| SC-007 | 51.9% (14/27) | 44.4% (12/27) |
+| SC-008 | 0.0% (0/11) | 0.0% (0/11) |
+
+Indexing completed in **one attempt, zero SQLITE_BUSY** (1h38m under load), and
+**it also unblocked cross-reference derivation, which had NEVER completed for
+generation 68** — now **259,580 edges over 12,979/12,979**.
+
+**DO NOT READ SC-007 AS A 7.5-POINT REGRESSION.** The agent found **the
+measurement itself is not reproducible**: same query, static generation,
+byte-identical query vector, leg `ok` every time — five `mode=semantic` runs put
+the target at ranks **1, absent, absent, absent, 1**. Both figures are samples
+from that distribution. Ruled out by measurement: embedding non-determinism, leg
+failure, index mutation, and a deadline-truncated scan (`rows.Err()` **is**
+checked). **Mechanism NOT determined — this is a distinct, newly-surfaced
+defect** and it is now the most important open question in retrieval.
+
+**Reported rather than smoothed:** completing the index makes ranking *worse*
+(zero-overlap median rank 30 → 66), and the agent's own kg_term-flood hypothesis
+was **REFUTED** — top-20 is 92% `doc_section` both before and after.
+
+**Nothing was tuned.** The floor is untouched, no bar widened, no benchmark
+expectation edited.
+
+### Gates
+
+    verify-retrieval-benchmark.sh   1   PASS 2 / FAIL 1 — B2 SC-015 7/22 (31.8%) vs a 90% bar
+    prove-retrieval-benchmark.sh    0   6 mutations caught
+    verify-search-latency.sh        0   SC-006 p95 592.3 ms vs 2000 ms (median 403.5, n=40)
+    verify-check-registry-001.sh    0
+    verify-check-registry-002.sh    0   72 registered entry points exist
+
+**Latency did not regress — it improved**, to 592.3 ms p95 against a prior idle
+reading of 1817 ms, **despite 2.7× more vectors**. Whether that is WAL or host
+conditions: **not determined.**
+
+`workshop` HEAD **`1774fdd`**, four files, pathspec commit, pushed.
+
+**Could not determine:** the served-set instability mechanism (above); the retry
+loop was never exercised because WAL prevented the error it recovers from —
+**reasoned, not observed, with no unit test**; and first boot after the change
+took ~2m33s against ~70s, passing the boot probe's 2-minute window only 30 s
+later — one-time WAL conversion versus host load was **not measured**, though
+`journal_mode` is persistent so later boots should not pay it.
 
 #### A91 — **Three data defects fixed, each proved RED first. `/api/progress` worked all along — the CLIENT's every write was answered 400 and dropped silently.**
 
