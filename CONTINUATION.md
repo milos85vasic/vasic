@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T18:50:18Z
+    Last-Updated: 2026-09-04T19:12:10Z
     Synced-Commit: 4bb058c
     Authority-Root: submodules/constitution
 
@@ -1054,6 +1054,132 @@ Context worth keeping: **eight numeric fields are already `*T` specifically to s
 **3.** `verify_bundle.py` **1 → 0** using only the project's own tools; **no verifier was edited.** **4.** `DOWNLOADS.md` gained a measured §5 — and **corrected my figure**: I said 16 mutations, the real number is **23**. It also found `docs/the-platform/README.md` recording *"Measured 2026-09-04: rc 0, 10/10"* **while the gate was exiting 1** — a live PASS-bluff.
 
 **5.** `workshop/CLAUDE.md`: every stale figure withdrawn by name — gates 18/20 → **23/27**, commands nine → **ten** (*"a WRONG LIST, not merely a stale count"* — `answer-providers` was omitted), tracked files 766 → **1,211**, `passages.jsonl` 11,622 → **13,141** rows, spec 001 66 → **69**, spec 002 107 → **110**. **Two claims were FALSE, not stale:** there are **three** `show-toplevel` call sites (not two — `_common.sh:703` was named nowhere and is correct for a different reason), and *"every script anchors on `BASH_SOURCE`"* is false for `_portable.sh`, correctly. **The gate counts moved 22/26 → 23/27 inside the session**, so the document now tells the reader to run the `ls`.
+
+#### A100 — **I BRIEFED A "CONTRACT VIOLATION" THAT WAS THE CONTRACT WORKING. Fixing it would have told a reader "no open questions" about a session holding 75 minted rows.**
+
+### The refutation, and it is the most valuable result of the session
+
+I briefed two defects. **The second was FALSE, and the agent proved it rather
+than implementing it.**
+
+I said: the four 404s return Go's default `text/plain` while §1.5 requires a JSON
+`error` object on every 4xx — *"fix that regardless."*
+
+**The bare 404 does not come from those four paths at all.** Nothing registers
+them, so they fall to the `/api/` subtree catch-all, **whose bodyless 404 is
+REQUIRED — three times over**:
+
+- `platform/gates/route-manifest.tsv`'s `404-plain` means *"404, and the body
+  carries neither `status` nor `error`"*;
+- `http-api-delta.md` §2 **R2**: a not-built route answers *"404, with **no**
+  status field, **no** error field"*;
+- `internal/api/router.go:85-115` is a three-clause decision citing **§5.2 — the
+  closed enum has no member meaning "this endpoint does not exist"**.
+
+**§1.5 governs malformed requests to routes that EXIST.** I applied it to routes
+that do not.
+
+**AND THE HARM WOULD HAVE BEEN CONCRETE.** `api.ts`'s `httpToLoadStatus`:
+
+```ts
+if (e.status === 404) {
+  const env = parseEnvelope<never>(404, e.error, 'results');
+  if (env.status === 'unavailable') return loadUnavailable(env.reason.code);
+  return empty();                    // ← a JSON 404 becomes a DETERMINED NEGATIVE
+}
+```
+
+Adding an `error` object would have flipped four chapter views from *"not
+implemented"* to **"nothing planned / no open questions / no TODOs"** — about a
+private teaching session holding **75 minted rows**. **That is precisely the
+FR-020 two-states-where-three-are-required defect the contract exists to prevent,
+and it would have been installed in the name of fixing it.**
+
+**A brief is not evidence. This one was wrong, and the agent that refused it was
+right.**
+
+### The four endpoints are UNCONTRACTED — neither unbuilt nor deferred
+
+    grep -rn "next-meeting|open-questions|meeting-notes|/todo" specs/   ->  ZERO hits
+
+The two contracts define **31 endpoints between them and not one of these four**.
+
+**It found the third party in the argument** — the client had already run this
+check on itself and written the answer down.
+`platform/frontend/src/app/core/workshop-sections.ts`:
+
+> *"ASSUMED, NOT MEASURED (§11.4.6…). no contract document for them existed
+> anywhere in this repository or at the umbrella root's `specs/` when this file
+> was written (checked 2026-09-02)… The shapes below are therefore this client's
+> STATED CONTRACT… not an observation."*
+
+`docs/work-register.md` **R20** is the operator request, status *"dispatched"*.
+**Both ends landed; the API between them never did, and nobody ever wrote the
+clause.**
+
+**So it did not invent one.** Four `NOT_BUILT` / `404-plain` rows were added to
+the route manifest, each naming its data, its client component and
+`Contract: none`. `verify-server-unity.sh` prints them as standing DEBT on every
+run — **DEBT 4 → 8**. **The gap moved from invisible to gated, with no response
+shape guessed.** And the withholding rule is exactly what must not be improvised:
+one `kg_meeting_note` row is already recorded as an operator content judgement
+**left undecided**.
+
+**It also corrected my data counts** — I wrote 24/27/10/14; the real mapping is
+`kg_next_point` **24**, `kg_open_question` **14**, `kg_meeting_note` **10**,
+`kg_todo` **27**. I had transposed two.
+
+### The sweep I asked for, delivered — and one real defect inside it
+
+**Source level: zero `http.Error(` call sites.** Every 4xx goes through
+`writeError`/`writeJSON`. All six `http.NotFound` references were judged
+individually and **all six are CORRECT and load-bearing** — including
+`main.go:1009`, where a 405 would wrongly assert the resource exists.
+
+**Live, all 30 registered GET `/api` routes:** 24 could be driven to a 4xx, and
+**24 of 24 answered `application/json` carrying `"error"`. Zero bare 4xx.**
+
+**Six routes have no 4xx lever and were reported as NOTE, not as passes** —
+*"an unprobed route is not a passing route."* Four non-GET routes were
+deliberately unprobed, because probing `POST /api/ask/suspend` would suspend a
+production answerer.
+
+**The real defect found in passing:** `GET /api/passages` is registered — a
+deliberate 400 guard — and had **no manifest row**. `verify-server-unity.sh`'s U6
+cannot see it, because **U6 walks the CONTRACT and the contract defines no such
+endpoint.** Row added.
+
+### The new gate asserts a DISCRIMINATION, not a property
+
+`verify-error-shape.sh` + its proof. **E1 derives the route set from the router's
+own `mux.Handle*` calls (34 `/api` routes) — the existing assertion of this
+property covers 4 HAND-TYPED paths out of 34**, the very "hand-maintained
+coverage set" defect `http-api-delta.md` §2 R1b already documents. E3: registered
++ 4xx ⇒ JSON with a discriminator. **E4: unregistered + 4xx ⇒ plain, bodyless
+404** — so the gate now protects the behaviour I would have broken.
+
+**8 mutations caught, 0 missed. M4 IS the change my defect report asked for, and
+the gate goes red on it.** M8 requires an empty derived route set to be **rc 2,
+never a vacuous green**.
+
+    verify-error-shape.sh                  0   6 PASS / 0 FAIL / 0 UNDET / 10 NOTE
+    verify-error-shape.sh --base <dead>    2   not a pass
+    prove-error-shape.sh                   0   8 caught / 0 missed
+    verify-server-unity.sh                 0   37 PASS / 0 FAIL / 8 DEBT
+    verify-redaction-propagation.sh        0   162 of 162 suppressed pids
+    verify-search-determinism.sh           0   26 graded, 0 varying
+    verify-answer-question.sh              0   10/10 L5 properties
+    verify-check-registry-001 / -002       0 / 0
+    go build / vet / test ./... -count=1   0 / 0 / 0   (no .go file changed)
+
+**Nothing new is served, so nothing new can leak** — re-verified anyway: a
+suppressed pid returns **410 + JSON** on all three passage routes. The container
+was **not** restarted; no new binary was needed.
+
+**Could not determine:** whether an operator wants these four endpoints at all.
+R20 asked for the capability; **nobody has decided the envelope, the reason codes
+or the withholding rule.** That is the open decision, and it is now printed as
+DEBT on every server-unity run instead of being invisible.
 
 #### A99 — **The B9 "floor" defect was one level up: the LABEL was honest, the CALIBRATION CLAIM was the bluff. And the knowledge graph contains 33 terms mined out of ULIDs.**
 
