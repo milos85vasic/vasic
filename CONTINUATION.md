@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-05T18:10:08Z
-    Synced-Commit: 43440d5
+    Last-Updated: 2026-09-05T19:47:30Z
+    Synced-Commit: 08439f2
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -486,11 +486,15 @@ live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
 
 **OPEN, and each is a real thing rather than a nicety**
 
-1. **`/api/crossrefs` returns 503 on generation 3** — `"no derivation run is
-   recorded for this generation"`. Point-to-point navigation is dark. Honest,
-   not a bluff, and `verify-crossref-navigation.sh` PASSES on it by design — so
-   the gate is green while the feature serves nothing. Re-run the crossref
-   derivation against the live generation.
+1. **RESOLVED — crossrefs are live.** 487,140 edges over 24,357/24,357
+   passages, 0 unscored, generation 5. The blind spot is now WATCHED by
+   `platform/gates/verify-crossref-currency.sh` (registered, 5/5 mutations).
+   TWO DEFECTS REMAIN, recorded and not fixed: `deriveCrossrefs` is called
+   AFTER a `return` in the vector-indexing goroutine, so an embedding error
+   skips it for the whole process lifetime with no retry; and the derivation
+   takes ~35 min at 24k passages, grows O(n^2), and commits once with no
+   checkpointing — generation 4's pass was killed at 14.5 min and lost all of
+   it. A busy ingest day keeps §3.9 dark.
 2. **No gate measures PASSAGE retrieval rank.** `verify-retrieval-benchmark`'s
    22 queries are 5 area_title + 12 term_name_spaced + 5 question_stem — all
    catalogue kinds, not one passage query. For generic single-word queries the
@@ -514,11 +518,10 @@ live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
    Operator download; no downloader is checked in deliberately.
 7. **`verify-sc024-export-matrix.sh` rc 2** — `pandoc`/`weasyprint` absent from
    this host. Toolchain gap, not a corpus gap.
-8. **Chapter 02 ASR was still running at session end** — 7,175 s of audio,
-   atomic write, output `pipeline/transcripts/chapter-02.faster-whisper.json`.
-   When it lands, ingest with the runbook in `docs/prompts/add-a-chapter.md`
-   (note: `ingest.sh <NN>`, BARE id — the doc used to say `chapter-<NN>`, which
-   produced `chapter-chapter-02/` and a 404 on every route).
+8. **RESOLVED — Chapter 02 is ingested and knowledge-extracted.** 1,206
+   segments, 74 areas, 50 notes, 45 open questions, 35 todos. Registry at
+   24,519 rows. `verify-identifier-vocabulary` stayed rc 0 across the new
+   terms.
 9. **`specs/003-chapter-hierarchy/` T001-T037** — Phases 2 and 5 landed; the
    `?under`/`?depth`/`filters` work needs `GET /api/chapters` moved onto the
    three-state envelope first.
