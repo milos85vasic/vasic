@@ -170,3 +170,4 @@ check	name-in-path	scripts/verify-name-in-path.sh	flag	--prove-failure	--root /n
 check	docs-chain-sync	scripts/verify-docs-chain.sh	flag	--prove-failure	--root /nonexistent
 check	zero-findings-sweep	scripts/audit/zero_findings_sweep.sh	flag	--prove-failure	--root /nonexistent
 check	badge-computer	scripts/badges/compute_badges.sh	flag	--prove-failure	--check --root /nonexistent
+check	directive-register	scripts/verify-directive-register.sh	flag	--prove-failure	--root /nonexistent

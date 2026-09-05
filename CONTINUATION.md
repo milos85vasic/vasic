@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-04T19:14:59Z
-    Synced-Commit: 4bb058c
+    Last-Updated: 2026-09-05T14:42:40Z
+    Synced-Commit: dbb6742
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,75 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### Session 2026-09-05 — Chapter 02, sub-chapter 02.01, and the directive register
+
+**Where to resume.** Read `docs/directive-register.md` FIRST — it is the
+authoritative index of operator intent and it is now GATED
+(`bash scripts/verify-directive-register.sh`, registered as `directive-register`).
+Rows D001..D014 carry this session's directives with dispositions and evidence.
+
+**DONE and verified this session**
+
+- **Chapter 02 + sub-chapter 02.01 archived**; Chapter 01's recording restored
+  from 36 parts. All three round-trip (`skip (intact)`). Workshop commit
+  `266f443`, pushed; umbrella gitlink and `helix-deps.yaml` moved together.
+- **`workshop/scripts/setup.sh` now restores every archived recording**
+  (`do_extract_chapters`, `--no-extract`). Proven by removing 02.01's recording
+  and getting it back byte-identical.
+- **`workshop/pipeline/venv-setup.sh`**: `uv venv --seed` fallback (stdlib path
+  still first), absolute-interpreter fix + assertion, and the previously missing
+  `pipeline/extract/requirements.txt` install. Fresh venv: **278 tests, OK**
+  (was `FAILED (errors=32)`).
+- **Four defects fixed**: `workshop-redact/main.go:596` `HasSuffix`→equality
+  (disclosure-control severity); `meeting_notes.py:98` and `author.py:150`
+  `chapter-\d+` widened for sub-chapters; the venv gap above.
+- **`docs/directive-register.md` + `scripts/verify-directive-register.sh`** —
+  the operator has asked three times (work-register R15/R22/R24) that directives
+  be archived AND regularly checked; registers existed, **nothing gated them**
+  (`grep -c` in `check-registry.tsv` was 0). Now gated. Registry: 51 PASS.
+
+**IN PROGRESS / NEXT — concrete**
+
+1. **`specs/003-chapter-hierarchy/` — 37 tasks drafted, NOT yet written to disk.**
+   Identity scheme: `02.01` dotted, `^[0-9]{2,}(\.[0-9]{2,})*$`, byte-lexicographic
+   sort (already correct at `cmd/workshop-server/main.go:2126` — do NOT change it).
+   Spec-level blocker first: `specs/001-.../data-model.md:45` types `ordinal` as
+   `int`; every ordinal collision follows from that line.
+2. **`ordinalOf("02.01") == 2`** — collides with chapter `02`.
+   `internal/api/chapters.go:736`.
+3. **`pkg/search/suggest-sources.json`** hardcodes chapter-01 in six rows and is
+   `//go:embed`-ed — no new chapter reaches `/api/suggest` until it is derived.
+4. **Corpus re-derivation owed**: `verify-identifier-vocabulary.sh` is RED with
+   **145 ULID-fragment terms** in tracked `curriculum/passages.jsonl`. The
+   tokenizer fix landed; the corpus was never re-derived. The venv is now
+   restored, so `pipeline/venv/bin/python pipeline/extract/run_pipeline.py` can
+   run. **Take a backup first — `passages.jsonl` is TRACKED.**
+5. **Chapter 02 / 02.01 are archived but NOT ingested** — `curriculum/` still
+   holds only `chapter-01`. Fix item 1's Phase 1 (the redaction scope defect)
+   BEFORE ingesting a second scope.
+6. **`02.01` has no PDF notes** — a notes-less chapter's tolerance is unverified.
+
+**KNOWN RED / BLOCKED**
+
+- `scripts/verify-content-boundary.sh` — **RED BY DESIGN**, leave it red.
+- `audit-environment-assumptions.sh` — 5 frozen ENDPOINT assumptions in two
+  `workshop/platform/gates/` files. Fix inside the submodule.
+- `submodules/LLMProvider` is on **`master`**, not `main`. Its upstream default
+  IS `master` and `origin/main` there is 16 commits BEHIND. **Operator decision;
+  do not "fix" by checking out `origin/main`.**
+- **A gate's rc-2 probe writes into TRACKED evidence**: running
+  `verify-check-registry.sh --run-proofs` overwrites
+  `workshop/evidence/p-u1/result.json` with `"real_tree": "/nonexistent"`.
+  Observed twice this session and reverted twice. The probe should write to a
+  temp path. NOT yet fixed.
+- Local `llama.cpp` split: `/usr/bin/llama-server` is **CPU-only**;
+  `~/opt/llamacpp_gpu/b10786_vulkan/` has Vulkan. `libggml0-backend-cuda` has
+  **no candidate** in this archive. Ollama IS GPU-accelerated (37/37 layers).
+  The ASR pipeline REFUSES a visible GPU across six layers — reversing that is a
+  deliberate design change, recorded in the register as D012-CONFLICT.
+
+
 
 ### Operator decisions taken 2026-09-02 — 16 blockers cleared in one pass
 
