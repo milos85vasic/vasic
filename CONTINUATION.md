@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-05T18:02:27Z
+    Last-Updated: 2026-09-05T18:10:08Z
     Synced-Commit: 43440d5
     Authority-Root: submodules/constitution
 
@@ -534,6 +534,17 @@ live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
 - **A Semgrep `PostToolUse` hook intermittently refuses `go` invocations.** It
   is not a code problem; it blocks test execution and must never be reported as
   a pass.
+- **Write a commit message to a FILE and pass it as `"$(cat file)"`. Never
+  inline a multi-paragraph message.** Commit `b3968ad`'s message is partly
+  corrupted because it was inlined: unescaped backticks were evaluated as
+  command substitution and every quoted token in one paragraph was replaced by
+  the (empty) output of running it. The content committed was correct; only the
+  message prose was damaged, and it was NOT repaired by force-push because
+  rewriting pushed public history needs explicit per-session authorization.
+  The near-miss is the real lesson: the same evaluation that deleted those
+  tokens would have EXECUTED any backticked text that happened to be a valid
+  command. The workshop commit in the same session used heredoc-to-file and was
+  unaffected.
 
 
 
