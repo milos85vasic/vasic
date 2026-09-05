@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-05T19:47:30Z
-    Synced-Commit: 08439f2
+    Last-Updated: 2026-09-05T20:17:33Z
+    Synced-Commit: 0c0e9bc
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -489,12 +489,14 @@ live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
 1. **RESOLVED — crossrefs are live.** 487,140 edges over 24,357/24,357
    passages, 0 unscored, generation 5. The blind spot is now WATCHED by
    `platform/gates/verify-crossref-currency.sh` (registered, 5/5 mutations).
-   TWO DEFECTS REMAIN, recorded and not fixed: `deriveCrossrefs` is called
-   AFTER a `return` in the vector-indexing goroutine, so an embedding error
-   skips it for the whole process lifetime with no retry; and the derivation
-   takes ~35 min at 24k passages, grows O(n^2), and commits once with no
-   checkpointing — generation 4's pass was killed at 14.5 min and lost all of
-   it. A busy ingest day keeps §3.9 dark.
+   **The reachability defect is FIXED**: the derivation is now always ENTERED
+   and declines on MEASURED coverage rather than on the previous pass's error,
+   logging the counts. Two facts that made it worse than "no retry": a partial
+   run row is STICKY (nothing re-derives that generation, ever) and a partial
+   derivation CORRUPTS the passages it did score (Neighbours ranks against the
+   vectors that exist). **Checkpointing was proposed and DECLINED on
+   measurement**: the 35 min is the O(n^2) scoring walk, not the transaction —
+   487,140 edges insert in 2.1 s. The real remedy is ANN candidates. Still open.
 2. **No gate measures PASSAGE retrieval rank.** `verify-retrieval-benchmark`'s
    22 queries are 5 area_title + 12 term_name_spaced + 5 question_stem — all
    catalogue kinds, not one passage query. For generic single-word queries the
@@ -502,11 +504,19 @@ live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
    gave catalogue rows a ~250x unconditional edge score 17/22 and look correct.
    Adding passage-answerable queries is a judgement about what the product
    should rank — operator's call.
-3. **Knowledge entities are indexed TWICE** — a bare-ULID `kg_term` passage
-   (embedded) and a `kg_terms:` catalogue SID (FTS-only). They now score
-   identically, so rank 1 vs 2 is decided by `"01..." < "kg_terms:..."` ASCII
-   order between two copies of ONE entity. Dedup is the fix; no weighting
-   reaches it. Do NOT add a tie-break — that picks a winner between duplicates.
+3. **RESOLVED — entity twins de-duplicated.** `dedupeEntityTwins` drops the
+   registry passage when its catalogue row is in the same result set; the
+   survivor is chosen by CONTRACT (corpusBlock advertises `term`, not
+   `kg_term`), never by score. Duplication 15.2% -> 0.0% over 240 fused rows;
+   top-1 5/22 -> 18/22 with **top-5 unchanged at 19/22**, which is what says it
+   is not a scoring trick. 104 orphan registry rows survive untouched.
+   **RECORDED, NOT FIXED: the freed slot refills with the catalogue's own
+   MORPHOLOGICAL tail, not content** — `q=index` serves 20 catalogue rows of
+   which 12 are inflections of one stem. Entity twins are gone; entity
+   near-duplicates are not, and collapsing the twins made that wall taller. The
+   catalogue monopoly on single-word prefix queries is PRE-EXISTING and was
+   deepened, not created. Also open: a `?area=` asymmetry (q.Area is not passed
+   to Catalog.Query), unexercisable on this deployment.
 4. **SC-015 is 19/22 and that IS the ceiling on this index.** 3 of 5 areas are
    unpublished by `run_author_stage`'s own bar (54-63 uncited claims each) —
    design, not defect. 20/22 needs a third area published.
