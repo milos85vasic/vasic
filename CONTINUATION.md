@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-05T20:17:33Z
-    Synced-Commit: 0c0e9bc
+    Last-Updated: 2026-09-05T21:31:57Z
+    Synced-Commit: 4479ccaf
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -535,6 +535,38 @@ live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
 9. **`specs/003-chapter-hierarchy/` T001-T037** — Phases 2 and 5 landed; the
    `?under`/`?depth`/`filters` work needs `GET /api/chapters` moved onto the
    three-state envelope first.
+
+**BOTH SITES VERIFIED END TO END, 2026-09-05 late**
+
+- workshop `http://127.0.0.1:8087` — generation 5, 24,357 passages, healthy.
+- ai_interviewing `http://localhost:8099` (HTTPS **8444**, not the documented
+  8443 — that port is owned by an unrelated `helixllm` process). HTTP/3 verified
+  with a purpose-built h3 client, not merely from an Alt-Svc header.
+
+**THE FINDING TO REMEMBER FROM THAT VERIFICATION.** `ai_interviewing`'s
+evidence-gated challenge suite reported PASS for HTTP/3 on an `Alt-Svc` header
+emitted by a DIFFERENT PROGRAM, because it defaulted to a frozen `:8443`. An
+anti-bluff instrument certified a protocol on a process it was not testing. The
+fix was not just to aim it correctly: a resolved URL is now not TRUSTED until
+the responder proves it is the server under test (health `ok:true` plus matching
+version and stats). Proven against a deliberately built impostor that served
+valid health AND advertised h3 — port-correctness alone would still have passed
+it. **Any probe that names a port without attributing the responder is making an
+unverified identity claim.**
+
+**STILL OPEN — the four that are OPERATOR DECISIONS, not defects**
+
+1. `verify-entailment-loads` rc 2 — NLI checkpoint (~83 MiB) not downloaded. No
+   downloader is checked in deliberately.
+2. `verify-sc024-export-matrix` rc 2 — `pandoc`/`weasyprint` absent from this host.
+3. `verify-floor-domain` rc 1 — the floor was calibrated on a 2,478-passage
+   corpus that no longer exists; `calibrated=false` already, so the claim is
+   already withdrawn. `floor_population.go` records a proof by exhaustion that
+   NO floor value separates sense from nonsense on this corpus. Needs
+   re-calibration or an explicit withdrawal — do not flip a flag to green it.
+4. `verify-retrieval-benchmark` 19/22 — the three failures are EXACTLY the three
+   areas `run_author_stage` held back for 54-63 uncited claims each. It closes
+   when a third area is authored to citation standard. That is writing, not code.
 
 **PROCESS FINDINGS worth keeping**
 
