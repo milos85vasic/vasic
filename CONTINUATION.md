@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-05T14:42:40Z
-    Synced-Commit: dbb6742
+    Last-Updated: 2026-09-05T18:02:27Z
+    Synced-Commit: 43440d5
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,69 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### Session 2026-09-05 (evening) — sub-chapter 02.01 shipped, 14 defects fixed
+
+**Read `docs/directive-register.md` FIRST** — 16 operator directives with
+dispositions and evidence, GATED by `scripts/verify-directive-register.sh`.
+
+**Workshop is at `9af0876`, pushed.** Sub-chapter `02.01` is transcribed,
+ingested, knowledge-extracted and served; `GET /api/chapters` reports the
+hierarchy (`02` -> child `02.01`, depth 2, `ordinal_path [2,1]`). Both sites are
+live: workshop `http://127.0.0.1:8087`, ai_interviewing `http://localhost:8099`.
+
+**OPEN, and each is a real thing rather than a nicety**
+
+1. **`/api/crossrefs` returns 503 on generation 3** — `"no derivation run is
+   recorded for this generation"`. Point-to-point navigation is dark. Honest,
+   not a bluff, and `verify-crossref-navigation.sh` PASSES on it by design — so
+   the gate is green while the feature serves nothing. Re-run the crossref
+   derivation against the live generation.
+2. **No gate measures PASSAGE retrieval rank.** `verify-retrieval-benchmark`'s
+   22 queries are 5 area_title + 12 term_name_spaced + 5 question_stem — all
+   catalogue kinds, not one passage query. For generic single-word queries the
+   top 20 is 100% catalogue. This blindness is what let a fusion attempt that
+   gave catalogue rows a ~250x unconditional edge score 17/22 and look correct.
+   Adding passage-answerable queries is a judgement about what the product
+   should rank — operator's call.
+3. **Knowledge entities are indexed TWICE** — a bare-ULID `kg_term` passage
+   (embedded) and a `kg_terms:` catalogue SID (FTS-only). They now score
+   identically, so rank 1 vs 2 is decided by `"01..." < "kg_terms:..."` ASCII
+   order between two copies of ONE entity. Dedup is the fix; no weighting
+   reaches it. Do NOT add a tie-break — that picks a winner between duplicates.
+4. **SC-015 is 19/22 and that IS the ceiling on this index.** 3 of 5 areas are
+   unpublished by `run_author_stage`'s own bar (54-63 uncited claims each) —
+   design, not defect. 20/22 needs a third area published.
+5. **`verify-floor-domain.sh` rc 1** — the floor was calibrated on a
+   2478-passage corpus that no longer exists; `calibrated=false` already, so the
+   claim is already withdrawn. Needs re-calibration or an explicit withdrawal.
+   Operator decision; do not flip a flag to green it.
+6. **`verify-entailment-loads.sh` rc 2** — NLI checkpoint (~83 MiB) absent.
+   Operator download; no downloader is checked in deliberately.
+7. **`verify-sc024-export-matrix.sh` rc 2** — `pandoc`/`weasyprint` absent from
+   this host. Toolchain gap, not a corpus gap.
+8. **Chapter 02 ASR was still running at session end** — 7,175 s of audio,
+   atomic write, output `pipeline/transcripts/chapter-02.faster-whisper.json`.
+   When it lands, ingest with the runbook in `docs/prompts/add-a-chapter.md`
+   (note: `ingest.sh <NN>`, BARE id — the doc used to say `chapter-<NN>`, which
+   produced `chapter-chapter-02/` and a 404 on every route).
+9. **`specs/003-chapter-hierarchy/` T001-T037** — Phases 2 and 5 landed; the
+   `?under`/`?depth`/`filters` work needs `GET /api/chapters` moved onto the
+   three-state envelope first.
+
+**PROCESS FINDINGS worth keeping**
+
+- **Run `verify-content-boundary.sh --include-untracked` before any push that
+  adds files.** The default run prints `untracked (public) 0 file(s) — NOT
+  SCANNED` and is blind to exactly the highest-risk category.
+- **The shell `grep` is a `ugrep` wrapper with `--ignore-files`** and SKIPS
+  gitignored files. Use `command grep` when a gitignored file could matter —
+  `taxonomy.jsonl`, `pipeline/models/`, `pipeline/transcripts/` are all ignored.
+- **A Semgrep `PostToolUse` hook intermittently refuses `go` invocations.** It
+  is not a code problem; it blocks test execution and must never be reported as
+  a pass.
+
+
 
 ### Session 2026-09-05 — Chapter 02, sub-chapter 02.01, and the directive register
 

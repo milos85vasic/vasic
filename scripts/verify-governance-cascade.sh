@@ -489,6 +489,43 @@ helix_excluded_paths() {
     sed -nE 's/^#[[:space:]]+([^[:space:]]+)[[:space:]]+->[[:space:]]+git@.*/\1/p' "$1"
 }
 
+# list_has <newline-separated-list> <exact-line> — THREE-VALUED membership.
+#
+# `grep -qxF` has THREE outcomes, not two: 0 the line is present, 1 it is
+# absent, and 2 GREP ITSELF FAILED — a resource fault, a killed child, an
+# unreadable stream. The bare `grep -qxF "$p" || <record a finding>` idiom this
+# file used inline folded that 2 into the 1, so a transient TOOL fault was
+# reported as a GOVERNANCE VIOLATION naming a submodule that is, in fact,
+# declared in both files.
+#
+# MEASURED 2026-09-05, not inferred. C6 was observed producing
+#     helix-deps.yaml deps[] names submodule(s) .gitmodules does not declare:
+#     submodules/constitution
+# in ONE of five otherwise identical runs, on a tree where .gitmodules line 2
+# and helix-deps.yaml provably both carry that path and neither file was
+# written during the runs. Forcing grep to exit 2 for exactly that one pattern
+# — and for nothing else — reproduces that sentence VERBATIM. The concurrency
+# hypothesis offered instead (a sibling --prove-failure run corrupting the
+# reading) is DISPROVED by construction: that path builds a wholly SYNTHETIC
+# fleet under mktemp -d, mutates only per-mutation cp -r copies, names its
+# modules syn-alpha/syn-beta/syn-vendor, and runs no git command against this
+# tree at all.
+#
+# A tool error is a COULD-NOT-DETERMINE, never a finding — the same
+# three-valued rule this file already applies to child exit codes, and the same
+# rule scripts/pre-push-gates.sh's run_gate had to learn when it mapped every
+# non-zero child return onto FAILED.
+#
+# rc: 0 present - 1 absent - 2 the membership test could not be performed.
+list_has() {
+    printf '%s\n' "$1" | grep -qxF -- "$2"
+    case $? in
+        0) return 0 ;;
+        1) return 1 ;;
+        *) return 2 ;;
+    esac
+}
+
 # helix_dep_urls <file> — echoes every `deps[].ssh_url` value. Used only to
 # derive OWNED NAMESPACES (evidence E2), never to derive a path.
 helix_dep_urls() {
@@ -920,7 +957,7 @@ c5_root_lockstep() {
 # ── C6 — the manifest and the real fleet agree, both directions ─────────────
 c6_manifest_sync() {
     local hd="${root}/helix-deps.yaml" gm="${root}/.gitmodules"
-    local dep_paths excl_paths declared p rc=0 unrecorded="" phantom=""
+    local dep_paths excl_paths declared p rc=0 unrecorded="" phantom="" undet=""
     if [ ! -r "$hd" ]; then
         env_ "C6 MANIFEST-FLEET-SYNC — helix-deps.yaml unreadable at ${hd}; nothing to compare .gitmodules against"
         return 1
@@ -933,18 +970,47 @@ c6_manifest_sync() {
     excl_paths="$(helix_excluded_paths "$hd")"
     declared="$(gitmodules_paths "$gm")"
 
+    # Every membership test below goes through list_has, which reports a grep
+    # ERROR as 2 instead of letting it masquerade as "absent". A path whose test
+    # could not be performed is collected in $undet and reported as ENV; it is
+    # NEVER counted as unrecorded or phantom. See list_has for the measurement
+    # that made this necessary.
     while IFS= read -r p; do
         [ -n "$p" ] || continue
-        printf '%s\n' "$dep_paths" | grep -qxF "$p" && continue
-        printf '%s\n' "$excl_paths" | grep -qxF "$p" && continue
+        list_has "$dep_paths" "$p"
+        case $? in
+            0) continue ;;
+            2) undet="${undet} ${p}"; continue ;;
+        esac
+        list_has "$excl_paths" "$p"
+        case $? in
+            0) continue ;;
+            2) undet="${undet} ${p}"; continue ;;
+        esac
         unrecorded="${unrecorded} ${p}"
     done <<< "$declared"
 
     while IFS= read -r p; do
         [ -n "$p" ] || continue
-        printf '%s\n' "$declared" | grep -qxF "$p" || phantom="${phantom} ${p}"
+        list_has "$declared" "$p"
+        case $? in
+            0) ;;
+            2) undet="${undet} ${p}" ;;
+            *) phantom="${phantom} ${p}" ;;
+        esac
     done <<< "$dep_paths"
 
+    if [ -n "$undet" ]; then
+        # The two loops test overlapping sets, so one path can fail twice. Report
+        # each path once: a duplicated token reads as a bug in the report.
+        undet="$(printf '%s\n' $undet | sort -u | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+        env_ "C6 MANIFEST-FLEET-SYNC — the membership test itself FAILED for: ${undet}"
+        echo "         grep returned an ERROR (rc>1), not an answer, so this is a COULD-NOT-DETERMINE"
+        echo "         and NOT a finding about helix-deps.yaml or .gitmodules. Neither file has been"
+        echo "         shown to be wrong. Re-run; if it persists the fault is in the environment"
+        echo "         (resource exhaustion, a killed child), not in the manifest."
+        rc=1
+    fi
     if [ -n "$unrecorded" ]; then
         bad "C6 MANIFEST-FLEET-SYNC — .gitmodules declares submodule(s) helix-deps.yaml records nowhere:${unrecorded}"
         echo "         fix: add a deps[] entry (owned) or a third-party comment line (not ours) — §11.4.31."
@@ -1409,7 +1475,7 @@ build_synthetic_sandbox() {
 }
 
 prove_failure() {
-    local sandbox pristine rc mut_fails=0
+    local sandbox pristine rc mut_fails=0 grep_shim m14out m14rc
 
     echo "${GATE} §1.1 PAIRED MUTATION PROOF"
     echo "----------------------------------------------------------------------"
@@ -1673,6 +1739,55 @@ prove_failure() {
     fi
     rm -rf "$ratchet_stage"
 
+    # ── M14 — THE INSTRUMENT'S OWN THREE-VALUED CONTRACT ─────────────────────
+    # Every mutation above breaks the TREE. This one breaks the TOOL, because
+    # that is the failure this check actually shipped: `grep -qxF` answers 0
+    # found / 1 absent / 2 GREP ITSELF FAILED, and C6 used to fold the 2 into
+    # the 1 — reporting a transient resource fault as a governance violation
+    # naming a submodule that is declared in both files. See list_has.
+    #
+    # The shim is as narrow as it can be made: it errors ONLY on the exact argv
+    # shape list_has uses (`-qxF -- <pattern>`) and ONLY for one synthetic
+    # module, and delegates everything else to the real grep. So this asserts
+    # the membership predicate's contract and nothing else.
+    grep_shim="${sandbox}/shim"
+    if mkdir -p "$grep_shim" && cat > "${grep_shim}/grep" <<'SHIM'
+#!/bin/sh
+# --prove-failure M14 shim: a grep that ERRORS (rc 2) for exactly one
+# list_has lookup. Everything else is delegated to the real grep unchanged.
+_dashdash=0; _qxf=0; _target=0
+for a in "$@"; do
+    case "$a" in
+        -qxF) _qxf=1 ;;
+        --)   _dashdash=1 ;;
+        syn-alpha) _target=1 ;;
+    esac
+done
+if [ "$_qxf" = 1 ] && [ "$_dashdash" = 1 ] && [ "$_target" = 1 ]; then
+    echo "grep: simulated resource failure (--prove-failure M14)" >&2
+    exit 2
+fi
+exec /usr/bin/grep "$@"
+SHIM
+    then
+        chmod +x "${grep_shim}/grep"
+        m14out="$(PATH="${grep_shim}:$PATH" bash "$0" --root "$pristine" 2>&1)"; m14rc=$?
+        if [ "$m14rc" -eq 2 ] && printf '%s' "$m14out" | grep -qF "the membership test itself FAILED"; then
+            echo "✅ M14 membership-tool-fault — C6's grep ERRORS (rc 2) instead of answering, for 'syn-alpha'"
+            echo "                        -> rc=${m14rc} (wanted 2)  [C6]  COULD-NOT-DETERMINE, not a phantom FAIL"
+        else
+            echo "❌ M14 membership-tool-fault — a FAILED membership test was not reported as rc=2"
+            echo "                        -> rc=${m14rc}, wanted 2 naming the failed test. A tool fault is being"
+            echo "                           reported as a governance finding — the exact defect list_has fixes."
+            printf '%s\n' "$m14out" | sed 's/^/        /'
+            mut_fails=$((mut_fails+1))
+        fi
+    else
+        echo "❌ M14 membership-tool-fault — could not build the grep shim"
+        mut_fails=$((mut_fails+1))
+    fi
+    rm -rf "$grep_shim"
+
     # ── RESTORED CONTROL ─────────────────────────────────────────────────────
     # Each mutation ran on its own throwaway copy, so the pristine synthetic tree
     # must still be green. Showing it again is what separates "every mutation was
@@ -1690,13 +1805,16 @@ prove_failure() {
     if [ "$mut_fails" -eq 0 ]; then
         echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — the REAL entry point ran against the REAL tree"
         echo "   (reported, never gating), a SYNTHETIC control that is green by construction passed,"
-        echo "   and 13 mutations each FLIPPED the verdict while NAMING the offending thing: 10 real"
+        echo "   and 14 mutations each FLIPPED the verdict while NAMING the offending thing: 10 real"
         echo "   violations as rc=1 (C1..C8 including the in-submodule lockstep break, both C4"
         echo "   converse directions and the §11.4.28(C) own-org chain), 2 environment faults —"
         echo "   a missing governance source and an uninitialised cascade consumer — as rc=2 rather"
         echo "   than accusing the tree or being waved through as a pass, and M13 against the"
         echo "   INSTRUMENT itself: a LOCKSTEP_FROM raised past the ${LOCKSTEP_FROM_MAX} ceiling is refused on a"
         echo "   green tree, so a lockstep FAIL can never be 'fixed' by moving the split."
+        echo "   M14 is the OTHER kind of instrument fault: C6's membership grep made to ERROR"
+        echo "   rather than answer must come back rc=2 COULD-NOT-DETERMINE, never a phantom"
+        echo "   FAIL naming a submodule that is in fact declared in both files."
         echo "   M12 is the 2026-09-01 blind spot: an edit at line 21 of one mirror, which the old"
         echo "   line-24 recipe hashed away into four identical digests. The control is still green."
         return 0

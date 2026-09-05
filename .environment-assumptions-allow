@@ -2184,3 +2184,54 @@ workshop/platform/gates/prove-search-determinism.sh ENDPOINT BASE="http://127.0.
 # the rc-2 branch fires. Direct precedent: bench-retrieval.sh's deliberately
 # closed port, exempted on the same reasoning.
 workshop/platform/gates/prove-search-determinism.sh ENDPOINT "http://127.0.0.1:$DEAD_
+
+# ==============================================================================
+# 2026-09-05 — the error-shape and floor-domain provers' five loopback literals
+# ==============================================================================
+# Same two shapes, same directory and the same verdict as the 2026-09-04
+# prove-search-determinism.sh block directly above: a SELF-STARTED STUB's own
+# address, and a DELIBERATELY DEAD address that exists to be unreachable.
+# Each of the five was read line by line before being exempted, and each rule
+# below is narrowed to a substring unique to its one line, so none of them can
+# mask a future real finding elsewhere in the same file.
+#
+# NEITHER FILE IS PRODUCTION LOGIC. Both are `prove-*.sh` §1.1 paired-mutation
+# proofs; the gates they guard (verify-error-shape.sh, verify-floor-domain.sh)
+# are separate files and are NOT exempted here.
+
+# REASON: the prover starts its OWN stub on an ephemeral loopback port —
+# `ThreadingHTTPServer(("127.0.0.1", 0), H)` at :136 — and reads the
+# kernel-assigned port back into $STUB_PORT at :149, refusing to proceed if the
+# stub never reported one. The PORT is therefore already derived; 127.0.0.1 is
+# not an assumption about this host but the address this same script told the
+# stub to bind, one function earlier. Making it configurable could only point
+# the client at something OTHER than the server the proof just launched.
+workshop/platform/gates/prove-error-shape.sh ENDPOINT --base "http://127.0.0.1:$STUB_PORT"
+
+# REASON: a DELIBERATELY DEAD address. This is the L1 rc-2 lever, and the
+# assertion is that a --base at a CLOSED port makes the gate exit 2 rather than
+# report a broken environment as a clean tree. Port 1 is the test input. An env
+# override would let an operator aim it at something that answers, which would
+# silently destroy the only assertion that the rc-2 branch fires at all.
+# Direct precedent: prove-search-determinism.sh's $DEAD_ port, and
+# scripts/test-setup-agents-wizard.sh's OLLAMA_HOST="http://127.0.0.1:1".
+workshop/platform/gates/prove-error-shape.sh ENDPOINT --base http://127.0.0.1:1 --quiet
+
+# REASON: not an endpoint at all — this is the REPORT TEXT for the lever above,
+# inside an `xok` success message naming the address that was just tried. It
+# configures nothing and dials nothing; it is prose quoting the argument. A
+# literal that must not change because it DESCRIBES what was tested.
+workshop/platform/gates/prove-error-shape.sh ENDPOINT L1 rc-2 lever --base http://127.0.0.1:1
+
+# REASON: identical shape to prove-error-shape.sh above. The prover starts its
+# own stub — `HTTPServer(("127.0.0.1", 0), H)` at :134 — and this line reads
+# the kernel-assigned port back out of the file that stub wrote, guarded two
+# lines earlier by an `exit 2` if the stub never bound one. The port is derived;
+# the host is the bind address this script itself chose, deliberately loopback
+# so the hermetic proof is never reachable off-box.
+workshop/platform/gates/prove-floor-domain.sh ENDPOINT BASE="http://127.0.0.1:$(cat "$TMP/port")"
+
+# REASON: a DELIBERATELY DEAD address — the M8 mutation, whose own name in the
+# file header is "M8 THREE-VALUED no service at all -> 2". The unreachability
+# IS the mutation. Same reasoning and same precedent as the L1 lever above.
+workshop/platform/gates/prove-floor-domain.sh ENDPOINT clean        2 "http://127.0.0.1:1"

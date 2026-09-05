@@ -127,3 +127,25 @@ workshop-git-backup-*/
 /docs/**/*.pdf
 /specs/**/*.html
 /specs/**/*.pdf
+
+# Pre-ingest hardlink backups (Constitution §9: a hardlinked backup before any
+# destructive op). scripts/ingest.sh rewrites TRACKED corpus files —
+# curriculum/passages.jsonl among them — through a NON-ATOMIC os.WriteFile, so
+# an interrupted run can truncate the source of truth, and truncated JSONL
+# parses fine. The backup is therefore mandatory, not optional.
+#
+# IGNORED BECAUSE THE COMMIT WRAPPER RUNS `git add .`. A backup is ~120 hardlinks
+# to tracked content; committing one would duplicate the corpus into history
+# under a timestamped path. Keep them beside the repo for recovery, never in it.
+.workshop-ingest-backup-*/
+# BROADENED, AND THE NARROW FORM WAS A NEAR-MISS. The rule above is a DIRECTORY
+# pattern naming one workflow ("ingest"), so it matched neither a FILE backup nor
+# any other workflow's. A pre-purge backup written here as
+# `.workshop-kgterm-backup-<stamp>.jsonl` would therefore have been an untracked,
+# NON-IGNORED copy of the private corpus sitting in the PUBLIC umbrella — and the
+# commit wrapper runs `git add .`. Caught before it happened, by checking rather
+# than trusting the claim that the narrow rule covered it.
+#
+# Both spellings, any workflow name, file or directory.
+.workshop-*-backup-*
+.workshop-*-backup-*/
