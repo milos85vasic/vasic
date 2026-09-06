@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-05T21:31:57Z
-    Synced-Commit: 4479ccaf
+    Last-Updated: 2026-09-06T08:29:00Z
+    Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,123 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SEARCH SERVED A WINDOW OF PURE VOCABULARY — FIXED AND MEASURED, 2026-09-06
+
+`workshop` at `fce2e25`. A reader searching a common word got a results page
+with **nothing to click through to**: every row was a knowledge-catalogue entry
+and none linked to a chapter or passage. Six of twelve reader-shaped queries
+returned **zero** passages.
+
+**The mechanism was bm25 length normalisation, not a ranking opinion.** bm25
+divides term frequency by document length, so a catalogue row of a few tokens
+scores structurally higher than a passage of a few hundred for the SAME query
+term. The two populations never interleaved — they formed disjoint bands, and
+the catalogue's worst row outscored the best passage.
+
+Fixed with a declared presentation quota reusing the design that module already
+applies to its type-ahead endpoint (§11.4.74). Measured on an identical index —
+same root hash before and after, only the binary changed:
+
+| | before | after |
+|---|---|---|
+| twelve reader queries | 220 catalogue / 20 passages | 96 / 144 |
+| queries serving ZERO passages | 6 of 12 | 0 of 12 |
+| the frontend suite for that surface | 14 passed / 6 failed | 20 passed / 0 failed |
+
+The gate whose targets are ALL catalogue rows — the thing a cap on catalogue was
+most likely to break — is **unchanged** at top-5 19/22, top-1 18/22. Workshop
+gates: **PASS 32 / FAIL 2 / COULD-NOT-RUN 2**, identical to before the change.
+
+**THE LESSON TO KEEP IS THAT THREE INSTRUMENTS EACH CAUGHT A DIFFERENT MISTAKE
+BEFORE ANY OF IT SHIPPED**, and none of the three was a human review:
+
+- `go vet` rejected a compile error in the new test file before it ever ran.
+- The first mixed-population test FAILED on its first run — the fixture was
+  wrong, not the code, and the withholding rule was working exactly as designed.
+- The first attempt at the second-layer fix was rejected by two pre-existing
+  contract tests in ninety seconds: it reordered results even when it was not
+  truncating anything. **A selection function that permutes a list it was not
+  asked to shorten is doing something it was not asked to do.** That property is
+  now asserted at five widths.
+
+**A GREEN TEST RUN WAS WEAKER EVIDENCE THAN IT LOOKED.** The whole backend
+passed, but every pre-existing fixture on that code path carries
+single-population data and takes the new function's identity return, so the
+mixed path was never exercised. *"Nothing broke"* and *"the new behaviour is
+covered"* are different claims and only the first was supported. Recorded in the
+module's own `docs/limits.md` §10.17 rather than banked.
+
+**AN OPERATOR DECISION IS OPEN AND NOT TAKEN.** The quota now composes every
+common single-word query as exactly 8 catalogue / 12 passages. That is it
+working — and one query composed itself sensibly (11/9) with no quota at all and
+is now served 8/12. A presentation quota overrides composition even where
+composition was fine. The share is ONE constant, argued rather than measured,
+deliberately in one place so changing it is visible. Making it a ceiling that
+engages only when a population would otherwise be starved is a different and
+reasonable design; it was not taken here.
+
+### A GATE CANNOT SEE AN UNTRACKED FILE — AND I PUBLISHED A "1 -> 0" THAT PROVED NOTHING
+
+Recorded because the claim was already in a pushed commit message before it was
+caught, and because this tree documents the identical trap elsewhere.
+
+Yesterday's commit reported `audit-environment-assumptions: 1 -> 0` for a new
+`proxy.conf.js`. The 0 was REAL and MEANINGLESS: that audit enumerates with
+`git ls-files`, the file was still UNTRACKED when it ran, and **a file git does
+not list is a file the gate does not scan.** Committing it is what made it
+visible; the next run flagged it. `CLAUDE.md` already carries the same finding
+for `_tests/env.js` — *"UNTRACKED, so `git ls-files` does not yet show it to the
+gate"* — and it did not prevent a repeat.
+
+**THE RULE: a gate run over a change that ADDS a file proves nothing about that
+file until the file is tracked. Stage first, then measure.**
+
+The fix was a real one rather than an allow-list entry, and the accepted form
+was already in the tree to copy: `_tests/env.js` puts the last-resort literal
+INLINE at the point of use, never as a bare named constant, because a reader
+cannot tell a documented fallback from a frozen assumption when the two are
+written identically. Four behaviours executed: default, `WORKSHOP_PORT`
+override, full `WORKSHOP_BASE_URL` override, and a loud throw on an unparseable
+value rather than a silent fallback. `audit-environment-assumptions`: **2 -> 0**,
+re-run with both files tracked.
+
+### FOUR FALSE CLAIMS REMOVED IN THE SAME CHANGE
+
+Each an instrument or a document asserting something it had not measured:
+
+1. **A gate-pairing check was FALSELY ACCUSING a gate** of shipping no paired
+   mutation. It recognised only the sibling-file form; the gate it accused ships
+   five mutations and a control behind a flag — the form the check registry
+   declares for it. Two instruments in one tree disagreed about what §1.1
+   accepts. Both forms are now recognised **by evidence rather than by mention**,
+   with six fixtures proving the rule was not weakened to get there.
+2. **A benchmark runner printed a model name it never read from the server.** It
+   cannot be measured on that build, so the label is marked DECLARED wherever it
+   appears and the artifact now records where the name came from. Same shape as
+   the HTTP/3 false-pass fixed the day before.
+3. **Seven end-to-end waits used a network-idle condition on pages streaming a
+   multi-gigabyte recording**, which can never settle while tracing is on. Four
+   tests were unpassable for a harness reason and read as product failures.
+4. **A route manifest claimed an endpoint 404s for every id.** Re-measured by
+   probing all 819: two serve 200, the rest correctly 404. The declared response
+   codes were already right — only the prose had rotted, which is the failure
+   mode to watch for in a file whose gate reads the codes and not the
+   explanation.
+
+### STILL OPEN — OPERATOR DECISIONS, NOT DEFECTS
+
+- `verify-floor-domain` — the calibration corpus it was sized against no longer
+  exists; needs re-calibration or an explicit withdrawal.
+- `verify-retrieval-benchmark` B2 — 19/22 against a 20/22 bar. **Do not widen
+  the bar**; the gate says so itself.
+- `verify-entailment-loads` — NLI checkpoint (~83 MiB) not downloaded. rc 2.
+- `verify-sc024-export-matrix` — `pandoc` / `weasyprint` not installed. rc 2.
+- A **session restart** is needed for the Semgrep plugin disable in
+  `~/.claude-claude5/settings.json` to take effect; its hook intermittently
+  blocked Go tooling throughout this work.
+
+
 
 ### Session 2026-09-05 (evening) — sub-chapter 02.01 shipped, 14 defects fixed
 
