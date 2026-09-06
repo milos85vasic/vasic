@@ -3,11 +3,33 @@
 #
 # A gate that cannot FAIL is a rubber stamp. This harness proves the portfolio
 # validator (_tools/portfolio/validate.mjs) is mutation-paired:
-#   - golden-GOOD fixture MUST PASS  (validate.mjs exits 0)
-#   - golden-BAD  fixture MUST FAIL  (validate.mjs exits non-zero)
+#   - golden-GOOD fixture MUST PASS      (validate.mjs exits EXACTLY 0)
+#   - golden-BAD  fixture MUST be DETECTED (validate.mjs exits EXACTLY 1)
 # It exits 0 only if BOTH hold, and writes verdict evidence JSON under
 # _tests/evidence/harness/portfolio/ (good.verdict.json, bad.verdict.json),
 # mirroring the export/visual self-validate evidence style.
+#
+# WHY "EXACTLY 1" AND NOT "non-zero" (§1.1, §11.4.6).
+# This assertion used to read `[ "$BAD_RC" -ne 0 ]`, i.e. ANY failure counted
+# as proof the mutation was caught. It was not proof of anything: validate.mjs
+# exited 1 both for a genuine detected violation AND for "cannot read / cannot
+# parse". A MISSING OR CORRUPT golden-BAD fixture therefore read as a caught
+# mutation and this gate printed SATISFIED having evaluated zero assertions.
+# Measured: deleting bad.json, and replacing it with `{ this is not json`,
+# BOTH produced "SELF-VALIDATION RESULT: PASS ... SATISFIED", exit 0.
+#
+# The fix is TWO-PART and neither half works alone — tightening this assertion
+# while validate.mjs still returned 1 for a parse error would have kept the
+# hole open while looking closed. validate.mjs now exits 2 for any
+# could-not-evaluate condition (see its header), and only then can this
+# harness demand the exact DETECTION code.
+#
+# Three-valued exit, this fleet's convention (2 is NEVER a pass):
+#   0 = both arms behaved as required
+#   1 = the validator is not mutation-paired (a real finding about the gate)
+#   2 = the self-test could not be carried out (fixture or toolchain fault)
+# Precedence: a real finding (1) outranks could-not-determine (2), so a
+# broken arm can never be masked by an undetermined one.
 set -u
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -24,10 +46,21 @@ run_case() {
   log="$OUT/$name.output.txt"
   node "$VALIDATOR" --file "$fixture" >"$log" 2>&1
   rc=$?
-  if [ "$rc" -eq 0 ]; then verdict="PASS"; else verdict="FAIL"; fi
+  # Three-valued, mirroring validate.mjs. Anything that is not a recognised
+  # code is UNDETERMINED too — an unrecognised exit proves nothing.
+  case "$rc" in
+    0) verdict="PASS" ;;
+    1) verdict="FAIL" ;;
+    *) verdict="UNDETERMINED" ;;
+  esac
   node -e '
     const fs = require("node:fs");
-    const [fixture, name, expect, rcStr, verdict, logFile, outFile] = process.argv.slice(1);
+    const path = require("node:path");
+    // `node -e` has no __dirname; the caller passes the repo root as the last
+    // argument so this stays anchored on the location of this script, never on cwd.
+    const argv = process.argv.slice(1);
+    const __dirname_shim = argv.pop();
+    const [fixture, name, expect, rcStr, verdict, logFile, outFile] = argv;
     const lines = fs.readFileSync(logFile, "utf8").split("\n").filter(Boolean);
     // Deterministic provenance stamp. A caller-pinned SOURCE_DATE_EPOCH (the
     // reproducible-builds convention this repo already follows in
@@ -41,11 +74,26 @@ run_case() {
     const provenance = (sde && /^[0-9]+$/.test(sde))
       ? { generatedAt: new Date(Number(sde) * 1000).toISOString() }
       : { generatedAt_omitted_for_determinism: true };
+    // CHECKOUT-INDEPENDENT, for the same reason the timestamp above is omitted.
+    // This file is COMMITTED evidence, and `fixture` was recorded as an
+    // ABSOLUTE path — so it encoded WHERE the repository happened to sit and
+    // every run from a different checkout rewrote a tracked file. The committed
+    // copies still carry a path from a checkout that is not this one, right
+    // beside `generatedAt_omitted_for_determinism: true`: the clock was made
+    // reproducible and the path was not. A path outside the repository is left
+    // absolute deliberately — a `../../..` string would be more
+    // checkout-dependent, not less.
+    const repoRoot = path.resolve(__dirname_shim, "..", "..");
+    const relFixture = (() => {
+      if (!path.isAbsolute(fixture)) return fixture;
+      const rel = path.relative(repoRoot, fixture);
+      return (rel && !rel.startsWith("..")) ? rel : fixture;
+    })();
     const doc = {
       schema: "portfolio-validator/1",
       ...provenance,
       validator: "_tools/portfolio/validate.mjs",
-      fixture,
+      fixture: relFixture,
       name,
       expected: expect,
       rc: Number(rcStr),
@@ -54,7 +102,7 @@ run_case() {
       output: lines,
     };
     fs.writeFileSync(outFile, JSON.stringify(doc, null, 2) + "\n");
-  ' "$fixture" "$name" "$expect" "$rc" "$verdict" "$log" "$OUT/$name.verdict.json"
+  ' "$fixture" "$name" "$expect" "$rc" "$verdict" "$log" "$OUT/$name.verdict.json" "$HERE"
   echo "$rc"
 }
 
@@ -79,15 +127,31 @@ echo; echo "=================================================================="
 echo " ASSERTIONS"
 echo "=================================================================="
 FAILED=0
+UNDET=0
+
+# GOOD arm: must be EXACTLY 0. rc 2 means the good fixture could not be
+# evaluated — that is a harness fault, not the validator being wrong.
 if [ "$GOOD_RC" -eq 0 ]; then
   echo "  PASS: golden-good verdict=PASS (rc=$GOOD_RC)"
+elif [ "$GOOD_RC" -eq 2 ]; then
+  echo "  UNDET: golden-good COULD NOT BE EVALUATED (rc=2) — fixture missing/corrupt or toolchain fault"; UNDET=1
 else
-  echo "  FAIL: golden-good expected PASS but rc=$GOOD_RC"; FAILED=1
+  echo "  FAIL: golden-good expected PASS (rc=0) but rc=$GOOD_RC"; FAILED=1
 fi
-if [ "$BAD_RC" -ne 0 ]; then
-  echo "  PASS: golden-bad verdict=FAIL (rc=$BAD_RC)"
+
+# BAD arm: must be EXACTLY 1 — the DETECTION code, and nothing else.
+# rc 0 = the seeded mutation went unnoticed (the gate cannot fail: a real
+#        finding about the gate).
+# rc 2 = the validator never got far enough to judge, so this run proves
+#        NOTHING about whether the mutation would be caught. It is not a pass
+#        and it must never again be counted as one.
+if [ "$BAD_RC" -eq 1 ]; then
+  echo "  PASS: golden-bad DETECTED (rc=1 — assertions evaluated and violated)"
+elif [ "$BAD_RC" -eq 2 ]; then
+  echo "  UNDET: golden-bad COULD NOT BE EVALUATED (rc=2) — fixture missing/corrupt;"
+  echo "         this run proves NOTHING about whether the mutation is caught"; UNDET=1
 else
-  echo "  FAIL: golden-bad expected FAIL (rc!=0) but rc=$BAD_RC"; FAILED=1
+  echo "  FAIL: golden-bad expected DETECTION (rc=1) but rc=$BAD_RC"; FAILED=1
 fi
 
 echo
@@ -95,12 +159,17 @@ echo "Evidence:"
 echo "  $OUT/golden-good.verdict.json"
 echo "  $OUT/golden-bad.verdict.json"
 echo
-if [ "$FAILED" -eq 0 ]; then
-  echo "SELF-VALIDATION RESULT: PASS  (good=PASS, bad=FAIL as required)"
-  echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — SATISFIED"
-  exit 0
-else
+# Precedence: real finding (1) outranks could-not-determine (2) outranks clean.
+if [ "$FAILED" -ne 0 ]; then
   echo "SELF-VALIDATION RESULT: FAIL  (validator is not mutation-paired)"
   echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — NOT SATISFIED"
   exit 1
+elif [ "$UNDET" -ne 0 ]; then
+  echo "SELF-VALIDATION RESULT: UNDETERMINED  (the self-test could not be carried out)"
+  echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — COULD NOT DETERMINE (rc=2, NOT a pass)"
+  exit 2
+else
+  echo "SELF-VALIDATION RESULT: PASS  (good=PASS rc=0, bad=DETECTED rc=1 as required)"
+  echo "GATE: PORTFOLIO-DATA-INTEGRITY (§1.1) — SATISFIED"
+  exit 0
 fi

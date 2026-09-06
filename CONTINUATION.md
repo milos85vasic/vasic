@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T12:30:00Z
+    Last-Updated: 2026-09-06T19:20:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -528,6 +528,104 @@ composition was fine. The share is ONE constant, argued rather than measured,
 deliberately in one place so changing it is visible. Making it a ceiling that
 engages only when a population would otherwise be starved is a different and
 reasonable design; it was not taken here.
+
+### DETERMINISM SWEEP — 2026-09-06 evening
+
+Operator directive: **all results, validation and verification must be FULLY
+DETERMINISTIC, always.** A check that passes five times in six is not a passing
+check; it trains everyone to re-run until green.
+
+**A RETRIEVAL LIBRARY RETURNED DIFFERENT DOCUMENTS FOR IDENTICAL INPUT.**
+`submodules/RAG` at `42a1428`. Seven sites collected results with
+`for k := range someMap` — Go randomises map iteration — into an UNSTABLE
+`sort.Slice` with no tiebreak. Measured over 2000 identical calls per site:
+
+| site | distinct orderings |
+|---|---:|
+| `MMRReranker.Rerank` | **113** |
+| `RRFStrategy.Fuse` / `LinearStrategy.Fuse` / `KeywordRetriever` / `MultiRetriever` | 5 each |
+| `HybridRetriever.Retrieve` TopK=1 | 2 — **which document is served changed** |
+
+`MMRReranker` had **no sort at all**; the winner of every greedy tie was
+whichever map key came out first. Two of the seven were not in the brief. Fixed
+with sorted-key collection **plus** a total comparator — a stable sort over a
+randomised range is not determinism, because stability faithfully preserves the
+randomness. After: **1 ordering per 2000** everywhere, clean under `-race` and
+`-shuffle=on`.
+
+**Blast radius:** `pkg/pipeline` was NOT insulated. `pkg/grounding` was not
+either, and instructively — *its own sort is stable, which is exactly why it
+could not save itself*. `challenges/runner` was "insulated" only by weakened
+assertions: it checked sortedness order-insensitively and asserted the top id
+was in an expected SET. **The gate had adapted to the bug rather than catching
+it.**
+
+**A MUTATION TEST THAT COULD NOT FAIL, FOUND INSIDE THE MUTATION PROCESS.** The
+first tiebreak mutation SURVIVED: a 5-document all-tied fixture cannot detect a
+missing tiebreak, because Go's pdqsort recognises all-equal input and returns it
+untouched — 0 deviations in 200. Replaced with a 24-document fixture whose ties
+are interleaved with strict differences and whose ids are scrambled; it deviates
+200/200 and the mutation then died.
+
+**THREE GATES THAT COULD REPORT SATISFIED WHILE PROVING NOTHING.**
+- `_tools/portfolio/self-validate.sh` accepted ANY non-zero as "mutation
+  caught", and the validator returned 1 for both a parse error and a real
+  finding — so a **corrupt or absent fixture read as a caught mutation**. Fixed
+  in the required order: validator now exits 2 when zero assertions were
+  evaluated, *then* the harness tightened.
+- `_tests/visual/visual-oracle.js` had its `require` outside the rc-2 guard, so
+  a module-load crash exited 1 — and the harness asserted exactly 1 for its
+  "bad" arm. **Crash and detection were indistinguishable.** Observed:
+  `PASS: golden-bad verdict=FAIL (rc=1)` printed by an oracle that never opened
+  the fixture.
+- `_tests/export/validate-pdf.js` absorbed a SKIP into SATISFIED. Now
+  three-valued with FAIL(1) > UNDET(2) > PASS(0). Its page scan also
+  `readdirSync`'d whatever was on disk and sorted lexicographically — with two
+  stale decoys present it would have reported *"OCR of 2 rendered pages"*, **a
+  count matching the true page count by coincidence**, while reading none of
+  that run's output.
+
+**A CLOSED FINDING WAS NOT CLOSED.** `CLAUDE.md` records F13/F14 as CLOSED, but
+one spec of 22 still hardcoded ports. At non-default ports a connection refusal
+reached the assertion as `Received: 0` and was **reported as a defect in the
+production website**. Fixed; the failure changed identity to `Received: 404`,
+which is a REAL finding — `milosvasic.ru/_site` has no sitemap because Jekyll
+cannot build on this host, the defect already recorded here.
+
+**COMMITTED EVIDENCE CARRIED AN ABSOLUTE PATH FROM ANOTHER MACHINE** —
+`/run/media/.../DATA4TB/...` — beside `"generatedAt_omitted_for_determinism":
+true`. The clock was made reproducible and the path was not. All three writers
+now record repo-relative paths, normalised at the single serialisation point so
+a field added later is covered automatically. **0 absolute paths remain, and the
+verdict JSONs are byte-identical across two consecutive runs.**
+
+**ALSO:** the `ai_interviewing` port-fallback test asserted a property of the
+whole machine (it assumed `base+1` was free after asking the kernel for `base`).
+Invisible serially — 25/25 pass — and 4 failures in 40 concurrent process-runs.
+Now the test OWNS its ports; 7 production mutations all caught; 40 concurrent
+runs clean. Three challenge checks used `SELECT … LIMIT 1` with **no ORDER BY**,
+letting SQLite choose which row to judge; and the suite runner omitted
+`-count=1`, so Go's cache could replay a stale verdict for tests that bind real
+ports.
+
+**STRONGEST POSITIVE RESULT:** `workshop/platform/backend` — 132 test files, 14
+full-suite runs (baseline, 8× `-shuffle=on`, `-count=3`, `-race`, three under
+load average 90–113) — **no ordering, concurrency or state-leakage finding.**
+
+**A REFUTED HYPOTHESIS, recorded because a near-miss is a result.** The
+constitution sweep looked locale-broken: the same 270 gate names sorted under
+`C` vs `en_US.UTF-8` and compared yields 130 spurious drops and 130 spurious
+adds. But the real code re-sorts BOTH sides at runtime under one locale;
+faithful emulation gives `missing=0 added=0` under both. The gate is
+locale-safe.
+
+**SEMGREP** is disabled in **36 of 36** profiles (was 6 — thirty had the key
+ABSENT, and absent is not `false`), its hook dispatcher is neutered and verified
+inert, and the respawn path is closed. **Two guardian MCP processes remain
+alive** (`1351720`, `2238335`); they `exec`'d before the edit, so nothing short
+of ending them stops them — `guardian.yml` was rewritten at 20:23 today, after
+the plugin was set false. Killing them is blocked by the safety classifier and
+is an operator action.
 
 ### FIVE DEFECTS FOUND BY *USING* THE PRODUCT AND BY *ATTEMPTING* CLOSURES — 2026-09-06
 

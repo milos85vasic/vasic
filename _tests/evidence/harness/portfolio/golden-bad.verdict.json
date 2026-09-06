@@ -2,7 +2,7 @@
   "schema": "portfolio-validator/1",
   "generatedAt_omitted_for_determinism": true,
   "validator": "_tools/portfolio/validate.mjs",
-  "fixture": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tools/portfolio/selfvalidate-fixtures/bad.json",
+  "fixture": "_tools/portfolio/selfvalidate-fixtures/bad.json",
   "name": "golden-bad",
   "expected": "FAIL",
   "rc": 1,
@@ -19,6 +19,7 @@
     "  ✗ excluded project present: grabtube",
     "  ✗ no-tagline: missing/empty required field \"tagline\"",
     "  ✗ leaky-private: private:true entry exposes 1 repo URL(s)",
-    "  ✗ order not strictly increasing within helix-primary: 5 after 5 (no-tagline)"
+    "  ✗ order not strictly increasing within helix-primary: 5 after 5 (no-tagline)",
+    "[validate] assertions were EVALUATED and violated (exit 1)"
   ]
 }

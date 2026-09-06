@@ -2,7 +2,7 @@
   "schema": "portfolio-validator/1",
   "generatedAt_omitted_for_determinism": true,
   "validator": "_tools/portfolio/validate.mjs",
-  "fixture": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tools/portfolio/selfvalidate-fixtures/good.json",
+  "fixture": "_tools/portfolio/selfvalidate-fixtures/good.json",
   "name": "golden-good",
   "expected": "PASS",
   "rc": 0,

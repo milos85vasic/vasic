@@ -17,14 +17,43 @@
  * Usage:
  *   node visual-oracle.js --input <file|url> --out <dir> --name <name>
  *                         [--viewport 1280x800] [--themes light,dark]
- * Exit code: 0 = PASS, 1 = FAIL, 2 = harness error.
+ * Exit code: 0 = PASS, 1 = FAIL (layout error found), 2 = harness error.
+ *
+ * THE rc-2 CONTRACT IS LOAD-BEARING, AND IT USED TO BE BROKEN.
+ * `require('@playwright/test')` was a TOP-LEVEL statement, outside the
+ * `run().catch(... exit(2))` at the foot of this file. When the module could
+ * not be loaded — the ordinary case of a fresh clone with no
+ * `_tests/node_modules`, before `npm ci` — node threw MODULE_NOT_FOUND during
+ * module evaluation and exited **1**. The paired harness
+ * (_tests/visual/self-validate.sh) asserts `rc == 1` for its golden-BAD arm,
+ * so "the oracle crashed before opening the fixture" was indistinguishable
+ * from "the oracle detected the seeded defect". Measured, with node_modules
+ * absent: `PASS: golden-bad verdict=FAIL (rc=1)` was printed while the oracle
+ * had never rendered anything.
+ *
+ * Every dependency that can fail to resolve is therefore loaded INSIDE a
+ * guard that exits 2. Node core modules are safe to require at top level.
  */
 'use strict';
 
-const { chromium } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
+
+// Resolve the browser driver behind an explicit rc-2 guard. A missing or
+// broken dependency is a HARNESS FAULT ("could not run"), never a finding
+// about the page under test.
+function loadChromium() {
+  try {
+    return require('@playwright/test').chromium;
+  } catch (e) {
+    console.error('[visual-oracle] HARNESS ERROR: cannot load @playwright/test — the oracle could not run at all.');
+    console.error(`[visual-oracle]   ${String(e && e.message || e).split('\n')[0]}`);
+    console.error('[visual-oracle]   hint: run `npm ci` in _tests/ (and `npx playwright install chromium`).');
+    console.error('[visual-oracle] verdict=UNDETERMINED (exit 2) — this is NOT a detected layout defect.');
+    process.exit(2);
+  }
+}
 
 function parseArgs(argv) {
   const a = { viewport: '1280x800', themes: 'light,dark', name: 'screen' };
@@ -55,6 +84,39 @@ function toUrl(input) {
 // (_tests/GATES.md cites them for the visual §11.4.170 proof), and an embedded
 // clock made every regeneration a spurious diff. Mirrors the sibling convention
 // in design-toolkit/qa/run-checks.mjs (`generatedAt_omitted_for_determinism`).
+// ── CHECKOUT-INDEPENDENT PATHS IN COMMITTED EVIDENCE ────────────────────────
+// These verdict files are TRACKED. Recording an absolute path makes them a
+// function of WHERE the repository happens to sit, so a run from a different
+// checkout rewrites tracked files and the diff is pure noise.
+//
+// It had already happened: the committed verdicts carried
+// `/run/media/.../DATA4TB/Projects/vasic/...`, a checkout that is not this one
+// — while the SAME FILE carried `"generatedAt_omitted_for_determinism": true`.
+// The timestamp was removed for determinism and the path was not, which is what
+// says this was an oversight rather than a decision. It sits beside
+// `provenance()` because the two exist for one reason.
+//
+// Applied at the ONE PLACE the report is serialised, not at each assignment, so
+// a field added later is covered without anyone having to remember.
+//
+// A path OUTSIDE the repository is left absolute on purpose: rewriting it
+// relative would emit a `../../..` string, which is MORE checkout-dependent,
+// not less.
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
+function repoRelativePaths(value) {
+  if (Array.isArray(value)) return value.map(repoRelativePaths);
+  if (value && typeof value === 'object') {
+    const out = {};
+    for (const [k, v] of Object.entries(value)) out[k] = repoRelativePaths(v);
+    return out;
+  }
+  if (typeof value === 'string' && path.isAbsolute(value)) {
+    const rel = path.relative(REPO_ROOT, value);
+    if (rel && !rel.startsWith('..')) return rel;
+  }
+  return value;
+}
+
 function provenance() {
   const sde = process.env.SOURCE_DATE_EPOCH;
   return (sde && /^[0-9]+$/.test(sde))
@@ -190,7 +252,19 @@ async function run() {
 
   const cfg = { giantW: 0.85, giantH: 0.6, overlapFrac: 0.4 };
 
-  const browser = await chromium.launch();
+  const chromium = loadChromium();
+  // A browser that will not launch (driver present, binaries not installed)
+  // is the same class of fault as a driver that will not load: rc 2.
+  let browser;
+  try {
+    browser = await chromium.launch();
+  } catch (e) {
+    console.error('[visual-oracle] HARNESS ERROR: cannot launch chromium — the oracle could not run at all.');
+    console.error(`[visual-oracle]   ${String(e && e.message || e).split('\n')[0]}`);
+    console.error('[visual-oracle]   hint: `npx playwright install chromium` in _tests/.');
+    console.error('[visual-oracle] verdict=UNDETERMINED (exit 2) — this is NOT a detected layout defect.');
+    process.exit(2);
+  }
   const report = {
     schema: 'visual-oracle/1', ...provenance(),
     input: url, name: args.name, viewport: { w: vwv, h: vhv }, themes,
@@ -252,7 +326,7 @@ async function run() {
   }
 
   const verdictPath = path.join(args.out, `${args.name}.verdict.json`);
-  fs.writeFileSync(verdictPath, JSON.stringify(report, null, 2));
+  fs.writeFileSync(verdictPath, JSON.stringify(repoRelativePaths(report), null, 2));
 
   console.log(`\n[visual-oracle] input=${url}`);
   console.log(`[visual-oracle] tesseract=${tesseract ? 'present' : 'MISSING'}  viewport=${vwv}x${vhv}  themes=${themes.join(',')}`);

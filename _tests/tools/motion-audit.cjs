@@ -65,7 +65,24 @@ const SITES = {
   },
 };
 
-const results = { generatedAt: new Date().toISOString(), sites: {} };
+// PROVENANCE, not a wall clock. `metrics.json` and the `REPORT.md` generated
+// from it are BOTH TRACKED, so embedding `new Date().toISOString()` made every
+// run of this read-only audit dirty the working tree — a re-measurement that
+// changed nothing still produced a diff, which trains a reader to ignore the
+// diff. This is the convention already implemented three times in this tree
+// (_tests/visual/visual-oracle.js, _tests/export/validate-pdf.js,
+// _tools/portfolio/self-validate.sh): honour SOURCE_DATE_EPOCH when the caller
+// sets one — _tools/gen/build.sh and _tools/pdf/build-pdfs.sh already do — and
+// otherwise record that the field was omitted DELIBERATELY, so its absence
+// reads as a decision rather than as a bug.
+function provenance() {
+  const sde = process.env.SOURCE_DATE_EPOCH;
+  return (sde && /^[0-9]+$/.test(sde))
+    ? { generatedAt: new Date(Number(sde) * 1000).toISOString() }
+    : { generatedAt_omitted_for_determinism: true };
+}
+
+const results = { ...provenance(), sites: {} };
 
 /* ----------------------------- infra helpers ---------------------------- */
 function startServer(root, port) {

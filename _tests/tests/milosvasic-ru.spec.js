@@ -1,5 +1,15 @@
 const { test, expect } = require('@playwright/test');
 const { MV_BASE: BASE } = require('../env.js');
+const path = require('path');
+
+// Screenshot destinations are ANCHORED to this file's own location, never left
+// relative. A relative `path:` is resolved by Playwright against the WORKER's
+// cwd, so the same run writes to a different directory depending on where it
+// was invoked from — and the tree carries the proof: six screenshot names exist
+// TWICE, tracked and byte-different, at _tests/evidence/<name>.png and
+// _tests/evidence/homepages/<name>.png. Anchoring on __dirname makes the
+// destination a property of the repository layout instead of the invocation.
+const SHOTS = path.join(__dirname, '..', 'evidence', 'homepages');
 
 // milosvasic.ru — AI-engineer personal site, reframed on the OpenDesign system while
 // keeping the Jekyll `default` layout chrome (nav, footer, theme + MV_I18N, download popup).
@@ -156,12 +166,12 @@ test.describe('milosvasic.ru — AI engineer site (OpenDesign + Jekyll)', () => 
     // committed "dark theme" shot was a mid-fade frame that never reached the
     // dark background token at all — a wrong screenshot, not just a noisy one.
     await page.evaluate(() => { localStorage.setItem('mv-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); });
-    await page.screenshot({ path: 'evidence/homepages/milos-desktop-light.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: path.join(SHOTS, 'milos-desktop-light.png'), fullPage: true, animations: 'disabled' });
     await page.evaluate(() => { localStorage.setItem('mv-theme', 'dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
-    await page.screenshot({ path: 'evidence/homepages/milos-desktop-dark.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: path.join(SHOTS, 'milos-desktop-dark.png'), fullPage: true, animations: 'disabled' });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    await page.screenshot({ path: 'evidence/homepages/milos-mobile.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: path.join(SHOTS, 'milos-mobile.png'), fullPage: true, animations: 'disabled' });
   });
 
 });

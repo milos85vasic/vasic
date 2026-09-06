@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { VD_BASE, MV_BASE } = require('../env.js');
 
 /*
  * EXHAUSTIVE all-language link & sitemap integrity — the permanent guard that
@@ -17,21 +18,35 @@ const { test, expect } = require('@playwright/test');
  * then asserts ZERO internal targets are broken (<400), reporting each broken
  * URL with a sample referring page.
  *
- * Default: runs against the locally-served build (playwright webServer on
- * :8401 / :8082). Live mode: set VD_BASE / MV_BASE to the production origins.
+ * Default: runs against the locally-served build. Live mode: set VD_BASE /
+ * MV_BASE to the production origins.
+ *
+ * WHERE THE BASE URLS COME FROM — and why this spec no longer names a port.
+ * Until this edit, this was the ONE spec of 22 that did not read ../env.js; it
+ * carried its own `process.env.VD_BASE || 'http://localhost:8401'` pair. That
+ * is exactly the split the F13/F14 work removed everywhere else, and leaving it
+ * here was not cosmetic: playwright.config.js BINDS its two static servers on
+ * VD_PORT / MV_PORT, so `VD_PORT=9401 MV_PORT=9082 npx playwright test` served
+ * 9401 while this spec still requested 8401. Nothing listens there, `get()`
+ * below turns a connection refusal into `last = 0`, and `expect(sm.status)
+ * .toBe(200)` then reports `Received: 0` — a HARNESS misconfiguration rendered
+ * as a broken production website. Deriving both bases from env.js makes the
+ * port that is bound and the base that is requested one value, so they cannot
+ * disagree; setting VD_BASE / MV_BASE directly still wins outright, which is
+ * what playwright.live.config.js and _tools/deploy-langs.sh rely on.
  */
 
 const SITES = [
   {
     key: 'vasic.digital',
     canonical: 'https://vasic.digital',
-    base: process.env.VD_BASE || 'http://localhost:8401',
+    base: VD_BASE,
     pdfs: ['Portfolio'],
   },
   {
     key: 'milosvasic.ru',
     canonical: 'https://milosvasic.ru',
-    base: process.env.MV_BASE || 'http://localhost:8082',
+    base: MV_BASE,
     pdfs: ['Milos_Vasic_CV', 'Milos_Vasic_Cover_Letter', 'Portfolio'],
   },
 ];

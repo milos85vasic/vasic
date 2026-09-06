@@ -1,5 +1,15 @@
 const { test, expect } = require('@playwright/test');
 const { VD_BASE: BASE } = require('../env.js');
+const path = require('path');
+
+// Screenshot destinations are ANCHORED to this file's own location, never left
+// relative. A relative `path:` is resolved by Playwright against the WORKER's
+// cwd, so the same run writes to a different directory depending on where it
+// was invoked from — and the tree carries the proof: six screenshot names exist
+// TWICE, tracked and byte-different, at _tests/evidence/<name>.png and
+// _tests/evidence/homepages/<name>.png. Anchoring on __dirname makes the
+// destination a property of the repository layout instead of the invocation.
+const SHOTS = path.join(__dirname, '..', 'evidence', 'homepages');
 
 // vasic.digital — AI-development company homepage, rebuilt on the OpenDesign system.
 // Asserts the NEW .od-* structure: header/nav, hero, product cards linking products/,
@@ -141,12 +151,12 @@ test.describe('vasic.digital — AI company site (OpenDesign)', () => {
     // loops (`vd-aurora-drift` 22s at vasic-digital.css:554, `vd-scan` 6.5s at
     // :582). Without it these shots sampled a random frame of a running loop.
     await page.evaluate(() => { localStorage.setItem('od-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); });
-    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-light.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: path.join(SHOTS, 'vasic-desktop-light.png'), fullPage: true, animations: 'disabled' });
     await page.evaluate(() => { localStorage.setItem('od-theme', 'dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
-    await page.screenshot({ path: 'evidence/homepages/vasic-desktop-dark.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: path.join(SHOTS, 'vasic-desktop-dark.png'), fullPage: true, animations: 'disabled' });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    await page.screenshot({ path: 'evidence/homepages/vasic-mobile.png', fullPage: true, animations: 'disabled' });
+    await page.screenshot({ path: path.join(SHOTS, 'vasic-mobile.png'), fullPage: true, animations: 'disabled' });
   });
 
 });

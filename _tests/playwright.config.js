@@ -19,6 +19,16 @@ const MV_ROOT = path.join(REPO, 'milosvasic.ru', '_site');
 module.exports = defineConfig({
   testDir: './tests',
 
+  // Runs ONCE before any worker starts and — via the teardown it returns — ONCE
+  // after every worker has exited. It is what makes
+  // evidence/test-types/perf-budget.json a function of exactly one run: the
+  // setup clears the per-run row directory, each perf-budget test drops its own
+  // row file, and the teardown writes the tracked JSON from that directory
+  // alone. The previous per-worker `afterAll` read-modify-write merged each
+  // worker's subset into whatever was already on disk, which is why the
+  // committed artifact accumulated rows from three browsers across many runs.
+  globalSetup: require.resolve('./tools/perf-budget-rows.cjs'),
+
   // These THREE specs assert against the LIVE production sites over the public
   // internet (their VASIC_BASE/MILOS_BASE default to https://vasic.digital and
   // https://milosvasic.ru). They are claimed by playwright.live.config.js, whose

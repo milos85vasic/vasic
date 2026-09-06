@@ -216,7 +216,7 @@ deps:
 
   - name: RAG
     ssh_url: git@github.com:vasic-digital/RAG.git
-    ref: "8aee628e473160c76b9eca99404978c02dd992eb"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty (helixcode-v1.1.0 named an ANCESTOR), so a sha is the only exact pin
+    ref: "42a14281dcb023d90f595f8338d9e8bb0baab64b"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty (helixcode-v1.1.0 named an ANCESTOR), so a sha is the only exact pin
     why: "The organisation's retrieval library, adopted under the §11.4.74 catalogue-check rather than rebuilt: a consuming project that needs to rank documents against a query uses this and does not grow its own retrieval contract. Go module `digital.vasic.rag`; `retriever.Document{ID,Content,Metadata,Score,Source}` is the identity type every stage passes, behind a one-method `Retriever` interface. pkg/chunker (fixed-size / recursive / sentence), pkg/reranker (score, MMR), pkg/hybrid (BM25 keyword, semantic wrapper, RRF and weighted-linear fusion), pkg/pipeline (fluent retrieve→rerank→format builder), pkg/grounding (the deterministic answer-grounding seam contributed upstream from this project on 2026-09-01 under §11.4.74 clause 4 — RetrievalGate with absolute AND relative/margin tests, the three-state answered/declined/unavailable Verdict, ValidateCitations set-membership, ValidateVerbatim, and the model-free Extractive adapter). It deliberately ships NO vector store and NO embedding model — the consumer supplies both. Consuming Go code resolves it via `replace digital.vasic.rag => ./submodules/RAG` in development and this pinned sha in production."
     layout: grouped
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01) — same situation and same reason
@@ -354,7 +354,7 @@ deps:
 
   - name: ai_interviewing
     ssh_url: git@github.com:milos85vasic/ai_interviewing.git
-    ref: "00ddffe414681a2e648e7dae488cdea971dafc59"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "89d0676210d72ec6c06ccb4dbd636f7a55f93044"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
     layout: flat
 

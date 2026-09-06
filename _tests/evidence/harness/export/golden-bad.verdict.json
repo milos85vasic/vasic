@@ -1,13 +1,13 @@
 {
   "schema": "export-validator/1",
   "generatedAt_omitted_for_determinism": true,
-  "pdf": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/export/fixtures/golden-bad.pdf",
+  "pdf": "_tests/export/fixtures/golden-bad.pdf",
   "name": "golden-bad",
   "tools": {
     "pdftotext": true,
     "pdfimages": true,
     "pdftoppm": true,
-    "tesseract": true
+    "tesseract": false
   },
   "thresholds": {
     "minWords": 40,
@@ -52,11 +52,19 @@
     {
       "id": "visual.ocr",
       "family": "FULL-VISUAL",
-      "status": "PASS",
-      "detail": "OCR of 1 rendered page(s) recovered 79 legible words (min 15)"
+      "status": "SKIP",
+      "detail": "tesseract missing — cannot OCR rendered pages"
     }
   ],
   "verdict": "FAIL",
-  "pdftotextFile": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/export/golden-bad.pdftotext.txt",
-  "ocrPages": 1
+  "pdftotextFile": "_tests/evidence/harness/export/golden-bad.pdftotext.txt",
+  "counts": {
+    "total": 6,
+    "pass": 1,
+    "fail": 4,
+    "skip": 1
+  },
+  "skippedChecks": [
+    "FULL-VISUAL/visual.ocr"
+  ]
 }

@@ -17,7 +17,13 @@ const P = (s = '') => lines.push(s);
 
 P('# Motion & Interactive-Widget Functional Audit');
 P('');
-P(`Generated: ${m.generatedAt}`);
+// Mirrors the provenance decision made in motion-audit.cjs: with no
+// SOURCE_DATE_EPOCH there is no `generatedAt` to print, and this TRACKED report
+// says so explicitly rather than emitting `Generated: undefined` or a wall
+// clock that would dirty the tree on every regeneration.
+P(m.generatedAt
+  ? `Generated: ${m.generatedAt}`
+  : 'Generated: timestamp omitted for determinism (set SOURCE_DATE_EPOCH to record one).');
 P('');
 P('Read-only. Both already-generated static sites were served locally and driven with real');
 P('browser automation (Playwright: chromium + firefox + webkit). No site source was edited and');

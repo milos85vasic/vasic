@@ -9,7 +9,26 @@
  *   4. Ordering is monotonic (strictly increasing) within each tier, and
  *      tiers appear in the canonical rank order in the array.
  *
- * Exit 0 = PASS, exit 1 = FAIL.
+ * Exit codes are THREE-VALUED, following this fleet's convention
+ * (0 clean / 1 real finding / 2 could not determine — and 2 is NEVER a pass):
+ *
+ *   0 = PASS   — every assertion above was evaluated and every one holds.
+ *   1 = FAIL   — the assertions were evaluated and at least one is VIOLATED.
+ *   2 = COULD NOT DETERMINE — the dataset could not be read, parsed, or
+ *       shaped into an evaluable list, so ZERO assertions were evaluated.
+ *
+ * WHY 2 EXISTS (§1.1 anti-bluff). This validator is mutation-paired: a
+ * harness (_tools/portfolio/self-validate.sh) proves the gate can FAIL by
+ * feeding it a golden-BAD fixture and requiring a non-zero exit. While
+ * "cannot read / cannot parse" ALSO exited 1, a MISSING OR CORRUPT FIXTURE
+ * was indistinguishable from a caught mutation — the harness reported
+ * SATISFIED having proved nothing, which is precisely the rubber stamp its
+ * own header warns about. Exit 1 must now mean, and only mean, "the
+ * assertion machinery ran and found problems". Anything that prevents the
+ * machinery from running at all is a HARNESS FAULT and exits 2.
+ *
+ * Mirrors the sibling convention in _tests/export/validate-pdf.js, whose
+ * paired harness _tests/export/self-validate.sh already asserts `-eq 1`.
  */
 'use strict';
 
@@ -43,18 +62,38 @@ const REQUIRED_STRINGS = ['name', 'slug', 'tier', 'status', 'license', 'summary'
 const errors = [];
 const fail = (msg) => errors.push(msg);
 
+// A harness fault: the dataset could not be turned into something this gate
+// can make ANY assertion about. Never exit 1 here — see the header.
+const undetermined = (msg) => {
+  console.error(`[validate] UNDETERMINED — ${msg}`);
+  console.error('[validate] zero assertions were evaluated; this is a harness fault, NOT a detected violation (exit 2)');
+  process.exit(2);
+};
+
+let raw;
+try {
+  raw = fs.readFileSync(FILE, 'utf8');
+} catch (e) {
+  undetermined(`cannot read ${FILE}: ${e.message}`);
+}
+
 let doc;
 try {
-  doc = JSON.parse(fs.readFileSync(FILE, 'utf8'));
+  doc = JSON.parse(raw);
 } catch (e) {
-  console.error(`[validate] cannot read/parse ${FILE}: ${e.message}`);
-  process.exit(1);
+  undetermined(`cannot parse ${FILE}: ${e.message}`);
+}
+
+if (doc === null || typeof doc !== 'object' || Array.isArray(doc)) {
+  undetermined(`${FILE} is not a JSON object (got ${doc === null ? 'null' : Array.isArray(doc) ? 'array' : typeof doc})`);
 }
 
 const entries = Array.isArray(doc.entries) ? doc.entries : null;
 if (!entries) {
-  console.error('[validate] portfolio.json has no entries[] array');
-  process.exit(1);
+  undetermined(`${FILE} has no entries[] array — nothing to validate`);
+}
+if (entries.length === 0) {
+  undetermined(`${FILE} has an EMPTY entries[] array — every assertion would vacuously hold`);
 }
 
 // --- 1. exclusions ---
@@ -120,6 +159,7 @@ console.log(`[validate] exclusions enforced: ${EXCLUSIONS.join(', ')}`);
 if (errors.length) {
   console.error(`\n[validate] FAIL — ${errors.length} problem(s):`);
   for (const m of errors) console.error(`  ✗ ${m}`);
+  console.error('[validate] assertions were EVALUATED and violated (exit 1)');
   process.exit(1);
 }
 console.log('\n[validate] PASS — all assertions hold (exit 0)');

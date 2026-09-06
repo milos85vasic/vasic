@@ -1,7 +1,7 @@
 {
   "schema": "visual-oracle/1",
   "generatedAt_omitted_for_determinism": true,
-  "input": "file:///run/media/milosvasic/DATA4TB/Projects/vasic/_tests/visual/fixtures/good.html",
+  "input": "file:///home/milosvasic/Projects/vasic/_tests/visual/fixtures/good.html",
   "name": "golden-good",
   "viewport": {
     "w": 1280,
@@ -11,7 +11,7 @@
     "light",
     "dark"
   ],
-  "tesseractPresent": true,
+  "tesseractPresent": false,
   "thresholds": {
     "giantW": 0.85,
     "giantH": 0.6,
@@ -19,12 +19,9 @@
   },
   "perTheme": {
     "light": {
-      "screenshot": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-good.light.png",
+      "screenshot": "_tests/evidence/harness/visual/golden-good.light.png",
       "ocr": {
-        "ran": true,
-        "txtFile": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-good.light.ocr.txt",
-        "wordCount": 21,
-        "sample": "Confirm your subscription You are about to subscribe to the Pro plan."
+        "ran": false
       },
       "oracle": {
         "viewport": {
@@ -44,12 +41,9 @@
       "verdict": "PASS"
     },
     "dark": {
-      "screenshot": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-good.dark.png",
+      "screenshot": "_tests/evidence/harness/visual/golden-good.dark.png",
       "ocr": {
-        "ran": true,
-        "txtFile": "/run/media/milosvasic/DATA4TB/Projects/vasic/_tests/evidence/harness/visual/golden-good.dark.ocr.txt",
-        "wordCount": 21,
-        "sample": "Confirm your subscription You are about to subscribe to the Pro plan."
+        "ran": false
       },
       "oracle": {
         "viewport": {
