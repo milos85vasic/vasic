@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T08:29:00Z
+    Last-Updated: 2026-09-06T09:05:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -476,7 +476,7 @@ deviation is not an override** and must never be written up as one.
 
 ### SEARCH SERVED A WINDOW OF PURE VOCABULARY — FIXED AND MEASURED, 2026-09-06
 
-`workshop` at `fce2e25`. A reader searching a common word got a results page
+`workshop` at `4c5b007`. A reader searching a common word got a results page
 with **nothing to click through to**: every row was a knowledge-catalogue entry
 and none linked to a chapter or passage. Six of twelve reader-shaped queries
 returned **zero** passages.
@@ -528,6 +528,74 @@ composition was fine. The share is ONE constant, argued rather than measured,
 deliberately in one place so changing it is visible. Making it a ceiling that
 engages only when a population would otherwise be starved is a different and
 reasonable design; it was not taken here.
+
+### TWO GATES THAT COULD NOT ANSWER NOW DO — AND ONE ANSWER WAS A FAILURE THE MISSING TOOLCHAIN HAD BEEN HIDING
+
+Workshop gate suite **PASS 32 / FAIL 2 / COULD-NOT-RUN 2 → PASS 33 / FAIL 2 /
+COULD-NOT-RUN 1**.
+
+**SC-024 — the 2 was masking a 1, which is the entire purpose of a three-valued
+gate.** `verify-sc024-export-matrix` exited 2 because pandoc and weasyprint were
+unusable, so six formats read `could_not_determine` and *"their absence proves
+nothing"*. With a usable toolchain the same six read **ABSENT** — a determined
+negative. 819 areas advertised, 2 published, **0 of the 2 carried all four
+formats**; html, docx and pdf had never been produced. Now produced through the
+module's OWN canonical producers rather than a second hand-rolled pandoc command
+line, each output verified structurally (real `<h1>`, OOXML zip with both
+required parts, `%PDF-` … `%%EOF`). **No image change was needed and none was
+made** — `export.go` stats the file BEFORE consulting the toolchain, so the
+container reports `present` without pandoc. Gate **2 → 0**.
+
+**The floor — recalibration was RUN, and it says there is no floor to move to.**
+Separation went from **+0.039883 (no overlap)** to **−0.108342 (OVERLAP)**
+against the current generation. Nothing was moved. The FAIL is a *confirmed*
+measurement and stays 1; downgrading it because a neighbouring assertion is
+UNDETERMINED was considered and rejected as the actual defect.
+**And an assertion had silently stopped being able to catch anything**: A1
+claimed to catch a hand-edit widening the Go set, but re-derives from a
+calibration corpus that no longer exists. **A1b LOCKSTEP** replaces it, needing
+no database; mutations **12 → 15**.
+
+**Suggest — a budget that stopped describing what it was sized against.** Every
+1- and 2-character prefix returned 503 at ~53 ms; 3+ characters answered in
+15–37 ms. Measured: counting `a*` (7,364 rows) costs 9.7 ms, ranking and
+snippeting it costs **59.4 ms**, because `ORDER BY bm25` scores every matched row
+before `LIMIT` keeps thirty. The 50 ms budget was set in this platform's FIRST
+COMMIT and never revisited while the corpus grew to 24,357 passages. Now 250 ms.
+Boundaries recorded: that figure is the PASSAGE leg alone; the catalogue leg runs
+**serially under the same context** in a different database, and running the two
+concurrently is the better fix, recorded rather than attempted.
+
+**Entailment — the checkpoint had no fetch path in this tree at all.** Now
+present in the operator's cache OUTSIDE the repository; the gate returns a
+decided verdict when pointed at it. **It still exits 2 in a bare shell BY
+DESIGN** — it refuses to discover its own inputs and its paired proof asserts
+that. Making the runner guess a host path would relocate the defect, and
+`audit-hardcoded-paths` would be right to flag it.
+
+### THE RETRIEVAL BENCHMARK IS NOT MEASURING WHAT ITS NUMBER LOOKS LIKE
+
+`docs/limits.md` §10.18. **All three A-row misses return 404
+`area_not_published`.** The fixture SELECTS on `/api/areas` (5 titled areas) and
+GRADES search (2 published), so it asks search for records the publication
+contract forbids it to return — **no retriever could ever have scored them.**
+Q02 sits at rank 3, inside the top five, and contributes nothing to the failure.
+
+**And its number is not reproducible from the repository.** The two files
+deciding publication are git-ignored, so a fresh clone reads **17/22, not
+19/22**, with nothing saying why. Two operator closures are written out; the bar
+was not widened and the fixture was not touched.
+
+### CONSTITUTION SWEEP — 176 PASS / 93 FAIL / 2 ERROR of 271 (was 96 FAIL)
+
+Three FAILs cleared (README badge row, zero-findings sweep, ratchet ledger — all
+now present). **Read the shape, not the count: 86 distinct gates fail, but 8,294
+of ~8,365 findings are TWO fleet-wide annotation conventions** —
+`CM-ORACLE-STRATEGY-NAMED-AND-INDEPENDENT` (7,601 test functions with no
+§11.4.245 annotation) and `CM-DANGEROUS-COMBINATION-FAIL-CLOSED` (765). These
+are an unadopted convention, not defects, and annotating 7,601 tests
+mechanically would be exactly the bluffing §11.4.245 exists to prevent. Adopting
+it is a deliberate programme and an operator decision.
 
 ### A GATE CANNOT SEE AN UNTRACKED FILE — AND I PUBLISHED A "1 -> 0" THAT PROVED NOTHING
 
