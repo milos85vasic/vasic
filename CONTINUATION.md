@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T09:05:00Z
+    Last-Updated: 2026-09-06T09:20:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -476,7 +476,7 @@ deviation is not an override** and must never be written up as one.
 
 ### SEARCH SERVED A WINDOW OF PURE VOCABULARY — FIXED AND MEASURED, 2026-09-06
 
-`workshop` at `4c5b007`. A reader searching a common word got a results page
+`workshop` at `095d2a0`. A reader searching a common word got a results page
 with **nothing to click through to**: every row was a knowledge-catalogue entry
 and none linked to a chapter or passage. Six of twelve reader-shaped queries
 returned **zero** passages.
