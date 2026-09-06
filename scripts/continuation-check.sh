@@ -377,7 +377,21 @@ else
 fi
 
 # ---- C5 / C6 : entry points ---------------------------------------------------
-mapfile -t SH_TOKENS < <(grep -oE '[A-Za-z_][A-Za-z0-9_.-]*(/[A-Za-z0-9_.-]+)+\.sh' "$DOC" | sort -u)
+# Match the WHOLE path-ish token first, then keep only those that end exactly in
+# `.sh`. The previous form anchored on `\.sh` with no right-hand boundary, so
+# `upstreams/gitlab.sh.disabled` matched as `upstreams/gitlab.sh` — a path the
+# document never names — and C5 reported DRIFT against it. That is not a corner
+# case here: this repository deliberately neutralises files by appending
+# `.disabled` (`ci.yml.disabled`, `upstreams/gitlab.sh.disabled`), so a truncating
+# extractor manufactures a fresh false DRIFT every time one is mentioned, and a
+# gate that cries wolf on its own conventions gets ignored.
+#
+# A `*.sh.disabled` is deliberately NOT treated as an entry point: it is a recipe
+# that has been switched off on purpose, and asserting it is runnable would
+# invert its meaning. Two greps rather than one lookahead, because `grep -oP` is
+# GNU-only and this tree runs its scripts on BSD too.
+mapfile -t SH_TOKENS < <(grep -oE '[A-Za-z_][A-Za-z0-9_.-]*(/[A-Za-z0-9_.-]+)+' "$DOC" \
+                         | grep -E '\.sh$' | sort -u)
 if [[ ${#SH_TOKENS[@]} -eq 0 ]]; then
     undet C5 "the document names no script paths at all — there are no entry points to verify."
     undet C6 "no entry points to test for executability."

@@ -336,7 +336,7 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: "e7f3815ec35c0940515296ffb3481cd0fab4bfa6"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "a135aa8eebb17917d699ab3ca3f3c48e99e13d89"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "§11.4.162 OpenDesign UI design-system engine — machine-readable design tokens (§11.4.216), brand contract (§11.4.217), design-library catalogue (§11.4.218). Ships 11 design-specialist agent recipes under agents/."
     layout: flat
     # §11.4.28(C) / INVENTORY gap G11: this repo checks design-toolkit out TWICE

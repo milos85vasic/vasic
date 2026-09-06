@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T21:05:00Z
+    Last-Updated: 2026-09-06T21:25:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,67 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### FOUR CARRIER CLAIMS WITHDRAWN AS MEASURED FALSE, AND A DESIGN SYSTEM WITH NO COLOURS PASSED A CONTRAST AUDIT, 2026-09-06
+
+**The four root carriers carried claims that were false, not merely stale, and
+they are corrected in lockstep** — the shared region edited ONCE and recomposed,
+which is what the carriers themselves prescribe. C5 ROOT-LOCKSTEP passes on the
+new shared digest, so the four remain byte-identical from line 19.
+
+1. *"`milosvasic.ru`'s rendered `_site/` is git-ignored."* It is **TRACKED**.
+   `.gitignore:70` does say `_site/`, but the rule was added AFTER the files
+   were tracked, so it does nothing. The config claims it and git disagrees.
+2. *"gate 6 validates a STALE artifact … a six-day-old build."* The defect is
+   **completeness, not age** — source and `_site` are 89 ms apart.
+3. *"`ruby` and `bundle` are present; the `jekyll` gem executable is not."*
+   **`bundle`, `bundler` AND `jekyll` are all absent from PATH**, so the remedy
+   the same paragraph names cannot even be started.
+4. *"A `gitlab` remote **IS** declared for `design-toolkit`."* **It is not.**
+   `git remote -v` there returns `github`, `origin` and `upstream`, all three
+   pointing at GitHub. The commit that entry credits, `7d9240e`, is real and
+   titled *"record the GitLab mirror"* — but what it added is the inert recipe
+   `upstreams/gitlab.sh.disabled`. **A recipe recording a mirror is not a
+   remote, and the carrier conflated the two.** What survives: the lag is still
+   re-derivable here without any remote, because both commits are in the object
+   store. It is now **7**, was 6 earlier the same day and 5 on 2026-09-01 —
+   it moves whenever the GitHub side advances, which this session made it do.
+
+`scripts/verify-check-registry.sh` is likewise corrected from "43 then 45 PASS"
+to **57 PASS / 0 FAIL / 1 DEBT**, and `audit-hardcoded-paths.sh` from RED to
+green — **by a REAL FIX, not a re-baseline**: the absolute developer path is
+gone from that JSON (0 occurrences of `/home/`), the file is not allow-listed,
+and the audit script is byte-unmodified from HEAD.
+
+### `design-toolkit` `a135aa8` — the empty-set family of vacuous PASS
+
+Feed `qa/run-checks.mjs` a structurally valid DTCG document with the `color`
+group deleted and it printed `D2 contrast: PASS (0 pairs; min text Infinity:1)`
+and `OVERALL: PASS`, exit **0**. A design system with no colours passed a
+contrast audit, because the audit iterated an empty set of pairs and an empty
+conjunction is true. Every C-PLAT contrast floor did the same. The same shape
+one level down: T1 coverage is an ABSENCE assertion with no positive control, so
+an empty brand file gave `PASS (brand defines 0 … 0 missing)`.
+
+Two infrastructure faults were reported as content verdicts: with
+`generators/node_modules` absent, Node's own exit 1 from `ERR_MODULE_NOT_FOUND`
+reached the caller as "your tokens FAIL" on a machine that had simply never run
+`npm install`; and an unreadable `--tokens` file did the same. Both are 2 now,
+verified by driving them.
+
+**No paired proof existed for any of its three gates** — `golden-bad-tokens.css`
+was referenced only by prose and nothing executed it, and the captured
+"negative controls" file records `OVERALL: FAIL` followed by `exit: 0`, which is
+the defect sitting in the evidence. `qa/prove-three-valued-exits.sh` is now
+14/14 with every mutation DATA, and **6 of the 14 fail against the pre-fix gates
+restored via `git show HEAD:`**.
+
+**Open and deliberately not closed:** `check-tokens.mjs` exits 1 on both real
+candidates — `T1 coverage: FAIL (brand defines 86, candidate defines 75; 11
+missing)`. The gate is right and the candidates are stale; closing it needs a
+generator change (`dtcg-to-od.mjs` emits no diagram or status family at all)
+plus the brand CSS in this umbrella, so it is not an audit edit.
+
 
 ### THE BROWSER SUITE'S "302 PASSED / 0 FAILED" IS WITHDRAWN — IT IS 69 FAILED, AND ALL 69 ARE ONE MISSING BUILD, 2026-09-06
 

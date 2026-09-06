@@ -698,7 +698,10 @@ A gate that a human must read is worth more than one that is quietly green.
 `vasic` is the umbrella monorepo for two personal/portfolio sites and the shared
 tooling that builds, translates and validates them. `vasic.digital/` is
 committed static HTML served as-is; `milosvasic.ru/` is Jekyll source whose
-rendered `_site/` is git-ignored. `_tools/gen/` is the Go generator that renders
+rendered `_site/` is **TRACKED, not git-ignored** — `.gitignore:70` does say
+`_site/`, but the rule was added AFTER the files were tracked, so it does
+nothing, and the claim that it is ignored (which this sentence used to make) is
+WITHDRAWN as measured false 2026-09-06. `_tools/gen/` is the Go generator that renders
 the localized pages for both sites, `design-system/` holds the shared per-brand
 tokens and component CSS, and `_tests/` is the Playwright plus self-validating
 harness. English source content lives in `_content/` with per-language siblings
@@ -772,7 +775,12 @@ Measured **2026-09-03**, all four values:
 | HEAD | `e7f3815ec35c` | `520c436c2c2a` |
 | last push / activity | 2026-09-01T14:14:56Z | 2026-08-08T09:05:45Z |
 
-**The lag is 6 commits, and it is lag, not divergence.**
+**The lag is SEVEN commits as of 2026-09-06 — it was 6 earlier the same day, and
+5 on 2026-09-01. It is lag, not divergence, at every reading.** The figure moves
+whenever the GitHub side advances, which this session made it do by committing
+`a135aa8` there; the GitLab side has not moved since 2026-08-08 and is still
+`520c436c` at all three readings. **Do not quote the number — re-run the
+`rev-list` below, which needs no remote.**
 `git -C design-toolkit merge-base --is-ancestor 520c436c e7f3815e` returns
 **TRUE**; `git rev-list --left-right --count 520c436c...e7f3815e` returns
 **`0` / `6`** — 0 commits exist on GitLab that GitHub lacks, 6 exist on GitHub
@@ -787,12 +795,32 @@ advanced one commit to `e7f3815e`. The GitLab side has not moved at all —
 content-boundary risk**: every commit GitLab lacks is already published on the
 public GitHub side. Direction matters here and it is measured, not assumed.
 
+**TWO LINES OF THE BLOCK BELOW WERE WRONG AND ARE CORRECTED, re-measured
+2026-09-06. The claim that "a `gitlab` remote **IS** declared for
+`design-toolkit`" is WITHDRAWN AS FALSE.** `git -C design-toolkit remote -v`
+returns exactly three names — `github`, `origin` and `upstream` — and **all
+three point at `git@github.com:vasic-digital/design-toolkit.git`**;
+`git config --get remote.gitlab.url` returns nothing. The earlier text credited
+that submodule's commit `7d9240e` with adding the remote. That commit is real
+and is titled *"record the GitLab mirror; absence needs its own evidence"*, but
+what it added is the inert RECIPE `upstreams/gitlab.sh.disabled` — note the
+suffix, so no `upstreams/*.sh` glob picks it up — not a git remote. **A recipe
+recording a mirror is not a remote, and this file conflated the two.**
+
+**The rest of the section SURVIVES, which is why only two lines change.** The
+6-commit lag is still re-derivable here WITHOUT any remote, because both commits
+are already in this checkout's object store: `rev-list --left-right --count`
+returns `0` / `6` today. `glab` is on PATH and its project-path probe needs no
+remote either. What is NOT re-derivable from this checkout is
+`git ls-remote gitlab HEAD` — there is no such remote to ask.
+
 ```bash
-git -C design-toolkit remote -v                          # BOTH: origin (GitHub) + gitlab
+git -C design-toolkit remote -v                          # github, origin, upstream — ALL GitHub; NO gitlab
+git -C design-toolkit config --get remote.gitlab.url     # (nothing)
+grep -o 'git@[^ "]*' design-toolkit/upstreams/gitlab.sh.disabled   # where the mirror IS recorded
 git -C design-toolkit ls-remote origin HEAD              # e7f3815ec35c…
-git -C design-toolkit ls-remote gitlab HEAD              # 520c436c2c2a…
-git -C design-toolkit rev-list --left-right --count 520c436c...e7f3815e   # 0  6
-glab api projects/vasic-digital%2Fdesign-toolkit         # .visibility -> private
+git -C design-toolkit rev-list --left-right --count 520c436c...HEAD       # 0  7 — no remote needed
+glab api projects/vasic-digital%2Fdesign-toolkit         # .visibility -> private; needs no remote
 ```
 
 Honest boundary (§11.4.6), and it is narrower than it was:
@@ -1039,8 +1067,8 @@ silently replaced. They remain dated observations, not standing facts.
 bash scripts/continuation-check.sh              # 0 — 8 PASS/0 DRIFT/0 UNDET/7 NOTE
 bash scripts/verify-governance-cascade.sh       # 0 — 12 PASS/0 FAIL/0 ENV/8 NOTE (C0..C9)
 bash scripts/verify-manifest-pins.sh            # 0 — C9 standalone: 12 MATCH/0 DRIFT/0 UNDET of 12
-bash scripts/verify-check-registry.sh           # 0 — 43 then 45 PASS in ONE session; --run-proofs 0 at 65 PASS
-bash scripts/audit-hardcoded-paths.sh           # 1 — WENT RED: 1 occurrence, 1 file; see below
+bash scripts/verify-check-registry.sh           # 0 — 57 PASS/0 FAIL/1 DEBT (2026-09-06; 43/45 superseded)
+bash scripts/audit-hardcoded-paths.sh           # 0 — BACK TO GREEN by a REAL FIX, not a re-baseline; see below
 bash scripts/audit-environment-assumptions.sh   # 0 — 567 allow-listed, 666 baselined, 2247 files
 bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"
 bash scripts/verify-submodule-remote-sync.sh    # 0 — RED, THEN GREEN AGAIN: 12 CURRENT/0 DRIFT
@@ -1714,8 +1742,15 @@ count** ("86 passed / 2 failed") observed across the four-spec live run — not 
 count of assertions in the three deferred specs, which is 97. Both are real;
 they do not measure the same thing.
 
-**OPEN DEFECT, recorded and NOT fixed — gate 6 validates a STALE artifact for
-`milosvasic.ru`, and a failing build step is silently tolerated.** Measured
+**OPEN DEFECT, recorded and NOT fixed — gate 6 validates a FRAGMENT for
+`milosvasic.ru`, and a failing build step is silently tolerated. The word
+"STALE" that stood here is WITHDRAWN: the defect is COMPLETENESS, not age.**
+Re-measured 2026-09-06 — source and `_site` are timestamped 89 ms apart, so
+nothing is stale; `_site` simply holds **8 tracked files and exactly one
+rendered page** against ~180 front-matter source files. Served alone it answers
+**1 of 525** sitemap URLs; the other 524 are 404, as are all 180 article
+fragments and all 45 download PDFs, and it ships no `assets/od/` and no
+`assets/js/`, so even its one page renders without stylesheets. Measured
 2026-09-03 on this host:
 
 ```bash
@@ -1726,12 +1761,43 @@ stat -c '%y' milosvasic.ru/_site/index.html         # 2026-08-28 08:52:45
 stat -c '%y' milosvasic.ru/index.html               # 2026-09-03 19:03:35
 ```
 
-**Jekyll cannot build on this host at all.** `ruby` and `bundle` are present;
-the `jekyll` gem executable is not. The consequence is the part that matters:
+**Jekyll cannot build on this host at all, and the gap is ONE STEP WIDER than
+this paragraph used to record.** The claim *"`ruby` and `bundle` are present;
+the `jekyll` gem executable is not"* is WITHDRAWN: re-measured 2026-09-06,
+`ruby` and `gem` resolve to `/usr/bin`, but **`bundle`, `bundler` AND `jekyll`
+are all absent from PATH**. So the remedy named below — `bundle install` inside
+`milosvasic.ru` — cannot even be STARTED today; there is no `bundle` to run. The consequence is the part that matters:
 `_tests/playwright.config.js:17` sets `MV_ROOT = milosvasic.ru/_site` and line 62
 serves exactly that directory to the suite — so **the `milosvasic.ru` half of
-gate 6 is asserting against a six-day-old build, not against current content.**
-A green gate 6 is not evidence about today's `milosvasic.ru` source.
+gate 6 is asserting against a fragment, not against the site.** A green gate 6
+on that half was evidence about eight files.
+
+**PRODUCTION IS NOT AFFECTED, and this was CHECKED rather than assumed.**
+`.github/workflows/pages.yml` runs `bundle exec jekyll build --destination
+_site` and uploads the REGENERATED tree, so the committed `_site` is overwritten
+by that build and never read. The entire cost is local.
+
+**The REPORTING is fixed even though the build is not.** Sixty-nine red tests
+for one missing build is an infrastructure fault wearing content-failure red.
+`_tests/preflight.js` (added 2026-09-06, §1.1 proof `_tests/prove-preflight.sh`
+at 8 passed / 0 failed) answers only "can this suite honestly run?" — **0 READY
+or 2 CANNOT DETERMINE, never 1**, because a preflight has read no site content
+and may make no claim about it. `scripts/pre-push-gates.sh` now calls it, so
+gate 6 SKIPs with a stated reason instead of emitting 69 content failures, and
+`PREPUSH_STRICT=1` still promotes that SKIP to a blocking failure.
+
+**Two holes in that gate's own precondition are closed with it.** It tested for
+`milosvasic.ru/_site/index.html` — *the one file a fragment is guaranteed to
+have* — so the fragment passed it. And nothing asked whether a browser could
+START: `@playwright/test` is installed here and **webkit cannot launch at all**
+(`Host system is missing dependencies to run browsers`), the failure being in
+system libraries rather than npm, so a package-presence check was checking the
+wrong thing.
+
+**The figure "302 passed / 0 failed / 18 skipped" for this suite is WITHDRAWN.**
+Gate 6's own command re-run verbatim on 2026-09-06 gives **69 failed / 163
+passed / 1 flaky / 6 skipped**, and **69 of the 70 listed failure lines name
+`milosvasic.ru`** — not one is a `vasic.digital` defect.
 
 **The failure is tolerated by design, and that is arguably the worse half.**
 `_tools/deploy-langs.sh:375` runs
