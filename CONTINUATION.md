@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T09:45:00Z
+    Last-Updated: 2026-09-06T12:30:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -476,7 +476,7 @@ deviation is not an override** and must never be written up as one.
 
 ### SEARCH SERVED A WINDOW OF PURE VOCABULARY — FIXED AND MEASURED, 2026-09-06
 
-`workshop` at `095d2a0`. A reader searching a common word got a results page
+`workshop` at `6e482b8`. A reader searching a common word got a results page
 with **nothing to click through to**: every row was a knowledge-catalogue entry
 and none linked to a chapter or passage. Six of twelve reader-shaped queries
 returned **zero** passages.
@@ -528,6 +528,77 @@ composition was fine. The share is ONE constant, argued rather than measured,
 deliberately in one place so changing it is visible. Making it a ceiling that
 engages only when a population would otherwise be starved is a different and
 reasonable design; it was not taken here.
+
+### FIVE DEFECTS FOUND BY *USING* THE PRODUCT AND BY *ATTEMPTING* CLOSURES — 2026-09-06
+
+Workshop gates **PASS 33 / FAIL 2 / COULD-NOT-RUN 1 → PASS 33 / FAIL 1 /
+COULD-NOT-RUN 2**. Playwright **296 passed / 6 failed → 301 / 1**, identical
+across two consecutive full runs on a provably static corpus. `ai_interviewing`
+challenge suite **24 / 0 / 0** throughout.
+
+**None of the five was found by a gate.** Four came from walking the product as
+a reader, one from attempting a closure that turned out to be unavailable.
+
+**1 — A FILTERED SEARCH CLAIMED THERE WAS NOTHING.** `no_match` is a POSITIVE
+CLAIM here, so a false one makes the three-valued contract lie. `limit=8` with a
+kind filter returned `no_match` while ≥100 rows matched. The filter ran on the
+wrong side of each LEG's own truncation — and in **three** legs, not the two I
+briefed: `Catalog.Query` did not filter in SQL as I asserted, it over-fetched
+`limit*8` and filtered in a Go loop, **the same defect with a bigger constant**.
+The agent measured instead of trusting me. Now pushed into retrieval as bound
+predicates; `?area=` is genuinely unpushable and takes an exhaustive path
+*because no multiplier is provably enough*. The old figures were themselves
+artefacts: "27 matching" was what survived the unfiltered cut, not the total.
+
+**2 — A NONSENSE QUERY CLEARED THE RELEVANCE FLOOR.** 17,874 `kg_term` rows
+averaging **9.7 characters** shared one cosine space with prose averaging 1,167;
+19,221 of 24,357 vectors sat outside the calibrated population. A recalibration
+was RUN FIRST and reported the populations now **overlap** (+0.039883 →
+−0.108342), so there was no number to move to and the floor was not moved. The
+semantic leg is scoped instead. What a reader loses is the *unadvertised second
+copy* of an entity whose advertised copy is at rank 1 by name for 11 of 12
+sampled. **A3 now PASS with A0 non-vacuity also passing at 52 hits** — the green
+is not bought by returning nothing. The gate moved **1 → 2**: the confirmed
+finding is closed and `UNDET A1` remains, unfixable, because its calibration
+corpus no longer exists.
+
+**3 — A BANK REPORTED PASS OVER 17 SILENTLY SKIPPED TESTS.** `go test` exits 0
+for a skip and the only runner grading the backend suite read the exit code —
+while its own header says *"a skipped bank is reported UNDETERMINED, never
+passed"*. The rule stopped at the bank boundary. Now graded against the JSON
+stream, which also catches a package that fails to compile (it emits no test
+event, so an exit-code grader reads silence). **11 of those tests now genuinely
+run and pass**, because the checkpoint fetched today satisfied their
+precondition.
+
+**4 — A BAD ID AND AN EMPTY COLLECTION WERE THE SAME ANSWER** on three
+`ai_interviewing` sub-resources. Three states are now three answers. Also: wrong
+verbs returned `text/plain`, a Go struct path leaked into a client error, and
+8/8 plan-download pairs collided on one filename.
+
+**5 — THE RETRIEVAL BENCHMARK CANNOT BE CLOSED BY AUTHORING**, established by
+attempting it. All 175 violating claim blocks were measured against the eligible
+index and then the ENTIRE corpus: **0 of 175 have their best match in an
+eligible source**, and 161 best-match the area document itself, which the
+authoring code forbids as circular. No citation exists that would both resolve
+and support, so none was written. The attempt found two defects worth more than
+the closure: **47 blocks are permanently stuck by construction** (a citation to a
+later-redacted passage is never reconsidered yet can never resolve), and **the
+two areas that DO pass do so substantially on a formatting artifact** — 51 and
+52 editorial blocks versus 2, 2 and 8.
+
+**CARRIED FORWARD, diagnosed and unfixed:**
+- Two e2e test defects: axe scans mid-entrance-animation (positional, fails 2/2
+  at suite position 161, passes 17/17 isolated — the same elements report
+  *different colours* between runs, which a static colour cannot do); and a
+  cancelled 200 read as a parse failure, proven flaky at ~1 in 6.
+- `search-degradation.spec.ts:51` skips its whole block because search now
+  answers 200 — **the skip most likely to hide a regression in exactly the area
+  just changed**.
+- Graph traversal has no time bound: 56 s at depth 3, 70–80 s at depth 4. Depth
+  is clamped and cycle-safe; the time is not.
+- `/api/ask` is unreachable on this corpus — a knowledge-graph node with no
+  publication decision can outrank publishable evidence and withhold the answer.
 
 ### THE CONTENT-BOUNDARY GATE PRINTED A FABRICATED ZERO FOR FOUR DAYS — FIXED 2026-09-06
 
